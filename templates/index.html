@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<!-- Mirrored from 3000-i01dje720a4h16q71b275-3844e1b6.sandbox.novita.ai/ by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 03 May 2026 05:50:30 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PROSPER IA — Sistemas de Ventas con Inteligencia Artificial</title>
+  <meta name="description" content="No necesitas más herramientas. Necesitas un sistema. Implementamos el Sistema SVE-90 para cerrar más ventas sin depender de tu tiempo.">
+  <meta property="og:title" content="PROSPER IA — Sistemas de Ventas con IA">
+  <meta property="og:description" content="Eliminamos la fricción operativa de tu negocio. Más ventas, menos tiempo humano.">
+  <link rel="stylesheet" href="/static/tw.css">
+  <link rel="stylesheet" href="/static/fonts.css">
+  <link rel="stylesheet" href="/static/fa.min.css">
+  <style>
+    :root {
+      --navy: #020710; /* Deep premium black background */
+      --navy-mid: #050d1a;
+      --navy-card: #081224;
+      --navy-border: rgba(0,229,255,0.15); /* Premium cyan border accents */
+      --cyan: #00e5ff; /* Cyan */
+      --cyan-dim: #00b4cc; /* Cyan Dim */
+      --cyan-glow: rgba(0, 229, 255, 0.15);
+      --cyan-glow-strong: rgba(0, 229, 255, 0.35);
+      --white: #ffffff;
+      --gray-light: #94a3b8;
+      --gray-mid: #64748b;
+    }
+    * { font-family: 'Inter', sans-serif; box-sizing: border-box; }
+    h1,h2,h3 { font-family: 'Space Grotesk', sans-serif; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--navy); color: var(--white); overflow-x: hidden; }
+
+    /* ── Navbar ── */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(2,7,16,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--navy-border);
+    }
+
+    /* ── Gradients & glows ── */
+    .cyan-text { color: var(--cyan); }
+    .cyan-glow-text {
+      background: linear-gradient(90deg, #00e5ff, #33f5ff, #00e5ff);
+      background-size: 200% auto;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shine 4s linear infinite;
+    }
+    @keyframes shine { to { background-position: 200% center; } }
+
+    .btn-cyan {
+      background: linear-gradient(135deg, #00e5ff, #00b4cc);
+      color: #020710; font-weight: 700;
+      border: 1px solid #33f5ff;
+      transition: all 0.3s;
+    }
+    .btn-cyan:hover { transform: translateY(-2px); box-shadow: 0 0 32px rgba(0, 229, 255, 0.35), 0 8px 24px rgba(0, 229, 255, 0.25); }
+
+    .btn-gold {
+      background: linear-gradient(135deg, #d4af37, #aa7c11);
+      color: #020710; font-weight: 700;
+      border: 1px solid #f3e5ab;
+      transition: all 0.3s;
+    }
+    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 0 32px rgba(212, 175, 55, 0.35), 0 8px 24px rgba(212, 175, 55, 0.2); }
+
+    .btn-outline {
+      border: 1px solid rgba(0, 229, 255, 0.4); color: #00e5ff;
+      transition: all 0.3s; background: transparent;
+    }
+    .btn-outline:hover { background: rgba(0, 229, 255, 0.07); border-color: #00e5ff; box-shadow: 0 0 20px rgba(0, 229, 255, 0.15); }
+
+    /* ── Cards ── */
+    .card {
+      background: var(--navy-card);
+      border: 1px solid var(--navy-border);
+      border-radius: 16px;
+      transition: all 0.35s;
+    }
+    .card:hover { border-color: rgba(0, 229, 255, 0.3); box-shadow: 0 8px 40px rgba(0, 229, 255, 0.08); transform: translateY(-3px); }
+    .card-glow {
+      background: var(--navy-card);
+      border: 1px solid rgba(0, 229, 255, 0.25);
+      border-radius: 16px;
+      box-shadow: 0 0 40px rgba(0, 229, 255, 0.06);
+    }
+
+    /* ── Hero ── */
+    .hero-bg {
+      background:
+        radial-gradient(ellipse 80% 60% at 50% -10%, rgba(0,229,255,0.09) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 30% at 85% 40%, rgba(239,68,68,0.05) 0%, transparent 60%), /* Subtle red glow */
+        var(--navy);
+    }
+    .hero-grid {
+      background-image: linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    /* ── Sections ── */
+    .section-label {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(0,229,255,0.06);
+      border: 1px solid rgba(0,229,255,0.2);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 12px; font-weight: 600; letter-spacing: 0.08em;
+      color: var(--cyan); text-transform: uppercase;
+    }
+
+    /* ── Problem section ── */
+    .problem-bg { background: linear-gradient(180deg, var(--navy) 0%, #050d1a 100%); }
+
+    /* ── SVE System ── */
+    .system-bg {
+      background:
+        radial-gradient(ellipse 60% 50% at 50% 100%, rgba(0,229,255,0.05) 0%, transparent 70%),
+        #050d1a;
+    }
+    .step-connector { border-left: 2px dashed rgba(0,229,255,0.2); }
+    .step-dot {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: linear-gradient(135deg, rgba(0,229,255,0.15), rgba(239,68,68,0.1));
+      border: 2px solid rgba(0,229,255,0.4);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; color: var(--cyan); font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    /* ── Architecture ── */
+    .arch-node {
+      background: var(--navy-card);
+      border: 1px solid var(--navy-border);
+      border-radius: 12px; padding: 12px 18px;
+      text-align: center; font-size: 13px; font-weight: 600;
+      transition: all 0.3s;
+    }
+    .arch-node:hover { border-color: var(--cyan); box-shadow: 0 0 20px var(--cyan-glow); }
+    .arch-arrow { color: rgba(0,229,255,0.4); font-size: 20px; }
+
+    /* ── Pricing ── */
+    .pricing-featured {
+      background: linear-gradient(160deg, rgba(0,229,255,0.08) 0%, rgba(239,68,68,0.04) 100%);
+      border: 1px solid rgba(0,229,255,0.35);
+      border-radius: 20px;
+    }
+
+    /* ── Timeline / process ── */
+    .timeline-line { border-left: 2px solid var(--navy-border); }
+
+    /* ── Stats counter ── */
+    .stat-box {
+      background: rgba(0,229,255,0.04);
+      border: 1px solid rgba(0,229,255,0.12);
+      border-radius: 12px;
+    }
+
+    /* ── Reveal animation ── */
+    [data-reveal] { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    [data-reveal].revealed { opacity: 1; transform: translateY(0); }
+    [data-reveal-left] { opacity: 0; transform: translateX(-30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    [data-reveal-left].revealed { opacity: 1; transform: translateX(0); }
+    [data-reveal-right] { opacity: 0; transform: translateX(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    [data-reveal-right].revealed { opacity: 1; transform: translateX(0); }
+
+    /* ── Ticker ── */
+    .ticker-wrap { overflow: hidden; white-space: nowrap; border-top: 1px solid var(--navy-border); border-bottom: 1px solid var(--navy-border); background: rgba(0,229,255,0.02); }
+    .ticker { display: inline-block; animation: ticker 25s linear infinite; }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ── FAQ ── */
+    .faq-item { border-bottom: 1px solid var(--navy-border); }
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+    .faq-answer.open { max-height: 300px; }
+
+    /* ── Floating badge ── */
+    .floating-badge {
+      animation: floatBadge 3s ease-in-out infinite;
+    }
+    @keyframes floatBadge { 0%,100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-8px) rotate(2deg); } }
+
+    /* ── Divider gradient ── */
+    .divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(0,229,255,0.2), transparent); }
+
+    /* ── Mobile ── */
+    @media (max-width: 768px) {
+      .hide-mobile { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════
+     NAVBAR
+════════════════════════════════════════════════════ -->
+<nav class="navbar">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between" style="height: 120px;">
+      <!-- Logo -->
+      <a href="index.html" class="flex items-center gap-2.5 group">
+        <img src="/static/logo_prosper_ia_cropped.jpg" alt="PROSPER IA" style="height: 110px; max-height: 110px; object-fit: contain;" class="rounded-xl">
+      </a>
+
+      <!-- Desktop nav -->
+      <div class="hidden md:flex items-center gap-7">
+        <a href="#problema" class="text-sm text-slate-400 hover:text-white transition-colors font-medium">El Caos Operativo</a>
+        <a href="#sistema" class="text-sm text-slate-400 hover:text-white transition-colors font-medium">Sistema SVE90</a>
+        <a href="#masterclass" class="text-sm text-slate-400 hover:text-white transition-colors font-medium">Demostración</a>
+        <a href="#arquitectura" class="text-sm text-slate-400 hover:text-white transition-colors font-medium">Infraestructura IA</a>
+      </div>
+
+      <!-- CTAs -->
+      <div class="flex items-center gap-3">
+        <a href="/login" class="hidden sm:block text-sm font-medium text-slate-400 hover:text-white transition-colors px-3 py-2">Portal SVE90</a>
+        <a href="#contacto" class="btn-gold text-sm font-bold px-5 py-2.5 rounded-xl">
+          Aplicar al Diagnóstico
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+<!-- ════════════════════════════════════════════════════
+     HERO
+════════════════════════════════════════════════════ -->
+<section class="hero-bg hero-grid min-h-screen flex items-center justify-center relative overflow-hidden" style="padding-top: 160px;">
+
+  <!-- Orbs decorativos -->
+  <div class="absolute top-1/4 left-1/4 w-96 h-96 rounded-full opacity-20 blur-3xl pointer-events-none" style="background:radial-gradient(circle, rgba(0,229,255,0.2) 0%, transparent 70%);"></div>
+  <div class="absolute bottom-1/4 right-1/4 w-64 h-64 rounded-full opacity-10 blur-3xl pointer-events-none" style="background:radial-gradient(circle, rgba(14,165,233,0.25) 0%, transparent 70%);"></div>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center relative z-10">
+
+    <!-- Alerta de urgencia -->
+    <div class="inline-flex items-center gap-2 mb-8 cursor-pointer" data-reveal onclick="document.getElementById('masterclass').scrollIntoView({behavior:'smooth'})">
+      <div class="flex items-center gap-2 px-4 py-2 rounded-full" style="background:rgba(0,229,255,0.06); border:1px solid rgba(0,229,255,0.25);">
+        <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+        <span class="text-xs font-semibold tracking-wide" style="color: #00e5ff;">DEMOSTRACIÓN OPERATIVA SVE90</span>
+        <span class="text-xs text-slate-400 hidden sm:inline">— Cómo escalar tu agencia sin inflar tu nómina operativa</span>
+        <i class="fas fa-arrow-right text-xs" style="color: #00e5ff;"></i>
+      </div>
+    </div>
+
+    <!-- Headline principal -->
+    <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black leading-[1.1] mb-6 tracking-tight text-white" data-reveal style="transition-delay:0.05s">
+      No construimos agencias;<br>
+      instalamos <span class="cyan-glow-text">Sistemas Operativos de IA</span><br>
+      para Empresas Aumentadas.
+    </h1>
+
+    <h2 class="text-lg sm:text-xl text-slate-400 max-w-3xl mx-auto mb-10 leading-relaxed font-light" data-reveal style="transition-delay:0.15s">
+      Recupera el control de tus márgenes. Eliminamos el caos de procesos manuales y las 15 suscripciones de software que desangran tu rentabilidad. Pasamos tu agencia al estándar <strong class="text-white font-semibold">SVE90</strong> en 90 días.
+    </h2>
+
+    <!-- CTAs principales -->
+    <div class="flex flex-col items-center gap-4 mb-16" data-reveal style="transition-delay:0.25s">
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 w-full">
+        <a href="#contacto" class="btn-cyan px-9 py-4 rounded-2xl text-base flex items-center justify-center gap-3 group w-full sm:w-auto">
+          <i class="fas fa-calendar-check"></i>
+          <span>Aplicar al Diagnóstico de Madurez SVE90</span>
+          <i class="fas fa-arrow-right text-sm group-hover:translate-x-1 transition-transform"></i>
+        </a>
+        <a href="#masterclass" class="btn-outline px-8 py-4 rounded-2xl text-base flex items-center justify-center gap-3 w-full sm:w-auto">
+          <i class="fas fa-play-circle"></i>
+          <span>Ver demostración operativa</span>
+        </a>
+      </div>
+      <p class="text-xs text-slate-500 max-w-xl text-center leading-normal mt-2">
+        <i class="fas fa-circle-info mr-1.5" style="color: #00e5ff;"></i>
+        Solo para agencias con equipos establecidos y facturación activa. Sin consultoría, solo implementación directa.
+      </p>
+    </div>
+
+    <!-- Stats row -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto mb-16" data-reveal style="transition-delay:0.35s">
+      
+      <div class="stat-box p-4 text-center">
+        <div class="text-2xl font-black cyan-text mb-1">+90 días</div>
+        <div class="text-xs text-slate-500 leading-snug">Para resultados medibles</div>
+      </div>
+      <div class="stat-box p-4 text-center">
+        <div class="text-2xl font-black cyan-text mb-1">3× más</div>
+        <div class="text-xs text-slate-500 leading-snug">Velocidad de respuesta</div>
+      </div>
+      <div class="stat-box p-4 text-center">
+        <div class="text-2xl font-black cyan-text mb-1">70%</div>
+        <div class="text-xs text-slate-500 leading-snug">Menos carga operativa</div>
+      </div>
+      <div class="stat-box p-4 text-center">
+        <div class="text-2xl font-black cyan-text mb-1">24/7</div>
+        <div class="text-xs text-slate-500 leading-snug">Sistema activo sin ti</div>
+      </div>
+    </div>
+
+    <!-- Dashboard mockup -->
+    <div class="max-w-5xl mx-auto" data-reveal style="transition-delay:0.45s">
+      <div class="card-glow rounded-2xl overflow-hidden" style="box-shadow: 0 0 80px rgba(0,229,255,0.07);">
+        <!-- Browser chrome -->
+        <div class="flex items-center gap-2 px-5 py-3" style="background:#091528; border-bottom:1px solid #132847;">
+          <div class="flex gap-1.5">
+            <div class="w-3 h-3 rounded-full bg-red-500/70"></div>
+            <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
+            <div class="w-3 h-3 rounded-full bg-green-500/70"></div>
+          </div>
+          <div class="flex-1 flex justify-center">
+            <div class="flex items-center gap-2 px-4 py-1 rounded-lg text-xs text-slate-500" style="background:#0d1f3c; border:1px solid #132847;">
+              <i class="fas fa-lock text-cyan-500/60 text-xs"></i>
+              prosper-ia.com/dashboard
+            </div>
+          </div>
+        </div>
+        <!-- Dashboard content -->
+        <div class="p-6" style="background:#06111f;">
+          <!-- KPI row -->
+          <div class="grid grid-cols-4 gap-3 mb-5">
+            
+            <div class="p-4 rounded-xl" style="background:rgba(0,229,255,0.03); border:1px solid rgba(0,229,255,0.1);">
+              <div class="text-xs mb-1" style="color:#00e5ff80;">Prospectos hoy</div>
+              <div class="text-2xl font-black text-white mb-0.5">47</div>
+              <div class="text-xs" style="color:#00e5ff;">+18%</div>
+            </div>
+            <div class="p-4 rounded-xl" style="background:rgba(0,229,255,0.03); border:1px solid rgba(0,229,255,0.1);">
+              <div class="text-xs mb-1" style="color:#38bdf880;">Conversaciones IA</div>
+              <div class="text-2xl font-black text-white mb-0.5">312</div>
+              <div class="text-xs" style="color:#38bdf8;">activas</div>
+            </div>
+            <div class="p-4 rounded-xl" style="background:rgba(0,229,255,0.03); border:1px solid rgba(0,229,255,0.1);">
+              <div class="text-xs mb-1" style="color:#34d39980;">Citas agendadas</div>
+              <div class="text-2xl font-black text-white mb-0.5">28</div>
+              <div class="text-xs" style="color:#34d399;">esta semana</div>
+            </div>
+            <div class="p-4 rounded-xl" style="background:rgba(0,229,255,0.03); border:1px solid rgba(0,229,255,0.1);">
+              <div class="text-xs mb-1" style="color:#a78bfa80;">Revenue pipeline</div>
+              <div class="text-2xl font-black text-white mb-0.5">$84K</div>
+              <div class="text-xs" style="color:#a78bfa;">+31%</div>
+            </div>
+          </div>
+          <!-- Charts row -->
+          <div class="grid grid-cols-3 gap-3">
+            <div class="col-span-2 p-4 rounded-xl" style="background:rgba(0,229,255,0.02); border:1px solid #132847;">
+              <div class="text-xs text-slate-500 mb-3">Pipeline de ventas — Sistema SVE-90 activo</div>
+              <div class="flex items-end gap-2 h-16">
+                <div class="flex-1 rounded-t" style="height:30%; background:linear-gradient(180deg,rgba(0,229,255,0.3),rgba(14,165,233,0.2));"></div><div class="flex-1 rounded-t" style="height:50%; background:linear-gradient(180deg,rgba(0,229,255,0.36),rgba(14,165,233,0.2));"></div><div class="flex-1 rounded-t" style="height:42%; background:linear-gradient(180deg,rgba(0,229,255,0.42),rgba(14,165,233,0.2));"></div><div class="flex-1 rounded-t" style="height:68%; background:linear-gradient(180deg,rgba(0,229,255,0.48),rgba(14,165,233,0.2));"></div><div class="flex-1 rounded-t" style="height:55%; background:linear-gradient(180deg,rgba(0,229,255,0.54),rgba(14,165,233,0.2));"></div><div class="flex-1 rounded-t" style="height:80%; background:linear-gradient(180deg,rgba(0,229,255,0.6),rgba(14,165,233,0.2));"></div><div class="flex-1 rounded-t" style="height:72%; background:linear-gradient(180deg,rgba(0,229,255,0.6599999999999999),rgba(14,165,233,0.2));"></div><div class="flex-1 rounded-t" style="height:90%; background:linear-gradient(180deg,rgba(0,229,255,0.72),rgba(14,165,233,0.2));"></div>
+              </div>
+              <div class="flex justify-between text-xs text-slate-600 mt-2">
+                <span>Sem 1</span><span>Sem 2</span><span>Sem 3</span><span>Sem 4</span>
+                <span>Sem 5</span><span>Sem 6</span><span>Sem 7</span><span>Sem 8</span>
+              </div>
+            </div>
+            <div class="p-4 rounded-xl space-y-3" style="background:rgba(0,229,255,0.02); border:1px solid #132847;">
+              <div class="text-xs text-slate-500 mb-2">Automatizaciones activas</div>
+              
+              <div class="flex items-center gap-2 text-xs">
+                <span style="color:#34d399;">●</span>
+                <span class="text-slate-300">Lead Scoring IA</span>
+              </div>
+              <div class="flex items-center gap-2 text-xs">
+                <span style="color:#34d399;">●</span>
+                <span class="text-slate-300">Follow-up n8n</span>
+              </div>
+              <div class="flex items-center gap-2 text-xs">
+                <span style="color:#34d399;">●</span>
+                <span class="text-slate-300">CRM Sync GHL</span>
+              </div>
+              <div class="flex items-center gap-2 text-xs">
+                <span style="color:#fbbf24;">●</span>
+                <span class="text-slate-300">WhatsApp Bot</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════
+     TICKER
+════════════════════════════════════════════════════ -->
+<div class="ticker-wrap py-3">
+  <div class="ticker text-xs font-semibold text-slate-500 tracking-widest uppercase">
+    Sistema de ventas con IA  ·  Automatización n8n  ·  CRM GoHighLevel  ·  ChatGPT + Gemini  ·  Lead Scoring Automático  ·  Follow-up 24/7  ·  Cierre sin vendedores  ·  PROSPER IA  ·  SVE-90  ·  Sin fricción operativa  ·  Sistema de ventas con IA  ·  Automatización n8n  ·  CRM GoHighLevel  ·  ChatGPT + Gemini  ·  Lead Scoring Automático  ·  Follow-up 24/7  ·  Cierre sin vendedores  ·  PROSPER IA  ·  SVE-90  ·  Sin fricción operativa  ·
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════════════════
+     SECCIÓN PROBLEMA (EL CAOS OPERATIVO)
+════════════════════════════════════════════════════ -->
+<section id="problema" class="problem-bg py-28 relative overflow-hidden">
+
+  <div class="absolute right-0 top-0 w-96 h-96 rounded-full opacity-5 blur-3xl" style="background:radial-gradient(circle,#00e5ff,transparent)"></div>
+  <div class="absolute left-0 bottom-0 w-80 h-80 rounded-full opacity-5 blur-3xl pointer-events-none" style="background:radial-gradient(circle,rgba(14,165,233,0.15),transparent)"></div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div class="text-center mb-16" data-reveal>
+      <div class="section-label mb-5">El caos operativo</div>
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-black leading-tight mb-8">
+        Tu agencia está facturando,<br>
+        <span class="cyan-glow-text">pero estás perdiendo dinero en el camino.</span>
+      </h2>
+      <p class="text-slate-400 text-lg sm:text-xl leading-relaxed max-w-4xl mx-auto font-light">
+        Si tu equipo pasa el 70% de su día realizando tareas que no escalan —escribiendo correos de seguimiento, calificando prospectos manualmente o moviendo datos entre hojas de cálculo—, <strong class="text-white">tienes una fuga de capital</strong>, no un problema de ventas. El mercado está saturado de agencias que intentan crecer contratando más humanos para procesos rotos. El resultado es siempre el mismo: nóminas insostenibles, pérdida de leads por lentitud y un CEO atrapado apagando fuegos en lugar de dirigir el crecimiento.
+      </p>
+    </div>
+
+    <!-- Grid de 3 puntos de dolor -->
+    <div class="grid md:grid-cols-3 gap-6 mb-20">
+
+      <!-- Punto 1: La Fuga de Leads -->
+      <div class="card p-8 flex flex-col justify-between animate-reveal" data-reveal style="transition-delay:0.05s; border-color: rgba(239,68,68,0.15);">
+        <div>
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style="background:rgba(239,68,68,0.06); border:1px solid rgba(239,68,68,0.15);">
+            <i class="fas fa-bolt text-red-400 text-lg"></i>
+          </div>
+          <h3 class="text-lg font-black text-white mb-3">La Fuga de Leads</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Estás pagando por pauta (Meta Ads) pero tu equipo tarda horas en responder. La velocidad de respuesta (<em class="text-cyan-400 italic">Speed-to-lead</em>) define quién gana hoy.
+          </p>
+        </div>
+        <div class="mt-6 flex items-center gap-2 text-xs text-red-400/80 font-semibold">
+          <i class="fas fa-triangle-exclamation"></i>
+          <span>Pérdida de conversiones inmediata</span>
+        </div>
+      </div>
+
+      <!-- Punto 2: La Fatiga de Suscripciones -->
+      <div class="card p-8 flex flex-col justify-between animate-reveal" data-reveal style="transition-delay:0.15s; border-color: rgba(168,85,247,0.15);">
+        <div>
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style="background:rgba(168,85,247,0.06); border:1px solid rgba(168,85,247,0.15);">
+            <i class="fas fa-layer-group text-purple-400 text-lg"></i>
+          </div>
+          <h3 class="text-lg font-black text-white mb-3">La Fatiga de Suscripciones</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Estás pagando 15 herramientas de IA sueltas que no se hablan entre sí. Es un costo oculto que fragmenta tu conocimiento y desangra tu rentabilidad.
+          </p>
+        </div>
+        <div class="mt-6 flex items-center gap-2 text-xs text-purple-400/80 font-semibold">
+          <i class="fas fa-calculator"></i>
+          <span>Margen devorado por software fragmentado</span>
+        </div>
+      </div>
+
+      <!-- Punto 3: La Dependencia del Fundador -->
+      <div class="card p-8 flex flex-col justify-between animate-reveal" data-reveal style="transition-delay:0.25s; border-color: rgba(14,165,233,0.15);">
+        <div>
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style="background:rgba(0,229,255,0.06); border:1px solid rgba(0,229,255,0.15);">
+            <i class="fas fa-user-tie text-cyan-400 text-lg"></i>
+          </div>
+          <h3 class="text-lg font-black text-white mb-3">La Dependencia del Fundador</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Tu agencia funciona porque tú estás ahí. Si te ausentas, la operación se detiene. Esto no es un negocio; es un autoempleo de alto riesgo que no puede escalar sin tu sacrificio personal.
+          </p>
+        </div>
+        <div class="mt-6 flex items-center gap-2 text-xs text-cyan-400/80 font-semibold">
+          <i class="fas fa-lock"></i>
+          <span>Operación atada al tiempo del CEO</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Cierre de sección (Frase de impacto) -->
+    <div class="max-w-4xl mx-auto mt-20 text-center" data-reveal>
+      <div class="inline-block relative">
+        <i class="fas fa-quote-left text-cyan-500/10 text-8xl absolute -top-12 -left-12 pointer-events-none"></i>
+        <p class="text-xl sm:text-2xl md:text-3xl font-black text-white italic leading-relaxed relative z-10 px-4">
+          "La IA deja de ser una herramienta de curiosidad el día que se convierte en la infraestructura core de tu negocio".
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════════════════
+     SECCIÓN 3: LA SOLUCIÓN (El Sistema SVE90 de Transformación)
+════════════════════════════════════════════════════ -->
+<section id="sistema" class="system-bg py-28">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div class="text-center mb-16" data-reveal>
+      <div class="section-label mb-5">La solución</div>
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-black leading-tight mb-8">
+        La IA deja de ser una herramienta de curiosidad<br>
+        <span class="cyan-glow-text">cuando se convierte en la infraestructura core de tu negocio.</span>
+      </h2>
+      <p class="text-slate-400 text-lg leading-relaxed max-w-4xl mx-auto mb-6 font-light">
+        El mercado está lleno de agencias que intentan "parchear" sus procesos con herramientas aisladas (un bot por aquí, un plugin por allá). Esto no es estrategia, es una receta para el caos operativo. Cuando la tecnología no está integrada, la fricción técnica y el costo de 15 suscripciones desconectadas se comen tu rentabilidad.
+      </p>
+      <p class="text-slate-400 text-lg leading-relaxed max-w-4xl mx-auto font-light">
+        <strong class="text-white font-semibold">SVE90 no es un curso ni una implementación técnica superficial.</strong> Es la instalación llave en mano de tu Sistema Operativo de IA (AIOS). En 90 días, transformamos tu agencia manual en una Empresa Aumentada, donde la tecnología no solo "asiste", sino que ejecuta, escala y protege tus márgenes, permitiéndote operar con un equipo humano reducido y una capacidad productiva 10x mayor.
+      </p>
+    </div>
+
+    <!-- Promesa de Transformación (Ruta de 90 días) -->
+    <div class="max-w-4xl mx-auto mt-16" data-reveal>
+      <h3 class="text-2xl font-black text-center text-white mb-16">
+        Ruta de Transformación en <span class="cyan-text">90 días</span>
+      </h3>
+      
+      <!-- Timeline visual (escalera de valor) -->
+      <div class="space-y-0 relative">
+        <!-- Glowing vertical timeline connector line -->
+        <div class="absolute left-6 sm:left-1/2 top-4 bottom-4 w-0.5 -translate-x-1/2 hidden sm:block" style="background: linear-gradient(180deg, #00e5ff 0%, #38bdf8 50%, #818cf8 100%); opacity: 0.3; box-shadow: 0 0 10px rgba(0,229,255,0.5);"></div>
+        <div class="absolute left-6 top-4 bottom-4 w-0.5 sm:hidden" style="background: linear-gradient(180deg, #00e5ff 0%, #38bdf8 50%, #818cf8 100%); opacity: 0.3;"></div>
+
+        <!-- Fase 1: Día 30 -->
+        <div class="flex flex-col sm:flex-row items-stretch gap-8 mb-12 relative">
+          <!-- Timeline point center -->
+          <div class="absolute left-6 sm:left-1/2 top-4 -translate-x-1/2 z-20 flex items-center justify-center">
+            <div class="w-12 h-12 rounded-full flex items-center justify-center font-black text-sm" style="background:#050d1a; border:2px solid #00e5ff; color:#00e5ff; box-shadow: 0 0 15px rgba(0,229,255,0.4);">
+              30
+            </div>
+          </div>
+          
+          <!-- Card Izquierda (Fase) -->
+          <div class="w-full sm:w-1/2 sm:text-right pl-16 sm:pl-0 sm:pr-12">
+            <div class="card p-6 border-l-4 sm:border-l-0 sm:border-r-4 transition-all duration-300 hover:border-cyan-400" style="border-color: #00e5ff; background: rgba(5,13,26,0.3);">
+              <div class="text-xs font-bold uppercase tracking-widest mb-1" style="color:#00e5ff;">Fase 1</div>
+              <h4 class="font-black text-white text-lg mb-2">Activación Comercial</h4>
+              <div class="text-xs font-bold tracking-wider mb-2 text-cyan-400/80">Día 30</div>
+              <p class="text-slate-400 text-sm leading-relaxed">
+                Instalamos tu Command Center con un Speed-to-lead menor a 5 minutos. Tu agencia deja de perder leads por lentitud.
+              </p>
+            </div>
+          </div>
+          <!-- Spacer derecha -->
+          <div class="hidden sm:block sm:w-1/2"></div>
+        </div>
+
+        <!-- Fase 2: Día 60 -->
+        <div class="flex flex-col sm:flex-row items-stretch gap-8 mb-12 relative">
+          <!-- Timeline point center -->
+          <div class="absolute left-6 sm:left-1/2 top-4 -translate-x-1/2 z-20 flex items-center justify-center">
+            <div class="w-12 h-12 rounded-full flex items-center justify-center font-black text-sm" style="background:#050d1a; border:2px solid #38bdf8; color:#38bdf8; box-shadow: 0 0 15px rgba(56,189,248,0.4);">
+              60
+            </div>
+          </div>
+          
+          <!-- Spacer izquierda -->
+          <div class="hidden sm:block sm:w-1/2"></div>
+
+          <!-- Card Derecha (Fase) -->
+          <div class="w-full sm:w-1/2 pl-16 sm:pl-12">
+            <div class="card p-6 border-l-4 transition-all duration-300 hover:border-sky-400" style="border-color: #38bdf8; background: rgba(5,13,26,0.3);">
+              <div class="text-xs font-bold uppercase tracking-widest mb-1" style="color:#38bdf8;">Fase 2</div>
+              <h4 class="font-black text-white text-lg mb-2">Escala y Optimización</h4>
+              <div class="text-xs font-bold tracking-wider mb-2 text-sky-400/80">Día 60</div>
+              <p class="text-slate-400 text-sm leading-relaxed">
+                Desplegamos tus Empleados Digitales Autónomos para prospección y seguimiento. El trabajo repetitivo de tu nómina humana desaparece.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fase 3: Día 90 -->
+        <div class="flex flex-col sm:flex-row items-stretch gap-8 relative">
+          <!-- Timeline point center -->
+          <div class="absolute left-6 sm:left-1/2 top-4 -translate-x-1/2 z-20 flex items-center justify-center">
+            <div class="w-12 h-12 rounded-full flex items-center justify-center font-black text-sm" style="background:#050d1a; border:2px solid #818cf8; color:#818cf8; box-shadow: 0 0 15px rgba(129,140,248,0.4);">
+              90
+            </div>
+          </div>
+          
+          <!-- Card Izquierda (Fase) -->
+          <div class="w-full sm:w-1/2 sm:text-right pl-16 sm:pl-0 sm:pr-12">
+            <div class="card p-6 border-l-4 sm:border-l-0 sm:border-r-4 transition-all duration-300 hover:border-indigo-400" style="border-color: #818cf8; background: rgba(5,13,26,0.3);">
+              <div class="text-xs font-bold uppercase tracking-widest mb-1" style="color:#818cf8;">Fase 3</div>
+              <h4 class="font-black text-white text-lg mb-2">Autonomía Operativa</h4>
+              <div class="text-xs font-bold tracking-wider mb-2 text-indigo-400/80">Día 90</div>
+              <p class="text-slate-400 text-sm leading-relaxed">
+                Integramos la arquitectura completa para que tu empresa funcione sin tu intervención diaria. El conocimiento reside en tu infraestructura, no en la rotación de tu personal.
+              </p>
+            </div>
+          </div>
+          <!-- Spacer derecha -->
+          <div class="hidden sm:block sm:w-1/2"></div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════════════════
+     SECCIÓN 4: EL MECANISMO PROPIETARIO (Las 6 A de SVE90)
+════════════════════════════════════════════════════ -->
+<section id="mecanismo" class="py-28" style="background:#030b16; border-top: 1px solid rgba(0,229,255,0.05); border-bottom: 1px solid rgba(0,229,255,0.05);">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div class="text-center mb-20" data-reveal>
+      <div class="section-label mb-5">Mecanismo propietario</div>
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-black leading-tight mb-6">
+        Método SVE90: Nuestra Ingeniería<br>
+        <span class="cyan-glow-text">de Transformación en 6 Fases.</span>
+      </h2>
+      <p class="text-slate-400 text-lg leading-relaxed max-w-4xl mx-auto font-light">
+        No improvisamos. Nuestra metodología de Implementación Guiada garantiza que tu empresa pase de la saturación operativa a la autonomía total, sin consumir un solo minuto de tu tiempo en configuraciones técnicas.
+      </p>
+    </div>
+
+    <!-- Las 6 A del Éxito Operativo Grid -->
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- 1. Auditoría -->
+      <div class="card p-8 transition-all duration-300 hover:-translate-y-1 hover:border-cyan-400/40" data-reveal style="transition-delay:0s;">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style="background:rgba(0,229,255,0.06); border:1px solid rgba(0,229,255,0.15);">
+          <i class="fas fa-magnifying-glass text-cyan-400 text-lg"></i>
+        </div>
+        <h4 class="font-black text-white text-lg mb-3">1. Auditoría</h4>
+        <div class="text-xs font-bold uppercase tracking-wider mb-2 text-cyan-400/70">Diagnóstico</div>
+        <p class="text-slate-400 text-sm leading-relaxed">
+          Mapeamos tus fugas de capital. Identificamos exactamente dónde estás perdiendo leads y tiempo para atacar el dolor desde el día 1.
+        </p>
+      </div>
+
+      <!-- 2. Arquitectura -->
+      <div class="card p-8 transition-all duration-300 hover:-translate-y-1 hover:border-cyan-400/40" data-reveal style="transition-delay:0.1s;">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style="background:rgba(0,229,255,0.06); border:1px solid rgba(0,229,255,0.15);">
+          <i class="fas fa-sitemap text-cyan-400 text-lg"></i>
+        </div>
+        <h4 class="font-black text-white text-lg mb-3">2. Arquitectura</h4>
+        <div class="text-xs font-bold uppercase tracking-wider mb-2 text-cyan-400/70">Diseño</div>
+        <p class="text-slate-400 text-sm leading-relaxed">
+          Diseñamos el circuito lógico de tu empresa. Estructuramos cómo debe fluir la información desde el primer contacto hasta el cierre.
+        </p>
+      </div>
+
+      <!-- 3. Activación -->
+      <div class="card p-8 transition-all duration-300 hover:-translate-y-1 hover:border-cyan-400/40" data-reveal style="transition-delay:0.2s; border-color: rgba(0,229,255,0.25);">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style="background:rgba(0,229,255,0.1); border:1px solid rgba(0,229,255,0.25); box-shadow: 0 0 10px rgba(0,229,255,0.15);">
+          <i class="fas fa-passport text-cyan-300 text-lg"></i>
+        </div>
+        <h4 class="font-black text-white text-lg mb-3">3. Activación</h4>
+        <div class="text-xs font-bold uppercase tracking-wider mb-2 text-cyan-300 font-semibold">PassportAI (Propia)</div>
+        <p class="text-slate-300 text-sm leading-relaxed">
+          Desplegamos tu infraestructura privada en nuestra plataforma propia. Centralizas todo en un solo panel, eliminando la fatiga de suscripciones.
+        </p>
+      </div>
+
+      <!-- 4. Automatización -->
+      <div class="card p-8 transition-all duration-300 hover:-translate-y-1 hover:border-cyan-400/40" data-reveal style="transition-delay:0.3s;">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style="background:rgba(0,229,255,0.06); border:1px solid rgba(0,229,255,0.15);">
+          <i class="fas fa-robot text-cyan-400 text-lg"></i>
+        </div>
+        <h4 class="font-black text-white text-lg mb-3">4. Automatización</h4>
+        <div class="text-xs font-bold uppercase tracking-wider mb-2 text-cyan-400/70">Empleados Digitales</div>
+        <p class="text-slate-400 text-sm leading-relaxed">
+          Entrenamos a tus Agentes de IA con tu propia IP (oferta, tono, reglas). Se vuelven trabajadores incansables que ejecutan tareas críticas.
+        </p>
+      </div>
+
+      <!-- 5. Adopción -->
+      <div class="card p-8 transition-all duration-300 hover:-translate-y-1 hover:border-cyan-400/40" data-reveal style="transition-delay:0.4s;">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style="background:rgba(0,229,255,0.06); border:1px solid rgba(0,229,255,0.15);">
+          <i class="fas fa-graduation-cap text-cyan-400 text-lg"></i>
+        </div>
+        <h4 class="font-black text-white text-lg mb-3">5. Adopción</h4>
+        <div class="text-xs font-bold uppercase tracking-wider mb-2 text-cyan-400/70">AZ Academy</div>
+        <p class="text-slate-400 text-sm leading-relaxed">
+          Capacitamos a tu equipo humano. Convertimos a tus empleados en "Operadores de IA" para asegurar que el sistema se adopte al 100% y sea sostenible.
+        </p>
+      </div>
+
+      <!-- 6. Avance -->
+      <div class="card p-8 transition-all duration-300 hover:-translate-y-1 hover:border-cyan-400/40" data-reveal style="transition-delay:0.5s;">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style="background:rgba(0,229,255,0.06); border:1px solid rgba(0,229,255,0.15);">
+          <i class="fas fa-chart-pie text-cyan-400 text-lg"></i>
+        </div>
+        <h4 class="font-black text-white text-lg mb-3">6. Avance</h4>
+        <div class="text-xs font-bold uppercase tracking-wider mb-2 text-cyan-400/70">Escala</div>
+        <p class="text-slate-400 text-sm leading-relaxed">
+          Instalamos tus Dashboards de Control en tiempo real. Supervisas el crecimiento desde métricas claras, eliminando la necesidad de micro-gestión.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div><!-- ════════════════════════════════════════════════════
+     SECCIÓN 5: EL FILTRO SVE90 (Para quién es y para quién NO es)
+════════════════════════════════════════════════════ -->
+<section id="filtro" class="py-28 relative overflow-hidden" style="background:#050d1a;">
+
+  <!-- Decorative Orbs -->
+  <div class="absolute left-1/4 top-1/4 w-96 h-96 rounded-full opacity-5 blur-3xl pointer-events-none" style="background:radial-gradient(circle, #00e5ff, transparent 70%);"></div>
+  <div class="absolute right-1/4 bottom-1/4 w-96 h-96 rounded-full opacity-5 blur-3xl pointer-events-none" style="background:radial-gradient(circle, #ef4444, transparent 70%);"></div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+    <div class="text-center mb-20" data-reveal>
+      <div class="section-label mb-5" style="border-color: rgba(0,229,255,0.3); color: #00e5ff; background: rgba(0,229,255,0.06);">Admisión estricta</div>
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-black leading-tight mb-6">
+        Esto no es para agencias que están empezando.<br>
+        <span style="color: #00e5ff; text-shadow: 0 0 40px rgba(0,229,255,0.15);">Es para agencias que están atascadas.</span>
+      </h2>
+      <p class="text-slate-400 text-lg leading-relaxed max-w-4xl mx-auto font-light">
+        El Sistema SVE90 exige un compromiso operativo de 90 días. No vendemos un software mágico, instalamos una arquitectura de Empresa Aumentada. Por eso, somos extremadamente estrictos con los perfiles que aceptamos en nuestro Diagnóstico de Madurez.
+      </p>
+    </div>
+
+    <!-- Grid a 2 Columnas -->
+    <div class="grid md:grid-cols-2 gap-8 mb-20">
+
+      <!-- Columna PARA QUIÉN SÍ -->
+      <div class="card p-8 sm:p-10 transition-all duration-300 hover:border-cyan-500/30" data-reveal style="background: rgba(5,13,26,0.6); border: 1px solid rgba(0,229,255,0.15); box-shadow: 0 0 30px rgba(0,229,255,0.02);">
+        <div class="flex items-center gap-4 mb-8">
+          <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background:rgba(0,229,255,0.1); border:1px solid rgba(0,229,255,0.2);">
+            <i class="fas fa-circle-check text-cyan-400 text-lg"></i>
+          </div>
+          <h3 class="text-xl font-black text-white uppercase tracking-wider">Para quién SÍ es SVE90</h3>
+        </div>
+        
+        <div class="space-y-6">
+          <div class="flex items-start">
+            <div class="flex-shrink-0 mt-1">
+              <i class="fas fa-check-double text-cyan-400 text-sm"></i>
+            </div>
+            <div class="ml-4">
+              <h4 class="font-bold text-white text-base mb-1">Dueños de Agencias de Servicios</h4>
+              <p class="text-slate-400 text-sm leading-relaxed">
+                Marketing, Contenido, Consultoría. Tienes un negocio validado, flujo de leads constante (orgánico o pauta) y ventas activas hoy.
+              </p>
+            </div>
+          </div>
+          
+          <div class="flex items-start">
+            <div class="flex-shrink-0 mt-1">
+              <i class="fas fa-check-double text-cyan-400 text-sm"></i>
+            </div>
+            <div class="ml-4">
+              <h4 class="font-bold text-white text-base mb-1">Equipos de 2 a 15 personas</h4>
+              <p class="text-slate-400 text-sm leading-relaxed">
+                Tienes una nómina operativa, pero tu equipo está saturado de tareas administrativas, seguimiento manual y herramientas dispersas.
+              </p>
+            </div>
+          </div>
+          
+          <div class="flex items-start">
+            <div class="flex-shrink-0 mt-1">
+              <i class="fas fa-check-double text-cyan-400 text-sm"></i>
+            </div>
+            <div class="ml-4">
+              <h4 class="font-bold text-white text-base mb-1">CEOs atascados en la operación</h4>
+              <p class="text-slate-400 text-sm leading-relaxed">
+                Dependes de tu propio tiempo para que la agencia funcione y controlas cada parte de la ejecución comercial.
+              </p>
+            </div>
+          </div>
+          
+          <div class="flex items-start">
+            <div class="flex-shrink-0 mt-1">
+              <i class="fas fa-check-double text-cyan-400 text-sm"></i>
+            </div>
+            <div class="ml-4">
+              <h4 class="font-bold text-white text-base mb-1">Agencias que pierden dinero por lentitud</h4>
+              <p class="text-slate-400 text-sm leading-relaxed">
+                Te duelen los leads perdidos, el seguimiento inconsistente y la falta de SOPs (Procedimientos Operativos Estándar).
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna PARA QUIÉN NO -->
+      <div class="card p-8 sm:p-10 transition-all duration-300 hover:border-red-500/30" data-reveal style="background: rgba(5,13,26,0.6); border: 1px solid rgba(239,68,68,0.15); box-shadow: 0 0 30px rgba(239,68,68,0.02);">
+        <div class="flex items-center gap-4 mb-8">
+          <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.2);">
+            <i class="fas fa-circle-xmark text-red-500 text-lg"></i>
+          </div>
+          <h3 class="text-xl font-black text-white uppercase tracking-wider">Para quién NO es esto</h3>
+        </div>
+        
+        <div class="space-y-6">
+          <div class="flex items-start">
+            <div class="flex-shrink-0 mt-1">
+              <i class="fas fa-ban text-red-500 text-sm"></i>
+            </div>
+            <div class="ml-4">
+              <h4 class="font-bold text-white text-base mb-1">Emprendedores sin negocio validado</h4>
+              <p class="text-slate-400 text-sm leading-relaxed">
+                Si aún estás buscando tu primer cliente o no tienes un flujo de prospectos predecible.
+              </p>
+            </div>
+          </div>
+          
+          <div class="flex items-start">
+            <div class="flex-shrink-0 mt-1">
+              <i class="fas fa-ban text-red-500 text-sm"></i>
+            </div>
+            <div class="ml-4">
+              <h4 class="font-bold text-white text-base mb-1">Agencias buscando "hacerse ricas mientras duermen"</h4>
+              <p class="text-slate-400 text-sm leading-relaxed">
+                Evitamos las promesas de dinero fácil. Esto es ingeniería operativa que requiere tu participación en el proceso de adopción.
+              </p>
+            </div>
+          </div>
+          
+          <div class="flex items-start">
+            <div class="flex-shrink-0 mt-1">
+              <i class="fas fa-ban text-red-500 text-sm"></i>
+            </div>
+            <div class="ml-4">
+              <h4 class="font-bold text-white text-base mb-1">Buscadores de soluciones 100% "a medida"</h4>
+              <p class="text-slate-400 text-sm leading-relaxed">
+                SVE90 es una infraestructura probada y serializada; no desarrollamos software desde cero fuera de nuestro alcance estructurado.
+              </p>
+            </div>
+          </div>
+          
+          <div class="flex items-start">
+            <div class="flex-shrink-0 mt-1">
+              <i class="fas fa-ban text-red-500 text-sm"></i>
+            </div>
+            <div class="ml-4">
+              <h4 class="font-bold text-white text-base mb-1">Coleccionistas de herramientas</h4>
+              <p class="text-slate-400 text-sm leading-relaxed">
+                Si solo quieres pagar otra suscripción más sin intención de educar a tu equipo para adoptarla, AZ Academy y PassportAI no son para ti.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CTA & Micro-copy -->
+    <div class="text-center" data-reveal>
+      <a href="#contacto" class="px-10 py-5 rounded-2xl text-lg font-black tracking-wide inline-flex items-center gap-3 transition-all duration-300 hover:scale-[1.02]" style="background: linear-gradient(135deg, #00e5ff 0%, #00b4cc 100%); color: #020710; border: 1px solid #33f5ff; box-shadow: 0 0 30px rgba(0,229,255,0.25);">
+        <i class="fas fa-file-signature"></i>
+        <span>Solicitar mi Diagnóstico de Madurez SVE90</span>
+      </a>
+      <p class="text-xs text-slate-500 mt-4 max-w-md mx-auto leading-relaxed">
+        <i class="fas fa-shield-halved mr-1.5 text-cyan-400/80"></i>
+        Nuestro equipo revisará tu aplicación. Solo el 20% de las agencias califican para la auditoría.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════════════════
+     SECCIÓN 6: LA ARQUITECTURA QUE HACE POSIBLE EL SISTEMA
+════════════════════════════════════════════════════ -->
+<section id="arquitectura" class="py-28" style="background:var(--navy); border-bottom:1px solid rgba(0,229,255,0.05);">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div class="text-center mb-20" data-reveal>
+      <div class="section-label mb-5">Arquitectura de empresa</div>
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-black leading-tight mb-6">
+        La arquitectura que hace<br>
+        <span class="cyan-glow-text">posible el sistema.</span>
+      </h2>
+      <p class="text-slate-400 text-lg sm:text-xl leading-relaxed max-w-4xl mx-auto font-light">
+        La diferencia entre una agencia que sobrevive y una que escala no es el talento, es la infraestructura. No te vendemos un software vacío para que adivines cómo usarlo; instalamos un ecosistema interconectado que elimina tus cuellos de botella desde el primer día.
+      </p>
+    </div>
+
+    <!-- Layout de Dos Columnas (Imagen e Información estructurada) -->
+    <div class="grid lg:grid-cols-12 gap-12 items-center mb-20">
+
+      <!-- Imagen izquierda (7 columnas) -->
+      <div class="lg:col-span-7" data-reveal-left>
+        <div class="card-glow rounded-2xl p-2 sm:p-3 overflow-hidden" style="border: 1px solid rgba(0,229,255,0.15); box-shadow: 0 0 40px rgba(0,229,255,0.06); background: rgba(5, 13, 26, 0.4);">
+          <img src="/static/flujonuevo.jpg" alt="La arquitectura que hace posible el sistema SVE90" class="w-full h-auto rounded-xl object-cover hover:scale-[1.01] transition-transform duration-500">
+        </div>
+      </div>
+
+      <!-- Texto derecha (5 columnas) -->
+      <div class="lg:col-span-5 space-y-6" data-reveal-right>
+        <div class="text-xs font-bold uppercase tracking-widest text-cyan-400">Los 4 Pilares de tu Nueva Empresa Aumentada</div>
+        
+        <!-- Pillar 1 -->
+        <div class="p-5 rounded-xl border border-slate-800 transition-all duration-300 hover:border-cyan-500/20" style="background: rgba(5,13,26,0.35);">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-cyan-500/10 border border-cyan-500/20">
+              <i class="fas fa-brain text-cyan-400 text-sm"></i>
+            </div>
+            <h4 class="font-black text-white text-base">1. Motor de Inteligencia Central (PassportAI)</h4>
+          </div>
+          <p class="text-slate-400 text-xs sm:text-sm leading-relaxed pl-11">
+            El fin de la fatiga de suscripciones. Centralizamos el procesamiento de tu Propiedad Intelectual (IP privada) en un solo cerebro. Dejas de pagar y saltar entre 15 plataformas desconectadas para gestionar tus activos digitales.
+          </p>
+        </div>
+
+        <!-- Pillar 2 -->
+        <div class="p-5 rounded-xl border border-slate-800 transition-all duration-300 hover:border-cyan-500/20" style="background: rgba(5,13,26,0.35);">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-cyan-500/10 border border-cyan-500/20">
+              <i class="fas fa-user-gear text-cyan-400 text-sm"></i>
+            </div>
+            <h4 class="font-black text-white text-base">2. Empleados Digitales (SDR / Setter Autónomos)</h4>
+          </div>
+          <p class="text-slate-400 text-xs sm:text-sm leading-relaxed pl-11">
+            Tu tráfico omnicanal (Meta, Instagram, LinkedIn, WhatsApp) ya no muere en una bandeja de entrada ignorada. Instalamos agentes autónomos que responden en menos de 5 minutos, califican leads, manejan objeciones y agendan citas directamente en tu calendario, 24/7.
+          </p>
+        </div>
+
+        <!-- Pillar 3 -->
+        <div class="p-5 rounded-xl border border-slate-800 transition-all duration-300 hover:border-cyan-500/20" style="background: rgba(5,13,26,0.35);">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-cyan-500/10 border border-cyan-500/20">
+              <i class="fas fa-chart-pie text-cyan-400 text-sm"></i>
+            </div>
+            <h4 class="font-black text-white text-base">3. Pipeline Directivo y Máquina de Recompra</h4>
+          </div>
+          <p class="text-slate-400 text-xs sm:text-sm leading-relaxed pl-11">
+            Recuperas la visibilidad absoluta. Tu proceso de ventas se estandariza con una conversión clara (Lead -> Cita -> Propuesta -> Cierre). Además, el sistema segmenta automáticamente a tus clientes actuales para lanzar ofertas de retención, generando ingresos recurrentes sin esfuerzo humano adicional.
+          </p>
+        </div>
+
+        <!-- Pillar 4 -->
+        <div class="p-5 rounded-xl border border-slate-800 transition-all duration-300 hover:border-cyan-500/20" style="background: rgba(5,13,26,0.35);">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-cyan-500/10 border border-cyan-500/20">
+              <i class="fas fa-graduation-cap text-cyan-400 text-sm"></i>
+            </div>
+            <h4 class="font-black text-white text-base">4. El Blindaje de Adopción (AZ Academy)</h4>
+          </div>
+          <p class="text-slate-400 text-xs sm:text-sm leading-relaxed pl-11">
+            La mejor tecnología del mundo es inútil si tu equipo no la utiliza. Por eso, blindamos tu inversión educando a tu equipo humano. Entregamos Formación y SOPs (Procedimientos Operativos Estándar) para que tus colaboradores dominen el sistema y tú no tengas que micro-gestionarlos.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Cierre de Arquitectura & CTA -->
+    <div class="max-w-4xl mx-auto text-center border-t border-slate-800/80 pt-16 mt-16" data-reveal>
+      <div class="inline-block relative mb-6">
+        <h3 class="text-2xl sm:text-3xl font-black text-white mb-4">Un Ciclo de Optimización Semanal</h3>
+        <p class="text-slate-400 text-base leading-relaxed max-w-2xl mx-auto font-light">
+          Tu agencia operará bajo un modelo de ventas inteligentes, donde los KPIs se optimizan constantemente gracias a la combinación de Inteligencia Artificial y la dirección de tu equipo humano capacitado.
+        </p>
+      </div>
+
+      <div class="mt-12">
+        <a href="#contacto" class="px-10 py-5 rounded-2xl text-lg font-black tracking-wide inline-flex items-center gap-3 transition-all duration-300 hover:scale-[1.02]" style="background: linear-gradient(135deg, #00e5ff 0%, #0ea5e9 100%); color: #020710; border: 1px solid #38bdf8; box-shadow: 0 0 30px rgba(0,229,255,0.25);">
+          <i class="fas fa-calendar-check"></i>
+          <span>Agendar mi Llamada de Diagnóstico SVE90</span>
+        </a>
+        <p class="text-xs text-slate-500 mt-4 max-w-md mx-auto leading-relaxed">
+          <i class="fas fa-circle-info mr-1.5 text-cyan-500/80"></i>
+          Analizaremos tu flujo actual y te mostraremos qué nivel de infraestructura necesita tu agencia.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════════════════
+     RESULTADOS / PRUEBA SOCIAL
+════════════════════════════════════════════════════ -->
+<section class="py-28" style="background:linear-gradient(180deg,#06111f 0%,var(--navy) 100%);">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div class="text-center mb-20" data-reveal>
+      <div class="section-label mb-5">Resultados reales</div>
+      <h2 class="text-4xl sm:text-5xl font-black leading-tight mb-6">
+        Números que importan,<br>
+        <span class="cyan-glow-text">no promesas vacías.</span>
+      </h2>
+    </div>
+
+    <!-- Métricas grandes -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-5 mb-20" data-reveal>
+      
+      <div class="stat-box p-6 text-center">
+        <div class="text-4xl font-black mb-2 cyan-glow-text">312%</div>
+        <div class="text-sm font-semibold text-white mb-1">ROI promedio en 90 días</div>
+        <div class="text-xs text-slate-600">de implementación</div>
+      </div>
+      <div class="stat-box p-6 text-center">
+        <div class="text-4xl font-black mb-2 cyan-glow-text">4.2×</div>
+        <div class="text-sm font-semibold text-white mb-1">Aumento en leads calificados</div>
+        <div class="text-xs text-slate-600">vs. proceso manual</div>
+      </div>
+      <div class="stat-box p-6 text-center">
+        <div class="text-4xl font-black mb-2 cyan-glow-text">73%</div>
+        <div class="text-sm font-semibold text-white mb-1">Reducción de tiempo operativo</div>
+        <div class="text-xs text-slate-600">en ventas y seguimiento</div>
+      </div>
+      <div class="stat-box p-6 text-center">
+        <div class="text-4xl font-black mb-2 cyan-glow-text">28h</div>
+        <div class="text-sm font-semibold text-white mb-1">Ahorradas por semana</div>
+        <div class="text-xs text-slate-600">por operador de ventas</div>
+      </div>
+    </div>
+
+    <!-- Testimonios -->
+    <div class="grid md:grid-cols-3 gap-6">
+      
+      <div class="card p-7" data-reveal style="transition-delay:0s; border-top: 2px solid rgba(0,229,255,0.2);">
+        <div class="flex gap-1 mb-5">
+          <i class="fas fa-star text-yellow-400 text-sm"></i><i class="fas fa-star text-yellow-400 text-sm"></i><i class="fas fa-star text-yellow-400 text-sm"></i><i class="fas fa-star text-yellow-400 text-sm"></i><i class="fas fa-star text-yellow-400 text-sm"></i>
+        </div>
+        <p class="text-slate-300 text-sm leading-relaxed mb-6 italic">"En 60 días pasamos de perseguir leads manualmente a tener un pipeline que trabaja solo. Nuestro equipo ahora solo habla con prospectos que ya quieren comprar. Fue un cambio de paradigma total."</p>
+        <div class="p-3 rounded-xl mb-4 text-xs font-semibold" style="background:rgba(0,229,255,0.05); color:#00e5ff; border:1px solid rgba(0,229,255,0.12);">
+          <i class="fas fa-chart-line mr-2"></i>3× más cierres con el mismo equipo
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-black flex-shrink-0" style="background:linear-gradient(135deg,rgba(0,229,255,0.15),rgba(14,165,233,0.1)); color:#00e5ff; border:1px solid rgba(0,229,255,0.25);">R</div>
+          <div>
+            <div class="font-bold text-white text-sm">Rodrigo M.</div>
+            <div class="text-xs text-slate-500">Director comercial — Agencia de Marketing</div>
+          </div>
+        </div>
+      </div>
+      <div class="card p-7" data-reveal style="transition-delay:0.1s; border-top: 2px solid rgba(0,229,255,0.2);">
+        <div class="flex gap-1 mb-5">
+          <i class="fas fa-star text-yellow-400 text-sm"></i><i class="fas fa-star text-yellow-400 text-sm"></i><i class="fas fa-star text-yellow-400 text-sm"></i><i class="fas fa-star text-yellow-400 text-sm"></i><i class="fas fa-star text-yellow-400 text-sm"></i>
+        </div>
+        <p class="text-slate-300 text-sm leading-relaxed mb-6 italic">"Yo era el cuello de botella de mi propio negocio. Cada nuevo cliente dependía de que yo estuviera disponible para responder, agendar y hacer seguimiento. El SVE-90 eliminó eso completamente."</p>
+        <div class="p-3 rounded-xl mb-4 text-xs font-semibold" style="background:rgba(0,229,255,0.05); color:#00e5ff; border:1px solid rgba(0,229,255,0.12);">
+          <i class="fas fa-chart-line mr-2"></i>2× más clientes. 40% menos horas de trabajo.
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-black flex-shrink-0" style="background:linear-gradient(135deg,rgba(0,229,255,0.15),rgba(14,165,233,0.1)); color:#00e5ff; border:1px solid rgba(0,229,255,0.25);">C</div>
+          <div>
+            <div class="font-bold text-white text-sm">Carolina V.</div>
+            <div class="text-xs text-slate-500">Fundadora — Consultora de estrategia</div>
+          </div>
+        </div>
+      </div>
+      <div class="card p-7" data-reveal style="transition-delay:0.2s; border-top: 2px solid rgba(0,229,255,0.2);">
+        <div class="flex gap-1 mb-5">
+          <i class="fas fa-star text-yellow-400 text-sm"></i><i class="fas fa-star text-yellow-400 text-sm"></i><i class="fas fa-star text-yellow-400 text-sm"></i><i class="fas fa-star text-yellow-400 text-sm"></i><i class="fas fa-star text-yellow-400 text-sm"></i>
+        </div>
+        <p class="text-slate-300 text-sm leading-relaxed mb-6 italic">"Dejé de hacer lanzamientos agotadores. El sistema vende mis cursos de forma evergreen, califica leads automáticamente y solo me avisa cuando hay alguien listo para comprar el programa premium."</p>
+        <div class="p-3 rounded-xl mb-4 text-xs font-semibold" style="background:rgba(0,229,255,0.05); color:#00e5ff; border:1px solid rgba(0,229,255,0.12);">
+          <i class="fas fa-chart-line mr-2"></i>+$45K MRR en ingresos recurrentes
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-black flex-shrink-0" style="background:linear-gradient(135deg,rgba(0,229,255,0.15),rgba(14,165,233,0.1)); color:#00e5ff; border:1px solid rgba(0,229,255,0.25);">A</div>
+          <div>
+            <div class="font-bold text-white text-sm">Andrés P.</div>
+            <div class="text-xs text-slate-500">CEO — Plataforma de infoproductos</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════════════════
+     MASTERCLASS GRATUITA
+════════════════════════════════════════════════════ -->
+<!-- ════════════════════════════════════════════════════
+     DEMOSTRACIÓN OPERATIVA SVE90 (VSL)
+════════════════════════════════════════════════════ -->
+<section id="masterclass" class="py-28" style="background:var(--navy); border-bottom:1px solid rgba(0,229,255,0.05);">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+
+    <div data-reveal>
+      <div class="section-label mb-6 justify-center" style="border-color: rgba(0,229,255,0.3); color: #00e5ff; background: rgba(0,229,255,0.06);">DEMOSTRACIÓN OPERATIVA SVE90</div>
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold mb-8 uppercase tracking-widest" style="background:rgba(0,229,255,0.08); color:#00e5ff; border:1px solid rgba(0,229,255,0.25);">
+        <i class="fas fa-play text-red-500"></i> Presentado por Edwar Jimenez, CEO de Prosper IA and PassportAI
+      </div>
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-black leading-tight mb-6">
+        Cómo escalar tu agencia<br>
+        <span style="color: #00e5ff; text-shadow: 0 0 40px rgba(0,229,255,0.15);">sin inflar tu nómina operativa.</span>
+      </h2>
+      <p class="text-slate-400 text-lg sm:text-xl mb-10 leading-relaxed font-light">
+        Descubre en 15 minutos cómo funciona por dentro la infraestructura que califica, da seguimiento y agenda tus leads en menos de 5 <section class="py-24" style="background:var(--navy-mid); border-bottom:1px solid rgba(0,229,255,0.05);">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16" data-reveal>
+      <h2 class="text-3xl sm:text-4xl font-black text-white mb-4">Decisiones Ejecutivas</h2>
+      <p class="text-slate-500">Respuestas de ingeniería y arquitectura de negocio para dueños de agencias.</p>
+    </div>
+    <div class="space-y-0" id="faq-container">
+      
+      <div class="faq-item">
+        <button onclick="toggleFaq(0)" class="w-full flex items-center justify-between py-5 text-left gap-4">
+          <span class="font-semibold text-white text-sm sm:text-base">¿Qué pasa si mi equipo humano se resiste a usar esta nueva tecnología?</span>
+          <i id="faq-icon-0" class="fas fa-plus flex-shrink-0 transition-transform" style="color: rgba(0,229,255,0.65);"></i>
+        </button>
+        <div id="faq-0" class="faq-answer">
+          <p class="text-slate-400 text-sm leading-relaxed pb-5">La falta de adopción es el mayor riesgo al comprar software. Por eso nosotros no vendemos software, instalamos sistemas. Tu infraestructura incluye capacitación guiada a través de AZ Academy (Fase 5 de nuestro método). Además, te respaldamos con nuestra Garantía de Adopción: si tu equipo no sabe operarlo o la IA no ejecuta, nuestro equipo de ingeniería sigue trabajando in-company sin costo adicional hasta que tu agencia esté 100% aumentada.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button onclick="toggleFaq(1)" class="w-full flex items-center justify-between py-5 text-left gap-4">
+          <span class="font-semibold text-white text-sm sm:text-base">¿Esto es solo otra configuración de CRM, n8n o un bot de respuestas?</span>
+          <i id="faq-icon-1" class="fas fa-plus flex-shrink-0 transition-transform" style="color: rgba(0,229,255,0.65);"></i>
+        </button>
+        <div id="faq-1" class="faq-answer">
+          <p class="text-slate-400 text-sm leading-relaxed pb-5">Absolutamente no. Las configuraciones genéricas de herramientas de terceros son parches que se vuelven obsoletos rápido y fragmentan tu negocio. SVE90 es la instalación de un Sistema Operativo de IA (AIOS). Centralizamos todo tu flujo comercial en nuestro Command Center y lo conectamos a nuestra tecnología propietaria, PassportAI, dándote soberanía total sobre tus activos y eliminando la necesidad de pagar 15 suscripciones separadas.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button onclick="toggleFaq(2)" class="w-full flex items-center justify-between py-5 text-left gap-4">
+          <span class="font-semibold text-white text-sm sm:text-base">¿Cuánto tiempo me quitará a mí, como CEO, esta implementación de 90 días?</span>
+          <i id="faq-icon-2" class="fas fa-plus flex-shrink-0 transition-transform" style="color: rgba(0,229,255,0.65);"></i>
+        </button>
+        <div id="faq-2" class="faq-answer">
+          <p class="text-slate-400 text-sm leading-relaxed pb-5">Tu tiempo estratégico solo se requiere en las fases de Auditoría y Arquitectura (las primeras dos semanas) para definir el flujo de tu negocio. Nosotros nos encargamos de la Activación tecnológica y la Automatización profunda de los Empleados Digitales. Tu equipo operativo ejecuta la fase de Adopción. El objetivo de SVE90 es sacarte de la micro-gestión diaria, no darte más trabajo.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button onclick="toggleFaq(3)" class="w-full flex items-center justify-between py-5 text-left gap-4">
+          <span class="font-semibold text-white text-sm sm:text-base">¿Hacen desarrollos de software 100% a medida para mi agencia?</span>
+          <i id="faq-icon-3" class="fas fa-plus flex-shrink-0 transition-transform" style="color: rgba(0,229,255,0.65);"></i>
+        </button>
+        <div id="faq-3" class="faq-answer">
+          <p class="text-slate-400 text-sm leading-relaxed pb-5">No. Los desarrollos desde cero son lentos, caros y con un alto riesgo de fracaso. SVE90 es una infraestructura pre-arquitectada y serializada, lo que nos permite garantizar su funcionamiento en 90 días. La "personalización" ocurre en el entrenamiento de tus Empleados Digitales: ellos aprenden tu Propiedad Intelectual, tus precios, tus objeciones y tu tono de voz, pero operan sobre un núcleo técnico estandarizado y probado.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button onclick="toggleFaq(4)" class="w-full flex items-center justify-between py-5 text-left gap-4">
+          <span class="font-semibold text-white text-sm sm:text-base">Actualmente pago más de 10 herramientas de IA sueltas. ¿Tengo que mantenerlas?</span>
+          <i id="faq-icon-4" class="fas fa-plus flex-shrink-0 transition-transform" style="color: rgba(0,229,255,0.65);"></i>
+        </button>
+        <div id="faq-4" class="faq-answer">
+          <p class="text-slate-400 text-sm leading-relaxed pb-5">No. Ese es uno de los mayores dolores que resolvemos: la "fatiga de suscripciones" que desangra tu rentabilidad mensual. Al instalar el ecosistema SVE90, obtienes acceso perpetuo a la infraestructura multimedia de PassportAI. Desde un solo panel, tus 12 empleados podrán generar copys comerciales, clonación de voz, videos y transcripciones, centralizando toda tu operación.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button onclick="toggleFaq(5)" class="w-full flex items-center justify-between py-5 text-left gap-4">
+          <span class="font-semibold text-white text-sm sm:text-base">¿Cuándo empezaré a ver un retorno de inversión (ROI) real?</span>
+          <i id="faq-icon-5" class="fas fa-plus flex-shrink-0 transition-transform" style="color: rgba(0, 229, 255, 0.65);"></i>
+        </button>
+        <div id="faq-5" class="faq-answer">
+          <p class="text-slate-400 text-sm leading-relaxed pb-5">Nuestra ruta de 90 días está estructurada para darte victorias financieras rápidas. En el Día 30 (Activación), tu Speed-to-lead bajará a menos de 5 minutos, deteniendo la fuga de prospectos. Para el Día 60 (Escala), tus Empleados Digitales (AI SDR y Setter) estarán calificando y agendando citas de forma autónoma, duplicando tu capacidad comercial sin inflar un solo centavo de tu nómina humana.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════════════════
+     SECCIÓN INTERMEDIA: AUTORIDAD Y EL DIAGNÓSTICO
+     ════════════════════════════════════════════════════ -->
+<section id="diagnostico-info" class="py-24" style="background:#050d1a; border-top:1px solid rgba(0,229,255,0.15);">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16" data-reveal>
+      <div class="section-label mb-6 justify-center">PRÓXIMO PASO</div>
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-black leading-tight mb-6">
+        Aplica a tu Diagnóstico<br>
+        <span class="cyan-glow-text">de Madurez SVE90.</span>
+      </h2>
+      <p class="text-slate-400 text-lg max-w-3xl mx-auto leading-relaxed font-light">
+        La infraestructura de una empresa no se improvisa. En 30 minutos auditaremos tus procesos manuales, identificaremos tus fugas de capital y te presentaremos el mapa arquitectónico exacto para convertir tu agencia en una Empresa Aumentada.
+      </p>
+    </div>
+
+    <div class="grid lg:grid-cols-12 gap-12 items-center">
+      <!-- Col 1: Bloque de Autoridad (Edwar) -->
+      <div class="lg:col-span-7" data-reveal-left>
+        <div class="p-8 rounded-2xl relative overflow-hidden" style="background:linear-gradient(135deg, #081224 0%, #020710 100%); border:1px solid rgba(0,229,255,0.25); box-shadow:0 10px 40px rgba(0,0,0,0.5);">
+          <div class="flex flex-col md:flex-row gap-6 items-center">
+            <div class="w-32 h-32 sm:w-36 sm:h-36 rounded-xl overflow-hidden border-2 flex-shrink-0" style="border-color:#00e5ff; box-shadow:0 0 25px rgba(0,229,255,0.25);">
+              <img src="/static/edwar_jimenez.jpg" alt="Edwar Jimenez, CEO" class="w-full h-full object-cover">
+            </div>
+            <div>
+              <div class="text-xs font-semibold text-cyan-400 uppercase tracking-widest mb-1">¿Quién diseña tu sistema?</div>
+              <h4 class="text-xl font-black text-white mb-3">Edwar Jimenez, CEO de Prosper IA and PassportAI</h4>
+              <p class="text-slate-400 text-sm leading-relaxed font-light">
+                No somos "marketers" experimentando con Inteligencia Artificial. Con más de 25 años de experiencia corporativa, Edwar ha liderado implementaciones tecnológicas de escala masiva, incluyendo el core bancario para más de 1,500 sucursales en Grupo Elektra y Banco Azteca. Como CEO de JPX International en Miami y creador de PassportAI, su metodología se basa en ingeniería real: construir infraestructuras que escalan, protegen los márgenes y eliminan la fricción operativa.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Col 2: Viñetas de Valor -->
+      <div class="lg:col-span-5 space-y-6" data-reveal-right>
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style="background:rgba(0,229,255,0.08); border:1px solid rgba(0,229,255,0.25);">
+            <i class="fas fa-magnifying-glass-chart text-cyan-400 text-lg"></i>
+          </div>
+          <div>
+            <div class="font-semibold text-white text-base mb-1">1. Auditoría Operativa</div>
+            <div class="text-sm text-slate-500 leading-relaxed">Detectamos exactamente dónde tu equipo humano está perdiendo tiempo y leads.</div>
+          </div>
+        </div>
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style="background:rgba(0,229,255,0.08); border:1px solid rgba(0,229,255,0.25);">
+            <i class="fas fa-drafting-compass text-cyan-400 text-lg"></i>
+          </div>
+          <div>
+            <div class="font-semibold text-white text-base mb-1">2. Arquitectura SVE90</div>
+            <div class="text-sm text-slate-500 leading-relaxed">Te mostramos el flujo de cómo integrar a tus Empleados Digitales y centralizar tu operación.</div>
+          </div>
+        </div>
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style="background:rgba(0,229,255,0.08); border:1px solid rgba(0,229,255,0.25);">
+            <i class="fas fa-shield-halved text-cyan-400 text-lg"></i>
+          </div>
+          <div>
+            <div class="font-semibold text-white text-base mb-1">3. Filtro Ejecutivo</div>
+            <div class="text-sm text-slate-500 leading-relaxed">Esta sesión no es una charla de ventas. Es una evaluación técnica para determinar si tu agencia tiene la estructura para implementar SVE90.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════════════════
+     SECCIÓN FINAL: FORMULARIO DE APLICACIÓN
+════════════════════════════════════════════════════ -->
+<section id="contacto" class="py-32 relative overflow-hidden" style="background: radial-gradient(circle at center, #050d1a 0%, var(--navy) 100%); border-top: 1px solid rgba(0,229,255,0.15);">
+  <!-- Orbs de fondo premium para dar amplitud y profundidad visual -->
+  <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-[0.03] blur-3xl pointer-events-none" style="background:radial-gradient(circle, #00e5ff 0%, transparent 70%);"></div>
+  
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    
+    <div class="card-glow rounded-2xl p-8 sm:p-12 relative z-10" style="background: rgba(5,13,26,0.75); border: 1px solid rgba(0,229,255,0.25); box-shadow: 0 25px 60px rgba(0,0,0,0.45);" data-reveal>
+      <div class="text-center mb-10">
+        <h3 class="text-3xl font-black text-white mb-3">Aplicación Ejecutiva SVE90</h3>
+        <p class="text-slate-500 text-sm max-w-xl mx-auto">Solo auditamos agencias de servicios con facturación activa. Completa los datos para evaluar tu perfil.</p>
+      </div>
+
+      <div id="contact-alert" class="hidden mb-6 p-4 rounded-xl text-sm"></div>
+
+      <div class="space-y-6">
+        <div class="grid sm:grid-cols-2 gap-6">
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wide">Nombre completo *</label>
+            <input id="c-name" type="text" placeholder="Tu nombre" class="w-full px-4 py-3.5 rounded-xl text-white text-sm placeholder-slate-600 focus:outline-none transition-all" style="background:#050d1a; border:1px solid rgba(0,229,255,0.15);" onfocus="this.style.borderColor='rgba(0,229,255,0.45)'" onblur="this.style.borderColor='rgba(0,229,255,0.15)'">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wide">Email Corporativo *</label>
+            <input id="c-email" type="email" placeholder="tu@empresa.com" class="w-full px-4 py-3.5 rounded-xl text-white text-sm placeholder-slate-600 focus:outline-none transition-all" style="background:#050d1a; border:1px solid rgba(0,229,255,0.15);" onfocus="this.style.borderColor='rgba(0,229,255,0.45)'" onblur="this.style.borderColor='rgba(0,229,255,0.15)'">
+          </div>
+        </div>
+        
+        <div class="grid sm:grid-cols-2 gap-6">
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wide">Nombre de tu Agencia *</label>
+            <input id="c-company" type="text" placeholder="Tu agencia de servicios" class="w-full px-4 py-3.5 rounded-xl text-white text-sm placeholder-slate-600 focus:outline-none transition-all" style="background:#050d1a; border:1px solid rgba(0,229,255,0.15);" onfocus="this.style.borderColor='rgba(0,229,255,0.45)'" onblur="this.style.borderColor='rgba(0,229,255,0.15)'">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wide">WhatsApp (con código de país) *</label>
+            <input id="c-phone" type="tel" placeholder="+34 600 000 000" class="w-full px-4 py-3.5 rounded-xl text-white text-sm placeholder-slate-600 focus:outline-none transition-all" style="background:#050d1a; border:1px solid rgba(0,229,255,0.15);" onfocus="this.style.borderColor='rgba(0,229,255,0.45)'" onblur="this.style.borderColor='rgba(0,229,255,0.15)'">
+          </div>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-6">
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wide">Tamaño de tu equipo *</label>
+            <select id="c-team" class="w-full px-4 py-3.5 rounded-xl text-sm focus:outline-none transition-all" style="background:#050d1a; border:1px solid rgba(0,229,255,0.15); color:#94a3b8;" onfocus="this.style.borderColor='rgba(0,229,255,0.45)'" onblur="this.style.borderColor='rgba(0,229,255,0.15)'">
+              <option value="">Selecciona tamaño...</option>
+              <option value="1-4">1-4 personas</option>
+              <option value="5-15">5-15 personas</option>
+              <option value="15+">Más de 15 personas</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wide">Facturación mensual *</label>
+            <select id="c-billing" class="w-full px-4 py-3.5 rounded-xl text-sm focus:outline-none transition-all" style="background:#050d1a; border:1px solid rgba(0,229,255,0.15); color:#94a3b8;" onfocus="this.style.borderColor='rgba(0,229,255,0.45)'" onblur="this.style.borderColor='rgba(0,229,255,0.15)'">
+              <option value="">Selecciona rango...</option>
+              <option value="bajo">Menos de $5,000 USD</option>
+              <option value="medio">$5,000 - $15,000 USD</option>
+              <option value="alto">Más de $15,000 USD</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wide">¿Cuál es el mayor "cuello de botella" operativo? *</label>
+          <textarea id="c-message" rows="4" placeholder="Ej: Mi equipo humano pierde el 70% de su tiempo en reportes y capturas manuales..." class="w-full px-4 py-3.5 rounded-xl text-white text-sm placeholder-slate-600 focus:outline-none resize-none transition-all" style="background:#050d1a; border:1px solid rgba(0,229,255,0.15);" onfocus="this.style.borderColor='rgba(0,229,255,0.45)'" onblur="this.style.borderColor='rgba(0,229,255,0.15)'"></textarea>
+        </div>
+
+        <button onclick="submitContact()" id="contact-btn" class="btn-cyan w-full py-4.5 rounded-xl font-bold text-base flex items-center justify-center gap-3">
+          <i class="fas fa-file-signature"></i>
+          <span id="contact-btn-text">Enviar Aplicación Ejecutiva</span>
+          <i id="contact-spinner" class="fas fa-spinner fa-spin" style="display: none;"></i>
+        </button>
+
+        <p class="text-xs text-slate-500 text-center leading-relaxed mt-4">
+          <i class="fas fa-shield-halved mr-1 text-cyan-400/80"></i>
+          Tus datos están protegidos bajo grado corporativo. Analizaremos tu perfil y, si calificas, te daremos acceso al calendario de nuestros arquitectos de sistemas.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─── FOOTER ─── -->
+<footer style="background:#030b16; border-top:1px solid rgba(0,229,255,0.15);">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-10 mb-12">
+      <!-- Columna 1: Marca y Posicionamiento -->
+      <div class="sm:col-span-2 md:col-span-1">
+        <div class="flex items-center gap-2.5 mb-4">
+          <img src="/static/logo_prosper_ia_cropped.jpg" alt="PROSPER IA" style="height: 150px; max-height: 150px; object-fit: contain;" class="rounded-xl">
+        </div>
+        <p class="text-slate-500 text-xs sm:text-sm leading-relaxed font-light">
+          Instalamos Sistemas Operativos de Inteligencia Artificial para agencias de servicios. Transformamos el caos manual en Empresas Aumentadas que operan, prospectan y escalan de forma autónoma.
+        </p>
+      </div>
+      
+      <!-- Columna 2: Solución -->
+      <div>
+        <h4 class="text-white font-bold text-sm mb-4 uppercase tracking-wider" style="color: #00e5ff;">Solución</h4>
+        <ul class="space-y-3 text-xs sm:text-sm">
+          <li><a href="#problema" class="text-slate-500 hover:text-white transition-colors">El Caos Operativo</a></li>
+          <li><a href="#sistema" class="text-slate-500 hover:text-white transition-colors">La Solución SVE90</a></li>
+          <li><a href="#mecanismo" class="text-slate-500 hover:text-white transition-colors">Método de las 6 Fases</a></li>
+          <li><a href="#arquitectura" class="text-slate-500 hover:text-white transition-colors">Arquitectura Técnica</a></li>
+        </ul>
+      </div>
+      
+      <!-- Columna 3: Ecosistema -->
+      <div>
+        <h4 class="text-white font-bold text-sm mb-4 uppercase tracking-wider" style="color: #00e5ff;">Ecosistema</h4>
+        <ul class="space-y-3 text-xs sm:text-sm">
+          <li><a href="#masterclass" class="text-slate-500 hover:text-white transition-colors">Demostración Operativa SVE90</a></li>
+          <li><a href="#contacto" class="text-slate-500 hover:text-white transition-colors">Aplicar al Diagnóstico de Madurez</a></li>
+          <li><a href="/login" class="text-slate-500 hover:text-white transition-colors">Acceso a PassportAI (Login)</a></li>
+          <li><a href="/login" class="text-slate-500 hover:text-white transition-colors">AZ Academy (Portal de Adopción)</a></li>
+        </ul>
+      </div>
+      
+      <!-- Columna 4: Dirección Ejecutiva y Contacto -->
+      <div>
+        <h4 class="text-white font-bold text-sm mb-4 uppercase tracking-wider" style="color: #00e5ff;">Dirección Ejecutiva</h4>
+        <ul class="space-y-3.5 text-xs sm:text-sm text-slate-500 leading-relaxed font-light">
+          <li class="flex items-start gap-2">
+            <i class="fas fa-location-dot mt-1 text-red-500 flex-shrink-0" style="color: #ef4444;"></i>
+            <span><strong>Sede Corporativa:</strong> Miami, Florida, USA.</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <i class="fas fa-user-tie mt-1 flex-shrink-0" style="color: #00e5ff;"></i>
+            <span><strong>Director:</strong> Edward Jiménez, CEO.</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <i class="fas fa-envelope mt-1 flex-shrink-0" style="color: #00e5ff;"></i>
+            <span><a href="mailto:edward@passportai.app" class="hover:text-white transition-colors">edward@passportai.app</a></span>
+          </li>
+          <li class="flex items-start gap-2">
+            <i class="fab fa-whatsapp mt-1 text-emerald-500 flex-shrink-0" style="color: #10b981;"></i>
+            <span><a href="https://wa.me/17865573119" class="hover:text-white transition-colors"><strong>WhatsApp Directo:</strong> +1 (786) 557-3119</a></span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="divider mb-8"></div>
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-700">
+      <p>© 2024 PROSPER IA. Todos los derechos reservados.</p>
+      <div class="flex gap-6">
+        <a href="#" class="hover:text-slate-500 transition-colors">Política de privacidad</a>
+        <a href="#" class="hover:text-slate-500 transition-colors">Términos de servicio</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ════════════════════════════════════════════════════
+     JAVASCRIPT
+     ════════════════════════════════════════════════════ -->
+<script>
+// ── Scroll reveal ────────────────────────────────────────────────────────────
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('revealed'); });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('[data-reveal],[data-reveal-left],[data-reveal-right]').forEach(el => {
+  revealObserver.observe(el);
+});
+
+// ── FAQ toggle ───────────────────────────────────────────────────────────────
+function toggleFaq(index) {
+  const answer = document.getElementById('faq-' + index);
+  const icon = document.getElementById('faq-icon-' + index);
+  const isOpen = answer.classList.contains('open');
+  // Close all
+  document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
+  document.querySelectorAll('[id^="faq-icon-"]').forEach(i => {
+    i.className = 'fas fa-plus flex-shrink-0 transition-transform';
+    i.style.color = 'rgba(0, 229, 255, 0.65)';
+    i.style.transform = 'rotate(0deg)';
+  });
+  // Open clicked if it was closed
+  if (!isOpen) {
+    answer.classList.add('open');
+    icon.className = 'fas fa-minus flex-shrink-0 transition-transform';
+    icon.style.color = '#00e5ff';
+  }
+}
+
+// ── Contact form ─────────────────────────────────────────────────────────────
+async function submitContact() {
+  const name = document.getElementById('c-name').value.trim();
+  const email = document.getElementById('c-email').value.trim();
+  const company = document.getElementById('c-company').value.trim();
+  const phone = document.getElementById('c-phone').value.trim();
+  const team = document.getElementById('c-team').value;
+  const billing = document.getElementById('c-billing').value;
+  const message = document.getElementById('c-message').value.trim();
+  const alertEl = document.getElementById('contact-alert');
+  const btn = document.getElementById('contact-btn');
+  const btnText = document.getElementById('contact-btn-text');
+  const spinner = document.getElementById('contact-spinner');
+
+  if (!name || !email || !company || !phone || !team || !billing || !message) {
+    alertEl.className = 'mb-5 p-4 rounded-xl text-sm';
+    alertEl.style.cssText = 'background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.25); color:#f87171; display:block;';
+    alertEl.innerHTML = '<i class="fas fa-exclamation-circle mr-2"></i>Por favor, completa todos los campos requeridos (*).';
+    return;
+  }
+
+  btn.disabled = true;
+  btnText.textContent = 'Enviando...';
+  if (spinner) spinner.style.display = 'inline-block';
+  alertEl.style.display = 'none';
+
+  // Construct structured B2B application payload
+  const teamLabel = team === '1-4' ? '1-4 personas' : team === '5-15' ? '5-15 personas' : 'Más de 15 personas';
+  const billingLabel = billing === 'bajo' ? 'Menos de $5,000 USD' : billing === 'medio' ? '$5,000 - $15,000 USD' : 'Más de $15,000 USD';
+  
+  const messagePayload = `[Tamaño Equipo: ${teamLabel}] [Facturación Mensual: ${billingLabel}] Cuello de Botella: ${message}`;
+
+  const body = {
+    name, email, company, phone,
+    message: messagePayload,
+    source: 'website'
+  };
+
+  try {
+    const res = await fetch('/api/auth/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      alertEl.className = '';
+      alertEl.style.cssText = 'background:rgba(0,229,255,0.06); border:1px solid rgba(0,229,255,0.25); color:#00e5ff; padding:16px; border-radius:12px; font-size:14px; margin-bottom:20px; display:block;';
+      alertEl.innerHTML = '<i class="fas fa-check-circle mr-2"></i>¡Aplicación recibida! Analizaremos tu perfil corporativo y, si calificas, nos comunicaremos en menos de 24 horas hábiles.';
+      ['c-name','c-email','c-company','c-phone','c-message'].forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
+      ['c-team', 'c-billing'].forEach(id => { const el = document.getElementById(id); if(el) el.selectedIndex = 0; });
+    } else {
+      throw new Error(data.error || 'Error al enviar');
+    }
+  } catch(e) {
+    alertEl.className = '';
+    alertEl.style.cssText = 'background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.25); color:#f87171; padding:16px; border-radius:12px; font-size:14px; margin-bottom:20px; display:block;';
+    alertEl.innerHTML = '<i class="fas fa-exclamation-circle mr-2"></i>' + (e.message || 'Error de conexión. Intenta nuevamente.');
+  } finally {
+    btn.disabled = false;
+    btnText.textContent = 'Enviar Aplicación Ejecutiva';
+    if (spinner) spinner.style.display = 'none';
+  }
+}
+
+// ── Smooth scroll for anchor links ──────────────────────────────────────────
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const id = a.getAttribute('href').slice(1);
+    const el = document.getElementById(id);
+    if (el) {
+      e.preventDefault();
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+
+// ── Navbar solid on scroll ───────────────────────────────────────────────────
+window.addEventListener('scroll', () => {
+  const nav = document.querySelector('.navbar');
+  if (window.scrollY > 60) {
+    nav.style.background = 'rgba(5,13,26,0.97)';
+  } else {
+    nav.style.background = 'rgba(5,13,26,0.85)';
+  }
+}, { passive: true });
+</script>
+</body>
+
+<!-- Mirrored from 3000-i01dje720a4h16q71b275-3844e1b6.sandbox.novita.ai/ by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 03 May 2026 05:50:31 GMT -->
+</html>

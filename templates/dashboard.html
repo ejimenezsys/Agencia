@@ -1,0 +1,1840 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<!-- Mirrored from 3000-i01dje720a4h16q71b275-3844e1b6.sandbox.novita.ai/dashboard by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 03 May 2026 05:50:34 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — PROSPER IA</title>
+  <link rel="stylesheet" href="/static/tw.css">
+  <link rel="stylesheet" href="/static/fonts.css">
+  <link rel="stylesheet" href="/static/fa.min.css">
+  <script src="/static/chart.min.js"></script>
+  <style>
+    :root {
+      --navy: #050d1a;
+      --navy-mid: #091528;
+      --navy-card: #0d1f3c;
+      --navy-border: #132847;
+      --navy-hover: #112240;
+      --cyan: #00e5ff;
+      --cyan-dim: #00b4cc;
+      --cyan-glow: rgba(0,229,255,0.12);
+      --sidebar-w: 260px;
+    }
+    * { font-family: 'Inter', sans-serif; box-sizing: border-box; }
+    h1,h2,h3,h4 { font-family: 'Space Grotesk', sans-serif; }
+    body { background: var(--navy); color: #fff; margin: 0; display: flex; min-height: 100vh; overflow-x: hidden; }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: var(--sidebar-w);
+      min-height: 100vh;
+      background: var(--navy-mid);
+      border-right: 1px solid var(--navy-border);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      z-index: 50;
+      transition: transform 0.3s ease;
+    }
+    .sidebar.closed { transform: translateX(-100%); }
+
+    .sidebar-logo { padding: 20px; border-bottom: 1px solid var(--navy-border); }
+    .sidebar-nav { flex: 1; padding: 16px 12px; overflow-y: auto; }
+    .sidebar-bottom { padding: 12px; border-top: 1px solid var(--navy-border); }
+
+    .nav-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 14px; border-radius: 10px;
+      cursor: pointer; transition: all 0.2s;
+      border: 1px solid transparent;
+      width: 100%; text-align: left;
+      background: transparent; color: #94a3b8;
+      font-size: 14px; font-weight: 500;
+      margin-bottom: 2px;
+    }
+    .nav-item:hover { background: rgba(0,229,255,0.05); color: #e2e8f0; border-color: rgba(0,229,255,0.08); }
+    .nav-item.active {
+      background: rgba(0,229,255,0.08);
+      color: var(--cyan);
+      border-color: rgba(0,229,255,0.2);
+    }
+    .nav-item.active i { color: var(--cyan); }
+    .nav-item i { width: 16px; text-align: center; font-size: 14px; }
+
+    .nav-section-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+      color: #334155; text-transform: uppercase;
+      padding: 8px 14px 4px;
+    }
+
+    /* ── MAIN ── */
+    .main-content {
+      flex: 1;
+      margin-left: var(--sidebar-w);
+      background: var(--navy);
+      min-height: 100vh;
+      transition: margin-left 0.3s;
+    }
+    .main-content.expanded { margin-left: 0; }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      background: rgba(5,13,26,0.95);
+      border-bottom: 1px solid var(--navy-border);
+      backdrop-filter: blur(16px);
+      height: 64px;
+      display: flex; align-items: center;
+      padding: 0 24px;
+      position: sticky; top: 0; z-index: 30;
+    }
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--navy-card);
+      border: 1px solid var(--navy-border);
+      border-radius: 16px;
+      transition: all 0.25s;
+    }
+    .card:hover { border-color: rgba(0,229,255,0.2); box-shadow: 0 4px 24px rgba(0,229,255,0.05); }
+
+    .kpi-card {
+      background: var(--navy-card);
+      border: 1px solid var(--navy-border);
+      border-radius: 16px;
+      padding: 20px;
+      transition: all 0.25s;
+    }
+    .kpi-card:hover { border-color: rgba(0,229,255,0.25); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,229,255,0.07); }
+
+    /* ── BADGES ── */
+    .badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+    .badge-new { background: rgba(59,130,246,0.12); color: #60a5fa; border: 1px solid rgba(59,130,246,0.2); }
+    .badge-contacted { background: rgba(251,191,36,0.1); color: #fbbf24; border: 1px solid rgba(251,191,36,0.2); }
+    .badge-qualified { background: rgba(0,229,255,0.08); color: var(--cyan); border: 1px solid rgba(0,229,255,0.2); }
+    .badge-converted { background: rgba(52,211,153,0.1); color: #34d399; border: 1px solid rgba(52,211,153,0.2); }
+    .badge-lost { background: rgba(239,68,68,0.08); color: #f87171; border: 1px solid rgba(239,68,68,0.18); }
+
+    /* ── BUTTONS ── */
+    .btn-primary {
+      background: linear-gradient(135deg, #00e5ff, #0ea5e9);
+      color: #050d1a; font-weight: 700;
+      border: none; cursor: pointer;
+      transition: all 0.25s;
+    }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,229,255,0.25); }
+
+    .btn-ghost {
+      background: transparent; border: 1px solid var(--navy-border);
+      color: #94a3b8; cursor: pointer; transition: all 0.2s;
+    }
+    .btn-ghost:hover { border-color: rgba(0,229,255,0.3); color: var(--cyan); background: rgba(0,229,255,0.04); }
+
+    /* ── INPUTS ── */
+    .input-dark {
+      background: var(--navy-mid);
+      border: 1px solid var(--navy-border);
+      color: white; border-radius: 10px;
+      padding: 10px 14px; font-size: 14px;
+      transition: border-color 0.2s; width: 100%;
+      outline: none;
+    }
+    .input-dark:focus { border-color: rgba(0,229,255,0.4); }
+    .input-dark::placeholder { color: #334155; }
+
+    /* ── TABLES ── */
+    .table-row {
+      border-bottom: 1px solid rgba(19,40,71,0.7);
+      transition: background 0.15s;
+    }
+    .table-row:hover { background: rgba(0,229,255,0.03); }
+    .table-row:last-child { border-bottom: none; }
+
+    /* ── PROGRESS ── */
+    .progress-track { height: 5px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--cyan), #0ea5e9); border-radius: 4px; transition: width 0.6s ease; }
+
+    /* ── STATUS DOT ── */
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+    .dot-active { background: #34d399; box-shadow: 0 0 6px rgba(52,211,153,0.5); }
+    .dot-paused { background: #fbbf24; }
+    .dot-inactive { background: #475569; }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(8px);
+      z-index: 200;
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+    }
+    .modal-box {
+      background: var(--navy-card);
+      border: 1px solid var(--navy-border);
+      border-radius: 20px;
+      width: 100%; max-width: 520px;
+      max-height: 90vh; overflow-y: auto;
+      padding: 28px;
+    }
+
+    /* ── CHART override ── */
+    canvas { display: block; }
+
+    /* ── TOGGLE ── */
+    .toggle-switch {
+      width: 40px; height: 22px; border-radius: 11px;
+      position: relative; cursor: pointer; transition: background 0.2s;
+      background: #1e3a5f; border: 1px solid var(--navy-border);
+      flex-shrink: 0;
+    }
+    .toggle-switch.on { background: linear-gradient(135deg, rgba(0,229,255,0.3), rgba(14,165,233,0.3)); border-color: rgba(0,229,255,0.4); }
+    .toggle-knob {
+      width: 16px; height: 16px; border-radius: 50%; background: #475569;
+      position: absolute; top: 2px; left: 2px; transition: all 0.2s;
+    }
+    .toggle-switch.on .toggle-knob { left: 20px; background: var(--cyan); }
+
+    /* ── NOTIFICATIONS ── */
+    .notif-dot { position: absolute; top: 6px; right: 6px; width: 8px; height: 8px; border-radius: 50%; background: #f87171; border: 2px solid var(--navy); }
+
+    /* ── PULSE ── */
+    @keyframes pulse { 0%,100%{ opacity:1 } 50%{ opacity:0.5 } }
+    .animate-pulse { animation: pulse 2s infinite; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.open { transform: translateX(0); }
+      .main-content { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════
+     SIDEBAR
+════════════════════════════════════════════════════ -->
+<aside class="sidebar" id="sidebar">
+  <!-- Logo -->
+  <div class="sidebar-logo">
+    <div class="flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2.5">
+        <img src="/static/logo_prosper_ia_cropped.jpg" alt="PROSPER IA" style="height: 80px; max-height: 80px; object-fit: contain;" class="rounded-xl">
+      </a>
+      <button onclick="closeSidebar()" class="lg:hidden text-slate-500 hover:text-white p-1">
+        <i class="fas fa-times text-sm"></i>
+      </button>
+    </div>
+
+    <!-- User card -->
+    <div class="mt-4 p-3 rounded-xl" style="background:rgba(0,229,255,0.04); border:1px solid rgba(0,229,255,0.1);">
+      <div class="flex items-center gap-2.5">
+        <div id="user-avatar" class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-black flex-shrink-0"
+             style="background:linear-gradient(135deg,rgba(0,229,255,0.2),rgba(14,165,233,0.15)); color:#00e5ff; border:1px solid rgba(0,229,255,0.25);">?</div>
+        <div class="min-w-0 flex-1">
+          <div id="user-name-sidebar" class="text-white text-sm font-semibold truncate">Cargando...</div>
+          <div id="user-plan-badge" class="text-xs mt-0.5" style="color:#00e5ff80;">Plan Free</div>
+        </div>
+        <span class="status-dot dot-active flex-shrink-0"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <div class="sidebar-nav">
+    <div class="nav-section-label">Principal</div>
+    <button onclick="showSection('overview')" id="nav-overview" class="nav-item active">
+      <i class="fas fa-th-large"></i>
+      <span>Dashboard</span>
+    </button>
+    <button onclick="showSection('leads')" id="nav-leads" class="nav-item">
+      <i class="fas fa-users"></i>
+      <span>Leads & CRM</span>
+      <span id="leads-badge" class="ml-auto text-xs px-2 py-0.5 rounded-full hidden"
+            style="background:rgba(0,229,255,0.15); color:#00e5ff;"></span>
+    </button>
+
+    <div class="nav-section-label" style="margin-top:12px;">Sistema SVE-90</div>
+    <button onclick="showSection('automations')" id="nav-automations" class="nav-item">
+      <i class="fas fa-robot"></i>
+      <span>Automatizaciones</span>
+    </button>
+    <button onclick="showSection('integrations')" id="nav-integrations" class="nav-item">
+      <i class="fas fa-circle-nodes"></i>
+      <span>Integraciones</span>
+    </button>
+    <button onclick="showSection('analytics')" id="nav-analytics" class="nav-item">
+      <i class="fas fa-chart-bar"></i>
+      <span>Analytics</span>
+    </button>
+
+    <div class="nav-section-label" style="margin-top:12px;">Cuenta</div>
+    <button onclick="showSection('settings')" id="nav-settings" class="nav-item">
+      <i class="fas fa-cog"></i>
+      <span>Configuración</span>
+    </button>
+  </div>
+
+  <!-- Bottom: usage + logout -->
+  <div class="sidebar-bottom">
+    <div class="p-3 rounded-xl mb-2" style="background:rgba(0,229,255,0.03); border:1px solid rgba(0,229,255,0.08);">
+      <div class="flex items-center justify-between mb-2">
+        <span class="text-slate-500 text-xs">Uso del plan</span>
+        <span id="usage-pct" class="text-xs font-semibold" style="color:#00e5ff;">0%</span>
+      </div>
+      <div class="progress-track">
+        <div id="usage-bar" class="progress-fill" style="width:0%"></div>
+      </div>
+      <p class="text-slate-600 text-xs mt-1.5"><span id="usage-leads">0</span>/500 leads</p>
+    </div>
+    <button onclick="logout()" class="nav-item" style="color:#f87171; margin-bottom:0;">
+      <i class="fas fa-sign-out-alt" style="color:#f87171;"></i>
+      <span>Cerrar sesión</span>
+    </button>
+  </div>
+</aside>
+
+<!-- Mobile overlay -->
+<div id="sidebar-overlay" class="hidden fixed inset-0 z-40 lg:hidden" style="background:rgba(0,0,0,0.6);" onclick="closeSidebar()"></div>
+
+<!-- ════════════════════════════════════════════════════
+     MAIN CONTENT
+════════════════════════════════════════════════════ -->
+<main class="main-content" id="main-content">
+
+  <!-- ── TOPBAR ──────────────────────────────────────────── -->
+  <div class="topbar">
+    <div class="flex items-center gap-4 flex-1">
+      <button onclick="openSidebar()" class="lg:hidden text-slate-500 hover:text-white p-2 -ml-2">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div>
+        <h1 id="page-title" class="text-[15px] font-bold text-white leading-none">Dashboard</h1>
+        <p id="page-subtitle" class="text-xs text-slate-600 mt-0.5">Bienvenido al Sistema SVE-90</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <!-- Search -->
+      <div class="relative hidden sm:block">
+        <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-600 text-xs"></i>
+        <input type="text" placeholder="Buscar..." class="input-dark pl-9 py-2 text-xs w-44 rounded-xl">
+      </div>
+      <!-- Notifications -->
+      <button class="relative p-2.5 rounded-xl text-slate-500 hover:text-white transition-colors"
+              style="background:rgba(0,229,255,0.04); border:1px solid var(--navy-border);">
+        <i class="fas fa-bell text-sm"></i>
+        <span class="notif-dot"></span>
+      </button>
+      <!-- User -->
+      <div class="flex items-center gap-2 cursor-pointer px-2 py-1.5 rounded-xl transition-colors hover:bg-white/5"
+           onclick="showSection('settings')">
+        <div id="topbar-avatar" class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-black flex-shrink-0"
+             style="background:linear-gradient(135deg,rgba(0,229,255,0.2),rgba(14,165,233,0.15)); color:#00e5ff; border:1px solid rgba(0,229,255,0.25);">?</div>
+        <div class="hidden sm:block">
+          <div id="topbar-name" class="text-sm font-semibold text-white leading-none">Usuario</div>
+          <div class="text-xs text-slate-600">Cliente PROSPER IA</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION: OVERVIEW
+  ════════════════════════════════════════════ -->
+  <div id="section-overview" class="p-6 space-y-6">
+
+    <!-- KPIs -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="kpi-card">
+        <div class="flex items-center justify-between mb-4">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center"
+               style="background:rgba(0,229,255,0.08); border:1px solid rgba(0,229,255,0.18);">
+            <i class="fas fa-users text-sm" style="color:#00e5ff;"></i>
+          </div>
+          <span class="text-xs px-2 py-1 rounded-lg font-semibold" style="background:rgba(52,211,153,0.1); color:#34d399;">+12%</span>
+        </div>
+        <div id="kpi-total" class="text-3xl font-black text-white mb-1">—</div>
+        <div class="text-xs text-slate-500">Total Leads</div>
+      </div>
+      <div class="kpi-card">
+        <div class="flex items-center justify-between mb-4">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center"
+               style="background:rgba(59,130,246,0.08); border:1px solid rgba(59,130,246,0.18);">
+            <i class="fas fa-star text-sm text-blue-400"></i>
+          </div>
+          <span class="text-xs px-2 py-1 rounded-lg font-semibold" style="background:rgba(59,130,246,0.1); color:#60a5fa;">Nuevos</span>
+        </div>
+        <div id="kpi-new" class="text-3xl font-black text-white mb-1">—</div>
+        <div class="text-xs text-slate-500">Leads nuevos</div>
+      </div>
+      <div class="kpi-card">
+        <div class="flex items-center justify-between mb-4">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center"
+               style="background:rgba(52,211,153,0.08); border:1px solid rgba(52,211,153,0.18);">
+            <i class="fas fa-check-circle text-sm text-emerald-400"></i>
+          </div>
+          <span id="kpi-rate-badge" class="text-xs px-2 py-1 rounded-lg font-semibold"
+                style="background:rgba(52,211,153,0.1); color:#34d399;">0%</span>
+        </div>
+        <div id="kpi-converted" class="text-3xl font-black text-white mb-1">—</div>
+        <div class="text-xs text-slate-500">Convertidos</div>
+      </div>
+      <div class="kpi-card">
+        <div class="flex items-center justify-between mb-4">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center"
+               style="background:rgba(168,85,247,0.08); border:1px solid rgba(168,85,247,0.18);">
+            <i class="fas fa-dollar-sign text-sm text-purple-400"></i>
+          </div>
+          <span class="text-xs px-2 py-1 rounded-lg font-semibold"
+                style="background:rgba(168,85,247,0.1); color:#a78bfa;">Revenue</span>
+        </div>
+        <div id="kpi-revenue" class="text-3xl font-black text-white mb-1">—</div>
+        <div class="text-xs text-slate-500">Ingresos totales</div>
+      </div>
+    </div>
+
+    <!-- System status bar -->
+    <div class="card p-4">
+      <div class="flex flex-wrap items-center gap-4">
+        <span class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Estado del sistema SVE-90:</span>
+        <div class="flex flex-wrap gap-3">
+          
+          <div class="flex items-center gap-1.5 text-xs">
+            <span class="status-dot dot-active"></span>
+            <span class="text-slate-400">n8n Orchestrator</span>
+          </div>
+          <div class="flex items-center gap-1.5 text-xs">
+            <span class="status-dot dot-active"></span>
+            <span class="text-slate-400">CRM GoHighLevel</span>
+          </div>
+          <div class="flex items-center gap-1.5 text-xs">
+            <span class="status-dot dot-active"></span>
+            <span class="text-slate-400">IA Layer (GPT-4)</span>
+          </div>
+          <div class="flex items-center gap-1.5 text-xs">
+            <span class="status-dot dot-paused"></span>
+            <span class="text-slate-400">WhatsApp Bot</span>
+          </div>
+          <div class="flex items-center gap-1.5 text-xs">
+            <span class="status-dot dot-active"></span>
+            <span class="text-slate-400">Lead Scoring</span>
+          </div>
+        </div>
+        <div class="ml-auto text-xs text-slate-600">
+          <i class="fas fa-sync-alt mr-1"></i>Actualizado hace 2 min
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts row -->
+    <div class="grid lg:grid-cols-3 gap-6">
+      <div class="card p-6 lg:col-span-2">
+        <div class="flex items-center justify-between mb-5">
+          <div>
+            <h3 class="font-bold text-white text-sm">Pipeline de Leads</h3>
+            <p class="text-xs text-slate-500 mt-0.5">Últimos 6 meses · SVE-90 activo</p>
+          </div>
+          <span class="text-xs text-slate-600">
+            <span class="w-2 h-2 rounded-full inline-block mr-1" style="background:#00e5ff;"></span>Total
+          </span>
+        </div>
+        <canvas id="monthlyChart" height="110"></canvas>
+      </div>
+      <div class="card p-6">
+        <div class="mb-5">
+          <h3 class="font-bold text-white text-sm">Estado de leads</h3>
+          <p class="text-xs text-slate-500 mt-0.5">Distribución actual</p>
+        </div>
+        <canvas id="statusChart" height="150"></canvas>
+        <div id="status-legend" class="mt-4 space-y-2"></div>
+      </div>
+    </div>
+
+    <!-- Recent leads + Source -->
+    <div class="grid lg:grid-cols-3 gap-6">
+      <div class="card p-6 lg:col-span-2">
+        <div class="flex items-center justify-between mb-5">
+          <div>
+            <h3 class="font-bold text-white text-sm">Leads recientes</h3>
+            <p class="text-xs text-slate-500 mt-0.5">Ingresados al sistema SVE-90</p>
+          </div>
+          <button onclick="showSection('leads')"
+                  class="text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors"
+                  style="color:#00e5ff; background:rgba(0,229,255,0.06); border:1px solid rgba(0,229,255,0.15);">
+            Ver todos <i class="fas fa-arrow-right ml-1"></i>
+          </button>
+        </div>
+        <div id="recent-leads-table" class="space-y-2">
+          <div class="text-slate-600 text-sm text-center py-8">Cargando...</div>
+        </div>
+      </div>
+      <div class="card p-6">
+        <div class="mb-5">
+          <h3 class="font-bold text-white text-sm">Fuentes de entrada</h3>
+          <p class="text-xs text-slate-500 mt-0.5">Origen de los leads</p>
+        </div>
+        <canvas id="sourceChart" height="180"></canvas>
+      </div>
+    </div>
+
+    <!-- SVE-90 Performance Banner -->
+    <div class="card p-6" style="background:linear-gradient(135deg, rgba(0,229,255,0.05), rgba(14,165,233,0.03)); border-color:rgba(0,229,255,0.15);">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0"
+               style="background:rgba(0,229,255,0.1); border:1px solid rgba(0,229,255,0.25);">
+            <i class="fas fa-rocket text-lg" style="color:#00e5ff;"></i>
+          </div>
+          <div>
+            <div class="font-bold text-white mb-0.5">Sistema SVE-90 activo</div>
+            <div class="text-sm text-slate-400">Tu sistema de ventas está operando. Fase: <span style="color:#00e5ff;" class="font-semibold">Calibración</span></div>
+          </div>
+        </div>
+        <div class="flex gap-3">
+          <button onclick="showSection('automations')"
+                  class="btn-ghost text-sm font-semibold px-4 py-2 rounded-xl">
+            Ver automatizaciones
+          </button>
+          <button onclick="showSection('analytics')"
+                  class="btn-primary text-sm font-semibold px-4 py-2 rounded-xl">
+            <i class="fas fa-chart-line mr-2"></i>Ver analytics
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION: LEADS
+  ════════════════════════════════════════════ -->
+  <div id="section-leads" class="p-6 hidden">
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+      <div>
+        <h2 class="text-xl font-bold text-white">Leads & CRM</h2>
+        <p class="text-sm text-slate-500">Gestiona prospectos del Sistema SVE-90</p>
+      </div>
+      <button onclick="showModal('lead')"
+              class="btn-primary text-sm font-bold px-5 py-2.5 rounded-xl flex items-center gap-2">
+        <i class="fas fa-plus"></i> Nuevo lead
+      </button>
+    </div>
+
+    <!-- Filters -->
+    <div class="card p-4 mb-5 flex flex-wrap gap-3">
+      <input id="leads-search" type="text" placeholder="Buscar por nombre, email..." class="input-dark flex-1 min-w-48 text-sm py-2">
+      <select id="leads-status-filter" class="input-dark text-sm py-2" style="width:auto; min-width:160px;">
+        <option value="">Todos los estados</option>
+        <option value="new">Nuevo</option>
+        <option value="contacted">Contactado</option>
+        <option value="qualified">Calificado</option>
+        <option value="converted">Convertido</option>
+        <option value="lost">Perdido</option>
+      </select>
+      <select id="leads-source-filter" class="input-dark text-sm py-2" style="width:auto; min-width:150px;">
+        <option value="">Todas las fuentes</option>
+        <option value="website">Website</option>
+        <option value="referral">Referido</option>
+        <option value="social">Social Media</option>
+        <option value="email">Email</option>
+      </select>
+      <button onclick="loadLeads()"
+              class="btn-primary text-sm font-semibold px-4 py-2 rounded-xl">
+        <i class="fas fa-filter mr-1"></i> Filtrar
+      </button>
+    </div>
+
+    <!-- Table -->
+    <div class="card overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full">
+          <thead style="background:rgba(0,229,255,0.03); border-bottom:1px solid var(--navy-border);">
+            <tr>
+              <th class="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide px-5 py-3">Lead</th>
+              <th class="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide px-5 py-3">Empresa</th>
+              <th class="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide px-5 py-3">Estado</th>
+              <th class="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide px-5 py-3">Fuente</th>
+              <th class="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide px-5 py-3">Score IA</th>
+              <th class="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide px-5 py-3">Fecha</th>
+              <th class="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide px-5 py-3">Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="leads-table-body">
+            <tr><td colspan="7" class="text-center text-slate-600 py-10 text-sm">Cargando leads...</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="leads-pagination" class="flex items-center justify-between p-4"
+           style="border-top:1px solid var(--navy-border);">
+        <span id="leads-count" class="text-xs text-slate-500">0 leads</span>
+        <div class="flex gap-2">
+          <button id="prev-page" onclick="changePage(-1)"
+                  class="btn-ghost text-xs px-3 py-1.5 rounded-lg" disabled>Anterior</button>
+          <button id="next-page" onclick="changePage(1)"
+                  class="btn-ghost text-xs px-3 py-1.5 rounded-lg" disabled>Siguiente</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION: AUTOMATIONS
+  ════════════════════════════════════════════ -->
+  <div id="section-automations" class="p-6 hidden">
+    <div class="mb-6">
+      <h2 class="text-xl font-bold text-white">Automatizaciones SVE-90</h2>
+      <p class="text-sm text-slate-500">Flujos activos del sistema de ventas inteligente</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-5">
+      
+      <div class="card p-5">
+        <div class="flex items-start justify-between mb-4">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+               style="background:#00e5ff12; border:1px solid #00e5ff25;">
+            <i class="fas fa-magnet" style="color:#00e5ff;"></i>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="status-dot dot-active"></span>
+            <span class="text-xs text-emerald-400">Activo</span>
+          </div>
+        </div>
+        <h4 class="font-bold text-white text-sm mb-2">AI SDR: Captura & Scoring</h4>
+        <p class="text-xs text-slate-500 leading-relaxed mb-4">Perfilamiento automático de leads.</p>
+        <div class="flex items-center justify-between text-xs">
+          <span class="text-slate-600"><i class="fas fa-play mr-1"></i>1,240 ejecuciones</span>
+          <span class="text-slate-600">hace 3 min</span>
+        </div>
+      </div>
+      <div class="card p-5">
+        <div class="flex items-start justify-between mb-4">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+               style="background:#38bdf812; border:1px solid #38bdf825;">
+            <i class="fas fa-comments" style="color:#38bdf8;"></i>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="status-dot dot-active"></span>
+            <span class="text-xs text-emerald-400">Activo</span>
+          </div>
+        </div>
+        <h4 class="font-bold text-white text-sm mb-2">Máquina de Nurturing</h4>
+        <p class="text-xs text-slate-500 leading-relaxed mb-4">Seguimiento automático de 72h.</p>
+        <div class="flex items-center justify-between text-xs">
+          <span class="text-slate-600"><i class="fas fa-play mr-1"></i>847 ejecuciones</span>
+          <span class="text-slate-600">hace 8 min</span>
+        </div>
+      </div>
+      <div class="card p-5">
+        <div class="flex items-start justify-between mb-4">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+               style="background:#34d39912; border:1px solid #34d39925;">
+            <i class="fas fa-calendar-check" style="color:#34d399;"></i>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="status-dot dot-active"></span>
+            <span class="text-xs text-emerald-400">Activo</span>
+          </div>
+        </div>
+        <h4 class="font-bold text-white text-sm mb-2">AI Setter: Agendamiento</h4>
+        <p class="text-xs text-slate-500 leading-relaxed mb-4">Citas confirmadas en calendario.</p>
+        <div class="flex items-center justify-between text-xs">
+          <span class="text-slate-600"><i class="fas fa-play mr-1"></i>312 ejecuciones</span>
+          <span class="text-slate-600">hace 15 min</span>
+        </div>
+      </div>
+      <div class="card p-5">
+        <div class="flex items-start justify-between mb-4">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+               style="background:#a78bfa12; border:1px solid #a78bfa25;">
+            <i class="fas fa-brain" style="color:#a78bfa;"></i>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="status-dot dot-active"></span>
+            <span class="text-xs text-emerald-400">Activo</span>
+          </div>
+        </div>
+        <h4 class="font-bold text-white text-sm mb-2">Procesamiento Semántico (Motor PassportAI)</h4>
+        <p class="text-xs text-slate-500 leading-relaxed mb-4">Analiza conversaciones en tiempo real para determinar intención de compra.</p>
+        <div class="flex items-center justify-between text-xs">
+          <span class="text-slate-600"><i class="fas fa-play mr-1"></i>2,108 ejecuciones</span>
+          <span class="text-slate-600">hace 1 min</span>
+        </div>
+      </div>
+      <div class="card p-5">
+        <div class="flex items-start justify-between mb-4">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+               style="background:#f9731612; border:1px solid #f9731625;">
+            <i class="fas fa-rotate" style="color:#f97316;"></i>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="status-dot dot-active"></span>
+            <span class="text-xs text-emerald-400">Activo</span>
+          </div>
+        </div>
+        <h4 class="font-bold text-white text-sm mb-2">Sincronización Command Center SVE90</h4>
+        <p class="text-xs text-slate-500 leading-relaxed mb-4">Sincroniza leads y actividades de conversión en tiempo real.</p>
+        <div class="flex items-center justify-between text-xs">
+          <span class="text-slate-600"><i class="fas fa-play mr-1"></i>3,450 ejecuciones</span>
+          <span class="text-slate-600">hace 30 seg</span>
+        </div>
+      </div>
+      <div class="card p-5">
+        <div class="flex items-start justify-between mb-4">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+               style="background:#fbbf2412; border:1px solid #fbbf2425;">
+            <i class="fas fa-whatsapp" style="color:#fbbf24;"></i>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="status-dot dot-paused"></span>
+            <span class="text-xs text-yellow-400">Pausado</span>
+          </div>
+        </div>
+        <h4 class="font-bold text-white text-sm mb-2">Asistente Omnicanal SVE90</h4>
+        <p class="text-xs text-slate-500 leading-relaxed mb-4">Atención 24/7 vía WhatsApp.</p>
+        <div class="flex items-center justify-between text-xs">
+          <span class="text-slate-600"><i class="fas fa-play mr-1"></i>567 ejecuciones</span>
+          <span class="text-slate-600">hace 2 horas</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Upgrade CTA -->
+    <div class="mt-6 card p-8 text-center"
+         style="border-style:dashed; border-color:rgba(0,229,255,0.25); background:rgba(0,229,255,0.02); box-shadow: 0 0 30px rgba(0,229,255,0.02);">
+      <div class="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4" style="background:rgba(0,229,255,0.08); border:1px solid rgba(0,229,255,0.15);">
+        <i class="fas fa-crown text-base" style="color:#00e5ff;"></i>
+      </div>
+      <h4 class="font-bold text-white text-lg mb-2">¿Tu agencia requiere arquitectura 100% a medida?</h4>
+      <p class="text-sm text-slate-400 max-w-xl mx-auto mb-5 leading-relaxed">
+        La integración con sistemas Legacy (ERP/SAP) o flujos corporativos hiper-personalizados requiere infraestructura de Nivel 3.
+      </p>
+      <button class="btn-primary text-sm font-bold px-6 py-3 rounded-xl transition-all duration-300 transform hover:scale-[1.02] flex items-center gap-2 mx-auto">
+        <span>Aplicar a SVE90 Apex (Scale Partner) &rarr;</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION: INTEGRATIONS
+  ════════════════════════════════════════════ -->
+  <div id="section-integrations" class="p-6 hidden">
+    <div class="mb-6">
+      <h2 class="text-xl font-bold text-white">Integraciones del Stack</h2>
+      <p class="text-sm text-slate-500">Herramientas conectadas en tu Sistema SVE-90</p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-5">
+      
+      <div class="card p-5">
+        <div class="flex items-start justify-between mb-4">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                 style="background:#f9731612; border:1px solid #f9731625;">
+              <i class="fab fas fa-circle-nodes" style="color:#f97316;"></i>
+            </div>
+            <div>
+              <span class="text-xs font-bold px-2 py-0.5 rounded-full"
+                    style="background:#f9731615; color:#f97316;">ORQUESTADOR</span>
+            </div>
+          </div>
+          <span class="text-xs px-2 py-1 rounded-lg font-semibold "
+                style="background:rgba(52,211,153,0.1);color:#34d399;">
+            ● Conectado
+          </span>
+        </div>
+        <h4 class="font-bold text-white text-sm mb-1">Orquestador Central SVE90</h4>
+        <div class="text-xs text-slate-500 mb-3">Motor de automatización propietario</div>
+        <p class="text-xs text-slate-600 leading-relaxed">Orquesta todos los flujos de tus Empleados Digitales de manera invisible.</p>
+      </div>
+      <div class="card p-5">
+        <div class="flex items-start justify-between mb-4">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                 style="background:#00e5ff12; border:1px solid #00e5ff25;">
+              <i class="fab fas fa-chart-bar" style="color:#00e5ff;"></i>
+            </div>
+            <div>
+              <span class="text-xs font-bold px-2 py-0.5 rounded-full"
+                    style="background:#00e5ff15; color:#00e5ff;">CRM</span>
+            </div>
+          </div>
+          <span class="text-xs px-2 py-1 rounded-lg font-semibold "
+                style="background:rgba(52,211,153,0.1);color:#34d399;">
+            ● Conectado
+          </span>
+        </div>
+        <h4 class="font-bold text-white text-sm mb-1">SVE90 Command Center (CRM)</h4>
+        <div class="text-xs text-slate-500 mb-3">Pipeline inteligente de clientes</div>
+        <p class="text-xs text-slate-600 leading-relaxed">Pipeline inteligente y gestión centralizada de clientes. Tu tablero de control directivo.</p>
+      </div>
+      <div class="card p-5">
+        <div class="flex items-start justify-between mb-4">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                 style="background:#a78bfa12; border:1px solid #a78bfa25;">
+              <i class="fab fas fa-brain" style="color:#a78bfa;"></i>
+            </div>
+            <div>
+              <span class="text-xs font-bold px-2 py-0.5 rounded-full"
+                    style="background:#a78bfa15; color:#a78bfa;">CEREBRO IA</span>
+            </div>
+          </div>
+          <span class="text-xs px-2 py-1 rounded-lg font-semibold "
+                style="background:rgba(52,211,153,0.1);color:#34d399;">
+            ● Conectado
+          </span>
+        </div>
+        <h4 class="font-bold text-white text-sm mb-1">Motor Cognitivo PassportAI</h4>
+        <div class="text-xs text-slate-500 mb-3">Procesamiento semántico avanzado</div>
+        <p class="text-xs text-slate-600 leading-relaxed">Procesamiento semántico avanzado. Califica leads, detecta intención de compra y nutre prospectos 24/7 centralizando tu propiedad intelectual.</p>
+      </div>
+      <div class="card p-5">
+        <div class="flex items-start justify-between mb-4">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                 style="background:#25d36612; border:1px solid #25d36625;">
+              <i class="fab fa-whatsapp fas " style="color:#25d366;"></i>
+            </div>
+            <div>
+              <span class="text-xs font-bold px-2 py-0.5 rounded-full"
+                    style="background:#25d36615; color:#25d366;">CANAL</span>
+            </div>
+          </div>
+          <span class="text-xs px-2 py-1 rounded-lg font-semibold "
+                style="background:rgba(251,191,36,0.1);color:#fbbf24;">
+            ● Pendiente
+          </span>
+        </div>
+        <h4 class="font-bold text-white text-sm mb-1">Canal de Despliegue WhatsApp</h4>
+        <div class="text-xs text-slate-500 mb-3">Canal de comunicación cifrado</div>
+        <p class="text-xs text-slate-600 leading-relaxed">Canal de comunicación cifrado para la operación autónoma de tu AI SDR.</p>
+      </div>
+      <div class="card p-5">
+        <div class="flex items-start justify-between mb-4">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                 style="background:#38bdf812; border:1px solid #38bdf825;">
+              <i class="fab fas fa-calendar" style="color:#38bdf8;"></i>
+            </div>
+            <div>
+              <span class="text-xs font-bold px-2 py-0.5 rounded-full"
+                    style="background:#38bdf815; color:#38bdf8;">AGENDA</span>
+            </div>
+          </div>
+          <span class="text-xs px-2 py-1 rounded-lg font-semibold "
+                style="background:rgba(52,211,153,0.1);color:#34d399;">
+            ● Conectado
+          </span>
+        </div>
+        <h4 class="font-bold text-white text-sm mb-1">Motor de Agendamiento SVE90</h4>
+        <div class="text-xs text-slate-500 mb-3">Sistema inteligente de citas</div>
+        <p class="text-xs text-slate-600 leading-relaxed">Sistema inteligente de citas. Sincroniza zonas horarias y asigna reuniones a tu equipo de cierre sin fricción.</p>
+      </div>
+    </div>
+
+    <!-- API Keys -->
+    <div class="mt-6 card p-6">
+      <h3 class="font-bold text-white mb-4">SVE90 Master API Key</h3>
+      <div class="flex items-center gap-3">
+        <code id="api-key-display" class="flex-1 text-xs px-4 py-3 rounded-xl font-mono text-slate-400"
+              style="background:var(--navy-mid); border:1px solid var(--navy-border);">
+          ••••••••••••••••••••••••••••••••
+        </code>
+        <button onclick="toggleApiKey()"
+                class="btn-ghost text-sm px-4 py-2.5 rounded-xl">
+          <i class="fas fa-eye" id="api-key-icon"></i>
+        </button>
+        <button onclick="copyApiKey()"
+                class="btn-ghost text-sm px-4 py-2.5 rounded-xl">
+          <i class="fas fa-copy"></i>
+        </button>
+      </div>
+      <p class="text-xs text-slate-500 mt-3"><i class="fas fa-shield-halved mr-1" style="color:#00e5ff;"></i>Llave criptográfica de grado empresarial para conectar infraestructura externa a tu Sistema Operativo de IA de forma segura.</p>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION: ANALYTICS
+  ════════════════════════════════════════════ -->
+  <div id="section-analytics" class="p-6 hidden">
+    <div class="mb-6">
+      <h2 class="text-xl font-bold text-white">Analytics del Sistema</h2>
+      <p class="text-sm text-slate-500">Métricas de rendimiento del SVE-90</p>
+    </div>
+
+    <!-- Metric cards -->
+    <div class="grid sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
+      
+      <div class="kpi-card">
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+               style="background:#00e5ff12; border:1px solid #00e5ff25;">
+            <i class="fas fa-envelope-open text-sm" style="color:#00e5ff;"></i>
+          </div>
+          <span class="text-xs font-semibold px-2 py-0.5 rounded-full" style="background:rgba(52,211,153,0.1); color:#34d399;">+5.2%</span>
+        </div>
+        <div class="text-2xl font-black text-white mb-1">68.4%</div>
+        <div class="text-xs text-slate-500">Tasa de apertura email</div>
+      </div>
+      <div class="kpi-card">
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+               style="background:#25d36612; border:1px solid #25d36625;">
+            <i class="fas fa-whatsapp text-sm" style="color:#25d366;"></i>
+          </div>
+          <span class="text-xs font-semibold px-2 py-0.5 rounded-full" style="background:rgba(52,211,153,0.1); color:#34d399;">+12%</span>
+        </div>
+        <div class="text-2xl font-black text-white mb-1">91.2%</div>
+        <div class="text-xs text-slate-500">Respuesta WhatsApp</div>
+      </div>
+      <div class="kpi-card">
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+               style="background:#38bdf812; border:1px solid #38bdf825;">
+            <i class="fas fa-calendar-check text-sm" style="color:#38bdf8;"></i>
+          </div>
+          <span class="text-xs font-semibold px-2 py-0.5 rounded-full" style="background:rgba(52,211,153,0.1); color:#34d399;">+4</span>
+        </div>
+        <div class="text-2xl font-black text-white mb-1">28</div>
+        <div class="text-xs text-slate-500">Citas agendadas/semana</div>
+      </div>
+      <div class="kpi-card">
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+               style="background:#a78bfa12; border:1px solid #a78bfa25;">
+            <i class="fas fa-bullseye text-sm" style="color:#a78bfa;"></i>
+          </div>
+          <span class="text-xs font-semibold px-2 py-0.5 rounded-full" style="background:rgba(52,211,153,0.1); color:#34d399;">-8%</span>
+        </div>
+        <div class="text-2xl font-black text-white mb-1">$12.40</div>
+        <div class="text-xs text-slate-500">Costo por lead calificado</div>
+      </div>
+    </div>
+
+    <!-- Funnel -->
+    <div class="card p-6 mb-6">
+      <h3 class="font-bold text-white mb-5 text-sm">Embudo de conversión SVE-90</h3>
+      <div class="space-y-3">
+        
+        <div class="flex items-center gap-4">
+          <div class="text-xs text-slate-400 w-48 flex-shrink-0">Leads capturados</div>
+          <div class="flex-1 progress-track">
+            <div class="progress-fill" style="width:100%; background:linear-gradient(90deg, #00e5ff, #00e5ff88);"></div>
+          </div>
+          <div class="text-xs font-bold w-12 text-right" style="color:#00e5ff;">1240</div>
+          <div class="text-xs text-slate-600 w-10 text-right">100%</div>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="text-xs text-slate-400 w-48 flex-shrink-0">Calificados por IA</div>
+          <div class="flex-1 progress-track">
+            <div class="progress-fill" style="width:71%; background:linear-gradient(90deg, #38bdf8, #38bdf888);"></div>
+          </div>
+          <div class="text-xs font-bold w-12 text-right" style="color:#38bdf8;">876</div>
+          <div class="text-xs text-slate-600 w-10 text-right">71%</div>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="text-xs text-slate-400 w-48 flex-shrink-0">Con seguimiento activo</div>
+          <div class="flex-1 progress-track">
+            <div class="progress-fill" style="width:50%; background:linear-gradient(90deg, #818cf8, #818cf888);"></div>
+          </div>
+          <div class="text-xs font-bold w-12 text-right" style="color:#818cf8;">624</div>
+          <div class="text-xs text-slate-600 w-10 text-right">50%</div>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="text-xs text-slate-400 w-48 flex-shrink-0">Citas agendadas</div>
+          <div class="flex-1 progress-track">
+            <div class="progress-fill" style="width:25%; background:linear-gradient(90deg, #a78bfa, #a78bfa88);"></div>
+          </div>
+          <div class="text-xs font-bold w-12 text-right" style="color:#a78bfa;">312</div>
+          <div class="text-xs text-slate-600 w-10 text-right">25%</div>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="text-xs text-slate-400 w-48 flex-shrink-0">Cierres / Conversiones</div>
+          <div class="flex-1 progress-track">
+            <div class="progress-fill" style="width:7.6%; background:linear-gradient(90deg, #34d399, #34d39988);"></div>
+          </div>
+          <div class="text-xs font-bold w-12 text-right" style="color:#34d399;">94</div>
+          <div class="text-xs text-slate-600 w-10 text-right">7.6%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROI -->
+    <div class="card p-6"
+         style="background:linear-gradient(135deg, rgba(0,229,255,0.04), rgba(14,165,233,0.02)); border-color:rgba(0,229,255,0.15);">
+      <div class="grid sm:grid-cols-3 gap-6 text-center">
+        
+        <div>
+          <div class="text-3xl font-black mb-1" style="background:linear-gradient(90deg,#00e5ff,#38bdf8); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">312%</div>
+          <div class="text-sm font-semibold text-white mb-0.5">ROI del sistema</div>
+          <div class="text-xs text-slate-600">vs. proceso manual</div>
+        </div>
+        <div>
+          <div class="text-3xl font-black mb-1" style="background:linear-gradient(90deg,#00e5ff,#38bdf8); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">$84K</div>
+          <div class="text-sm font-semibold text-white mb-0.5">Pipeline activo</div>
+          <div class="text-xs text-slate-600">en negociación este mes</div>
+        </div>
+        <div>
+          <div class="text-3xl font-black mb-1" style="background:linear-gradient(90deg,#00e5ff,#38bdf8); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">28h</div>
+          <div class="text-sm font-semibold text-white mb-0.5">Ahorradas/semana</div>
+          <div class="text-xs text-slate-600">en tareas operativas</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION: SETTINGS
+  ════════════════════════════════════════════ -->
+  <div id="section-settings" class="p-6 hidden">
+    <div class="mb-6">
+      <h2 class="text-xl font-bold text-white">Configuración de cuenta</h2>
+      <p class="text-sm text-slate-500">Gestiona tu perfil y preferencias del sistema</p>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-6">
+      <!-- Profile -->
+      <div class="card p-6">
+        <h3 class="font-bold text-white mb-5 text-sm">Perfil</h3>
+        <div class="flex items-center gap-4 mb-6 p-4 rounded-xl" style="background:rgba(0,229,255,0.04); border:1px solid rgba(0,229,255,0.1);">
+          <div id="settings-avatar" class="w-14 h-14 rounded-2xl flex items-center justify-center text-xl font-black flex-shrink-0"
+               style="background:linear-gradient(135deg,rgba(0,229,255,0.2),rgba(14,165,233,0.15)); color:#00e5ff; border:2px solid rgba(0,229,255,0.25);">?</div>
+          <div>
+            <div id="settings-name" class="font-bold text-white">Cargando...</div>
+            <div id="settings-email" class="text-sm text-slate-500">—</div>
+            <div class="flex items-center gap-2 mt-1">
+              <span class="text-xs px-2 py-0.5 rounded-full font-semibold"
+                    style="background:rgba(0,229,255,0.1); color:#00e5ff; border:1px solid rgba(0,229,255,0.2);">Plan Free</span>
+              <span class="text-xs px-2 py-0.5 rounded-full font-semibold"
+                    style="background:rgba(52,211,153,0.1); color:#34d399;">● Activo</span>
+            </div>
+          </div>
+        </div>
+        <div class="space-y-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Nombre</label>
+            <input id="s-name" type="text" class="input-dark text-sm" placeholder="Tu nombre completo">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Email</label>
+            <input id="s-email" type="email" class="input-dark text-sm" placeholder="tu@empresa.com" disabled
+                   style="opacity:0.5; cursor:not-allowed;">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Empresa</label>
+            <input id="s-company" type="text" class="input-dark text-sm" placeholder="Nombre de tu empresa">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">WhatsApp / Teléfono</label>
+            <input id="s-phone" type="tel" class="input-dark text-sm" placeholder="+1 / +34 / +52 ...">
+          </div>
+          <button onclick="saveProfile()"
+                  class="btn-primary w-full py-3 rounded-xl text-sm font-bold">
+            <i class="fas fa-save mr-2"></i>Guardar cambios
+          </button>
+        </div>
+      </div>
+
+      <!-- Security & Plan -->
+      <div class="space-y-5">
+        <!-- Security -->
+        <div class="card p-6">
+          <h3 class="font-bold text-white mb-4 text-sm">Seguridad</h3>
+          <div class="space-y-3">
+            <div>
+              <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Nueva contraseña</label>
+              <input id="s-password" type="password" class="input-dark text-sm" placeholder="Mínimo 8 caracteres">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Confirmar contraseña</label>
+              <input id="s-password2" type="password" class="input-dark text-sm" placeholder="Repite la contraseña">
+            </div>
+            <button onclick="changePassword()"
+                    class="btn-ghost w-full py-2.5 rounded-xl text-sm font-semibold">
+              <i class="fas fa-lock mr-2"></i>Cambiar contraseña
+            </button>
+          </div>
+        </div>
+
+        <!-- Plan -->
+        <div class="card p-6" style="background:linear-gradient(135deg, rgba(0,229,255,0.04), transparent); border-color:rgba(0,229,255,0.15);">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-bold text-white text-sm">Plan actual</h3>
+            <span class="text-xs px-3 py-1 rounded-full font-bold"
+                  style="background:rgba(0,229,255,0.1); color:#00e5ff; border:1px solid rgba(0,229,255,0.2);">FREE</span>
+          </div>
+          <div class="space-y-2 mb-5">
+            
+            <div class="flex items-center justify-between text-sm">
+              <span class="text-slate-500">Leads</span>
+              <span class="font-semibold text-white">500</span>
+            </div>
+            <div class="flex items-center justify-between text-sm">
+              <span class="text-slate-500">Usuarios</span>
+              <span class="font-semibold text-white">1</span>
+            </div>
+            <div class="flex items-center justify-between text-sm">
+              <span class="text-slate-500">Automatizaciones</span>
+              <span class="font-semibold text-white">3 básicas</span>
+            </div>
+            <div class="flex items-center justify-between text-sm">
+              <span class="text-slate-500">Soporte</span>
+              <span class="font-semibold text-white">Email</span>
+            </div>
+          </div>
+          <a href="index.html#contacto"
+             class="btn-primary w-full py-3 rounded-xl text-sm font-bold text-center block">
+            <i class="fas fa-rocket mr-2"></i>Mejorar plan → SVE-90
+          </a>
+        </div>
+
+        <!-- Notifications -->
+        <div class="card p-6">
+          <h3 class="font-bold text-white mb-4 text-sm">Notificaciones</h3>
+          <div class="space-y-4">
+            
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <div class="text-sm font-medium text-white">Nuevo lead capturado</div>
+                <div class="text-xs text-slate-600 mt-0.5">Cada vez que el sistema registre un lead</div>
+              </div>
+              <div class="toggle-switch on" onclick="this.classList.toggle('on')">
+                <div class="toggle-knob"></div>
+              </div>
+            </div>
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <div class="text-sm font-medium text-white">Lead calificado por IA</div>
+                <div class="text-xs text-slate-600 mt-0.5">Cuando IA asigne score alto a un prospecto</div>
+              </div>
+              <div class="toggle-switch on" onclick="this.classList.toggle('on')">
+                <div class="toggle-knob"></div>
+              </div>
+            </div>
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <div class="text-sm font-medium text-white">Cita agendada</div>
+                <div class="text-xs text-slate-600 mt-0.5">Confirmación de nuevas citas</div>
+              </div>
+              <div class="toggle-switch on" onclick="this.classList.toggle('on')">
+                <div class="toggle-knob"></div>
+              </div>
+            </div>
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <div class="text-sm font-medium text-white">Resumen semanal</div>
+                <div class="text-xs text-slate-600 mt-0.5">Informe de métricas cada lunes</div>
+              </div>
+              <div class="toggle-switch " onclick="this.classList.toggle('on')">
+                <div class="toggle-knob"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ════════════════════════════════════════════
+       SECTION: THANK YOU
+  ════════════════════════════════════════════ -->
+  <div id="section-thankyou" class="p-6 hidden">
+    <div class="flex flex-col items-center justify-center min-h-[70vh] text-center max-w-xl mx-auto space-y-6">
+      <!-- Pulsing check icon -->
+      <div class="w-20 h-20 rounded-full flex items-center justify-center animate-pulse animate-duration-1000"
+           style="background:rgba(0,229,255,0.08); border:2px solid var(--cyan); box-shadow:0 0 30px rgba(0,229,255,0.2);">
+        <i class="fas fa-check text-3xl" style="color:var(--cyan);"></i>
+      </div>
+      
+      <div class="space-y-2">
+        <h2 class="text-3xl font-black text-white">¡Registro Exitoso!</h2>
+        <p class="text-sm text-slate-500">
+          El prospecto ha sido ingresado e integrado exitosamente en la base de datos persistente SQLite de tu sistema SVE-90.
+        </p>
+      </div>
+      
+      <!-- Summary details box -->
+      <div class="card p-5 w-full text-left space-y-3" style="background:var(--navy-mid); border-color:var(--navy-border);">
+        <div class="flex justify-between text-xs border-b border-white/5 pb-2">
+          <span class="text-slate-500">Nombre del Lead:</span>
+          <span id="ty-lead-name" class="font-bold text-white">—</span>
+        </div>
+        <div class="flex justify-between text-xs border-b border-white/5 pb-2">
+          <span class="text-slate-500">Correo Electrónico:</span>
+          <span id="ty-lead-email" class="font-semibold text-white">—</span>
+        </div>
+        <div class="flex justify-between text-xs border-b border-white/5 pb-2">
+          <span class="text-slate-500">Score de Calificación IA:</span>
+          <span id="ty-lead-score" class="font-black" style="color:var(--cyan);">—</span>
+        </div>
+        <div class="flex justify-between text-xs">
+          <span class="text-slate-500">Canal de Entrada SVE-90:</span>
+          <span id="ty-lead-source" class="font-semibold text-white capitalize">—</span>
+        </div>
+      </div>
+      
+      <!-- Back button -->
+      <button onclick="showSection('leads')" class="btn-primary w-full py-4 rounded-xl text-base font-bold flex items-center justify-center gap-2">
+        <i class="fas fa-arrow-left"></i> Regresar al Portal
+      </button>
+    </div>
+  </div>
+</main>
+
+<!-- ════════════════════════════════════════════════════
+     MODAL: NUEVO LEAD
+════════════════════════════════════════════════════ -->
+<div id="modal-lead" class="modal-overlay" style="display: none;">
+  <div class="modal-box">
+    <div class="flex items-center justify-between mb-6">
+      <div>
+        <h3 id="modal-lead-title" class="text-lg font-bold text-white">Nuevo Lead</h3>
+        <p id="modal-lead-subtitle" class="text-xs text-slate-500 mt-0.5">Agregar prospecto al sistema SVE-90</p>
+      </div>
+      <button onclick="hideModal('lead')" class="text-slate-500 hover:text-white p-2 rounded-xl transition-colors">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div id="modal-alert" class="hidden mb-4 p-3 rounded-xl text-sm"></div>
+    <div class="space-y-4">
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Nombre *</label>
+          <input id="lead-name" type="text" class="input-dark text-sm" placeholder="Nombre completo">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Email *</label>
+          <input id="lead-email" type="email" class="input-dark text-sm" placeholder="email@empresa.com">
+        </div>
+      </div>
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Empresa</label>
+          <input id="lead-company" type="text" class="input-dark text-sm" placeholder="Nombre de empresa">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Teléfono</label>
+          <input id="lead-phone" type="tel" class="input-dark text-sm" placeholder="+1 / +34 / +52 ...">
+        </div>
+      </div>
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Estado</label>
+          <select id="lead-status" class="input-dark text-sm">
+            <option value="new">Nuevo</option>
+            <option value="contacted">Contactado</option>
+            <option value="qualified">Calificado</option>
+            <option value="converted">Convertido</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Fuente</label>
+          <select id="lead-source" class="input-dark text-sm">
+            <option value="website">Website</option>
+            <option value="referral">Referido</option>
+            <option value="social">Social Media</option>
+            <option value="email">Email Campaign</option>
+            <option value="other">Otro</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Score IA (0–100)</label>
+        <input id="lead-score" type="number" min="0" max="100" class="input-dark text-sm" placeholder="Ej: 75">
+      </div>
+      <div>
+        <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Notas</label>
+        <textarea id="lead-notes" rows="3" class="input-dark text-sm resize-none" placeholder="Notas sobre el prospecto..."></textarea>
+      </div>
+      <div class="flex gap-3 pt-2">
+        <button onclick="hideModal('lead')" class="btn-ghost flex-1 py-3 rounded-xl text-sm font-semibold">
+          Cancelar
+        </button>
+        <button onclick="saveLead()" id="save-lead-btn" class="btn-primary flex-1 py-3 rounded-xl text-sm font-bold">
+          <i id="save-lead-icon" class="fas fa-plus mr-2"></i><span id="save-lead-text">Crear Lead</span>
+          <i id="save-lead-spinner" class="fas fa-spinner fa-spin ml-2" style="display: none;"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════════════ -->
+<script>
+// ─── State ───────────────────────────────────────────────────────────────────
+let token = localStorage.getItem('prosper_token') || localStorage.getItem('auth_token');
+let currentUser = null;
+let currentPage = 1;
+const perPage = 10;
+let allLeads = [];
+let apiKeyVisible = false;
+let actualApiKey = '';
+let editingLeadId = null;
+
+
+// ─── Init ────────────────────────────────────────────────────────────────────
+(async function init() {
+  if (!token) {
+    window.location.href = '/login';
+    return;
+  }
+  try {
+    const res = await fetch('/api/users/me', {
+      headers: { Authorization: 'Bearer ' + token }
+    });
+    if (!res.ok) throw new Error('auth');
+    const data = await res.json();
+    currentUser = data.data || data;
+    populateUserUI(currentUser);
+    actualApiKey = currentUser.api_key || '';
+    await loadDashboardStats();
+    await loadLeads();
+    buildCharts();
+  } catch {
+    localStorage.removeItem('prosper_token');
+    localStorage.removeItem('auth_token');
+    window.location.href = '/login';
+  }
+})();
+
+function populateUserUI(u) {
+  const initial = (u.name || '?').charAt(0).toUpperCase();
+  ['user-avatar','topbar-avatar','settings-avatar'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = initial;
+  });
+  const nameEls = ['user-name-sidebar','topbar-name','settings-name'];
+  nameEls.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = u.name || 'Usuario';
+  });
+  const planBadge = document.getElementById('user-plan-badge');
+  if (planBadge) planBadge.textContent = 'Plan ' + (u.plan || 'free').toUpperCase();
+  const settingsEmail = document.getElementById('settings-email');
+  if (settingsEmail) settingsEmail.textContent = u.email || '';
+  ['s-name','s-email','s-company','s-phone'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (id === 's-name') el.value = u.name || '';
+    if (id === 's-email') el.value = u.email || '';
+    if (id === 's-company') el.value = u.company || '';
+    if (id === 's-phone') el.value = u.phone || '';
+  });
+}
+
+// ─── Dashboard stats ─────────────────────────────────────────────────────────
+async function loadDashboardStats() {
+  try {
+    const res = await fetch('/api/dashboard/stats', {
+      headers: { Authorization: 'Bearer ' + token }
+    });
+    const data = await res.json();
+    const s = data.data || data;
+    const fmt = v => isNaN(v) ? '0' : Number(v).toLocaleString();
+    document.getElementById('kpi-total').textContent = fmt(s.total_leads ?? 0);
+    document.getElementById('kpi-new').textContent = fmt(s.new_leads ?? 0);
+    document.getElementById('kpi-converted').textContent = fmt(s.converted_leads ?? 0);
+    document.getElementById('kpi-revenue').textContent = '$' + fmt(s.total_revenue ?? 0);
+    const rate = s.conversion_rate ?? 0;
+    document.getElementById('kpi-rate-badge').textContent = Number(rate).toFixed(1) + '%';
+    const pct = Math.min(100, Math.round((+s.total_leads / 500) * 100));
+    document.getElementById('usage-pct').textContent = pct + '%';
+    document.getElementById('usage-bar').style.width = pct + '%';
+    document.getElementById('usage-leads').textContent = s.total_leads ?? 0;
+  } catch(e) { console.warn('Stats error:', e); }
+}
+
+// ─── Leads ───────────────────────────────────────────────────────────────────
+async function loadLeads() {
+  const search = (document.getElementById('leads-search')?.value || '').toLowerCase();
+  const status = document.getElementById('leads-status-filter')?.value || '';
+  const source = document.getElementById('leads-source-filter')?.value || '';
+  let url = '/api/leads?limit=100';
+  if (status) url += '&status=' + status;
+  if (source) url += '&source=' + source;
+  try {
+    const res = await fetch(url, { headers: { Authorization: 'Bearer ' + token } });
+    const data = await res.json();
+    allLeads = (data.data?.leads || data.leads || data.data || []).filter(l =>
+      !search || (l.name||'').toLowerCase().includes(search) || (l.email||'').toLowerCase().includes(search)
+    );
+    const badge = document.getElementById('leads-badge');
+    if (badge && allLeads.length > 0) {
+      badge.textContent = allLeads.length;
+      badge.classList.remove('hidden');
+    }
+    renderLeadsTable();
+    renderRecentLeads();
+  } catch(e) { console.warn('Leads error:', e); }
+}
+
+function renderLeadsTable() {
+  const tbody = document.getElementById('leads-table-body');
+  if (!tbody) return;
+  const start = (currentPage - 1) * perPage;
+  const page = allLeads.slice(start, start + perPage);
+  if (!page.length) {
+    tbody.innerHTML = '<tr><td colspan="7" class="text-center text-slate-600 py-10 text-sm">No se encontraron leads.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = page.map(l => {
+    const score = l.score ?? l.lead_score ?? null;
+    const scoreColor = score >= 70 ? '#34d399' : score >= 40 ? '#fbbf24' : '#f87171';
+    return `<tr class="table-row">
+      <td class="px-5 py-4">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-black flex-shrink-0"
+               style="background:rgba(0,229,255,0.1); color:#00e5ff; border:1px solid rgba(0,229,255,0.15);">
+            ${(l.name||'?').charAt(0).toUpperCase()}
+          </div>
+          <div>
+            <div class="font-semibold text-white text-sm">${esc(l.name||'')}</div>
+            <div class="text-xs text-slate-500">${esc(l.email||'')}</div>
+          </div>
+        </div>
+      </td>
+      <td class="px-5 py-4 text-sm text-slate-400">${esc(l.company||'—')}</td>
+      <td class="px-5 py-4"><span class="badge badge-${l.status||'new'}">${statusLabel(l.status)}</span></td>
+      <td class="px-5 py-4 text-xs text-slate-400 capitalize">${l.source||'—'}</td>
+      <td class="px-5 py-4">
+        ${score !== null ? `<span class="text-xs font-bold px-2 py-1 rounded-lg" style="background:${scoreColor}15; color:${scoreColor};">${score}</span>` : '<span class="text-slate-600 text-xs">—</span>'}
+      </td>
+      <td class="px-5 py-4 text-xs text-slate-500">${fmtDate(l.created_at)}</td>
+      <td class="px-5 py-4">
+        <div class="flex gap-2">
+          <button onclick="editLead(${l.id})"
+                  class="btn-ghost text-xs px-3 py-1.5 rounded-lg">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button onclick="deleteLead(${l.id})"
+                  class="text-xs px-3 py-1.5 rounded-lg transition-colors"
+                  style="border:1px solid rgba(239,68,68,0.2); color:#f87171; background:transparent;"
+                  onmouseover="this.style.background='rgba(239,68,68,0.08)'"
+                  onmouseout="this.style.background='transparent'">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+  const count = document.getElementById('leads-count');
+  if (count) count.textContent = allLeads.length + ' lead' + (allLeads.length !== 1 ? 's' : '');
+  const prev = document.getElementById('prev-page');
+  const next = document.getElementById('next-page');
+  if (prev) prev.disabled = currentPage <= 1;
+  if (next) next.disabled = start + perPage >= allLeads.length;
+}
+
+function renderRecentLeads() {
+  const container = document.getElementById('recent-leads-table');
+  if (!container) return;
+  const recent = allLeads.slice(0, 5);
+  if (!recent.length) {
+    container.innerHTML = '<div class="text-slate-600 text-sm text-center py-8">No hay leads aún. El sistema SVE-90 los capturará automáticamente.</div>';
+    return;
+  }
+  container.innerHTML = recent.map(l => `
+  <div class="flex items-center gap-3 py-3" style="border-bottom:1px solid rgba(19,40,71,0.5);">
+    <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-black flex-shrink-0"
+         style="background:rgba(0,229,255,0.08); color:#00e5ff; border:1px solid rgba(0,229,255,0.12);">
+      ${(l.name||'?').charAt(0).toUpperCase()}
+    </div>
+    <div class="flex-1 min-w-0">
+      <div class="font-semibold text-white text-sm truncate">${esc(l.name||'')}</div>
+      <div class="text-xs text-slate-500 truncate">${esc(l.email||'')}</div>
+    </div>
+    <div class="flex-shrink-0"><span class="badge badge-${l.status||'new'}">${statusLabel(l.status)}</span></div>
+  </div>`).join('');
+}
+
+// ─── Charts ──────────────────────────────────────────────────────────────────
+function buildCharts() {
+  const gridColor = 'rgba(255,255,255,0.04)';
+  const textColor = '#475569';
+
+  // Monthly
+  const mCtx = document.getElementById('monthlyChart');
+  if (mCtx) {
+    new Chart(mCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Oct','Nov','Dic','Ene','Feb','Mar'],
+        datasets: [{
+          data: [28,45,38,62,55,allLeads.length || 8],
+          backgroundColor: 'rgba(0,229,255,0.15)',
+          borderColor: '#00e5ff',
+          borderWidth: 2,
+          borderRadius: 6,
+          hoverBackgroundColor: 'rgba(0,229,255,0.3)',
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { color: gridColor }, ticks: { color: textColor, font: { size: 11 } } },
+          y: { grid: { color: gridColor }, ticks: { color: textColor, font: { size: 11 } }, beginAtZero: true }
+        }
+      }
+    });
+  }
+
+  // Status donut
+  const counts = { new:0, contacted:0, qualified:0, converted:0, lost:0 };
+  allLeads.forEach(l => { if (counts[l.status] !== undefined) counts[l.status]++; });
+  const statusColors = ['#3b82f6','#fbbf24','#00e5ff','#34d399','#f87171'];
+  const statusLabels = ['Nuevo','Contactado','Calificado','Convertido','Perdido'];
+  const sCtx = document.getElementById('statusChart');
+  if (sCtx) {
+    const vals = Object.values(counts);
+    if (vals.some(v => v > 0)) {
+      new Chart(sCtx, {
+        type: 'doughnut',
+        data: {
+          labels: statusLabels,
+          datasets: [{ data: vals, backgroundColor: statusColors, borderWidth: 0, hoverOffset: 4 }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: true, cutout: '68%',
+          plugins: {
+            legend: { display: false },
+            tooltip: { callbacks: { label: ctx => ' ' + ctx.label + ': ' + ctx.raw } }
+          }
+        }
+      });
+    }
+    const legend = document.getElementById('status-legend');
+    if (legend) {
+      legend.innerHTML = statusLabels.map((l, i) => `
+      <div class="flex items-center justify-between text-xs">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full flex-shrink-0" style="background:${statusColors[i]};"></span>
+          <span class="text-slate-400">${l}</span>
+        </div>
+        <span class="font-semibold text-white">${vals[i]}</span>
+      </div>`).join('');
+    }
+  }
+
+  // Source donut
+  const srcCounts = {};
+  allLeads.forEach(l => { const s = l.source||'other'; srcCounts[s] = (srcCounts[s]||0)+1; });
+  const srcKeys = Object.keys(srcCounts);
+  const srcColors = ['#00e5ff','#38bdf8','#818cf8','#34d399','#f97316','#fbbf24'];
+  const soCtx = document.getElementById('sourceChart');
+  if (soCtx && srcKeys.length) {
+    new Chart(soCtx, {
+      type: 'doughnut',
+      data: {
+        labels: srcKeys.map(k => k.charAt(0).toUpperCase()+k.slice(1)),
+        datasets: [{ data: srcKeys.map(k => srcCounts[k]), backgroundColor: srcColors, borderWidth: 0, hoverOffset: 4 }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: true, cutout: '65%',
+        plugins: {
+          legend: {
+            display: true, position: 'bottom',
+            labels: { color: '#64748b', font: { size: 10 }, padding: 8, boxWidth: 10 }
+          }
+        }
+      }
+    });
+  }
+}
+
+// ─── Lead CRUD ───────────────────────────────────────────────────────────────
+async function saveLead() {
+  const name = document.getElementById('lead-name').value.trim();
+  const email = document.getElementById('lead-email').value.trim();
+  if (!name || !email) {
+    showModalAlert('Nombre y email son requeridos.', 'error');
+    return;
+  }
+  const btn = document.getElementById('save-lead-btn');
+  const btnText = document.getElementById('save-lead-text');
+  const spinner = document.getElementById('save-lead-spinner');
+  
+  if (btn) btn.disabled = true; 
+  if (btnText) btnText.textContent = editingLeadId ? 'Guardando...' : 'Creando...'; 
+  if (spinner) spinner.style.display = 'inline-block';
+  
+  const isEditing = !!editingLeadId;
+  
+  try {
+    const body = {
+      name, email,
+      company: document.getElementById('lead-company').value.trim() || undefined,
+      phone: document.getElementById('lead-phone').value.trim() || undefined,
+      status: document.getElementById('lead-status').value,
+      source: document.getElementById('lead-source').value,
+      score: +document.getElementById('lead-score').value || undefined,
+      notes: document.getElementById('lead-notes').value.trim() || undefined,
+    };
+    
+    const url = editingLeadId ? `/api/leads/${editingLeadId}` : '/api/leads';
+    const method = editingLeadId ? 'PUT' : 'POST';
+    
+    const res = await fetch(url, {
+      method: method,
+      headers: { 'Content-Type':'application/json', Authorization:'Bearer '+token },
+      body: JSON.stringify(body)
+    });
+    const data = await res.json();
+    if (data.success || res.ok) {
+      hideModal('lead');
+      clearLeadForm();
+      await loadLeads();
+      await loadDashboardStats();
+      
+      if (!isEditing) {
+        // Show thank you page
+        const lead = data.data || data;
+        const tyName = document.getElementById('ty-lead-name');
+        const tyEmail = document.getElementById('ty-lead-email');
+        const tyScore = document.getElementById('ty-lead-score');
+        const tySource = document.getElementById('ty-lead-source');
+        
+        if (tyName) tyName.textContent = lead.name || '—';
+        if (tyEmail) tyEmail.textContent = lead.email || '—';
+        if (tyScore) {
+          const scoreVal = lead.score ?? lead.lead_score ?? 50;
+          tyScore.textContent = scoreVal + ' / 100';
+          tyScore.style.color = scoreVal >= 70 ? '#34d399' : scoreVal >= 40 ? '#fbbf24' : '#f87171';
+        }
+        if (tySource) tySource.textContent = lead.source || 'website';
+        
+        showSection('thankyou');
+      } else {
+        showSection('leads');
+      }
+    } else {
+      showModalAlert(data.error || (isEditing ? 'Error al actualizar lead.' : 'Error al crear lead.'), 'error');
+    }
+  } catch(e) { showModalAlert('Error de conexión.', 'error'); }
+  finally { 
+    if (btn) btn.disabled = false; 
+    if (btnText) btnText.textContent = isEditing ? 'Guardar Cambios' : 'Crear Lead'; 
+    if (spinner) spinner.style.display = 'none'; 
+  }
+}
+
+async function deleteLead(id) {
+  if (!confirm('¿Eliminar este lead del sistema?')) return;
+  try {
+    await fetch('/api/leads/' + id, {
+      method: 'DELETE',
+      headers: { Authorization: 'Bearer ' + token }
+    });
+    await loadLeads();
+    await loadDashboardStats();
+  } catch(e) { alert('Error al eliminar.'); }
+}
+
+function editLead(id) {
+  const lead = allLeads.find(l => l.id === id);
+  if (!lead) return;
+  editingLeadId = id;
+  
+  // Update Modal Text for Edit Mode
+  const titleEl = document.getElementById('modal-lead-title');
+  const subtitleEl = document.getElementById('modal-lead-subtitle');
+  const btnTextEl = document.getElementById('save-lead-text');
+  const btnIconEl = document.getElementById('save-lead-icon');
+  
+  if (titleEl) titleEl.textContent = 'Editar Lead';
+  if (subtitleEl) subtitleEl.textContent = 'Modificar prospecto en el sistema SVE-90';
+  if (btnTextEl) btnTextEl.textContent = 'Guardar Cambios';
+  if (btnIconEl) {
+    btnIconEl.className = 'fas fa-save mr-2';
+  }
+
+  document.getElementById('lead-name').value = lead.name || '';
+  document.getElementById('lead-email').value = lead.email || '';
+  document.getElementById('lead-company').value = lead.company || '';
+  document.getElementById('lead-phone').value = lead.phone || '';
+  document.getElementById('lead-status').value = lead.status || 'new';
+  document.getElementById('lead-source').value = lead.source || 'website';
+  document.getElementById('lead-score').value = lead.score || lead.lead_score || '';
+  document.getElementById('lead-notes').value = lead.notes || '';
+  showModal('lead');
+}
+
+// ─── Settings ────────────────────────────────────────────────────────────────
+async function saveProfile() {
+  const name = document.getElementById('s-name').value.trim();
+  const company = document.getElementById('s-company').value.trim();
+  const phone = document.getElementById('s-phone').value.trim();
+  try {
+    const res = await fetch('/api/users/me', {
+      method: 'PUT',
+      headers: { 'Content-Type':'application/json', Authorization:'Bearer '+token },
+      body: JSON.stringify({ name, company, phone })
+    });
+    const data = await res.json();
+    if (data.success || res.ok) {
+      currentUser = { ...currentUser, name, company, phone };
+      populateUserUI(currentUser);
+      alert('✓ Perfil actualizado correctamente.');
+    } else { alert(data.error || 'Error al guardar.'); }
+  } catch { alert('Error de conexión.'); }
+}
+
+async function changePassword() {
+  const p1 = document.getElementById('s-password').value;
+  const p2 = document.getElementById('s-password2').value;
+  if (!p1 || p1.length < 8) { alert('La contraseña debe tener al menos 8 caracteres.'); return; }
+  if (p1 !== p2) { alert('Las contraseñas no coinciden.'); return; }
+  try {
+    const res = await fetch('/api/users/me/password', {
+      method: 'PUT',
+      headers: { 'Content-Type':'application/json', Authorization:'Bearer '+token },
+      body: JSON.stringify({ password: p1 })
+    });
+    const data = await res.json();
+    if (data.success || res.ok) {
+      alert('✓ Contraseña actualizada.');
+      document.getElementById('s-password').value = '';
+      document.getElementById('s-password2').value = '';
+    } else { alert(data.error || 'Error al cambiar contraseña.'); }
+  } catch { alert('Error de conexión.'); }
+}
+
+// ─── API Key ─────────────────────────────────────────────────────────────────
+function toggleApiKey() {
+  apiKeyVisible = !apiKeyVisible;
+  const display = document.getElementById('api-key-display');
+  const icon = document.getElementById('api-key-icon');
+  if (display) display.textContent = apiKeyVisible ? (actualApiKey || 'pk_no_disponible') : '••••••••••••••••••••••••••••••••';
+  if (icon) icon.className = apiKeyVisible ? 'fas fa-eye-slash' : 'fas fa-eye';
+}
+function copyApiKey() {
+  if (actualApiKey) {
+    navigator.clipboard.writeText(actualApiKey).then(() => alert('✓ API Key copiada.'));
+  }
+}
+
+// ─── Navigation ──────────────────────────────────────────────────────────────
+function showSection(name) {
+  const titles = {
+    overview: ['Dashboard', 'Sistema SVE-90 activo'],
+    leads: ['Leads & CRM', 'Prospectos del sistema'],
+    automations: ['Automatizaciones', 'Flujos SVE-90 activos'],
+    integrations: ['Integraciones', 'Stack tecnológico'],
+    analytics: ['Analytics', 'Métricas de rendimiento'],
+    settings: ['Configuración', 'Tu perfil y cuenta'],
+    thankyou: ['¡Registro Exitoso!', 'Prospecto integrado en el sistema SVE-90'],
+  };
+  document.querySelectorAll('[id^="section-"]').forEach(s => s.classList.add('hidden'));
+  const sec = document.getElementById('section-' + name);
+  if (sec) sec.classList.remove('hidden');
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  const navBtn = document.getElementById('nav-' + name);
+  if (navBtn) navBtn.classList.add('active');
+  const t = titles[name] || ['', ''];
+  const titleEl = document.getElementById('page-title');
+  const subEl = document.getElementById('page-subtitle');
+  if (titleEl) titleEl.textContent = t[0];
+  if (subEl) subEl.textContent = t[1];
+  closeSidebar();
+}
+
+function openSidebar() {
+  document.getElementById('sidebar')?.classList.add('open');
+  document.getElementById('sidebar-overlay')?.classList.remove('hidden');
+}
+function closeSidebar() {
+  if (window.innerWidth < 1024) {
+    document.getElementById('sidebar')?.classList.remove('open');
+    document.getElementById('sidebar-overlay')?.classList.add('hidden');
+  }
+}
+
+// ─── Pagination ──────────────────────────────────────────────────────────────
+function changePage(dir) {
+  const max = Math.ceil(allLeads.length / perPage);
+  currentPage = Math.max(1, Math.min(max, currentPage + dir));
+  renderLeadsTable();
+}
+
+// ─── Modals ──────────────────────────────────────────────────────────────────
+function showModal(name) {
+  const modal = document.getElementById('modal-' + name);
+  if (modal) modal.style.display = 'flex';
+}
+function hideModal(name) {
+  const modal = document.getElementById('modal-' + name);
+  if (modal) modal.style.display = 'none';
+  clearLeadForm();
+}
+function clearLeadForm() {
+  editingLeadId = null;
+  
+  // Reset modal texts to new lead mode
+  const titleEl = document.getElementById('modal-lead-title');
+  const subtitleEl = document.getElementById('modal-lead-subtitle');
+  const btnTextEl = document.getElementById('save-lead-text');
+  const btnIconEl = document.getElementById('save-lead-icon');
+  
+  if (titleEl) titleEl.textContent = 'Nuevo Lead';
+  if (subtitleEl) subtitleEl.textContent = 'Agregar prospecto al sistema SVE-90';
+  if (btnTextEl) btnTextEl.textContent = 'Crear Lead';
+  if (btnIconEl) {
+    btnIconEl.className = 'fas fa-plus mr-2';
+  }
+
+  // Double security: enable button and hide spinner on reset
+  const btn = document.getElementById('save-lead-btn');
+  const spinner = document.getElementById('save-lead-spinner');
+  if (btn) btn.disabled = false;
+  if (spinner) spinner.style.display = 'none';
+
+  ['lead-name','lead-email','lead-company','lead-phone','lead-score','lead-notes'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  const statusEl = document.getElementById('lead-status');
+  if (statusEl) statusEl.value = 'new';
+  const sourceEl = document.getElementById('lead-source');
+  if (sourceEl) sourceEl.value = 'website';
+  const alert = document.getElementById('modal-alert');
+  if (alert) alert.classList.add('hidden');
+}
+function showModalAlert(msg, type) {
+  const el = document.getElementById('modal-alert');
+  if (!el) return;
+  el.classList.remove('hidden');
+  el.style.cssText = type === 'error'
+    ? 'background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.2); color:#f87171; padding:12px 16px; border-radius:10px; display:block;'
+    : 'background:rgba(0,229,255,0.06); border:1px solid rgba(0,229,255,0.2); color:#00e5ff; padding:12px 16px; border-radius:10px; display:block;';
+  el.innerHTML = '<i class="fas fa-' + (type==='error' ? 'exclamation-circle' : 'check-circle') + ' mr-2"></i>' + msg;
+}
+
+// ─── Auth ────────────────────────────────────────────────────────────────────
+async function logout() {
+  await fetch('/api/auth/logout', { method:'POST', headers:{ Authorization:'Bearer '+token } });
+  localStorage.removeItem('prosper_token');
+  localStorage.removeItem('auth_token');
+  window.location.href = '/';
+}
+
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function statusLabel(s) {
+  return { new:'Nuevo', contacted:'Contactado', qualified:'Calificado', converted:'Convertido', lost:'Perdido' }[s] || s || 'Nuevo';
+}
+function fmtDate(d) {
+  if (!d) return '—';
+  try { return new Date(d).toLocaleDateString('es-ES', { day:'2-digit', month:'short', year:'numeric' }); }
+  catch { return d; }
+}
+</script>
+</body>
+
+<!-- Mirrored from 3000-i01dje720a4h16q71b275-3844e1b6.sandbox.novita.ai/dashboard by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 03 May 2026 05:50:35 GMT -->
+</html>
