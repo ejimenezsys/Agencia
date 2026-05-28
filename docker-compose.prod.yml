@@ -1,0 +1,26 @@
+services:
+  web-prod:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: prosper_ia_prod
+    restart: always
+    ports:
+      - "8000:8000"
+    volumes:
+      # Volumen con nombre gestionado por Docker para persistir la base de datos de producción
+      - prosper_ia_prod_data:/app/data
+    environment:
+      - DATABASE_PATH=/app/data/prosper_ia.db
+      - PORT=8000
+      # Variables SMTP para las notificaciones automáticas por email
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT:-587}
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - SMTP_SENDER=${SMTP_SENDER:-noreply@prosper-ia.com}
+      - NOTIFICATION_EMAIL=${NOTIFICATION_EMAIL:-ejimenezsys@gmail.com}
+
+volumes:
+  prosper_ia_prod_data:
+    name: prosper_ia_prod_data

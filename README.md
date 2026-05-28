@@ -16,14 +16,16 @@ Este repositorio contiene la migración y consolidación de la landing page y el
 
 ## 🛠️ Requisitos e Instalación
 
-### 1. Clonar o acceder al Workspace
-Asegúrate de estar en el directorio raíz del proyecto:
-```bash
-/Users/ejimenezsys/Desktop/sitiosweb
-```
+### Opción A: Ejecución Local Tradicional
 
-### 2. Crear y activar un entorno virtual de Python
-Se recomienda el uso de `venv` para mantener las dependencias aisladas y limpias:
+#### 1. Crear y activar un entorno virtual de Python
+Se recomienda el uso de `venv` para mantener las dependencias aisladas:
+
+En Windows:
+```powershell
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+```
 
 En macOS / Linux:
 ```bash
@@ -31,25 +33,49 @@ python3 -m venv venv
 source venv/bin/activate
 ```
 
-### 3. Instalar dependencias
+#### 2. Instalar dependencias
 Instala FastAPI y los módulos requeridos usando `pip`:
 ```bash
 pip install -r requirements.txt
 ```
 
----
-
-## ⚙️ Cómo Ejecutar el Servidor
-
+#### 3. Ejecutar el Servidor
 Inicia el servidor de desarrollo local usando **Uvicorn** con recarga automática:
 ```bash
 uvicorn main:app --reload
 ```
 
-Una vez que el servidor esté activo, abre tu navegador web preferido y navega a:
-- 🔗 **Landing Page / Inicio**: [http://127.0.0.1:8000/](http://127.0.0.1:8000/) o `/index.html`
-- 🔑 **Portal de Acceso / Login**: [http://127.0.0.1:8000/login](http://127.0.0.1:8000/login) o `/login.html`
-- 📊 **Panel de Clientes / Dashboard**: [http://127.0.0.1:8000/dashboard](http://127.0.0.1:8000/dashboard) o `/dashboard.html`
+---
+
+### Opción B: Ejecución con Docker (Recomendado para Dev/Prod)
+
+Hemos configurado entornos independientes utilizando Docker Compose:
+
+#### 1. Modo Desarrollo (Hot Reload + Volumen Local)
+Levanta la aplicación montando tu código local en tiempo real dentro del contenedor. Cualquier cambio que hagas en el código activará la recarga automática.
+
+```bash
+docker compose -f docker-compose.dev.yml up --build
+```
+* La base de datos local de desarrollo se guardará de forma persistente en `./data/prosper_ia_dev.db`.
+
+#### 2. Modo Producción
+Levanta la aplicación optimizada sin recarga automática y con almacenamiento persistente administrado por Docker.
+
+```bash
+# Recuerda configurar o inyectar tus variables SMTP en el entorno
+docker compose -f docker-compose.prod.yml up -d --build
+```
+* La base de datos de producción persistirá de forma segura en el volumen de Docker con nombre `prosper_ia_prod_data`.
+
+---
+
+## ⚙️ Acceso a la Aplicación
+
+Una vez que el servidor esté activo (por cualquiera de los métodos), navega en tu navegador a:
+- 🔗 **Landing Page / Inicio**: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+- 🔑 **Portal de Acceso / Login**: [http://127.0.0.1:8000/login](http://127.0.0.1:8000/login)
+- 📊 **Panel de Clientes / Dashboard**: [http://127.0.0.1:8000/dashboard](http://127.0.0.1:8000/dashboard)
 
 ---
 

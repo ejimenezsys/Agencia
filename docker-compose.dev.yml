@@ -1,0 +1,21 @@
+services:
+  web-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: prosper_ia_dev
+    ports:
+      - "8000:8000"
+    volumes:
+      # Montar el directorio actual para reflejar cambios en tiempo real (Hot Reload)
+      - .:/app
+      # Evitar que los entornos virtuales locales del host sobreescriban el del contenedor
+      - /app/venv
+      - /app/.venv
+      # Asegurar que el directorio de datos existe y persiste localmente en una carpeta del host
+      - ./data:/app/data
+    environment:
+      - DATABASE_PATH=/app/data/prosper_ia_dev.db
+      - PORT=8000
+    # Sobrescribir el comando para habilitar la recarga automática en desarrollo
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload

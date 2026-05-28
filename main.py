@@ -20,11 +20,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 # Templates
 templates = Jinja2Templates(directory="templates")
 
-# Mock Database
-SESSIONS = {}
-
-
-SESSIONS = {}
+# DB Sessions configuration (no longer stored in global RAM dict SESSIONS)
 
 INITIAL_LEADS = [
     {
@@ -125,7 +121,7 @@ INITIAL_LEADS = [
     }
 ]
 
-DB_PATH = "prosper_ia.db"
+DB_PATH = os.environ.get("DATABASE_PATH", "prosper_ia.db")
 
 def get_db():
     conn = sqlite3.connect(DB_PATH)
@@ -161,6 +157,15 @@ def init_db():
             source TEXT DEFAULT 'website',
             score INTEGER DEFAULT 50,
             notes TEXT,
+            created_at TEXT NOT NULL
+        )
+    """)
+    
+    # 3. Create sessions table
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS sessions (
+            token TEXT PRIMARY KEY,
+            email TEXT NOT NULL,
             created_at TEXT NOT NULL
         )
     """)
@@ -250,15 +255,24 @@ def get_current_user(request: Request):
     if not token:
         token = request.cookies.get("auth_token")
         
-    if not token or token not in SESSIONS:
+    if not token:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Token de autenticación inválido o ausente."
         )
     
-    email = SESSIONS[token]
     conn = get_db()
     cursor = conn.cursor()
+    cursor.execute("SELECT email FROM sessions WHERE token = ?", (token,))
+    session_row = cursor.fetchone()
+    if not session_row:
+        conn.close()
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Token de autenticación inválido o ausente."
+        )
+        
+    email = session_row["email"]
     cursor.execute("SELECT * FROM users WHERE email = ?", (email,))
     row = cursor.fetchone()
     conn.close()
@@ -281,17 +295,17 @@ async def custom_http_exception_handler(request: Request, exc: HTTPException):
 @app.get("/", response_class=HTMLResponse)
 @app.get("/index.html", response_class=HTMLResponse)
 async def read_index(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+    return templates.TemplateResponse(request=request, name="index.html")
 
 @app.get("/login", response_class=HTMLResponse)
 @app.get("/login.html", response_class=HTMLResponse)
 async def read_login(request: Request):
-    return templates.TemplateResponse("login.html", {"request": request})
+    return templates.TemplateResponse(request=request, name="login.html")
 
 @app.get("/dashboard", response_class=HTMLResponse)
 @app.get("/dashboard.html", response_class=HTMLResponse)
 async def read_dashboard(request: Request):
-    return templates.TemplateResponse("dashboard.html", {"request": request})
+    return templates.TemplateResponse(request=request, name="dashboard.html")
 
 # ─── API ENDPOINTS ──────────────────────────────────────────────────────────
 
@@ -301,9 +315,9 @@ async def api_login(req: LoginRequest, response: Response):
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM users WHERE email = ?", (req.email,))
     row = cursor.fetchone()
-    conn.close()
     
     if not row:
+        conn.close()
         return JSONResponse(
             status_code=400,
             content={"success": False, "error": "Credenciales incorrectas."}
@@ -311,6 +325,7 @@ async def api_login(req: LoginRequest, response: Response):
         
     user = dict(row)
     if user["password"] != req.password:
+        conn.close()
         return JSONResponse(
             status_code=400,
             content={"success": False, "error": "Credenciales incorrectas."}
@@ -318,7 +333,12 @@ async def api_login(req: LoginRequest, response: Response):
     
     # Generate unique token
     token = f"token_{uuid.uuid4().hex}"
-    SESSIONS[token] = req.email
+    
+    # Guardar sesión en base de datos
+    created_at = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+    cursor.execute("INSERT INTO sessions (token, email, created_at) VALUES (?, ?, ?)", (token, req.email, created_at))
+    conn.commit()
+    conn.close()
     
     user_payload = {
         "name": user["name"],
@@ -348,8 +368,12 @@ async def api_logout(request: Request, response: Response):
     if not token:
         token = request.cookies.get("auth_token")
         
-    if token in SESSIONS:
-        del SESSIONS[token]
+    if token:
+        conn = get_db()
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM sessions WHERE token = ?", (token,))
+        conn.commit()
+        conn.close()
         
     response.delete_cookie("auth_token")
     return {"success": True}
