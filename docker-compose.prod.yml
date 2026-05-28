@@ -6,7 +6,7 @@ services:
     container_name: prosper_ia_prod
     restart: always
     ports:
-      - "8000:8000"
+      - "${APP_PORT:-8000}:8000"
     volumes:
       # Volumen con nombre gestionado por Docker para persistir la base de datos de producción
       - prosper_ia_prod_data:/app/data
