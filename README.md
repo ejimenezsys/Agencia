@@ -121,3 +121,4 @@ sitiosweb/
 | **POST** | `/api/leads` | Registra un nuevo lead con asignación automática de ID y timestamp. |
 | **DELETE** | `/api/leads/{id}` | Elimina un lead específico del sistema CRM en memoria. |
 | **GET** | `/api/dashboard/stats` | Retorna métricas agregadas (leads totales, ingresos estimados, tasa conversión). |
+
