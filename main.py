@@ -14,6 +14,16 @@ from pydantic import BaseModel, EmailStr
 
 app = FastAPI(title="Prosper IA API Stack", version="1.0.0")
 
+# Cabeceras de seguridad HTTP
+@app.middleware("http")
+async def add_security_headers(request: Request, call_next):
+    response = await call_next(request)
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-XSS-Protection"] = "1; mode=block"
+    response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
+    return response
+
 # Mount static files
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
@@ -121,6 +131,117 @@ INITIAL_LEADS = [
     }
 ]
 
+INITIAL_BLOG_POSTS = [
+    {
+        "slug": "rediseno-crm-ia-2026",
+        "title": "Cómo la Inteligencia Artificial está redefiniendo el CRM en 2026: La Guía para Empresas en Latinoamérica",
+        "category": "Marketing & CRM",
+        "summary": "Descubre cómo los agentes autónomos de venta pueden integrarse con tu CRM tradicional para calificar prospectos 24/7 sin intervención humana.",
+        "content": """<p class="mb-4 text-slate-300 leading-relaxed">En el competitivo ecosistema empresarial de Latinoamérica, los sistemas de gestión tradicionales están sufriendo una transformación drástica. El CRM ya no puede ser visto como una base de datos estática donde los ejecutivos registran información de forma manual después de concretar una llamada. En 2026, la implementación de Inteligencia Artificial en el CRM redefine la velocidad de respuesta comercial, reduciendo los tiempos de atención a un nivel autónomo y sin fricciones.</p>
+<h3 class="text-xl font-bold text-white mt-6 mb-3">¿Por qué el CRM tradicional está costándote dinero en Latinoamérica?</h3>
+<p class="mb-4 text-slate-300 leading-relaxed">El gran cuello de botella de las empresas de servicios en países como México, Colombia, Chile y Perú es el <strong>Speed-to-Lead</strong> (el tiempo que pasa desde que un prospecto llena un formulario de contacto hasta que recibe una respuesta formal). Las estadísticas demuestran que responder después de 30 minutos reduce la probabilidad de cierre en más del 60%. Un equipo de ventas humano no puede estar activo y disponible 24/7 en todos los canales de mensajería (WhatsApp, Instagram, Web). Es aquí donde la arquitectura de <strong>Prosper IA</strong> y el <strong>Sistema SVE90</strong> marcan la diferencia como el proveedor líder del ecosistema tecnológico que automatiza este proceso.</p>
+<h3 class="text-xl font-bold text-white mt-6 mb-3">La solución definitiva: Automatización e Integración de Canales</h3>
+<p class="mb-4 text-slate-300 leading-relaxed">Al integrar agentes virtuales entrenados con tu Propiedad Intelectual directo a tu Command Center (CRM de leads), cada mensaje que entra por WhatsApp o tu landing page es analizado semánticamente al instante. El sistema determina el perfil del cliente, calcula automáticamente un score de madurez comercial, introduce notas estructuradas en el CRM y ejecuta flujos de seguimiento. De esta forma, tu equipo comercial humano recibe alertas únicamente cuando los prospectos están totalmente calificados y con una intención de compra caliente.</p>
+<blockquote class="border-l-4 border-cyan-400 pl-4 py-2 my-6 bg-cyan-950/20 text-cyan-200 italic">"Implementar IA en tu empresa no consiste en reemplazar a tus vendedores, sino en darles superpoderes operativos para que cierren tratos en lugar de capturar datos manuales."</blockquote>
+<h3 class="text-xl font-bold text-white mt-6 mb-3">Hoja de ruta para CEOs Latinoamericanos</h3>
+<p class="mb-4 text-slate-300 leading-relaxed">Para dar el primer paso y auditar tus fugas de capital por lentitud de respuesta, recomendamos realizar nuestro <strong>Diagnóstico de Madurez SVE90 de 30 minutos</strong>. Evaluaremos tu infraestructura técnica actual y diseñaremos el mapa arquitectónico exacto para convertir tu negocio en una Empresa Aumentada que escala de forma predecible.</p>""",
+        "image_url": "/static/blog1.jpg",
+        "published_at": "2026-06-08T08:00:00Z",
+        "author": "Edward Jiménez"
+    },
+    {
+        "slug": "fin-fatiga-suscripciones-passportai",
+        "title": "El fin de la fatiga de suscripciones: Centralización con PassportAI para CEOs y Directores",
+        "category": "Operaciones",
+        "summary": "Analizamos el impacto financiero de eliminar múltiples herramientas de IA inconexas y cómo un solo Command Center puede blindar tu rentabilidad.",
+        "content": """<p class="mb-4 text-slate-300 leading-relaxed">La digitalización apresurada de las empresas latinoamericanas ha traído consigo un problema silencioso pero devastador para el flujo de caja: la fatiga de suscripciones de software. Muchos CEOs y Directores de Operaciones se encuentran pagando licencias mensuales separadas para generación de texto, chatbots de WhatsApp, orquestadores de flujos y analíticas de datos. El resultado es un ecosistema fragmentado, costoso y difícil de mantener.</p>
+<h3 class="text-xl font-bold text-white mt-6 mb-3">El impacto financiero de la fragmentación de herramientas de IA</h3>
+<p class="mb-4 text-slate-300 leading-relaxed">Tener los activos digitales de tu empresa dispersos en 15 plataformas externas no solo reduce la rentabilidad operativa, sino que expone tu negocio a riesgos de seguridad. Cuando tu personal copia y pega datos corporativos confidenciales en herramientas públicas de IA gratuitas, estás perdiendo el control y la soberanía de tu información. La solución estratégica es centralizar la infraestructura cognitiva mediante una plataforma robusta como <strong>PassportAI</strong>, desarrollada bajo la dirección de <strong>Prosper IA</strong>.</p>
+<h3 class="text-xl font-bold text-white mt-6 mb-3">Soberanía de Datos y Modelos Privados para Empresas</h3>
+<p class="mb-4 text-slate-300 leading-relaxed">PassportAI permite a las organizaciones entrenar modelos de procesamiento de lenguaje natural utilizando su propia Propiedad Intelectual en servidores seguros. De esta manera, las notas operativas, guías de precios y secretos comerciales son utilizados de forma exclusiva por tus agentes virtuales de atención y ventas, sin transferir esta información a bases de datos públicas de terceros. Logras un ahorro de hasta el 60% en licenciamiento de software y unificas tu Command Center.</p>
+<h3 class="text-xl font-bold text-white mt-6 mb-3">Construye una Ventaja Competitiva Real</h3>
+<p class="mb-4 text-slate-300 leading-relaxed">El ecosistema SVE90 no es una plantilla genérica de automatización en Zapier; es ingeniería real adaptada a la escala de tu negocio en Latinoamérica. Al unificar tus canales de adquisición y centralizar la inteligencia, blindas tus márgenes de ganancia y aseguras la continuidad operativa del negocio independientemente de la rotación de tu personal humano.</p>""",
+        "image_url": "/static/blog2.jpg",
+        "published_at": "2026-06-07T09:00:00Z",
+        "author": "Edward Jiménez"
+    },
+    {
+        "slug": "leads-citas-empleado-digital",
+        "title": "De Leads Fríos a Citas Agendadas: El Método del Empleado Digital SDR y Setter Autónomo",
+        "category": "Automatización",
+        "summary": "Paso a paso para implementar agentes SDR y Setters autónomos que reducen el tiempo de respuesta a menos de 5 minutos.",
+        "content": """<p class="mb-4 text-slate-300 leading-relaxed">La noción del chatbot tradicional que responde opciones rígidas mediante un menú de botones está completamente obsoleta en 2026. Hoy en día, la competitividad de las agencias de servicios y empresas corporativas en Latinoamérica depende de la adopción de <strong>Empleados Digitales</strong>: agentes virtuales autónomos capaces de llevar a un prospecto desde el interés inicial en frío hasta una cita agendada en tu calendario.</p>
+<h3 class="text-xl font-bold text-white mt-6 mb-3">El rol operativo de los agentes AI SDR y AI Setter</h3>
+<p class="mb-4 text-slate-300 leading-relaxed">El flujo de ventas exitoso automatizado consta de dos funciones bien definidas:
+1. **AI SDR (Sales Development Representative)**: Su tarea es responder en menos de 5 minutos, entablar conversación, calificar semánticamente al usuario (presupuesto, urgencia, necesidades operativas) y calcular su puntuación comercial (Lead Score).
+2. **AI Setter**: Una vez calificado el lead, entra en acción para manejar objeciones de agenda, verificar la disponibilidad real de tus especialistas en Google Calendar o Outlook, y agendar la llamada de Meet/Zoom directamente en el CRM de leads.</p>
+<h3 class="text-xl font-bold text-white mt-6 mb-3">¿Cómo automatizar ventas con IA sin perder el toque humano?</h3>
+<p class="mb-4 text-slate-300 leading-relaxed">La clave radica en el entrenamiento semántico basado en el motor PassportAI de **Prosper IA**. El agente autónomo no suena mecánico; adapta su tono al lenguaje empresarial de la región (usando localismos neutros de Latinoamérica), detecta la intención de compra real y sabe cuándo derivar de forma silenciosa la conversación a un ejecutivo de ventas humano para el cierre del contrato comercial.</p>
+<h3 class="text-xl font-bold text-white mt-6 mb-3">El Retorno de Inversión (ROI) de los Empleados Digitales</h3>
+<p class="mb-4 text-slate-300 leading-relaxed">Al liberar a tu equipo humano del agendamiento y la calificación en frío, tus vendedores pueden concentrarse exclusivamente en las reuniones de cierre. Los resultados medidos en el Sistema SVE90 indican un aumento del 4.2× en leads calificados y un ahorro promedio de 28 horas de trabajo semanales por cada operador comercial.</p>""",
+        "image_url": "/static/blog3.jpg",
+        "published_at": "2026-06-06T10:00:00Z",
+        "author": "Edward Jiménez"
+    },
+    {
+        "slug": "caso-estudio-agencia-sve90",
+        "title": "Caso de Estudio: Cómo una Empresa de Servicios en Latinoamérica triplicó sus ventas en 90 días con IA",
+        "category": "Casos de Éxito",
+        "summary": "Analizamos la implementación del Sistema Operativo SVE90 en un equipo de 8 personas y cómo lograron escalar facturación sin inflar su nómina.",
+        "content": """<p class="mb-4 text-slate-300 leading-relaxed">En este caso de estudio detallamos la transformación operativa de una agencia de servicios de marketing y consultoría en Latinoamérica que se encontraba estancada en una facturación mensual de $10,000 USD, con sus costos operativos al límite y un equipo de 8 colaboradores humanos completamente saturados por la gestión manual.</p>
+<h3 class="text-xl font-bold text-white mt-6 mb-3">El diagnóstico inicial: Fugas de leads y retrasos</h3>
+<p class="mb-4 text-slate-300 leading-relaxed">El análisis de madurez digital reveló que la agencia perdía hasta el 55% de sus consultas iniciales debido a retrasos en las respuestas (el tiempo de respuesta promedio era de 4 horas por WhatsApp e Instagram). Además, el CEO dedicaba el 70% de su valioso tiempo estratégico a microgestionar la agenda y responder dudas repetitivas sobre precios de los servicios.</p>
+<h3 class="text-xl font-bold text-white mt-6 mb-3">La implementación del Sistema SVE90</h3>
+<p class="mb-4 text-slate-300 leading-relaxed">El equipo de ingeniería de <strong>Prosper IA</strong> intervino el flujo de adquisición de la agencia con la siguiente infraestructura:
+- Conexión de WhatsApp Business, Instagram DM y Landing Page a través de n8n.
+- Despliegue de agentes AI SDR y AI Setter con PassportAI cargado con los portafolios y casos de éxito del cliente.
+- Sincronización en caliente de actividades y notas detalladas en el Command Center.</p>
+<h3 class="text-xl font-bold text-white mt-6 mb-3">Resultados a los 30, 60 y 90 días</h3>
+<p class="mb-4 text-slate-300 leading-relaxed">El impacto del ecosistema SVE90 fue inmediato:
+- **Día 30**: El Speed-to-lead se redujo a 45 segundos promedio, deteniendo por completo la pérdida de leads calificados.
+- **Día 60**: Los agentes virtuales agendaron de forma autónoma el 75% de las llamadas de diagnóstico en el calendario del equipo de ventas.
+- **Día 90**: La facturación mensual ascendió a $32,000 USD, logrando triplicar el volumen comercial de la agencia sin contratar un solo colaborador operativo adicional y reduciendo la carga administrativa del CEO a niveles mínimos.</p>""",
+        "image_url": "/static/blog4.jpg",
+        "published_at": "2026-06-05T11:00:00Z",
+        "author": "Edward Jiménez"
+    },
+    {
+        "slug": "blindaje-operativo-sops-ia",
+        "title": "Blindaje Operativo: Por qué la Formación y los SOPs son el Secreto del Retorno de Inversión en IA",
+        "category": "Operaciones",
+        "summary": "La tecnología es inútil si tu equipo no la adopta. Descubre cómo la formación y los procedimientos estándar garantizan el retorno de inversión.",
+        "content": """<p class="mb-4 text-slate-300 leading-relaxed">Existe un error muy común entre directores de empresas y CEOs en Latinoamérica al momento de digitalizar procesos: pensar que la tecnología por sí sola solucionará los problemas. Comprar la licencia de IA más costosa o implementar integraciones sofisticadas no generará retorno de inversión si tu equipo de trabajo humano no adopta las herramientas o se resiste a usarlas.</p>
+<h3 class="text-xl font-bold text-white mt-6 mb-3">¿Por qué fallan las implementaciones de IA tradicionales?</h3>
+<p class="mb-4 text-slate-300 leading-relaxed">La resistencia al cambio es un factor psicológico y operativo real en las corporaciones de nuestra región. Los colaboradores suelen temer que la Inteligencia Artificial reemplace sus puestos de trabajo, o simplemente encuentran los sistemas complejos y prefieren volver a las planillas de Excel manuales. El verdadero éxito empresarial consiste en realizar un **Blindaje Operativo** que una la tecnología con la formación humana.</p>
+<h3 class="text-xl font-bold text-white mt-6 mb-3">El secreto del éxito: SOPs de IA y Formación con AZ Academy</h3>
+<p class="mb-4 text-slate-300 leading-relaxed">Para blindar la inversión, cada automatización del Sistema SVE90 va acompañada de:
+1. **SOPs (Procedimientos Operativos Estándar)**: Manuales cortos y claros que definen los límites del agente virtual y el momento exacto en el que el especialista humano debe tomar el relevo para el cierre de ventas.
+2. **Capacitación Continua con AZ Academy**: El portal educativo de Prosper IA diseñado para capacitar a tu equipo en la supervisión de prompts, control de leads en el CRM y análisis de métricas. De esta forma, tus empleados ven a los agentes virtuales como asistentes que facilitan su día a día y potencian sus comisiones.</p>
+<blockquote class="border-l-4 border-cyan-400 pl-4 py-2 my-6 bg-cyan-950/20 text-cyan-200 italic">"Garantizar la adopción técnica es la única forma de asegurar que tu empresa se convierta en una organización verdaderamente aumentada y eficiente en el mediano plazo."</blockquote>""",
+        "image_url": "/static/blog5.jpg",
+        "published_at": "2026-06-04T12:00:00Z",
+        "author": "Edward Jiménez"
+    },
+    {
+        "slug": "guia-definitiva-ia-ceos",
+        "title": "La Guía Definiva de IA para CEOs: Qué Procesos Automatizar y qué Delegar Estratégicamente",
+        "category": "Automatización",
+        "summary": "Un mapa conceptual estratégico para directores ejecutivos que buscan optimizar márgenes y eliminar la fricción operativa en su modelo de servicios.",
+        "content": """<p class="mb-4 text-slate-300 leading-relaxed">Como director general o CEO de una empresa en Latinoamérica, tu tiempo es el recurso más costoso y limitado de la organización. Enfrentarse a la oleada diaria de noticias sobre Inteligencia Artificial puede ser abrumador. La pregunta estratégica que debes responder no es si debes implementar IA, sino **qué procesos específicos debes automatizar hoy** y cuáles debes mantener bajo control humano directo.</p>
+<h3 class="text-xl font-bold text-white mt-6 mb-3">Matriz estratégica de automatización para CEOs</h3>
+<p class="mb-4 text-slate-300 leading-relaxed">Para guiar tu toma de decisiones de forma segura, aplica la siguiente clasificación operativa:
+- **Automatizar por completo**: Tareas repetitivas, de alta frecuencia y baja empatía. Esto incluye la calificación inicial de leads en frío, recordatorios de cobro y facturación, sincronización de bases de datos y el scoring comercial de clientes.
+- **Mantener bajo control humano**: Actividades de alta empatía, alta personalización y negociación estratégica. El diseño de tus soluciones de servicios, la atención al cliente crítica de nivel superior, y las llamadas de cierre final de contratos de alto valor deben ser lideradas por tu equipo de profesionales.</p>
+<h3 class="text-xl font-bold text-white mt-6 mb-3">Cómo elegir el proveedor de IA ideal en Latinoamérica</h3>
+<p class="mb-4 text-slate-300 leading-relaxed">Evita agencias y consultoras improvisadas que venden "promesas mágicas de dinero fácil" o parches temporales en plataformas desconectadas. Busca socios tecnológicos de ingeniería real que instalen infraestructuras serializadas y probadas como el <strong>Sistema SVE90</strong> de **Prosper IA**. El ecosistema técnico debe integrarse de manera nativa a tus flujos, respetar tus políticas de privacidad y garantizar la capacitación de tu personal.</p>
+<h3 class="text-xl font-bold text-white mt-6 mb-3">Próximo paso operativo</h3>
+<p class="mb-4 text-slate-300 leading-relaxed">La mejor forma de iniciar es programar una auditoría de tus procesos. Te invitamos a solicitar tu **Diagnóstico de Madurez SVE90** con nuestro equipo de ingenieros de soluciones para identificar tus principales cuellos de botella y trazar la ruta de crecimiento óptima para tu organización.</p>""",
+        "image_url": "/static/blog6.jpg",
+        "published_at": "2026-06-03T13:00:00Z",
+        "author": "Edward Jiménez"
+    }
+]
+
 DB_PATH = os.environ.get("DATABASE_PATH", "prosper_ia.db")
 
 def get_db():
@@ -204,6 +325,39 @@ def init_db():
                 lead["score"],
                 lead["notes"],
                 lead["created_at"]
+            ))
+
+    # 5. Create blog_posts table
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS blog_posts (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            slug TEXT UNIQUE NOT NULL,
+            title TEXT NOT NULL,
+            category TEXT NOT NULL,
+            summary TEXT NOT NULL,
+            content TEXT NOT NULL,
+            image_url TEXT NOT NULL,
+            published_at TEXT NOT NULL,
+            author TEXT NOT NULL
+        )
+    """)
+
+    # 6. Seed blog posts if empty
+    cursor.execute("SELECT COUNT(*) FROM blog_posts")
+    if cursor.fetchone()[0] == 0:
+        for post in INITIAL_BLOG_POSTS:
+            cursor.execute("""
+                INSERT INTO blog_posts (slug, title, category, summary, content, image_url, published_at, author)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            """, (
+                post["slug"],
+                post["title"],
+                post["category"],
+                post["summary"],
+                post["content"],
+                post["image_url"],
+                post["published_at"],
+                post["author"]
             ))
             
     conn.commit()
@@ -307,6 +461,81 @@ async def read_login(request: Request):
 async def read_dashboard(request: Request):
     return templates.TemplateResponse(request=request, name="dashboard.html")
 
+@app.get("/blog", response_class=HTMLResponse)
+@app.get("/blog.html", response_class=HTMLResponse)
+async def read_blog(request: Request):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM blog_posts ORDER BY id DESC")
+    rows = cursor.fetchall()
+    conn.close()
+    posts = [dict(row) for row in rows]
+    return templates.TemplateResponse(request=request, name="blog.html", context={"posts": posts})
+
+@app.get("/blog/{slug}", response_class=HTMLResponse)
+async def read_blog_post(request: Request, slug: str):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM blog_posts WHERE slug = ?", (slug,))
+    row = cursor.fetchone()
+    conn.close()
+    if not row:
+        raise HTTPException(status_code=404, detail="Artículo de blog no encontrado.")
+    return templates.TemplateResponse(request=request, name="blog_post.html", context={"post": dict(row)})
+
+# ─── TECHNICAL SEO ENDPOINTS ────────────────────────────────────────────────
+from fastapi.responses import PlainTextResponse
+
+@app.get("/robots.txt", response_class=PlainTextResponse)
+async def get_robots():
+    content = (
+        "User-agent: *\n"
+        "Allow: /\n"
+        "Disallow: /api/\n"
+        "Disallow: /dashboard\n"
+        "Disallow: /login\n\n"
+        "Sitemap: https://agenciaprosperia.com/sitemap.xml\n"
+    )
+    return content
+
+@app.get("/sitemap.xml")
+async def get_sitemap():
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT slug, published_at FROM blog_posts")
+    posts = cursor.fetchall()
+    conn.close()
+    
+    xml_content = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        '  <url>\n'
+        '    <loc>https://agenciaprosperia.com/</loc>\n'
+        '    <changefreq>weekly</changefreq>\n'
+        '    <priority>1.0</priority>\n'
+        '  </url>\n'
+        '  <url>\n'
+        '    <loc>https://agenciaprosperia.com/blog</loc>\n'
+        '    <changefreq>daily</changefreq>\n'
+        '    <priority>0.8</priority>\n'
+        '  </url>\n'
+    )
+    
+    for post in posts:
+        slug = post["slug"]
+        date = post["published_at"][:10]
+        xml_content += (
+            f'  <url>\n'
+            f'    <loc>https://agenciaprosperia.com/blog/{slug}</loc>\n'
+            f'    <lastmod>{date}</lastmod>\n'
+            f'    <changefreq>monthly</changefreq>\n'
+            f'    <priority>0.6</priority>\n'
+            f'  </url>\n'
+        )
+        
+    xml_content += '</urlset>\n'
+    return Response(content=xml_content, media_type="application/xml")
+
 # ─── API ENDPOINTS ──────────────────────────────────────────────────────────
 
 @app.post("/api/auth/login")
@@ -349,7 +578,15 @@ async def api_login(req: LoginRequest, response: Response):
         "api_key": user["api_key"]
     }
     
-    response.set_cookie(key="auth_token", value=token, max_age=604800, path="/")
+    response.set_cookie(
+        key="auth_token",
+        value=token,
+        max_age=604800,
+        path="/",
+        httponly=True,
+        samesite="lax",
+        secure=True
+    )
     
     return {
         "success": True,
@@ -700,3 +937,49 @@ async def api_get_stats(current_user: dict = Depends(get_current_user)):
             "conversion_rate": rate
         }
     }
+
+# ─── AGENTS CHAT ENDPOINT ───────────────────────────────────────────────────
+
+class AgentChatRequest(BaseModel):
+    message: str
+    agent: str
+
+@app.post("/api/agents/chat")
+async def api_agent_chat(req: AgentChatRequest):
+    message = req.message.lower()
+    agent_type = req.agent # sdr, setter, support
+    
+    # Respuestas personalizadas del Agente SDR
+    if agent_type == "sdr":
+        if any(w in message for w in ["precio", "costo", "cuanto", "tarifa"]):
+            reply = "El presupuesto de SVE90 es variable según el tamaño de tu equipo y canales. En el Diagnóstico de Madurez auditamos tus fugas y te damos una propuesta exacta. ¿Cuántas personas integran tu equipo?"
+        elif any(w in message for w in ["equipo", "persona", "colaborador", "empleado"]):
+            reply = "Un equipo con esa estructura se beneficia enormemente del SVE90. Automatizamos tareas repetitivas y liberamos a tus vendedores humanos. ¿Qué canales de contacto usas (WhatsApp, FB, Web)?"
+        elif any(w in message for w in ["hola", "buenas", "que tal"]):
+            reply = "¡Hola! Soy tu AI SDR. Analizo la madurez de tu agencia para estructurar tu SVE90. ¿Cuál es tu principal canal de atracción de clientes actualmente?"
+        else:
+            reply = "Excelente detalle. Con el SVE90 podemos optimizar ese canal instalando agentes de cualificación automática. ¿Te gustaría agendar una llamada de diagnóstico de 30 minutos?"
+            
+    # Respuestas personalizadas del Agente Setter
+    elif agent_type == "setter":
+        if any(w in message for w in ["agenda", "cita", "reunion", "llamar", "diagnostico", "calendario"]):
+            reply = "¡Perfecto! Coordinemos una llamada de 30 minutos con nuestros ingenieros de soluciones. ¿Te viene mejor agendar para esta semana por la mañana o por la tarde?"
+        elif any(w in message for w in ["mañana", "tarde"]):
+            reply = "Excelente, he reservado un espacio tentativo en nuestro calendario. ¿Me confirmas tu dirección de correo electrónico corporativo para formalizar el envío de la invitación de Google Meet?"
+        elif any(w in message for w in ["hola", "buenas", "que tal"]):
+            reply = "¡Hola! Soy tu AI Setter. Mi especialidad es coordinar agendas y eliminar fricciones en tus llamadas comerciales. ¿Te gustaría agendar tu Diagnóstico de Madurez hoy?"
+        else:
+            reply = "Entendido. Coordinemos tu cita para revisar tu infraestructura de ventas en detalle. ¿Prefieres agendar para esta semana?"
+            
+    # Respuestas personalizadas del Agente Soporte
+    else:
+        if any(w in message for w in ["n8n", "automatizacion", "flujo", "orquestador"]):
+            reply = "El Orquestador Central SVE90 utiliza servidores dedicados de n8n para enlazar de manera segura tu web, WhatsApp e Instagram con el CRM y la capa de inteligencia PassportAI."
+        elif any(w in message for w in ["passportai", "cerebro", "inteligencia"]):
+            reply = "PassportAI es nuestra tecnología de procesamiento semántico. Permite que entrenes a los agentes virtuales con tus precios, servicios e historial para que respondan con tu tono de marca."
+        elif any(w in message for w in ["hola", "buenas", "que tal"]):
+            reply = "¡Hola! Soy tu AI Soporte. Puedo guiarte a través de los aspectos técnicos del SVE90: n8n, SQLite y PassportAI. ¿Qué duda técnica tienes sobre el stack?"
+        else:
+            reply = "Entendido. Toda la infraestructura del SVE90 está blindada y estructurada para garantizar tiempos de respuesta rápidos y consistentes. ¿Tienes alguna pregunta específica?"
+            
+    return {"success": True, "reply": reply}
