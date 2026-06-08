@@ -34,9 +34,16 @@
     }
     * { font-family: 'Inter', sans-serif; box-sizing: border-box; }
     h1,h2,h3 { font-family: 'Space Grotesk', sans-serif; }
-    body { background: var(--navy); color: var(--white); overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column; }
+    body { background: var(--navy); color: var(--white); overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column; padding-top: 40px; }
+    .top-bar {
+      position: fixed; top: 0; left: 0; right: 0; height: 40px; z-index: 110;
+      background: #01040a;
+      border-bottom: 1px solid rgba(0, 229, 255, 0.08);
+      display: flex;
+      align-items: center;
+    }
     .navbar {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      position: fixed; top: 40px; left: 0; right: 0; z-index: 100;
       background: rgba(2,7,16,0.85);
       backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--navy-border);
@@ -107,6 +114,22 @@
 </head>
 <body class="pt-32">
 
+<!-- Top Bar / Announcement Banner -->
+<div class="top-bar">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex items-center justify-between">
+    <div class="flex items-center gap-2" style="font-size: 11px;">
+      <span class="inline-block w-2 h-2 rounded-full animate-pulse" style="background-color: #00e5ff;"></span>
+      <span class="text-slate-300">🚀 ¡Bienvenido! Diagnóstico de Madurez SVE90 de 30 Minutos - Plazas limitadas para esta semana.</span>
+    </div>
+    <div class="flex items-center gap-4 text-slate-400" style="font-size: 13px;">
+      <a href="https://www.instagram.com/edwardjimenezia/" target="_blank" rel="noopener" class="hover:text-cyan-400 transition-colors" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="https://www.facebook.com/AgenciaProsperarIA/" target="_blank" rel="noopener" class="hover:text-cyan-400 transition-colors" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://www.youtube.com/@AgenciaProsper_IA" target="_blank" rel="noopener" class="hover:text-cyan-400 transition-colors" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+      <a href="https://www.linkedin.com/in/edwardjimenezia/" target="_blank" rel="noopener" class="hover:text-cyan-400 transition-colors" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+    </div>
+  </div>
+</div>
+
 <!-- Navbar -->
 <nav class="navbar">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -122,13 +145,6 @@
         <a href="/blog" class="text-sm text-slate-400 hover:text-white transition-colors font-medium">Blog</a>
       </div>
       <div class="flex items-center gap-3">
-        <div class="hidden lg:flex items-center gap-4 mr-3 text-slate-400">
-          <a href="https://www.instagram.com/edwardjimenezia/" target="_blank" rel="noopener" class="hover:text-cyan-400 transition-colors text-sm" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-          <a href="https://www.facebook.com/AgenciaProsperarIA/" target="_blank" rel="noopener" class="hover:text-cyan-400 transition-colors text-sm" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-          <a href="https://www.youtube.com/@AgenciaProsper_IA" target="_blank" rel="noopener" class="hover:text-cyan-400 transition-colors text-sm" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-          <a href="https://www.linkedin.com/in/edwardjimenezia/" target="_blank" rel="noopener" class="hover:text-cyan-400 transition-colors text-sm" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-        </div>
-        <div class="hidden lg:block h-4 w-px bg-slate-800 mr-2"></div>
         <a href="/login" class="hidden sm:block text-sm font-medium text-slate-400 hover:text-white transition-colors px-3 py-2">Portal SVE90</a>
         <a href="/index.html#contacto" class="btn-gold text-sm font-bold px-5 py-2.5 rounded-xl">
           Aplicar al Diagnóstico
