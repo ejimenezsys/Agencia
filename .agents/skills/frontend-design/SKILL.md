@@ -40,3 +40,13 @@ Interpret creatively and make unexpected choices that feel genuinely designed fo
 **IMPORTANT**: Match implementation complexity to the aesthetic vision. Maximalist designs need elaborate code with extensive animations and effects. Minimalist or refined designs need restraint, precision, and careful attention to spacing, typography, and subtle details. Elegance comes from executing the vision well.
 
 Remember: Claude is capable of extraordinary creative work. Don't hold back, show what can truly be created when thinking outside the box and committing fully to a distinctive vision.
+
+---
+
+## ⚠️ Identidad Visual y Estilos Preexistentes (Crucial)
+
+Cuando estés editando o añadiendo elementos a una interfaz de este proyecto, **DEBES respetar de forma estricta los estilos visuales, paletas de colores y tipografías tal como están definidos hoy día**:
+- **No impongas cambios de fuentes, degradados ajenos o modos oscuros/claros** si el diseño del sitio actual no los utiliza.
+- Consulta siempre las hojas de estilo del proyecto (ej: `index.css`, `style.css` o `tailwind.config.ts`) y mantén consistencia absoluta con la marca (ej: la paleta dorado/girasol y azul marino para *Blancos Girasol*, la paleta corporativa de *Agencia*, el estilo de *sti2q*, etc.).
+- Las animaciones y micro-interacciones deben complementar y unificarse con la experiencia actual, sin alterar la maquetación o identidad original establecida por el cliente.
+
