@@ -148,7 +148,7 @@ INITIAL_BLOG_POSTS = [
   <li><strong>Salesforce Research:</strong> <span class="italic">"State of Sales Report (6th Edition)"</span> (Análisis global sobre cómo los equipos de alto rendimiento adoptan IA para optimizar la entrada de leads en CRM).</li>
   <li><strong>McKinsey & Company:</strong> <span class="italic">"The economic potential of generative AI"</span> (Perspectivas de adopción de automatización de ventas en los mercados emergentes de Latinoamérica).</li>
 </ul>""",
-        "image_url": "/static/blog1.jpg",
+        "image_url": "/static/rediseno-crm-ia-latam.jpg",
         "published_at": "2026-06-08T08:00:00Z",
         "author": "Edward Jiménez"
     },
@@ -168,7 +168,7 @@ INITIAL_BLOG_POSTS = [
   <li><strong>Forrester Research:</strong> <span class="italic">"The ROI of Consolidated Cloud Infrastructure"</span> (Estudio sobre la reducción de costes al unificar múltiples herramientas en un solo orquestador central).</li>
   <li><strong>Massachusetts Institute of Technology (MIT):</strong> <span class="italic">"Data Sovereignty in the Age of Generative AI"</span> (Análisis sobre los peligros del uso de herramientas de IA públicas en el ámbito empresarial).</li>
 </ul>""",
-        "image_url": "/static/blog2.jpg",
+        "image_url": "/static/centralizacion-passportai-software-ceos.jpg",
         "published_at": "2026-06-07T09:00:00Z",
         "author": "Edward Jiménez"
     },
@@ -190,7 +190,7 @@ INITIAL_BLOG_POSTS = [
   <li><strong>TOPO Sales Benchmark:</strong> <span class="italic">"Sales Development Representative Performance Metrics"</span> (Análisis de la fatiga operativa y tiempo desperdiciado por SDRs humanos en tareas administrativas).</li>
   <li><strong>Harvard Business Review:</strong> <span class="italic">"How AI is Helping Salespeople Close More Deals"</span> (Estudio sobre el impacto de la automatización en el agendamiento y la conversión de prospectos calificados).</li>
 </ul>""",
-        "image_url": "/static/blog3.jpg",
+        "image_url": "/static/empleado-digital-sdr-setter-autonomo.jpg",
         "published_at": "2026-06-06T10:00:00Z",
         "author": "Edward Jiménez"
     },
@@ -216,7 +216,7 @@ INITIAL_BLOG_POSTS = [
   <li><strong>Salesforce Customer Success Group:</strong> <span class="italic">"ROI Statistics of Marketing Automation Integration"</span> (Estadísticas sobre la reducción de costes de adquisición tras implementar CRM inteligente).</li>
   <li><strong>Harvard Business Review:</strong> <span class="italic">"Case Study: The Augmented Service Company"</span> (Análisis del crecimiento de empresas que integran herramientas de IA de manera serializada).</li>
 </ul>""",
-        "image_url": "/static/blog4.jpg",
+        "image_url": "/static/caso-estudio-agencia-sve90-ventas-ia.jpg",
         "published_at": "2026-06-05T11:00:00Z",
         "author": "Edward Jiménez"
     },
@@ -238,7 +238,7 @@ INITIAL_BLOG_POSTS = [
   <li><strong>Gartner Research:</strong> <span class="italic">"Change Management Strategies for Digital Workplace Solutions"</span> (Guía sobre la mitigación del rechazo interno en implementaciones tecnológicas).</li>
   <li><strong>Harvard Business School:</strong> <span class="italic">"SOPs and Process Standardization in Augmented Operations"</span> (Estudio sobre el impacto de estandarizar procesos antes y durante el uso de IA).</li>
 </ul>""",
-        "image_url": "/static/blog5.jpg",
+        "image_url": "/static/blindaje-operativo-sops-formacion-ia.jpg",
         "published_at": "2026-06-04T12:00:00Z",
         "author": "Edward Jiménez"
     },
@@ -260,7 +260,7 @@ INITIAL_BLOG_POSTS = [
   <li><strong>Harvard Business Review:</strong> <span class="italic">"Artificial Intelligence for the Real World"</span> (Estudio sobre cómo las empresas exitosas se enfocan en optimización de procesos en lugar de inteligencia artificial general).</li>
   <li><strong>Gartner Research:</strong> <span class="italic">"Key Metrics for Assessing AI Value in Service Industries"</span> (Métricas clave para medir el retorno financiero de la automatización en empresas de servicios).</li>
 </ul>""",
-        "image_url": "/static/blog6.jpg",
+        "image_url": "/static/guia-definitiva-automatizacion-ia-ceos.jpg",
         "published_at": "2026-06-03T13:00:00Z",
         "author": "Edward Jiménez"
     }
