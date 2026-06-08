@@ -50,6 +50,26 @@
       transform: translateY(-4px);
       box-shadow: 0 12px 40px rgba(0,229,255,0.08);
     }
+    .blog-card-img-container {
+      position: relative;
+      overflow: hidden;
+      height: 220px;
+      border-bottom: 1px solid rgba(0,229,255,0.08);
+    }
+    @media (min-width: 640px) {
+      .blog-card-img-container {
+        height: 280px;
+      }
+    }
+    .blog-img-fit {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transition: transform 0.5s ease;
+    }
   </style>
 </head>
 <body class="pt-32">
@@ -102,13 +122,13 @@
     <article class="card-glow overflow-hidden flex flex-column flex-col justify-between">
       <div>
         <!-- Real Image Header with CSS Fallback -->
-        <div class="h-96 relative overflow-hidden flex items-center justify-center" style="border-bottom: 1px solid rgba(0,229,255,0.08);">
-          <img src="{{ post.image_url }}" alt="{{ post.title }}" class="w-full h-full object-cover absolute inset-0 transition-transform duration-500 hover:scale-105" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-          <div class="hidden w-full h-full absolute inset-0 items-center justify-center" style="background: linear-gradient(135deg, #05142b 0%, #030a14 100%);">
-            <div class="absolute inset-0 opacity-20 pointer-events-none" style="background-image: radial-gradient(var(--navy-border) 1px, transparent 0); background-size: 10px 10px;"></div>
+        <div class="blog-card-img-container">
+          <img src="{{ post.image_url }}" alt="{{ post.title }}" class="blog-img-fit hover:scale-105" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div style="display: none; width: 100%; height: 100%; position: absolute; top: 0; left: 0; background: linear-gradient(135deg, #05142b 0%, #030a14 100%); align-items: center; justify-content: center;">
+            <div class="absolute inset-0 opacity-20 pointer-events-none" style="background-image: radial-gradient(rgba(0,229,255,0.15) 1px, transparent 0); background-size: 10px 10px;"></div>
             <i class="fas fa-microchip text-5xl text-cyan-400/20"></i>
           </div>
-          <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-md absolute top-4 left-4 z-10" style="background: rgba(2, 7, 16, 0.85); color: #00e5ff; border: 1px solid rgba(0,229,255,0.3); backdrop-filter: blur(4px);">
+          <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-md" style="position: absolute; top: 1rem; left: 1rem; z-index: 10; background: rgba(2, 7, 16, 0.85); color: #00e5ff; border: 1px solid rgba(0,229,255,0.3); backdrop-filter: blur(4px);">
             {{ post.category }}
           </span>
         </div>
