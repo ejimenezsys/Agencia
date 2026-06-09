@@ -260,6 +260,121 @@
     @media (max-width: 768px) {
       .hide-mobile { display: none !important; }
     }
+
+    /* ── Estilos personalizados para espaciado y aire (Ajustes de UI) ── */
+    /* Separar los iconos del texto en la sección de Admisión (SÍ/NO) */
+    #filtro .flex.items-start .ml-4,
+    #filtro .flex.items-start div.ml-4 {
+      margin-left: 1.25rem !important;
+    }
+
+    /* Espacio horizontal (gap) entre las dos tarjetas de Admisión (SÍ/NO) */
+    #filtro .grid {
+      display: grid !important;
+      gap: 2rem !important;
+    }
+    @media (max-width: 767px) {
+      #filtro .grid {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem !important;
+      }
+    }
+    @media (min-width: 768px) {
+      #filtro .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 2rem !important;
+      }
+    }
+
+    /* Evitar que las tarjetas de fases en el sistema se encimen */
+    #sistema .space-y-0 > div.flex {
+      margin-bottom: 3rem !important;
+    }
+
+    /* Ruta vertical de neón que conecta los nodos de la escalera de valor */
+    .timeline-route-line {
+      position: absolute;
+      top: 1rem;
+      bottom: 2rem;
+      width: 4px !important;
+      background: linear-gradient(180deg, #00e5ff 0%, #38bdf8 50%, #818cf8 100%) !important;
+      box-shadow: 0 0 15px rgba(0, 229, 255, 0.6) !important;
+      opacity: 0.85 !important;
+      z-index: 1 !important; /* Detrás de las tarjetas y los círculos */
+    }
+
+    /* Posición de la ruta en móviles */
+    @media (max-width: 639px) {
+      .timeline-route-line {
+        left: 1.5rem !important; /* Centrado con el círculo en left-6 */
+        transform: translateX(-50%) !important;
+      }
+    }
+
+    /* Asegurar que las tarjetas estén en el nivel Z adecuado por encima de la línea */
+    #sistema .space-y-0 > div.flex > div.w-full > .card {
+      position: relative !important;
+      z-index: 10 !important;
+    }
+
+    /* Correcciones responsive para la escalera de valor (Día 30, 60, 90) */
+    @media (min-width: 640px) {
+      /* Posicionar la ruta de neón en el centro en desktop */
+      .timeline-route-line {
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+      }
+
+      /* Centrar los círculos flotantes con los números de las fases */
+      #sistema .space-y-0 > div.flex > div.absolute {
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        z-index: 20 !important; /* Encima de todo */
+      }
+
+      /* Asegurar layout horizontal en desktop */
+      #sistema .space-y-0 > div.flex {
+        flex-direction: row !important;
+      }
+
+      /* Forzar ancho y dar aire al centro para evitar colisiones */
+      /* Fases de la izquierda (1 y 3) */
+      #sistema .timeline-phase-left > div.w-full {
+        width: calc(50% - 2.5rem) !important;
+        text-align: right !important;
+        padding-right: 1.5rem !important;
+        padding-left: 0 !important;
+      }
+      #sistema .timeline-phase-left > div.hidden {
+        display: block !important;
+        width: calc(50% + 2.5rem) !important;
+      }
+
+      /* Fase de la derecha (2) */
+      #sistema .timeline-phase-right > div.hidden {
+        display: block !important;
+        width: calc(50% + 2.5rem) !important;
+      }
+      #sistema .timeline-phase-right > div.w-full {
+        width: calc(50% - 2.5rem) !important;
+        text-align: left !important;
+        padding-left: 1.5rem !important;
+        padding-right: 0 !important;
+      }
+    }
+
+    /* Ajustes para móviles/tablets (ancho menor a 640px) */
+    @media (max-width: 639px) {
+      /* Asegurar que las tarjetas de fase tengan espacio a la izquierda para el círculo */
+      #sistema .space-y-0 > div.flex > div.w-full {
+        padding-left: 4.5rem !important;
+        padding-right: 0.5rem !important;
+      }
+      /* Círculos flotantes en móvil en z-20 */
+      #sistema .space-y-0 > div.flex > div.absolute {
+        z-index: 20 !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -599,11 +714,10 @@
       <!-- Timeline visual (escalera de valor) -->
       <div class="space-y-0 relative">
         <!-- Glowing vertical timeline connector line -->
-        <div class="absolute left-6 sm:left-1/2 top-4 bottom-4 w-0.5 -translate-x-1/2 hidden sm:block" style="background: linear-gradient(180deg, #00e5ff 0%, #38bdf8 50%, #818cf8 100%); opacity: 0.3; box-shadow: 0 0 10px rgba(0,229,255,0.5);"></div>
-        <div class="absolute left-6 top-4 bottom-4 w-0.5 sm:hidden" style="background: linear-gradient(180deg, #00e5ff 0%, #38bdf8 50%, #818cf8 100%); opacity: 0.3;"></div>
+        <div class="timeline-route-line"></div>
 
         <!-- Fase 1: Día 30 -->
-        <div class="flex flex-col sm:flex-row items-stretch gap-8 mb-12 relative">
+        <div class="flex flex-col sm:flex-row items-stretch gap-8 mb-12 relative timeline-phase-left">
           <!-- Timeline point center -->
           <div class="absolute left-6 sm:left-1/2 top-4 -translate-x-1/2 z-20 flex items-center justify-center">
             <div class="w-12 h-12 rounded-full flex items-center justify-center font-black text-sm" style="background:#050d1a; border:2px solid #00e5ff; color:#00e5ff; box-shadow: 0 0 15px rgba(0,229,255,0.4);">
@@ -627,7 +741,7 @@
         </div>
 
         <!-- Fase 2: Día 60 -->
-        <div class="flex flex-col sm:flex-row items-stretch gap-8 mb-12 relative">
+        <div class="flex flex-col sm:flex-row items-stretch gap-8 mb-12 relative timeline-phase-right">
           <!-- Timeline point center -->
           <div class="absolute left-6 sm:left-1/2 top-4 -translate-x-1/2 z-20 flex items-center justify-center">
             <div class="w-12 h-12 rounded-full flex items-center justify-center font-black text-sm" style="background:#050d1a; border:2px solid #38bdf8; color:#38bdf8; box-shadow: 0 0 15px rgba(56,189,248,0.4);">
@@ -652,7 +766,7 @@
         </div>
 
         <!-- Fase 3: Día 90 -->
-        <div class="flex flex-col sm:flex-row items-stretch gap-8 relative">
+        <div class="flex flex-col sm:flex-row items-stretch gap-8 relative timeline-phase-left">
           <!-- Timeline point center -->
           <div class="absolute left-6 sm:left-1/2 top-4 -translate-x-1/2 z-20 flex items-center justify-center">
             <div class="w-12 h-12 rounded-full flex items-center justify-center font-black text-sm" style="background:#050d1a; border:2px solid #818cf8; color:#818cf8; box-shadow: 0 0 15px rgba(129,140,248,0.4);">
@@ -1173,7 +1287,61 @@
         <span style="color: #00e5ff; text-shadow: 0 0 40px rgba(0,229,255,0.15);">sin inflar tu nómina operativa.</span>
       </h2>
       <p class="text-slate-400 text-lg sm:text-xl mb-10 leading-relaxed font-light">
-        Descubre en 15 minutos cómo funciona por dentro la infraestructura que califica, da seguimiento y agenda tus leads en menos de 5 <section class="py-24" style="background:var(--navy-mid); border-bottom:1px solid rgba(0,229,255,0.05);">
+        Descubre en 15 minutos cómo funciona por dentro la infraestructura que califica, da seguimiento y agenda tus leads en menos de 5 minutos.
+      </p>
+
+      <!-- Reproductor de VSL (Video Mockup Premium) -->
+      <div class="relative mx-auto mt-12 max-w-4xl rounded-2xl overflow-hidden border border-cyan-500/20 group" style="background:#030b16; box-shadow:0 0 50px rgba(0,229,255,0.15);" data-reveal>
+        <div class="relative w-full overflow-hidden flex items-center justify-center cursor-pointer" style="aspect-ratio: 16 / 9; height: auto;" onclick="document.getElementById('contacto').scrollIntoView({behavior: 'smooth'})">
+          <!-- Imagen de Poster del Video -->
+          <img src="/static/caso-estudio-agencia-sve90-ventas-ia.jpg" alt="Demostración SVE90" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-[1.02] transition-transform duration-700 ease-out">
+          
+          <!-- Gradiente de Superposición -->
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent"></div>
+          
+          <!-- Botón de Play Gigante -->
+          <div class="relative z-10 w-20 h-20 rounded-full bg-cyan-500/10 border-2 border-cyan-400 flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:bg-cyan-400 group-hover:shadow-[0_0_50px_rgba(0,229,255,0.6)]" style="box-shadow: 0 0 30px rgba(0,229,255,0.3);">
+            <i class="fas fa-play text-cyan-400 group-hover:text-slate-950 text-3xl ml-1 transition-colors"></i>
+          </div>
+          
+          <!-- Badge Superior -->
+          <div class="absolute top-4 left-4 z-10 flex items-center gap-2 bg-slate-950/80 px-3 py-1.5 rounded-full border border-cyan-500/30">
+            <span class="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse"></span>
+            <span class="text-[10px] font-bold text-slate-300 uppercase tracking-widest">DEMOSTRACIÓN EXCLUSIVA — 15 MIN</span>
+          </div>
+          
+          <!-- Barra de Controles Simulada -->
+          <div class="absolute bottom-0 left-0 right-0 z-10 bg-gradient-to-t from-slate-950 to-transparent p-6 pt-12 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+            <div class="w-full h-1.5 bg-slate-800 rounded-full mb-4 overflow-hidden relative">
+              <div class="absolute left-0 top-0 bottom-0 w-1/3 bg-cyan-400 shadow-[0_0_10px_rgba(0,229,255,0.8)]"></div>
+              <div class="absolute left-1/3 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-white border border-cyan-400 shadow-md"></div>
+            </div>
+            <div class="flex items-center justify-between text-slate-400 text-xs font-semibold">
+              <div class="flex items-center gap-4">
+                <i class="fas fa-play hover:text-cyan-400 transition-colors"></i>
+                <div class="flex items-center gap-2">
+                  <i class="fas fa-volume-high hover:text-cyan-400 transition-colors"></i>
+                  <span class="w-16 h-1 bg-slate-700 rounded-full overflow-hidden inline-block"><span class="block w-4/5 h-full bg-cyan-400"></span></span>
+                </div>
+                <span>05:12 / 15:34</span>
+              </div>
+              <div class="flex items-center gap-4">
+                <i class="fas fa-sliders hover:text-cyan-400 transition-colors"></i>
+                <i class="fas fa-expand hover:text-cyan-400 transition-colors"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════
+     DECISIONES EJECUTIVAS (FAQ)
+     ════════════════════════════════════════════════════ -->
+<section class="py-24" style="background:var(--navy-mid); border-bottom:1px solid rgba(0,229,255,0.05);">
   <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-16" data-reveal>
       <h2 class="text-3xl sm:text-4xl font-black text-white mb-4">Decisiones Ejecutivas</h2>
@@ -1244,7 +1412,7 @@
 <!-- ════════════════════════════════════════════════════
      SECCIÓN INTERMEDIA: AUTORIDAD Y EL DIAGNÓSTICO
      ════════════════════════════════════════════════════ -->
-<section id="diagnostico-info" class="py-24" style="background:#050d1a; border-top:1px solid rgba(0,229,255,0.15);">
+<section id="diagnostico-info" class="relative" style="padding: 100px 0; background:#050d1a; border-top:1px solid rgba(0,229,255,0.15);">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-16" data-reveal>
       <div class="section-label mb-6 justify-center">PRÓXIMO PASO</div>
@@ -1315,7 +1483,7 @@
 <!-- ════════════════════════════════════════════════════
      SECCIÓN FINAL: FORMULARIO DE APLICACIÓN
 ════════════════════════════════════════════════════ -->
-<section id="contacto" class="py-32 relative overflow-hidden" style="background: radial-gradient(circle at center, #050d1a 0%, var(--navy) 100%); border-top: 1px solid rgba(0,229,255,0.15);">
+<section id="contacto" class="relative overflow-hidden" style="padding: 120px 0; background: radial-gradient(circle at center, #050d1a 0%, var(--navy) 100%); border-top: 1px solid rgba(0,229,255,0.15);">
   <!-- Orbs de fondo premium para dar amplitud y profundidad visual -->
   <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-[0.03] blur-3xl pointer-events-none" style="background:radial-gradient(circle, #00e5ff 0%, transparent 70%);"></div>
   
@@ -1396,7 +1564,7 @@
 
 <!-- ─── FOOTER ─── -->
 <footer style="background:#030b16; border-top:1px solid rgba(0,229,255,0.15);">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" style="padding: 80px 0 40px 0;">
     <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-10 mb-12">
       <!-- Columna 1: Marca y Posicionamiento -->
       <div>
