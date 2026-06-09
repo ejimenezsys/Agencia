@@ -272,6 +272,12 @@
       <span>Analytics</span>
     </button>
 
+    <div class="nav-section-label" style="margin-top:12px;">Agentes IA</div>
+    <button onclick="showSection('agents')" id="nav-agents" class="nav-item">
+      <i class="fas fa-robot"></i>
+      <span>Agentes de Prueba</span>
+    </button>
+
     <div class="nav-section-label" style="margin-top:12px;">Cuenta</div>
     <button onclick="showSection('settings')" id="nav-settings" class="nav-item">
       <i class="fas fa-cog"></i>
@@ -982,6 +988,109 @@
           <div class="text-sm font-semibold text-white mb-0.5">Ahorradas/semana</div>
           <div class="text-xs text-slate-600">en tareas operativas</div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION: AGENTS
+  ════════════════════════════════════════════ -->
+  <div id="section-agents" class="p-6 hidden">
+    <div class="mb-6">
+      <h2 class="text-xl font-bold text-white">Agentes de Prueba</h2>
+      <p class="text-sm text-slate-500">Interactúa con tus empleados digitales simulados y prepara la integración con OpenAI/Gemini</p>
+    </div>
+
+    <div class="grid lg:grid-cols-12 gap-6">
+      <!-- Left: Selection -->
+      <div class="lg:col-span-4 space-y-4">
+        <div class="card p-4">
+          <h3 class="font-bold text-white mb-4 text-xs uppercase tracking-wider text-slate-400">Selecciona un Agente</h3>
+          <div class="space-y-3">
+            
+            <!-- SDR -->
+            <button onclick="selectAgent('sdr')" id="agent-btn-sdr" class="w-full flex items-center gap-3 p-3.5 rounded-xl border border-cyan-400/20 bg-cyan-400/5 text-left transition-all hover:bg-cyan-400/10">
+              <div class="w-10 h-10 rounded-lg flex items-center justify-center bg-cyan-400/10 text-cyan-400 text-base font-bold border border-cyan-400/20">
+                <i class="fas fa-filter"></i>
+              </div>
+              <div class="min-w-0 flex-1">
+                <div class="text-sm font-bold text-white">AI SDR</div>
+                <div class="text-xs text-slate-500 truncate">Vendedor & Calificación</div>
+              </div>
+              <span class="status-dot dot-active"></span>
+            </button>
+
+            <!-- Setter -->
+            <button onclick="selectAgent('setter')" id="agent-btn-setter" class="w-full flex items-center gap-3 p-3.5 rounded-xl border border-slate-800 text-left transition-all hover:bg-slate-800/40">
+              <div class="w-10 h-10 rounded-lg flex items-center justify-center bg-slate-800 text-slate-400 text-base font-bold border border-slate-700/50">
+                <i class="fas fa-calendar-check"></i>
+              </div>
+              <div class="min-w-0 flex-1">
+                <div class="text-sm font-bold text-slate-300">AI Setter</div>
+                <div class="text-xs text-slate-500 truncate">Agendador Autónomo</div>
+              </div>
+              <span class="status-dot dot-active"></span>
+            </button>
+
+            <!-- Support -->
+            <button onclick="selectAgent('support')" id="agent-btn-support" class="w-full flex items-center gap-3 p-3.5 rounded-xl border border-slate-800 text-left transition-all hover:bg-slate-800/40">
+              <div class="w-10 h-10 rounded-lg flex items-center justify-center bg-slate-800 text-slate-400 text-base font-bold border border-slate-700/50">
+                <i class="fas fa-user-gear"></i>
+              </div>
+              <div class="min-w-0 flex-1">
+                <div class="text-sm font-bold text-slate-300">AI Soporte</div>
+                <div class="text-xs text-slate-500 truncate">Arquitectura SVE90</div>
+              </div>
+              <span class="status-dot dot-active"></span>
+            </button>
+
+          </div>
+        </div>
+
+        <div class="card p-4" style="background:rgba(0,229,255,0.02); border-color:rgba(0,229,255,0.1);">
+          <h4 class="text-xs font-bold text-cyan-400 uppercase mb-2"><i class="fas fa-circle-info mr-1.5"></i>Modo de demostración</h4>
+          <p class="text-slate-500 text-xs leading-relaxed font-light">
+            Este panel simula las respuestas semánticas del motor de PassportAI de Prosper IA. Los agentes están listos para que experimentes su flujo conversacional y capacidad operativa antes de activarlos en tus canales oficiales.
+          </p>
+        </div>
+      </div>
+
+      <!-- Right: Chat Box -->
+      <div class="lg:col-span-8 flex flex-col card overflow-hidden" style="height: 520px;">
+        <!-- Chat Header -->
+        <div class="p-4 border-b border-navy-border flex items-center justify-between" style="background:rgba(255,255,255,0.02);">
+          <div class="flex items-center gap-3">
+            <div id="chat-header-avatar" class="w-10 h-10 rounded-xl flex items-center justify-center bg-cyan-400/10 text-cyan-400 text-base font-bold border border-cyan-400/20">
+              <i class="fas fa-filter"></i>
+            </div>
+            <div>
+              <div id="chat-header-name" class="font-bold text-white text-sm">AI SDR</div>
+              <div id="chat-header-role" class="text-xs text-slate-500">Vendedor & Calificación de Prospectos</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full" style="background:rgba(52,211,153,0.1); color:#34d399; border:1px solid rgba(52,211,153,0.2);">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>Online</span>
+          </div>
+        </div>
+
+        <!-- Messages list -->
+        <div id="chat-messages" class="flex-grow p-4 overflow-y-auto space-y-4 scroll-smooth" style="background:rgba(5,13,26,0.3);">
+          <!-- Dynamic Messages -->
+        </div>
+
+        <!-- Typing Indicator -->
+        <div id="chat-typing" class="px-4 py-2 text-xs text-slate-500 hidden flex items-center gap-2">
+          <i class="fas fa-circle-notch fa-spin text-cyan-400"></i> <span id="typing-agent-name">AI SDR</span> está escribiendo...
+        </div>
+
+        <!-- Chat Input Form -->
+        <form onsubmit="sendMessage(event)" class="p-3 border-t border-navy-border flex gap-2" style="background:rgba(255,255,255,0.01);">
+          <input id="chat-input" type="text" placeholder="Escribe tu pregunta para el agente..." class="input-dark flex-grow text-sm py-3 px-4" autocomplete="off">
+          <button type="submit" class="btn-primary px-5 rounded-xl flex items-center justify-center">
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </form>
       </div>
     </div>
   </div>
@@ -1726,6 +1835,7 @@ function showSection(name) {
     integrations: ['Integraciones', 'Stack tecnológico'],
     analytics: ['Analytics', 'Métricas de rendimiento'],
     settings: ['Configuración', 'Tu perfil y cuenta'],
+    agents: ['Agentes de Prueba', 'Asistentes de IA para tu avatar'],
     thankyou: ['¡Registro Exitoso!', 'Prospecto integrado en el sistema SVE-90'],
   };
   document.querySelectorAll('[id^="section-"]').forEach(s => s.classList.add('hidden'));
@@ -1739,6 +1849,10 @@ function showSection(name) {
   const subEl = document.getElementById('page-subtitle');
   if (titleEl) titleEl.textContent = t[0];
   if (subEl) subEl.textContent = t[1];
+  
+  if (name === 'agents') {
+    selectAgent(currentAgent);
+  }
   closeSidebar();
 }
 
@@ -1811,6 +1925,171 @@ function showModalAlert(msg, type) {
     ? 'background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.2); color:#f87171; padding:12px 16px; border-radius:10px; display:block;'
     : 'background:rgba(0,229,255,0.06); border:1px solid rgba(0,229,255,0.2); color:#00e5ff; padding:12px 16px; border-radius:10px; display:block;';
   el.innerHTML = '<i class="fas fa-' + (type==='error' ? 'exclamation-circle' : 'check-circle') + ' mr-2"></i>' + msg;
+}
+
+// ─── Agentes de Prueba Chat Logic ───────────────────────────────────────────
+let currentAgent = 'sdr';
+const agentData = {
+  sdr: {
+    name: 'AI SDR',
+    role: 'Vendedor & Calificación de Prospectos',
+    avatarClass: 'fas fa-filter',
+    greeting: '¡Hola! Soy tu AI SDR. Analizo la madurez operativa de tu agencia y tus cuellos de botella para calibrar tu SVE90. ¿Qué canal es tu principal fuente de leads hoy día?'
+  },
+  setter: {
+    name: 'AI Setter',
+    role: 'Agendador Autónomo de Reuniones',
+    avatarClass: 'fas fa-calendar-check',
+    greeting: '¡Hola! Soy tu AI Setter. Mi especialidad es coordinar agendas en tiempo real y manejar objeciones de tiempo. ¿Te gustaría agendar una llamada de diagnóstico esta semana?'
+  },
+  support: {
+    name: 'AI Soporte',
+    role: 'Arquitectura Técnica SVE90',
+    avatarClass: 'fas fa-user-gear',
+    greeting: '¡Hola! Soy tu AI Soporte Técnico. Puedo aclararte dudas sobre la sincronización en la nube, el orquestador n8n o la seguridad de SQLite. ¿Qué aspecto de la infraestructura técnica deseas revisar?'
+  }
+};
+
+const chatHistory = {
+  sdr: [],
+  setter: [],
+  support: []
+};
+
+function selectAgent(agent) {
+  currentAgent = agent;
+  
+  // Update selection UI buttons
+  ['sdr', 'setter', 'support'].forEach(a => {
+    const btn = document.getElementById('agent-btn-' + a);
+    if (btn) {
+      if (a === agent) {
+        btn.className = 'w-full flex items-center gap-3 p-3.5 rounded-xl border border-cyan-400/20 bg-cyan-400/5 text-left transition-all hover:bg-cyan-400/10';
+        const imgDiv = btn.querySelector('div');
+        if (imgDiv) {
+          imgDiv.className = 'w-10 h-10 rounded-lg flex items-center justify-center bg-cyan-400/10 text-cyan-400 text-base font-bold border border-cyan-400/20';
+        }
+        const textDiv = btn.querySelector('.min-w-0 div');
+        if (textDiv) {
+          textDiv.className = 'text-sm font-bold text-white';
+        }
+      } else {
+        btn.className = 'w-full flex items-center gap-3 p-3.5 rounded-xl border border-slate-800 text-left transition-all hover:bg-slate-800/40';
+        const imgDiv = btn.querySelector('div');
+        if (imgDiv) {
+          imgDiv.className = 'w-10 h-10 rounded-lg flex items-center justify-center bg-slate-800 text-slate-400 text-base font-bold border border-slate-700/50';
+        }
+        const textDiv = btn.querySelector('.min-w-0 div');
+        if (textDiv) {
+          textDiv.className = 'text-sm font-bold text-slate-300';
+        }
+      }
+    }
+  });
+
+  // Update header in ChatBox
+  const data = agentData[agent];
+  const headerAvatar = document.getElementById('chat-header-avatar');
+  if (headerAvatar) {
+    headerAvatar.innerHTML = '<i class="' + data.avatarClass + '"></i>';
+  }
+  const headerName = document.getElementById('chat-header-name');
+  if (headerName) headerName.textContent = data.name;
+  const headerRole = document.getElementById('chat-header-role');
+  if (headerRole) headerRole.textContent = data.role;
+
+  // Render chat messages
+  renderMessages();
+}
+
+function renderMessages() {
+  const container = document.getElementById('chat-messages');
+  if (!container) return;
+  
+  container.innerHTML = '';
+  const history = chatHistory[currentAgent];
+  
+  // If history is empty, add the initial greeting
+  if (history.length === 0) {
+    history.push({ sender: 'agent', text: agentData[currentAgent].greeting });
+  }
+
+  history.forEach(msg => {
+    const isUser = msg.sender === 'user';
+    const msgDiv = document.createElement('div');
+    msgDiv.className = isUser ? 'flex justify-end' : 'flex gap-3 items-start';
+    
+    if (isUser) {
+      msgDiv.innerHTML = `
+        <div class="max-w-[80%] rounded-2xl px-4 py-2.5 text-sm" style="background:linear-gradient(135deg,#00e5ff,#0ea5e9); color:#020710; font-weight:600; box-shadow:0 4px 15px rgba(0,229,255,0.15);">
+          ${esc(msg.text)}
+        </div>
+      `;
+    } else {
+      const avatarClass = agentData[currentAgent].avatarClass;
+      msgDiv.innerHTML = `
+        <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 text-xs" style="background:rgba(0,229,255,0.1); color:#00e5ff; border:1px solid rgba(0,229,255,0.25);">
+          <i class="${avatarClass}"></i>
+        </div>
+        <div class="max-w-[75%] rounded-2xl px-4 py-2.5 text-sm" style="background:var(--navy-mid); border:1px solid var(--navy-border); color:#e2e8f0; line-height:1.6;">
+          ${msg.text}
+        </div>
+      `;
+    }
+    container.appendChild(msgDiv);
+  });
+  
+  // Scroll to bottom
+  container.scrollTop = container.scrollHeight;
+}
+
+async function sendMessage(e) {
+  if (e) e.preventDefault();
+  const input = document.getElementById('chat-input');
+  if (!input) return;
+  
+  const text = input.value.trim();
+  if (!text) return;
+  
+  // Append user message
+  chatHistory[currentAgent].push({ sender: 'user', text: text });
+  input.value = '';
+  renderMessages();
+  
+  // Show typing indicator
+  const typingDiv = document.getElementById('chat-typing');
+  const typingName = document.getElementById('typing-agent-name');
+  if (typingName) typingName.textContent = agentData[currentAgent].name;
+  if (typingDiv) typingDiv.classList.remove('hidden');
+  
+  const container = document.getElementById('chat-messages');
+  if (container) container.scrollTop = container.scrollHeight;
+  
+  try {
+    const res = await fetch('/api/agents/chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
+      body: JSON.stringify({ message: text, agent: currentAgent })
+    });
+    const data = await res.json();
+    
+    // Hide typing indicator
+    if (typingDiv) typingDiv.classList.add('hidden');
+    
+    if (data.success) {
+      chatHistory[currentAgent].push({ sender: 'agent', text: data.reply });
+    } else {
+      chatHistory[currentAgent].push({ sender: 'agent', text: 'Error al conectar con el servidor semántico.' });
+    }
+  } catch (err) {
+    if (typingDiv) typingDiv.classList.add('hidden');
+    chatHistory[currentAgent].push({ sender: 'agent', text: 'Error técnico al despachar el mensaje.' });
+  }
+  
+  renderMessages();
 }
 
 // ─── Auth ────────────────────────────────────────────────────────────────────

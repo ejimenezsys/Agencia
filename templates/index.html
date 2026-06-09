@@ -8,8 +8,71 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PROSPER IA — Sistemas de Ventas con Inteligencia Artificial</title>
   <meta name="description" content="No necesitas más herramientas. Necesitas un sistema. Implementamos el Sistema SVE-90 para cerrar más ventas sin depender de tu tiempo.">
-  <meta property="og:title" content="PROSPER IA — Sistemas de Ventas con IA">
-  <meta property="og:description" content="Eliminamos la fricción operativa de tu negocio. Más ventas, menos tiempo humano.">
+  <meta name="keywords" content="prosper ia, sve90, agencaprosperia, automatización ventas, crm inteligente, inteligencia artificial ceo, sdr autonomo, setter autonomo, passportai">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <link rel="canonical" href="https://agenciaprosperia.com/">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://agenciaprosperia.com/">
+  <meta property="og:title" content="PROSPER IA — Sistemas de Ventas con Inteligencia Artificial">
+  <meta property="og:description" content="No necesitas más herramientas. Necesitas un sistema. Implementamos el Sistema SVE-90 para cerrar más ventas sin depender de tu tiempo.">
+  <meta property="og:image" content="https://agenciaprosperia.com/static/logo_prosper_ia_cropped.jpg">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://agenciaprosperia.com/">
+  <meta name="twitter:title" content="PROSPER IA — Sistemas de Ventas con Inteligencia Artificial">
+  <meta name="twitter:description" content="No necesitas más herramientas. Necesitas un sistema. Implementamos el Sistema SVE-90 para cerrar más ventas sin depender de tu tiempo.">
+  <meta name="twitter:image" content="https://agenciaprosperia.com/static/logo_prosper_ia_cropped.jpg">
+
+  <!-- Marcado Estructurado JSON-LD (SEO y Motores de Búsqueda de IA) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Prosper IA",
+    "url": "https://agenciaprosperia.com/",
+    "logo": "https://agenciaprosperia.com/static/logo_prosper_ia_cropped.jpg",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+1-786-557-3119",
+      "contactType": "sales",
+      "areaServed": "US",
+      "availableLanguage": ["Spanish", "English"]
+    },
+    "sameAs": [
+      "https://www.instagram.com/edwardjimenezia/",
+      "https://www.facebook.com/AgenciaProsperarIA/",
+      "https://www.linkedin.com/in/edwardjimenezia/"
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "¿Qué pasa si mi equipo humano se resiste a usar esta nueva tecnología?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "La falta de adopción es el mayor riesgo al comprar software. Por eso nosotros no vendemos software, instalamos sistemas. Tu infraestructura incluye capacitación guiada a través de AZ Academy. Además, te respaldamos con nuestra Garantía de Adopción."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Esto es solo otra configuración de CRM, n8n o un bot de respuestas?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Absolutamente no. SVE90 es la instalación de un Sistema Operativo de IA (AIOS). Centralizamos todo tu flujo comercial en nuestro Command Center y lo conectamos a nuestra tecnología propietaria, PassportAI."
+        }
+      }
+    ]
+  }
+  </script>
+
   <link rel="stylesheet" href="/static/tw.css">
   <link rel="stylesheet" href="/static/fonts.css">
   <link rel="stylesheet" href="/static/fa.min.css">
@@ -30,11 +93,18 @@
     * { font-family: 'Inter', sans-serif; box-sizing: border-box; }
     h1,h2,h3 { font-family: 'Space Grotesk', sans-serif; }
     html { scroll-behavior: smooth; }
-    body { background: var(--navy); color: var(--white); overflow-x: hidden; }
+    body { background: var(--navy); color: var(--white); overflow-x: hidden; padding-top: 40px; }
 
-    /* ── Navbar ── */
+    /* ── Top Bar & Navbar ── */
+    .top-bar {
+      position: fixed; top: 0; left: 0; right: 0; height: 40px; z-index: 110;
+      background: #01040a;
+      border-bottom: 1px solid rgba(0, 229, 255, 0.08);
+      display: flex;
+      align-items: center;
+    }
     .navbar {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      position: fixed; top: 40px; left: 0; right: 0; z-index: 100;
       background: rgba(2,7,16,0.85);
       backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--navy-border);
@@ -190,13 +260,144 @@
     @media (max-width: 768px) {
       .hide-mobile { display: none !important; }
     }
+
+    /* ── Estilos personalizados para espaciado y aire (Ajustes de UI) ── */
+    /* Separar los iconos del texto en la sección de Admisión (SÍ/NO) */
+    #filtro .flex.items-start .ml-4,
+    #filtro .flex.items-start div.ml-4 {
+      margin-left: 1.25rem !important;
+    }
+
+    /* Espacio horizontal (gap) entre las dos tarjetas de Admisión (SÍ/NO) */
+    #filtro .grid {
+      display: grid !important;
+      gap: 2rem !important;
+    }
+    @media (max-width: 767px) {
+      #filtro .grid {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem !important;
+      }
+    }
+    @media (min-width: 768px) {
+      #filtro .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 2rem !important;
+      }
+    }
+
+    /* Evitar que las tarjetas de fases en el sistema se encimen */
+    #sistema .space-y-0 > div.flex {
+      margin-bottom: 3rem !important;
+    }
+
+    /* Ruta vertical de neón que conecta los nodos de la escalera de valor */
+    .timeline-route-line {
+      position: absolute;
+      top: 1rem;
+      bottom: 2rem;
+      width: 4px !important;
+      background: linear-gradient(180deg, #00e5ff 0%, #38bdf8 50%, #818cf8 100%) !important;
+      box-shadow: 0 0 15px rgba(0, 229, 255, 0.6) !important;
+      opacity: 0.85 !important;
+      z-index: 1 !important; /* Detrás de las tarjetas y los círculos */
+    }
+
+    /* Posición de la ruta en móviles */
+    @media (max-width: 639px) {
+      .timeline-route-line {
+        left: 1.5rem !important; /* Centrado con el círculo en left-6 */
+        transform: translateX(-50%) !important;
+      }
+    }
+
+    /* Asegurar que las tarjetas estén en el nivel Z adecuado por encima de la línea */
+    #sistema .space-y-0 > div.flex > div.w-full > .card {
+      position: relative !important;
+      z-index: 10 !important;
+    }
+
+    /* Correcciones responsive para la escalera de valor (Día 30, 60, 90) */
+    @media (min-width: 640px) {
+      /* Posicionar la ruta de neón en el centro en desktop */
+      .timeline-route-line {
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+      }
+
+      /* Centrar los círculos flotantes con los números de las fases */
+      #sistema .space-y-0 > div.flex > div.absolute {
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        z-index: 20 !important; /* Encima de todo */
+      }
+
+      /* Asegurar layout horizontal en desktop */
+      #sistema .space-y-0 > div.flex {
+        flex-direction: row !important;
+      }
+
+      /* Forzar ancho y dar aire al centro para evitar colisiones */
+      /* Fases de la izquierda (1 y 3) */
+      #sistema .timeline-phase-left > div.w-full {
+        width: calc(50% - 2.5rem) !important;
+        text-align: right !important;
+        padding-right: 1.5rem !important;
+        padding-left: 0 !important;
+      }
+      #sistema .timeline-phase-left > div.hidden {
+        display: block !important;
+        width: calc(50% + 2.5rem) !important;
+      }
+
+      /* Fase de la derecha (2) */
+      #sistema .timeline-phase-right > div.hidden {
+        display: block !important;
+        width: calc(50% + 2.5rem) !important;
+      }
+      #sistema .timeline-phase-right > div.w-full {
+        width: calc(50% - 2.5rem) !important;
+        text-align: left !important;
+        padding-left: 1.5rem !important;
+        padding-right: 0 !important;
+      }
+    }
+
+    /* Ajustes para móviles/tablets (ancho menor a 640px) */
+    @media (max-width: 639px) {
+      /* Asegurar que las tarjetas de fase tengan espacio a la izquierda para el círculo */
+      #sistema .space-y-0 > div.flex > div.w-full {
+        padding-left: 4.5rem !important;
+        padding-right: 0.5rem !important;
+      }
+      /* Círculos flotantes en móvil en z-20 */
+      #sistema .space-y-0 > div.flex > div.absolute {
+        z-index: 20 !important;
+      }
+    }
   </style>
 </head>
 <body>
 
+<!-- Top Bar / Announcement Banner -->
+<div class="top-bar">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex items-center justify-between">
+    <div class="flex items-center gap-2" style="font-size: 11px;">
+      <span class="inline-block w-2 h-2 rounded-full animate-pulse" style="background-color: #00e5ff;"></span>
+      <span class="text-slate-300">🚀 ¡Bienvenido! Diagnóstico de Madurez SVE90 de 30 Minutos - Plazas limitadas para esta semana.</span>
+    </div>
+    <div class="flex items-center gap-4 text-slate-400" style="font-size: 13px;">
+      <a href="https://www.instagram.com/edwardjimenezia/" target="_blank" rel="noopener" class="hover:text-cyan-400 transition-colors" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="https://www.facebook.com/AgenciaProsperarIA/" target="_blank" rel="noopener" class="hover:text-cyan-400 transition-colors" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://www.youtube.com/@AgenciaProsper_IA" target="_blank" rel="noopener" class="hover:text-cyan-400 transition-colors" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+      <a href="https://www.linkedin.com/in/edwardjimenezia/" target="_blank" rel="noopener" class="hover:text-cyan-400 transition-colors" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+    </div>
+  </div>
+</div>
+
 <!-- ════════════════════════════════════════════════════
      NAVBAR
-════════════════════════════════════════════════════ -->
+     ════════════════════════════════════════════════════ -->
 <nav class="navbar">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between" style="height: 120px;">
@@ -211,6 +412,7 @@
         <a href="#sistema" class="text-sm text-slate-400 hover:text-white transition-colors font-medium">Sistema SVE90</a>
         <a href="#masterclass" class="text-sm text-slate-400 hover:text-white transition-colors font-medium">Demostración</a>
         <a href="#arquitectura" class="text-sm text-slate-400 hover:text-white transition-colors font-medium">Infraestructura IA</a>
+        <a href="/blog" class="text-sm text-slate-400 hover:text-white transition-colors font-medium">Blog</a>
       </div>
 
       <!-- CTAs -->
@@ -512,11 +714,10 @@
       <!-- Timeline visual (escalera de valor) -->
       <div class="space-y-0 relative">
         <!-- Glowing vertical timeline connector line -->
-        <div class="absolute left-6 sm:left-1/2 top-4 bottom-4 w-0.5 -translate-x-1/2 hidden sm:block" style="background: linear-gradient(180deg, #00e5ff 0%, #38bdf8 50%, #818cf8 100%); opacity: 0.3; box-shadow: 0 0 10px rgba(0,229,255,0.5);"></div>
-        <div class="absolute left-6 top-4 bottom-4 w-0.5 sm:hidden" style="background: linear-gradient(180deg, #00e5ff 0%, #38bdf8 50%, #818cf8 100%); opacity: 0.3;"></div>
+        <div class="timeline-route-line"></div>
 
         <!-- Fase 1: Día 30 -->
-        <div class="flex flex-col sm:flex-row items-stretch gap-8 mb-12 relative">
+        <div class="flex flex-col sm:flex-row items-stretch gap-8 mb-12 relative timeline-phase-left">
           <!-- Timeline point center -->
           <div class="absolute left-6 sm:left-1/2 top-4 -translate-x-1/2 z-20 flex items-center justify-center">
             <div class="w-12 h-12 rounded-full flex items-center justify-center font-black text-sm" style="background:#050d1a; border:2px solid #00e5ff; color:#00e5ff; box-shadow: 0 0 15px rgba(0,229,255,0.4);">
@@ -540,7 +741,7 @@
         </div>
 
         <!-- Fase 2: Día 60 -->
-        <div class="flex flex-col sm:flex-row items-stretch gap-8 mb-12 relative">
+        <div class="flex flex-col sm:flex-row items-stretch gap-8 mb-12 relative timeline-phase-right">
           <!-- Timeline point center -->
           <div class="absolute left-6 sm:left-1/2 top-4 -translate-x-1/2 z-20 flex items-center justify-center">
             <div class="w-12 h-12 rounded-full flex items-center justify-center font-black text-sm" style="background:#050d1a; border:2px solid #38bdf8; color:#38bdf8; box-shadow: 0 0 15px rgba(56,189,248,0.4);">
@@ -565,7 +766,7 @@
         </div>
 
         <!-- Fase 3: Día 90 -->
-        <div class="flex flex-col sm:flex-row items-stretch gap-8 relative">
+        <div class="flex flex-col sm:flex-row items-stretch gap-8 relative timeline-phase-left">
           <!-- Timeline point center -->
           <div class="absolute left-6 sm:left-1/2 top-4 -translate-x-1/2 z-20 flex items-center justify-center">
             <div class="w-12 h-12 rounded-full flex items-center justify-center font-black text-sm" style="background:#050d1a; border:2px solid #818cf8; color:#818cf8; box-shadow: 0 0 15px rgba(129,140,248,0.4);">
@@ -1086,7 +1287,61 @@
         <span style="color: #00e5ff; text-shadow: 0 0 40px rgba(0,229,255,0.15);">sin inflar tu nómina operativa.</span>
       </h2>
       <p class="text-slate-400 text-lg sm:text-xl mb-10 leading-relaxed font-light">
-        Descubre en 15 minutos cómo funciona por dentro la infraestructura que califica, da seguimiento y agenda tus leads en menos de 5 <section class="py-24" style="background:var(--navy-mid); border-bottom:1px solid rgba(0,229,255,0.05);">
+        Descubre en 15 minutos cómo funciona por dentro la infraestructura que califica, da seguimiento y agenda tus leads en menos de 5 minutos.
+      </p>
+
+      <!-- Reproductor de VSL (Video Mockup Premium) -->
+      <div class="relative mx-auto mt-12 max-w-4xl rounded-2xl overflow-hidden border border-cyan-500/20 group" style="background:#030b16; box-shadow:0 0 50px rgba(0,229,255,0.15);" data-reveal>
+        <div class="relative w-full overflow-hidden flex items-center justify-center cursor-pointer" style="aspect-ratio: 16 / 9; height: auto;" onclick="document.getElementById('contacto').scrollIntoView({behavior: 'smooth'})">
+          <!-- Imagen de Poster del Video -->
+          <img src="/static/caso-estudio-agencia-sve90-ventas-ia.jpg" alt="Demostración SVE90" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-[1.02] transition-transform duration-700 ease-out">
+          
+          <!-- Gradiente de Superposición -->
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent"></div>
+          
+          <!-- Botón de Play Gigante -->
+          <div class="relative z-10 w-20 h-20 rounded-full bg-cyan-500/10 border-2 border-cyan-400 flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:bg-cyan-400 group-hover:shadow-[0_0_50px_rgba(0,229,255,0.6)]" style="box-shadow: 0 0 30px rgba(0,229,255,0.3);">
+            <i class="fas fa-play text-cyan-400 group-hover:text-slate-950 text-3xl ml-1 transition-colors"></i>
+          </div>
+          
+          <!-- Badge Superior -->
+          <div class="absolute top-4 left-4 z-10 flex items-center gap-2 bg-slate-950/80 px-3 py-1.5 rounded-full border border-cyan-500/30">
+            <span class="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse"></span>
+            <span class="text-[10px] font-bold text-slate-300 uppercase tracking-widest">DEMOSTRACIÓN EXCLUSIVA — 15 MIN</span>
+          </div>
+          
+          <!-- Barra de Controles Simulada -->
+          <div class="absolute bottom-0 left-0 right-0 z-10 bg-gradient-to-t from-slate-950 to-transparent p-6 pt-12 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+            <div class="w-full h-1.5 bg-slate-800 rounded-full mb-4 overflow-hidden relative">
+              <div class="absolute left-0 top-0 bottom-0 w-1/3 bg-cyan-400 shadow-[0_0_10px_rgba(0,229,255,0.8)]"></div>
+              <div class="absolute left-1/3 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-white border border-cyan-400 shadow-md"></div>
+            </div>
+            <div class="flex items-center justify-between text-slate-400 text-xs font-semibold">
+              <div class="flex items-center gap-4">
+                <i class="fas fa-play hover:text-cyan-400 transition-colors"></i>
+                <div class="flex items-center gap-2">
+                  <i class="fas fa-volume-high hover:text-cyan-400 transition-colors"></i>
+                  <span class="w-16 h-1 bg-slate-700 rounded-full overflow-hidden inline-block"><span class="block w-4/5 h-full bg-cyan-400"></span></span>
+                </div>
+                <span>05:12 / 15:34</span>
+              </div>
+              <div class="flex items-center gap-4">
+                <i class="fas fa-sliders hover:text-cyan-400 transition-colors"></i>
+                <i class="fas fa-expand hover:text-cyan-400 transition-colors"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════
+     DECISIONES EJECUTIVAS (FAQ)
+     ════════════════════════════════════════════════════ -->
+<section class="py-24" style="background:var(--navy-mid); border-bottom:1px solid rgba(0,229,255,0.05);">
   <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-16" data-reveal>
       <h2 class="text-3xl sm:text-4xl font-black text-white mb-4">Decisiones Ejecutivas</h2>
@@ -1157,7 +1412,7 @@
 <!-- ════════════════════════════════════════════════════
      SECCIÓN INTERMEDIA: AUTORIDAD Y EL DIAGNÓSTICO
      ════════════════════════════════════════════════════ -->
-<section id="diagnostico-info" class="py-24" style="background:#050d1a; border-top:1px solid rgba(0,229,255,0.15);">
+<section id="diagnostico-info" class="relative" style="padding: 100px 0; background:#050d1a; border-top:1px solid rgba(0,229,255,0.15);">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-16" data-reveal>
       <div class="section-label mb-6 justify-center">PRÓXIMO PASO</div>
@@ -1228,7 +1483,7 @@
 <!-- ════════════════════════════════════════════════════
      SECCIÓN FINAL: FORMULARIO DE APLICACIÓN
 ════════════════════════════════════════════════════ -->
-<section id="contacto" class="py-32 relative overflow-hidden" style="background: radial-gradient(circle at center, #050d1a 0%, var(--navy) 100%); border-top: 1px solid rgba(0,229,255,0.15);">
+<section id="contacto" class="relative overflow-hidden" style="padding: 120px 0; background: radial-gradient(circle at center, #050d1a 0%, var(--navy) 100%); border-top: 1px solid rgba(0,229,255,0.15);">
   <!-- Orbs de fondo premium para dar amplitud y profundidad visual -->
   <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-[0.03] blur-3xl pointer-events-none" style="background:radial-gradient(circle, #00e5ff 0%, transparent 70%);"></div>
   
@@ -1309,16 +1564,22 @@
 
 <!-- ─── FOOTER ─── -->
 <footer style="background:#030b16; border-top:1px solid rgba(0,229,255,0.15);">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" style="padding: 80px 0 40px 0;">
     <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-10 mb-12">
       <!-- Columna 1: Marca y Posicionamiento -->
-      <div class="sm:col-span-2 md:col-span-1">
+      <div>
         <div class="flex items-center gap-2.5 mb-4">
-          <img src="/static/logo_prosper_ia_cropped.jpg" alt="PROSPER IA" style="height: 150px; max-height: 150px; object-fit: contain;" class="rounded-xl">
+          <img src="/static/logo_prosper_ia_cropped.jpg" alt="PROSPER IA" style="height: 120px; object-fit: contain;" class="rounded-xl">
         </div>
-        <p class="text-slate-500 text-xs sm:text-sm leading-relaxed font-light">
-          Instalamos Sistemas Operativos de Inteligencia Artificial para agencias de servicios. Transformamos el caos manual en Empresas Aumentadas que operan, prospectan y escalan de forma autónoma.
+        <p class="text-slate-500 text-xs leading-relaxed font-light">
+          Instalamos Sistemas Operativos de Inteligencia Artificial para agencias de servicios. Transformamos el caos manual en Empresas Aumentadas.
         </p>
+        <div class="flex gap-4 mt-5">
+          <a href="https://www.instagram.com/edwardjimenezia/" target="_blank" rel="noopener" class="text-slate-500 hover:text-cyan-400 transition-colors text-base" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.facebook.com/AgenciaProsperarIA/" target="_blank" rel="noopener" class="text-slate-500 hover:text-cyan-400 transition-colors text-base" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.youtube.com/@AgenciaProsper_IA" target="_blank" rel="noopener" class="text-slate-500 hover:text-cyan-400 transition-colors text-base" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+          <a href="https://www.linkedin.com/in/edwardjimenezia/" target="_blank" rel="noopener" class="text-slate-500 hover:text-cyan-400 transition-colors text-base" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        </div>
       </div>
       
       <!-- Columna 2: Solución -->
@@ -1338,6 +1599,7 @@
         <ul class="space-y-3 text-xs sm:text-sm">
           <li><a href="#masterclass" class="text-slate-500 hover:text-white transition-colors">Demostración Operativa SVE90</a></li>
           <li><a href="#contacto" class="text-slate-500 hover:text-white transition-colors">Aplicar al Diagnóstico de Madurez</a></li>
+          <li><a href="/blog" class="text-slate-500 hover:text-white transition-colors">Blog de Noticias IA</a></li>
           <li><a href="/login" class="text-slate-500 hover:text-white transition-colors">Acceso a PassportAI (Login)</a></li>
           <li><a href="/login" class="text-slate-500 hover:text-white transition-colors">AZ Academy (Portal de Adopción)</a></li>
         </ul>
@@ -1346,27 +1608,15 @@
       <!-- Columna 4: Dirección Ejecutiva y Contacto -->
       <div>
         <h4 class="text-white font-bold text-sm mb-4 uppercase tracking-wider" style="color: #00e5ff;">Dirección Ejecutiva</h4>
-        <ul class="space-y-3.5 text-xs sm:text-sm text-slate-500 leading-relaxed font-light">
-          <li class="flex items-start gap-2">
-            <i class="fas fa-location-dot mt-1 text-red-500 flex-shrink-0" style="color: #ef4444;"></i>
-            <span><strong>Sede Corporativa:</strong> Miami, Florida, USA.</span>
-          </li>
-          <li class="flex items-start gap-2">
-            <i class="fas fa-user-tie mt-1 flex-shrink-0" style="color: #00e5ff;"></i>
-            <span><strong>Director:</strong> Edward Jiménez, CEO.</span>
-          </li>
-          <li class="flex items-start gap-2">
-            <i class="fas fa-envelope mt-1 flex-shrink-0" style="color: #00e5ff;"></i>
-            <span><a href="mailto:edward@passportai.app" class="hover:text-white transition-colors">edward@passportai.app</a></span>
-          </li>
-          <li class="flex items-start gap-2">
-            <i class="fab fa-whatsapp mt-1 text-emerald-500 flex-shrink-0" style="color: #10b981;"></i>
-            <span><a href="https://wa.me/17865573119" class="hover:text-white transition-colors"><strong>WhatsApp Directo:</strong> +1 (786) 557-3119</a></span>
-          </li>
+        <ul class="space-y-3 text-xs text-slate-500 leading-relaxed font-light">
+          <li><strong>Sede:</strong> Miami, Florida, USA.</li>
+          <li><strong>Director:</strong> Edward Jiménez, CEO.</li>
+          <li><strong>Email:</strong> <a href="mailto:edward@passportai.app" class="hover:text-white transition-colors">edward@passportai.app</a></li>
+          <li><strong>WhatsApp:</strong> <a href="https://wa.me/17865573119" class="hover:text-white transition-colors">+1 (786) 557-3119</a></li>
         </ul>
       </div>
     </div>
-    <div class="divider mb-8"></div>
+    <div class="divider mb-8" style="height: 1px; background: rgba(0,229,255,0.15);"></div>
     <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-700">
       <p>© 2024 PROSPER IA. Todos los derechos reservados.</p>
       <div class="flex gap-6">

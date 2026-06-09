@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ post.title }} — PROSPER IA</title>
+  <meta name="description" content="{{ post.summary }}">
+  <meta name="keywords" content="prosper ia, {{ post.category | lower }}, ia ceo, automatizacion">
+  <link rel="canonical" href="https://agenciaprosperia.com/blog/{{ post.slug }}">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://agenciaprosperia.com/blog/{{ post.slug }}">
+  <meta property="og:title" content="{{ post.title }} — PROSPER IA">
+  <meta property="og:description" content="{{ post.summary }}">
+  <meta property="og:image" content="https://agenciaprosperia.com/static/logo_prosper_ia_cropped.jpg">
+  <meta property="article:published_time" content="{{ post.published_at }}">
+  <meta property="article:author" content="{{ post.author }}">
+
+  <link rel="stylesheet" href="/static/tw.css">
+  <link rel="stylesheet" href="/static/fonts.css">
+  <link rel="stylesheet" href="/static/fa.min.css">
+  <style>
+    :root {
+      --navy: #020710;
+      --navy-mid: #050d1a;
+      --navy-card: #081224;
+      --navy-border: rgba(0,229,255,0.15);
+      --cyan: #00e5ff;
+      --cyan-dim: #00b4cc;
+      --cyan-glow: rgba(0, 229, 255, 0.15);
+      --white: #ffffff;
+      --gray-light: #94a3b8;
+    }
+    * { font-family: 'Inter', sans-serif; box-sizing: border-box; }
+    h1,h2,h3 { font-family: 'Space Grotesk', sans-serif; }
+    body { background: var(--navy); color: var(--white); overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column; padding-top: 40px; }
+    .top-bar {
+      position: fixed; top: 0; left: 0; right: 0; height: 40px; z-index: 110;
+      background: #01040a;
+      border-bottom: 1px solid rgba(0, 229, 255, 0.08);
+      display: flex;
+      align-items: center;
+    }
+    .navbar {
+      position: fixed; top: 40px; left: 0; right: 0; z-index: 100;
+      background: rgba(2,7,16,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--navy-border);
+    }
+    .post-content p {
+      margin-bottom: 1.5rem;
+      line-height: 1.8;
+      color: #cbd5e1;
+    }
+    .post-content h3 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+    .blog-post-cover-container {
+      position: relative;
+      overflow: hidden;
+      border-radius: 16px;
+      border: 1px solid var(--navy-border);
+      margin-bottom: 3rem;
+      height: 280px;
+    }
+    @media (min-width: 640px) {
+      .blog-post-cover-container {
+        height: 500px;
+      }
+    }
+    .blog-img-fit {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  </style>
+
+  <!-- Marcado Estructurado JSON-LD dinámico para Búsquedas de IA y SEO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "{{ post.title }}",
+    "description": "{{ post.summary }}",
+    "image": "https://agenciaprosperia.com/static/logo_prosper_ia_cropped.jpg",
+    "datePublished": "{{ post.published_at }}",
+    "author": {
+      "@type": "Person",
+      "name": "{{ post.author }}",
+      "url": "https://agenciaprosperia.com/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Prosper IA",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://agenciaprosperia.com/static/logo_prosper_ia_cropped.jpg"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://agenciaprosperia.com/blog/{{ post.slug }}"
+    }
+  }
+  </script>
+</head>
+<body class="pt-32">
+
+<!-- Top Bar / Announcement Banner -->
+<div class="top-bar">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex items-center justify-between">
+    <div class="flex items-center gap-2" style="font-size: 11px;">
+      <span class="inline-block w-2 h-2 rounded-full animate-pulse" style="background-color: #00e5ff;"></span>
+      <span class="text-slate-300">🚀 ¡Bienvenido! Diagnóstico de Madurez SVE90 de 30 Minutos - Plazas limitadas para esta semana.</span>
+    </div>
+    <div class="flex items-center gap-4 text-slate-400" style="font-size: 13px;">
+      <a href="https://www.instagram.com/edwardjimenezia/" target="_blank" rel="noopener" class="hover:text-cyan-400 transition-colors" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="https://www.facebook.com/AgenciaProsperarIA/" target="_blank" rel="noopener" class="hover:text-cyan-400 transition-colors" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://www.youtube.com/@AgenciaProsper_IA" target="_blank" rel="noopener" class="hover:text-cyan-400 transition-colors" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+      <a href="https://www.linkedin.com/in/edwardjimenezia/" target="_blank" rel="noopener" class="hover:text-cyan-400 transition-colors" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+    </div>
+  </div>
+</div>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between" style="height: 120px;">
+      <a href="/index.html" class="flex items-center gap-2.5">
+        <img src="/static/logo_prosper_ia_cropped.jpg" alt="PROSPER IA" style="height: 110px; max-height: 110px; object-fit: contain;" class="rounded-xl">
+      </a>
+      <div class="hidden md:flex items-center gap-7">
+        <a href="/index.html#problema" class="text-sm text-slate-400 hover:text-white transition-colors font-medium">El Caos Operativo</a>
+        <a href="/index.html#sistema" class="text-sm text-slate-400 hover:text-white transition-colors font-medium">Sistema SVE90</a>
+        <a href="/index.html#masterclass" class="text-sm text-slate-400 hover:text-white transition-colors font-medium">Demostración</a>
+        <a href="/index.html#arquitectura" class="text-sm text-slate-400 hover:text-white transition-colors font-medium">Infraestructura IA</a>
+        <a href="/blog" class="text-sm text-slate-400 hover:text-white transition-colors font-medium">Blog</a>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="/login" class="hidden sm:block text-sm font-medium text-slate-400 hover:text-white transition-colors px-3 py-2">Portal SVE90</a>
+        <a href="/index.html#contacto" class="btn-gold text-sm font-bold px-5 py-2.5 rounded-xl">
+          Aplicar al Diagnóstico
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Article Content -->
+<main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+  <article>
+    <!-- Back to blog link -->
+    <div class="mb-8">
+      <a href="/blog" class="text-cyan-400 hover:text-white transition-colors text-sm font-bold inline-flex items-center gap-2">
+        <i class="fas fa-arrow-left text-xs"></i> Volver al Blog
+      </a>
+    </div>
+
+    <!-- Category -->
+    <div class="inline-block px-3 py-1 rounded-full text-xs font-bold mb-4 uppercase tracking-widest" style="background:rgba(0,229,255,0.08); color:#00e5ff; border:1px solid rgba(0,229,255,0.25);">
+      {{ post.category }}
+    </div>
+
+    <!-- Title -->
+    <h1 class="text-3xl sm:text-4xl md:text-5xl font-black text-white leading-tight mb-6">
+      {{ post.title }}
+    </h1>
+
+    <!-- Meta details -->
+    <div class="flex flex-wrap items-center gap-6 text-slate-500 text-sm border-y border-slate-800 py-4 mb-10">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-black" style="background:linear-gradient(135deg,rgba(0,229,255,0.2),rgba(14,165,233,0.15)); color:#00e5ff; border:1px solid rgba(0,229,255,0.25);">EJ</div>
+        <span>Por <strong>{{ post.author }}</strong></span>
+      </div>
+      <span>•</span>
+      <span><i class="far fa-calendar-alt mr-1.5"></i> Publicado el {{ post.published_at[:10] }}</span>
+      <span>•</span>
+      <span><i class="far fa-clock mr-1.5"></i> 3 min de lectura</span>
+    </div>
+
+    <!-- Main Cover with CSS Fallback -->
+    <div class="blog-post-cover-container">
+      <img src="{{ post.image_url }}" alt="{{ post.title }}" class="blog-img-fit" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <div style="display: none; width: 100%; height: 100%; position: absolute; top: 0; left: 0; background: linear-gradient(135deg, #05142b 0%, #030a14 100%); align-items: center; justify-content: center;">
+        <div class="absolute inset-0 opacity-20 pointer-events-none" style="background-image: radial-gradient(rgba(0,229,255,0.15) 1px, transparent 0); background-size: 15px 15px;"></div>
+        <i class="fas fa-robot text-8xl text-cyan-400/10"></i>
+      </div>
+    </div>
+
+    <!-- Post Body -->
+    <div class="post-content text-slate-300 leading-relaxed text-base sm:text-lg">
+      {{ post.content | safe }}
+    </div>
+  </article>
+</main>
+
+<!-- Footer -->
+<footer style="background:#030b16; border-top:1px solid rgba(0,229,255,0.15);">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-10 mb-12">
+      <div>
+        <div class="flex items-center gap-2.5 mb-4">
+          <img src="/static/logo_prosper_ia_cropped.jpg" alt="PROSPER IA" style="height: 120px; object-fit: contain;" class="rounded-xl">
+        </div>
+        <p class="text-slate-500 text-xs leading-relaxed font-light">
+          Instalamos Sistemas Operativos de Inteligencia Artificial para agencias de servicios. Transformamos el caos manual en Empresas Aumentadas.
+        </p>
+        <div class="flex gap-4 mt-5">
+          <a href="https://www.instagram.com/edwardjimenezia/" target="_blank" rel="noopener" class="text-slate-500 hover:text-cyan-400 transition-colors text-base" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.facebook.com/AgenciaProsperarIA/" target="_blank" rel="noopener" class="text-slate-500 hover:text-cyan-400 transition-colors text-base" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.youtube.com/@AgenciaProsper_IA" target="_blank" rel="noopener" class="text-slate-500 hover:text-cyan-400 transition-colors text-base" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+          <a href="https://www.linkedin.com/in/edwardjimenezia/" target="_blank" rel="noopener" class="text-slate-500 hover:text-cyan-400 transition-colors text-base" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+      <div>
+        <h4 class="text-white font-bold text-sm mb-4 uppercase tracking-wider" style="color: #00e5ff;">Solución</h4>
+        <ul class="space-y-3 text-xs sm:text-sm">
+          <li><a href="/index.html#problema" class="text-slate-500 hover:text-white transition-colors">El Caos Operativo</a></li>
+          <li><a href="/index.html#sistema" class="text-slate-500 hover:text-white transition-colors">La Solución SVE90</a></li>
+          <li><a href="/index.html#mecanismo" class="text-slate-500 hover:text-white transition-colors">Método de las 6 Fases</a></li>
+          <li><a href="/index.html#arquitectura" class="text-slate-500 hover:text-white transition-colors">Arquitectura Técnica</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-white font-bold text-sm mb-4 uppercase tracking-wider" style="color: #00e5ff;">Ecosistema</h4>
+        <ul class="space-y-3 text-xs sm:text-sm">
+          <li><a href="/index.html#masterclass" class="text-slate-500 hover:text-white transition-colors">Demostración Operativa SVE90</a></li>
+          <li><a href="/index.html#contacto" class="text-slate-500 hover:text-white transition-colors">Aplicar al Diagnóstico de Madurez</a></li>
+          <li><a href="/blog" class="text-slate-500 hover:text-white transition-colors">Blog de Noticias IA</a></li>
+          <li><a href="/login" class="text-slate-500 hover:text-white transition-colors">Acceso a PassportAI (Login)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-white font-bold text-sm mb-4 uppercase tracking-wider" style="color: #00e5ff;">Dirección Ejecutiva</h4>
+        <ul class="space-y-3 text-xs text-slate-500 leading-relaxed font-light">
+          <li><strong>Sede:</strong> Miami, Florida, USA.</li>
+          <li><strong>Director:</strong> Edward Jiménez, CEO.</li>
+          <li><strong>Email:</strong> <a href="mailto:edward@passportai.app" class="hover:text-white transition-colors">edward@passportai.app</a></li>
+          <li><strong>WhatsApp:</strong> <a href="https://wa.me/17865573119" class="hover:text-white transition-colors">+1 (786) 557-3119</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="divider mb-8" style="height: 1px; background: rgba(0,229,255,0.15);"></div>
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-700">
+      <p>© 2026 PROSPER IA. Todos los derechos reservados.</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
