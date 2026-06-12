@@ -17,9 +17,9 @@
   <meta property="article:published_time" content="{{ post.published_at }}">
   <meta property="article:author" content="{{ post.author }}">
 
-  <link rel="stylesheet" href="/static/tw.css">
-  <link rel="stylesheet" href="/static/fonts.css">
-  <link rel="stylesheet" href="/static/fa.min.css">
+  <link rel="stylesheet" href="{{ static_versioned('tw.css') }}">
+  <link rel="stylesheet" href="{{ static_versioned('fonts.css') }}">
+  <link rel="stylesheet" href="{{ static_versioned('fa.min.css') }}">
   <style>
     :root {
       --navy: #020710;
@@ -135,7 +135,7 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between" style="height: 120px;">
       <a href="/index.html" class="flex items-center gap-2.5">
-        <img src="/static/logo_prosper_ia_cropped.jpg" alt="PROSPER IA" style="height: 110px; max-height: 110px; object-fit: contain;" class="rounded-xl">
+        <img src="{{ static_versioned('logo_prosper_ia_cropped.jpg') }}" alt="PROSPER IA" style="height: 110px; max-height: 110px; object-fit: contain;" class="rounded-xl">
       </a>
       <div class="hidden md:flex items-center gap-7">
         <a href="/index.html#problema" class="text-sm text-slate-400 hover:text-white transition-colors font-medium">El Caos Operativo</a>
@@ -208,7 +208,7 @@
     <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-10 mb-12">
       <div>
         <div class="flex items-center gap-2.5 mb-4">
-          <img src="/static/logo_prosper_ia_cropped.jpg" alt="PROSPER IA" style="height: 120px; object-fit: contain;" class="rounded-xl">
+          <img src="{{ static_versioned('logo_prosper_ia_cropped.jpg') }}" alt="PROSPER IA" style="height: 120px; object-fit: contain;" class="rounded-xl">
         </div>
         <p class="text-slate-500 text-xs leading-relaxed font-light">
           Instalamos Sistemas Operativos de Inteligencia Artificial para agencias de servicios. Transformamos el caos manual en Empresas Aumentadas.

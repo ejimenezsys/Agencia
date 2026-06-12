@@ -7,9 +7,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Acceder — PROSPER IA</title>
-  <link rel="stylesheet" href="/static/tw.css">
-  <link rel="stylesheet" href="/static/fonts.css">
-  <link rel="stylesheet" href="/static/fa.min.css">
+  <link rel="stylesheet" href="{{ static_versioned('tw.css') }}">
+  <link rel="stylesheet" href="{{ static_versioned('fonts.css') }}">
+  <link rel="stylesheet" href="{{ static_versioned('fa.min.css') }}">
   <style>
     :root { --navy:#020710; --navy-mid:#050d1a; --navy-card:#081224; --navy-border:rgba(0,229,255,0.15); --cyan:#00e5ff; }
     * { font-family:'Inter',sans-serif; }
@@ -46,7 +46,7 @@
   <!-- Logo -->
   <div class="relative z-10">
     <a href="index.html" class="flex items-center gap-2.5">
-      <img src="/static/logo_prosper_ia_cropped.jpg" alt="PROSPER IA" style="height: 100px; max-height: 100px; object-fit: contain;" class="rounded-xl">
+      <img src="{{ static_versioned('logo_prosper_ia_cropped.jpg') }}" alt="PROSPER IA" style="height: 100px; max-height: 100px; object-fit: contain;" class="rounded-xl">
     </a>
   </div>
 
@@ -126,7 +126,7 @@
     <!-- Mobile logo -->
     <div class="lg:hidden mb-8">
       <a href="index.html" class="flex items-center gap-2">
-        <img src="/static/logo_prosper_ia_cropped.jpg" alt="PROSPER IA" style="height: 100px; max-height: 100px; object-fit: contain;" class="rounded-xl">
+        <img src="{{ static_versioned('logo_prosper_ia_cropped.jpg') }}" alt="PROSPER IA" style="height: 100px; max-height: 100px; object-fit: contain;" class="rounded-xl">
       </a>
     </div>
 

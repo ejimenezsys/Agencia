@@ -73,9 +73,9 @@
   }
   </script>
 
-  <link rel="stylesheet" href="/static/tw.css">
-  <link rel="stylesheet" href="/static/fonts.css">
-  <link rel="stylesheet" href="/static/fa.min.css">
+  <link rel="stylesheet" href="{{ static_versioned('tw.css') }}">
+  <link rel="stylesheet" href="{{ static_versioned('fonts.css') }}">
+  <link rel="stylesheet" href="{{ static_versioned('fa.min.css') }}">
   <style>
     :root {
       --navy: #020710; /* Deep premium black background */
@@ -403,7 +403,7 @@
     <div class="flex items-center justify-between" style="height: 120px;">
       <!-- Logo -->
       <a href="index.html" class="flex items-center gap-2.5 group">
-        <img src="/static/logo_prosper_ia_cropped.jpg" alt="PROSPER IA" style="height: 110px; max-height: 110px; object-fit: contain;" class="rounded-xl">
+        <img src="{{ static_versioned('logo_prosper_ia_cropped.jpg') }}" alt="PROSPER IA" style="height: 110px; max-height: 110px; object-fit: contain;" class="rounded-xl">
       </a>
 
       <!-- Desktop nav -->
@@ -1081,7 +1081,7 @@
       <!-- Imagen izquierda (7 columnas) -->
       <div class="lg:col-span-7" data-reveal-left>
         <div class="card-glow rounded-2xl p-2 sm:p-3 overflow-hidden" style="border: 1px solid rgba(0,229,255,0.15); box-shadow: 0 0 40px rgba(0,229,255,0.06); background: rgba(5, 13, 26, 0.4);">
-          <img src="/static/flujonuevo.jpg" alt="La arquitectura que hace posible el sistema SVE90" class="w-full h-auto rounded-xl object-cover hover:scale-[1.01] transition-transform duration-500">
+          <img src="{{ static_versioned('flujonuevo.jpg') }}" alt="La arquitectura que hace posible el sistema SVE90" class="w-full h-auto rounded-xl object-cover hover:scale-[1.01] transition-transform duration-500">
         </div>
       </div>
 
@@ -1294,7 +1294,7 @@
       <div class="relative mx-auto mt-12 max-w-4xl rounded-2xl overflow-hidden border border-cyan-500/20 group" style="background:#030b16; box-shadow:0 0 50px rgba(0,229,255,0.15);" data-reveal>
         <div class="relative w-full overflow-hidden flex items-center justify-center cursor-pointer" style="aspect-ratio: 16 / 9; height: auto;" onclick="document.getElementById('contacto').scrollIntoView({behavior: 'smooth'})">
           <!-- Imagen de Poster del Video -->
-          <img src="/static/caso-estudio-agencia-sve90-ventas-ia.jpg" alt="Demostración SVE90" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-[1.02] transition-transform duration-700 ease-out">
+          <img src="{{ static_versioned('caso-estudio-agencia-sve90-ventas-ia.jpg') }}" alt="Demostración SVE90" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-[1.02] transition-transform duration-700 ease-out">
           
           <!-- Gradiente de Superposición -->
           <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent"></div>
@@ -1431,7 +1431,7 @@
         <div class="p-8 rounded-2xl relative overflow-hidden" style="background:linear-gradient(135deg, #081224 0%, #020710 100%); border:1px solid rgba(0,229,255,0.25); box-shadow:0 10px 40px rgba(0,0,0,0.5);">
           <div class="flex flex-col md:flex-row gap-6 items-center">
             <div class="w-32 h-32 sm:w-36 sm:h-36 rounded-xl overflow-hidden border-2 flex-shrink-0" style="border-color:#00e5ff; box-shadow:0 0 25px rgba(0,229,255,0.25);">
-              <img src="/static/edwar_jimenez.jpg" alt="Edward Jimenez, CEO" class="w-full h-full object-cover">
+              <img src="{{ static_versioned('edwar_jimenez.jpg') }}" alt="Edward Jimenez, CEO" class="w-full h-full object-cover">
             </div>
             <div>
               <div class="text-xs font-semibold text-cyan-400 uppercase tracking-widest mb-1">¿Quién diseña tu sistema?</div>
@@ -1569,7 +1569,7 @@
       <!-- Columna 1: Marca y Posicionamiento -->
       <div>
         <div class="flex items-center gap-2.5 mb-4">
-          <img src="/static/logo_prosper_ia_cropped.jpg" alt="PROSPER IA" style="height: 120px; object-fit: contain;" class="rounded-xl">
+          <img src="{{ static_versioned('logo_prosper_ia_cropped.jpg') }}" alt="PROSPER IA" style="height: 120px; object-fit: contain;" class="rounded-xl">
         </div>
         <p class="text-slate-500 text-xs leading-relaxed font-light">
           Instalamos Sistemas Operativos de Inteligencia Artificial para agencias de servicios. Transformamos el caos manual en Empresas Aumentadas.

@@ -1,6 +1,5 @@
 import os
 import uuid
-import sqlite3
 from datetime import datetime
 from typing import Optional, List, Dict, Any
 from fastapi import FastAPI, Request, Response, Depends, status, HTTPException, BackgroundTasks
@@ -11,6 +10,8 @@ from email.mime.multipart import MIMEMultipart
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, EmailStr
+from sqlalchemy.orm import Session
+from database import init_db, SessionLocal, User, Lead as DbLead, SessionModel, BlogPost
 
 app = FastAPI(title="Prosper IA API Stack", version="1.0.0")
 
@@ -29,6 +30,16 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # Templates
 templates = Jinja2Templates(directory="templates")
+
+def static_versioned(path: str) -> str:
+    """Retorna la URL del recurso estático anexando el timestamp de modificación como cache-buster."""
+    full_path = os.path.join("static", path)
+    if os.path.exists(full_path):
+        mtime = int(os.path.getmtime(full_path))
+        return f"/static/{path}?v={mtime}"
+    return f"/static/{path}"
+
+templates.env.globals["static_versioned"] = static_versioned
 
 # DB Sessions configuration (no longer stored in global RAM dict SESSIONS)
 
@@ -266,126 +277,12 @@ INITIAL_BLOG_POSTS = [
     }
 ]
 
-DB_PATH = os.environ.get("DATABASE_PATH", "prosper_ia.db")
-
 def get_db():
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
-    return conn
-
-def init_db():
-    conn = get_db()
-    cursor = conn.cursor()
-    
-    # 1. Create users table
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS users (
-            email TEXT PRIMARY KEY,
-            name TEXT NOT NULL,
-            password TEXT NOT NULL,
-            company TEXT,
-            phone TEXT,
-            plan TEXT,
-            api_key TEXT
-        )
-    """)
-    
-    # 2. Create leads table
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS leads (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            email TEXT NOT NULL,
-            company TEXT,
-            phone TEXT,
-            status TEXT DEFAULT 'new',
-            source TEXT DEFAULT 'website',
-            score INTEGER DEFAULT 50,
-            notes TEXT,
-            created_at TEXT NOT NULL
-        )
-    """)
-    
-    # 3. Create sessions table
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS sessions (
-            token TEXT PRIMARY KEY,
-            email TEXT NOT NULL,
-            created_at TEXT NOT NULL
-        )
-    """)
-    
-    # 3. Seed users if empty
-    cursor.execute("SELECT COUNT(*) FROM users")
-    if cursor.fetchone()[0] == 0:
-        cursor.execute("""
-            INSERT INTO users (email, name, password, company, phone, plan, api_key)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-        """, (
-            "admin@prosperia.com",
-            "Administrador Prosper",
-            "admin1234",
-            "Prosper IA Corp",
-            "+34 600 000 000",
-            "premium",
-            "pk_live_51Hz8xProsperSecureToken99aB"
-        ))
-        
-    # 4. Seed leads if empty
-    cursor.execute("SELECT COUNT(*) FROM leads")
-    if cursor.fetchone()[0] == 0:
-        for lead in INITIAL_LEADS:
-            cursor.execute("""
-                INSERT INTO leads (id, name, email, company, phone, status, source, score, notes, created_at)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """, (
-                lead["id"],
-                lead["name"],
-                lead["email"],
-                lead["company"],
-                lead["phone"],
-                lead["status"],
-                lead["source"],
-                lead["score"],
-                lead["notes"],
-                lead["created_at"]
-            ))
-
-    # 5. Create blog_posts table
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS blog_posts (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            slug TEXT UNIQUE NOT NULL,
-            title TEXT NOT NULL,
-            category TEXT NOT NULL,
-            summary TEXT NOT NULL,
-            content TEXT NOT NULL,
-            image_url TEXT NOT NULL,
-            published_at TEXT NOT NULL,
-            author TEXT NOT NULL
-        )
-    """)
-
-    # 6. Seed blog posts if empty
-    cursor.execute("SELECT COUNT(*) FROM blog_posts")
-    if cursor.fetchone()[0] == 0:
-        for post in INITIAL_BLOG_POSTS:
-            cursor.execute("""
-                INSERT INTO blog_posts (slug, title, category, summary, content, image_url, published_at, author)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            """, (
-                post["slug"],
-                post["title"],
-                post["category"],
-                post["summary"],
-                post["content"],
-                post["image_url"],
-                post["published_at"],
-                post["author"]
-            ))
-            
-    conn.commit()
-    conn.close()
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 @app.on_event("startup")
 async def startup_event():
@@ -439,27 +336,32 @@ def get_current_user(request: Request):
             detail="Token de autenticación inválido o ausente."
         )
     
-    conn = get_db()
-    cursor = conn.cursor()
-    cursor.execute("SELECT email FROM sessions WHERE token = ?", (token,))
-    session_row = cursor.fetchone()
-    if not session_row:
-        conn.close()
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Token de autenticación inválido o ausente."
-        )
-        
-    email = session_row["email"]
-    cursor.execute("SELECT * FROM users WHERE email = ?", (email,))
-    row = cursor.fetchone()
-    conn.close()
-    if not row:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Usuario no encontrado."
-        )
-    return dict(row)
+    db = SessionLocal()
+    try:
+        session_row = db.query(SessionModel).filter(SessionModel.token == token).first()
+        if not session_row:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Token de autenticación inválido o ausente."
+            )
+            
+        user_row = db.query(User).filter(User.email == session_row.email).first()
+        if not user_row:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Usuario no encontrado."
+            )
+        return {
+            "email": user_row.email,
+            "name": user_row.name,
+            "password": user_row.password,
+            "company": user_row.company,
+            "phone": user_row.phone,
+            "plan": user_row.plan,
+            "api_key": user_row.api_key
+        }
+    finally:
+        db.close()
 
 @app.exception_handler(HTTPException)
 async def custom_http_exception_handler(request: Request, exc: HTTPException):
@@ -487,25 +389,39 @@ async def read_dashboard(request: Request):
 
 @app.get("/blog", response_class=HTMLResponse)
 @app.get("/blog.html", response_class=HTMLResponse)
-async def read_blog(request: Request):
-    conn = get_db()
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM blog_posts ORDER BY id DESC")
-    rows = cursor.fetchall()
-    conn.close()
-    posts = [dict(row) for row in rows]
+async def read_blog(request: Request, db: Session = Depends(get_db)):
+    rows = db.query(BlogPost).order_by(BlogPost.id.desc()).all()
+    posts = [
+        {
+            "slug": r.slug,
+            "title": r.title,
+            "category": r.category,
+            "summary": r.summary,
+            "content": r.content,
+            "image_url": r.image_url,
+            "published_at": r.published_at,
+            "author": r.author
+        }
+        for r in rows
+    ]
     return templates.TemplateResponse(request=request, name="blog.html", context={"posts": posts})
 
 @app.get("/blog/{slug}", response_class=HTMLResponse)
-async def read_blog_post(request: Request, slug: str):
-    conn = get_db()
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM blog_posts WHERE slug = ?", (slug,))
-    row = cursor.fetchone()
-    conn.close()
+async def read_blog_post(request: Request, slug: str, db: Session = Depends(get_db)):
+    row = db.query(BlogPost).filter(BlogPost.slug == slug).first()
     if not row:
         raise HTTPException(status_code=404, detail="Artículo de blog no encontrado.")
-    return templates.TemplateResponse(request=request, name="blog_post.html", context={"post": dict(row)})
+    post = {
+        "slug": row.slug,
+        "title": row.title,
+        "category": row.category,
+        "summary": row.summary,
+        "content": row.content,
+        "image_url": row.image_url,
+        "published_at": row.published_at,
+        "author": row.author
+    }
+    return templates.TemplateResponse(request=request, name="blog_post.html", context={"post": post})
 
 # ─── TECHNICAL SEO ENDPOINTS ────────────────────────────────────────────────
 from fastapi.responses import PlainTextResponse
@@ -523,12 +439,8 @@ async def get_robots():
     return content
 
 @app.get("/sitemap.xml")
-async def get_sitemap():
-    conn = get_db()
-    cursor = conn.cursor()
-    cursor.execute("SELECT slug, published_at FROM blog_posts")
-    posts = cursor.fetchall()
-    conn.close()
+async def get_sitemap(db: Session = Depends(get_db)):
+    posts = db.query(BlogPost.slug, BlogPost.published_at).all()
     
     xml_content = (
         '<?xml version="1.0" encoding="UTF-8"?>\n'
@@ -546,8 +458,8 @@ async def get_sitemap():
     )
     
     for post in posts:
-        slug = post["slug"]
-        date = post["published_at"][:10]
+        slug = post.slug
+        date = post.published_at[:10]
         xml_content += (
             f'  <url>\n'
             f'    <loc>https://agenciaprosperia.com/blog/{slug}</loc>\n'
@@ -563,22 +475,15 @@ async def get_sitemap():
 # ─── API ENDPOINTS ──────────────────────────────────────────────────────────
 
 @app.post("/api/auth/login")
-async def api_login(req: LoginRequest, response: Response):
-    conn = get_db()
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM users WHERE email = ?", (req.email,))
-    row = cursor.fetchone()
-    
-    if not row:
-        conn.close()
+async def api_login(req: LoginRequest, response: Response, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.email == req.email).first()
+    if not user:
         return JSONResponse(
             status_code=400,
             content={"success": False, "error": "Credenciales incorrectas."}
         )
         
-    user = dict(row)
-    if user["password"] != req.password:
-        conn.close()
+    if user.password != req.password:
         return JSONResponse(
             status_code=400,
             content={"success": False, "error": "Credenciales incorrectas."}
@@ -589,17 +494,17 @@ async def api_login(req: LoginRequest, response: Response):
     
     # Guardar sesión en base de datos
     created_at = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
-    cursor.execute("INSERT INTO sessions (token, email, created_at) VALUES (?, ?, ?)", (token, req.email, created_at))
-    conn.commit()
-    conn.close()
+    new_session = SessionModel(token=token, email=req.email, created_at=created_at)
+    db.add(new_session)
+    db.commit()
     
     user_payload = {
-        "name": user["name"],
-        "email": user["email"],
-        "company": user["company"],
-        "phone": user["phone"],
-        "plan": user["plan"],
-        "api_key": user["api_key"]
+        "name": user.name,
+        "email": user.email,
+        "company": user.company,
+        "phone": user.phone,
+        "plan": user.plan,
+        "api_key": user.api_key
     }
     
     response.set_cookie(
@@ -621,7 +526,7 @@ async def api_login(req: LoginRequest, response: Response):
     }
 
 @app.post("/api/auth/logout")
-async def api_logout(request: Request, response: Response):
+async def api_logout(request: Request, response: Response, db: Session = Depends(get_db)):
     auth_header = request.headers.get("Authorization")
     token = None
     if auth_header and auth_header.startswith("Bearer "):
@@ -630,11 +535,10 @@ async def api_logout(request: Request, response: Response):
         token = request.cookies.get("auth_token")
         
     if token:
-        conn = get_db()
-        cursor = conn.cursor()
-        cursor.execute("DELETE FROM sessions WHERE token = ?", (token,))
-        conn.commit()
-        conn.close()
+        session_row = db.query(SessionModel).filter(SessionModel.token == token).first()
+        if session_row:
+            db.delete(session_row)
+            db.commit()
         
     response.delete_cookie("auth_token")
     return {"success": True}
@@ -741,28 +645,23 @@ def send_email_notification(name: str, email: str, company: str, phone: str, mes
         print(f"❌ [EMAIL NOTIFICATION ERROR] Failed to send email to {notification_to}: {e}", flush=True)
 
 @app.post("/api/auth/contact")
-async def api_contact(req: ContactRequest, background_tasks: BackgroundTasks):
-    conn = get_db()
-    cursor = conn.cursor()
+async def api_contact(req: ContactRequest, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
     created_at = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
     score = 75
     
-    cursor.execute("""
-        INSERT INTO leads (name, email, company, phone, status, source, score, notes, created_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-    """, (
-        req.name,
-        req.email,
-        req.company or "",
-        req.phone or "",
-        "new",
-        req.source or "website",
-        score,
-        req.message or "",
-        created_at
-    ))
-    conn.commit()
-    conn.close()
+    new_lead = DbLead(
+        name=req.name,
+        email=req.email,
+        company=req.company or "",
+        phone=req.phone or "",
+        status="new",
+        source=req.source or "website",
+        score=score,
+        notes=req.message or "",
+        created_at=created_at
+    )
+    db.add(new_lead)
+    db.commit()
     
     # Enviar email de notificación en segundo plano
     background_tasks.add_task(
@@ -789,29 +688,21 @@ async def api_get_profile(current_user: dict = Depends(get_current_user)):
     return {"success": True, "data": user_payload}
 
 @app.put("/api/users/me")
-async def api_update_profile(req: ProfileUpdateRequest, current_user: dict = Depends(get_current_user)):
-    conn = get_db()
-    cursor = conn.cursor()
-    cursor.execute("""
-        UPDATE users
-        SET name = ?, company = ?, phone = ?
-        WHERE email = ?
-    """, (req.name, req.company, req.phone, current_user["email"]))
-    conn.commit()
-    conn.close()
+async def api_update_profile(req: ProfileUpdateRequest, current_user: dict = Depends(get_current_user), db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.email == current_user["email"]).first()
+    if user:
+        user.name = req.name
+        user.company = req.company
+        user.phone = req.phone
+        db.commit()
     return {"success": True}
 
 @app.put("/api/users/me/password")
-async def api_update_password(req: PasswordUpdateRequest, current_user: dict = Depends(get_current_user)):
-    conn = get_db()
-    cursor = conn.cursor()
-    cursor.execute("""
-        UPDATE users
-        SET password = ?
-        WHERE email = ?
-    """, (req.password, current_user["email"]))
-    conn.commit()
-    conn.close()
+async def api_update_password(req: PasswordUpdateRequest, current_user: dict = Depends(get_current_user), db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.email == current_user["email"]).first()
+    if user:
+        user.password = req.password
+        db.commit()
     return {"success": True}
 
 @app.get("/api/leads")
@@ -819,134 +710,190 @@ async def api_get_leads(
     status: Optional[str] = None,
     source: Optional[str] = None,
     limit: Optional[int] = 100,
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user),
+    db: Session = Depends(get_db)
 ):
-    conn = get_db()
-    cursor = conn.cursor()
-    
-    query = "SELECT * FROM leads WHERE 1=1"
-    params = []
+    """Obtiene el listado de leads filtrado y ordenado.
+
+    Args:
+        status (Optional[str]): Filtro de estado del lead (ej. 'new', 'converted').
+        source (Optional[str]): Filtro de origen del lead (ej. 'website', 'social').
+        limit (Optional[int]): Límite máximo de resultados a retornar.
+        current_user (dict): Payload del usuario autenticado actual.
+        db (Session): Sesión de base de datos SQLAlchemy.
+
+    Returns:
+        dict: Diccionario con el listado de leads formateado.
+    """
+    query = db.query(DbLead)
     
     if status:
-        query += " AND status = ?"
-        params.append(status)
+        query = query.filter(DbLead.status == status)
     if source:
-        query += " AND source = ?"
-        params.append(source)
+        query = query.filter(DbLead.source == source)
         
-    query += " ORDER BY id DESC LIMIT ?"
-    params.append(limit)
+    rows = query.order_by(DbLead.id.desc()).limit(limit).all()
     
-    cursor.execute(query, params)
-    rows = cursor.fetchall()
-    conn.close()
-    
-    leads = [dict(row) for row in rows]
+    leads = [
+        {
+            "id": r.id,
+            "name": r.name,
+            "email": r.email,
+            "company": r.company,
+            "phone": r.phone,
+            "status": r.status,
+            "source": r.source,
+            "score": r.score,
+            "notes": r.notes,
+            "created_at": r.created_at
+        }
+        for r in rows
+    ]
     return {"success": True, "data": {"leads": leads}}
 
 @app.post("/api/leads")
-async def api_create_lead(req: LeadCreateRequest, current_user: dict = Depends(get_current_user)):
-    conn = get_db()
-    cursor = conn.cursor()
-    
+async def api_create_lead(
+    req: LeadCreateRequest,
+    current_user: dict = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Crea un nuevo lead en la base de datos.
+
+    Args:
+        req (LeadCreateRequest): Objeto con los datos de creación del lead.
+        current_user (dict): Payload del usuario autenticado actual.
+        db (Session): Sesión de base de datos SQLAlchemy.
+
+    Returns:
+        dict: Detalle del lead creado.
+    """
     created_at = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
-    cursor.execute("""
-        INSERT INTO leads (name, email, company, phone, status, source, score, notes, created_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-    """, (
-        req.name,
-        req.email,
-        req.company or "",
-        req.phone or "",
-        req.status or "new",
-        req.source or "website",
-        req.score if req.score is not None else 50,
-        req.notes or "",
-        created_at
-    ))
+    new_lead = DbLead(
+        name=req.name,
+        email=req.email,
+        company=req.company or "",
+        phone=req.phone or "",
+        status=req.status or "new",
+        source=req.source or "website",
+        score=req.score if req.score is not None else 50,
+        notes=req.notes or "",
+        created_at=created_at
+    )
+    db.add(new_lead)
+    db.commit()
+    db.refresh(new_lead)
     
-    lead_id = cursor.lastrowid
-    conn.commit()
-    
-    cursor.execute("SELECT * FROM leads WHERE id = ?", (lead_id,))
-    row = cursor.fetchone()
-    conn.close()
-    
-    return {"success": True, "data": dict(row)}
+    lead_data = {
+        "id": new_lead.id,
+        "name": new_lead.name,
+        "email": new_lead.email,
+        "company": new_lead.company,
+        "phone": new_lead.phone,
+        "status": new_lead.status,
+        "source": new_lead.source,
+        "score": new_lead.score,
+        "notes": new_lead.notes,
+        "created_at": new_lead.created_at
+    }
+    return {"success": True, "data": lead_data}
 
 @app.delete("/api/leads/{lead_id}")
-async def api_delete_lead(lead_id: int, current_user: dict = Depends(get_current_user)):
-    conn = get_db()
-    cursor = conn.cursor()
-    
-    cursor.execute("SELECT 1 FROM leads WHERE id = ?", (lead_id,))
-    if not cursor.fetchone():
-        conn.close()
+async def api_delete_lead(
+    lead_id: int,
+    current_user: dict = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Elimina un lead por su identificador único.
+
+    Args:
+        lead_id (int): Identificador del lead a eliminar.
+        current_user (dict): Payload del usuario autenticado actual.
+        db (Session): Sesión de base de datos SQLAlchemy.
+
+    Returns:
+        dict: Estado de éxito de la operación.
+    """
+    lead = db.query(DbLead).filter(DbLead.id == lead_id).first()
+    if not lead:
         return JSONResponse(
             status_code=404,
             content={"success": False, "error": "Lead no encontrado."}
         )
         
-    cursor.execute("DELETE FROM leads WHERE id = ?", (lead_id,))
-    conn.commit()
-    conn.close()
+    db.delete(lead)
+    db.commit()
     return {"success": True}
 
 @app.put("/api/leads/{lead_id}")
-async def api_update_lead(lead_id: int, req: LeadCreateRequest, current_user: dict = Depends(get_current_user)):
-    conn = get_db()
-    cursor = conn.cursor()
-    
-    cursor.execute("SELECT 1 FROM leads WHERE id = ?", (lead_id,))
-    if not cursor.fetchone():
-        conn.close()
+async def api_update_lead(
+    lead_id: int,
+    req: LeadCreateRequest,
+    current_user: dict = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Actualiza la información de un lead existente.
+
+    Args:
+        lead_id (int): Identificador del lead a actualizar.
+        req (LeadCreateRequest): Objeto con los nuevos datos del lead.
+        current_user (dict): Payload del usuario autenticado actual.
+        db (Session): Sesión de base de datos SQLAlchemy.
+
+    Returns:
+        dict: Detalle del lead actualizado.
+    """
+    lead = db.query(DbLead).filter(DbLead.id == lead_id).first()
+    if not lead:
         return JSONResponse(
             status_code=404,
             content={"success": False, "error": "Lead no encontrado."}
         )
         
-    cursor.execute("""
-        UPDATE leads
-        SET name = ?, email = ?, company = ?, phone = ?, status = ?, source = ?, score = ?, notes = ?
-        WHERE id = ?
-    """, (
-        req.name,
-        req.email,
-        req.company or "",
-        req.phone or "",
-        req.status or "new",
-        req.source or "website",
-        req.score if req.score is not None else 50,
-        req.notes or "",
-        lead_id
-    ))
+    lead.name = req.name
+    lead.email = req.email
+    lead.company = req.company or ""
+    lead.phone = req.phone or ""
+    lead.status = req.status or "new"
+    lead.source = req.source or "website"
+    lead.score = req.score if req.score is not None else 50
+    lead.notes = req.notes or ""
     
-    conn.commit()
+    db.commit()
+    db.refresh(lead)
     
-    cursor.execute("SELECT * FROM leads WHERE id = ?", (lead_id,))
-    row = cursor.fetchone()
-    conn.close()
-    
-    return {"success": True, "data": dict(row)}
+    lead_data = {
+        "id": lead.id,
+        "name": lead.name,
+        "email": lead.email,
+        "company": lead.company,
+        "phone": lead.phone,
+        "status": lead.status,
+        "source": lead.source,
+        "score": lead.score,
+        "notes": lead.notes,
+        "created_at": lead.created_at
+    }
+    return {"success": True, "data": lead_data}
 
 @app.get("/api/dashboard/stats")
-async def api_get_stats(current_user: dict = Depends(get_current_user)):
-    conn = get_db()
-    cursor = conn.cursor()
+async def api_get_stats(
+    current_user: dict = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Calcula las estadísticas globales para el panel de administración.
+
+    Args:
+        current_user (dict): Payload del usuario autenticado actual.
+        db (Session): Sesión de base de datos SQLAlchemy.
+
+    Returns:
+        dict: Estadísticas de leads, facturación estimada y conversión.
+    """
+    from sqlalchemy import func
     
-    cursor.execute("""
-        SELECT 
-            COUNT(*) as total,
-            SUM(CASE WHEN status = 'new' THEN 1 ELSE 0 END) as new_count,
-            SUM(CASE WHEN status = 'converted' THEN 1 ELSE 0 END) as converted_count
-        FROM leads
-    """)
-    row = cursor.fetchone()
-    conn.close()
-    
-    total = row["total"] if row else 0
-    new_leads = row["new_count"] if row and row["new_count"] is not None else 0
-    converted = row["converted_count"] if row and row["converted_count"] is not None else 0
+    total = db.query(func.count(DbLead.id)).scalar() or 0
+    new_leads = db.query(func.count(DbLead.id)).filter(DbLead.status == "new").scalar() or 0
+    converted = db.query(func.count(DbLead.id)).filter(DbLead.status == "converted").scalar() or 0
     
     revenue = converted * 2500
     rate = (converted / total * 100) if total > 0 else 0.0

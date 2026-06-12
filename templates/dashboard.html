@@ -7,10 +7,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard — PROSPER IA</title>
-  <link rel="stylesheet" href="/static/tw.css">
-  <link rel="stylesheet" href="/static/fonts.css">
-  <link rel="stylesheet" href="/static/fa.min.css">
-  <script src="/static/chart.min.js"></script>
+  <link rel="stylesheet" href="{{ static_versioned('tw.css') }}">
+  <link rel="stylesheet" href="{{ static_versioned('fonts.css') }}">
+  <link rel="stylesheet" href="{{ static_versioned('fa.min.css') }}">
+  <script src="{{ static_versioned('chart.min.js') }}"></script>
   <style>
     :root {
       --navy: #050d1a;
@@ -223,7 +223,7 @@
   <div class="sidebar-logo">
     <div class="flex items-center justify-between">
       <a href="index.html" class="flex items-center gap-2.5">
-        <img src="/static/logo_prosper_ia_cropped.jpg" alt="PROSPER IA" style="height: 80px; max-height: 80px; object-fit: contain;" class="rounded-xl">
+        <img src="{{ static_versioned('logo_prosper_ia_cropped.jpg') }}" alt="PROSPER IA" style="height: 80px; max-height: 80px; object-fit: contain;" class="rounded-xl">
       </a>
       <button onclick="closeSidebar()" class="lg:hidden text-slate-500 hover:text-white p-1">
         <i class="fas fa-times text-sm"></i>
