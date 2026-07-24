@@ -96,20 +96,33 @@ def generate_cyber_cover(filepath, title):
     """Genera programáticamente una portada cibernética abstracta de alta calidad."""
     width, height = 800, 500
     image = Image.new("RGBA", (width, height), (2, 7, 16, 255)) # Fondo #020710 (Navy oscuro)
+    
+    # 1. Dibujar un degradado radial suave de fondo
+    cx, cy = width // 2, height // 2
+    for y in range(height):
+        for x in range(width):
+            dx = x - cx
+            dy = y - cy
+            dist = (dx*dx + dy*dy) ** 0.5
+            factor = min(1.0, dist / 500.0)
+            # Interpolación entre azul de fondo (#081a30) y navy oscuro (#020710)
+            r = int(8 - (8 - 2) * factor)
+            g = int(26 - (26 - 7) * factor)
+            b = int(48 - (48 - 16) * factor)
+            image.putpixel((x, y), (r, g, b, 255))
+            
     draw = ImageDraw.Draw(image)
     
-    # 1. Dibujar un degradado radial de fondo simulando un glow cian
-    glow_color = (0, 229, 255) # Cian
-    glow_center_x, glow_center_y = random.randint(150, 450), random.randint(150, 350)
-    for radius in range(500, 0, -10):
-        alpha = int((1 - (radius / 500)) ** 4 * 25) # Glow suave
+    # 1.5 Dibujar un pequeño glow cian suave en el centro
+    for radius in range(120, 0, -8):
+        alpha = int((1.0 - (radius / 120.0)) ** 2 * 30)
         draw.ellipse(
-            [glow_center_x - radius, glow_center_y - radius, glow_center_x + radius, glow_center_y + radius],
-            fill=(glow_color[0], glow_color[1], glow_color[2], alpha)
+            [cx - radius, cy - radius, cx + radius, cy + radius],
+            fill=(0, 229, 255, alpha)
         )
         
     # 2. Dibujar rejilla vectorial de fondo (Grid)
-    grid_color = (0, 229, 255, 8) # Rejilla cian muy tenue
+    grid_color = (0, 229, 255, 12) # Rejilla cian muy tenue
     for x in range(0, width, 40):
         draw.line([(x, 0), (x, height)], fill=grid_color, width=1)
     for y in range(0, height, 40):
