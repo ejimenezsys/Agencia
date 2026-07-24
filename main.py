@@ -557,6 +557,38 @@ async def get_robots():
         "Disallow: /api/\n"
         "Disallow: /dashboard\n"
         "Disallow: /login\n\n"
+        
+        "# Permitir indexación explícita para agentes de búsqueda de Inteligencia Artificial (LLMs)\n"
+        "User-agent: GPTBot\n"
+        "Allow: /\n"
+        "Disallow: /api/\n"
+        "Disallow: /dashboard\n"
+        "Disallow: /login\n\n"
+        
+        "User-agent: ClaudeBot\n"
+        "Allow: /\n"
+        "Disallow: /api/\n"
+        "Disallow: /dashboard\n"
+        "Disallow: /login\n\n"
+        
+        "User-agent: OAI-SearchBot\n"
+        "Allow: /\n"
+        "Disallow: /api/\n"
+        "Disallow: /dashboard\n"
+        "Disallow: /login\n\n"
+        
+        "User-agent: Google-Extended\n"
+        "Allow: /\n"
+        "Disallow: /api/\n"
+        "Disallow: /dashboard\n"
+        "Disallow: /login\n\n"
+        
+        "User-agent: PerplexityBot\n"
+        "Allow: /\n"
+        "Disallow: /api/\n"
+        "Disallow: /dashboard\n"
+        "Disallow: /login\n\n"
+        
         "Sitemap: https://agenciaprosperia.com/sitemap.xml\n"
     )
     return content

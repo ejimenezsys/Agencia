@@ -8,6 +8,40 @@
   <meta name="keywords" content="blog ia, automatizacion crm, sdr ia, prosper ia, edward jimenez, inteligencia artificial negocios">
   <link rel="canonical" href="https://agenciaprosperia.com/blog">
 
+  <!-- Marcado Estructurado JSON-LD (SEO y Búsquedas de IA) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "Blog de Inteligencia Artificial para Empresarios — PROSPER IA",
+    "description": "Artículos estratégicos sobre Inteligencia Artificial, automatización de procesos y CRM para CEOs y dueños de agencias de servicios.",
+    "url": "https://agenciaprosperia.com/blog",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Prosper IA",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://agenciaprosperia.com/static/logo_prosper_ia_cropped.jpg"
+      }
+    },
+    "blogPost": [
+      {% for post in posts %}
+      {
+        "@type": "BlogPosting",
+        "headline": "{{ post.title }}",
+        "description": "{{ post.summary }}",
+        "datePublished": "{{ post.published_at }}",
+        "author": {
+          "@type": "Person",
+          "name": "{{ post.author }}"
+        },
+        "url": "https://agenciaprosperia.com/blog/{{ post.slug }}"
+      }{% if not loop.last %},{% endif %}
+      {% endfor %}
+    ]
+  }
+  </script>
+
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://agenciaprosperia.com/blog">
@@ -77,6 +111,61 @@
       left: 0;
       transition: transform 0.5s ease;
     }
+    .filter-btn {
+      background: rgba(8, 18, 36, 0.6);
+      border: 1px solid rgba(0, 229, 255, 0.1);
+      color: var(--gray-light);
+      padding: 10px 22px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      backdrop-filter: blur(4px);
+    }
+    .filter-btn:hover {
+      border-color: rgba(0, 229, 255, 0.4);
+      color: var(--white);
+      box-shadow: 0 4px 15px rgba(0, 229, 255, 0.05);
+    }
+    .filter-btn.active {
+      background: linear-gradient(135deg, rgba(0, 229, 255, 0.15) 0%, rgba(14, 165, 233, 0.15) 100%);
+      border-color: var(--cyan);
+      color: var(--cyan);
+      box-shadow: 0 0 15px rgba(0, 229, 255, 0.15);
+    }
+    .btn-gold {
+      background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%);
+      color: var(--navy);
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(234, 179, 8, 0.2);
+    }
+    .btn-gold:hover {
+      box-shadow: 0 6px 20px rgba(234, 179, 8, 0.35);
+      transform: translateY(-1px);
+    }
+    .pag-btn {
+      background: rgba(8, 18, 36, 0.8);
+      border: 1px solid rgba(0, 229, 255, 0.15);
+      color: var(--cyan);
+      padding: 10px 22px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+    .pag-btn:hover:not(:disabled) {
+      border-color: var(--cyan);
+      color: var(--white);
+      background: rgba(0, 229, 255, 0.05);
+      box-shadow: 0 0 15px rgba(0, 229, 255, 0.1);
+    }
+    .pag-btn:disabled {
+      opacity: 0.3;
+      border-color: rgba(255, 255, 255, 0.05);
+      color: var(--gray-light);
+      cursor: not-allowed;
+    }
   </style>
 </head>
 <body class="pt-32">
@@ -138,15 +227,74 @@
   </div>
 </header>
 
-<!-- Blog Grid -->
+<!-- Main Content Container -->
 <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+  
+  <!-- Artículo Destacado (Hero Post) -->
+  {% if posts %}
+    {% set featured = posts[0] %}
+    <section class="mb-16">
+      <div class="card-glow overflow-hidden grid md:grid-cols-12 gap-0 relative">
+        <div class="absolute inset-0 opacity-[0.02] pointer-events-none" style="background:radial-gradient(circle at 20% 50%, #00e5ff 0%, transparent 50%);"></div>
+        
+        <!-- Image Side -->
+        <div class="md:col-span-7 relative overflow-hidden" style="min-height: 280px; md:min-height: 420px;">
+          <img src="{{ featured.image_url }}" alt="{{ featured.title }}" class="blog-img-fit hover:scale-[1.02] transition-transform duration-700" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div style="display: none; width: 100%; height: 100%; position: absolute; top: 0; left: 0; background: linear-gradient(135deg, #05142b 0%, #030a14 100%); align-items: center; justify-content: center;">
+            <div class="absolute inset-0 opacity-20 pointer-events-none" style="background-image: radial-gradient(rgba(0,229,255,0.15) 1px, transparent 0); background-size: 10px 10px;"></div>
+            <i class="fas fa-microchip text-7xl text-cyan-400/20"></i>
+          </div>
+          <span class="text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-md" style="position: absolute; top: 1.5rem; left: 1.5rem; z-index: 10; background: rgba(2, 7, 16, 0.9); color: #00e5ff; border: 1px solid rgba(0,229,255,0.4); backdrop-filter: blur(4px);">
+            Artículo Destacado • {{ featured.category }}
+          </span>
+        </div>
+        
+        <!-- Text Side -->
+        <div class="md:col-span-5 p-8 sm:p-10 flex flex-col justify-between relative z-10">
+          <div>
+            <div class="text-slate-500 text-xs flex items-center gap-3 mb-4">
+              <span><i class="far fa-calendar-alt mr-1"></i> {{ featured.published_at[:10] }}</span>
+              <span>•</span>
+              <span><i class="far fa-user mr-1"></i> {{ featured.author }}</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-black text-white mb-4 hover:text-cyan-400 transition-colors leading-tight">
+              <a href="/blog/{{ featured.slug }}">{{ featured.title }}</a>
+            </h2>
+            <p class="text-slate-400 text-sm leading-relaxed mb-6 font-light">
+              {{ featured.summary }}
+            </p>
+          </div>
+          <div>
+            <a href="/blog/{{ featured.slug }}" class="btn-gold text-xs font-bold px-6 py-3.5 rounded-xl inline-flex items-center gap-2">
+              <span>Leer artículo completo</span> <i class="fas fa-arrow-right text-xs"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  <!-- Blog Grid Header / Anchor Point -->
+  <div id="blog-grid-header" class="pt-8 mb-8 border-t border-slate-800/80">
+    <h2 class="text-2xl font-bold text-white mb-6">Explorar Historial de Noticias</h2>
+  </div>
+
+  <!-- Category Filters -->
+  <div class="flex flex-wrap justify-center sm:justify-start gap-3 mb-10">
+    <button class="filter-btn active" data-category="all">Todos</button>
+    <button class="filter-btn" data-category="Marketing & CRM">Marketing & CRM</button>
+    <button class="filter-btn" data-category="Operaciones">Operaciones</button>
+    <button class="filter-btn" data-category="Automatización">Automatización</button>
+    <button class="filter-btn" data-category="Casos de Éxito">Casos de Éxito</button>
+  </div>
+
+  <!-- Blog Grid -->
+  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="blog-posts-grid">
     {% for post in posts %}
-    <article class="card-glow overflow-hidden flex flex-column flex-col justify-between">
+    <article class="card-glow overflow-hidden flex flex-column flex-col justify-between blog-post-card" data-category="{{ post.category }}" style="display: none; opacity: 0;">
       <div>
-        <!-- Real Image Header with CSS Fallback -->
         <div class="blog-card-img-container">
-          <img src="{{ post.image_url }}" alt="{{ post.title }}" class="blog-img-fit hover:scale-105" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <img src="{{ post.image_url }}" alt="{{ post.title }}" class="blog-img-fit hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
           <div style="display: none; width: 100%; height: 100%; position: absolute; top: 0; left: 0; background: linear-gradient(135deg, #05142b 0%, #030a14 100%); align-items: center; justify-content: center;">
             <div class="absolute inset-0 opacity-20 pointer-events-none" style="background-image: radial-gradient(rgba(0,229,255,0.15) 1px, transparent 0); background-size: 10px 10px;"></div>
             <i class="fas fa-microchip text-5xl text-cyan-400/20"></i>
@@ -162,10 +310,10 @@
             <span>•</span>
             <span><i class="far fa-user mr-1"></i> {{ post.author }}</span>
           </div>
-          <h2 class="text-xl font-bold text-white mb-3 hover:text-cyan-400 transition-colors">
+          <h2 class="text-xl font-bold text-white mb-3 hover:text-cyan-400 transition-colors line-clamp-2">
             <a href="/blog/{{ post.slug }}">{{ post.title }}</a>
           </h2>
-          <p class="text-slate-400 text-sm leading-relaxed mb-4">
+          <p class="text-slate-400 text-sm leading-relaxed mb-4 line-clamp-3">
             {{ post.summary }}
           </p>
         </div>
@@ -178,7 +326,141 @@
     </article>
     {% endfor %}
   </div>
+
+  <!-- Book-style Pagination Controls -->
+  <div class="flex items-center justify-center gap-6 mt-16" id="pagination-controls">
+    <button id="prev-btn" class="pag-btn text-cyan-400 flex items-center gap-2">
+      <i class="fas fa-chevron-left text-xs"></i> Anterior
+    </button>
+    <span class="text-sm text-slate-400 font-medium" id="page-indicator">Página 1 de 1</span>
+    <button id="next-btn" class="pag-btn text-cyan-400 flex items-center gap-2">
+      Siguiente <i class="fas fa-chevron-right text-xs"></i>
+    </button>
+  </div>
 </main>
+
+<!-- JS for Live Client-Side Pagination & Interactive Filters -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const postsPerPage = 6;
+    let currentPage = 1;
+    let activeCategory = 'all';
+    
+    const postCards = Array.from(document.querySelectorAll('.blog-post-card'));
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const pageIndicator = document.getElementById('page-indicator');
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    
+    function updatePagination() {
+      // Filter based on active category
+      const filteredCards = postCards.filter(card => {
+        if (activeCategory === 'all') return true;
+        return card.getAttribute('data-category') === activeCategory;
+      });
+      
+      const totalPosts = filteredCards.length;
+      const totalPages = Math.ceil(totalPosts / postsPerPage) || 1;
+      
+      // Keep currentPage in bounds
+      if (currentPage > totalPages) currentPage = totalPages;
+      if (currentPage < 1) currentPage = 1;
+      
+      const startIndex = (currentPage - 1) * postsPerPage;
+      const endIndex = startIndex + postsPerPage;
+      
+      // Hide all first
+      postCards.forEach(card => {
+        card.style.display = 'none';
+        card.style.opacity = '0';
+        card.style.transform = 'scale(0.98)';
+      });
+      
+      // Show and animate cards on current page
+      filteredCards.forEach((card, index) => {
+        if (index >= startIndex && index < endIndex) {
+          card.style.display = 'flex';
+          // Force layout recalculation and animate
+          setTimeout(() => {
+            card.style.opacity = '1';
+            card.style.transform = 'scale(1)';
+            card.style.transition = 'opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+          }, 30);
+        }
+      });
+      
+      // Update UI controls
+      pageIndicator.textContent = `Página ${currentPage} de ${totalPages}`;
+      prevBtn.disabled = currentPage === 1;
+      nextBtn.disabled = currentPage === totalPages;
+      
+      // Hide pagination row if only 1 page exists
+      const paginationContainer = document.getElementById('pagination-controls');
+      if (totalPages <= 1) {
+        paginationContainer.style.opacity = '0';
+        paginationContainer.style.pointerEvents = 'none';
+      } else {
+        paginationContainer.style.opacity = '1';
+        paginationContainer.style.pointerEvents = 'auto';
+      }
+    }
+    
+    // Category click handler
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', function() {
+        filterButtons.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        
+        activeCategory = this.getAttribute('data-category');
+        currentPage = 1;
+        updatePagination();
+      });
+    });
+    
+    // Prev / Next button click handlers
+    prevBtn.addEventListener('click', function() {
+      if (currentPage > 1) {
+        currentPage--;
+        updatePagination();
+        scrollToGrid();
+      }
+    });
+    
+    nextBtn.addEventListener('click', function() {
+      const filteredCount = postCards.filter(card => {
+        if (activeCategory === 'all') return true;
+        return card.getAttribute('data-category') === activeCategory;
+      }).length;
+      const totalPages = Math.ceil(filteredCount / postsPerPage) || 1;
+      
+      if (currentPage < totalPages) {
+        currentPage++;
+        updatePagination();
+        scrollToGrid();
+      }
+    });
+    
+    function scrollToGrid() {
+      const gridHeader = document.getElementById('blog-grid-header');
+      if (gridHeader) {
+        // Adjust offset for fixed top navbar
+        const offset = 180; 
+        const bodyRect = document.body.getBoundingClientRect().top;
+        const elementRect = gridHeader.getBoundingClientRect().top;
+        const elementPosition = elementRect - bodyRect;
+        const offsetPosition = elementPosition - offset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    }
+    
+    // Initial paint
+    updatePagination();
+  });
+</script>
 
 <!-- Footer -->
 <footer style="background:#030b16; border-top:1px solid rgba(0,229,255,0.15);">
