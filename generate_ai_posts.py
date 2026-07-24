@@ -77,8 +77,14 @@ def generate_blog_posts():
         text_content = result["candidates"][0]["content"]["parts"][0]["text"]
         posts = json.loads(text_content)
         
-        if not isinstance(posts, list) or len(posts) != 6:
-            raise ValueError(f"La respuesta no contiene exactamente 6 elementos: {len(posts) if isinstance(posts, list) else type(posts)}")
+        if not isinstance(posts, list):
+            raise ValueError(f"La respuesta no es una lista válida: {type(posts)}")
+            
+        if len(posts) > 6:
+            print(f"Aviso: Se generaron {len(posts)} artículos. Recortando a los primeros 6.")
+            posts = posts[:6]
+        elif len(posts) < 6:
+            print(f"Aviso: Se generaron solo {len(posts)} de los 6 artículos solicitados.")
             
         return posts
     except Exception as e:
