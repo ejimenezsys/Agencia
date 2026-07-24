@@ -103,9 +103,10 @@ def init_db():
                 db.add(lead)
                 
         # Seed Blog Posts
-        if db.query(BlogPost).count() == 0:
-            from main import INITIAL_BLOG_POSTS
-            for post_data in INITIAL_BLOG_POSTS:
+        from main import INITIAL_BLOG_POSTS
+        for post_data in INITIAL_BLOG_POSTS:
+            exists = db.query(BlogPost).filter(BlogPost.slug == post_data["slug"]).first()
+            if not exists:
                 post = BlogPost(
                     slug=post_data["slug"],
                     title=post_data["title"],
