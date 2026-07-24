@@ -13,7 +13,7 @@ if not GEMINI_API_KEY:
     print("Error: La variable de entorno GEMINI_API_KEY no está configurada.")
     sys.exit(1)
 
-API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GEMINI_API_KEY}"
+API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={GEMINI_API_KEY}"
 
 def generate_blog_posts():
     print("Consultando la API de Gemini para generar 6 artículos del blog...")
