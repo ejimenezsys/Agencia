@@ -133,3 +133,31 @@ def get_db_session():
         yield db
     finally:
         db.close()
+
+
+def sync_blog_posts(db):
+    """Sincroniza los posts de INITIAL_BLOG_POSTS con la base de datos.
+
+    Inserta cualquier post nuevo que exista en la lista pero no en la DB.
+    Esto permite que los artículos generados por GitHub Actions aparezcan
+    en producción sin necesidad de un rebuild del contenedor.
+
+    Args:
+        db: Sesión activa de SQLAlchemy.
+    """
+    from main import INITIAL_BLOG_POSTS
+    for post_data in INITIAL_BLOG_POSTS:
+        exists = db.query(BlogPost).filter(BlogPost.slug == post_data["slug"]).first()
+        if not exists:
+            post = BlogPost(
+                slug=post_data["slug"],
+                title=post_data["title"],
+                category=post_data["category"],
+                summary=post_data["summary"],
+                content=post_data["content"],
+                image_url=post_data["image_url"],
+                published_at=post_data["published_at"],
+                author=post_data["author"]
+            )
+            db.add(post)
+    db.commit()

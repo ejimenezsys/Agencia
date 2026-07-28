@@ -6,6 +6,10 @@ import datetime
 import requests
 from PIL import Image, ImageDraw
 
+# Reconfigurar stdout para soportar emojis UTF-8 en Windows
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+
 # Configuración de la API de Gemini
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 
@@ -92,8 +96,43 @@ def generate_blog_posts():
         # En caso de error de conexión o API, levantar excepción
         raise e
 
-def generate_cyber_cover(filepath, title):
-    """Genera programáticamente una portada cibernética abstracta de alta calidad."""
+def generate_cyber_cover(filepath, title, category="Automatización"):
+    """Genera una portada para el artículo del blog.
+
+    Intenta descargar una imagen generada por Pollinations AI.
+    Si la API no responde en 5 segundos, genera una portada
+    vectorial local con Pillow (PIL) como fallback.
+
+    Args:
+        filepath: Ruta donde guardar la imagen resultante.
+        title: Título del artículo (usado en el prompt de IA).
+        category: Categoría del artículo para contexto del prompt.
+    """
+    # Intentar con Pollinations AI primero
+    prompt = (
+        f"Futuristic 3D corporate banner, dark navy background #020710, "
+        f"glowing cyan #00e5ff accents, abstract geometric AI neural network, "
+        f"topic: {title[:80]}, category: {category}, "
+        f"ultra high quality 8K, no text, no watermark"
+    )
+    url = f"https://image.pollinations.ai/prompt/{requests.utils.quote(prompt)}?width=800&height=500&nologo=true"
+    try:
+        resp = requests.get(url, timeout=5)
+        if resp.status_code == 200 and len(resp.content) > 1000:
+            with open(filepath, "wb") as f:
+                f.write(resp.content)
+            print(f"✅ Imagen IA generada: {filepath}")
+            return
+    except Exception as e:
+        print(f"⚠️ Error conectando con API de imagen IA ({e}). Usando generador gráfico local PIL...")
+
+    # Fallback: generar portada vectorial con PIL
+    _generate_pil_fallback(filepath, title)
+    print(f"✅ Imagen PIL vectorial creada: {filepath}")
+
+
+def _generate_pil_fallback(filepath, title):
+    """Genera una portada cibernética abstracta con Pillow como fallback."""
     width, height = 800, 500
     image = Image.new("RGBA", (width, height), (2, 7, 16, 255)) # Fondo #020710 (Navy oscuro)
     
@@ -197,7 +236,7 @@ def update_main_py(new_posts):
         "category": "{post['category']}",
         "summary": "{summary_esc}",
         "content": \"\"\"{content_esc}\"\"\",
-        "image_url": "/static/{post['slug']}.jpg",
+        "image_url": "/static/blog/{post['slug']}.jpg",
         "published_at": "{post['published_at']}",
         "author": "{post['author']}"
     }},
@@ -224,12 +263,13 @@ def main():
             publish_time = now + datetime.timedelta(hours=i)
             post["published_at"] = publish_time.strftime("%Y-%m-%dT%H:%M:%SZ")
             
-        # 3. Generar portadas e insertar los posts
-        os.makedirs("static", exist_ok=True)
+        # 3. Generar portadas en static/blog/ e insertar los posts
+        blog_dir = os.path.join("static", "blog")
+        os.makedirs(blog_dir, exist_ok=True)
         for post in posts:
             image_filename = f"{post['slug']}.jpg"
-            image_filepath = os.path.join("static", image_filename)
-            generate_cyber_cover(image_filepath, post["title"])
+            image_filepath = os.path.join(blog_dir, image_filename)
+            generate_cyber_cover(image_filepath, post["title"], post.get("category", "Automatización"))
             
         # 4. Modificar main.py
         update_main_py(posts)
