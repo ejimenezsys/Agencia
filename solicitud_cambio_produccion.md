@@ -1,41 +1,45 @@
-# Solicitud de Despliegue en Producción — PROSPER IA
+# Solicitud de Configuración Única en Producción — PROSPER IA
 
 Hola Omar,
 
-Edward ha implementado un script de automatización (`generate_ai_posts.py`) que genera 6 artículos de blog con sus respectivas portadas visuales creadas con IA de forma totalmente automatizada. 
-
-## 🤖 ¿Cómo funciona la automatización?
-1. Se ha configurado un **GitHub Action** (`.github/workflows/generate_blog.yml`) que se ejecuta de forma totalmente autónoma **cada 10 días**.
-2. El script consulta la API de Gemini, redacta 6 artículos profesionales orientados a CEOs, genera programáticamente 6 imágenes de portada abstractas en `static/` y actualiza la lista `INITIAL_BLOG_POSTS` en `main.py`.
-3. El GitHub Action realiza automáticamente el `git commit` y `git push` de estos cambios de vuelta al repositorio en la rama `main`.
+Hemos optimizado la arquitectura del proyecto para que **NUNCA MÁS requieras reconstruir el contenedor Docker (`docker build`) ni intervenir manualmente** cuando el bot de IA publique nuevos artículos de blog cada 10 días.
 
 ---
 
-## 🚀 Instrucciones de Despliegue en Producción
-Para desplegar los cambios actuales (que ya contienen las noticias y las nuevas imágenes en el repositorio):
+## 🤖 ¿Cómo funciona la automatización de 0 intervención?
 
-1. **Conectarse al servidor VPS** (donde corre la web `https://agenciaprosperia.com/`).
-2. **Navegar al directorio de la aplicación**:
+1. **Montaje Directo de Archivos Estáticos**:
+   Se ha actualizado [docker-compose.prod.yml](file:///e:/Proyectos/Eduardo/Agencia/docker-compose.prod.yml) para incluir un montaje de volumen directo: `- ./static:/app/static`. De este modo, cualquier archivo `.jpg` nuevo que llegue al servidor vía `git pull` estará disponible en el contenedor al instante **sin reconstruir la imagen**.
+
+2. **Sincronización Dinámica de Base de Datos**:
+   [database.py](file:///e:/Proyectos/Eduardo/Agencia/database.py) y [main.py](file:///e:/Proyectos/Eduardo/Agencia/main.py) ahora sincronizan automáticamente los nuevos artículos con SQLite en tiempo de ejecución al recibir peticiones en `/blog`.
+
+3. **Despliegue Automático por SSH (Opcional)**:
+   Se ha añadido un paso en [.github/workflows/generate_blog.yml](file:///e:/Proyectos/Eduardo/Agencia/.github/workflows/generate_blog.yml) para que GitHub Actions se conecte por SSH al VPS y ejecute `git pull origin main` de forma autónoma.
+
+---
+
+## 🚀 Pasos para la Configuración Única (Solo se realiza 1 vez):
+
+1. **Conectarse al servidor VPS** y navegar a la carpeta de la aplicación:
    ```bash
    cd /ruta/de/la/app/agencia
    ```
-3. **Descargar los últimos cambios desde GitHub** (para obtener el nuevo `main.py` y las portadas `.jpg` en `static/`):
+2. **Descargar los últimos cambios**:
    ```bash
    git pull origin main
    ```
-4. **Reconstruir y levantar el contenedor Docker de producción**:
-   Dado que el Dockerfile copia los archivos estáticos en la fase de construcción (`COPY . .`), es necesario forzar la reconstrucción de la imagen para que empaquete las nuevas imágenes en la carpeta `/app/static/` del contenedor:
+3. **Reconstruir el contenedor por última vez** (para aplicar el nuevo montaje de volumen `./static:/app/static`):
    ```bash
    docker compose -f docker-compose.prod.yml up -d --build
    ```
 
----
+### 🔐 (Opcional) Activar el Despliegue 100% Autónomo en GitHub Secrets
+Para que ni siquiera tengas que hacer `git pull` manualmente en el VPS cada 10 días, agrega los siguientes secretos en el repositorio de GitHub (**Settings > Secrets and variables > Actions**):
 
-## 💡 Recomendación de Automatización para el Futuro
-Para evitar tener que hacer este despliegue manual cada 10 días cuando el GitHub Action publique nuevos artículos, te sugerimos una de las siguientes opciones:
+- `VPS_HOST`: Dirección IP o dominio de tu VPS.
+- `VPS_USERNAME`: Usuario SSH (ej. `root` u `ubuntu`).
+- `VPS_SSH_KEY`: Clave privada SSH con acceso al VPS.
+- `VPS_APP_DIR`: Ruta absoluta del repositorio en el servidor (ej. `/var/www/agencia`).
 
-* **Opción A (Webhooks)**: Configurar un webhook en el repositorio de GitHub que apunte a un script en el servidor que ejecute el `git pull` y `docker compose up -d --build` de forma automática.
-* **Opción B (Watchtower)**: Si utilizas un registro de Docker, configurar Watchtower para que actualice el contenedor automáticamente al detectar una nueva imagen.
-* **Opción C (GitHub Actions Deploy)**: Añadir un paso final al workflow de GitHub Actions que realice la conexión SSH al servidor para ejecutar los comandos de despliegue.
-
-¡Muchas gracias por el apoyo con la administración del servidor!
+¡Una vez aplicado esto, la publicación de noticias con IA y sus imágenes correrá al 100% de forma desatendida! 🚀

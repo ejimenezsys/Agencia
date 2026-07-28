@@ -10,6 +10,8 @@ services:
     volumes:
       # Volumen con nombre gestionado por Docker para persistir la base de datos de producción
       - prosper_ia_prod_data:/app/data
+      # Montaje directo de la carpeta estática para reflejar imágenes nuevas sin rebuild
+      - ./static:/app/static
     environment:
       - DATABASE_PATH=/app/data/prosper_ia.db
       - PORT=8000

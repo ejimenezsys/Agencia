@@ -92,12 +92,27 @@ def generate_blog_posts():
         # En caso de error de conexión o API, levantar excepción
         raise e
 
-def generate_cyber_cover(filepath, title):
-    """Genera programáticamente una portada cibernética abstracta de alta calidad."""
-    width, height = 800, 500
-    image = Image.new("RGBA", (width, height), (2, 7, 16, 255)) # Fondo #020710 (Navy oscuro)
+def generate_cyber_cover(filepath, title, category="Automatización"):
+    """Genera una portada visual usando Pollinations AI o cae a un fondo vectorial PIL."""
+    import urllib.parse
+    prompt = f"high tech futuristic 3d banner header representing {title}, theme {category}, dark navy neon cyan lighting, 8k resolution, professional b2b corporate style"
+    encoded_prompt = urllib.parse.quote(prompt)
+    seed = abs(hash(title)) % 10000
+    url = f"https://image.pollinations.ai/prompt/{encoded_prompt}?width=800&height=500&nologo=true&seed={seed}"
     
-    # 1. Dibujar un degradado radial suave de fondo
+    try:
+        print(f"Generando portada IA para: {title[:40]}...")
+        resp = requests.get(url, timeout=12)
+        if resp.status_code == 200 and len(resp.content) > 5000:
+            with open(filepath, "wb") as f:
+                f.write(resp.content)
+            print(f"✅ Imagen IA creada exitosamente: {filepath}")
+            return
+    except Exception as e:
+        print(f"⚠️ Error llamando API de imagen IA ({e}). Usando fallback PIL...")
+        
+    width, height = 800, 500
+    image = Image.new("RGBA", (width, height), (2, 7, 16, 255))
     cx, cy = width // 2, height // 2
     for y in range(height):
         for x in range(width):
@@ -105,39 +120,27 @@ def generate_cyber_cover(filepath, title):
             dy = y - cy
             dist = (dx*dx + dy*dy) ** 0.5
             factor = min(1.0, dist / 500.0)
-            # Interpolación entre azul de fondo (#081a30) y navy oscuro (#020710)
             r = int(8 - (8 - 2) * factor)
             g = int(26 - (26 - 7) * factor)
             b = int(48 - (48 - 16) * factor)
             image.putpixel((x, y), (r, g, b, 255))
             
     draw = ImageDraw.Draw(image)
-    
-    # 1.5 Dibujar un pequeño glow cian suave en el centro
     for radius in range(120, 0, -8):
         alpha = int((1.0 - (radius / 120.0)) ** 2 * 30)
-        draw.ellipse(
-            [cx - radius, cy - radius, cx + radius, cy + radius],
-            fill=(0, 229, 255, alpha)
-        )
+        draw.ellipse([cx - radius, cy - radius, cx + radius, cy + radius], fill=(0, 229, 255, alpha))
         
-    # 2. Dibujar rejilla vectorial de fondo (Grid)
-    grid_color = (0, 229, 255, 12) # Rejilla cian muy tenue
+    grid_color = (0, 229, 255, 12)
     for x in range(0, width, 40):
         draw.line([(x, 0), (x, height)], fill=grid_color, width=1)
     for y in range(0, height, 40):
         draw.line([(0, y), (width, y)], fill=grid_color, width=1)
         
-    # 3. Dibujar círculos y hexágonos cibernéticos concéntricos
     tech_cyan = (0, 229, 255, 30)
     tech_blue = (14, 165, 233, 40)
-    cx, cy = width // 2, height // 2
-    
-    # Dibujar órbitas tenues
     for r in [120, 180, 240]:
         draw.ellipse([cx - r, cy - r, cx + r, cy + r], outline=tech_cyan, width=1)
         
-    # Dibujar hexágono concéntrico con líneas radiales conectadas
     def draw_polygon(center_x, center_y, radius, sides, color, width=1, rotation=0):
         import math
         points = []
@@ -146,29 +149,23 @@ def generate_cyber_cover(filepath, title):
             px = center_x + radius * math.cos(angle)
             py = center_y + radius * math.sin(angle)
             points.append((px, py))
-        
         for i in range(sides):
             p1 = points[i]
             p2 = points[(i + 1) % sides]
             draw.line([p1, p2], fill=color, width=width)
-            # Conexión radial al centro
             if i % 2 == 0:
                 draw.line([p1, (center_x, center_y)], fill=(color[0], color[1], color[2], 12), width=1)
         return points
 
-    # Dibujar varios polígonos
     draw_polygon(cx, cy, 140, 6, tech_cyan, width=2, rotation=0.5)
     pts = draw_polygon(cx, cy, 200, 6, tech_blue, width=1, rotation=0.2)
-    
-    # Dibujar pequeños nodos brillantes en los vértices
     for pt in pts:
         rx = 4
         draw.ellipse([pt[0] - rx, pt[1] - rx, pt[0] + rx, pt[1] + rx], fill=(0, 229, 255, 180))
         
-    # 4. Convertir a RGB y guardar como JPG
     final_image = image.convert("RGB")
     final_image.save(filepath, "JPEG", quality=90)
-    print(f"Portada creada exitosamente: {filepath}")
+    print(f"Portada PIL creada exitosamente: {filepath}")
 
 def update_main_py(new_posts):
     print("Actualizando el archivo main.py con los nuevos artículos...")
@@ -197,7 +194,7 @@ def update_main_py(new_posts):
         "category": "{post['category']}",
         "summary": "{summary_esc}",
         "content": \"\"\"{content_esc}\"\"\",
-        "image_url": "/static/{post['slug']}.jpg",
+        "image_url": "/static/blog/{post['slug']}.jpg",
         "published_at": "{post['published_at']}",
         "author": "{post['author']}"
     }},
@@ -225,11 +222,12 @@ def main():
             post["published_at"] = publish_time.strftime("%Y-%m-%dT%H:%M:%SZ")
             
         # 3. Generar portadas e insertar los posts
-        os.makedirs("static", exist_ok=True)
+        blog_dir = os.path.join("static", "blog")
+        os.makedirs(blog_dir, exist_ok=True)
         for post in posts:
             image_filename = f"{post['slug']}.jpg"
-            image_filepath = os.path.join("static", image_filename)
-            generate_cyber_cover(image_filepath, post["title"])
+            image_filepath = os.path.join(blog_dir, image_filename)
+            generate_cyber_cover(image_filepath, post["title"], post.get("category", "Automatización"))
             
         # 4. Modificar main.py
         update_main_py(posts)
@@ -240,4 +238,6 @@ def main():
         sys.exit(1)
 
 if __name__ == "__main__":
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
     main()
