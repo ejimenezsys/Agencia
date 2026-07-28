@@ -103,20 +103,6 @@ def init_db():
                 db.add(lead)
                 
         # Seed Blog Posts
-        sync_blog_posts(db)
-    except Exception as e:
-        db.rollback()
-        print(f"Error seeding database: {e}")
-    finally:
-        db.close()
-
-def sync_blog_posts(db):
-    """Sincroniza los posts de INITIAL_BLOG_POSTS con la base de datos SQLite.
-
-    Args:
-        db (Session): Sesión activa de SQLAlchemy.
-    """
-    try:
         from main import INITIAL_BLOG_POSTS
         for post_data in INITIAL_BLOG_POSTS:
             exists = db.query(BlogPost).filter(BlogPost.slug == post_data["slug"]).first()
@@ -132,10 +118,13 @@ def sync_blog_posts(db):
                     author=post_data["author"]
                 )
                 db.add(post)
+                
         db.commit()
     except Exception as e:
         db.rollback()
-        print(f"Error al sincronizar blog posts: {e}")
+        print(f"Error seeding database: {e}")
+    finally:
+        db.close()
 
 def get_db_session():
     """Generador de sesiones de base de datos para dependencias FastAPI."""
