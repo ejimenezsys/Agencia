@@ -279,7 +279,7 @@ INITIAL_BLOG_POSTS = [
   <li><strong>Salesforce Research:</strong> <span class="italic">"State of Sales Report (6th Edition)"</span> (Análisis global sobre cómo los equipos de alto rendimiento adoptan IA para optimizar la entrada de leads en CRM).</li>
   <li><strong>McKinsey & Company:</strong> <span class="italic">"The economic potential of generative AI"</span> (Perspectivas de adopción de automatización de ventas en los mercados emergentes de Latinoamérica).</li>
 </ul>""",
-        "image_url": "/static/blog/rediseno-crm-ia-latam.jpg",
+        "image_url": "/static/blog/rediseno-crm-ia-2026.jpg",
         "published_at": "2026-06-08T08:00:00Z",
         "author": "Edward Jiménez"
     },
@@ -299,7 +299,7 @@ INITIAL_BLOG_POSTS = [
   <li><strong>Forrester Research:</strong> <span class="italic">"The ROI of Consolidated Cloud Infrastructure"</span> (Estudio sobre la reducción de costes al unificar múltiples herramientas en un solo orquestador central).</li>
   <li><strong>Massachusetts Institute of Technology (MIT):</strong> <span class="italic">"Data Sovereignty in the Age of Generative AI"</span> (Análisis sobre los peligros del uso de herramientas de IA públicas en el ámbito empresarial).</li>
 </ul>""",
-        "image_url": "/static/blog/centralizacion-passportai-software-ceos.jpg",
+        "image_url": "/static/blog/fin-fatiga-suscripciones-passportai.jpg",
         "published_at": "2026-06-07T09:00:00Z",
         "author": "Edward Jiménez"
     },
@@ -321,7 +321,7 @@ INITIAL_BLOG_POSTS = [
   <li><strong>TOPO Sales Benchmark:</strong> <span class="italic">"Sales Development Representative Performance Metrics"</span> (Análisis de la fatiga operativa y tiempo desperdiciado por SDRs humanos en tareas administrativas).</li>
   <li><strong>Harvard Business Review:</strong> <span class="italic">"How AI is Helping Salespeople Close More Deals"</span> (Estudio sobre el impacto de la automatización en el agendamiento y la conversión de prospectos calificados).</li>
 </ul>""",
-        "image_url": "/static/blog/empleado-digital-sdr-setter-autonomo.jpg",
+        "image_url": "/static/blog/leads-citas-empleado-digital.jpg",
         "published_at": "2026-06-06T10:00:00Z",
         "author": "Edward Jiménez"
     },
@@ -347,7 +347,7 @@ INITIAL_BLOG_POSTS = [
   <li><strong>Salesforce Customer Success Group:</strong> <span class="italic">"ROI Statistics of Marketing Automation Integration"</span> (Estadísticas sobre la reducción de costes de adquisición tras implementar CRM inteligente).</li>
   <li><strong>Harvard Business Review:</strong> <span class="italic">"Case Study: The Augmented Service Company"</span> (Análisis del crecimiento de empresas que integran herramientas de IA de manera serializada).</li>
 </ul>""",
-        "image_url": "/static/blog/caso-estudio-agencia-sve90-ventas-ia.jpg",
+        "image_url": "/static/blog/caso-estudio-agencia-sve90.jpg",
         "published_at": "2026-06-05T11:00:00Z",
         "author": "Edward Jiménez"
     },
@@ -369,7 +369,7 @@ INITIAL_BLOG_POSTS = [
   <li><strong>Gartner Research:</strong> <span class="italic">"Change Management Strategies for Digital Workplace Solutions"</span> (Guía sobre la mitigación del rechazo interno en implementaciones tecnológicas).</li>
   <li><strong>Harvard Business School:</strong> <span class="italic">"SOPs and Process Standardization in Augmented Operations"</span> (Estudio sobre el impacto de estandarizar procesos antes y durante el uso de IA).</li>
 </ul>""",
-        "image_url": "/static/blog/blindaje-operativo-sops-formacion-ia.jpg",
+        "image_url": "/static/blog/blindaje-operativo-sops-ia.jpg",
         "published_at": "2026-06-04T12:00:00Z",
         "author": "Edward Jiménez"
     },
@@ -391,7 +391,7 @@ INITIAL_BLOG_POSTS = [
   <li><strong>Harvard Business Review:</strong> <span class="italic">"Artificial Intelligence for the Real World"</span> (Estudio sobre cómo las empresas exitosas se enfocan en optimización de procesos en lugar de inteligencia artificial general).</li>
   <li><strong>Gartner Research:</strong> <span class="italic">"Key Metrics for Assessing AI Value in Service Industries"</span> (Métricas clave para medir el retorno financiero de la automatización en empresas de servicios).</li>
 </ul>""",
-        "image_url": "/static/blog/guia-definitiva-automatizacion-ia-ceos.jpg",
+        "image_url": "/static/blog/guia-definitiva-ia-ceos.jpg",
         "published_at": "2026-06-03T13:00:00Z",
         "author": "Edward Jiménez"
     },
@@ -410,7 +410,7 @@ INITIAL_BLOG_POSTS = [
   <li><strong>Gartner Research:</strong> <span class="italic">"Mitigating Brand and Operational Risks in Conversational Channels"</span> (Estudio sobre el impacto de bloqueos en canales de mensajería instantánea empresarial).</li>
   <li><strong>Prosper IA Technical Library:</strong> <span class="italic">"PassportAI Compliance Blueprint"</span> (Guía técnica para configurar agentes virtuales de forma segura bajo la API oficial de WhatsApp).</li>
 </ul>""",
-        "image_url": "/static/blog/meta-reglas-whatsapp-business.png",
+        "image_url": "/static/blog/nuevas-reglas-meta-whatsapp-2026.jpg",
         "published_at": "2026-06-14T08:00:00Z",
         "author": "Edward Jiménez"
     },
@@ -429,7 +429,7 @@ INITIAL_BLOG_POSTS = [
   <li><strong>Salesforce Research:</strong> <span class="italic">"Maximizing ROI on Instant Messaging Channels"</span> (Estudio sobre cómo la cualificación rápida reduce costes operativos en campañas pagadas).</li>
   <li><strong>McKinsey:</strong> <span class="italic">"Direct-to-Consumer Messaging Efficiency in Emerging Markets"</span> (Casos de éxito de optimización de costes conversacionales en Brasil y México).</li>
 </ul>""",
-        "image_url": "/static/blog/optimizacion-conversacion-whatsapp-roi.png",
+        "image_url": "/static/blog/nuevo-cobro-mensaje-whatsapp-roi.jpg",
         "published_at": "2026-06-13T09:00:00Z",
         "author": "Edward Jiménez"
     },
@@ -448,7 +448,7 @@ INITIAL_BLOG_POSTS = [
   <li><strong>MIT Sloan Review:</strong> <span class="italic">"Data Security and Corporate Governance in the Agentic Era"</span> (Evaluación de riesgos sobre el uso de APIs de IA dispersas en corporativos).</li>
   <li><strong>Prosper IA Whitepaper:</strong> <span class="italic">"Sovereign AI Infrastructure for B2B Services in Latin America"</span> (Caso práctico de centralización de datos utilizando la arquitectura PassportAI).</li>
 </ul>""",
-        "image_url": "/static/blog/consolidacion-herramientas-ia-command-center.png",
+        "image_url": "/static/blog/consolidacion-herramientas-ia-operaciones.jpg",
         "published_at": "2026-06-12T10:00:00Z",
         "author": "Edward Jiménez"
     },
@@ -471,7 +471,7 @@ INITIAL_BLOG_POSTS = [
   <li><strong>Gartner Research:</strong> <span class="italic">"Redesigning B2B Sales Teams for Collaborative Intelligence"</span> (Cómo optimizar la colaboración entre humanos y dobles agentes de IA).</li>
   <li><strong>Salesforce Success Stories:</strong> <span class="italic">"SDR and Setter AI Automations in High-Growth Firms"</span> (Métricas de mejora en agendamiento comercial y retención de prospectos).</li>
 </ul>""",
-        "image_url": "/static/blog/arquitectura-sdr-setter-ventas-ia.png",
+        "image_url": "/static/blog/ai-sdr-vs-ai-setter-ventas.jpg",
         "published_at": "2026-06-11T11:00:00Z",
         "author": "Edward Jiménez"
     },
@@ -495,7 +495,7 @@ INITIAL_BLOG_POSTS = [
   <li><strong>Harvard Business School:</strong> <span class="italic">"The Importance of Standard Operating Procedures (SOPs) in Digital Transitions"</span> (Estudio sobre cómo los SOPs previenen fallos operativos durante integraciones tecnológicas).</li>
   <li><strong>AZ Academy Research:</strong> <span class="italic">"Upskilling Sales Representatives for the Agentic Era"</span> (Casos prácticos de equipos comerciales en LATAM que adoptaron IA sin fricción interna).</li>
 </ul>""",
-        "image_url": "/static/blog/factor-humano-sops-capacitacion.png",
+        "image_url": "/static/blog/factor-humano-sops-retorno-inversion-ia.jpg",
         "published_at": "2026-06-10T12:00:00Z",
         "author": "Edward Jiménez"
     },
@@ -514,7 +514,7 @@ INITIAL_BLOG_POSTS = [
   <li><strong>MIT Sloan Management:</strong> <span class="italic">"Autonomous Qualification: The Next Frontier in Customer Response Times"</span> (Métricas de éxito sobre cualificación conversacional en segundos).</li>
   <li><strong>Salesforce Benchmark Report:</strong> <span class="italic">"The Speed-to-Lead Paradigm Shift in Latin American Emerging Markets"</span> (Estadísticas sobre el aumento de ventas B2B tras reducir la latencia de contacto inicial).</li>
 </ul>""",
-        "image_url": "/static/blog/velocidad-respuesta-speed-to-lead-ia.png",
+        "image_url": "/static/blog/speed-to-lead-velocidad-ventas-latam.jpg",
         "published_at": "2026-06-09T13:00:00Z",
         "author": "Edward Jiménez"
     }
