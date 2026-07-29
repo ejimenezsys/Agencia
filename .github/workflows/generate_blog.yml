@@ -18,7 +18,6 @@ jobs:
     - name: Configurar Python
       uses: actions/setup-python@v5
       with:
-        architecture: 'x64'
         python-version: '3.10'
 
     - name: Instalar dependencias
@@ -39,14 +38,3 @@ jobs:
         git add main.py static/blog/*.jpg
         git commit -m "chore(blog): auto-generar 6 nuevos artículos y portadas con IA [skip ci]" || echo "Sin cambios para commitear"
         git push origin main
-
-    - name: Despliegue automático en VPS (Sin intervención manual)
-      if: ${{ secrets.VPS_SSH_KEY != '' }}
-      uses: appleboy/ssh-action@v1.0.3
-      with:
-        host: ${{ secrets.VPS_HOST }}
-        username: ${{ secrets.VPS_USERNAME }}
-        key: ${{ secrets.VPS_SSH_KEY }}
-        script: |
-          cd ${{ secrets.VPS_APP_DIR }}
-          git pull origin main
