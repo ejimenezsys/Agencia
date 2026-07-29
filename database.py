@@ -138,9 +138,10 @@ def get_db_session():
 def sync_blog_posts(db):
     """Sincroniza los posts de INITIAL_BLOG_POSTS con la base de datos.
 
-    Inserta cualquier post nuevo que exista en la lista pero no en la DB.
-    Esto permite que los artículos generados por GitHub Actions aparezcan
-    en producción sin necesidad de un rebuild del contenedor.
+    Inserta posts nuevos y actualiza el image_url de los existentes
+    si difiere del valor en código. Esto permite que los artículos
+    generados por GitHub Actions aparezcan en producción sin rebuild,
+    y que las rutas de imagen se corrijan automáticamente.
 
     Args:
         db: Sesión activa de SQLAlchemy.
@@ -160,4 +161,7 @@ def sync_blog_posts(db):
                 author=post_data["author"]
             )
             db.add(post)
+        elif exists.image_url != post_data["image_url"]:
+            # Actualizar la ruta de imagen si cambió en el código fuente
+            exists.image_url = post_data["image_url"]
     db.commit()
