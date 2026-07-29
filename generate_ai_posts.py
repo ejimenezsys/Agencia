@@ -97,117 +97,98 @@ def generate_blog_posts():
         raise e
 
 def generate_cyber_cover(filepath, title, category="Automatización"):
-    """Genera una portada para el artículo del blog.
+    """Genera una portada editorial fotorrealista con Gemini Imagen.
 
-    Intenta descargar una imagen generada por Pollinations AI.
-    Si la API no responde en 5 segundos, genera una portada
-    vectorial local con Pillow (PIL) como fallback.
+    Usa el modelo gemini-3.1-flash-image para generar imágenes
+    contextualizadas al tema del artículo.
 
     Args:
         filepath: Ruta donde guardar la imagen resultante.
         title: Título del artículo (usado en el prompt de IA).
         category: Categoría del artículo para contexto del prompt.
     """
-    # Intentar con Pollinations AI primero
-    prompt = (
-        f"Futuristic 3D corporate banner, dark navy background #020710, "
-        f"glowing cyan #00e5ff accents, abstract geometric AI neural network, "
-        f"topic: {title[:80]}, category: {category}, "
-        f"ultra high quality 8K, no text, no watermark"
-    )
-    url = f"https://image.pollinations.ai/prompt/{requests.utils.quote(prompt)}?width=800&height=500&nologo=true"
-    try:
-        resp = requests.get(url, timeout=5)
-        if resp.status_code == 200 and len(resp.content) > 1000:
-            with open(filepath, "wb") as f:
-                f.write(resp.content)
-            print(f"✅ Imagen IA generada: {filepath}")
-            return
-    except Exception as e:
-        print(f"⚠️ Error conectando con API de imagen IA ({e}). Usando generador gráfico local PIL...")
+    import base64
 
-    # Fallback: generar portada vectorial con PIL
+    image_api_url = (
+        "https://generativelanguage.googleapis.com/v1beta/models/"
+        "gemini-3.1-flash-image:generateContent"
+        f"?key={GEMINI_API_KEY}"
+    )
+    prompt = (
+        f"Generate a professional, photorealistic editorial banner image (800x500px) "
+        f"for a blog article titled: '{title[:120]}'. "
+        f"Category: {category}. "
+        f"The image should visually represent the article's topic. "
+        f"Modern corporate aesthetic, warm cinematic lighting, vivid colors, "
+        f"eye-catching composition. "
+        f"Do NOT include any text, watermarks, or logos in the image."
+    )
+    payload = {
+        "contents": [{"parts": [{"text": prompt}]}],
+        "generationConfig": {
+            "responseModalities": ["TEXT", "IMAGE"]
+        }
+    }
+
+    try:
+        resp = requests.post(image_api_url, json=payload, timeout=60)
+        if resp.status_code == 200:
+            data = resp.json()
+            for candidate in data.get("candidates", []):
+                for part in candidate.get("content", {}).get("parts", []):
+                    if "inlineData" in part:
+                        img_bytes = base64.b64decode(part["inlineData"]["data"])
+                        with open(filepath, "wb") as f:
+                            f.write(img_bytes)
+                        print(f"✅ Imagen Gemini generada: {filepath}")
+                        return
+        print(f"⚠️ Gemini no devolvió imagen (status={resp.status_code})")
+    except Exception as e:
+        print(f"⚠️ Error generando imagen con Gemini ({e})")
+
+    # Fallback mínimo: crear placeholder con PIL
     _generate_pil_fallback(filepath, title)
-    print(f"✅ Imagen PIL vectorial creada: {filepath}")
+    print(f"✅ Imagen PIL placeholder creada: {filepath}")
 
 
 def _generate_pil_fallback(filepath, title):
-    """Genera una portada cibernética abstracta con Pillow como fallback."""
-    width, height = 800, 500
-    image = Image.new("RGBA", (width, height), (2, 7, 16, 255)) # Fondo #020710 (Navy oscuro)
-    
-    # 1. Dibujar un degradado radial suave de fondo
-    cx, cy = width // 2, height // 2
-    for y in range(height):
-        for x in range(width):
-            dx = x - cx
-            dy = y - cy
-            dist = (dx*dx + dy*dy) ** 0.5
-            factor = min(1.0, dist / 500.0)
-            # Interpolación entre azul de fondo (#081a30) y navy oscuro (#020710)
-            r = int(8 - (8 - 2) * factor)
-            g = int(26 - (26 - 7) * factor)
-            b = int(48 - (48 - 16) * factor)
-            image.putpixel((x, y), (r, g, b, 255))
-            
-    draw = ImageDraw.Draw(image)
-    
-    # 1.5 Dibujar un pequeño glow cian suave en el centro
-    for radius in range(120, 0, -8):
-        alpha = int((1.0 - (radius / 120.0)) ** 2 * 30)
-        draw.ellipse(
-            [cx - radius, cy - radius, cx + radius, cy + radius],
-            fill=(0, 229, 255, alpha)
-        )
-        
-    # 2. Dibujar rejilla vectorial de fondo (Grid)
-    grid_color = (0, 229, 255, 12) # Rejilla cian muy tenue
-    for x in range(0, width, 40):
-        draw.line([(x, 0), (x, height)], fill=grid_color, width=1)
-    for y in range(0, height, 40):
-        draw.line([(0, y), (width, y)], fill=grid_color, width=1)
-        
-    # 3. Dibujar círculos y hexágonos cibernéticos concéntricos
-    tech_cyan = (0, 229, 255, 30)
-    tech_blue = (14, 165, 233, 40)
-    cx, cy = width // 2, height // 2
-    
-    # Dibujar órbitas tenues
-    for r in [120, 180, 240]:
-        draw.ellipse([cx - r, cy - r, cx + r, cy + r], outline=tech_cyan, width=1)
-        
-    # Dibujar hexágono concéntrico con líneas radiales conectadas
-    def draw_polygon(center_x, center_y, radius, sides, color, width=1, rotation=0):
-        import math
-        points = []
-        for i in range(sides):
-            angle = rotation + (i * 2 * math.pi / sides)
-            px = center_x + radius * math.cos(angle)
-            py = center_y + radius * math.sin(angle)
-            points.append((px, py))
-        
-        for i in range(sides):
-            p1 = points[i]
-            p2 = points[(i + 1) % sides]
-            draw.line([p1, p2], fill=color, width=width)
-            # Conexión radial al centro
-            if i % 2 == 0:
-                draw.line([p1, (center_x, center_y)], fill=(color[0], color[1], color[2], 12), width=1)
-        return points
+    """Genera un placeholder visual único por título usando PIL."""
+    import hashlib
+    import math
 
-    # Dibujar varios polígonos
-    draw_polygon(cx, cy, 140, 6, tech_cyan, width=2, rotation=0.5)
-    pts = draw_polygon(cx, cy, 200, 6, tech_blue, width=1, rotation=0.2)
-    
-    # Dibujar pequeños nodos brillantes en los vértices
-    for pt in pts:
-        rx = 4
-        draw.ellipse([pt[0] - rx, pt[1] - rx, pt[0] + rx, pt[1] + rx], fill=(0, 229, 255, 180))
-        
-    # 4. Convertir a RGB y guardar como JPG
+    seed = int(hashlib.md5(title.encode()).hexdigest()[:8], 16)
+    rng = random.Random(seed)
+
+    width, height = 800, 500
+    hue = rng.randint(0, 60)
+    image = Image.new("RGBA", (width, height), (2 + hue // 4, 7 + hue // 3, max(16, 40 - hue // 2), 255))
+    draw = ImageDraw.Draw(image, "RGBA")
+
+    accent = (rng.randint(0, 80), rng.randint(160, 255), rng.randint(200, 255))
+
+    # Degradado radial
+    cx, cy = rng.randint(200, 600), rng.randint(125, 375)
+    for radius in range(300, 0, -5):
+        alpha = max(0, min(255, int(35 * (1 - radius / 300))))
+        draw.ellipse([cx - radius, cy - radius, cx + radius, cy + radius],
+                     fill=(accent[0], accent[1], accent[2], alpha))
+
+    # Rejilla
+    spacing = rng.randint(30, 60)
+    for x in range(0, width, spacing):
+        draw.line([(x, 0), (x, height)], fill=(accent[0], accent[1], accent[2], 12))
+    for y in range(0, height, spacing):
+        draw.line([(0, y), (width, y)], fill=(accent[0], accent[1], accent[2], 12))
+
+    # Formas
+    for _ in range(rng.randint(3, 7)):
+        sx, sy = rng.randint(50, 750), rng.randint(50, 450)
+        sr = rng.randint(40, 180)
+        draw.ellipse([sx - sr, sy - sr, sx + sr, sy + sr],
+                     outline=(accent[0], accent[1], accent[2], rng.randint(15, 40)), width=2)
+
     final_image = image.convert("RGB")
     final_image.save(filepath, "JPEG", quality=90)
-    print(f"Portada creada exitosamente: {filepath}")
 
 def update_main_py(new_posts):
     print("Actualizando el archivo main.py con los nuevos artículos...")
