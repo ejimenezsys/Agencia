@@ -39,4 +39,5 @@ jobs:
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
         git add main.py static/blog/*.jpg
         git commit -m "chore(blog): auto-generar 6 nuevos artículos y portadas con IA [skip ci]" || echo "Sin cambios para commitear"
+        git pull --rebase origin main
         git push origin main
