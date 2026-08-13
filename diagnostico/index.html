@@ -20,7 +20,7 @@
     <header class="brand-header">
       <div class="logo-badge">Prosper IA</div>
       <h1>Diagnóstico de Eficiencia Comercial</h1>
-      <p>Descubre dónde se pierden las oportunidades de venta en tu pipeline B2B.</p>
+      <p>Descubre dónde se pierden las oportunidades de venta en tu pipeline comercial.</p>
     </header>
 
     <main>
@@ -110,6 +110,34 @@
             </div>
           </div>
 
+          <!-- Step 5: B2B Ticket Size -->
+          <div id="step-5" class="step">
+            <h3 class="step-question">¿Cuál es el valor medio de venta de tu cliente o servicio (LTV o Ticket Promedio)?</h3>
+            <div class="range-wrapper">
+              <div id="ticket-display" class="range-display">$ 1,000 USD</div>
+              <input type="range" id="ticket-range" class="custom-range" min="100" max="5000" step="100" value="1000">
+            </div>
+          </div>
+
+          <!-- Step 6: Lead Capture -->
+          <div id="step-6" class="step">
+            <h3 class="step-question">Completa tus datos para calcular y desbloquear tu diagnóstico personalizado</h3>
+            <div class="lead-form-grid">
+              <div class="input-field">
+                <label for="lead-name">Nombre Completo</label>
+                <input type="text" id="lead-name" placeholder="Ej. Juan Pérez" required>
+              </div>
+              <div class="input-field">
+                <label for="lead-whatsapp">WhatsApp (con código de país)</label>
+                <input type="tel" id="lead-whatsapp" placeholder="Ej. +17865573119" required>
+              </div>
+              <div class="input-field">
+                <label for="lead-email">Correo Corporativo</label>
+                <input type="email" id="lead-email" placeholder="Ej. juan@empresa.com" required>
+              </div>
+            </div>
+          </div>
+
           <!-- Nav Buttons -->
           <div class="nav-buttons">
             <button type="button" id="btn-prev" class="btn-secondary">Atrás</button>
@@ -127,8 +155,14 @@
 
         <div class="score-ring-container">
           <div class="score-card">
-            <h3 id="score-val" class="score-num">0%</h3>
-            <div class="score-label">Eficiencia Operativa</div>
+            <svg class="score-ring" viewBox="0 0 120 120">
+              <circle cx="60" cy="60" r="54" fill="none" stroke="rgba(0,229,255,0.08)" stroke-width="8" />
+              <circle id="score-ring-progress" cx="60" cy="60" r="54" fill="none" stroke="#00e5ff" stroke-width="8" stroke-dasharray="339.292" stroke-dashoffset="339.292" />
+            </svg>
+            <div class="score-text-overlay">
+              <h3 id="score-val" class="score-num">0%</h3>
+              <div class="score-label">Eficiencia Operativa</div>
+            </div>
           </div>
         </div>
 
@@ -175,16 +209,23 @@
           </div>
         </div>
 
-        <!-- Final CTA Widget -->
+        <!-- Final CTA Widget con Calendario Embed GHL -->
         <div class="cta-box">
-          <h3>Detén la Fuga de leads con SVE90</h3>
-          <p>Agenda una sesión de diagnóstico comercial sin costo con nuestro equipo y automatiza tu pipeline comercial en 30 días.</p>
-          <a href="https://app.agenciaprosperia.com/prosper-ia-pag-cap-empresarios-digitales-1" class="btn-cta" target="_blank">Reservar Diagnóstico Gratis</a>
+          <h3>Agenda tu Diagnóstico Comercial de 15 Minutos</h3>
+          <p>Selecciona la fecha y hora para tu sesión de optimización sin costo. Tus datos del diagnóstico han sido precargados automáticamente.</p>
+          <div class="calendar-embed-container">
+            <iframe src="" allow="payment" style="width: 100%; border: none; overflow: hidden; min-height: 580px;" scrolling="no" id="qbIPi9xkGZs9oQDiVeoB_1786658053102"></iframe>
+          </div>
+          <script src="https://link.msgsndr.com/js/form_embed.js" type="text/javascript"></script>
         </div>
       </section>
     </main>
   </div>
 
   <script src="app.js"></script>
+
+  <!-- Eleven Labs Conversational Voice Agent Widget -->
+  <elevenlabs-convai agent-id="agent_8701kzw9wrm9ecevn8ke326k6dje"></elevenlabs-convai>
+  <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
 </body>
 </html>

@@ -1,13 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
   // State variables
   let currentStep = 1;
-  const totalSteps = 4;
+  const totalSteps = 6;
   
   const state = {
     leadsVolume: 100,
     speedToLead: null,
     storage: null,
-    auditing: null
+    auditing: null,
+    ticketValue: 1000,
+    calculatedReport: '',
+    contactName: '',
+    contactWhatsapp: '',
+    contactEmail: ''
   };
 
   // DOM Elements
@@ -47,6 +52,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Step 5: Ticket value controls
+  const ticketInput = document.getElementById('ticket-range');
+  const ticketDisplay = document.getElementById('ticket-display');
+  
+  if (ticketInput) {
+    ticketInput.addEventListener('input', (e) => {
+      state.ticketValue = parseInt(e.target.value, 10);
+      if (ticketDisplay) ticketDisplay.textContent = `$ ${state.ticketValue.toLocaleString('en-US')} USD`;
+    });
+  }
+
   // Navigation Logic
   btnPrev.addEventListener('click', () => {
     if (currentStep > 1) {
@@ -58,8 +74,22 @@ document.addEventListener('DOMContentLoaded', () => {
     if (currentStep < totalSteps) {
       navigateStep(currentStep + 1);
     } else {
-      // Calculate and show results
-      generateDiagnostic();
+      // Validate Step 6 inputs
+      const nameInput = document.getElementById('lead-name');
+      const whatsappInput = document.getElementById('lead-whatsapp');
+      const emailInput = document.getElementById('lead-email');
+
+      if (!nameInput.value || !whatsappInput.value || !emailInput.value) {
+        alert('Por favor, completa todos los campos de contacto.');
+        return;
+      }
+
+      state.contactName = nameInput.value;
+      state.contactWhatsapp = whatsappInput.value;
+      state.contactEmail = emailInput.value;
+
+      // Submit lead & show results
+      submitLeadAndGenerate();
     }
   });
 
@@ -78,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Toggle next button label and state
     if (currentStep === totalSteps) {
-      btnNext.textContent = 'Generar Diagnóstico';
+      btnNext.textContent = 'Ver mi Diagnóstico';
     } else {
       btnNext.textContent = 'Siguiente';
     }
@@ -96,22 +126,15 @@ document.addEventListener('DOMContentLoaded', () => {
       btnNext.disabled = (state.storage === null);
     } else if (currentStep === 4) {
       btnNext.disabled = (state.auditing === null);
+    } else if (currentStep === 5) {
+      btnNext.disabled = false; // Range is pre-set
+    } else if (currentStep === 6) {
+      btnNext.disabled = false; // Validated on submission
     }
   }
 
-  // Diagnostic generation and rendering
-  function generateDiagnostic() {
-    // Hide form & header
-    document.getElementById('form-card').style.display = 'none';
-    const brandHeader = document.querySelector('.brand-header');
-    if (brandHeader) brandHeader.style.display = 'none';
-    
-    // Show results dashboard
-    const resultsDashboard = document.getElementById('results-dashboard');
-    resultsDashboard.classList.add('active');
-    resultsDashboard.style.display = 'block';
-    
-    // Calculate values
+  async function submitLeadAndGenerate() {
+    // Calculate diagnostic parameters first
     let speedLeak = 5;
     if (state.speedToLead === '15min') speedLeak = 15;
     else if (state.speedToLead === '1hour') speedLeak = 30;
@@ -126,12 +149,99 @@ document.addEventListener('DOMContentLoaded', () => {
     if (state.auditing === 'none') auditingBonus = 10;
     else if (state.auditing === 'some') auditingBonus = 5;
     
-    // Leak formula calculations
     const leakPercent = Math.min(95, speedLeak + storageLeak + auditingBonus);
     const scoreVal = 100 - leakPercent;
-    
     const leadsLost = Math.round(state.leadsVolume * (leakPercent / 100));
-    const revenueLost = leadsLost * 150; // $150 USD per B2B lead ticket
+    const revenueLost = leadsLost * state.ticketValue;
+
+    // Cache calculated diagnostic message to send
+    state.calculatedReport = `--- DIAGNÓSTICO COMERCIAL (VQI) ---
+Volumen de leads mensual: ${state.leadsVolume}
+Velocidad de respuesta: ${state.speedToLead}
+Registro y gestión: ${state.storage}
+Grabación/Auditoría con IA: ${state.auditing}
+Ticket promedio B2B: $ ${state.ticketValue} USD
+
+RESULTADOS ESTIMADOS:
+- Eficiencia Operativa: ${scoreVal}%
+- Fuga de leads: ${leadsLost} leads perdidos/mes (${leakPercent}% de fuga)
+- Fuga de ingresos estimada: $ ${revenueLost.toLocaleString('en-US')} USD/mes`;
+
+    // 1. Enviar los datos del Lead + Diagnóstico al Webhook de GoHighLevel / CRM
+    try {
+      // Usamos el Location ID de la Agencia en GHL (pEtSFHMJ5oV7CpmWRsI8) o el webhook comercial
+      const webhookUrl = 'https://services.leadconnectorhq.com/hooks/pEtSFHMJ5oV7CpmWRsI8/webhook-trigger'; 
+      await fetch(webhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: state.contactName,
+          phone: state.contactWhatsapp,
+          email: state.contactEmail,
+          customFields: {
+            'leads_mensuales': state.leadsVolume,
+            'speed_to_lead': state.speedToLead,
+            'storage_method': state.storage,
+            'ia_auditing': state.auditing,
+            'ticket_b2b': state.ticketValue,
+            'score_eficiencia': scoreVal,
+            'fuga_leads': leadsLost,
+            'fuga_ingresos': revenueLost,
+            'calculated_report': state.calculatedReport
+          }
+        })
+      });
+    } catch (e) {
+      console.warn("Falla de envío al webhook de CRM.", e);
+    }
+
+    // 2. Enviar los datos del Lead de forma local a /api/auth/contact para el Dashboard
+    try {
+      await fetch('/api/auth/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: state.contactName,
+          email: state.contactEmail,
+          phone: state.contactWhatsapp,
+          company: '',
+          message: state.calculatedReport,
+          source: 'diagnostico'
+        })
+      });
+    } catch (e) {
+      console.warn("Falla de envío a la base de datos local.", e);
+    }
+
+    // 3. Renderizar los resultados
+    generateDiagnosticUI(scoreVal, leadsLost, revenueLost, leakPercent);
+  }
+
+  function generateDiagnosticUI(scoreVal, leadsLost, revenueLost, leakPercent) {
+    // Hide form & header
+    document.getElementById('form-card').style.display = 'none';
+    const brandHeader = document.querySelector('.brand-header');
+    if (brandHeader) brandHeader.style.display = 'none';
+    
+    // Show results dashboard
+    const resultsDashboard = document.getElementById('results-dashboard');
+    resultsDashboard.classList.add('active');
+    resultsDashboard.style.display = 'block';
+
+    // Cargar iframe de calendario de GHL con datos precargados
+    const calendarIframe = document.getElementById('qbIPi9xkGZs9oQDiVeoB_1786658053102');
+    if (calendarIframe) {
+      const calendarId = 'qbIPi9xkGZs9oQDiVeoB';
+      const baseUrl = `https://api.leadconnectorhq.com/widget/booking/${calendarId}`;
+      
+      const queryParams = new URLSearchParams({
+        first_name: state.contactName,
+        email: state.contactEmail,
+        phone: state.contactWhatsapp
+      });
+      
+      calendarIframe.src = `${baseUrl}?${queryParams.toString()}`;
+    }
     
     // Animate score value counter
     animateCounter('score-val', scoreVal, '%');
@@ -142,6 +252,19 @@ document.addEventListener('DOMContentLoaded', () => {
     if (scoreVal < 40) scoreElement.classList.add('score-critical');
     else if (scoreVal < 70) scoreElement.classList.add('score-warning');
     else scoreElement.classList.add('score-good');
+
+    // Animate the SVG circular ring progress
+    const ringProgress = document.getElementById('score-ring-progress');
+    if (ringProgress) {
+      const radius = 54;
+      const circumference = 2 * Math.PI * radius; // 339.292
+      const offset = circumference - (scoreVal / 100) * circumference;
+      
+      // Delay slightly for CSS transition
+      setTimeout(() => {
+        ringProgress.style.strokeDashoffset = offset;
+      }, 100);
+    }
     
     // Animate metrics counters
     animateCounter('metric-lost-leads', leadsLost, '');
@@ -151,7 +274,29 @@ document.addEventListener('DOMContentLoaded', () => {
     updateSvgFunnel(state.leadsVolume, leadsLost);
     
     // Render contextual recommendations
-    renderRecommendations(leakPercent);
+    renderRecommendations();
+
+    // Sincronizar el Agente de Voz de ElevenLabs
+    updateElevenLabsContext(scoreVal, leadsLost, revenueLost);
+  }
+
+  function updateElevenLabsContext(scoreVal, leadsLost, revenueLost) {
+    const widget = document.querySelector('elevenlabs-convai');
+    if (!widget) return;
+
+    widget.setAttribute('custom-session-config', JSON.stringify({
+      systemPrompt: `El usuario acaba de realizar el Diagnóstico Comercial en la web.
+Métricas del usuario:
+- Nombre: ${state.contactName}
+- Leads recibidos/mes: ${state.leadsVolume}
+- Velocidad de respuesta actual: ${state.speedToLead}
+- Dónde registra datos: ${state.storage}
+- Score de eficiencia calculado: ${scoreVal}%
+- Fuga de leads: ${leadsLost} leads/mes
+- Fuga de ingresos: $ ${revenueLost.toLocaleString('en-US')} USD/mes
+
+Si el usuario inicia la llamada, salúdalo por su nombre (${state.contactName}) y menciónale directamente su score o su fuga de leads de forma sutil para abrir la conversación sobre cómo SVE90 de Prosper IA soluciona su problema.`
+    }));
   }
 
   function animateCounter(id, targetVal, suffix = '', isCurrency = false) {
@@ -180,18 +325,17 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function updateSvgFunnel(total, lost) {
-    const wins = total - lost;
-    const lostPercent = (lost / total) * 100;
+    const lostPercent = Math.round((lost / total) * 100);
     
     // Update SVG heights / scales
     const lostText = document.getElementById('funnel-lost-text');
     const winText = document.getElementById('funnel-win-text');
     
-    if (lostText) lostText.textContent = `${Math.round(lostPercent)}% leads perdidos`;
-    if (winText) winText.textContent = `${100 - Math.round(lostPercent)}% leads retenidos`;
+    if (lostText) lostText.textContent = `${lostPercent}% leads perdidos`;
+    if (winText) winText.textContent = `${100 - lostPercent}% leads retenidos`;
   }
 
-  function renderRecommendations(leakPercent) {
+  function renderRecommendations() {
     const container = document.getElementById('rec-list-container');
     if (!container) return;
     
@@ -206,10 +350,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // Condition 2: Storage system issues
-    if (state.storage === 'excels' || state.storage === 'papers') {
+    if (state.storage === 'excels' || state.storage === 'papers' || state.storage === 'mind') {
       recs.push({
         title: "Migración de Hojas de Cálculo a CRM Centralizado",
-        desc: "Migrar tus Excels sueltos a un CRM unificado evita la pérdida del 27% de las oportunidades comerciales y da visibilidad total al forecast."
+        desc: "Migrar tus Excels o notas sueltas a un CRM unificado evita la pérdida del 27% de las oportunidades comerciales y da visibilidad total al forecast."
       });
     }
     

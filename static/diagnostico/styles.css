@@ -2,15 +2,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap');
 
 :root {
-  --pia-bg-darker: #090A0B;
-  --pia-bg-dark: #0F1011;
-  --pia-bg-card: rgba(26, 27, 32, 0.65);
-  --pia-border: rgba(159, 122, 234, 0.15);
-  --pia-border-hover: rgba(159, 122, 234, 0.45);
-  --pia-accent: #9F7AEA;
-  --pia-accent-rgb: 159, 122, 234;
-  --pia-primary: #5E6AD2;
-  --pia-primary-hover: #4C59C1;
+  --pia-bg-darker: #020710;
+  --pia-bg-dark: #050d1a;
+  --pia-bg-card: rgba(8, 18, 36, 0.75);
+  --pia-border: rgba(0, 229, 255, 0.15);
+  --pia-border-hover: rgba(0, 229, 255, 0.45);
+  --pia-accent: #00e5ff;
+  --pia-accent-rgb: 0, 229, 255;
+  --pia-primary: #00b4cc;
+  --pia-primary-hover: #33f5ff;
   --pia-text: #E2E8F0;
   --pia-text-muted: #94A3B8;
   --pia-text-display: #FFFFFF;
@@ -46,7 +46,7 @@ body {
   left: -10%;
   width: 50%;
   height: 50%;
-  background: radial-gradient(circle, rgba(94, 106, 210, 0.15) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(0, 229, 255, 0.08) 0%, transparent 70%);
   pointer-events: none;
   z-index: 0;
 }
@@ -57,7 +57,7 @@ body {
   right: -10%;
   width: 50%;
   height: 50%;
-  background: radial-gradient(circle, rgba(159, 122, 234, 0.12) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(0, 180, 204, 0.06) 0%, transparent 70%);
   pointer-events: none;
   z-index: 0;
 }
@@ -93,8 +93,8 @@ body {
 
 .logo-badge {
   display: inline-block;
-  background: rgba(159, 122, 234, 0.1);
-  border: 1px solid rgba(159, 122, 234, 0.25);
+  background: rgba(0, 229, 255, 0.06);
+  border: 1px solid rgba(0, 229, 255, 0.25);
   color: var(--pia-accent);
   font-family: var(--font-display);
   font-size: 14px;
@@ -126,7 +126,7 @@ body {
 .glass-card {
   background: var(--pia-bg-card);
   border: 1px solid var(--pia-border);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-radius: var(--border-radius);
@@ -147,7 +147,7 @@ body {
 
 .progress-bar {
   height: 100%;
-  width: 25%;
+  width: 16.66%;
   background: linear-gradient(90deg, var(--pia-primary), var(--pia-accent));
   border-radius: 10px;
   transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
@@ -236,14 +236,14 @@ body {
 }
 
 .option-btn:hover {
-  background: rgba(159, 122, 234, 0.05);
+  background: rgba(0, 229, 255, 0.05);
   border-color: var(--pia-border-hover);
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 .option-btn.selected {
-  background: rgba(159, 122, 234, 0.12);
+  background: rgba(0, 229, 255, 0.12);
   border-color: var(--pia-accent);
   color: var(--pia-text-display);
 }
@@ -277,45 +277,37 @@ body {
   display: block;
 }
 
-/* Step 5 Form Fields Styling */
-.form-group {
-  margin-bottom: 20px;
+/* Lead Form Paso 6 */
+.lead-form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 24px;
+}
+.input-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   text-align: left;
 }
-
-.form-group label {
-  display: block;
-  font-size: 12px;
-  font-weight: 700;
+.input-field label {
+  font-size: 14px;
+  font-weight: 600;
   color: var(--pia-text-muted);
-  margin-bottom: 8px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
 }
-
-.form-input {
-  width: 100%;
-  padding: 16px 20px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 10px;
+.input-field input {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--pia-border);
   color: var(--pia-text-display);
-  font-family: var(--font-body);
-  font-size: 16px;
-  box-sizing: border-box;
+  padding: 16px;
+  border-radius: 8px;
+  font-size: 15px;
+  outline: none;
   transition: var(--transition);
 }
-
-.form-input:focus {
-  outline: none;
-  background: rgba(159, 122, 234, 0.04);
+.input-field input:focus {
   border-color: var(--pia-accent);
-  box-shadow: 0 0 15px rgba(159, 122, 234, 0.15);
-}
-
-.form-input::placeholder {
-  color: var(--pia-text-muted);
-  opacity: 0.6;
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
 }
 
 /* Navigation Buttons */
@@ -352,13 +344,13 @@ body {
   font-weight: 700;
   cursor: pointer;
   transition: var(--transition);
-  box-shadow: 0 4px 15px rgba(94, 106, 210, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 180, 204, 0.3);
 }
 
 .btn-primary:hover {
   background: var(--pia-primary-hover);
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(94, 106, 210, 0.5);
+  box-shadow: 0 6px 20px rgba(0, 229, 255, 0.4);
 }
 
 .btn-primary:disabled {
@@ -389,17 +381,37 @@ body {
 }
 
 .score-card {
-  text-align: center;
-  padding: 24px;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.03);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 220px;
+  height: 220px;
+  margin: 0 auto;
+}
+
+.score-ring {
+  position: absolute;
   width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+#score-ring-progress {
+  stroke-dasharray: 339.292;
+  stroke-dashoffset: 339.292;
+  transition: stroke-dashoffset 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.score-text-overlay {
+  position: relative;
+  z-index: 10;
+  text-align: center;
 }
 
 .score-num {
   font-family: var(--font-display);
-  font-size: 72px;
+  font-size: 48px;
   font-weight: 900;
   margin: 0;
   line-height: 1;
@@ -411,10 +423,10 @@ body {
 
 .score-label {
   color: var(--pia-text-muted);
-  font-size: 14px;
+  font-size: 11px;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
-  margin-top: 8px;
+  letter-spacing: 1px;
+  margin-top: 4px;
 }
 
 /* Metric Display Grid */
@@ -481,7 +493,7 @@ body {
   transition: var(--transition);
 }
 
-.funnel-stage-input { fill: #818CF8; stroke: #818CF8; }
+.funnel-stage-input { fill: #00e5ff; stroke: #00e5ff; }
 .funnel-stage-lost { fill: #EF4444; stroke: #EF4444; }
 .funnel-stage-win { fill: #10B981; stroke: #10B981; }
 
@@ -516,7 +528,7 @@ body {
 }
 
 .rec-icon {
-  background: rgba(159, 122, 234, 0.1);
+  background: rgba(0, 229, 255, 0.1);
   color: var(--pia-accent);
   font-weight: 700;
   width: 32px;
@@ -545,8 +557,8 @@ body {
 .cta-box {
   text-align: center;
   padding: 32px;
-  background: linear-gradient(135deg, rgba(94, 106, 210, 0.1), rgba(159, 122, 234, 0.1));
-  border: 1px solid rgba(159, 122, 234, 0.2);
+  background: linear-gradient(135deg, rgba(0, 180, 204, 0.1), rgba(0, 229, 255, 0.1));
+  border: 1px solid rgba(0, 229, 255, 0.2);
   border-radius: 12px;
   margin-top: 40px;
 }
@@ -565,26 +577,24 @@ body {
 }
 
 .btn-cta {
+  display: inline-block;
   background: var(--pia-accent);
-  color: var(--pia-text-display);
+  color: var(--pia-bg-darker);
   padding: 16px 36px;
-  border: none;
   border-radius: 10px;
   font-family: var(--font-display);
   font-size: 16px;
   font-weight: 700;
   text-decoration: none;
   transition: var(--transition);
-  box-shadow: 0 0 25px rgba(159, 122, 234, 0.35);
+  box-shadow: 0 0 25px rgba(0, 229, 255, 0.35);
   animation: pulse 2s infinite;
-  cursor: pointer;
-  display: inline-block;
 }
 
 .btn-cta:hover {
-  background: #B794F4;
+  background: #33f5ff;
   transform: translateY(-2px);
-  box-shadow: 0 0 35px rgba(159, 122, 234, 0.6);
+  box-shadow: 0 0 35px rgba(0, 229, 255, 0.6);
 }
 
 /* Keyframes and Animations */
@@ -612,13 +622,13 @@ body {
 
 @keyframes pulse {
   0% {
-    box-shadow: 0 0 0 0 rgba(159, 122, 234, 0.4);
+    box-shadow: 0 0 0 0 rgba(0, 229, 255, 0.4);
   }
   70% {
-    box-shadow: 0 0 0 15px rgba(159, 122, 234, 0);
+    box-shadow: 0 0 0 15px rgba(0, 229, 255, 0);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(159, 122, 234, 0);
+    box-shadow: 0 0 0 0 rgba(0, 229, 255, 0);
   }
 }
 
@@ -639,4 +649,20 @@ body {
   .step-question {
     font-size: 20px;
   }
+}
+
+/* Calendar Embed container style */
+.calendar-embed-container {
+  width: 100%;
+  margin-top: 24px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--pia-border);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.calendar-embed-container iframe {
+  display: block;
+  background: transparent;
 }
