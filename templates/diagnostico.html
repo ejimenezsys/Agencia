@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diagnóstico Comercial Interactivo | Prosper IA</title>
+  <meta name="description" content="Autoevalúa la salud de tu pipeline comercial, calcula la pérdida estimada de leads y optimiza tus proyecciones B2B con IA.">
+  <link rel="stylesheet" href="{{ static_versioned('diagnostico/styles.css') }}">
+</head>
+<body>
+  <!-- Ambient Background Lights -->
+  <div class="bg-glow-1"></div>
+  <div class="bg-glow-2"></div>
+  
+  <!-- Noise Overlay -->
+  <div class="grain-overlay"></div>
+
+  <div class="vqi-container">
+    <!-- Brand Header -->
+    <header class="brand-header">
+      <div class="logo-badge">Prosper IA</div>
+      <h1>Diagnóstico de Eficiencia Comercial</h1>
+      <p>Descubre dónde se pierden las oportunidades de venta en tu pipeline B2B.</p>
+    </header>
+
+    <main>
+      <!-- Questionnaire Card -->
+      <section id="form-card" class="glass-card">
+        <!-- Progress Bar -->
+        <div class="progress-bar-container">
+          <div id="progress-bar" class="progress-bar"></div>
+        </div>
+
+        <form id="vqi-form" onsubmit="return false;">
+          <!-- Step 1: Leads Volume -->
+          <div id="step-1" class="step active">
+            <h3 class="step-question">¿Cuántos leads comerciales (prospectos) recibe tu empresa mensualmente?</h3>
+            <div class="range-wrapper">
+              <div id="range-display" class="range-display">100</div>
+              <input type="range" id="leads-range" class="custom-range" min="10" max="2000" step="10" value="100">
+            </div>
+          </div>
+
+          <!-- Step 2: Speed to Lead -->
+          <div id="step-2" class="step">
+            <h3 class="step-question">¿Cuánto tarda tu equipo comercial en dar la primera respuesta a un nuevo prospecto?</h3>
+            <div class="options-grid">
+              <button type="button" class="option-btn" data-step="speedToLead" data-value="immediate">
+                <span>Menos de 5 minutos (Inmediato)</span>
+                <span class="option-marker"></span>
+              </button>
+              <button type="button" class="option-btn" data-step="speedToLead" data-value="15min">
+                <span>Entre 5 y 15 minutos</span>
+                <span class="option-marker"></span>
+              </button>
+              <button type="button" class="option-btn" data-step="speedToLead" data-value="1hour">
+                <span>Entre 15 minutos y 1 hora</span>
+                <span class="option-marker"></span>
+              </button>
+              <button type="button" class="option-btn" data-step="speedToLead" data-value="4hours">
+                <span>Más de 4 horas o al día siguiente</span>
+                <span class="option-marker"></span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 3: Storage/Excel -->
+          <div id="step-3" class="step">
+            <h3 class="step-question">¿Dónde se registran y gestionan actualmente los datos de tus prospectos?</h3>
+            <div class="options-grid">
+              <button type="button" class="option-btn" data-step="storage" data-value="crm">
+                <span>En un CRM centralizado y unificado (Hubspot, Salesforce, GHL, etc.)</span>
+                <span class="option-marker"></span>
+              </button>
+              <button type="button" class="option-btn" data-step="storage" data-value="excels">
+                <span>En Excels / Hojas de cálculo compartidas o locales</span>
+                <span class="option-marker"></span>
+              </button>
+              <button type="button" class="option-btn" data-step="storage" data-value="papers">
+                <span>En cuadernos de notas, agendas o papel de forma manual</span>
+                <span class="option-marker"></span>
+              </button>
+              <button type="button" class="option-btn" data-step="storage" data-value="mind">
+                <span>No hay registro formal, depende de la memoria del vendedor</span>
+                <span class="option-marker"></span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 4: Call Auditing -->
+          <div id="step-4" class="step">
+            <h3 class="step-question">¿Qué porcentaje de las llamadas de ventas de tu equipo son grabadas y analizadas con IA?</h3>
+            <div class="options-grid">
+              <button type="button" class="option-btn" data-step="auditing" data-value="all">
+                <span>El 100% de las llamadas comerciales</span>
+                <span class="option-marker"></span>
+              </button>
+              <button type="button" class="option-btn" data-step="auditing" data-value="more50">
+                <span>Más del 50% de las conversaciones comerciales</span>
+                <span class="option-marker"></span>
+              </button>
+              <button type="button" class="option-btn" data-step="auditing" data-value="some">
+                <span>Solo algunas de forma esporádica</span>
+                <span class="option-marker"></span>
+              </button>
+              <button type="button" class="option-btn" data-step="auditing" data-value="none">
+                <span>Ninguna, no tenemos sistema de grabación ni análisis</span>
+                <span class="option-marker"></span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 5: B2B Ticket Size -->
+          <div id="step-5" class="step">
+            <h3 class="step-question">¿Cuál es el valor medio de venta de tu cliente o servicio (LTV o Ticket Promedio B2B)?</h3>
+            <div class="range-wrapper">
+              <div id="ticket-display" class="range-display">$ 1,000 USD</div>
+              <input type="range" id="ticket-range" class="custom-range" min="100" max="5000" step="100" value="1000">
+            </div>
+          </div>
+
+          <!-- Nav Buttons -->
+          <div class="nav-buttons">
+            <button type="button" id="btn-prev" class="btn-secondary">Atrás</button>
+            <button type="button" id="btn-next" class="btn-primary">Siguiente</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Diagnostic Results Dashboard -->
+      <section id="results-dashboard" class="glass-card" style="display: none;">
+        <div class="results-header">
+          <h2>Tu Diagnóstico de Salud Comercial</h2>
+          <p>Métricas estimadas según la configuración de tu pipeline actual.</p>
+        </div>
+
+        <div class="score-ring-container">
+          <div class="score-card">
+            <h3 id="score-val" class="score-num">0%</h3>
+            <div class="score-label">Eficiencia Operativa</div>
+          </div>
+        </div>
+
+        <!-- Metric Display -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <h4>Prospectos Perdidos</h4>
+            <p id="metric-lost-leads" class="metric-value">0</p>
+            <p style="font-size: 13px; color: var(--pia-text-muted); margin: 6px 0 0 0;">leads perdidos / mes</p>
+          </div>
+          <div class="metric-card">
+            <h4>Fuga de Ingresos</h4>
+            <p id="metric-revenue" class="metric-value highlight-red">$ 0</p>
+            <p style="font-size: 13px; color: var(--pia-text-muted); margin: 6px 0 0 0;">dólares perdidos / mes</p>
+          </div>
+        </div>
+
+        <!-- Funnel SVG Chart -->
+        <div class="pipeline-diagram">
+          <h4 id="funnel-lost-text">Fuga Estimada del Pipeline</h4>
+          <svg class="funnel-svg" viewBox="0 0 320 200">
+            <!-- Funnel Background -->
+            <polygon points="40,20 280,20 200,180 120,180" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+            
+            <!-- Stage 1: Input -->
+            <polygon points="45,25 275,25 250,70 70,70" class="funnel-stage funnel-stage-input"/>
+            <text x="160" y="50" fill="#E2E8F0" font-size="12" text-anchor="middle" font-family="Inter, sans-serif" font-weight="600">Leads Ingresados</text>
+
+            <!-- Stage 2: Fuga Lateral -->
+            <polygon points="73,75 247,75 220,130 100,130" class="funnel-stage funnel-stage-lost"/>
+            <text x="160" y="108" fill="#F87171" font-size="12" text-anchor="middle" font-family="Inter, sans-serif" font-weight="600" id="funnel-lost-text">Fuga por lentitud/Excels</text>
+
+            <!-- Stage 3: Conversión/Win -->
+            <polygon points="103,135 217,135 195,175 125,175" class="funnel-stage funnel-stage-win"/>
+            <text x="160" y="160" fill="#34D399" font-size="12" text-anchor="middle" font-family="Inter, sans-serif" font-weight="600" id="funnel-win-text">Leads Cualificados</text>
+          </svg>
+        </div>
+
+        <!-- Recommendations Box -->
+        <div class="recommendations-box">
+          <h3>Recomendaciones Clave para tu Operación</h3>
+          <div id="rec-list-container" class="rec-list">
+            <!-- Dynamic items loaded by JS -->
+          </div>
+        </div>
+
+        <!-- Final CTA Widget -->
+        <div class="cta-box">
+          <h3>Detén la Fuga de leads con SVE90</h3>
+          <p>Agenda una sesión de diagnóstico comercial sin costo con nuestro equipo y automatiza tu pipeline comercial en 30 días.</p>
+          <a href="https://app.agenciaprosperia.com/prosper-ia-pag-cap-empresarios-digitales-1" class="btn-cta" target="_blank">Reservar Diagnóstico Gratis</a>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="{{ static_versioned('diagnostico/app.js') }}"></script>
+
+  <!-- Eleven Labs Conversational Voice Agent Widget -->
+  <elevenlabs-convai agent-id="agent_8701kzw9wrm9ecevn8ke326k6dje"></elevenlabs-convai>
+  <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
+</body>
+</html>

@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+
+
+.0<!DOCTYPE html>
 <html lang="es">
 
 <!-- Mirrored from 3000-i01dje720a4h16q71b275-3844e1b6.sandbox.novita.ai/ by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 03 May 2026 05:50:30 GMT -->
@@ -414,12 +416,13 @@
         <a href="#masterclass" class="text-sm text-slate-400 hover:text-white transition-colors font-medium">Demostración</a>
         <a href="#arquitectura" class="text-sm text-slate-400 hover:text-white transition-colors font-medium">Infraestructura IA</a>
         <a href="/blog" class="text-sm text-slate-400 hover:text-white transition-colors font-medium">Blog</a>
+        <a href="/diagnostico" class="text-sm text-slate-400 hover:text-white transition-colors font-medium">Diagnóstico</a>
       </div>
 
       <!-- CTAs -->
       <div class="flex items-center gap-3">
         <a href="/login" class="hidden sm:block text-sm font-medium text-slate-400 hover:text-white transition-colors px-3 py-2">Portal SVE90</a>
-        <a href="#contacto" class="btn-gold text-sm font-bold px-5 py-2.5 rounded-xl">
+        <a href="/diagnostico" class="btn-gold text-sm font-bold px-5 py-2.5 rounded-xl">
           Aplicar al Diagnóstico
         </a>
       </div>
@@ -456,14 +459,28 @@
       para Empresas Aumentadas.
     </h1>
 
-    <h2 class="text-lg sm:text-xl text-slate-400 max-w-3xl mx-auto mb-10 leading-relaxed font-light" data-reveal style="transition-delay:0.15s">
-      Recupera el control de tus márgenes. Eliminamos el caos de procesos manuales y las 15 suscripciones de software que desangran tu rentabilidad. Pasamos tu agencia al estándar <strong class="text-white font-semibold">SVE90</strong> en 90 días.
+
+    <!-- Avatar / Route Selector -->
+    <div class="flex flex-wrap justify-center gap-3 mb-8" data-reveal style="transition-delay:0.1s">
+      <button type="button" onclick="selectAvatar('pyme')" id="btn-av-pyme" class="avatar-btn px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all border" style="background:rgba(0, 229, 255, 0.12); border-color:#00e5ff; color:#white;">
+        🏢 Empresarios y PyMEs
+      </button>
+      <button type="button" onclick="selectAvatar('agencia')" id="btn-av-agencia" class="avatar-btn px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all border" style="background:rgba(255, 255, 255, 0.02); border-color:rgba(255, 255, 255, 0.1); color:#94A3B8;">
+        🚀 Agencias y Consultores
+      </button>
+      <button type="button" onclick="selectAvatar('clinica')" id="btn-av-clinica" class="avatar-btn px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all border" style="background:rgba(255, 255, 255, 0.02); border-color:rgba(255, 255, 255, 0.1); color:#94A3B8;">
+        🩺 Clínicas y Negocios Locales
+      </button>
+    </div>
+
+    <h2 id="hero-description" class="text-lg sm:text-xl text-slate-400 max-w-3xl mx-auto mb-10 leading-relaxed font-light" data-reveal style="transition-delay:0.15s">
+      Recupera el control de tus márgenes. Eliminamos el caos de procesos manuales y las 15 suscripciones de software que desangran tu rentabilidad. Pasamos tu negocio al estándar <strong class="text-white font-semibold">SVE90</strong> en 90 días.
     </h2>
 
     <!-- CTAs principales -->
     <div class="flex flex-col items-center gap-4 mb-16" data-reveal style="transition-delay:0.25s">
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4 w-full">
-        <a href="#contacto" class="btn-cyan px-9 py-4 rounded-2xl text-base flex items-center justify-center gap-3 group w-full sm:w-auto">
+        <a href="/diagnostico" class="btn-cyan px-9 py-4 rounded-2xl text-base flex items-center justify-center gap-3 group w-full sm:w-auto">
           <i class="fas fa-calendar-check"></i>
           <span>Aplicar al Diagnóstico de Madurez SVE90</span>
           <i class="fas fa-arrow-right text-sm group-hover:translate-x-1 transition-transform"></i>
@@ -1044,7 +1061,7 @@
 
     <!-- CTA & Micro-copy -->
     <div class="text-center" data-reveal>
-      <a href="#contacto" class="px-10 py-5 rounded-2xl text-lg font-black tracking-wide inline-flex items-center gap-3 transition-all duration-300 hover:scale-[1.02]" style="background: linear-gradient(135deg, #00e5ff 0%, #00b4cc 100%); color: #020710; border: 1px solid #33f5ff; box-shadow: 0 0 30px rgba(0,229,255,0.25);">
+      <a href="/diagnostico" class="px-10 py-5 rounded-2xl text-lg font-black tracking-wide inline-flex items-center gap-3 transition-all duration-300 hover:scale-[1.02]" style="background: linear-gradient(135deg, #00e5ff 0%, #00b4cc 100%); color: #020710; border: 1px solid #33f5ff; box-shadow: 0 0 30px rgba(0,229,255,0.25);">
         <i class="fas fa-file-signature"></i>
         <span>Solicitar mi Diagnóstico de Madurez SVE90</span>
       </a>
@@ -1156,7 +1173,7 @@
       </div>
 
       <div class="mt-12">
-        <a href="#contacto" class="px-10 py-5 rounded-2xl text-lg font-black tracking-wide inline-flex items-center gap-3 transition-all duration-300 hover:scale-[1.02]" style="background: linear-gradient(135deg, #00e5ff 0%, #0ea5e9 100%); color: #020710; border: 1px solid #38bdf8; box-shadow: 0 0 30px rgba(0,229,255,0.25);">
+        <a href="/diagnostico" class="px-10 py-5 rounded-2xl text-lg font-black tracking-wide inline-flex items-center gap-3 transition-all duration-300 hover:scale-[1.02]" style="background: linear-gradient(135deg, #00e5ff 0%, #0ea5e9 100%); color: #020710; border: 1px solid #38bdf8; box-shadow: 0 0 30px rgba(0,229,255,0.25);">
           <i class="fas fa-calendar-check"></i>
           <span>Agendar mi Llamada de Diagnóstico SVE90</span>
         </a>
@@ -1280,58 +1297,22 @@
 
     <div data-reveal>
       <div class="section-label mb-6 justify-center" style="border-color: rgba(0,229,255,0.3); color: #00e5ff; background: rgba(0,229,255,0.06);">DEMOSTRACIÓN OPERATIVA SVE90</div>
-      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold mb-8 uppercase tracking-widest" style="background:rgba(0,229,255,0.08); color:#00e5ff; border:1px solid rgba(0,229,255,0.25);">
-        <i class="fas fa-play text-red-500"></i> Presentado por Edward Jimenez, CEO de Prosper IA and PassportAI
-      </div>
       <h2 class="text-3xl sm:text-4xl md:text-5xl font-black leading-tight mb-6">
-        Cómo escalar tu agencia<br>
-        <span style="color: #00e5ff; text-shadow: 0 0 40px rgba(0,229,255,0.15);">sin inflar tu nómina operativa.</span>
+        Cómo funciona la infraestructura <br>
+        <span style="color: #00e5ff; text-shadow: 0 0 40px rgba(0,229,255,0.15);">de Prosper IA por dentro.</span>
       </h2>
       <p class="text-slate-400 text-lg sm:text-xl mb-10 leading-relaxed font-light">
-        Descubre en 15 minutos cómo funciona por dentro la infraestructura que califica, da seguimiento y agenda tus leads en menos de 5 minutos.
+        Mira en 1 minuto cómo nuestro sistema de Empleados Digitales y CRM de IA capturan, cualifican y agendan leads 24/7 de forma 100% automatizada.
       </p>
 
-      <!-- Reproductor de VSL (Video Mockup Premium) -->
+      <!-- Reproductor de Video Premium -->
       <div class="relative mx-auto mt-12 max-w-4xl rounded-2xl overflow-hidden border border-cyan-500/20 group" style="background:#030b16; box-shadow:0 0 50px rgba(0,229,255,0.15);" data-reveal>
-        <div class="relative w-full overflow-hidden flex items-center justify-center cursor-pointer" style="aspect-ratio: 16 / 9; height: auto;" onclick="document.getElementById('contacto').scrollIntoView({behavior: 'smooth'})">
-          <!-- Imagen de Poster del Video -->
-          <img src="{{ static_versioned('caso-estudio-agencia-sve90-ventas-ia.jpg') }}" alt="Demostración SVE90" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-[1.02] transition-transform duration-700 ease-out">
-          
-          <!-- Gradiente de Superposición -->
-          <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent"></div>
-          
-          <!-- Botón de Play Gigante -->
-          <div class="relative z-10 w-20 h-20 rounded-full bg-cyan-500/10 border-2 border-cyan-400 flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:bg-cyan-400 group-hover:shadow-[0_0_50px_rgba(0,229,255,0.6)]" style="box-shadow: 0 0 30px rgba(0,229,255,0.3);">
-            <i class="fas fa-play text-cyan-400 group-hover:text-slate-950 text-3xl ml-1 transition-colors"></i>
-          </div>
-          
-          <!-- Badge Superior -->
-          <div class="absolute top-4 left-4 z-10 flex items-center gap-2 bg-slate-950/80 px-3 py-1.5 rounded-full border border-cyan-500/30">
-            <span class="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse"></span>
-            <span class="text-[10px] font-bold text-slate-300 uppercase tracking-widest">DEMOSTRACIÓN EXCLUSIVA — 15 MIN</span>
-          </div>
-          
-          <!-- Barra de Controles Simulada -->
-          <div class="absolute bottom-0 left-0 right-0 z-10 bg-gradient-to-t from-slate-950 to-transparent p-6 pt-12 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-            <div class="w-full h-1.5 bg-slate-800 rounded-full mb-4 overflow-hidden relative">
-              <div class="absolute left-0 top-0 bottom-0 w-1/3 bg-cyan-400 shadow-[0_0_10px_rgba(0,229,255,0.8)]"></div>
-              <div class="absolute left-1/3 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-white border border-cyan-400 shadow-md"></div>
-            </div>
-            <div class="flex items-center justify-between text-slate-400 text-xs font-semibold">
-              <div class="flex items-center gap-4">
-                <i class="fas fa-play hover:text-cyan-400 transition-colors"></i>
-                <div class="flex items-center gap-2">
-                  <i class="fas fa-volume-high hover:text-cyan-400 transition-colors"></i>
-                  <span class="w-16 h-1 bg-slate-700 rounded-full overflow-hidden inline-block"><span class="block w-4/5 h-full bg-cyan-400"></span></span>
-                </div>
-                <span>05:12 / 15:34</span>
-              </div>
-              <div class="flex items-center gap-4">
-                <i class="fas fa-sliders hover:text-cyan-400 transition-colors"></i>
-                <i class="fas fa-expand hover:text-cyan-400 transition-colors"></i>
-              </div>
-            </div>
-          </div>
+        <div class="relative w-full overflow-hidden flex items-center justify-center" style="aspect-ratio: 16 / 9; height: auto;">
+          <!-- Video Element -->
+          <video id="vsl-player" class="w-full h-full object-cover" controls preload="metadata" style="background-color: #030b16;">
+            <source src="/static/video/demostracion_sve90.mp4" type="video/mp4">
+            Tu navegador no soporta la reproducción de video.
+          </video>
         </div>
       </div>
 
@@ -1490,73 +1471,16 @@
   
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
     
-    <div class="card-glow rounded-2xl p-8 sm:p-12 relative z-10" style="background: rgba(5,13,26,0.75); border: 1px solid rgba(0,229,255,0.25); box-shadow: 0 25px 60px rgba(0,0,0,0.45);" data-reveal>
-      <div class="text-center mb-10">
-        <h3 class="text-3xl font-black text-white mb-3">Aplicación Ejecutiva SVE90</h3>
-        <p class="text-slate-500 text-sm max-w-xl mx-auto">Solo auditamos agencias de servicios con facturación activa. Completa los datos para evaluar tu perfil.</p>
-      </div>
-
-      <div id="contact-alert" class="hidden mb-6 p-4 rounded-xl text-sm"></div>
-
-      <div class="space-y-6">
-        <div class="grid sm:grid-cols-2 gap-6">
-          <div>
-            <label class="block text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wide">Nombre completo *</label>
-            <input id="c-name" type="text" placeholder="Tu nombre" class="w-full px-4 py-3.5 rounded-xl text-white text-sm placeholder-slate-600 focus:outline-none transition-all" style="background:#050d1a; border:1px solid rgba(0,229,255,0.15);" onfocus="this.style.borderColor='rgba(0,229,255,0.45)'" onblur="this.style.borderColor='rgba(0,229,255,0.15)'">
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wide">Email Corporativo *</label>
-            <input id="c-email" type="email" placeholder="tu@empresa.com" class="w-full px-4 py-3.5 rounded-xl text-white text-sm placeholder-slate-600 focus:outline-none transition-all" style="background:#050d1a; border:1px solid rgba(0,229,255,0.15);" onfocus="this.style.borderColor='rgba(0,229,255,0.45)'" onblur="this.style.borderColor='rgba(0,229,255,0.15)'">
-          </div>
-        </div>
-        
-        <div class="grid sm:grid-cols-2 gap-6">
-          <div>
-            <label class="block text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wide">Nombre de tu Agencia *</label>
-            <input id="c-company" type="text" placeholder="Tu agencia de servicios" class="w-full px-4 py-3.5 rounded-xl text-white text-sm placeholder-slate-600 focus:outline-none transition-all" style="background:#050d1a; border:1px solid rgba(0,229,255,0.15);" onfocus="this.style.borderColor='rgba(0,229,255,0.45)'" onblur="this.style.borderColor='rgba(0,229,255,0.15)'">
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wide">WhatsApp (con código de país) *</label>
-            <input id="c-phone" type="tel" placeholder="+34 600 000 000" class="w-full px-4 py-3.5 rounded-xl text-white text-sm placeholder-slate-600 focus:outline-none transition-all" style="background:#050d1a; border:1px solid rgba(0,229,255,0.15);" onfocus="this.style.borderColor='rgba(0,229,255,0.45)'" onblur="this.style.borderColor='rgba(0,229,255,0.15)'">
-          </div>
-        </div>
-
-        <div class="grid sm:grid-cols-2 gap-6">
-          <div>
-            <label class="block text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wide">Tamaño de tu equipo *</label>
-            <select id="c-team" class="w-full px-4 py-3.5 rounded-xl text-sm focus:outline-none transition-all" style="background:#050d1a; border:1px solid rgba(0,229,255,0.15); color:#94a3b8;" onfocus="this.style.borderColor='rgba(0,229,255,0.45)'" onblur="this.style.borderColor='rgba(0,229,255,0.15)'">
-              <option value="">Selecciona tamaño...</option>
-              <option value="1-4">1-4 personas</option>
-              <option value="5-15">5-15 personas</option>
-              <option value="15+">Más de 15 personas</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wide">Facturación mensual *</label>
-            <select id="c-billing" class="w-full px-4 py-3.5 rounded-xl text-sm focus:outline-none transition-all" style="background:#050d1a; border:1px solid rgba(0,229,255,0.15); color:#94a3b8;" onfocus="this.style.borderColor='rgba(0,229,255,0.45)'" onblur="this.style.borderColor='rgba(0,229,255,0.15)'">
-              <option value="">Selecciona rango...</option>
-              <option value="bajo">Menos de $5,000 USD</option>
-              <option value="medio">$5,000 - $15,000 USD</option>
-              <option value="alto">Más de $15,000 USD</option>
-            </select>
-          </div>
-        </div>
-
-        <div>
-          <label class="block text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wide">¿Cuál es el mayor "cuello de botella" operativo? *</label>
-          <textarea id="c-message" rows="4" placeholder="Ej: Mi equipo humano pierde el 70% de su tiempo en reportes y capturas manuales..." class="w-full px-4 py-3.5 rounded-xl text-white text-sm placeholder-slate-600 focus:outline-none resize-none transition-all" style="background:#050d1a; border:1px solid rgba(0,229,255,0.15);" onfocus="this.style.borderColor='rgba(0,229,255,0.45)'" onblur="this.style.borderColor='rgba(0,229,255,0.15)'"></textarea>
-        </div>
-
-        <button onclick="submitContact()" id="contact-btn" class="btn-cyan w-full py-4.5 rounded-xl font-bold text-base flex items-center justify-center gap-3">
-          <i class="fas fa-file-signature"></i>
-          <span id="contact-btn-text">Enviar Aplicación Ejecutiva</span>
-          <i id="contact-spinner" class="fas fa-spinner fa-spin" style="display: none;"></i>
-        </button>
-
-        <p class="text-xs text-slate-500 text-center leading-relaxed mt-4">
-          <i class="fas fa-shield-halved mr-1 text-cyan-400/80"></i>
-          Tus datos están protegidos bajo grado corporativo. Analizaremos tu perfil y, si calificas, te daremos acceso al calendario de nuestros arquitectos de sistemas.
+    <div class="card-glow rounded-2xl p-8 sm:p-12 relative z-10 text-center" style="background: rgba(5,13,26,0.75); border: 1px solid rgba(0,229,255,0.25); box-shadow: 0 25px 60px rgba(0,0,0,0.45);" data-reveal>
+      <div class="text-center">
+        <h3 class="text-3xl font-black text-white mb-4">Aplicación Ejecutiva SVE90</h3>
+        <p class="text-slate-400 text-sm max-w-xl mx-auto mb-8 leading-relaxed">
+          Solo auditamos agencias de servicios con facturación activa. En lugar de un formulario estático, realiza nuestro diagnóstico interactivo de eficiencia comercial en tiempo real para evaluar tu perfil operativo y calificar para la auditoría técnica.
         </p>
+        <a href="/diagnostico" class="btn-cyan px-10 py-5 rounded-2xl text-base font-black inline-flex items-center justify-center gap-3 w-full sm:w-auto transition-all duration-300 hover:scale-[1.02]" style="box-shadow: 0 0 25px rgba(0,229,255,0.25);">
+          <i class="fas fa-calculator"></i>
+          <span>Iniciar Diagnóstico Interactivo SVE90</span>
+        </a>
       </div>
     </div>
   </div>
@@ -1599,7 +1523,7 @@
         <h4 class="text-white font-bold text-sm mb-4 uppercase tracking-wider" style="color: #00e5ff;">Ecosistema</h4>
         <ul class="space-y-3 text-xs sm:text-sm">
           <li><a href="#masterclass" class="text-slate-500 hover:text-white transition-colors">Demostración Operativa SVE90</a></li>
-          <li><a href="#contacto" class="text-slate-500 hover:text-white transition-colors">Aplicar al Diagnóstico de Madurez</a></li>
+          <li><a href="/diagnostico" class="text-slate-500 hover:text-white transition-colors">Diagnóstico de Eficiencia Comercial (VQI)</a></li>
           <li><a href="/blog" class="text-slate-500 hover:text-white transition-colors">Blog de Noticias IA</a></li>
           <li><a href="/login" class="text-slate-500 hover:text-white transition-colors">Acceso a PassportAI (Login)</a></li>
           <li><a href="/login" class="text-slate-500 hover:text-white transition-colors">AZ Academy (Portal de Adopción)</a></li>
@@ -1727,6 +1651,112 @@ async function submitContact() {
   }
 }
 
+function selectAvatar(type) {
+  const desc = document.getElementById('hero-description');
+  const btnPyme = document.getElementById('btn-av-pyme');
+  const btnAgencia = document.getElementById('btn-av-agencia');
+  const btnClinica = document.getElementById('btn-av-clinica');
+
+  // Reset active button styling
+  [btnPyme, btnAgencia, btnClinica].forEach(btn => {
+    if (btn) {
+      btn.style.background = 'rgba(255, 255, 255, 0.02)';
+      btn.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+      btn.style.color = '#94A3B8';
+    }
+  });
+
+  // Activate selected button style
+  const activeBtn = document.getElementById('btn-av-' + type);
+  if (activeBtn) {
+    activeBtn.style.background = 'rgba(0, 229, 255, 0.12)';
+    activeBtn.style.borderColor = '#00e5ff';
+    activeBtn.style.color = '#ffffff';
+  }
+
+  // Update hero description text
+  if (type === 'pyme') {
+    desc.innerHTML = 'Recupera el control de tus márgenes. Eliminamos el caos de procesos manuales y las herramientas desconectadas que desangran tu rentabilidad. Pasamos tu negocio al estándar <strong class="text-white font-semibold">SVE90</strong> en 90 días.';
+  } else if (type === 'agencia') {
+    desc.innerHTML = '¿Necesitas producir más y responder más rápido? Automatizamos tus propuestas, optimizamos tu onboarding y escalamos tu delivery de IA con <strong class="text-white font-semibold">PassportAI agéntico</strong>.';
+  } else if (type === 'clinica') {
+    desc.innerHTML = '¿Pierdes leads por respuestas tardías? Automatizamos tu captación y agendamiento 24/7 en WhatsApp e Instagram. <strong class="text-white font-semibold">Go-live en 10 días</strong> para duplicar tus citas.';
+  }
+}
+
+const demoSteps = {
+  1: {
+    title: "Paso 1: Captación Instantánea",
+    desc: "Cuando un lead escribe a tu WhatsApp corporativo, la IA detecta la intención comercial y genera una respuesta ultra-personalizada en menos de 5 segundos. Eliminamos la fuga de leads iniciales por lentitud.",
+    video: "/static/video/demo-paso-1.mp4"
+  },
+  2: {
+    title: "Paso 2: Cualificación Automática",
+    desc: "Nuestra IA en PassportAI lee la respuesta del lead y califica de forma inteligente si cumple con tus requerimientos mínimos (ej: presupuesto de compra, tamaño de equipo y problemáticas clave).",
+    video: "/static/video/demo-paso-2.mp4"
+  },
+  3: {
+    title: "Paso 3: Agendamiento Autónomo",
+    desc: "La IA le envía de forma directa su enlace personalizado de calendario a los leads calificados. Se muestra la reserva automática en la agenda sincronizada de GoHighLevel y Google Calendar.",
+    video: "/static/video/demo-paso-3.mp4"
+  },
+  4: {
+    title: "Paso 4: Blindaje Anti No-Show",
+    desc: "El sistema dispara flujos de confirmación y recordatorios preventivos automatizados a las 24h, 2h y 15 min de la reunión vía WhatsApp y SMS para asegurar un 85% de show-rate en tus llamadas.",
+    video: "/static/video/demo-paso-4.mp4"
+  },
+  5: {
+    title: "Paso 5: Actualización del CRM",
+    desc: "Una vez agendada la cita, la tarjeta de oportunidad comercial del lead se mueve de forma automatizada por el pipeline en GoHighLevel con su valor monetario asignado y atribución de origen.",
+    video: "/static/video/demo-paso-5.mp4"
+  }
+};
+
+function switchDemoStep(step) {
+  const data = demoSteps[step];
+  if (!data) return;
+
+  // Actualizar textos
+  document.getElementById('demo-step-title').textContent = data.title;
+  document.getElementById('demo-step-description').textContent = data.desc;
+
+  // Actualizar Video Source y Player
+  const player = document.getElementById('demo-video-player');
+  const source = document.getElementById('demo-video-source');
+  if (player && source) {
+    source.src = data.video;
+    player.load();
+    player.play().catch(e => console.log("Autoplay blocked by browser policy, muted loop active."));
+  }
+
+  // Actualizar clase activa en botones de paso
+  document.querySelectorAll('.demo-step-btn').forEach(btn => {
+    btn.classList.remove('active');
+    btn.style.background = 'rgba(255, 255, 255, 0.01)';
+    btn.style.borderColor = 'rgba(255, 255, 255, 0.08)';
+    
+    // reset inner badge colors
+    const badge = btn.querySelector('.w-8');
+    if (badge) {
+      badge.style.background = 'rgba(255, 255, 255, 0.05)';
+      badge.style.color = '#94A3B8';
+    }
+  });
+
+  const activeBtn = document.getElementById('demo-step-btn-' + step);
+  if (activeBtn) {
+    activeBtn.classList.add('active');
+    activeBtn.style.background = 'rgba(0, 229, 255, 0.06)';
+    activeBtn.style.borderColor = '#00e5ff';
+    
+    const activeBadge = activeBtn.querySelector('.w-8');
+    if (activeBadge) {
+      activeBadge.style.background = 'rgba(0, 229, 255, 0.15)';
+      activeBadge.style.color = '#00e5ff';
+    }
+  }
+}
+
 // ── Smooth scroll for anchor links ──────────────────────────────────────────
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
@@ -1749,6 +1779,10 @@ window.addEventListener('scroll', () => {
   }
 }, { passive: true });
 </script>
+
+  <!-- Eleven Labs Conversational Voice Agent Widget -->
+  <elevenlabs-convai agent-id="agent_8701kzw9wrm9ecevn8ke326k6dje"></elevenlabs-convai>
+  <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
 </body>
 
 <!-- Mirrored from 3000-i01dje720a4h16q71b275-3844e1b6.sandbox.novita.ai/ by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 03 May 2026 05:50:31 GMT -->

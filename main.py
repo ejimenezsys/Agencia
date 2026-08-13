@@ -142,6 +142,19 @@ INITIAL_LEADS = [
     }
 ]
 
+INITIAL_PODCASTS = [
+    {
+        "id": 1,
+        "title": "Ep. 01: La Revolución Comercial",
+        "duration": "20:00",
+        "category": "Automatización",
+        "summary": "¿Se están volviendo los directores B2B esclavos de sus propios CRMs? En este debate informal y directo, destruimos el mito del Excel y la entrada manual de datos, y te mostramos cómo PassportAI y el estándar SVE90 blindan tu pipeline en piloto automático para que vuelvas a conectar cara a cara.",
+        "audio_url": "/static/audio/IA_y_el_colapso_del_CRM_tradicional.m4a",
+        "image_url": "/static/podcast-la-revolucion-comercial.png",
+        "transcription": "Locutor A: Bienvenidos a La Revolución Comercial, el podcast de Prosper IA donde destruimos las fórmulas aburridas del marketing y hablamos de ingeniería real. Hoy tenemos una pregunta que a muchos CEOs les va a doler: ¿Es idea mía, o los directores de empresas B2B se están volviendo empleados de sus propios CRM?\n\nLocutor B: Totalmente. El Excel y la entrada manual de datos están matando silenciosamente a los vendedores de Hispanoamérica. Es una locura. Contratas talento comercial estrella para que cierre tratos, y terminan pasando el 70% de su tiempo picando piedra en hojas de cálculo o persiguiendo leads fríos que ya se murieron.\n\nLocutor A: Claro, porque el verdadero asesino silencioso es la velocidad de respuesta. El famoso 'Speed-to-Lead'. Si un prospecto te escribe pidiendo información y tardas 2 horas en contestar porque tu vendedor estaba en otra llamada, ese lead ya se enfrió y probablemente ya le compró a tu competencia.\n\nLocutor B: Es ahí donde la gente es escéptica. Dicen: 'Ah, otra vez hablando de que la IA va a dominar el mundo... eso ya lo he escuchado mil veces'. Pero esto no se trata de ciencia ficción. Se trata de infraestructura. El framework SVE90 y nuestra consola PassportAI no reemplazan a tu vendedor estrella; lo aumentan. Despliegan un SDR de IA en WhatsApp que responde en 5 segundos, califica el perfil y agenda la llamada directamente en tu calendario.\n\nLocutor A: Es blindaje operativo. La automatización con PassportAI libera a las personas para que hagan lo que mejor saben hacer: conectar cara a cara, negociar y cerrar negocios con empatía humana.\n\nLocutor B: Exacto. Detén la fuga en tu pipeline. El futuro comercial ya empezó y no espera a nadie."
+    }
+]
+
 INITIAL_BLOG_POSTS = [
     {
         "slug": "revolucion-ventas-click-to-whatsapp-ai-latam",
@@ -846,6 +859,16 @@ async def read_blog_post(request: Request, slug: str, db: Session = Depends(get_
         "author": row.author
     }
     return templates.TemplateResponse(request=request, name="blog_post.html", context={"post": post})
+
+@app.get("/diagnostico", response_class=HTMLResponse)
+@app.get("/diagnostico.html", response_class=HTMLResponse)
+async def read_diagnostico(request: Request):
+    return templates.TemplateResponse(request=request, name="diagnostico.html")
+
+@app.get("/podcast", response_class=HTMLResponse)
+@app.get("/podcast.html", response_class=HTMLResponse)
+async def read_podcast(request: Request):
+    return templates.TemplateResponse(request=request, name="podcast.html", context={"podcasts": INITIAL_PODCASTS})
 
 # ─── TECHNICAL SEO ENDPOINTS ────────────────────────────────────────────────
 from fastapi.responses import PlainTextResponse
