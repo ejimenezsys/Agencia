@@ -148,9 +148,30 @@
           <button class="text-sm text-slate-400 group-hover:text-white transition-colors font-medium flex items-center gap-1.5 focus:outline-none">
             Blog <i class="fas fa-chevron-down text-[9px] transition-transform group-hover:rotate-180"></i>
           </button>
-          <div class="absolute left-0 mt-2 w-36 rounded-xl bg-slate-950/95 border border-cyan-500/10 p-2 shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform scale-95 group-hover:scale-100 origin-top-left backdrop-blur-md z-[110]">
-            <a href="/blog" class="block text-xs text-slate-400 hover:text-white hover:bg-slate-900/60 rounded-lg px-3 py-2 transition-colors font-medium">Artículos</a>
-            <a href="/podcast" class="block text-xs text-slate-400 hover:text-white hover:bg-slate-900/60 rounded-lg px-3 py-2 transition-colors font-medium">Podcast</a>
+          <!-- Dropdown Container -->
+          <div class="absolute left-1/2 -translate-x-1/2 mt-3 w-48 rounded-2xl bg-slate-950/95 border border-cyan-500/20 p-2 shadow-[0_10px_40px_rgba(0,229,255,0.15)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform scale-95 group-hover:scale-100 origin-top backdrop-blur-xl z-[110]">
+            <!-- Arrow tip -->
+            <div class="absolute -top-1 w-2.5 h-2.5 bg-slate-950 border-t border-l border-cyan-500/20 rotate-45 left-1/2 -translate-x-1/2"></div>
+            
+            <a href="/blog" class="relative flex items-center gap-3 text-xs text-slate-400 hover:text-white hover:bg-gradient-to-r hover:from-cyan-950/50 hover:to-cyan-900/30 rounded-xl px-3 py-2 transition-all duration-200 font-medium group/item mb-1">
+              <span class="w-7 h-7 rounded-lg bg-cyan-950/60 border border-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-400 group-hover/item:text-slate-950 transition-colors">
+                <i class="fas fa-newspaper text-xs"></i>
+              </span>
+              <div class="flex flex-col text-left">
+                <span class="font-bold text-xs text-white">Artículos</span>
+                <span class="text-[9px] text-slate-500 font-light group-hover/item:text-slate-400 transition-colors">Noticias de IA</span>
+              </div>
+            </a>
+            
+            <a href="/podcast" class="relative flex items-center gap-3 text-xs text-slate-400 hover:text-white hover:bg-gradient-to-r hover:from-cyan-950/50 hover:to-cyan-900/30 rounded-xl px-3 py-2 transition-all duration-200 font-medium group/item">
+              <span class="w-7 h-7 rounded-lg bg-cyan-950/60 border border-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-400 group-hover/item:text-slate-950 transition-colors">
+                <i class="fas fa-microphone text-xs"></i>
+              </span>
+              <div class="flex flex-col text-left">
+                <span class="font-bold text-xs text-white">Podcast Hub</span>
+                <span class="text-[9px] text-slate-500 font-light group-hover/item:text-slate-400 transition-colors">Audios con IA</span>
+              </div>
+            </a>
           </div>
         </div>
       </div>
