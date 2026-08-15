@@ -1735,13 +1735,20 @@ async function saveLead() {
 async function deleteLead(id) {
   if (!confirm('¿Eliminar este lead del sistema?')) return;
   try {
-    await fetch('/api/leads/' + id, {
+    const res = await fetch('/api/leads/' + id, {
       method: 'DELETE',
       headers: { Authorization: 'Bearer ' + token }
     });
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      alert('No se pudo eliminar el lead: ' + (data.error || data.detail || 'Error en el servidor (' + res.status + ')'));
+      return;
+    }
     await loadLeads();
     await loadDashboardStats();
-  } catch(e) { alert('Error al eliminar.'); }
+  } catch(e) { 
+    alert('Error de conexión al intentar eliminar el lead.'); 
+  }
 }
 
 function editLead(id) {
