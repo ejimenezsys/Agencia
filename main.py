@@ -952,6 +952,21 @@ async def get_sitemap(db: Session = Depends(get_db)):
         '    <changefreq>daily</changefreq>\n'
         '    <priority>0.8</priority>\n'
         '  </url>\n'
+        '  <url>\n'
+        '    <loc>https://agenciaprosperia.com/podcast</loc>\n'
+        '    <changefreq>daily</changefreq>\n'
+        '    <priority>0.8</priority>\n'
+        '  </url>\n'
+        '  <url>\n'
+        '    <loc>https://agenciaprosperia.com/politica-privacidad</loc>\n'
+        '    <changefreq>monthly</changefreq>\n'
+        '    <priority>0.3</priority>\n'
+        '  </url>\n'
+        '  <url>\n'
+        '    <loc>https://agenciaprosperia.com/terminos-servicio</loc>\n'
+        '    <changefreq>monthly</changefreq>\n'
+        '    <priority>0.3</priority>\n'
+        '  </url>\n'
     )
     
     for post in posts:

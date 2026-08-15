@@ -5,6 +5,48 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Prosper IA — Podcast Comercial e Inteligencia Operativa</title>
   <meta name="description" content="Aprende sobre la metodología SVE90, PassportAI y automatización comercial con podcasts de IA generados por NotebookLM.">
+  <meta name="keywords" content="podcast ia, la revolucion comercial, prosper ia, sve90, passportai, automatizacion de ventas, crm inteligente, edward jimenez">
+  <link rel="canonical" href="https://agenciaprosperia.com/podcast">
+  <link rel="icon" type="image/png" href="{{ static_versioned('favicon.png') }}">
+
+  <!-- Marcado Estructurado JSON-LD (SEO y Búsquedas de IA / LLMs) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "PodcastSeries",
+    "name": "La Revolución Comercial | Prosper IA",
+    "description": "El podcast de Prosper IA donde destruimos las fórmulas aburridas del marketing y hablamos de ingeniería de ventas real.",
+    "url": "https://agenciaprosperia.com/podcast",
+    "image": "https://agenciaprosperia.com/static/podcast-la-revolucion-comercial.png",
+    "author": {
+      "@type": "Organization",
+      "name": "Prosper IA",
+      "url": "https://agenciaprosperia.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Prosper IA",
+      "url": "https://agenciaprosperia.com"
+    },
+    "episodes": [
+      {% for pod in podcasts %}
+      {
+        "@type": "PodcastEpisode",
+        "name": "{{ pod.title }}",
+        "episodeNumber": "{{ pod.id }}",
+        "description": "{{ pod.summary }}",
+        "duration": "PT{{ pod.duration.split(':')[0] }}M{{ pod.duration.split(':')[1] }}S",
+        "url": "https://agenciaprosperia.com/podcast",
+        "associatedMedia": {
+          "@type": "MediaObject",
+          "contentUrl": "https://agenciaprosperia.com{{ pod.audio_url }}"
+        }
+      }{% if not loop.last %},{% endif %}
+      {% endfor %}
+    ]
+  }
+  </script>
+
   <link rel="stylesheet" href="{{ static_versioned('tw.css') }}">
   <link rel="stylesheet" href="{{ static_versioned('fonts.css') }}">
   <link rel="stylesheet" href="{{ static_versioned('fa.min.css') }}">
