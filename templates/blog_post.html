@@ -143,8 +143,16 @@
         <a href="/index.html#sistema" class="text-sm text-slate-400 hover:text-white transition-colors font-medium">Sistema</a>
         <a href="/index.html#arquitectura" class="text-sm text-slate-400 hover:text-white transition-colors font-medium">Infraestructura</a>
         <a href="/index.html#masterclass" class="text-sm text-slate-400 hover:text-white transition-colors font-medium">Demo</a>
-        <a href="/blog" class="text-sm text-slate-400 hover:text-white transition-colors font-medium">Blog</a>
-        <a href="/podcast" class="text-sm text-slate-400 hover:text-white transition-colors font-medium">Podcast</a>
+        <!-- Dropdown Menu -->
+        <div class="relative group py-2">
+          <button class="text-sm text-slate-400 group-hover:text-white transition-colors font-medium flex items-center gap-1.5 focus:outline-none">
+            Blog <i class="fas fa-chevron-down text-[9px] transition-transform group-hover:rotate-180"></i>
+          </button>
+          <div class="absolute left-0 mt-2 w-36 rounded-xl bg-slate-950/95 border border-cyan-500/10 p-2 shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform scale-95 group-hover:scale-100 origin-top-left backdrop-blur-md z-[110]">
+            <a href="/blog" class="block text-xs text-slate-400 hover:text-white hover:bg-slate-900/60 rounded-lg px-3 py-2 transition-colors font-medium">Artículos</a>
+            <a href="/podcast" class="block text-xs text-slate-400 hover:text-white hover:bg-slate-900/60 rounded-lg px-3 py-2 transition-colors font-medium">Podcast</a>
+          </div>
+        </div>
       </div>
       <div class="flex items-center gap-3">
         <a href="https://passportai.app/" target="_blank" class="hidden sm:block text-sm font-bold hover:text-yellow-200 transition-colors px-2 py-2" style="color: #ffe600;">PassportAI (5 Días Gratis)</a>
@@ -237,7 +245,8 @@
           <li><a href="/index.html#masterclass" class="text-slate-500 hover:text-white transition-colors">Demostración Operativa SVE90</a></li>
           <li><a href="/index.html#contacto" class="text-slate-500 hover:text-white transition-colors">Aplicar al Diagnóstico de Madurez</a></li>
           <li><a href="/blog" class="text-slate-500 hover:text-white transition-colors">Blog de Noticias IA</a></li>
-          <li><a href="/login" class="text-slate-500 hover:text-white transition-colors">Acceso a PassportAI (Login)</a></li>
+          <li><a href="https://passportai.app/" target="_blank" class="text-slate-500 hover:text-white transition-colors">Acceso a PassportAI (Login)</a></li>
+          <li><a href="/login" class="text-slate-500 hover:text-white transition-colors">Acceso al Portal SVE90</a></li>
         </ul>
       </div>
       <div>

@@ -106,7 +106,7 @@
 <body class="min-h-screen overflow-x-hidden relative">
 
   <!-- Header Navigation -->
-  <nav class="fixed top-0 left-0 w-full z-50 transition-all duration-300" style="background: rgba(2, 7, 16, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.05);">
+  <nav class="fixed top-0 left-0 w-full transition-all duration-300" style="background: rgba(2, 7, 16, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.05); z-index: 100;">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between" style="height: 100px;">
         <a href="/" class="flex items-center gap-2.5 group">
@@ -117,8 +117,16 @@
           <a href="/index.html#sistema" class="text-sm text-slate-400 hover:text-white transition-colors font-medium">Sistema</a>
           <a href="/index.html#arquitectura" class="text-sm text-slate-400 hover:text-white transition-colors font-medium">Infraestructura</a>
           <a href="/index.html#masterclass" class="text-sm text-slate-400 hover:text-white transition-colors font-medium">Demo</a>
-          <a href="/blog" class="text-sm text-slate-400 hover:text-white transition-colors font-medium">Blog</a>
-          <a href="/podcast" class="text-sm text-white font-bold transition-colors">Podcast</a>
+          <!-- Dropdown Menu -->
+          <div class="relative group py-2">
+            <button class="text-sm text-white transition-colors font-semibold border-b-2 border-cyan-400 pb-1 flex items-center gap-1.5 focus:outline-none">
+              Blog <i class="fas fa-chevron-down text-[9px] transition-transform group-hover:rotate-180"></i>
+            </button>
+            <div class="absolute left-0 mt-2 w-36 rounded-xl bg-slate-950/95 border border-cyan-500/10 p-2 shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform scale-95 group-hover:scale-100 origin-top-left backdrop-blur-md z-[110]">
+              <a href="/blog" class="block text-xs text-slate-400 hover:text-white hover:bg-slate-900/60 rounded-lg px-3 py-2 transition-colors font-medium">Artículos</a>
+              <a href="/podcast" class="block text-xs text-white hover:text-white hover:bg-slate-900/60 rounded-lg px-3 py-2 transition-colors font-medium">Podcast</a>
+            </div>
+          </div>
         </div>
         <div class="flex items-center gap-3">
           <a href="https://passportai.app/" target="_blank" class="hidden sm:block text-sm font-bold hover:text-yellow-200 transition-colors px-2 py-2" style="color: #ffe600;">PassportAI (5 Días Gratis)</a>
@@ -273,22 +281,43 @@
   <!-- Footer -->
   <footer class="py-12 border-t border-slate-900" style="background: #01040a;">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8 text-left">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 mb-12">
+        <!-- Columna 1: Marca -->
         <div>
-          <h4 class="font-extrabold text-white text-sm uppercase tracking-wider mb-4">Prosper IA</h4>
-          <p class="text-xs text-slate-500 leading-relaxed font-light">
+          <div class="flex items-center gap-2.5 mb-4">
+            <img src="{{ static_versioned('logo_prosper_ia_cropped.jpg') }}" alt="PROSPER IA" style="height: 90px; object-fit: contain;" class="rounded-xl">
+          </div>
+          <p class="text-slate-500 text-xs leading-relaxed font-light">
             Instalamos Sistemas Operativos de IA para blindar y aumentar las capacidades de tu equipo comercial.
           </p>
         </div>
+        
+        <!-- Columna 2: Solución -->
         <div>
-          <h4 class="font-extrabold text-white text-sm uppercase tracking-wider mb-4">Legal</h4>
-          <ul class="space-y-3 text-xs text-slate-500 font-light">
-            <li><a href="/politica-privacidad" class="hover:text-white transition-colors">Política de privacidad</a></li>
-            <li><a href="/terminos-servicio" class="hover:text-white transition-colors">Términos de servicio</a></li>
+          <h4 class="text-white font-bold text-sm mb-4 uppercase tracking-wider" style="color: #00e5ff;">Solución</h4>
+          <ul class="space-y-3 text-xs sm:text-sm">
+            <li><a href="/index.html#problema" class="text-slate-500 hover:text-white transition-colors">El Caos Operativo</a></li>
+            <li><a href="/index.html#sistema" class="text-slate-500 hover:text-white transition-colors">La Solución SVE90</a></li>
+            <li><a href="/index.html#mecanismo" class="text-slate-500 hover:text-white transition-colors">Método de las 6 Fases</a></li>
+            <li><a href="/index.html#arquitectura" class="text-slate-500 hover:text-white transition-colors">Arquitectura Técnica</a></li>
           </ul>
         </div>
+        
+        <!-- Columna 3: Ecosistema -->
         <div>
-          <h4 class="font-extrabold text-white text-sm uppercase tracking-wider mb-4">Contacto</h4>
+          <h4 class="text-white font-bold text-sm mb-4 uppercase tracking-wider" style="color: #00e5ff;">Ecosistema</h4>
+          <ul class="space-y-3 text-xs sm:text-sm">
+            <li><a href="/index.html#masterclass" class="text-slate-500 hover:text-white transition-colors">Demostración Operativa SVE90</a></li>
+            <li><a href="/index.html#contacto" class="text-slate-500 hover:text-white transition-colors">Aplicar al Diagnóstico de Madurez</a></li>
+            <li><a href="/blog" class="text-slate-500 hover:text-white transition-colors">Blog de Noticias IA</a></li>
+            <li><a href="https://passportai.app/" target="_blank" class="text-slate-500 hover:text-white transition-colors">Acceso a PassportAI (Login)</a></li>
+            <li><a href="/login" class="text-slate-500 hover:text-white transition-colors">Acceso al Portal SVE90</a></li>
+          </ul>
+        </div>
+        
+        <!-- Columna 4: Dirección Ejecutiva -->
+        <div>
+          <h4 class="text-white font-bold text-sm mb-4 uppercase tracking-wider" style="color: #00e5ff;">Dirección Ejecutiva</h4>
           <ul class="space-y-3 text-xs text-slate-500 leading-relaxed font-light">
             <li><strong>Sede:</strong> Miami, Florida, USA.</li>
             <li><strong>Director:</strong> Edward Jiménez, CEO.</li>
@@ -297,7 +326,9 @@
           </ul>
         </div>
       </div>
+      
       <div class="divider mb-8" style="height: 1px; background: rgba(0,229,255,0.15);"></div>
+      
       <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-700">
         <p>© 2026 PROSPER IA. Todos los derechos reservados.</p>
         <div class="flex gap-6">
