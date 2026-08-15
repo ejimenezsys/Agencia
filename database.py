@@ -64,6 +64,13 @@ class BlogPost(Base):
     published_at = Column(String, nullable=False)
     author = Column(String, nullable=False)
 
+class IntegrationSetting(Base):
+    """Modelo ORM para almacenar configuraciones de integración (GHL, n8n, etc.)."""
+    __tablename__ = "integration_settings"
+
+    key = Column(String, primary_key=True, index=True)
+    value = Column(String, nullable=True)
+
 def init_db():
     """Inicializa la base de datos y crea las tablas correspondientes."""
     Base.metadata.create_all(bind=engine)
@@ -83,6 +90,20 @@ def init_db():
                 api_key="pk_live_51Hz8xProsperSecureToken99aB"
             )
             db.add(admin)
+            
+        # Seed Integration Settings
+        default_settings = {
+            "ghl_webhook_url": "https://services.leadconnectorhq.com/hooks/pEtSFHMJ5oV7CpmWRsI8/webhook-trigger",
+            "n8n_webhook_url": "",
+            "whatsapp_status": "pending",
+            "whatsapp_token": "",
+            "whatsapp_phone_id": ""
+        }
+        for key, val in default_settings.items():
+            exists = db.query(IntegrationSetting).filter(IntegrationSetting.key == key).first()
+            if not exists:
+                setting = IntegrationSetting(key=key, value=val)
+                db.add(setting)
             
         # Seed Leads
         if db.query(Lead).count() == 0:

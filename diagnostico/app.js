@@ -167,35 +167,7 @@ RESULTADOS ESTIMADOS:
 - Fuga de leads: ${leadsLost} leads perdidos/mes (${leakPercent}% de fuga)
 - Fuga de ingresos estimada: $ ${revenueLost.toLocaleString('en-US')} USD/mes`;
 
-    // 1. Enviar los datos del Lead + Diagnóstico al Webhook de GoHighLevel / CRM
-    try {
-      // Usamos el Location ID de la Agencia en GHL (pEtSFHMJ5oV7CpmWRsI8) o el webhook comercial
-      const webhookUrl = 'https://services.leadconnectorhq.com/hooks/pEtSFHMJ5oV7CpmWRsI8/webhook-trigger'; 
-      await fetch(webhookUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: state.contactName,
-          phone: state.contactWhatsapp,
-          email: state.contactEmail,
-          customFields: {
-            'leads_mensuales': state.leadsVolume,
-            'speed_to_lead': state.speedToLead,
-            'storage_method': state.storage,
-            'ia_auditing': state.auditing,
-            'ticket_b2b': state.ticketValue,
-            'score_eficiencia': scoreVal,
-            'fuga_leads': leadsLost,
-            'fuga_ingresos': revenueLost,
-            'calculated_report': state.calculatedReport
-          }
-        })
-      });
-    } catch (e) {
-      console.warn("Falla de envío al webhook de CRM.", e);
-    }
-
-    // 2. Enviar los datos del Lead de forma local a /api/auth/contact para el Dashboard
+    // 1. Enviar los datos del Lead de forma local a /api/auth/contact para el Dashboard y sincronización de webhooks
     try {
       await fetch('/api/auth/contact', {
         method: 'POST',

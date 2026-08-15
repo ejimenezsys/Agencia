@@ -11,7 +11,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, EmailStr
 from sqlalchemy.orm import Session
-from database import init_db, SessionLocal, User, Lead as DbLead, SessionModel, BlogPost, sync_blog_posts
+from database import init_db, SessionLocal, User, Lead as DbLead, SessionModel, BlogPost, sync_blog_posts, IntegrationSetting
 
 app = FastAPI(title="Prosper IA API Stack", version="1.0.0")
 
@@ -1156,6 +1156,94 @@ def send_email_notification(name: str, email: str, company: str, phone: str, mes
     except Exception as e:
         print(f"❌ [EMAIL NOTIFICATION ERROR] Failed to send email to {notification_to}: {e}", flush=True)
 
+import json
+import urllib.request
+import threading
+
+def send_webhook_background(url: str, payload: dict):
+    try:
+        req = urllib.request.Request(
+            url,
+            data=json.dumps(payload).encode("utf-8"),
+            headers={"Content-Type": "application/json"},
+            method="POST"
+        )
+        with urllib.request.urlopen(req, timeout=10) as response:
+            status = response.getcode()
+            print(f"✅ Webhook sent successfully to {url}, response status: {status}", flush=True)
+    except Exception as e:
+        print(f"❌ Failed to send webhook to {url}: {e}", flush=True)
+
+def trigger_lead_sync(lead_name: str, lead_email: str, lead_phone: str, lead_company: str, lead_notes: str, lead_source: str, db: Session):
+    # Fetch webhook settings
+    settings = db.query(IntegrationSetting).all()
+    settings_dict = {s.key: s.value for s in settings}
+    
+    # Payload for GHL and n8n
+    leads_volume = 100
+    speed_to_lead = "immediate"
+    storage_method = "crm"
+    ia_auditing = "all"
+    ticket_b2b = 1000
+    score_eficiencia = 90
+    fuga_leads = 10
+    fuga_ingresos = 10000
+    
+    if "DIAGNÓSTICO COMERCIAL" in lead_notes:
+        for line in lead_notes.split("\n"):
+            if "Volumen de leads mensual:" in line:
+                try: leads_volume = int(line.split(":")[1].strip())
+                except: pass
+            elif "Velocidad de respuesta:" in line:
+                speed_to_lead = line.split(":")[1].strip()
+            elif "Registro y gestión:" in line:
+                storage_method = line.split(":")[1].strip()
+            elif "Grabación/Auditoría con IA:" in line:
+                ia_auditing = line.split(":")[1].strip()
+            elif "Ticket promedio B2B:" in line:
+                try: ticket_b2b = int(line.replace("$", "").replace("USD", "").replace(" ", "").split(":")[1].strip())
+                except: pass
+            elif "Eficiencia Operativa:" in line:
+                try: score_eficiencia = int(line.replace("%", "").split(":")[1].strip())
+                except: pass
+            elif "Fuga de leads:" in line:
+                try: fuga_leads = int(line.split(":")[1].split(" ")[0].strip())
+                except: pass
+            elif "Fuga de ingresos estimada:" in line:
+                try: fuga_ingresos = int(line.replace("$", "").replace("USD/mes", "").replace(",", "").replace(" ", "").split(":")[1].strip())
+                except: pass
+                
+    ghl_payload = {
+        "name": lead_name,
+        "phone": lead_phone,
+        "email": lead_email,
+        "company": lead_company,
+        "source": lead_source,
+        "customFields": {
+            "leads_mensuales": leads_volume,
+            "speed_to_lead": speed_to_lead,
+            "storage_method": storage_method,
+            "ia_auditing": ia_auditing,
+            "ticket_b2b": ticket_b2b,
+            "score_eficiencia": score_eficiencia,
+            "fuga_leads": fuga_leads,
+            "fuga_ingresos": fuga_ingresos,
+            "calculated_report": lead_notes
+        }
+    }
+    
+    # 1. GHL Webhook
+    ghl_url = settings_dict.get("ghl_webhook_url")
+    if ghl_url and ghl_url.strip():
+        t = threading.Thread(target=send_webhook_background, args=(ghl_url, ghl_payload))
+        t.start()
+        
+    # 2. n8n Webhook
+    n8n_url = settings_dict.get("n8n_webhook_url")
+    if n8n_url and n8n_url.strip():
+        t = threading.Thread(target=send_webhook_background, args=(n8n_url, ghl_payload))
+        t.start()
+
 @app.post("/api/auth/contact")
 async def api_contact(req: ContactRequest, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
     created_at = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -1183,6 +1271,17 @@ async def api_contact(req: ContactRequest, background_tasks: BackgroundTasks, db
         company=req.company or "",
         phone=req.phone or "",
         message=req.message or ""
+    )
+    
+    # Sincronizar automáticamente con GHL y n8n
+    trigger_lead_sync(
+        req.name,
+        req.email,
+        req.phone or "",
+        req.company or "",
+        req.message or "",
+        req.source or "website",
+        db
     )
     
     return {"success": True}
@@ -1295,6 +1394,17 @@ async def api_create_lead(
     db.commit()
     db.refresh(new_lead)
     
+    # Sincronizar automáticamente con GHL y n8n
+    trigger_lead_sync(
+        new_lead.name,
+        new_lead.email,
+        new_lead.phone or "",
+        new_lead.company or "",
+        new_lead.notes or "",
+        new_lead.source or "website",
+        db
+    )
+    
     lead_data = {
         "id": new_lead.id,
         "name": new_lead.name,
@@ -1386,6 +1496,56 @@ async def api_update_lead(
         "created_at": lead.created_at
     }
     return {"success": True, "data": lead_data}
+
+class SettingsUpdateRequest(BaseModel):
+    settings: Dict[str, str]
+
+@app.get("/api/settings/integrations")
+async def get_integration_settings(
+    current_user: dict = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    rows = db.query(IntegrationSetting).all()
+    settings_dict = {r.key: r.value or "" for r in rows}
+    return {"success": True, "data": settings_dict}
+
+@app.post("/api/settings/integrations")
+async def update_integration_settings(
+    req: SettingsUpdateRequest,
+    current_user: dict = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    for key, value in req.settings.items():
+        row = db.query(IntegrationSetting).filter(IntegrationSetting.key == key).first()
+        if row:
+            row.value = value
+        else:
+            new_row = IntegrationSetting(key=key, value=value)
+            db.add(new_row)
+    db.commit()
+    return {"success": True}
+
+@app.post("/api/leads/{lead_id}/sync")
+async def sync_lead_manually(
+    lead_id: int,
+    current_user: dict = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    lead = db.query(DbLead).filter(DbLead.id == lead_id).first()
+    if not lead:
+        raise HTTPException(status_code=404, detail="Lead no encontrado.")
+    
+    # Trigger manual sync
+    trigger_lead_sync(
+        lead.name,
+        lead.email,
+        lead.phone or "",
+        lead.company or "",
+        lead.notes or "",
+        lead.source or "website",
+        db
+    )
+    return {"success": True}
 
 @app.get("/api/dashboard/stats")
 async def api_get_stats(

@@ -735,7 +735,8 @@
 
     <div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-5">
       
-      <div class="card p-5">
+      <!-- Orquestador Central n8n -->
+      <div class="card p-5 cursor-pointer hover:border-cyan-500/30 transition-all duration-300" onclick="openIntegrationModal('orquestador')">
         <div class="flex items-start justify-between mb-4">
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
@@ -747,16 +748,17 @@
                     style="background:#f9731615; color:#f97316;">ORQUESTADOR</span>
             </div>
           </div>
-          <span class="text-xs px-2 py-1 rounded-lg font-semibold "
-                style="background:rgba(52,211,153,0.1);color:#34d399;">
-            ● Conectado
+          <span id="badge-orquestador" class="text-xs px-2 py-1 rounded-lg font-semibold" style="background:rgba(148,163,184,0.1); color:#94a3b8;">
+            ● Desconectado
           </span>
         </div>
-        <h4 class="font-bold text-white text-sm mb-1">Orquestador Central SVE90</h4>
+        <h4 class="font-bold text-white text-sm mb-1">Orquestador Central SVE90 (n8n)</h4>
         <div class="text-xs text-slate-500 mb-3">Motor de automatización propietario</div>
-        <p class="text-xs text-slate-600 leading-relaxed">Orquesta todos los flujos de tus Empleados Digitales de manera invisible.</p>
+        <p class="text-xs text-slate-600 leading-relaxed">Conecta n8n para orquestar los flujos de tus Empleados Digitales. Haz clic para configurar.</p>
       </div>
-      <div class="card p-5">
+
+      <!-- SVE90 Command Center GHL -->
+      <div class="card p-5 cursor-pointer hover:border-cyan-500/30 transition-all duration-300" onclick="openIntegrationModal('crm')">
         <div class="flex items-start justify-between mb-4">
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
@@ -768,16 +770,17 @@
                     style="background:#00e5ff15; color:#00e5ff;">CRM</span>
             </div>
           </div>
-          <span class="text-xs px-2 py-1 rounded-lg font-semibold "
-                style="background:rgba(52,211,153,0.1);color:#34d399;">
-            ● Conectado
+          <span id="badge-crm" class="text-xs px-2 py-1 rounded-lg font-semibold" style="background:rgba(148,163,184,0.1); color:#94a3b8;">
+            ● Desconectado
           </span>
         </div>
-        <h4 class="font-bold text-white text-sm mb-1">SVE90 Command Center (CRM)</h4>
+        <h4 class="font-bold text-white text-sm mb-1">SVE90 Command Center (GHL)</h4>
         <div class="text-xs text-slate-500 mb-3">Pipeline inteligente de clientes</div>
-        <p class="text-xs text-slate-600 leading-relaxed">Pipeline inteligente y gestión centralizada de clientes. Tu tablero de control directivo.</p>
+        <p class="text-xs text-slate-600 leading-relaxed">Sincroniza tus prospectos automáticamente al CRM de GoHighLevel. Haz clic para configurar.</p>
       </div>
-      <div class="card p-5">
+
+      <!-- Motor Cognitivo PassportAI -->
+      <div class="card p-5 cursor-pointer hover:border-cyan-500/30 transition-all duration-300" onclick="openIntegrationModal('cerebro')">
         <div class="flex items-start justify-between mb-4">
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
@@ -796,9 +799,11 @@
         </div>
         <h4 class="font-bold text-white text-sm mb-1">Motor Cognitivo PassportAI</h4>
         <div class="text-xs text-slate-500 mb-3">Procesamiento semántico avanzado</div>
-        <p class="text-xs text-slate-600 leading-relaxed">Procesamiento semántico avanzado. Califica leads, detecta intención de compra y nutre prospectos 24/7 centralizando tu propiedad intelectual.</p>
+        <p class="text-xs text-slate-600 leading-relaxed">Califica leads y detecta intención de compra 24/7 centralizando tu propiedad intelectual.</p>
       </div>
-      <div class="card p-5">
+
+      <!-- WhatsApp Cloud API -->
+      <div class="card p-5 cursor-pointer hover:border-cyan-500/30 transition-all duration-300" onclick="openIntegrationModal('whatsapp')">
         <div class="flex items-start justify-between mb-4">
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
@@ -810,16 +815,17 @@
                     style="background:#25d36615; color:#25d366;">CANAL</span>
             </div>
           </div>
-          <span class="text-xs px-2 py-1 rounded-lg font-semibold "
-                style="background:rgba(251,191,36,0.1);color:#fbbf24;">
+          <span id="badge-whatsapp" class="text-xs px-2 py-1 rounded-lg font-semibold" style="background:rgba(251,191,36,0.1);color:#fbbf24;">
             ● Pendiente
           </span>
         </div>
         <h4 class="font-bold text-white text-sm mb-1">Canal de Despliegue WhatsApp</h4>
         <div class="text-xs text-slate-500 mb-3">Canal de comunicación cifrado</div>
-        <p class="text-xs text-slate-600 leading-relaxed">Canal de comunicación cifrado para la operación autónoma de tu AI SDR.</p>
+        <p class="text-xs text-slate-600 leading-relaxed">Configura la API de WhatsApp Cloud para la operación autónoma de tu AI SDR. Haz clic para configurar.</p>
       </div>
-      <div class="card p-5">
+
+      <!-- Motor de Agendamiento SVE90 -->
+      <div class="card p-5 cursor-pointer hover:border-cyan-500/30 transition-all duration-300" onclick="openIntegrationModal('agenda')">
         <div class="flex items-start justify-between mb-4">
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
@@ -838,7 +844,7 @@
         </div>
         <h4 class="font-bold text-white text-sm mb-1">Motor de Agendamiento SVE90</h4>
         <div class="text-xs text-slate-500 mb-3">Sistema inteligente de citas</div>
-        <p class="text-xs text-slate-600 leading-relaxed">Sistema inteligente de citas. Sincroniza zonas horarias y asigna reuniones a tu equipo de cierre sin fricción.</p>
+        <p class="text-xs text-slate-600 leading-relaxed">Sincroniza zonas horarias y asigna reuniones a tu equipo de cierre sin fricción.</p>
       </div>
     </div>
 
@@ -1372,6 +1378,35 @@
 </div>
 
 <!-- ════════════════════════════════════════════════════
+     MODAL: CONFIGURACION DE INTEGRACION
+════════════════════════════════════════════════════ -->
+<div id="modal-integration" class="modal-overlay" style="display: none; position: fixed; inset: 0; background: rgba(2, 7, 16, 0.8); backdrop-filter: blur(8px); z-index: 1000; align-items: center; justify-content: center;">
+  <div class="modal-box max-w-md w-full p-6 sm:p-8" style="background: #050d1a; border: 1px solid rgba(0, 229, 255, 0.15); border-radius: 12px; margin: auto; position: relative;">
+    <div class="flex items-center justify-between mb-6">
+      <div>
+        <h3 id="modal-int-title" class="text-lg font-bold text-white">Configurar Integración</h3>
+        <p id="modal-int-subtitle" class="text-xs text-slate-500 mt-0.5">Administra los parámetros de conexión SVE90.</p>
+      </div>
+      <button onclick="closeIntegrationModal()" class="text-slate-500 hover:text-white p-2 rounded-xl transition-colors">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div id="modal-int-alert" class="hidden mb-4 p-3 rounded-xl text-sm"></div>
+    <div id="modal-int-form" class="space-y-4">
+      <!-- Inyectado dinámicamente -->
+    </div>
+    <div class="flex gap-3 pt-4">
+      <button onclick="closeIntegrationModal()" class="btn-ghost flex-1 py-3 rounded-xl text-sm font-semibold">
+        Cancelar
+      </button>
+      <button onclick="saveIntegrationSettings()" id="save-int-btn" class="btn-primary flex-1 py-3 rounded-xl text-sm font-bold">
+        <i class="fas fa-save mr-2"></i><span>Guardar Cambios</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
      JAVASCRIPT
 ════════════════════════════════════════════════════ -->
 <script>
@@ -1384,6 +1419,8 @@ let allLeads = [];
 let apiKeyVisible = false;
 let actualApiKey = '';
 let editingLeadId = null;
+let integrationSettings = {};
+let currentIntType = '';
 
 
 // ─── Init ────────────────────────────────────────────────────────────────────
@@ -1403,6 +1440,7 @@ let editingLeadId = null;
     actualApiKey = currentUser.api_key || '';
     await loadDashboardStats();
     await loadLeads();
+    await loadIntegrationSettings();
     buildCharts();
   } catch {
     localStorage.removeItem('prosper_token');
@@ -1516,6 +1554,11 @@ function renderLeadsTable() {
       <td class="px-5 py-4 text-xs text-slate-500">${fmtDate(l.created_at)}</td>
       <td class="px-5 py-4">
         <div class="flex gap-2">
+          <button onclick="syncLead(${l.id})"
+                  class="btn-ghost text-xs px-3 py-1.5 rounded-lg text-cyan-400 hover:text-cyan-300"
+                  title="Sincronizar a GHL/n8n">
+            <i class="fas fa-sync-alt"></i>
+          </button>
           <button onclick="editLead(${l.id})"
                   class="btn-ghost text-xs px-3 py-1.5 rounded-lg">
             <i class="fas fa-edit"></i>
@@ -1818,6 +1861,224 @@ async function changePassword() {
       document.getElementById('s-password2').value = '';
     } else { alert(data.error || 'Error al cambiar contraseña.'); }
   } catch { alert('Error de conexión.'); }
+}
+
+// ─── Integrations Settings ───────────────────────────────────────────────────
+async function loadIntegrationSettings() {
+  try {
+    const res = await fetch('/api/settings/integrations', {
+      headers: { Authorization: 'Bearer ' + token }
+    });
+    if (!res.ok) return;
+    const data = await res.json();
+    integrationSettings = data.data || {};
+    updateIntegrationBadges();
+  } catch (e) {
+    console.warn('Error al cargar integraciones:', e);
+  }
+}
+
+function updateIntegrationBadges() {
+  // Orquestador n8n
+  const badgeOrq = document.getElementById('badge-orquestador');
+  if (badgeOrq) {
+    if (integrationSettings.n8n_webhook_url && integrationSettings.n8n_webhook_url.trim()) {
+      badgeOrq.textContent = '● Conectado';
+      badgeOrq.style.background = 'rgba(52,211,153,0.1)';
+      badgeOrq.style.color = '#34d399';
+    } else {
+      badgeOrq.textContent = '● Desconectado';
+      badgeOrq.style.background = 'rgba(148,163,184,0.1)';
+      badgeOrq.style.color = '#94a3b8';
+    }
+  }
+
+  // CRM GHL
+  const badgeCrm = document.getElementById('badge-crm');
+  if (badgeCrm) {
+    if (integrationSettings.ghl_webhook_url && integrationSettings.ghl_webhook_url.trim()) {
+      badgeCrm.textContent = '● Conectado';
+      badgeCrm.style.background = 'rgba(52,211,153,0.1)';
+      badgeCrm.style.color = '#34d399';
+    } else {
+      badgeCrm.textContent = '● Desconectado';
+      badgeCrm.style.background = 'rgba(148,163,184,0.1)';
+      badgeCrm.style.color = '#94a3b8';
+    }
+  }
+
+  // WhatsApp
+  const badgeWa = document.getElementById('badge-whatsapp');
+  if (badgeWa) {
+    const status = integrationSettings.whatsapp_status || 'pending';
+    if (status === 'active') {
+      badgeWa.textContent = '● Activo';
+      badgeWa.style.background = 'rgba(52,211,153,0.1)';
+      badgeWa.style.color = '#34d399';
+    } else if (status === 'paused') {
+      badgeWa.textContent = '● Pausado';
+      badgeWa.style.background = 'rgba(249,115,22,0.1)';
+      badgeWa.style.color = '#f97316';
+    } else {
+      badgeWa.textContent = '● Pendiente';
+      badgeWa.style.background = 'rgba(251,191,36,0.1)';
+      badgeWa.style.color = '#fbbf24';
+    }
+  }
+}
+
+function openIntegrationModal(type) {
+  currentIntType = type;
+  const modal = document.getElementById('modal-integration');
+  const title = document.getElementById('modal-int-title');
+  const subtitle = document.getElementById('modal-int-subtitle');
+  const form = document.getElementById('modal-int-form');
+  const alertBox = document.getElementById('modal-int-alert');
+  
+  if (alertBox) alertBox.classList.add('hidden');
+  
+  let formHtml = '';
+  if (type === 'orquestador') {
+    title.textContent = 'Configurar Orquestador Central (n8n)';
+    subtitle.textContent = 'Orquesta tus Empleados Digitales y flujos avanzados.';
+    formHtml = `
+      <div>
+        <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">n8n Webhook URL</label>
+        <input id="int-n8n-url" type="url" class="input-dark text-sm" placeholder="https://tu-instancia-n8n.com/webhook/..." value="${integrationSettings.n8n_webhook_url || ''}">
+      </div>
+    `;
+  } else if (type === 'crm') {
+    title.textContent = 'Configurar SVE90 Command Center (GHL)';
+    subtitle.textContent = 'Sincroniza tus leads a GoHighLevel automáticamente.';
+    formHtml = `
+      <div>
+        <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">GoHighLevel Webhook URL</label>
+        <input id="int-ghl-url" type="url" class="input-dark text-sm" placeholder="https://services.leadconnectorhq.com/hooks/..." value="${integrationSettings.ghl_webhook_url || ''}">
+      </div>
+    `;
+  } else if (type === 'cerebro') {
+    title.textContent = 'Motor Cognitivo PassportAI';
+    subtitle.textContent = 'Capa semántica avanzada en tiempo real.';
+    formHtml = `
+      <p class="text-xs text-slate-400 leading-relaxed mb-2">El Motor Cognitivo se conecta a través del PassportAI Master API Key en la base de datos local y realiza análisis semántico automático en tiempo real.</p>
+      <div class="p-3 rounded-lg text-xs" style="background:rgba(52,211,153,0.05); border:1px solid rgba(52,211,153,0.15); color:#34d399;">
+        <i class="fas fa-check-circle mr-1"></i> El servicio está activo y licenciado en el plan Premium.
+      </div>
+    `;
+  } else if (type === 'whatsapp') {
+    title.textContent = 'Configurar Canal WhatsApp';
+    subtitle.textContent = 'Canal oficial de comunicación con leads fríos.';
+    formHtml = `
+      <div class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Estado del Canal</label>
+          <select id="int-wa-status" class="input-dark text-sm">
+            <option value="pending" ${integrationSettings.whatsapp_status === 'pending' ? 'selected' : ''}>Pendiente</option>
+            <option value="active" ${integrationSettings.whatsapp_status === 'active' ? 'selected' : ''}>Activo</option>
+            <option value="paused" ${integrationSettings.whatsapp_status === 'paused' ? 'selected' : ''}>Pausado</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">WhatsApp Access Token</label>
+          <input id="int-wa-token" type="password" class="input-dark text-sm" placeholder="EAABw..." value="${integrationSettings.whatsapp_token || ''}">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">WhatsApp Phone ID</label>
+          <input id="int-wa-phone-id" type="text" class="input-dark text-sm" placeholder="Ej: 1058913..." value="${integrationSettings.whatsapp_phone_id || ''}">
+        </div>
+      </div>
+    `;
+  } else if (type === 'agenda') {
+    title.textContent = 'Motor de Agendamiento SVE90';
+    subtitle.textContent = 'Sistema inteligente de reservas de llamadas.';
+    formHtml = `
+      <p class="text-xs text-slate-400 leading-relaxed mb-2">El motor de agendamiento se sincroniza de forma nativa con GoHighLevel y Google Calendar.</p>
+      <div class="p-3 rounded-lg text-xs" style="background:rgba(52,211,153,0.05); border:1px solid rgba(52,211,153,0.15); color:#34d399;">
+        <i class="fas fa-check-circle mr-1"></i> Calendario activo y enlazado con la cuenta del administrador.
+      </div>
+    `;
+  }
+  
+  form.innerHTML = formHtml;
+  
+  const saveBtn = document.getElementById('save-int-btn');
+  if (saveBtn) {
+    if (type === 'cerebro' || type === 'agenda') {
+      saveBtn.style.display = 'none';
+    } else {
+      saveBtn.style.display = 'block';
+    }
+  }
+
+  modal.style.display = 'flex';
+}
+
+function closeIntegrationModal() {
+  const modal = document.getElementById('modal-integration');
+  if (modal) modal.style.display = 'none';
+}
+
+async function saveIntegrationSettings() {
+  const alertBox = document.getElementById('modal-int-alert');
+  if (alertBox) alertBox.classList.add('hidden');
+  
+  let newSettings = {};
+  if (currentIntType === 'orquestador') {
+    newSettings.n8n_webhook_url = document.getElementById('int-n8n-url')?.value || '';
+  } else if (currentIntType === 'crm') {
+    newSettings.ghl_webhook_url = document.getElementById('int-ghl-url')?.value || '';
+  } else if (currentIntType === 'whatsapp') {
+    newSettings.whatsapp_status = document.getElementById('int-wa-status')?.value || 'pending';
+    newSettings.whatsapp_token = document.getElementById('int-wa-token')?.value || '';
+    newSettings.whatsapp_phone_id = document.getElementById('int-wa-phone-id')?.value || '';
+  } else {
+    return;
+  }
+  
+  try {
+    const res = await fetch('/api/settings/integrations', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token
+      },
+      body: JSON.stringify({ settings: newSettings })
+    });
+    
+    if (res.ok) {
+      alert('✓ Configuración de integración guardada correctamente.');
+      closeIntegrationModal();
+      await loadIntegrationSettings();
+    } else {
+      const data = await res.json().catch(() => ({}));
+      if (alertBox) {
+        alertBox.textContent = data.error || 'Error al guardar configuración.';
+        alertBox.className = 'mb-4 p-3 rounded-xl text-sm bg-red-500/20 text-red-400';
+      }
+    }
+  } catch (e) {
+    if (alertBox) {
+      alertBox.textContent = 'Error de conexión.';
+      alertBox.className = 'mb-4 p-3 rounded-xl text-sm bg-red-500/20 text-red-400';
+    }
+  }
+}
+
+async function syncLead(id) {
+  try {
+    const res = await fetch('/api/leads/' + id + '/sync', {
+      method: 'POST',
+      headers: { Authorization: 'Bearer ' + token }
+    });
+    if (res.ok) {
+      alert('✓ Lead sincronizado correctamente a los webhooks de GHL/n8n.');
+    } else {
+      const data = await res.json().catch(() => ({}));
+      alert('Fallo de sincronización: ' + (data.detail || 'Error en el servidor'));
+    }
+  } catch (e) {
+    alert('Error de conexión al sincronizar lead.');
+  }
 }
 
 // ─── API Key ─────────────────────────────────────────────────────────────────
