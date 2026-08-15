@@ -870,6 +870,14 @@ async def read_diagnostico(request: Request):
 async def read_podcast(request: Request):
     return templates.TemplateResponse(request=request, name="podcast.html", context={"podcasts": INITIAL_PODCASTS})
 
+@app.get("/politica-privacidad", response_class=HTMLResponse)
+async def read_politica_privacidad(request: Request):
+    return templates.TemplateResponse(request=request, name="politica-privacidad.html")
+
+@app.get("/terminos-servicio", response_class=HTMLResponse)
+async def read_terminos_servicio(request: Request):
+    return templates.TemplateResponse(request=request, name="terminos-servicio.html")
+
 # ─── TECHNICAL SEO ENDPOINTS ────────────────────────────────────────────────
 from fastapi.responses import PlainTextResponse
 
