@@ -80,7 +80,25 @@
       object-fit: cover;
       position: absolute;
       top: 0;
-      left: 0;
+    }
+
+    /* Dropdown Menu CSS */
+    .dropdown-menu {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(-50%) translateY(10px) scale(0.95);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .group:hover .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0) scale(1);
+    }
+    .chevron-rotate {
+      transition: transform 0.3s ease;
+    }
+    .group:hover .chevron-rotate {
+      transform: rotate(180deg);
     }
   </style>
 
@@ -146,10 +164,10 @@
         <!-- Dropdown Menu -->
         <div class="relative group py-2">
           <button class="text-sm text-slate-400 group-hover:text-white transition-colors font-medium flex items-center gap-1.5 focus:outline-none">
-            Blog <i class="fas fa-chevron-down text-[9px] transition-transform group-hover:rotate-180"></i>
+            Blog <i class="fas fa-chevron-down text-[9px] chevron-rotate"></i>
           </button>
           <!-- Dropdown Container -->
-          <div class="absolute left-1/2 -translate-x-1/2 mt-3 w-48 rounded-2xl bg-slate-950/95 border border-cyan-500/20 p-2 shadow-[0_10px_40px_rgba(0,229,255,0.15)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform scale-95 group-hover:scale-100 origin-top backdrop-blur-xl z-[110]">
+          <div class="dropdown-menu absolute left-1/2 mt-3 w-48 rounded-2xl bg-slate-950/95 border border-cyan-500/20 p-2 shadow-[0_10px_40px_rgba(0,229,255,0.15)] origin-top backdrop-blur-xl z-[110]">
             <!-- Arrow tip -->
             <div class="absolute -top-1 w-2.5 h-2.5 bg-slate-950 border-t border-l border-cyan-500/20 rotate-45 left-1/2 -translate-x-1/2"></div>
             
