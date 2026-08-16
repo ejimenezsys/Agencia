@@ -1736,8 +1736,8 @@ def search_duckduckgo(query: str) -> List[Dict[str, Any]]:
         return search_duckduckgo_html_fallback(query)
 
 
-def search_bing(query: str) -> List[Dict[str, Any]]:
-    """Busca negocios reales utilizando Bing Search HTML."""
+def search_bing_urllib_fallback(query: str) -> List[Dict[str, Any]]:
+    """Busca negocios reales utilizando Bing Search HTML básico (fallback)."""
     url = "https://www.bing.com/search?q=" + urllib.parse.quote(query)
     req = urllib.request.Request(
         url, 
@@ -1752,8 +1752,7 @@ def search_bing(query: str) -> List[Dict[str, Any]]:
         print(f"Error fetching Bing results: {e}")
         return []
 
-    # En Bing, los resultados orgánicos están bajo etiquetas <h2><a href="URL">Title</a>
-    matches = re.findall(r'<h2><a[^>]*href="([^"]+)"[^>]*>(.*?)</a>', html, re.DOTALL)
+    matches = re.findall(r'<h2[^>]*>\s*<a[^>]*href="([^"]+)"[^>]*>(.*?)</a>', html, re.DOTALL)
     results = []
     for href, title in matches:
         if any(domain in href for domain in ["bing.com", "msn.com", "google.com", "facebook.com", "instagram.com", "youtube.com"]):
@@ -1766,6 +1765,54 @@ def search_bing(query: str) -> List[Dict[str, Any]]:
         results.append({
             "name": clean_title,
             "web": href,
+            "snippet": "",
+            "phone": ""
+        })
+    return results
+
+
+def search_bing(query: str) -> List[Dict[str, Any]]:
+    """Busca negocios reales utilizando Bing Search HTML con la librería primp para simular navegación real."""
+    url = "https://www.bing.com/search?q=" + urllib.parse.quote(query)
+    try:
+        import primp
+        import base64
+        
+        client = primp.Client(impersonate="chrome_120")
+        response = client.get(url, timeout=8)
+        html = response.text
+    except Exception as e:
+        print(f"Error fetching Bing results with primp: {e}")
+        # Caer en fallback básico usando urllib
+        return search_bing_urllib_fallback(query)
+
+    # En Bing, los resultados orgánicos están bajo etiquetas <h2><a href="URL">Title</a>
+    matches = re.findall(r'<h2[^>]*>\s*<a[^>]*href="([^"]+)"[^>]*>(.*?)</a>', html, re.DOTALL)
+    results = []
+    for href, title in matches:
+        # Desencriptar la URL redireccionada de Bing
+        decoded_href = href
+        if "u=" in href:
+            try:
+                u_val = href.split("u=")[1].split("&")[0]
+                if u_val.startswith("a1"):
+                    u_val = u_val[2:]
+                u_val += "=" * ((4 - len(u_val) % 4) % 4)
+                decoded_href = base64.b64decode(u_val).decode('utf-8', errors='ignore')
+            except Exception:
+                pass
+                
+        # Evitar anuncios u otras búsquedas internas
+        if "bing.com" in decoded_href or any(domain in decoded_href for domain in ["google.com", "facebook.com", "instagram.com", "youtube.com"]):
+            continue
+            
+        clean_title = re.sub(r'<[^>]+>', '', title).strip()
+        if any(dir_name in decoded_href for dir_name in ["doctoralia.", "topdoctors.", "paginasamarillas.", "yelp.", "qdq."]):
+            continue
+            
+        results.append({
+            "name": clean_title,
+            "web": decoded_href,
             "snippet": "",
             "phone": ""
         })
