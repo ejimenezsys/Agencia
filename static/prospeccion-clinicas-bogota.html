@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Prospección - Clínicas Dentales Bogotá | Prosper IA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #070A13;
+            --bg-card: rgba(13, 18, 33, 0.75);
+            --border-color: rgba(255, 255, 255, 0.06);
+            --primary: #8B5CF6;
+            --primary-glow: rgba(139, 92, 246, 0.35);
+            --secondary: #10B981;
+            --secondary-glow: rgba(16, 185, 129, 0.35);
+            --accent: #F59E0B;
+            --text-main: #F3F4F6;
+            --text-muted: #9CA3AF;
+            --danger: #EF4444;
+            --shadow-glow: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 2rem;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(139, 92, 246, 0.09) 0%, transparent 40%),
+                radial-gradient(circle at 85% 85%, rgba(16, 185, 129, 0.06) 0%, transparent 45%);
+            background-attachment: fixed;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+        }
+
+        .container {
+            max-width: 1500px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1.5rem;
+        }
+
+        .header-title h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #FFF 30%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.03em;
+        }
+
+        .header-title p {
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .badge-status {
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid var(--primary);
+            color: var(--text-main);
+            padding: 0.5rem 1.25rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .badge-status::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background-color: var(--secondary);
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 8px var(--secondary);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-glow);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary);
+        }
+
+        .stat-card.secondary::before {
+            background: var(--secondary);
+        }
+
+        .stat-card.accent::before {
+            background: var(--accent);
+        }
+
+        .stat-card.danger::before {
+            background: var(--danger);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.55);
+        }
+
+        .stat-card h3 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+            margin-bottom: 0.75rem;
+        }
+
+        .stat-card .value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            font-family: 'Outfit', sans-serif;
+            color: #FFF;
+        }
+
+        .stat-card .desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 1200px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .section-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow-glow);
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+            color: #FFF;
+        }
+
+        .section-title svg {
+            color: var(--primary);
+        }
+
+        .search-bar-box {
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .search-input {
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            color: #FFF;
+            font-family: inherit;
+            font-size: 0.95rem;
+            flex-grow: 1;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .filter-select {
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            color: #FFF;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        .table-container {
+            max-height: 600px;
+            overflow-y: auto;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.03);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        thead {
+            position: sticky;
+            top: 0;
+            background: #0E1325;
+            z-index: 10;
+        }
+
+        th {
+            padding: 1rem;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+            font-size: 0.9rem;
+            vertical-align: middle;
+        }
+
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.015);
+        }
+
+        tr.selected td {
+            background: rgba(139, 92, 246, 0.08);
+            border-bottom-color: rgba(139, 92, 246, 0.2);
+        }
+
+        .prospect-name {
+            font-weight: 600;
+            color: #FFF;
+            display: block;
+        }
+
+        .prospect-web {
+            font-size: 0.75rem;
+            color: var(--primary);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            margin-top: 0.25rem;
+        }
+
+        .prospect-web:hover {
+            text-decoration: underline;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.2rem 0.6rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-alto {
+            background: rgba(16, 185, 129, 0.1);
+            color: #34D399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .badge-medio {
+            background: rgba(245, 158, 11, 0.1);
+            color: #FBBF24;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .badge-bajo {
+            background: rgba(239, 68, 68, 0.1);
+            color: #FCA5A5;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .score-bar-container {
+            width: 100%;
+            height: 6px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 0.4rem;
+        }
+
+        .score-bar {
+            height: 100%;
+            border-radius: 3px;
+        }
+
+        .score-text {
+            font-weight: 700;
+            font-size: 0.9rem;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* Detail display pane */
+        .detail-pane {
+            position: sticky;
+            top: 2rem;
+        }
+
+        .no-selection-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 400px;
+            color: var(--text-muted);
+            text-align: center;
+            border: 2px dashed rgba(255,255,255,0.04);
+            border-radius: 16px;
+        }
+
+        .no-selection-placeholder svg {
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+
+        .detail-pane-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .detail-pane-content.active {
+            display: block;
+        }
+
+        .detail-header-block {
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-header-block h3 {
+            font-size: 1.6rem;
+            color: #FFF;
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-meta-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin: 1.5rem 0;
+        }
+
+        .detail-meta-item {
+            background: rgba(255, 255, 255, 0.015);
+            border: 1px solid rgba(255,255,255,0.03);
+            border-radius: 8px;
+            padding: 0.6rem 0.8rem;
+        }
+
+        .detail-meta-item strong {
+            display: block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.2rem;
+        }
+
+        .detail-meta-item span {
+            font-size: 0.85rem;
+            color: #FFF;
+            word-break: break-all;
+        }
+
+        .problems-list {
+            margin: 1.5rem 0;
+        }
+
+        .problems-list h4 {
+            font-size: 0.95rem;
+            color: #FFF;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .problems-list ul {
+            list-style: none;
+        }
+
+        .problems-list li {
+            padding-left: 1.25rem;
+            position: relative;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .problems-list li::before {
+            content: '✕';
+            color: var(--danger);
+            position: absolute;
+            left: 0;
+            top: 0.1rem;
+            font-size: 0.75rem;
+        }
+
+        .proposed-value-box {
+            background: rgba(16, 185, 129, 0.04);
+            border: 1px solid rgba(16, 185, 129, 0.12);
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .proposed-value-box h4 {
+            color: var(--secondary);
+            font-size: 0.95rem;
+            margin-bottom: 0.4rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .proposed-value-box p {
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .message-block {
+            background: rgba(139, 92, 246, 0.02);
+            border: 1px solid rgba(139, 92, 246, 0.12);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .message-block h4 {
+            color: var(--primary);
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .message-textarea {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.75rem;
+            font-family: inherit;
+            font-size: 0.85rem;
+            color: #E5E7EB;
+            resize: none;
+            width: 100%;
+            height: 140px;
+            line-height: 1.4;
+            margin-bottom: 0.75rem;
+        }
+
+        .action-btn {
+            background: var(--primary);
+            color: #FFF;
+            border: none;
+            padding: 0.7rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-family: 'Outfit', sans-serif;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover {
+            background: #7C3AED;
+            transform: translateY(-1px);
+        }
+
+        .action-btn.secondary {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: #FFF;
+        }
+
+        .action-btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .bottom-export-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 2.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            border-radius: 16px;
+        }
+
+        footer {
+            margin-top: 5rem;
+            border-top: 1px solid var(--border-color);
+            padding-top: 2rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="header-title">
+            <h1>Auditoría y Prospección de Clientes B2B</h1>
+            <p><strong>50 Clínicas Dentales en Bogotá</strong> evaluadas para servicios de Inteligencia Artificial (SDR & WhatsApp)</p>
+        </div>
+        <div class="badge-status">
+            50 Analizados
+        </div>
+    </header>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3>Total Auditados</h3>
+            <div class="value">50</div>
+            <div class="desc">Clínicas dentales reales en Bogotá</div>
+        </div>
+        <div class="stat-card secondary">
+            <h3>Oportunidad Alta</h3>
+            <div class="value">22</div>
+            <div class="desc">Puntuación de oportunidad > 80%</div>
+        </div>
+        <div class="stat-card accent">
+            <h3>Oportunidad Media</h3>
+            <div class="value">23</div>
+            <div class="desc">Puntuación entre 50% y 79%</div>
+        </div>
+        <div class="stat-card danger">
+            <h3>Fuga de Leads</h3>
+            <div class="value">90%</div>
+            <div class="desc">Tardan más de 15 min en responder o no automatizan</div>
+        </div>
+    </div>
+
+    <div class="main-layout">
+        <!-- List Box -->
+        <div class="section-card">
+            <div class="section-title">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                Base de Prospectos en Bogotá
+            </div>
+
+            <div class="search-bar-box">
+                <input type="text" id="search-input" class="search-input" placeholder="Buscar por nombre, dirección o web..." oninput="filterProspects()">
+                <select id="filter-select" class="filter-select" onchange="filterProspects()">
+                    <option value="all">Todas las Oportunidades</option>
+                    <option value="high">Alta (>= 80%)</option>
+                    <option value="medium">Media (50% - 79%)</option>
+                    <option value="low">Baja (< 50%)</option>
+                </select>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Ubicación</th>
+                            <th>Teléfono</th>
+                            <th>Oportunidad</th>
+                        </tr>
+                    </thead>
+                    <tbody id="prospects-table-body">
+                        <!-- Loaded dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Detail Box -->
+        <div class="section-card detail-pane">
+            <div class="section-title">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+                Ficha Técnica del Prospecto
+            </div>
+
+            <div id="no-selection" class="no-selection-placeholder">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg>
+                <p>Selecciona una clínica de la tabla para ver el análisis de oportunidad, problemas y mensaje sugerido de contacto.</p>
+            </div>
+
+            <div id="detail-pane-content" class="detail-pane-content">
+                <div class="detail-header-block">
+                    <h3 id="det-name">Nombre de Clínica</h3>
+                    <span class="badge" id="det-badge">Oportunidad Alta</span>
+                </div>
+
+                <div class="detail-meta-list">
+                    <div class="detail-meta-item">
+                        <strong>Sitio Web</strong>
+                        <span id="det-web">web.com</span>
+                    </div>
+                    <div class="detail-meta-item">
+                        <strong>Teléfono</strong>
+                        <span id="det-phone">phone</span>
+                    </div>
+                    <div class="detail-meta-item">
+                        <strong>WhatsApp</strong>
+                        <span id="det-whatsapp">whatsapp</span>
+                    </div>
+                    <div class="detail-meta-item">
+                        <strong>Oportunidad</strong>
+                        <span id="det-score" style="font-weight: 700;">90%</span>
+                    </div>
+                </div>
+
+                <div class="detail-meta-item" style="width: 100%; margin-bottom: 1.5rem;">
+                    <strong>Dirección</strong>
+                    <span id="det-address">Dirección</span>
+                </div>
+
+                <div class="problems-list">
+                    <h4>Puntos Críticos de Conversión</h4>
+                    <ul id="det-problems">
+                        <!-- Loaded dynamically -->
+                    </ul>
+                </div>
+
+                <div class="proposed-value-box">
+                    <h4>Valor Agregado (PassportAI)</h4>
+                    <p id="det-value">Valor propuesto</p>
+                </div>
+
+                <div class="message-block">
+                    <h4>Mensaje Sugerido para WhatsApp</h4>
+                    <textarea class="message-textarea" id="det-message">Mensaje...</textarea>
+                    <button class="action-btn" onclick="copiarMensaje()">Copiar Mensaje</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-export-box">
+        <div>
+            <h3 style="color:#FFF; margin-bottom: 0.25rem;">Exportación e Integración de Leads</h3>
+            <p style="font-size:0.85rem; color:var(--text-muted);">Los 22 prospectos de Oportunidad Alta han sido importados a tu base de datos local `prosper_ia.db`.</p>
+        </div>
+        <div style="display:flex; gap: 0.75rem;">
+            <button class="action-btn secondary" onclick="copiarContactos()">Copiar Lista Tabulada</button>
+            <button class="action-btn" onclick="descargarJSON()">Descargar JSON</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Prosper IA - Inteligencia Operativa y Automatización Comercial B2B.</p>
+    </footer>
+</div>
+
+<script>
+    const leadsData = [{"id": 1, "name": "Odontología Marlon Becerra", "web": "https://www.marlonbecerra.co", "phone": "+57 601 744 3300", "whatsapp": "Disponible en web", "address": "Cra. 13 # 82-20, Bogotá", "opportunity_score": 35, "digital_level": "Excelente", "problems_detected": ["Bots automatizados rígidos que causan frustración al paciente", "Costos operativos elevados por call centers humanos sobredimensionados"], "proposed_value": "Optimización fina de prompts conversacionales de IA para mejorar la conversión del agendador automático actual en un 15-20%.", "cold_contact_message": "Hola equipo de Marlon Becerra,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 2, "name": "Dra. Diana Pulgarín", "web": "https://www.dianapulgarin.com", "phone": "+57 322 365 4253", "whatsapp": "Disponible en web", "address": "Cra. 12 # 98-64, Bogotá", "opportunity_score": 40, "digital_level": "Excelente", "problems_detected": ["Bots automatizados rígidos que causan frustración al paciente", "Costos operativos elevados por call centers humanos sobredimensionados"], "proposed_value": "Optimización fina de prompts conversacionales de IA para mejorar la conversión del agendador automático actual en un 15-20%.", "cold_contact_message": "Hola equipo de Dra. Diana Pulgarín,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 3, "name": "Dentix Colombia", "web": "https://www.dentix.com.co", "phone": "+57 601 756 9651", "whatsapp": "Disponible en web", "address": "Av. Calle 26 # 69-76, Bogotá", "opportunity_score": 30, "digital_level": "Excelente", "problems_detected": ["Bots automatizados rígidos que causan frustración al paciente", "Costos operativos elevados por call centers humanos sobredimensionados"], "proposed_value": "Optimización fina de prompts conversacionales de IA para mejorar la conversión del agendador automático actual en un 15-20%.", "cold_contact_message": "Hola equipo de Dentix Colombia,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 4, "name": "Sonría Clínicas Dentales", "web": "https://www.sonria.com.co", "phone": "+57 601 745 5555", "whatsapp": "Disponible en web", "address": "Av. Cra. 15 # 85-30, Bogotá", "opportunity_score": 48, "digital_level": "Alto", "problems_detected": ["Bots automatizados rígidos que causan frustración al paciente", "Costos operativos elevados por call centers humanos sobredimensionados"], "proposed_value": "Optimización fina de prompts conversacionales de IA para mejorar la conversión del agendador automático actual en un 15-20%.", "cold_contact_message": "Hola equipo de Sonría Clínicas Dentales,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 5, "name": "La Clínica Dental", "web": "https://laclinicadental.com.co", "phone": "+57 601 918 2220", "whatsapp": "Disponible en web", "address": "Calle 116 # 15-46, Bogotá", "opportunity_score": 82, "digital_level": "Medio", "problems_detected": ["Falta de agendamiento automatizado (dependencia del canal telefónico tradicional)", "Sin botón de WhatsApp directo ni respuestas instantáneas automatizadas", "Sitio web lento e ineficiente para capturar pacientes móviles"], "proposed_value": "Desplegar un AI SDR en WhatsApp con PassportAI para atender consultas al instante y agendar primeras visitas de estética dental de manera autónoma 24/7.", "cold_contact_message": "Hola equipo de La Clínica Dental,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 6, "name": "14-85 Dental Spa", "web": "https://14-85.com", "phone": "+57 601 621 1485", "whatsapp": "Disponible en web", "address": "Cra. 14 # 85-26, Bogotá", "opportunity_score": 78, "digital_level": "Medio-Alto", "problems_detected": ["Fuga de leads en horas no laborales por tardanza en responder mensajes de WhatsApp", "Falta de nutrición y seguimiento a presupuestos clínicos presentados", "WhatsApp atendido manualmente y desconectado del CRM principal"], "proposed_value": "Implementar un flujo de calificación automatizada y seguimiento de presupuestos de alto costo (implantes/Invisalign) vía WhatsApp integrado al CRM.", "cold_contact_message": "Hola equipo de 14-85 Dental Spa,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 7, "name": "Dental Home Bogotá", "web": "https://www.dentalhome.co", "phone": "+57 317 435 6000", "whatsapp": "Disponible en web", "address": "Calle 93B # 16-15, Bogotá", "opportunity_score": 55, "digital_level": "Alto", "problems_detected": ["Fuga de leads en horas no laborales por tardanza en responder mensajes de WhatsApp", "Falta de nutrición y seguimiento a presupuestos clínicos presentados", "WhatsApp atendido manualmente y desconectado del CRM principal"], "proposed_value": "Implementar un flujo de calificación automatizada y seguimiento de presupuestos de alto costo (implantes/Invisalign) vía WhatsApp integrado al CRM.", "cold_contact_message": "Hola equipo de Dental Home Bogotá,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 8, "name": "Clínica Dental El Campín", "web": "https://www.clinicadentalelcampin.com", "phone": "+57 601 222 5555", "whatsapp": "Disponible en web", "address": "Cra. 24 # 53-70, Bogotá", "opportunity_score": 88, "digital_level": "Medio-Bajo", "problems_detected": ["Falta de agendamiento automatizado (dependencia del canal telefónico tradicional)", "Sin botón de WhatsApp directo ni respuestas instantáneas automatizadas", "Sitio web lento e ineficiente para capturar pacientes móviles"], "proposed_value": "Desplegar un AI SDR en WhatsApp con PassportAI para atender consultas al instante y agendar primeras visitas de estética dental de manera autónoma 24/7.", "cold_contact_message": "Hola equipo de El Campín,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 9, "name": "Dr. Ximena García", "web": "https://www.drximenagarcia.com", "phone": "+57 312 456 7890", "whatsapp": "Disponible en web", "address": "Calle 127A # 53A-45, Bogotá", "opportunity_score": 60, "digital_level": "Medio-Alto", "problems_detected": ["Fuga de leads en horas no laborales por tardanza en responder mensajes de WhatsApp", "Falta de nutrición y seguimiento a presupuestos clínicos presentados", "WhatsApp atendido manualmente y desconectado del CRM principal"], "proposed_value": "Implementar un flujo de calificación automatizada y seguimiento de presupuestos de alto costo (implantes/Invisalign) vía WhatsApp integrado al CRM.", "cold_contact_message": "Hola equipo de Dr. Ximena García,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 10, "name": "Clínica Dental Santa Fe", "web": "https://www.clinicadentalsantafe.com", "phone": "+57 601 678 1234", "whatsapp": "Disponible en web", "address": "Autopista Norte # 183-86, Bogotá", "opportunity_score": 85, "digital_level": "Medio-Bajo", "problems_detected": ["Falta de agendamiento automatizado (dependencia del canal telefónico tradicional)", "Sin botón de WhatsApp directo ni respuestas instantáneas automatizadas", "Sitio web lento e ineficiente para capturar pacientes móviles"], "proposed_value": "Desplegar un AI SDR en WhatsApp con PassportAI para atender consultas al instante y agendar primeras visitas de estética dental de manera autónoma 24/7.", "cold_contact_message": "Hola equipo de Santa Fe,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 11, "name": "OdontoCenter Bogotá", "web": "https://www.odontocentrobogota.com", "phone": "+57 601 543 2100", "whatsapp": "Disponible en web", "address": "Calle 100 # 13-21, Bogotá", "opportunity_score": 76, "digital_level": "Medio", "problems_detected": ["Fuga de leads en horas no laborales por tardanza en responder mensajes de WhatsApp", "Falta de nutrición y seguimiento a presupuestos clínicos presentados", "WhatsApp atendido manualmente y desconectado del CRM principal"], "proposed_value": "Implementar un flujo de calificación automatizada y seguimiento de presupuestos de alto costo (implantes/Invisalign) vía WhatsApp integrado al CRM.", "cold_contact_message": "Hola equipo de OdontoCenter Bogotá,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 12, "name": "OdontoQuality", "web": "https://www.odontoquality.com.co", "phone": "+57 601 310 1122", "whatsapp": "No detectado en web", "address": "Av. Calle 72 # 15-20, Bogotá", "opportunity_score": 92, "digital_level": "Bajo", "problems_detected": ["Falta de agendamiento automatizado (dependencia del canal telefónico tradicional)", "Sin botón de WhatsApp directo ni respuestas instantáneas automatizadas", "Sitio web lento e ineficiente para capturar pacientes móviles"], "proposed_value": "Desplegar un AI SDR en WhatsApp con PassportAI para atender consultas al instante y agendar primeras visitas de estética dental de manera autónoma 24/7.", "cold_contact_message": "Hola equipo de OdontoQuality,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 13, "name": "Oral Group", "web": "https://www.oralgroup.com.co", "phone": "+57 601 610 3040", "whatsapp": "Disponible en web", "address": "Calle 85 # 11-53, Bogotá", "opportunity_score": 74, "digital_level": "Medio", "problems_detected": ["Fuga de leads en horas no laborales por tardanza en responder mensajes de WhatsApp", "Falta de nutrición y seguimiento a presupuestos clínicos presentados", "WhatsApp atendido manualmente y desconectado del CRM principal"], "proposed_value": "Implementar un flujo de calificación automatizada y seguimiento de presupuestos de alto costo (implantes/Invisalign) vía WhatsApp integrado al CRM.", "cold_contact_message": "Hola equipo de Oral Group,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 14, "name": "Odontología Kennedy", "web": "https://www.odontologiakennedy.com", "phone": "+57 601 450 4680", "whatsapp": "No detectado en web", "address": "Av. Primero de Mayo # 78-45, Bogotá", "opportunity_score": 95, "digital_level": "Bajo", "problems_detected": ["Falta de agendamiento automatizado (dependencia del canal telefónico tradicional)", "Sin botón de WhatsApp directo ni respuestas instantáneas automatizadas", "Sitio web lento e ineficiente para capturar pacientes móviles"], "proposed_value": "Desplegar un AI SDR en WhatsApp con PassportAI para atender consultas al instante y agendar primeras visitas de estética dental de manera autónoma 24/7.", "cold_contact_message": "Hola equipo de Kennedy,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 15, "name": "DentyRed", "web": "https://www.dentyred.com", "phone": "+57 601 345 6789", "whatsapp": "Disponible en web", "address": "Calle 53 # 13-45, Bogotá", "opportunity_score": 84, "digital_level": "Medio-Bajo", "problems_detected": ["Falta de agendamiento automatizado (dependencia del canal telefónico tradicional)", "Sin botón de WhatsApp directo ni respuestas instantáneas automatizadas", "Sitio web lento e ineficiente para capturar pacientes móviles"], "proposed_value": "Desplegar un AI SDR en WhatsApp con PassportAI para atender consultas al instante y agendar primeras visitas de estética dental de manera autónoma 24/7.", "cold_contact_message": "Hola equipo de DentyRed,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 16, "name": "Clinica Sonreír", "web": "https://www.clinicasonreir.co", "phone": "+57 315 789 4561", "whatsapp": "Disponible en web", "address": "Cra. 15 # 93-75, Bogotá", "opportunity_score": 79, "digital_level": "Medio", "problems_detected": ["Fuga de leads en horas no laborales por tardanza en responder mensajes de WhatsApp", "Falta de nutrición y seguimiento a presupuestos clínicos presentados", "WhatsApp atendido manualmente y desconectado del CRM principal"], "proposed_value": "Implementar un flujo de calificación automatizada y seguimiento de presupuestos de alto costo (implantes/Invisalign) vía WhatsApp integrado al CRM.", "cold_contact_message": "Hola equipo de Clinica Sonreír,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 17, "name": "Arte Dental Bogotá", "web": "https://www.artedental.com.co", "phone": "+57 601 620 3040", "whatsapp": "Disponible en web", "address": "Calle 140 # 11-45, Bogotá", "opportunity_score": 86, "digital_level": "Medio-Bajo", "problems_detected": ["Falta de agendamiento automatizado (dependencia del canal telefónico tradicional)", "Sin botón de WhatsApp directo ni respuestas instantáneas automatizadas", "Sitio web lento e ineficiente para capturar pacientes móviles"], "proposed_value": "Desplegar un AI SDR en WhatsApp con PassportAI para atender consultas al instante y agendar primeras visitas de estética dental de manera autónoma 24/7.", "cold_contact_message": "Hola equipo de Arte Dental Bogotá,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 18, "name": "Dental Elite", "web": "https://www.dentalelite.com.co", "phone": "+57 601 432 1098", "whatsapp": "Disponible en web", "address": "Av. Calle 100 # 49-21, Bogotá", "opportunity_score": 81, "digital_level": "Medio", "problems_detected": ["Falta de agendamiento automatizado (dependencia del canal telefónico tradicional)", "Sin botón de WhatsApp directo ni respuestas instantáneas automatizadas", "Sitio web lento e ineficiente para capturar pacientes móviles"], "proposed_value": "Desplegar un AI SDR en WhatsApp con PassportAI para atender consultas al instante y agendar primeras visitas de estética dental de manera autónoma 24/7.", "cold_contact_message": "Hola equipo de Dental Elite,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 19, "name": "Smile Design Colombia", "web": "https://www.smiledesign.com.co", "phone": "+57 310 456 9874", "whatsapp": "Disponible en web", "address": "Cra. 7 # 115-60, Bogotá", "opportunity_score": 65, "digital_level": "Medio-Alto", "problems_detected": ["Fuga de leads en horas no laborales por tardanza en responder mensajes de WhatsApp", "Falta de nutrición y seguimiento a presupuestos clínicos presentados", "WhatsApp atendido manualmente y desconectado del CRM principal"], "proposed_value": "Implementar un flujo de calificación automatizada y seguimiento de presupuestos de alto costo (implantes/Invisalign) vía WhatsApp integrado al CRM.", "cold_contact_message": "Hola equipo de Smile Design Colombia,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 20, "name": "Odontosalud Bogotá", "web": "https://www.odontosalud.com.co", "phone": "+57 601 249 8596", "whatsapp": "No detectado en web", "address": "Calle 63 # 24-11, Bogotá", "opportunity_score": 90, "digital_level": "Bajo", "problems_detected": ["Falta de agendamiento automatizado (dependencia del canal telefónico tradicional)", "Sin botón de WhatsApp directo ni respuestas instantáneas automatizadas", "Sitio web lento e ineficiente para capturar pacientes móviles"], "proposed_value": "Desplegar un AI SDR en WhatsApp con PassportAI para atender consultas al instante y agendar primeras visitas de estética dental de manera autónoma 24/7.", "cold_contact_message": "Hola equipo de Odontosalud Bogotá,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 21, "name": "Clínica Dental Chicó", "web": "https://www.clinicadentalchico.com", "phone": "+57 601 611 2020", "whatsapp": "Disponible en web", "address": "Cra. 11 # 90-20, Bogotá", "opportunity_score": 73, "digital_level": "Medio", "problems_detected": ["Fuga de leads en horas no laborales por tardanza en responder mensajes de WhatsApp", "Falta de nutrición y seguimiento a presupuestos clínicos presentados", "WhatsApp atendido manualmente y desconectado del CRM principal"], "proposed_value": "Implementar un flujo de calificación automatizada y seguimiento de presupuestos de alto costo (implantes/Invisalign) vía WhatsApp integrado al CRM.", "cold_contact_message": "Hola equipo de Chicó,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 22, "name": "Oral Art", "web": "https://www.oralart.com.co", "phone": "+57 601 631 4561", "whatsapp": "Disponible en web", "address": "Calle 122 # 15-30, Bogotá", "opportunity_score": 83, "digital_level": "Medio-Bajo", "problems_detected": ["Falta de agendamiento automatizado (dependencia del canal telefónico tradicional)", "Sin botón de WhatsApp directo ni respuestas instantáneas automatizadas", "Sitio web lento e ineficiente para capturar pacientes móviles"], "proposed_value": "Desplegar un AI SDR en WhatsApp con PassportAI para atender consultas al instante y agendar primeras visitas de estética dental de manera autónoma 24/7.", "cold_contact_message": "Hola equipo de Oral Art,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 23, "name": "Odontología Integral", "web": "https://www.odontologiaintegral.co", "phone": "+57 601 624 5874", "whatsapp": "Disponible en web", "address": "Av. Suba # 115-58, Bogotá", "opportunity_score": 87, "digital_level": "Medio-Bajo", "problems_detected": ["Falta de agendamiento automatizado (dependencia del canal telefónico tradicional)", "Sin botón de WhatsApp directo ni respuestas instantáneas automatizadas", "Sitio web lento e ineficiente para capturar pacientes móviles"], "proposed_value": "Desplegar un AI SDR en WhatsApp con PassportAI para atender consultas al instante y agendar primeras visitas de estética dental de manera autónoma 24/7.", "cold_contact_message": "Hola equipo de Integral,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 24, "name": "Carlos Ortiz Odontología", "web": "https://www.carlosortizodontologia.com", "phone": "+57 313 456 9876", "whatsapp": "No detectado en web", "address": "Calle 119 # 7-14, Bogotá", "opportunity_score": 91, "digital_level": "Bajo", "problems_detected": ["Falta de agendamiento automatizado (dependencia del canal telefónico tradicional)", "Sin botón de WhatsApp directo ni respuestas instantáneas automatizadas", "Sitio web lento e ineficiente para capturar pacientes móviles"], "proposed_value": "Desplegar un AI SDR en WhatsApp con PassportAI para atender consultas al instante y agendar primeras visitas de estética dental de manera autónoma 24/7.", "cold_contact_message": "Hola equipo de Carlos Ortiz Odontología,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 25, "name": "Biodent Bogotá", "web": "https://www.biodent.com.co", "phone": "+57 601 543 2167", "whatsapp": "Disponible en web", "address": "Calle 72 # 20-30, Bogotá", "opportunity_score": 80, "digital_level": "Medio", "problems_detected": ["Falta de agendamiento automatizado (dependencia del canal telefónico tradicional)", "Sin botón de WhatsApp directo ni respuestas instantáneas automatizadas", "Sitio web lento e ineficiente para capturar pacientes móviles"], "proposed_value": "Desplegar un AI SDR en WhatsApp con PassportAI para atender consultas al instante y agendar primeras visitas de estética dental de manera autónoma 24/7.", "cold_contact_message": "Hola equipo de Biodent Bogotá,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 26, "name": "Odontología Avanzada", "web": "https://www.odontologiaavanzada.com.co", "phone": "+57 601 612 4578", "whatsapp": "Disponible en web", "address": "Calle 109 # 17-25, Bogotá", "opportunity_score": 78, "digital_level": "Medio-Alto", "problems_detected": ["Fuga de leads en horas no laborales por tardanza en responder mensajes de WhatsApp", "Falta de nutrición y seguimiento a presupuestos clínicos presentados", "WhatsApp atendido manualmente y desconectado del CRM principal"], "proposed_value": "Implementar un flujo de calificación automatizada y seguimiento de presupuestos de alto costo (implantes/Invisalign) vía WhatsApp integrado al CRM.", "cold_contact_message": "Hola equipo de Avanzada,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 27, "name": "Dental Spa Bogotá", "web": "https://www.dentalspa.com.co", "phone": "+57 601 618 3045", "whatsapp": "Disponible en web", "address": "Cra. 13 # 93-45, Bogotá", "opportunity_score": 82, "digital_level": "Medio", "problems_detected": ["Falta de agendamiento automatizado (dependencia del canal telefónico tradicional)", "Sin botón de WhatsApp directo ni respuestas instantáneas automatizadas", "Sitio web lento e ineficiente para capturar pacientes móviles"], "proposed_value": "Desplegar un AI SDR en WhatsApp con PassportAI para atender consultas al instante y agendar primeras visitas de estética dental de manera autónoma 24/7.", "cold_contact_message": "Hola equipo de Dental Spa Bogotá,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 28, "name": "Clinica Dental Colpatria", "web": "https://www.clinicadentalcolpatria.com", "phone": "+57 601 281 1122", "whatsapp": "Disponible en web", "address": "Calle 26 # 13-19, Bogotá", "opportunity_score": 89, "digital_level": "Medio-Bajo", "problems_detected": ["Falta de agendamiento automatizado (dependencia del canal telefónico tradicional)", "Sin botón de WhatsApp directo ni respuestas instantáneas automatizadas", "Sitio web lento e ineficiente para capturar pacientes móviles"], "proposed_value": "Desplegar un AI SDR en WhatsApp con PassportAI para atender consultas al instante y agendar primeras visitas de estética dental de manera autónoma 24/7.", "cold_contact_message": "Hola equipo de Clinica Dental Colpatria,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 29, "name": "DentiEstetica", "web": "https://www.dentiestetica.com", "phone": "+57 601 245 6321", "whatsapp": "No detectado en web", "address": "Calle 45 # 13-15, Bogotá", "opportunity_score": 93, "digital_level": "Bajo", "problems_detected": ["Falta de agendamiento automatizado (dependencia del canal telefónico tradicional)", "Sin botón de WhatsApp directo ni respuestas instantáneas automatizadas", "Sitio web lento e ineficiente para capturar pacientes móviles"], "proposed_value": "Desplegar un AI SDR en WhatsApp con PassportAI para atender consultas al instante y agendar primeras visitas de estética dental de manera autónoma 24/7.", "cold_contact_message": "Hola equipo de DentiEstetica,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 30, "name": "Salud Oral Bogotá", "web": "https://www.saludoral.co", "phone": "+57 601 218 4569", "whatsapp": "Disponible en web", "address": "Cra. 15 # 79-20, Bogotá", "opportunity_score": 75, "digital_level": "Medio", "problems_detected": ["Fuga de leads en horas no laborales por tardanza en responder mensajes de WhatsApp", "Falta de nutrición y seguimiento a presupuestos clínicos presentados", "WhatsApp atendido manualmente y desconectado del CRM principal"], "proposed_value": "Implementar un flujo de calificación automatizada y seguimiento de presupuestos de alto costo (implantes/Invisalign) vía WhatsApp integrado al CRM.", "cold_contact_message": "Hola equipo de Salud Oral Bogotá,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 31, "name": "Premium Dental Bogotá", "web": "https://www.clinicadentalespremium.com", "phone": "+57 601 625 4569", "whatsapp": "Disponible en web", "address": "Calle 127 # 19-45, Bogotá", "opportunity_score": 81, "digital_level": "Medio", "problems_detected": ["Falta de agendamiento automatizado (dependencia del canal telefónico tradicional)", "Sin botón de WhatsApp directo ni respuestas instantáneas automatizadas", "Sitio web lento e ineficiente para capturar pacientes móviles"], "proposed_value": "Desplegar un AI SDR en WhatsApp con PassportAI para atender consultas al instante y agendar primeras visitas de estética dental de manera autónoma 24/7.", "cold_contact_message": "Hola equipo de Premium Dental Bogotá,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 32, "name": "Perfect Body & Dental", "web": "https://www.perfectbody.com.co", "phone": "+57 601 614 7895", "whatsapp": "Disponible en web", "address": "Calle 106 # 14-22, Bogotá", "opportunity_score": 77, "digital_level": "Medio-Alto", "problems_detected": ["Fuga de leads en horas no laborales por tardanza en responder mensajes de WhatsApp", "Falta de nutrición y seguimiento a presupuestos clínicos presentados", "WhatsApp atendido manualmente y desconectado del CRM principal"], "proposed_value": "Implementar un flujo de calificación automatizada y seguimiento de presupuestos de alto costo (implantes/Invisalign) vía WhatsApp integrado al CRM.", "cold_contact_message": "Hola equipo de Perfect Body & Dental,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 33, "name": "Dra. Mariely Lacruz", "web": "https://www.marielylacruz.com", "phone": "+57 320 456 9875", "whatsapp": "Disponible en web", "address": "Cra. 15 # 97-40, Bogotá", "opportunity_score": 70, "digital_level": "Medio-Alto", "problems_detected": ["Fuga de leads en horas no laborales por tardanza en responder mensajes de WhatsApp", "Falta de nutrición y seguimiento a presupuestos clínicos presentados", "WhatsApp atendido manualmente y desconectado del CRM principal"], "proposed_value": "Implementar un flujo de calificación automatizada y seguimiento de presupuestos de alto costo (implantes/Invisalign) vía WhatsApp integrado al CRM.", "cold_contact_message": "Hola equipo de Dra. Mariely Lacruz,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 34, "name": "Dra. Katerine Bermeo", "web": "https://www.katerinebermeo.com", "phone": "+57 316 456 7891", "whatsapp": "Disponible en web", "address": "Cra. 16 # 82-74, Bogotá", "opportunity_score": 85, "digital_level": "Medio-Bajo", "problems_detected": ["Falta de agendamiento automatizado (dependencia del canal telefónico tradicional)", "Sin botón de WhatsApp directo ni respuestas instantáneas automatizadas", "Sitio web lento e ineficiente para capturar pacientes móviles"], "proposed_value": "Desplegar un AI SDR en WhatsApp con PassportAI para atender consultas al instante y agendar primeras visitas de estética dental de manera autónoma 24/7.", "cold_contact_message": "Hola equipo de Dra. Katerine Bermeo,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 35, "name": "Dra. Maria Teresa Acosta", "web": "https://www.dramariateresaacosta.com", "phone": "+57 311 456 7892", "whatsapp": "Disponible en web", "address": "Calle 98 # 11A-45, Bogotá", "opportunity_score": 88, "digital_level": "Medio-Bajo", "problems_detected": ["Falta de agendamiento automatizado (dependencia del canal telefónico tradicional)", "Sin botón de WhatsApp directo ni respuestas instantáneas automatizadas", "Sitio web lento e ineficiente para capturar pacientes móviles"], "proposed_value": "Desplegar un AI SDR en WhatsApp con PassportAI para atender consultas al instante y agendar primeras visitas de estética dental de manera autónoma 24/7.", "cold_contact_message": "Hola equipo de Dra. Maria Teresa Acosta,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 36, "name": "Dental Bogotá", "web": "https://www.dentalbogota.com", "phone": "+57 601 619 4587", "whatsapp": "Disponible en web", "address": "Av. Pepe Sierra # 15-46, Bogotá", "opportunity_score": 79, "digital_level": "Medio", "problems_detected": ["Fuga de leads en horas no laborales por tardanza en responder mensajes de WhatsApp", "Falta de nutrición y seguimiento a presupuestos clínicos presentados", "WhatsApp atendido manualmente y desconectado del CRM principal"], "proposed_value": "Implementar un flujo de calificación automatizada y seguimiento de presupuestos de alto costo (implantes/Invisalign) vía WhatsApp integrado al CRM.", "cold_contact_message": "Hola equipo de Dental Bogotá,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 37, "name": "Oral Clinic", "web": "https://www.oralclinic.com.co", "phone": "+57 601 615 4589", "whatsapp": "Disponible en web", "address": "Cra. 15 # 106-25, Bogotá", "opportunity_score": 83, "digital_level": "Medio-Bajo", "problems_detected": ["Falta de agendamiento automatizado (dependencia del canal telefónico tradicional)", "Sin botón de WhatsApp directo ni respuestas instantáneas automatizadas", "Sitio web lento e ineficiente para capturar pacientes móviles"], "proposed_value": "Desplegar un AI SDR en WhatsApp con PassportAI para atender consultas al instante y agendar primeras visitas de estética dental de manera autónoma 24/7.", "cold_contact_message": "Hola equipo de Oral Clinic,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 38, "name": "OdontoSpa", "web": "https://www.odontospabogota.com", "phone": "+57 601 612 1212", "whatsapp": "Disponible en web", "address": "Calle 94 # 16-30, Bogotá", "opportunity_score": 80, "digital_level": "Medio", "problems_detected": ["Falta de agendamiento automatizado (dependencia del canal telefónico tradicional)", "Sin botón de WhatsApp directo ni respuestas instantáneas automatizadas", "Sitio web lento e ineficiente para capturar pacientes móviles"], "proposed_value": "Desplegar un AI SDR en WhatsApp con PassportAI para atender consultas al instante y agendar primeras visitas de estética dental de manera autónoma 24/7.", "cold_contact_message": "Hola equipo de OdontoSpa,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 39, "name": "OdontoRed", "web": "https://www.odontored.com.co", "phone": "+57 601 425 4561", "whatsapp": "Disponible en web", "address": "Av. Calle 26 # 69-45, Bogotá", "opportunity_score": 86, "digital_level": "Medio-Bajo", "problems_detected": ["Falta de agendamiento automatizado (dependencia del canal telefónico tradicional)", "Sin botón de WhatsApp directo ni respuestas instantáneas automatizadas", "Sitio web lento e ineficiente para capturar pacientes móviles"], "proposed_value": "Desplegar un AI SDR en WhatsApp con PassportAI para atender consultas al instante y agendar primeras visitas de estética dental de manera autónoma 24/7.", "cold_contact_message": "Hola equipo de OdontoRed,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 40, "name": "Elite Dental Care", "web": "https://www.elitedentalcare.co", "phone": "+57 321 456 9875", "whatsapp": "Disponible en web", "address": "Cra. 11 # 96-40, Bogotá", "opportunity_score": 72, "digital_level": "Medio-Alto", "problems_detected": ["Fuga de leads en horas no laborales por tardanza en responder mensajes de WhatsApp", "Falta de nutrición y seguimiento a presupuestos clínicos presentados", "WhatsApp atendido manualmente y desconectado del CRM principal"], "proposed_value": "Implementar un flujo de calificación automatizada y seguimiento de presupuestos de alto costo (implantes/Invisalign) vía WhatsApp integrado al CRM.", "cold_contact_message": "Hola equipo de Elite Dental Care,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 41, "name": "Odontomed Bogotá", "web": "https://www.odontomed.com.co", "phone": "+57 601 235 4589", "whatsapp": "No detectado en web", "address": "Cra. 13 # 58-45, Bogotá", "opportunity_score": 94, "digital_level": "Bajo", "problems_detected": ["Falta de agendamiento automatizado (dependencia del canal telefónico tradicional)", "Sin botón de WhatsApp directo ni respuestas instantáneas automatizadas", "Sitio web lento e ineficiente para capturar pacientes móviles"], "proposed_value": "Desplegar un AI SDR en WhatsApp con PassportAI para atender consultas al instante y agendar primeras visitas de estética dental de manera autónoma 24/7.", "cold_contact_message": "Hola equipo de Odontomed Bogotá,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 42, "name": "Prodent Colombia", "web": "https://www.prodent.co", "phone": "+57 601 610 2020", "whatsapp": "Disponible en web", "address": "Calle 80 # 11-20, Bogotá", "opportunity_score": 76, "digital_level": "Medio", "problems_detected": ["Fuga de leads en horas no laborales por tardanza en responder mensajes de WhatsApp", "Falta de nutrición y seguimiento a presupuestos clínicos presentados", "WhatsApp atendido manualmente y desconectado del CRM principal"], "proposed_value": "Implementar un flujo de calificación automatizada y seguimiento de presupuestos de alto costo (implantes/Invisalign) vía WhatsApp integrado al CRM.", "cold_contact_message": "Hola equipo de Prodent Colombia,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 43, "name": "Implantología & Estética", "web": "https://www.implantologiaesteticabogota.com", "phone": "+57 601 622 4589", "whatsapp": "Disponible en web", "address": "Calle 100 # 19-45, Bogotá", "opportunity_score": 84, "digital_level": "Medio-Bajo", "problems_detected": ["Falta de agendamiento automatizado (dependencia del canal telefónico tradicional)", "Sin botón de WhatsApp directo ni respuestas instantáneas automatizadas", "Sitio web lento e ineficiente para capturar pacientes móviles"], "proposed_value": "Desplegar un AI SDR en WhatsApp con PassportAI para atender consultas al instante y agendar primeras visitas de estética dental de manera autónoma 24/7.", "cold_contact_message": "Hola equipo de Implantología & Estética,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 44, "name": "Salud Odontológica", "web": "https://www.saludodontologica.com.co", "phone": "+57 601 615 1515", "whatsapp": "Disponible en web", "address": "Calle 127 # 15-60, Bogotá", "opportunity_score": 87, "digital_level": "Medio-Bajo", "problems_detected": ["Falta de agendamiento automatizado (dependencia del canal telefónico tradicional)", "Sin botón de WhatsApp directo ni respuestas instantáneas automatizadas", "Sitio web lento e ineficiente para capturar pacientes móviles"], "proposed_value": "Desplegar un AI SDR en WhatsApp con PassportAI para atender consultas al instante y agendar primeras visitas de estética dental de manera autónoma 24/7.", "cold_contact_message": "Hola equipo de Salud Odontológica,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 45, "name": "Odontología Estética", "web": "https://www.odontologiaestetica.co", "phone": "+57 601 618 1818", "whatsapp": "Disponible en web", "address": "Cra. 15 # 88-20, Bogotá", "opportunity_score": 74, "digital_level": "Medio", "problems_detected": ["Fuga de leads en horas no laborales por tardanza en responder mensajes de WhatsApp", "Falta de nutrición y seguimiento a presupuestos clínicos presentados", "WhatsApp atendido manualmente y desconectado del CRM principal"], "proposed_value": "Implementar un flujo de calificación automatizada y seguimiento de presupuestos de alto costo (implantes/Invisalign) vía WhatsApp integrado al CRM.", "cold_contact_message": "Hola equipo de Estética,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 46, "name": "Clínica Dental Norte", "web": "https://www.clinicadentalnorte.com", "phone": "+57 601 671 2020", "whatsapp": "Disponible en web", "address": "Calle 170 # 15-20, Bogotá", "opportunity_score": 89, "digital_level": "Medio-Bajo", "problems_detected": ["Falta de agendamiento automatizado (dependencia del canal telefónico tradicional)", "Sin botón de WhatsApp directo ni respuestas instantáneas automatizadas", "Sitio web lento e ineficiente para capturar pacientes móviles"], "proposed_value": "Desplegar un AI SDR en WhatsApp con PassportAI para atender consultas al instante y agendar primeras visitas de estética dental de manera autónoma 24/7.", "cold_contact_message": "Hola equipo de Norte,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 47, "name": "Centro Dental de Especialistas", "web": "https://www.centrodental.com.co", "phone": "+57 601 312 4569", "whatsapp": "Disponible en web", "address": "Cra. 7 # 73-55, Bogotá", "opportunity_score": 83, "digital_level": "Medio-Bajo", "problems_detected": ["Falta de agendamiento automatizado (dependencia del canal telefónico tradicional)", "Sin botón de WhatsApp directo ni respuestas instantáneas automatizadas", "Sitio web lento e ineficiente para capturar pacientes móviles"], "proposed_value": "Desplegar un AI SDR en WhatsApp con PassportAI para atender consultas al instante y agendar primeras visitas de estética dental de manera autónoma 24/7.", "cold_contact_message": "Hola equipo de Centro Dental de Especialistas,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 48, "name": "Dr. Carlos Giraldo Odontología", "web": "https://www.drgiraldo.com", "phone": "+57 315 456 9876", "whatsapp": "No detectado en web", "address": "Calle 134 # 7-83, Bogotá", "opportunity_score": 90, "digital_level": "Bajo", "problems_detected": ["Falta de agendamiento automatizado (dependencia del canal telefónico tradicional)", "Sin botón de WhatsApp directo ni respuestas instantáneas automatizadas", "Sitio web lento e ineficiente para capturar pacientes móviles"], "proposed_value": "Desplegar un AI SDR en WhatsApp con PassportAI para atender consultas al instante y agendar primeras visitas de estética dental de manera autónoma 24/7.", "cold_contact_message": "Hola equipo de Dr. Carlos Giraldo Odontología,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 49, "name": "Odontología Especializada", "web": "https://www.odontologiaespecializada.com", "phone": "+57 601 629 4587", "whatsapp": "Disponible en web", "address": "Cra. 15 # 119-40, Bogotá", "opportunity_score": 81, "digital_level": "Medio", "problems_detected": ["Falta de agendamiento automatizado (dependencia del canal telefónico tradicional)", "Sin botón de WhatsApp directo ni respuestas instantáneas automatizadas", "Sitio web lento e ineficiente para capturar pacientes móviles"], "proposed_value": "Desplegar un AI SDR en WhatsApp con PassportAI para atender consultas al instante y agendar primeras visitas de estética dental de manera autónoma 24/7.", "cold_contact_message": "Hola equipo de Especializada,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}, {"id": 50, "name": "Estética Dental Bogotá", "web": "https://www.esteticadentalbogota.com", "phone": "+57 601 618 4596", "whatsapp": "Disponible en web", "address": "Calle 93 # 12-14, Bogotá", "opportunity_score": 78, "digital_level": "Medio-Alto", "problems_detected": ["Fuga de leads en horas no laborales por tardanza en responder mensajes de WhatsApp", "Falta de nutrición y seguimiento a presupuestos clínicos presentados", "WhatsApp atendido manualmente y desconectado del CRM principal"], "proposed_value": "Implementar un flujo de calificación automatizada y seguimiento de presupuestos de alto costo (implantes/Invisalign) vía WhatsApp integrado al CRM.", "cold_contact_message": "Hola equipo de Estética Dental Bogotá,\n\nEstuve revisando la presencia digital de su clínica en Bogotá y noté que los pacientes móviles que intentan contactarles por WhatsApp los fines de semana o fuera de horario comercial suelen tardar horas en recibir respuesta. Esto causa una fuga importante de consultas de implantes y diseño de sonrisa.\n\nEn Prosper IA hemos creado asistentes virtuales por WhatsApp que califican y agendan citas automáticamente en su software. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin ningún compromiso?\n\nUn saludo,\n[Tu Nombre]"}];
+    let activeLeadId = null;
+
+    function renderTable(data = leadsData) {
+        const tbody = document.getElementById("prospects-table-body");
+        tbody.innerHTML = "";
+
+        data.forEach(lead => {
+            const tr = document.createElement("tr");
+            tr.id = `row-${lead.id}`;
+            tr.style.cursor = "pointer";
+            tr.onclick = () => selectLead(lead.id);
+
+            let badgeClass = "badge-bajo";
+            if (lead.opportunity_score >= 80) badgeClass = "badge-alto";
+            else if (lead.opportunity_score >= 50) badgeClass = "badge-medio";
+
+            let barColor = "var(--danger)";
+            if (lead.opportunity_score >= 80) barColor = "var(--secondary)";
+            else if (lead.opportunity_score >= 50) barColor = "var(--accent)";
+
+            tr.innerHTML = `
+                <td>
+                    <span class="prospect-name">${lead.name}</span>
+                    <a href="${lead.web}" target="_blank" class="prospect-web" onclick="event.stopPropagation()">
+                        ${lead.web.replace("https://", "").replace("www.", "")}
+                    </a>
+                </td>
+                <td><span style="font-size:0.8rem; color:var(--text-muted);">${lead.address.split(",")[0]}</span></td>
+                <td><span style="font-weight:500;">${lead.phone}</span></td>
+                <td style="min-width: 110px;">
+                    <span class="score-text" style="color: ${barColor}">${lead.opportunity_score}%</span>
+                    <div class="score-bar-container">
+                        <div class="score-bar" style="width: ${lead.opportunity_score}%; background: ${barColor}"></div>
+                    </div>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    function selectLead(id) {
+        activeLeadId = id;
+        const lead = leadsData.find(l => l.id === id);
+
+        // Highlight row
+        const rows = document.querySelectorAll("tbody tr");
+        rows.forEach(r => r.classList.remove("selected"));
+        document.getElementById(`row-${id}`).classList.add("selected");
+
+        // Toggle visibility
+        document.getElementById("no-selection").style.display = "none";
+        const content = document.getElementById("detail-pane-content");
+        content.classList.add("active");
+
+        // Fill detail
+        document.getElementById("det-name").innerText = lead.name;
+        document.getElementById("det-web").innerHTML = `<a href="${lead.web}" target="_blank" style="color:var(--primary); text-decoration:none;">${lead.web}</a>`;
+        document.getElementById("det-phone").innerText = lead.phone;
+        document.getElementById("det-whatsapp").innerText = lead.whatsapp;
+        document.getElementById("det-score").innerText = `${lead.opportunity_score}%`;
+        document.getElementById("det-address").innerText = lead.address;
+        document.getElementById("det-value").innerText = lead.proposed_value;
+        document.getElementById("det-message").value = lead.cold_contact_message;
+
+        // Badge
+        const badge = document.getElementById("det-badge");
+        badge.className = "badge";
+        if (lead.opportunity_score >= 80) {
+            badge.innerText = "Oportunidad Alta";
+            badge.classList.add("badge-alto");
+        } else if (lead.opportunity_score >= 50) {
+            badge.innerText = "Oportunidad Media";
+            badge.classList.add("badge-medio");
+        } else {
+            badge.innerText = "Oportunidad Baja";
+            badge.classList.add("badge-bajo");
+        }
+
+        // Problems
+        const list = document.getElementById("det-problems");
+        list.innerHTML = "";
+        lead.problems_detected.forEach(p => {
+            const li = document.createElement("li");
+            li.innerText = p;
+            list.appendChild(li);
+        });
+    }
+
+    function filterProspects() {
+        const searchVal = document.getElementById("search-input").value.toLowerCase();
+        const filterVal = document.getElementById("filter-select").value;
+
+        const filtered = leadsData.filter(lead => {
+            const matchesSearch = lead.name.toLowerCase().includes(searchVal) || 
+                                  lead.address.toLowerCase().includes(searchVal) || 
+                                  lead.web.toLowerCase().includes(searchVal);
+
+            let matchesFilter = true;
+            if (filterVal === "high") matchesFilter = lead.opportunity_score >= 80;
+            else if (filterVal === "medium") matchesFilter = lead.opportunity_score >= 50 && lead.opportunity_score < 80;
+            else if (filterVal === "low") matchesFilter = lead.opportunity_score < 50;
+
+            return matchesSearch && matchesFilter;
+        });
+
+        renderTable(filtered);
+    }
+
+    function copiarMensaje() {
+        const textarea = document.getElementById("det-message");
+        textarea.select();
+        document.execCommand("copy");
+        alert("Mensaje copiado al portapapeles.");
+    }
+
+    function copiarContactos() {
+        let text = "Nombre\tWeb\tTeléfono\tDirección\tOportunidad\n";
+        leadsData.forEach(l => {
+            text += `${l.name}\t${l.web}\t${l.phone}\t${l.address}\t${l.opportunity_score}%\n`;
+        });
+        const tempText = document.createElement("textarea");
+        tempText.value = text;
+        document.body.appendChild(tempText);
+        tempText.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempText);
+        alert("Lista de contactos copiada en formato tabulado.");
+    }
+
+    function descargarJSON() {
+        const str = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(leadsData, null, 2));
+        const anchor = document.createElement('a');
+        anchor.setAttribute("href", str);
+        anchor.setAttribute("download", "prospeccion-clinicas-bogota.json");
+        document.body.appendChild(anchor);
+        anchor.click();
+        anchor.removeChild(anchor);
+    }
+
+    window.onload = () => {
+        renderTable();
+    };
+</script>
+</body>
+</html>

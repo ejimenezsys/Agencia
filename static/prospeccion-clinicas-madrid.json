@@ -1,0 +1,170 @@
+[
+  {
+    "id": 1,
+    "name": "Clínica Dental Dr. Valid Man",
+    "web": "https://www.drvalidman.com",
+    "phone": "+34 914 268 071",
+    "whatsapp": "No detectado en web (requiere click manual)",
+    "address": "Calle de Almagro, 15, 28010 Madrid",
+    "opportunity_score": 92,
+    "digital_level": "Bajo",
+    "problems_detected": [
+      "Sitio web antiguo y no optimizado para móviles (diseño desactualizado)",
+      "Sin botón directo de WhatsApp para agendamiento inmediato",
+      "SEO básico inexistente (sin títulos ni descripciones optimizadas)"
+    ],
+    "proposed_value": "Desplegar un widget de agendamiento instantáneo con un AI Setter en WhatsApp para calificar automáticamente y agendar citas 24/7 sin sobrecargar la recepción.",
+    "cold_contact_message": "Hola Dr. Valid Man,\n\nEstuve revisando la web de su clínica en Chamberí y noté que los pacientes móviles tienen dificultad para contactarles directamente por WhatsApp, lo que suele causar una pérdida de hasta el 40% de consultas de ortodoncia e implantes. En Prosper IA hemos diseñado un asistente inteligente por WhatsApp que califica y agenda citas automáticamente para clínicas de Madrid. ¿Le interesaría ver un demo de 2 minutos adaptado a su clínica sin compromiso?\n\nUn saludo,\n[Tu Nombre]"
+  },
+  {
+    "id": 2,
+    "name": "Instituto Odontológico Myodent",
+    "web": "https://www.myodent.es",
+    "phone": "+34 655 831 280",
+    "whatsapp": "Manual en página de contacto",
+    "address": "C/ Cordel de Pavones, 16-A, 28032 Madrid",
+    "opportunity_score": 90,
+    "digital_level": "Bajo",
+    "problems_detected": [
+      "Web excesivamente básica, con imágenes genéricas de banco de fotos",
+      "Tiempos de respuesta lentos en el servidor web",
+      "Fuga de leads en horas no laborales (sin respuesta automática)"
+    ],
+    "proposed_value": "Modernizar la experiencia de captura con una Landing Page optimizada integrada a un agente conversacional de WhatsApp (AI SDR) para dar respuesta en 5 segundos.",
+    "cold_contact_message": "Hola equipo de Myodent,\n\nMe llamó la atención su enfoque en odontología preventiva, pero noté que los fines de semana o fuera de horario comercial es difícil para un nuevo paciente resolver dudas o agendar, perdiendo oportunidades frente a clínicas más grandes. Con PassportAI creamos recepcionistas virtuales en WhatsApp que responden al instante y agendan en su software de gestión. ¿Me permite enviarle un ejemplo de cómo funcionaría para Myodent?\n\nAtentamente,\n[Tu Nombre]"
+  },
+  {
+    "id": 3,
+    "name": "Clínica Dental Velázquez",
+    "web": "https://www.clinicadentalvelazquez.com",
+    "phone": "+34 915 624 304",
+    "whatsapp": "+34 626 438 812",
+    "address": "Calle de Velázquez, 118, 1º, 28006 Madrid",
+    "opportunity_score": 88,
+    "digital_level": "Medio-Bajo",
+    "problems_detected": [
+      "Proceso de agendamiento 100% tradicional (llamada telefónica o formulario estático)",
+      "Falta de automatización y seguimiento para presupuestos de alto costo presentados",
+      "No hay integración de chat con un CRM centralizado"
+    ],
+    "proposed_value": "Implementar un flujo de seguimiento automático de presupuestos (implantes/ortodoncia) vía WhatsApp que asista al paciente con sus dudas financieras y aumente la tasa de aceptación.",
+    "cold_contact_message": "Hola Dr. Velázquez,\n\nAnalizando la excelente presencia de su clínica en el Barrio de Salamanca, veo que ofrecen tratamientos premium de implantes, pero el proceso de citas sigue dependiendo de llamadas manuales. Ayudamos a clínicas a automatizar el seguimiento de presupuestos de alto ticket mediante IA por WhatsApp, logrando hasta un 25% más de aceptación sin que su equipo tenga que hacer llamadas insistentes. ¿Estaría abierto a conocer cómo funciona?\n\nSaludos cordiales,\n[Tu Nombre]"
+  },
+  {
+    "id": 4,
+    "name": "Clínica Dental Belarra",
+    "web": "https://www.clinicabelarra.com",
+    "phone": "+34 915 640 822",
+    "whatsapp": "+34 616 398 175",
+    "address": "Calle de Claudio Coello, 126, Bajo Izq, 28006 Madrid",
+    "opportunity_score": 85,
+    "digital_level": "Medio-Bajo",
+    "problems_detected": [
+      "El personal de recepción está saturado, provocando retrasos en las respuestas por WhatsApp",
+      "Fuga de leads en campañas de ortodoncia invisible (Invisalign)",
+      "Falta de base de datos automatizada para reactivación de pacientes antiguos"
+    ],
+    "proposed_value": "Instalar un AI Setter que filtre preguntas frecuentes de pacientes de Invisalign (precios, seguros, duración) y agende directamente la primera visita gratuita en el calendario del odontólogo.",
+    "cold_contact_message": "Hola equipo de Clínica Belarra,\n\nSé que en Claudio Coello la atención al paciente es excelente, pero a veces la recepción se satura y se tarda en contestar mensajes de WhatsApp sobre Invisalign u ortodoncia. Hemos desarrollado un software centralizado (PassportAI) que responde dudas frecuentes de tratamientos estéticos en segundos y agenda a los pacientes calificados en su calendario. ¿Le gustaría hacer una prueba de velocidad de 1 minuto con nuestro bot?\n\nUn cordial saludo,\n[Tu Nombre]"
+  },
+  {
+    "id": 5,
+    "name": "Clínica Dental Navarro",
+    "web": "https://www.clinicadentalnavarro.es",
+    "phone": "+34 913 642 872",
+    "whatsapp": "WhatsApp manual en sitio web",
+    "address": "Calle de Alcalá, 95, 28009 Madrid",
+    "opportunity_score": 82,
+    "digital_level": "Medio",
+    "problems_detected": [
+      "Alto volumen de tráfico en web pero sin calificación automatizada de leads comerciales",
+      "Mensajería manual fragmentada que no se consolida en un CRM de ventas",
+      "Sin seguimiento post-consulta automatizado"
+    ],
+    "proposed_value": "Centralizar los canales de comunicación en la plataforma PassportAI e integrar un AI SDR que califique el perfil del lead (seguro, tipo de tratamiento, urgencia) antes de pasarlo al equipo humano.",
+    "cold_contact_message": "Hola equipo de Clínica Dental Navarro,\n\nFelicitaciones por las excelentes reseñas en Google. Veo que reciben bastantes pacientes en Calle de Alcalá, pero gestionar el volumen de mensajes de WhatsApp manualmente puede resultar ineficiente. Con PassportAI ayudamos a clínicas de alto volumen a automatizar el filtro de pacientes (seguros, urgencias y citas) en segundos para que su recepción solo atienda casos confirmados. ¿Le interesaría ver una demo rápida?\n\nSaludos,\n[Tu Nombre]"
+  },
+  {
+    "id": 6,
+    "name": "Elysium Dental",
+    "web": "https://www.elysiumdental.es",
+    "phone": "+34 914 310 699",
+    "whatsapp": "+34 680 22 37 31",
+    "address": "Calle Juan Bravo, 3, 28006 Madrid",
+    "opportunity_score": 78,
+    "digital_level": "Medio-Alto",
+    "problems_detected": [
+      "Web moderna pero orientada a captar leads sin nutrición automática posterior",
+      "No hay un chatbot inteligente que maneje objeciones de precios en tiempo real",
+      "Dependencia de que el paciente inicie la conversación"
+    ],
+    "proposed_value": "Integrar un flujo conversacional con IA para la reactivación de leads fríos de estética dental y blanqueamiento mediante ofertas personalizadas por WhatsApp.",
+    "cold_contact_message": "Hola equipo de Elysium Dental,\n\nSu imagen de marca y clínica en Juan Bravo son impecables. Noté que tienen campañas activas de estética dental, pero cuando un lead pregunta precios y se enfría, no hay un seguimiento sistematizado. Ayudamos a automatizar la reactivación de esos prospectos mediante secuencias de IA por WhatsApp no invasivas que recuperan hasta un 18% de tratamientos pausados. ¿Le gustaría saber más?\n\nAtentamente,\n[Tu Nombre]"
+  },
+  {
+    "id": 7,
+    "name": "Gabinete Fernando Soria",
+    "web": "https://www.fernandosoria.es",
+    "phone": "+34 914 451 636",
+    "whatsapp": "Manual en la web",
+    "address": "Calle de Modesto Lafuente, 26, 28003 Madrid",
+    "opportunity_score": 75,
+    "digital_level": "Medio-Alto",
+    "problems_detected": [
+      "Tiempos de carga lentos debido a archivos multimedia pesados",
+      "WhatsApp manual sin respuestas rápidas estructuradas para tratamientos premium",
+      "Falta de automatización para nutrir prospectos que descargan guías de implantes"
+    ],
+    "proposed_value": "Optimizar el embudo de conversión conectando su WhatsApp a un AI Setter especializado en odontología estética de alta gama para mantener el estándar de lujo 24/7.",
+    "cold_contact_message": "Hola Dr. Soria,\n\nAdmiro el nivel tecnológico y la odontología emocional que promueve en su gabinete. Al ser tratamientos premium, la primera respuesta en WhatsApp debe ser igual de excelente y veloz. Desarrollamos asistentes de IA que atienden consultas complejas de estética dental con el tono de su clínica y agendan citas calificadas las 24 horas. ¿Le interesaría ver cómo automatizar este canal?\n\nUn cordial saludo,\n[Tu Nombre]"
+  },
+  {
+    "id": 8,
+    "name": "Citadental",
+    "web": "https://www.citadental.com",
+    "phone": "+34 915 356 706",
+    "whatsapp": "Disponible en web",
+    "address": "Calle de Bravo Murillo, 37, 28015 Madrid",
+    "opportunity_score": 68,
+    "digital_level": "Alto",
+    "problems_detected": [
+      "Varias sedes en Madrid que gestionan leads de forma independiente, perdiendo coherencia",
+      "Falta de un sistema unificado de CRM comercial para el seguimiento de citas perdidas",
+      "Respuesta tardía en fines de semana"
+    ],
+    "proposed_value": "Centralizar el flujo de leads de todas las sucursales Citadental en una única consola PassportAI, distribuyendo citas automáticamente según disponibilidad de sede.",
+    "cold_contact_message": "Hola equipo de Citadental,\n\nCon múltiples sedes en Madrid, centralizar la atención por WhatsApp de forma fluida es un reto comercial constante. En Prosper IA ayudamos a marcas multi-sede a unificar su canal de WhatsApp con agentes inteligentes que detectan la sede preferida del paciente y coordinan agendas automáticamente. ¿Estarían abiertos a una breve sesión estratégica para ver cómo escalarlo?\n\nSaludos cordiales,\n[Tu Nombre]"
+  },
+  {
+    "id": 9,
+    "name": "Vericat Implantología",
+    "web": "https://www.vericatimplantologia.com",
+    "phone": "+34 910 887 490",
+    "whatsapp": "Implementado con desvío manual",
+    "address": "Calle de Castelló, 9, 28001 Madrid",
+    "opportunity_score": 45,
+    "digital_level": "Alto",
+    "problems_detected": [
+      "Presencia digital excelente con equipos internos de atención telefónica",
+      "El desvío manual por WhatsApp en horas pico genera demoras en respuesta",
+      "Falta de calificación previa antes de asignar un asesor humano"
+    ],
+    "proposed_value": "Utilizar IA conversacional como primera capa de atención en WhatsApp para calificar urgencia y derivar inmediatamente a los asesores de implantes correspondientes.",
+    "cold_contact_message": "Hola equipo de Vericat,\n\nSu posicionamiento en implantes inmediatos es extraordinario. Veo que cuentan con un gran equipo de atención, pero en momentos de alta demanda o fuera de horario, el tiempo de respuesta en WhatsApp puede resentirse. Ofrecemos asistentes de IA que actúan como filtro inicial, calificando el caso clínico y derivándolo al asesor ideal. ¿Le interesaría conocer un caso de éxito similar?\n\nUn saludo,\n[Tu Nombre]"
+  },
+  {
+    "id": 10,
+    "name": "Ferrus & Bratos",
+    "web": "https://www.ferrusbratos.com",
+    "phone": "+34 915 047 848",
+    "address": "Calle de Ibiza, 50, 28009 Madrid",
+    "opportunity_score": 30,
+    "digital_level": "Excelente",
+    "problems_detected": [
+      "Poco margen de mejora táctica simple (ya cuentan con automatización y CRM robusto)",
+      "El único canal libre es la optimización fina de la conversión en sus bots actuales"
+    ],
+    "proposed_value": "Ofrecer auditoría de conversión del embudo actual de WhatsApp/Chatbot para refinar la tasa de agendamiento mediante prompts de lenguaje natural avanzados.",
+    "cold_contact_message": "Hola equipo de Ferrus & Bratos,\n\nEs evidente que son un referente digital odontológico en España con una infraestructura de marketing muy robusta. Siendo así, la optimización de apenas un 2% en la conversión de sus bots puede representar decenas de nuevos tratamientos mensuales. Nos especializamos en la optimización fina de prompts conversacionales de IA para ventas. ¿Estarían dispuestos a una auditoría gratuita del bot?\n\nAtentamente,\n[Tu Nombre]"
+  }
+]
