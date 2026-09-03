@@ -4,3 +4,6 @@ __pycache__/
 *.db
 data/*.db
 .env
+.DS_Store
+scratch/
+777_tools/

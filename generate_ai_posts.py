@@ -10,14 +10,21 @@ from PIL import Image, ImageDraw
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
 
-# Configuración de la API de Gemini
+# Cargar GEMINI_API_KEY desde entorno o archivo .env local
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
+if not GEMINI_API_KEY and os.path.exists(".env"):
+    with open(".env", "r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if line.startswith("GEMINI_API_KEY=") and not line.startswith("#"):
+                GEMINI_API_KEY = line.split("=", 1)[1].strip().strip('"').strip("'")
+                break
 
 if not GEMINI_API_KEY:
     print("Error: La variable de entorno GEMINI_API_KEY no está configurada.")
     sys.exit(1)
 
-API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={GEMINI_API_KEY}"
+CANDIDATE_MODELS = ["gemini-flash-latest", "gemini-2.5-flash", "gemini-2.5-flash-lite", "gemini-pro-latest"]
 
 def generate_blog_posts():
     print("Consultando la API de Gemini para generar 6 artículos del blog...")
@@ -72,29 +79,26 @@ def generate_blog_posts():
         }
     }
 
-    try:
-        response = requests.post(API_URL, headers=headers, json=body)
-        response.raise_for_status()
-        result = response.json()
-        
-        # Obtener el texto de la respuesta
-        text_content = result["candidates"][0]["content"]["parts"][0]["text"]
-        posts = json.loads(text_content)
-        
-        if not isinstance(posts, list):
-            raise ValueError(f"La respuesta no es una lista válida: {type(posts)}")
-            
-        if len(posts) > 6:
-            print(f"Aviso: Se generaron {len(posts)} artículos. Recortando a los primeros 6.")
-            posts = posts[:6]
-        elif len(posts) < 6:
-            print(f"Aviso: Se generaron solo {len(posts)} de los 6 artículos solicitados.")
-            
-        return posts
-    except Exception as e:
-        print(f"Error al generar artículos de Gemini: {e}")
-        # En caso de error de conexión o API, levantar excepción
-        raise e
+    last_error = None
+    for model in CANDIDATE_MODELS:
+        api_url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={GEMINI_API_KEY}"
+        print(f"Intentando generación con modelo: {model}...")
+        try:
+            response = requests.post(api_url, headers=headers, json=body, timeout=90)
+            if response.status_code == 200:
+                result = response.json()
+                text_content = result["candidates"][0]["content"]["parts"][0]["text"]
+                posts = json.loads(text_content)
+                if isinstance(posts, list) and len(posts) > 0:
+                    print(f"✅ Artículos generados con éxito usando el modelo {model} ({len(posts)} artículos).")
+                    return posts[:6]
+            else:
+                print(f"⚠️ Modelo {model} respondió con código {response.status_code}: {response.text[:140]}")
+        except Exception as e:
+            print(f"⚠️ Error con modelo {model}: {e}")
+            last_error = e
+
+    raise RuntimeError(f"Error crítico: Ningún modelo de Gemini pudo generar los artículos. Último error: {last_error}")
 
 def generate_cyber_cover(filepath, title, category="Automatización"):
     """Genera una portada editorial fotorrealista con Gemini Imagen.
