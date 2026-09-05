@@ -3,8 +3,9 @@ import uuid
 import hmac
 from datetime import datetime
 from typing import Optional, List, Dict, Any
+import urllib.parse
 from fastapi import FastAPI, Request, Response, Depends, status, HTTPException, BackgroundTasks
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -1172,6 +1173,41 @@ async def read_blog_post(request: Request, slug: str, db: Session = Depends(get_
         "author": row.author
     })
     return templates.TemplateResponse(request=request, name="blog_post.html", context={"post": post})
+
+@app.get("/go/{code}")
+@app.get("/r/{code}")
+async def redirect_shortlink(code: str, request: Request, db: Session = Depends(get_db)):
+    """Acortador nativo oficial de PROSPERIA Intelligence para redes sociales y campañas."""
+    code_clean = code.lower().strip()
+    
+    # Mapa de alias cortos de alto impacto
+    SHORT_MAP = {
+        "tareas": "/blog/la-ia-no-reemplaza-empleos-transforma-tareas",
+        "ia-tareas": "/blog/la-ia-no-reemplaza-empleos-transforma-tareas",
+        "desarmando-tareas": "/blog/la-ia-no-reemplaza-empleos-transforma-tareas",
+        "diagnostico": "/diagnostico",
+        "contacto": "/index.html#contacto",
+    }
+    
+    target_path = SHORT_MAP.get(code_clean)
+    if not target_path:
+        # Búsqueda dinámica en artículos de blog existentes
+        row = db.query(BlogPost).filter(BlogPost.slug == code_clean).first()
+        if row:
+            target_path = f"/blog/{row.slug}"
+        else:
+            raise HTTPException(status_code=404, detail="Enlace corto no encontrado en PROSPERIA Intelligence.")
+            
+    # Mantener parámetros entrantes o inyectar UTMs limpias por defecto
+    params = dict(request.query_params)
+    params.setdefault("utm_source", "shortlink")
+    params.setdefault("utm_medium", "social")
+    params.setdefault("utm_campaign", "prosperia_intelligence")
+    params.setdefault("utm_content", code_clean)
+    
+    query_str = urllib.parse.urlencode(params)
+    destination = f"{target_path}?{query_str}"
+    return RedirectResponse(url=destination, status_code=307)
 
 @app.get("/diagnostico", response_class=HTMLResponse)
 @app.get("/diagnostico.html", response_class=HTMLResponse)
