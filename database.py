@@ -3,6 +3,8 @@ import sqlite3
 import hashlib
 import hmac
 import secrets
+import json
+from pathlib import Path
 from datetime import datetime
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
@@ -171,6 +173,28 @@ def init_db():
                     author=post_data["author"]
                 )
                 db.add(post)
+
+        # Los artículos nuevos aprobados son archivos versionados; SQLite es su índice de lectura.
+        published_dir = Path(__file__).parent / "content" / "editorial_published"
+        for article_path in published_dir.glob("*.json"):
+            article = json.loads(article_path.read_text(encoding="utf-8"))
+            if article.get("status") != "published":
+                continue
+            values = {
+                "title": article["title"],
+                "category": article["lane"],
+                "summary": article["summary"],
+                "content": article["content"],
+                "image_url": article.get("image_url", "/static/logo_prosper_ia_cropped.jpg"),
+                "published_at": article["published_at"],
+                "author": article["author"],
+            }
+            existing_article = db.query(BlogPost).filter(BlogPost.slug == article["slug"]).first()
+            if existing_article is None:
+                db.add(BlogPost(slug=article["slug"], **values))
+            else:
+                for key, value in values.items():
+                    setattr(existing_article, key, value)
                 
         db.commit()
     except Exception as e:
