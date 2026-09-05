@@ -6,14 +6,25 @@
   "lane": "radar-disrupcion",
   "author": "Equipo editorial ProsperIA",
   "author_type": "organization",
-  "status": "approved",
+  "status": "published",
   "reviewed_by": "Edward Jiménez",
   "author_approved": false,
   "sources": [
-    {"title": "The 2025 AI Index Report", "url": "https://hai.stanford.edu/ai-index/2025-ai-index-report"},
-    {"title": "Generative AI and Jobs: A Refined Global Index of Occupational Exposure", "url": "https://www.ilo.org/publications/generative-ai-and-jobs-refined-global-index-occupational-exposure"},
-    {"title": "The Anthropic Economic Index", "url": "https://www.anthropic.com/research/the-anthropic-economic-index"}
+    {
+      "title": "The 2025 AI Index Report",
+      "url": "https://hai.stanford.edu/ai-index/2025-ai-index-report"
+    },
+    {
+      "title": "Generative AI and Jobs: A Refined Global Index of Occupational Exposure",
+      "url": "https://www.ilo.org/publications/generative-ai-and-jobs-refined-global-index-occupational-exposure"
+    },
+    {
+      "title": "The Anthropic Economic Index",
+      "url": "https://www.anthropic.com/research/the-anthropic-economic-index"
+    }
   ],
   "cta": "speaking",
-  "editorial_notes": "Contenido y fuentes revisados y aprobados por Edward Jiménez el 2026-09-04. La autoría permanece en el equipo editorial ProsperIA."
+  "editorial_notes": "Contenido y fuentes revisados y aprobados por Edward Jiménez el 2026-09-04. La autoría permanece en el equipo editorial ProsperIA.",
+  "published_at": "2026-09-05T02:05:34.706086+00:00",
+  "image_url": "/static/logo_prosper_ia_cropped.jpg"
 }
