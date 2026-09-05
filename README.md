@@ -85,6 +85,10 @@ El sistema no contiene credenciales predeterminadas. Antes del primer arranque c
 `ADMIN_EMAIL` y `ADMIN_PASSWORD` mediante secretos del entorno. Los campos opcionales son
 `ADMIN_NAME`, `ADMIN_COMPANY`, `ADMIN_PHONE`, `ADMIN_PLAN` y `ADMIN_API_KEY`.
 
+La captura de contactos opera en modo silencioso por defecto: guarda los registros en el
+CRM local, pero no envía correos ni webhooks. Solo se habilitan expresamente mediante
+`EMAIL_NOTIFICATIONS_ENABLED=true` o `LEAD_WEBHOOKS_ENABLED=true`.
+
 ---
 
 ## 📂 Estructura del Proyecto

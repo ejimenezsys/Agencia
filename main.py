@@ -17,6 +17,11 @@ from editorial import LANES, enrich_post
 
 app = FastAPI(title="Prosper IA API Stack", version="1.0.0")
 
+
+def feature_enabled(name: str) -> bool:
+    """Las integraciones salientes son opt-in; ausencia equivale a desactivado."""
+    return os.environ.get(name, "false").strip().lower() in {"1", "true", "yes", "on"}
+
 # Cabeceras de seguridad HTTP
 @app.middleware("http")
 async def add_security_headers(request: Request, call_next):
@@ -1609,26 +1614,28 @@ async def api_contact(req: ContactRequest, background_tasks: BackgroundTasks, db
     db.add(new_lead)
     db.commit()
     
-    # Enviar email de notificación en segundo plano
-    background_tasks.add_task(
-        send_email_notification,
-        name=req.name,
-        email=req.email,
-        company=req.company or "",
-        phone=req.phone or "",
-        message=req.message or ""
-    )
+    # Modo silencioso por defecto: el contacto se conserva en el CRM local.
+    if feature_enabled("EMAIL_NOTIFICATIONS_ENABLED"):
+        background_tasks.add_task(
+            send_email_notification,
+            name=req.name,
+            email=req.email,
+            company=req.company or "",
+            phone=req.phone or "",
+            message=req.message or ""
+        )
     
     # Sincronizar automáticamente con GHL y n8n
-    trigger_lead_sync(
-        req.name,
-        req.email,
-        req.phone or "",
-        req.company or "",
-        req.message or "",
-        req.source or "website",
-        db
-    )
+    if feature_enabled("LEAD_WEBHOOKS_ENABLED"):
+        trigger_lead_sync(
+            req.name,
+            req.email,
+            req.phone or "",
+            req.company or "",
+            req.message or "",
+            req.source or "website",
+            db
+        )
     
     return {"success": True}
 

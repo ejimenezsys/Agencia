@@ -25,3 +25,4 @@
 - Los enlaces llevan al artículo o al CTA específico de la pieza.
 - Los parámetros `utm_source`, `utm_campaign` y `utm_content` identifican ruta y artículo.
 - El formulario de diagnóstico conserva esa atribución en el campo `source` del lead.
+- El modo inicial solo registra contactos en el CRM; correos y webhooks permanecen desactivados.
