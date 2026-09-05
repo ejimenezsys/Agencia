@@ -1,0 +1,21 @@
+{
+  "editorial_question": "¿La IA reemplazará empleos completos o transformará primero las tareas que los componen?",
+  "audience": "Empresarios, ejecutivos y profesionales que necesitan decidir cómo responder a la IA",
+  "facts": [
+    {"claim": "El 78% de las organizaciones reportó usar IA en 2024, frente al 55% el año anterior.", "source_id": "stanford-2025"},
+    {"claim": "Una de cada cuatro personas trabaja en una ocupación con algún grado de exposición a la IA generativa.", "source_id": "ilo-2025"},
+    {"claim": "La OIT considera más probable la transformación del trabajo que su sustitución completa porque la mayoría de ocupaciones conserva tareas que requieren participación humana.", "source_id": "ilo-2025"},
+    {"claim": "En el conjunto observado por Anthropic, el uso se inclinó hacia el aumento de capacidades humanas (57%) más que hacia la automatización directa (43%).", "source_id": "anthropic-2025"}
+  ],
+  "sources": [
+    {"id": "stanford-2025", "title": "The 2025 AI Index Report", "url": "https://hai.stanford.edu/ai-index/2025-ai-index-report", "publisher": "Stanford Institute for Human-Centered Artificial Intelligence", "published_at": "2025", "accessed_at": "2026-09-04"},
+    {"id": "ilo-2025", "title": "Generative AI and Jobs: A Refined Global Index of Occupational Exposure", "url": "https://www.ilo.org/publications/generative-ai-and-jobs-refined-global-index-occupational-exposure", "publisher": "International Labour Organization", "published_at": "2025-05-20", "accessed_at": "2026-09-04"},
+    {"id": "anthropic-2025", "title": "The Anthropic Economic Index", "url": "https://www.anthropic.com/research/the-anthropic-economic-index", "publisher": "Anthropic", "published_at": "2025-02-10", "accessed_at": "2026-09-04"}
+  ],
+  "unknowns": [
+    "Estos estudios no predicen con certeza el número de empleos que existirán en cada país.",
+    "Los datos de uso de Anthropic reflejan conversaciones en Claude y no representan por sí solos toda la economía.",
+    "La exposición de una tarea no equivale automáticamente a pérdida de empleo."
+  ],
+  "edward_interpretation": null
+}
