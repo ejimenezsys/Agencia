@@ -1,5 +1,6 @@
 import os
 import uuid
+import hmac
 from datetime import datetime
 from typing import Optional, List, Dict, Any
 from fastapi import FastAPI, Request, Response, Depends, status, HTTPException, BackgroundTasks
@@ -11,7 +12,8 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, EmailStr
 from sqlalchemy.orm import Session
-from database import init_db, SessionLocal, User, Lead as DbLead, SessionModel, BlogPost, sync_blog_posts, IntegrationSetting
+from database import init_db, SessionLocal, User, Lead as DbLead, SessionModel, BlogPost, sync_blog_posts, IntegrationSetting, hash_password, verify_password
+from editorial import LANES, enrich_post
 
 app = FastAPI(title="Prosper IA API Stack", version="1.0.0")
 
@@ -1117,16 +1119,21 @@ async def read_login(request: Request):
 
 @app.get("/dashboard", response_class=HTMLResponse)
 @app.get("/dashboard.html", response_class=HTMLResponse)
-async def read_dashboard(request: Request):
-    return templates.TemplateResponse(request=request, name="dashboard.html")
+async def read_dashboard(request: Request, current_user: dict = Depends(get_current_user)):
+    return templates.TemplateResponse(
+        request=request,
+        name="dashboard.html",
+        context={"current_user": current_user},
+    )
 
 @app.get("/blog", response_class=HTMLResponse)
 @app.get("/blog.html", response_class=HTMLResponse)
+@app.get("/intelligence", response_class=HTMLResponse)
 async def read_blog(request: Request, db: Session = Depends(get_db)):
     sync_blog_posts(db)
     rows = db.query(BlogPost).order_by(BlogPost.id.desc()).all()
     posts = [
-        {
+        enrich_post({
             "slug": r.slug,
             "title": r.title,
             "category": r.category,
@@ -1135,17 +1142,21 @@ async def read_blog(request: Request, db: Session = Depends(get_db)):
             "image_url": r.image_url,
             "published_at": r.published_at,
             "author": r.author
-        }
+        })
         for r in rows
     ]
-    return templates.TemplateResponse(request=request, name="blog.html", context={"posts": posts})
+    return templates.TemplateResponse(
+        request=request,
+        name="blog.html",
+        context={"posts": posts, "lanes": LANES}
+    )
 
 @app.get("/blog/{slug}", response_class=HTMLResponse)
 async def read_blog_post(request: Request, slug: str, db: Session = Depends(get_db)):
     row = db.query(BlogPost).filter(BlogPost.slug == slug).first()
     if not row:
         raise HTTPException(status_code=404, detail="Artículo de blog no encontrado.")
-    post = {
+    post = enrich_post({
         "slug": row.slug,
         "title": row.title,
         "category": row.category,
@@ -1154,7 +1165,7 @@ async def read_blog_post(request: Request, slug: str, db: Session = Depends(get_
         "image_url": row.image_url,
         "published_at": row.published_at,
         "author": row.author
-    }
+    })
     return templates.TemplateResponse(request=request, name="blog_post.html", context={"post": post})
 
 @app.get("/diagnostico", response_class=HTMLResponse)
@@ -1235,7 +1246,7 @@ async def get_sitemap(db: Session = Depends(get_db)):
         '    <priority>1.0</priority>\n'
         '  </url>\n'
         '  <url>\n'
-        '    <loc>https://agenciaprosperia.com/blog</loc>\n'
+        '    <loc>https://agenciaprosperia.com/intelligence</loc>\n'
         '    <changefreq>daily</changefreq>\n'
         '    <priority>0.8</priority>\n'
         '  </url>\n'
@@ -1259,6 +1270,8 @@ async def get_sitemap(db: Session = Depends(get_db)):
     for post in posts:
         slug = post.slug
         date = post.published_at[:10]
+        if enrich_post({"slug": slug}).get("review_status") != "published":
+            continue
         xml_content += (
             f'  <url>\n'
             f'    <loc>https://agenciaprosperia.com/blog/{slug}</loc>\n'
@@ -1271,6 +1284,44 @@ async def get_sitemap(db: Session = Depends(get_db)):
     xml_content += '</urlset>\n'
     return Response(content=xml_content, media_type="application/xml")
 
+@app.get("/intelligence/feed.xml")
+async def get_intelligence_feed(db: Session = Depends(get_db)):
+    """Feed de distribución; conserva el sitio como fuente canónica."""
+    from email.utils import format_datetime
+    from html import escape
+    from datetime import timezone
+
+    rows = db.query(BlogPost).order_by(BlogPost.id.desc()).limit(30).all()
+    items = []
+    for row in rows:
+        metadata = enrich_post({"slug": row.slug})
+        if metadata.get("review_status") != "published":
+            continue
+        try:
+            published = datetime.fromisoformat(row.published_at.replace("Z", "+00:00"))
+        except ValueError:
+            published = datetime.now(timezone.utc)
+        if published.tzinfo is None:
+            published = published.replace(tzinfo=timezone.utc)
+        url = f"https://agenciaprosperia.com/blog/{row.slug}"
+        items.append(
+            "<item>"
+            f"<title>{escape(row.title)}</title>"
+            f"<link>{url}</link><guid>{url}</guid>"
+            f"<description>{escape(row.summary)}</description>"
+            f"<pubDate>{format_datetime(published)}</pubDate>"
+            "</item>"
+        )
+    xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>'
+        '<rss version="2.0"><channel>'
+        '<title>PROSPERIA Intelligence</title>'
+        '<link>https://agenciaprosperia.com/intelligence</link>'
+        '<description>Tecnología disruptiva, criterio y transformación empresarial y humana.</description>'
+        + "".join(items) + "</channel></rss>"
+    )
+    return Response(content=xml, media_type="application/rss+xml")
+
 # ─── API ENDPOINTS ──────────────────────────────────────────────────────────
 
 @app.post("/api/auth/login")
@@ -1282,11 +1333,19 @@ async def api_login(req: LoginRequest, response: Response, db: Session = Depends
             content={"success": False, "error": "Credenciales incorrectas."}
         )
         
-    if user.password != req.password:
+    password_valid = verify_password(req.password, user.password)
+    legacy_password_valid = (
+        not user.password.startswith("pbkdf2_sha256$")
+        and hmac.compare_digest(user.password, req.password)
+    )
+    if not password_valid and not legacy_password_valid:
         return JSONResponse(
             status_code=400,
             content={"success": False, "error": "Credenciales incorrectas."}
         )
+    if legacy_password_valid:
+        user.password = hash_password(req.password)
+        db.commit()
     
     # Generate unique token
     token = f"token_{uuid.uuid4().hex}"
@@ -1599,7 +1658,7 @@ async def api_update_profile(req: ProfileUpdateRequest, current_user: dict = Dep
 async def api_update_password(req: PasswordUpdateRequest, current_user: dict = Depends(get_current_user), db: Session = Depends(get_db)):
     user = db.query(User).filter(User.email == current_user["email"]).first()
     if user:
-        user.password = req.password
+        user.password = hash_password(req.password)
         db.commit()
     return {"success": True}
 
@@ -2470,5 +2529,3 @@ async def api_get_prospect_history(db: Session = Depends(get_db)):
     # Ordenar cronológicamente descendente (más recientes primero)
     campaigns.sort(key=lambda x: x["created_at"], reverse=True)
     return {"success": True, "data": {"campaigns": campaigns}}
-
-

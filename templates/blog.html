@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blog de Noticias IA — PROSPER IA</title>
-  <meta name="description" content="Artículos estratégicos sobre Inteligencia Artificial, automatización de procesos y CRM para CEOs y dueños de agencias de servicios.">
+  <title>PROSPERIA Intelligence — Tecnología, criterio y transformación</title>
+  <meta name="description" content="Análisis con criterio sobre tecnología disruptiva, futuro y transformación económica, empresarial y humana.">
   <meta name="keywords" content="blog ia, automatizacion crm, sdr ia, prosper ia, edward jimenez, inteligencia artificial negocios">
-  <link rel="canonical" href="https://agenciaprosperia.com/blog">
+  <link rel="canonical" href="https://agenciaprosperia.com/intelligence">
+  <link rel="alternate" type="application/rss+xml" title="PROSPERIA Intelligence" href="/intelligence/feed.xml">
   <link rel="icon" type="image/png" href="{{ static_versioned('favicon.png') }}">
 
   <!-- Marcado Estructurado JSON-LD (SEO y Búsquedas de IA) -->
@@ -14,9 +15,9 @@
   {
     "@context": "https://schema.org",
     "@type": "Blog",
-    "name": "Blog de Inteligencia Artificial para Empresarios — PROSPER IA",
-    "description": "Artículos estratégicos sobre Inteligencia Artificial, automatización de procesos y CRM para CEOs y dueños de agencias de servicios.",
-    "url": "https://agenciaprosperia.com/blog",
+    "name": "PROSPERIA Intelligence",
+    "description": "Tecnología disruptiva, criterio y transformación económica, empresarial y humana.",
+    "url": "https://agenciaprosperia.com/intelligence",
     "publisher": {
       "@type": "Organization",
       "name": "Prosper IA",
@@ -33,7 +34,7 @@
         "description": "{{ post.summary }}",
         "datePublished": "{{ post.published_at }}",
         "author": {
-          "@type": "Person",
+          "@type": "{% if post.author_type == 'person' %}Person{% else %}Organization{% endif %}",
           "name": "{{ post.author }}"
         },
         "url": "https://agenciaprosperia.com/blog/{{ post.slug }}"
@@ -45,9 +46,9 @@
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://agenciaprosperia.com/blog">
-  <meta property="og:title" content="Blog de Noticias IA — PROSPER IA">
-  <meta property="og:description" content="Artículos estratégicos sobre Inteligencia Artificial, automatización de procesos y CRM para CEOs y dueños de agencias de servicios.">
+  <meta property="og:url" content="https://agenciaprosperia.com/intelligence">
+  <meta property="og:title" content="PROSPERIA Intelligence">
+  <meta property="og:description" content="Tecnología disruptiva, criterio y transformación económica, empresarial y humana.">
   <meta property="og:image" content="https://agenciaprosperia.com/static/logo_prosper_ia_cropped.jpg">
 
   <link rel="stylesheet" href="{{ static_versioned('tw.css') }}">
@@ -67,7 +68,7 @@
     }
     * { font-family: 'Inter', sans-serif; box-sizing: border-box; }
     h1,h2,h3 { font-family: 'Space Grotesk', sans-serif; }
-    body { background: var(--navy); color: var(--white); overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column; padding-top: 40px; }
+    body { background: var(--navy); color: var(--white); overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column; padding-top: 160px !important; }
     .top-bar {
       position: fixed; top: 0; left: 0; right: 0; height: 40px; z-index: 110;
       background: #01040a;
@@ -195,7 +196,7 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex items-center justify-between">
     <div class="flex items-center gap-2" style="font-size: 11px;">
       <span class="inline-block w-2 h-2 rounded-full animate-pulse" style="background-color: #ffe600;"></span>
-      <span class="text-slate-300">🚀 Diagnóstico de Madurez SVE90 de 30 Minutos. | ⚡️ Acceso a PassportAI (5 días gratis): <a href="https://passportai.app/" target="_blank" class="font-bold underline hover:text-yellow-200 transition-colors" style="color: #ffe600;">passportai.app</a></span>
+      <span class="text-slate-300">PROSPERIA Intelligence · Tecnología disruptiva convertida en criterio y acción.</span>
     </div>
     <div class="flex items-center gap-4 text-slate-400" style="font-size: 13px;">
       <a href="https://www.instagram.com/edwardjimenezia/" target="_blank" rel="noopener" class="hover:text-cyan-400 transition-colors" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
@@ -221,20 +222,20 @@
         <!-- Dropdown Menu -->
         <div class="relative group py-2">
           <button class="text-sm text-white transition-colors font-semibold border-b-2 border-cyan-400 pb-1 flex items-center gap-1.5 focus:outline-none">
-            Blog <i class="fas fa-chevron-down text-[9px] chevron-rotate"></i>
+            Intelligence <i class="fas fa-chevron-down text-[9px] chevron-rotate"></i>
           </button>
           <!-- Dropdown Container -->
           <div class="dropdown-menu absolute left-1/2 mt-3 w-48 rounded-2xl bg-slate-950/95 border border-cyan-500/20 p-2 shadow-[0_10px_40px_rgba(0,229,255,0.15)] origin-top backdrop-blur-xl z-[110]">
             <!-- Arrow tip -->
             <div class="absolute -top-1 w-2.5 h-2.5 bg-slate-950 border-t border-l border-cyan-500/20 rotate-45 left-1/2 -translate-x-1/2"></div>
             
-            <a href="/blog" class="relative flex items-center gap-3 text-xs text-white hover:text-white hover:bg-gradient-to-r hover:from-cyan-950/50 hover:to-cyan-900/30 rounded-xl px-3 py-2 transition-all duration-200 font-medium group/item mb-1">
+            <a href="/intelligence" class="relative flex items-center gap-3 text-xs text-white hover:text-white hover:bg-gradient-to-r hover:from-cyan-950/50 hover:to-cyan-900/30 rounded-xl px-3 py-2 transition-all duration-200 font-medium group/item mb-1">
               <span class="w-7 h-7 rounded-lg bg-cyan-950/60 border border-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-400 group-hover/item:text-slate-950 transition-colors">
                 <i class="fas fa-newspaper text-xs"></i>
               </span>
               <div class="flex flex-col text-left">
                 <span class="font-bold text-xs text-white">Artículos</span>
-                <span class="text-[9px] text-slate-500 font-light group-hover/item:text-slate-400 transition-colors">Noticias de IA</span>
+                <span class="text-[9px] text-slate-500 font-light group-hover/item:text-slate-400 transition-colors">Análisis con criterio</span>
               </div>
             </a>
             
@@ -251,7 +252,7 @@
         </div>
       </div>
       <div class="flex items-center gap-3">
-        <a href="https://passportai.app/" target="_blank" class="hidden sm:block text-sm font-bold hover:text-yellow-200 transition-colors px-2 py-2" style="color: #ffe600;">PassportAI (5 Días Gratis)</a>
+        <a href="https://passportai.app/" target="_blank" class="hidden sm:block text-sm font-bold hover:text-yellow-200 transition-colors px-2 py-2" style="color: #ffe600;">Conocer PassportAI</a>
         <a href="/index.html#contacto" class="btn-gold text-sm font-bold px-5 py-2.5 rounded-xl">
           Aplicar al Diagnóstico
         </a>
@@ -265,14 +266,13 @@
   <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full opacity-[0.03] blur-3xl pointer-events-none" style="background:radial-gradient(circle, #00e5ff 0%, transparent 70%);"></div>
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
     <div class="inline-block px-3 py-1 rounded-full text-xs font-bold mb-4 uppercase tracking-widest" style="background:rgba(0,229,255,0.08); color:#00e5ff; border:1px solid rgba(0,229,255,0.25);">
-      Estrategia & Tecnología
+      Inteligencia para decidir
     </div>
     <h1 class="text-4xl sm:text-5xl md:text-6xl font-black text-white mb-6">
-      Blog de Inteligencia Artificial <br>
-      <span style="background: linear-gradient(90deg, #00e5ff, #0ea5e9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">para Empresarios</span>
+      PROSPERIA <span style="background: linear-gradient(90deg, #00e5ff, #0ea5e9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Intelligence</span>
     </h1>
     <p class="text-slate-400 text-lg max-w-2xl mx-auto font-light leading-relaxed">
-      Aprende cómo automatizar flujos de venta, configurar empleados digitales y centralizar tu propiedad intelectual para blindar tus márgenes operativos.
+      Señales que importan, interpretación ejecutiva y aplicaciones reales para prosperar ante la tecnología disruptiva. Menos ruido. Más criterio.
     </p>
   </div>
 </header>
@@ -295,7 +295,7 @@
             <i class="fas fa-microchip text-7xl text-cyan-400/20"></i>
           </div>
           <span class="text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-md" style="position: absolute; top: 1.5rem; left: 1.5rem; z-index: 10; background: rgba(2, 7, 16, 0.9); color: #00e5ff; border: 1px solid rgba(0,229,255,0.4); backdrop-filter: blur(4px);">
-            Artículo Destacado • {{ featured.category }}
+            Análisis destacado • {{ featured.lane_name }}
           </span>
         </div>
         
@@ -326,22 +326,22 @@
 
   <!-- Blog Grid Header / Anchor Point -->
   <div id="blog-grid-header" class="pt-8 mb-8 border-t border-slate-800/80">
-    <h2 class="text-2xl font-bold text-white mb-6">Explorar Historial de Noticias</h2>
+    <h2 class="text-2xl font-bold text-white mb-2">Explorar por perspectiva</h2>
+    <p class="text-slate-500 text-sm">Cada ruta responde una pregunta distinta: qué cambia, qué significa y cómo actuar.</p>
   </div>
 
   <!-- Category Filters -->
   <div class="flex flex-wrap justify-center sm:justify-start gap-3 mb-10">
     <button class="filter-btn active" data-category="all">Todos</button>
-    <button class="filter-btn" data-category="Marketing & CRM">Marketing & CRM</button>
-    <button class="filter-btn" data-category="Operaciones">Operaciones</button>
-    <button class="filter-btn" data-category="Automatización">Automatización</button>
-    <button class="filter-btn" data-category="Casos de Éxito">Casos de Éxito</button>
+    {% for lane_key, lane_name in lanes.items() %}
+    <button class="filter-btn" data-category="{{ lane_key }}">{{ lane_name }}</button>
+    {% endfor %}
   </div>
 
   <!-- Blog Grid -->
   <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="blog-posts-grid">
     {% for post in posts %}
-    <article class="card-glow overflow-hidden flex flex-column flex-col justify-between blog-post-card" data-category="{{ post.category }}" style="display: none; opacity: 0;">
+    <article class="card-glow overflow-hidden flex flex-column flex-col justify-between blog-post-card" data-category="{{ post.lane }}" style="display: none; opacity: 0;">
       <div>
         <div class="blog-card-img-container">
           <img src="{{ post.image_url }}" alt="{{ post.title }}" class="blog-img-fit hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -350,7 +350,7 @@
             <i class="fas fa-microchip text-5xl text-cyan-400/20"></i>
           </div>
           <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-md" style="position: absolute; top: 1rem; left: 1rem; z-index: 10; background: rgba(2, 7, 16, 0.85); color: #00e5ff; border: 1px solid rgba(0,229,255,0.3); backdrop-filter: blur(4px);">
-            {{ post.category }}
+            {{ post.lane_name }}
           </span>
         </div>
         
@@ -359,6 +359,8 @@
             <span><i class="far fa-calendar-alt mr-1"></i> {{ post.published_at[:10] }}</span>
             <span>•</span>
             <span><i class="far fa-user mr-1"></i> {{ post.author }}</span>
+            <span>•</span>
+            <span>{{ post.reading_minutes }} min</span>
           </div>
           <h2 class="text-xl font-bold text-white mb-3 hover:text-cyan-400 transition-colors line-clamp-2">
             <a href="/blog/{{ post.slug }}">{{ post.title }}</a>
@@ -544,7 +546,7 @@
         <ul class="space-y-3 text-xs sm:text-sm">
           <li><a href="/index.html#masterclass" class="text-slate-500 hover:text-white transition-colors">Demostración Operativa SVE90</a></li>
           <li><a href="/index.html#contacto" class="text-slate-500 hover:text-white transition-colors">Aplicar al Diagnóstico de Madurez</a></li>
-          <li><a href="/blog" class="text-slate-500 hover:text-white transition-colors">Blog de Noticias IA</a></li>
+          <li><a href="/intelligence" class="text-slate-500 hover:text-white transition-colors">PROSPERIA Intelligence</a></li>
           <li><a href="https://passportai.app/" target="_blank" class="text-slate-500 hover:text-white transition-colors">Acceso a PassportAI (Login)</a></li>
           <li><a href="/login" class="text-slate-500 hover:text-white transition-colors">Acceso al Portal SVE90</a></li>
         </ul>

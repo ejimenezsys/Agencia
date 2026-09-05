@@ -167,7 +167,15 @@ RESULTADOS ESTIMADOS:
 - Fuga de leads: ${leadsLost} leads perdidos/mes (${leakPercent}% de fuga)
 - Fuga de ingresos estimada: $ ${revenueLost.toLocaleString('en-US')} USD/mes`;
 
-    // 1. Enviar los datos del Lead de forma local a /api/auth/contact para el Dashboard y sincronización de webhooks
+    // 1. Preservar la atribución editorial sin almacenar datos de navegación adicionales.
+    const attribution = new URLSearchParams(window.location.search);
+    const editorialSource = [
+      attribution.get('utm_source'),
+      attribution.get('utm_campaign'),
+      attribution.get('utm_content')
+    ].filter(Boolean).join(':');
+
+    // 2. Enviar los datos del Lead de forma local a /api/auth/contact para el Dashboard y sincronización de webhooks
     try {
       await fetch('/api/auth/contact', {
         method: 'POST',
@@ -178,7 +186,7 @@ RESULTADOS ESTIMADOS:
           phone: state.contactWhatsapp,
           company: '',
           message: state.calculatedReport,
-          source: 'diagnostico'
+          source: editorialSource ? `diagnostico:${editorialSource}` : 'diagnostico'
         })
       });
     } catch (e) {

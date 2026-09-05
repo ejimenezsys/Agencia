@@ -79,11 +79,11 @@ Una vez que el servidor esté activo (por cualquiera de los métodos), navega en
 
 ---
 
-## 👤 Credenciales de Acceso Predeterminadas
+## 👤 Creación del administrador
 
-Usa la siguiente cuenta administradora configurada en el sistema para iniciar sesión de inmediato:
-- **Correo Electrónico**: `admin@prosperia.com`
-- **Contraseña**: `admin1234`
+El sistema no contiene credenciales predeterminadas. Antes del primer arranque configura
+`ADMIN_EMAIL` y `ADMIN_PASSWORD` mediante secretos del entorno. Los campos opcionales son
+`ADMIN_NAME`, `ADMIN_COMPANY`, `ADMIN_PHONE`, `ADMIN_PLAN` y `ADMIN_API_KEY`.
 
 ---
 

@@ -1,45 +1,30 @@
-name: Generar Artículos del Blog con IA
+name: Validar borrador de PROSPERIA Intelligence
 
 on:
-  schedule:
-    # Se ejecuta cada 10 días a las 00:00 UTC
-    - cron: '0 0 */10 * *'
   workflow_dispatch:
-    # Habilita la ejecución manual desde la pestaña 'Actions' de GitHub
+    inputs:
+      draft:
+        description: 'Ruta del borrador JSON que se desea validar'
+        required: true
+        type: string
 
 jobs:
-  build-and-generate:
+  validate-draft:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: read
 
     steps:
     - name: Descargar repositorio
       uses: actions/checkout@v4
       with:
-        fetch-depth: 0
 
     - name: Configurar Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.10'
+        python-version: '3.11'
 
-    - name: Instalar dependencias
-      run: |
-        python -m pip install --upgrade pip
-        pip install requests Pillow
-
-    - name: Ejecutar script de generación de posts con IA
+    - name: Validar estructura y aprobación humana
       env:
-        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-      run: |
-        python generate_ai_posts.py
-
-    - name: Guardar y subir cambios a GitHub
-      run: |
-        git config --global user.name "github-actions[bot]"
-        git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        git add main.py static/blog/*.jpg
-        git commit -m "chore(blog): auto-generar 6 nuevos artículos y portadas con IA [skip ci]" || echo "Sin cambios para commitear"
-        git pull --rebase origin main
-        git push origin main
+        DRAFT_FILE: ${{ inputs.draft }}
+      run: python editorial_workflow.py "$DRAFT_FILE" --publish-check

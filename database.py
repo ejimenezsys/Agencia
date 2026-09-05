@@ -1,5 +1,8 @@
 import os
 import sqlite3
+import hashlib
+import hmac
+import secrets
 from datetime import datetime
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
@@ -14,6 +17,29 @@ engine = create_engine(
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
+
+PASSWORD_SCHEME = "pbkdf2_sha256"
+PASSWORD_ITERATIONS = 600_000
+
+
+def hash_password(password: str) -> str:
+    """Genera un hash PBKDF2 con sal aleatoria; nunca persiste texto plano."""
+    salt = secrets.token_bytes(16)
+    digest = hashlib.pbkdf2_hmac("sha256", password.encode(), salt, PASSWORD_ITERATIONS)
+    return f"{PASSWORD_SCHEME}${PASSWORD_ITERATIONS}${salt.hex()}${digest.hex()}"
+
+
+def verify_password(password: str, stored: str) -> bool:
+    try:
+        scheme, iterations, salt_hex, digest_hex = stored.split("$", 3)
+        if scheme != PASSWORD_SCHEME:
+            return False
+        candidate = hashlib.pbkdf2_hmac(
+            "sha256", password.encode(), bytes.fromhex(salt_hex), int(iterations)
+        )
+        return hmac.compare_digest(candidate.hex(), digest_hex)
+    except (AttributeError, TypeError, ValueError):
+        return False
 
 class User(Base):
     """Modelo ORM para la tabla de usuarios administradores."""
@@ -79,21 +105,23 @@ def init_db():
     db = SessionLocal()
     try:
         # Seed Admin User
-        if db.query(User).count() == 0:
+        admin_email = os.environ.get("ADMIN_EMAIL")
+        admin_password = os.environ.get("ADMIN_PASSWORD")
+        if db.query(User).count() == 0 and admin_email and admin_password:
             admin = User(
-                email="admin@prosperia.com",
-                name="Administrador Prosper",
-                password="admin1234",
-                company="Prosper IA Corp",
-                phone="+34 600 000 000",
-                plan="premium",
-                api_key="pk_live_51Hz8xProsperSecureToken99aB"
+                email=admin_email,
+                name=os.environ.get("ADMIN_NAME", "Administrador ProsperIA"),
+                password=hash_password(admin_password),
+                company=os.environ.get("ADMIN_COMPANY", "Prosper IA Corp"),
+                phone=os.environ.get("ADMIN_PHONE"),
+                plan=os.environ.get("ADMIN_PLAN", "premium"),
+                api_key=os.environ.get("ADMIN_API_KEY")
             )
             db.add(admin)
             
         # Seed Integration Settings
         default_settings = {
-            "ghl_webhook_url": "https://services.leadconnectorhq.com/hooks/pEtSFHMJ5oV7CpmWRsI8/webhook-trigger",
+            "ghl_webhook_url": os.environ.get("GHL_WEBHOOK_URL", ""),
             "n8n_webhook_url": "",
             "whatsapp_status": "pending",
             "whatsapp_token": "",
@@ -125,7 +153,11 @@ def init_db():
                 
         # Seed Blog Posts
         from main import INITIAL_BLOG_POSTS
+        seeded_slugs = set()
         for post_data in INITIAL_BLOG_POSTS:
+            if post_data["slug"] in seeded_slugs:
+                continue
+            seeded_slugs.add(post_data["slug"])
             exists = db.query(BlogPost).filter(BlogPost.slug == post_data["slug"]).first()
             if not exists:
                 post = BlogPost(
@@ -168,7 +200,11 @@ def sync_blog_posts(db):
         db: Sesión activa de SQLAlchemy.
     """
     from main import INITIAL_BLOG_POSTS
+    synced_slugs = set()
     for post_data in INITIAL_BLOG_POSTS:
+        if post_data["slug"] in synced_slugs:
+            continue
+        synced_slugs.add(post_data["slug"])
         exists = db.query(BlogPost).filter(BlogPost.slug == post_data["slug"]).first()
         if not exists:
             post = BlogPost(

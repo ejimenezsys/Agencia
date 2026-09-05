@@ -19,6 +19,10 @@ services:
       - SMTP_PASSWORD=${SMTP_PASSWORD}
       - SMTP_SENDER=${SMTP_SENDER:-noreply@prosper-ia.com}
       - NOTIFICATION_EMAIL=${NOTIFICATION_EMAIL:-ejimenezsys@gmail.com}
+      - GHL_WEBHOOK_URL=${GHL_WEBHOOK_URL}
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - ADMIN_NAME=${ADMIN_NAME:-Administrador ProsperIA}
 
 volumes:
   prosper_ia_prod_data:

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PROSPERIA Intelligence article",
+  "type": "object",
+  "required": ["slug", "title", "summary", "content", "lane", "author", "author_type", "status", "sources"],
+  "properties": {
+    "slug": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+    "title": {"type": "string", "minLength": 20},
+    "summary": {"type": "string", "minLength": 50},
+    "content": {"type": "string", "minLength": 500},
+    "lane": {"enum": ["radar-disrupcion", "criterio-edward", "inteligencia-clinicas", "laboratorio-prosperia", "cuatro-inteligencias"]},
+    "author": {"type": "string"},
+    "author_type": {"enum": ["person", "organization"]},
+    "status": {"enum": ["draft", "review", "approved", "published"]},
+    "reviewed_by": {"type": ["string", "null"]},
+    "sources": {"type": "array", "items": {"type": "object", "required": ["title", "url"], "properties": {"title": {"type": "string"}, "url": {"type": "string", "format": "uri"}}},
+    "cta": {"enum": ["subscribe", "diagnostic", "passportai", "speaking"]}
+  }
+}
+
