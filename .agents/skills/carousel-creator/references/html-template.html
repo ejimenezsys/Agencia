@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrusel Premium — 1080x1350 (4:5)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #090D16;
+      --surface-dark: #141A28;
+      --surface-elevated: #1D2538;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(56, 189, 248, 0.35);
+      --text-white: #F8FAFC;
+      --text-muted: #94A3B8;
+      --accent-cyan: #38BDF8;
+      --accent-lime: #A3E635;
+      --accent-amber: #F59E0B;
+      --accent-gradient: linear-gradient(135deg, #38BDF8 0%, #818CF8 100%);
+      --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #030712;
+      color: var(--text-white);
+      font-family: var(--font-main);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    /* Barra de herramientas para navegación y exportación */
+    .toolbar {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 24px;
+      background: rgba(20, 26, 40, 0.8);
+      padding: 12px 24px;
+      border-radius: 9999px;
+      border: 1px solid var(--border-subtle);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+
+    .btn {
+      background: var(--surface-elevated);
+      color: var(--text-white);
+      border: 1px solid var(--border-subtle);
+      padding: 8px 16px;
+      border-radius: 9999px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+      background: var(--border-accent);
+      border-color: var(--accent-cyan);
+    }
+
+    .btn-primary {
+      background: var(--accent-cyan);
+      color: #030712;
+      border-color: transparent;
+    }
+
+    .btn-primary:hover {
+      background: #7dd3fc;
+    }
+
+    .slide-counter {
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--accent-cyan);
+      min-width: 60px;
+      text-align: center;
+    }
+
+    /* Contenedor del Carrusel en Pantalla */
+    .carousel-stage {
+      position: relative;
+      width: 540px;
+      height: 675px; /* Escala 50% de 1080x1350 para previsualización */
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8);
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid var(--border-subtle);
+    }
+
+    /* El Canvas Real de cada Slide (1080x1350 px) escalado mediante zoom / transform */
+    .slide-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1080px;
+      height: 1350px;
+      transform: scale(0.5);
+      transform-origin: top left;
+      background: var(--bg-dark);
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 100px 90px 120px 90px;
+      overflow: hidden;
+    }
+
+    .slide-canvas.active {
+      display: flex;
+    }
+
+    /* Decoración de fondo ambiental */
+    .ambient-glow {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      filter: blur(140px);
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.15;
+    }
+
+    .glow-cyan {
+      top: -100px;
+      right: -100px;
+      background: #38BDF8;
+    }
+
+    .glow-purple {
+      bottom: -100px;
+      left: -100px;
+      background: #818CF8;
+    }
+
+    /* Header de cada slide */
+    .slide-header {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .author-badge {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .author-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--accent-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 22px;
+      color: #030712;
+    }
+
+    .author-info h4 {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-white);
+    }
+
+    .author-info p {
+      font-size: 17px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .badge-pill {
+      background: var(--surface-dark);
+      border: 1px solid var(--border-subtle);
+      padding: 10px 22px;
+      border-radius: 9999px;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent-cyan);
+    }
+
+    /* Contenido central del slide */
+    .slide-body {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      margin: auto 0;
+    }
+
+    .hero-title {
+      font-size: 68px;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -1.5px;
+    }
+
+    .hero-title span.highlight {
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .slide-title {
+      font-size: 52px;
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: -1px;
+    }
+
+    .body-copy {
+      font-size: 30px;
+      line-height: 1.45;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .body-copy strong {
+      color: var(--text-white);
+      font-weight: 700;
+    }
+
+    /* Cajas y tarjetas de soporte visual */
+    .card-box {
+      background: var(--surface-dark);
+      border: 1px solid var(--border-subtle);
+      border-radius: 28px;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+
+    .card-box.accent-border {
+      border-color: var(--border-accent);
+      background: linear-gradient(180deg, var(--surface-dark) 0%, rgba(20,26,40,0.6) 100%);
+    }
+
+    .card-title {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--text-white);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .card-text {
+      font-size: 26px;
+      line-height: 1.4;
+      color: var(--text-muted);
+    }
+
+    /* Footer de cada slide */
+    .slide-footer {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 36px;
+    }
+
+    .swipe-hint {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--accent-cyan);
+    }
+
+    .pagination-dots {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--surface-elevated);
+    }
+
+    .dot.active {
+      width: 44px;
+      border-radius: 12px;
+      background: var(--accent-cyan);
+    }
+
+    /* ESTILOS PARA EXPORTACIÓN A PDF (Para LinkedIn) */
+    @media print {
+      body {
+        background: transparent !important;
+        padding: 0 !important;
+      }
+
+      .toolbar {
+        display: none !important;
+      }
+
+      .carousel-stage {
+        width: 1080px !important;
+        height: auto !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        border: none !important;
+        overflow: visible !important;
+      }
+
+      .slide-canvas {
+        position: relative !important;
+        transform: none !important;
+        display: flex !important;
+        page-break-after: always !important;
+        break-after: page !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Controles interactivos -->
+  <div class="toolbar">
+    <button class="btn" id="prevBtn" onclick="prevSlide()">← Anterior</button>
+    <div class="slide-counter" id="counter">1 / 5</div>
+    <button class="btn" id="nextBtn" onclick="nextSlide()">Siguiente →</button>
+    <button class="btn btn-primary" onclick="window.print()">Descargar en PDF (LinkedIn)</button>
+  </div>
+
+  <!-- Escenario de previsualización -->
+  <div class="carousel-stage">
+
+    <!-- SLIDE 1: HOOK / STOPPING POWER -->
+    <div class="slide-canvas active" id="slide-1">
+      <div class="ambient-glow glow-cyan"></div>
+      <div class="ambient-glow glow-purple"></div>
+
+      <div class="slide-header">
+        <div class="author-badge">
+          <div class="author-avatar">EJ</div>
+          <div class="author-info">
+            <h4>Edward Jiménez</h4>
+            <p>@edwardjimenezia</p>
+          </div>
+        </div>
+        <div class="badge-pill">FRAMEWORK</div>
+      </div>
+
+      <div class="slide-body">
+        <h1 class="hero-title">
+          Cómo escalar tu negocio con <span class="highlight">Agentes de IA</span> sin contratar más personal
+        </h1>
+        <p class="body-copy">
+          El sistema exacto de 3 capas que automatiza el 80% de tus operaciones manuales en menos de 14 días.
+        </p>
+      </div>
+
+      <div class="slide-footer">
+        <div class="swipe-hint">
+          Desliza para ver el método →
+        </div>
+        <div class="pagination-dots">
+          <div class="dot active"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2: EL PROBLEMA / EL RE-HOOK -->
+    <div class="slide-canvas" id="slide-2">
+      <div class="ambient-glow glow-purple"></div>
+
+      <div class="slide-header">
+        <div class="author-badge">
+          <div class="author-avatar">EJ</div>
+          <div class="author-info">
+            <h4>Edward Jiménez</h4>
+            <p>@edwardjimenezia</p>
+          </div>
+        </div>
+        <div class="badge-pill">EL ERROR</div>
+      </div>
+
+      <div class="slide-body">
+        <h2 class="slide-title">
+          El 90% de las empresas implementa IA de forma incorrecta
+        </h2>
+        <p class="body-copy">
+          Compran suscripciones sueltas a ChatGPT y esperan que su equipo trabaje el doble de rápido. <strong>El resultado:</strong> dispersión, datos desprotegidos y cero procesos automatizados.
+        </p>
+
+        <div class="card-box accent-border">
+          <div class="card-title">⚠️ El Cuello de Botella Oculto</div>
+          <div class="card-text">
+            La IA generativa no reemplaza empleados; <strong>desarma tareas individuales</strong>. Si no tienes un mapa de procesos, la IA solo acelera el caos.
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer">
+        <div class="swipe-hint">Paso 01 a continuación →</div>
+        <div class="pagination-dots">
+          <div class="dot"></div>
+          <div class="dot active"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3: EL PASO ACCIONABLE -->
+    <div class="slide-canvas" id="slide-3">
+      <div class="ambient-glow glow-cyan"></div>
+
+      <div class="slide-header">
+        <div class="author-badge">
+          <div class="author-avatar">EJ</div>
+          <div class="author-info">
+            <h4>Edward Jiménez</h4>
+            <p>@edwardjimenezia</p>
+          </div>
+        </div>
+        <div class="badge-pill">PASO 01</div>
+      </div>
+
+      <div class="slide-body">
+        <h2 class="slide-title">
+          Crea tu "Cerebro Central" antes de los agentes
+        </h2>
+        <p class="body-copy">
+          Un agente sin contexto comete errores y alucina. Necesita una <strong>única fuente de verdad</strong> estructurada.
+        </p>
+
+        <div class="card-box">
+          <div class="card-title">🧠 Qué compone el Cerebro Central:</div>
+          <div class="card-text">
+            • Catálogo exacto de ofertas y precios oficiales.<br>
+            • Reglas de voz de marca y tono de comunicación.<br>
+            • Libro de objeciones y respuestas verificadas.
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer">
+        <div class="swipe-hint">Paso 02 →</div>
+        <div class="pagination-dots">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot active"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: SÍNTESIS / CHEAT SHEET (SAVE TRIGGER) -->
+    <div class="slide-canvas" id="slide-4">
+      <div class="ambient-glow glow-cyan"></div>
+      <div class="ambient-glow glow-purple"></div>
+
+      <div class="slide-header">
+        <div class="author-badge">
+          <div class="author-avatar">EJ</div>
+          <div class="author-info">
+            <h4>Edward Jiménez</h4>
+            <p>@edwardjimenezia</p>
+          </div>
+        </div>
+        <div class="badge-pill">RESUMEN</div>
+      </div>
+
+      <div class="slide-body">
+        <h2 class="slide-title">
+          El Ecosistema Completo en 1 Vistazo
+        </h2>
+
+        <div class="card-box">
+          <div class="card-title">1. Cerebro (Contexto)</div>
+          <div class="card-text">Centraliza datos, reglas y ofertas en archivos markdown.</div>
+        </div>
+
+        <div class="card-box">
+          <div class="card-title">2. Agentes de Tarea (Ejecución)</div>
+          <div class="card-text">1 agente = 1 misión concreta (prospección, soporte o contenido).</div>
+        </div>
+
+        <div class="card-box">
+          <div class="card-title">3. QC Humano (Supervisión)</div>
+          <div class="card-text">El humano aprueba entregables clave antes de enviar.</div>
+        </div>
+      </div>
+
+      <div class="slide-footer">
+        <div class="swipe-hint">Guarda esta lámina 🔖</div>
+        <div class="pagination-dots">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot active"></div>
+          <div class="dot"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5: CTA / CIERRE -->
+    <div class="slide-canvas" id="slide-5">
+      <div class="ambient-glow glow-purple"></div>
+
+      <div class="slide-header">
+        <div class="badge-pill">SIGUIENTE PASO</div>
+      </div>
+
+      <div class="slide-body" style="text-align: center; align-items: center;">
+        <div class="author-avatar" style="width: 120px; height: 120px; font-size: 48px; margin-bottom: 12px;">
+          EJ
+        </div>
+        <h2 class="hero-title" style="font-size: 56px;">
+          ¿Listo para automatizar tus operaciones con IA?
+        </h2>
+        <p class="body-copy" style="max-width: 800px;">
+          Comenta la palabra <strong>"PORTAL"</strong> y te comparto la arquitectura completa para empezar en tu negocio.
+        </p>
+
+        <div class="card-box accent-border" style="width: 100%; margin-top: 20px;">
+          <div class="card-text" style="font-size: 28px; text-align: center;">
+            📌 <strong>Guarda este carrusel</strong> para revisarlo con tu equipo técnico.
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer" style="justify-content: center;">
+        <p style="font-size: 22px; color: var(--text-muted); font-weight: 600;">
+          Edward Jiménez · Inteligencia Artificial y Operaciones
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    let currentSlide = 1;
+    const totalSlides = 5;
+
+    function showSlide(index) {
+      document.querySelectorAll('.slide-canvas').forEach((el, idx) => {
+        el.classList.toggle('active', idx + 1 === index);
+      });
+      document.getElementById('counter').innerText = `${index} / ${totalSlides}`;
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides) {
+        currentSlide++;
+        showSlide(currentSlide);
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) {
+        currentSlide--;
+        showSlide(currentSlide);
+      }
+    }
+
+    // Navegación mediante flechas de teclado
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+      if (e.key === 'ArrowLeft') prevSlide();
+    });
+  </script>
+</body>
+</html>

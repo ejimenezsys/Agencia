@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>De herramientas a agentes: por qué el software que compraste en 2024 ya es obsoleto — Carrusel LinkedIn</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #070B14;
+      --surface: #101726;
+      --surface-card: #151F33;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(0, 229, 255, 0.25);
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+      --accent-cyan: #00E5FF;
+      --accent-blue: #3B82F6;
+      --accent-purple: #8B5CF6;
+      --accent-green: #10B981;
+      --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #02050A;
+      color: var(--text-main);
+      font-family: var(--font-main);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+      padding: 40px 20px;
+    }
+
+    /* LÁMINA 4:5 EXACTA: 1080px x 1350px */
+    .slide-canvas {
+      position: relative;
+      width: 1080px;
+      height: 1350px;
+      background-color: var(--bg-dark);
+      border: 1px solid var(--border-subtle);
+      border-radius: 24px;
+      overflow: hidden;
+      padding: 90px 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.9);
+      page-break-after: always;
+      page-break-inside: avoid;
+    }
+
+    /* EFECTOS DE RESPLANDOR AMBIENTAL */
+    .ambient-glow {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      filter: blur(140px);
+      opacity: 0.18;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .glow-blue {
+      top: -150px;
+      right: -150px;
+      background: radial-gradient(circle, var(--accent-blue) 0%, transparent 70%);
+    }
+    .glow-purple {
+      bottom: -150px;
+      left: -150px;
+      background: radial-gradient(circle, var(--accent-purple) 0%, transparent 70%);
+    }
+    .glow-cyan {
+      top: 20%;
+      right: -100px;
+      background: radial-gradient(circle, var(--accent-cyan) 0%, transparent 70%);
+    }
+
+    /* HEADER */
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 24px;
+    }
+
+    .brand-tag {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+    .brand-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent-cyan);
+      box-shadow: 0 0 16px var(--accent-cyan);
+    }
+    .slide-num {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      font-feature-settings: "tnum";
+    }
+
+    /* BADGE PILL */
+    .badge-pill {
+      align-self: flex-start;
+      display: inline-block;
+      padding: 8px 20px;
+      background: rgba(0, 229, 255, 0.1);
+      border: 1px solid var(--border-accent);
+      color: var(--accent-cyan);
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    /* BODY & TITULARES */
+    .slide-body {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      flex: 1;
+      padding: 40px 0;
+    }
+    .slide-cover {
+      justify-content: center;
+    }
+
+    .hero-title {
+      font-size: 68px;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -1.5px;
+      color: var(--text-main);
+      margin-bottom: 28px;
+    }
+    .subtitle-hero {
+      font-size: 34px;
+      font-weight: 500;
+      line-height: 1.4;
+      color: var(--text-muted);
+      max-width: 900px;
+    }
+
+    .slide-title {
+      font-size: 54px;
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: -1px;
+      color: var(--text-main);
+      margin-bottom: 16px;
+    }
+    .slide-subtitle {
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--accent-cyan);
+      margin-bottom: 32px;
+    }
+
+    .content-block {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .body-copy {
+      font-size: 32px;
+      font-weight: 500;
+      line-height: 1.5;
+      color: #E2E8F0;
+    }
+
+    /* CARDS & LISTAS */
+    .card-box {
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 18px;
+      padding: 32px 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .list-item {
+      font-size: 28px;
+      font-weight: 600;
+      line-height: 1.45;
+      color: var(--text-main);
+    }
+
+    /* CTA CARD */
+    .cta-card {
+      margin-top: 30px;
+      background: linear-gradient(145deg, rgba(21, 31, 51, 0.9), rgba(16, 23, 38, 0.9));
+      border: 1px solid var(--border-accent);
+      border-radius: 20px;
+      padding: 36px;
+      box-shadow: 0 10px 40px rgba(0, 229, 255, 0.1);
+    }
+
+    /* FOOTER */
+    .slide-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 24px;
+    }
+
+    .author-badge {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .avatar {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+      color: #02050A;
+      font-size: 22px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .author-info {
+      display: flex;
+      flex-direction: column;
+    }
+    .author-name {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+    .author-sub {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .swipe-hint {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .footer-meta {
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    /* AJUSTE PARA IMPRESIÓN A PDF */
+    @page {
+      size: 1080px 1350px;
+      margin: 0;
+    }
+    @media print {
+      body {
+        background: none;
+        padding: 0;
+        gap: 0;
+      }
+      .slide-canvas {
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+        width: 1080px;
+        height: 1350px;
+      }
+    }
+  </style>
+</head>
+<body>
+  
+            <div class="slide-canvas" id="slide-1">
+              <div class="ambient-glow glow-blue"></div>
+              <div class="slide-header">
+                <div class="brand-tag">
+                  <span class="brand-dot"></span>
+                  PROSPERIA INTELLIGENCE
+                </div>
+                <div class="slide-num">01 / 08</div>
+              </div>
+              <div class="slide-body slide-cover">
+                <div class="badge-pill">PORTADA</div>
+                <h1 class="hero-title">EL SOFTWARE QUE COMPRASTE EN 2024 YA ES OBSOLETO.</h1>
+                <p class="subtitle-hero">De copilotos pasivos a agentes autónomos: la nueva regla del juego.</p>
+              </div>
+              <div class="slide-footer">
+                <div class="author-badge">
+                  <div class="avatar">EJ</div>
+                  <div class="author-info">
+                    <span class="author-name">Edward Jiménez</span>
+                    <span class="author-sub">Arquitectura de IA & Operaciones</span>
+                  </div>
+                </div>
+                <div class="swipe-hint">Desliza para ver los datos <span class="arrow">→</span></div>
+              </div>
+            </div>
+            
+            <div class="slide-canvas" id="slide-2">
+              <div class="ambient-glow glow-purple"></div>
+              <div class="slide-header">
+                <div class="brand-tag">
+                  <span class="brand-dot"></span>
+                  PROSPERIA INTELLIGENCE
+                </div>
+                <div class="slide-num">02 / 08</div>
+              </div>
+              <div class="slide-body">
+                <div class="badge-pill">LA FALLA DE 2024</div>
+                <h2 class="slide-title">EL CUELLO DE BOTELLA DEL «COPILOTO»</h2>
+                <p class="slide-subtitle">En 2024 llenaste la empresa de herramientas de IA.</p>
+                <div class="content-block">
+                  <p class="body-copy">Pero el proceso sigue siendo el mismo:<br>• Un humano abre la herramienta<br>• Un humano escribe el prompt<br>• Un humano copia la respuesta<br>• Un humano la pega en el CRM</p><p class="body-copy">Eso no es automatización; es una máquina de escribir con esteroides.</p>
+                </div>
+              </div>
+              <div class="slide-footer">
+                <div class="footer-meta">La evidencia del mercado →</div>
+                <div class="swipe-hint">Desliza →</div>
+              </div>
+            </div>
+            
+            <div class="slide-canvas" id="slide-3">
+              <div class="ambient-glow glow-blue"></div>
+              <div class="slide-header">
+                <div class="brand-tag">
+                  <span class="brand-dot"></span>
+                  PROSPERIA INTELLIGENCE
+                </div>
+                <div class="slide-num">03 / 08</div>
+              </div>
+              <div class="slide-body">
+                <div class="badge-pill">EVIDENCIA GARTNER</div>
+                <h2 class="slide-title">40% DE LAS APPS TENDRÁN AGENTES EN 2026</h2>
+                <p class="slide-subtitle">Dato verificado: Gartner 2025/2026</p>
+                <div class="content-block">
+                  <div class="card-box"><div class="list-item">• En 2025: menos del 5% de las aplicaciones corporativas usaba agentes autónomos.</div><div class="list-item">• Para 2026: escalará al 40%.</div></div><p class="body-copy">La transición de software pasivo a software ejecutor es el movimiento técnico más rápido de la década.</p>
+                </div>
+              </div>
+              <div class="slide-footer">
+                <div class="footer-meta">Capacidad técnica real →</div>
+                <div class="swipe-hint">Desliza →</div>
+              </div>
+            </div>
+            
+            <div class="slide-canvas" id="slide-4">
+              <div class="ambient-glow glow-purple"></div>
+              <div class="slide-header">
+                <div class="brand-tag">
+                  <span class="brand-dot"></span>
+                  PROSPERIA INTELLIGENCE
+                </div>
+                <div class="slide-num">04 / 08</div>
+              </div>
+              <div class="slide-body">
+                <div class="badge-pill">EVIDENCIA STANFORD</div>
+                <h2 class="slide-title">66% DE ÉXITO EN TAREAS REALES DE NEGOCIO</h2>
+                <p class="slide-subtitle">Dato verificado: Stanford AI Index / Benchmarks GAIA</p>
+                <div class="content-block">
+                  <p class="body-copy">Los agentes ya no solo responden texto:<br>• Navegan por software web<br>• Consultan bases de datos<br>• Ejecutan flujos de 10+ pasos<br>• Corrigen sus propios errores</p>
+                </div>
+              </div>
+              <div class="slide-footer">
+                <div class="footer-meta">El impacto financiero →</div>
+                <div class="swipe-hint">Desliza →</div>
+              </div>
+            </div>
+            
+            <div class="slide-canvas" id="slide-5">
+              <div class="ambient-glow glow-blue"></div>
+              <div class="slide-header">
+                <div class="brand-tag">
+                  <span class="brand-dot"></span>
+                  PROSPERIA INTELLIGENCE
+                </div>
+                <div class="slide-num">05 / 08</div>
+              </div>
+              <div class="slide-body">
+                <div class="badge-pill">EVIDENCIA MCKINSEY</div>
+                <h2 class="slide-title">3X MÁS VALOR ECONÓMICO</h2>
+                <p class="slide-subtitle">Dato verificado: McKinsey State of AI</p>
+                <div class="content-block">
+                  <div class="card-box"><div class="list-item">• Las empresas que solo usan chatbots capturan mejoras marginales.</div><div class="list-item">• Las que orquestan flujos agénticos en CRM, ventas y operaciones capturan hasta 3 veces más rentabilidad operativa.</div></div>
+                </div>
+              </div>
+              <div class="slide-footer">
+                <div class="footer-meta">La diferencia operativa →</div>
+                <div class="swipe-hint">Desliza →</div>
+              </div>
+            </div>
+            
+            <div class="slide-canvas" id="slide-6">
+              <div class="ambient-glow glow-purple"></div>
+              <div class="slide-header">
+                <div class="brand-tag">
+                  <span class="brand-dot"></span>
+                  PROSPERIA INTELLIGENCE
+                </div>
+                <div class="slide-num">06 / 08</div>
+              </div>
+              <div class="slide-body">
+                <div class="badge-pill">DIFERENCIA TECNICA</div>
+                <h2 class="slide-title">COPILOTO VS AGENTE AUTÓNOMO</h2>
+                <p class="slide-subtitle">Comparativa de arquitectura</p>
+                <div class="content-block">
+                  <p class="body-copy">Copiloto (2024):<br>Espera que tú le pidas cada paso. Si no estás, nada avanza.</p><p class="body-copy">Agente (2026):<br>Recibe un objetivo de negocio, ejecuta los 10 pasos necesarios, califica al cliente y te avisa cuando terminó.</p>
+                </div>
+              </div>
+              <div class="slide-footer">
+                <div class="footer-meta">La decisión para el CEO →</div>
+                <div class="swipe-hint">Desliza →</div>
+              </div>
+            </div>
+            
+            <div class="slide-canvas" id="slide-7">
+              <div class="ambient-glow glow-blue"></div>
+              <div class="slide-header">
+                <div class="brand-tag">
+                  <span class="brand-dot"></span>
+                  PROSPERIA INTELLIGENCE
+                </div>
+                <div class="slide-num">07 / 08</div>
+              </div>
+              <div class="slide-body">
+                <div class="badge-pill">DECISION CEO</div>
+                <h2 class="slide-title">NO COMPRES MÁS HERRAMIENTAS. INSTALA INFRAESTRUCTURA.</h2>
+                <p class="slide-subtitle">Tu plan de acción para este trimestre</p>
+                <div class="content-block">
+                  <div class="card-box"><div class="list-item">1. Auditar qué tareas manuales consumen tiempo en tu equipo.</div><div class="list-item">2. Reemplazar interfaces lentas por agentes integrados.</div><div class="list-item">3. Establecer límites claros de supervisión humana.</div><div class="list-item">4. Medir velocidad de respuesta y conversión.</div></div>
+                </div>
+              </div>
+              <div class="slide-footer">
+                <div class="footer-meta">Siguiente paso →</div>
+                <div class="swipe-hint">Desliza →</div>
+              </div>
+            </div>
+            
+            <div class="slide-canvas" id="slide-8">
+              <div class="ambient-glow glow-cyan"></div>
+              <div class="slide-header">
+                <div class="brand-tag">
+                  <span class="brand-dot"></span>
+                  PROSPERIA INTELLIGENCE
+                </div>
+                <div class="slide-num">08 / 08</div>
+              </div>
+              <div class="slide-body slide-cta">
+                <div class="badge-pill">CIERRE CTA</div>
+                <h2 class="hero-title cta-title">¿TU EMPRESA SIGUE EN 2024?</h2>
+                <p class="subtitle-hero">Lee el informe completo en PROSPERIA Intelligence</p>
+                <div class="cta-card">
+                  <p class="body-copy">«De herramientas a agentes: por qué el software que compraste en 2024 ya es obsoleto».</p><p class="body-copy">Enlace en el primer comentario.</p><p class="body-copy">Comenta AGENTE y conversemos sobre la arquitectura de tu empresa.</p>
+                </div>
+              </div>
+              <div class="slide-footer">
+                <div class="author-badge">
+                  <div class="avatar">EJ</div>
+                  <div class="author-info">
+                    <span class="author-name">Edward Jiménez</span>
+                    <span class="author-sub">agenciaprosperia.com</span>
+                  </div>
+                </div>
+                <div class="swipe-hint">PROSPERIA Intelligence 🔖</div>
+              </div>
+            </div>
+            
+</body>
+</html>

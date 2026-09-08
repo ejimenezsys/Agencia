@@ -1,0 +1,329 @@
+{
+  "slug": "la-ia-no-reemplaza-empleos-transforma-tareas",
+  "title": "La IA no empieza reemplazando empleos: empieza desarmando tareas",
+  "canonical_url": "https://agenciaprosperia.com/blog/la-ia-no-reemplaza-empleos-transforma-tareas",
+  "sources": [
+    {
+      "title": "The 2025 AI Index Report",
+      "url": "https://hai.stanford.edu/ai-index/2025-ai-index-report"
+    },
+    {
+      "title": "Generative AI and Jobs: A Refined Global Index of Occupational Exposure",
+      "url": "https://www.ilo.org/publications/generative-ai-and-jobs-refined-global-index-occupational-exposure"
+    },
+    {
+      "title": "The Anthropic Economic Index",
+      "url": "https://www.anthropic.com/research/the-anthropic-economic-index"
+    }
+  ],
+  "generated_at": "2026-09-05T21:10:23.553834+00:00",
+  "linkedin_edward": "La pregunta «¿la IA me va a quitar el trabajo?» está mal planteada.\n\nEl mercado no despide profesiones enteras de un viernes para un lunes. Hace algo mucho más silencioso: desarma tareas.\n\nTres datos verificados que ningún directivo puede ignorar hoy:\n\n1. Adopción a escala: El Stanford AI Index 2025 confirma que el 78% de las organizaciones ya usa IA (frente al 55% del año anterior).\n2. Exposición no es reemplazo: La OIT calcula que 1 de cada 4 trabajadores está expuesto, pero concluye que el trabajo se transforma mucho más de lo que se destruye.\n3. Gana el aumento: El Economic Index de Anthropic (1M de usos en Claude) reveló que el 57% de los casos son de aumento de capacidad humana, frente al 43% de automatización.\n\n¿Qué significa esto para tu negocio?\nTu cargo puede llamarse exactamente igual que hace 5 años, pero las tareas por las que tus clientes o tu jefe pagan ya cambiaron de precio.\n\nResumir, buscar datos y redactar borradores hoy valen casi cero. Lo que multiplicó su valor es verificar, conectar contexto, tomar decisiones y responder por las consecuencias.\n\nLa IA no viene a reemplazar tu profesión; viene a quitarte lo repetitivo para ver si realmente tienes criterio directivo.\n\n¿En tu empresa ya mapearon qué tareas se delegan y cuáles jamás deben dejar de gobernarse?\n\n—\nDejo el análisis cuantitativo completo y las fuentes de Stanford y la OIT en el primer comentario.",
+  "linkedin_edward_comment": "Análisis canónico completo con fuentes verificadas en PROSPERIA Intelligence:\nhttps://agenciaprosperia.com/go/tareas",
+  "linkedin_agencia": "PROSPERIA Intelligence | Reporte Ejecutivo\n\nLa verdadera disrupción de la IA no ocurre cargo por cargo. Ocurre tarea por tarea.\n\nEn nuestro análisis de hoy cruzamos tres de las fuentes económicas más sólidas del ecosistema global:\n• Stanford AI Index 2025: Adopción corporativa creció del 55% al 78% en solo un año.\n• Organización Internacional del Trabajo (OIT): 25% de la fuerza laboral expuesta; predominio de transformación sobre reemplazo.\n• Anthropic Economic Index: 57% de los casos analizados corresponden a aumento de capacidad humana, frente al 43% de automatización.\n\nImplicación directiva:\nAntes de diseñar planes de recorte de personal, las empresas de alto rendimiento están construyendo matrices de redistribución de tareas: qué se automatiza, qué se aumenta con modelos de lenguaje y qué requiere juicio institucional no delegable.\n\nAcceda al informe completo y a las fuentes originales:\nhttps://agenciaprosperia.com/blog/la-ia-no-reemplaza-empleos-transforma-tareas?utm_source=linkedin&utm_medium=organic&utm_campaign=prosperia_institutional",
+  "carousel_slides": [
+    {
+      "slide": 1,
+      "type": "PORTADA",
+      "title": "La IA no empieza reemplazando empleos.",
+      "subtitle": "Empieza desarmando tareas.",
+      "footer": "Desliza para ver la evidencia →",
+      "design_note": "Fondo azul marino oscuro (#020710). Tipografía grande en blanco con 'desarmando tareas' en cian (#00e5ff). Logo ProsperIA Intelligence sutil arriba."
+    },
+    {
+      "slide": 2,
+      "type": "TENSIÓN",
+      "title": "La pregunta equivocada:",
+      "subtitle": "«¿La inteligencia artificial eliminará mi puesto de trabajo?»",
+      "body": "Esa pregunta asume que el trabajo es un bloque indivisible.\nPero ningún empleo es un bloque. Un empleo es una colección de 20 a 50 tareas distintas.",
+      "footer": "PROSPERIA Intelligence",
+      "design_note": "Contraste visual. Texto centralizado con comillas grandes."
+    },
+    {
+      "slide": 3,
+      "type": "EVIDENCIA 1 - STANFORD",
+      "title": "78% de adopción empresarial",
+      "subtitle": "Stanford AI Index 2025",
+      "body": "El porcentaje de organizaciones que utiliza IA subió del 55% al 78% en apenas 12 meses.\n\nLa experimentación terminó. La integración operativa ya está en marcha.",
+      "footer": "Fuente: Stanford HAI AI Index 2025",
+      "design_note": "Cifra '78%' en tamaño gigante cian eléctrico."
+    },
+    {
+      "slide": 4,
+      "type": "EVIDENCIA 2 - OIT",
+      "title": "1 de cada 4 trabajadores expuesto",
+      "subtitle": "Organización Internacional del Trabajo (OIT)",
+      "body": "El 25% de los empleos tiene alta exposición a la IA generativa.\n\nSin embargo, la OIT concluye algo crucial: la inmensa mayoría de las ocupaciones incluye tareas que exigen criterio humano.",
+      "footer": "Fuente: ILO Research 2024-2025",
+      "design_note": "Iconografía sobria de 4 personas destacando 1 en color acento."
+    },
+    {
+      "slide": 5,
+      "type": "EVIDENCIA 3 - ANTHROPIC",
+      "title": "57% Aumento vs. 43% Automatización",
+      "subtitle": "Anthropic Economic Index",
+      "body": "Al analizar 1 millón de conversaciones reales en Claude, la IA se usa más para potenciar al profesional que para reemplazarlo por completo.",
+      "footer": "Fuente: Anthropic Economic Index 2025",
+      "design_note": "Gráfico de barras minimalista comparando 57% y 43%."
+    },
+    {
+      "slide": 6,
+      "type": "INTERPRETACIÓN",
+      "title": "Lo que cambia de precio",
+      "subtitle": "El desplazamiento del valor económico",
+      "body": "Pierde valor:\n✖ Redactar borradores\n✖ Resumir documentos\n✖ Tabular datos iniciales\n\nGana valor:\n✔ Formular el problema\n✔ Verificar veracidad\n✔ Asumir la responsabilidad del resultado",
+      "footer": "Edward Jiménez | Interpretación",
+      "design_note": "Cajas divididas en dos columnas (rojo suave / verde suave o gris / cian)."
+    },
+    {
+      "slide": 7,
+      "type": "DECISIÓN DIRECTIVA",
+      "title": "La regla de oro para tu empresa",
+      "subtitle": "No despidas sin mapear",
+      "body": "1. Mapea qué tareas consumen tiempo operativo.\n2. Identifica cuáles admiten asistencia de IA.\n3. Protege las tareas que exigen criterio, contexto y confianza de cliente.",
+      "footer": "PROSPERIA Intelligence",
+      "design_note": "Checklist ejecutiva numerada."
+    },
+    {
+      "slide": 8,
+      "type": "CIERRE Y LLAMADA A LA ACCIÓN",
+      "title": "El futuro no es binario. Es tarea por tarea.",
+      "subtitle": "Lee el análisis completo con todas las fuentes verificadas.",
+      "body": "Comenta «TAREAS» y te enviamos el reporte completo o visita:\nagenciaprosperia.com/blog",
+      "footer": "Guarda este post para tu próxima reunión de directorio",
+      "design_note": "Botón simulado visual, foto de Edward y logo ProsperIA."
+    }
+  ],
+  "twitter_thread": [
+    {
+      "tweet": 1,
+      "text": "La IA no te va a quitar el empleo.\n\nVa a hacer algo mucho más rápido e imperceptible: va a desarmar tus tareas una por una hasta que lo que sabes hacer hoy valga la mitad.\n\nAbro hilo con datos de Stanford, la OIT y Anthropic que todo líder debe entender 👇🧵"
+    },
+    {
+      "tweet": 2,
+      "text": "1/ La adopción ya es masiva.\n\nEl Stanford AI Index 2025 reporta que el 78% de las empresas utilizó IA en 2024, comparado con el 55% del año anterior.\n\nYa no estamos en fase de prueba en laboratorios; estamos en plena integración corporativa."
+    },
+    {
+      "tweet": 3,
+      "text": "2/ Exposición no es reemplazo.\n\nLa OIT estima que 1 de cada 4 trabajadores en el mundo está expuesto a la IA generativa.\n\nPero su hallazgo central es claro: la mayoría de los empleos tiene componentes que la máquina no puede resolver. Se transforma el puesto, no desaparece."
+    },
+    {
+      "tweet": 4,
+      "text": "3/ Hoy gana el aumento sobre el reemplazo.\n\nEl primer Economic Index de Anthropic analizó ~1M de interacciones reales de Claude:\n\n• 57% de los usos son de aumento (potenciar al humano).\n• 43% son de automatización directa.\n\nLa IA asiste más de lo que sustituye."
+    },
+    {
+      "tweet": 5,
+      "text": "4/ ¿Dónde está la trampa entonces?\n\nEn el precio de las tareas.\n\nTu cargo puede seguir llamándose igual en el organigrama, pero redactar, resumir, traducir o armar un Excel dejaron de ser habilidades premium. Hoy son un commodity de 20 dólares al mes."
+    },
+    {
+      "tweet": 6,
+      "text": "5/ ¿Qué vale más dinero ahora?\n\n• Saber formular la pregunta correcta.\n• Detectar sesgos y errores en la IA.\n• Integrar contexto empresarial.\n• Asumir la responsabilidad final.\n\nEl valor migró de «hacer» a «gobernar el resultado»."
+    },
+    {
+      "tweet": 7,
+      "text": "La IA no está esperando a que cambies de trabajo. Ya está cambiando aquello por lo que te pagan.\n\nLee el reporte canónico completo con todas las fuentes en PROSPERIA Intelligence:\nhttps://agenciaprosperia.com/blog/la-ia-no-reemplaza-empleos-transforma-tareas?utm_source=twitter&utm_medium=thread&utm_campaign=desarmando_tareas"
+    }
+  ],
+  "standalone_tweets": [
+    {
+      "type": "Polémico",
+      "text": "Tu jefe no te va a despedir para poner un bot de IA. Te va a pedir que hagas el trabajo de tres personas con IA cobrando exactamente lo mismo. Quien no aprenda a gobernar tareas hoy, será esclavo de la tecnología mañana."
+    },
+    {
+      "type": "Evidencia pura",
+      "text": "Stanford AI Index 2025: 78% de las empresas ya usa IA. OIT: 25% de la fuerza laboral expuesta. Anthropic: 57% de los casos son para aumentar humanos, no reemplazarlos. La disrupción no es ficción; es tarea por tarea."
+    },
+    {
+      "type": "Reflexión humana",
+      "text": "Producir una primera versión con IA hoy cuesta centavos de segundo. Lo que sigue costando años de experiencia es saber si esa respuesta merece confianza o es un desastre para tu empresa. El criterio humano nunca cotizó tan alto."
+    }
+  ],
+  "reels_scripts": [
+    {
+      "id": "reel_1",
+      "title": "Reel 1: Tu empleo no va a desaparecer (pero va a cambiar de precio)",
+      "duration": "50 segundos",
+      "hook_0_3s": "Deja de preguntarte si la inteligencia artificial te va a quitar el trabajo. Esa es la pregunta equivocada.",
+      "teleprompter_copy": "Deja de preguntarte si la inteligencia artificial te va a quitar el trabajo. Esa es la pregunta equivocada.\n\nLa IA no despide profesiones enteras de un día para otro. Lo que hace es desarmar tus tareas una por una.\n\nMira este dato de la Organización Internacional del Trabajo: uno de cada cuatro trabajadores ya está expuesto a la IA generativa. Pero su conclusión es clarísima: los empleos no se destruyen, se transforman.\n\n¿Por qué? Porque un trabajo son 30 tareas distintas. Resumir, investigar y armar un primer borrador hoy valen casi cero. Lo que multiplicó su valor es verificar, conectar con el cliente y poner la firma por las consecuencias.\n\nTu puesto de trabajo se va a llamar igual, pero lo que te pagan va a depender de qué tanto criterio aportas y qué tanto dejas que la máquina haga por ti.\n\nSi quieres ver el informe completo de Stanford y la OIT, visita el enlace en mi perfil.",
+      "screen_text": [
+        {
+          "time": "00:00 - 00:03",
+          "text": "LA PREGUNTA EQUIVOCADA ❌"
+        },
+        {
+          "time": "00:08 - 00:15",
+          "text": "DESARMA TAREAS ⚙️"
+        },
+        {
+          "time": "00:18 - 00:26",
+          "text": "1 DE CADA 4 EXPUESTO (OIT)"
+        },
+        {
+          "time": "00:32 - 00:40",
+          "text": "DELEGAS vs GOBIERNAS"
+        }
+      ],
+      "broll_instructions": "Corte dinámico a los 3s. Gráfica en pantalla con el logo de la OIT y Stanford al citar las fuentes. Plano medio de Edward a cámara con iluminación ejecutiva.",
+      "caption": "La IA no empieza eliminando cargos completos: empieza modificando aquello por lo que el mercado está dispuesto a pagar.\n\nAnalizamos los datos de Stanford, la OIT y Anthropic para entender el verdadero impacto en tu carrera y tu empresa.\n\n👉 Lee el reporte canónico completo en agenciaprosperia.com/blog\n\n#InteligenciaArtificial #Liderazgo #FuturoDelTrabajo #ProsperIA #EdwardJimenez"
+    },
+    {
+      "id": "reel_2",
+      "title": "Reel 2: El error del 78% de las empresas con la IA",
+      "duration": "48 segundos",
+      "hook_0_3s": "El 78% de las empresas ya usa Inteligencia Artificial según Stanford. Y la mayoría la está usando para lo peor.",
+      "teleprompter_copy": "El 78% de las empresas ya utiliza Inteligencia Artificial según el último informe de Stanford. Y la inmensa mayoría la está usando para lo peor: intentar recortar personas.\n\nEl primer índice económico de Anthropic reveló que el 57% del uso real de la IA es para aumento humano, no para reemplazo directo.\n\nEl directivo que solo busca reducir nómina destruye el conocimiento de su empresa. El directivo inteligente hace un mapa: qué tareas consumen horas de su equipo, cuáles se aceleran con IA y qué decisiones requieren juicio humano intocable.\n\nEl valor no está en sustituir al talento, sino en liberarlo para que construya ventajas que la competencia no pueda copiar con un prompt.\n\nComenta la palabra CRITERIO y te comparto el marco de trabajo completo de PROSPERIA Intelligence.",
+      "screen_text": [
+        {
+          "time": "00:00 - 00:03",
+          "text": "EL ERROR DEL 78% ⚠️"
+        },
+        {
+          "time": "00:10 - 00:18",
+          "text": "57% AUMENTO (Anthropic)"
+        },
+        {
+          "time": "00:22 - 00:30",
+          "text": "MAPA DE TAREAS 🗺️"
+        },
+        {
+          "time": "00:38 - 00:45",
+          "text": "COMENTA 'CRITERIO' 💬"
+        }
+      ],
+      "broll_instructions": "Edward directo a cámara con gesticulación firme. B-Roll de oficinas modernas con pantallas de código/datos. Música de fondo con tensión ejecutiva baja.",
+      "caption": "Antes de preguntar cuántos puestos puedes eliminar con IA, mapea qué tareas consumen el tiempo de tu equipo.\n\nEl verdadero rendimiento ocurre cuando aumentas la capacidad de tu talento, no cuando creas una dependencia ciega de algoritmos.\n\nComenta CRITERIO o visita el enlace en bio para leer el análisis de PROSPERIA Intelligence.\n\n#Productividad #EmpresasAumentadas #GestionEmpresarial #IA #EdwardJimenez"
+    }
+  ],
+  "long_video": {
+    "title": "La Verdad sobre la IA y el Trabajo: Por qué Nadie Perderá su Empleo (Todavía)",
+    "promise": "Explicar a directivos y profesionales cómo la IA transforma tareas y cómo blindar tu valor económico ante los datos de Stanford, OIT y Anthropic.",
+    "chapters": [
+      {
+        "time": "00:00 - 01:30",
+        "chapter": "Introducción y Tesis",
+        "desc": "La falacia del desempleo binario. Por qué las profesiones se desarman tarea por tarea."
+      },
+      {
+        "time": "01:30 - 04:15",
+        "chapter": "La evidencia real de 2025",
+        "desc": "Desglose de cifras: Stanford AI Index (78%), OIT (25% exposición) y Anthropic (57% aumento)."
+      },
+      {
+        "time": "04:15 - 07:45",
+        "chapter": "El nuevo mapa de precios de las tareas",
+        "desc": "Qué tareas perdieron valor de mercado y qué habilidades subieron un 300% de precio."
+      },
+      {
+        "time": "07:45 - 11:00",
+        "chapter": "Manual del Empresario Aumentado",
+        "desc": "Cómo mapear tu empresa en 3 columnas: Delegables, Aumentadas y No Negociables."
+      },
+      {
+        "time": "11:00 - 13:30",
+        "chapter": "Manual del Profesional con Criterio",
+        "desc": "Cómo blindar tu carrera: pasar de ser redactor a ser verificador y tomador de decisiones."
+      },
+      {
+        "time": "13:30 - 14:30",
+        "chapter": "Conclusiones y Llamada a la Acción",
+        "desc": "Invitación a PROSPERIA Intelligence y diagnóstico operativo."
+      }
+    ],
+    "shorts_cut_moments": [
+      "Momento 1 (02:40 - 03:35): El dato de Anthropic sobre el 57% de aumento vs 43% de automatización.",
+      "Momento 2 (05:10 - 06:05): La diferencia entre producir una respuesta y saber si es confiable.",
+      "Momento 3 (09:15 - 10:10): El error de recortar personal antes de hacer un mapa de tareas."
+    ]
+  },
+  "distribution_schedule": [
+    {
+      "day": "Día 1",
+      "channel": "LinkedIn Personal",
+      "account": "Edward Jiménez",
+      "objective": "Autoridad Máxima",
+      "piece": "Post largo (1,200 car.) + Cifras Stanford + Link en comentario",
+      "utm": "utm_source=linkedin&utm_medium=personal&utm_campaign=desarmando_tareas",
+      "kpi": "Comentarios calificados e impresiones directivas",
+      "status": "Borrador listo para Unipile"
+    },
+    {
+      "day": "Día 1",
+      "channel": "X (Twitter)",
+      "account": "Edward Jiménez",
+      "objective": "Alcance Viral",
+      "piece": "Hilo de 7 tweets con cifras y enlace final",
+      "utm": "utm_source=twitter&utm_medium=thread&utm_campaign=desarmando_tareas",
+      "kpi": "Retweets, bookmarks y clics al link",
+      "status": "Borrador listo para API de X"
+    },
+    {
+      "day": "Día 2",
+      "channel": "LinkedIn Agencia",
+      "account": "Agencia ProsperIA",
+      "objective": "Posicionamiento Institucional",
+      "piece": "Post técnico de 3 hallazgos cuantitativos",
+      "utm": "utm_source=linkedin&utm_medium=company&utm_campaign=prosperia_intelligence",
+      "kpi": "Visitas a la web y nuevos seguidores",
+      "status": "Borrador listo"
+    },
+    {
+      "day": "Día 2",
+      "channel": "TikTok / Reels",
+      "account": "Edward / Agencia",
+      "objective": "Descubrimiento en Video",
+      "piece": "Reel 1: «Deja de preguntarte si la IA te quitará el trabajo»",
+      "utm": "Link en Bio con UTM agregada",
+      "kpi": "Retención a los 3s y compartidos",
+      "status": "Guion listo para teleprompter"
+    },
+    {
+      "day": "Día 3",
+      "channel": "LinkedIn Personal",
+      "account": "Edward Jiménez",
+      "objective": "Retención y Guardados",
+      "piece": "Carrusel de 8 láminas en PDF",
+      "utm": "utm_source=linkedin&utm_medium=carousel&utm_campaign=desarmando_tareas",
+      "kpi": "Guardados (saves) y clics de lectura",
+      "status": "Textos y diseño listos"
+    },
+    {
+      "day": "Día 4",
+      "channel": "X (Twitter)",
+      "account": "Edward Jiménez",
+      "objective": "Debate",
+      "piece": "Tweet individual polémico sobre salarios y tareas",
+      "utm": "N/A (Nativo)",
+      "kpi": "Respuestas y citas",
+      "status": "Borrador listo"
+    },
+    {
+      "day": "Día 5",
+      "channel": "YouTube Shorts",
+      "account": "Agencia ProsperIA",
+      "objective": "Autoridad Audiovisual",
+      "piece": "Reel 2: «El error del 78% de las empresas con la IA»",
+      "utm": "Primer comentario fijado con link canónico",
+      "kpi": "Visualizaciones y suscriptores",
+      "status": "Guion listo para teleprompter"
+    },
+    {
+      "day": "Día 6",
+      "channel": "X (Twitter)",
+      "account": "Edward Jiménez",
+      "objective": "Reflexión Estratégica",
+      "piece": "Tweet humano sobre la producción barata vs el criterio caro",
+      "utm": "N/A (Nativo)",
+      "kpi": "Likes y bookmarks",
+      "status": "Borrador listo"
+    },
+    {
+      "day": "Día 7",
+      "channel": "YouTube / Podcast",
+      "account": "Canal Oficial",
+      "objective": "Conversión Profunda",
+      "piece": "Video largo de 12 min o episodio especial de análisis",
+      "utm": "utm_source=youtube&utm_medium=video_long&utm_campaign=desarmando_tareas",
+      "kpi": "Tiempo de reproducción y leads en diagnóstico",
+      "status": "Esquema y capítulos listos"
+    }
+  ]
+}

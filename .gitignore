@@ -6,4 +6,4 @@ data/*.db
 .env
 .DS_Store
 scratch/
-777_tools/
+777_tools/.chrome_temp/

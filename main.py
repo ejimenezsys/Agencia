@@ -1185,6 +1185,9 @@ async def redirect_shortlink(code: str, request: Request, db: Session = Depends(
         "tareas": "/blog/la-ia-no-reemplaza-empleos-transforma-tareas",
         "ia-tareas": "/blog/la-ia-no-reemplaza-empleos-transforma-tareas",
         "desarmando-tareas": "/blog/la-ia-no-reemplaza-empleos-transforma-tareas",
+        "agentes": "/blog/de-herramientas-a-agentes-obsolescencia-software-2024",
+        "software2024": "/blog/de-herramientas-a-agentes-obsolescencia-software-2024",
+        "agentes2026": "/blog/de-herramientas-a-agentes-obsolescencia-software-2024",
         "diagnostico": "/diagnostico",
         "contacto": "/index.html#contacto",
     }
