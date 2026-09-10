@@ -458,6 +458,123 @@
       100% { transform: translateY(1100%); opacity: 0; }
     }
 
+    /* ════════════════════════════════════════════════════
+       ANIMACIONES DE CIRCUITOS VIVOS (CIRCUIT-ONLY FLOW)
+       ════════════════════════════════════════════════════ */
+    .circuit-overlay-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      mix-blend-mode: screen;
+      z-index: 6;
+      filter: contrast(1.15);
+    }
+
+    .circuit-stream-cyan {
+      fill: none;
+      stroke: #00f0ff;
+      stroke-width: 2.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 24 100;
+      animation: circuitFlow 3.2s linear infinite;
+      filter: drop-shadow(0 0 4px #00e5ff) drop-shadow(0 0 10px rgba(0, 229, 255, 0.8));
+    }
+
+    .circuit-stream-cyan-fast {
+      fill: none;
+      stroke: #38bdf8;
+      stroke-width: 2.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 18 80;
+      animation: circuitFlow 2.2s linear infinite;
+      filter: drop-shadow(0 0 5px #00e5ff) drop-shadow(0 0 12px rgba(56, 189, 248, 0.9));
+    }
+
+    .circuit-stream-reverse {
+      fill: none;
+      stroke: #00f0ff;
+      stroke-width: 2.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 20 90;
+      animation: circuitFlowReverse 2.8s linear infinite;
+      filter: drop-shadow(0 0 4px #00e5ff) drop-shadow(0 0 9px rgba(0, 229, 255, 0.75));
+    }
+
+    .circuit-stream-amber {
+      fill: none;
+      stroke: #fbbf24;
+      stroke-width: 2.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 18 70;
+      animation: circuitFlow 2.5s linear infinite;
+      filter: drop-shadow(0 0 5px #f59e0b) drop-shadow(0 0 12px rgba(251, 191, 36, 0.85));
+    }
+
+    .circuit-stream-purple {
+      fill: none;
+      stroke: #c084fc;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 20 75;
+      animation: circuitFlow 3s linear infinite;
+      filter: drop-shadow(0 0 4px #a855f7) drop-shadow(0 0 10px rgba(192, 132, 252, 0.8));
+    }
+
+    .circuit-node-dot {
+      fill: #ffffff;
+      stroke: #00e5ff;
+      stroke-width: 2;
+      transform-origin: center;
+      transform-box: fill-box;
+      animation: circuitNodePulse 2.4s ease-in-out infinite alternate;
+      filter: drop-shadow(0 0 6px #00e5ff);
+    }
+
+    .circuit-node-dot-amber {
+      fill: #ffffff;
+      stroke: #f59e0b;
+      stroke-width: 2;
+      transform-origin: center;
+      transform-box: fill-box;
+      animation: circuitNodePulse 2s ease-in-out infinite alternate;
+      filter: drop-shadow(0 0 6px #fbbf24);
+    }
+
+    @keyframes circuitFlow {
+      from { stroke-dashoffset: 240; }
+      to { stroke-dashoffset: 0; }
+    }
+
+    @keyframes circuitFlowReverse {
+      from { stroke-dashoffset: 0; }
+      to { stroke-dashoffset: 240; }
+    }
+
+    @keyframes circuitNodePulse {
+      0% {
+        r: 3.5;
+        opacity: 0.55;
+        transform: scale(0.9);
+      }
+      50% {
+        r: 5.5;
+        opacity: 1;
+        transform: scale(1.25);
+      }
+      100% {
+        r: 3.5;
+        opacity: 0.55;
+        transform: scale(0.9);
+      }
+    }
+
     /* Floating 3D Badge on Card */
     .tilt-floating-badge {
       transform: translateZ(30px);
@@ -575,10 +692,7 @@
     <div class="flex items-center gap-2 text-[11px]">
       <span class="inline-block w-1.5 h-1.5 rounded-full animate-pulse bg-cyan-400"></span>
       <span class="text-slate-400">
-        ⚡️ Acceso a PassportAI (5 días gratis): 
-        <a href="https://passportai.app/" target="_blank" rel="noopener" class="font-bold underline text-cyan-300 hover:text-white transition-colors" onclick="trackEvent('passportai_trial_click', {location: 'top_bar'})">passportai.app</a>
-        <span class="hidden md:inline text-slate-600 mx-2">|</span>
-        <span class="hidden md:inline text-slate-400">Infraestructura comercial y operativa para empresas.</span>
+        Infraestructura comercial y operativa para empresas con Inteligencia Artificial.
       </span>
     </div>
     <div class="flex items-center gap-4 text-slate-400 text-xs">
@@ -591,19 +705,13 @@
 </div>
 
 <!-- ════════════════════════════════════════════════════
-     BURBUJA FLOTANTE WHATSAPP: VERDE OFICIAL (#25D366)
+     BURBUJA FLOTANTE WHATSAPP: SOLO LOGO OFICIAL
      ════════════════════════════════════════════════════ -->
 <div class="whatsapp-floating-bubble">
-  <a href="https://wa.me/17865573119?text=Hola%20Edward,%20deseo%20conversar%20sobre%20mi%20empresa%20con%20Agencia%20ProsperIA" target="_blank" rel="noopener" class="flex items-center gap-2.5 px-4 py-3 rounded-full bg-[#25D366] hover:bg-[#20bd5a] text-white shadow-[0_12px_30px_rgba(37,211,102,0.45)] border border-[#34e77a] hover:scale-105 transition-all group" aria-label="Contactar por WhatsApp a Edward Jiménez" onclick="trackEvent('whatsapp_click', {location: 'floating_bubble'})">
-    <div class="relative flex items-center justify-center w-8 h-8 rounded-full bg-white text-[#25D366] flex-shrink-0 shadow-sm">
-      <i class="fab fa-whatsapp text-xl"></i>
-      <span class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-white animate-ping"></span>
-      <span class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-300"></span>
-    </div>
-    <div class="hidden sm:flex flex-col text-left text-white">
-      <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-950">WhatsApp Directo</span>
-      <span class="text-xs font-black tracking-tight text-white">+1 (786) 557-3119</span>
-    </div>
+  <a href="https://wa.me/17865573119?text=Hola%20Edward,%20deseo%20conversar%20sobre%20mi%20empresa%20con%20Agencia%20ProsperIA" target="_blank" rel="noopener" class="flex items-center justify-center w-14 h-14 rounded-full bg-[#25D366] hover:bg-[#20bd5a] text-white shadow-[0_10px_25px_rgba(37,211,102,0.45)] border-2 border-[#34e77a] hover:scale-110 transition-all group relative" aria-label="Contactar por WhatsApp" onclick="trackEvent('whatsapp_click', {location: 'floating_bubble'})">
+    <i class="fab fa-whatsapp text-3xl"></i>
+    <span class="absolute top-0 right-0 w-3.5 h-3.5 rounded-full bg-white animate-ping"></span>
+    <span class="absolute top-0 right-0 w-3.5 h-3.5 rounded-full bg-emerald-300 border-2 border-[#25D366]"></span>
   </a>
 </div>
 
@@ -634,7 +742,7 @@
       
       <!-- Brand Logo -->
       <a href="/" class="flex items-center gap-2.5 group">
-        <img src="{{ static_versioned('logo_prosper_ia_cropped.jpg') }}" alt="AGENCIA PROSPERIA" style="height: 44px; max-height: 44px; object-fit: contain;" class="rounded-lg">
+        <img src="{{ static_versioned('logo_prosper_ia_cropped.jpg') }}" alt="AGENCIA PROSPERIA" style="height: 48px; max-height: 48px; object-fit: contain;" class="rounded-lg hover:scale-105 transition-transform">
       </a>
 
       <!-- Desktop Navigation Pills -->
@@ -718,14 +826,9 @@
 
       <!-- Action CTAs -->
       <div class="flex items-center gap-2.5">
-        <a href="/diagnostico" class="hidden sm:inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold text-slate-300 hover:text-white bg-white/5 border border-white/10 hover:border-cyan-400/40 transition-all" onclick="trackEvent('diagnostic_start', {location: 'navbar'})">
-          <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
-          <span>Diagnóstico</span>
-        </a>
-
-        <a href="https://passportai.app/" target="_blank" rel="noopener" class="btn-linear-primary px-4 py-2 text-xs font-bold flex items-center gap-2" onclick="trackEvent('passportai_trial_click', {location: 'navbar'})">
-          <span>Probar PassportAI</span>
-          <i class="fas fa-arrow-up-right-from-square text-[10px]"></i>
+        <a href="/diagnostico" class="btn-linear-primary px-4 py-2 text-xs font-bold inline-flex items-center gap-2" onclick="trackEvent('diagnostic_start', {location: 'navbar'})">
+          <i class="fas fa-calculator text-[10px]"></i>
+          <span>Hacer Diagnóstico</span>
         </a>
 
         <!-- Mobile Drawer Toggle -->
@@ -985,7 +1088,7 @@
 
         <!-- CTA Capa 1: Probar PassportAI -->
         <div class="pt-6 border-t border-white/5">
-          <a href="https://passportai.app/" target="_blank" rel="noopener" class="btn-linear-primary w-full py-3 text-xs font-bold flex items-center justify-center gap-2" onclick="trackEvent('passportai_trial_click', {location: 'ecosistema_capa_1'})">
+          <a href="https://passportai.app/register" target="_blank" rel="noopener" class="btn-linear-primary w-full py-3 text-xs font-bold flex items-center justify-center gap-2" onclick="trackEvent('passportai_trial_click', {location: 'ecosistema_capa_1'})">
             <span>¿Quieres probarlo? Pincha aquí</span>
             <i class="fas fa-arrow-up-right-from-square text-[10px]"></i>
           </a>
@@ -1048,7 +1151,7 @@
         <div class="pt-6 border-t border-white/5 space-y-2">
           <a href="https://wa.me/17865573119?text=Hola%20Edward,%20deseo%20hablar%20sobre%20mi%20empresa%20con%20Agencia%20ProsperIA" target="_blank" rel="noopener" class="btn-linear-primary w-full py-2.5 text-xs font-bold flex items-center justify-center gap-2" style="background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); color: #fff;" onclick="trackEvent('whatsapp_click', {location: 'ecosistema_capa_3'})">
             <i class="fab fa-whatsapp text-sm"></i>
-            <span>Hablar por WhatsApp (+1 786 557 3119)</span>
+            <span>Hablar por WhatsApp</span>
           </a>
           <a href="mailto:edward@agenciaprosperia.com" class="btn-linear-dark w-full py-2.5 text-xs font-bold flex items-center justify-center gap-2" onclick="trackEvent('email_click', {location: 'ecosistema_capa_3'})">
             <i class="fas fa-envelope text-[11px] text-cyan-400"></i>
@@ -1069,7 +1172,7 @@
         </p>
       </div>
 
-      <div class="cinematic-tilt-card glass-card p-2.5 sm:p-4 rounded-3xl border-cyan-500/25 shadow-[0_25px_60px_-10px_rgba(0,0,0,0.9),0_0_40px_rgba(0,229,255,0.12)] group" onclick="openImageModal('{{ static_versioned('flujo_ecosistema_prosperia.jpg') }}', 'Agencia ProsperIA — Ecosistema Inteligente de Crecimiento')">
+      <div class="cinematic-tilt-card glass-card p-2.5 sm:p-4 rounded-3xl border-cyan-500/25 shadow-[0_25px_60px_-10px_rgba(0,0,0,0.9),0_0_40px_rgba(0,229,255,0.12)] group" onclick="openImageModal('{{ static_versioned('flujooperativo_AgenciaProsperIA.png') }}', 'Agencia ProsperIA — Flujo Operativo y Ecosistema Inteligente')">
         
         <!-- Zoom Hint Badge -->
         <div class="zoom-hint-badge">
@@ -1077,12 +1180,116 @@
           <span>Clic para ampliar en alta resolución</span>
         </div>
 
-        <!-- Dynamic Specular Glare & Laser Scanline -->
+        <!-- Dynamic Specular Glare -->
         <div class="card-specular-glare"></div>
-        <div class="laser-scanline"></div>
 
         <div class="relative w-full rounded-2xl overflow-hidden bg-black">
-          <img src="{{ static_versioned('flujo_ecosistema_prosperia.jpg') }}" alt="Agencia ProsperIA — Ecosistema Inteligente de Crecimiento" class="w-full h-auto object-cover rounded-2xl transition-transform duration-700 group-hover:scale-[1.01]">
+          <img src="{{ static_versioned('flujooperativo_AgenciaProsperIA.png') }}" alt="Agencia ProsperIA — Flujo Operativo y Ecosistema Inteligente" class="w-full h-auto object-cover rounded-2xl transition-transform duration-700 group-hover:scale-[1.01]" loading="lazy">
+          
+          <!-- Circuit Only Animated Overlay (Bloque 1) -->
+          <svg class="circuit-overlay-svg" viewBox="0 0 1024 576" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="circuitGradCyan1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#00e5ff" stop-opacity="0.9" />
+                <stop offset="100%" stop-color="#3b82f6" stop-opacity="0.9" />
+              </linearGradient>
+              <linearGradient id="circuitGradAmber1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.95" />
+                <stop offset="100%" stop-color="#f59e0b" stop-opacity="0.95" />
+              </linearGradient>
+            </defs>
+
+            <!-- 1. Captación Omnicanal: Circuitos desde Hub LEADS hacia canales -->
+            <path class="circuit-stream-cyan" d="M 108 200 C 135 200, 155 130, 190 130" />
+            <path class="circuit-stream-cyan-fast" d="M 108 205 C 140 205, 155 160, 190 160" />
+            <path class="circuit-stream-cyan" d="M 108 212 C 145 212, 160 190, 190 190" />
+            <path class="circuit-stream-cyan-fast" d="M 108 218 L 190 218" />
+            <path class="circuit-stream-cyan" d="M 108 224 C 145 224, 160 250, 190 250" />
+            <path class="circuit-stream-cyan-fast" d="M 108 230 C 140 230, 155 280, 190 280" />
+            <path class="circuit-stream-cyan" d="M 108 236 C 135 236, 155 310, 190 310" />
+            <path class="circuit-stream-cyan-fast" d="M 108 242 C 130 242, 150 340, 190 340" />
+
+            <!-- Nodos en canales -->
+            <circle class="circuit-node-dot" cx="190" cy="130" r="3.5" />
+            <circle class="circuit-node-dot" cx="190" cy="160" r="3.5" />
+            <circle class="circuit-node-dot" cx="190" cy="190" r="3.5" />
+            <circle class="circuit-node-dot" cx="190" cy="218" r="3.5" />
+            <circle class="circuit-node-dot" cx="190" cy="250" r="3.5" />
+            <circle class="circuit-node-dot" cx="190" cy="280" r="3.5" />
+            <circle class="circuit-node-dot" cx="190" cy="310" r="3.5" />
+            <circle class="circuit-node-dot" cx="190" cy="340" r="3.5" />
+
+            <!-- Bus Troncal Izquierdo: Conecta Bloque 1 y 2 al Core Central -->
+            <path class="circuit-stream-cyan" d="M 307 100 H 335 V 270 H 425" />
+            <path class="circuit-stream-reverse" d="M 307 540 H 335 V 270" />
+            <circle class="circuit-node-dot" cx="335" cy="270" r="5" />
+            <circle class="circuit-node-dot" cx="425" cy="270" r="4" />
+
+            <!-- Core Central PassportAI: Hexágono y pistas radiantes -->
+            <path class="circuit-stream-cyan" d="M 440 210 L 512 180 L 584 210 L 610 270 L 584 330 L 512 345 L 440 330 L 414 270 Z" />
+            
+            <!-- Pistas laterales Core -> Módulos IA izquierda -->
+            <path class="circuit-stream-cyan-fast" d="M 425 210 H 360" />
+            <path class="circuit-stream-cyan" d="M 416 270 H 360" />
+            <path class="circuit-stream-purple" d="M 425 330 H 360" />
+            <path class="circuit-stream-cyan-fast" d="M 440 395 H 360" />
+            <path class="circuit-stream-cyan" d="M 455 460 H 360" />
+            <circle class="circuit-node-dot" cx="360" cy="210" r="3" />
+            <circle class="circuit-node-dot" cx="360" cy="270" r="3" />
+            <circle class="circuit-node-dot" cx="360" cy="330" r="3" />
+            <circle class="circuit-node-dot" cx="360" cy="395" r="3" />
+            <circle class="circuit-node-dot" cx="360" cy="460" r="3" />
+
+            <!-- Pistas laterales Core -> Módulos IA derecha -->
+            <path class="circuit-stream-cyan-fast" d="M 600 210 H 664" />
+            <path class="circuit-stream-purple" d="M 608 270 H 664" />
+            <path class="circuit-stream-cyan" d="M 600 330 H 664" />
+            <path class="circuit-stream-cyan-fast" d="M 584 395 H 664" />
+            <path class="circuit-stream-cyan" d="M 570 460 H 664" />
+            <circle class="circuit-node-dot" cx="664" cy="210" r="3" />
+            <circle class="circuit-node-dot" cx="664" cy="270" r="3" />
+            <circle class="circuit-node-dot" cx="664" cy="330" r="3" />
+            <circle class="circuit-node-dot" cx="664" cy="395" r="3" />
+            <circle class="circuit-node-dot" cx="664" cy="460" r="3" />
+
+            <!-- Conexión vertical Core -> Bloque 6 CRM -->
+            <path class="circuit-stream-cyan" d="M 490 335 V 368" />
+            <path class="circuit-stream-cyan-fast" d="M 512 345 V 368" />
+            <path class="circuit-stream-cyan" d="M 534 335 V 368" />
+
+            <!-- Bloque 6: Operación & CRM ProsperIA (Circuitos Ámbar / Dorados) -->
+            <circle class="circuit-stream-amber" cx="512" cy="412" r="48" />
+            <circle class="circuit-stream-reverse" cx="512" cy="412" r="36" style="stroke: #f59e0b; stroke-dasharray: 14 60;" />
+            
+            <!-- Conexiones CRM hacia la izquierda -->
+            <path class="circuit-stream-amber" d="M 464 380 H 435" />
+            <path class="circuit-stream-amber" d="M 464 402 H 435" />
+            <path class="circuit-stream-amber" d="M 464 424 H 435" />
+            <path class="circuit-stream-amber" d="M 464 445 H 435" />
+            <circle class="circuit-node-dot-amber" cx="435" cy="380" r="3" />
+            <circle class="circuit-node-dot-amber" cx="435" cy="402" r="3" />
+            <circle class="circuit-node-dot-amber" cx="435" cy="424" r="3" />
+            <circle class="circuit-node-dot-amber" cx="435" cy="445" r="3" />
+
+            <!-- Conexiones CRM hacia la derecha -->
+            <path class="circuit-stream-amber" d="M 560 380 H 590" />
+            <path class="circuit-stream-amber" d="M 560 402 H 590" />
+            <path class="circuit-stream-amber" d="M 560 424 H 590" />
+            <path class="circuit-stream-amber" d="M 560 445 H 590" />
+            <circle class="circuit-node-dot-amber" cx="590" cy="380" r="3" />
+            <circle class="circuit-node-dot-amber" cx="590" cy="402" r="3" />
+            <circle class="circuit-node-dot-amber" cx="590" cy="424" r="3" />
+            <circle class="circuit-node-dot-amber" cx="590" cy="445" r="3" />
+
+            <!-- Bus Troncal Derecho: Conecta Core con Bloques 3, 4, 5, 7 -->
+            <path class="circuit-stream-cyan" d="M 600 270 H 690 V 100 H 718" />
+            <path class="circuit-stream-reverse" d="M 690 270 V 540 H 718" />
+            <circle class="circuit-node-dot" cx="690" cy="270" r="5" />
+
+            <!-- Línea inferior Stack de Infraestructura -->
+            <path class="circuit-stream-cyan-fast" d="M 35 525 H 989" style="opacity: 0.7; stroke-width: 1.8;" />
+          </svg>
+
           <div class="tilt-floating-badge absolute bottom-4 right-4 bg-slate-950/90 backdrop-blur-md border border-white/15 px-3.5 py-1.5 rounded-xl text-[11px] font-bold text-cyan-300 flex items-center gap-2 shadow-lg">
             <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
             <span>Ecosistema Conectado 2026</span>
@@ -1132,7 +1339,7 @@
 
     <!-- IMAGEN 2 — SECTORES (Infografía Maestra de Soluciones por Industria con 3D Tilt & Holograma) -->
     <div class="max-w-6xl mx-auto mb-16 cinematic-interactive-wrapper" data-reveal>
-      <div class="cinematic-tilt-card glass-card p-2.5 sm:p-4 rounded-3xl border-cyan-500/25 shadow-[0_25px_60px_-10px_rgba(0,0,0,0.9),0_0_35px_rgba(94,106,210,0.15)] group" onclick="openImageModal('{{ static_versioned('soluciones_por_industria.jpg') }}', 'Agencia ProsperIA — Soluciones por Industria')">
+      <div class="cinematic-tilt-card glass-card p-2.5 sm:p-4 rounded-3xl border-cyan-500/25 shadow-[0_25px_60px_-10px_rgba(0,0,0,0.9),0_0_35px_rgba(94,106,210,0.15)] group" onclick="openImageModal('{{ static_versioned('flujoperativo_ghl.png') }}', 'Agencia ProsperIA — Infraestructura Inteligente por Industria')">
         
         <!-- Zoom Hint Badge -->
         <div class="zoom-hint-badge">
@@ -1140,12 +1347,93 @@
           <span>Clic para ampliar en alta resolución</span>
         </div>
 
-        <!-- Dynamic Specular Glare & Laser Scanline -->
+        <!-- Dynamic Specular Glare -->
         <div class="card-specular-glare"></div>
-        <div class="laser-scanline" style="animation-delay: 3.5s;"></div>
 
         <div class="relative w-full rounded-2xl overflow-hidden bg-black">
-          <img src="{{ static_versioned('soluciones_por_industria.jpg') }}" alt="Agencia ProsperIA — Soluciones por Industria" class="w-full h-auto object-cover rounded-2xl transition-transform duration-700 group-hover:scale-[1.01]">
+          <img src="{{ static_versioned('flujoperativo_ghl.png') }}" alt="Agencia ProsperIA — Infraestructura Inteligente por Industria" class="w-full h-auto object-cover rounded-2xl transition-transform duration-700 group-hover:scale-[1.01]" loading="lazy">
+          
+          <!-- Circuit Only Animated Overlay (Bloque 2) -->
+          <svg class="circuit-overlay-svg" viewBox="0 0 1024 682" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="circuitGradCyan2" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#00e5ff" stop-opacity="0.95" />
+                <stop offset="100%" stop-color="#60a5fa" stop-opacity="0.95" />
+              </linearGradient>
+            </defs>
+
+            <!-- Órbitas concéntricas del Disco Central (Infraestructura Inteligente) -->
+            <circle class="circuit-stream-cyan-fast" cx="486" cy="365" r="118" style="stroke-dasharray: 40 180; stroke-width: 2.2;" />
+            <circle class="circuit-stream-reverse" cx="486" cy="365" r="92" style="stroke-dasharray: 25 120; stroke-width: 2.2;" />
+            <circle class="circuit-stream-cyan" cx="486" cy="365" r="68" style="stroke-dasharray: 20 90; stroke-width: 2.2;" />
+
+            <!-- Pistas 1: Rama Superior Izquierda (Clínicas: Dental, Estética, Capilar) -->
+            <path class="circuit-stream-cyan" d="M 432 292 L 370 230 H 260 V 170 H 180" />
+            <path class="circuit-stream-cyan-fast" d="M 370 230 V 275 H 200" />
+            <path class="circuit-stream-reverse" d="M 410 270 L 350 205 H 280" />
+            <circle class="circuit-node-dot" cx="370" cy="230" r="4" />
+            <circle class="circuit-node-dot" cx="260" cy="170" r="3.5" />
+            <circle class="circuit-node-dot" cx="180" cy="170" r="4" />
+            <circle class="circuit-node-dot" cx="200" cy="275" r="3.5" />
+
+            <!-- Pistas 2: Rama Superior Derecha (Inmobiliarias: Venta, Alquiler, Proyectos) -->
+            <path class="circuit-stream-cyan" d="M 540 292 L 602 230 H 712 V 170 H 792" />
+            <path class="circuit-stream-cyan-fast" d="M 602 230 V 275 H 772" />
+            <path class="circuit-stream-reverse" d="M 562 270 L 622 205 H 692" />
+            <circle class="circuit-node-dot" cx="602" cy="230" r="4" />
+            <circle class="circuit-node-dot" cx="712" cy="170" r="3.5" />
+            <circle class="circuit-node-dot" cx="792" cy="170" r="4" />
+            <circle class="circuit-node-dot" cx="772" cy="275" r="3.5" />
+
+            <!-- Pistas 3: Rama Central Izquierda (Servicios Profesionales: Consultoras, Abogados, etc.) -->
+            <path class="circuit-stream-cyan-fast" d="M 368 365 L 305 365 L 280 395 H 180" />
+            <path class="circuit-stream-cyan" d="M 305 365 L 285 335 H 210" />
+            <circle class="circuit-node-dot" cx="305" cy="365" r="4" />
+            <circle class="circuit-node-dot" cx="280" cy="395" r="3.5" />
+            <circle class="circuit-node-dot" cx="180" cy="395" r="4" />
+            <circle class="circuit-node-dot" cx="210" cy="335" r="3.5" />
+
+            <!-- Pistas 4: Rama Central Derecha (Belleza & Bienestar: Spas, Salones, Estética) -->
+            <path class="circuit-stream-cyan-fast" d="M 604 365 L 667 365 L 692 395 H 792" />
+            <path class="circuit-stream-cyan" d="M 667 365 L 687 335 H 762" />
+            <circle class="circuit-node-dot" cx="667" cy="365" r="4" />
+            <circle class="circuit-node-dot" cx="692" cy="395" r="3.5" />
+            <circle class="circuit-node-dot" cx="792" cy="395" r="4" />
+            <circle class="circuit-node-dot" cx="762" cy="335" r="3.5" />
+
+            <!-- Pistas 5: Rama Inferior Izquierda (Fitness & Salud: Gimnasios, Entrenadores) -->
+            <path class="circuit-stream-cyan" d="M 432 438 L 370 500 H 260 V 560 H 180" />
+            <path class="circuit-stream-cyan-fast" d="M 370 500 V 455 H 200" />
+            <path class="circuit-stream-reverse" d="M 410 460 L 350 525 H 280" />
+            <circle class="circuit-node-dot" cx="370" cy="500" r="4" />
+            <circle class="circuit-node-dot" cx="260" cy="560" r="3.5" />
+            <circle class="circuit-node-dot" cx="180" cy="560" r="4" />
+            <circle class="circuit-node-dot" cx="200" cy="455" r="3.5" />
+
+            <!-- Pistas 6: Rama Inferior Derecha (Servicios para el Hogar: Plomería, Electricidad) -->
+            <path class="circuit-stream-cyan" d="M 540 438 L 602 500 H 712 V 560 H 792" />
+            <path class="circuit-stream-cyan-fast" d="M 602 500 V 455 H 772" />
+            <path class="circuit-stream-reverse" d="M 562 460 L 622 525 H 692" />
+            <circle class="circuit-node-dot" cx="602" cy="500" r="4" />
+            <circle class="circuit-node-dot" cx="712" cy="560" r="3.5" />
+            <circle class="circuit-node-dot" cx="792" cy="560" r="4" />
+            <circle class="circuit-node-dot" cx="772" cy="455" r="3.5" />
+
+            <!-- Pistas Bus Inferior: Todo Conectado. Todo Bajo Control -->
+            <path class="circuit-stream-cyan" d="M 486 485 V 555" />
+            <path class="circuit-stream-cyan-fast" d="M 486 555 H 350 V 580" />
+            <path class="circuit-stream-cyan-fast" d="M 486 555 H 420 V 580" />
+            <path class="circuit-stream-cyan" d="M 486 555 V 580" />
+            <path class="circuit-stream-cyan-fast" d="M 486 555 H 552 V 580" />
+            <path class="circuit-stream-cyan-fast" d="M 486 555 H 622 V 580" />
+            <circle class="circuit-node-dot" cx="486" cy="555" r="4.5" />
+            <circle class="circuit-node-dot" cx="350" cy="580" r="3.5" />
+            <circle class="circuit-node-dot" cx="420" cy="580" r="3.5" />
+            <circle class="circuit-node-dot" cx="486" cy="580" r="4" />
+            <circle class="circuit-node-dot" cx="552" cy="580" r="3.5" />
+            <circle class="circuit-node-dot" cx="622" cy="580" r="3.5" />
+          </svg>
+
           <div class="tilt-floating-badge absolute bottom-4 right-4 bg-slate-950/90 backdrop-blur-md border border-white/15 px-3.5 py-1.5 rounded-xl text-[11px] font-bold text-cyan-300 flex items-center gap-2 shadow-lg">
             <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
             <span>Infraestructura Inteligente Multivertical</span>
@@ -1353,15 +1641,15 @@
       </div>
     </div>
 
-    <!-- CTAs PassportAI -->
+    <!-- Enlace a Showcase / Prueba PassportAI -->
     <div class="flex flex-col sm:flex-row items-center justify-center gap-4" data-reveal>
-      <a href="https://passportai.app/" target="_blank" rel="noopener" class="btn-linear-primary px-8 py-4 text-xs font-bold inline-flex items-center gap-2 w-full sm:w-auto justify-center" onclick="trackEvent('passportai_trial_click', {location: 'passportai_section'})">
-        <span>Probar PassportAI (5 días gratis)</span>
-        <i class="fas fa-arrow-up-right-from-square text-xs"></i>
+      <a href="#passportai-trial" class="btn-linear-primary px-8 py-4 text-xs font-bold inline-flex items-center gap-2 w-full sm:w-auto justify-center">
+        <span>Ver demostración y prueba de 5 días</span>
+        <i class="fas fa-arrow-down text-xs"></i>
       </a>
       <a href="https://passportai.app/" target="_blank" rel="noopener" class="btn-linear-dark px-8 py-4 text-xs font-bold inline-flex items-center gap-2 w-full sm:w-auto justify-center">
-        <span>Conocer PassportAI</span>
-        <i class="fas fa-chevron-right text-xs"></i>
+        <span>Conocer la plataforma</span>
+        <i class="fas fa-arrow-up-right-from-square text-xs"></i>
       </a>
     </div>
 
@@ -1449,13 +1737,13 @@
 
     <!-- CTAs de la sección Demo -->
     <div class="flex flex-col sm:flex-row items-center justify-center gap-4" data-reveal>
-      <a href="https://passportai.app/" target="_blank" rel="noopener" class="btn-linear-primary px-8 py-3.5 text-xs font-bold inline-flex items-center gap-2 w-full sm:w-auto justify-center" onclick="trackEvent('passportai_trial_click', {location: 'demo_section'})">
-        <span>Probar PassportAI</span>
-        <i class="fas fa-arrow-up-right-from-square text-xs"></i>
+      <a href="/diagnostico" class="btn-linear-primary px-8 py-3.5 text-xs font-bold inline-flex items-center gap-2 w-full sm:w-auto justify-center" onclick="trackEvent('diagnostic_start', {location: 'demo_section'})">
+        <i class="fas fa-calculator text-xs"></i>
+        <span>Hacer diagnóstico comercial</span>
       </a>
-      <a href="/diagnostico" class="btn-linear-dark px-8 py-3.5 text-xs font-bold inline-flex items-center gap-2 w-full sm:w-auto justify-center" onclick="trackEvent('diagnostic_start', {location: 'demo_section'})">
-        <i class="fas fa-calculator text-cyan-400 text-xs"></i>
-        <span>Hacer diagnóstico</span>
+      <a href="#passportai-trial" class="btn-linear-dark px-8 py-3.5 text-xs font-bold inline-flex items-center gap-2 w-full sm:w-auto justify-center">
+        <span>Ver prueba de PassportAI</span>
+        <i class="fas fa-arrow-down text-xs"></i>
       </a>
     </div>
 
@@ -1494,6 +1782,128 @@
       </p>
     </div>
 
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════════════════
+     SECCIÓN 8.5 — SHOWCASE PASSPORTAI (5 DÍAS GRATIS)
+     ════════════════════════════════════════════════════ -->
+<section id="passportai-trial" class="py-24 relative overflow-hidden" style="background: radial-gradient(circle at 50% 30%, rgba(0, 229, 255, 0.05) 0%, var(--bg-dark) 70%);">
+  <!-- Luces ambientales de fondo -->
+  <div class="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+  <div class="absolute bottom-0 right-1/4 w-80 h-80 bg-blue-600/10 rounded-full blur-[100px] pointer-events-none"></div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="glass-card p-8 sm:p-12 lg:p-16 border-cyan-500/25 relative overflow-hidden" data-reveal>
+      
+      <!-- Línea de gradiente superior -->
+      <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-75"></div>
+
+      <div class="grid lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+        
+        <!-- Columna Izquierda: Mensaje persuasivo, beneficios y CTAs -->
+        <div class="lg:col-span-6 text-left">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold mb-6 border" style="background: rgba(0, 229, 255, 0.08); border-color: rgba(0, 229, 255, 0.3); color: #00e5ff;">
+            <i class="fas fa-sparkles text-xs"></i>
+            <span>Acceso Exclusivo · 5 Días de Prueba Gratis</span>
+          </div>
+
+          <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-white leading-tight mb-5 tracking-tight">
+            Prueba la potencia de <span class="cyan-glow-text">PassportAI</span> en tu negocio.
+          </h2>
+
+          <p class="text-slate-300 text-base sm:text-lg leading-relaxed font-light mb-8">
+            Automatiza la calificación de prospectos, activa agentes inteligentes 24/7 y consolida los mejores modelos de IA dentro de un solo ecosistema comercial sin fricción.
+          </p>
+
+          <!-- Viñetas de valor clave -->
+          <div class="space-y-4 mb-8">
+            <div class="flex items-start gap-3">
+              <div class="w-6 h-6 rounded-full bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shrink-0 mt-0.5 text-xs">
+                <i class="fas fa-check"></i>
+              </div>
+              <p class="text-sm text-slate-200">
+                <strong class="text-white font-semibold">Agentes de Prospección & Calificación:</strong> Respuestas automáticas con criterio semántico que agendan directo en tu calendario.
+              </p>
+            </div>
+
+            <div class="flex items-start gap-3">
+              <div class="w-6 h-6 rounded-full bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shrink-0 mt-0.5 text-xs">
+                <i class="fas fa-check"></i>
+              </div>
+              <p class="text-sm text-slate-200">
+                <strong class="text-white font-semibold">Speed-to-Lead Instantáneo:</strong> Reduce el tiempo de respuesta a menos de 3 minutos en WhatsApp y web.
+              </p>
+            </div>
+
+            <div class="flex items-start gap-3">
+              <div class="w-6 h-6 rounded-full bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shrink-0 mt-0.5 text-xs">
+                <i class="fas fa-check"></i>
+              </div>
+              <p class="text-sm text-slate-200">
+                <strong class="text-white font-semibold">Prueba Totalmente Libre:</strong> 5 días de acceso sin contratos forzosos para que evalúes el impacto en tu flujo comercial.
+              </p>
+            </div>
+          </div>
+
+          <!-- CTAs Principales -->
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+            <a href="https://passportai.app/register" target="_blank" rel="noopener" class="btn-linear-primary px-8 py-4 text-sm font-bold inline-flex items-center justify-center gap-2 group shadow-xl shadow-cyan-500/20" onclick="trackEvent('passportai_trial_click', {location: 'showcase_block_5days'})">
+              <span>Probar PassportAI (5 días gratis)</span>
+              <i class="fas fa-arrow-up-right-from-square text-xs group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+            </a>
+
+            <a href="https://passportai.app/api/auth/login" target="_blank" rel="noopener" class="btn-linear-dark px-7 py-4 text-sm font-bold inline-flex items-center justify-center gap-2 text-slate-300 hover:text-white transition-colors">
+              <i class="fas fa-arrow-right-to-bracket text-xs text-cyan-400"></i>
+              <span>Acceso a PassportAI (Login)</span>
+            </a>
+          </div>
+
+          <!-- Micro-insignias de confianza -->
+          <div class="flex flex-wrap items-center gap-4 mt-6 text-xs text-slate-400 font-light">
+            <span class="flex items-center gap-1.5">
+              <i class="fas fa-bolt text-cyan-400"></i> Activación inmediata
+            </span>
+            <span class="text-slate-600">•</span>
+            <span class="flex items-center gap-1.5">
+              <i class="fas fa-shield-check text-emerald-400"></i> Sin permanencia
+            </span>
+            <span class="text-slate-600">•</span>
+            <span class="flex items-center gap-1.5">
+              <i class="fas fa-sparkles text-amber-400"></i> Soporte guiado
+            </span>
+          </div>
+        </div>
+
+        <!-- Columna Derecha: Mockup Visual de Alto Impacto -->
+        <div class="lg:col-span-6 relative">
+          <div class="relative mx-auto max-w-lg lg:max-w-none group">
+            
+            <!-- Resplandor neón detrás del mockup -->
+            <div class="absolute -inset-1 bg-gradient-to-r from-cyan-500/30 to-blue-600/30 rounded-3xl blur-2xl opacity-60 group-hover:opacity-90 transition-opacity duration-500"></div>
+
+            <!-- Marco contenedor con vidrio y borde cian -->
+            <div class="relative rounded-2xl overflow-hidden border border-cyan-500/40 bg-slate-950/90 shadow-2xl p-2 sm:p-2.5">
+              <img src="{{ static_versioned('passportai_mockup_showcase.jpg') }}" alt="Plataforma PassportAI - Interfaz de Agentes y Orquestación Comercial" class="w-full h-auto rounded-xl object-cover transform group-hover:scale-[1.02] transition-transform duration-700 ease-out shadow-inner">
+              
+              <!-- Badge flotante en la imagen -->
+              <div class="absolute bottom-5 left-5 right-5 sm:right-auto bg-slate-950/90 backdrop-blur-md border border-cyan-500/40 rounded-xl p-3 shadow-xl flex items-center gap-3">
+                <div class="w-3 h-3 rounded-full bg-emerald-400 animate-pulse shrink-0"></div>
+                <div class="text-left">
+                  <div class="text-[11px] font-bold text-white uppercase tracking-wider">PassportAI Core Online</div>
+                  <div class="text-[10px] text-cyan-300 font-mono">Agentes activos · Calificación 24/7</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
   </div>
 </section>
 
@@ -1966,9 +2376,9 @@
                 <i class="fas fa-phone-volume text-xs animate-bounce"></i>
                 <span>🎙️ Iniciar Llamada con mi Asistente de Voz IA</span>
               </button>
-              <a href="https://wa.me/17865573119" target="_blank" rel="noopener" class="text-xs text-slate-400 hover:text-emerald-400 inline-flex items-center gap-1">
-                <i class="fab fa-whatsapp"></i>
-                <span>O chatear por WhatsApp (+1 786 557 3119)</span>
+              <a href="https://wa.me/17865573119" target="_blank" rel="noopener" class="text-xs text-slate-400 hover:text-emerald-400 inline-flex items-center gap-1.5">
+                <i class="fab fa-whatsapp text-emerald-400"></i>
+                <span>O chatear por WhatsApp</span>
               </a>
             </div>
           </div>
@@ -2037,8 +2447,8 @@
             Prueba PassportAI de forma autónoma con 5 días de prueba gratis de toda la suite.
           </p>
         </div>
-        <a href="https://passportai.app/" target="_blank" rel="noopener" class="btn-linear-primary py-3 text-center text-xs font-bold block" onclick="trackEvent('passportai_trial_click', {location: 'tres_puertas_passportai'})">
-          Probar PassportAI
+        <a href="https://passportai.app/register" target="_blank" rel="noopener" class="btn-linear-primary py-3 text-center text-xs font-bold block" onclick="trackEvent('passportai_trial_click', {location: 'tres_puertas_passportai'})">
+          Probar PassportAI (5 Días Gratis)
         </a>
       </div>
 
@@ -2147,7 +2557,7 @@
       <!-- Columna 1: Marca Corporativa -->
       <div>
         <div class="flex items-center gap-2.5 mb-4">
-          <img src="{{ static_versioned('logo_prosper_ia_cropped.jpg') }}" alt="AGENCIA PROSPERIA LLC" style="height: 44px; object-fit: contain;" class="rounded-lg">
+          <img src="{{ static_versioned('logo_prosper_ia_cropped.jpg') }}" alt="AGENCIA PROSPERIA LLC" style="height: 52px; object-fit: contain;" class="rounded-lg">
         </div>
         <p class="text-slate-400 text-xs leading-relaxed font-light mb-5">
           Agencia ProsperIA LLC. Diseñamos e implementamos sistemas que conectan inteligencia artificial, ventas, automatización, CRM y datos para que las empresas operen y crezcan con menos fricción.
@@ -2179,7 +2589,8 @@
           <li><a href="/diagnostico" class="hover:text-white transition-colors font-medium text-slate-300">Diagnóstico Comercial</a></li>
           <li><a href="/intelligence" class="hover:text-white transition-colors">PROSPERIA Intelligence</a></li>
           <li><a href="/podcast" class="hover:text-white transition-colors">Podcast Hub</a></li>
-          <li><a href="https://passportai.app/" target="_blank" rel="noopener" class="hover:text-white transition-colors">Plataforma PassportAI</a></li>
+          <li><a href="https://passportai.app/register" target="_blank" rel="noopener" class="hover:text-white transition-colors">Registro PassportAI (5 Días Gratis)</a></li>
+          <li><a href="https://passportai.app/api/auth/login" target="_blank" rel="noopener" class="hover:text-white transition-colors">Acceso a PassportAI (Login)</a></li>
           <li><a href="/login" class="hover:text-white transition-colors">Acceso al CRM Interno</a></li>
         </ul>
       </div>
@@ -2191,7 +2602,7 @@
           <li><strong>Sede:</strong> Miami, Florida, USA.</li>
           <li><strong>Liderazgo:</strong> Edward Jiménez.</li>
           <li><strong>Email:</strong> <a href="mailto:edward@agenciaprosperia.com" class="hover:text-white transition-colors">edward@agenciaprosperia.com</a></li>
-          <li><strong>WhatsApp:</strong> <a href="https://wa.me/17865573119" target="_blank" rel="noopener" class="hover:text-white transition-colors font-semibold text-emerald-400" onclick="trackEvent('whatsapp_click', {location: 'footer'})">+1 (786) 557-3119</a></li>
+          <li><strong>WhatsApp:</strong> <a href="https://wa.me/17865573119" target="_blank" rel="noopener" class="hover:text-white transition-colors font-semibold text-emerald-400 inline-flex items-center gap-1.5" onclick="trackEvent('whatsapp_click', {location: 'footer'})"><i class="fab fa-whatsapp"></i> Chatear por WhatsApp</a></li>
         </ul>
       </div>
 
@@ -2271,12 +2682,22 @@ function triggerVoiceAgent() {
     widget.scrollIntoView({ behavior: 'smooth', block: 'end' });
     setTimeout(() => {
       try {
-        const shadowBtn = widget.shadowRoot ? widget.shadowRoot.querySelector('button') : widget.querySelector('button');
-        if (shadowBtn) {
-          shadowBtn.click();
-        } else {
-          widget.click();
+        if (widget.shadowRoot) {
+          const btns = Array.from(widget.shadowRoot.querySelectorAll('button'));
+          // Encontrar específicamente el botón de llamar (evitando Cancel y Agree)
+          const callBtn = btns.find(b => {
+            const txt = (b.textContent || '').trim().toLowerCase();
+            const title = (b.getAttribute('title') || '').trim().toLowerCase();
+            return (txt.includes('llamar') || txt.includes('call') || title.includes('llamar') || title.includes('call')) &&
+                   !b.classList.contains('_disabled_1968y_189');
+          }) || btns.find(b => !b.classList.contains('_secondary_1968y_203') && !b.classList.contains('_disabled_1968y_189') && !b.classList.contains('_iconBtn_1968y_217'));
+
+          if (callBtn) {
+            callBtn.click();
+            return;
+          }
         }
+        widget.click();
       } catch(err) {
         widget.click();
       }
@@ -2286,7 +2707,7 @@ function triggerVoiceAgent() {
   }
 }
 
-// ── Sincronizar Contexto Actualizado al Widget de Voz ElevenLabs ───────────
+// ── Sincronizar Contexto y Forzar Modo Voz en ElevenLabs ConvAI ────────────
 document.addEventListener('DOMContentLoaded', () => {
   const widget = document.querySelector('elevenlabs-convai');
   if (widget) {
@@ -2300,11 +2721,26 @@ document.addEventListener('DOMContentLoaded', () => {
       vertical_activa: "Clínicas (dental, estética, capilar) con captación omnicanal, reducción de no-show y sincronización de agenda",
       otras_verticales: "Inmobiliarias, Servicios Profesionales, Belleza & Bienestar, Fitness & Salud, Servicios para el Hogar"
     };
+
     try {
       widget.setAttribute('dynamic-variables', JSON.stringify(updatedKnowledge));
     } catch(e) {
       console.log('ConvAI dynamic context loaded');
     }
+
+    // Interceptar el evento de llamada de ElevenLabs para garantizar modo voz bidireccional (audio)
+    widget.addEventListener('elevenlabs-convai:call', (event) => {
+      try {
+        if (event && event.detail && event.detail.config) {
+          event.detail.config.textOnly = false;
+          if (!event.detail.config.overrides) event.detail.config.overrides = {};
+          if (!event.detail.config.overrides.conversation) event.detail.config.overrides.conversation = {};
+          event.detail.config.overrides.conversation.textOnly = false;
+        }
+      } catch(err) {
+        console.warn('ConvAI call override warn:', err);
+      }
+    });
   }
 });
 

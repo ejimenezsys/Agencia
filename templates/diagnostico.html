@@ -227,5 +227,22 @@
   <!-- Eleven Labs Conversational Voice Agent Widget -->
   <elevenlabs-convai agent-id="agent_8701kzw9wrm9ecevn8ke326k6dje" action-text="¿Necesitas Ayuda?" start-call-text="Llamar"></elevenlabs-convai>
   <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const widget = document.querySelector('elevenlabs-convai');
+      if (widget) {
+        widget.addEventListener('elevenlabs-convai:call', (event) => {
+          try {
+            if (event && event.detail && event.detail.config) {
+              event.detail.config.textOnly = false;
+              if (!event.detail.config.overrides) event.detail.config.overrides = {};
+              if (!event.detail.config.overrides.conversation) event.detail.config.overrides.conversation = {};
+              event.detail.config.overrides.conversation.textOnly = false;
+            }
+          } catch(e) {}
+        });
+      }
+    });
+  </script>
 </body>
 </html>

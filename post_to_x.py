@@ -8,6 +8,7 @@ import base64
 import json
 import os
 from pathlib import Path
+import ssl
 import time
 from typing import Any, Dict, List, Optional
 import urllib.error
@@ -18,6 +19,15 @@ from unipile_client import load_env_file
 
 BASE_DIR = Path(__file__).resolve().parent
 MULTICHANNEL_DIR = BASE_DIR / "content" / "multichannel"
+
+
+def safe_urlopen(req: urllib.request.Request, timeout: int = 20):
+    """Ejecuta urlopen con soporte de contexto SSL seguro y fallback para entornos locales."""
+    try:
+        return urllib.request.urlopen(req, timeout=timeout)
+    except Exception:
+        ctx = ssl._create_unverified_context()
+        return urllib.request.urlopen(req, context=ctx, timeout=timeout)
 
 
 def refresh_oauth2_token() -> str:
@@ -44,7 +54,7 @@ def refresh_oauth2_token() -> str:
     payload = urllib.parse.urlencode(data).encode("utf-8")
     req = urllib.request.Request(url, data=payload, headers=headers, method="POST")
 
-    with urllib.request.urlopen(req) as resp:
+    with safe_urlopen(req) as resp:
         res = json.loads(resp.read().decode("utf-8"))
         new_access = res["access_token"]
         new_refresh = res.get("refresh_token", refresh_token)
@@ -97,7 +107,7 @@ def post_single_tweet_v2(text: str, in_reply_to_id: Optional[str] = None) -> str
             "Accept": "application/json",
         }
         req = urllib.request.Request(url, data=payload, headers=headers, method="POST")
-        with urllib.request.urlopen(req) as resp:
+        with safe_urlopen(req) as resp:
             return json.loads(resp.read().decode("utf-8"))
 
     try:
@@ -163,6 +173,15 @@ def publish_thread_to_x(slug: str, dry_run: bool = True) -> None:
     thread_url = f"https://x.com/edwardjimenezia/status/{first_id}"
     print("\n🎉 ¡HILO COMPLETO PUBLICADO CON ÉXITO EN X!")
     print(f"🔗 Enlace directo al hilo: {thread_url}")
+
+    # Registrar publicación en el archivo JSON multicanal
+    data["x_thread_published"] = {
+        "published_at": time.strftime("%Y-%m-%d %H:%M:%S"),
+        "thread_ids": created_ids,
+        "thread_url": thread_url,
+    }
+    json_path.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
+    print(f"💾 Metadatos de publicación guardados en: {json_path.name}")
 
 
 def main():

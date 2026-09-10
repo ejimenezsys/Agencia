@@ -387,7 +387,7 @@
             <li><a href="/index.html#masterclass" class="text-slate-500 hover:text-white transition-colors">Demostración Operativa SVE90</a></li>
             <li><a href="/index.html#contacto" class="text-slate-500 hover:text-white transition-colors">Aplicar al Diagnóstico de Madurez</a></li>
             <li><a href="/blog" class="text-slate-500 hover:text-white transition-colors">Blog de Noticias IA</a></li>
-            <li><a href="https://passportai.app/" target="_blank" class="text-slate-500 hover:text-white transition-colors">Acceso a PassportAI (Login)</a></li>
+            <li><a href="https://passportai.app/api/auth/login" target="_blank" class="text-slate-500 hover:text-white transition-colors">Acceso a PassportAI (Login)</a></li>
             <li><a href="/login" class="text-slate-500 hover:text-white transition-colors">Acceso al Portal SVE90</a></li>
           </ul>
         </div>
@@ -399,7 +399,7 @@
             <li><strong>Sede:</strong> Miami, Florida, USA.</li>
             <li><strong>Director:</strong> Edward Jiménez, CEO.</li>
             <li><strong>Email:</strong> <a href="mailto:edward@agenciaprosperia.com" class="hover:text-white transition-colors">edward@agenciaprosperia.com</a></li>
-            <li><strong>WhatsApp:</strong> <a href="https://wa.me/17865573119" class="hover:text-white transition-colors">+1 (786) 557-3119</a></li>
+            <li><strong>WhatsApp:</strong> <a href="https://wa.me/17865573119" target="_blank" rel="noopener" class="hover:text-white transition-colors font-semibold text-emerald-400 inline-flex items-center gap-1.5"><i class="fab fa-whatsapp"></i> Chatear por WhatsApp</a></li>
           </ul>
         </div>
       </div>
@@ -581,5 +581,22 @@
   <!-- Eleven Labs Conversational Voice Agent Widget -->
   <elevenlabs-convai agent-id="agent_8701kzw9wrm9ecevn8ke326k6dje" action-text="¿Necesitas Ayuda?" start-call-text="Llamar"></elevenlabs-convai>
   <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const widget = document.querySelector('elevenlabs-convai');
+      if (widget) {
+        widget.addEventListener('elevenlabs-convai:call', (event) => {
+          try {
+            if (event && event.detail && event.detail.config) {
+              event.detail.config.textOnly = false;
+              if (!event.detail.config.overrides) event.detail.config.overrides = {};
+              if (!event.detail.config.overrides.conversation) event.detail.config.overrides.conversation = {};
+              event.detail.config.overrides.conversation.textOnly = false;
+            }
+          } catch(e) {}
+        });
+      }
+    });
+  </script>
 </body>
 </html>
