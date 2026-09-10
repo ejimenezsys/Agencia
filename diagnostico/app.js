@@ -201,18 +201,20 @@ RESULTADOS ESTIMADOS:
     resultsDashboard.style.display = 'block';
 
     // Cargar iframe de calendario de GHL con datos precargados
-    const calendarIframe = document.getElementById('qbIPi9xkGZs9oQDiVeoB_1786658053102');
+    const calendarIframe = document.getElementById('qbIPi9xkGZs9oQDiVeoB_1786658053102') || document.querySelector('.calendar-embed-container iframe');
     if (calendarIframe) {
-      const calendarId = 'qbIPi9xkGZs9oQDiVeoB';
-      const baseUrl = `https://api.leadconnectorhq.com/widget/booking/${calendarId}`;
+      const baseUrl = 'https://api.leadconnectorhq.com/widget/bookings/calendario-de-edward-jimenez';
       
-      const queryParams = new URLSearchParams({
-        first_name: state.contactName,
-        email: state.contactEmail,
-        phone: state.contactWhatsapp
-      });
+      const queryParams = new URLSearchParams();
+      if (state.contactName) {
+        queryParams.set('first_name', state.contactName);
+        queryParams.set('name', state.contactName);
+      }
+      if (state.contactEmail) queryParams.set('email', state.contactEmail);
+      if (state.contactWhatsapp) queryParams.set('phone', state.contactWhatsapp);
       
-      calendarIframe.src = `${baseUrl}?${queryParams.toString()}`;
+      const paramStr = queryParams.toString();
+      calendarIframe.src = paramStr ? `${baseUrl}?${paramStr}` : baseUrl;
     }
     
     // Animate score value counter

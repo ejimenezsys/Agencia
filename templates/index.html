@@ -352,20 +352,33 @@
     }
 
     /* ════════════════════════════════════════════════════
-       ANUNCIO FLOTANTE DEL BOT DE VOZ (CALLOUT ENCIMA DEL WIDGET)
+       ASISTENTE DE VOZ INCRUSTADO EN PÁGINA (SIN BURBUJA FLOTANTE)
        ════════════════════════════════════════════════════ */
-    .voice-agent-floating-callout {
-      position: fixed;
-      bottom: 96px;
-      right: 24px;
-      z-index: 110;
-      max-width: 320px;
-      animation: gentlePulseCallout 4s ease-in-out infinite;
-      transition: transform 0.25s ease, opacity 0.25s ease;
+    elevenlabs-convai {
+      position: relative !important;
+      inset: auto !important;
+      bottom: auto !important;
+      right: auto !important;
+      left: auto !important;
+      top: auto !important;
+      z-index: 10 !important;
+      display: inline-block !important;
+      pointer-events: auto !important;
+      width: auto !important;
+      max-width: 100% !important;
+      --el-bg-color: rgba(12, 16, 29, 0.95);
+      --el-text-color: #f8fafc;
+      --el-border-color: rgba(0, 229, 255, 0.25);
+      --el-border-radius: 20px;
+      --el-btn-color: #00e5ff;
+      --el-btn-text-color: #05070f;
+      --el-focus-color: #00e5ff;
     }
-    @keyframes gentlePulseCallout {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-4px); }
+    .voice-widget-inner-wrap {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     /* ════════════════════════════════════════════════════
@@ -715,23 +728,7 @@
   </a>
 </div>
 
-<!-- ════════════════════════════════════════════════════
-     ANUNCIO FLOTANTE DEL BOT DE VOZ (LLAMAR EN TIEMPO REAL)
-     ════════════════════════════════════════════════════ -->
-<div class="voice-agent-floating-callout hidden sm:flex items-center gap-3 px-4 py-2.5 rounded-2xl bg-[#0a0c16]/95 backdrop-blur-2xl border border-cyan-500/30 shadow-[0_15px_40px_rgba(0,0,0,0.85),0_0_25px_rgba(0,229,255,0.2)]">
-  <div class="w-8 h-8 rounded-xl bg-cyan-500/15 border border-cyan-500/40 flex items-center justify-center text-cyan-400 text-sm flex-shrink-0">
-    <i class="fas fa-headset animate-pulse"></i>
-  </div>
-  <div class="text-left pr-1">
-    <div class="text-[11px] font-bold text-white flex items-center gap-1.5">
-      <span>¿Dudas? Habla con mi Asistente de Voz</span>
-      <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping"></span>
-    </div>
-    <div class="text-[10px] text-slate-400 font-light">
-      Haz clic en <strong class="text-cyan-300">"Llamar"</strong> abajo y conversa en vivo con IA
-    </div>
-  </div>
-</div>
+<!-- Bot de voz IA incrustado al final de la página (sección #demo-voz) para evitar sobrecargar la pantalla móvil -->
 
 <!-- ════════════════════════════════════════════════════
      FLOATING LINEAR-STYLE NAVBAR
@@ -2366,10 +2363,10 @@
         <div id="faq-8" class="faq-answer">
           <div class="pt-4 border-t border-white/5 mt-4 space-y-3 text-xs sm:text-sm text-slate-300 leading-relaxed font-light">
             <p>
-              <strong>Sí, ahora mismo.</strong> En la esquina inferior derecha de esta pantalla se encuentra nuestro <strong>Asistente de Voz Conversacional en Vivo</strong> impulsado por ElevenLabs y entrenado con toda la información de Agencia ProsperIA.
+              <strong>Sí, ahora mismo.</strong> Justo al terminar esta sección de preguntas frecuentes encontrarás nuestro <strong>Asistente de Voz Conversacional en Vivo</strong> incrustado en la página, impulsado por ElevenLabs y entrenado con toda la información de Agencia ProsperIA.
             </p>
             <p>
-              Puedes hacer clic en el botón a continuación para iniciar la llamada y conversar directamente con el asistente, hacerle preguntas sobre nuestros servicios, tiempos de entrega y metodología, evaluando su fluidez y criterio en tiempo real.
+              Puedes hacer clic en el botón a continuación para desplazarte a la demo interactiva y conversar directamente con el asistente, hacerle preguntas sobre nuestros servicios, tiempos de entrega y metodología, evaluando su fluidez y criterio en tiempo real.
             </p>
             <div class="pt-3 flex flex-wrap items-center gap-3">
               <button type="button" onclick="triggerVoiceAgent()" class="btn-linear-primary px-4 py-2 text-xs font-bold inline-flex items-center gap-2 cursor-pointer shadow-[0_0_20px_rgba(0,229,255,0.3)]">
@@ -2383,6 +2380,104 @@
             </div>
           </div>
         </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════════════════
+     SECCIÓN 11.5 — ASISTENTE DE VOZ IA EN VIVO (DEMO INCRUSTADA)
+     ════════════════════════════════════════════════════ -->
+<section id="demo-voz" class="py-20 relative overflow-hidden" style="background: radial-gradient(circle at 50% 20%, rgba(0, 229, 255, 0.07) 0%, var(--bg-dark) 85%);">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+    
+    <div class="badge-linear mb-4 inline-flex items-center gap-2 border-cyan-500/30 text-cyan-300" data-reveal>
+      <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+      <span>Demo Interactiva Sin Formularios</span>
+    </div>
+
+    <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4 leading-tight" data-reveal>
+      Conversa en Vivo con Nuestro <span class="cyan-glow-text">Bot de Voz IA</span>
+    </h2>
+
+    <p class="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto font-light mb-10" data-reveal>
+      Sin formularios ni esperas comerciales. Inicia la llamada a continuación para evaluar la latencia ultra-baja, el tono natural y el criterio estratégico de nuestros agentes telefónicos y de soporte en tiempo real.
+    </p>
+
+    <!-- Tarjeta Central Incrustada del Widget de Voz -->
+    <div class="voice-agent-embed-card glass-card p-6 sm:p-8 rounded-3xl border border-cyan-500/30 shadow-[0_20px_50px_rgba(0,0,0,0.8),0_0_30px_rgba(0,229,255,0.12)] max-w-2xl mx-auto relative overflow-hidden text-left" data-reveal>
+      <!-- Glow ambiental decorativo -->
+      <div class="absolute -top-24 -right-24 w-48 h-48 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-24 -left-24 w-48 h-48 bg-purple-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <!-- Header de la tarjeta -->
+      <div class="flex items-center justify-between border-b border-white/10 pb-5 mb-6">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-cyan-500/15 border border-cyan-500/40 flex items-center justify-center text-cyan-400 text-lg flex-shrink-0">
+            <i class="fas fa-headset animate-pulse"></i>
+          </div>
+          <div>
+            <div class="text-sm sm:text-base font-bold text-white flex items-center gap-2">
+              <span>Asistente de Voz ProsperIA</span>
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">ONLINE 24/7</span>
+            </div>
+            <div class="text-xs text-slate-400 font-light">Audio bidireccional en vivo impulsado por ElevenLabs ConvAI</div>
+          </div>
+        </div>
+        <div class="hidden sm:flex items-center gap-1.5 text-xs text-cyan-300 font-mono">
+          <i class="fas fa-signal text-[10px] text-emerald-400"></i>
+          <span>Baja Latencia</span>
+        </div>
+      </div>
+
+      <!-- Contenedor del Widget ElevenLabs Incrustado (Sin burbuja flotante) -->
+      <div class="voice-widget-inner-wrap py-2">
+        <elevenlabs-convai 
+          agent-id="agent_8701kzw9wrm9ecevn8ke326k6dje" 
+          expandable="never" 
+          variant="full" 
+          action-text="Habla con mi Bot de Voz IA" 
+          start-call-text="Llamar al Asistente">
+        </elevenlabs-convai>
+      </div>
+
+      <!-- Sugerencias de preguntas para hacerle al bot -->
+      <div class="mt-6 pt-5 border-t border-white/5">
+        <div class="text-xs font-semibold text-slate-400 mb-3 flex items-center gap-2">
+          <i class="far fa-lightbulb text-amber-400"></i>
+          <span>Preguntas clave que puedes hacerle en la llamada:</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+          <div class="p-2.5 rounded-xl bg-white/[0.03] border border-white/5 text-slate-300 flex items-center gap-2">
+            <span class="text-cyan-400">🎙️</span>
+            <span>"¿En qué consiste el Sistema SVE90?"</span>
+          </div>
+          <div class="p-2.5 rounded-xl bg-white/[0.03] border border-white/5 text-slate-300 flex items-center gap-2">
+            <span class="text-cyan-400">🎙️</span>
+            <span>"¿Cómo reducen el no-show en clínicas?"</span>
+          </div>
+          <div class="p-2.5 rounded-xl bg-white/[0.03] border border-white/5 text-slate-300 flex items-center gap-2">
+            <span class="text-cyan-400">🎙️</span>
+            <span>"¿Qué diferencia hay con un chatbot común?"</span>
+          </div>
+          <div class="p-2.5 rounded-xl bg-white/[0.03] border border-white/5 text-slate-300 flex items-center gap-2">
+            <span class="text-cyan-400">🎙️</span>
+            <span>"¿Cuáles son los tiempos de implementación?"</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fallback / alternativas -->
+      <div class="mt-5 pt-3 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-400">
+        <span class="flex items-center gap-1.5 font-light">
+          <i class="fas fa-microphone-alt text-cyan-400"></i> Requiere permiso de micrófono para audio en tiempo real.
+        </span>
+        <a href="https://wa.me/17865573119?text=Hola%20Edward,%20prefiero%20chatear%20por%20WhatsApp" target="_blank" rel="noopener" class="text-emerald-400 hover:text-emerald-300 inline-flex items-center gap-1 font-medium transition-colors">
+          <i class="fab fa-whatsapp"></i> ¿Prefieres escribir? Chatea por WhatsApp
+        </a>
       </div>
 
     </div>
@@ -2662,24 +2757,25 @@ if (heroCore) {
 
 // ── Disparador y foco para el Bot de Voz ElevenLabs ────────────────────────
 function triggerVoiceAgent() {
-  trackEvent('voice_agent_trigger', { location: 'hero_pill' });
+  trackEvent('voice_agent_trigger', { location: 'in_page_demo' });
+  const voiceSection = document.getElementById('demo-voz');
   const widget = document.querySelector('elevenlabs-convai');
-  const callout = document.querySelector('.voice-agent-floating-callout');
 
-  // Resaltar visualmente el callout
-  if (callout) {
-    callout.classList.remove('hidden');
-    callout.style.transition = 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease';
-    callout.style.transform = 'scale(1.08) translateY(-6px)';
-    callout.style.boxShadow = '0 0 35px rgba(0, 229, 255, 0.5), 0 20px 40px rgba(0,0,0,0.9)';
-    setTimeout(() => {
-      callout.style.transform = 'scale(1) translateY(0)';
-      callout.style.boxShadow = '';
-    }, 1500);
+  if (voiceSection) {
+    voiceSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    const card = voiceSection.querySelector('.voice-agent-embed-card');
+    if (card) {
+      card.style.transition = 'box-shadow 0.4s ease, transform 0.4s ease';
+      card.style.transform = 'scale(1.02)';
+      card.style.boxShadow = '0 0 50px rgba(0, 229, 255, 0.4), 0 25px 60px rgba(0,0,0,0.95)';
+      setTimeout(() => {
+        card.style.transform = '';
+        card.style.boxShadow = '';
+      }, 1800);
+    }
   }
 
   if (widget) {
-    widget.scrollIntoView({ behavior: 'smooth', block: 'end' });
     setTimeout(() => {
       try {
         if (widget.shadowRoot) {
@@ -2701,7 +2797,7 @@ function triggerVoiceAgent() {
       } catch(err) {
         widget.click();
       }
-    }, 350);
+    }, 450);
   } else {
     window.open('https://wa.me/17865573119?text=Hola%20Edward,%20deseo%20conversar%20sobre%20mi%20empresa%20con%20Agencia%20ProsperIA', '_blank');
   }
@@ -2962,8 +3058,7 @@ window.addEventListener('keydown', (e) => {
   </div>
 </div>
 
-<!-- Eleven Labs Conversational Voice Agent Widget (Con Anuncio Oficial) -->
-<elevenlabs-convai agent-id="agent_8701kzw9wrm9ecevn8ke326k6dje" action-text="Habla con mi Bot de Voz IA" start-call-text="Llamar"></elevenlabs-convai>
+<!-- Script para el Widget Conversacional de ElevenLabs (Incrustado en la sección #demo-voz) -->
 <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
 
 </body>
