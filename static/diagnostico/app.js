@@ -1,7 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // Check for preloaded contact info from Express Funnel (Home / Modal / URL params)
+  const urlParams = new URLSearchParams(window.location.search);
+  const preName = urlParams.get('name') || sessionStorage.getItem('pia_lead_name') || '';
+  const preEmail = urlParams.get('email') || sessionStorage.getItem('pia_lead_email') || '';
+  const preWhatsapp = urlParams.get('phone') || sessionStorage.getItem('pia_lead_whatsapp') || '';
+
+  const hasPreloadedContact = Boolean(preEmail && (preName || preWhatsapp));
+
   // State variables
   let currentStep = 1;
-  const totalSteps = 6;
+  const totalSteps = hasPreloadedContact ? 5 : 6;
   
   const state = {
     leadsVolume: 100,
@@ -10,9 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
     auditing: null,
     ticketValue: 1000,
     calculatedReport: '',
-    contactName: '',
-    contactWhatsapp: '',
-    contactEmail: ''
+    contactName: preName,
+    contactWhatsapp: preWhatsapp,
+    contactEmail: preEmail
   };
 
   // DOM Elements
@@ -20,6 +28,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const progressBar = document.getElementById('progress-bar');
   const btnPrev = document.getElementById('btn-prev');
   const btnNext = document.getElementById('btn-next');
+  const step6El = document.getElementById('step-6');
+
+  // Si los datos ya vienen precargados desde la home, ocultar el paso 6
+  if (hasPreloadedContact && step6El) {
+    step6El.style.display = 'none';
+  } else {
+    // Si no estaban precargados, rellenar lo que haya en memoria en los inputs de paso 6
+    const nameInp = document.getElementById('lead-name');
+    const waInp = document.getElementById('lead-whatsapp');
+    const mailInp = document.getElementById('lead-email');
+    if (nameInp && preName) nameInp.value = preName;
+    if (waInp && preWhatsapp) waInp.value = preWhatsapp;
+    if (mailInp && preEmail) mailInp.value = preEmail;
+  }
   
   // Step 1: Range controls
   const rangeInput = document.getElementById('leads-range');
@@ -74,41 +96,58 @@ document.addEventListener('DOMContentLoaded', () => {
     if (currentStep < totalSteps) {
       navigateStep(currentStep + 1);
     } else {
-      // Validate Step 6 inputs
-      const nameInput = document.getElementById('lead-name');
-      const whatsappInput = document.getElementById('lead-whatsapp');
-      const emailInput = document.getElementById('lead-email');
+      if (hasPreloadedContact) {
+        // Datos ya listos desde la home, generar inmediatamente
+        btnNext.disabled = true;
+        btnNext.innerHTML = 'Calculando radiografía...';
+        submitLeadAndGenerate();
+      } else {
+        // Validar inputs de Paso 6
+        const nameInput = document.getElementById('lead-name');
+        const whatsappInput = document.getElementById('lead-whatsapp');
+        const emailInput = document.getElementById('lead-email');
 
-      if (!nameInput.value || !whatsappInput.value || !emailInput.value) {
-        alert('Por favor, completa todos los campos de contacto.');
-        return;
+        if (!nameInput.value || !whatsappInput.value || !emailInput.value) {
+          alert('Por favor, completa todos los campos de contacto.');
+          return;
+        }
+
+        state.contactName = nameInput.value;
+        state.contactWhatsapp = whatsappInput.value;
+        state.contactEmail = emailInput.value;
+
+        // Guardar para la sesión
+        try {
+          sessionStorage.setItem('pia_lead_name', state.contactName);
+          sessionStorage.setItem('pia_lead_email', state.contactEmail);
+          sessionStorage.setItem('pia_lead_whatsapp', state.contactWhatsapp);
+        } catch(e) {}
+
+        // Submit lead & show results
+        btnNext.disabled = true;
+        btnNext.innerHTML = 'Calculando radiografía...';
+        submitLeadAndGenerate();
       }
-
-      state.contactName = nameInput.value;
-      state.contactWhatsapp = whatsappInput.value;
-      state.contactEmail = emailInput.value;
-
-      // Submit lead & show results
-      submitLeadAndGenerate();
     }
   });
 
   function navigateStep(targetStep) {
     steps.forEach(step => step.classList.remove('active'));
-    document.getElementById(`step-${targetStep}`).classList.add('active');
+    const targetEl = document.getElementById(`step-${targetStep}`);
+    if (targetEl) targetEl.classList.add('active');
     
     currentStep = targetStep;
     
     // Update progress bar
     const progressPercent = (currentStep / totalSteps) * 100;
-    progressBar.style.width = `${progressPercent}%`;
+    if (progressBar) progressBar.style.width = `${progressPercent}%`;
     
     // Toggle prev button
-    btnPrev.style.visibility = (currentStep === 1) ? 'hidden' : 'visible';
+    if (btnPrev) btnPrev.style.visibility = (currentStep === 1) ? 'hidden' : 'visible';
     
     // Toggle next button label and state
     if (currentStep === totalSteps) {
-      btnNext.textContent = 'Ver mi Diagnóstico';
+      btnNext.textContent = 'Calcular mi Diagnóstico Ahora →';
     } else {
       btnNext.textContent = 'Siguiente';
     }
@@ -132,6 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
       btnNext.disabled = false; // Validated on submission
     }
   }
+
 
   async function submitLeadAndGenerate() {
     // Calculate diagnostic parameters first
@@ -186,7 +226,9 @@ RESULTADOS ESTIMADOS:
           phone: state.contactWhatsapp,
           company: '',
           message: state.calculatedReport,
-          source: editorialSource ? `diagnostico:${editorialSource}` : 'diagnostico'
+          source: editorialSource 
+            ? `diagnostico:${editorialSource}` 
+            : (sessionStorage.getItem('pia_lead_source') ? `diagnostico:${sessionStorage.getItem('pia_lead_source')}` : 'diagnostico:web')
         })
       });
     } catch (e) {

@@ -903,19 +903,74 @@
       Diseñamos e instalamos infraestructuras operativas donde la captación omnicanal, la cualificación autónoma y el cierre comercial conviven en una arquitectura soberana, escalable y sin silos tecnológicos.
     </p>
 
-    <!-- Hero CTAs -->
-    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14" data-reveal style="transition-delay: 0.15s;">
-      <a href="#soluciones-industria" class="btn-linear-primary px-8 py-4 text-sm flex items-center justify-center gap-3 w-full sm:w-auto" onclick="trackEvent('click_solution', {location: 'hero_primary'})">
-        <span>Encontrar mi solución</span>
-        <i class="fas fa-arrow-down text-xs"></i>
+    <!-- ════════════════════════════════════════════════════
+         CARD DE CAPTURA EXPRESS — RUTA INSTAGRAM/BIO (3 DATOS ➔ DIAGNÓSTICO)
+         ════════════════════════════════════════════════════ -->
+    <div id="express-funnel-card" class="max-w-xl mx-auto mb-10 p-6 sm:p-7 rounded-2xl bg-[#081224]/95 border border-cyan-500/40 backdrop-blur-xl shadow-[0_0_50px_rgba(0,229,255,0.18)] text-left relative z-20" data-reveal style="transition-delay: 0.14s;">
+      <!-- Pill Badge -->
+      <div class="flex items-center justify-between gap-2 mb-3">
+        <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-cyan-950/80 border border-cyan-400/40 text-[11px] font-bold uppercase tracking-wider text-cyan-400">
+          <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+          <span>Diagnóstico de Eficiencia Comercial con IA</span>
+        </div>
+        <span class="text-[11px] text-slate-400 font-medium hidden sm:inline">⏱ 3 Minutos</span>
+      </div>
+
+      <h3 class="text-base sm:text-lg font-bold text-white leading-snug mb-1.5">
+        ¿Cuántas ventas pierde tu empresa hoy por lentitud o falta de IA?
+      </h3>
+      <p class="text-xs sm:text-xs text-slate-300 mb-4 leading-relaxed font-light">
+        Ingresa 3 datos para desbloquear tu cálculo de fuga de prospectos y acceder de inmediato a tu radiografía operativa:
+      </p>
+
+      <form id="hero-lead-form" onsubmit="handleExpressLeadSubmit(event, 'hero-lead-form')" class="space-y-3">
+        <div class="relative">
+          <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
+            <i class="fas fa-user text-xs text-cyan-400"></i>
+          </span>
+          <input type="text" id="hero-lead-name" required placeholder="Tu nombre completo o de empresa" class="w-full pl-9 pr-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 text-white placeholder-slate-400 text-xs sm:text-sm focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
+              <i class="fas fa-envelope text-xs text-cyan-400"></i>
+            </span>
+            <input type="email" id="hero-lead-email" required placeholder="Correo corporativo" class="w-full pl-9 pr-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 text-white placeholder-slate-400 text-xs sm:text-sm focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all">
+          </div>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
+              <i class="fab fa-whatsapp text-xs text-emerald-400"></i>
+            </span>
+            <input type="tel" id="hero-lead-whatsapp" required placeholder="WhatsApp (+código país)" class="w-full pl-9 pr-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 text-white placeholder-slate-400 text-xs sm:text-sm focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all">
+          </div>
+        </div>
+
+        <button type="submit" id="hero-submit-btn" class="w-full mt-1 py-3 px-6 rounded-xl bg-gradient-to-r from-cyan-500 via-cyan-400 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black text-xs sm:text-sm flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(0,229,255,0.4)] transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer">
+          <i class="fas fa-bolt text-slate-950"></i>
+          <span>Comenzar Diagnóstico Gratis Ahora →</span>
+        </button>
+
+        <div class="flex items-center justify-between text-[11px] text-slate-400 pt-0.5 px-1">
+          <span class="inline-flex items-center gap-1.5"><i class="fas fa-shield-halved text-cyan-400 text-[10px]"></i> Datos protegidos institucionalmente</span>
+          <span class="text-cyan-400 font-semibold">100% Sin Costo</span>
+        </div>
+      </form>
+    </div>
+
+    <!-- Hero CTAs Secundarios -->
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mb-12" data-reveal style="transition-delay: 0.16s;">
+      <a href="#soluciones-industria" class="btn-linear-dark px-6 py-3 text-xs flex items-center justify-center gap-2.5 w-full sm:w-auto text-slate-300 hover:text-white" onclick="trackEvent('click_solution', {location: 'hero_primary'})">
+        <span>Conocer soluciones por industria</span>
+        <i class="fas fa-arrow-down text-[10px]"></i>
       </a>
-      <a href="#demo-tour" class="btn-linear-dark px-8 py-4 text-sm flex items-center justify-center gap-3 w-full sm:w-auto" onclick="trackEvent('demo_play', {location: 'hero_secondary'})">
-        <i class="fas fa-circle-play text-cyan-400"></i>
+      <a href="#demo-tour" class="btn-linear-dark px-6 py-3 text-xs flex items-center justify-center gap-2.5 w-full sm:w-auto text-slate-300 hover:text-white" onclick="trackEvent('demo_play', {location: 'hero_secondary'})">
+        <i class="fas fa-circle-play text-cyan-400 text-xs"></i>
         <span>Ver cómo funciona</span>
       </a>
-      <a href="https://passportai.app/" target="_blank" rel="noopener" class="hidden md:inline-flex items-center gap-2 text-xs font-bold text-slate-400 hover:text-cyan-300 transition-colors px-3 py-3" onclick="trackEvent('passportai_trial_click', {location: 'hero_inline'})">
-        <span>O explora la plataforma</span>
-        <i class="fas fa-arrow-right text-[11px]"></i>
+      <a href="https://passportai.app/" target="_blank" rel="noopener" class="hidden md:inline-flex items-center gap-2 text-xs font-bold text-slate-400 hover:text-cyan-300 transition-colors px-3 py-2" onclick="trackEvent('passportai_trial_click', {location: 'hero_inline'})">
+        <span>O explora PassportAI</span>
+        <i class="fas fa-arrow-right text-[10px]"></i>
       </a>
     </div>
 
@@ -3036,7 +3091,121 @@ function closeImageModal() {
 
 // Cerrar con Escape
 window.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') closeImageModal();
+  if (e.key === 'Escape') {
+    closeImageModal();
+    closeDiagnosticoModal();
+  }
+});
+
+// ── Lógica de Captura Express (Ruta Alterna Instagram/Bio ➔ GHL ➔ Diagnóstico) ──────
+async function handleExpressLeadSubmit(e, formId) {
+  e.preventDefault();
+  const form = document.getElementById(formId);
+  if (!form) return;
+
+  const isModal = formId === 'modal-lead-form';
+  const nameInput = document.getElementById(isModal ? 'modal-lead-name' : 'hero-lead-name');
+  const emailInput = document.getElementById(isModal ? 'modal-lead-email' : 'hero-lead-email');
+  const phoneInput = document.getElementById(isModal ? 'modal-lead-whatsapp' : 'hero-lead-whatsapp');
+  const submitBtn = document.getElementById(isModal ? 'modal-submit-btn' : 'hero-submit-btn');
+
+  const name = nameInput ? nameInput.value.trim() : '';
+  const email = emailInput ? emailInput.value.trim() : '';
+  const phone = phoneInput ? phoneInput.value.trim() : '';
+
+  if (!name || !email || !phone) {
+    alert('Por favor, completa los 3 campos para desbloquear tu diagnóstico.');
+    return;
+  }
+
+  // Deshabilitar botón durante el envío
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Registrando y abriendo diagnóstico...</span>';
+  }
+
+  // Guardar en sessionStorage para que /diagnostico lo lea inmediatamente
+  try {
+    sessionStorage.setItem('pia_lead_name', name);
+    sessionStorage.setItem('pia_lead_email', email);
+    sessionStorage.setItem('pia_lead_whatsapp', phone);
+    sessionStorage.setItem('pia_lead_source', 'ig_bio_express');
+  } catch (err) {}
+
+  // Enviar a la API local de FastAPI (/api/auth/contact) que sincroniza automáticamente con GoHighLevel
+  try {
+    const isIg = document.referrer.includes('instagram.com') || window.location.search.includes('ig') || window.location.search.includes('instagram');
+    const sourceTag = isIg ? 'instagram:bio:captura_express' : 'web:home:captura_express';
+
+    await fetch('/api/auth/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: name,
+        email: email,
+        phone: phone,
+        company: '',
+        message: `Lead Express capturado desde la portada web. Procedencia: ${sourceTag}. Listo para Diagnóstico Comercial.`,
+        source: sourceTag
+      })
+    });
+  } catch (err) {
+    console.warn('Error en sincronización en segundo plano:', err);
+  }
+
+  // Redirigir de inmediato al diagnóstico con parámetros seguros
+  const params = new URLSearchParams({
+    name: name,
+    email: email,
+    phone: phone,
+    source: 'express'
+  });
+  window.location.href = `/diagnostico?${params.toString()}`;
+}
+
+function openDiagnosticoModal() {
+  const modal = document.getElementById('diagnostico-express-modal');
+  if (modal) {
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    const input = document.getElementById('modal-lead-name');
+    if (input) setTimeout(() => input.focus(), 150);
+  }
+}
+
+function closeDiagnosticoModal() {
+  const modal = document.getElementById('diagnostico-express-modal');
+  if (modal) {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+}
+
+// Interceptar todos los enlaces a /diagnostico en la web para abrir el modal si no se ha registrado
+document.addEventListener('DOMContentLoaded', () => {
+  const isRegistered = sessionStorage.getItem('pia_lead_email');
+  if (!isRegistered) {
+    const diagLinks = document.querySelectorAll('a[href="/diagnostico"]');
+    diagLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        // Si el usuario ya está registrado, dejar pasar
+        if (sessionStorage.getItem('pia_lead_email')) return;
+        e.preventDefault();
+        openDiagnosticoModal();
+      });
+    });
+  }
+
+  // Detección de tráfico de Instagram: scroll suave a la card de captura
+  const isFromIg = document.referrer.includes('instagram.com') || window.location.search.includes('ig') || window.location.search.includes('instagram');
+  if (isFromIg) {
+    const card = document.getElementById('express-funnel-card');
+    if (card) {
+      setTimeout(() => {
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 600);
+    }
+  }
 });
 </script>
 
@@ -3058,8 +3227,74 @@ window.addEventListener('keydown', (e) => {
   </div>
 </div>
 
+<!-- Modal Global Express: Diagnóstico de Eficiencia Comercial -->
+<div id="diagnostico-express-modal" class="image-lightbox-modal" onclick="if(event.target === this) closeDiagnosticoModal();" role="dialog" aria-modal="true" aria-label="Diagnóstico Express">
+  <div class="lightbox-content-box" style="max-width: 520px;">
+    <div class="flex items-center justify-between px-6 py-4 bg-[#0a0c16] border-b border-cyan-500/20">
+      <div class="flex items-center gap-2.5">
+        <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping"></span>
+        <span class="text-xs font-bold text-white uppercase tracking-wider">Diagnóstico Comercial con IA</span>
+      </div>
+      <button type="button" onclick="closeDiagnosticoModal()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white flex items-center justify-center transition-colors" aria-label="Cerrar ventana">
+        <i class="fas fa-xmark text-sm"></i>
+      </button>
+    </div>
+    <div class="p-6 sm:p-7 bg-[#060913] text-left">
+      <h3 class="text-lg font-bold text-white leading-tight mb-2">
+        Desbloquea tu Diagnóstico Operativo de 3 Minutos
+      </h3>
+      <p class="text-xs text-slate-300 mb-5 leading-relaxed font-light">
+        Ingresa tus datos para calcular la pérdida estimada de prospectos e ingresos en tu pipeline y recibir el informe personalizado:
+      </p>
+
+      <form id="modal-lead-form" onsubmit="handleExpressLeadSubmit(event, 'modal-lead-form')" class="space-y-3.5">
+        <div>
+          <label class="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Nombre Completo</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
+              <i class="fas fa-user text-xs text-cyan-400"></i>
+            </span>
+            <input type="text" id="modal-lead-name" required placeholder="Ej. Carlos Mendoza" class="w-full pl-9 pr-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 text-white placeholder-slate-400 text-xs sm:text-sm focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Correo Corporativo</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
+              <i class="fas fa-envelope text-xs text-cyan-400"></i>
+            </span>
+            <input type="email" id="modal-lead-email" required placeholder="Ej. carlos@empresa.com" class="w-full pl-9 pr-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 text-white placeholder-slate-400 text-xs sm:text-sm focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">WhatsApp de Contacto</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
+              <i class="fab fa-whatsapp text-xs text-emerald-400"></i>
+            </span>
+            <input type="tel" id="modal-lead-whatsapp" required placeholder="Ej. +52 55 1234 5678" class="w-full pl-9 pr-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 text-white placeholder-slate-400 text-xs sm:text-sm focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all">
+          </div>
+        </div>
+
+        <button type="submit" id="modal-submit-btn" class="w-full mt-2 py-3.5 px-6 rounded-xl bg-gradient-to-r from-cyan-500 via-cyan-400 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black text-xs sm:text-sm flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(0,229,255,0.4)] transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer">
+          <i class="fas fa-bolt text-slate-950"></i>
+          <span>Comenzar Diagnóstico Gratis Ahora →</span>
+        </button>
+
+        <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1 px-1">
+          <span class="inline-flex items-center gap-1.5"><i class="fas fa-lock text-cyan-400 text-[10px]"></i> Sin spam ni venta invasiva</span>
+          <span class="text-cyan-400 font-semibold">100% Gratuito</span>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <!-- Script para el Widget Conversacional de ElevenLabs (Incrustado en la sección #demo-voz) -->
 <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
 
 </body>
 </html>
+
