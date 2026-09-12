@@ -1,0 +1,23 @@
+{
+  "date": "2026-09-17",
+  "slug": "metodologia-sve90-auditoria-automatizacion-adopcion-empresas",
+  "title": "La Metodología SVE90: Cómo auditar, automatizar y adoptar agentes de IA en clínicas y empresas de servicios sin caer en alucinaciones",
+  "executive_summary": "Stanford y OIT confirman que la IA transforma tareas y redistribuye valor económico hacia la verificación y el gobierno institucional.",
+  "verified_sources": [
+    {
+      "title": "Metodología SVE90 - Agencia ProsperIA",
+      "url": "https://agenciaprosperia.com/#sistema"
+    },
+    {
+      "title": "Stanford AI Index 2025 - Integración Sectorial",
+      "url": "https://hai.stanford.edu/ai-index/2025-ai-index-report"
+    }
+  ],
+  "affected_pillars": [
+    "Aumento Tecnológico",
+    "Estratégico",
+    "Financiero"
+  ],
+  "sve90_phase": "Auditoría de Procesos y Tareas",
+  "core_takeaway": "El valor migró de producir primeras versiones a saber auditarlas y gobernar las consecuencias."
+}

@@ -1,0 +1,19 @@
+{
+  "date": "2026-09-15",
+  "slug": "de-herramientas-a-agentes-autonomos-obsolescencia-software",
+  "title": "El fin del software tradicional: De herramientas pasivas a agentes autónomos que ejecutan procesos de negocio de punta a punta",
+  "executive_summary": "Stanford y OIT confirman que la IA transforma tareas y redistribuye valor económico hacia la verificación y el gobierno institucional.",
+  "verified_sources": [
+    {
+      "title": "Anthropic Economic Index: 57% Aumento vs 43% Automatización",
+      "url": "https://www.anthropic.com/research/the-anthropic-economic-index"
+    }
+  ],
+  "affected_pillars": [
+    "Aumento Tecnológico",
+    "Estratégico",
+    "Financiero"
+  ],
+  "sve90_phase": "Auditoría de Procesos y Tareas",
+  "core_takeaway": "El valor migró de producir primeras versiones a saber auditarlas y gobernar las consecuencias."
+}

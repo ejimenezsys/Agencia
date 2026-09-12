@@ -1,0 +1,23 @@
+{
+  "date": "2026-09-16",
+  "slug": "gobernanza-infraestructura-critica-lecciones-bancarias-edward-jimenez",
+  "title": "Gobernanza y resiliencia en infraestructura crítica: Lecciones de 25 años desde la migración nocturna de Banco Azteca bajo la CNBV hasta los agentes modernos",
+  "executive_summary": "Stanford y OIT confirman que la IA transforma tareas y redistribuye valor económico hacia la verificación y el gobierno institucional.",
+  "verified_sources": [
+    {
+      "title": "Comisión Nacional Bancaria y de Valores (CNBV) - Normativa de Continuidad",
+      "url": "https://www.gob.mx/cnbv"
+    },
+    {
+      "title": "Casos de Arquitectura Crítica - Edward Jiménez (1999-2025)",
+      "url": "https://agenciaprosperia.com/about"
+    }
+  ],
+  "affected_pillars": [
+    "Aumento Tecnológico",
+    "Estratégico",
+    "Financiero"
+  ],
+  "sve90_phase": "Auditoría de Procesos y Tareas",
+  "core_takeaway": "El valor migró de producir primeras versiones a saber auditarlas y gobernar las consecuencias."
+}

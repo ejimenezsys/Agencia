@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0",
+  "last_updated": "2026-09-12T15:25:00-04:00",
+  "owner": "Edward Jiménez",
+  "brand": "Prosper IA / Edward Jiménez IA",
+  "monitoring_tools": {
+    "vidiq": {
+      "status": "active",
+      "purpose": "SEO, competencia, keywords, predicción de vistas y tags en YouTube"
+    },
+    "unipile": {
+      "status": "connected",
+      "purpose": "Automatización de publicaciones y comentarios en LinkedIn"
+    }
+  },
+  "channels": {
+    "youtube": {
+      "name": "Agencia Prosper IA",
+      "url": "https://www.youtube.com/@AgenciaProsper_IA",
+      "subscribers": 105,
+      "age_months": 2,
+      "top_performing_video": "ChatGPT (Luna, Terra, Sol) vs Claude",
+      "pipeline_status": "12 videos grabados en total. Video #2 publicado hoy; 10 en cola (1 cada 3 días).",
+      "focus": "Video-Ensayos Documentales de 15-20 min + Shorts virales. Cero pitch corporativo."
+    },
+    "instagram": {
+      "principal_ia": {
+        "handle": "@edwardjimenezia",
+        "url": "https://www.instagram.com/edwardjimenezia/",
+        "status": "Cuenta principal en tracción",
+        "recent_hit": "+1.300 seguidores ganados hace 2 días",
+        "content_type": "Reels H.V.A. de 50s, ganchos virales, reacciones a noticias de IA con fuentes en pantalla"
+      },
+      "marketing": {
+        "handle": "@edwardjimenez.marketing",
+        "url": "https://www.instagram.com/edwardjimenez.marketing/",
+        "status": "Secundaria / Estrategia de crecimiento y marketing"
+      },
+      "ceo": {
+        "handle": "@edwardjimenez_ceo",
+        "url": "https://www.instagram.com/edwardjimenez_ceo/",
+        "status": "Marca directiva / Liderazgo y visión empresarial"
+      }
+    },
+    "linkedin": {
+      "name": "Edward Jiménez",
+      "url": "https://www.linkedin.com/in/edwardjimenezia/",
+      "integration": "Unipile API",
+      "posting_time": "9:00 AM Lunes a Viernes",
+      "content_type": "Artículos ejecutivos, desmonte de tareas, reportes de inteligencia"
+    },
+    "threads": {
+      "handle": "@edwardjimenezia",
+      "url": "https://www.threads.com/@edwardjimenezia",
+      "content_type": "Hilos de debate y láminas de carrusel en PNG"
+    },
+    "tiktok": {
+      "handle": "@edwardjimenez.ia",
+      "url": "https://www.tiktok.com/@edwardjimenez.ia",
+      "content_type": "Shorts de alta retención de 50s"
+    },
+    "x_twitter": {
+      "handle": "@edwardjimenezia",
+      "url": "https://x.com/edwardjimenezia",
+      "content_type": "Hilos de análisis profundo de noticias y datos duros"
+    }
+  },
+  "creative_framework": {
+    "mentor": "Víctor Heras",
+    "golden_rule_visual": "Regla del Elefante: 'Si me hablas sobre el elefante, ponme el elefante arriba. Sea así o en pantalla dividida, pero utiliza recursos visuales que validen en tiempo real eso de lo que estás hablando'.",
+    "golden_rule_growth": "Volverse primero masivo y viral con puro valor, autoridad y debate; luego ir al nicho B2B para monetizar y cerrar clientes sin necesidad de venta directa.",
+    "four_pillars": [
+      "Inteligencia Financiera (Margen real, sueldo del dueño, 4 cajas)",
+      "Inteligencia Emocional (Autogobierno, no vender la vida por estatus, resiliencia)",
+      "Inteligencia Estratégica (Visión de mercado, adelantarse a la brecha exponencial)",
+      "Inteligencia Artificial (Multiplicador tecnológico con tolerancia cero)"
+    ]
+  }
+}

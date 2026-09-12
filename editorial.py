@@ -15,7 +15,7 @@ LANES = {
     "criterio-edward": "Criterio de Edward",
     "inteligencia-clinicas": "Inteligencia para Clínicas",
     "laboratorio-prosperia": "Laboratorio ProsperIA",
-    "cuatro-inteligencias": "Las 4 Inteligencias",
+    "cuatro-inteligencias": "Los 4 Pilares de Soberanía Empresarial",
 }
 
 LEGACY_CATEGORY_LANES = {
