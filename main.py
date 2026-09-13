@@ -1451,7 +1451,7 @@ def send_email_notification(name: str, email: str, company: str, phone: str, mes
     smtp_port = int(os.environ.get("SMTP_PORT", "587"))
     smtp_user = os.environ.get("SMTP_USER")
     smtp_pass = os.environ.get("SMTP_PASSWORD")
-    smtp_sender = os.environ.get("SMTP_SENDER", "noreply@prosper-ia.com")
+    smtp_sender = os.environ.get("SMTP_SENDER", "edward@agenciaprosperia.com")
     
     # Pre-process strings to avoid f-string backslash limitations in older Python versions
     message_html = message.replace('\n', '<br>')
@@ -1530,7 +1530,7 @@ def send_email_notification(name: str, email: str, company: str, phone: str, mes
     try:
         msg = MIMEMultipart("alternative")
         msg["Subject"] = subject
-        msg["From"] = smtp_sender
+        msg["From"] = f"Prosper IA <{smtp_sender}>"
         msg["To"] = notification_to
         
         text_content = f"Nueva Aplicación SVE90:\n\nNombre: {name}\nEmail: {email}\nAgencia: {company}\nTeléfono: {phone}\nMensaje: {message}"
@@ -1546,19 +1546,120 @@ def send_email_notification(name: str, email: str, company: str, phone: str, mes
     except Exception as e:
         print(f"❌ [EMAIL NOTIFICATION ERROR] Failed to send email to {notification_to}: {e}", flush=True)
 
+def send_client_diagnostic_email(name: str, email: str, phone: str, message: str):
+    """Envía el resultado de la radiografía de eficiencia comercial directamente al cliente desde edward@agenciaprosperia.com"""
+    smtp_host = os.environ.get("SMTP_HOST")
+    smtp_port = int(os.environ.get("SMTP_PORT", "587"))
+    smtp_user = os.environ.get("SMTP_USER")
+    smtp_pass = os.environ.get("SMTP_PASSWORD")
+    smtp_sender = os.environ.get("SMTP_SENDER", "edward@agenciaprosperia.com")
+    
+    if not email or "@" not in email:
+        return
+
+    first_name = name.strip().split()[0] if name else "Líder Comercial"
+    phone_clean = phone.replace('+', '').replace(' ', '')
+    message_html = message.replace('\n', '<br>')
+    booking_url = f"https://api.leadconnectorhq.com/widget/bookings/calendario-de-edward-jimenez?first_name={first_name}&name={name}&email={email}&phone={phone_clean}"
+
+    subject = f"📊 Tu Radiografía de Eficiencia Comercial — Prosper IA"
+
+    html_content = f"""
+    <html>
+      <body style="font-family: 'Segoe UI', Arial, sans-serif; background-color: #020710; color: #ffffff; margin: 0; padding: 20px;">
+        <table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="background-color: #050d1a; border: 1px solid rgba(0,229,255,0.25); border-radius: 14px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.6);">
+          <tr style="background: linear-gradient(135deg, #081224 0%, #020710 100%); border-bottom: 1px solid rgba(0,229,255,0.2); text-align: center;">
+            <td style="padding: 30px 20px;">
+              <h1 style="color: #00e5ff; margin: 0; font-size: 24px; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase;">PROSPER IA</h1>
+              <p style="color: #94a3b8; margin: 6px 0 0 0; font-size: 13px; font-weight: 600;">DIAGNÓSTICO DE EFICIENCIA COMERCIAL (VQI)</p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 35px 30px;">
+              <h2 style="color: #ffffff; margin-top: 0; font-size: 20px; font-weight: 800;">Hola {first_name},</h2>
+              <p style="color: #cbd5e1; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
+                Aquí tienes el informe de tu <strong>Diagnóstico de Eficiencia Comercial</strong> calculado con base en los parámetros de tu pipeline:
+              </p>
+              
+              <div style="background-color: rgba(0,229,255,0.04); border: 1px solid rgba(0,229,255,0.2); border-left: 4px solid #00e5ff; padding: 20px; border-radius: 8px; font-size: 14px; color: #f8fafc; line-height: 1.7; margin-bottom: 28px;">
+                {message_html}
+              </div>
+
+              <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(0,229,255,0.25); border-radius: 12px; padding: 24px 20px; margin-bottom: 30px; text-align: center;">
+                <h3 style="color: #00e5ff; margin: 0 0 8px 0; font-size: 17px; font-weight: 800;">Próximo Paso: Sesión Estratégica de 15 Minutos</h3>
+                <p style="color: #94a3b8; font-size: 13px; margin: 0 0 20px 0; line-height: 1.5;">Revisemos cómo blindar tu embudo con IA, acelerar la respuesta a 15 segundos y recuperar prospectos perdidos.</p>
+                <a href="{booking_url}" style="background: linear-gradient(135deg, #00e5ff, #00b4cc); color: #020710; text-decoration: none; padding: 14px 32px; font-weight: 900; font-size: 13px; border-radius: 10px; display: inline-block; box-shadow: 0 4px 20px rgba(0,229,255,0.4); text-transform: uppercase;">Agendar Sesión con Edward Jiménez →</a>
+              </div>
+
+              <p style="color: #94a3b8; font-size: 13px; line-height: 1.6;">
+                Atentamente,<br>
+                <strong style="color: #ffffff;">Edward Jiménez</strong><br>
+                Fundador & Arquitecto Comercial — Prosper IA & PassportAI<br>
+                <a href="mailto:edward@agenciaprosperia.com" style="color: #00e5ff; text-decoration: none;">edward@agenciaprosperia.com</a>
+              </p>
+            </td>
+          </tr>
+          <tr style="background-color: #020710; text-align: center; border-top: 1px solid rgba(0,229,255,0.15);">
+            <td style="padding: 18px; font-size: 11px; color: #64748b;">
+              © 2026 Prosper IA. Mensaje generado automáticamente desde edward@agenciaprosperia.com
+            </td>
+          </tr>
+        </table>
+      </body>
+    </html>
+    """
+
+    if not (smtp_host and smtp_user and smtp_pass):
+        print(f"\n📧 [CLIENT DIAGNOSTIC EMAIL QUEUED / GHL WORKFLOW]", flush=True)
+        print(f"To: {email}", flush=True)
+        print(f"From: Edward Jiménez <{smtp_sender}>", flush=True)
+        print(f"Subject: {subject}", flush=True)
+        print(f"Report payload ready for dispatch.\n", flush=True)
+        return
+
+    try:
+        msg = MIMEMultipart("alternative")
+        msg["Subject"] = subject
+        msg["From"] = f"Edward Jiménez <{smtp_sender}>"
+        msg["To"] = email
+        
+        text_content = f"Hola {first_name},\n\nAquí tienes tu Diagnóstico Comercial:\n\n{message}\n\nAgenda tu llamada de 15 minutos: {booking_url}\n\nEdward Jiménez - edward@agenciaprosperia.com"
+        msg.attach(MIMEText(text_content, "plain"))
+        msg.attach(MIMEText(html_content, "html"))
+        
+        server = smtplib.SMTP(smtp_host, smtp_port)
+        server.starttls()
+        server.login(smtp_user, smtp_pass)
+        server.sendmail(smtp_sender, email, msg.as_string())
+        server.quit()
+        print(f"📧 [DIAGNOSTIC EMAIL] Client email sent to {email} from {smtp_sender}!", flush=True)
+    except Exception as e:
+        print(f"❌ [DIAGNOSTIC EMAIL ERROR] Could not send to {email}: {e}", flush=True)
+
 import json
 import urllib.request
 import threading
+import ssl
 
 def send_webhook_background(url: str, payload: dict):
     try:
+        data = json.dumps(payload).encode("utf-8")
         req = urllib.request.Request(
             url,
-            data=json.dumps(payload).encode("utf-8"),
-            headers={"Content-Type": "application/json"},
+            data=data,
+            headers={
+                "Content-Type": "application/json",
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 ProsperIA/2.0"
+            },
             method="POST"
         )
-        with urllib.request.urlopen(req, timeout=10) as response:
+        ctx = None
+        try:
+            ctx = ssl._create_unverified_context()
+        except Exception:
+            pass
+
+        with urllib.request.urlopen(req, timeout=12, context=ctx) as response:
             status = response.getcode()
             print(f"✅ Webhook sent successfully to {url}, response status: {status}", flush=True)
     except Exception as e:
@@ -1602,13 +1703,35 @@ def trigger_lead_sync(lead_name: str, lead_email: str, lead_phone: str, lead_com
             elif "Fuga de ingresos estimada:" in line:
                 try: fuga_ingresos = int(line.replace("$", "").replace("USD/mes", "").replace(",", "").replace(" ", "").split(":")[1].strip())
                 except: pass
-                
+
+    name_parts = lead_name.strip().split()
+    first_name = name_parts[0] if name_parts else ""
+    last_name = " ".join(name_parts[1:]) if len(name_parts) > 1 else ""
+
     ghl_payload = {
         "name": lead_name,
+        "first_name": first_name,
+        "last_name": last_name,
         "phone": lead_phone,
         "email": lead_email,
         "company": lead_company,
+        "company_name": lead_company,
+        "companyName": lead_company,
         "source": lead_source,
+        "tags": ["contactosdeinstagram", "diagnostico_comercial", "lead_diagnostico"],
+        "tag": "contactosdeinstagram",
+        "sender_email": "edward@agenciaprosperia.com",
+        "sender_name": "Edward Jiménez",
+        "score_eficiencia": score_eficiencia,
+        "fuga_leads": fuga_leads,
+        "fuga_ingresos": fuga_ingresos,
+        "leads_mensuales": leads_volume,
+        "speed_to_lead": speed_to_lead,
+        "storage_method": storage_method,
+        "ia_auditing": ia_auditing,
+        "ticket_b2b": ticket_b2b,
+        "calculated_report": lead_notes,
+        "reporte_diagnostico": lead_notes,
         "customFields": {
             "leads_mensuales": leads_volume,
             "speed_to_lead": speed_to_lead,
@@ -1618,7 +1741,20 @@ def trigger_lead_sync(lead_name: str, lead_email: str, lead_phone: str, lead_com
             "score_eficiencia": score_eficiencia,
             "fuga_leads": fuga_leads,
             "fuga_ingresos": fuga_ingresos,
-            "calculated_report": lead_notes
+            "calculated_report": lead_notes,
+            "reporte_diagnostico": lead_notes
+        },
+        "customData": {
+            "leads_mensuales": leads_volume,
+            "speed_to_lead": speed_to_lead,
+            "storage_method": storage_method,
+            "ia_auditing": ia_auditing,
+            "ticket_b2b": ticket_b2b,
+            "score_eficiencia": score_eficiencia,
+            "fuga_leads": fuga_leads,
+            "fuga_ingresos": fuga_ingresos,
+            "calculated_report": lead_notes,
+            "reporte_diagnostico": lead_notes
         }
     }
     
@@ -1663,18 +1799,27 @@ async def api_contact(req: ContactRequest, background_tasks: BackgroundTasks, db
             phone=req.phone or "",
             message=req.message or ""
         )
-    
-    # Sincronizar automáticamente con GHL y n8n
-    if feature_enabled("LEAD_WEBHOOKS_ENABLED"):
-        trigger_lead_sync(
-            req.name,
-            req.email,
-            req.phone or "",
-            req.company or "",
-            req.message or "",
-            req.source or "website",
-            db
+
+    # Envío automático de la radiografía de diagnóstico comercial al cliente desde edward@agenciaprosperia.com
+    if "DIAGNÓSTICO COMERCIAL" in (req.message or ""):
+        background_tasks.add_task(
+            send_client_diagnostic_email,
+            name=req.name,
+            email=req.email,
+            phone=req.phone or "",
+            message=req.message or ""
         )
+    
+    # Sincronizar automáticamente con GoHighLevel y n8n siempre que existan webhooks configurados
+    trigger_lead_sync(
+        req.name,
+        req.email,
+        req.phone or "",
+        req.company or "",
+        req.message or "",
+        req.source or "website",
+        db
+    )
     
     return {"success": True}
 

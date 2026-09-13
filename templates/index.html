@@ -237,6 +237,107 @@
     }
 
     /* ════════════════════════════════════════════════════
+       FORM INPUTS & AUTOFILL CONTRAST SHIELD
+       ════════════════════════════════════════════════════ */
+    input, textarea, select {
+      background-color: #081224 !important;
+      color: #ffffff !important;
+      -webkit-text-fill-color: #ffffff !important;
+      caret-color: #00e5ff !important;
+    }
+    input::placeholder, textarea::placeholder {
+      color: #94a3b8 !important;
+      -webkit-text-fill-color: #94a3b8 !important;
+      opacity: 1 !important;
+    }
+    input:focus, textarea:focus, select:focus {
+      background-color: #0b172e !important;
+      color: #ffffff !important;
+      -webkit-text-fill-color: #ffffff !important;
+      border-color: #00e5ff !important;
+      outline: none !important;
+      box-shadow: 0 0 15px rgba(0, 229, 255, 0.25) !important;
+    }
+    /* Evitar que autofill de Chrome/Safari pinte el fondo blanco o tape las letras */
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover, 
+    input:-webkit-autofill:focus, 
+    input:-webkit-autofill:active,
+    textarea:-webkit-autofill,
+    textarea:-webkit-autofill:hover,
+    textarea:-webkit-autofill:focus,
+    select:-webkit-autofill {
+      -webkit-box-shadow: 0 0 0 1000px #081224 inset !important;
+      box-shadow: 0 0 0 1000px #081224 inset !important;
+      -webkit-text-fill-color: #ffffff !important;
+      color: #ffffff !important;
+      caret-color: #00e5ff !important;
+      border-color: #00e5ff !important;
+      transition: background-color 5000s ease-in-out 0s !important;
+    }
+
+    /* Campos Express Específicos: Fondo oscuro blindado, texto blanco visible */
+    .express-lead-input {
+      background-color: #070d1a !important;
+      color: #ffffff !important;
+      -webkit-text-fill-color: #ffffff !important;
+      caret-color: #00e5ff !important;
+      border: 1.5px solid rgba(0, 229, 255, 0.4) !important;
+      border-radius: 12px !important;
+      font-size: 14px !important;
+      transition: all 0.25s ease !important;
+    }
+    .express-lead-input:focus {
+      background-color: #0b152b !important;
+      color: #ffffff !important;
+      -webkit-text-fill-color: #ffffff !important;
+      border-color: #00e5ff !important;
+      box-shadow: 0 0 16px rgba(0, 229, 255, 0.45) !important;
+      outline: none !important;
+    }
+    .express-lead-input::placeholder {
+      color: #94a3b8 !important;
+      -webkit-text-fill-color: #94a3b8 !important;
+      opacity: 1 !important;
+    }
+
+    /* Botón CTA Express: Enmarcado con color vibrante, 100% reconocible como botón */
+    .btn-express-cta {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 10px !important;
+      width: 100% !important;
+      padding: 15px 24px !important;
+      border-radius: 14px !important;
+      background: linear-gradient(135deg, #00f0ff 0%, #00c8f8 40%, #0284c7 100%) !important;
+      color: #020617 !important;
+      font-weight: 900 !important;
+      font-size: 14px !important;
+      letter-spacing: 0.03em !important;
+      text-transform: uppercase !important;
+      border: 2.5px solid #67e8f9 !important;
+      box-shadow: 0 0 30px rgba(0, 240, 255, 0.55), inset 0 1px 1px #ffffff !important;
+      cursor: pointer !important;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+    .btn-express-cta:hover {
+      background: linear-gradient(135deg, #38bdf8 0%, #00f0ff 100%) !important;
+      color: #000000 !important;
+      transform: translateY(-2px) scale(1.01) !important;
+      border-color: #ffffff !important;
+      box-shadow: 0 0 45px rgba(0, 240, 255, 0.85), inset 0 1px 2px #ffffff !important;
+    }
+    .btn-express-cta:active {
+      transform: translateY(1px) scale(0.99) !important;
+    }
+    .btn-express-cta i,
+    .btn-express-cta span {
+      color: #020617 !important;
+      font-weight: 900 !important;
+    }
+
+    /* ════════════════════════════════════════════════════
        3D SCI-FI CORE: MOVIMIENTO DINÁMICO & IMPACTO
        ════════════════════════════════════════════════════ */
     .hero-3d-wrapper {
@@ -906,10 +1007,10 @@
     <!-- ════════════════════════════════════════════════════
          CARD DE CAPTURA EXPRESS — RUTA INSTAGRAM/BIO (3 DATOS ➔ DIAGNÓSTICO)
          ════════════════════════════════════════════════════ -->
-    <div id="express-funnel-card" class="max-w-xl mx-auto mb-10 p-6 sm:p-7 rounded-2xl bg-[#081224]/95 border border-cyan-500/40 backdrop-blur-xl shadow-[0_0_50px_rgba(0,229,255,0.18)] text-left relative z-20" data-reveal style="transition-delay: 0.14s;">
+    <div id="express-funnel-card" class="max-w-xl mx-auto mb-10 p-6 sm:p-7 rounded-2xl text-left relative z-20" data-reveal style="background: #060b17 !important; border: 1.5px solid rgba(0, 229, 255, 0.45) !important; box-shadow: 0 0 50px rgba(0, 229, 255, 0.22), 0 20px 40px rgba(0, 0, 0, 0.85) !important; transition-delay: 0.14s;">
       <!-- Pill Badge -->
       <div class="flex items-center justify-between gap-2 mb-3">
-        <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-cyan-950/80 border border-cyan-400/40 text-[11px] font-bold uppercase tracking-wider text-cyan-400">
+        <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider text-cyan-400" style="background: rgba(0, 229, 255, 0.1) !important; border: 1px solid rgba(0, 229, 255, 0.35) !important;">
           <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
           <span>Diagnóstico de Eficiencia Comercial con IA</span>
         </div>
@@ -925,30 +1026,30 @@
 
       <form id="hero-lead-form" onsubmit="handleExpressLeadSubmit(event, 'hero-lead-form')" class="space-y-3">
         <div class="relative">
-          <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
+          <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-cyan-400">
             <i class="fas fa-user text-xs text-cyan-400"></i>
           </span>
-          <input type="text" id="hero-lead-name" required placeholder="Tu nombre completo o de empresa" class="w-full pl-9 pr-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 text-white placeholder-slate-400 text-xs sm:text-sm focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all">
+          <input type="text" id="hero-lead-name" required placeholder="Tu nombre completo o de empresa" class="express-lead-input w-full pl-9 pr-4 py-3 rounded-xl text-xs sm:text-sm" style="background-color: #070d1a !important; color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; border: 1.5px solid rgba(0, 229, 255, 0.4) !important;">
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
           <div class="relative">
-            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-cyan-400">
               <i class="fas fa-envelope text-xs text-cyan-400"></i>
             </span>
-            <input type="email" id="hero-lead-email" required placeholder="Correo corporativo" class="w-full pl-9 pr-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 text-white placeholder-slate-400 text-xs sm:text-sm focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all">
+            <input type="email" id="hero-lead-email" required placeholder="Correo corporativo" class="express-lead-input w-full pl-9 pr-4 py-3 rounded-xl text-xs sm:text-sm" style="background-color: #070d1a !important; color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; border: 1.5px solid rgba(0, 229, 255, 0.4) !important;">
           </div>
           <div class="relative">
-            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-emerald-400">
               <i class="fab fa-whatsapp text-xs text-emerald-400"></i>
             </span>
-            <input type="tel" id="hero-lead-whatsapp" required placeholder="WhatsApp (+código país)" class="w-full pl-9 pr-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 text-white placeholder-slate-400 text-xs sm:text-sm focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all">
+            <input type="tel" id="hero-lead-whatsapp" required placeholder="WhatsApp (+código país)" class="express-lead-input w-full pl-9 pr-4 py-3 rounded-xl text-xs sm:text-sm" style="background-color: #070d1a !important; color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; border: 1.5px solid rgba(0, 229, 255, 0.4) !important;">
           </div>
         </div>
 
-        <button type="submit" id="hero-submit-btn" class="w-full mt-1 py-3 px-6 rounded-xl bg-gradient-to-r from-cyan-500 via-cyan-400 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black text-xs sm:text-sm flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(0,229,255,0.4)] transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer">
-          <i class="fas fa-bolt text-slate-950"></i>
-          <span>Comenzar Diagnóstico Gratis Ahora →</span>
+        <button type="submit" id="hero-submit-btn" class="btn-express-cta w-full mt-2 py-3.5 px-6 rounded-xl cursor-pointer" style="background: linear-gradient(135deg, #00f0ff 0%, #00c8f8 40%, #0284c7 100%) !important; color: #020617 !important; border: 2.5px solid #67e8f9 !important; box-shadow: 0 0 30px rgba(0, 240, 255, 0.55), inset 0 1px 1px #ffffff !important;">
+          <i class="fas fa-bolt" style="color: #020617 !important;"></i>
+          <span style="color: #020617 !important; font-weight: 900 !important;">Comenzar Diagnóstico Gratis Ahora →</span>
         </button>
 
         <div class="flex items-center justify-between text-[11px] text-slate-400 pt-0.5 px-1">
@@ -3254,7 +3355,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
               <i class="fas fa-user text-xs text-cyan-400"></i>
             </span>
-            <input type="text" id="modal-lead-name" required placeholder="Ej. Carlos Mendoza" class="w-full pl-9 pr-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 text-white placeholder-slate-400 text-xs sm:text-sm focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all">
+            <input type="text" id="modal-lead-name" required placeholder="Ej. Carlos Mendoza" class="express-lead-input w-full pl-9 pr-4 py-2.5 rounded-xl text-xs sm:text-sm" style="background-color: #070d1a !important; color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; border: 1.5px solid rgba(0, 229, 255, 0.4) !important;">
           </div>
         </div>
 
@@ -3264,7 +3365,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
               <i class="fas fa-envelope text-xs text-cyan-400"></i>
             </span>
-            <input type="email" id="modal-lead-email" required placeholder="Ej. carlos@empresa.com" class="w-full pl-9 pr-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 text-white placeholder-slate-400 text-xs sm:text-sm focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all">
+            <input type="email" id="modal-lead-email" required placeholder="Ej. carlos@empresa.com" class="express-lead-input w-full pl-9 pr-4 py-2.5 rounded-xl text-xs sm:text-sm" style="background-color: #070d1a !important; color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; border: 1.5px solid rgba(0, 229, 255, 0.4) !important;">
           </div>
         </div>
 
@@ -3274,13 +3375,13 @@ document.addEventListener('DOMContentLoaded', () => {
             <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
               <i class="fab fa-whatsapp text-xs text-emerald-400"></i>
             </span>
-            <input type="tel" id="modal-lead-whatsapp" required placeholder="Ej. +52 55 1234 5678" class="w-full pl-9 pr-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 text-white placeholder-slate-400 text-xs sm:text-sm focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all">
+            <input type="tel" id="modal-lead-whatsapp" required placeholder="Ej. +52 55 1234 5678" class="express-lead-input w-full pl-9 pr-4 py-2.5 rounded-xl text-xs sm:text-sm" style="background-color: #070d1a !important; color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; border: 1.5px solid rgba(0, 229, 255, 0.4) !important;">
           </div>
         </div>
 
-        <button type="submit" id="modal-submit-btn" class="w-full mt-2 py-3.5 px-6 rounded-xl bg-gradient-to-r from-cyan-500 via-cyan-400 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black text-xs sm:text-sm flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(0,229,255,0.4)] transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer">
-          <i class="fas fa-bolt text-slate-950"></i>
-          <span>Comenzar Diagnóstico Gratis Ahora →</span>
+        <button type="submit" id="modal-submit-btn" class="btn-express-cta w-full mt-2 py-3.5 px-6 rounded-xl cursor-pointer" style="background: linear-gradient(135deg, #00f0ff 0%, #00c8f8 40%, #0284c7 100%) !important; color: #020617 !important; border: 2.5px solid #67e8f9 !important; box-shadow: 0 0 30px rgba(0, 240, 255, 0.55), inset 0 1px 1px #ffffff !important;">
+          <i class="fas fa-bolt" style="color: #020617 !important;"></i>
+          <span style="color: #020617 !important; font-weight: 900 !important;">Comenzar Diagnóstico Gratis Ahora →</span>
         </button>
 
         <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1 px-1">

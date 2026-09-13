@@ -82,6 +82,11 @@ body {
   padding: 40px 20px;
   box-sizing: border-box;
   z-index: 1;
+  transition: max-width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.vqi-container.has-results {
+  max-width: 1040px;
 }
 
 /* Brand Header */
@@ -296,18 +301,42 @@ body {
   color: var(--pia-text-muted);
 }
 .input-field input {
-  background: rgba(0, 0, 0, 0.3);
+  background-color: #081224 !important;
   border: 1px solid var(--pia-border);
-  color: var(--pia-text-display);
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  caret-color: #00e5ff !important;
   padding: 16px;
   border-radius: 8px;
   font-size: 15px;
   outline: none;
   transition: var(--transition);
 }
+.input-field input::placeholder {
+  color: #94a3b8 !important;
+  -webkit-text-fill-color: #94a3b8 !important;
+  opacity: 1 !important;
+}
 .input-field input:focus {
+  background-color: #0b172e !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
   border-color: var(--pia-accent);
-  box-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
+  box-shadow: 0 0 15px rgba(0, 229, 255, 0.25) !important;
+}
+
+/* Neutralizar fondo blanco en autofill de navegadores */
+.input-field input:-webkit-autofill,
+.input-field input:-webkit-autofill:hover, 
+.input-field input:-webkit-autofill:focus, 
+.input-field input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px #081224 inset !important;
+  box-shadow: 0 0 0 1000px #081224 inset !important;
+  -webkit-text-fill-color: #ffffff !important;
+  color: #ffffff !important;
+  caret-color: #00e5ff !important;
+  border-color: #00e5ff !important;
+  transition: background-color 5000s ease-in-out 0s !important;
 }
 
 /* Navigation Buttons */
@@ -655,14 +684,40 @@ body {
 .calendar-embed-container {
   width: 100%;
   margin-top: 24px;
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(0, 0, 0, 0.35);
   border: 1px solid var(--pia-border);
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  overflow: visible;
+  min-height: 1150px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
 .calendar-embed-container iframe {
+  width: 100% !important;
+  min-height: 1150px !important;
+  height: 100% !important;
   display: block;
   background: transparent;
+  border: none !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 768px) {
+  .vqi-container {
+    padding: 20px 10px;
+  }
+  .vqi-container.has-results {
+    max-width: 100%;
+  }
+  .cta-box {
+    padding: 20px 12px;
+  }
+  .calendar-embed-container {
+    min-height: 1280px;
+    margin-top: 16px;
+  }
+  .calendar-embed-container iframe {
+    min-height: 1280px !important;
+  }
 }

@@ -240,6 +240,10 @@ RESULTADOS ESTIMADOS:
   }
 
   function generateDiagnosticUI(scoreVal, leadsLost, revenueLost, leakPercent) {
+    // Expand container for wide calendar view
+    const container = document.querySelector('.vqi-container');
+    if (container) container.classList.add('has-results');
+
     // Hide form & header
     document.getElementById('form-card').style.display = 'none';
     const brandHeader = document.querySelector('.brand-header');
@@ -249,6 +253,11 @@ RESULTADOS ESTIMADOS:
     const resultsDashboard = document.getElementById('results-dashboard');
     resultsDashboard.classList.add('active');
     resultsDashboard.style.display = 'block';
+
+    // Smooth scroll to top of dashboard
+    setTimeout(() => {
+      resultsDashboard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
 
     // Cargar iframe de calendario de GHL con datos precargados
     const calendarIframe = document.getElementById('qbIPi9xkGZs9oQDiVeoB_1786658053102') || document.querySelector('.calendar-embed-container iframe');
