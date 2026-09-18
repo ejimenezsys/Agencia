@@ -213,12 +213,11 @@ def get_db_session():
 
 
 def sync_blog_posts(db):
-    """Sincroniza los posts de INITIAL_BLOG_POSTS con la base de datos.
+    """Sincroniza los posts de INITIAL_BLOG_POSTS y content/editorial_published con la BD.
 
     Inserta posts nuevos y actualiza el image_url de los existentes
-    si difiere del valor en código. Esto permite que los artículos
-    generados por GitHub Actions aparezcan en producción sin rebuild,
-    y que las rutas de imagen se corrijan automáticamente.
+    si difiere del valor en código o archivo. Esto permite que los artículos
+    generados por GitHub Actions o pipelines diarios aparezcan en producción sin rebuild.
 
     Args:
         db: Sesión activa de SQLAlchemy.
@@ -245,4 +244,31 @@ def sync_blog_posts(db):
         elif exists.image_url != post_data["image_url"]:
             # Actualizar la ruta de imagen si cambió en el código fuente
             exists.image_url = post_data["image_url"]
+
+    # Sincronización dinámica de content/editorial_published/*.json
+    published_dir = Path(__file__).parent / "content" / "editorial_published"
+    if published_dir.exists():
+        for article_path in published_dir.glob("*.json"):
+            try:
+                article = json.loads(article_path.read_text(encoding="utf-8"))
+                if article.get("status") != "published":
+                    continue
+                values = {
+                    "title": article["title"],
+                    "category": article.get("lane", "laboratorio-prosperia"),
+                    "summary": article["summary"],
+                    "content": article["content"],
+                    "image_url": article.get("image_url", "/static/logo_prosper_ia_cropped.jpg"),
+                    "published_at": article.get("published_at", datetime.utcnow().isoformat()),
+                    "author": article.get("author", "Equipo editorial ProsperIA"),
+                }
+                existing_article = db.query(BlogPost).filter(BlogPost.slug == article["slug"]).first()
+                if existing_article is None:
+                    db.add(BlogPost(slug=article["slug"], **values))
+                else:
+                    for key, value in values.items():
+                        setattr(existing_article, key, value)
+            except Exception as e:
+                print(f"Error syncing {article_path}: {e}")
+
     db.commit()

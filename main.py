@@ -41,11 +41,19 @@ templates = Jinja2Templates(directory="templates")
 
 def static_versioned(path: str) -> str:
     """Retorna la URL del recurso estático anexando el timestamp de modificación como cache-buster."""
-    full_path = os.path.join("static", path)
+    if not path:
+        return ""
+    if path.startswith("http://") or path.startswith("https://"):
+        return path
+    clean_path = path.lstrip("/")
+    if clean_path.startswith("static/"):
+        clean_path = clean_path[len("static/"):]
+    clean_path = clean_path.split("?")[0]
+    full_path = os.path.join("static", clean_path)
     if os.path.exists(full_path):
         mtime = int(os.path.getmtime(full_path))
-        return f"/static/{path}?v={mtime}"
-    return f"/static/{path}"
+        return f"/static/{clean_path}?v={mtime}"
+    return f"/static/{clean_path}"
 
 templates.env.globals["static_versioned"] = static_versioned
 
@@ -1160,6 +1168,9 @@ async def read_blog(request: Request, db: Session = Depends(get_db)):
 @app.get("/blog/{slug}", response_class=HTMLResponse)
 async def read_blog_post(request: Request, slug: str, db: Session = Depends(get_db)):
     row = db.query(BlogPost).filter(BlogPost.slug == slug).first()
+    if not row:
+        sync_blog_posts(db)
+        row = db.query(BlogPost).filter(BlogPost.slug == slug).first()
     if not row:
         raise HTTPException(status_code=404, detail="Artículo de blog no encontrado.")
     post = enrich_post({

@@ -26,6 +26,7 @@ LEGACY_CATEGORY_LANES = {
 }
 
 PUBLISHED_DIR = Path(__file__).parent / "content" / "editorial_published"
+STATIC_DIR = Path(__file__).parent / "static"
 
 
 def published_metadata(slug: str) -> dict:
@@ -53,6 +54,24 @@ def enrich_post(post: dict) -> dict:
     if post.get("author") == "Edward Jiménez" and not personal_byline_approved:
         enriched["original_author"] = post["author"]
         enriched["author"] = "Equipo editorial ProsperIA"
+
+    # Inyección de cache-buster automático en image_url si existe el archivo local
+    raw_img = enriched.get("image_url") or post.get("image_url")
+    if raw_img and not (raw_img.startswith("http://") or raw_img.startswith("https://")):
+        clean_img = raw_img.lstrip("/")
+        if clean_img.startswith("static/"):
+            clean_img = clean_img[len("static/"):]
+        clean_img = clean_img.split("?")[0]
+        local_file = STATIC_DIR / clean_img
+        if local_file.exists():
+            try:
+                mtime = int(local_file.stat().st_mtime)
+                enriched["image_url"] = f"/static/{clean_img}?v={mtime}"
+            except OSError:
+                enriched["image_url"] = f"/static/{clean_img}"
+        else:
+            enriched["image_url"] = f"/static/{clean_img}"
+
     enriched.update({
         "lane": lane_key,
         "lane_name": LANES[lane_key],
