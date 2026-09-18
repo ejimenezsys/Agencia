@@ -540,24 +540,72 @@ def run_daily_pipeline(
     print(f"✓ Carpeta diaria generada exitosamente: {daily_dir}")
 
     # Publicar en LinkedIn si fue solicitado
+    linkedin_share_url = None
     if publish_linkedin:
         print("\nDisparando publicación a LinkedIn a través de Unipile...")
         try:
             from unipile_client import UnipileClient
+            import time
             client = UnipileClient()
             edward = client.get_edward_account()
             if edward:
                 post_text = package_data["linkedin_post"]["text"]
                 first_comm = package_data["linkedin_post"].get("first_comment")
-                pub_res = client.post_to_linkedin(text=post_text, account_id=edward["id"])
+
+                # Adjuntar carrusel PDF si existe
+                pdf_file = target_dir / f"{slug}_carrusel_linkedin.pdf"
+                attach_arg = str(pdf_file) if pdf_file.exists() else None
+
+                pub_res = client.post_to_linkedin(
+                    text=post_text,
+                    account_id=edward["id"],
+                    image_path=attach_arg
+                )
                 post_id = pub_res.get("id") or pub_res.get("post_id")
-                if post_id and first_comm:
-                    client.add_comment(post_id=post_id, comment_text=first_comm, account_id=edward["id"])
+                social_id = pub_res.get("social_id") or post_id
+
+                # Obtener share_url y social_id fiable
+                if post_id:
+                    time.sleep(3)
+                    try:
+                        post_info = client._request("GET", f"/api/v1/posts/{post_id}?account_id={edward['id']}")
+                        social_id = post_info.get("social_id") or post_id
+                        linkedin_share_url = post_info.get("share_url") or post_info.get("url")
+                    except Exception as e_info:
+                        print(f"[Aviso info post] {e_info}")
+
+                if social_id and first_comm:
+                    try:
+                        client.add_comment(post_id=social_id, comment_text=first_comm, account_id=edward["id"])
+                        print("✓ Primer comentario con enlace canónico publicado en LinkedIn.")
+                    except Exception as e_comm:
+                        print(f"[Aviso comentario] {e_comm}")
+
                 print("✓ Publicación enviada exitosamente a LinkedIn.")
             else:
                 print("[Aviso] Cuenta de Edward Jiménez no conectada en Unipile.")
         except Exception as e:
             print(f"[Error Unipile] {e}")
+
+    # Despachar correo de confirmación a Edward
+    try:
+        from send_publication_alert import send_publication_email
+        hilo_file = threads_dir / "hilo_texto.txt"
+        hilo_content = hilo_file.read_text(encoding="utf-8") if hilo_file.exists() else ""
+        pdf_file = target_dir / f"{slug}_carrusel_linkedin.pdf"
+
+        send_publication_email(
+            title=package_data.get("article", {}).get("title", slug),
+            slug=slug,
+            linkedin_url=linkedin_share_url,
+            blog_url=f"https://agenciaprosperia.com/blog/{slug}",
+            summary=package_data.get("article", {}).get("summary", ""),
+            threads_text=hilo_content,
+            pdf_attached=pdf_file.exists(),
+            first_comment=package_data.get("linkedin_post", {}).get("first_comment")
+        )
+    except Exception as e_mail:
+        print(f"[Error Alerta Email] {e_mail}")
 
     return res
 

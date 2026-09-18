@@ -96,9 +96,13 @@ class UnipileClient:
             data["as_organization"] = as_organization
 
         if image_path and Path(image_path).exists():
-            img_file = Path(image_path)
-            with open(img_file, "rb") as f:
-                files = [("attachments", (img_file.name, f.read(), "image/jpeg"))]
+            import mimetypes
+            media_file = Path(image_path)
+            mime_type, _ = mimetypes.guess_type(str(media_file))
+            if not mime_type:
+                mime_type = "application/pdf" if media_file.suffix.lower() == ".pdf" else "image/jpeg"
+            with open(media_file, "rb") as f:
+                files = [("attachments", (media_file.name, f.read(), mime_type))]
                 resp = requests.post(url, headers=headers, data=data, files=files, timeout=60)
         else:
             headers["Content-Type"] = "application/json"

@@ -1,9 +1,9 @@
-name: Publicación Matutina ProsperIA (Lunes 7:00 AM)
+name: Publicación Matutina ProsperIA (Lunes a Viernes 7:00 AM)
 
 on:
   schedule:
-    # 11:00 UTC = 7:00 AM (UTC-4) todos los lunes
-    - cron: '0 11 * * 1'
+    # 11:00 UTC = 7:00 AM (UTC-4) de lunes a viernes
+    - cron: '0 11 * * 1-5'
   workflow_dispatch:
     inputs:
       publish:
@@ -12,9 +12,9 @@ on:
         required: true
         default: true
       day:
-        description: 'Día del ciclo editorial (1=Lunes a 5=Viernes)'
+        description: 'Día del ciclo editorial (1=Lunes a 5=Viernes, vacío para hoy)'
         required: false
-        default: '1'
+        default: ''
       topic:
         description: 'Tema específico opcional (dejar vacío para rotación automática)'
         required: false
@@ -24,7 +24,7 @@ permissions:
   contents: write
 
 jobs:
-  execute-monday-routine:
+  execute-daily-routine:
     runs-on: ubuntu-latest
 
     steps:
@@ -63,13 +63,23 @@ jobs:
           X_CLIENT_SECRET: ${{ secrets.X_CLIENT_SECRET }}
           X_OAUTH2_ACCESS_TOKEN: ${{ secrets.X_OAUTH2_ACCESS_TOKEN }}
           X_OAUTH2_REFRESH_TOKEN: ${{ secrets.X_OAUTH2_REFRESH_TOKEN }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST || 'smtp.hostinger.com' }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT || '465' }}
+          SMTP_USER: ${{ secrets.SMTP_USER || 'edward@agenciaprosperia.com' }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          SMTP_SENDER: ${{ secrets.SMTP_SENDER || 'edward@agenciaprosperia.com' }}
+          NOTIFICATION_EMAIL: ${{ secrets.NOTIFICATION_EMAIL || 'edward@agenciaprosperia.com' }}
         run: |
           PUBLISH_FLAG=""
           if [ "${{ github.event_name }}" = "schedule" ] || [ "${{ inputs.publish }}" = "true" ]; then
             PUBLISH_FLAG="--publish"
           fi
 
-          DAY_ARG="--day ${{ inputs.day || '1' }}"
+          DAY_ARG=""
+          if [ -n "${{ inputs.day }}" ]; then
+            DAY_ARG="--day ${{ inputs.day }}"
+          fi
+
           TOPIC_ARG=""
           if [ -n "${{ inputs.topic }}" ]; then
             TOPIC_ARG="--topic '${{ inputs.topic }}'"
