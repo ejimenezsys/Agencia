@@ -5,6 +5,7 @@ from pathlib import Path
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from email.mime.image import MIMEImage
 from typing import List, Optional
 
 
@@ -16,7 +17,8 @@ def send_publication_email(
     summary: Optional[str] = None,
     threads_text: Optional[str] = None,
     pdf_attached: bool = True,
-    first_comment: Optional[str] = None
+    first_comment: Optional[str] = None,
+    cover_image_path: Optional[str] = None
 ) -> bool:
     """Envía un correo ejecutivo a edward@agenciaprosperia.com confirmando la publicación en la web y LinkedIn."""
     smtp_host = os.environ.get("SMTP_HOST", "smtp.hostinger.com")
@@ -34,6 +36,30 @@ def send_publication_email(
     final_linkedin_url = linkedin_url or "https://www.linkedin.com/in/edwardjimenezia/recent-activity/all/"
 
     subject = f"✅ [PROSPERIA] Publicado en Web y LinkedIn: {title[:60]}..."
+
+    # Resolver imagen de portada para incrustar en el correo
+    img_file = None
+    if cover_image_path and Path(cover_image_path).exists():
+        img_file = Path(cover_image_path)
+    else:
+        candidate = Path(__file__).resolve().parent / "static" / "blog" / f"{slug}.jpg"
+        if candidate.exists():
+            img_file = candidate
+
+    image_html = ""
+    if img_file:
+        image_html = f"""
+        <div style="margin: 20px 0; text-align: center;">
+          <img src="cid:cover_image" alt="{title}" style="width: 100%; max-width: 550px; height: auto; border-radius: 12px; border: 1px solid rgba(0, 229, 255, 0.3); display: block; box-shadow: 0 8px 25px rgba(0,0,0,0.6);" />
+        </div>
+        """
+    else:
+        # Fallback con URL web pública
+        image_html = f"""
+        <div style="margin: 20px 0; text-align: center;">
+          <img src="https://agenciaprosperia.com/static/blog/{slug}.jpg" alt="{title}" style="width: 100%; max-width: 550px; height: auto; border-radius: 12px; border: 1px solid rgba(0, 229, 255, 0.3); display: block;" />
+        </div>
+        """
 
     # Texto plano para clientes de correo sin HTML
     plain_parts = [
@@ -86,6 +112,9 @@ def send_publication_email(
         Hola <strong>Edward</strong>, tu orquestador matutino ha publicado la rutina del día con éxito. Aquí tienes los enlaces directos para verificar desde tu teléfono:
       </p>
 
+      <!-- Imagen de portada destacada -->
+      {image_html}
+
       <!-- Botón Web -->
       <div style="margin: 25px 0 15px 0;">
         <a href="{final_blog_url}" target="_blank" style="display: block; text-align: center; background: linear-gradient(135deg, #00e5ff 0%, #0ea5e9 100%); color: #020710; font-weight: 700; font-size: 15px; padding: 14px 20px; border-radius: 12px; text-decoration: none; box-shadow: 0 4px 15px rgba(0, 229, 255, 0.3);">
@@ -125,21 +154,36 @@ def send_publication_email(
 </body>
 </html>"""
 
-    msg = MIMEMultipart("alternative")
-    msg["Subject"] = subject
-    msg["From"] = f"PROSPERIA Intelligence <{sender}>"
-    msg["To"] = recipient
+    # Estructura MIME con soporte inline para imágenes
+    msg_root = MIMEMultipart("related")
+    msg_root["Subject"] = subject
+    msg_root["From"] = f"PROSPERIA Intelligence <{sender}>"
+    msg_root["To"] = recipient
 
-    msg.attach(MIMEText(plain_content, "plain", "utf-8"))
-    msg.attach(MIMEText(html_content, "html", "utf-8"))
+    msg_alt = MIMEMultipart("alternative")
+    msg_alt.attach(MIMEText(plain_content, "plain", "utf-8"))
+    msg_alt.attach(MIMEText(html_content, "html", "utf-8"))
+    msg_root.attach(msg_alt)
+
+    # Adjuntar imagen inline si existe
+    if img_file and img_file.exists():
+        try:
+            with open(img_file, "rb") as f:
+                img_data = f.read()
+            msg_img = MIMEImage(img_data)
+            msg_img.add_header("Content-ID", "<cover_image>")
+            msg_img.add_header("Content-Disposition", "inline", filename=img_file.name)
+            msg_root.attach(msg_img)
+        except Exception as e_img:
+            print(f"[Aviso adjuntar imagen CID] {e_img}")
 
     try:
         # Intento primario con SSL 465
         server = smtplib.SMTP_SSL(smtp_host, smtp_port, timeout=15)
         server.login(smtp_user, smtp_pass)
-        server.sendmail(sender, recipient, msg.as_string())
+        server.sendmail(sender, recipient, msg_root.as_string())
         server.quit()
-        print(f"✓ [Alerta Email] Correo de confirmación enviado exitosamente a {recipient} (SSL 465).")
+        print(f"✓ [Alerta Email] Correo con imagen enviado exitosamente a {recipient} (SSL 465).")
         return True
     except Exception as e:
         print(f"Aviso SSL 465: {e}. Reintentando por TLS 587...")
