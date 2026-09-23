@@ -553,7 +553,7 @@ def run_daily_pipeline(
                 first_comm = package_data["linkedin_post"].get("first_comment")
 
                 # Adjuntar carrusel PDF si existe
-                pdf_file = target_dir / f"{slug}_carrusel_linkedin.pdf"
+                pdf_file = daily_dir / f"{slug}_carrusel_linkedin.pdf"
                 attach_arg = str(pdf_file) if pdf_file.exists() else None
 
                 pub_res = client.post_to_linkedin(
@@ -590,9 +590,9 @@ def run_daily_pipeline(
     # Despachar correo de confirmación a Edward
     try:
         from send_publication_alert import send_publication_email
-        hilo_file = threads_dir / "hilo_texto.txt"
+        hilo_file = daily_dir / "03_x_y_threads" / "hilo_texto.txt"
         hilo_content = hilo_file.read_text(encoding="utf-8") if hilo_file.exists() else ""
-        pdf_file = target_dir / f"{slug}_carrusel_linkedin.pdf"
+        pdf_file = daily_dir / f"{slug}_carrusel_linkedin.pdf"
 
         send_publication_email(
             title=package_data.get("article", {}).get("title", slug),
