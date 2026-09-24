@@ -237,6 +237,51 @@ def _extract_big_stat(text: str) -> Optional[Tuple[str, str]]:
     return None
 
 
+def _paste_rounded_image(
+    base_img: Image.Image,
+    img_path: Path,
+    box: Tuple[int, int, int, int],
+    radius: int = 20,
+    border_color: Tuple[int, int, int, int] = (0, 229, 255, 140)
+) -> None:
+    """Inserta una fotografía recortada al centro con esquinas redondeadas y borde de cristal."""
+    path_obj = Path(img_path)
+    if not path_obj.exists():
+        return
+    try:
+        img = Image.open(path_obj).convert("RGBA")
+        bx, by, bw, bh = box
+        target_w = bw - bx
+        target_h = bh - by
+
+        # Center crop manteniendo proporción de aspecto
+        img_ratio = img.width / img.height
+        target_ratio = target_w / target_h
+        if img_ratio > target_ratio:
+            new_w = int(img.height * target_ratio)
+            offset = (img.width - new_w) // 2
+            img = img.crop((offset, 0, offset + new_w, img.height))
+        else:
+            new_h = int(img.width / target_ratio)
+            offset = (img.height - new_h) // 2
+            img = img.crop((0, offset, img.width, offset + new_h))
+
+        img = img.resize((target_w, target_h), Image.Resampling.LANCZOS)
+
+        # Máscara para bordes redondeados
+        mask = Image.new("L", (target_w, target_h), 0)
+        mask_draw = ImageDraw.Draw(mask)
+        mask_draw.rounded_rectangle([0, 0, target_w, target_h], radius=radius, fill=255)
+
+        base_img.paste(img, (bx, by), mask)
+
+        # Borde sutil de cristal
+        b_draw = ImageDraw.Draw(base_img)
+        b_draw.rounded_rectangle([bx, by, bw, bh], radius=radius, outline=border_color, width=2)
+    except Exception as e:
+        print(f"[Renderer Warning] No se pudo incrustar imagen {img_path}: {e}")
+
+
 def render_slide_pillow(slide: Dict[str, Any], idx: int, total_slides: int, output_path: Path) -> Path:
     """Renderiza una lámina individual 1080x1350 aplicando arquetipos visuales de alta gama."""
     width, height = 1080, 1350
@@ -255,48 +300,80 @@ def render_slide_pillow(slide: Dict[str, Any], idx: int, total_slides: int, outp
     stitle = slide.get("title", "")
     subtitle = slide.get("subtitle", "")
     body_text = slide.get("body", "")
+    img_path = slide.get("image_path")
 
     # 3. Badge Pill de Categoría
     clean_badge = stype.replace("_", " ")
     font_badge = _get_font(17, weight="heavy")
     badge_bbox = draw.textbbox((0, 0), clean_badge, font=font_badge)
     badge_w = badge_bbox[2] - badge_bbox[0]
-    draw.rounded_rectangle([80, 172, 80 + badge_w + 34, 214], radius=10, fill=(13, 20, 36, 250), outline=COLOR_CYAN_DIM, width=1)
-    draw.text((97, 182), clean_badge, font=font_badge, fill=COLOR_CYAN)
+    draw.rounded_rectangle([80, 162, 80 + badge_w + 34, 204], radius=10, fill=(13, 20, 36, 250), outline=COLOR_CYAN_DIM, width=1)
+    draw.text((97, 172), clean_badge, font=font_badge, fill=COLOR_CYAN)
 
-    y_cursor = 250
+    y_cursor = 230
 
     # -------------------------------------------------------------
-    # ARQUETIPO 1: PORTADA / HOOK
+    # ARQUETIPO 1: PORTADA / HOOK (CON SOPORTE DE IMAGEN EDITORIAL)
     # -------------------------------------------------------------
     if idx == 1:
-        font_hero = _get_font(62, weight="heavy")
-        lines = _wrap_text(stitle, font_hero, width - 160, draw)
-        for line in lines:
-            draw.text((80, y_cursor), line, font=font_hero, fill=COLOR_WHITE)
-            y_cursor += 78
+        if img_path and Path(img_path).exists():
+            # Fotografía editorial cinematográfica superior
+            img_box = (80, y_cursor, width - 80, y_cursor + 490)
+            _paste_rounded_image(base_img, Path(img_path), img_box, radius=22, border_color=(0, 229, 255, 160))
 
-        y_cursor += 35
-        card_top = y_cursor
-        card_bot = card_top + 280
-        draw.rounded_rectangle([80, card_top, width - 80, card_bot], radius=24, fill=COLOR_CARD, outline=(0, 229, 255, 140), width=2)
+            y_cursor += 520
+            font_hero = _get_font(46, weight="heavy")
+            lines = _wrap_text(stitle, font_hero, width - 160, draw)
+            for line in lines[:2]:
+                draw.text((80, y_cursor), line, font=font_hero, fill=COLOR_WHITE)
+                y_cursor += 56
 
-        font_sub_tag = _get_font(18, weight="heavy")
-        draw.text((120, card_top + 34), "LA PREGUNTA DE FONDO", font=font_sub_tag, fill=COLOR_CYAN)
+            y_cursor += 15
+            card_top = y_cursor
+            card_bot = min(1185, card_top + 180)
+            draw.rounded_rectangle([80, card_top, width - 80, card_bot], radius=18, fill=COLOR_CARD, outline=(0, 229, 255, 120), width=1)
 
-        font_sub = _get_font(34, weight="bold")
-        sub_lines = _wrap_text(subtitle, font_sub, width - 240, draw)
-        sub_y = card_top + 78
-        for sline in sub_lines:
-            draw.text((120, sub_y), sline, font=font_sub, fill=COLOR_WHITE)
-            sub_y += 48
+            font_sub_tag = _get_font(15, weight="heavy")
+            draw.text((115, card_top + 20), "LA PREGUNTA DE FONDO", font=font_sub_tag, fill=COLOR_CYAN)
 
-        callout_y = card_bot + 45
-        draw.rounded_rectangle([80, callout_y, width - 80, callout_y + 115], radius=16, fill=(10, 24, 44, 220), outline=COLOR_BORDER, width=1)
-        font_call_tag = _get_font(16, weight="heavy")
-        font_call = _get_font(23, weight="medium")
-        draw.text((120, callout_y + 26), "EVIDENCIA VERIFICADA", font=font_call_tag, fill=COLOR_CYAN)
-        draw.text((120, callout_y + 58), "Datos cuantitativos de Stanford, OIT y Anthropic para líderes de empresa.", font=font_call, fill=COLOR_TEXT_MUTED)
+            font_sub = _get_font(24, weight="bold")
+            sub_lines = _wrap_text(subtitle, font_sub, width - 230, draw)
+            sub_y = card_top + 50
+            for sline in sub_lines[:2]:
+                draw.text((115, sub_y), sline, font=font_sub, fill=COLOR_WHITE)
+                sub_y += 34
+
+            font_call = _get_font(18, weight="medium")
+            draw.text((115, card_top + 130), "Tolerancia cero a fallos transaccionales · CNBV / Banco Azteca", font=font_call, fill=COLOR_TEXT_MUTED)
+        else:
+            font_hero = _get_font(62, weight="heavy")
+            lines = _wrap_text(stitle, font_hero, width - 160, draw)
+            for line in lines:
+                draw.text((80, y_cursor), line, font=font_hero, fill=COLOR_WHITE)
+                y_cursor += 78
+
+            y_cursor += 35
+            card_top = y_cursor
+            card_bot = card_top + 280
+            draw.rounded_rectangle([80, card_top, width - 80, card_bot], radius=24, fill=COLOR_CARD, outline=(0, 229, 255, 140), width=2)
+
+            font_sub_tag = _get_font(18, weight="heavy")
+            draw.text((120, card_top + 34), "LA PREGUNTA DE FONDO", font=font_sub_tag, fill=COLOR_CYAN)
+
+            font_sub = _get_font(34, weight="bold")
+            sub_lines = _wrap_text(subtitle, font_sub, width - 240, draw)
+            sub_y = card_top + 78
+            for sline in sub_lines:
+                draw.text((120, sub_y), sline, font=font_sub, fill=COLOR_WHITE)
+                sub_y += 48
+
+            callout_y = card_bot + 45
+            draw.rounded_rectangle([80, callout_y, width - 80, callout_y + 115], radius=16, fill=(10, 24, 44, 220), outline=COLOR_BORDER, width=1)
+            font_call_tag = _get_font(16, weight="heavy")
+            font_call = _get_font(23, weight="medium")
+            draw.text((120, callout_y + 26), "EVIDENCIA VERIFICADA", font=font_call_tag, fill=COLOR_CYAN)
+            draw.text((120, callout_y + 58), "Datos cuantitativos de Stanford, OIT y Anthropic para líderes de empresa.", font=font_call, fill=COLOR_TEXT_MUTED)
+
 
     # -------------------------------------------------------------
     # ARQUETIPO 2: TENSIÓN / EL MITO VS LA REALIDAD
@@ -336,6 +413,36 @@ def render_slide_pillow(slide: Dict[str, Any], idx: int, total_slides: int, outp
         for bline in _wrap_text(real_text, font_card_text, width - 240, draw):
             draw.text((120, body_y), bline, font=font_card_text, fill=COLOR_WHITE)
             body_y += 38
+
+    # -------------------------------------------------------------
+    # ARQUETIPO INTERMEDIO CON FOTOGRAFÍA EDITORIAL
+    # -------------------------------------------------------------
+    elif img_path and Path(img_path).exists() and idx not in (1, total_slides):
+        font_title = _get_font(42, weight="heavy")
+        for line in _wrap_text(stitle, font_title, width - 160, draw)[:2]:
+            draw.text((80, y_cursor), line, font=font_title, fill=COLOR_WHITE)
+            y_cursor += 52
+
+        y_cursor += 15
+        img_box = (80, y_cursor, width - 80, y_cursor + 440)
+        _paste_rounded_image(base_img, Path(img_path), img_box, radius=20, border_color=(0, 229, 255, 140))
+        y_cursor += 465
+
+        card_top = y_cursor
+        card_bot = min(1185, card_top + 260)
+        draw.rounded_rectangle([80, card_top, width - 80, card_bot], radius=18, fill=COLOR_CARD, outline=COLOR_BORDER, width=1)
+
+        if subtitle:
+            font_sub = _get_font(23, weight="heavy")
+            draw.text((115, card_top + 22), subtitle, font=font_sub, fill=COLOR_CYAN)
+            text_y = card_top + 58
+        else:
+            text_y = card_top + 24
+
+        font_b = _get_font(22, weight="medium")
+        for bline in _wrap_text(body_text, font_b, width - 230, draw)[:4]:
+            draw.text((115, text_y), bline, font=font_b, fill=COLOR_WHITE)
+            text_y += 34
 
     # -------------------------------------------------------------
     # ARQUETIPO 3, 4, 5: EVIDENCIA / DATOS MACRO (STAT CALLOUT)
@@ -461,39 +568,69 @@ def render_slide_pillow(slide: Dict[str, Any], idx: int, total_slides: int, outp
     # ARQUETIPO 8: CIERRE / CTA (SAVE MAGNET & CONVERSIÓN)
     # -------------------------------------------------------------
     elif idx == total_slides or "CIERRE" in stype or "CTA" in stype:
-        font_title = _get_font(52, weight="heavy")
-        for line in _wrap_text(stitle, font_title, width - 160, draw):
-            draw.text((80, y_cursor), line, font=font_title, fill=COLOR_WHITE)
-            y_cursor += 68
+        if img_path and Path(img_path).exists():
+            font_title = _get_font(42, weight="heavy")
+            for line in _wrap_text(stitle, font_title, width - 160, draw)[:2]:
+                draw.text((80, y_cursor), line, font=font_title, fill=COLOR_WHITE)
+                y_cursor += 52
 
-        y_cursor += 25
-        card_top = y_cursor
-        card_bot = card_top + 480
-        draw.rounded_rectangle([80, card_top, width - 80, card_bot], radius=28, fill=(10, 28, 52, 250), outline=COLOR_CYAN, width=2)
+            y_cursor += 15
+            img_box = (80, y_cursor, width - 80, y_cursor + 440)
+            _paste_rounded_image(base_img, Path(img_path), img_box, radius=20, border_color=(0, 229, 255, 160))
+            y_cursor += 460
 
-        font_cta_badge = _get_font(17, weight="heavy")
-        draw.rounded_rectangle([120, card_top + 38, 480, card_top + 80], radius=10, fill=COLOR_CYAN)
-        draw.text((136, card_top + 48), "DIAGNÓSTICO OPERATIVO (3 MIN)", font=font_cta_badge, fill=COLOR_BG)
+            card_top = y_cursor
+            card_bot = min(1185, card_top + 265)
+            draw.rounded_rectangle([80, card_top, width - 80, card_bot], radius=20, fill=(10, 28, 52, 250), outline=COLOR_CYAN, width=2)
 
-        font_cta_sub = _get_font(34, weight="bold")
-        draw.text((120, card_top + 108), "¿Tu empresa delega o gobierna?", font=font_cta_sub, fill=COLOR_WHITE)
+            btn_top = card_top + 20
+            draw.rounded_rectangle([115, btn_top, width - 115, btn_top + 62], radius=14, fill=COLOR_CYAN)
+            font_btn = _get_font(22, weight="heavy")
+            draw.text((140, btn_top + 18), "DIAGNÓSTICO: agenciaprosperia.com/diagnostico", font=font_btn, fill=COLOR_BG)
 
-        font_cta_p = _get_font(25, weight="medium")
-        p_text = "Descubre en qué tareas estás perdiendo margen y cómo implementar agentes autónomos bajo el Sistema SVE90."
-        p_y = card_top + 175
-        for pline in _wrap_text(p_text, font_cta_p, width - 240, draw):
-            draw.text((120, p_y), pline, font=font_cta_p, fill=COLOR_TEXT_MUTED)
-            p_y += 38
+            font_p = _get_font(21, weight="medium")
+            p_text = body_text if body_text else "Identifica fugas de gobernanza en tus procesos y blinda tus agentes bajo el Sistema SVE90."
+            p_y = btn_top + 78
+            for pline in _wrap_text(p_text, font_p, width - 230, draw)[:3]:
+                draw.text((115, p_y), pline, font=font_p, fill=COLOR_WHITE)
+                p_y += 30
 
-        link_box_y = card_top + 330
-        draw.rounded_rectangle([120, link_box_y, width - 120, link_box_y + 90], radius=16, fill=(6, 14, 28, 255), outline=COLOR_CYAN_DIM, width=1)
-        font_url = _get_font(27, weight="heavy")
-        draw.text((160, link_box_y + 28), "agenciaprosperia.com/diagnostico", font=font_url, fill=COLOR_CYAN)
+            font_save = _get_font(18, weight="bold")
+            draw.text((115, card_top + 220), "Guarda este post para tu próxima reunión directiva.", font=font_save, fill=COLOR_TEXT_MUTED)
+        else:
+            font_title = _get_font(52, weight="heavy")
+            for line in _wrap_text(stitle, font_title, width - 160, draw):
+                draw.text((80, y_cursor), line, font=font_title, fill=COLOR_WHITE)
+                y_cursor += 68
 
-        save_y = card_bot + 45
-        draw.rounded_rectangle([80, save_y, width - 80, save_y + 80], radius=16, fill=COLOR_CARD, outline=COLOR_BORDER, width=1)
-        font_save = _get_font(22, weight="bold")
-        draw.text((120, save_y + 26), "Guarda este carrusel para tu próxima reunión directiva.", font=font_save, fill=COLOR_WHITE)
+            y_cursor += 25
+            card_top = y_cursor
+            card_bot = card_top + 480
+            draw.rounded_rectangle([80, card_top, width - 80, card_bot], radius=28, fill=(10, 28, 52, 250), outline=COLOR_CYAN, width=2)
+
+            font_cta_badge = _get_font(17, weight="heavy")
+            draw.rounded_rectangle([120, card_top + 38, 480, card_top + 80], radius=10, fill=COLOR_CYAN)
+            draw.text((136, card_top + 48), "DIAGNÓSTICO OPERATIVO (3 MIN)", font=font_cta_badge, fill=COLOR_BG)
+
+            font_cta_sub = _get_font(34, weight="bold")
+            draw.text((120, card_top + 108), "¿Tu empresa delega o gobierna?", font=font_cta_sub, fill=COLOR_WHITE)
+
+            font_cta_p = _get_font(25, weight="medium")
+            p_text = "Descubre en qué tareas estás perdiendo margen y cómo implementar agentes autónomos bajo el Sistema SVE90."
+            p_y = card_top + 175
+            for pline in _wrap_text(p_text, font_cta_p, width - 240, draw):
+                draw.text((120, p_y), pline, font=font_cta_p, fill=COLOR_TEXT_MUTED)
+                p_y += 38
+
+            link_box_y = card_top + 330
+            draw.rounded_rectangle([120, link_box_y, width - 120, link_box_y + 90], radius=16, fill=(6, 14, 28, 255), outline=COLOR_CYAN_DIM, width=1)
+            font_url = _get_font(27, weight="heavy")
+            draw.text((160, link_box_y + 28), "agenciaprosperia.com/diagnostico", font=font_url, fill=COLOR_CYAN)
+
+            save_y = card_bot + 45
+            draw.rounded_rectangle([80, save_y, width - 80, save_y + 80], radius=16, fill=COLOR_CARD, outline=COLOR_BORDER, width=1)
+            font_save = _get_font(22, weight="bold")
+            draw.text((120, save_y + 26), "Guarda este carrusel para tu próxima reunión directiva.", font=font_save, fill=COLOR_WHITE)
 
     # -------------------------------------------------------------
     # DEFAULT CONTENIDO

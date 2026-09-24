@@ -449,7 +449,8 @@ def build_gobernanza_daily_pack(bank_item: Dict[str, Any], date_str: str) -> Dic
                 "title": "Cualquier sistema sin gobernanza se rompe.",
                 "subtitle": "Lecciones de 25 años en infraestructura crítica aplicadas a la IA.",
                 "footer": "Desliza para ver la arquitectura →",
-                "design_note": "Fondo navy oscuro. Tipografía ejecutiva en cian eléctrico."
+                "design_note": "Fondo navy oscuro. Portada cinematográfica con sala de operaciones financieras.",
+                "image_path": str(BASE_DIR / "static/blog/gobernanza-infraestructura-critica-lecciones-bancarias-edward-jimenez.jpg")
             },
             {
                 "slide": 2,
@@ -462,12 +463,13 @@ def build_gobernanza_daily_pack(bank_item: Dict[str, Any], date_str: str) -> Dic
             },
             {
                 "slide": 3,
-                "type": "EVIDENCIA_1",
+                "type": "CASO_BANCARIO",
                 "title": "1.500 sucursales en una noche",
                 "subtitle": "Migración Elektra a Banco Azteca (CNBV)",
-                "body": "A las 8:00 AM abrían ventanillas en todo el país. Cero margen de error.\n\nLa velocidad de procesamiento masivo no sirve de nada si no puedes probar la trazabilidad inmutable de cada transacción.",
+                "body": "A las 8:00 AM abrían ventanillas en todo el país. Cero margen de error.\n\nLa velocidad de procesamiento masivo no sirve de nada si no puedes probar la trazabilidad inmutable de cada transacción bajo la CNBV.",
                 "footer": "Fuente: Operaciones Críticas Banco Azteca / CNBV",
-                "design_note": "Métrica de escala bancaria."
+                "design_note": "Fotografía hiperrealista de servidores bancarios de alta disponibilidad.",
+                "image_path": str(BASE_DIR / "static/blog/gobernanza-bancaria-servidores-infraestructura.jpg")
             },
             {
                 "slide": 4,
@@ -508,11 +510,12 @@ def build_gobernanza_daily_pack(bank_item: Dict[str, Any], date_str: str) -> Dic
             {
                 "slide": 8,
                 "type": "CIERRE",
-                "title": "¿Tu empresa delega a ciegas o gobierna la IA?",
+                "title": "¿Tu empresa delega o gobierna la IA?",
                 "subtitle": "Diagnóstico de Madurez Operativa en 3 minutos.",
                 "body": "Identifica fugas de gobernanza en tus procesos de negocio y blinda tu infraestructura crítica en:\nagenciaprosperia.com/diagnostico",
                 "footer": "Guarda este post para tu próxima reunión de directorio",
-                "design_note": "Badge de Edward Jiménez y llamada a la acción."
+                "design_note": "Fotografía editorial de director ejecutivo en sala de juntas con métricas.",
+                "image_path": str(BASE_DIR / "static/blog/gobernanza-ejecutiva-directorio-sve90.jpg")
             }
         ],
         "reel_50s": {
