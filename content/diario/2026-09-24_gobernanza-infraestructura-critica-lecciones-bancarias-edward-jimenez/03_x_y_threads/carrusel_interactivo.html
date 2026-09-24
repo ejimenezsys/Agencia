@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>PROSPERIA Intelligence — Carrusel Interactivo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #060A12;
+      --card: #0D1424;
+      --cyan: #00E5FF;
+      --text: #F8FAFC;
+      --muted: #94A3B8;
+      --border: rgba(255, 255, 255, 0.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #02050A;
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px 20px;
+    }
+    .nav-bar {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 24px;
+      background: var(--card);
+      padding: 10px 24px;
+      border-radius: 9999px;
+      border: 1px solid var(--border);
+    }
+    .btn {
+      background: #182238;
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 8px 16px;
+      border-radius: 9999px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    .btn:hover { border-color: var(--cyan); }
+    .stage {
+      position: relative;
+      width: 540px;
+      height: 675px;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.8);
+    }
+    .slide-canvas {
+      position: absolute;
+      top: 0; left: 0;
+      width: 1080px; height: 1350px;
+      transform: scale(0.5);
+      transform-origin: top left;
+      background: var(--bg);
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 90px 80px 100px 80px;
+      overflow: hidden;
+    }
+    .slide-canvas.active { display: flex; }
+    .ambient-glow {
+      position: absolute;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      filter: blur(140px);
+      opacity: 0.18;
+      pointer-events: none;
+    }
+    .glow-cyan { top: -100px; right: -100px; background: var(--cyan); }
+    .glow-purple { bottom: -100px; left: -100px; background: #818CF8; }
+    .slide-header {
+      display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px solid var(--border); padding-bottom: 24px;
+      position: relative; z-index: 10;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; font-size: 22px; }
+    .dot { width: 14px; height: 14px; border-radius: 50%; background: var(--cyan); }
+    .sep { opacity: 0.3; }
+    .sve { color: var(--cyan); font-weight: 700; font-size: 18px; }
+    .badge-num {
+      background: var(--card); border: 1px solid rgba(0,229,255,0.4);
+      padding: 6px 18px; border-radius: 12px; color: var(--cyan); font-weight: 800; font-size: 20px;
+    }
+    .slide-body { position: relative; z-index: 10; margin: auto 0; display: flex; flex-direction: column; gap: 24px; }
+    .pill-type {
+      align-self: flex-start; background: var(--card); border: 1px solid rgba(0,229,255,0.4);
+      padding: 8px 20px; border-radius: 9999px; color: var(--cyan); font-weight: 800; font-size: 18px;
+    }
+    .slide-title { font-size: 56px; font-weight: 800; line-height: 1.15; }
+    .slide-sub { font-size: 32px; font-weight: 700; color: var(--cyan); line-height: 1.3; }
+    .card-content {
+      background: var(--card); border: 1px solid var(--border); border-radius: 20px;
+      padding: 36px; display: flex; flex-direction: column; gap: 16px; font-size: 26px; color: var(--muted);
+    }
+    .slide-footer {
+      display: flex; justify-content: space-between; align-items: center;
+      border-top: 1px solid var(--border); padding-top: 28px;
+      position: relative; z-index: 10;
+    }
+    .author { display: flex; align-items: center; gap: 14px; }
+    .av {
+      width: 52px; height: 52px; border-radius: 50%; background: var(--card);
+      border: 2px solid var(--cyan); color: var(--cyan); display: flex;
+      align-items: center; justify-content: center; font-weight: 800; font-size: 20px;
+    }
+    .author strong { display: block; font-size: 20px; }
+    .author span { font-size: 15px; color: var(--muted); }
+    .hint { font-weight: 800; color: var(--cyan); font-size: 20px; }
+  </style>
+</head>
+<body>
+  <div class="nav-bar">
+    <button class="btn" onclick="prev()">← Anterior</button>
+    <span id="counter" style="color: var(--cyan); font-weight: 800;">1 / 8</span>
+    <button class="btn" onclick="next()">Siguiente →</button>
+  </div>
+  <div class="stage">
+    
+        <div class="slide-canvas active" id="slide-1">
+          <div class="ambient-glow glow-cyan"></div>
+          <div class="ambient-glow glow-purple"></div>
+          <div class="slide-header">
+            <div class="brand">
+              <span class="dot"></span>
+              <strong>PROSPERIA INTELLIGENCE</strong>
+              <span class="sep">|</span>
+              <span class="sve">SISTEMA SVE90</span>
+            </div>
+            <div class="badge-num">01 / 08</div>
+          </div>
+          <div class="slide-body">
+            <div class="pill-type">PORTADA</div>
+            <h2 class="slide-title">Cualquier sistema sin gobernanza se rompe.</h2>
+            <p class="slide-sub">Lecciones de 25 años en infraestructura crítica aplicadas a la IA.</p>
+            
+          </div>
+          <div class="slide-footer">
+            <div class="author">
+              <div class="av">EJ</div>
+              <div>
+                <strong>Edward Jiménez</strong>
+                <span>@edwardjimenezia</span>
+              </div>
+            </div>
+            <div class="hint">Desliza →</div>
+          </div>
+        </div>
+        
+        <div class="slide-canvas " id="slide-2">
+          <div class="ambient-glow glow-cyan"></div>
+          <div class="ambient-glow glow-purple"></div>
+          <div class="slide-header">
+            <div class="brand">
+              <span class="dot"></span>
+              <strong>PROSPERIA INTELLIGENCE</strong>
+              <span class="sep">|</span>
+              <span class="sve">SISTEMA SVE90</span>
+            </div>
+            <div class="badge-num">02 / 08</div>
+          </div>
+          <div class="slide-body">
+            <div class="pill-type">TENSIÓN</div>
+            <h2 class="slide-title">El mito del «Error de Prompt»</h2>
+            <p class="slide-sub">Lo que el mercado cree vs. la realidad</p>
+            <div class='card-content'><p>Cuando un agente de IA alucina un precio o compromete datos sensibles en tu CRM, no tienes un problema lingüístico.</p><p>Tienes una ausencia total de arquitectura de control y auditoría transaccional.</p></div>
+          </div>
+          <div class="slide-footer">
+            <div class="author">
+              <div class="av">EJ</div>
+              <div>
+                <strong>Edward Jiménez</strong>
+                <span>@edwardjimenezia</span>
+              </div>
+            </div>
+            <div class="hint">Desliza →</div>
+          </div>
+        </div>
+        
+        <div class="slide-canvas " id="slide-3">
+          <div class="ambient-glow glow-cyan"></div>
+          <div class="ambient-glow glow-purple"></div>
+          <div class="slide-header">
+            <div class="brand">
+              <span class="dot"></span>
+              <strong>PROSPERIA INTELLIGENCE</strong>
+              <span class="sep">|</span>
+              <span class="sve">SISTEMA SVE90</span>
+            </div>
+            <div class="badge-num">03 / 08</div>
+          </div>
+          <div class="slide-body">
+            <div class="pill-type">EVIDENCIA 1</div>
+            <h2 class="slide-title">1.500 sucursales en una noche</h2>
+            <p class="slide-sub">Migración Elektra a Banco Azteca (CNBV)</p>
+            <div class='card-content'><p>A las 8:00 AM abrían ventanillas en todo el país. Cero margen de error.</p><p>La velocidad de procesamiento masivo no sirve de nada si no puedes probar la trazabilidad inmutable de cada transacción.</p></div>
+          </div>
+          <div class="slide-footer">
+            <div class="author">
+              <div class="av">EJ</div>
+              <div>
+                <strong>Edward Jiménez</strong>
+                <span>@edwardjimenezia</span>
+              </div>
+            </div>
+            <div class="hint">Desliza →</div>
+          </div>
+        </div>
+        
+        <div class="slide-canvas " id="slide-4">
+          <div class="ambient-glow glow-cyan"></div>
+          <div class="ambient-glow glow-purple"></div>
+          <div class="slide-header">
+            <div class="brand">
+              <span class="dot"></span>
+              <strong>PROSPERIA INTELLIGENCE</strong>
+              <span class="sep">|</span>
+              <span class="sve">SISTEMA SVE90</span>
+            </div>
+            <div class="badge-num">04 / 08</div>
+          </div>
+          <div class="slide-body">
+            <div class="pill-type">EVIDENCIA 2</div>
+            <h2 class="slide-title">El error de los 90 repetido en 2026</h2>
+            <p class="slide-sub">Agentes autónomos sin cerrojos</p>
+            <div class='card-content'><p>El 78% de las empresas ya usa IA (Stanford AI Index).</p><p>Pero conectan modelos probabilísticos directamente a sus bases de datos sin límites de balance, sin aislamiento y sin auditoría independiente.</p></div>
+          </div>
+          <div class="slide-footer">
+            <div class="author">
+              <div class="av">EJ</div>
+              <div>
+                <strong>Edward Jiménez</strong>
+                <span>@edwardjimenezia</span>
+              </div>
+            </div>
+            <div class="hint">Desliza →</div>
+          </div>
+        </div>
+        
+        <div class="slide-canvas " id="slide-5">
+          <div class="ambient-glow glow-cyan"></div>
+          <div class="ambient-glow glow-purple"></div>
+          <div class="slide-header">
+            <div class="brand">
+              <span class="dot"></span>
+              <strong>PROSPERIA INTELLIGENCE</strong>
+              <span class="sep">|</span>
+              <span class="sve">SISTEMA SVE90</span>
+            </div>
+            <div class="badge-num">05 / 08</div>
+          </div>
+          <div class="slide-body">
+            <div class="pill-type">EVIDENCIA 3</div>
+            <h2 class="slide-title">Tres cerrojos bancarios para IA</h2>
+            <p class="slide-sub">Arquitectura de gobernanza institucional</p>
+            <div class='card-content'><p>1. Límites Transaccionales: Cero permisos de escritura libre.</p><p>2. Audit Trail Inmutable: Registro de cada prompt y contexto.</p><p>3. Circuit Breaker: Conmutación a criterio humano si la confianza desciende.</p></div>
+          </div>
+          <div class="slide-footer">
+            <div class="author">
+              <div class="av">EJ</div>
+              <div>
+                <strong>Edward Jiménez</strong>
+                <span>@edwardjimenezia</span>
+              </div>
+            </div>
+            <div class="hint">Desliza →</div>
+          </div>
+        </div>
+        
+        <div class="slide-canvas " id="slide-6">
+          <div class="ambient-glow glow-cyan"></div>
+          <div class="ambient-glow glow-purple"></div>
+          <div class="slide-header">
+            <div class="brand">
+              <span class="dot"></span>
+              <strong>PROSPERIA INTELLIGENCE</strong>
+              <span class="sep">|</span>
+              <span class="sve">SISTEMA SVE90</span>
+            </div>
+            <div class="badge-num">06 / 08</div>
+          </div>
+          <div class="slide-body">
+            <div class="pill-type">INTERPRETACIÓN</div>
+            <h2 class="slide-title">Soberanía de Aumento Tecnológico</h2>
+            <p class="slide-sub">Los 4 Pilares de Agencia ProsperIA</p>
+            <div class='card-content'><p>Los agentes ejecutan tareas mecánicas 24/7.</p><p>Pero el criterio, las reglas de negocio y la soberanía institucional jamás se delegan a un algoritmo externo.</p></div>
+          </div>
+          <div class="slide-footer">
+            <div class="author">
+              <div class="av">EJ</div>
+              <div>
+                <strong>Edward Jiménez</strong>
+                <span>@edwardjimenezia</span>
+              </div>
+            </div>
+            <div class="hint">Desliza →</div>
+          </div>
+        </div>
+        
+        <div class="slide-canvas " id="slide-7">
+          <div class="ambient-glow glow-cyan"></div>
+          <div class="ambient-glow glow-purple"></div>
+          <div class="slide-header">
+            <div class="brand">
+              <span class="dot"></span>
+              <strong>PROSPERIA INTELLIGENCE</strong>
+              <span class="sep">|</span>
+              <span class="sve">SISTEMA SVE90</span>
+            </div>
+            <div class="badge-num">07 / 08</div>
+          </div>
+          <div class="slide-body">
+            <div class="pill-type">DECISIÓN DIRECTIVA</div>
+            <h2 class="slide-title">Protocolo SVE90 en 90 días</h2>
+            <p class="slide-sub">Hoja de ruta para el comité directivo</p>
+            <div class='card-content'><p>01. AUDITAR: Mapear tareas y fronteras de riesgo crítico.</p><p>02. AUTOMATIZAR: Conectar agentes con cerrojos y esquemas rígidos.</p><p>03. ADOPTAR: Capacitar al equipo en gobernanza activa de IA.</p></div>
+          </div>
+          <div class="slide-footer">
+            <div class="author">
+              <div class="av">EJ</div>
+              <div>
+                <strong>Edward Jiménez</strong>
+                <span>@edwardjimenezia</span>
+              </div>
+            </div>
+            <div class="hint">Desliza →</div>
+          </div>
+        </div>
+        
+        <div class="slide-canvas " id="slide-8">
+          <div class="ambient-glow glow-cyan"></div>
+          <div class="ambient-glow glow-purple"></div>
+          <div class="slide-header">
+            <div class="brand">
+              <span class="dot"></span>
+              <strong>PROSPERIA INTELLIGENCE</strong>
+              <span class="sep">|</span>
+              <span class="sve">SISTEMA SVE90</span>
+            </div>
+            <div class="badge-num">08 / 08</div>
+          </div>
+          <div class="slide-body">
+            <div class="pill-type">CIERRE</div>
+            <h2 class="slide-title">¿Tu empresa delega a ciegas o gobierna la IA?</h2>
+            <p class="slide-sub">Diagnóstico de Madurez Operativa en 3 minutos.</p>
+            <div class='card-content'><p>Identifica fugas de gobernanza en tus procesos de negocio y blinda tu infraestructura crítica en:</p><p>agenciaprosperia.com/diagnostico</p></div>
+          </div>
+          <div class="slide-footer">
+            <div class="author">
+              <div class="av">EJ</div>
+              <div>
+                <strong>Edward Jiménez</strong>
+                <span>@edwardjimenezia</span>
+              </div>
+            </div>
+            <div class="hint">Desliza →</div>
+          </div>
+        </div>
+        
+  </div>
+  <script>
+    let cur = 1;
+    const total = 8;
+    function show(n) {
+      document.querySelectorAll('.slide-canvas').forEach(s => s.classList.remove('active'));
+      const s = document.getElementById('slide-' + n);
+      if (s) s.classList.add('active');
+      document.getElementById('counter').innerText = n + ' / ' + total;
+    }
+    function next() { cur = (cur >= total) ? 1 : cur + 1; show(cur); }
+    function prev() { cur = (cur <= 1) ? total : cur - 1; show(cur); }
+  </script>
+</body>
+</html>

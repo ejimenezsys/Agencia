@@ -1,0 +1,49 @@
+--- Tweet 1/7 ---
+Un fallo de IA en tu empresa no es un «error de prompt».
+
+Es un colapso de gobernanza idéntico al que la banca resolvió hace 25 años.
+
+Lecciones de arquitectura crítica tras migrar 1.500 sucursales bancarias bajo la CNBV aplicadas a los agentes modernos 👇🧵
+
+--- Tweet 2/7 ---
+1/ En 2002 lideré la arquitectura del core bancario de Grupo Elektra a Banco Azteca.
+
+Más de 1.500 sucursales abrían a las 8:00 AM bajo estricta regulación de la CNBV.
+
+Tolerancia cero a discrepancias. Si una transacción fallaba, el sistema no podía adivinar.
+
+--- Tweet 3/7 ---
+2/ La ley inmutable que aprendí:
+
+Cualquier sistema que carezca de gobernanza institucional y aislamiento de fallos se romperá en el peor momento posible.
+
+Automatizar sin límites no es eficiencia; es acumular riesgo sistémico.
+
+--- Tweet 4/7 ---
+3/ El error que veo hoy:
+
+El 78% de las empresas adoptó IA (Stanford 2025).
+
+Pero conectan LLMs (motores probabilísticos) directo a bases de datos y CRMs sin esquemas tipados ni límites de gasto.
+
+Es el equivalente a firmar un cheque en blanco.
+
+--- Tweet 5/7 ---
+4/ Los 3 cerrojos obligatorios de la Metodología SVE90:
+
+• Límites Transaccionales: Cero escritura libre.
+• Audit Trail Inmutable: Saber exactamente qué vio el modelo a cada milisegundo.
+• Circuit Breakers: Si la confianza cae, conmuta a humanos.
+
+--- Tweet 6/7 ---
+5/ Soberanía de Aumento Tecnológico:
+
+Los agentes operan 24/7 para acelerar al equipo.
+
+Pero las reglas de negocio, la custodia de datos y la soberanía de decisión pertenecen a la empresa, no al proveedor de la API.
+
+--- Tweet 7/7 ---
+La IA no sustituye la arquitectura de sistemas: la vuelve 10 veces más crítica.
+
+Lee el ensayo completo en PROSPERIA Intelligence:
+https://agenciaprosperia.com/blog/gobernanza-infraestructura-critica-lecciones-bancarias-edward-jimenez
