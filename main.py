@@ -1133,7 +1133,36 @@ async def read_login(request: Request):
 
 @app.get("/dashboard", response_class=HTMLResponse)
 @app.get("/dashboard.html", response_class=HTMLResponse)
-async def read_dashboard(request: Request, current_user: dict = Depends(get_current_user)):
+async def read_dashboard(request: Request):
+    auth_header = request.headers.get("Authorization")
+    token = None
+    if auth_header and auth_header.startswith("Bearer "):
+        token = auth_header.split(" ")[1]
+    if not token:
+        token = request.cookies.get("auth_token")
+
+    if not token:
+        return RedirectResponse(url="/login", status_code=303)
+
+    db = SessionLocal()
+    try:
+        session_row = db.query(SessionModel).filter(SessionModel.token == token).first()
+        if not session_row:
+            return RedirectResponse(url="/login", status_code=303)
+        user_row = db.query(User).filter(User.email == session_row.email).first()
+        if not user_row:
+            return RedirectResponse(url="/login", status_code=303)
+        current_user = {
+            "email": user_row.email,
+            "name": user_row.name,
+            "company": user_row.company,
+            "phone": user_row.phone,
+            "plan": user_row.plan,
+            "api_key": user_row.api_key,
+        }
+    finally:
+        db.close()
+
     return templates.TemplateResponse(
         request=request,
         name="dashboard.html",
@@ -1380,7 +1409,7 @@ async def get_intelligence_feed(db: Session = Depends(get_db)):
 # ─── API ENDPOINTS ──────────────────────────────────────────────────────────
 
 @app.post("/api/auth/login")
-async def api_login(req: LoginRequest, response: Response, db: Session = Depends(get_db)):
+async def api_login(req: LoginRequest, request: Request, response: Response, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.email == req.email).first()
     if not user:
         return JSONResponse(
@@ -1420,6 +1449,7 @@ async def api_login(req: LoginRequest, response: Response, db: Session = Depends
         "api_key": user.api_key
     }
     
+    is_secure = request.url.scheme == "https"
     response.set_cookie(
         key="auth_token",
         value=token,
@@ -1427,7 +1457,7 @@ async def api_login(req: LoginRequest, response: Response, db: Session = Depends
         path="/",
         httponly=True,
         samesite="lax",
-        secure=True
+        secure=is_secure
     )
     
     return {
