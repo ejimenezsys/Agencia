@@ -198,7 +198,7 @@
 
   async function handleLogin(e) {
     e.preventDefault();
-    const email = document.getElementById('email').value;
+    const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
     const btn = document.getElementById('login-btn');
     const btnText = document.getElementById('btn-text');
@@ -209,7 +209,7 @@
     btn.disabled = true;
     btnText.textContent = 'Verificando...';
     if (spinner) spinner.style.display = 'inline-block';
-    icon.classList.add('hidden');
+    if (icon) icon.classList.add('hidden');
     alertBox.classList.add('hidden');
 
     try {
@@ -226,23 +226,24 @@
         document.cookie = 'auth_token=' + data.data.token + '; path=/; max-age=604800; SameSite=Lax';
         alertBox.style.cssText = 'background:rgba(0,229,255,0.06); border:1px solid rgba(0,229,255,0.25); color:#00e5ff; display:block; padding:16px; border-radius:12px; font-size:14px; margin-bottom:24px;';
         alertBox.innerHTML = '<i class="fas fa-check-circle mr-2"></i>Acceso concedido. Redirigiendo...';
-        setTimeout(() => window.location.href = '/dashboard', 800);
+        setTimeout(() => window.location.href = '/dashboard', 600);
       } else {
         alertBox.style.cssText = 'background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.25); color:#f87171; display:block; padding:16px; border-radius:12px; font-size:14px; margin-bottom:24px;';
-        alertBox.innerHTML = '<i class="fas fa-exclamation-circle mr-2"></i>' + data.error;
+        alertBox.innerHTML = '<i class="fas fa-exclamation-circle mr-2"></i>' + (data.error || 'Credenciales incorrectas');
+        btn.disabled = false;
+        btnText.textContent = 'Ingresar al Command Center';
+        if (spinner) spinner.style.display = 'none';
+        if (icon) icon.classList.remove('hidden');
       }
-    } catch {
+    } catch (err) {
       alertBox.style.cssText = 'background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.25); color:#f87171; display:block; padding:16px; border-radius:12px; font-size:14px; margin-bottom:24px;';
-      alertBox.innerHTML = '<i class="fas fa-exclamation-circle mr-2"></i>Error de conexión.';
-    } finally {
+      alertBox.innerHTML = '<i class="fas fa-exclamation-circle mr-2"></i>Error de conexión. Inténtalo de nuevo.';
       btn.disabled = false;
       btnText.textContent = 'Ingresar al Command Center';
       if (spinner) spinner.style.display = 'none';
-      icon.classList.remove('hidden');
+      if (icon) icon.classList.remove('hidden');
     }
   }
-
-  if (localStorage.getItem('auth_token')) window.location.href = '/dashboard';
 </script>
 </body>
 </html>
