@@ -1279,6 +1279,15 @@ async def read_terminos_servicio(request: Request):
 async def read_exmamiami(request: Request):
     return templates.TemplateResponse(request=request, name="exmamiami.html")
 
+@app.get("/elavonxpress", response_class=HTMLResponse)
+@app.head("/elavonxpress")
+@app.get("/elavonxpress/", response_class=HTMLResponse)
+@app.head("/elavonxpress/")
+@app.get("/elavonxpress.html", response_class=HTMLResponse)
+@app.head("/elavonxpress.html")
+async def read_elavonxpress(request: Request):
+    return templates.TemplateResponse(request=request, name="elavonxpress.html")
+
 # ─── TECHNICAL SEO ENDPOINTS ────────────────────────────────────────────────
 from fastapi.responses import PlainTextResponse
 

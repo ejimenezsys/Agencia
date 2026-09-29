@@ -1,0 +1,2336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elavon Xpress Payment Systems — Pre-Application Form · Portal Comercial</title>
+  <meta name="description" content="Formulario digital oficial de pre-aplicación comercial de Elavon Xpress Payment Systems. Registro de comercios, procesamiento merchant y underwriting acelerado.">
+  <link rel="icon" type="image/png" href="/static/favicon.png">
+
+  <!-- Google Fonts: Plus Jakarta Sans & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #0a192f;
+      --primary-light: #1e293b;
+      --navy-deep: #050d1a;
+      --accent: #2563eb;
+      --accent-hover: #1d4ed8;
+      --accent-glow: rgba(37, 99, 235, 0.25);
+      --success: #10b981;
+      --success-light: #ecfdf5;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --slate-50: #f8fafc;
+      --slate-100: #f1f5f9;
+      --slate-200: #e2e8f0;
+      --slate-300: #cbd5e1;
+      --slate-400: #94a3b8;
+      --slate-500: #64748b;
+      --slate-600: #475569;
+      --slate-700: #334155;
+      --slate-800: #1e293b;
+      --slate-900: #0f172a;
+      --card-bg: #ffffff;
+      --border-color: #e2e8f0;
+      --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-display: 'Outfit', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+      --radius-xl: 24px;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+      --shadow-lg: 0 12px 24px -4px rgba(10, 25, 47, 0.08), 0 4px 12px -2px rgba(10, 25, 47, 0.04);
+      --shadow-xl: 0 20px 35px -5px rgba(10, 25, 47, 0.12), 0 10px 10px -5px rgba(10, 25, 47, 0.04);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: #f8fafc;
+      color: var(--slate-800);
+      font-family: var(--font-main);
+      font-size: 15px;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-image: 
+        radial-gradient(circle at 10% 10%, rgba(37, 99, 235, 0.03) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(16, 185, 129, 0.03) 0%, transparent 40%);
+    }
+
+    /* Top Prototype Notice Banner */
+    .prototype-banner {
+      background: linear-gradient(90deg, #0a192f 0%, #1e293b 100%);
+      color: #e2e8f0;
+      padding: 10px 24px;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      z-index: 50;
+    }
+
+    .proto-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(37, 99, 235, 0.2);
+      border: 1px solid rgba(37, 99, 235, 0.4);
+      color: #93c5fd;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 0.75rem;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .proto-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .proto-btn {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 6px;
+      padding: 4px 12px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .proto-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: #fff;
+      color: #fff;
+    }
+
+    .proto-btn.primary-demo {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .proto-btn.primary-demo:hover {
+      background: var(--accent-hover);
+    }
+
+    /* Main Container */
+    .app-container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 32px 20px 80px;
+      width: 100%;
+      flex: 1;
+    }
+
+    /* Header Section */
+    .header-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-xl);
+      padding: 32px 40px;
+      box-shadow: var(--shadow-lg);
+      margin-bottom: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #0a192f 0%, #2563eb 50%, #10b981 100%);
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 24px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--slate-100);
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .brand-logo-img {
+      height: 68px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .brand-text-block h1 {
+      font-family: var(--font-display);
+      font-size: 1.85rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--slate-900);
+      line-height: 1.2;
+    }
+
+    .brand-text-block p {
+      color: var(--slate-500);
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .header-badges {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .trust-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--slate-50);
+      border: 1px solid var(--slate-200);
+      color: var(--slate-700);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .trust-chip.verified {
+      background: var(--success-light);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #065f46;
+    }
+
+    .trust-chip i {
+      color: var(--accent);
+    }
+    .trust-chip.verified i {
+      color: var(--success);
+    }
+
+    /* View Switcher & Progress Header */
+    .controls-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      padding-top: 20px;
+    }
+
+    .view-toggle {
+      display: inline-flex;
+      background: var(--slate-100);
+      padding: 4px;
+      border-radius: 10px;
+      border: 1px solid var(--slate-200);
+    }
+
+    .view-toggle-btn {
+      padding: 8px 18px;
+      border-radius: 8px;
+      border: none;
+      background: transparent;
+      color: var(--slate-600);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .view-toggle-btn.active {
+      background: #fff;
+      color: var(--primary);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Stepper Navigation (Wizard Mode) */
+    .stepper-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #fff;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 16px 24px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-sm);
+      overflow-x: auto;
+      gap: 12px;
+    }
+
+    .step-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      padding: 8px 12px;
+      border-radius: 8px;
+      transition: all 0.2s;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .step-item:hover {
+      background: var(--slate-50);
+    }
+
+    .step-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--slate-100);
+      color: var(--slate-500);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+
+    .step-label {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .step-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--slate-700);
+    }
+
+    .step-desc {
+      font-size: 0.75rem;
+      color: var(--slate-400);
+    }
+
+    .step-item.active .step-num {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 0 12px var(--accent-glow);
+    }
+
+    .step-item.active .step-title {
+      color: var(--accent);
+    }
+
+    .step-item.completed .step-num {
+      background: var(--success);
+      color: #fff;
+    }
+
+    .step-divider {
+      flex: 1;
+      height: 2px;
+      background: var(--slate-200);
+      margin: 0 4px;
+      min-width: 20px;
+    }
+
+    /* Form Card */
+    .form-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-xl);
+      padding: 40px;
+      box-shadow: var(--shadow-lg);
+      margin-bottom: 24px;
+    }
+
+    .section-header {
+      margin-bottom: 28px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--slate-100);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--slate-900);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-title i {
+      color: var(--accent);
+      font-size: 1.25rem;
+    }
+
+    .section-tag {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 700;
+      background: var(--slate-100);
+      color: var(--slate-600);
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    /* Grid Layouts */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 860px) {
+      .grid-2, .grid-3, .grid-4 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Form Fields */
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 18px;
+    }
+
+    .field-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .field-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--slate-700);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .field-label .req {
+      color: var(--danger);
+      margin-left: 4px;
+    }
+
+    .field-hint {
+      font-size: 0.75rem;
+      color: var(--slate-400);
+      font-weight: 400;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 14px;
+      color: var(--slate-400);
+      font-size: 0.95rem;
+      pointer-events: none;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px 14px;
+      font-family: var(--font-main);
+      font-size: 0.95rem;
+      color: var(--slate-900);
+      background-color: #fff;
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      transition: all 0.2s ease;
+      outline: none;
+    }
+
+    .form-control.has-icon {
+      padding-left: 42px;
+    }
+
+    .form-control:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .form-control::placeholder {
+      color: var(--slate-400);
+      font-size: 0.9rem;
+    }
+
+    select.form-control {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      background-size: 16px;
+      padding-right: 40px;
+    }
+
+    textarea.form-control {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    /* Radio & Checkbox Cards */
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    .option-card {
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: #fff;
+    }
+
+    .option-card:hover {
+      border-color: var(--slate-300);
+      background: var(--slate-50);
+    }
+
+    .option-card.selected,
+    .option-card input:checked + label {
+      border-color: var(--accent);
+      background: rgba(37, 99, 235, 0.04);
+    }
+
+    .option-card input[type="radio"],
+    .option-card input[type="checkbox"] {
+      accent-color: var(--accent);
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    .option-label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--slate-700);
+      cursor: pointer;
+    }
+
+    /* Live Volume Metrics Bar */
+    .metrics-summary-bar {
+      background: linear-gradient(135deg, #0a192f 0%, #1e293b 100%);
+      color: #fff;
+      border-radius: var(--radius-md);
+      padding: 20px 24px;
+      margin: 20px 0 28px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      box-shadow: var(--shadow-md);
+    }
+
+    @media (max-width: 768px) {
+      .metrics-summary-bar {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .metric-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .metric-item .m-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--slate-400);
+      font-weight: 600;
+    }
+
+    .metric-item .m-value {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #38bdf8;
+    }
+
+    .metric-item .m-sub {
+      font-size: 0.72rem;
+      color: #94a3b8;
+    }
+
+    /* Percentage Visual Bar */
+    .pct-bar-wrapper {
+      margin-top: 14px;
+      background: var(--slate-100);
+      border-radius: 999px;
+      height: 10px;
+      display: flex;
+      overflow: hidden;
+    }
+
+    .pct-segment {
+      height: 100%;
+      transition: width 0.3s ease;
+    }
+    .pct-swiped { background: #2563eb; }
+    .pct-keyed { background: #f59e0b; }
+    .pct-moto { background: #8b5cf6; }
+    .pct-internet { background: #10b981; }
+
+    .pct-legend {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--slate-600);
+    }
+
+    .pct-legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pct-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    /* Document Upload Dropzones */
+    .doc-upload-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+      margin-top: 12px;
+    }
+
+    .doc-dropzone {
+      border: 2px dashed var(--slate-300);
+      border-radius: var(--radius-md);
+      padding: 24px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: #fafafa;
+      position: relative;
+    }
+
+    .doc-dropzone:hover {
+      border-color: var(--accent);
+      background: rgba(37, 99, 235, 0.02);
+    }
+
+    .doc-dropzone.has-file {
+      border-color: var(--success);
+      border-style: solid;
+      background: var(--success-light);
+    }
+
+    .doc-icon {
+      font-size: 1.8rem;
+      color: var(--slate-400);
+      margin-bottom: 10px;
+      transition: color 0.2s;
+    }
+
+    .doc-dropzone:hover .doc-icon {
+      color: var(--accent);
+    }
+
+    .doc-dropzone.has-file .doc-icon {
+      color: var(--success);
+    }
+
+    .doc-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--slate-800);
+      margin-bottom: 4px;
+    }
+
+    .doc-desc {
+      font-size: 0.75rem;
+      color: var(--slate-500);
+      margin-bottom: 12px;
+    }
+
+    .doc-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: var(--slate-200);
+      color: var(--slate-600);
+    }
+
+    .doc-dropzone.has-file .doc-status-badge {
+      background: rgba(16, 185, 129, 0.2);
+      color: #065f46;
+    }
+
+    /* Signature Box */
+    .signature-wrapper {
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      background: #fff;
+      margin-top: 8px;
+    }
+
+    .signature-canvas-container {
+      position: relative;
+      width: 100%;
+      height: 150px;
+      background: #fafbfc;
+      border: 1px dashed var(--slate-300);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      cursor: crosshair;
+    }
+
+    canvas#sig-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .sig-guide-line {
+      position: absolute;
+      bottom: 30px;
+      left: 20px;
+      right: 20px;
+      border-bottom: 1px dashed var(--slate-300);
+      pointer-events: none;
+    }
+
+    .sig-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .sig-btn-clear {
+      background: transparent;
+      border: 1px solid var(--slate-200);
+      color: var(--slate-600);
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .sig-btn-clear:hover {
+      background: var(--slate-100);
+      color: var(--danger);
+    }
+
+    /* Internal Section (Rep Only) */
+    .internal-section-card {
+      background: #f8fafc;
+      border: 2px solid #cbd5e1;
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      margin-top: 24px;
+      position: relative;
+    }
+
+    .internal-badge-header {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #1e293b;
+      color: #f8fafc;
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 16px;
+    }
+
+    .rates-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      background: #fff;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+    }
+
+    .rates-table th, .rates-table td {
+      padding: 12px 16px;
+      text-align: left;
+      font-size: 0.85rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .rates-table th {
+      background: var(--slate-50);
+      font-weight: 700;
+      color: var(--slate-700);
+    }
+
+    /* Wizard Navigation Footer */
+    .wizard-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid var(--slate-100);
+    }
+
+    .btn {
+      padding: 12px 28px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-main);
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.2s ease;
+      border: none;
+      outline: none;
+      text-decoration: none;
+    }
+
+    .btn-secondary {
+      background: #fff;
+      color: var(--slate-700);
+      border: 1.5px solid var(--slate-200);
+    }
+
+    .btn-secondary:hover {
+      background: var(--slate-50);
+      border-color: var(--slate-300);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 4px 12px var(--accent-glow);
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+      transform: translateY(-1px);
+    }
+
+    .btn-success {
+      background: var(--success);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+    }
+
+    .btn-success:hover {
+      background: #059669;
+      transform: translateY(-1px);
+    }
+
+    /* Success / Submission Modal */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(10, 25, 47, 0.7);
+      backdrop-filter: blur(6px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-box {
+      background: #fff;
+      border-radius: var(--radius-xl);
+      max-width: 640px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow-xl);
+      padding: 36px;
+      text-align: center;
+      position: relative;
+      animation: modalPop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes modalPop {
+      from { transform: scale(0.92) translateY(20px); opacity: 0; }
+      to { transform: scale(1) translateY(0); opacity: 1; }
+    }
+
+    .modal-icon-circle {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--success-light);
+      color: var(--success);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      margin: 0 auto 20px;
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+    }
+
+    .modal-title {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--slate-900);
+      margin-bottom: 8px;
+    }
+
+    .modal-folio {
+      display: inline-block;
+      font-family: var(--font-mono);
+      background: var(--slate-100);
+      border: 1px solid var(--slate-200);
+      color: var(--slate-700);
+      padding: 6px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 20px;
+    }
+
+    .modal-summary-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      margin: 20px 0;
+      font-size: 0.85rem;
+      border: 1px solid var(--slate-200);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .modal-summary-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--slate-100);
+    }
+
+    .modal-summary-table td:first-child {
+      font-weight: 600;
+      color: var(--slate-500);
+      width: 40%;
+      background: var(--slate-50);
+    }
+
+    /* Print styling */
+    @media print {
+      .prototype-banner, .view-toggle, .stepper-nav, .wizard-footer, .proto-actions, .sig-btn-clear, .btn-demo {
+        display: none !important;
+      }
+      body {
+        background: #fff;
+      }
+      .form-card, .header-card {
+        box-shadow: none;
+        border: 1px solid #ccc;
+      }
+      .step-panel {
+        display: block !important;
+        page-break-after: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Prototype Control Bar -->
+  <div class="prototype-banner">
+    <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+      <span class="proto-badge"><i class="fa-solid fa-flask"></i> Entorno de Prueba</span>
+      <span style="font-size: 0.82rem; color: #cbd5e1;">Demostración interactiva de Pre-Aplicación · Sin conexión a base de datos</span>
+    </div>
+    <div class="proto-actions">
+      <button class="proto-btn primary-demo" onclick="fillDemoData()" title="Llenar con datos reales de prueba">
+        <i class="fa-solid fa-wand-magic-sparkles"></i> Auto-completar Demo
+      </button>
+      <a href="/static/elavonxpress/Elavon_Xpress_Pre_Application_Form.pdf" download class="proto-btn" title="Descargar documento PDF original en blanco">
+        <i class="fa-solid fa-file-pdf"></i> PDF Original
+      </a>
+      <button class="proto-btn" onclick="resetForm()" title="Limpiar todos los campos">
+        <i class="fa-solid fa-arrow-rotate-left"></i> Limpiar
+      </button>
+    </div>
+  </div>
+
+  <div class="app-container">
+
+    <!-- Header Card -->
+    <header class="header-card">
+      <div class="header-top">
+        <div class="logo-container">
+          <img src="/static/elavonxpress/logo.png" alt="Elavon Xpress Payment Systems" class="brand-logo-img">
+          <div class="brand-text-block">
+            <h1>Pre-Application Form</h1>
+            <p>Merchant Acquiring & Payment Systems Onboarding</p>
+          </div>
+        </div>
+
+        <div class="header-badges">
+          <span class="trust-chip verified">
+            <i class="fa-solid fa-shield-halved"></i> 256-Bit SSL Encrypted
+          </span>
+          <span class="trust-chip">
+            <i class="fa-solid fa-credit-card"></i> Visa / MC / Amex / Discover
+          </span>
+          <span class="trust-chip">
+            <i class="fa-solid fa-bolt"></i> Fast Underwriting
+          </span>
+        </div>
+      </div>
+
+      <div class="controls-bar">
+        <!-- Representative Name in Header -->
+        <div style="display: flex; align-items: center; gap: 10px; flex: 1; min-width: 280px; max-width: 450px;">
+          <label style="font-size: 0.85rem; font-weight: 700; color: var(--slate-700); white-space: nowrap;">
+            <i class="fa-solid fa-user-tie" style="color: var(--accent); margin-right: 4px;"></i> Representative Name:
+          </label>
+          <input type="text" id="rep_name" class="form-control" placeholder="Ej: Edward Jimenez / Assigned Rep" style="padding: 8px 12px; font-size: 0.88rem;" value="Edward Jimenez">
+        </div>
+
+        <!-- View Switcher -->
+        <div class="view-toggle">
+          <button type="button" class="view-toggle-btn active" id="btn-mode-wizard" onclick="switchViewMode('wizard')">
+            <i class="fa-solid fa-list-check"></i> Asistente Paso a Paso
+          </button>
+          <button type="button" class="view-toggle-btn" id="btn-mode-full" onclick="switchViewMode('full')">
+            <i class="fa-solid fa-file-lines"></i> Vista Documento Completo
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Stepper Navigation (Only in Wizard Mode) -->
+    <nav class="stepper-nav" id="stepper-nav">
+      <div class="step-item active" id="step-btn-1" onclick="goToStep(1)">
+        <div class="step-num">1</div>
+        <div class="step-label">
+          <span class="step-title">Negocio</span>
+          <span class="step-desc">Datos fiscales & contacto</span>
+        </div>
+      </div>
+      <div class="step-divider"></div>
+      <div class="step-item" id="step-btn-2" onclick="goToStep(2)">
+        <div class="step-num">2</div>
+        <div class="step-label">
+          <span class="step-title">Aceptación</span>
+          <span class="step-desc">Volumen & canales %</span>
+        </div>
+      </div>
+      <div class="step-divider"></div>
+      <div class="step-item" id="step-btn-3" onclick="goToStep(3)">
+        <div class="step-num">3</div>
+        <div class="step-label">
+          <span class="step-title">Propietario</span>
+          <span class="step-desc">Beneficiario & firma</span>
+        </div>
+      </div>
+      <div class="step-divider"></div>
+      <div class="step-item" id="step-btn-4" onclick="goToStep(4)">
+        <div class="step-num">4</div>
+        <div class="step-label">
+          <span class="step-title">Documentos</span>
+          <span class="step-desc">Licencia, cheque & estados</span>
+        </div>
+      </div>
+      <div class="step-divider"></div>
+      <div class="step-item" id="step-btn-5" onclick="goToStep(5)">
+        <div class="step-num">5</div>
+        <div class="step-label">
+          <span class="step-title">Tarifas / Rep</span>
+          <span class="step-desc">Pricing & equipos</span>
+        </div>
+      </div>
+      <div class="step-divider"></div>
+      <div class="step-item" id="step-btn-6" onclick="goToStep(6)">
+        <div class="step-num">6</div>
+        <div class="step-label">
+          <span class="step-title">Revisión</span>
+          <span class="step-desc">Confirmar pre-aplicación</span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Form Element -->
+    <form id="elavon-preapp-form" onsubmit="event.preventDefault(); handleSubmit();">
+
+      <!-- STEP 1: BUSINESS INFORMATION -->
+      <section class="form-card step-panel" id="step-panel-1">
+        <div class="section-header">
+          <h2 class="section-title">
+            <i class="fa-solid fa-briefcase"></i> Business Information
+          </h2>
+          <span class="section-tag">Sección 01 / 05</span>
+        </div>
+
+        <div class="grid-2">
+          <div class="field-group">
+            <label class="field-label">Legal Business Name <span class="req">*</span></label>
+            <div class="input-wrapper">
+              <i class="fa-solid fa-building input-icon"></i>
+              <input type="text" id="legal_name" required class="form-control has-icon" placeholder="Ej: Acme Global Solutions LLC">
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label">DBA (Doing Business As) <span class="field-hint">(Si difiere del Legal Name)</span></label>
+            <div class="input-wrapper">
+              <i class="fa-solid fa-store input-icon"></i>
+              <input type="text" id="dba" class="form-control has-icon" placeholder="Ej: Acme Store">
+            </div>
+          </div>
+        </div>
+
+        <!-- Type of Business -->
+        <div class="field-group full-width">
+          <label class="field-label">Type of Business <span class="req">*</span></label>
+          <div class="options-grid">
+            <label class="option-card">
+              <input type="radio" name="biz_type" value="Individual/Sole Proprietor">
+              <span class="option-label">Individual / Sole Proprietor</span>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="biz_type" value="LLC" checked>
+              <span class="option-label">LLC</span>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="biz_type" value="Partnership">
+              <span class="option-label">Partnership</span>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="biz_type" value="Corporation">
+              <span class="option-label">Corporation</span>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="biz_type" value="Other" id="biz_type_other_radio">
+              <span class="option-label">Other</span>
+            </label>
+          </div>
+          <div id="biz_type_other_wrapper" style="display: none; margin-top: 10px;">
+            <input type="text" id="biz_type_other_text" class="form-control" placeholder="Especifique el tipo de entidad (ej: Non-Profit, Trust, etc.)">
+          </div>
+        </div>
+
+        <!-- Business Physical Address -->
+        <div class="field-group full-width" style="margin-top: 10px;">
+          <label class="field-label">Business Physical Address <span class="req">*</span></label>
+          <div class="input-wrapper">
+            <i class="fa-solid fa-location-dot input-icon"></i>
+            <input type="text" id="biz_address" required class="form-control has-icon" placeholder="Dirección física completa (Calle, Suite, Número)">
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <div class="field-group">
+            <label class="field-label">City <span class="req">*</span></label>
+            <input type="text" id="biz_city" required class="form-control" placeholder="Miami">
+          </div>
+          <div class="field-group">
+            <label class="field-label">State <span class="req">*</span></label>
+            <select id="biz_state" required class="form-control">
+              <option value="">Seleccione Estado...</option>
+              <option value="FL" selected>FL - Florida</option>
+              <option value="CA">CA - California</option>
+              <option value="TX">TX - Texas</option>
+              <option value="NY">NY - New York</option>
+              <option value="IL">IL - Illinois</option>
+              <option value="GA">GA - Georgia</option>
+              <option value="NC">NC - North Carolina</option>
+              <option value="OTHER">Otro Estado (US)</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label class="field-label">ZIP Code <span class="req">*</span></label>
+            <input type="text" id="biz_zip" required class="form-control" placeholder="33101" maxlength="10">
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="field-group">
+            <label class="field-label">Business Phone <span class="req">*</span></label>
+            <div class="input-wrapper">
+              <i class="fa-solid fa-phone input-icon"></i>
+              <input type="tel" id="biz_phone" required class="form-control has-icon" placeholder="+1 (305) 000-0000">
+            </div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Business Email <span class="req">*</span></label>
+            <div class="input-wrapper">
+              <i class="fa-solid fa-envelope input-icon"></i>
+              <input type="email" id="biz_email" required class="form-control has-icon" placeholder="contact@acme.com">
+            </div>
+          </div>
+        </div>
+
+        <!-- Mailing Address Toggle -->
+        <div class="field-group full-width" style="margin-top: 10px;">
+          <label style="display: inline-flex; align-items: center; gap: 8px; font-weight: 600; cursor: pointer; color: var(--slate-700);">
+            <input type="checkbox" id="diff_mailing_chk" onchange="toggleMailingAddress(this.checked)" style="width: 18px; height: 18px; accent-color: var(--accent);">
+            <span>Business Mailing Address (si es diferente a la dirección física)</span>
+          </label>
+        </div>
+
+        <div id="mailing_address_block" style="display: none; background: var(--slate-50); border: 1px solid var(--slate-200); border-radius: var(--radius-sm); padding: 18px; margin-bottom: 20px;">
+          <div class="field-group full-width">
+            <label class="field-label">Mailing Address</label>
+            <input type="text" id="mail_address" class="form-control" placeholder="Apartado postal, Suite o Dirección alternativa">
+          </div>
+          <div class="grid-3">
+            <div class="field-group">
+              <label class="field-label">City</label>
+              <input type="text" id="mail_city" class="form-control" placeholder="Ciudad">
+            </div>
+            <div class="field-group">
+              <label class="field-label">State</label>
+              <input type="text" id="mail_state" class="form-control" placeholder="Estado (ej: FL)">
+            </div>
+            <div class="field-group">
+              <label class="field-label">ZIP Code</label>
+              <input type="text" id="mail_zip" class="form-control" placeholder="Código Postal">
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="field-group">
+            <label class="field-label">Website</label>
+            <div class="input-wrapper">
+              <i class="fa-solid fa-globe input-icon"></i>
+              <input type="url" id="biz_website" class="form-control has-icon" placeholder="https://www.acme.com">
+            </div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">EIN / TAX ID <span class="req">*</span></label>
+            <div class="input-wrapper">
+              <i class="fa-solid fa-id-card input-icon"></i>
+              <input type="text" id="biz_ein" required class="form-control has-icon" placeholder="XX-XXXXXXX" maxlength="10">
+            </div>
+          </div>
+        </div>
+
+        <div class="wizard-footer">
+          <div></div>
+          <button type="button" class="btn btn-primary" onclick="goToStep(2)">
+            Siguiente: Aceptación & Volumen <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </section>
+
+      <!-- STEP 2: ACCEPTANCE & VOLUME -->
+      <section class="form-card step-panel" id="step-panel-2" style="display: none;">
+        <div class="section-header">
+          <h2 class="section-title">
+            <i class="fa-solid fa-cash-register"></i> Acceptance & Volume Information
+          </h2>
+          <span class="section-tag">Sección 02 / 05</span>
+        </div>
+
+        <!-- Volume Metrics Top Display -->
+        <div class="metrics-summary-bar">
+          <div class="metric-item">
+            <span class="m-label">Volumen Mensual</span>
+            <span class="m-value" id="kpi-monthly-vol">$50,000</span>
+            <span class="m-sub">Procesamiento estimado</span>
+          </div>
+          <div class="metric-item">
+            <span class="m-label">Ticket Promedio</span>
+            <span class="m-value" id="kpi-avg-ticket">$65.00</span>
+            <span class="m-sub">Por transacción</span>
+          </div>
+          <div class="metric-item">
+            <span class="m-label">Ticket Más Alto</span>
+            <span class="m-value" id="kpi-high-ticket">$350.00</span>
+            <span class="m-sub">Monto máximo esperado</span>
+          </div>
+          <div class="metric-item">
+            <span class="m-label">Transacciones / Mes</span>
+            <span class="m-value" id="kpi-est-tx">~769 tx</span>
+            <span class="m-sub">Cálculo dinámico</span>
+          </div>
+        </div>
+
+        <!-- Breakdown Inputs -->
+        <div style="background: #fff; border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 22px; margin-bottom: 24px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+            <label style="font-weight: 700; color: var(--slate-800); font-size: 0.95rem;">
+              Desglose de Aceptación de Tarjetas (% Total debe sumar 100%)
+            </label>
+            <span id="pct-total-badge" style="font-size: 0.82rem; font-weight: 700; padding: 4px 10px; border-radius: 6px; background: #ecfdf5; color: #065f46;">
+              Total: 100% ✓
+            </span>
+          </div>
+
+          <div class="grid-4">
+            <div class="field-group">
+              <label class="field-label">Card Present: Swiped (%)</label>
+              <div class="input-wrapper">
+                <input type="number" id="pct_swiped" min="0" max="100" value="70" class="form-control" oninput="updatePctMetrics()">
+              </div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">% Keyed (Manual)</label>
+              <div class="input-wrapper">
+                <input type="number" id="pct_keyed" min="0" max="100" value="10" class="form-control" oninput="updatePctMetrics()">
+              </div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">% Not Present: MOTO</label>
+              <div class="input-wrapper">
+                <input type="number" id="pct_moto" min="0" max="100" value="10" class="form-control" oninput="updatePctMetrics()">
+              </div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">% Internet (eCommerce)</label>
+              <div class="input-wrapper">
+                <input type="number" id="pct_internet" min="0" max="100" value="10" class="form-control" oninput="updatePctMetrics()">
+              </div>
+            </div>
+          </div>
+
+          <!-- Percentage Progress Bar -->
+          <div class="pct-bar-wrapper">
+            <div class="pct-segment pct-swiped" id="bar-swiped" style="width: 70%;"></div>
+            <div class="pct-segment pct-keyed" id="bar-keyed" style="width: 10%;"></div>
+            <div class="pct-segment pct-moto" id="bar-moto" style="width: 10%;"></div>
+            <div class="pct-segment pct-internet" id="bar-internet" style="width: 10%;"></div>
+          </div>
+
+          <div class="pct-legend">
+            <span class="pct-legend-item"><span class="pct-dot pct-swiped"></span> Swiped (<span id="txt-swiped">70%</span>)</span>
+            <span class="pct-legend-item"><span class="pct-dot pct-keyed"></span> Keyed (<span id="txt-keyed">10%</span>)</span>
+            <span class="pct-legend-item"><span class="pct-dot pct-moto"></span> MOTO (<span id="txt-moto">10%</span>)</span>
+            <span class="pct-legend-item"><span class="pct-dot pct-internet"></span> Internet (<span id="txt-internet">10%</span>)</span>
+          </div>
+        </div>
+
+        <!-- Products / Services Sold -->
+        <div class="field-group full-width">
+          <label class="field-label">Products / Services Sold <span class="req">*</span> <span class="field-hint">(Describa los productos o servicios que ofrece su negocio)</span></label>
+          <textarea id="products_sold" required class="form-control" rows="3" placeholder="Ej: Servicios de consultoría empresarial, venta minorista de ropa y calzado, software de gestión..."></textarea>
+        </div>
+
+        <div class="grid-3" style="margin-top: 14px;">
+          <div class="field-group">
+            <label class="field-label">Avg. Ticket ($) <span class="req">*</span></label>
+            <div class="input-wrapper">
+              <i class="fa-solid fa-dollar-sign input-icon"></i>
+              <input type="number" id="avg_ticket" step="0.01" min="1" value="65.00" required class="form-control has-icon" oninput="updateKpiVol()">
+            </div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">High Ticket ($) <span class="req">*</span></label>
+            <div class="input-wrapper">
+              <i class="fa-solid fa-dollar-sign input-icon"></i>
+              <input type="number" id="high_ticket" step="0.01" min="1" value="350.00" required class="form-control has-icon" oninput="updateKpiVol()">
+            </div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Monthly Volume ($) <span class="req">*</span></label>
+            <div class="input-wrapper">
+              <i class="fa-solid fa-chart-line input-icon"></i>
+              <input type="number" id="monthly_volume" step="100" min="100" value="50000" required class="form-control has-icon" oninput="updateKpiVol()">
+            </div>
+          </div>
+        </div>
+
+        <div class="wizard-footer">
+          <button type="button" class="btn btn-secondary" onclick="goToStep(1)">
+            <i class="fa-solid fa-arrow-left"></i> Anterior: Negocio
+          </button>
+          <button type="button" class="btn btn-primary" onclick="goToStep(3)">
+            Siguiente: Propietario <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </section>
+
+      <!-- STEP 3: CONTROLLING POSITION / BENEFICIAL OWNER -->
+      <section class="form-card step-panel" id="step-panel-3" style="display: none;">
+        <div class="section-header">
+          <h2 class="section-title">
+            <i class="fa-solid fa-user-shield"></i> Controlling Position / Beneficial Owner Information
+          </h2>
+          <span class="section-tag">Sección 03 / 05</span>
+        </div>
+
+        <div class="grid-2">
+          <div class="field-group">
+            <label class="field-label">Principal Name <span class="req">*</span></label>
+            <div class="input-wrapper">
+              <i class="fa-solid fa-user input-icon"></i>
+              <input type="text" id="principal_name" required class="form-control has-icon" placeholder="Nombre completo del titular">
+            </div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Title <span class="req">*</span></label>
+            <div class="input-wrapper">
+              <i class="fa-solid fa-award input-icon"></i>
+              <input type="text" id="principal_title" required class="form-control has-icon" placeholder="CEO / Managing Member / President">
+            </div>
+          </div>
+        </div>
+
+        <!-- Home Address -->
+        <div class="field-group full-width">
+          <label class="field-label">Home Address <span class="req">*</span> <span class="field-hint">(Dirección residencial del propietario)</span></label>
+          <div class="input-wrapper">
+            <i class="fa-solid fa-house input-icon"></i>
+            <input type="text" id="home_address" required class="form-control has-icon" placeholder="Calle, Apto, Número">
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <div class="field-group">
+            <label class="field-label">City <span class="req">*</span></label>
+            <input type="text" id="home_city" required class="form-control" placeholder="Miami">
+          </div>
+          <div class="field-group">
+            <label class="field-label">State <span class="req">*</span></label>
+            <select id="home_state" required class="form-control">
+              <option value="">Seleccione Estado...</option>
+              <option value="FL" selected>FL - Florida</option>
+              <option value="CA">CA - California</option>
+              <option value="TX">TX - Texas</option>
+              <option value="NY">NY - New York</option>
+              <option value="OTHER">Otro Estado (US)</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label class="field-label">ZIP Code <span class="req">*</span></label>
+            <input type="text" id="home_zip" required class="form-control" placeholder="33101" maxlength="10">
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-top: 10px;">
+          <div class="field-group">
+            <label class="field-label">Date of Birth <span class="req">*</span></label>
+            <div class="input-wrapper">
+              <i class="fa-solid fa-calendar-day input-icon"></i>
+              <input type="date" id="owner_dob" required class="form-control has-icon">
+            </div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">
+              <span>Owner SSN <span class="req">*</span></span>
+              <span class="field-hint" style="cursor: pointer; color: var(--accent);" onclick="toggleSSNMask()">
+                <i class="fa-solid fa-eye" id="ssn-eye-icon"></i> <span id="ssn-toggle-text">Mostrar</span>
+              </span>
+            </label>
+            <div class="input-wrapper">
+              <i class="fa-solid fa-lock input-icon"></i>
+              <input type="password" id="owner_ssn" required class="form-control has-icon" placeholder="XXX-XX-XXXX" maxlength="11">
+            </div>
+          </div>
+        </div>
+
+        <!-- Digital Signature Pad -->
+        <div class="field-group full-width" style="margin-top: 14px;">
+          <label class="field-label">
+            <span>Firma Digital del Propietario / Beneficiario <span class="req">*</span></span>
+            <span class="field-hint">Dibuje su firma con el ratón o en pantalla táctil</span>
+          </label>
+          <div class="signature-wrapper">
+            <div class="signature-canvas-container" id="sig-container">
+              <canvas id="sig-canvas"></canvas>
+              <div class="sig-guide-line"></div>
+            </div>
+            <div class="sig-actions">
+              <span id="sig-status" style="font-size: 0.8rem; color: var(--slate-500);">
+                <i class="fa-solid fa-pen-nib"></i> Pendiente de firma
+              </span>
+              <button type="button" class="sig-btn-clear" onclick="clearSignature()">
+                <i class="fa-solid fa-eraser"></i> Borrar Firma
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="wizard-footer">
+          <button type="button" class="btn btn-secondary" onclick="goToStep(2)">
+            <i class="fa-solid fa-arrow-left"></i> Anterior: Aceptación
+          </button>
+          <button type="button" class="btn btn-primary" onclick="goToStep(4)">
+            Siguiente: Documentos <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </section>
+
+      <!-- STEP 4: SUPPORTING DOCUMENTATION -->
+      <section class="form-card step-panel" id="step-panel-4" style="display: none;">
+        <div class="section-header">
+          <h2 class="section-title">
+            <i class="fa-solid fa-folder-open"></i> Supporting Documentation
+          </h2>
+          <span class="section-tag">Sección 04 / 05</span>
+        </div>
+
+        <div style="background: rgba(37, 99, 235, 0.05); border: 1px solid rgba(37, 99, 235, 0.2); border-radius: var(--radius-sm); padding: 14px 18px; margin-bottom: 24px; display: flex; align-items: center; gap: 12px;">
+          <i class="fa-solid fa-circle-info" style="color: var(--accent); font-size: 1.2rem;"></i>
+          <p style="font-size: 0.85rem; color: var(--slate-700); margin: 0;">
+            <strong>Nota de Underwriting:</strong> <em>*To expedite the Underwriting process, please send in the above documents, if available.</em> 
+            Puede adjuntar archivos en PDF, JPG o PNG simulados.
+          </p>
+        </div>
+
+        <div class="doc-upload-grid">
+          <!-- 1. Business License -->
+          <div class="doc-dropzone" id="zone-biz-lic" onclick="simulateUpload('biz_lic', 'zone-biz-lic', 'badge-biz-lic')">
+            <i class="fa-solid fa-certificate doc-icon"></i>
+            <h3 class="doc-title">Business License</h3>
+            <p class="doc-desc">Licencia comercial activa del estado / condado</p>
+            <span class="doc-status-badge" id="badge-biz-lic"><i class="fa-solid fa-arrow-up-from-bracket"></i> Adjuntar Archivo</span>
+          </div>
+
+          <!-- 2. Copy of Driver's License -->
+          <div class="doc-dropzone" id="zone-dl" onclick="simulateUpload('dl', 'zone-dl', 'badge-dl')">
+            <i class="fa-solid fa-id-badge doc-icon"></i>
+            <h3 class="doc-title">Copy of Driver's License</h3>
+            <p class="doc-desc">Documento de identidad / Pasaporte del titular</p>
+            <span class="doc-status-badge" id="badge-dl"><i class="fa-solid fa-arrow-up-from-bracket"></i> Adjuntar Archivo</span>
+          </div>
+
+          <!-- 3. Voided Check -->
+          <div class="doc-dropzone" id="zone-check" onclick="simulateUpload('check', 'zone-check', 'badge-check')">
+            <i class="fa-solid fa-money-check-dollar doc-icon"></i>
+            <h3 class="doc-title">Voided Check</h3>
+            <p class="doc-desc">Debe coincidir con Legal Business Name o DBA</p>
+            <span class="doc-status-badge" id="badge-check"><i class="fa-solid fa-arrow-up-from-bracket"></i> Adjuntar Archivo</span>
+          </div>
+
+          <!-- 4. Current Processing Statements -->
+          <div class="doc-dropzone" id="zone-proc" onclick="simulateUpload('proc', 'zone-proc', 'badge-proc')">
+            <i class="fa-solid fa-receipt doc-icon"></i>
+            <h3 class="doc-title">Processing Statements</h3>
+            <p class="doc-desc">Últimos 3 meses ideales de procesador actual</p>
+            <span class="doc-status-badge" id="badge-proc"><i class="fa-solid fa-arrow-up-from-bracket"></i> Adjuntar Archivo</span>
+          </div>
+
+          <!-- 5. Bank Statements -->
+          <div class="doc-dropzone" id="zone-bank" onclick="simulateUpload('bank', 'zone-bank', 'badge-bank')">
+            <i class="fa-solid fa-building-columns doc-icon"></i>
+            <h3 class="doc-title">Bank Statements</h3>
+            <p class="doc-desc">Últimos 3 meses de estados de cuenta bancarios</p>
+            <span class="doc-status-badge" id="badge-bank"><i class="fa-solid fa-arrow-up-from-bracket"></i> Adjuntar Archivo</span>
+          </div>
+        </div>
+
+        <div class="wizard-footer">
+          <button type="button" class="btn btn-secondary" onclick="goToStep(3)">
+            <i class="fa-solid fa-arrow-left"></i> Anterior: Propietario
+          </button>
+          <button type="button" class="btn btn-primary" onclick="goToStep(5)">
+            Siguiente: Tarifas / Rep <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </section>
+
+      <!-- STEP 5: INTERNAL ONLY (REP PRICING & EQUIPMENT) -->
+      <section class="form-card step-panel" id="step-panel-5" style="display: none;">
+        <div class="section-header">
+          <h2 class="section-title">
+            <i class="fa-solid fa-sliders"></i> Internal Only / Account Pricing & Equipment
+          </h2>
+          <span class="section-tag" style="background: #1e293b; color: #f8fafc;">USO DEL REPRESENTANTE</span>
+        </div>
+
+        <div class="internal-section-card">
+          <div class="internal-badge-header">
+            <i class="fa-solid fa-lock"></i> INTERNAL ONLY (Please allow your Rep to complete)
+          </div>
+
+          <!-- Account Pricing Mode -->
+          <div class="field-group full-width">
+            <label class="field-label" style="font-size: 0.95rem;">Account Pricing Model</label>
+            <div class="options-grid">
+              <label class="option-card">
+                <input type="radio" name="pricing_model" value="Interchange +" checked>
+                <span class="option-label">Interchange +</span>
+              </label>
+              <label class="option-card">
+                <input type="radio" name="pricing_model" value="Cash Discount">
+                <span class="option-label">Cash Discount</span>
+              </label>
+              <label class="option-card">
+                <input type="radio" name="pricing_model" value="Dual Pricing">
+                <span class="option-label">Dual Pricing</span>
+              </label>
+              <label class="option-card">
+                <input type="radio" name="pricing_model" value="Surcharge">
+                <span class="option-label">Surcharge</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Rates Grid -->
+          <h3 style="font-size: 0.95rem; font-weight: 700; margin: 24px 0 12px; color: var(--slate-800);">
+            <i class="fa-solid fa-percent" style="color: var(--accent); margin-right: 6px;"></i> Qualifying Processing Rates
+          </h3>
+
+          <table class="rates-table">
+            <thead>
+              <tr>
+                <th>Tipo de Tarjeta / Canal</th>
+                <th>Tasa Calificada (%)</th>
+                <th>Costo por Transacción ($)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Visa / MC / Discover Qual Credit</strong></td>
+                <td><input type="number" id="rate_credit_pct" step="0.01" class="form-control" style="width: 120px;" value="1.69"></td>
+                <td><input type="number" id="rate_credit_fee" step="0.01" class="form-control" style="width: 120px;" value="0.10"></td>
+              </tr>
+              <tr>
+                <td><strong>Visa / MC / Discover Qual Debit</strong></td>
+                <td><input type="number" id="rate_debit_pct" step="0.01" class="form-control" style="width: 120px;" value="0.99"></td>
+                <td><input type="number" id="rate_debit_fee" step="0.01" class="form-control" style="width: 120px;" value="0.10"></td>
+              </tr>
+              <tr>
+                <td><strong>Amex Qual Credit</strong></td>
+                <td><input type="number" id="rate_amex_pct" step="0.01" class="form-control" style="width: 120px;" value="2.35"></td>
+                <td><input type="number" id="rate_amex_fee" step="0.01" class="form-control" style="width: 120px;" value="0.15"></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Standard Fees Grid -->
+          <h3 style="font-size: 0.95rem; font-weight: 700; margin: 24px 0 12px; color: var(--slate-800);">
+            <i class="fa-solid fa-file-invoice-dollar" style="color: var(--accent); margin-right: 6px;"></i> Account Maintenance & Service Fees ($)
+          </h3>
+
+          <div class="grid-4">
+            <div class="field-group">
+              <label class="field-label">Authorization Fee ($)</label>
+              <input type="number" step="0.01" id="fee_auth" class="form-control" value="0.10">
+            </div>
+            <div class="field-group">
+              <label class="field-label">Statement Fee ($)</label>
+              <input type="number" step="0.01" id="fee_stmt" class="form-control" value="10.00">
+            </div>
+            <div class="field-group">
+              <label class="field-label">Batch Fee ($)</label>
+              <input type="number" step="0.01" id="fee_batch" class="form-control" value="0.25">
+            </div>
+            <div class="field-group">
+              <label class="field-label">PCI Annual Fee ($)</label>
+              <input type="number" step="0.01" id="fee_pci_ann" class="form-control" value="99.00">
+            </div>
+            <div class="field-group">
+              <label class="field-label">PCI Monthly Fee ($)</label>
+              <input type="number" step="0.01" id="fee_pci_mo" class="form-control" value="9.95">
+            </div>
+            <div class="field-group">
+              <label class="field-label">PCI Non-Compliance ($)</label>
+              <input type="number" step="0.01" id="fee_pci_non" class="form-control" value="29.95">
+            </div>
+            <div class="field-group">
+              <label class="field-label">Chargeback Fee ($)</label>
+              <input type="number" step="0.01" id="fee_chargeback" class="form-control" value="25.00">
+            </div>
+            <div class="field-group">
+              <label class="field-label">Retrieval Fee ($)</label>
+              <input type="number" step="0.01" id="fee_retrieval" class="form-control" value="15.00">
+            </div>
+            <div class="field-group">
+              <label class="field-label">ACH Reject Fee ($)</label>
+              <input type="number" step="0.01" id="fee_ach_reject" class="form-control" value="25.00">
+            </div>
+            <div class="field-group">
+              <label class="field-label">Early Termination Fee ($)</label>
+              <input type="number" step="0.01" id="fee_etf" class="form-control" value="0.00">
+            </div>
+          </div>
+
+          <!-- Equipment & Hardware Selected -->
+          <div style="margin-top: 24px;">
+            <label class="field-label" style="font-size: 0.95rem; margin-bottom: 8px;">
+              Equipment & Soluciones de Aceptación
+              <span class="field-hint">*(This will be specified in detail using the setup form)</span>
+            </label>
+            <div class="options-grid">
+              <label class="option-card">
+                <input type="checkbox" id="eq_terminal" checked>
+                <span class="option-label"><i class="fa-solid fa-calculator" style="color: var(--accent); margin-right: 6px;"></i> Terminal</span>
+              </label>
+              <label class="option-card">
+                <input type="checkbox" id="eq_pos">
+                <span class="option-label"><i class="fa-solid fa-tablet-screen-button" style="color: var(--accent); margin-right: 6px;"></i> POS System</span>
+              </label>
+              <label class="option-card">
+                <input type="checkbox" id="eq_gateway" checked>
+                <span class="option-label"><i class="fa-solid fa-network-wired" style="color: var(--accent); margin-right: 6px;"></i> Gateway</span>
+              </label>
+              <label class="option-card">
+                <input type="checkbox" id="eq_recurring">
+                <span class="option-label"><i class="fa-solid fa-repeat" style="color: var(--accent); margin-right: 6px;"></i> Recurring Billing</span>
+              </label>
+              <label class="option-card">
+                <input type="checkbox" id="eq_invoicing" checked>
+                <span class="option-label"><i class="fa-solid fa-file-invoice" style="color: var(--accent); margin-right: 6px;"></i> Invoicing</span>
+              </label>
+              <label class="option-card">
+                <input type="checkbox" id="eq_ach">
+                <span class="option-label"><i class="fa-solid fa-money-bill-transfer" style="color: var(--accent); margin-right: 6px;"></i> ACH Processing</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="wizard-footer">
+          <button type="button" class="btn btn-secondary" onclick="goToStep(4)">
+            <i class="fa-solid fa-arrow-left"></i> Anterior: Documentos
+          </button>
+          <button type="button" class="btn btn-primary" onclick="goToStep(6)">
+            Siguiente: Revisión Final <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </section>
+
+      <!-- STEP 6: EXECUTIVE REVIEW & SUBMISSION -->
+      <section class="form-card step-panel" id="step-panel-6" style="display: none;">
+        <div class="section-header">
+          <h2 class="section-title">
+            <i class="fa-solid fa-clipboard-check"></i> Executive Review & Submit Pre-Application
+          </h2>
+          <span class="section-tag" style="background: var(--success-light); color: #065f46;">VERIFICACIÓN FINAL</span>
+        </div>
+
+        <div style="background: #fff; border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 28px; margin-bottom: 24px;">
+          <h3 style="font-family: var(--font-display); font-size: 1.25rem; color: var(--slate-900); margin-bottom: 16px;">
+            Resumen del Expediente Comercial
+          </h3>
+
+          <div class="grid-2" style="gap: 24px;">
+            <div>
+              <p style="font-size: 0.85rem; color: var(--slate-500); margin-bottom: 4px;">Comercio / Entidad Legal</p>
+              <h4 id="rev-legal-name" style="font-size: 1.15rem; color: var(--slate-900); margin-bottom: 2px;">Acme Solutions LLC</h4>
+              <p id="rev-dba" style="font-size: 0.9rem; color: var(--slate-600); margin-bottom: 8px;">DBA: Acme Store</p>
+              <p style="font-size: 0.85rem; color: var(--slate-600);">
+                <i class="fa-solid fa-location-dot" style="color: var(--accent); width: 16px;"></i> <span id="rev-address">Miami, FL</span>
+              </p>
+              <p style="font-size: 0.85rem; color: var(--slate-600);">
+                <i class="fa-solid fa-envelope" style="color: var(--accent); width: 16px;"></i> <span id="rev-email">contact@acme.com</span>
+              </p>
+              <p style="font-size: 0.85rem; color: var(--slate-600);">
+                <i class="fa-solid fa-id-card" style="color: var(--accent); width: 16px;"></i> EIN: <span id="rev-ein">12-3456789</span>
+              </p>
+            </div>
+
+            <div>
+              <p style="font-size: 0.85rem; color: var(--slate-500); margin-bottom: 4px;">Parámetros de Procesamiento</p>
+              <h4 id="rev-vol" style="font-size: 1.15rem; color: var(--accent); margin-bottom: 4px;">$50,000 / mes</h4>
+              <p style="font-size: 0.85rem; color: var(--slate-600); margin-bottom: 4px;">
+                Ticket Promedio: <strong id="rev-avg">$65.00</strong> · Ticket Alto: <strong id="rev-high">$350.00</strong>
+              </p>
+              <p style="font-size: 0.85rem; color: var(--slate-600); margin-bottom: 4px;">
+                Canal Principal: <strong id="rev-channels">70% Swiped · 10% eCommerce</strong>
+              </p>
+              <p style="font-size: 0.85rem; color: var(--slate-600);">
+                Modelo de Tarifas: <strong id="rev-model">Interchange +</strong>
+              </p>
+            </div>
+          </div>
+
+          <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--slate-100); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+            <div style="font-size: 0.85rem; color: var(--slate-600);">
+              <i class="fa-solid fa-user-check" style="color: var(--success); margin-right: 6px;"></i>
+              Propietario Registrado: <strong id="rev-owner">Edward Jimenez</strong> (<span id="rev-title">Managing Member</span>)
+            </div>
+            <div style="font-size: 0.85rem; color: var(--slate-600);">
+              <i class="fa-solid fa-file-shield" style="color: var(--accent); margin-right: 6px;"></i>
+              Documentos Adjuntos: <strong id="rev-doc-count">5 / 5 verificados</strong>
+            </div>
+          </div>
+        </div>
+
+        <div style="background: var(--slate-50); border: 1px dashed var(--slate-300); border-radius: var(--radius-sm); padding: 18px; margin-bottom: 24px; text-align: center;">
+          <p style="font-size: 0.88rem; color: var(--slate-600); margin-bottom: 4px;">
+            <strong>Confirmación de Envío en Entorno de Prueba:</strong>
+          </p>
+          <p style="font-size: 0.82rem; color: var(--slate-500); max-width: 600px; margin: 0 auto;">
+            Al hacer clic en "Generar Pre-Aplicación", se simulará el procesamiento inmediato, se emitirá un número de folio oficial (ELV-XXXX) y se generará el resumen descargable e imprimible del expediente para el cliente.
+          </p>
+        </div>
+
+        <div class="wizard-footer">
+          <button type="button" class="btn btn-secondary" onclick="goToStep(5)">
+            <i class="fa-solid fa-arrow-left"></i> Anterior: Tarifas
+          </button>
+          <button type="submit" class="btn btn-success" style="font-size: 1rem; padding: 14px 36px;">
+            <i class="fa-solid fa-paper-plane"></i> Generar Pre-Aplicación de Prueba
+          </button>
+        </div>
+      </section>
+
+    </form>
+
+  </div>
+
+  <!-- Modal Confirmación de Pre-Aplicación -->
+  <div class="modal-backdrop" id="success-modal">
+    <div class="modal-box">
+      <div class="modal-icon-circle">
+        <i class="fa-solid fa-check"></i>
+      </div>
+      <h3 class="modal-title">¡Pre-Aplicación Generada con Éxito!</h3>
+      <p style="color: var(--slate-500); font-size: 0.95rem; margin-bottom: 12px;">
+        El expediente de onboarding para Elavon Xpress ha sido registrado satisfactoriamente.
+      </p>
+
+      <div>
+        <span class="modal-folio" id="modal-folio-display">FOLIO: ELV-2026-89421</span>
+      </div>
+
+      <table class="modal-summary-table">
+        <tbody>
+          <tr>
+            <td>Representante:</td>
+            <td id="m-rep">-</td>
+          </tr>
+          <tr>
+            <td>Legal Business Name:</td>
+            <td id="m-legal">-</td>
+          </tr>
+          <tr>
+            <td>DBA:</td>
+            <td id="m-dba">-</td>
+          </tr>
+          <tr>
+            <td>Tipo de Entidad:</td>
+            <td id="m-type">-</td>
+          </tr>
+          <tr>
+            <td>Volumen Mensual:</td>
+            <td id="m-vol">-</td>
+          </tr>
+          <tr>
+            <td>Modelo Tarifario:</td>
+            <td id="m-pricing">-</td>
+          </tr>
+          <tr>
+            <td>Documentos:</td>
+            <td id="m-docs">-</td>
+          </tr>
+          <tr>
+            <td>Fecha & Hora:</td>
+            <td id="m-timestamp">-</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 24px;">
+        <button type="button" class="btn btn-primary" onclick="window.print()">
+          <i class="fa-solid fa-print"></i> Imprimir / Guardar en PDF
+        </button>
+        <button type="button" class="btn btn-secondary" onclick="exportJSON()">
+          <i class="fa-solid fa-code"></i> Descargar Datos JSON
+        </button>
+        <button type="button" class="btn btn-secondary" onclick="closeModal()">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    let currentStep = 1;
+    let isFullMode = false;
+    let attachedDocs = {
+      biz_lic: false,
+      dl: false,
+      check: false,
+      proc: false,
+      bank: false
+    };
+
+    // Toggle Mailing Address
+    function toggleMailingAddress(show) {
+      document.getElementById('mailing_address_block').style.display = show ? 'block' : 'none';
+    }
+
+    // Toggle SSN Mask
+    function toggleSSNMask() {
+      const input = document.getElementById('owner_ssn');
+      const icon = document.getElementById('ssn-eye-icon');
+      const text = document.getElementById('ssn-toggle-text');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'fa-solid fa-eye-slash';
+        text.innerText = 'Ocultar';
+      } else {
+        input.type = 'password';
+        icon.className = 'fa-solid fa-eye';
+        text.innerText = 'Mostrar';
+      }
+    }
+
+    // Toggle View Mode
+    function switchViewMode(mode) {
+      isFullMode = (mode === 'full');
+      document.getElementById('btn-mode-wizard').classList.toggle('active', !isFullMode);
+      document.getElementById('btn-mode-full').classList.toggle('active', isFullMode);
+      document.getElementById('stepper-nav').style.display = isFullMode ? 'none' : 'flex';
+
+      const panels = document.querySelectorAll('.step-panel');
+      panels.forEach((p, idx) => {
+        if (isFullMode) {
+          p.style.display = 'block';
+        } else {
+          p.style.display = (idx + 1 === currentStep) ? 'block' : 'none';
+        }
+      });
+
+      // Update footers in full mode
+      const footers = document.querySelectorAll('.wizard-footer');
+      footers.forEach(f => {
+        f.style.display = isFullMode ? 'none' : 'flex';
+      });
+
+      if (isFullMode) {
+        document.querySelector('#step-panel-6 .wizard-footer').style.display = 'flex';
+      }
+    }
+
+    // Wizard Navigation
+    function goToStep(step) {
+      if (isFullMode) return;
+      currentStep = step;
+
+      // Update stepper nav
+      for (let i = 1; i <= 6; i++) {
+        const item = document.getElementById(`step-btn-${i}`);
+        const panel = document.getElementById(`step-panel-${i}`);
+        if (item) {
+          item.classList.toggle('active', i === step);
+          item.classList.toggle('completed', i < step);
+        }
+        if (panel) {
+          panel.style.display = (i === step) ? 'block' : 'none';
+        }
+      }
+
+      if (step === 6) {
+        populateReview();
+      }
+
+      window.scrollTo({ top: 180, behavior: 'smooth' });
+    }
+
+    // KPI & Volume Dynamic Calculations
+    function updateKpiVol() {
+      const vol = parseFloat(document.getElementById('monthly_volume').value) || 0;
+      const avg = parseFloat(document.getElementById('avg_ticket').value) || 1;
+      const high = parseFloat(document.getElementById('high_ticket').value) || 0;
+
+      document.getElementById('kpi-monthly-vol').innerText = `$${vol.toLocaleString('en-US')}`;
+      document.getElementById('kpi-avg-ticket').innerText = `$${avg.toFixed(2)}`;
+      document.getElementById('kpi-high-ticket').innerText = `$${high.toFixed(2)}`;
+
+      const estTx = Math.round(vol / avg);
+      document.getElementById('kpi-est-tx').innerText = `~${estTx.toLocaleString('en-US')} tx`;
+    }
+
+    // Percentage Breakdown
+    function updatePctMetrics() {
+      const swiped = parseFloat(document.getElementById('pct_swiped').value) || 0;
+      const keyed = parseFloat(document.getElementById('pct_keyed').value) || 0;
+      const moto = parseFloat(document.getElementById('pct_moto').value) || 0;
+      const internet = parseFloat(document.getElementById('pct_internet').value) || 0;
+
+      const total = swiped + keyed + moto + internet;
+
+      // Update bar widths
+      document.getElementById('bar-swiped').style.width = `${swiped}%`;
+      document.getElementById('bar-keyed').style.width = `${keyed}%`;
+      document.getElementById('bar-moto').style.width = `${moto}%`;
+      document.getElementById('bar-internet').style.width = `${internet}%`;
+
+      document.getElementById('txt-swiped').innerText = `${swiped}%`;
+      document.getElementById('txt-keyed').innerText = `${keyed}%`;
+      document.getElementById('txt-moto').innerText = `${moto}%`;
+      document.getElementById('txt-internet').innerText = `${internet}%`;
+
+      const badge = document.getElementById('pct-total-badge');
+      if (Math.round(total) === 100) {
+        badge.style.background = '#ecfdf5';
+        badge.style.color = '#065f46';
+        badge.innerText = `Total: 100% ✓`;
+      } else {
+        badge.style.background = '#fef2f2';
+        badge.style.color = '#991b1b';
+        badge.innerText = `Total: ${total}% (Ajustar a 100%) ⚠️`;
+      }
+    }
+
+    // Simulate Document Upload
+    function simulateUpload(key, zoneId, badgeId) {
+      const zone = document.getElementById(zoneId);
+      const badge = document.getElementById(badgeId);
+
+      attachedDocs[key] = !attachedDocs[key];
+
+      if (attachedDocs[key]) {
+        zone.classList.add('has-file');
+        badge.innerHTML = `<i class="fa-solid fa-check"></i> Documento Cargado ✓`;
+      } else {
+        zone.classList.remove('has-file');
+        badge.innerHTML = `<i class="fa-solid fa-arrow-up-from-bracket"></i> Adjuntar Archivo`;
+      }
+    }
+
+    // Populate Review Panel
+    function populateReview() {
+      document.getElementById('rev-legal-name').innerText = document.getElementById('legal_name').value || 'Nombre de Empresa no especificado';
+      document.getElementById('rev-dba').innerText = 'DBA: ' + (document.getElementById('dba').value || document.getElementById('legal_name').value || 'Mismo');
+      document.getElementById('rev-address').innerText = `${document.getElementById('biz_city').value || 'Miami'}, ${document.getElementById('biz_state').value || 'FL'}`;
+      document.getElementById('rev-email').innerText = document.getElementById('biz_email').value || 'No especificado';
+      document.getElementById('rev-ein').innerText = document.getElementById('biz_ein').value || 'No especificado';
+
+      const vol = parseFloat(document.getElementById('monthly_volume').value) || 0;
+      document.getElementById('rev-vol').innerText = `$${vol.toLocaleString('en-US')} / mes`;
+      document.getElementById('rev-avg').innerText = `$${(parseFloat(document.getElementById('avg_ticket').value) || 0).toFixed(2)}`;
+      document.getElementById('rev-high').innerText = `$${(parseFloat(document.getElementById('high_ticket').value) || 0).toFixed(2)}`;
+
+      const sw = document.getElementById('pct_swiped').value;
+      const net = document.getElementById('pct_internet').value;
+      document.getElementById('rev-channels').innerText = `${sw}% Swiped · ${net}% eCommerce`;
+
+      const pricing = document.querySelector('input[name="pricing_model"]:checked');
+      document.getElementById('rev-model').innerText = pricing ? pricing.value : 'Interchange +';
+
+      document.getElementById('rev-owner').innerText = document.getElementById('principal_name').value || 'Propietario';
+      document.getElementById('rev-title').innerText = document.getElementById('principal_title').value || 'Owner';
+
+      const count = Object.values(attachedDocs).filter(Boolean).length;
+      document.getElementById('rev-doc-count').innerText = `${count} / 5 adjuntos`;
+    }
+
+    // Demo Autofill
+    function fillDemoData() {
+      document.getElementById('rep_name').value = 'Edward Jimenez';
+      document.getElementById('legal_name').value = 'South Florida Retailers LLC';
+      document.getElementById('dba').value = 'Miami Gourmet & Bistro';
+      document.getElementById('biz_address').value = '801 Brickell Ave, Suite 900';
+      document.getElementById('biz_city').value = 'Miami';
+      document.getElementById('biz_state').value = 'FL';
+      document.getElementById('biz_zip').value = '33131';
+      document.getElementById('biz_phone').value = '+1 (786) 557-3119';
+      document.getElementById('biz_email').value = 'edward@exmaglobal.com';
+      document.getElementById('biz_website').value = 'https://www.miamigourmetbistro.com';
+      document.getElementById('biz_ein').value = '65-8941029';
+
+      document.getElementById('pct_swiped').value = 75;
+      document.getElementById('pct_keyed').value = 10;
+      document.getElementById('pct_moto').value = 5;
+      document.getElementById('pct_internet').value = 10;
+      updatePctMetrics();
+
+      document.getElementById('products_sold').value = 'Restaurante gourmet, venta de vinos de autor y catering corporativo para eventos ejecutivos en el área metropolitana de Miami.';
+      document.getElementById('avg_ticket').value = '78.50';
+      document.getElementById('high_ticket').value = '450.00';
+      document.getElementById('monthly_volume').value = '85000';
+      updateKpiVol();
+
+      document.getElementById('principal_name').value = 'Edward Jimenez';
+      document.getElementById('principal_title').value = 'Managing Member';
+      document.getElementById('home_address').value = '1200 S Miami Ave, Apt 14B';
+      document.getElementById('home_city').value = 'Miami';
+      document.getElementById('home_state').value = 'FL';
+      document.getElementById('home_zip').value = '33130';
+      document.getElementById('owner_dob').value = '1988-06-15';
+      document.getElementById('owner_ssn').value = '123-45-6789';
+
+      // Simulate all documents uploaded
+      Object.keys(attachedDocs).forEach(k => {
+        attachedDocs[k] = true;
+      });
+      document.querySelectorAll('.doc-dropzone').forEach(z => z.classList.add('has-file'));
+      document.querySelectorAll('.doc-status-badge').forEach(b => b.innerHTML = `<i class="fa-solid fa-check"></i> Documento Cargado ✓`);
+
+      drawSampleSignature();
+
+      // Show toast
+      alert('✓ Datos de demostración de Elavon Xpress cargados con éxito.');
+    }
+
+    // Reset Form
+    function resetForm() {
+      if (confirm('¿Desea limpiar todos los campos del formulario?')) {
+        document.getElementById('elavon-preapp-form').reset();
+        Object.keys(attachedDocs).forEach(k => attachedDocs[k] = false);
+        document.querySelectorAll('.doc-dropzone').forEach(z => z.classList.remove('has-file'));
+        document.querySelectorAll('.doc-status-badge').forEach(b => b.innerHTML = `<i class="fa-solid fa-arrow-up-from-bracket"></i> Adjuntar Archivo`);
+        clearSignature();
+        updatePctMetrics();
+        updateKpiVol();
+        goToStep(1);
+      }
+    }
+
+    // Handle Submit
+    function handleSubmit() {
+      populateReview();
+
+      const folio = 'ELV-2026-' + Math.floor(10000 + Math.random() * 90000);
+      document.getElementById('modal-folio-display').innerText = `FOLIO OFICIAL: ${folio}`;
+
+      document.getElementById('m-rep').innerText = document.getElementById('rep_name').value || 'Edward Jimenez';
+      document.getElementById('m-legal').innerText = document.getElementById('legal_name').value || '-';
+      document.getElementById('m-dba').innerText = document.getElementById('dba').value || document.getElementById('legal_name').value;
+      const btype = document.querySelector('input[name="biz_type"]:checked');
+      document.getElementById('m-type').innerText = btype ? btype.value : 'LLC';
+      document.getElementById('m-vol').innerText = `$${(parseFloat(document.getElementById('monthly_volume').value) || 0).toLocaleString('en-US')} USD`;
+      const pmodel = document.querySelector('input[name="pricing_model"]:checked');
+      document.getElementById('m-pricing').innerText = pmodel ? pmodel.value : 'Interchange +';
+
+      const docCount = Object.values(attachedDocs).filter(Boolean).length;
+      document.getElementById('m-docs').innerText = `${docCount} / 5 documentos adjuntos`;
+      document.getElementById('m-timestamp').innerText = new Date().toLocaleString('es-US');
+
+      document.getElementById('success-modal').classList.add('open');
+    }
+
+    function closeModal() {
+      document.getElementById('success-modal').classList.remove('open');
+    }
+
+    // Export JSON
+    function exportJSON() {
+      const payload = {
+        folio: document.getElementById('modal-folio-display').innerText,
+        representative: document.getElementById('rep_name').value,
+        business: {
+          legalName: document.getElementById('legal_name').value,
+          dba: document.getElementById('dba').value,
+          type: (document.querySelector('input[name="biz_type"]:checked') || {}).value,
+          address: document.getElementById('biz_address').value,
+          city: document.getElementById('biz_city').value,
+          state: document.getElementById('biz_state').value,
+          zip: document.getElementById('biz_zip').value,
+          phone: document.getElementById('biz_phone').value,
+          email: document.getElementById('biz_email').value,
+          website: document.getElementById('biz_website').value,
+          ein: document.getElementById('biz_ein').value
+        },
+        processing: {
+          monthlyVolume: document.getElementById('monthly_volume').value,
+          avgTicket: document.getElementById('avg_ticket').value,
+          highTicket: document.getElementById('high_ticket').value,
+          productsSold: document.getElementById('products_sold').value,
+          breakdown: {
+            swiped: document.getElementById('pct_swiped').value,
+            keyed: document.getElementById('pct_keyed').value,
+            moto: document.getElementById('pct_moto').value,
+            internet: document.getElementById('pct_internet').value
+          }
+        },
+        principal: {
+          name: document.getElementById('principal_name').value,
+          title: document.getElementById('principal_title').value,
+          city: document.getElementById('home_city').value,
+          state: document.getElementById('home_state').value,
+          dob: document.getElementById('owner_dob').value
+        },
+        rates: {
+          pricingModel: (document.querySelector('input[name="pricing_model"]:checked') || {}).value,
+          qualCreditPct: document.getElementById('rate_credit_pct').value,
+          qualDebitPct: document.getElementById('rate_debit_pct').value,
+          qualAmexPct: document.getElementById('rate_amex_pct').value
+        },
+        documentsUploaded: attachedDocs,
+        timestamp: new Date().toISOString()
+      };
+
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `PreApp_${payload.business.legalName.replace(/\s+/g, '_') || 'ElavonXpress'}.json`;
+      a.click();
+    }
+
+    // Canvas Signature Handling
+    let canvas, ctx;
+    let isDrawing = false;
+
+    function initSignature() {
+      canvas = document.getElementById('sig-canvas');
+      if (!canvas) return;
+      ctx = canvas.getContext('2d');
+
+      // Adjust resolution
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * 2;
+      canvas.height = rect.height * 2;
+      ctx.scale(2, 2);
+      ctx.strokeStyle = '#0a192f';
+      ctx.lineWidth = 2.5;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+
+      // Mouse events
+      canvas.addEventListener('mousedown', startDrawing);
+      canvas.addEventListener('mousemove', draw);
+      canvas.addEventListener('mouseup', stopDrawing);
+      canvas.addEventListener('mouseleave', stopDrawing);
+
+      // Touch events
+      canvas.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        const touch = e.touches[0];
+        const mouseEvent = new MouseEvent('mousedown', {
+          clientX: touch.clientX,
+          clientY: touch.clientY
+        });
+        canvas.dispatchEvent(mouseEvent);
+      });
+
+      canvas.addEventListener('touchmove', (e) => {
+        e.preventDefault();
+        const touch = e.touches[0];
+        const mouseEvent = new MouseEvent('mousemove', {
+          clientX: touch.clientX,
+          clientY: touch.clientY
+        });
+        canvas.dispatchEvent(mouseEvent);
+      });
+
+      canvas.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        const mouseEvent = new MouseEvent('mouseup', {});
+        canvas.dispatchEvent(mouseEvent);
+      });
+    }
+
+    function getCanvasCoordinates(e) {
+      const rect = canvas.getBoundingClientRect();
+      return {
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top
+      };
+    }
+
+    function startDrawing(e) {
+      isDrawing = true;
+      const coords = getCanvasCoordinates(e);
+      ctx.beginPath();
+      ctx.moveTo(coords.x, coords.y);
+      document.getElementById('sig-status').innerHTML = '<i class="fa-solid fa-signature" style="color: var(--success);"></i> Firma Registrada';
+    }
+
+    function draw(e) {
+      if (!isDrawing) return;
+      const coords = getCanvasCoordinates(e);
+      ctx.lineTo(coords.x, coords.y);
+      ctx.stroke();
+    }
+
+    function stopDrawing() {
+      isDrawing = false;
+    }
+
+    function clearSignature() {
+      if (ctx && canvas) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        document.getElementById('sig-status').innerHTML = '<i class="fa-solid fa-pen-nib"></i> Pendiente de firma';
+      }
+    }
+
+    function drawSampleSignature() {
+      if (!ctx || !canvas) return;
+      clearSignature();
+      ctx.beginPath();
+      ctx.moveTo(40, 75);
+      ctx.bezierCurveTo(70, 30, 90, 110, 130, 65);
+      ctx.bezierCurveTo(150, 45, 170, 95, 210, 70);
+      ctx.stroke();
+      document.getElementById('sig-status').innerHTML = '<i class="fa-solid fa-signature" style="color: var(--success);"></i> Firma Registrada';
+    }
+
+    window.addEventListener('load', () => {
+      initSignature();
+      updatePctMetrics();
+      updateKpiVol();
+    });
+
+    window.addEventListener('resize', () => {
+      // Re-init canvas size on resize
+      initSignature();
+    });
+  </script>
+</body>
+</html>
