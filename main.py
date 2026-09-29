@@ -1270,6 +1270,15 @@ async def read_politica_privacidad(request: Request):
 async def read_terminos_servicio(request: Request):
     return templates.TemplateResponse(request=request, name="terminos-servicio.html")
 
+@app.get("/exmamiami", response_class=HTMLResponse)
+@app.head("/exmamiami")
+@app.get("/exmamiami/", response_class=HTMLResponse)
+@app.head("/exmamiami/")
+@app.get("/exmamiami.html", response_class=HTMLResponse)
+@app.head("/exmamiami.html")
+async def read_exmamiami(request: Request):
+    return templates.TemplateResponse(request=request, name="exmamiami.html")
+
 # ─── TECHNICAL SEO ENDPOINTS ────────────────────────────────────────────────
 from fastapi.responses import PlainTextResponse
 
