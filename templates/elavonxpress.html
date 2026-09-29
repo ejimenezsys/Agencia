@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Elavon Xpress Payment Systems — Pre-Application Form · Portal Comercial</title>
-  <meta name="description" content="Formulario digital oficial de pre-aplicación comercial de Elavon Xpress Payment Systems. Registro de comercios, procesamiento merchant y underwriting acelerado.">
+  <title>Harmony Payments Systems — Pre-Application Form · Portal Comercial Digital</title>
+  <meta name="description" content="Formulario digital oficial de pre-aplicación comercial de Harmony Payments Systems. Onboarding merchant ágil, 100% digital, seguro y sin uso de papel.">
   <link rel="icon" type="image/png" href="/static/favicon.png">
 
   <!-- Google Fonts: Plus Jakarta Sans & Outfit -->
@@ -1012,18 +1012,15 @@
   <!-- Top Prototype Control Bar -->
   <div class="prototype-banner">
     <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
-      <span class="proto-badge"><i class="fa-solid fa-flask"></i> Entorno de Prueba</span>
-      <span style="font-size: 0.82rem; color: #cbd5e1;">Demostración interactiva de Pre-Aplicación · Sin conexión a base de datos</span>
+      <span class="proto-badge"><i class="fa-solid fa-leaf"></i> 100% Digital · Sin Papel</span>
+      <span style="font-size: 0.82rem; color: #cbd5e1;">Harmony Payments Systems · Portal Digital Merchant</span>
     </div>
     <div class="proto-actions">
       <button class="proto-btn primary-demo" onclick="fillDemoData()" title="Llenar con datos reales de prueba">
         <i class="fa-solid fa-wand-magic-sparkles"></i> Auto-completar Demo
       </button>
-      <a href="/static/elavonxpress/Elavon_Xpress_Pre_Application_Form.pdf" download class="proto-btn" title="Descargar documento PDF original en blanco">
-        <i class="fa-solid fa-file-pdf"></i> PDF Original
-      </a>
       <button class="proto-btn" onclick="resetForm()" title="Limpiar todos los campos">
-        <i class="fa-solid fa-arrow-rotate-left"></i> Limpiar
+        <i class="fa-solid fa-arrow-rotate-left"></i> Limpiar Formulario
       </button>
     </div>
   </div>
@@ -1034,10 +1031,10 @@
     <header class="header-card">
       <div class="header-top">
         <div class="logo-container">
-          <img src="/static/elavonxpress/logo.png" alt="Elavon Xpress Payment Systems" class="brand-logo-img">
+          <img src="/static/elavonxpress/logo.png" alt="Harmony Payments Systems" class="brand-logo-img" id="company-logo-img">
           <div class="brand-text-block">
             <h1>Pre-Application Form</h1>
-            <p>Merchant Acquiring & Payment Systems Onboarding</p>
+            <p>Harmony Payments Systems · Merchant Acquiring & Onboarding</p>
           </div>
         </div>
 
@@ -1127,7 +1124,7 @@
     </nav>
 
     <!-- Main Form Element -->
-    <form id="elavon-preapp-form" onsubmit="event.preventDefault(); handleSubmit();">
+    <form id="harmony-preapp-form" onsubmit="event.preventDefault(); handleSubmit();">
 
       <!-- STEP 1: BUSINESS INFORMATION -->
       <section class="form-card step-panel" id="step-panel-1">
@@ -1848,11 +1845,11 @@
       </div>
       <h3 class="modal-title">¡Pre-Aplicación Generada con Éxito!</h3>
       <p style="color: var(--slate-500); font-size: 0.95rem; margin-bottom: 12px;">
-        El expediente de onboarding para Elavon Xpress ha sido registrado satisfactoriamente.
+        El expediente digital de onboarding para Harmony Payments Systems ha sido registrado satisfactoriamente.
       </p>
 
       <div>
-        <span class="modal-folio" id="modal-folio-display">FOLIO: ELV-2026-89421</span>
+        <span class="modal-folio" id="modal-folio-display">FOLIO: HPS-2026-89421</span>
       </div>
 
       <table class="modal-summary-table">
@@ -2125,13 +2122,13 @@
       drawSampleSignature();
 
       // Show toast
-      alert('✓ Datos de demostración de Elavon Xpress cargados con éxito.');
+      alert('✓ Datos de demostración de Harmony Payments Systems cargados con éxito.');
     }
 
     // Reset Form
     function resetForm() {
       if (confirm('¿Desea limpiar todos los campos del formulario?')) {
-        document.getElementById('elavon-preapp-form').reset();
+        document.getElementById('harmony-preapp-form').reset();
         Object.keys(attachedDocs).forEach(k => attachedDocs[k] = false);
         document.querySelectorAll('.doc-dropzone').forEach(z => z.classList.remove('has-file'));
         document.querySelectorAll('.doc-status-badge').forEach(b => b.innerHTML = `<i class="fa-solid fa-arrow-up-from-bracket"></i> Adjuntar Archivo`);
@@ -2146,7 +2143,7 @@
     function handleSubmit() {
       populateReview();
 
-      const folio = 'ELV-2026-' + Math.floor(10000 + Math.random() * 90000);
+      const folio = 'HPS-2026-' + Math.floor(10000 + Math.random() * 90000);
       document.getElementById('modal-folio-display').innerText = `FOLIO OFICIAL: ${folio}`;
 
       document.getElementById('m-rep').innerText = document.getElementById('rep_name').value || 'Edward Jimenez';
@@ -2219,7 +2216,7 @@
       const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
-      a.download = `PreApp_${payload.business.legalName.replace(/\s+/g, '_') || 'ElavonXpress'}.json`;
+      a.download = `PreApp_${payload.business.legalName.replace(/\s+/g, '_') || 'HarmonyPayments'}.json`;
       a.click();
     }
 
