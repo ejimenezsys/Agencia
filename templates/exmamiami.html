@@ -1168,6 +1168,24 @@
           
           <img src="{{ static_versioned('exmamiami/deck/page_01.webp') }}" id="active-slide-img" class="slide-image" alt="EXMA Miami 2026 Lámina">
           
+          <!-- Slide 14 Interactive Contact Overlay -->
+          <div id="slide14-overlay" style="display: none; position: absolute; bottom: 8.8%; left: 2.2%; width: 81.8%; height: 9.2%; border-radius: 12px; z-index: 15; align-items: center; justify-content: space-around; background: #06070d; border: 1px solid rgba(255, 0, 127, 0.85); box-shadow: 0 0 25px rgba(255, 0, 127, 0.4); padding: 0 16px;">
+            <a href="mailto:edward@exmaglobal.com?subject=Inter%C3%A9s%20Patrocinio%20EXMA%20Miami%202026" style="display: inline-flex; align-items: center; gap: 8px; color: #fff; text-decoration: none; font-size: clamp(0.72rem, 1.25vw, 1.15rem); font-weight: 500;">
+              <i class="fa-solid fa-envelope" style="color: #ff007f;"></i>
+              <span>edward@exmaglobal.com</span>
+            </a>
+            <span style="color: #ff007f; font-weight: bold;">•</span>
+            <a href="https://wa.me/17865573119?text=Hola%20Edward,%20estoy%20viendo%20la%20propuesta%20de%20EXMA%20Miami%202026%20en%20ProsperIA%20y%20me%20gustaria%20conocer%20disponibilidad%20de%20patrocinio." target="_blank" style="display: inline-flex; align-items: center; gap: 8px; color: #fff; text-decoration: none; font-size: clamp(0.72rem, 1.25vw, 1.15rem); font-weight: 500;">
+              <i class="fa-solid fa-phone" style="color: #ff007f;"></i>
+              <span>+1 (786) 557-3119</span>
+            </a>
+            <span style="color: #ff007f; font-weight: bold;">•</span>
+            <a href="https://www.exmaglobal.com/miami" target="_blank" style="display: inline-flex; align-items: center; gap: 8px; color: #fff; text-decoration: none; font-size: clamp(0.72rem, 1.25vw, 1.15rem); font-weight: 500;">
+              <i class="fa-solid fa-globe" style="color: #ff007f;"></i>
+              <span>www.exmaglobal.com/miami</span>
+            </a>
+          </div>
+
           <button class="stage-arrow next" onclick="nextSlide()" aria-label="Siguiente lámina">
             <i class="fa-solid fa-chevron-right"></i>
           </button>
@@ -1558,9 +1576,19 @@
       renderContinuousView();
     }
 
+    const CACHE_VERSION = 'v_' + Date.now();
+
+    function getSlidePath(docKey, pageNum) {
+      const doc = DOCS_DATA[docKey];
+      if (docKey === 'deck' && pageNum === 14) {
+        return `/static/exmamiami/deck/page_14_edward.webp?v=${CACHE_VERSION}`;
+      }
+      return `${doc.basePath}${pad2(pageNum)}.webp?v=${CACHE_VERSION}`;
+    }
+
     function renderSlide() {
       const doc = DOCS_DATA[currentDoc];
-      const imgPath = `${doc.basePath}${pad2(currentSlide)}.webp`;
+      const imgPath = getSlidePath(currentDoc, currentSlide);
       const imgElem = document.getElementById('active-slide-img');
       
       // Smooth fade
@@ -1569,6 +1597,12 @@
         imgElem.src = imgPath;
         imgElem.style.opacity = '1';
       }, 100);
+
+      // Slide 14 overlay toggle
+      const overlay14 = document.getElementById('slide14-overlay');
+      if (overlay14) {
+        overlay14.style.display = (currentDoc === 'deck' && currentSlide === 14) ? 'flex' : 'none';
+      }
 
       document.getElementById('current-slide-num').innerText = pad2(currentSlide);
       document.getElementById('total-slide-num').innerText = pad2(doc.pages);
@@ -1605,7 +1639,7 @@
         thumb.onclick = () => goToSlide(i);
 
         const img = document.createElement('img');
-        img.src = `${doc.basePath}${pad2(i)}.webp`;
+        img.src = getSlidePath(currentDoc, i);
         img.alt = `Lámina ${i}`;
         img.loading = 'lazy';
 
@@ -1627,18 +1661,43 @@
       for (let i = 1; i <= doc.pages; i++) {
         const item = document.createElement('div');
         item.className = 'continuous-item';
+        item.style.position = 'relative';
 
         const badge = document.createElement('div');
         badge.className = 'continuous-badge';
         badge.innerText = `${doc.title} — Lámina ${pad2(i)} / ${pad2(doc.pages)}`;
 
         const img = document.createElement('img');
-        img.src = `${doc.basePath}${pad2(i)}.webp`;
+        img.src = getSlidePath(currentDoc, i);
         img.alt = `${doc.title} Lámina ${i}`;
         img.loading = 'lazy';
 
         item.appendChild(badge);
         item.appendChild(img);
+
+        // If continuous view is on slide 14, attach interactive contact overlay as well
+        if (currentDoc === 'deck' && i === 14) {
+          const contOverlay = document.createElement('div');
+          contOverlay.style.cssText = 'position: absolute; bottom: 8.8%; left: 2.2%; width: 81.8%; height: 9.2%; border-radius: 12px; z-index: 10; display: flex; align-items: center; justify-content: space-around; background: #06070d; border: 1px solid rgba(255, 0, 127, 0.85); box-shadow: 0 0 25px rgba(255, 0, 127, 0.4); padding: 0 16px;';
+          contOverlay.innerHTML = `
+            <a href="mailto:edward@exmaglobal.com?subject=Inter%C3%A9s%20Patrocinio%20EXMA%20Miami%202026" style="display: inline-flex; align-items: center; gap: 8px; color: #fff; text-decoration: none; font-size: clamp(0.72rem, 1.25vw, 1.15rem); font-weight: 500;">
+              <i class="fa-solid fa-envelope" style="color: #ff007f;"></i>
+              <span>edward@exmaglobal.com</span>
+            </a>
+            <span style="color: #ff007f; font-weight: bold;">•</span>
+            <a href="https://wa.me/17865573119?text=Hola%20Edward,%20estoy%20viendo%20la%20propuesta%20de%20EXMA%20Miami%202026%20en%20ProsperIA%20y%20me%20gustaria%20conocer%20disponibilidad%20de%20patrocinio." target="_blank" style="display: inline-flex; align-items: center; gap: 8px; color: #fff; text-decoration: none; font-size: clamp(0.72rem, 1.25vw, 1.15rem); font-weight: 500;">
+              <i class="fa-solid fa-phone" style="color: #ff007f;"></i>
+              <span>+1 (786) 557-3119</span>
+            </a>
+            <span style="color: #ff007f; font-weight: bold;">•</span>
+            <a href="https://www.exmaglobal.com/miami" target="_blank" style="display: inline-flex; align-items: center; gap: 8px; color: #fff; text-decoration: none; font-size: clamp(0.72rem, 1.25vw, 1.15rem); font-weight: 500;">
+              <i class="fa-solid fa-globe" style="color: #ff007f;"></i>
+              <span>www.exmaglobal.com/miami</span>
+            </a>
+          `;
+          item.appendChild(contOverlay);
+        }
+
         container.appendChild(item);
       }
     }
