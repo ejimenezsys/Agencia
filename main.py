@@ -1305,17 +1305,14 @@ CODIGOS_DATA = get_codigos_data()
 @app.get("/codigos.html", response_class=HTMLResponse)
 @app.head("/codigos.html")
 async def read_codigos(request: Request):
+    static_html = os.path.join(os.path.dirname(__file__), "static", "codigos", "index.html")
+    if os.path.exists(static_html):
+        with open(static_html, "r", encoding="utf-8") as f:
+            return HTMLResponse(content=f.read())
     global CODIGOS_DATA
     if not CODIGOS_DATA:
         CODIGOS_DATA = get_codigos_data()
-    try:
-        return templates.TemplateResponse(request=request, name="codigos.html", context={"categories": CODIGOS_DATA})
-    except Exception:
-        static_html = os.path.join(os.path.dirname(__file__), "static", "codigos", "index.html")
-        if os.path.exists(static_html):
-            with open(static_html, "r", encoding="utf-8") as f:
-                return HTMLResponse(content=f.read())
-        raise
+    return templates.TemplateResponse(request=request, name="codigos.html", context={"categories": CODIGOS_DATA})
 
 
 
