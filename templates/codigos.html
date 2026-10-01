@@ -260,6 +260,117 @@
       }
     }
 
+    /* Quiz Gamification & High-Contrast Visual Styling */
+    .quiz-card-wrapper {
+      background: linear-gradient(145deg, rgba(8, 16, 32, 0.96) 0%, rgba(3, 7, 18, 0.98) 100%);
+      border: 2px solid rgba(0, 229, 255, 0.35);
+      border-radius: 28px;
+      box-shadow: 0 0 50px rgba(0, 229, 255, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      position: relative;
+      overflow: hidden;
+    }
+    .quiz-opt-btn {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 16px 18px;
+      border-radius: 16px;
+      background: rgba(10, 19, 36, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+      width: 100%;
+      position: relative;
+    }
+    .quiz-opt-btn:hover {
+      background: rgba(14, 28, 54, 0.95);
+      border-color: rgba(0, 229, 255, 0.5);
+      transform: translateX(4px);
+      box-shadow: 0 4px 20px rgba(0, 229, 255, 0.18);
+    }
+    .quiz-opt-btn.selected {
+      background: linear-gradient(135deg, rgba(0, 229, 255, 0.2) 0%, rgba(99, 102, 241, 0.2) 100%) !important;
+      border-color: #00e5ff !important;
+      box-shadow: 0 0 25px rgba(0, 229, 255, 0.35) !important;
+      transform: scale(1.01) !important;
+    }
+    .quiz-letter-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 13px;
+      font-family: ui-monospace, monospace;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #94a3b8;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+    .quiz-opt-btn:hover .quiz-letter-badge {
+      border-color: #00e5ff;
+      color: #00e5ff;
+      background: rgba(0, 229, 255, 0.12);
+    }
+    .quiz-opt-btn.selected .quiz-letter-badge {
+      background: #00e5ff;
+      color: #020710;
+      border-color: #00e5ff;
+      box-shadow: 0 0 12px rgba(0, 229, 255, 0.6);
+    }
+    .quiz-step-pill {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 12px;
+      font-family: ui-monospace, monospace;
+      background: #070e1b;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #64748b;
+      transition: all 0.3s ease;
+    }
+    .quiz-step-pill.completed {
+      background: rgba(16, 185, 129, 0.25);
+      border-color: #10b981;
+      color: #34d399;
+    }
+    .quiz-step-pill.active {
+      background: #00e5ff;
+      color: #020710;
+      border-color: #00e5ff;
+      box-shadow: 0 0 15px rgba(0, 229, 255, 0.6);
+      transform: scale(1.12);
+    }
+    .quiz-step-line {
+      flex: 1;
+      height: 2px;
+      background: rgba(255, 255, 255, 0.1);
+      transition: background 0.3s ease;
+    }
+    .quiz-step-line.completed {
+      background: linear-gradient(90deg, #10b981, #00e5ff);
+    }
+    .quiz-result-icon {
+      width: 88px !important;
+      height: 88px !important;
+      max-width: 88px !important;
+      border-radius: 1.5rem !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      margin: 0 auto 1.25rem auto !important;
+      font-size: 2.5rem !important;
+      transition: transform 0.3s ease;
+    }
+
     /* Scrollbar hide utility */
     .no-scrollbar::-webkit-scrollbar {
       display: none;
@@ -12113,121 +12224,193 @@ Lighting & Environment: Wind violently ripples the jacket and hair. Lens flare c
   <!-- ════════════════════════════════════════════════════
        BLOQUE 6: TEST INTERACTIVO DE CONOCIMIENTO EN IA
        ════════════════════════════════════════════════════ -->
-  <section id="test-ia" class="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto relative z-10 scroll-mt-24">
-    <div class="glass-panel p-6 sm:p-10 rounded-3xl border-cyan-500/30 text-center relative overflow-hidden bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 shadow-2xl">
-      
-      <div class="max-w-2xl mx-auto mb-6">
-        <span class="px-3.5 py-1 rounded-full text-xs font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/40 uppercase tracking-wider mb-3 inline-block">
-          <i class="fas fa-brain mr-1"></i> Diagnóstico Interactivo en 5 Preguntas
-        </span>
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-white mb-2">
-          ¿Cuál es tu Nivel Real de Conocimiento en IA?
+  <section id="test-ia" class="py-12 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto relative z-10 scroll-mt-24">
+    <div class="glass-panel p-6 sm:p-12 rounded-3xl border-2 border-cyan-500/35 text-center relative overflow-hidden bg-gradient-to-b from-slate-950 via-[#060f24] to-slate-950 shadow-[0_0_60px_rgba(0,229,255,0.14)]">
+      <div class="absolute -top-32 -right-32 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-32 -left-32 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <!-- Header with Badges & Value Proposition -->
+      <div class="max-w-3xl mx-auto mb-8 relative z-10">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold bg-gradient-to-r from-cyan-950 to-indigo-950 text-cyan-300 border border-cyan-400/40 uppercase tracking-wider mb-4 shadow-[0_0_20px_rgba(0,229,255,0.2)]">
+          <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+          <span>⚡ Test Interactivo en 5 Escenarios • Diagnóstico en 45 Segundos</span>
+        </div>
+        <h2 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight mb-3">
+          ¿En qué Nivel de Dominio de IA te Encuentras Realmente?
         </h2>
-        <p class="text-slate-300 text-xs sm:text-sm">
-          Descubre si eres <strong>Novato</strong>, <strong>Intermedio</strong> o <strong>Avanzado</strong> en menos de 1 minuto respondiendo estas 5 preguntas prácticas.
+        <p class="text-slate-300 text-xs sm:text-base leading-relaxed max-w-2xl mx-auto font-light">
+          Evalúa tu destreza frente a 5 escenarios reales de <strong>Prompt Engineering</strong>, <strong>Dirección Visual Cinematográfica</strong> y <strong>Automatización Comercial</strong>. Descubre tu rango y tu plan de crecimiento personalizado.
         </p>
+
+        <!-- 3 Feature Chips -->
+        <div class="flex items-center justify-center gap-3 sm:gap-6 mt-5 text-[11px] sm:text-xs text-slate-300 font-mono flex-wrap">
+          <span class="flex items-center gap-1.5"><i class="fas fa-check-circle text-emerald-400"></i> 5 Casos Prácticos</span>
+          <span class="flex items-center gap-1.5"><i class="fas fa-check-circle text-cyan-400"></i> Diagnóstico Inmediato</span>
+          <span class="flex items-center gap-1.5"><i class="fas fa-check-circle text-indigo-400"></i> Desglose por Áreas</span>
+        </div>
       </div>
 
       <!-- Quiz Interactive Card Container -->
-      <div id="quiz-container" class="max-w-xl mx-auto text-left">
+      <div id="quiz-container" class="max-w-2xl mx-auto text-left relative z-10">
         
+        <!-- Step Pills Indicator -->
+        <div class="flex items-center justify-between gap-1 sm:gap-2 mb-4 max-w-xs sm:max-w-sm mx-auto" id="quiz-pills-row">
+          <div class="quiz-step-pill active" id="pill-0">1</div>
+          <div class="quiz-step-line" id="line-0"></div>
+          <div class="quiz-step-pill" id="pill-1">2</div>
+          <div class="quiz-step-line" id="line-1"></div>
+          <div class="quiz-step-pill" id="pill-2">3</div>
+          <div class="quiz-step-line" id="line-2"></div>
+          <div class="quiz-step-pill" id="pill-3">4</div>
+          <div class="quiz-step-line" id="line-3"></div>
+          <div class="quiz-step-pill" id="pill-4">5</div>
+        </div>
+
         <!-- Progress bar and step indicator -->
         <div class="mb-6">
-          <div class="flex items-center justify-between text-xs text-slate-400 font-mono mb-2">
-            <span>Progreso del Test</span>
-            <span>Pregunta <strong id="quiz-step-text" class="text-cyan-400">1</strong> de 5</span>
+          <div class="flex items-center justify-between text-xs text-slate-300 font-mono mb-2">
+            <span class="flex items-center gap-1.5"><i class="fas fa-bolt text-cyan-400"></i> Progreso: <strong id="quiz-percent-text" class="text-cyan-400">20%</strong></span>
+            <span>Escenario <strong id="quiz-step-text" class="text-cyan-400 font-bold">1</strong> de 5</span>
           </div>
-          <div class="w-full bg-slate-900 rounded-full h-2 overflow-hidden border border-slate-800">
-            <div id="quiz-progress-bar" class="bg-gradient-to-r from-cyan-400 to-indigo-500 h-full rounded-full transition-all duration-300" style="width: 20%;"></div>
+          <div class="w-full bg-slate-900/90 rounded-full h-2.5 overflow-hidden border border-slate-700/80 p-0.5">
+            <div id="quiz-progress-bar" class="bg-gradient-to-r from-cyan-400 via-sky-400 to-indigo-500 h-full rounded-full transition-all duration-300 shadow-[0_0_12px_rgba(0,229,255,0.5)]" style="width: 20%;"></div>
           </div>
         </div>
 
         <!-- Question Box -->
-        <div class="p-5 sm:p-6 rounded-2xl bg-slate-950/80 border border-slate-800 mb-6 min-h-[220px] flex flex-col justify-between" id="question-box">
-          <div>
-            <span class="text-[11px] font-mono font-bold text-cyan-400 uppercase tracking-wider block mb-2" id="quiz-category-tag">
-              FUNDAMENTOS DE PROMPTS
+        <div class="p-5 sm:p-8 rounded-3xl bg-slate-950/90 border border-cyan-500/25 mb-6 shadow-2xl relative" id="question-box">
+          <div class="flex items-center justify-between gap-2 mb-3 flex-wrap">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-[11px] font-mono font-bold text-cyan-300 bg-cyan-950/70 border border-cyan-500/30 uppercase tracking-wider" id="quiz-category-tag">
+              <i class="fas fa-terminal text-cyan-400 text-[10px]"></i> 01. PROMPT ENGINEERING
             </span>
-            <h3 class="text-base sm:text-lg font-bold text-white mb-4 leading-snug" id="quiz-question-title">
-              1. ¿Cómo utilizas actualmente ChatGPT o herramientas de IA en tu día a día?
-            </h3>
-            
-            <!-- Options list -->
-            <div class="space-y-2.5" id="quiz-options-container">
-              <!-- Dynamically injected options -->
-            </div>
+            <span class="text-[11px] text-slate-400 font-mono">Selecciona la opción más cercana a tu realidad</span>
+          </div>
+
+          <h3 class="text-base sm:text-xl font-bold text-white mb-5 leading-snug tracking-tight" id="quiz-question-title">
+            1. ¿Cómo le pides tareas complejas a ChatGPT, Claude o Gemini?
+          </h3>
+          
+          <!-- Options list (4 Cards with Letter Badges and descriptions) -->
+          <div class="space-y-3" id="quiz-options-container">
+            <!-- Dynamically injected options -->
           </div>
         </div>
 
         <!-- Navigation Buttons -->
-        <div class="flex items-center justify-between gap-4">
+        <div class="flex items-center justify-between gap-4 pt-1">
           <button 
             type="button" 
             id="quiz-btn-prev" 
             onclick="prevQuestion()" 
-            class="px-4 py-3 rounded-xl border border-slate-700 bg-slate-900/80 text-slate-300 text-xs font-semibold hover:border-slate-500 hover:text-white transition-all disabled:opacity-30 disabled:pointer-events-none flex items-center gap-2"
+            class="px-5 py-3 rounded-xl border border-slate-700 bg-slate-900 text-slate-300 text-xs font-semibold hover:border-slate-500 hover:text-white transition-all disabled:opacity-30 disabled:pointer-events-none flex items-center gap-2"
             disabled
           >
-            <i class="fas fa-arrow-left"></i> <span>Anterior</span>
+            <i class="fas fa-arrow-left"></i> <span>Pregunta Anterior</span>
           </button>
 
           <button 
             type="button" 
             id="quiz-btn-next" 
             onclick="nextQuestion()" 
-            class="px-5 py-3 rounded-xl font-bold text-xs bg-gradient-to-r from-cyan-400 to-sky-400 text-slate-950 hover:from-cyan-300 hover:to-sky-300 transition-all flex items-center gap-2 disabled:opacity-40 disabled:pointer-events-none shadow-[0_0_15px_rgba(0,229,255,0.25)]"
+            class="px-6 py-3 rounded-xl font-bold text-xs bg-gradient-to-r from-cyan-400 to-sky-400 text-slate-950 hover:from-cyan-300 hover:to-sky-300 transition-all flex items-center gap-2 disabled:opacity-40 disabled:pointer-events-none shadow-[0_0_20px_rgba(0,229,255,0.3)]"
             disabled
           >
-            <span>Siguiente</span> <i class="fas fa-arrow-right"></i>
+            <span>Siguiente Pregunta</span> <i class="fas fa-arrow-right"></i>
           </button>
         </div>
 
       </div>
 
       <!-- Result Screen (Hidden by default) -->
-      <div id="quiz-result" class="hidden max-w-xl mx-auto text-center py-6">
+      <div id="quiz-result" class="hidden max-w-2xl mx-auto text-center py-6 relative z-10">
         
-        <div class="w-20 h-20 rounded-full mx-auto mb-4 flex items-center justify-center text-3xl shadow-2xl" id="result-icon-container">
+        <div class="quiz-result-icon shadow-2xl border-2" id="result-icon-container">
           <!-- Icon injected by JS -->
         </div>
 
-        <span class="text-xs font-mono font-bold tracking-widest uppercase block mb-1 text-slate-400">Resultado Oficial</span>
-        <h3 class="text-2xl sm:text-3xl font-extrabold text-white mb-2" id="result-level-title">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-mono font-bold tracking-widest uppercase mb-3 bg-slate-900 border border-slate-700 text-slate-300">
+          <i class="fas fa-award text-amber-400"></i> DIAGNÓSTICO OFICIAL COMPLETADO
+        </div>
+
+        <h3 class="text-2xl sm:text-4xl font-extrabold text-white mb-2 tracking-tight" id="result-level-title">
           Nivel: Intermedio Práctico
         </h3>
 
-        <div class="inline-block px-3.5 py-1 rounded-full text-xs font-bold font-mono mb-4 border" id="result-badge">
-          Puntaje: 11 / 15 puntos
+        <div class="flex items-center justify-center gap-3 mb-6 flex-wrap">
+          <div class="px-4 py-1.5 rounded-full text-xs font-bold font-mono border" id="result-badge">
+            Puntaje: 14 / 20 puntos
+          </div>
+          <div class="px-4 py-1.5 rounded-full text-xs font-bold font-mono bg-cyan-950/80 text-cyan-300 border border-cyan-500/30" id="result-percent-badge">
+            Madurez IA: 70%
+          </div>
         </div>
 
-        <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-6 max-w-lg mx-auto" id="result-description">
-          Tienes bases sólidas pero aún dependes de prompts simples y no has automatizado tus tareas repetitivas con flujos comerciales ni dirección visual profesional.
+        <p class="text-slate-200 text-xs sm:text-base leading-relaxed mb-8 max-w-xl mx-auto font-light" id="result-description">
+          <!-- Description injected by JS -->
         </p>
 
-        <!-- Community invitation box instead of form -->
-        <div class="p-6 rounded-2xl bg-gradient-to-b from-slate-950 to-emerald-950/40 border border-emerald-500/40 mb-6 text-center">
-          <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto mb-3 text-lg">
+        <!-- 3 Areas Breakdown Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8 text-left max-w-xl mx-auto" id="result-breakdown-cards">
+          <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800">
+            <div class="text-[11px] text-slate-400 font-mono mb-1 flex items-center gap-1.5">
+              <i class="fas fa-paint-brush text-cyan-400"></i> DIRECCIÓN VISUAL
+            </div>
+            <div class="text-sm font-bold text-white mb-1.5" id="score-visual-text">Avanzado</div>
+            <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+              <div class="bg-cyan-400 h-full rounded-full" id="score-visual-bar" style="width: 75%;"></div>
+            </div>
+          </div>
+
+          <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800">
+            <div class="text-[11px] text-slate-400 font-mono mb-1 flex items-center gap-1.5">
+              <i class="fas fa-robot text-indigo-400"></i> AUTOMATIZACIÓN
+            </div>
+            <div class="text-sm font-bold text-white mb-1.5" id="score-auto-text">Intermedio</div>
+            <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+              <div class="bg-indigo-400 h-full rounded-full" id="score-auto-bar" style="width: 50%;"></div>
+            </div>
+          </div>
+
+          <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800">
+            <div class="text-[11px] text-slate-400 font-mono mb-1 flex items-center gap-1.5">
+              <i class="fas fa-chart-line text-emerald-400"></i> MONETIZACIÓN
+            </div>
+            <div class="text-sm font-bold text-white mb-1.5" id="score-biz-text">En Crecimiento</div>
+            <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+              <div class="bg-emerald-400 h-full rounded-full" id="score-biz-bar" style="width: 60%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Community invitation box -->
+        <div class="p-6 sm:p-8 rounded-3xl bg-gradient-to-b from-slate-950 via-emerald-950/30 to-slate-950 border-2 border-emerald-500/40 mb-8 text-center shadow-2xl relative overflow-hidden">
+          <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto mb-3 text-2xl border border-emerald-500/40 shadow-[0_0_20px_rgba(16,185,129,0.3)]">
             <i class="fab fa-whatsapp"></i>
           </div>
-          <h4 class="text-base font-bold text-white mb-1.5">
-            ¿Quieres aprender más de IA y subir al siguiente nivel?
+          <span class="text-[11px] font-mono font-bold uppercase tracking-wider text-emerald-400 block mb-1">Paso Recomendado para Tu Nivel</span>
+          <h4 class="text-lg sm:text-xl font-extrabold text-white mb-2">
+            Entra a la Comunidad VIP de Edward Jiménez &amp; ProsperIA
           </h4>
-          <p class="text-xs text-slate-300 leading-relaxed mb-5 max-w-md mx-auto">
-            Únete a nuestra <strong>Comunidad Oficial de WhatsApp</strong> donde compartimos casos prácticos, nuevos prompts, análisis de herramientas y te enseñamos a dominar la IA sin tecnicismos raros.
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed mb-6 max-w-lg mx-auto">
+            Discute casos reales, recibe nuevos prompts semanales probados en videos virales y aprende a conectar estos 200 códigos con automatizaciones que atraen prospectos reales.
           </p>
           <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
-            <a href="https://chat.whatsapp.com/HIjs3Bytduy9ucOtn6jeKw?s=sh&p=a&ilr=4" target="_blank" rel="noopener" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-bold text-sm bg-emerald-400 text-slate-950 hover:bg-emerald-300 transition-all shadow-[0_0_20px_rgba(16,185,129,0.35)]">
-              <i class="fab fa-whatsapp text-lg"></i> Unirme Gratis a la Comunidad
+            <a href="https://chat.whatsapp.com/HIjs3Bytduy9ucOtn6jeKw?s=sh&p=a&ilr=4" target="_blank" rel="noopener" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl font-extrabold text-sm bg-gradient-to-r from-emerald-400 to-teal-400 text-slate-950 hover:from-emerald-300 hover:to-teal-300 transition-all shadow-[0_0_25px_rgba(16,185,129,0.4)]">
+              <i class="fab fa-whatsapp text-lg"></i> Unirme Gratis a la Comunidad VIP
             </a>
-            <button type="button" onclick="restartQuiz()" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl font-medium text-xs text-slate-400 hover:text-white bg-slate-900 border border-slate-700 transition-colors">
-              <i class="fas fa-redo-alt text-[10px]"></i> Repetir Test
+            <button type="button" onclick="restartQuiz()" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl font-semibold text-xs text-slate-300 hover:text-white bg-slate-900 border border-slate-700 transition-colors">
+              <i class="fas fa-redo-alt text-[10px]"></i> Repetir Diagnóstico
             </button>
           </div>
         </div>
 
-        <div class="text-center">
-          <a href="#codigos-grid" class="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-cyan-400 transition-colors">
-            <i class="fas fa-arrow-up text-[10px]"></i> Volver a Explorar los 200 Códigos
+        <div class="flex items-center justify-center gap-4 text-xs text-slate-400 flex-wrap">
+          <a href="#codigos-grid" class="inline-flex items-center gap-1.5 text-cyan-400 hover:underline">
+            <i class="fas fa-arrow-up text-[10px]"></i> Explorar los 200 Códigos
+          </a>
+          <span>•</span>
+          <a href="#descargas" class="inline-flex items-center gap-1.5 text-slate-300 hover:text-white">
+            <i class="far fa-file-pdf text-[10px] text-red-400"></i> Descargar Guías en PDF
           </a>
         </div>
 
@@ -12689,50 +12872,176 @@ Lighting & Environment: Wind violently ripples the jacket and hair. Lens flare c
     }
 
     // Quiz Questions Data (5 Interactive Questions)
+    // Quiz Questions Data (5 Gamified Real-World Scenarios • 4 Concrete Options Each)
     const quizQuestions = [
       {
-        category: "01. FUNDAMENTOS DE PROMPTS",
-        title: "1. ¿Cómo utilizas actualmente ChatGPT o herramientas de IA en tu día a día?",
+        category: "01. PROMPT ENGINEERING & CONTROL",
+        title: "1. ¿Cómo te comunicas y operas habitualmente con ChatGPT, Claude o Gemini?",
         options: [
-          { text: "Solo hago preguntas sueltas como si fuera un buscador de Google.", points: 1 },
-          { text: "Le doy contexto, asigno un rol y uso comandos estructurados con [/].", points: 2 },
-          { text: "Construyo cadenas de prompts, integraciones con APIs o agentes autónomos.", points: 3 }
+          {
+            letter: "A",
+            title: "Consultas Directas sin Contexto",
+            desc: "Escribo preguntas sueltas ('hazme un post', 'explícame esto') tal como si fuera un buscador básico de Google.",
+            badge: "Nivel 1: Inicial",
+            points: 1
+          },
+          {
+            letter: "B",
+            title: "Instrucciones con Rol y Audiencia",
+            desc: "Asigno un rol claro ('actúa como redactor senior'), defino a mi cliente ideal y especifico el tono deseado.",
+            badge: "Nivel 2: Práctico",
+            points: 2
+          },
+          {
+            letter: "C",
+            title: "Comandos Modulares con [/] y Fórmulas",
+            desc: "Uso directivas como /chiaroscuro, /35mm, restricciones negativas, formatos en Markdown/JSON y ejemplos Few-Shot.",
+            badge: "Nivel 3: Avanzado",
+            points: 3
+          },
+          {
+            letter: "D",
+            title: "Cadenas Multi-Prompt, Agentes & APIs",
+            desc: "Diseño arquitecturas con System Prompts complejos, llamadas de funciones (Tool Calling) y flujos programados.",
+            badge: "Nivel 4: Master",
+            points: 4
+          }
         ]
       },
       {
-        category: "02. GENERACIÓN VISUAL & CREATIVA",
-        title: "2. Al generar imágenes con IA (Midjourney, DALL-E o Flux), ¿cómo describes tus escenas?",
+        category: "02. DIRECCIÓN AUDIOVISUAL & VIDEO IA",
+        title: "2. Al generar imágenes o videos (Midjourney, Flux, Kling, Seedance), ¿cómo diriges la toma?",
         options: [
-          { text: "Escribo frases generales como 'un hombre mirando la ciudad muy bonito'.", points: 1 },
-          { text: "Controlo iluminación (/chiaroscuro), lentes (/35mm), atmósfera y ángulos.", points: 2 },
-          { text: "Uso First/Last frames con video IA (Seedance/Luma/Kling) y directivas de cámara.", points: 3 }
+          {
+            letter: "A",
+            title: "Frases Descriptivas Genéricas",
+            desc: "Escribo 'persona futurista en la calle 8k ultra realista' y dependo del azar de lo que arroje la IA.",
+            badge: "Nivel 1: Inicial",
+            points: 1
+          },
+          {
+            letter: "B",
+            title: "Estilos Artísticos y Parámetros Básicos",
+            desc: "Añado adjetivos de iluminación ('iluminación neón', 'cinematográfico') y defino ratios de aspecto (--ar 16:9).",
+            badge: "Nivel 2: Práctico",
+            points: 2
+          },
+          {
+            letter: "C",
+            title: "Control Óptico Riguroso de Cámara",
+            desc: "Especifico cámara (Arri Alexa), distancia focal (/50mm anamorphic), tipo de luz (Rembrandt) y consistencia de semillas.",
+            badge: "Nivel 3: Avanzado",
+            points: 3
+          },
+          {
+            letter: "D",
+            title: "Pipeline de Producción Completo",
+            desc: "Controlo First/Last frames, animo movimientos de cámara en video, integro voces clonadas (ElevenLabs) y audio Foley.",
+            badge: "Nivel 4: Master",
+            points: 4
+          }
         ]
       },
       {
-        category: "03. ADOPCIÓN EN TU NEGOCIO",
-        title: "3. ¿Qué porcentaje de las tareas repetitivas de tu negocio están automatizadas con IA?",
+        category: "03. AUTOMATIZACIÓN DE PROCESOS",
+        title: "3. ¿En qué medida la IA ejecuta el trabajo operativo diario de tu negocio o proyectos?",
         options: [
-          { text: "Menos del 10%: casi todo lo seguimos haciendo de forma manual.", points: 1 },
-          { text: "Entre 20% y 50%: redactamos copies y lluvia de ideas, pero la ejecución es humana.", points: 2 },
-          { text: "Más del 60%: tenemos flujos de captación, CRM y respuesta conectada con IA.", points: 3 }
+          {
+            letter: "A",
+            title: "Operación 100% Manual",
+            desc: "Hago todo a mano; copio y pego respuestas individualmente y no tengo ninguna conexión automática.",
+            badge: "Nivel 1: Inicial",
+            points: 1
+          },
+          {
+            letter: "B",
+            title: "Asistente Ocasional de Redacción",
+            desc: "Uso la IA para acelerar ideas o borradores de emails, pero la carga y envío siguen siendo totalmente manuales.",
+            badge: "Nivel 2: Práctico",
+            points: 2
+          },
+          {
+            letter: "C",
+            title: "Conexiones Semiautomáticas",
+            desc: "Tengo disparadores que transcriben audios, clasifican notas en Notion/Drive o envían alertas ante nuevos leads.",
+            badge: "Nivel 3: Avanzado",
+            points: 3
+          },
+          {
+            letter: "D",
+            title: "Ecosistema Autónomo Integrado",
+            desc: "Cuento con flujos (Make/n8n/FastAPI) que captan prospectos, actualizan CRM y generan reportes sin intervención humana.",
+            badge: "Nivel 4: Master",
+            points: 4
+          }
         ]
       },
       {
-        category: "04. VELOCIDAD Y HERRAMIENTAS",
-        title: "4. ¿Cómo gestionas tus suscripciones y modelos de Inteligencia Artificial?",
+        category: "04. HERRAMIENTAS & ECOSYSTEM",
+        title: "4. ¿Cómo gestionas tus suscripciones y stack de Inteligencia Artificial?",
         options: [
-          { text: "Uso la versión gratuita de una sola herramienta básica.", points: 1 },
-          { text: "Pago 2 o 3 herramientas por separado (ChatGPT Plus, Canva, etc.).", points: 2 },
-          { text: "Uso plataformas unificadas multi-modelo (como PassportAI) o APIs dedicadas.", points: 3 }
+          {
+            letter: "A",
+            title: "Versiones Gratuitas Limitadas",
+            desc: "Solo uso versiones free y me detengo cuando se agotan los créditos diarios o el límite de mensajes por hora.",
+            badge: "Nivel 1: Inicial",
+            points: 1
+          },
+          {
+            letter: "B",
+            title: "Planes Aislados Dispersos",
+            desc: "Pago 2 o 3 suscripciones individuales por separado (ChatGPT Plus, Midjourney, Canva) saltando entre pestañas.",
+            badge: "Nivel 2: Práctico",
+            points: 2
+          },
+          {
+            letter: "C",
+            title: "Stack Especializado por Disciplina",
+            desc: "Combino las mejores herramientas de cada área (Claude para lógica/código, Flux para visual, ElevenLabs para audio).",
+            badge: "Nivel 3: Avanzado",
+            points: 3
+          },
+          {
+            letter: "D",
+            title: "Hub Multi-Modelo Unificado o APIs Propias",
+            desc: "Uso plataformas concentradoras de modelos (como PassportAI) o consumo directo de APIs con modelos open source.",
+            badge: "Nivel 4: Master",
+            points: 4
+          }
         ]
       },
       {
-        category: "05. ESTRATEGIA DE CRECIMIENTO",
-        title: "5. ¿Tienes un embudo comercial donde el contenido viral se convierta en ventas reales?",
+        category: "05. CONVERSIÓN & MONETIZACIÓN",
+        title: "5. ¿Qué ocurre tras publicar contenido creado con IA en tus canales digitales?",
         options: [
-          { text: "No, solo publico cuando tengo tiempo y no mido conversión a clientes.", points: 1 },
-          { text: "Tengo link en bio y respondo DMs manualmente cuando me escriben.", points: 2 },
-          { text: "Tengo un sistema estructurado con automatización a WhatsApp y CRM calificado.", points: 3 }
+          {
+            letter: "A",
+            title: "Solo Busco Vistas y Likes",
+            desc: "No tengo un llamado a la acción concreto; me enfoco en las reproducciones pero no genero conversiones comerciales.",
+            badge: "Nivel 1: Inicial",
+            points: 1
+          },
+          {
+            letter: "B",
+            title: "Enlace Genérico en Biografía",
+            desc: "Tengo un link genérico o respondo manualmente a los mensajes directos (DMs) cuando tengo tiempo disponible.",
+            badge: "Nivel 2: Práctico",
+            points: 2
+          },
+          {
+            letter: "C",
+            title: "Imán de Prospectos & WhatsApp",
+            desc: "Ofrezco recursos descargables (como estos 200 códigos) que dirigen a una comunidad de WhatsApp para nutrir leads.",
+            badge: "Nivel 3: Avanzado",
+            points: 3
+          },
+          {
+            letter: "D",
+            title: "Embudo Automatizado de Alta Conversión",
+            desc: "Un sistema califica al prospecto en tiempo real, agenda llamadas en el calendario y dispara secuencias de venta personalizadas.",
+            badge: "Nivel 4: Master",
+            points: 4
+          }
         ]
       }
     ];
@@ -12742,56 +13051,124 @@ Lighting & Environment: Wind violently ripples the jacket and hair. Lens flare c
 
     function renderQuestion() {
       const q = quizQuestions[currentQuestionIdx];
-      document.getElementById('quiz-step-text').textContent = currentQuestionIdx + 1;
-      document.getElementById('quiz-progress-bar').style.width = `${(currentQuestionIdx + 1) * 20}%`;
-      document.getElementById('quiz-category-tag').textContent = q.category;
-      document.getElementById('quiz-question-title').textContent = q.title;
+      const progressPct = Math.round(((currentQuestionIdx + 1) / quizQuestions.length) * 100);
 
+      const percentEl = document.getElementById('quiz-percent-text');
+      if (percentEl) percentEl.textContent = `${progressPct}%`;
+
+      const stepEl = document.getElementById('quiz-step-text');
+      if (stepEl) stepEl.textContent = currentQuestionIdx + 1;
+
+      const barEl = document.getElementById('quiz-progress-bar');
+      if (barEl) barEl.style.width = `${progressPct}%`;
+
+      const catEl = document.getElementById('quiz-category-tag');
+      if (catEl) catEl.innerHTML = `<i class="fas fa-terminal text-cyan-400 text-[10px]"></i> ${q.category}`;
+
+      const titleEl = document.getElementById('quiz-question-title');
+      if (titleEl) titleEl.textContent = q.title;
+
+      // Update Step Pills
+      for (let i = 0; i < 5; i++) {
+        const pill = document.getElementById(`pill-${i}`);
+        if (pill) {
+          pill.classList.remove('active', 'completed');
+          if (i === currentQuestionIdx) {
+            pill.classList.add('active');
+            pill.textContent = i + 1;
+          } else if (userAnswers[i] !== undefined) {
+            pill.classList.add('completed');
+            pill.innerHTML = '<i class="fas fa-check text-[10px]"></i>';
+          } else {
+            pill.textContent = i + 1;
+          }
+        }
+      }
+
+      // Update Connecting Lines
+      for (let j = 0; j < 4; j++) {
+        const line = document.getElementById(`line-${j}`);
+        if (line) {
+          if (userAnswers[j] !== undefined) {
+            line.classList.add('completed');
+          } else {
+            line.classList.remove('completed');
+          }
+        }
+      }
+
+      // Render 4 Options
       const optsContainer = document.getElementById('quiz-options-container');
       optsContainer.innerHTML = '';
-
       const currentSelected = userAnswers[currentQuestionIdx];
+
+      const badgeStyles = [
+        'text-amber-400 bg-amber-950/70 border-amber-500/30',
+        'text-sky-400 bg-sky-950/70 border-sky-500/30',
+        'text-cyan-400 bg-cyan-950/70 border-cyan-500/30',
+        'text-emerald-400 bg-emerald-950/70 border-emerald-500/30'
+      ];
 
       q.options.forEach((opt, idx) => {
         const isSelected = (currentSelected === opt.points);
         const optBtn = document.createElement('button');
         optBtn.type = 'button';
-        optBtn.className = `w-full text-left p-3.5 sm:p-4 rounded-xl text-xs sm:text-sm font-medium border transition-all flex items-center justify-between ${
+        optBtn.className = `quiz-opt-btn w-full text-left p-3.5 sm:p-4 rounded-2xl border text-xs sm:text-sm font-medium transition-all flex items-start gap-3 sm:gap-4 ${
           isSelected 
-            ? 'bg-cyan-950/80 border-cyan-400 text-white shadow-[0_0_15px_rgba(0,229,255,0.2)]' 
-            : 'bg-slate-900/60 border-slate-800 text-slate-300 hover:border-slate-700 hover:text-white'
+            ? 'selected' 
+            : 'bg-slate-900/80 border-slate-800 text-slate-300 hover:border-cyan-500/40 hover:bg-slate-900'
         }`;
         optBtn.onclick = () => selectOption(opt.points);
         optBtn.innerHTML = `
-          <span class="pr-2 leading-relaxed">${opt.text}</span>
-          <span class="w-5 h-5 rounded-full border flex items-center justify-center flex-shrink-0 text-[10px] ${
-            isSelected ? 'border-cyan-400 bg-cyan-400 text-slate-950' : 'border-slate-700 text-transparent'
+          <span class="quiz-letter-badge ${
+            isSelected 
+              ? 'bg-cyan-400 text-slate-950 shadow-[0_0_12px_rgba(0,229,255,0.6)]' 
+              : 'bg-slate-800 border border-slate-700 text-slate-300'
+          }">${opt.letter}</span>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between gap-2 mb-1 flex-wrap">
+              <span class="font-bold text-white text-xs sm:text-sm tracking-tight">${opt.title}</span>
+              <span class="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-md border ${badgeStyles[idx]}">${opt.badge}</span>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed font-light">${opt.desc}</p>
+          </div>
+          <div class="w-5 h-5 rounded-full border flex items-center justify-center flex-shrink-0 text-xs mt-0.5 ${
+            isSelected ? 'border-cyan-400 bg-cyan-400 text-slate-950 font-bold' : 'border-slate-700 text-transparent'
           }">
-            <i class="fas fa-check"></i>
-          </span>
+            <i class="fas fa-check text-[10px]"></i>
+          </div>
         `;
         optsContainer.appendChild(optBtn);
       });
 
-      document.getElementById('quiz-btn-prev').disabled = (currentQuestionIdx === 0);
-      document.getElementById('quiz-btn-next').disabled = (userAnswers[currentQuestionIdx] === undefined);
+      // Buttons State
+      const prevBtn = document.getElementById('quiz-btn-prev');
+      if (prevBtn) prevBtn.disabled = (currentQuestionIdx === 0);
 
-      if (currentQuestionIdx === quizQuestions.length - 1) {
-        document.getElementById('quiz-btn-next').innerHTML = '<span>Ver Mi Nivel</span> <i class="fas fa-trophy"></i>';
-      } else {
-        document.getElementById('quiz-btn-next').innerHTML = '<span>Siguiente</span> <i class="fas fa-arrow-right"></i>';
+      const nextBtn = document.getElementById('quiz-btn-next');
+      if (nextBtn) {
+        nextBtn.disabled = (userAnswers[currentQuestionIdx] === undefined);
+        if (currentQuestionIdx === quizQuestions.length - 1) {
+          nextBtn.innerHTML = '<span>Ver Diagnóstico Completo</span> <i class="fas fa-trophy"></i>';
+        } else {
+          nextBtn.innerHTML = '<span>Siguiente Pregunta</span> <i class="fas fa-arrow-right"></i>';
+        }
       }
     }
 
     function selectOption(points) {
       userAnswers[currentQuestionIdx] = points;
       renderQuestion();
-      if (currentQuestionIdx < quizQuestions.length - 1) {
-        setTimeout(() => {
+      
+      // Automatic smooth progression after 280ms
+      setTimeout(() => {
+        if (currentQuestionIdx < quizQuestions.length - 1) {
           currentQuestionIdx++;
           renderQuestion();
-        }, 250);
-      }
+        } else {
+          showQuizResult();
+        }
+      }, 280);
     }
 
     function prevQuestion() {
@@ -12820,30 +13197,65 @@ Lighting & Environment: Wind violently ripples the jacket and hair. Lens flare c
       const iconContainer = document.getElementById('result-icon-container');
       const titleEl = document.getElementById('result-level-title');
       const badgeEl = document.getElementById('result-badge');
+      const percentBadgeEl = document.getElementById('result-percent-badge');
       const descEl = document.getElementById('result-description');
 
-      if (totalScore <= 7) {
-        iconContainer.className = 'w-20 h-20 rounded-full mx-auto mb-4 flex items-center justify-center text-3xl shadow-2xl bg-amber-950/80 text-amber-400 border border-amber-500/40';
+      const maturityPct = Math.round((totalScore / 20) * 100);
+      if (badgeEl) badgeEl.textContent = `Puntaje: ${totalScore} / 20 puntos`;
+      if (percentBadgeEl) percentBadgeEl.textContent = `Madurez IA: ${maturityPct}%`;
+
+      if (totalScore <= 8) {
+        iconContainer.className = 'quiz-result-icon bg-amber-950/80 text-amber-400 border-2 border-amber-500/50 shadow-[0_0_35px_rgba(245,158,11,0.25)]';
         iconContainer.innerHTML = '<i class="fas fa-seedling"></i>';
-        titleEl.textContent = 'Nivel: Novato Curioso';
-        badgeEl.className = 'inline-block px-3.5 py-1 rounded-full text-xs font-bold font-mono mb-4 bg-amber-950/60 text-amber-300 border border-amber-500/30';
-        badgeEl.textContent = `Puntaje: ${totalScore} / 15 puntos`;
-        descEl.textContent = 'Estás descubriendo el potencial de la IA, pero todavía la usas como un asistente básico de texto y sigues haciendo el trabajo pesado manualmente. ¡Tienes una ventaja enorme si comienzas a aplicar nuestros 200 códigos hoy!';
-      } else if (totalScore <= 11) {
-        iconContainer.className = 'w-20 h-20 rounded-full mx-auto mb-4 flex items-center justify-center text-3xl shadow-2xl bg-cyan-950/80 text-cyan-400 border border-cyan-500/40';
+        titleEl.textContent = 'Nivel 1: Explorador Curioso de IA';
+        badgeEl.className = 'px-4 py-1.5 rounded-full text-xs font-bold font-mono bg-amber-950/70 text-amber-300 border border-amber-500/40';
+        descEl.textContent = 'Conoces la existencia de la IA y experimentas con ella, pero todavía la operas como un simple buscador de texto y sigues haciendo el trabajo pesado manualmente. ¡Tienes una ventaja enorme si comienzas a aplicar nuestros 200 códigos modulares y parámetros con [/] desde hoy!';
+      } else if (totalScore <= 13) {
+        iconContainer.className = 'quiz-result-icon bg-sky-950/80 text-sky-400 border-2 border-sky-500/50 shadow-[0_0_35px_rgba(56,189,248,0.25)]';
         iconContainer.innerHTML = '<i class="fas fa-bolt"></i>';
-        titleEl.textContent = 'Nivel: Intermedio Práctico';
-        badgeEl.className = 'inline-block px-3.5 py-1 rounded-full text-xs font-bold font-mono mb-4 bg-cyan-950/60 text-cyan-300 border border-cyan-500/30';
-        badgeEl.textContent = `Puntaje: ${totalScore} / 15 puntos`;
-        descEl.textContent = 'Tienes bases sólidas: redactas buenos prompts y entiendes el valor de la IA. Tu siguiente gran salto es conectar estos códigos con flujos automáticos de prospección y dirección cinematográfica.';
+        titleEl.textContent = 'Nivel 2: Operador Práctico';
+        badgeEl.className = 'px-4 py-1.5 rounded-full text-xs font-bold font-mono bg-sky-950/70 text-sky-300 border border-sky-500/40';
+        descEl.textContent = 'Tienes bases operativas sólidas: redactas buenos prompts y entiendes el valor de la IA. Tu siguiente gran salto es conectar estos códigos con flujos automáticos de prospección directa a WhatsApp y dirección cinematográfica con parámetros de cámara.';
+      } else if (totalScore <= 17) {
+        iconContainer.className = 'quiz-result-icon bg-cyan-950/80 text-cyan-400 border-2 border-cyan-500/50 shadow-[0_0_35px_rgba(0,229,255,0.3)]';
+        iconContainer.innerHTML = '<i class="fas fa-magic"></i>';
+        titleEl.textContent = 'Nivel 3: Creador Cinematográfico & Estratega';
+        badgeEl.className = 'px-4 py-1.5 rounded-full text-xs font-bold font-mono bg-cyan-950/70 text-cyan-300 border border-cyan-500/40';
+        descEl.textContent = '¡Destreza sobresaliente! Manejas comandos técnicos, entiendes de dirección audiovisual con lentes reales y valoras la automatización. Estás en la posición idónea para consolidar un sistema de captación 360° y delegar el 90% de las tareas operativas.';
       } else {
-        iconContainer.className = 'w-20 h-20 rounded-full mx-auto mb-4 flex items-center justify-center text-3xl shadow-2xl bg-emerald-950/80 text-emerald-400 border border-emerald-500/40';
+        iconContainer.className = 'quiz-result-icon bg-emerald-950/80 text-emerald-400 border-2 border-emerald-500/50 shadow-[0_0_40px_rgba(16,185,129,0.35)]';
         iconContainer.innerHTML = '<i class="fas fa-crown"></i>';
-        titleEl.textContent = 'Nivel: Avanzado / Estratega';
-        badgeEl.className = 'inline-block px-3.5 py-1 rounded-full text-xs font-bold font-mono mb-4 bg-emerald-950/60 text-emerald-300 border border-emerald-500/30';
-        badgeEl.textContent = `Puntaje: ${totalScore} / 15 puntos`;
-        descEl.textContent = '¡Excelente dominio! Manejas comandos técnicos, entiendes de dirección audiovisual y valoras la automatización de procesos. Estás en la posición ideal para escalar un sistema 360° en tu negocio.';
+        titleEl.textContent = 'Nivel 4: Master Supremo de IA & Automatización';
+        badgeEl.className = 'px-4 py-1.5 rounded-full text-xs font-bold font-mono bg-emerald-950/70 text-emerald-300 border border-emerald-500/40';
+        descEl.textContent = '¡Perteneces al 1% élite! No solo consumes IA: construyes sistemas, integras plataformas de vanguardia y conviertes contenido viral en clientes calificados de forma continua. Tu lugar natural es intercambiar ideas en nuestra Comunidad VIP y liderar proyectos de alto impacto.';
       }
+
+      // Calculate Subscores for Breakdown Cards
+      const qVisual = userAnswers[1] || 1;
+      const pctVisual = Math.round((qVisual / 4) * 100);
+      const textVisual = qVisual >= 4 ? 'Maestría Visual' : (qVisual === 3 ? 'Avanzado' : (qVisual === 2 ? 'Práctico' : 'Inicial'));
+      const scoreVisualText = document.getElementById('score-visual-text');
+      const scoreVisualBar = document.getElementById('score-visual-bar');
+      if (scoreVisualText) scoreVisualText.textContent = textVisual;
+      if (scoreVisualBar) scoreVisualBar.style.width = `${pctVisual}%`;
+
+      const qAuto = ((userAnswers[2] || 1) + (userAnswers[3] || 1)) / 2;
+      const pctAuto = Math.round((qAuto / 4) * 100);
+      const textAuto = qAuto >= 3.5 ? 'Autónomo' : (qAuto >= 2.5 ? 'Avanzado' : (qAuto >= 1.5 ? 'Semiautomático' : 'Manual'));
+      const scoreAutoText = document.getElementById('score-auto-text');
+      const scoreAutoBar = document.getElementById('score-auto-bar');
+      if (scoreAutoText) scoreAutoText.textContent = textAuto;
+      if (scoreAutoBar) scoreAutoBar.style.width = `${pctAuto}%`;
+
+      const qBiz = ((userAnswers[0] || 1) + (userAnswers[4] || 1)) / 2;
+      const pctBiz = Math.round((qBiz / 4) * 100);
+      const textBiz = qBiz >= 3.5 ? 'Alta Conversión' : (qBiz >= 2.5 ? 'Estructurado' : (qBiz >= 1.5 ? 'En Crecimiento' : 'Por Iniciar'));
+      const scoreBizText = document.getElementById('score-biz-text');
+      const scoreBizBar = document.getElementById('score-biz-bar');
+      if (scoreBizText) scoreBizText.textContent = textBiz;
+      if (scoreBizBar) scoreBizBar.style.width = `${pctBiz}%`;
+
+      resultContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
     function restartQuiz() {
@@ -12852,6 +13264,8 @@ Lighting & Environment: Wind violently ripples the jacket and hair. Lens flare c
       document.getElementById('quiz-result').classList.add('hidden');
       document.getElementById('quiz-container').classList.remove('hidden');
       renderQuestion();
+      const testSection = document.getElementById('test-ia');
+      if (testSection) testSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     // Direct Quote Form
