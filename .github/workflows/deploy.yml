@@ -38,4 +38,4 @@ jobs:
             fi
             echo "Directorio de trabajo: $(pwd)"
             git pull origin main
-            docker compose -f docker-compose.prod.yml restart || docker compose -f docker-compose.prod.yml up -d
+            docker compose -f docker-compose.prod.yml up -d --build
