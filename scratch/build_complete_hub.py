@@ -636,22 +636,6 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
       </p>
     </div>
 
-    <!-- Banner Aclaratorio de las 2 Colecciones -->
-    <div class="glass-panel p-4 sm:p-5 rounded-2xl max-w-4xl mx-auto mb-8 border-cyan-500/30 bg-gradient-to-r from-cyan-950/40 via-slate-950 to-indigo-950/40 text-left flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg">
-      <div class="flex items-center gap-3.5">
-        <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-lg flex-shrink-0 border border-cyan-400/30">
-          <i class="fas fa-layer-group"></i>
-        </div>
-        <div class="text-xs text-slate-300 leading-relaxed">
-          <strong class="text-white">Tienes 2 colecciones completas organizadas:</strong><br>
-          <span class="text-cyan-300 font-medium">Colección 1:</span> 100 Códigos de ChatGPT (Prompts de Texto abajo y en PDF 1) &nbsp;•&nbsp; 
-          <span class="text-indigo-300 font-medium">Colección 2:</span> 100 Códigos Visuales & Dirección Fotográfica (PDF 2).
-        </div>
-      </div>
-      <a href="#descargas" class="px-4 py-2 rounded-xl text-xs font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-400/40 hover:bg-cyan-400 hover:text-slate-950 transition-all whitespace-nowrap flex items-center gap-1.5 flex-shrink-0">
-        <i class="far fa-file-pdf text-red-400"></i> Descargar Ambos PDFs <i class="fas fa-arrow-down text-[10px]"></i>
-      </a>
-    </div>
 
     <!-- Live Search Bar -->
     <div class="glass-panel p-4 sm:p-5 rounded-2xl mb-8 max-w-4xl mx-auto border-cyan-500/20">
