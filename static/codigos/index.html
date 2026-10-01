@@ -315,6 +315,34 @@
       box-shadow: 0 0 40px rgba(99, 102, 241, 0.65) !important;
       background: linear-gradient(135deg, #818cf8 0%, #00e5ff 100%) !important;
     }
+    .input-cotizacion {
+      background-color: #030712 !important;
+      color: #ffffff !important;
+      border: 1px solid #334155 !important;
+      -webkit-text-fill-color: #ffffff !important;
+      caret-color: #00e5ff !important;
+    }
+    .input-cotizacion:focus {
+      background-color: #081224 !important;
+      color: #ffffff !important;
+      border-color: #00e5ff !important;
+      box-shadow: 0 0 0 2px rgba(0, 229, 255, 0.25) !important;
+      outline: none !important;
+      -webkit-text-fill-color: #ffffff !important;
+    }
+    .input-cotizacion::placeholder {
+      color: #94a3b8 !important;
+      -webkit-text-fill-color: #94a3b8 !important;
+    }
+    .input-cotizacion:-webkit-autofill,
+    .input-cotizacion:-webkit-autofill:hover, 
+    .input-cotizacion:-webkit-autofill:focus,
+    .input-cotizacion:-webkit-autofill:active {
+      -webkit-text-fill-color: #ffffff !important;
+      -webkit-box-shadow: 0 0 0px 1000px #030712 inset !important;
+      transition: background-color 5000s ease-in-out 0s;
+      caret-color: #00e5ff !important;
+    }
   </style>
 </head>
 <body class="relative">
@@ -6268,17 +6296,17 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
 
           <div>
             <label class="block text-xs font-semibold text-slate-300 mb-1">Nombre Completo *</label>
-            <input type="text" id="direct-name" required placeholder="Ej. Carlos Mendoza" class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-cyan-400 focus:outline-none">
+            <input type="text" id="direct-name" required placeholder="Ej. Carlos Mendoza" class="input-cotizacion w-full px-4 py-3 rounded-xl border border-slate-700 text-sm focus:border-cyan-400 focus:outline-none" style="background-color: #030712 !important; color: #ffffff !important;">
           </div>
 
           <div>
             <label class="block text-xs font-semibold text-slate-300 mb-1">Correo Electrónico *</label>
-            <input type="email" id="direct-email" required placeholder="tu@empresa.com" class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-cyan-400 focus:outline-none">
+            <input type="email" id="direct-email" required placeholder="tu@empresa.com" class="input-cotizacion w-full px-4 py-3 rounded-xl border border-slate-700 text-sm focus:border-cyan-400 focus:outline-none" style="background-color: #030712 !important; color: #ffffff !important;">
           </div>
 
           <div>
             <label class="block text-xs font-semibold text-slate-300 mb-1">WhatsApp (con código de país) *</label>
-            <input type="tel" id="direct-phone" required placeholder="+1 786 555 0199" class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-cyan-400 focus:outline-none">
+            <input type="tel" id="direct-phone" required placeholder="+1 786 555 0199" class="input-cotizacion w-full px-4 py-3 rounded-xl border border-slate-700 text-sm focus:border-cyan-400 focus:outline-none" style="background-color: #030712 !important; color: #ffffff !important;">
           </div>
 
           <button type="submit" id="btn-submit-direct" class="btn-cotizacion-cta mt-2">

@@ -550,6 +550,34 @@ def generate_page(is_template=False):
       box-shadow: 0 0 40px rgba(99, 102, 241, 0.65) !important;
       background: linear-gradient(135deg, #818cf8 0%, #00e5ff 100%) !important;
     }}
+    .input-cotizacion {{
+      background-color: #030712 !important;
+      color: #ffffff !important;
+      border: 1px solid #334155 !important;
+      -webkit-text-fill-color: #ffffff !important;
+      caret-color: #00e5ff !important;
+    }}
+    .input-cotizacion:focus {{
+      background-color: #081224 !important;
+      color: #ffffff !important;
+      border-color: #00e5ff !important;
+      box-shadow: 0 0 0 2px rgba(0, 229, 255, 0.25) !important;
+      outline: none !important;
+      -webkit-text-fill-color: #ffffff !important;
+    }}
+    .input-cotizacion::placeholder {{
+      color: #94a3b8 !important;
+      -webkit-text-fill-color: #94a3b8 !important;
+    }}
+    .input-cotizacion:-webkit-autofill,
+    .input-cotizacion:-webkit-autofill:hover, 
+    .input-cotizacion:-webkit-autofill:focus,
+    .input-cotizacion:-webkit-autofill:active {{
+      -webkit-text-fill-color: #ffffff !important;
+      -webkit-box-shadow: 0 0 0px 1000px #030712 inset !important;
+      transition: background-color 5000s ease-in-out 0s;
+      caret-color: #00e5ff !important;
+    }}
   </style>
 </head>
 <body class="relative">
@@ -586,14 +614,14 @@ def generate_page(is_template=False):
 
         <!-- Desktop Links -->
         <div class="hidden lg:flex items-center gap-6 text-sm">
-          <a href="#spiderman-breakdown" class="text-slate-300 hover:text-red-400 font-medium transition-colors flex items-center gap-1.5">
-            <i class="fas fa-spider text-red-400 text-xs"></i> Reel Spiderman
-          </a>
           <a href="#codigos-grid" class="text-cyan-400 font-bold flex items-center gap-1.5">
             <i class="fas fa-terminal text-xs"></i> 100 Códigos
           </a>
           <a href="#descargas" class="text-slate-300 hover:text-cyan-400 font-medium transition-colors flex items-center gap-1.5">
             <i class="far fa-file-pdf text-red-400 text-xs"></i> Descargas PDF
+          </a>
+          <a href="#spiderman-breakdown" class="text-slate-300 hover:text-red-400 font-medium transition-colors flex items-center gap-1.5">
+            <i class="fas fa-spider text-red-400 text-xs"></i> Reel Spiderman
           </a>
           <a href="#reels-gallery" class="text-slate-300 hover:text-cyan-400 font-medium transition-colors flex items-center gap-1.5">
             <i class="fab fa-instagram text-pink-400 text-xs"></i> Nuestros Reels
@@ -661,9 +689,151 @@ def generate_page(is_template=False):
   </header>
 
   <!-- ════════════════════════════════════════════════════
-       BLOQUE 1 (VALOR PRIMERO): REEL DE SPIDERMAN "THE SWING PROMPTS"
+       BLOQUE 1: 100 CÓDIGOS CREATIVOS DE CHATGPT
        ════════════════════════════════════════════════════ -->
-  <section id="spiderman-breakdown" class="py-10 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto relative z-10 scroll-mt-24">
+  <main id="codigos-grid" class="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 scroll-mt-24">
+    <div class="text-center max-w-3xl mx-auto mb-6">
+      <span class="text-xs font-bold uppercase tracking-wider text-cyan-400 mb-2 block">Catálogo Interactivo y Buscador</span>
+      <h2 class="text-2xl sm:text-4xl font-extrabold text-white mb-3">
+        Explora los 100 Códigos y Cópialos con 1 Clic
+      </h2>
+      <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
+        Filtra por nombre, categoría o efecto visual. Toca <strong>Copiar</strong> para pegarlo directamente en ChatGPT.
+      </p>
+    </div>
+
+
+    <!-- Live Search Bar -->
+    <div class="glass-panel p-4 sm:p-5 rounded-2xl mb-8 max-w-4xl mx-auto border-cyan-500/20">
+      <div class="flex flex-col sm:flex-row gap-3 items-center">
+        <div class="relative flex-1 w-full">
+          <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+          <input 
+            type="text" 
+            id="search-input" 
+            placeholder="Buscar código: ej. /spotlight, packshot, neonnoir, 35mm, macro..." 
+            class="w-full pl-11 pr-10 py-3 rounded-xl bg-slate-950/80 border border-slate-700 focus:border-cyan-400 focus:outline-none text-white text-sm placeholder-slate-500 transition-colors"
+            oninput="handleSearch(this.value)"
+          >
+          <button id="clear-search" onclick="clearSearch()" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 text-xs hidden">
+            <i class="fas fa-times-circle text-base"></i>
+          </button>
+        </div>
+        <div class="text-xs text-slate-400 font-mono whitespace-nowrap px-3 py-2 rounded-xl bg-slate-900 border border-slate-800">
+          Mostrando: <strong id="visible-count" class="text-cyan-400">100</strong> de 100 códigos
+        </div>
+      </div>
+    </div>
+
+    <!-- Category Pills -->
+    <div class="flex flex-wrap items-center justify-center gap-2 mb-10 max-w-5xl mx-auto" id="category-pills">
+      {pills_str}
+    </div>
+
+    <div id="no-results" class="hidden text-center py-16 px-4 glass-panel rounded-3xl max-w-lg mx-auto">
+      <h3 class="text-lg font-bold text-white mb-2">No encontramos ningún código coincidente</h3>
+      <button onclick="clearSearch()" class="px-5 py-2 rounded-xl text-xs font-bold bg-cyan-400 text-slate-950 mt-4">
+        Ver todos los 100 códigos
+      </button>
+    </div>
+
+    <!-- Cards Collapsible Wrapper (Prevents eating up whole page) -->
+    <div id="cards-wrapper" style="max-height: 720px; overflow: hidden;" class="relative transition-all duration-500">
+      <div id="cards-container" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+{cards_str}
+      </div>
+      <div id="cards-fade-overlay" class="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-slate-950 via-slate-950/95 to-transparent pointer-events-none flex items-end justify-center pb-4">
+      </div>
+    </div>
+
+    <!-- Toggle Expansion Button -->
+    <div class="text-center mt-6">
+      <button id="btn-toggle-catalog" type="button" onclick="toggleCatalogExpansion()" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl font-bold text-xs sm:text-sm bg-gradient-to-r from-cyan-400 to-sky-400 text-slate-950 hover:from-cyan-300 hover:to-sky-300 transition-all shadow-[0_0_25px_rgba(0,229,255,0.35)] cursor-pointer">
+        <i class="fas fa-chevron-down text-xs transition-transform duration-300" id="toggle-catalog-icon"></i>
+        <span id="toggle-catalog-text">Desplegar Catálogo Completo (Ver los 100 Códigos)</span>
+      </button>
+      <p class="text-xs text-slate-400 mt-2">
+        O utiliza el buscador o categorías arriba para ver resultados instantáneos.
+      </p>
+    </div>
+  </main>
+
+  <!-- ════════════════════════════════════════════════════
+       BLOQUE 2: DESCARGAS OFICIALES DE LOS 2 PDFs (SIN VISOR IFRAME)
+       ════════════════════════════════════════════════════ -->
+  <section id="descargas" class="py-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 scroll-mt-24">
+    
+    <div class="text-center mb-8">
+      <span class="text-xs font-bold uppercase tracking-wider text-cyan-400 mb-2 block">Documentos Oficiales en PDF</span>
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Descarga las 2 Colecciones Completas</h2>
+      <p class="text-slate-300 text-xs sm:text-sm max-w-2xl mx-auto mt-2 mb-4 leading-relaxed">
+        Tienes a tu disposición dos guías complementarias de alta resolución: el <strong>Archivo 1</strong> enfocado en prompts y comandos de texto para ChatGPT, y el <strong>Archivo 2</strong> enfocado en dirección visual y generación de imágenes profesionales.
+      </p>
+
+      <!-- Google Drive Alternative (Subido un renglón) -->
+      <div class="inline-block">
+        <a href="https://drive.google.com/drive/folders/1tMekHUIAkG7-OLcorPOaz2wI2HOLWhrV?usp=sharing" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-xs sm:text-sm text-slate-400 hover:text-cyan-400 transition-colors py-2 px-4 rounded-xl bg-slate-900/60 border border-slate-800">
+          <i class="fab fa-google-drive text-amber-400"></i> ¿Prefieres guardarlos en tu Drive? <strong>Abrir Carpeta en Google Drive</strong> <i class="fas fa-external-link-alt text-[10px]"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+      
+      <!-- Card 1: Edición Guía Visual ProsperIA ES -->
+      <div class="glass-panel p-6 sm:p-8 rounded-2xl relative overflow-hidden flex flex-col justify-between border-cyan-500/20 shadow-xl">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <span class="px-3 py-1 rounded-full text-xs font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/30">
+              <i class="far fa-file-pdf mr-1 text-red-400"></i> COLECCIÓN 1 · PROMPTS CHATGPT
+            </span>
+            <span class="text-xs text-slate-400 font-mono">3.7 MB • 12 PÁGINAS</span>
+          </div>
+
+          <h3 class="text-xl font-bold text-white mb-2">100 Códigos Creativos de ChatGPT</h3>
+          <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-6">
+            <strong>Edición ProsperIA Dark (Prompts de Texto):</strong> Formato optimizado para memorizar y aplicar comandos de estructuración, guiones y lógica visual con la sintaxis recomendada <code class="text-cyan-400 font-mono">[/]</code>.
+          </p>
+        </div>
+
+        <div class="pt-4 border-t border-slate-800">
+          <a href="/static/codigos/ChatGPT_Codigos_Creativos_ProsperIA_ES.pdf" download="ChatGPT_Codigos_Creativos_ProsperIA_ES.pdf" class="w-full inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl font-bold text-sm bg-gradient-to-r from-cyan-400 to-cyan-500 text-slate-950 hover:from-cyan-300 hover:to-cyan-400 transition-all shadow-[0_0_15px_rgba(0,229,255,0.25)]">
+            <i class="fas fa-download"></i> Descargar Colección 1 en PDF (3.7 MB)
+          </a>
+        </div>
+      </div>
+
+      <!-- Card 2: Edición Editorial Extendida -->
+      <div class="glass-panel p-6 sm:p-8 rounded-2xl relative overflow-hidden flex flex-col justify-between border-indigo-500/20 shadow-xl">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <span class="px-3 py-1 rounded-full text-xs font-bold bg-indigo-950 text-indigo-300 border border-indigo-500/30">
+              <i class="far fa-file-pdf mr-1 text-red-400"></i> COLECCIÓN 2 · FOTOGRAFÍA & IMÁGENES
+            </span>
+            <span class="text-xs text-slate-400 font-mono">5.3 MB • 12 PÁGINAS</span>
+          </div>
+
+          <h3 class="text-xl font-bold text-white mb-2">100 Códigos de Imágenes — Edward Jiménez</h3>
+          <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-6">
+            <strong>Edición Editorial Extendida (Generación de Imágenes):</strong> Diagramación de máxima fidelidad con notas técnicas de dirección de arte, lentes anamórficos (35mm), chiaroscuro y fotografía editorial para marcas.
+          </p>
+        </div>
+
+        <div class="pt-4 border-t border-slate-800">
+          <a href="/static/codigos/Codigos_Creativos_ChatGPT_Edward_Jimenez_ES_ProsperIA.pdf" download="Codigos_Creativos_ChatGPT_Edward_Jimenez_ES_ProsperIA.pdf" class="w-full inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl font-bold text-sm bg-gradient-to-r from-indigo-500 to-cyan-400 text-slate-950 hover:from-indigo-400 hover:to-cyan-300 transition-all shadow-[0_0_15px_rgba(94,106,210,0.25)]">
+            <i class="fas fa-download"></i> Descargar Colección 2 en PDF (5.3 MB)
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ════════════════════════════════════════════════════
+       BLOQUE 3: REEL DE SPIDERMAN "THE SWING PROMPTS"
+       ════════════════════════════════════════════════════ -->
+  <section id="spiderman-breakdown" class="py-14 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto relative z-10 scroll-mt-24">
     
     <div class="glass-panel p-6 sm:p-10 rounded-3xl border-red-500/30 relative overflow-hidden bg-gradient-to-b from-slate-950 via-red-950/10 to-slate-950 shadow-2xl">
       <div class="absolute -top-24 -right-24 w-80 h-80 bg-red-600/10 rounded-full blur-3xl pointer-events-none"></div>
@@ -821,148 +991,6 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
       </div>
 
     </div>
-  </section>
-
-  <!-- ════════════════════════════════════════════════════
-       BLOQUE 2 (VALOR PRIMERO): 100 CÓDIGOS CREATIVOS DE CHATGPT
-       ════════════════════════════════════════════════════ -->
-  <main id="codigos-grid" class="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 scroll-mt-24">
-    <div class="text-center max-w-3xl mx-auto mb-6">
-      <span class="text-xs font-bold uppercase tracking-wider text-cyan-400 mb-2 block">Catálogo Interactivo y Buscador</span>
-      <h2 class="text-2xl sm:text-4xl font-extrabold text-white mb-3">
-        Explora los 100 Códigos y Cópialos con 1 Clic
-      </h2>
-      <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
-        Filtra por nombre, categoría o efecto visual. Toca <strong>Copiar</strong> para pegarlo directamente en ChatGPT.
-      </p>
-    </div>
-
-
-    <!-- Live Search Bar -->
-    <div class="glass-panel p-4 sm:p-5 rounded-2xl mb-8 max-w-4xl mx-auto border-cyan-500/20">
-      <div class="flex flex-col sm:flex-row gap-3 items-center">
-        <div class="relative flex-1 w-full">
-          <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
-          <input 
-            type="text" 
-            id="search-input" 
-            placeholder="Buscar código: ej. /spotlight, packshot, neonnoir, 35mm, macro..." 
-            class="w-full pl-11 pr-10 py-3 rounded-xl bg-slate-950/80 border border-slate-700 focus:border-cyan-400 focus:outline-none text-white text-sm placeholder-slate-500 transition-colors"
-            oninput="handleSearch(this.value)"
-          >
-          <button id="clear-search" onclick="clearSearch()" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 text-xs hidden">
-            <i class="fas fa-times-circle text-base"></i>
-          </button>
-        </div>
-        <div class="text-xs text-slate-400 font-mono whitespace-nowrap px-3 py-2 rounded-xl bg-slate-900 border border-slate-800">
-          Mostrando: <strong id="visible-count" class="text-cyan-400">100</strong> de 100 códigos
-        </div>
-      </div>
-    </div>
-
-    <!-- Category Pills -->
-    <div class="flex flex-wrap items-center justify-center gap-2 mb-10 max-w-5xl mx-auto" id="category-pills">
-      {pills_str}
-    </div>
-
-    <div id="no-results" class="hidden text-center py-16 px-4 glass-panel rounded-3xl max-w-lg mx-auto">
-      <h3 class="text-lg font-bold text-white mb-2">No encontramos ningún código coincidente</h3>
-      <button onclick="clearSearch()" class="px-5 py-2 rounded-xl text-xs font-bold bg-cyan-400 text-slate-950 mt-4">
-        Ver todos los 100 códigos
-      </button>
-    </div>
-
-    <!-- Cards Collapsible Wrapper (Prevents eating up whole page) -->
-    <div id="cards-wrapper" style="max-height: 720px; overflow: hidden;" class="relative transition-all duration-500">
-      <div id="cards-container" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-{cards_str}
-      </div>
-      <div id="cards-fade-overlay" class="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-slate-950 via-slate-950/95 to-transparent pointer-events-none flex items-end justify-center pb-4">
-      </div>
-    </div>
-
-    <!-- Toggle Expansion Button -->
-    <div class="text-center mt-6">
-      <button id="btn-toggle-catalog" type="button" onclick="toggleCatalogExpansion()" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl font-bold text-xs sm:text-sm bg-gradient-to-r from-cyan-400 to-sky-400 text-slate-950 hover:from-cyan-300 hover:to-sky-300 transition-all shadow-[0_0_25px_rgba(0,229,255,0.35)] cursor-pointer">
-        <i class="fas fa-chevron-down text-xs transition-transform duration-300" id="toggle-catalog-icon"></i>
-        <span id="toggle-catalog-text">Desplegar Catálogo Completo (Ver los 100 Códigos)</span>
-      </button>
-      <p class="text-xs text-slate-400 mt-2">
-        O utiliza el buscador o categorías arriba para ver resultados instantáneos.
-      </p>
-    </div>
-  </main>
-
-  <!-- ════════════════════════════════════════════════════
-       BLOQUE 3: DESCARGAS OFICIALES DE LOS 2 PDFs (SIN VISOR IFRAME)
-       ════════════════════════════════════════════════════ -->
-  <section id="descargas" class="py-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 scroll-mt-24">
-    
-    <div class="text-center mb-10">
-      <span class="text-xs font-bold uppercase tracking-wider text-cyan-400 mb-2 block">Documentos Oficiales en PDF</span>
-      <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Descarga las 2 Colecciones Completas</h2>
-      <p class="text-slate-300 text-xs sm:text-sm max-w-2xl mx-auto mt-2 leading-relaxed">
-        Tienes a tu disposición dos guías complementarias de alta resolución: el <strong>Archivo 1</strong> enfocado en prompts y comandos de texto para ChatGPT, y el <strong>Archivo 2</strong> enfocado en dirección visual y generación de imágenes profesionales.
-      </p>
-    </div>
-
-    <div class="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto mb-10">
-      
-      <!-- Card 1: Edición Guía Visual ProsperIA ES -->
-      <div class="glass-panel p-6 sm:p-8 rounded-2xl relative overflow-hidden flex flex-col justify-between border-cyan-500/20 shadow-xl">
-        <div>
-          <div class="flex items-center justify-between mb-4">
-            <span class="px-3 py-1 rounded-full text-xs font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/30">
-              <i class="far fa-file-pdf mr-1 text-red-400"></i> COLECCIÓN 1 · PROMPTS CHATGPT
-            </span>
-            <span class="text-xs text-slate-400 font-mono">3.7 MB • 12 PÁGINAS</span>
-          </div>
-
-          <h3 class="text-xl font-bold text-white mb-2">100 Códigos Creativos de ChatGPT</h3>
-          <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-6">
-            <strong>Edición ProsperIA Dark (Prompts de Texto):</strong> Formato optimizado para memorizar y aplicar comandos de estructuración, guiones y lógica visual con la sintaxis recomendada <code class="text-cyan-400 font-mono">[/]</code>.
-          </p>
-        </div>
-
-        <div class="pt-4 border-t border-slate-800">
-          <a href="/static/codigos/ChatGPT_Codigos_Creativos_ProsperIA_ES.pdf" download="ChatGPT_Codigos_Creativos_ProsperIA_ES.pdf" class="w-full inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl font-bold text-sm bg-gradient-to-r from-cyan-400 to-cyan-500 text-slate-950 hover:from-cyan-300 hover:to-cyan-400 transition-all shadow-[0_0_15px_rgba(0,229,255,0.25)]">
-            <i class="fas fa-download"></i> Descargar Colección 1 en PDF (3.7 MB)
-          </a>
-        </div>
-      </div>
-
-      <!-- Card 2: Edición Editorial Extendida -->
-      <div class="glass-panel p-6 sm:p-8 rounded-2xl relative overflow-hidden flex flex-col justify-between border-indigo-500/20 shadow-xl">
-        <div>
-          <div class="flex items-center justify-between mb-4">
-            <span class="px-3 py-1 rounded-full text-xs font-bold bg-indigo-950 text-indigo-300 border border-indigo-500/30">
-              <i class="far fa-file-pdf mr-1 text-red-400"></i> COLECCIÓN 2 · FOTOGRAFÍA & IMÁGENES
-            </span>
-            <span class="text-xs text-slate-400 font-mono">5.3 MB • 12 PÁGINAS</span>
-          </div>
-
-          <h3 class="text-xl font-bold text-white mb-2">100 Códigos de Imágenes — Edward Jiménez</h3>
-          <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-6">
-            <strong>Edición Editorial Extendida (Generación de Imágenes):</strong> Diagramación de máxima fidelidad con notas técnicas de dirección de arte, lentes anamórficos (35mm), chiaroscuro y fotografía editorial para marcas.
-          </p>
-        </div>
-
-        <div class="pt-4 border-t border-slate-800">
-          <a href="/static/codigos/Codigos_Creativos_ChatGPT_Edward_Jimenez_ES_ProsperIA.pdf" download="Codigos_Creativos_ChatGPT_Edward_Jimenez_ES_ProsperIA.pdf" class="w-full inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl font-bold text-sm bg-gradient-to-r from-indigo-500 to-cyan-400 text-slate-950 hover:from-indigo-400 hover:to-cyan-300 transition-all shadow-[0_0_15px_rgba(94,106,210,0.25)]">
-            <i class="fas fa-download"></i> Descargar Colección 2 en PDF (5.3 MB)
-          </a>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- Google Drive Alternative -->
-    <div class="text-center">
-      <a href="https://drive.google.com/drive/folders/1tMekHUIAkG7-OLcorPOaz2wI2HOLWhrV?usp=sharing" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-xs sm:text-sm text-slate-400 hover:text-cyan-400 transition-colors py-2 px-4 rounded-xl bg-slate-900/60 border border-slate-800">
-        <i class="fab fa-google-drive text-amber-400"></i> ¿Prefieres guardarlos en tu Drive? <strong>Abrir Carpeta en Google Drive</strong> <i class="fas fa-external-link-alt text-[10px]"></i>
-      </a>
-    </div>
-
   </section>
 
   <!-- ════════════════════════════════════════════════════
@@ -1633,17 +1661,17 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
 
           <div>
             <label class="block text-xs font-semibold text-slate-300 mb-1">Nombre Completo *</label>
-            <input type="text" id="direct-name" required placeholder="Ej. Carlos Mendoza" class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-cyan-400 focus:outline-none">
+            <input type="text" id="direct-name" required placeholder="Ej. Carlos Mendoza" class="input-cotizacion w-full px-4 py-3 rounded-xl border border-slate-700 text-sm focus:border-cyan-400 focus:outline-none" style="background-color: #030712 !important; color: #ffffff !important;">
           </div>
 
           <div>
             <label class="block text-xs font-semibold text-slate-300 mb-1">Correo Electrónico *</label>
-            <input type="email" id="direct-email" required placeholder="tu@empresa.com" class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-cyan-400 focus:outline-none">
+            <input type="email" id="direct-email" required placeholder="tu@empresa.com" class="input-cotizacion w-full px-4 py-3 rounded-xl border border-slate-700 text-sm focus:border-cyan-400 focus:outline-none" style="background-color: #030712 !important; color: #ffffff !important;">
           </div>
 
           <div>
             <label class="block text-xs font-semibold text-slate-300 mb-1">WhatsApp (con código de país) *</label>
-            <input type="tel" id="direct-phone" required placeholder="+1 786 555 0199" class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-cyan-400 focus:outline-none">
+            <input type="tel" id="direct-phone" required placeholder="+1 786 555 0199" class="input-cotizacion w-full px-4 py-3 rounded-xl border border-slate-700 text-sm focus:border-cyan-400 focus:outline-none" style="background-color: #030712 !important; color: #ffffff !important;">
           </div>
 
           <button type="submit" id="btn-submit-direct" class="btn-cotizacion-cta mt-2">
@@ -1706,9 +1734,9 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
       <div>
         <h4 class="text-white font-bold text-xs uppercase tracking-wider mb-4 text-cyan-400">Recursos de la Página</h4>
         <ul class="space-y-2.5">
-          <li><a href="#spiderman-breakdown" class="hover:text-white transition-colors">Prompt Reel Spiderman</a></li>
           <li><a href="#codigos-grid" class="hover:text-white transition-colors">100 Códigos Creativos</a></li>
           <li><a href="#descargas" class="hover:text-white transition-colors">Descargas PDF Oficiales</a></li>
+          <li><a href="#spiderman-breakdown" class="hover:text-white transition-colors">Prompt Reel Spiderman</a></li>
           <li><a href="#reels-gallery" class="hover:text-white transition-colors">Galería de Nuestros Reels</a></li>
           <li><a href="#test-ia" class="hover:text-white transition-colors">Test de Nivel de IA</a></li>
           <li><a href="https://chat.whatsapp.com/HIjs3Bytduy9ucOtn6jeKw?s=sh&p=a&ilr=4" target="_blank" rel="noopener" class="text-emerald-400 hover:underline">Comunidad Oficial WhatsApp</a></li>

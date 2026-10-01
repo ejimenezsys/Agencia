@@ -1544,11 +1544,11 @@ def send_email_notification(name: str, email: str, company: str, phone: str, mes
     if env_recipient and env_recipient not in recipients_list:
         recipients_list.append(env_recipient)
         
-    smtp_host = os.environ.get("SMTP_HOST")
-    smtp_port = int(os.environ.get("SMTP_PORT", "587"))
-    smtp_user = os.environ.get("SMTP_USER")
-    smtp_pass = os.environ.get("SMTP_PASSWORD")
-    smtp_sender = os.environ.get("SMTP_SENDER", "edward@agenciaprosperia.com")
+    smtp_host = os.environ.get("SMTP_HOST") or "smtp.hostinger.com"
+    smtp_port = int(os.environ.get("SMTP_PORT", "465"))
+    smtp_user = os.environ.get("SMTP_USER") or "edward@agenciaprosperia.com"
+    smtp_pass = os.environ.get("SMTP_PASSWORD") or "Digital2@27"
+    smtp_sender = os.environ.get("SMTP_SENDER") or "edward@agenciaprosperia.com"
     
     # Pre-process strings to avoid f-string backslash limitations in older Python versions
     message_html = (message or "").replace('\n', '<br>')
@@ -1622,16 +1622,6 @@ def send_email_notification(name: str, email: str, company: str, phone: str, mes
     </html>
     """
     
-    # Check if SMTP details are defined
-    if not (smtp_host and smtp_user and smtp_pass):
-        print(f"\n⚠️ [EMAIL NOTIFICATION MOCK]", flush=True)
-        print(f"To: {', '.join(recipients_list)}", flush=True)
-        print(f"Subject: {subject}", flush=True)
-        print(f"SMTP credentials not configured. Please define SMTP_HOST, SMTP_USER, SMTP_PASSWORD in environment variables to send real emails.", flush=True)
-        print(f"Lead Name: {name} | Email: {email} | Company: {company} | Phone: {phone}", flush=True)
-        print(f"Notes: {message}\n", flush=True)
-        return
-        
     try:
         msg = MIMEMultipart("alternative")
         msg["Subject"] = subject
@@ -1642,8 +1632,12 @@ def send_email_notification(name: str, email: str, company: str, phone: str, mes
         msg.attach(MIMEText(text_content, "plain"))
         msg.attach(MIMEText(html_content, "html"))
         
-        server = smtplib.SMTP(smtp_host, smtp_port)
-        server.starttls()
+        if smtp_port == 465:
+            server = smtplib.SMTP_SSL(smtp_host, smtp_port, timeout=15)
+        else:
+            server = smtplib.SMTP(smtp_host, smtp_port, timeout=15)
+            server.starttls()
+            
         server.login(smtp_user, smtp_pass)
         server.sendmail(smtp_sender, recipients_list, msg.as_string())
         server.quit()
@@ -1653,11 +1647,11 @@ def send_email_notification(name: str, email: str, company: str, phone: str, mes
 
 def send_client_diagnostic_email(name: str, email: str, phone: str, message: str):
     """Envía el resultado de la radiografía de eficiencia comercial directamente al cliente desde edward@agenciaprosperia.com"""
-    smtp_host = os.environ.get("SMTP_HOST")
-    smtp_port = int(os.environ.get("SMTP_PORT", "587"))
-    smtp_user = os.environ.get("SMTP_USER")
-    smtp_pass = os.environ.get("SMTP_PASSWORD")
-    smtp_sender = os.environ.get("SMTP_SENDER", "edward@agenciaprosperia.com")
+    smtp_host = os.environ.get("SMTP_HOST") or "smtp.hostinger.com"
+    smtp_port = int(os.environ.get("SMTP_PORT", "465"))
+    smtp_user = os.environ.get("SMTP_USER") or "edward@agenciaprosperia.com"
+    smtp_pass = os.environ.get("SMTP_PASSWORD") or "Digital2@27"
+    smtp_sender = os.environ.get("SMTP_SENDER") or "edward@agenciaprosperia.com"
     
     if not email or "@" not in email:
         return
@@ -1732,8 +1726,11 @@ def send_client_diagnostic_email(name: str, email: str, phone: str, message: str
         msg.attach(MIMEText(text_content, "plain"))
         msg.attach(MIMEText(html_content, "html"))
         
-        server = smtplib.SMTP(smtp_host, smtp_port)
-        server.starttls()
+        if smtp_port == 465:
+            server = smtplib.SMTP_SSL(smtp_host, smtp_port, timeout=15)
+        else:
+            server = smtplib.SMTP(smtp_host, smtp_port, timeout=15)
+            server.starttls()
         server.login(smtp_user, smtp_pass)
         server.sendmail(smtp_sender, email, msg.as_string())
         server.quit()

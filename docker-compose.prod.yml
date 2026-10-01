@@ -12,9 +12,14 @@ services:
     environment:
       - DATABASE_PATH=/app/data/prosper_ia.db
       - PORT=8000
-      # Modo silencioso: captura local sin correos ni webhooks salientes.
-      - EMAIL_NOTIFICATIONS_ENABLED=${EMAIL_NOTIFICATIONS_ENABLED:-false}
+      - EMAIL_NOTIFICATIONS_ENABLED=true
       - LEAD_WEBHOOKS_ENABLED=${LEAD_WEBHOOKS_ENABLED:-false}
+      - SMTP_HOST=${SMTP_HOST:-smtp.hostinger.com}
+      - SMTP_PORT=${SMTP_PORT:-465}
+      - SMTP_USER=${SMTP_USER:-edward@agenciaprosperia.com}
+      - SMTP_PASSWORD=${SMTP_PASSWORD:-Digital2@27}
+      - SMTP_SENDER=${SMTP_SENDER:-edward@agenciaprosperia.com}
+      - NOTIFICATION_EMAIL=edward@agenciaprosperia.com
       - ADMIN_EMAIL=${ADMIN_EMAIL}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD}
       - ADMIN_NAME=${ADMIN_NAME:-Administrador ProsperIA}
