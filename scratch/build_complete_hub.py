@@ -484,6 +484,72 @@ def generate_page(is_template=False):
       align-items: center;
       gap: 8px;
     }}
+    .btn-cotizacion-cta {{
+      background: linear-gradient(135deg, #10b981 0%, #06b6d4 50%, #00e5ff 100%) !important;
+      color: #020710 !important;
+      font-weight: 900 !important;
+      font-size: 15px !important;
+      padding: 16px 28px !important;
+      border-radius: 14px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 10px !important;
+      box-shadow: 0 0 30px rgba(16, 185, 129, 0.4) !important;
+      transition: all 0.25s ease !important;
+      border: none !important;
+      cursor: pointer !important;
+      width: 100% !important;
+    }}
+    .btn-cotizacion-cta:hover {{
+      transform: translateY(-2px) scale(1.01) !important;
+      box-shadow: 0 0 45px rgba(16, 185, 129, 0.65) !important;
+      background: linear-gradient(135deg, #34d399 0%, #22d3ee 50%, #38bdf8 100%) !important;
+      color: #020710 !important;
+    }}
+    .btn-opt1-cta {{
+      background: rgba(0, 229, 255, 0.12) !important;
+      color: #00e5ff !important;
+      border: 1px solid rgba(0, 229, 255, 0.4) !important;
+      font-weight: 700 !important;
+      font-size: 13px !important;
+      padding: 14px 20px !important;
+      border-radius: 12px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 8px !important;
+      transition: all 0.2s ease !important;
+      cursor: pointer !important;
+      width: 100% !important;
+    }}
+    .btn-opt1-cta:hover {{
+      background: #00e5ff !important;
+      color: #020710 !important;
+      box-shadow: 0 0 25px rgba(0, 229, 255, 0.5) !important;
+    }}
+    .btn-opt2-cta {{
+      background: linear-gradient(135deg, #6366f1 0%, #38bdf8 100%) !important;
+      color: #020710 !important;
+      border: none !important;
+      font-weight: 800 !important;
+      font-size: 13px !important;
+      padding: 14px 20px !important;
+      border-radius: 12px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 8px !important;
+      box-shadow: 0 0 25px rgba(99, 102, 241, 0.4) !important;
+      transition: all 0.2s ease !important;
+      cursor: pointer !important;
+      width: 100% !important;
+    }}
+    .btn-opt2-cta:hover {{
+      transform: translateY(-2px) !important;
+      box-shadow: 0 0 40px rgba(99, 102, 241, 0.65) !important;
+      background: linear-gradient(135deg, #818cf8 0%, #00e5ff 100%) !important;
+    }}
   </style>
 </head>
 <body class="relative">
@@ -1487,8 +1553,8 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
             </ul>
           </div>
 
-          <button type="button" onclick="selectCotizacionOption('contenido')" class="w-full py-3.5 rounded-xl font-bold text-xs bg-cyan-500/20 text-cyan-300 border border-cyan-400/40 hover:bg-cyan-400 hover:text-slate-950 transition-all flex items-center justify-center gap-2">
-            <i class="fas fa-check-circle"></i> Elegir Opción 1: Contenido Viral
+          <button type="button" onclick="selectCotizacionOption('contenido')" class="btn-opt1-cta">
+            <i class="fas fa-check-circle"></i> Solicitar Cotización Opción 1 (+1 786 557 3119)
           </button>
         </div>
 
@@ -1529,8 +1595,8 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
             </ul>
           </div>
 
-          <button type="button" onclick="selectCotizacionOption('integral')" class="w-full py-3.5 rounded-xl font-bold text-xs bg-gradient-to-r from-indigo-500 to-cyan-400 text-slate-950 hover:from-indigo-400 hover:to-cyan-300 transition-all shadow-[0_0_20px_rgba(94,106,210,0.3)] flex items-center justify-center gap-2">
-            <i class="fas fa-rocket"></i> Elegir Opción 2: Sistema 360°
+          <button type="button" onclick="selectCotizacionOption('integral')" class="btn-opt2-cta">
+            <i class="fas fa-rocket"></i> Solicitar Cotización Opción 2 (+1 786 557 3119)
           </button>
         </div>
 
@@ -1539,9 +1605,11 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
       <!-- Formulario Pequeño de Cotización Directa (Sin Modales) -->
       <div id="formulario-cotizacion" class="glass-panel p-6 sm:p-8 rounded-3xl border-2 border-cyan-500/30 max-w-xl mx-auto mb-12 bg-slate-950/90 shadow-2xl relative scroll-mt-28">
         <div class="text-center mb-6">
-          <span class="px-3 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-cyan-950 text-cyan-300 border border-cyan-500/30 inline-block mb-2">
-            Respuesta en menos de 2 horas
-          </span>
+          <div class="flex items-center justify-center gap-2 mb-2">
+            <a href="https://wa.me/17865573119?text=Hola%20Edward,%20quiero%20solicitar%20una%20cotizaci%C3%B3n%20para%20mi%20empresa" target="_blank" rel="noopener" class="px-3 py-1 rounded-full text-[11px] font-extrabold uppercase tracking-wider bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 inline-flex items-center gap-1.5 hover:bg-emerald-900 transition-colors shadow-[0_0_15px_rgba(16,185,129,0.25)]">
+              <i class="fab fa-whatsapp text-emerald-400"></i> Edward Jiménez: +1 (786) 557-3119
+            </a>
+          </div>
           <h3 class="text-xl sm:text-2xl font-extrabold text-white">Solicitar Cotización de Servicio</h3>
           <p class="text-xs text-slate-300 mt-1">Déjanos tus datos básicos y coordinamos una propuesta a la medida de tu empresa.</p>
         </div>
@@ -1578,11 +1646,17 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
             <input type="tel" id="direct-phone" required placeholder="+1 786 555 0199" class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-cyan-400 focus:outline-none">
           </div>
 
-          <button type="submit" id="btn-submit-direct" class="w-full py-4 rounded-xl font-bold text-sm bg-gradient-to-r from-cyan-400 via-sky-400 to-indigo-500 text-slate-950 hover:from-cyan-300 hover:to-indigo-400 transition-all shadow-[0_0_25px_rgba(0,229,255,0.3)] flex items-center justify-center gap-2 mt-2">
-            <i class="fab fa-whatsapp text-base"></i> Solicitar Cotización Inmediata
+          <button type="submit" id="btn-submit-direct" class="btn-cotizacion-cta mt-2">
+            <i class="fab fa-whatsapp text-lg"></i> Solicitar Cotización (+1 786 557 3119)
           </button>
           
-          <p class="text-[11px] text-slate-500 text-center">Tus datos están protegidos. Sin spam. Te contactamos directamente por WhatsApp.</p>
+          <div class="text-center pt-2">
+            <a href="https://wa.me/17865573119?text=Hola%20Edward,%20quiero%20solicitar%20una%20cotizaci%C3%B3n%20para%20mi%20empresa" target="_blank" rel="noopener" class="text-xs text-emerald-400 hover:text-emerald-300 transition-colors inline-flex items-center gap-1 font-semibold">
+              <i class="fab fa-whatsapp"></i> ¿Prefieres escribir directo sin llenar el formulario? Clic aquí (+1 786 557 3119)
+            </a>
+          </div>
+
+          <p class="text-[11px] text-slate-500 text-center">Tus datos se envían a edward@agenciaprosperia.com y te abren contacto directo por WhatsApp.</p>
         </form>
       </div>
 
@@ -1917,42 +1991,62 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
       e.preventDefault();
       const selectedRadio = document.querySelector('input[name="servicio_opcion"]:checked');
       const servicio = selectedRadio ? selectedRadio.value : 'general';
-      const name = document.getElementById('direct-name').value;
-      const email = document.getElementById('direct-email').value;
-      const phone = document.getElementById('direct-phone').value;
+      const name = document.getElementById('direct-name').value.trim();
+      const email = document.getElementById('direct-email').value.trim();
+      const phone = document.getElementById('direct-phone').value.trim();
       const btn = document.getElementById('btn-submit-direct');
 
+      if (!name || !email || !phone) {{
+        alert('Por favor completa tu nombre, correo y WhatsApp.');
+        return;
+      }}
+
       btn.disabled = true;
-      btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i> Enviando Solicitud...';
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-1.5"></i> Procesando y enviando a edward@agenciaprosperia.com...';
 
       const servicioLabel = servicio === 'contenido' ? 'Opción 1: Creación de Contenido Viral' : 'Opción 2: Sistema 360° Integral';
+      const waMsg = `Hola Edward, soy ${{name}}. Acabo de solicitar una cotización para ${{servicioLabel}} desde la página de códigos. Mi correo es ${{email}} y mi WhatsApp es ${{phone}}.`;
+      const waUrl = `https://wa.me/17865573119?text=${{encodeURIComponent(waMsg)}}`;
 
       try {{
+        // Despacha la notificación por correo a edward@agenciaprosperia.com y registra el lead en CRM
         await fetch('/api/auth/contact', {{
           method: 'POST',
           headers: {{ 'Content-Type': 'application/json' }},
+          keepalive: true,
           body: JSON.stringify({{
             name: name,
             email: email,
             phone: phone,
+            company: 'Cotización Hub Códigos',
             source: 'cotizacion_directa_' + servicio,
-            message: `[COTIZACIÓN DIRECTA] Modalidad solicitada: ${{servicioLabel}}. WhatsApp: ${{phone}}. Email: ${{email}}`
+            message: `[COTIZACIÓN DE SERVICIO] Modalidad solicitada: ${{servicioLabel}}.\nCliente: ${{name}}\nEmail: ${{email}}\nWhatsApp: ${{phone}}\nNotificación dirigida a edward@agenciaprosperia.com.\nContacto directo: +1 (786) 557-3119`
           }})
         }});
       }} catch (err) {{
-        console.warn('Lead capture notification error (cached locally):', err);
+        console.warn('Registro local de cotización:', err);
       }}
 
-      btn.innerHTML = '<i class="fas fa-check mr-1"></i> ¡Solicitud Enviada!';
-      btn.classList.remove('from-cyan-400', 'to-indigo-500');
+      btn.innerHTML = '<i class="fas fa-check mr-1.5"></i> ¡Correo Enviado! Abriendo WhatsApp (+1 786 557 3119)...';
+      btn.classList.remove('from-emerald-400', 'to-cyan-400');
       btn.classList.add('bg-emerald-500', 'text-slate-950');
 
-      const waMsg = `Hola Edward, soy ${{name}}. Acabo de solicitar cotización para ${{servicioLabel}} desde la página de códigos. Mi correo es ${{email}} y mi WhatsApp es ${{phone}}.`;
-
+      // Redirigir a WhatsApp de Edward Jiménez (+1 786 557 3119)
       setTimeout(() => {{
-        window.open(`https://wa.me/17865573119?text=${{encodeURIComponent(waMsg)}}`, '_blank');
-        btn.innerHTML = '<i class="fab fa-whatsapp mr-1"></i> Abriendo WhatsApp...';
-      }}, 1000);
+        window.open(waUrl, '_blank');
+        btn.innerHTML = '<i class="fab fa-whatsapp mr-1.5"></i> Chatear con Edward en WhatsApp (+1 786 557 3119)';
+        btn.disabled = false;
+        
+        // Botón permanente por si el navegador bloqueó la ventana emergente
+        const existingFallback = document.getElementById('wa-fallback-btn');
+        if (!existingFallback) {{
+          const fallbackDiv = document.createElement('div');
+          fallbackDiv.id = 'wa-fallback-btn';
+          fallbackDiv.className = 'mt-3 text-center';
+          fallbackDiv.innerHTML = `<a href="${{waUrl}}" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-extrabold text-xs bg-emerald-400 text-slate-950 hover:bg-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.4)] transition-all"><i class="fab fa-whatsapp text-sm"></i> Clic aquí si no abrió tu WhatsApp (+1 786 557 3119) <i class="fas fa-arrow-right text-[10px]"></i></a>`;
+          btn.parentNode.insertBefore(fallbackDiv, btn.nextSibling);
+        }}
+      }}, 500);
     }}
 
     // Collapsible Catalog (100 Codes) Logic

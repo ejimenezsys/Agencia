@@ -1538,7 +1538,12 @@ async def api_logout(request: Request, response: Response, db: Session = Depends
     return {"success": True}
 
 def send_email_notification(name: str, email: str, company: str, phone: str, message: str):
-    notification_to = os.environ.get("NOTIFICATION_EMAIL", "ejimenezsys@gmail.com")
+    primary_recipient = "edward@agenciaprosperia.com"
+    env_recipient = os.environ.get("NOTIFICATION_EMAIL")
+    recipients_list = [primary_recipient]
+    if env_recipient and env_recipient not in recipients_list:
+        recipients_list.append(env_recipient)
+        
     smtp_host = os.environ.get("SMTP_HOST")
     smtp_port = int(os.environ.get("SMTP_PORT", "587"))
     smtp_user = os.environ.get("SMTP_USER")
@@ -1546,11 +1551,14 @@ def send_email_notification(name: str, email: str, company: str, phone: str, mes
     smtp_sender = os.environ.get("SMTP_SENDER", "edward@agenciaprosperia.com")
     
     # Pre-process strings to avoid f-string backslash limitations in older Python versions
-    message_html = message.replace('\n', '<br>')
-    phone_clean = phone.replace('+', '').replace(' ', '')
+    message_html = (message or "").replace('\n', '<br>')
+    phone_clean = (phone or "").replace('+', '').replace(' ', '').replace('-', '')
     
-    # Compose email subject and content (Premium SVE90 style HTML)
-    subject = f"🔔 Nueva Aplicación SVE90: {name} ({company})"
+    is_quote = "COTIZACIÓN" in (message or "").upper()
+    header_subtitle = "NUEVA SOLICITUD DE COTIZACIÓN DE SERVICIO" if is_quote else "NUEVA APLICACIÓN EJECUTIVA SVE90"
+    
+    # Compose email subject and content (Premium style HTML)
+    subject = f"🔔 Nueva Cotización de Servicio: {name} ({phone})" if is_quote else f"🔔 Nueva Aplicación SVE90: {name} ({company})"
     
     html_content = f"""
     <html>
@@ -1560,13 +1568,13 @@ def send_email_notification(name: str, email: str, company: str, phone: str, mes
           <tr style="background: linear-gradient(135deg, #081224 0%, #020710 100%); border-bottom: 1px solid rgba(0,229,255,0.15); text-align: center;">
             <td style="padding: 30px 20px;">
               <h1 style="color: #00e5ff; margin: 0; font-size: 26px; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase;">PROSPER IA</h1>
-              <p style="color: #94a3b8; margin: 5px 0 0 0; font-size: 13px; font-weight: 600; letter-spacing: 0.5px;">NUEVA APLICACIÓN EJECUTIVA SVE90</p>
+              <p style="color: #94a3b8; margin: 5px 0 0 0; font-size: 13px; font-weight: 600; letter-spacing: 0.5px;">{header_subtitle}</p>
             </td>
           </tr>
           <!-- Body -->
           <tr>
             <td style="padding: 35px 30px;">
-              <h2 style="color: #ffffff; margin-top: 0; font-size: 18px; font-weight: 800; border-bottom: 1px solid rgba(0,229,255,0.25); padding-bottom: 8px;">Detalles de Prospección Directiva</h2>
+              <h2 style="color: #ffffff; margin-top: 0; font-size: 18px; font-weight: 800; border-bottom: 1px solid rgba(0,229,255,0.25); padding-bottom: 8px;">Detalles del Prospecto</h2>
               
               <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 15px;">
                 <tr>
@@ -1578,30 +1586,35 @@ def send_email_notification(name: str, email: str, company: str, phone: str, mes
                   <td style="padding: 10px 0; font-size: 14px; color: #00e5ff; font-weight: 600;"><a href="mailto:{email}" style="color: #00e5ff; text-decoration: none; border-bottom: 1px dashed rgba(0,229,255,0.4);">{email}</a></td>
                 </tr>
                 <tr>
-                  <td style="padding: 10px 0; font-weight: bold; font-size: 13px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px;">Nombre de Agencia:</td>
-                  <td style="padding: 10px 0; font-size: 14px; color: #ffffff; font-weight: 600;">{company}</td>
+                  <td style="padding: 10px 0; font-weight: bold; font-size: 13px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px;">Empresa / Referencia:</td>
+                  <td style="padding: 10px 0; font-size: 14px; color: #ffffff; font-weight: 600;">{company or "No especificado"}</td>
                 </tr>
                 <tr>
-                  <td style="padding: 10px 0; font-weight: bold; font-size: 13px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px;">WhatsApp:</td>
-                  <td style="padding: 10px 0; font-size: 14px; color: #00e5ff; font-weight: 600;"><a href="https://wa.me/{phone_clean}" style="color: #00e5ff; text-decoration: none;">{phone}</a></td>
+                  <td style="padding: 10px 0; font-weight: bold; font-size: 13px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px;">WhatsApp Cliente:</td>
+                  <td style="padding: 10px 0; font-size: 14px; color: #00e5ff; font-weight: 600;"><a href="https://wa.me/{phone_clean}" style="color: #00e5ff; text-decoration: none;">{phone} (Abrir Chat)</a></td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px 0; font-weight: bold; font-size: 13px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px;">Edward WhatsApp Directo:</td>
+                  <td style="padding: 10px 0; font-size: 14px; color: #10b981; font-weight: 600;"><a href="https://wa.me/17865573119" style="color: #10b981; text-decoration: none;">+1 (786) 557-3119</a></td>
                 </tr>
               </table>
               
-              <h2 style="color: #ffffff; margin-top: 30px; font-size: 18px; font-weight: 800; border-bottom: 1px solid rgba(0,229,255,0.25); padding-bottom: 8px;">Cuello de Botella Operativo / Notas</h2>
+              <h2 style="color: #ffffff; margin-top: 30px; font-size: 18px; font-weight: 800; border-bottom: 1px solid rgba(0,229,255,0.25); padding-bottom: 8px;">Detalles de la Solicitud / Mensaje</h2>
               <div style="background-color: rgba(0,229,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-left: 4px solid #00e5ff; padding: 15px; margin-top: 15px; font-size: 14px; color: #cbd5e1; line-height: 1.6; border-radius: 4px;">
                 {message_html}
               </div>
               
               <div style="margin-top: 40px; text-align: center;">
-                <a href="http://127.0.0.1:8000/dashboard" style="background: linear-gradient(135deg, #00e5ff, #00b4cc); color: #020710; text-decoration: none; padding: 12px 28px; font-weight: bold; font-size: 13px; border-radius: 8px; display: inline-block; box-shadow: 0 4px 15px rgba(0,229,255,0.2); text-transform: uppercase; letter-spacing: 0.5px;">Acceder al CRM de Leads</a>
+                <a href="https://wa.me/{phone_clean}" style="background: linear-gradient(135deg, #10b981, #059669); color: #ffffff; text-decoration: none; padding: 12px 28px; font-weight: bold; font-size: 13px; border-radius: 8px; display: inline-block; box-shadow: 0 4px 15px rgba(16,185,129,0.3); text-transform: uppercase; letter-spacing: 0.5px; margin-right: 10px;">Responder por WhatsApp</a>
+                <a href="https://agenciaprosperia.com/dashboard" style="background: linear-gradient(135deg, #00e5ff, #00b4cc); color: #020710; text-decoration: none; padding: 12px 28px; font-weight: bold; font-size: 13px; border-radius: 8px; display: inline-block; box-shadow: 0 4px 15px rgba(0,229,255,0.2); text-transform: uppercase; letter-spacing: 0.5px;">Ver en CRM</a>
               </div>
             </td>
           </tr>
           <!-- Footer -->
           <tr style="background-color: #020710; text-align: center; border-top: 1px solid rgba(0,229,255,0.15);">
             <td style="padding: 20px; font-size: 11px; color: #64748b; line-height: 1.5;">
-              Este es un correo automático de control generado por el Sistema Operativo SVE90.<br>
-              © 2026 Prosper IA & PassportAI. Todos los derechos reservados.
+              Notificación automática despachada para edward@agenciaprosperia.com.<br>
+              © 2026 Prosper IA. Todos los derechos reservados.
             </td>
           </tr>
         </table>
@@ -1612,7 +1625,7 @@ def send_email_notification(name: str, email: str, company: str, phone: str, mes
     # Check if SMTP details are defined
     if not (smtp_host and smtp_user and smtp_pass):
         print(f"\n⚠️ [EMAIL NOTIFICATION MOCK]", flush=True)
-        print(f"To: {notification_to}", flush=True)
+        print(f"To: {', '.join(recipients_list)}", flush=True)
         print(f"Subject: {subject}", flush=True)
         print(f"SMTP credentials not configured. Please define SMTP_HOST, SMTP_USER, SMTP_PASSWORD in environment variables to send real emails.", flush=True)
         print(f"Lead Name: {name} | Email: {email} | Company: {company} | Phone: {phone}", flush=True)
@@ -1623,20 +1636,20 @@ def send_email_notification(name: str, email: str, company: str, phone: str, mes
         msg = MIMEMultipart("alternative")
         msg["Subject"] = subject
         msg["From"] = f"Prosper IA <{smtp_sender}>"
-        msg["To"] = notification_to
+        msg["To"] = ", ".join(recipients_list)
         
-        text_content = f"Nueva Aplicación SVE90:\n\nNombre: {name}\nEmail: {email}\nAgencia: {company}\nTeléfono: {phone}\nMensaje: {message}"
+        text_content = f"{subject}\n\nNombre: {name}\nEmail: {email}\nEmpresa: {company}\nTeléfono: {phone}\nMensaje: {message}"
         msg.attach(MIMEText(text_content, "plain"))
         msg.attach(MIMEText(html_content, "html"))
         
         server = smtplib.SMTP(smtp_host, smtp_port)
         server.starttls()
         server.login(smtp_user, smtp_pass)
-        server.sendmail(smtp_sender, notification_to, msg.as_string())
+        server.sendmail(smtp_sender, recipients_list, msg.as_string())
         server.quit()
-        print(f"📧 [EMAIL NOTIFICATION] Email sent successfully to {notification_to}!", flush=True)
+        print(f"📧 [EMAIL NOTIFICATION] Email sent successfully to {recipients_list}!", flush=True)
     except Exception as e:
-        print(f"❌ [EMAIL NOTIFICATION ERROR] Failed to send email to {notification_to}: {e}", flush=True)
+        print(f"❌ [EMAIL NOTIFICATION ERROR] Failed to send email to {recipients_list}: {e}", flush=True)
 
 def send_client_diagnostic_email(name: str, email: str, phone: str, message: str):
     """Envía el resultado de la radiografía de eficiencia comercial directamente al cliente desde edward@agenciaprosperia.com"""
@@ -1881,16 +1894,15 @@ async def api_contact(req: ContactRequest, background_tasks: BackgroundTasks, db
     db.add(new_lead)
     db.commit()
     
-    # Modo silencioso por defecto: el contacto se conserva en el CRM local.
-    if feature_enabled("EMAIL_NOTIFICATIONS_ENABLED"):
-        background_tasks.add_task(
-            send_email_notification,
-            name=req.name,
-            email=req.email,
-            company=req.company or "",
-            phone=req.phone or "",
-            message=req.message or ""
-        )
+    # Enviar notificación automática por correo electrónico a edward@agenciaprosperia.com
+    background_tasks.add_task(
+        send_email_notification,
+        name=req.name,
+        email=req.email,
+        company=req.company or "",
+        phone=req.phone or "",
+        message=req.message or ""
+    )
 
     # Envío automático de la radiografía de diagnóstico comercial al cliente desde edward@agenciaprosperia.com
     if "DIAGNÓSTICO COMERCIAL" in (req.message or ""):
