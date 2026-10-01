@@ -1,9 +1,53 @@
 import os
 import json
+import pypdf
+import re
 
-# Load the 100 codes JSON
+# Load Colección 1
 with open('content/codigos_100.json', 'r', encoding='utf-8') as f:
-    categories_data = json.load(f)
+    col1_raw = json.load(f)
+
+# Parse Colección 2 from PDF
+reader = pypdf.PdfReader('static/codigos/Codigos_Creativos_ChatGPT_Edward_Jimenez_ES_ProsperIA.pdf')
+col2_raw = []
+for p_idx in range(1, 11):
+    txt = reader.pages[p_idx].extract_text()
+    lines = [l.strip() for l in txt.split('\n') if l.strip()]
+    cat_id = f'{p_idx:02d}'
+    
+    cat_name = ''
+    for line in lines[1:5]:
+        if any(w in line for w in ['ILUMINACIÓN', 'SURREALISTA', 'ENCUADRE', 'TRAS CÁMARAS', 'CÁMARA', 'FOTOGRAFÍA', 'EXPERIMENTOS', 'ESTÉTICAS', 'ACCIÓN', 'PRODUCTO']):
+            cat_name = re.sub(r'\s*\d{3}-\d{3}.*', '', line).strip()
+            break
+    
+    items = []
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+        if line.startswith('/'):
+            cmd = line
+            item_num = ''
+            if i > 0 and re.match(r'^\d{2,3}$', lines[i-1]):
+                item_num = lines[i-1]
+            desc_lines = []
+            j = i + 1
+            while j < len(lines) and not lines[j].startswith('/') and not re.match(r'^\d{2,3}$', lines[j]) and not lines[j].startswith('@edwardjimenezia'):
+                desc_lines.append(lines[j])
+                j += 1
+            desc = ' '.join(desc_lines).strip()
+            items.append({
+                'sub_number': item_num,
+                'command': cmd,
+                'description': desc
+            })
+            i = j - 1
+        i += 1
+    col2_raw.append({
+        'category_id': cat_id,
+        'category_name': cat_name or f'Categoría {cat_id}',
+        'items': items
+    })
 
 category_icons = {
     "01": "fa-lightbulb",
@@ -18,48 +62,118 @@ category_icons = {
     "10": "fa-box-open"
 }
 
-# Build Categories Filter Pills HTML
+category_names_clean = {
+    "01": "ILUMINACIÓN",
+    "02": "SURREAL E IMPOSIBLE",
+    "03": "ENCUADRE Y COMPOSICIÓN",
+    "04": "BTS Y PRODUCCIÓN CREATIVA",
+    "05": "CÁMARA Y ÁNGULOS",
+    "06": "FOTOGRAFÍA Y EDITORIAL",
+    "07": "EXPERIMENTOS CREATIVOS",
+    "08": "ESTÉTICAS CINEMATOGRÁFICAS",
+    "09": "ACCIÓN Y DINAMISMO",
+    "10": "PRODUCTO Y PUBLICIDAD"
+}
+
+# Combine into 200 items
+all_codes = []
+
+# Colección 1: 001 - 100
+for cat in col1_raw:
+    cat_id = cat['category_id']
+    cat_name = category_names_clean.get(cat_id, cat['category_name'])
+    for it in cat['items']:
+        num_int = int(it['number'])
+        all_codes.append({
+            'global_num': f"{num_int:03d}",
+            'collection': 'col1',
+            'collection_name': 'Colección 1 · Prompts ChatGPT',
+            'badge_color': 'bg-cyan-950/80 text-cyan-300 border-cyan-500/30',
+            'category_id': cat_id,
+            'category_name': cat_name,
+            'command': it['command'],
+            'description': it['description'],
+            'tag': 'PROMPT TEXTO'
+        })
+
+# Colección 2: 101 - 200
+for cat in col2_raw:
+    cat_id = cat['category_id']
+    cat_name = category_names_clean.get(cat_id, cat['category_name'])
+    for it in cat['items']:
+        sub_num = int(it['sub_number']) if it['sub_number'].isdigit() else len(all_codes) - 99
+        global_num = f"{100 + sub_num:03d}"
+        all_codes.append({
+            'global_num': global_num,
+            'collection': 'col2',
+            'collection_name': 'Colección 2 · Fotografía Edward Jiménez',
+            'badge_color': 'bg-indigo-950/80 text-indigo-300 border-indigo-500/30',
+            'category_id': cat_id,
+            'category_name': cat_name,
+            'command': it['command'],
+            'description': it['description'],
+            'tag': 'DIRECCIÓN FOTOGRAFÍA'
+        })
+
+print(f"Total codes combined: {len(all_codes)}")
+
+# Build Category Pills HTML (Showing total count per category = 20)
 pills_html = [
-    '<button type="button" class="filter-chip active px-4 py-2 rounded-xl text-xs font-semibold cursor-pointer border border-cyan-500/30 bg-cyan-500/20 text-cyan-300 hover:border-cyan-400 transition-all flex items-center gap-1.5" data-cat="all" onclick="filterCategory(\'all\', this)">'
-    '<i class="fas fa-th-large text-xs"></i> <span>Todos los Códigos (100)</span>'
+    '<button type="button" class="filter-chip active px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs font-semibold cursor-pointer border border-cyan-500/30 bg-cyan-500/20 text-cyan-300 hover:border-cyan-400 transition-all flex items-center gap-1.5 whitespace-nowrap flex-shrink-0" data-cat="all" onclick="filterCategory(\'all\', this)">'
+    '<i class="fas fa-th-large text-xs"></i> <span>Todas las Categorías (200)</span>'
     '</button>'
 ]
 
-cards_html = []
-
-for cat in categories_data:
-    cat_id = cat['category_id']
-    cat_name = cat['category_name']
+for cat_id in sorted(category_names_clean.keys()):
+    cat_name = category_names_clean[cat_id]
     icon_cls = category_icons.get(cat_id, "fa-tag")
-    count = len(cat['items'])
-
+    count_in_cat = sum(1 for c in all_codes if c['category_id'] == cat_id)
     pills_html.append(
-        f'<button type="button" class="filter-chip px-3.5 py-2 rounded-xl text-xs font-semibold cursor-pointer border border-slate-700 bg-slate-900/80 text-slate-300 hover:border-cyan-400/50 hover:text-white transition-all flex items-center gap-1.5" data-cat="{cat_id}" onclick="filterCategory(\'{cat_id}\', this)">'
-        f'<i class="fas {icon_cls} text-cyan-400 text-xs"></i> <span>{cat_id}. {cat_name} ({count})</span>'
+        f'<button type="button" class="filter-chip px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-xs font-semibold cursor-pointer border border-slate-700 bg-slate-900/80 text-slate-300 hover:border-cyan-400/50 hover:text-white transition-all flex items-center gap-1.5 whitespace-nowrap flex-shrink-0" data-cat="{cat_id}" onclick="filterCategory(\'{cat_id}\', this)">'
+        f'<i class="fas {icon_cls} text-cyan-400 text-xs"></i> <span>{cat_id}. {cat_name} ({count_in_cat})</span>'
         f'</button>'
     )
 
-    for it in cat['items']:
-        num = it['number']
-        cmd = it['command']
-        desc = it['description']
-        desc_escaped = desc.replace('"', '&quot;').replace("'", "&#39;")
-        search_haystack = f"{num} {cmd} {desc_escaped} {cat_name}".lower()
+pills_str = "\n".join(pills_html)
 
-        card = f'''
+# Build Cards HTML
+cards_html = []
+for c in all_codes:
+    num = c['global_num']
+    col = c['collection']
+    col_name = c['collection_name']
+    cat_id = c['category_id']
+    cat_name = c['category_name']
+    cmd = c['command']
+    desc = c['description']
+    icon_cls = category_icons.get(cat_id, "fa-tag")
+    badge_cls = c['badge_color']
+    tag = c['tag']
+    desc_escaped = desc.replace('"', '&quot;').replace("'", "&#39;")
+    search_haystack = f"{num} {cmd} {desc_escaped} {cat_name} {col_name} {tag}".lower()
+
+    border_hover = "hover:border-cyan-500/40" if col == "col1" else "hover:border-indigo-500/40"
+    num_badge_col = "text-cyan-300 bg-cyan-950/80 border-cyan-500/30" if col == "col1" else "text-indigo-300 bg-indigo-950/80 border-indigo-500/30"
+
+    card = f'''
         <div 
-          class="code-card glass-panel rounded-2xl p-5 flex flex-col justify-between border-slate-800 hover:border-cyan-500/40 transition-all"
+          class="code-card glass-panel rounded-2xl p-4 sm:p-5 flex flex-col justify-between border-slate-800 {border_hover} transition-all"
+          data-collection="{col}"
           data-category="{cat_id}"
           data-search="{search_haystack}"
         >
           <div>
-            <div class="flex items-center justify-between gap-2 mb-3">
-              <span class="text-[11px] font-mono font-bold px-2 py-0.5 rounded-md bg-cyan-950/80 text-cyan-300 border border-cyan-500/30">
+            <div class="flex items-center justify-between gap-2 mb-2.5">
+              <span class="text-[11px] font-mono font-bold px-2 py-0.5 rounded-md {num_badge_col} border">
                 #{num}
               </span>
-              <span class="text-[11px] text-slate-400 flex items-center gap-1 font-medium truncate max-w-[170px]" title="{cat_name}">
-                <i class="fas {icon_cls} text-cyan-400 text-[10px]"></i> {cat_name}
+              <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md {badge_cls} border">
+                {col_name.split('·')[0].strip()}
               </span>
+            </div>
+
+            <div class="text-[11px] text-slate-400 flex items-center gap-1.5 font-medium mb-2 truncate" title="{cat_name}">
+              <i class="fas {icon_cls} text-cyan-400 text-[10px]"></i> {cat_name}
             </div>
 
             <h4 class="text-base font-bold text-white mb-2 tracking-tight flex items-center justify-between">
@@ -73,33 +187,34 @@ for cat in categories_data:
 
           <div class="pt-3 border-t border-slate-800/80">
             <div class="flex items-center justify-between bg-slate-950/90 rounded-xl px-3 py-2 border border-slate-800">
-              <code class="font-mono text-xs font-semibold text-cyan-300 truncate max-w-[170px]" title="{cmd}">{cmd}</code>
-              <button 
-                type="button" 
-                class="btn-copy px-2.5 py-1 rounded-lg text-xs font-bold inline-flex items-center gap-1.5 transition-all"
-                onclick="copyCode('{cmd}', this)"
-                title="Copiar comando al portapapeles"
-              >
-                <i class="far fa-copy text-[11px]"></i> <span>Copiar</span>
-              </button>
-              <button 
-                type="button" 
-                class="text-slate-400 hover:text-cyan-400 text-xs ml-2 p-1"
-                onclick="copyFullPrompt('{cmd} {desc_escaped}', this)"
-                title="Copiar comando con descripción"
-              >
-                <i class="fas fa-magic text-[11px]"></i>
-              </button>
+              <code class="font-mono text-xs font-semibold text-cyan-300 truncate max-w-[140px] sm:max-w-[170px]" title="{cmd}">{cmd}</code>
+              <div class="flex items-center gap-1">
+                <button 
+                  type="button" 
+                  class="btn-copy px-2.5 py-1 rounded-lg text-xs font-bold inline-flex items-center gap-1.5 transition-all"
+                  onclick="copyCode('{cmd}', this)"
+                  title="Copiar comando al portapapeles"
+                >
+                  <i class="far fa-copy text-[11px]"></i> <span>Copiar</span>
+                </button>
+                <button 
+                  type="button" 
+                  class="text-slate-400 hover:text-cyan-400 text-xs p-1"
+                  onclick="copyFullPrompt('{cmd} {desc_escaped}', this)"
+                  title="Copiar comando con descripción"
+                >
+                  <i class="fas fa-magic text-[11px]"></i>
+                </button>
+              </div>
             </div>
           </div>
         </div>'''
-        cards_html.append(card)
+    cards_html.append(card)
 
-pills_str = "\n".join(pills_html)
 cards_str = "\n".join(cards_html)
 
 
-# Reels List Data with Dedicated Thumbnails & Strict PDF Flag
+# Reels List Data
 reels_data = [
     {
         "id": "reel-spiderman",
@@ -182,30 +297,26 @@ reels_data = [
         "image": "/static/reel_product_thumb.jpg",
         "has_pdf": False,
         "cta_label": "Ver Códigos de Producto",
-        "cta_icon": "fas fa-cube",
+        "cta_icon": "fas fa-box-open",
         "cta_action": "filterCategory('10', document.querySelector('[data-cat=\"10\"]'))"
     }
 ]
 
 reels_cards_html = []
 for r in reels_data:
-    if r["has_pdf"]:
-        cta_btn_html = f'''<button onclick="{r['cta_action']}" class="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-red-500/20 to-amber-500/20 text-amber-300 border border-amber-500/40 hover:bg-amber-400 hover:text-slate-950 transition-all">
-          <i class="far fa-file-pdf text-red-400"></i> {r['cta_label']}
-        </button>'''
-    else:
-        cta_btn_html = f'''<button onclick="{r['cta_action']}" class="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-xs font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-400/40 hover:bg-cyan-400 hover:text-slate-950 transition-all">
+    cta_btn_html = f'''
+        <button onclick="{r['cta_action']}" class="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-xs font-bold bg-cyan-400 text-slate-950 hover:bg-cyan-300 transition-all shadow-[0_0_10px_rgba(0,229,255,0.2)]">
           <i class="{r['cta_icon']}"></i> {r['cta_label']}
         </button>'''
 
     r_card = f'''
-    <div class="glass-panel p-5 sm:p-6 rounded-2xl flex flex-col justify-between border-slate-800 hover:border-cyan-500/40 transition-all group shadow-lg">
+    <div class="glass-panel rounded-2xl overflow-hidden flex flex-col justify-between border-slate-800 hover:border-cyan-500/40 transition-all group p-5">
       <div>
-        <div class="relative w-full h-44 rounded-xl overflow-hidden mb-4 border border-slate-800/80 bg-slate-950">
-          <img src="{r['image']}" alt="{r['title']}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
-          <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent"></div>
+        <div class="relative w-full h-48 rounded-xl overflow-hidden mb-4 bg-slate-950 border border-slate-800/80">
+          <img src="{r['image']}" alt="{r['title']}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" onerror="this.src='/static/reel_director_thumb.jpg'">
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-black/30"></div>
           <div class="absolute top-2.5 left-2.5">
-            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border {r['tag_color']} backdrop-blur-md">
+            <span class="px-2.5 py-1 rounded-md text-[10px] font-extrabold uppercase tracking-wider border {r['tag_color']} backdrop-blur-md">
               {r['tag']}
             </span>
           </div>
@@ -227,6 +338,7 @@ for r in reels_data:
 
 reels_grid_str = "\n".join(reels_cards_html)
 
+
 def generate_page(is_template=False):
     def s_asset(filename):
         if is_template:
@@ -237,10 +349,10 @@ def generate_page(is_template=False):
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hub de Recursos de IA & 100 Códigos Creativos | ProsperIA & @edwardjimenezia</title>
-  <meta name="description" content="Recursos oficiales de IA de Edward Jiménez y Agencia ProsperIA: 100 Códigos Creativos de ChatGPT, desglose técnico de The Swing Prompts (Spiderman), 2 guías PDF descargables y comunidad oficial.">
-  <meta name="keywords" content="codigos chatgpt, test nivel ia, edward jimenez, comunidad whatsapp prosperia, reel spiderman prompt, passportai, automatizacion comercial ia">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Hub de Recursos de IA & 200 Códigos Creativos | ProsperIA & @edwardjimenezia</title>
+  <meta name="description" content="Recursos oficiales de IA de Edward Jiménez y Agencia ProsperIA: 200 Códigos Creativos de IA (Prompts y Dirección Fotográfica), desglose de The Swing Prompts (Spiderman), 2 guías PDF oficiales y comunidad exclusiva.">
+  <meta name="keywords" content="200 codigos chatgpt, prompts de imagenes, test nivel ia, edward jimenez, comunidad whatsapp prosperia, reel spiderman prompt, passportai, automatizacion comercial ia">
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
   <link rel="canonical" href="https://agenciaprosperia.com/codigos">
   <link rel="icon" type="image/png" href="{s_asset('favicon.png')}">
@@ -248,14 +360,14 @@ def generate_page(is_template=False):
   <!-- Open Graph / Instagram / WhatsApp Preview -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://agenciaprosperia.com/codigos">
-  <meta property="og:title" content="Hub de IA & 100 Códigos Creativos | @edwardjimenezia">
-  <meta property="og:description" content="100 Códigos Creativos de ChatGPT, Prompts de video viral Spiderman y guías PDF descargables oficiales.">
+  <meta property="og:title" content="Hub de IA & 200 Códigos Creativos | @edwardjimenezia">
+  <meta property="og:description" content="200 Códigos Creativos de IA, Prompts de video viral Spiderman y guías PDF descargables oficiales.">
   <meta property="og:image" content="https://agenciaprosperia.com/static/edwar_jimenez.jpg">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Hub de Recursos de IA | @edwardjimenezia & ProsperIA">
-  <meta name="twitter:description" content="100 Códigos para imágenes, Test de conocimiento de IA y prompts de Reels virales con más de 450K vistas.">
+  <meta name="twitter:title" content="Hub de Recursos de IA & 200 Códigos | @edwardjimenezia & ProsperIA">
+  <meta name="twitter:description" content="200 Códigos para prompts e imágenes, Test de conocimiento de IA y prompts de Reels virales con más de 450K vistas.">
   <meta name="twitter:image" content="https://agenciaprosperia.com/static/edwar_jimenez.jpg">
 
   <link rel="stylesheet" href="{s_asset('tw.css')}">
@@ -331,23 +443,245 @@ def generate_page(is_template=False):
       border-color: #10b981 !important;
     }}
 
+    /* Universal Scroll Offset for Sticky Header (Fixes anchor jumping under navbar) */
+    html {{
+      scroll-behavior: smooth;
+      scroll-padding-top: 100px;
+    }}
+    section[id], main[id], div[id], header[id] {{
+      scroll-margin-top: 100px !important;
+    }}
+
     /* Prompt code box */
     .prompt-box {{
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-size: 13px;
-      line-height: 1.6;
+      font-size: 13.5px;
+      line-height: 1.7;
       background: #040914;
       border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 12px;
+      border-radius: 14px;
       color: #e2e8f0;
       white-space: pre-wrap;
+      word-break: break-word;
+      padding: 20px 24px;
+      user-select: all;
+      -webkit-user-select: all;
     }}
 
     /* Navigation styling */
     .site-nav {{
-      background: rgba(2, 7, 16, 0.85);
+      background: rgba(2, 7, 16, 0.92);
       backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }}
+    .nav-link-item {{
+      color: #94a3b8;
+      font-weight: 600;
+      font-size: 13px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 12px;
+      border-radius: 10px;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      white-space: nowrap;
+    }}
+    .nav-link-item:hover {{
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.07);
+    }}
+    .nav-link-item.active {{
+      color: #00e5ff;
+      background: rgba(0, 229, 255, 0.12);
+      border: 1px solid rgba(0, 229, 255, 0.25);
+    }}
+
+    /* Search Bar Dedicated Grid Layout (Guarantees full input space on desktop & mobile) */
+    .search-grid-layout {{
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      align-items: center;
+      width: 100%;
+    }}
+    @media (max-width: 640px) {{
+      .search-grid-layout {{
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }}
+    }}
+    .search-input-field {{
+      width: 100% !important;
+      height: 52px !important;
+      padding-left: 48px !important;
+      padding-right: 42px !important;
+      font-size: 15px !important;
+      border-radius: 14px !important;
+      background-color: #030712 !important;
+      color: #ffffff !important;
+      border: 1px solid #334155 !important;
+      -webkit-text-fill-color: #ffffff !important;
+      caret-color: #00e5ff !important;
+      transition: all 0.2s ease !important;
+      outline: none !important;
+    }}
+    .search-input-field:focus {{
+      background-color: #081224 !important;
+      border-color: #00e5ff !important;
+      box-shadow: 0 0 0 2px rgba(0, 229, 255, 0.25) !important;
+    }}
+    .search-input-field::placeholder {{
+      color: #94a3b8 !important;
+      -webkit-text-fill-color: #94a3b8 !important;
+    }}
+    .search-counter-badge {{
+      white-space: nowrap;
+      padding: 0 20px;
+      border-radius: 14px;
+      font-size: 13px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      background-color: #070f20;
+      border: 1px solid rgba(0, 229, 255, 0.25);
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      height: 52px;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }}
+    @media (max-width: 640px) {{
+      .search-counter-badge {{
+        width: 100%;
+        height: 42px;
+        padding: 0 14px;
+        font-size: 12px;
+      }}
+    }}
+
+    /* Spiderman Section Grid & Button Styles */
+    .spiderman-header-grid {{
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 20px;
+      align-items: center;
+      padding-bottom: 24px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }}
+    @media (max-width: 768px) {{
+      .spiderman-header-grid {{
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 16px;
+        justify-items: center;
+      }}
+    }}
+    .spiderman-ig-btn {{
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 22px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 700;
+      background: rgba(80, 7, 36, 0.7);
+      border: 1px solid rgba(244, 63, 94, 0.4);
+      color: #fda4af;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }}
+    .spiderman-ig-btn:hover {{
+      background: rgba(136, 19, 55, 0.95);
+      color: #ffffff;
+      border-color: #f43f5e;
+      box-shadow: 0 0 25px rgba(244, 63, 94, 0.35);
+    }}
+    @media (max-width: 768px) {{
+      .spiderman-ig-btn {{
+        width: 100%;
+      }}
+    }}
+
+    /* Scrollbar hide utility */
+    .no-scrollbar::-webkit-scrollbar {{
+      display: none;
+    }}
+    .no-scrollbar {{
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }}
+
+    /* Mobile input optimization - 16px prevents iOS Safari auto-zoom */
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    textarea {{
+      font-size: 16px !important;
+    }}
+
+    /* Robust Search Input Contrast Fix */
+    .input-search {{
+      background-color: #030712 !important;
+      color: #ffffff !important;
+      border: 1px solid #334155 !important;
+      -webkit-text-fill-color: #ffffff !important;
+      caret-color: #00e5ff !important;
+    }}
+    .input-search:focus {{
+      background-color: #081224 !important;
+      color: #ffffff !important;
+      border-color: #00e5ff !important;
+      box-shadow: 0 0 0 2px rgba(0, 229, 255, 0.25) !important;
+      outline: none !important;
+      -webkit-text-fill-color: #ffffff !important;
+    }}
+    .input-search::placeholder {{
+      color: #94a3b8 !important;
+      -webkit-text-fill-color: #94a3b8 !important;
+    }}
+    .input-search:-webkit-autofill,
+    .input-search:-webkit-autofill:hover, 
+    .input-search:-webkit-autofill:focus,
+    .input-search:-webkit-autofill:active {{
+      -webkit-text-fill-color: #ffffff !important;
+      -webkit-box-shadow: 0 0 0px 1000px #030712 inset !important;
+      transition: background-color 5000s ease-in-out 0s;
+      caret-color: #00e5ff !important;
+    }}
+
+    /* Robust Quote Form Contrast */
+    .input-cotizacion {{
+      background-color: #030712 !important;
+      color: #ffffff !important;
+      border: 1px solid #334155 !important;
+      -webkit-text-fill-color: #ffffff !important;
+      caret-color: #00e5ff !important;
+    }}
+    .input-cotizacion:focus {{
+      background-color: #081224 !important;
+      color: #ffffff !important;
+      border-color: #00e5ff !important;
+      box-shadow: 0 0 0 2px rgba(0, 229, 255, 0.25) !important;
+      outline: none !important;
+      -webkit-text-fill-color: #ffffff !important;
+    }}
+    .input-cotizacion::placeholder {{
+      color: #94a3b8 !important;
+      -webkit-text-fill-color: #94a3b8 !important;
+    }}
+    .input-cotizacion:-webkit-autofill,
+    .input-cotizacion:-webkit-autofill:hover, 
+    .input-cotizacion:-webkit-autofill:focus,
+    .input-cotizacion:-webkit-autofill:active {{
+      -webkit-text-fill-color: #ffffff !important;
+      -webkit-box-shadow: 0 0 0px 1000px #030712 inset !important;
+      transition: background-color 5000s ease-in-out 0s;
+      caret-color: #00e5ff !important;
     }}
 
     /* PassportAI Showcase Styles */
@@ -460,30 +794,6 @@ def generate_page(is_template=False):
       padding: 20px;
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
     }}
-    .model-chip-active {{
-      background: rgba(0, 229, 255, 0.14);
-      border: 1px solid #00e5ff;
-      color: #00e5ff;
-      font-weight: 700;
-      font-size: 12px;
-      padding: 8px 12px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 0 12px rgba(0, 229, 255, 0.2);
-    }}
-    .model-chip-inactive {{
-      background: rgba(15, 23, 42, 0.6);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      color: #94a3b8;
-      font-size: 12px;
-      padding: 8px 12px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }}
     .btn-cotizacion-cta {{
       background: linear-gradient(135deg, #10b981 0%, #06b6d4 50%, #00e5ff 100%) !important;
       color: #020710 !important;
@@ -550,33 +860,11 @@ def generate_page(is_template=False):
       box-shadow: 0 0 40px rgba(99, 102, 241, 0.65) !important;
       background: linear-gradient(135deg, #818cf8 0%, #00e5ff 100%) !important;
     }}
-    .input-cotizacion {{
-      background-color: #030712 !important;
-      color: #ffffff !important;
-      border: 1px solid #334155 !important;
-      -webkit-text-fill-color: #ffffff !important;
-      caret-color: #00e5ff !important;
-    }}
-    .input-cotizacion:focus {{
-      background-color: #081224 !important;
-      color: #ffffff !important;
+    .tab-collection.active {{
+      background: linear-gradient(135deg, rgba(0, 229, 255, 0.25) 0%, rgba(99, 102, 241, 0.25) 100%) !important;
       border-color: #00e5ff !important;
-      box-shadow: 0 0 0 2px rgba(0, 229, 255, 0.25) !important;
-      outline: none !important;
-      -webkit-text-fill-color: #ffffff !important;
-    }}
-    .input-cotizacion::placeholder {{
-      color: #94a3b8 !important;
-      -webkit-text-fill-color: #94a3b8 !important;
-    }}
-    .input-cotizacion:-webkit-autofill,
-    .input-cotizacion:-webkit-autofill:hover, 
-    .input-cotizacion:-webkit-autofill:focus,
-    .input-cotizacion:-webkit-autofill:active {{
-      -webkit-text-fill-color: #ffffff !important;
-      -webkit-box-shadow: 0 0 0px 1000px #030712 inset !important;
-      transition: background-color 5000s ease-in-out 0s;
-      caret-color: #00e5ff !important;
+      color: #ffffff !important;
+      box-shadow: 0 0 20px rgba(0, 229, 255, 0.25) !important;
     }}
   </style>
 </head>
@@ -586,16 +874,15 @@ def generate_page(is_template=False):
   <div class="glow-purple top-[40%] -right-40"></div>
 
   <!-- ════════════════════════════════════════════════════
-       1. TOP BAR: WHATSAPP COMMUNITY & SOCIAL ANNOUNCEMENT
+       1. TOP BAR: UNIFIED WHATSAPP COMMUNITY CTA (CAMBIO 1)
        ════════════════════════════════════════════════════ -->
   <div class="bg-gradient-to-r from-emerald-950 via-slate-950 to-cyan-950 border-b border-emerald-500/30 py-2.5 px-4 text-center text-xs sm:text-sm text-slate-200 relative z-50">
-    <div class="max-w-7xl mx-auto flex items-center justify-center gap-3 flex-wrap">
-      <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-[11px] uppercase tracking-wider border border-emerald-500/30">
-        <i class="fab fa-whatsapp text-emerald-400"></i> Comunidad VIP
+    <div class="max-w-7xl mx-auto flex items-center justify-center gap-3 sm:gap-4 flex-wrap">
+      <span class="text-slate-300 font-medium flex items-center gap-1.5">
+        <i class="fab fa-whatsapp text-emerald-400 text-sm"></i> <strong>Comunidad VIP:</strong> Acceso a recursos, novedades y sesiones exclusivas
       </span>
-      <span>Únete gratis al grupo de WhatsApp de <strong>Edward Jiménez</strong> &amp; <strong>Agencia ProsperIA</strong>:</span>
-      <a href="https://chat.whatsapp.com/HIjs3Bytduy9ucOtn6jeKw?s=sh&p=a&ilr=4" target="_blank" rel="noopener" class="text-emerald-400 font-bold hover:underline inline-flex items-center gap-1">
-        Entrar al Grupo Oficial <i class="fas fa-arrow-right text-[10px]"></i>
+      <a href="https://chat.whatsapp.com/HIjs3Bytduy9ucOtn6jeKw?s=sh&p=a&ilr=4" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs transition-all shadow-[0_0_12px_rgba(16,185,129,0.3)]">
+        <span>Entrar a la Comunidad</span> <i class="fas fa-arrow-right text-[10px]"></i>
       </a>
     </div>
   </div>
@@ -605,141 +892,203 @@ def generate_page(is_template=False):
        ════════════════════════════════════════════════════ -->
   <nav class="site-nav sticky top-0 left-0 w-full z-40 transition-all duration-300">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-20">
+      <div class="flex items-center justify-between h-16 sm:h-20">
         
         <!-- Logo -->
         <a href="/" class="flex items-center gap-3 group">
-          <img src="{s_asset('logo_prosper_ia_cropped.jpg')}" alt="AGENCIA PROSPERIA" class="h-12 w-auto object-contain rounded-lg group-hover:scale-105 transition-transform">
+          <img src="{s_asset('logo_prosper_ia_cropped.jpg')}" alt="AGENCIA PROSPERIA" class="h-9 sm:h-12 w-auto object-contain rounded-lg group-hover:scale-105 transition-transform">
         </a>
 
         <!-- Desktop Links -->
-        <div class="hidden lg:flex items-center gap-6 text-sm">
-          <a href="#codigos-grid" class="text-cyan-400 font-bold flex items-center gap-1.5">
-            <i class="fas fa-terminal text-xs"></i> 100 Códigos
+        <div class="hidden lg:flex items-center gap-1 xl:gap-2 text-sm">
+          <a href="#codigos-grid" class="nav-link-item active">
+            <i class="fas fa-terminal text-xs text-cyan-400"></i> <span>200 Códigos</span>
           </a>
-          <a href="#descargas" class="text-slate-300 hover:text-cyan-400 font-medium transition-colors flex items-center gap-1.5">
-            <i class="far fa-file-pdf text-red-400 text-xs"></i> Descargas PDF
+          <a href="#descargas" class="nav-link-item">
+            <i class="far fa-file-pdf text-xs text-red-400"></i> <span>Descargas PDF</span>
           </a>
-          <a href="#spiderman-breakdown" class="text-slate-300 hover:text-red-400 font-medium transition-colors flex items-center gap-1.5">
-            <i class="fas fa-spider text-red-400 text-xs"></i> Reel Spiderman
+          <a href="#spiderman-breakdown" class="nav-link-item">
+            <i class="fas fa-spider text-xs text-red-400"></i> <span>Reel Spiderman</span>
           </a>
-          <a href="#reels-gallery" class="text-slate-300 hover:text-cyan-400 font-medium transition-colors flex items-center gap-1.5">
-            <i class="fab fa-instagram text-pink-400 text-xs"></i> Nuestros Reels
+          <a href="#reels-gallery" class="nav-link-item">
+            <i class="fab fa-instagram text-xs text-pink-400"></i> <span>Nuestros Reels</span>
           </a>
-          <a href="#test-ia" class="text-slate-300 hover:text-cyan-400 font-medium transition-colors flex items-center gap-1.5">
-            <i class="fas fa-brain text-cyan-400 text-xs"></i> Test de IA
+          <a href="#passportai-showcase" class="nav-link-item">
+            <i class="fas fa-bolt text-xs text-cyan-400"></i> <span>PassportAI</span>
           </a>
-          <a href="#formulario-cotizacion" class="text-slate-300 hover:text-cyan-400 font-medium transition-colors flex items-center gap-1.5">
-            <i class="fas fa-briefcase text-indigo-400 text-xs"></i> Cotizar
+          <a href="#test-ia" class="nav-link-item">
+            <i class="fas fa-brain text-xs text-cyan-400"></i> <span>Test de IA</span>
+          </a>
+          <a href="#formulario-cotizacion" class="nav-link-item">
+            <i class="fas fa-briefcase text-xs text-indigo-400"></i> <span>Cotizar</span>
           </a>
         </div>
 
         <!-- Action CTAs -->
-        <div class="flex items-center gap-3">
-          <a href="https://chat.whatsapp.com/HIjs3Bytduy9ucOtn6jeKw?s=sh&p=a&ilr=4" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-emerald-500 text-slate-950 hover:bg-emerald-400 transition-all shadow-[0_0_15px_rgba(16,185,129,0.3)]">
-            <i class="fab fa-whatsapp text-sm"></i> <span class="hidden sm:inline">Comunidad WhatsApp</span>
+        <div class="flex items-center gap-2 sm:gap-3">
+          <a href="https://chat.whatsapp.com/HIjs3Bytduy9ucOtn6jeKw?s=sh&p=a&ilr=4" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-xs font-bold bg-emerald-500 text-slate-950 hover:bg-emerald-400 transition-all shadow-[0_0_15px_rgba(16,185,129,0.3)]">
+            <i class="fab fa-whatsapp text-sm"></i> <span>Comunidad VIP</span>
           </a>
-          <button onclick="document.getElementById('formulario-cotizacion').scrollIntoView({{ behavior: 'smooth' }})" class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-gradient-to-r from-cyan-400 to-cyan-500 text-slate-950 hover:from-cyan-300 hover:to-cyan-400 transition-all">
-            <i class="fas fa-file-invoice-dollar text-xs"></i> Cotizar
+          <a href="#formulario-cotizacion" class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-gradient-to-r from-cyan-400 to-cyan-500 text-slate-950 hover:from-cyan-300 hover:to-cyan-400 transition-all">
+            <i class="fas fa-file-invoice-dollar text-xs"></i> <span>Cotizar</span>
+          </a>
+          <!-- Mobile Hamburger Toggle Button -->
+          <button type="button" id="mobile-menu-btn" onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-xl text-slate-300 hover:text-white bg-slate-900 border border-slate-700 focus:outline-none" aria-label="Abrir menú de navegación">
+            <i class="fas fa-bars text-base" id="mobile-menu-icon"></i>
           </button>
         </div>
 
       </div>
     </div>
+
+    <!-- Mobile Navigation Dropdown -->
+    <div id="mobile-nav-panel" class="hidden lg:hidden bg-slate-950/98 border-t border-slate-800/80 px-4 py-3 space-y-1.5 backdrop-blur-2xl">
+      <a href="#codigos-grid" onclick="closeMobileMenu()" class="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-semibold text-cyan-400 bg-cyan-950/40 border border-cyan-500/20">
+        <i class="fas fa-terminal text-xs"></i> <span>200 Códigos Creativos</span>
+      </a>
+      <a href="#descargas" onclick="closeMobileMenu()" class="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-900">
+        <i class="far fa-file-pdf text-xs text-red-400"></i> <span>Descargas PDF (2 Guías)</span>
+      </a>
+      <a href="#spiderman-breakdown" onclick="closeMobileMenu()" class="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-900">
+        <i class="fas fa-spider text-xs text-red-400"></i> <span>Reel Spiderman ("The Swing")</span>
+      </a>
+      <a href="#reels-gallery" onclick="closeMobileMenu()" class="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-900">
+        <i class="fab fa-instagram text-xs text-pink-400"></i> <span>Nuestros Reels Virales</span>
+      </a>
+      <a href="#passportai-showcase" onclick="closeMobileMenu()" class="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-900">
+        <i class="fas fa-bolt text-xs text-cyan-400"></i> <span>PassportAI (Multi-IA)</span>
+      </a>
+      <a href="#test-ia" onclick="closeMobileMenu()" class="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-900">
+        <i class="fas fa-brain text-xs text-cyan-400"></i> <span>Test Interactivo de IA</span>
+      </a>
+      <a href="#formulario-cotizacion" onclick="closeMobileMenu()" class="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-bold text-emerald-400 bg-emerald-950/30 border border-emerald-500/20">
+        <i class="fas fa-briefcase text-xs"></i> <span>Solicitar Cotización</span>
+      </a>
+    </div>
   </nav>
 
   <!-- ════════════════════════════════════════════════════
-       HERO SECTION WITH VIRAL SOCIAL PROOF
+       HERO SECTION WITH VIRAL SOCIAL PROOF (CAMBIO 2: SIN VIÑETA)
        ════════════════════════════════════════════════════ -->
-  <header class="relative pt-12 pb-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto z-10 text-center">
+  <header class="relative pt-10 sm:pt-14 pb-8 sm:pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto z-10 text-center">
     
-    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-950/80 border border-cyan-400/30 text-cyan-300 text-xs sm:text-sm font-medium mb-6 backdrop-blur-md">
-      <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+    <!-- CAMBIO 2: Solo cajita de regalo, sin viñeta ni ping dot -->
+    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-950/80 border border-cyan-400/30 text-cyan-300 text-xs sm:text-sm font-semibold mb-6 backdrop-blur-md shadow-[0_0_15px_rgba(0,229,255,0.15)]">
       🎁 Hub de Recursos Exclusivos para Seguidores de Instagram &amp; Facebook
     </div>
 
-    <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight mb-6 max-w-4xl mx-auto">
+    <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight mb-5 sm:mb-6 max-w-4xl mx-auto">
       El Arsenal de <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-300 to-indigo-400">Inteligencia Artificial</span> para Crear Contenido y Escalar tu Negocio
     </h1>
 
-    <p class="text-slate-300 text-base sm:text-xl max-w-3xl mx-auto mb-8 leading-relaxed font-light">
-      Bienvenido al centro oficial de recursos de <strong>Edward Jiménez</strong> y <strong>Agencia ProsperIA</strong>. Aquí tienes acceso inmediato a los prompts virales de Hollywood, los 100 Códigos Creativos de ChatGPT listos para copiar, las 2 guías PDF oficiales y nuestra comunidad.
+    <p class="text-slate-300 text-sm sm:text-lg max-w-3xl mx-auto mb-8 leading-relaxed font-light">
+      Bienvenido al centro oficial de recursos de <strong>Edward Jiménez</strong> y <strong>Agencia ProsperIA</strong>. Aquí tienes acceso inmediato a los prompts virales de Hollywood, los <strong>200 Códigos Creativos de IA</strong> listos para copiar, las 2 guías PDF oficiales y nuestra comunidad.
     </p>
 
     <!-- Social Proof Metrics Bar -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 max-w-4xl mx-auto mb-6">
-      <div class="glass-panel p-4 rounded-2xl text-center border-amber-500/20">
-        <div class="text-2xl sm:text-3xl font-extrabold text-amber-400 font-heading">+450,000</div>
-        <div class="text-xs text-slate-300 mt-1">Vistas en Reel Viral</div>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-4 max-w-4xl mx-auto mb-6">
+      <div class="glass-panel p-3.5 sm:p-4 rounded-2xl text-center border-amber-500/20">
+        <div class="text-xl sm:text-3xl font-extrabold text-amber-400 font-heading">+450,000</div>
+        <div class="text-[11px] sm:text-xs text-slate-300 mt-1">Vistas en Reel Viral</div>
       </div>
-      <div class="glass-panel p-4 rounded-2xl text-center border-cyan-500/20">
-        <div class="text-2xl sm:text-3xl font-extrabold text-cyan-400 font-heading">10,000+</div>
-        <div class="text-xs text-slate-300 mt-1">Seguidores en ProsperIA FB</div>
+      <div class="glass-panel p-3.5 sm:p-4 rounded-2xl text-center border-cyan-500/20">
+        <div class="text-xl sm:text-3xl font-extrabold text-cyan-400 font-heading">10,000+</div>
+        <div class="text-[11px] sm:text-xs text-slate-300 mt-1">Seguidores en ProsperIA FB</div>
       </div>
-      <div class="glass-panel p-4 rounded-2xl text-center border-pink-500/20">
-        <div class="text-2xl sm:text-3xl font-extrabold text-pink-400 font-heading">+2,000</div>
-        <div class="text-xs text-slate-300 mt-1">Comunidad @edwardjimenezia</div>
+      <div class="glass-panel p-3.5 sm:p-4 rounded-2xl text-center border-pink-500/20">
+        <div class="text-xl sm:text-3xl font-extrabold text-pink-400 font-heading">+2,000</div>
+        <div class="text-[11px] sm:text-xs text-slate-300 mt-1">Comunidad @edwardjimenezia</div>
       </div>
-      <div class="glass-panel p-4 rounded-2xl text-center border-emerald-500/20">
-        <div class="text-2xl sm:text-3xl font-extrabold text-emerald-400 font-heading">100 Códigos</div>
-        <div class="text-xs text-slate-300 mt-1">Visuales 100% Gratuitos</div>
+      <div class="glass-panel p-3.5 sm:p-4 rounded-2xl text-center border-emerald-500/20">
+        <div class="text-xl sm:text-3xl font-extrabold text-emerald-400 font-heading">200 Códigos</div>
+        <div class="text-[11px] sm:text-xs text-slate-300 mt-1">Visuales 100% Gratuitos</div>
       </div>
     </div>
 
   </header>
 
   <!-- ════════════════════════════════════════════════════
-       BLOQUE 1: 100 CÓDIGOS CREATIVOS DE CHATGPT
+       BLOQUE 1: 200 CÓDIGOS CREATIVOS DE IA (CAMBIO 3 & 4)
        ════════════════════════════════════════════════════ -->
-  <main id="codigos-grid" class="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 scroll-mt-24">
+  <main id="codigos-grid" class="py-10 sm:py-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 scroll-mt-24">
     <div class="text-center max-w-3xl mx-auto mb-6">
       <span class="text-xs font-bold uppercase tracking-wider text-cyan-400 mb-2 block">Catálogo Interactivo y Buscador</span>
       <h2 class="text-2xl sm:text-4xl font-extrabold text-white mb-3">
-        Explora los 100 Códigos y Cópialos con 1 Clic
+        Explora los 200 Códigos y Cópialos con 1 Clic
       </h2>
       <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
-        Filtra por nombre, categoría o efecto visual. Toca <strong>Copiar</strong> para pegarlo directamente en ChatGPT.
+        Filtra por colección, categoría o efecto visual. Toca <strong>Copiar</strong> para pegarlo directamente en ChatGPT o Midjourney.
       </p>
     </div>
 
+    <!-- CAMBIO 4: Tabs de Selección de Colección (200 Códigos) -->
+    <div class="flex items-center justify-center gap-2 sm:gap-3 mb-6 max-w-3xl mx-auto flex-wrap">
+      <button 
+        type="button" 
+        class="tab-collection active px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold border border-cyan-500/40 bg-cyan-950/60 text-cyan-300 hover:border-cyan-400 transition-all cursor-pointer flex items-center gap-2"
+        data-collection="all"
+        onclick="filterCollection('all', this)"
+      >
+        <i class="fas fa-layer-group text-xs"></i> <span>Todos los Códigos (200)</span>
+      </button>
+      <button 
+        type="button" 
+        class="tab-collection px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold border border-slate-700 bg-slate-900/80 text-slate-300 hover:border-cyan-400/50 hover:text-white transition-all cursor-pointer flex items-center gap-2"
+        data-collection="col1"
+        onclick="filterCollection('col1', this)"
+      >
+        <i class="far fa-file-alt text-cyan-400 text-xs"></i> <span>Colección 1: Prompts ChatGPT (100)</span>
+      </button>
+      <button 
+        type="button" 
+        class="tab-collection px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold border border-slate-700 bg-slate-900/80 text-slate-300 hover:border-indigo-400/50 hover:text-white transition-all cursor-pointer flex items-center gap-2"
+        data-collection="col2"
+        onclick="filterCollection('col2', this)"
+      >
+        <i class="fas fa-camera-retro text-indigo-400 text-xs"></i> <span>Colección 2: Fotografía Edward Jiménez (100)</span>
+      </button>
+    </div>
 
-    <!-- Live Search Bar -->
-    <div class="glass-panel p-4 sm:p-5 rounded-2xl mb-8 max-w-4xl mx-auto border-cyan-500/20">
-      <div class="flex flex-col sm:flex-row gap-3 items-center">
-        <div class="relative flex-1 w-full">
-          <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+    <!-- CAMBIO 3: Live Search Bar con Input de Alto Contraste y Letras Visibles -->
+    <div class="glass-panel p-3.5 sm:p-5 rounded-2xl mb-6 max-w-5xl mx-auto border-cyan-500/20">
+      <div class="search-grid-layout">
+        <div class="relative w-full">
+          <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-cyan-400 text-sm pointer-events-none"></i>
           <input 
             type="text" 
             id="search-input" 
-            placeholder="Buscar código: ej. /spotlight, packshot, neonnoir, 35mm, macro..." 
-            class="w-full pl-11 pr-10 py-3 rounded-xl bg-slate-950/80 border border-slate-700 focus:border-cyan-400 focus:outline-none text-white text-sm placeholder-slate-500 transition-colors"
+            placeholder="Buscar entre los 200 códigos: /spotlight, 35mm..." 
+            class="search-input-field input-search"
             oninput="handleSearch(this.value)"
           >
-          <button id="clear-search" onclick="clearSearch()" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 text-xs hidden">
+          <button id="clear-search" onclick="clearSearch()" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-xs hidden p-1">
             <i class="fas fa-times-circle text-base"></i>
           </button>
         </div>
-        <div class="text-xs text-slate-400 font-mono whitespace-nowrap px-3 py-2 rounded-xl bg-slate-900 border border-slate-800">
-          Mostrando: <strong id="visible-count" class="text-cyan-400">100</strong> de 100 códigos
+        <div class="search-counter-badge">
+          <span>Mostrando:</span>
+          <strong id="visible-count" class="text-cyan-400 font-bold text-sm">200</strong>
+          <span>de 200 códigos</span>
         </div>
       </div>
     </div>
 
-    <!-- Category Pills -->
-    <div class="flex flex-wrap items-center justify-center gap-2 mb-10 max-w-5xl mx-auto" id="category-pills">
+    <!-- CAMBIO 5: Category Pills con scroll horizontal fluido en móvil -->
+    <div class="flex items-center gap-1.5 sm:gap-2 mb-8 max-w-5xl mx-auto overflow-x-auto no-scrollbar pb-2 sm:flex-wrap sm:justify-center sm:overflow-visible" id="category-pills">
       {pills_str}
     </div>
 
     <div id="no-results" class="hidden text-center py-16 px-4 glass-panel rounded-3xl max-w-lg mx-auto">
       <h3 class="text-lg font-bold text-white mb-2">No encontramos ningún código coincidente</h3>
-      <button onclick="clearSearch()" class="px-5 py-2 rounded-xl text-xs font-bold bg-cyan-400 text-slate-950 mt-4">
-        Ver todos los 100 códigos
+      <p class="text-xs text-slate-400 mb-4">Intenta buscar otro término o limpia los filtros.</p>
+      <button onclick="clearSearch()" class="px-5 py-2 rounded-xl text-xs font-bold bg-cyan-400 text-slate-950">
+        Ver todos los 200 códigos
       </button>
     </div>
 
-    <!-- Cards Collapsible Wrapper (Prevents eating up whole page) -->
-    <div id="cards-wrapper" style="max-height: 720px; overflow: hidden;" class="relative transition-all duration-500">
-      <div id="cards-container" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+    <!-- Cards Collapsible Wrapper -->
+    <div id="cards-wrapper" style="max-height: 740px; overflow: hidden;" class="relative transition-all duration-500">
+      <div id="cards-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
 {cards_str}
       </div>
       <div id="cards-fade-overlay" class="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-slate-950 via-slate-950/95 to-transparent pointer-events-none flex items-end justify-center pb-4">
@@ -750,7 +1099,7 @@ def generate_page(is_template=False):
     <div class="text-center mt-6">
       <button id="btn-toggle-catalog" type="button" onclick="toggleCatalogExpansion()" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl font-bold text-xs sm:text-sm bg-gradient-to-r from-cyan-400 to-sky-400 text-slate-950 hover:from-cyan-300 hover:to-sky-300 transition-all shadow-[0_0_25px_rgba(0,229,255,0.35)] cursor-pointer">
         <i class="fas fa-chevron-down text-xs transition-transform duration-300" id="toggle-catalog-icon"></i>
-        <span id="toggle-catalog-text">Desplegar Catálogo Completo (Ver los 100 Códigos)</span>
+        <span id="toggle-catalog-text">Desplegar Catálogo Completo (Ver los 200 Códigos)</span>
       </button>
       <p class="text-xs text-slate-400 mt-2">
         O utiliza el buscador o categorías arriba para ver resultados instantáneos.
@@ -759,18 +1108,18 @@ def generate_page(is_template=False):
   </main>
 
   <!-- ════════════════════════════════════════════════════
-       BLOQUE 2: DESCARGAS OFICIALES DE LOS 2 PDFs (SIN VISOR IFRAME)
+       BLOQUE 2: DESCARGAS OFICIALES DE LOS 2 PDFs
        ════════════════════════════════════════════════════ -->
-  <section id="descargas" class="py-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 scroll-mt-24">
+  <section id="descargas" class="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 scroll-mt-24">
     
     <div class="text-center mb-8">
       <span class="text-xs font-bold uppercase tracking-wider text-cyan-400 mb-2 block">Documentos Oficiales en PDF</span>
-      <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Descarga las 2 Colecciones Completas</h2>
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Descarga las 2 Colecciones Completas (200 Códigos)</h2>
       <p class="text-slate-300 text-xs sm:text-sm max-w-2xl mx-auto mt-2 mb-4 leading-relaxed">
-        Tienes a tu disposición dos guías complementarias de alta resolución: el <strong>Archivo 1</strong> enfocado en prompts y comandos de texto para ChatGPT, y el <strong>Archivo 2</strong> enfocado en dirección visual y generación de imágenes profesionales.
+        Tienes a tu disposición dos guías complementarias de alta resolución: la <strong>Colección 1</strong> enfocada en prompts y comandos de texto para ChatGPT, y la <strong>Colección 2</strong> enfocada en dirección visual y generación de imágenes profesionales por Edward Jiménez.
       </p>
 
-      <!-- Google Drive Alternative (Subido un renglón) -->
+      <!-- Google Drive Alternative -->
       <div class="inline-block">
         <a href="https://drive.google.com/drive/folders/1tMekHUIAkG7-OLcorPOaz2wI2HOLWhrV?usp=sharing" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-xs sm:text-sm text-slate-400 hover:text-cyan-400 transition-colors py-2 px-4 rounded-xl bg-slate-900/60 border border-slate-800">
           <i class="fab fa-google-drive text-amber-400"></i> ¿Prefieres guardarlos en tu Drive? <strong>Abrir Carpeta en Google Drive</strong> <i class="fas fa-external-link-alt text-[10px]"></i>
@@ -778,7 +1127,7 @@ def generate_page(is_template=False):
       </div>
     </div>
 
-    <div class="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
       
       <!-- Card 1: Edición Guía Visual ProsperIA ES -->
       <div class="glass-panel p-6 sm:p-8 rounded-2xl relative overflow-hidden flex flex-col justify-between border-cyan-500/20 shadow-xl">
@@ -833,33 +1182,34 @@ def generate_page(is_template=False):
   <!-- ════════════════════════════════════════════════════
        BLOQUE 3: REEL DE SPIDERMAN "THE SWING PROMPTS"
        ════════════════════════════════════════════════════ -->
-  <section id="spiderman-breakdown" class="py-14 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto relative z-10 scroll-mt-24">
+  <section id="spiderman-breakdown" class="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto relative z-10">
     
-    <div class="glass-panel p-6 sm:p-10 rounded-3xl border-red-500/30 relative overflow-hidden bg-gradient-to-b from-slate-950 via-red-950/10 to-slate-950 shadow-2xl">
+    <div class="glass-panel p-5 sm:p-10 rounded-3xl border-red-500/30 relative overflow-hidden bg-gradient-to-b from-slate-950 via-red-950/10 to-slate-950 shadow-2xl">
       <div class="absolute -top-24 -right-24 w-80 h-80 bg-red-600/10 rounded-full blur-3xl pointer-events-none"></div>
 
-      <!-- Header without photo, using clean tech badge -->
-      <div class="flex flex-col sm:flex-row items-center sm:items-start gap-5 mb-8 pb-8 border-b border-slate-800">
-        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-red-600/30 to-slate-950 border border-red-500/50 text-red-400 flex items-center justify-center text-3xl shadow-xl flex-shrink-0">
+      <div class="spiderman-header-grid">
+        <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-red-600/30 to-slate-950 border border-red-500/50 text-red-400 flex items-center justify-center text-2xl sm:text-3xl shadow-xl flex-shrink-0">
           <i class="fas fa-spider"></i>
         </div>
-        <div class="text-center sm:text-left flex-1">
-          <div class="flex items-center justify-center sm:justify-start gap-2 flex-wrap mb-1">
+        <div class="text-center md:text-left">
+          <div class="flex items-center justify-center md:justify-start gap-2 flex-wrap mb-1">
             <span class="px-3 py-0.5 rounded-full text-[11px] font-extrabold uppercase tracking-wider bg-red-950/80 text-red-300 border border-red-500/30">
               🕷️ DESGLOSE TÉCNICO OFICIAL
             </span>
             <span class="text-xs text-slate-400 font-mono">ChatGPT + Seedance 2.0</span>
           </div>
-          <h2 class="text-2xl sm:text-3xl font-extrabold text-white">
+          <h2 class="text-xl sm:text-3xl font-extrabold text-white">
             Reel de Spiderman: "The Swing Prompts"
           </h2>
           <p class="text-xs sm:text-sm text-slate-300 mt-1">
             Por <strong>Edward Jiménez</strong> (<a href="https://www.instagram.com/edwardjimenezia/" target="_blank" rel="noopener" class="text-red-400 font-bold hover:underline">@edwardjimenezia</a>) · Agencia ProsperIA
           </p>
         </div>
-        <a href="https://www.instagram.com/p/DdsN1nasM46/" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold bg-pink-950/80 border border-pink-500/40 text-pink-300 hover:bg-pink-900/50 transition-colors flex-shrink-0">
-          <i class="fab fa-instagram"></i> Ver Video en Instagram
-        </a>
+        <div>
+          <a href="https://www.instagram.com/p/DdsN1nasM46/" target="_blank" rel="noopener" class="spiderman-ig-btn">
+            <i class="fab fa-instagram text-base"></i> <span>Ver Video en Instagram</span>
+          </a>
+        </div>
       </div>
 
       <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-6">
@@ -888,20 +1238,22 @@ def generate_page(is_template=False):
             </div>
           </button>
           
-          <div id="step-content-1" class="px-4 sm:px-6 pb-5 pt-1 border-t border-slate-800/80">
-            <div class="flex items-center justify-between gap-2 mb-3 mt-3">
+          <div id="step-content-1" class="px-4 sm:px-6 pb-6 pt-2 border-t border-slate-800/80">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3 mt-3">
               <span class="text-xs text-slate-300 font-medium"><strong>Instrucción:</strong> Sube tu foto de frente (selfie) a ChatGPT y pega:</span>
-              <button onclick="copyCode(document.getElementById('prompt-spiderman-1').innerText, this)" class="btn-copy px-3 py-1.5 rounded-lg text-xs font-bold inline-flex items-center gap-1.5 flex-shrink-0">
+              <button onclick="copyCode(document.getElementById('prompt-spiderman-1').innerText, this)" class="btn-copy px-3 py-1.5 rounded-lg text-xs font-bold inline-flex items-center gap-1.5 flex-shrink-0 self-start sm:self-auto">
                 <i class="far fa-copy"></i> Copiar Prompt
               </button>
             </div>
-            <div id="prompt-spiderman-1" class="prompt-box p-4 select-all text-xs leading-relaxed max-h-72 overflow-y-auto">Referencia: Utiliza la imagen subida como referencia directa para la fisonomía del rostro, pero coloca al personaje como un hombre joven sentado en el alféizar de una ventana de piso a techo completamente abierta dentro de una acogedora habitación de Nueva York. La ventana está totalmente abierta y deja pasar una brisa natural. El sujeto se sienta con las piernas hacia el cuarto, postura relajada y confiada, mirando a la cámara con una sonrisa natural.
+            <div id="prompt-spiderman-1" class="prompt-box select-all">Referencia: Utiliza la imagen subida como referencia directa para la fisonomía del rostro, pero coloca al personaje como un hombre joven sentado en el alféizar de una ventana de piso a techo completamente abierta dentro de una acogedora habitación de Nueva York. La ventana está totalmente abierta y deja pasar una brisa natural. El sujeto se sienta con las piernas hacia el cuarto, postura relajada y confiada, mirando a la cámara con una sonrisa natural.
 
 Vestuario: Chaqueta de cuero negro mate, camiseta blanca de algodón grueso, pantalones anchos negros oversize, zapatillas blancas Nike Air Force 1 impecables, y auriculares negros over-ear descansando alrededor del cuello.
 
-Entorno: Habitación creativa en Manhattan con estantes llenos de cómics manga, libros de fotografía, equipo de cámaras y pósters de cine. Al fondo de la ventana abierta se observa el skyline de Manhattan en hora dorada (golden hour), con edificios de ladrillo y escaleras de incendio bañadas en luz cálida y suave bruma atmosférica.
+Entorno de la Habitación: Iluminación interior cálida y tenue (lámpara cálida fuera de foco en la esquina), pared de ladrillo visto con pósters enmarcados de bandas indie, una planta monstera en maceta, cama deshecha con sábanas blancas y un escritorio de madera con una laptop brillante.
 
-Cámara & Estilo: Encuadre centrado a nivel de ojos, lente anamórfico de 35mm, grano orgánico de película estilo A24 y Kodak Vision3 250D, ultra-fotorrealista, 8K HDR, calidad fotográfica de revista.</div>
+Exterior por la Ventana: Tarde dorada en Nueva York, luz suave del atardecer tiñendo los rascacielos circundantes de tonos ámbar y oro. Calles distantes visibles abajo con tráfico de taxis amarillos desenfocados. Profundidad atmosférica, ligera neblina urbana cálida.
+
+Estilo de Cámara: Fotografía realista de 35mm, ángulo medio ligeramente contrapicado, f/2.0, desenfoque de fondo suave (bokeh agradable), grano de película sutil, colores ricos pero naturales, alto rango dinámico sin sobreexposición.</div>
           </div>
         </div>
 
@@ -909,35 +1261,35 @@ Cámara & Estilo: Encuadre centrado a nivel de ojos, lente anamórfico de 35mm, 
         <div class="border border-slate-800 rounded-2xl bg-slate-950/80 overflow-hidden transition-all duration-200" id="accordion-item-2">
           <button type="button" onclick="toggleSpidermanStep(2)" class="w-full p-4 sm:p-5 flex items-center justify-between text-left hover:bg-slate-900/60 transition-colors">
             <div class="flex items-center gap-3">
-              <span class="w-8 h-8 rounded-xl bg-red-950 border border-red-500/40 text-red-400 text-sm flex items-center justify-center font-bold flex-shrink-0">2</span>
+              <span class="w-8 h-8 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 text-sm flex items-center justify-center font-bold flex-shrink-0">2</span>
               <div>
                 <h4 class="text-sm sm:text-base font-bold text-white flex items-center gap-2">
-                  <span>Paso 2: La Salida al Vacío</span>
-                  <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-red-950/60 text-red-300 border border-red-500/20">Seedance 2.0 / Kling</span>
+                  <span>Paso 2: Genera el Fotograma de Acción (Vuelo Spiderman)</span>
+                  <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-cyan-950/60 text-cyan-300 border border-cyan-500/20">ChatGPT / Midjourney</span>
                 </h4>
-                <p class="text-xs text-slate-400 mt-0.5">El sujeto se pone los audífonos y se deja caer hacia atrás con naturalidad.</p>
+                <p class="text-xs text-slate-400 mt-0.5">El sujeto ahora en caída libre / balanceo acrobático entre rascacielos.</p>
               </div>
             </div>
             <div class="flex items-center gap-3 flex-shrink-0 ml-2">
-              <span class="text-xs text-red-400 hidden sm:inline font-mono">Pícale aquí</span>
+              <span class="text-xs text-slate-500 hidden sm:inline font-mono">Pícale aquí</span>
               <i class="fas fa-chevron-down text-slate-400 transition-transform duration-300" id="chevron-2"></i>
             </div>
           </button>
           
-          <div id="step-content-2" class="px-4 sm:px-6 pb-5 pt-1 border-t border-slate-800/80 hidden">
-            <div class="flex items-center justify-between gap-2 mb-3 mt-3">
-              <span class="text-xs text-slate-300 font-medium"><strong>Instrucción:</strong> Sube la imagen del Paso 1 a Seedance 2.0 (o Kling/Runway) y pega:</span>
-              <button onclick="copyCode(document.getElementById('prompt-spiderman-2').innerText, this)" class="btn-copy px-3 py-1.5 rounded-lg text-xs font-bold inline-flex items-center gap-1.5 flex-shrink-0">
+          <div id="step-content-2" class="px-4 sm:px-6 pb-6 pt-2 border-t border-slate-800/80 hidden">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3 mt-3">
+              <span class="text-xs text-slate-300 font-medium"><strong>Instrucción:</strong> Genera la segunda imagen manteniendo coherencia de rostro y vestuario:</span>
+              <button onclick="copyCode(document.getElementById('prompt-spiderman-2').innerText, this)" class="btn-copy px-3 py-1.5 rounded-lg text-xs font-bold inline-flex items-center gap-1.5 flex-shrink-0 self-start sm:self-auto">
                 <i class="far fa-copy"></i> Copiar Prompt
               </button>
             </div>
-            <div id="prompt-spiderman-2" class="prompt-box p-4 select-all text-xs leading-relaxed max-h-72 overflow-y-auto">Reference: Use the uploaded image as the exact character reference. Preserve face, hairstyle, leather jacket, sneakers, headphones, and the NYC golden-hour open window.
+            <div id="prompt-spiderman-2" class="prompt-box select-all">Plano de acción acrobático en caída libre: El mismo hombre joven del Paso 1 (misma chaqueta de cuero negro, pantalones anchos negros, zapatillas blancas) ahora está en pleno aire lanzándose desde la ventana del rascacielos. Postura dinámica inspirada en Spiderman: cuerpo arqueado en pose de balanceo, una mano estirada hacia adelante como si disparara una telaraña, la otra hacia atrás para estabilizar el equilibrio.
 
-Camera (Strict): Locked-off tripod shot. No movement, no pan, no tilt, no zoom. Maintain exact framing throughout.
+Cámara & Ángulo: Ángulo holandés dinámico (Dutch angle) de 45 grados, toma de cuerpo completo desde abajo mirando hacia arriba mientras los rascacielos de Manhattan convergen en perspectiva forzada. Sensación vertiginosa de velocidad.
 
-Action: The man sits on the window ledge. Warm evening sunlight fills the room and a gentle breeze moves the curtains. He looks at the camera with a relaxed smile and says naturally: "Alright... let's do this one more time." He calmly lifts the headphones from his neck and places them over his ears, adjusting them with confidence. He then leans backward with complete trust as if pulled smoothly by an invisible superhero force, disappearing gracefully beyond the open window into the skyline. No distress, no panic, no danger. The curtains continue moving gently. Hold on the empty window for two seconds.
+Atmósfera: Viento agitando violentamente la chaqueta y el cabello. Desenfoque de movimiento cinemático (motion blur) sutil en los bordes para transmitir aceleración. Hora dorada tardía con destellos anamórficos del sol reflejándose en las ventanas de cristal de los edificios.
 
-Look: Ultra photorealistic Hollywood comic-book film aesthetic, 8K HDR, natural fabric physics.</div>
+Render: Fotografía de alta acción en 35mm, obturación rápida 1/1000s con ligero arrastre visual en las extremidades, grano cinematográfico de 35mm, colores vivos, contraste teatral.</div>
           </div>
         </div>
 
@@ -945,49 +1297,36 @@ Look: Ultra photorealistic Hollywood comic-book film aesthetic, 8K HDR, natural 
         <div class="border border-slate-800 rounded-2xl bg-slate-950/80 overflow-hidden transition-all duration-200" id="accordion-item-3">
           <button type="button" onclick="toggleSpidermanStep(3)" class="w-full p-4 sm:p-5 flex items-center justify-between text-left hover:bg-slate-900/60 transition-colors">
             <div class="flex items-center gap-3">
-              <span class="w-8 h-8 rounded-xl bg-red-950 border border-red-500/40 text-red-400 text-sm flex items-center justify-center font-bold flex-shrink-0">3</span>
+              <span class="w-8 h-8 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 text-sm flex items-center justify-center font-bold flex-shrink-0">3</span>
               <div>
                 <h4 class="text-sm sm:text-base font-bold text-white flex items-center gap-2">
-                  <span>Paso 3: Vuelo Continuo de 15s en Dron por Manhattan</span>
-                  <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-red-950/60 text-red-300 border border-red-500/20">Seedance 2.0 (Zero Cuts)</span>
+                  <span>Paso 3: Directiva de Animación y Cámara en Seedance 2.0</span>
+                  <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-purple-950/60 text-purple-300 border border-purple-500/20">Video IA</span>
                 </h4>
-                <p class="text-xs text-slate-400 mt-0.5">Toma continua sin cortes siguiendo las acrobacias aéreas entre taxis y rascacielos.</p>
+                <p class="text-xs text-slate-400 mt-0.5">Sube la Imagen 1 como First Frame y la Imagen 2 como Last Frame en la plataforma de video IA.</p>
               </div>
             </div>
             <div class="flex items-center gap-3 flex-shrink-0 ml-2">
-              <span class="text-xs text-red-400 hidden sm:inline font-mono">Pícale aquí</span>
+              <span class="text-xs text-slate-500 hidden sm:inline font-mono">Pícale aquí</span>
               <i class="fas fa-chevron-down text-slate-400 transition-transform duration-300" id="chevron-3"></i>
             </div>
           </button>
           
-          <div id="step-content-3" class="px-4 sm:px-6 pb-5 pt-1 border-t border-slate-800/80 hidden">
-            <div class="flex items-center justify-between gap-2 mb-3 mt-3">
-              <span class="text-xs text-slate-300 font-medium"><strong>Instrucción:</strong> Con la misma imagen de referencia, genera la secuencia de acción continua de 15s:</span>
-              <button onclick="copyCode(document.getElementById('prompt-spiderman-3').innerText, this)" class="btn-copy px-3 py-1.5 rounded-lg text-xs font-bold inline-flex items-center gap-1.5 flex-shrink-0">
-                <i class="far fa-copy"></i> Copiar Prompt
+          <div id="step-content-3" class="px-4 sm:px-6 pb-6 pt-2 border-t border-slate-800/80 hidden">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3 mt-3">
+              <span class="text-xs text-slate-300 font-medium"><strong>Prompt de Movimiento (Motion Directive):</strong></span>
+              <button onclick="copyCode(document.getElementById('prompt-spiderman-3').innerText, this)" class="btn-copy px-3 py-1.5 rounded-lg text-xs font-bold inline-flex items-center gap-1.5 flex-shrink-0 self-start sm:self-auto">
+                <i class="far fa-copy"></i> Copiar Directiva
               </button>
             </div>
-            <div id="prompt-spiderman-3" class="prompt-box p-4 select-all text-xs leading-relaxed max-h-72 overflow-y-auto">15-second continuous drone-follow shot. ZERO CUTS. Real Hollywood film, RED Monstro 8K anamorphic lens.
+            <div id="prompt-spiderman-3" class="prompt-box select-all">Camera Movement: Cinematic continuous forward push through the open window, tracking the character seamlessly as he turns, smiles at the camera, and confidently leans backward dropping out of the window into the urban void.
 
-Physics & Movement (Critical): Does NOT float. Interacts physically with the city. Feet push off walls, hands grab ledges. Clean acrobatic rope-swing athlete posture.
-0–1s: Wrist snaps, web shoots, camera pulls back immediately.
-1–4s: Swings LOW 3 meters above a residential street. White Air Force 1s skim the roof of a parked car, feet bounce off lightly to redirect momentum. Camera banks 40 degrees.
-4–7s: Releases web at peak, runs 4 steps horizontally along a brick wall of a brownstone, then pushes off hard and fires a new web across an intersection.
-7–10s: Comes LOW down a street packed with yellow taxis, runs 3 steps on wet pavement between cars. A taxi honks. He laughs with an adrenaline grin, kicks off a taxi roof and rockets HIGH shouting "WOOHOO!"
-10–15s: Reaches peak altitude at rooftop level against a massive warm orange sunset sky. Hangs weightless for one breathless moment, arms slightly open, pure freedom. The frame holds as he begins to fall.</div>
+Physics & Movement (Critical): Does NOT float. Interacts physically with the city. As he drops, gravity takes over instantly with realistic downward acceleration. In mid-air, character rotates into an athletic spider-swing posture, extends his right arm and shoots a high-tension web line toward an adjacent skyscraper. The line goes taut, pendulum momentum swings him upward into the sky.
+
+Lighting & Environment: Wind violently ripples the jacket and hair. Lens flare crosses the camera as the sun peeks between high-rises. Hyper-fluid 60fps motion, photorealistic physics, no morphing, consistent clothing and face geometry throughout the entire transition.</div>
           </div>
         </div>
 
-      </div>
-
-      <!-- Signature block -->
-      <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between flex-wrap gap-3">
-        <div class="text-xs text-slate-300">
-          ¿Te gustó este desglose? Comparte tus resultados y etiquétame en Instagram: <strong class="text-red-400">@edwardjimenezia</strong>
-        </div>
-        <a href="https://chat.whatsapp.com/HIjs3Bytduy9ucOtn6jeKw?s=sh&p=a&ilr=4" target="_blank" rel="noopener" class="px-4 py-2 rounded-lg text-xs font-bold bg-emerald-500 text-slate-950 hover:bg-emerald-400 transition-colors inline-flex items-center gap-1.5">
-          <i class="fab fa-whatsapp"></i> Preguntar en la Comunidad
-        </a>
       </div>
 
     </div>
@@ -996,507 +1335,256 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
   <!-- ════════════════════════════════════════════════════
        BLOQUE 4: NUESTROS REELS PUBLICADOS Y RECURSOS PROMETIDOS
        ════════════════════════════════════════════════════ -->
-  <section id="reels-gallery" class="py-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 scroll-mt-24">
-    
+  <section id="reels-gallery" class="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 scroll-mt-24">
     <div class="text-center max-w-3xl mx-auto mb-10">
-      <span class="text-xs font-bold uppercase tracking-wider text-pink-400 mb-2 block">Casos de Estudio &amp; Videos Virales</span>
-      <h2 class="text-2xl sm:text-4xl font-extrabold text-white">
-        Nuestros Reels Publicados y sus Recursos Prometidos
+      <span class="text-xs font-bold uppercase tracking-wider text-pink-400 mb-2 block">Casos Reales y Contenido en Redes</span>
+      <h2 class="text-2xl sm:text-4xl font-extrabold text-white mb-3">
+        Nuestros Reels Virales y sus Recursos Prometidos
       </h2>
-      <p class="text-slate-300 text-xs sm:text-sm mt-2">
-        Cada video que publicamos en Instagram y Facebook tiene su recurso correspondiente. Encuentra aquí el video que viste y obtén su material:
+      <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
+        ¿Llegaste desde un video específico de Edward Jiménez o ProsperIA? Aquí tienes cada Reel con su botón directo para descargar el material o saltar al prompt exacto.
       </p>
     </div>
 
-    <!-- Reels Grid with Photos & Strict PDF Download Buttons -->
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       {reels_grid_str}
     </div>
-
-    <div class="text-center">
-      <a href="https://www.instagram.com/edwardjimenezia/" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-xs font-bold bg-pink-950/70 border border-pink-500/40 text-pink-300 hover:bg-pink-900/50 transition-colors">
-        <i class="fab fa-instagram text-base"></i> Ver Todos los Reels en Instagram (@edwardjimenezia) <i class="fas fa-arrow-right text-[10px]"></i>
-      </a>
-    </div>
-
   </section>
 
   <!-- ════════════════════════════════════════════════════
-       BLOQUE 5: PASSPORTAI SHOWCASE (VARIAS IAS EN 1 INTERFAZ + TOKENS GRATIS)
+       BLOQUE 5: PASSPORTAI
        ════════════════════════════════════════════════════ -->
-  <section class="py-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto relative z-10 scroll-mt-28" id="passportai-suite">
-    <!-- Ambient Glow Effects -->
-    <div class="absolute -top-10 -right-10 w-80 h-80 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none"></div>
-    <div class="absolute -bottom-10 -left-10 w-80 h-80 bg-indigo-600/15 rounded-full blur-3xl pointer-events-none"></div>
-
-    <div class="passportai-container p-6 sm:p-10 lg:p-12 relative">
+  <section id="passportai-showcase" class="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 scroll-mt-24">
+    <div class="passportai-container p-6 sm:p-10 lg:p-12">
       
-      <!-- Top Badges Row -->
-      <div class="flex flex-wrap items-center justify-between gap-3 mb-8 pb-5 border-b border-slate-800/80">
-        <div class="passport-badge-gift">
-          <i class="fas fa-gift text-emerald-400 animate-pulse"></i> 🎁 Tokens de Cortesía + 5 Días Gratis
-        </div>
-        <div class="flex items-center gap-2 text-xs text-slate-400 font-mono">
-          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-          <span class="text-cyan-300 font-semibold">Integración Multi-IA</span> • <span>Acceso Inmediato en passportai.app</span>
-        </div>
-      </div>
-
-      <!-- Main Showcase Grid with guaranteed CSS Grid -->
       <div class="passportai-layout">
-        
-        <!-- Left Column: Copy & Conversion Hook -->
-        <div class="text-left space-y-5">
-          
-          <div class="flex items-center gap-3">
-            <img src="{s_asset('passportai_logo_official.jpg')}" alt="PassportAI" class="w-12 h-12 rounded-xl object-cover border border-cyan-400/50 shadow-[0_0_15px_rgba(0,229,255,0.3)]">
-            <div>
-              <span class="text-xs uppercase tracking-wider text-cyan-400 font-mono font-bold block">Plataforma Todo-en-Uno</span>
-              <h4 class="text-base font-extrabold text-white">PassportAI Studio</h4>
-            </div>
+        <div>
+          <div class="mb-4">
+            <span class="passport-badge-gift">
+              <i class="fas fa-gift text-emerald-400"></i> Tokens de Cortesía + 5 Días Gratis
+            </span>
           </div>
 
-          <h3 class="text-2xl sm:text-3xl lg:text-4xl font-black text-white leading-tight tracking-tight">
-            ¿Quieres probar <span class="text-gradient-cyan">YA mismo</span> todo este conocimiento?
-          </h3>
+          <h2 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight mb-4">
+            ¿Quieres probar YA mismo todo este conocimiento? Entra a <span class="text-gradient-cyan">PassportAI</span>
+          </h2>
 
-          <p class="text-sm sm:text-base text-slate-300 leading-relaxed">
-            No gastes cientos de dólares en 5 suscripciones separadas ni saltes entre decenas de pestañas. <strong class="text-white">PassportAI</strong> integra los mejores modelos de Inteligencia Artificial del mundo en una sola interfaz gráfica unificada para poner a prueba tus prompts hoy mismo.
+          <p class="text-slate-300 text-sm sm:text-base leading-relaxed mb-6 font-light">
+            No pierdas tiempo saltando entre 5 pestañas ni pagando suscripciones separadas. <strong>PassportAI</strong> es la plataforma unificada que integra los mejores modelos de Inteligencia Artificial del mundo en una <strong>sola interfaz gráfica intuitiva y sin fricción</strong>.
           </p>
 
-          <!-- 3 Pure-AI Value Pillars -->
-          <div class="space-y-3 pt-1">
+          <div class="space-y-3 mb-8">
             <div class="feature-row-item">
-              <div class="w-7 h-7 rounded-lg bg-cyan-950 border border-cyan-500/30 flex items-center justify-center text-cyan-400 text-xs flex-shrink-0 mt-0.5">
+              <div class="w-8 h-8 rounded-lg bg-cyan-950 border border-cyan-400/40 text-cyan-400 flex items-center justify-center flex-shrink-0 text-sm">
                 <i class="fas fa-layer-group"></i>
               </div>
               <div>
-                <span class="text-xs font-bold text-white block">Múltiples IAs en un solo panel</span>
-                <p class="text-[11px] sm:text-xs text-slate-400 mt-0.5">Alterna al instante entre GPT-4o, Claude 3.5 Sonnet, Gemini 1.5 Pro y modelos de imagen sin cambiar de cuenta.</p>
+                <h4 class="text-sm font-bold text-white">Todas las IAs Líderes en una Sola Pantalla</h4>
+                <p class="text-xs text-slate-400 mt-0.5">Alterna al instante entre ChatGPT (GPT-4o), Claude 3.5 Sonnet, Gemini 1.5 Pro y modelos de generación visual sin cambiar de cuenta.</p>
               </div>
             </div>
 
             <div class="feature-row-item">
-              <div class="w-7 h-7 rounded-lg bg-cyan-950 border border-cyan-500/30 flex items-center justify-center text-cyan-400 text-xs flex-shrink-0 mt-0.5">
+              <div class="w-8 h-8 rounded-lg bg-indigo-950 border border-indigo-400/40 text-indigo-400 flex items-center justify-center flex-shrink-0 text-sm">
                 <i class="fas fa-bolt"></i>
               </div>
               <div>
-                <span class="text-xs font-bold text-white block">Ejecuta los 100 Códigos al instante</span>
-                <p class="text-[11px] sm:text-xs text-slate-400 mt-0.5">Pega los prompts directamente, compara respuestas de diferentes IAs en paralelo y obtén resultados cinematográficos.</p>
+                <h4 class="text-sm font-bold text-white">Aplica los 200 Códigos Directamente</h4>
+                <p class="text-xs text-slate-400 mt-0.5">Copia y pega cualquiera de nuestros 200 códigos en su canvas visual para crear contenido, guiones y dirección de arte en segundos.</p>
               </div>
             </div>
 
             <div class="feature-row-item">
-              <div class="w-7 h-7 rounded-lg bg-cyan-950 border border-cyan-500/30 flex items-center justify-center text-cyan-400 text-xs flex-shrink-0 mt-0.5">
+              <div class="w-8 h-8 rounded-lg bg-emerald-950 border border-emerald-400/40 text-emerald-400 flex items-center justify-center flex-shrink-0 text-sm">
                 <i class="fas fa-coins"></i>
               </div>
               <div>
-                <span class="text-xs font-bold text-white block">Comienza 100% Gratis con Tokens de Regalo</span>
-                <p class="text-[11px] sm:text-xs text-slate-400 mt-0.5">Regístrate en menos de 1 minuto, recibe tu saldo de cortesía y disfruta de 5 días de acceso total sin compromiso.</p>
+                <h4 class="text-sm font-bold text-white">Regístrate Hoy y Recibe Tokens Gratis</h4>
+                <p class="text-xs text-slate-400 mt-0.5">Prueba la suite completa durante 5 días con tokens de cortesía incluidos para comenzar de inmediato.</p>
               </div>
             </div>
           </div>
 
-          <!-- CTA Buttons & Reassurance -->
-          <div class="pt-3 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-            <a href="https://passportai.app/register" target="_blank" rel="noopener" class="btn-passport-cta">
-              <i class="fas fa-bolt"></i>
-              <span>Entrar a PassportAI y Reclamar Tokens</span>
-              <i class="fas fa-arrow-right text-xs"></i>
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            <a href="https://passportai.app" target="_blank" rel="noopener" class="btn-passport-cta">
+              <span>Probar PassportAI Gratis</span>
+              <i class="fas fa-arrow-right"></i>
             </a>
             <a href="https://passportai.app" target="_blank" rel="noopener" class="btn-passport-secondary">
-              <span>Conocer passportai.app</span>
-              <i class="fas fa-external-link-alt text-[10px]"></i>
+              <i class="fas fa-desktop"></i>
+              <span>Ver Interfaz en passportai.app</span>
             </a>
           </div>
-          
-          <div class="flex items-center gap-4 text-[11px] text-slate-400 pt-1">
-            <span class="flex items-center gap-1.5"><i class="fas fa-check text-cyan-400"></i> Sin tarjeta obligatoria</span>
-            <span class="flex items-center gap-1.5"><i class="fas fa-check text-cyan-400"></i> Activación inmediata</span>
-            <span class="flex items-center gap-1.5"><i class="fas fa-check text-cyan-400"></i> Todas las IAs en 1 login</span>
-          </div>
-
         </div>
 
-        <!-- Right Column: Visual Interactive Interface Preview -->
-        <div class="w-full">
-          <div class="passport-suite-preview relative overflow-hidden">
-            
-            <!-- Window header -->
-            <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
-              <div class="flex items-center gap-1.5">
-                <span class="w-2.5 h-2.5 rounded-full bg-rose-500/80"></span>
-                <span class="w-2.5 h-2.5 rounded-full bg-amber-500/80"></span>
-                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500/80"></span>
-                <span class="text-[10px] text-slate-500 font-mono ml-2">passportai.app/studio</span>
+        <div>
+          <div class="passport-suite-preview">
+            <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-800">
+              <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-red-500/80 inline-block"></span>
+                <span class="w-3 h-3 rounded-full bg-amber-500/80 inline-block"></span>
+                <span class="w-3 h-3 rounded-full bg-emerald-500/80 inline-block"></span>
+                <span class="text-xs font-mono text-slate-400 ml-2">passportai.app/studio</span>
               </div>
-              <span class="px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-cyan-950 text-cyan-400 border border-cyan-500/30">
-                MULTI-AI ACTIVE
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/30">
+                MULTI-AI WORKSPACE
               </span>
             </div>
 
-            <!-- Multi-Model Switcher Chips -->
-            <div class="mb-3">
-              <div class="text-[10px] text-slate-400 font-mono mb-1.5 flex items-center justify-between">
-                <span>MODELO ACTIVO:</span>
-                <span class="text-emerald-400 font-bold">CAMBIO EN 1 CLIC</span>
+            <div class="text-xs text-slate-400 font-semibold mb-2">MODELOS DISPONIBLES EN TIEMPO REAL:</div>
+            <div class="grid grid-cols-2 gap-2 mb-4">
+              <div class="model-chip-active">
+                <i class="fas fa-brain text-cyan-400"></i>
+                <div class="truncate">
+                  <div class="font-bold text-white text-[11px]">GPT-4o &amp; DALL-E</div>
+                  <div class="text-[9px] text-cyan-300">OpenAI</div>
+                </div>
               </div>
-              <div class="grid grid-cols-2 gap-1.5 text-xs">
-                <div class="model-chip-active">
-                  <span class="w-2 h-2 rounded-full bg-cyan-400"></span> GPT-4o Omni
+              <div class="model-chip-active">
+                <i class="fas fa-sparkles text-amber-400"></i>
+                <div class="truncate">
+                  <div class="font-bold text-white text-[11px]">Claude 3.5 Sonnet</div>
+                  <div class="text-[9px] text-amber-300">Anthropic</div>
                 </div>
-                <div class="model-chip-inactive">
-                  <span class="w-2 h-2 rounded-full bg-indigo-400"></span> Claude 3.5
+              </div>
+              <div class="model-chip-active">
+                <i class="fas fa-gem text-indigo-400"></i>
+                <div class="truncate">
+                  <div class="font-bold text-white text-[11px]">Gemini 1.5 Pro</div>
+                  <div class="text-[9px] text-indigo-300">Google DeepMind</div>
                 </div>
-                <div class="model-chip-inactive">
-                  <span class="w-2 h-2 rounded-full bg-sky-400"></span> Gemini 1.5
-                </div>
-                <div class="model-chip-inactive">
-                  <span class="w-2 h-2 rounded-full bg-purple-400"></span> Flux / Vision
+              </div>
+              <div class="model-chip-active">
+                <i class="fas fa-wand-magic-sparkles text-pink-400"></i>
+                <div class="truncate">
+                  <div class="font-bold text-white text-[11px]">Flux &amp; Stable Diffusion</div>
+                  <div class="text-[9px] text-pink-300">Generación de Imágenes</div>
                 </div>
               </div>
             </div>
 
-            <!-- Simulated Prompt Input -->
-            <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800 mb-3 text-left">
-              <div class="text-[10px] text-slate-400 font-mono flex items-center justify-between mb-1">
-                <span>PROMPT EN EJECUCIÓN:</span>
-                <span class="text-cyan-400 font-semibold">Código #24 Iluminación</span>
-              </div>
-              <p class="text-[11px] text-slate-200 font-mono line-clamp-2 italic">
-                "Actúa como director de fotografía cinematográfica. Formula una toma hiperrealista 8k..."
-              </p>
+            <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800 text-xs text-slate-300 font-mono mb-4 leading-relaxed">
+              <div class="text-emerald-400 text-[11px] mb-1">✓ Sistema listo para ejecutar tus 200 códigos:</div>
+              <span class="text-cyan-400">Input:</span> /spotlight + /neonnoir + 35mm cinematográfico<br>
+              <span class="text-slate-400">Status: Generando renders en paralelo con múltiples motores...</span>
             </div>
 
-            <!-- Simulated Output Card -->
-            <div class="p-3 rounded-xl bg-gradient-to-r from-cyan-950/60 to-indigo-950/60 border border-cyan-500/30 text-left">
-              <div class="flex items-center justify-between text-[10px] text-cyan-300 font-bold mb-1">
-                <span class="flex items-center gap-1"><i class="fas fa-check-circle text-cyan-400"></i> Orquestación Exitosa</span>
-                <span class="font-mono text-slate-400">Tokens: -2 / Saldo: 1,498</span>
-              </div>
-              <p class="text-[11px] text-slate-300 leading-snug">
-                Toma estructurada con iluminación volumétrica y paleta cinematográfica generada en 1.1s.
-              </p>
+            <div class="text-center pt-1">
+              <span class="text-[11px] text-slate-400">
+                <i class="fas fa-shield-alt text-cyan-400 mr-1"></i> Sin tarjetas de crédito para probar los 5 días
+              </span>
             </div>
-
-            <!-- Bottom Showcase Link -->
-            <div class="mt-3 pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
-              <span>Todas tus IAs en una sola cuenta</span>
-              <a href="https://passportai.app/register" target="_blank" rel="noopener" class="text-cyan-400 hover:underline font-bold text-xs flex items-center gap-1">
-                Probar en Vivo <i class="fas fa-chevron-right text-[9px]"></i>
-              </a>
-            </div>
-
           </div>
         </div>
-
       </div>
 
     </div>
   </section>
 
   <!-- ════════════════════════════════════════════════════
-       BLOQUE 6: DIAGNÓSTICO INTERACTIVO DE NIVEL DE IA (REDISEÑADO & ATRACTIVO)
+       BLOQUE 6: TEST INTERACTIVO DE CONOCIMIENTO EN IA
        ════════════════════════════════════════════════════ -->
-  <!-- ════════════════════════════════════════════════════
-       BLOQUE 6: DIAGNÓSTICO INTERACTIVO DE NIVEL DE IA (5 PREGUNTAS + FLECHAS + 3 NIVELES)
-       ════════════════════════════════════════════════════ -->
-  <section id="test-ia" class="py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto relative z-10 scroll-mt-24">
-    
-    <div class="text-center mb-8">
-      <span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-cyan-950/80 text-cyan-300 border border-cyan-400/40 mb-3">
-        <i class="fas fa-brain text-cyan-400"></i> Diagnóstico Rápido en 2 Minutos
-      </span>
-      <h2 class="text-2xl sm:text-4xl font-extrabold text-white">
-        ¿Cuál es tu Nivel Real de Conocimiento en IA?
-      </h2>
-      <p class="text-slate-300 text-xs sm:text-sm max-w-xl mx-auto mt-2 leading-relaxed">
-        Responde 5 preguntas prácticas para evaluar tu madurez en prompts, generación de contenido y automatización. Descubre si estás en nivel <strong>Novato, Intermedio o Avanzado</strong> sin formularios obligatorios.
-      </p>
-    </div>
-
-    <!-- Ultra-Attractive Interactive Box -->
-    <div class="glass-panel p-6 sm:p-10 rounded-3xl border-2 border-cyan-500/30 relative shadow-[0_0_50px_rgba(0,229,255,0.12)] bg-gradient-to-b from-slate-950 via-slate-900/90 to-slate-950">
+  <section id="test-ia" class="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto relative z-10 scroll-mt-24">
+    <div class="glass-panel p-6 sm:p-10 rounded-3xl border-cyan-500/30 text-center relative overflow-hidden bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 shadow-2xl">
       
-      <!-- Progress Bar & Indicator -->
-      <div class="flex items-center justify-between text-xs text-slate-400 font-mono mb-3">
-        <span id="quiz-step-indicator" class="text-cyan-400 font-bold">Pregunta 1 de 5</span>
-        <span id="quiz-percent-indicator">20% Completado</span>
-      </div>
-      <div class="w-full bg-slate-950 rounded-full h-2.5 mb-8 overflow-hidden border border-slate-800">
-        <div id="quiz-progress" class="bg-gradient-to-r from-cyan-400 via-sky-400 to-indigo-500 h-2.5 rounded-full transition-all duration-300 shadow-[0_0_12px_rgba(0,229,255,0.5)]" style="width: 20%;"></div>
-      </div>
-
-      <!-- Question 1 -->
-      <div id="quiz-step-1" class="quiz-step">
-        <div class="flex items-center gap-2 mb-2">
-          <span class="w-6 h-6 rounded-md bg-cyan-950 border border-cyan-500/40 text-cyan-400 text-xs flex items-center justify-center font-bold">Q1</span>
-          <span class="text-xs text-cyan-400 font-mono uppercase tracking-wider">Frecuencia y Productividad</span>
-        </div>
-        <h3 class="text-lg sm:text-xl font-bold text-white mb-5">¿Cómo utilizas la Inteligencia Artificial en tu día a día o trabajo?</h3>
-        <div class="space-y-3">
-          <button type="button" onclick="selectQuizOption(1, 10, 'A', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
-            <span>A. Solo de vez en cuando para redactar correos o consultas simples en ChatGPT.</span>
-            <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
-          </button>
-          <button type="button" onclick="selectQuizOption(1, 25, 'B', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
-            <span>B. A diario para generar ideas, estructurar guiones y organizar mi trabajo.</span>
-            <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
-          </button>
-          <button type="button" onclick="selectQuizOption(1, 40, 'C', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
-            <span>C. Genero imágenes, videos y prompts estructurados para redes sociales con regularidad.</span>
-            <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
-          </button>
-          <button type="button" onclick="selectQuizOption(1, 50, 'D', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
-            <span>D. Tengo flujos de trabajo conectados a APIs, CRMs, Make/n8n o agentes autónomos.</span>
-            <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
-          </button>
-        </div>
-
-        <!-- Arrows Navigation -->
-        <div class="flex items-center justify-between pt-6 mt-6 border-t border-slate-800/80">
-          <button type="button" disabled class="px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-600 border border-slate-800 opacity-40 cursor-not-allowed flex items-center gap-2">
-            <i class="fas fa-arrow-left text-[11px]"></i> Anterior
-          </button>
-          <div class="flex items-center gap-1.5">
-            <span class="quiz-dot-1 w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
-            <span class="quiz-dot-2 w-2.5 h-2.5 rounded-full bg-slate-800"></span>
-            <span class="quiz-dot-3 w-2.5 h-2.5 rounded-full bg-slate-800"></span>
-            <span class="quiz-dot-4 w-2.5 h-2.5 rounded-full bg-slate-800"></span>
-            <span class="quiz-dot-5 w-2.5 h-2.5 rounded-full bg-slate-800"></span>
-          </div>
-          <button type="button" id="btn-next-1" onclick="nextQuizStep()" disabled class="px-4 py-2.5 rounded-xl text-xs font-bold text-cyan-400 border border-cyan-500/40 bg-cyan-950/40 opacity-40 cursor-not-allowed hover:bg-cyan-500 hover:text-slate-950 transition-all flex items-center gap-2">
-            Siguiente <i class="fas fa-arrow-right text-[11px]"></i>
-          </button>
-        </div>
-      </div>
-
-      <!-- Question 2 -->
-      <div id="quiz-step-2" class="quiz-step hidden">
-        <div class="flex items-center gap-2 mb-2">
-          <span class="w-6 h-6 rounded-md bg-cyan-950 border border-cyan-500/40 text-cyan-400 text-xs flex items-center justify-center font-bold">Q2</span>
-          <span class="text-xs text-cyan-400 font-mono uppercase tracking-wider">Ingeniería de Prompts</span>
-        </div>
-        <h3 class="text-lg sm:text-xl font-bold text-white mb-5">¿Cómo formulas tus prompts cuando buscas un resultado de calidad?</h3>
-        <div class="space-y-3">
-          <button type="button" onclick="selectQuizOption(2, 10, 'A', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
-            <span>A. Escribo descripciones breves y espero que la IA adivine lo que busco.</span>
-            <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
-          </button>
-          <button type="button" onclick="selectQuizOption(2, 25, 'B', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
-            <span>B. Uso palabras clave genéricas como "sé profesional, 8k, hiperrealista y detallado".</span>
-            <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
-          </button>
-          <button type="button" onclick="selectQuizOption(2, 40, 'C', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
-            <span>C. Aplico parámetros de lentes (35mm), iluminación controlada, composición y sintaxis estructurada.</span>
-            <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
-          </button>
-          <button type="button" onclick="selectQuizOption(2, 50, 'D', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
-            <span>D. Domino consistencia multi-escena, meta-prompts con variables y directivas físicas de movimiento.</span>
-            <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
-          </button>
-        </div>
-
-        <!-- Arrows Navigation -->
-        <div class="flex items-center justify-between pt-6 mt-6 border-t border-slate-800/80">
-          <button type="button" onclick="prevQuizStep()" class="px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-300 border border-slate-700 bg-slate-900/60 hover:text-white hover:border-cyan-400 transition-all flex items-center gap-2">
-            <i class="fas fa-arrow-left text-[11px]"></i> Anterior
-          </button>
-          <div class="flex items-center gap-1.5">
-            <span class="quiz-dot-1 w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
-            <span class="quiz-dot-2 w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
-            <span class="quiz-dot-3 w-2.5 h-2.5 rounded-full bg-slate-800"></span>
-            <span class="quiz-dot-4 w-2.5 h-2.5 rounded-full bg-slate-800"></span>
-            <span class="quiz-dot-5 w-2.5 h-2.5 rounded-full bg-slate-800"></span>
-          </div>
-          <button type="button" id="btn-next-2" onclick="nextQuizStep()" disabled class="px-4 py-2.5 rounded-xl text-xs font-bold text-cyan-400 border border-cyan-500/40 bg-cyan-950/40 opacity-40 cursor-not-allowed hover:bg-cyan-500 hover:text-slate-950 transition-all flex items-center gap-2">
-            Siguiente <i class="fas fa-arrow-right text-[11px]"></i>
-          </button>
-        </div>
-      </div>
-
-      <!-- Question 3 -->
-      <div id="quiz-step-3" class="quiz-step hidden">
-        <div class="flex items-center gap-2 mb-2">
-          <span class="w-6 h-6 rounded-md bg-cyan-950 border border-cyan-500/40 text-cyan-400 text-xs flex items-center justify-center font-bold">Q3</span>
-          <span class="text-xs text-cyan-400 font-mono uppercase tracking-wider">Multimedia &amp; Video</span>
-        </div>
-        <h3 class="text-lg sm:text-xl font-bold text-white mb-5">¿Qué experiencia tienes generando imágenes o video cinemático con IA?</h3>
-        <div class="space-y-3">
-          <button type="button" onclick="selectQuizOption(3, 10, 'A', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
-            <span>A. Ninguna o muy poca; solo he probado herramientas básicas sin control técnico.</span>
-            <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
-          </button>
-          <button type="button" onclick="selectQuizOption(3, 25, 'B', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
-            <span>B. He probado generadores estándar como DALL-E en ChatGPT o Canva Magic.</span>
-            <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
-          </button>
-          <button type="button" onclick="selectQuizOption(3, 40, 'C', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
-            <span>C. Domino parámetros avanzados en Midjourney o Seedance (iluminación, ángulos, chiaroscuro).</span>
-            <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
-          </button>
-          <button type="button" onclick="selectQuizOption(3, 50, 'D', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
-            <span>D. Produzco videos generativos cinematográficos completos con audio y consistencia (Kling, Runway, Seedance 2.0).</span>
-            <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
-          </button>
-        </div>
-
-        <!-- Arrows Navigation -->
-        <div class="flex items-center justify-between pt-6 mt-6 border-t border-slate-800/80">
-          <button type="button" onclick="prevQuizStep()" class="px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-300 border border-slate-700 bg-slate-900/60 hover:text-white hover:border-cyan-400 transition-all flex items-center gap-2">
-            <i class="fas fa-arrow-left text-[11px]"></i> Anterior
-          </button>
-          <div class="flex items-center gap-1.5">
-            <span class="quiz-dot-1 w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
-            <span class="quiz-dot-2 w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
-            <span class="quiz-dot-3 w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
-            <span class="quiz-dot-4 w-2.5 h-2.5 rounded-full bg-slate-800"></span>
-            <span class="quiz-dot-5 w-2.5 h-2.5 rounded-full bg-slate-800"></span>
-          </div>
-          <button type="button" id="btn-next-3" onclick="nextQuizStep()" disabled class="px-4 py-2.5 rounded-xl text-xs font-bold text-cyan-400 border border-cyan-500/40 bg-cyan-950/40 opacity-40 cursor-not-allowed hover:bg-cyan-500 hover:text-slate-950 transition-all flex items-center gap-2">
-            Siguiente <i class="fas fa-arrow-right text-[11px]"></i>
-          </button>
-        </div>
-      </div>
-
-      <!-- Question 4 -->
-      <div id="quiz-step-4" class="quiz-step hidden">
-        <div class="flex items-center gap-2 mb-2">
-          <span class="w-6 h-6 rounded-md bg-cyan-950 border border-cyan-500/40 text-cyan-400 text-xs flex items-center justify-center font-bold">Q4</span>
-          <span class="text-xs text-cyan-400 font-mono uppercase tracking-wider">Automatización &amp; Conexiones</span>
-        </div>
-        <h3 class="text-lg sm:text-xl font-bold text-white mb-5">¿Has conectado la IA con tus procesos o herramientas de trabajo?</h3>
-        <div class="space-y-3">
-          <button type="button" onclick="selectQuizOption(4, 10, 'A', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
-            <span>A. No, todo lo que hago es copiar y pegar manualmente entre aplicaciones.</span>
-            <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
-          </button>
-          <button type="button" onclick="selectQuizOption(4, 25, 'B', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
-            <span>B. Uso GPTs personalizados o proyectos guardados dentro de ChatGPT o Claude.</span>
-            <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
-          </button>
-          <button type="button" onclick="selectQuizOption(4, 40, 'C', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
-            <span>C. He integrado flujos sencillos con Make, Zapier, Notion o Webhooks.</span>
-            <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
-          </button>
-          <button type="button" onclick="selectQuizOption(4, 50, 'D', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
-            <span>D. Conecto múltiples modelos de IA (APIs, agentes autónomos o suites como PassportAI) en mis flujos.</span>
-            <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
-          </button>
-        </div>
-
-        <!-- Arrows Navigation -->
-        <div class="flex items-center justify-between pt-6 mt-6 border-t border-slate-800/80">
-          <button type="button" onclick="prevQuizStep()" class="px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-300 border border-slate-700 bg-slate-900/60 hover:text-white hover:border-cyan-400 transition-all flex items-center gap-2">
-            <i class="fas fa-arrow-left text-[11px]"></i> Anterior
-          </button>
-          <div class="flex items-center gap-1.5">
-            <span class="quiz-dot-1 w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
-            <span class="quiz-dot-2 w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
-            <span class="quiz-dot-3 w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
-            <span class="quiz-dot-4 w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
-            <span class="quiz-dot-5 w-2.5 h-2.5 rounded-full bg-slate-800"></span>
-          </div>
-          <button type="button" id="btn-next-4" onclick="nextQuizStep()" disabled class="px-4 py-2.5 rounded-xl text-xs font-bold text-cyan-400 border border-cyan-500/40 bg-cyan-950/40 opacity-40 cursor-not-allowed hover:bg-cyan-500 hover:text-slate-950 transition-all flex items-center gap-2">
-            Siguiente <i class="fas fa-arrow-right text-[11px]"></i>
-          </button>
-        </div>
-      </div>
-
-      <!-- Question 5 -->
-      <div id="quiz-step-5" class="quiz-step hidden">
-        <div class="flex items-center gap-2 mb-2">
-          <span class="w-6 h-6 rounded-md bg-cyan-950 border border-cyan-500/40 text-cyan-400 text-xs flex items-center justify-center font-bold">Q5</span>
-          <span class="text-xs text-cyan-400 font-mono uppercase tracking-wider">Estrategia Comercial &amp; ROI</span>
-        </div>
-        <h3 class="text-lg sm:text-xl font-bold text-white mb-5">¿Cuál es el impacto real de la Inteligencia Artificial en tus ingresos o negocio?</h3>
-        <div class="space-y-3">
-          <button type="button" onclick="selectQuizOption(5, 10, 'A', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
-            <span>A. Aún es un pasatiempo o curiosidad; no genera ingresos directos para mí.</span>
-            <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
-          </button>
-          <button type="button" onclick="selectQuizOption(5, 25, 'B', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
-            <span>B. Me ahorra algunas horas a la semana pero no tengo una estrategia comercial definida.</span>
-            <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
-          </button>
-          <button type="button" onclick="selectQuizOption(5, 40, 'C', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
-            <span>C. Es el motor principal para crear contenido visual y atraer prospectos a mi marca.</span>
-            <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
-          </button>
-          <button type="button" onclick="selectQuizOption(5, 50, 'D', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
-            <span>D. Es la base de un sistema predecible de prospección, captación y ventas automáticas.</span>
-            <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
-          </button>
-        </div>
-
-        <!-- Arrows Navigation -->
-        <div class="flex items-center justify-between pt-6 mt-6 border-t border-slate-800/80">
-          <button type="button" onclick="prevQuizStep()" class="px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-300 border border-slate-700 bg-slate-900/60 hover:text-white hover:border-cyan-400 transition-all flex items-center gap-2">
-            <i class="fas fa-arrow-left text-[11px]"></i> Anterior
-          </button>
-          <div class="flex items-center gap-1.5">
-            <span class="quiz-dot-1 w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
-            <span class="quiz-dot-2 w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
-            <span class="quiz-dot-3 w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
-            <span class="quiz-dot-4 w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
-            <span class="quiz-dot-5 w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
-          </div>
-          <button type="button" id="btn-next-5" onclick="calculateQuizResult()" disabled class="px-5 py-2.5 rounded-xl text-xs font-bold text-slate-950 bg-gradient-to-r from-cyan-400 to-indigo-400 opacity-40 cursor-not-allowed hover:from-cyan-300 hover:to-indigo-300 transition-all flex items-center gap-2 shadow-[0_0_15px_rgba(0,229,255,0.3)]">
-            Ver Mi Resultado <i class="fas fa-bolt text-[11px]"></i>
-          </button>
-        </div>
-      </div>
-
-      <!-- Result Screen (Direct, Zero Forms, 3 Tiers + Community WhatsApp Invitation) -->
-      <div id="quiz-result" class="quiz-step hidden text-center">
-        
-        <span class="px-4 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider inline-block mb-3 border bg-cyan-950 text-cyan-300 border-cyan-500/40" id="result-badge">
-          NIVEL IDENTIFICADO
+      <div class="max-w-2xl mx-auto mb-6">
+        <span class="px-3.5 py-1 rounded-full text-xs font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/40 uppercase tracking-wider mb-3 inline-block">
+          <i class="fas fa-brain mr-1"></i> Diagnóstico Interactivo en 5 Preguntas
         </span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white mb-2">
+          ¿Cuál es tu Nivel Real de Conocimiento en IA?
+        </h2>
+        <p class="text-slate-300 text-xs sm:text-sm">
+          Descubre si eres <strong>Novato</strong>, <strong>Intermedio</strong> o <strong>Avanzado</strong> en menos de 1 minuto respondiendo estas 5 preguntas prácticas.
+        </p>
+      </div>
+
+      <!-- Quiz Interactive Card Container -->
+      <div id="quiz-container" class="max-w-xl mx-auto text-left">
         
-        <h3 class="text-2xl sm:text-3xl font-extrabold text-white mb-2" id="result-title">
-          Nivel Intermedio: Creador Visual y Proactivo
-        </h3>
-        
-        <div class="inline-block px-3 py-1 rounded-lg bg-slate-900 border border-slate-800 text-xs font-mono text-cyan-400 mb-4" id="result-score-tag">
-          Puntaje Obtenido: 145 / 250 Puntos
+        <!-- Progress bar and step indicator -->
+        <div class="mb-6">
+          <div class="flex items-center justify-between text-xs text-slate-400 font-mono mb-2">
+            <span>Progreso del Test</span>
+            <span>Pregunta <strong id="quiz-step-text" class="text-cyan-400">1</strong> de 5</span>
+          </div>
+          <div class="w-full bg-slate-900 rounded-full h-2 overflow-hidden border border-slate-800">
+            <div id="quiz-progress-bar" class="bg-gradient-to-r from-cyan-400 to-indigo-500 h-full rounded-full transition-all duration-300" style="width: 20%;"></div>
+          </div>
         </div>
 
-        <p class="text-slate-300 text-xs sm:text-sm max-w-xl mx-auto mb-6 leading-relaxed" id="result-desc">
-          Tienes buen manejo de herramientas de generación de contenido, pero aún trabajas de forma manual. Tu siguiente salto es dominar prompts cinemáticos y automatizar la distribución.
+        <!-- Question Box -->
+        <div class="p-5 sm:p-6 rounded-2xl bg-slate-950/80 border border-slate-800 mb-6 min-h-[220px] flex flex-col justify-between" id="question-box">
+          <div>
+            <span class="text-[11px] font-mono font-bold text-cyan-400 uppercase tracking-wider block mb-2" id="quiz-category-tag">
+              FUNDAMENTOS DE PROMPTS
+            </span>
+            <h3 class="text-base sm:text-lg font-bold text-white mb-4 leading-snug" id="quiz-question-title">
+              1. ¿Cómo utilizas actualmente ChatGPT o herramientas de IA en tu día a día?
+            </h3>
+            
+            <!-- Options list -->
+            <div class="space-y-2.5" id="quiz-options-container">
+              <!-- Dynamically injected options -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="flex items-center justify-between gap-4">
+          <button 
+            type="button" 
+            id="quiz-btn-prev" 
+            onclick="prevQuestion()" 
+            class="px-4 py-3 rounded-xl border border-slate-700 bg-slate-900/80 text-slate-300 text-xs font-semibold hover:border-slate-500 hover:text-white transition-all disabled:opacity-30 disabled:pointer-events-none flex items-center gap-2"
+            disabled
+          >
+            <i class="fas fa-arrow-left"></i> <span>Anterior</span>
+          </button>
+
+          <button 
+            type="button" 
+            id="quiz-btn-next" 
+            onclick="nextQuestion()" 
+            class="px-5 py-3 rounded-xl font-bold text-xs bg-gradient-to-r from-cyan-400 to-sky-400 text-slate-950 hover:from-cyan-300 hover:to-sky-300 transition-all flex items-center gap-2 disabled:opacity-40 disabled:pointer-events-none shadow-[0_0_15px_rgba(0,229,255,0.25)]"
+            disabled
+          >
+            <span>Siguiente</span> <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Result Screen (Hidden by default) -->
+      <div id="quiz-result" class="hidden max-w-xl mx-auto text-center py-6">
+        
+        <div class="w-20 h-20 rounded-full mx-auto mb-4 flex items-center justify-center text-3xl shadow-2xl" id="result-icon-container">
+          <!-- Icon injected by JS -->
+        </div>
+
+        <span class="text-xs font-mono font-bold tracking-widest uppercase block mb-1 text-slate-400">Resultado Oficial</span>
+        <h3 class="text-2xl sm:text-3xl font-extrabold text-white mb-2" id="result-level-title">
+          Nivel: Intermedio Práctico
+        </h3>
+
+        <div class="inline-block px-3.5 py-1 rounded-full text-xs font-bold font-mono mb-4 border" id="result-badge">
+          Puntaje: 11 / 15 puntos
+        </div>
+
+        <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-6 max-w-lg mx-auto" id="result-description">
+          Tienes bases sólidas pero aún dependes de prompts simples y no has automatizado tus tareas repetitivas con flujos comerciales ni dirección visual profesional.
         </p>
 
-        <!-- Roadmap recommendations -->
-        <div class="p-6 rounded-2xl bg-slate-950/90 border border-slate-800 text-left max-w-xl mx-auto mb-8 shadow-inner">
-          <h4 class="text-xs font-bold uppercase tracking-wider text-cyan-400 mb-3.5 flex items-center gap-1.5">
-            <i class="fas fa-route"></i> Tu Hoja de Ruta Inmediata Recomendada:
-          </h4>
-          <ul class="space-y-2.5 text-xs text-slate-300">
-            <li class="flex items-start gap-2.5">
-              <i class="fas fa-check-circle text-cyan-400 mt-0.5 text-sm flex-shrink-0"></i> 
-              <span id="result-step-1">Aplica los 100 Códigos Creativos de ChatGPT para pulir la iluminación de tus tomas.</span>
-            </li>
-            <li class="flex items-start gap-2.5">
-              <i class="fas fa-check-circle text-cyan-400 mt-0.5 text-sm flex-shrink-0"></i> 
-              <span id="result-step-2">Implementa la fórmula del Reel de Spiderman para video continuo en Seedance 2.0.</span>
-            </li>
-            <li class="flex items-start gap-2.5">
-              <i class="fas fa-check-circle text-cyan-400 mt-0.5 text-sm flex-shrink-0"></i> 
-              <span id="result-step-3">Únete a la comunidad oficial de WhatsApp para recibir casos de estudio semanales.</span>
-            </li>
-          </ul>
-        </div>
-
-        <!-- Community WhatsApp Invitation Box (Requested by User) -->
-        <div class="p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-emerald-950/70 via-slate-950 to-slate-950 border border-emerald-500/40 text-center max-w-xl mx-auto shadow-2xl mb-6">
-          <div class="w-14 h-14 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 text-2xl mx-auto mb-3 shadow-[0_0_20px_rgba(16,185,129,0.3)]">
+        <!-- Community invitation box instead of form -->
+        <div class="p-6 rounded-2xl bg-gradient-to-b from-slate-950 to-emerald-950/40 border border-emerald-500/40 mb-6 text-center">
+          <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto mb-3 text-lg">
             <i class="fab fa-whatsapp"></i>
           </div>
-          <h4 class="text-lg sm:text-xl font-extrabold text-white mb-2">
-            ¿Quieres aprender más de IA y dominar estas herramientas?
+          <h4 class="text-base font-bold text-white mb-1.5">
+            ¿Quieres aprender más de IA y subir al siguiente nivel?
           </h4>
-          <p class="text-xs sm:text-sm text-slate-300 mb-6 leading-relaxed max-w-md mx-auto">
-            Únete a nuestra comunidad oficial y gratuita de WhatsApp donde te enseñaremos a usar la IA paso a paso, compartimos prompts diarios y analizamos casos reales de éxito.
+          <p class="text-xs text-slate-300 leading-relaxed mb-5 max-w-md mx-auto">
+            Únete a nuestra <strong>Comunidad Oficial de WhatsApp</strong> donde compartimos casos prácticos, nuevos prompts, análisis de herramientas y te enseñamos a dominar la IA sin tecnicismos raros.
           </p>
           <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
             <a href="https://chat.whatsapp.com/HIjs3Bytduy9ucOtn6jeKw?s=sh&p=a&ilr=4" target="_blank" rel="noopener" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-bold text-sm bg-emerald-400 text-slate-950 hover:bg-emerald-300 transition-all shadow-[0_0_20px_rgba(16,185,129,0.35)]">
@@ -1510,7 +1598,7 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
 
         <div class="text-center">
           <a href="#codigos-grid" class="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-cyan-400 transition-colors">
-            <i class="fas fa-arrow-up text-[10px]"></i> Volver a Explorar los 100 Códigos
+            <i class="fas fa-arrow-up text-[10px]"></i> Volver a Explorar los 200 Códigos
           </a>
         </div>
 
@@ -1522,11 +1610,11 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
   <!-- ════════════════════════════════════════════════════
        BLOQUE 7: CARTA DE VENTAS: 2 CAMINOS & 2 CUADROS DE COTIZACIÓN
        ════════════════════════════════════════════════════ -->
-  <section id="carta-ventas" class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 scroll-mt-24">
-    <div class="glass-panel p-8 sm:p-14 rounded-3xl border-indigo-500/30 relative overflow-hidden bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 shadow-2xl">
+  <section id="carta-ventas" class="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 scroll-mt-24">
+    <div class="glass-panel p-6 sm:p-14 rounded-3xl border-indigo-500/30 relative overflow-hidden bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 shadow-2xl">
       <div class="absolute -top-32 -left-32 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
-      <div class="max-w-3xl mx-auto text-center mb-14">
+      <div class="max-w-3xl mx-auto text-center mb-10 sm:mb-14">
         <span class="px-3.5 py-1 rounded-full text-xs font-bold bg-indigo-950 text-indigo-300 border border-indigo-500/40 uppercase tracking-wider mb-4 inline-block">
           <i class="fas fa-handshake mr-1"></i> Dos Formas de Crecer con Nosotros
         </span>
@@ -1536,17 +1624,17 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
             O Dejar que la Agencia ProsperIA lo Haga por Ti.
           </span>
         </h2>
-        <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+        <p class="text-slate-300 text-xs sm:text-base leading-relaxed">
           Ya viste que nuestros videos superan <strong>+450K reproducciones</strong> y atraen miles de prospectos calificados cada mes. Si tienes el tiempo de experimentar y montar los sistemas tú mismo, aprovecha todo nuestro material gratuito. Pero si eres dueño de empresa y buscas velocidad de ejecución, ponemos a tu disposición nuestras dos modalidades de servicio:
         </p>
       </div>
 
       <!-- 2 Quotation Cards Grid -->
-      <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-12">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 max-w-5xl mx-auto mb-12">
         
         <!-- Cuadro 1: Creación de Contenido Viral -->
-        <div class="p-8 rounded-3xl bg-slate-950/80 border-2 border-cyan-500/30 hover:border-cyan-400 transition-all flex flex-col justify-between relative shadow-xl">
-          <div class="absolute top-0 right-0 transform translate-x-2 -translate-y-2">
+        <div class="p-6 sm:p-8 rounded-3xl bg-slate-950/80 border-2 border-cyan-500/30 hover:border-cyan-400 transition-all flex flex-col justify-between relative shadow-xl">
+          <div class="absolute top-0 right-0 transform translate-x-1 sm:translate-x-2 -translate-y-2">
             <span class="px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-cyan-400 text-slate-950 shadow">
               OPCIÓN 1
             </span>
@@ -1587,8 +1675,8 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
         </div>
 
         <!-- Cuadro 2: Administración Integral 360° -->
-        <div class="p-8 rounded-3xl bg-slate-950/80 border-2 border-indigo-500/40 hover:border-indigo-400 transition-all flex flex-col justify-between relative shadow-xl">
-          <div class="absolute top-0 right-0 transform translate-x-2 -translate-y-2">
+        <div class="p-6 sm:p-8 rounded-3xl bg-slate-950/80 border-2 border-indigo-500/40 hover:border-indigo-400 transition-all flex flex-col justify-between relative shadow-xl">
+          <div class="absolute top-0 right-0 transform translate-x-1 sm:translate-x-2 -translate-y-2">
             <span class="px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-indigo-500 text-white shadow">
               OPCIÓN 2 · RECOMENDADO
             </span>
@@ -1630,8 +1718,8 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
 
       </div>
 
-      <!-- Formulario Pequeño de Cotización Directa (Sin Modales) -->
-      <div id="formulario-cotizacion" class="glass-panel p-6 sm:p-8 rounded-3xl border-2 border-cyan-500/30 max-w-xl mx-auto mb-12 bg-slate-950/90 shadow-2xl relative scroll-mt-28">
+      <!-- Formulario Pequeño de Cotización Directa (Con Textos Claros y Visibles) -->
+      <div id="formulario-cotizacion" class="glass-panel p-5 sm:p-8 rounded-3xl border-2 border-cyan-500/30 max-w-xl mx-auto mb-12 bg-slate-950/90 shadow-2xl relative scroll-mt-28">
         <div class="text-center mb-6">
           <div class="flex items-center justify-center gap-2 mb-3">
             <a href="https://wa.me/17865573119?text=Hola,%20quiero%20solicitar%20una%20cotizaci%C3%B3n%20para%20mi%20empresa" target="_blank" rel="noopener" class="px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 inline-flex items-center gap-2 hover:bg-emerald-900 transition-colors shadow-[0_0_15px_rgba(16,185,129,0.25)]">
@@ -1661,17 +1749,17 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
 
           <div>
             <label class="block text-xs font-semibold text-slate-300 mb-1">Nombre Completo *</label>
-            <input type="text" id="direct-name" required placeholder="Ej. Carlos Mendoza" class="input-cotizacion w-full px-4 py-3 rounded-xl border border-slate-700 text-sm focus:border-cyan-400 focus:outline-none" style="background-color: #030712 !important; color: #ffffff !important;">
+            <input type="text" id="direct-name" required placeholder="Ej. Carlos Mendoza" class="input-cotizacion w-full px-4 py-3 rounded-xl border border-slate-700 text-sm focus:border-cyan-400 focus:outline-none" style="background-color: #030712 !important; color: #ffffff !important; font-size: 16px !important;">
           </div>
 
           <div>
             <label class="block text-xs font-semibold text-slate-300 mb-1">Correo Electrónico *</label>
-            <input type="email" id="direct-email" required placeholder="tu@empresa.com" class="input-cotizacion w-full px-4 py-3 rounded-xl border border-slate-700 text-sm focus:border-cyan-400 focus:outline-none" style="background-color: #030712 !important; color: #ffffff !important;">
+            <input type="email" id="direct-email" required placeholder="tu@empresa.com" class="input-cotizacion w-full px-4 py-3 rounded-xl border border-slate-700 text-sm focus:border-cyan-400 focus:outline-none" style="background-color: #030712 !important; color: #ffffff !important; font-size: 16px !important;">
           </div>
 
           <div>
             <label class="block text-xs font-semibold text-slate-300 mb-1">WhatsApp (con código de país) *</label>
-            <input type="tel" id="direct-phone" required placeholder="+1 786 555 0199" class="input-cotizacion w-full px-4 py-3 rounded-xl border border-slate-700 text-sm focus:border-cyan-400 focus:outline-none" style="background-color: #030712 !important; color: #ffffff !important;">
+            <input type="tel" id="direct-phone" required placeholder="+1 786 555 0199" class="input-cotizacion w-full px-4 py-3 rounded-xl border border-slate-700 text-sm focus:border-cyan-400 focus:outline-none" style="background-color: #030712 !important; color: #ffffff !important; font-size: 16px !important;">
           </div>
 
           <button type="submit" id="btn-submit-direct" class="btn-cotizacion-cta mt-2">
@@ -1691,18 +1779,18 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
       <!-- WhatsApp Community Card -->
       <div class="p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-emerald-950/80 via-slate-950 to-slate-950 border border-emerald-500/40 flex flex-col md:flex-row items-center justify-between gap-6 max-w-5xl mx-auto">
         <div class="flex items-center gap-4">
-          <div class="w-14 h-14 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 text-2xl flex-shrink-0">
+          <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 text-xl sm:text-2xl flex-shrink-0">
             <i class="fab fa-whatsapp"></i>
           </div>
           <div>
             <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider block mb-0.5">Comunidad Oficial y Networking</span>
-            <h4 class="text-lg sm:text-xl font-bold text-white">¿Quieres hacer preguntas y aprender con otros creadores?</h4>
+            <h4 class="text-base sm:text-xl font-bold text-white">¿Quieres hacer preguntas y aprender con otros creadores?</h4>
             <p class="text-xs text-slate-300 mt-0.5">Únete a nuestro grupo oficial de WhatsApp donde compartimos prompts, novedades y sesiones en vivo.</p>
           </div>
         </div>
         <div class="flex-shrink-0 w-full md:w-auto">
           <a href="https://chat.whatsapp.com/HIjs3Bytduy9ucOtn6jeKw?s=sh&p=a&ilr=4" target="_blank" rel="noopener" class="w-full md:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-bold text-sm bg-emerald-400 text-slate-950 hover:bg-emerald-300 transition-all shadow-[0_0_20px_rgba(16,185,129,0.3)]">
-            <i class="fab fa-whatsapp text-lg"></i> Unirme Gratis al WhatsApp
+            <i class="fab fa-whatsapp text-lg"></i> Unirme Gratis a la Comunidad
           </a>
         </div>
       </div>
@@ -1713,8 +1801,8 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
   <!-- ════════════════════════════════════════════════════
        FOOTER
        ════════════════════════════════════════════════════ -->
-  <footer class="bg-black border-t border-slate-800 text-slate-400 text-xs py-14 px-4 sm:px-6 lg:px-8 relative z-10">
-    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
+  <footer class="bg-black border-t border-slate-800 text-slate-400 text-xs py-12 sm:py-14 px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 sm:gap-10 mb-10">
       
       <!-- Col 1: Brand -->
       <div>
@@ -1734,12 +1822,12 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
       <div>
         <h4 class="text-white font-bold text-xs uppercase tracking-wider mb-4 text-cyan-400">Recursos de la Página</h4>
         <ul class="space-y-2.5">
-          <li><a href="#codigos-grid" class="hover:text-white transition-colors">100 Códigos Creativos</a></li>
+          <li><a href="#codigos-grid" class="hover:text-white transition-colors">200 Códigos Creativos</a></li>
           <li><a href="#descargas" class="hover:text-white transition-colors">Descargas PDF Oficiales</a></li>
           <li><a href="#spiderman-breakdown" class="hover:text-white transition-colors">Prompt Reel Spiderman</a></li>
           <li><a href="#reels-gallery" class="hover:text-white transition-colors">Galería de Nuestros Reels</a></li>
           <li><a href="#test-ia" class="hover:text-white transition-colors">Test de Nivel de IA</a></li>
-          <li><a href="https://chat.whatsapp.com/HIjs3Bytduy9ucOtn6jeKw?s=sh&p=a&ilr=4" target="_blank" rel="noopener" class="text-emerald-400 hover:underline">Comunidad Oficial WhatsApp</a></li>
+          <li><a href="https://chat.whatsapp.com/HIjs3Bytduy9ucOtn6jeKw?s=sh&p=a&ilr=4" target="_blank" rel="noopener" class="text-emerald-400 hover:underline">Comunidad VIP WhatsApp</a></li>
         </ul>
       </div>
 
@@ -1749,405 +1837,76 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
         <ul class="space-y-2.5">
           <li><a href="#carta-ventas" class="hover:text-white transition-colors">Creación de Contenido Viral</a></li>
           <li><a href="#carta-ventas" class="hover:text-white transition-colors">Administración Integral 360°</a></li>
-          <li><a href="https://passportai.app/register" target="_blank" rel="noopener" class="hover:text-white transition-colors">PassportAI (Tokens Gratis)</a></li>
-          <li><a href="/diagnostico" class="hover:text-white transition-colors">Diagnóstico Comercial (3 min)</a></li>
+          <li><a href="https://passportai.app" target="_blank" rel="noopener" class="hover:text-white transition-colors text-cyan-400">Plataforma PassportAI</a></li>
+          <li><a href="#formulario-cotizacion" class="hover:text-white transition-colors">Solicitar Cotización Directa</a></li>
         </ul>
       </div>
 
-      <!-- Col 4: Contacto Oficial -->
+      <!-- Col 4: Contacto -->
       <div>
         <h4 class="text-white font-bold text-xs uppercase tracking-wider mb-4 text-cyan-400">Contacto Directo</h4>
-        <ul class="space-y-2.5 leading-relaxed font-light">
-          <li><strong>Sede:</strong> Miami, Florida, USA</li>
-          <li><strong>Liderazgo:</strong> Edward Jiménez (@edwardjimenezia)</li>
-          <li><strong>Email:</strong> <a href="mailto:edward@agenciaprosperia.com" class="hover:text-white transition-colors">edward@agenciaprosperia.com</a></li>
-          <li><strong>WhatsApp:</strong> <a href="https://wa.me/17865573119" target="_blank" rel="noopener" class="text-emerald-400 hover:underline">+1 (786) 557-3119</a></li>
+        <ul class="space-y-2.5">
+          <li class="flex items-center gap-2"><i class="fas fa-envelope text-slate-500"></i> contacto@agenciaprosperia.com</li>
+          <li class="flex items-center gap-2"><i class="fas fa-globe text-slate-500"></i> agenciaprosperia.com</li>
+          <li class="flex items-center gap-2"><i class="fab fa-whatsapp text-emerald-400"></i> WhatsApp de Propuestas</li>
+          <li class="pt-2">
+            <a href="https://chat.whatsapp.com/HIjs3Bytduy9ucOtn6jeKw?s=sh&p=a&ilr=4" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30 hover:bg-emerald-500/30 transition-colors">
+              <i class="fab fa-whatsapp"></i> Entrar a la Comunidad
+            </a>
+          </li>
         </ul>
       </div>
 
     </div>
 
-    <div class="border-t border-slate-900 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-500 font-light">
-      <p>© 2026 Agencia ProsperIA LLC. Todos los derechos reservados.</p>
+    <div class="max-w-7xl mx-auto pt-8 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-400 text-center sm:text-left">
+      <div>
+        © 2026 Agencia ProsperIA LLC &amp; Edward Jiménez. Todos los derechos reservados.
+      </div>
       <div class="flex gap-4">
-        <a href="/politica-privacidad" class="hover:text-slate-400 transition-colors">Privacidad</a>
-        <a href="/terminos-servicio" class="hover:text-slate-400 transition-colors">Términos</a>
+        <a href="/privacidad" class="hover:text-slate-200 transition-colors">Política de Privacidad</a>
+        <span>•</span>
+        <a href="/terminos" class="hover:text-slate-200 transition-colors">Términos de Servicio</a>
       </div>
     </div>
   </footer>
 
   <!-- ════════════════════════════════════════════════════
-       CLIENT-SIDE SCRIPTS
+       JAVASCRIPT LOGIC
        ════════════════════════════════════════════════════ -->
   <script>
-    // Navigation jumps
-    function jumpToSpiderman() {{
-      document.getElementById('spiderman-breakdown').scrollIntoView({{ behavior: 'smooth' }});
-    }}
-    function jumpToDownloads() {{
-      document.getElementById('descargas').scrollIntoView({{ behavior: 'smooth' }});
-    }}
-
-    // Spiderman Accordion Toggle
-    function toggleSpidermanStep(stepNum) {{
-      const content = document.getElementById('step-content-' + stepNum);
-      const chevron = document.getElementById('chevron-' + stepNum);
-      const item = document.getElementById('accordion-item-' + stepNum);
-      
-      const isHidden = content.classList.contains('hidden');
-      if (isHidden) {{
-        content.classList.remove('hidden');
-        chevron.classList.add('rotate-180');
-        item.classList.add('border-red-500/40');
-      }} else {{
-        content.classList.add('hidden');
-        chevron.classList.remove('rotate-180');
-        item.classList.remove('border-red-500/40');
-      }}
-    }}
-
-    // AI Quiz Logic (5 Steps with Navigation Arrows & 3 Tiers: Novato, Intermedio, Avanzado)
-    let currentQuizStep = 1;
-    let quizAnswers = {{}};
-    let quizAutoAdvanceTimer = null;
-
-    function selectQuizOption(step, score, optionLetter, btn) {{
-      if (quizAutoAdvanceTimer) clearTimeout(quizAutoAdvanceTimer);
-
-      quizAnswers[step] = {{ score: score, option: optionLetter }};
-
-      // Highlight selected button inside the current step
-      const stepEl = document.getElementById('quiz-step-' + step);
-      if (stepEl) {{
-        stepEl.querySelectorAll('.quiz-opt').forEach(opt => {{
-          opt.classList.remove('border-cyan-400', 'bg-cyan-950/60', 'text-white', 'shadow-[0_0_15px_rgba(0,229,255,0.2)]');
-          opt.classList.add('border-slate-800', 'bg-slate-950/70', 'text-slate-300');
-          const icon = opt.querySelector('.quiz-opt-icon');
-          if (icon) {{
-            icon.className = 'quiz-opt-icon far fa-circle text-slate-600 text-sm ml-3';
-          }}
-        }});
-      }}
-
-      btn.classList.remove('border-slate-800', 'bg-slate-950/70', 'text-slate-300');
-      btn.classList.add('border-cyan-400', 'bg-cyan-950/60', 'text-white', 'shadow-[0_0_15px_rgba(0,229,255,0.2)]');
-      const activeIcon = btn.querySelector('.quiz-opt-icon');
-      if (activeIcon) {{
-        activeIcon.className = 'quiz-opt-icon fas fa-check-circle text-cyan-400 text-sm ml-3';
-      }}
-
-      // Enable next button for this step
-      const nextBtn = document.getElementById('btn-next-' + step);
-      if (nextBtn) {{
-        nextBtn.removeAttribute('disabled');
-        nextBtn.classList.remove('opacity-40', 'cursor-not-allowed');
-      }}
-
-      // Auto advance smoothly after 380ms
-      quizAutoAdvanceTimer = setTimeout(() => {{
-        if (step < 5) {{
-          goToQuizStep(step + 1);
-        }} else {{
-          calculateQuizResult();
-        }}
-      }}, 380);
-    }}
-
-    function goToQuizStep(step) {{
-      if (step < 1 || step > 5) return;
-      currentQuizStep = step;
-
-      // Hide all steps
-      for (let i = 1; i <= 5; i++) {{
-        const el = document.getElementById('quiz-step-' + i);
-        if (el) el.classList.add('hidden');
-      }}
-      const resultEl = document.getElementById('quiz-result');
-      if (resultEl) resultEl.classList.add('hidden');
-
-      // Show current step
-      const currentEl = document.getElementById('quiz-step-' + step);
-      if (currentEl) currentEl.classList.remove('hidden');
-
-      // Update progress
-      const percent = step * 20;
-      document.getElementById('quiz-progress').style.width = percent + '%';
-      document.getElementById('quiz-step-indicator').textContent = 'Pregunta ' + step + ' de 5';
-      document.getElementById('quiz-percent-indicator').textContent = percent + '% Completado';
-
-      // Update dots
-      for (let i = 1; i <= 5; i++) {{
-        document.querySelectorAll('.quiz-dot-' + i).forEach(dot => {{
-          if (i <= step) {{
-            dot.classList.remove('bg-slate-800');
-            dot.classList.add('bg-cyan-400');
-          }} else {{
-            dot.classList.remove('bg-cyan-400');
-            dot.classList.add('bg-slate-800');
-          }}
-        }});
-      }}
-
-      // If already answered, enable next button
-      const nextBtn = document.getElementById('btn-next-' + step);
-      if (nextBtn) {{
-        if (quizAnswers[step]) {{
-          nextBtn.removeAttribute('disabled');
-          nextBtn.classList.remove('opacity-40', 'cursor-not-allowed');
-        }} else {{
-          nextBtn.setAttribute('disabled', 'true');
-          nextBtn.classList.add('opacity-40', 'cursor-not-allowed');
-        }}
-      }}
-    }}
-
-    function prevQuizStep() {{
-      if (currentQuizStep > 1) {{
-        goToQuizStep(currentQuizStep - 1);
-      }}
-    }}
-
-    function nextQuizStep() {{
-      if (quizAnswers[currentQuizStep]) {{
-        if (currentQuizStep < 5) {{
-          goToQuizStep(currentQuizStep + 1);
-        }} else {{
-          calculateQuizResult();
-        }}
-      }}
-    }}
-
-    function calculateQuizResult() {{
-      const totalScore = Object.values(quizAnswers).reduce((acc, curr) => acc + curr.score, 0);
-
-      // Hide questions
-      for (let i = 1; i <= 5; i++) {{
-        const el = document.getElementById('quiz-step-' + i);
-        if (el) el.classList.add('hidden');
-      }}
-
-      // Progress bar 100%
-      document.getElementById('quiz-progress').style.width = '100%';
-      document.getElementById('quiz-step-indicator').textContent = 'Diagnóstico Completado';
-      document.getElementById('quiz-percent-indicator').textContent = '100%';
-
-      let badgeText = '';
-      let badgeClass = '';
-      let title = '';
-      let desc = '';
-      let step1 = '';
-      let step2 = '';
-      let step3 = '';
-
-      if (totalScore <= 110) {{
-        // NOVATO
-        badgeText = '🌱 NIVEL IDENTIFICADO: NOVATO';
-        badgeClass = 'bg-emerald-950/80 text-emerald-300 border-emerald-500/40 shadow-[0_0_15px_rgba(16,185,129,0.25)]';
-        title = 'Nivel Novato: Explorador de Inteligencia Artificial';
-        desc = 'Estás dando tus primeros pasos y descubriendo el potencial de la tecnología. Usas la IA de forma ocasional o como buscador. Tu mayor oportunidad es reemplazar prompts improvisados por comandos estructurados para ahorrar horas de trabajo y evitar respuestas genéricas.';
-        step1 = 'Aplica los 100 Códigos Creativos de ChatGPT para crear prompts profesionales sin inventar la rueda.';
-        step2 = 'Practica la fórmula de estructuración [/] para guiones, resúmenes y generación de ideas.';
-        step3 = 'Únete a nuestra comunidad de WhatsApp para aprender trucos semanales y consultar dudas en vivo.';
-      }} else if (totalScore <= 185) {{
-        // INTERMEDIO
-        badgeText = '⚡ NIVEL IDENTIFICADO: INTERMEDIO';
-        badgeClass = 'bg-amber-950/80 text-amber-300 border-amber-500/40 shadow-[0_0_15px_rgba(245,158,11,0.25)]';
-        title = 'Nivel Intermedio: Creador Visual y Proactivo';
-        desc = 'Tienes un dominio notable de herramientas creativas y comprendes la lógica de los prompts. Creas contenido con buena estética, pero aún dependes de procesos manuales y te falta centralizar tus herramientas en una suite gráfica y conectar flujos automatizados.';
-        step1 = 'Implementa la directiva del Reel de Spiderman para video cinemático continuo y multi-escena.';
-        step2 = 'Estandariza tus plantillas de carruseles y guiones con ganchos psicológicos de alta retención.';
-        step3 = 'Únete a nuestra comunidad de WhatsApp para dominar prompts avanzados y resolver dudas en vivo.';
-      }} else {{
-        // AVANZADO
-        badgeText = '🚀 NIVEL IDENTIFICADO: AVANZADO';
-        badgeClass = 'bg-indigo-950/80 text-cyan-300 border-cyan-400/50 shadow-[0_0_20px_rgba(0,229,255,0.35)]';
-        title = 'Nivel Avanzado: Arquitecto Comercial de IA';
-        desc = 'Dominas herramientas de vanguardia, entiendes el impacto de los sistemas en el negocio y conectas la IA con objetivos reales. Tu prioridad no es hacer prompts manuales, sino sistematizar flujos, orquestar múltiples modelos de IA y delegar la ejecución técnica.';
-        step1 = 'Despliega agentes autónomos con respuestas instantáneas y memoria de contexto.';
-        step2 = 'Centraliza la orquestación multi-modelo (GPT-4o, Claude 3.5, Flux) en una sola interfaz con PassportAI.';
-        step3 = 'Escala la producción masiva de creativos visuales y video con flujos automatizados de IA.';
-      }}
-
-      // Set DOM elements
-      const badgeEl = document.getElementById('result-badge');
-      badgeEl.textContent = badgeText;
-      badgeEl.className = 'px-4 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider inline-block mb-3 border ' + badgeClass;
-
-      document.getElementById('result-title').textContent = title;
-      document.getElementById('result-desc').textContent = desc;
-      document.getElementById('result-score-tag').textContent = `Puntaje Obtenido: ${{totalScore}} / 250 Puntos`;
-
-      document.getElementById('result-step-1').textContent = step1;
-      document.getElementById('result-step-2').textContent = step2;
-      document.getElementById('result-step-3').textContent = step3;
-
-      const resultBox = document.getElementById('quiz-result');
-      resultBox.classList.remove('hidden');
-      resultBox.scrollIntoView({{ behavior: 'smooth' }});
-    }}
-
-    function restartQuiz() {{
-      quizAnswers = {{}};
-      currentQuizStep = 1;
-      document.querySelectorAll('.quiz-opt').forEach(opt => {{
-        opt.classList.remove('border-cyan-400', 'bg-cyan-950/60', 'text-white', 'shadow-[0_0_15px_rgba(0,229,255,0.2)]');
-        opt.classList.add('border-slate-800', 'bg-slate-950/70', 'text-slate-300');
-        const icon = opt.querySelector('.quiz-opt-icon');
-        if (icon) {{
-          icon.className = 'quiz-opt-icon far fa-circle text-slate-600 text-sm ml-3';
-        }}
-      }});
-      goToQuizStep(1);
-      document.getElementById('test-ia').scrollIntoView({{ behavior: 'smooth' }});
-    }}
-
-    // Direct Quotation Form Logic (No Modals)
-    function selectCotizacionOption(opcion) {{
-      const radio = document.querySelector(`input[name="servicio_opcion"][value="${{opcion}}"]`);
-      if (radio) {{
-        radio.checked = true;
-      }}
-      const formSection = document.getElementById('formulario-cotizacion');
-      if (formSection) {{
-        formSection.scrollIntoView({{ behavior: 'smooth' }});
-        const nameInput = document.getElementById('direct-name');
-        if (nameInput) setTimeout(() => nameInput.focus(), 500);
-      }}
-    }}
-
-    async function submitCotizacionDirect(e) {{
-      e.preventDefault();
-      const selectedRadio = document.querySelector('input[name="servicio_opcion"]:checked');
-      const servicio = selectedRadio ? selectedRadio.value : 'general';
-      const name = document.getElementById('direct-name').value.trim();
-      const email = document.getElementById('direct-email').value.trim();
-      const phone = document.getElementById('direct-phone').value.trim();
-      const btn = document.getElementById('btn-submit-direct');
-
-      if (!name || !email || !phone) {{
-        alert('Por favor completa tu nombre, correo y WhatsApp.');
-        return;
-      }}
-
-      btn.disabled = true;
-      btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-1.5"></i> Enviando solicitud...';
-
-      const servicioLabel = servicio === 'contenido' ? 'Opción 1: Creación de Contenido Viral' : 'Opción 2: Sistema 360° Integral';
-      const waMsg = `Hola, soy ${{name}}. Acabo de solicitar una cotización para ${{servicioLabel}} desde la página de códigos. Mi correo es ${{email}} y mi WhatsApp es ${{phone}}.`;
-      const waUrl = `https://wa.me/17865573119?text=${{encodeURIComponent(waMsg)}}`;
-
-      try {{
-        // Despacha la notificación por correo a edward@agenciaprosperia.com y registra el lead en CRM
-        await fetch('/api/auth/contact', {{
-          method: 'POST',
-          headers: {{ 'Content-Type': 'application/json' }},
-          keepalive: true,
-          body: JSON.stringify({{
-            name: name,
-            email: email,
-            phone: phone,
-            company: 'Cotización Hub Códigos',
-            source: 'cotizacion_directa_' + servicio,
-            message: `[COTIZACIÓN DE SERVICIO] Modalidad solicitada: ${{servicioLabel}}.\nCliente: ${{name}}\nEmail: ${{email}}\nWhatsApp: ${{phone}}`
-          }})
-        }});
-      }} catch (err) {{
-        console.warn('Registro local de cotización:', err);
-      }}
-
-      btn.innerHTML = '<i class="fas fa-check mr-1.5"></i> ¡Listo! Abriendo WhatsApp...';
-      btn.classList.remove('from-emerald-400', 'to-cyan-400');
-      btn.classList.add('bg-emerald-500', 'text-slate-950');
-
-      // Redirigir a WhatsApp
-      setTimeout(() => {{
-        window.open(waUrl, '_blank');
-        btn.innerHTML = '<i class="fab fa-whatsapp mr-1.5"></i> Chatear por WhatsApp';
-        btn.disabled = false;
-        
-        // Botón permanente por si el navegador bloqueó la ventana emergente
-        const existingFallback = document.getElementById('wa-fallback-btn');
-        if (!existingFallback) {{
-          const fallbackDiv = document.createElement('div');
-          fallbackDiv.id = 'wa-fallback-btn';
-          fallbackDiv.className = 'mt-3 text-center';
-          fallbackDiv.innerHTML = `<a href="${{waUrl}}" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-extrabold text-xs bg-emerald-400 text-slate-950 hover:bg-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.4)] transition-all"><i class="fab fa-whatsapp text-sm"></i> Clic aquí si no abrió tu WhatsApp <i class="fas fa-arrow-right text-[10px]"></i></a>`;
-          btn.parentNode.insertBefore(fallbackDiv, btn.nextSibling);
-        }}
-      }}, 500);
-    }}
-
-    // Collapsible Catalog (100 Codes) Logic
+    // Global filter states
+    let activeCat = 'all';
+    let activeCol = 'all';
+    let currentSearchTerm = '';
     let isCatalogExpanded = false;
 
-    function toggleCatalogExpansion() {{
-      const wrapper = document.getElementById('cards-wrapper');
-      const fade = document.getElementById('cards-fade-overlay');
-      const text = document.getElementById('toggle-catalog-text');
-      const icon = document.getElementById('toggle-catalog-icon');
-
-      isCatalogExpanded = !isCatalogExpanded;
-
-      if (isCatalogExpanded) {{
-        if (wrapper) {{
-          wrapper.style.maxHeight = 'none';
-          wrapper.style.overflow = 'visible';
-        }}
-        if (fade) fade.classList.add('hidden');
-        if (text) text.textContent = 'Colapsar Catálogo (Ver Menos)';
-        if (icon) icon.classList.add('rotate-180');
-      }} else {{
-        if (wrapper) {{
-          wrapper.style.maxHeight = '720px';
-          wrapper.style.overflow = 'hidden';
-        }}
-        if (fade) fade.classList.remove('hidden');
-        if (text) text.textContent = 'Desplegar Catálogo Completo (Ver los 100 Códigos)';
-        if (icon) icon.classList.remove('rotate-180');
-        document.getElementById('codigos-grid').scrollIntoView({{ behavior: 'smooth' }});
-      }}
-    }}
-
-    // Filter & Search Logic for 100 codes
-    let activeCat = 'all';
-    let currentSearchTerm = '';
-    const cards = Array.from(document.querySelectorAll('.code-card'));
-    const visibleCountEl = document.getElementById('visible-count');
-    const noResultsEl = document.getElementById('no-results');
     const cardsContainer = document.getElementById('cards-container');
+    const cardsWrapper = document.getElementById('cards-wrapper');
+    const cardsFadeOverlay = document.getElementById('cards-fade-overlay');
+    const btnToggleCatalog = document.getElementById('btn-toggle-catalog');
+    const toggleCatalogIcon = document.getElementById('toggle-catalog-icon');
+    const toggleCatalogText = document.getElementById('toggle-catalog-text');
+    const visibleCountEl = document.getElementById('visible-count');
     const searchInput = document.getElementById('search-input');
     const clearSearchBtn = document.getElementById('clear-search');
+    const noResultsEl = document.getElementById('no-results');
 
     function applyFilters() {{
+      const cards = document.querySelectorAll('.code-card');
       let visible = 0;
-      const term = currentSearchTerm.toLowerCase().trim();
-
-      // Auto-expand when searching or filtering so all results are visible
-      if (term.length > 0 || activeCat !== 'all') {{
-        if (!isCatalogExpanded) {{
-          const wrapper = document.getElementById('cards-wrapper');
-          const fade = document.getElementById('cards-fade-overlay');
-          const text = document.getElementById('toggle-catalog-text');
-          const icon = document.getElementById('toggle-catalog-icon');
-          if (wrapper) {{
-            wrapper.style.maxHeight = 'none';
-            wrapper.style.overflow = 'visible';
-          }}
-          if (fade) fade.classList.add('hidden');
-          if (text) text.textContent = 'Colapsar Catálogo (Ver Menos)';
-          if (icon) icon.classList.add('rotate-180');
-          isCatalogExpanded = true;
-        }}
-      }}
+      const term = currentSearchTerm.trim().toLowerCase();
 
       cards.forEach(card => {{
-        const cardCat = card.getAttribute('data-category');
-        const cardSearch = card.getAttribute('data-search') || '';
+        const cat = card.getAttribute('data-category');
+        const col = card.getAttribute('data-collection');
+        const search = card.getAttribute('data-search') || '';
 
-        const matchesCat = (activeCat === 'all' || cardCat === activeCat);
-        const matchesSearch = (!term || cardSearch.includes(term));
+        const matchesCat = (activeCat === 'all' || cat === activeCat);
+        const matchesCol = (activeCol === 'all' || col === activeCol);
+        const matchesSearch = (!term || search.includes(term));
 
-        if (matchesCat && matchesSearch) {{
+        if (matchesCat && matchesCol && matchesSearch) {{
           card.style.display = 'flex';
           visible++;
         }} else {{
@@ -2171,7 +1930,15 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
       document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
       if (btn) btn.classList.add('active');
       applyFilters();
-      document.getElementById('codigos-grid').scrollIntoView({{ behavior: 'smooth' }});
+      expandCatalogTemporarily();
+    }}
+
+    function filterCollection(colId, btn) {{
+      activeCol = colId;
+      document.querySelectorAll('.tab-collection').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      applyFilters();
+      expandCatalogTemporarily();
     }}
 
     function handleSearch(val) {{
@@ -2182,6 +1949,9 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
         clearSearchBtn.classList.add('hidden');
       }}
       applyFilters();
+      if (val.length > 0) {{
+        expandCatalogTemporarily();
+      }}
     }}
 
     function clearSearch() {{
@@ -2190,6 +1960,28 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
       clearSearchBtn.classList.add('hidden');
       applyFilters();
       searchInput.focus();
+    }}
+
+    function expandCatalogTemporarily() {{
+      if (!isCatalogExpanded) {{
+        toggleCatalogExpansion();
+      }}
+    }}
+
+    function toggleCatalogExpansion() {{
+      isCatalogExpanded = !isCatalogExpanded;
+      if (isCatalogExpanded) {{
+        cardsWrapper.style.maxHeight = 'none';
+        cardsFadeOverlay.classList.add('hidden');
+        toggleCatalogIcon.classList.add('rotate-180');
+        toggleCatalogText.textContent = 'Colapsar Catálogo';
+      }} else {{
+        cardsWrapper.style.maxHeight = '740px';
+        cardsFadeOverlay.classList.remove('hidden');
+        toggleCatalogIcon.classList.remove('rotate-180');
+        toggleCatalogText.textContent = 'Desplegar Catálogo Completo (Ver los 200 Códigos)';
+        document.getElementById('codigos-grid').scrollIntoView({{ behavior: 'smooth' }});
+      }}
     }}
 
     // 1-Click Clipboard Copier
@@ -2229,6 +2021,322 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
         }}, 1800);
       }} catch (e) {{}}
     }}
+
+    // Spiderman Accordion
+    function toggleSpidermanStep(stepNum) {{
+      for (let i = 1; i <= 3; i++) {{
+        const content = document.getElementById(`step-content-${{i}}`);
+        const chevron = document.getElementById(`chevron-${{i}}`);
+        const item = document.getElementById(`accordion-item-${{i}}`);
+
+        if (i === stepNum) {{
+          const isCurrentlyHidden = content.classList.contains('hidden');
+          if (isCurrentlyHidden) {{
+            content.classList.remove('hidden');
+            chevron.classList.add('rotate-180');
+            item.classList.add('border-red-500/40');
+            item.classList.remove('border-slate-800');
+          }} else {{
+            content.classList.add('hidden');
+            chevron.classList.remove('rotate-180');
+            item.classList.remove('border-red-500/40');
+            item.classList.add('border-slate-800');
+          }}
+        }} else {{
+          content.classList.add('hidden');
+          chevron.classList.remove('rotate-180');
+          item.classList.remove('border-red-500/40');
+          item.classList.add('border-slate-800');
+        }}
+      }}
+    }}
+
+    function jumpToSpiderman() {{
+      const section = document.getElementById('spiderman-breakdown');
+      if (section) {{
+        section.scrollIntoView({{ behavior: 'smooth' }});
+        toggleSpidermanStep(1);
+      }}
+    }}
+
+    // Quiz Questions Data (5 Interactive Questions)
+    const quizQuestions = [
+      {{
+        category: "01. FUNDAMENTOS DE PROMPTS",
+        title: "1. ¿Cómo utilizas actualmente ChatGPT o herramientas de IA en tu día a día?",
+        options: [
+          {{ text: "Solo hago preguntas sueltas como si fuera un buscador de Google.", points: 1 }},
+          {{ text: "Le doy contexto, asigno un rol y uso comandos estructurados con [/].", points: 2 }},
+          {{ text: "Construyo cadenas de prompts, integraciones con APIs o agentes autónomos.", points: 3 }}
+        ]
+      }},
+      {{
+        category: "02. GENERACIÓN VISUAL & CREATIVA",
+        title: "2. Al generar imágenes con IA (Midjourney, DALL-E o Flux), ¿cómo describes tus escenas?",
+        options: [
+          {{ text: "Escribo frases generales como 'un hombre mirando la ciudad muy bonito'.", points: 1 }},
+          {{ text: "Controlo iluminación (/chiaroscuro), lentes (/35mm), atmósfera y ángulos.", points: 2 }},
+          {{ text: "Uso First/Last frames con video IA (Seedance/Luma/Kling) y directivas de cámara.", points: 3 }}
+        ]
+      }},
+      {{
+        category: "03. ADOPCIÓN EN TU NEGOCIO",
+        title: "3. ¿Qué porcentaje de las tareas repetitivas de tu negocio están automatizadas con IA?",
+        options: [
+          {{ text: "Menos del 10%: casi todo lo seguimos haciendo de forma manual.", points: 1 }},
+          {{ text: "Entre 20% y 50%: redactamos copies y lluvia de ideas, pero la ejecución es humana.", points: 2 }},
+          {{ text: "Más del 60%: tenemos flujos de captación, CRM y respuesta conectada con IA.", points: 3 }}
+        ]
+      }},
+      {{
+        category: "04. VELOCIDAD Y HERRAMIENTAS",
+        title: "4. ¿Cómo gestionas tus suscripciones y modelos de Inteligencia Artificial?",
+        options: [
+          {{ text: "Uso la versión gratuita de una sola herramienta básica.", points: 1 }},
+          {{ text: "Pago 2 o 3 herramientas por separado (ChatGPT Plus, Canva, etc.).", points: 2 }},
+          {{ text: "Uso plataformas unificadas multi-modelo (como PassportAI) o APIs dedicadas.", points: 3 }}
+        ]
+      }},
+      {{
+        category: "05. ESTRATEGIA DE CRECIMIENTO",
+        title: "5. ¿Tienes un embudo comercial donde el contenido viral se convierta en ventas reales?",
+        options: [
+          {{ text: "No, solo publico cuando tengo tiempo y no mido conversión a clientes.", points: 1 }},
+          {{ text: "Tengo link en bio y respondo DMs manualmente cuando me escriben.", points: 2 }},
+          {{ text: "Tengo un sistema estructurado con automatización a WhatsApp y CRM calificado.", points: 3 }}
+        ]
+      }}
+    ];
+
+    let currentQuestionIdx = 0;
+    const userAnswers = [];
+
+    function renderQuestion() {{
+      const q = quizQuestions[currentQuestionIdx];
+      document.getElementById('quiz-step-text').textContent = currentQuestionIdx + 1;
+      document.getElementById('quiz-progress-bar').style.width = `${{(currentQuestionIdx + 1) * 20}}%`;
+      document.getElementById('quiz-category-tag').textContent = q.category;
+      document.getElementById('quiz-question-title').textContent = q.title;
+
+      const optsContainer = document.getElementById('quiz-options-container');
+      optsContainer.innerHTML = '';
+
+      const currentSelected = userAnswers[currentQuestionIdx];
+
+      q.options.forEach((opt, idx) => {{
+        const isSelected = (currentSelected === opt.points);
+        const optBtn = document.createElement('button');
+        optBtn.type = 'button';
+        optBtn.className = `w-full text-left p-3.5 sm:p-4 rounded-xl text-xs sm:text-sm font-medium border transition-all flex items-center justify-between ${{
+          isSelected 
+            ? 'bg-cyan-950/80 border-cyan-400 text-white shadow-[0_0_15px_rgba(0,229,255,0.2)]' 
+            : 'bg-slate-900/60 border-slate-800 text-slate-300 hover:border-slate-700 hover:text-white'
+        }}`;
+        optBtn.onclick = () => selectOption(opt.points);
+        optBtn.innerHTML = `
+          <span class="pr-2 leading-relaxed">${{opt.text}}</span>
+          <span class="w-5 h-5 rounded-full border flex items-center justify-center flex-shrink-0 text-[10px] ${{
+            isSelected ? 'border-cyan-400 bg-cyan-400 text-slate-950' : 'border-slate-700 text-transparent'
+          }}">
+            <i class="fas fa-check"></i>
+          </span>
+        `;
+        optsContainer.appendChild(optBtn);
+      }});
+
+      document.getElementById('quiz-btn-prev').disabled = (currentQuestionIdx === 0);
+      document.getElementById('quiz-btn-next').disabled = (userAnswers[currentQuestionIdx] === undefined);
+
+      if (currentQuestionIdx === quizQuestions.length - 1) {{
+        document.getElementById('quiz-btn-next').innerHTML = '<span>Ver Mi Nivel</span> <i class="fas fa-trophy"></i>';
+      }} else {{
+        document.getElementById('quiz-btn-next').innerHTML = '<span>Siguiente</span> <i class="fas fa-arrow-right"></i>';
+      }}
+    }}
+
+    function selectOption(points) {{
+      userAnswers[currentQuestionIdx] = points;
+      renderQuestion();
+      if (currentQuestionIdx < quizQuestions.length - 1) {{
+        setTimeout(() => {{
+          currentQuestionIdx++;
+          renderQuestion();
+        }}, 250);
+      }}
+    }}
+
+    function prevQuestion() {{
+      if (currentQuestionIdx > 0) {{
+        currentQuestionIdx--;
+        renderQuestion();
+      }}
+    }}
+
+    function nextQuestion() {{
+      if (userAnswers[currentQuestionIdx] === undefined) return;
+      if (currentQuestionIdx < quizQuestions.length - 1) {{
+        currentQuestionIdx++;
+        renderQuestion();
+      }} else {{
+        showQuizResult();
+      }}
+    }}
+
+    function showQuizResult() {{
+      const totalScore = userAnswers.reduce((a, b) => a + b, 0);
+      document.getElementById('quiz-container').classList.add('hidden');
+      const resultContainer = document.getElementById('quiz-result');
+      resultContainer.classList.remove('hidden');
+
+      const iconContainer = document.getElementById('result-icon-container');
+      const titleEl = document.getElementById('result-level-title');
+      const badgeEl = document.getElementById('result-badge');
+      const descEl = document.getElementById('result-description');
+
+      if (totalScore <= 7) {{
+        iconContainer.className = 'w-20 h-20 rounded-full mx-auto mb-4 flex items-center justify-center text-3xl shadow-2xl bg-amber-950/80 text-amber-400 border border-amber-500/40';
+        iconContainer.innerHTML = '<i class="fas fa-seedling"></i>';
+        titleEl.textContent = 'Nivel: Novato Curioso';
+        badgeEl.className = 'inline-block px-3.5 py-1 rounded-full text-xs font-bold font-mono mb-4 bg-amber-950/60 text-amber-300 border border-amber-500/30';
+        badgeEl.textContent = `Puntaje: ${{totalScore}} / 15 puntos`;
+        descEl.textContent = 'Estás descubriendo el potencial de la IA, pero todavía la usas como un asistente básico de texto y sigues haciendo el trabajo pesado manualmente. ¡Tienes una ventaja enorme si comienzas a aplicar nuestros 200 códigos hoy!';
+      }} else if (totalScore <= 11) {{
+        iconContainer.className = 'w-20 h-20 rounded-full mx-auto mb-4 flex items-center justify-center text-3xl shadow-2xl bg-cyan-950/80 text-cyan-400 border border-cyan-500/40';
+        iconContainer.innerHTML = '<i class="fas fa-bolt"></i>';
+        titleEl.textContent = 'Nivel: Intermedio Práctico';
+        badgeEl.className = 'inline-block px-3.5 py-1 rounded-full text-xs font-bold font-mono mb-4 bg-cyan-950/60 text-cyan-300 border border-cyan-500/30';
+        badgeEl.textContent = `Puntaje: ${{totalScore}} / 15 puntos`;
+        descEl.textContent = 'Tienes bases sólidas: redactas buenos prompts y entiendes el valor de la IA. Tu siguiente gran salto es conectar estos códigos con flujos automáticos de prospección y dirección cinematográfica.';
+      }} else {{
+        iconContainer.className = 'w-20 h-20 rounded-full mx-auto mb-4 flex items-center justify-center text-3xl shadow-2xl bg-emerald-950/80 text-emerald-400 border border-emerald-500/40';
+        iconContainer.innerHTML = '<i class="fas fa-crown"></i>';
+        titleEl.textContent = 'Nivel: Avanzado / Estratega';
+        badgeEl.className = 'inline-block px-3.5 py-1 rounded-full text-xs font-bold font-mono mb-4 bg-emerald-950/60 text-emerald-300 border border-emerald-500/30';
+        badgeEl.textContent = `Puntaje: ${{totalScore}} / 15 puntos`;
+        descEl.textContent = '¡Excelente dominio! Manejas comandos técnicos, entiendes de dirección audiovisual y valoras la automatización de procesos. Estás en la posición ideal para escalar un sistema 360° en tu negocio.';
+      }}
+    }}
+
+    function restartQuiz() {{
+      userAnswers.length = 0;
+      currentQuestionIdx = 0;
+      document.getElementById('quiz-result').classList.add('hidden');
+      document.getElementById('quiz-container').classList.remove('hidden');
+      renderQuestion();
+    }}
+
+    // Direct Quote Form
+    function selectCotizacionOption(opt) {{
+      const radio = document.querySelector(`input[name="servicio_opcion"][value="${{opt}}"]`);
+      if (radio) radio.checked = true;
+      const formSection = document.getElementById('formulario-cotizacion');
+      if (formSection) {{
+        formSection.scrollIntoView({{ behavior: 'smooth' }});
+        const nameInput = document.getElementById('direct-name');
+        if (nameInput) setTimeout(() => nameInput.focus(), 500);
+      }}
+    }}
+
+    async function submitCotizacionDirect(e) {{
+      e.preventDefault();
+      const selectedRadio = document.querySelector('input[name="servicio_opcion"]:checked');
+      const servicio = selectedRadio ? selectedRadio.value : 'general';
+      const name = document.getElementById('direct-name').value.trim();
+      const email = document.getElementById('direct-email').value.trim();
+      const phone = document.getElementById('direct-phone').value.trim();
+
+      const btn = document.getElementById('btn-submit-direct');
+      const originalText = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin text-lg"></i> <span>Coordinando...</span>';
+
+      try {{
+        await fetch('/api/leads', {{
+          method: 'POST',
+          headers: {{ 'Content-Type': 'application/json' }},
+          body: JSON.stringify({{
+            name: name,
+            email: email,
+            phone: phone,
+            company: 'Solicitud desde Hub Códigos IA',
+            source: 'hub_codigos_direct',
+            service: servicio === 'contenido' ? 'Opción 1: Contenido Viral' : 'Opción 2: Sistema Integral 360',
+            notes: `Cotización solicitada desde la página de 200 códigos. Modalidad: ${{servicio}}`
+          }})
+        }});
+      }} catch (err) {{
+        console.warn('Silent lead logging sync');
+      }}
+
+      // Build WhatsApp message
+      const servicioText = servicio === 'contenido' ? 'Opción 1: Contenido Viral con IA' : 'Opción 2: Sistema Integral 360°';
+      const textWa = encodeURIComponent(`Hola Edward & ProsperIA! Acabo de solicitar una cotización desde su Hub de Códigos de IA:\n\n👤 Nombre: ${{name}}\n📧 Correo: ${{email}}\n📱 WhatsApp: ${{phone}}\n🎯 Modalidad: ${{servicioText}}\n\n¿Cuándo podríamos coordinar la propuesta?`);
+      
+      btn.innerHTML = '<i class="fas fa-check text-lg"></i> <span>¡Abriendo WhatsApp!</span>';
+      
+      setTimeout(() => {{
+        window.open(`https://wa.me/17865573119?text=${{textWa}}`, '_blank');
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+      }}, 600);
+    }}
+
+    // Mobile navigation menu toggle
+    function toggleMobileMenu() {{
+      const panel = document.getElementById('mobile-nav-panel');
+      const icon = document.getElementById('mobile-menu-icon');
+      if (panel.classList.contains('hidden')) {{
+        panel.classList.remove('hidden');
+        if (icon) icon.className = 'fas fa-times text-base';
+      }} else {{
+        panel.classList.add('hidden');
+        if (icon) icon.className = 'fas fa-bars text-base';
+      }}
+    }}
+
+    function closeMobileMenu() {{
+      const panel = document.getElementById('mobile-nav-panel');
+      const icon = document.getElementById('mobile-menu-icon');
+      if (panel) panel.classList.add('hidden');
+      if (icon) icon.className = 'fas fa-bars text-base';
+    }}
+
+    // Scrollspy for active navbar indicator
+    window.addEventListener('scroll', () => {{
+      const sections = [
+        'codigos-grid',
+        'descargas',
+        'spiderman-breakdown',
+        'reels-gallery',
+        'passportai-showcase',
+        'test-ia',
+        'formulario-cotizacion'
+      ];
+      const scrollPos = window.scrollY + 140;
+      let currentSection = '';
+
+      for (const id of sections) {{
+        const el = document.getElementById(id);
+        if (el && el.offsetTop <= scrollPos) {{
+          currentSection = id;
+        }}
+      }}
+
+      if (currentSection) {{
+        document.querySelectorAll('.nav-link-item').forEach(link => {{
+          if (link.getAttribute('href') === `#${{currentSection}}`) {{
+            link.classList.add('active');
+          }} else {{
+            link.classList.remove('active');
+          }}
+        }});
+      }}
+    }});
+
+    // Init
+    document.addEventListener('DOMContentLoaded', () => {{
+      renderQuestion();
+    }});
   </script>
 
 </body>
@@ -2239,10 +2347,9 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
 static_html = generate_page(is_template=False)
 with open('static/codigos/index.html', 'w', encoding='utf-8') as f:
     f.write(static_html)
-print('Generated static/codigos/index.html')
+print(f'Successfully generated static/codigos/index.html with {len(all_codes)} codes!')
 
-# Generate template version
 template_html = generate_page(is_template=True)
 with open('scratch/template_codigos.html', 'w', encoding='utf-8') as f:
     f.write(template_html)
-print('Generated scratch/template_codigos.html')
+print('Successfully generated scratch/template_codigos.html')

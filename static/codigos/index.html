@@ -96,26 +96,168 @@
       border-color: #10b981 !important;
     }
 
+    /* Universal Scroll Offset for Sticky Header (Fixes anchor jumping under navbar) */
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 100px;
+    }
+    section[id], main[id], div[id], header[id] {
+      scroll-margin-top: 100px !important;
+    }
+
     /* Prompt code box */
     .prompt-box {
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-size: 13px;
-      line-height: 1.6;
+      font-size: 13.5px;
+      line-height: 1.7;
       background: #040914;
       border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 12px;
+      border-radius: 14px;
       color: #e2e8f0;
       white-space: pre-wrap;
       word-break: break-word;
-      overflow-x: hidden;
+      padding: 20px 24px;
+      user-select: all;
+      -webkit-user-select: all;
     }
 
     /* Navigation styling */
     .site-nav {
-      background: rgba(2, 7, 16, 0.88);
+      background: rgba(2, 7, 16, 0.92);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .nav-link-item {
+      color: #94a3b8;
+      font-weight: 600;
+      font-size: 13px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 12px;
+      border-radius: 10px;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .nav-link-item:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.07);
+    }
+    .nav-link-item.active {
+      color: #00e5ff;
+      background: rgba(0, 229, 255, 0.12);
+      border: 1px solid rgba(0, 229, 255, 0.25);
+    }
+
+    /* Search Bar Dedicated Grid Layout (Guarantees full input space on desktop & mobile) */
+    .search-grid-layout {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      align-items: center;
+      width: 100%;
+    }
+    @media (max-width: 640px) {
+      .search-grid-layout {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+    }
+    .search-input-field {
+      width: 100% !important;
+      height: 52px !important;
+      padding-left: 48px !important;
+      padding-right: 42px !important;
+      font-size: 15px !important;
+      border-radius: 14px !important;
+      background-color: #030712 !important;
+      color: #ffffff !important;
+      border: 1px solid #334155 !important;
+      -webkit-text-fill-color: #ffffff !important;
+      caret-color: #00e5ff !important;
+      transition: all 0.2s ease !important;
+      outline: none !important;
+    }
+    .search-input-field:focus {
+      background-color: #081224 !important;
+      border-color: #00e5ff !important;
+      box-shadow: 0 0 0 2px rgba(0, 229, 255, 0.25) !important;
+    }
+    .search-input-field::placeholder {
+      color: #94a3b8 !important;
+      -webkit-text-fill-color: #94a3b8 !important;
+    }
+    .search-counter-badge {
+      white-space: nowrap;
+      padding: 0 20px;
+      border-radius: 14px;
+      font-size: 13px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      background-color: #070f20;
+      border: 1px solid rgba(0, 229, 255, 0.25);
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      height: 52px;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+    @media (max-width: 640px) {
+      .search-counter-badge {
+        width: 100%;
+        height: 42px;
+        padding: 0 14px;
+        font-size: 12px;
+      }
+    }
+
+    /* Spiderman Section Grid & Button Styles */
+    .spiderman-header-grid {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 20px;
+      align-items: center;
+      padding-bottom: 24px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    @media (max-width: 768px) {
+      .spiderman-header-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 16px;
+        justify-items: center;
+      }
+    }
+    .spiderman-ig-btn {
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 22px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 700;
+      background: rgba(80, 7, 36, 0.7);
+      border: 1px solid rgba(244, 63, 94, 0.4);
+      color: #fda4af;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .spiderman-ig-btn:hover {
+      background: rgba(136, 19, 55, 0.95);
+      color: #ffffff;
+      border-color: #f43f5e;
+      box-shadow: 0 0 25px rgba(244, 63, 94, 0.35);
+    }
+    @media (max-width: 768px) {
+      .spiderman-ig-btn {
+        width: 100%;
+      }
     }
 
     /* Scrollbar hide utility */
@@ -411,24 +553,27 @@
         </a>
 
         <!-- Desktop Links -->
-        <div class="hidden lg:flex items-center gap-6 text-sm">
-          <a href="#codigos-grid" class="text-cyan-400 font-bold flex items-center gap-1.5">
-            <i class="fas fa-terminal text-xs"></i> 200 Códigos
+        <div class="hidden lg:flex items-center gap-1 xl:gap-2 text-sm">
+          <a href="#codigos-grid" class="nav-link-item active">
+            <i class="fas fa-terminal text-xs text-cyan-400"></i> <span>200 Códigos</span>
           </a>
-          <a href="#descargas" class="text-slate-300 hover:text-cyan-400 font-medium transition-colors flex items-center gap-1.5">
-            <i class="far fa-file-pdf text-red-400 text-xs"></i> Descargas PDF
+          <a href="#descargas" class="nav-link-item">
+            <i class="far fa-file-pdf text-xs text-red-400"></i> <span>Descargas PDF</span>
           </a>
-          <a href="#spiderman-breakdown" class="text-slate-300 hover:text-red-400 font-medium transition-colors flex items-center gap-1.5">
-            <i class="fas fa-spider text-red-400 text-xs"></i> Reel Spiderman
+          <a href="#spiderman-breakdown" class="nav-link-item">
+            <i class="fas fa-spider text-xs text-red-400"></i> <span>Reel Spiderman</span>
           </a>
-          <a href="#reels-gallery" class="text-slate-300 hover:text-cyan-400 font-medium transition-colors flex items-center gap-1.5">
-            <i class="fab fa-instagram text-pink-400 text-xs"></i> Nuestros Reels
+          <a href="#reels-gallery" class="nav-link-item">
+            <i class="fab fa-instagram text-xs text-pink-400"></i> <span>Nuestros Reels</span>
           </a>
-          <a href="#test-ia" class="text-slate-300 hover:text-cyan-400 font-medium transition-colors flex items-center gap-1.5">
-            <i class="fas fa-brain text-cyan-400 text-xs"></i> Test de IA
+          <a href="#passportai-showcase" class="nav-link-item">
+            <i class="fas fa-bolt text-xs text-cyan-400"></i> <span>PassportAI</span>
           </a>
-          <a href="#formulario-cotizacion" class="text-slate-300 hover:text-cyan-400 font-medium transition-colors flex items-center gap-1.5">
-            <i class="fas fa-briefcase text-indigo-400 text-xs"></i> Cotizar
+          <a href="#test-ia" class="nav-link-item">
+            <i class="fas fa-brain text-xs text-cyan-400"></i> <span>Test de IA</span>
+          </a>
+          <a href="#formulario-cotizacion" class="nav-link-item">
+            <i class="fas fa-briefcase text-xs text-indigo-400"></i> <span>Cotizar</span>
           </a>
         </div>
 
@@ -437,12 +582,41 @@
           <a href="https://chat.whatsapp.com/HIjs3Bytduy9ucOtn6jeKw?s=sh&p=a&ilr=4" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-xs font-bold bg-emerald-500 text-slate-950 hover:bg-emerald-400 transition-all shadow-[0_0_15px_rgba(16,185,129,0.3)]">
             <i class="fab fa-whatsapp text-sm"></i> <span>Comunidad VIP</span>
           </a>
-          <button onclick="document.getElementById('formulario-cotizacion').scrollIntoView({ behavior: 'smooth' })" class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-gradient-to-r from-cyan-400 to-cyan-500 text-slate-950 hover:from-cyan-300 hover:to-cyan-400 transition-all">
-            <i class="fas fa-file-invoice-dollar text-xs"></i> Cotizar
+          <a href="#formulario-cotizacion" class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-gradient-to-r from-cyan-400 to-cyan-500 text-slate-950 hover:from-cyan-300 hover:to-cyan-400 transition-all">
+            <i class="fas fa-file-invoice-dollar text-xs"></i> <span>Cotizar</span>
+          </a>
+          <!-- Mobile Hamburger Toggle Button -->
+          <button type="button" id="mobile-menu-btn" onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-xl text-slate-300 hover:text-white bg-slate-900 border border-slate-700 focus:outline-none" aria-label="Abrir menú de navegación">
+            <i class="fas fa-bars text-base" id="mobile-menu-icon"></i>
           </button>
         </div>
 
       </div>
+    </div>
+
+    <!-- Mobile Navigation Dropdown -->
+    <div id="mobile-nav-panel" class="hidden lg:hidden bg-slate-950/98 border-t border-slate-800/80 px-4 py-3 space-y-1.5 backdrop-blur-2xl">
+      <a href="#codigos-grid" onclick="closeMobileMenu()" class="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-semibold text-cyan-400 bg-cyan-950/40 border border-cyan-500/20">
+        <i class="fas fa-terminal text-xs"></i> <span>200 Códigos Creativos</span>
+      </a>
+      <a href="#descargas" onclick="closeMobileMenu()" class="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-900">
+        <i class="far fa-file-pdf text-xs text-red-400"></i> <span>Descargas PDF (2 Guías)</span>
+      </a>
+      <a href="#spiderman-breakdown" onclick="closeMobileMenu()" class="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-900">
+        <i class="fas fa-spider text-xs text-red-400"></i> <span>Reel Spiderman ("The Swing")</span>
+      </a>
+      <a href="#reels-gallery" onclick="closeMobileMenu()" class="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-900">
+        <i class="fab fa-instagram text-xs text-pink-400"></i> <span>Nuestros Reels Virales</span>
+      </a>
+      <a href="#passportai-showcase" onclick="closeMobileMenu()" class="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-900">
+        <i class="fas fa-bolt text-xs text-cyan-400"></i> <span>PassportAI (Multi-IA)</span>
+      </a>
+      <a href="#test-ia" onclick="closeMobileMenu()" class="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-900">
+        <i class="fas fa-brain text-xs text-cyan-400"></i> <span>Test Interactivo de IA</span>
+      </a>
+      <a href="#formulario-cotizacion" onclick="closeMobileMenu()" class="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-bold text-emerald-400 bg-emerald-950/30 border border-emerald-500/20">
+        <i class="fas fa-briefcase text-xs"></i> <span>Solicitar Cotización</span>
+      </a>
     </div>
   </nav>
 
@@ -529,24 +703,25 @@
     </div>
 
     <!-- CAMBIO 3: Live Search Bar con Input de Alto Contraste y Letras Visibles -->
-    <div class="glass-panel p-3.5 sm:p-5 rounded-2xl mb-6 max-w-4xl mx-auto border-cyan-500/20">
-      <div class="flex flex-col sm:flex-row gap-3 items-center">
-        <div class="relative flex-1 w-full">
+    <div class="glass-panel p-3.5 sm:p-5 rounded-2xl mb-6 max-w-5xl mx-auto border-cyan-500/20">
+      <div class="search-grid-layout">
+        <div class="relative w-full">
           <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-cyan-400 text-sm pointer-events-none"></i>
           <input 
             type="text" 
             id="search-input" 
             placeholder="Buscar entre los 200 códigos: /spotlight, 35mm..." 
-            class="input-search w-full pl-12 pr-10 py-3 rounded-xl border border-slate-700 text-sm focus:border-cyan-400 focus:outline-none transition-colors"
-            style="background-color: #030712 !important; color: #ffffff !important; font-size: 16px !important;"
+            class="search-input-field input-search"
             oninput="handleSearch(this.value)"
           >
-          <button id="clear-search" onclick="clearSearch()" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-xs hidden p-1">
+          <button id="clear-search" onclick="clearSearch()" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-xs hidden p-1">
             <i class="fas fa-times-circle text-base"></i>
           </button>
         </div>
-        <div class="text-xs text-slate-400 font-mono whitespace-nowrap px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-800 w-full sm:w-auto text-center sm:text-left">
-          Mostrando: <strong id="visible-count" class="text-cyan-400 font-bold">200</strong> de 200 códigos
+        <div class="search-counter-badge">
+          <span>Mostrando:</span>
+          <strong id="visible-count" class="text-cyan-400 font-bold text-sm">200</strong>
+          <span>de 200 códigos</span>
         </div>
       </div>
     </div>
@@ -11469,17 +11644,17 @@
   <!-- ════════════════════════════════════════════════════
        BLOQUE 3: REEL DE SPIDERMAN "THE SWING PROMPTS"
        ════════════════════════════════════════════════════ -->
-  <section id="spiderman-breakdown" class="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto relative z-10 scroll-mt-24">
+  <section id="spiderman-breakdown" class="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto relative z-10">
     
     <div class="glass-panel p-5 sm:p-10 rounded-3xl border-red-500/30 relative overflow-hidden bg-gradient-to-b from-slate-950 via-red-950/10 to-slate-950 shadow-2xl">
       <div class="absolute -top-24 -right-24 w-80 h-80 bg-red-600/10 rounded-full blur-3xl pointer-events-none"></div>
 
-      <div class="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-5 mb-8 pb-8 border-b border-slate-800">
+      <div class="spiderman-header-grid">
         <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-red-600/30 to-slate-950 border border-red-500/50 text-red-400 flex items-center justify-center text-2xl sm:text-3xl shadow-xl flex-shrink-0">
           <i class="fas fa-spider"></i>
         </div>
-        <div class="text-center sm:text-left flex-1">
-          <div class="flex items-center justify-center sm:justify-start gap-2 flex-wrap mb-1">
+        <div class="text-center md:text-left">
+          <div class="flex items-center justify-center md:justify-start gap-2 flex-wrap mb-1">
             <span class="px-3 py-0.5 rounded-full text-[11px] font-extrabold uppercase tracking-wider bg-red-950/80 text-red-300 border border-red-500/30">
               🕷️ DESGLOSE TÉCNICO OFICIAL
             </span>
@@ -11492,9 +11667,11 @@
             Por <strong>Edward Jiménez</strong> (<a href="https://www.instagram.com/edwardjimenezia/" target="_blank" rel="noopener" class="text-red-400 font-bold hover:underline">@edwardjimenezia</a>) · Agencia ProsperIA
           </p>
         </div>
-        <a href="https://www.instagram.com/p/DdsN1nasM46/" target="_blank" rel="noopener" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold bg-pink-950/80 border border-pink-500/40 text-pink-300 hover:bg-pink-900/50 transition-colors flex-shrink-0">
-          <i class="fab fa-instagram"></i> Ver Video en Instagram
-        </a>
+        <div>
+          <a href="https://www.instagram.com/p/DdsN1nasM46/" target="_blank" rel="noopener" class="spiderman-ig-btn">
+            <i class="fab fa-instagram text-base"></i> <span>Ver Video en Instagram</span>
+          </a>
+        </div>
       </div>
 
       <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-6">
@@ -11523,14 +11700,14 @@
             </div>
           </button>
           
-          <div id="step-content-1" class="px-4 sm:px-6 pb-5 pt-1 border-t border-slate-800/80">
-            <div class="flex items-center justify-between gap-2 mb-3 mt-3">
+          <div id="step-content-1" class="px-4 sm:px-6 pb-6 pt-2 border-t border-slate-800/80">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3 mt-3">
               <span class="text-xs text-slate-300 font-medium"><strong>Instrucción:</strong> Sube tu foto de frente (selfie) a ChatGPT y pega:</span>
-              <button onclick="copyCode(document.getElementById('prompt-spiderman-1').innerText, this)" class="btn-copy px-3 py-1.5 rounded-lg text-xs font-bold inline-flex items-center gap-1.5 flex-shrink-0">
+              <button onclick="copyCode(document.getElementById('prompt-spiderman-1').innerText, this)" class="btn-copy px-3 py-1.5 rounded-lg text-xs font-bold inline-flex items-center gap-1.5 flex-shrink-0 self-start sm:self-auto">
                 <i class="far fa-copy"></i> Copiar Prompt
               </button>
             </div>
-            <div id="prompt-spiderman-1" class="prompt-box p-4 select-all text-xs leading-relaxed max-h-72 overflow-y-auto">Referencia: Utiliza la imagen subida como referencia directa para la fisonomía del rostro, pero coloca al personaje como un hombre joven sentado en el alféizar de una ventana de piso a techo completamente abierta dentro de una acogedora habitación de Nueva York. La ventana está totalmente abierta y deja pasar una brisa natural. El sujeto se sienta con las piernas hacia el cuarto, postura relajada y confiada, mirando a la cámara con una sonrisa natural.
+            <div id="prompt-spiderman-1" class="prompt-box select-all">Referencia: Utiliza la imagen subida como referencia directa para la fisonomía del rostro, pero coloca al personaje como un hombre joven sentado en el alféizar de una ventana de piso a techo completamente abierta dentro de una acogedora habitación de Nueva York. La ventana está totalmente abierta y deja pasar una brisa natural. El sujeto se sienta con las piernas hacia el cuarto, postura relajada y confiada, mirando a la cámara con una sonrisa natural.
 
 Vestuario: Chaqueta de cuero negro mate, camiseta blanca de algodón grueso, pantalones anchos negros oversize, zapatillas blancas Nike Air Force 1 impecables, y auriculares negros over-ear descansando alrededor del cuello.
 
@@ -11561,14 +11738,14 @@ Estilo de Cámara: Fotografía realista de 35mm, ángulo medio ligeramente contr
             </div>
           </button>
           
-          <div id="step-content-2" class="px-4 sm:px-6 pb-5 pt-1 border-t border-slate-800/80 hidden">
-            <div class="flex items-center justify-between gap-2 mb-3 mt-3">
+          <div id="step-content-2" class="px-4 sm:px-6 pb-6 pt-2 border-t border-slate-800/80 hidden">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3 mt-3">
               <span class="text-xs text-slate-300 font-medium"><strong>Instrucción:</strong> Genera la segunda imagen manteniendo coherencia de rostro y vestuario:</span>
-              <button onclick="copyCode(document.getElementById('prompt-spiderman-2').innerText, this)" class="btn-copy px-3 py-1.5 rounded-lg text-xs font-bold inline-flex items-center gap-1.5 flex-shrink-0">
+              <button onclick="copyCode(document.getElementById('prompt-spiderman-2').innerText, this)" class="btn-copy px-3 py-1.5 rounded-lg text-xs font-bold inline-flex items-center gap-1.5 flex-shrink-0 self-start sm:self-auto">
                 <i class="far fa-copy"></i> Copiar Prompt
               </button>
             </div>
-            <div id="prompt-spiderman-2" class="prompt-box p-4 select-all text-xs leading-relaxed max-h-72 overflow-y-auto">Plano de acción acrobático en caída libre: El mismo hombre joven del Paso 1 (misma chaqueta de cuero negro, pantalones anchos negros, zapatillas blancas) ahora está en pleno aire lanzándose desde la ventana del rascacielos. Postura dinámica inspirada en Spiderman: cuerpo arqueado en pose de balanceo, una mano estirada hacia adelante como si disparara una telaraña, la otra hacia atrás para estabilizar el equilibrio.
+            <div id="prompt-spiderman-2" class="prompt-box select-all">Plano de acción acrobático en caída libre: El mismo hombre joven del Paso 1 (misma chaqueta de cuero negro, pantalones anchos negros, zapatillas blancas) ahora está en pleno aire lanzándose desde la ventana del rascacielos. Postura dinámica inspirada en Spiderman: cuerpo arqueado en pose de balanceo, una mano estirada hacia adelante como si disparara una telaraña, la otra hacia atrás para estabilizar el equilibrio.
 
 Cámara & Ángulo: Ángulo holandés dinámico (Dutch angle) de 45 grados, toma de cuerpo completo desde abajo mirando hacia arriba mientras los rascacielos de Manhattan convergen en perspectiva forzada. Sensación vertiginosa de velocidad.
 
@@ -11597,14 +11774,14 @@ Render: Fotografía de alta acción en 35mm, obturación rápida 1/1000s con lig
             </div>
           </button>
           
-          <div id="step-content-3" class="px-4 sm:px-6 pb-5 pt-1 border-t border-slate-800/80 hidden">
-            <div class="flex items-center justify-between gap-2 mb-3 mt-3">
+          <div id="step-content-3" class="px-4 sm:px-6 pb-6 pt-2 border-t border-slate-800/80 hidden">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3 mt-3">
               <span class="text-xs text-slate-300 font-medium"><strong>Prompt de Movimiento (Motion Directive):</strong></span>
-              <button onclick="copyCode(document.getElementById('prompt-spiderman-3').innerText, this)" class="btn-copy px-3 py-1.5 rounded-lg text-xs font-bold inline-flex items-center gap-1.5 flex-shrink-0">
+              <button onclick="copyCode(document.getElementById('prompt-spiderman-3').innerText, this)" class="btn-copy px-3 py-1.5 rounded-lg text-xs font-bold inline-flex items-center gap-1.5 flex-shrink-0 self-start sm:self-auto">
                 <i class="far fa-copy"></i> Copiar Directiva
               </button>
             </div>
-            <div id="prompt-spiderman-3" class="prompt-box p-4 select-all text-xs leading-relaxed max-h-72 overflow-y-auto">Camera Movement: Cinematic continuous forward push through the open window, tracking the character seamlessly as he turns, smiles at the camera, and confidently leans backward dropping out of the window into the urban void.
+            <div id="prompt-spiderman-3" class="prompt-box select-all">Camera Movement: Cinematic continuous forward push through the open window, tracking the character seamlessly as he turns, smiles at the camera, and confidently leans backward dropping out of the window into the urban void.
 
 Physics & Movement (Critical): Does NOT float. Interacts physically with the city. As he drops, gravity takes over instantly with realistic downward acceleration. In mid-air, character rotates into an athletic spider-swing posture, extends his right arm and shoots a high-tension web line toward an adjacent skyscraper. The line goes taut, pendulum momentum swings him upward into the sky.
 
@@ -12739,6 +12916,58 @@ Lighting & Environment: Wind violently ripples the jacket and hair. Lens flare c
         btn.innerHTML = originalText;
       }, 600);
     }
+
+    // Mobile navigation menu toggle
+    function toggleMobileMenu() {
+      const panel = document.getElementById('mobile-nav-panel');
+      const icon = document.getElementById('mobile-menu-icon');
+      if (panel.classList.contains('hidden')) {
+        panel.classList.remove('hidden');
+        if (icon) icon.className = 'fas fa-times text-base';
+      } else {
+        panel.classList.add('hidden');
+        if (icon) icon.className = 'fas fa-bars text-base';
+      }
+    }
+
+    function closeMobileMenu() {
+      const panel = document.getElementById('mobile-nav-panel');
+      const icon = document.getElementById('mobile-menu-icon');
+      if (panel) panel.classList.add('hidden');
+      if (icon) icon.className = 'fas fa-bars text-base';
+    }
+
+    // Scrollspy for active navbar indicator
+    window.addEventListener('scroll', () => {
+      const sections = [
+        'codigos-grid',
+        'descargas',
+        'spiderman-breakdown',
+        'reels-gallery',
+        'passportai-showcase',
+        'test-ia',
+        'formulario-cotizacion'
+      ];
+      const scrollPos = window.scrollY + 140;
+      let currentSection = '';
+
+      for (const id of sections) {
+        const el = document.getElementById(id);
+        if (el && el.offsetTop <= scrollPos) {
+          currentSection = id;
+        }
+      }
+
+      if (currentSection) {
+        document.querySelectorAll('.nav-link-item').forEach(link => {
+          if (link.getAttribute('href') === `#${currentSection}`) {
+            link.classList.add('active');
+          } else {
+            link.classList.remove('active');
+          }
+        });
+      }
+    });
 
     // Init
     document.addEventListener('DOMContentLoaded', () => {
