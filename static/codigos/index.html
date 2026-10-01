@@ -6189,7 +6189,7 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
           </div>
 
           <button type="button" onclick="selectCotizacionOption('contenido')" class="btn-opt1-cta">
-            <i class="fas fa-check-circle"></i> Solicitar Cotización Opción 1 (+1 786 557 3119)
+            <i class="fas fa-check-circle"></i> Solicitar Cotización Opción 1
           </button>
         </div>
 
@@ -6225,13 +6225,13 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
               </li>
               <li class="flex items-start gap-2.5">
                 <i class="fas fa-check-circle text-indigo-400 mt-1"></i>
-                <span><strong>Acompañamiento Estratégico:</strong> Dirección directa con Edward Jiménez para optimizar tu embudo comercial.</span>
+                <span><strong>Acompañamiento Estratégico:</strong> Asesoría y dirección directa para optimizar tu embudo comercial.</span>
               </li>
             </ul>
           </div>
 
           <button type="button" onclick="selectCotizacionOption('integral')" class="btn-opt2-cta">
-            <i class="fas fa-rocket"></i> Solicitar Cotización Opción 2 (+1 786 557 3119)
+            <i class="fas fa-rocket"></i> Solicitar Cotización Opción 2
           </button>
         </div>
 
@@ -6240,9 +6240,9 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
       <!-- Formulario Pequeño de Cotización Directa (Sin Modales) -->
       <div id="formulario-cotizacion" class="glass-panel p-6 sm:p-8 rounded-3xl border-2 border-cyan-500/30 max-w-xl mx-auto mb-12 bg-slate-950/90 shadow-2xl relative scroll-mt-28">
         <div class="text-center mb-6">
-          <div class="flex items-center justify-center gap-2 mb-2">
-            <a href="https://wa.me/17865573119?text=Hola%20Edward,%20quiero%20solicitar%20una%20cotizaci%C3%B3n%20para%20mi%20empresa" target="_blank" rel="noopener" class="px-3 py-1 rounded-full text-[11px] font-extrabold uppercase tracking-wider bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 inline-flex items-center gap-1.5 hover:bg-emerald-900 transition-colors shadow-[0_0_15px_rgba(16,185,129,0.25)]">
-              <i class="fab fa-whatsapp text-emerald-400"></i> Edward Jiménez: +1 (786) 557-3119
+          <div class="flex items-center justify-center gap-2 mb-3">
+            <a href="https://wa.me/17865573119?text=Hola,%20quiero%20solicitar%20una%20cotizaci%C3%B3n%20para%20mi%20empresa" target="_blank" rel="noopener" class="px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 inline-flex items-center gap-2 hover:bg-emerald-900 transition-colors shadow-[0_0_15px_rgba(16,185,129,0.25)]">
+              <i class="fab fa-whatsapp text-emerald-400 text-sm"></i> Chatear por WhatsApp
             </a>
           </div>
           <h3 class="text-xl sm:text-2xl font-extrabold text-white">Solicitar Cotización de Servicio</h3>
@@ -6282,16 +6282,16 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
           </div>
 
           <button type="submit" id="btn-submit-direct" class="btn-cotizacion-cta mt-2">
-            <i class="fab fa-whatsapp text-lg"></i> Solicitar Cotización (+1 786 557 3119)
+            <i class="fab fa-whatsapp text-lg"></i> Solicitar Cotización
           </button>
           
           <div class="text-center pt-2">
-            <a href="https://wa.me/17865573119?text=Hola%20Edward,%20quiero%20solicitar%20una%20cotizaci%C3%B3n%20para%20mi%20empresa" target="_blank" rel="noopener" class="text-xs text-emerald-400 hover:text-emerald-300 transition-colors inline-flex items-center gap-1 font-semibold">
-              <i class="fab fa-whatsapp"></i> ¿Prefieres escribir directo sin llenar el formulario? Clic aquí (+1 786 557 3119)
+            <a href="https://wa.me/17865573119?text=Hola,%20quiero%20solicitar%20una%20cotizaci%C3%B3n%20para%20mi%20empresa" target="_blank" rel="noopener" class="text-xs text-emerald-400 hover:text-emerald-300 transition-colors inline-flex items-center gap-1.5 font-semibold">
+              <i class="fab fa-whatsapp"></i> ¿Prefieres escribir directo sin llenar el formulario? Chatea por WhatsApp aquí
             </a>
           </div>
 
-          <p class="text-[11px] text-slate-500 text-center">Tus datos se envían a edward@agenciaprosperia.com y te abren contacto directo por WhatsApp.</p>
+          <p class="text-[11px] text-slate-500 text-center">Tus datos se coordinan de inmediato y te abren contacto directo por WhatsApp.</p>
         </form>
       </div>
 
@@ -6637,10 +6637,10 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
       }
 
       btn.disabled = true;
-      btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-1.5"></i> Procesando y enviando a edward@agenciaprosperia.com...';
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-1.5"></i> Enviando solicitud...';
 
       const servicioLabel = servicio === 'contenido' ? 'Opción 1: Creación de Contenido Viral' : 'Opción 2: Sistema 360° Integral';
-      const waMsg = `Hola Edward, soy ${name}. Acabo de solicitar una cotización para ${servicioLabel} desde la página de códigos. Mi correo es ${email} y mi WhatsApp es ${phone}.`;
+      const waMsg = `Hola, soy ${name}. Acabo de solicitar una cotización para ${servicioLabel} desde la página de códigos. Mi correo es ${email} y mi WhatsApp es ${phone}.`;
       const waUrl = `https://wa.me/17865573119?text=${encodeURIComponent(waMsg)}`;
 
       try {
@@ -6658,23 +6658,21 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
             message: `[COTIZACIÓN DE SERVICIO] Modalidad solicitada: ${servicioLabel}.
 Cliente: ${name}
 Email: ${email}
-WhatsApp: ${phone}
-Notificación dirigida a edward@agenciaprosperia.com.
-Contacto directo: +1 (786) 557-3119`
+WhatsApp: ${phone}`
           })
         });
       } catch (err) {
         console.warn('Registro local de cotización:', err);
       }
 
-      btn.innerHTML = '<i class="fas fa-check mr-1.5"></i> ¡Correo Enviado! Abriendo WhatsApp (+1 786 557 3119)...';
+      btn.innerHTML = '<i class="fas fa-check mr-1.5"></i> ¡Listo! Abriendo WhatsApp...';
       btn.classList.remove('from-emerald-400', 'to-cyan-400');
       btn.classList.add('bg-emerald-500', 'text-slate-950');
 
-      // Redirigir a WhatsApp de Edward Jiménez (+1 786 557 3119)
+      // Redirigir a WhatsApp
       setTimeout(() => {
         window.open(waUrl, '_blank');
-        btn.innerHTML = '<i class="fab fa-whatsapp mr-1.5"></i> Chatear con Edward en WhatsApp (+1 786 557 3119)';
+        btn.innerHTML = '<i class="fab fa-whatsapp mr-1.5"></i> Chatear por WhatsApp';
         btn.disabled = false;
         
         // Botón permanente por si el navegador bloqueó la ventana emergente
@@ -6683,7 +6681,7 @@ Contacto directo: +1 (786) 557-3119`
           const fallbackDiv = document.createElement('div');
           fallbackDiv.id = 'wa-fallback-btn';
           fallbackDiv.className = 'mt-3 text-center';
-          fallbackDiv.innerHTML = `<a href="${waUrl}" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-extrabold text-xs bg-emerald-400 text-slate-950 hover:bg-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.4)] transition-all"><i class="fab fa-whatsapp text-sm"></i> Clic aquí si no abrió tu WhatsApp (+1 786 557 3119) <i class="fas fa-arrow-right text-[10px]"></i></a>`;
+          fallbackDiv.innerHTML = `<a href="${waUrl}" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-extrabold text-xs bg-emerald-400 text-slate-950 hover:bg-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.4)] transition-all"><i class="fab fa-whatsapp text-sm"></i> Clic aquí si no abrió tu WhatsApp <i class="fas fa-arrow-right text-[10px]"></i></a>`;
           btn.parentNode.insertBefore(fallbackDiv, btn.nextSibling);
         }
       }, 500);
