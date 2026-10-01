@@ -1288,6 +1288,15 @@ async def read_exmamiami(request: Request):
 async def read_harmonypayments(request: Request):
     return templates.TemplateResponse(request=request, name="harmonypayments.html")
 
+@app.get("/consultoriadeinteligenciaartificial", response_class=HTMLResponse)
+@app.head("/consultoriadeinteligenciaartificial")
+@app.get("/consultoriadeinteligenciaartificial/", response_class=HTMLResponse)
+@app.head("/consultoriadeinteligenciaartificial/")
+@app.get("/consultoriadeinteligenciaartificial.html", response_class=HTMLResponse)
+@app.head("/consultoriadeinteligenciaartificial.html")
+async def read_consultoria_ia(request: Request):
+    return templates.TemplateResponse(request=request, name="consultoriadeinteligenciaartificial.html")
+
 def get_codigos_data():
     json_path = os.path.join(os.path.dirname(__file__), "content", "codigos_100.json")
     if os.path.exists(json_path):
@@ -1387,6 +1396,11 @@ async def get_sitemap(db: Session = Depends(get_db)):
         '  </url>\n'
         '  <url>\n'
         '    <loc>https://agenciaprosperia.com/codigos</loc>\n'
+        '    <changefreq>weekly</changefreq>\n'
+        '    <priority>0.9</priority>\n'
+        '  </url>\n'
+        '  <url>\n'
+        '    <loc>https://agenciaprosperia.com/consultoriadeinteligenciaartificial</loc>\n'
         '    <changefreq>weekly</changefreq>\n'
         '    <priority>0.9</priority>\n'
         '  </url>\n'

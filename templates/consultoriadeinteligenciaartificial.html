@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <link rel="canonical" href="https://agenciaprosperia.com/consultoriadeinteligenciaartificial">
+  <meta property="og:url" content="https://agenciaprosperia.com/consultoriadeinteligenciaartificial">
+  <meta property="og:image" content="https://agenciaprosperia.com/static/logo_prosper_ia_cropped.jpg">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agencia ProsperIA | Consultoría de Super Inteligencia & Automatización de Procesos para PYMES y Corporativos</title>
+  <meta name="description" content="Firma de Consultoría Estratégica e Ingeniería en Super Inteligencia Artificial (SI & AI). Automatizamos procesos críticos en PYMES medianas y Grandes Corporativos para reducir OPEX y escalar sin inflar nómina.">
+  <meta name="keywords" content="Consultoria Inteligencia Artificial, Automatizacion de Procesos, Super Inteligencia, Agentes Autonomos, RAG Corporativo, PYMES, Corporativos, ProsperIA">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="icon" type="image/png" href="{{ static_versioned('favicon.png') }}">
+  <link rel="stylesheet" href="{{ static_versioned('consultoria_ia/css/styles.css') }}">
+</head>
+<body class="bg-dark text-slate-100 antialiased selection:bg-cyan-500 selection:text-black">
+
+  <!-- Ambient Glow Orbs -->
+  <div class="ambient-glow glow-top" aria-hidden="true"></div>
+  <div class="ambient-glow glow-middle" aria-hidden="true"></div>
+
+  <!-- Top Geopolitical Announcement -->
+  <aside id="top-notification" class="top-bar" aria-label="Contexto geopolítico global">
+    <div class="container top-bar-inner">
+      <div class="top-bar-badge">
+        <span class="pulse-dot"></span>
+        <strong>CASA BLANCA · 29 SEPTIEMBRE 2026</strong>
+      </div>
+      <p class="top-bar-text">
+        Donald Trump firma el <strong>"White House Accord on Super Intelligence"</strong> y decreta la transición de AI a <strong>Super Intelligence (SI)</strong> empresarial.
+      </p>
+      <a href="#manifiesto" class="top-bar-link">¿Qué exige este mandato al Directorio? &rarr;</a>
+    </div>
+  </aside>
+
+  <!-- Navigation -->
+  <header id="main-header" class="site-header">
+    <div class="container nav-container">
+      <a href="/" class="brand-logo" id="brand-logo" aria-label="Agencia ProsperIA">
+        <img src="{{ static_versioned('logo_prosper_ia_cropped.jpg') }}" alt="Agencia ProsperIA" class="agency-header-logo">
+        <div class="brand-names">
+          <span class="brand-primary">Agencia ProsperIA</span>
+          <span class="brand-tagline-nav">Consultoría de Super Inteligencia</span>
+        </div>
+      </a>
+
+      <nav class="desktop-nav" aria-label="Navegación principal">
+        <a href="#dual-focus" class="nav-item">PYMES vs Corporativos</a>
+        <a href="#test-madurez" class="nav-item">Test de Madurez IA</a>
+        <a href="#soluciones" class="nav-item">Sistemas de Automatización</a>
+        <a href="#credenciales" class="nav-item">Proof of Work (Verticales)</a>
+        <a href="#calculadora" class="nav-item">Calculadora ROI</a>
+        <a href="#faq" class="nav-item">FAQ Directores</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="https://instagram.com/edwardjimenez_ceo" target="_blank" rel="noopener" class="nav-social-btn ig" title="Instagram @edwardjimenez_ceo" aria-label="Instagram">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://youtube.com/@AgenciaProsper_IA" target="_blank" rel="noopener" class="nav-social-btn yt" title="YouTube @AgenciaProsper_IA" aria-label="YouTube">
+          <i class="fab fa-youtube"></i>
+        </a>
+        <button id="btn-open-diagnostic" class="btn btn-primary btn-sm glow-btn" onclick="openDiagnosticModal('Navbar')">
+          <span>Diagnóstico Ejecutivo (45 Min)</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO SECTION: MENSAJE DUAL PARA PYMES Y CORPORATIVOS -->
+    <section id="hero" class="hero-section">
+      <div class="container hero-container">
+        
+        <div class="hero-badge-wrapper">
+          <div class="glass-pill">
+            <span class="pill-dot"></span>
+            <span>Consultoría Estratégica & Automatización de Procesos de Negocio</span>
+            <span class="pill-tag">PYMES & Corporativos</span>
+          </div>
+        </div>
+
+        <h1 class="hero-title">
+          ¿Procesos Lentos, Silos y Nómina Inflada?<br>
+          <span class="gradient-text">Automatice su Operación con Super Inteligencia.</span>
+        </h1>
+
+        <!-- DUAL VALUE PROPOSITION BANNER -->
+        <div class="hero-dual-box glass-panel">
+          <div class="dual-col pyme-col">
+            <div class="dual-badge">🏢 PARA LA PYME MEDIANA ($300K a $3M/año)</div>
+            <p>
+              <strong>Si todo depende de ti y de procesos manuales:</strong> Automatizamos tus cotizaciones, ventas y operaciones para que <strong>dupliques tu capacidad de entrega sin duplicar tu nómina</strong> ni trabajar 16 horas al día.
+            </p>
+          </div>
+          <div class="dual-divider"></div>
+          <div class="dual-col corp-col">
+            <div class="dual-badge badge-purple">🌐 PARA EL CEO CORPORATIVO (+$3M a +$50M/año)</div>
+            <p>
+              <strong>Si pierde semanas en reportes y millones en burocracia:</strong> Desplegamos <strong>RAG Privado y Agentes Autónomos</strong> sobre sus ERPs y contratos para <strong>reducir masivamente su OPEX</strong> con cero riesgo de fuga de datos.
+            </p>
+          </div>
+        </div>
+
+        <div class="hero-cta-group">
+          <button class="btn btn-primary btn-lg glow-btn" id="hero-cta-primary" onclick="openDiagnosticModal('Hero')">
+            <span>Solicitar Auditoría de Procesos & ROI</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+          <a href="#test-madurez" class="btn btn-secondary btn-lg" id="hero-cta-test">
+            <span>🎯 Evaluar mi Nivel de Madurez en IA (1 Min)</span>
+          </a>
+        </div>
+
+        <!-- Social Proof Stats Strip -->
+        <div class="hero-proof-strip">
+          <div class="proof-card">
+            <div class="proof-number">10x</div>
+            <div class="proof-label">Aceleración en Procesos Operativos Clave</div>
+          </div>
+          <div class="proof-divider"></div>
+          <div class="proof-card">
+            <div class="proof-number">$10K - $50K</div>
+            <div class="proof-label">Ahorro Mensual Promedio en Costos Operativos</div>
+          </div>
+          <div class="proof-divider"></div>
+          <div class="proof-card">
+            <div class="proof-number">100% Soberano</div>
+            <div class="proof-label">RAG Privado con Zero-Data Retention</div>
+          </div>
+          <div class="proof-divider"></div>
+          <div class="proof-card">
+            <div class="proof-number">2 Verticales</div>
+            <div class="proof-label">Operando en Producción Real (Proof of Work)</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- DUAL FOCUS: IDENTIFICACIÓN CLARA DE DOLORES (PYMES VS CORPORATIVOS) -->
+    <section id="dual-focus" class="section focus-section">
+      <div class="container">
+        
+        <div class="section-heading text-center">
+          <div class="section-tag">DIAGNÓSTICO DIRECTO DE SU REALIDAD</div>
+          <h2 class="section-title">El Espejo de su Empresa: Identifique su Mayor Dolor Operativo</h2>
+          <p class="section-subtitle">
+            No todas las empresas tienen el mismo desafío. Seleccione su perfil para entender con precisión quirúrgica dónde se está fugando su dinero:
+          </p>
+        </div>
+
+        <div class="focus-grid">
+          
+          <!-- PYMES CARD -->
+          <div class="focus-card glass-panel border-cyan">
+            <div class="focus-header">
+              <span class="focus-icon">🏢</span>
+              <div>
+                <span class="focus-tag">PERFIL PYME MEDIANA</span>
+                <h3>Facturación de $300K a $3M USD/año · 10 a 80 colaboradores</h3>
+              </div>
+            </div>
+
+            <div class="pain-list">
+              <div class="pain-item-box">
+                <strong>1. El Cuello de Botella del Dueño:</strong>
+                <p>Usted no puede tomar vacaciones sin que las cotizaciones se frenen, los clientes reclamen o las operaciones colapsen. La empresa depende de su cerebro para casi todo.</p>
+              </div>
+              <div class="pain-item-box">
+                <strong>2. La Paradoja de Escalar Inflar Nómina:</strong>
+                <p>Para vender 30% más, cree que tiene que contratar 4 personas más, lo que dispara los costos fijos, cargas laborales y errores humanos en planillas de Excel.</p>
+              </div>
+              <div class="pain-item-box">
+                <strong>3. Vendedores Inconsistentes y Leads Fríos:</strong>
+                <p>Cotizaciones que tardan 48 horas en enviarse, prospectos interesados a los que nadie da seguimiento y falta de estandarización en el proceso comercial.</p>
+              </div>
+            </div>
+
+            <div class="focus-outcome">
+              <span class="outcome-label">Lo que Instalamos con Super Inteligencia:</span>
+              <p>Agentes autónomos de cotización instantánea y ventas 24/7, automatización del onboarding de clientes y CRM ProsperIA Enterprise con control móvil total para el dueño.</p>
+            </div>
+
+            <button class="btn btn-primary btn-block glow-btn" onclick="openDiagnosticModal('PYMES')">
+              <span>Automatizar mi PYME Mediana &rarr;</span>
+            </button>
+          </div>
+
+          <!-- CORPORATIVOS CARD -->
+          <div class="focus-card glass-panel border-purple">
+            <div class="focus-header">
+              <span class="focus-icon">🌐</span>
+              <div>
+                <span class="focus-tag tag-purple">PERFIL GRAN CORPORATIVO & HOLDING</span>
+                <h3>Facturación de +$3M a +$50M USD/año · Cientos de colaboradores</h3>
+              </div>
+            </div>
+
+            <div class="pain-list">
+              <div class="pain-item-box">
+                <strong>1. Burocracia Cognitiva y Silos de Información:</strong>
+                <p>Millones de datos atrapados en SAP, ERPs legados, Salesforce y miles de PDFs. Armar un informe de inteligencia cruzada para el Directorio tarda 3 semanas de analistas.</p>
+              </div>
+              <div class="pain-item-box">
+                <strong>2. Pánico de Ciberseguridad y "Shadow AI":</strong>
+                <p>Cientos de empleados subiendo balances, patentes, bases de datos y contratos a herramientas públicas de IA sin autorización ni gobernanza corporativa.</p>
+              </div>
+              <div class="pain-item-box">
+                <strong>3. El Fraude de las Consultoras Tradicionales:</strong>
+                <p>Cobran $250,000 USD por un diagnóstico en diapositivas que nadie sabe implementar. No programan una sola API ni despliegan un solo agente funcional.</p>
+              </div>
+            </div>
+
+            <div class="focus-outcome outcome-purple">
+              <span class="outcome-label">Lo que Instalamos con Super Inteligencia:</span>
+              <p>Cerebro Corporativo Privado (RAG Enterprise) con aislamiento Zero-Data Retention, enrutamiento multi-modelo y agentes autónomos con supervisión dual que reducen el OPEX hasta un 60%.</p>
+            </div>
+
+            <button class="btn btn-purple btn-block glow-btn" onclick="openDiagnosticModal('Corporativo')">
+              <span>Automatizar mi Corporativo &rarr;</span>
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- TEST INTERACTIVO RENOVADO: DIAGNÓSTICO DE MADUREZ EN SUPER INTELIGENCIA -->
+    <section id="test-madurez" class="section quiz-section">
+      <div class="container max-w-3xl">
+        
+        <div class="quiz-wrapper glass-panel">
+          
+          <!-- Quiz Header -->
+          <div class="quiz-top text-center">
+            <div class="section-tag">DIAGNÓSTICO INTERACTIVO EJECUTIVO (90 SEGUNDOS)</div>
+            <h2 class="quiz-main-title">¿Cuál es el Nivel Real de Madurez en IA de tu Empresa?</h2>
+            <p class="quiz-main-desc">
+              Descubra en 5 preguntas estratégicas si su organización está en <strong>Riesgo de Obsolescencia</strong>, atrapada en <strong>Juguetes de IA Aislados</strong>, o lista para dar el salto a la <strong>Super Inteligencia Autónoma</strong>.
+            </p>
+          </div>
+
+          <!-- Progress Bar & Indicator -->
+          <div class="quiz-progress-wrapper">
+            <div class="quiz-progress-meta">
+              <span id="quiz-question-counter">Pregunta 1 de 5</span>
+              <span id="quiz-category-badge" class="quiz-cat-pill">VELOCIDAD & ATENCIÓN</span>
+            </div>
+            <div class="progress-track">
+              <div id="quiz-progress-fill" class="progress-fill" style="width: 20%;"></div>
+            </div>
+          </div>
+
+          <!-- Question Box Container -->
+          <div id="quiz-interactive-card" class="quiz-card">
+            
+            <h3 id="quiz-question-text" class="quiz-question-title">
+              1. ¿Cuánto tarda hoy tu empresa en cotizar o responder a un prospecto calificado?
+            </h3>
+
+            <!-- 4 Rich Options Grid -->
+            <div id="quiz-options-grid" class="quiz-options-list">
+              <!-- Dynamically populated by JS with 4 rich choices -->
+            </div>
+
+            <!-- Quiz Navigation -->
+            <div class="quiz-nav-row">
+              <button id="quiz-prev-btn" class="btn btn-secondary btn-sm" onclick="handleQuizPrev()" disabled>
+                <span>&larr; Anterior</span>
+              </button>
+              <button id="quiz-next-btn" class="btn btn-primary btn-sm glow-btn" onclick="handleQuizNext()" disabled>
+                <span>Siguiente Pregunta &rarr;</span>
+              </button>
+            </div>
+
+          </div>
+
+          <!-- Quiz Dynamic Result Screen (Hidden by Default) -->
+          <div id="quiz-result-view" class="quiz-result-box" hidden>
+            
+            <div class="result-score-badge" id="result-badge-level">NIVEL 2: JUGUETES AISLADOS</div>
+            
+            <h3 class="result-headline" id="result-headline-title">
+              Su Empresa Tiene Automatizaciones Superficiales, Pero Sus Procesos Centrales Siguen Siendo Manuales
+            </h3>
+
+            <p class="result-paragraph" id="result-paragraph-desc">
+              Su equipo experimenta con ChatGPT o herramientas sueltas, pero no cuenta con un cerebro centralizado ni agentes autónomos conectados a sus ERPs o sistemas comerciales. Esto genera silos de información, lentitud en cotizaciones y riesgo de filtración de datos confidenciales.
+            </p>
+
+            <div class="result-metrics-grid">
+              <div class="result-stat-card">
+                <span class="stat-number" id="result-stat-hours">25 a 40 Horas</span>
+                <span class="stat-label">Semanales perdidas por departamento en tareas mecánicas</span>
+              </div>
+              <div class="result-stat-card">
+                <span class="stat-number gradient-text" id="result-stat-money">$8,000 - $20,000 USD</span>
+                <span class="stat-label">Dinero mensual recuperable al automatizar sus flujos críticos</span>
+              </div>
+            </div>
+
+            <div class="result-callout">
+              <h4>Hoja de Ruta Recomendada para su Nivel:</h4>
+              <p id="result-action-plan">
+                Intervenir de inmediato los 3 cuellos de botella de mayor fricción operativa mediante un RAG privado seguro y agentes autónomos de cotización/operaciones con entrega llave en mano.
+              </p>
+            </div>
+
+            <div class="result-cta-actions">
+              <button class="btn btn-primary btn-lg glow-btn" onclick="openDiagnosticModal('QuizCompleted')">
+                <span>Agendar Sesión de 45 Min con mi Diagnóstico</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </button>
+              <button class="btn btn-secondary btn-sm" onclick="restartQuiz()">
+                <span>Repetir Diagnóstico</span>
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PROOF OF WORK: NUESTRAS DOS VERTICALES COMO EVIDENCIA INCONTESTABLE -->
+    <section id="credenciales" class="section credentials-section">
+      <div class="container">
+        
+        <div class="section-heading text-center">
+          <div class="section-tag">PROOF OF WORK · PRUEBA DE FUEGO EN PRODUCCIÓN</div>
+          <h2 class="section-title">No Vendemos Hipótesis. Operamos Dos Verticales Propietarias en la Vida Real</h2>
+          <p class="section-subtitle">
+            Cualquier consultor puede hablar de IA en una presentación. Nosotros demostramos autoridad mostrando la tecnología que ya procesa millones de dólares en producción:
+          </p>
+        </div>
+
+        <div class="cases-grid">
+          
+          <!-- Vertical 1: Salud y Clínicas -->
+          <article class="case-card glass-panel">
+            <div class="case-badge">VERTICAL EN PRODUCCIÓN #1 · ALTA CONVERSIÓN</div>
+            <h3 class="case-title">Sistema Paciente 360™ (Clínicas Especializadas)</h3>
+            <p class="case-intro">
+              Infraestructura médica y comercial operando activamente en clínicas dentales, capilares y de medicina estética de alto ticket ($1,000 a $5,000 USD).
+            </p>
+
+            <div class="case-metrics-strip">
+              <div class="metric-box">
+                <span class="metric-num">11 Seg</span>
+                <span class="metric-lbl">Speed-to-Lead promedio 24/7 en WhatsApp e IG</span>
+              </div>
+              <div class="metric-box">
+                <span class="metric-num">+34%</span>
+                <span class="metric-lbl">Citas agendadas fuera de horario de oficina</span>
+              </div>
+              <div class="metric-box">
+                <span class="metric-num">$45K USD</span>
+                <span class="metric-lbl">Reactivados en tratamientos con protocolo DBR</span>
+              </div>
+            </div>
+
+            <p class="case-detail">
+              <strong>Lo que esto demuestra a su empresa:</strong> Sabemos cómo hacer que un agente de IA hable con prospectos reales, derribe objeciones complejas, respete guardrails médicos estrictos y cierre ventas de alto valor sin intervención humana.
+            </p>
+          </article>
+
+          <!-- Vertical 2: SaaS Enterprise -->
+          <article class="case-card glass-panel">
+            <div class="case-badge badge-purple">VERTICAL EN PRODUCCIÓN #2 · INFRAESTRUCTURA SAAS</div>
+            <h3 class="case-title">PassportAI Core (Plataforma Multi-Modelo Enterprise)</h3>
+            <p class="case-intro">
+              Plataforma SaaS centralizada con RAG semántico embebido sobre más de 300 fragmentos documentales, telemetría Prometheus/Grafana y pasarela Stripe.
+            </p>
+
+            <div class="case-metrics-strip">
+              <div class="metric-box">
+                <span class="metric-num purple">70%</span>
+                <span class="metric-lbl">Ahorro comprobado en costos de tokens</span>
+              </div>
+              <div class="metric-box">
+                <span class="metric-num purple">5 Tools</span>
+                <span class="metric-lbl">Herramientas agénticas nativas en tiempo real</span>
+              </div>
+              <div class="metric-box">
+                <span class="metric-num purple">60-70%</span>
+                <span class="metric-lbl">Reducción directa en tickets de soporte manual</span>
+              </div>
+            </div>
+
+            <p class="case-detail">
+              <strong>Lo que esto demuestra a su empresa:</strong> Manejamos arquitectura de software de misión crítica, telemetría geográfica por Cloudflare IP-Country, optimización algorítmica de costos y observabilidad industrial.
+            </p>
+          </article>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CALCULADORA DE IMPACTO Y ROI -->
+    <section id="calculadora" class="section calc-section">
+      <div class="container">
+        
+        <div class="calc-wrapper glass-panel">
+          <div class="calc-header text-center">
+            <div class="section-tag">SIMULADOR FINANCIERO EJECUTIVO</div>
+            <h2 class="section-title">¿Cuánto Dinero Puede Ahorrar y Facturar con Super Inteligencia?</h2>
+            <p class="section-subtitle">
+              Ajuste los valores de su empresa para estimar el impacto financiero anual de implementar nuestros sistemas.
+            </p>
+          </div>
+
+          <div class="calc-grid">
+            
+            <div class="calc-inputs">
+              
+              <div class="calc-control-group">
+                <div class="calc-label-row">
+                  <label for="range-leads">Volumen mensual de prospectos o transacciones:</label>
+                  <span id="val-leads" class="calc-value-badge">300 ops/leads</span>
+                </div>
+                <input type="range" id="range-leads" min="50" max="3000" step="50" value="300" oninput="calculateROI()">
+              </div>
+
+              <div class="calc-control-group">
+                <div class="calc-label-row">
+                  <label for="range-ticket">Valor promedio de su cliente o contrato (Ticket USD):</label>
+                  <span id="val-ticket" class="calc-value-badge">$1,200 USD</span>
+                </div>
+                <input type="range" id="range-ticket" min="200" max="10000" step="200" value="1200" oninput="calculateROI()">
+              </div>
+
+              <div class="calc-control-group">
+                <div class="calc-label-row">
+                  <label for="range-payroll">Nómina mensual actual en áreas operativas y ventas (USD):</label>
+                  <span id="val-payroll" class="calc-value-badge">$8,000 USD</span>
+                </div>
+                <input type="range" id="range-payroll" min="2000" max="50000" step="1000" value="8000" oninput="calculateROI()">
+              </div>
+
+              <p class="calc-hint">
+                *Modelo estimado con base en métricas auditadas: +25% conversión por speed-to-lead &lt;15s, ahorro del 35% en tareas manuales y reducción del 65% en ausentismo.
+              </p>
+            </div>
+
+            <div class="calc-results glass-panel">
+              <div class="result-badge">RETORNO ESTIMADO DEL PROYECTO</div>
+              
+              <div class="result-box primary-result">
+                <span class="result-title">Ingresos Nuevos Recuperables:</span>
+                <div class="result-big-number gradient-text" id="res-extra-revenue">+$27,000 USD / mes</div>
+                <span class="result-subtext">Por leads y ventas que hoy se enfrían o se pierden</span>
+              </div>
+
+              <div class="result-box secondary-result">
+                <span class="result-title">Ahorro Mensual en Eficiencia Operativa:</span>
+                <div class="result-mid-number" id="res-payroll-savings">$2,800 USD / mes</div>
+                <span class="result-subtext">Eliminación de horas hombre en tareas mecánicas</span>
+              </div>
+
+              <div class="result-total">
+                <div class="total-label">Beneficio Financiero Neto Anual:</div>
+                <div class="total-number" id="res-annual-impact">+$357,600 USD</div>
+              </div>
+
+              <button class="btn btn-primary btn-block glow-btn" onclick="openDiagnosticModal('Calculadora')">
+                <span>Solicitar Auditoría para Capturar este Retorno</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- GEOPOLITICAL MANIFESTO: LA ORDEN EJECUTIVA DE TRUMP -->
+    <section id="manifiesto" class="section manifest-section">
+      <div class="container">
+        <div class="manifest-box glass-panel">
+          <div class="manifest-header">
+            <div class="manifest-icon-badge">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00f0ff" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            </div>
+            <div>
+              <div class="section-tag">EL MANDATO MACROECONÓMICO DEL DIRECTORIO</div>
+              <h2 class="section-title">El Momento de Inflexión: De la Simple "IA" a la Super Inteligencia Soberana</h2>
+            </div>
+          </div>
+
+          <div class="manifest-grid">
+            <div class="manifest-item">
+              <div class="manifest-number">01</div>
+              <h3>La Cumbre de la Casa Blanca</h3>
+              <p>
+                El 29 de septiembre de 2026, Donald Trump firmó el <em>White House Accord on Super Intelligence</em> junto a los líderes tecnológicos. El gobierno federal ordenó sustituir formalmente "Inteligencia Artificial" por <strong>Super Inteligencia (SI)</strong> para asegurar el liderazgo de América frente a China y eliminar trabas regulatorias a las empresas.
+              </p>
+            </div>
+            <div class="manifest-item">
+              <div class="manifest-number">02</div>
+              <h3>La Brecha de 10x en Ejecución</h3>
+              <p>
+                La brecha entre una empresa operada manualmente y una impulsada por agentes autónomos de Super Inteligencia ya no es del 10% anual: <strong>es de 10 veces en velocidad de entrega y costo por transacción</strong>. Quien espere 12 meses para automatizar, competirá en desventaja existencial.
+              </p>
+            </div>
+            <div class="manifest-item">
+              <div class="manifest-number">03</div>
+              <h3>Soberanía Tecnológica Corporativa</h3>
+              <p>
+                El activo más valioso de su empresa no puede quedar disperso en prompts públicos. Implementamos infraestructuras privadas donde sus manuales, contratos y datos transaccionales se procesan bajo aislamiento estricto y encriptación de grado bancario.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- METHODOLOGY: EL PROCESO CLARO -->
+    <section id="metodologia" class="section methodology-section">
+      <div class="container">
+        
+        <div class="section-heading text-center">
+          <div class="section-tag">METODOLOGÍA DE INGENIERÍA</div>
+          <h2 class="section-title">El Framework de 4 Fases ProsperIA</h2>
+          <p class="section-subtitle">
+            Un proceso disciplinado que garantiza resultados tangibles sin riesgo de disrupción en su operativa diaria.
+          </p>
+        </div>
+
+        <div class="timeline-container">
+          
+          <div class="timeline-step glass-panel">
+            <div class="step-badge">FASE 01</div>
+            <div class="step-time">Semanas 1 - 2</div>
+            <h3>Auditoría de Madurez & Business Case</h3>
+            <p>
+              Mapeamos sus flujos actuales, identificamos cuellos de botella críticos, evaluamos riesgos de seguridad y presentamos el modelo financiero con payback claro.
+            </p>
+          </div>
+
+          <div class="timeline-step glass-panel">
+            <div class="step-badge">FASE 02</div>
+            <div class="step-time">Semanas 3 - 4</div>
+            <h3>Arquitectura del Cerebro & Sandbox Privado</h3>
+            <p>
+              Construimos la base vectorial RAG con sus datos confidenciales, configuramos guardrails anti-alucinación y calibramos los agentes autónomos en entorno aislado.
+            </p>
+          </div>
+
+          <div class="timeline-step glass-panel">
+            <div class="step-badge">FASE 03</div>
+            <div class="step-time">Semanas 5 - 6</div>
+            <h3>Integración de Sistemas & Despliegue</h3>
+            <p>
+              Conectamos los agentes a sus ERPs, CRMs o canales de atención directa. Capacitamos a su equipo bajo el principio de la *Interfaz Oculta*.
+            </p>
+          </div>
+
+          <div class="timeline-step glass-panel">
+            <div class="step-badge">FASE 04</div>
+            <div class="step-time">Continuo (SLA)</div>
+            <h3>Gobernanza, Reducción de Costes & Escala</h3>
+            <p>
+              Monitoreo continuo de latencia, calidad de respuesta y optimización de tokens. Actuamos como su Fractional Chief AI Officer mensual.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- FAQ SECTION: PREGUNTAS EJECUTIVAS -->
+    <section id="faq" class="section faq-section">
+      <div class="container max-w-3xl">
+        
+        <div class="section-heading text-center">
+          <div class="section-tag">RESOLUCIÓN DE DUDAS C-LEVEL</div>
+          <h2 class="section-title">Preguntas Frecuentes para Tomadores de Decisión</h2>
+        </div>
+
+        <div class="faq-list">
+          
+          <details class="faq-item glass-panel" open>
+            <summary class="faq-question">
+              <span>¿En qué se diferencia ProsperIA de contratar a una consultora tradicional como McKinsey o Deloitte?</span>
+              <span class="faq-icon">+</span>
+            </summary>
+            <div class="faq-answer">
+              <p>
+                Las consultoras tradicionales cobran cifras astronómicas por elaborar reportes teóricos y recomendaciones en diapositivas que su equipo técnico luego no sabe cómo implementar. En ProsperIA somos consultores que programan: entregamos la estrategia, escribimos el código, conectamos los modelos de frontera a sus sistemas y le entregamos los agentes funcionando en semanas con SLAs de rendimiento.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item glass-panel">
+            <summary class="faq-question">
+              <span>¿Qué garantías tenemos de que nuestros datos corporativos confidenciales no se filtrarán?</span>
+              <span class="faq-icon">+</span>
+            </summary>
+            <div class="faq-answer">
+              <p>
+                La soberanía y la seguridad son innegociables. Operamos exclusivamente con acuerdos de cero retención de datos para entrenamiento (Zero-Data Retention) y bases vectoriales privadas con control de accesos por roles (RBAC). Su información confidencial jamás se comparte con modelos públicos ni con terceros.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item glass-panel">
+            <summary class="faq-question">
+              <span>¿Nuestro equipo interno o el departamento de TI requerirá meses de capacitación?</span>
+              <span class="faq-icon">+</span>
+            </summary>
+            <div class="faq-answer">
+              <p>
+                No. Diseñamos con el principio de la "Interfaz Oculta". Para la plantilla operativa, la interacción se da a través de aplicaciones sencillas o paneles que ya dominan. Para el equipo de TI, entregamos documentación técnica rigurosa, contenedores Docker auditados y endpoints limpios para que el mantenimiento sea trivial.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item glass-panel">
+            <summary class="faq-question">
+              <span>¿Cuál es el modelo de inversión y qué tan rápido se amortiza?</span>
+              <span class="faq-icon">+</span>
+            </summary>
+            <div class="faq-answer">
+              <p>
+                Trabajamos con proyectos cerrados por fases o esquemas de acompañamiento directivo (Fractional CAIO). En la sesión de diagnóstico de 45 minutos realizamos un cálculo formal de viabilidad: solo aceptamos proyectos donde el modelo financiero demuestre un retorno de inversión claro (Payback) dentro de los primeros 60 a 90 días.
+              </p>
+            </div>
+          </details>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- FINAL CALL TO ACTION CARD -->
+    <section class="section final-cta-section">
+      <div class="container">
+        <div class="final-cta-card glass-panel text-center">
+          <div class="section-tag">EL LIDERAZGO NO SE IMPROVISA</div>
+          <h2 class="final-cta-title">La Era de la Super Inteligencia Comenzó.<br><span class="gradient-text">Construya su Ventaja Operativa Hoy.</span></h2>
+          <p class="final-cta-desc">
+            Agende una sesión ejecutiva confidencial de 45 minutos con nuestro equipo de consultoría e ingeniería. Analizaremos sus cuellos de botella y le presentaremos una hoja de ruta concreta con estimación de ROI.
+          </p>
+          <div class="final-cta-actions">
+            <button class="btn btn-primary btn-xl glow-btn" onclick="openDiagnosticModal('CierreFinal')">
+              <span>Agendar Sesión de Diagnóstico Ejecutivo</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+          <p class="cta-guarantee">Sesión 100% confidencial · Dirigida a Dueños, CEOs, COOs y Directores Generales · Cupos ejecutivos limitados por mes</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-container">
+      <div class="footer-col-main">
+        <a href="/" class="brand-logo" style="text-decoration:none; margin-bottom: 1.25rem;">
+          <img src="{{ static_versioned('logo_prosper_ia_cropped.jpg') }}" alt="Agencia ProsperIA" class="agency-header-logo">
+          <div class="brand-names">
+            <span class="brand-primary">Agencia ProsperIA</span>
+            <span class="brand-tagline-nav">Consultoría de Super Inteligencia</span>
+          </div>
+        </a>
+        <p class="footer-tagline">
+          Agencia ProsperIA LLC. Firma de Consultoría Estratégica e Implementación de Super Inteligencia Artificial (SI & AI). Diseñamos e implementamos sistemas que conectan inteligencia artificial, ventas, CRM, automatización y datos para que PYMES y corporativos escalen con máxima eficiencia y reducción de OPEX.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <div class="footer-title">Consultoría</div>
+        <ul class="footer-links">
+          <li><a href="#dual-focus">Solución PYMES Medianas</a></li>
+          <li><a href="#dual-focus">Gobernanza Corporativa</a></li>
+          <li><a href="#test-madurez">Test de Madurez en IA</a></li>
+          <li><a href="#calculadora">Calculadora de ROI</a></li>
+          <li><a href="/politica-privacidad">Política de Privacidad</a></li>
+          <li><a href="/terminos-servicio">Términos de Servicio</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <div class="footer-title">Proof of Work</div>
+        <ul class="footer-links">
+          <li><a href="#credenciales">Vertical Salud (Paciente 360™)</a></li>
+          <li><a href="#credenciales">Vertical SaaS (PassportAI Core)</a></li>
+          <li><a href="#metodologia">Framework de 4 Fases</a></li>
+          <li><a href="#faq">FAQ C-Levels</a></li>
+          <li><a href="/codigos">Hub de Recursos de IA</a></li>
+          <li><a href="/diagnostico">Diagnóstico Comercial</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <div class="footer-title">Redes & Contacto</div>
+        <div class="footer-social-list">
+          <a href="https://instagram.com/edwardjimenez_ceo" target="_blank" rel="noopener" class="footer-social-link ig">
+            <i class="fab fa-instagram"></i>
+            <span>@edwardjimenez_ceo</span>
+          </a>
+          <a href="https://youtube.com/@AgenciaProsper_IA" target="_blank" rel="noopener" class="footer-social-link yt">
+            <i class="fab fa-youtube"></i>
+            <span>@AgenciaProsper_IA</span>
+          </a>
+          <a href="https://linkedin.com/in/edwardjimenezia" target="_blank" rel="noopener" class="footer-social-link li">
+            <i class="fab fa-linkedin-in"></i>
+            <span>Edward Jiménez</span>
+          </a>
+          <a href="https://wa.me/17865573119" target="_blank" rel="noopener" class="footer-social-link wa">
+            <i class="fab fa-whatsapp"></i>
+            <span>+1 (786) 557-3119</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <p>&copy; 2026 Agencia ProsperIA LLC. Todos los derechos reservados. Consultoría e Ingeniería de Super Inteligencia Artificial (SI).</p>
+    </div>
+  </footer>
+
+  <!-- NATIVE ACCESSIBLE MODAL DIALOG -->
+  <dialog id="diagnostic-modal" class="custom-dialog">
+    <div class="dialog-content glass-panel">
+      <button class="dialog-close" id="modal-close-btn" aria-label="Cerrar modal">&times;</button>
+      
+      <div class="dialog-header">
+        <div class="dialog-badge">SESIÓN EJECUTIVA CONFIDENCIAL (45 MIN)</div>
+        <h3 class="dialog-title">Diagnóstico de Madurez en Super Inteligencia & ROI</h3>
+        <p class="dialog-subtitle">
+          Complete los datos de su empresa para que nuestro equipo directivo prepare el análisis preliminar de su industria.
+        </p>
+      </div>
+
+      <form id="lead-form" class="diagnostic-form" onsubmit="handleLeadSubmit(event)">
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="lead-name">Nombre y Apellido *</label>
+            <input type="text" id="lead-name" name="name" required placeholder="Ej. Roberto Morales">
+          </div>
+          <div class="form-group">
+            <label for="lead-role">Cargo en la Organización *</label>
+            <input type="text" id="lead-role" name="role" required placeholder="Ej. Dueño / CEO / COO / Director General">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="lead-company">Nombre de la Empresa o Grupo *</label>
+            <input type="text" id="lead-company" name="company" required placeholder="Ej. Grupo Industrial del Norte">
+          </div>
+          <div class="form-group">
+            <label for="lead-website">Sitio Web Corporativo</label>
+            <input type="text" id="lead-website" name="website" placeholder="Ej. www.grupoindustrial.com">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="lead-email">Correo Corporativo *</label>
+            <input type="email" id="lead-email" name="email" required placeholder="director@grupoindustrial.com">
+          </div>
+          <div class="form-group">
+            <label for="lead-phone">WhatsApp o Teléfono Directo *</label>
+            <input type="tel" id="lead-phone" name="phone" required placeholder="+1 (555) 000-0000">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="lead-revenue">Rango de Facturación Anual *</label>
+            <select id="lead-revenue" name="revenue" required>
+              <option value="" disabled selected>Seleccione rango...</option>
+              <option value="500k-1.5m">$500,000 - $1,500,000 USD / año (PYME Mediana)</option>
+              <option value="1.5m-5m">$1,500,000 - $5,000,000 USD / año (PYME Consolidada)</option>
+              <option value="5m-20m">$5,000,000 - $20,000,000 USD / año (Corporativo)</option>
+              <option value="20m-plus">Más de $20,000,000 USD / año (Holding Enterprise)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="lead-employees">Número de Colaboradores *</label>
+            <select id="lead-employees" name="employees" required>
+              <option value="" disabled selected>Seleccione plantilla...</option>
+              <option value="15-50">15 a 50 colaboradores</option>
+              <option value="51-200">51 a 200 colaboradores</option>
+              <option value="201-1000">201 a 1,000 colaboradores</option>
+              <option value="1000-plus">Más de 1,000 colaboradores</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="lead-vertical">Perfil de Solución de Interés *</label>
+          <select id="lead-vertical" name="vertical" required>
+            <option value="PymeMediana">PYME Mediana: Automatizar Ventas, Cotizaciones y Procesos Operativos</option>
+            <option value="Corporativo">Gran Corporativo: RAG Privado, Gobernanza de Datos y Reducción de OPEX</option>
+            <option value="FractionalCAIO">Fractional Chief AI Officer (Dirección Externa para Directorio)</option>
+            <option value="ClinicaEspecializada">Sector Salud: Implementación Sistema Paciente 360™</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="lead-bottleneck">¿Cuál es el mayor cuello de botella u objetivo prioritario a resolver? *</label>
+          <textarea id="lead-bottleneck" name="bottleneck" rows="3" required placeholder="Ej. El dueño es el único que puede cotizar proyectos y nos frena el crecimiento; o bien, los gerentes pasan días cruzando datos de contratos y SAP sin seguridad."></textarea>
+        </div>
+
+        <button type="submit" id="btn-submit-form" class="btn btn-primary btn-block glow-btn">
+          <span>Enviar Solicitud y Reservar Sesión de 45 Min</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+
+        <p class="form-privacy-note">
+          🔒 Confidencialidad bajo estricto secreto profesional. Cero uso de datos para entrenamiento.
+        </p>
+
+      </form>
+
+      <!-- Confirmation Screen -->
+      <div id="form-success-message" class="form-success" hidden>
+        <div class="success-icon-badge">✓</div>
+        <h4>Sesión Ejecutiva Solicitada</h4>
+        <p>Hemos recibido los datos de su organización. Uno de nuestros consultores directivos se pondrá en contacto en un plazo menor a 2 horas laborables para coordinar la agenda ejecutiva y confirmar la sesión confidencial.</p>
+        <button class="btn btn-secondary btn-sm" onclick="closeDiagnosticModal()">Cerrar</button>
+      </div>
+
+    </div>
+  </dialog>
+
+  <script src="{{ static_versioned('consultoria_ia/js/main.js') }}"></script>
+</body>
+</html>
