@@ -828,17 +828,20 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
   <!-- ════════════════════════════════════════════════════
        BLOQUE 6: DIAGNÓSTICO INTERACTIVO DE NIVEL DE IA (REDISEÑADO & ATRACTIVO)
        ════════════════════════════════════════════════════ -->
+  <!-- ════════════════════════════════════════════════════
+       BLOQUE 6: DIAGNÓSTICO INTERACTIVO DE NIVEL DE IA (5 PREGUNTAS + FLECHAS + 3 NIVELES)
+       ════════════════════════════════════════════════════ -->
   <section id="test-ia" class="py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto relative z-10 scroll-mt-24">
     
     <div class="text-center mb-8">
-      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-cyan-950/80 text-cyan-300 border border-cyan-400/40 mb-3">
-        <i class="fas fa-brain text-cyan-400"></i> Evaluación Práctica en 2 Minutos
+      <span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-cyan-950/80 text-cyan-300 border border-cyan-400/40 mb-3">
+        <i class="fas fa-brain text-cyan-400"></i> Diagnóstico Rápido en 2 Minutos
       </span>
       <h2 class="text-2xl sm:text-4xl font-extrabold text-white">
         ¿Cuál es tu Nivel Real de Conocimiento en IA?
       </h2>
-      <p class="text-slate-300 text-xs sm:text-sm max-w-xl mx-auto mt-2">
-        Responde 4 preguntas prácticas para evaluar tu madurez en prompts, generación de contenido y automatización comercial. Recibe tu diagnóstico personalizado con hoja de ruta inmediata.
+      <p class="text-slate-300 text-xs sm:text-sm max-w-xl mx-auto mt-2 leading-relaxed">
+        Responde 5 preguntas prácticas para evaluar tu madurez en prompts, generación de contenido y automatización. Descubre si estás en nivel <strong>Novato, Intermedio o Avanzado</strong> sin formularios obligatorios.
       </p>
     </div>
 
@@ -847,36 +850,53 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
       
       <!-- Progress Bar & Indicator -->
       <div class="flex items-center justify-between text-xs text-slate-400 font-mono mb-3">
-        <span id="quiz-step-indicator" class="text-cyan-400 font-bold">Paso 1 de 4</span>
-        <span id="quiz-percent-indicator">25% Completado</span>
+        <span id="quiz-step-indicator" class="text-cyan-400 font-bold">Pregunta 1 de 5</span>
+        <span id="quiz-percent-indicator">20% Completado</span>
       </div>
       <div class="w-full bg-slate-950 rounded-full h-2.5 mb-8 overflow-hidden border border-slate-800">
-        <div id="quiz-progress" class="bg-gradient-to-r from-cyan-400 via-sky-400 to-indigo-500 h-2.5 rounded-full transition-all duration-300 shadow-[0_0_12px_rgba(0,229,255,0.5)]" style="width: 25%;"></div>
+        <div id="quiz-progress" class="bg-gradient-to-r from-cyan-400 via-sky-400 to-indigo-500 h-2.5 rounded-full transition-all duration-300 shadow-[0_0_12px_rgba(0,229,255,0.5)]" style="width: 20%;"></div>
       </div>
 
       <!-- Question 1 -->
       <div id="quiz-step-1" class="quiz-step">
         <div class="flex items-center gap-2 mb-2">
           <span class="w-6 h-6 rounded-md bg-cyan-950 border border-cyan-500/40 text-cyan-400 text-xs flex items-center justify-center font-bold">Q1</span>
-          <span class="text-xs text-cyan-400 font-mono uppercase tracking-wider">Uso Cotidiano &amp; Productividad</span>
+          <span class="text-xs text-cyan-400 font-mono uppercase tracking-wider">Frecuencia y Productividad</span>
         </div>
-        <h3 class="text-lg sm:text-xl font-bold text-white mb-5">¿Cómo utilizas la Inteligencia Artificial en tu día a día o negocio?</h3>
+        <h3 class="text-lg sm:text-xl font-bold text-white mb-5">¿Cómo utilizas la Inteligencia Artificial en tu día a día o trabajo?</h3>
         <div class="space-y-3">
-          <button type="button" onclick="selectAnswer(1, 10, 'A')" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
-            <span>A. Solo de vez en cuando para redactar correos o hacer preguntas sencillas en ChatGPT.</span>
-            <i class="far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
+          <button type="button" onclick="selectQuizOption(1, 10, 'A', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
+            <span>A. Solo de vez en cuando para redactar correos o consultas simples en ChatGPT.</span>
+            <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
           </button>
-          <button type="button" onclick="selectAnswer(1, 25, 'B')" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
+          <button type="button" onclick="selectQuizOption(1, 25, 'B', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
             <span>B. A diario para generar ideas, estructurar guiones y organizar mi trabajo.</span>
-            <i class="far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
+            <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
           </button>
-          <button type="button" onclick="selectAnswer(1, 40, 'C')" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
+          <button type="button" onclick="selectQuizOption(1, 40, 'C', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
             <span>C. Genero imágenes, videos y prompts estructurados para redes sociales con regularidad.</span>
-            <i class="far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
+            <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
           </button>
-          <button type="button" onclick="selectAnswer(1, 50, 'D')" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
+          <button type="button" onclick="selectQuizOption(1, 50, 'D', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
             <span>D. Tengo flujos de trabajo conectados a APIs, CRMs, Make/n8n o agentes autónomos.</span>
-            <i class="far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
+            <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
+          </button>
+        </div>
+
+        <!-- Arrows Navigation -->
+        <div class="flex items-center justify-between pt-6 mt-6 border-t border-slate-800/80">
+          <button type="button" disabled class="px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-600 border border-slate-800 opacity-40 cursor-not-allowed flex items-center gap-2">
+            <i class="fas fa-arrow-left text-[11px]"></i> Anterior
+          </button>
+          <div class="flex items-center gap-1.5">
+            <span class="quiz-dot-1 w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+            <span class="quiz-dot-2 w-2.5 h-2.5 rounded-full bg-slate-800"></span>
+            <span class="quiz-dot-3 w-2.5 h-2.5 rounded-full bg-slate-800"></span>
+            <span class="quiz-dot-4 w-2.5 h-2.5 rounded-full bg-slate-800"></span>
+            <span class="quiz-dot-5 w-2.5 h-2.5 rounded-full bg-slate-800"></span>
+          </div>
+          <button type="button" id="btn-next-1" onclick="nextQuizStep()" disabled class="px-4 py-2.5 rounded-xl text-xs font-bold text-cyan-400 border border-cyan-500/40 bg-cyan-950/40 opacity-40 cursor-not-allowed hover:bg-cyan-500 hover:text-slate-950 transition-all flex items-center gap-2">
+            Siguiente <i class="fas fa-arrow-right text-[11px]"></i>
           </button>
         </div>
       </div>
@@ -885,25 +905,42 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
       <div id="quiz-step-2" class="quiz-step hidden">
         <div class="flex items-center gap-2 mb-2">
           <span class="w-6 h-6 rounded-md bg-cyan-950 border border-cyan-500/40 text-cyan-400 text-xs flex items-center justify-center font-bold">Q2</span>
-          <span class="text-xs text-cyan-400 font-mono uppercase tracking-wider">Creación de Prompts &amp; Visuales</span>
+          <span class="text-xs text-cyan-400 font-mono uppercase tracking-wider">Ingeniería de Prompts</span>
         </div>
-        <h3 class="text-lg sm:text-xl font-bold text-white mb-5">¿Cómo dominas la creación de prompts para imágenes o video?</h3>
+        <h3 class="text-lg sm:text-xl font-bold text-white mb-5">¿Cómo formulas tus prompts cuando buscas un resultado de calidad?</h3>
         <div class="space-y-3">
-          <button type="button" onclick="selectAnswer(2, 10, 'A')" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
-            <span>A. Escribo descripciones simples y espero que la IA adivine lo que quiero.</span>
-            <i class="far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
+          <button type="button" onclick="selectQuizOption(2, 10, 'A', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
+            <span>A. Escribo descripciones breves y espero que la IA adivine lo que busco.</span>
+            <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
           </button>
-          <button type="button" onclick="selectAnswer(2, 20, 'B')" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
-            <span>B. Uso palabras clave genéricas como "hiperrealista, 8K, cinematic".</span>
-            <i class="far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
+          <button type="button" onclick="selectQuizOption(2, 25, 'B', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
+            <span>B. Uso palabras clave genéricas como "sé profesional, 8k, hiperrealista y detallado".</span>
+            <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
           </button>
-          <button type="button" onclick="selectAnswer(2, 35, 'C')" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
-            <span>C. Aplico parámetros de lentes (35mm, anamórfico), iluminación controlada y composición.</span>
-            <i class="far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
+          <button type="button" onclick="selectQuizOption(2, 40, 'C', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
+            <span>C. Aplico parámetros de lentes (35mm), iluminación controlada, composición y sintaxis estructurada.</span>
+            <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
           </button>
-          <button type="button" onclick="selectAnswer(2, 50, 'D')" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
-            <span>D. Domino consistencia de personajes, directivas físicas de movimiento continuo y multi-escena.</span>
-            <i class="far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
+          <button type="button" onclick="selectQuizOption(2, 50, 'D', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
+            <span>D. Domino consistencia multi-escena, meta-prompts con variables y directivas físicas de movimiento.</span>
+            <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
+          </button>
+        </div>
+
+        <!-- Arrows Navigation -->
+        <div class="flex items-center justify-between pt-6 mt-6 border-t border-slate-800/80">
+          <button type="button" onclick="prevQuizStep()" class="px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-300 border border-slate-700 bg-slate-900/60 hover:text-white hover:border-cyan-400 transition-all flex items-center gap-2">
+            <i class="fas fa-arrow-left text-[11px]"></i> Anterior
+          </button>
+          <div class="flex items-center gap-1.5">
+            <span class="quiz-dot-1 w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+            <span class="quiz-dot-2 w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+            <span class="quiz-dot-3 w-2.5 h-2.5 rounded-full bg-slate-800"></span>
+            <span class="quiz-dot-4 w-2.5 h-2.5 rounded-full bg-slate-800"></span>
+            <span class="quiz-dot-5 w-2.5 h-2.5 rounded-full bg-slate-800"></span>
+          </div>
+          <button type="button" id="btn-next-2" onclick="nextQuizStep()" disabled class="px-4 py-2.5 rounded-xl text-xs font-bold text-cyan-400 border border-cyan-500/40 bg-cyan-950/40 opacity-40 cursor-not-allowed hover:bg-cyan-500 hover:text-slate-950 transition-all flex items-center gap-2">
+            Siguiente <i class="fas fa-arrow-right text-[11px]"></i>
           </button>
         </div>
       </div>
@@ -912,25 +949,42 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
       <div id="quiz-step-3" class="quiz-step hidden">
         <div class="flex items-center gap-2 mb-2">
           <span class="w-6 h-6 rounded-md bg-cyan-950 border border-cyan-500/40 text-cyan-400 text-xs flex items-center justify-center font-bold">Q3</span>
-          <span class="text-xs text-cyan-400 font-mono uppercase tracking-wider">Herramientas &amp; Stack Tecnológico</span>
+          <span class="text-xs text-cyan-400 font-mono uppercase tracking-wider">Multimedia &amp; Video</span>
         </div>
-        <h3 class="text-lg sm:text-xl font-bold text-white mb-5">¿Qué herramientas forman tu stack habitual de trabajo?</h3>
+        <h3 class="text-lg sm:text-xl font-bold text-white mb-5">¿Qué experiencia tienes generando imágenes o video cinemático con IA?</h3>
         <div class="space-y-3">
-          <button type="button" onclick="selectAnswer(3, 10, 'A')" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
-            <span>A. Solo ChatGPT versión gratuita o Microsoft Copilot.</span>
-            <i class="far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
+          <button type="button" onclick="selectQuizOption(3, 10, 'A', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
+            <span>A. Ninguna o muy poca; solo he probado herramientas básicas sin control técnico.</span>
+            <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
           </button>
-          <button type="button" onclick="selectAnswer(3, 25, 'B')" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
-            <span>B. ChatGPT Plus, Claude 3.5 Sonnet o Midjourney.</span>
-            <i class="far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
+          <button type="button" onclick="selectQuizOption(3, 25, 'B', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
+            <span>B. He probado generadores estándar como DALL-E en ChatGPT o Canva Magic.</span>
+            <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
           </button>
-          <button type="button" onclick="selectAnswer(3, 40, 'C')" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
-            <span>C. Suite de video generativo: Seedance 2.0, Kling, Runway, ElevenLabs y CapCut.</span>
-            <i class="far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
+          <button type="button" onclick="selectQuizOption(3, 40, 'C', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
+            <span>C. Domino parámetros avanzados en Midjourney o Seedance (iluminación, ángulos, chiaroscuro).</span>
+            <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
           </button>
-          <button type="button" onclick="selectAnswer(3, 50, 'D')" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
-            <span>D. Soluciones de prospección B2B (PassportAI), webhooks, n8n y agentes comerciales de WhatsApp.</span>
-            <i class="far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
+          <button type="button" onclick="selectQuizOption(3, 50, 'D', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
+            <span>D. Produzco videos generativos cinematográficos completos con audio y consistencia (Kling, Runway, Seedance 2.0).</span>
+            <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
+          </button>
+        </div>
+
+        <!-- Arrows Navigation -->
+        <div class="flex items-center justify-between pt-6 mt-6 border-t border-slate-800/80">
+          <button type="button" onclick="prevQuizStep()" class="px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-300 border border-slate-700 bg-slate-900/60 hover:text-white hover:border-cyan-400 transition-all flex items-center gap-2">
+            <i class="fas fa-arrow-left text-[11px]"></i> Anterior
+          </button>
+          <div class="flex items-center gap-1.5">
+            <span class="quiz-dot-1 w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+            <span class="quiz-dot-2 w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+            <span class="quiz-dot-3 w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+            <span class="quiz-dot-4 w-2.5 h-2.5 rounded-full bg-slate-800"></span>
+            <span class="quiz-dot-5 w-2.5 h-2.5 rounded-full bg-slate-800"></span>
+          </div>
+          <button type="button" id="btn-next-3" onclick="nextQuizStep()" disabled class="px-4 py-2.5 rounded-xl text-xs font-bold text-cyan-400 border border-cyan-500/40 bg-cyan-950/40 opacity-40 cursor-not-allowed hover:bg-cyan-500 hover:text-slate-950 transition-all flex items-center gap-2">
+            Siguiente <i class="fas fa-arrow-right text-[11px]"></i>
           </button>
         </div>
       </div>
@@ -939,90 +993,157 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
       <div id="quiz-step-4" class="quiz-step hidden">
         <div class="flex items-center gap-2 mb-2">
           <span class="w-6 h-6 rounded-md bg-cyan-950 border border-cyan-500/40 text-cyan-400 text-xs flex items-center justify-center font-bold">Q4</span>
-          <span class="text-xs text-cyan-400 font-mono uppercase tracking-wider">Objetivo &amp; Cuello de Botella</span>
+          <span class="text-xs text-cyan-400 font-mono uppercase tracking-wider">Automatización &amp; Conexiones</span>
         </div>
-        <h3 class="text-lg sm:text-xl font-bold text-white mb-5">¿Cuál es tu principal desafío actual con la Inteligencia Artificial?</h3>
+        <h3 class="text-lg sm:text-xl font-bold text-white mb-5">¿Has conectado la IA con tus procesos o herramientas de trabajo?</h3>
         <div class="space-y-3">
-          <button type="button" onclick="selectAnswer(4, 10, 'A')" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
-            <span>A. No sé por dónde empezar ni cómo aplicarla de forma práctica a mi trabajo.</span>
-            <i class="far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
+          <button type="button" onclick="selectQuizOption(4, 10, 'A', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
+            <span>A. No, todo lo que hago es copiar y pegar manualmente entre aplicaciones.</span>
+            <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
           </button>
-          <button type="button" onclick="selectAnswer(4, 25, 'B')" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
-            <span>B. Me toma demasiado tiempo crear contenido visual que realmente destaque y no se vea genérico.</span>
-            <i class="far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
+          <button type="button" onclick="selectQuizOption(4, 25, 'B', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
+            <span>B. Uso GPTs personalizados o proyectos guardados dentro de ChatGPT o Claude.</span>
+            <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
           </button>
-          <button type="button" onclick="selectAnswer(4, 40, 'C')" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
-            <span>C. Genero buen contenido pero me falta un sistema para editar rápido, publicar y pautar tráfico.</span>
-            <i class="far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
+          <button type="button" onclick="selectQuizOption(4, 40, 'C', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
+            <span>C. He integrado flujos sencillos con Make, Zapier, Notion o Webhooks.</span>
+            <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
           </button>
-          <button type="button" onclick="selectAnswer(4, 50, 'D')" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
-            <span>D. Tengo prospectos pero pierdo ventas por falta de automatización y respuesta inmediata en WhatsApp.</span>
-            <i class="far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
+          <button type="button" onclick="selectQuizOption(4, 50, 'D', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
+            <span>D. Tengo agentes de WhatsApp o prospección B2B conectados a CRM y bases de datos (PassportAI).</span>
+            <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
+          </button>
+        </div>
+
+        <!-- Arrows Navigation -->
+        <div class="flex items-center justify-between pt-6 mt-6 border-t border-slate-800/80">
+          <button type="button" onclick="prevQuizStep()" class="px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-300 border border-slate-700 bg-slate-900/60 hover:text-white hover:border-cyan-400 transition-all flex items-center gap-2">
+            <i class="fas fa-arrow-left text-[11px]"></i> Anterior
+          </button>
+          <div class="flex items-center gap-1.5">
+            <span class="quiz-dot-1 w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+            <span class="quiz-dot-2 w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+            <span class="quiz-dot-3 w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+            <span class="quiz-dot-4 w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+            <span class="quiz-dot-5 w-2.5 h-2.5 rounded-full bg-slate-800"></span>
+          </div>
+          <button type="button" id="btn-next-4" onclick="nextQuizStep()" disabled class="px-4 py-2.5 rounded-xl text-xs font-bold text-cyan-400 border border-cyan-500/40 bg-cyan-950/40 opacity-40 cursor-not-allowed hover:bg-cyan-500 hover:text-slate-950 transition-all flex items-center gap-2">
+            Siguiente <i class="fas fa-arrow-right text-[11px]"></i>
           </button>
         </div>
       </div>
 
-      <!-- Lead Capture Gate -->
-      <div id="quiz-lead-gate" class="quiz-step hidden text-center">
-        <div class="w-16 h-16 rounded-2xl bg-cyan-950 border border-cyan-400/40 text-cyan-400 text-3xl flex items-center justify-center mx-auto mb-4 shadow-[0_0_20px_rgba(0,229,255,0.3)]">
-          <i class="fas fa-check-circle"></i>
+      <!-- Question 5 -->
+      <div id="quiz-step-5" class="quiz-step hidden">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="w-6 h-6 rounded-md bg-cyan-950 border border-cyan-500/40 text-cyan-400 text-xs flex items-center justify-center font-bold">Q5</span>
+          <span class="text-xs text-cyan-400 font-mono uppercase tracking-wider">Estrategia Comercial &amp; ROI</span>
         </div>
-        <h3 class="text-xl sm:text-2xl font-bold text-white mb-2">¡Respuestas Procesadas con Éxito!</h3>
-        <p class="text-xs sm:text-sm text-slate-300 max-w-md mx-auto mb-6">
-          Ingresa tus datos para desbloquear tu diagnóstico de nivel, tu hoja de ruta recomendada y tu invitación a la comunidad VIP.
-        </p>
-
-        <form id="quiz-form" onsubmit="submitQuizLead(event)" class="max-w-md mx-auto space-y-3.5 text-left">
-          <div>
-            <label class="block text-xs font-semibold text-slate-300 mb-1">Nombre Completo *</label>
-            <input type="text" id="quiz-name" required placeholder="Ej. Carlos Mendoza" class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-cyan-400 focus:outline-none">
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-300 mb-1">Correo Electrónico *</label>
-            <input type="email" id="quiz-email" required placeholder="tu@email.com" class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-cyan-400 focus:outline-none">
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-300 mb-1">WhatsApp (con código de país) *</label>
-            <input type="tel" id="quiz-phone" required placeholder="+1 786 555 0199" class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-cyan-400 focus:outline-none">
-          </div>
-          
-          <button type="submit" id="btn-submit-quiz" class="w-full py-4 rounded-xl font-bold text-sm bg-gradient-to-r from-cyan-400 to-cyan-500 text-slate-950 hover:from-cyan-300 hover:to-cyan-400 transition-all shadow-[0_0_20px_rgba(0,229,255,0.3)] mt-2">
-            Ver Mi Diagnóstico y Hoja de Ruta <i class="fas fa-arrow-right ml-1"></i>
+        <h3 class="text-lg sm:text-xl font-bold text-white mb-5">¿Cuál es el impacto real de la Inteligencia Artificial en tus ingresos o negocio?</h3>
+        <div class="space-y-3">
+          <button type="button" onclick="selectQuizOption(5, 10, 'A', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
+            <span>A. Aún es un pasatiempo o curiosidad; no genera ingresos directos para mí.</span>
+            <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
           </button>
-          <p class="text-[11px] text-slate-500 text-center">Tus datos están protegidos. Sin spam.</p>
-        </form>
+          <button type="button" onclick="selectQuizOption(5, 25, 'B', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
+            <span>B. Me ahorra algunas horas a la semana pero no tengo una estrategia comercial definida.</span>
+            <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
+          </button>
+          <button type="button" onclick="selectQuizOption(5, 40, 'C', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
+            <span>C. Es el motor principal para crear contenido visual y atraer prospectos a mi marca.</span>
+            <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
+          </button>
+          <button type="button" onclick="selectQuizOption(5, 50, 'D', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
+            <span>D. Es la base de un sistema predecible de prospección, captación y ventas automáticas.</span>
+            <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
+          </button>
+        </div>
+
+        <!-- Arrows Navigation -->
+        <div class="flex items-center justify-between pt-6 mt-6 border-t border-slate-800/80">
+          <button type="button" onclick="prevQuizStep()" class="px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-300 border border-slate-700 bg-slate-900/60 hover:text-white hover:border-cyan-400 transition-all flex items-center gap-2">
+            <i class="fas fa-arrow-left text-[11px]"></i> Anterior
+          </button>
+          <div class="flex items-center gap-1.5">
+            <span class="quiz-dot-1 w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+            <span class="quiz-dot-2 w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+            <span class="quiz-dot-3 w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+            <span class="quiz-dot-4 w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+            <span class="quiz-dot-5 w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+          </div>
+          <button type="button" id="btn-next-5" onclick="calculateQuizResult()" disabled class="px-5 py-2.5 rounded-xl text-xs font-bold text-slate-950 bg-gradient-to-r from-cyan-400 to-indigo-400 opacity-40 cursor-not-allowed hover:from-cyan-300 hover:to-indigo-300 transition-all flex items-center gap-2 shadow-[0_0_15px_rgba(0,229,255,0.3)]">
+            Ver Mi Resultado <i class="fas fa-bolt text-[11px]"></i>
+          </button>
+        </div>
       </div>
 
-      <!-- Result Screen -->
+      <!-- Result Screen (Direct, Zero Forms, 3 Tiers + Community WhatsApp Invitation) -->
       <div id="quiz-result" class="quiz-step hidden text-center">
-        <span class="px-3.5 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider bg-cyan-950 text-cyan-300 border border-cyan-500/40 mb-4 inline-block shadow-md" id="result-badge">
+        
+        <span class="px-4 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider inline-block mb-3 border bg-cyan-950 text-cyan-300 border-cyan-500/40" id="result-badge">
           NIVEL IDENTIFICADO
         </span>
-        <h3 class="text-2xl sm:text-3xl font-extrabold text-white mb-2" id="result-title">Nivel 2: Creador Visual Avanzado</h3>
-        <p class="text-slate-300 text-sm max-w-lg mx-auto mb-6 leading-relaxed" id="result-desc">
+        
+        <h3 class="text-2xl sm:text-3xl font-extrabold text-white mb-2" id="result-title">
+          Nivel Intermedio: Creador Visual y Proactivo
+        </h3>
+        
+        <div class="inline-block px-3 py-1 rounded-lg bg-slate-900 border border-slate-800 text-xs font-mono text-cyan-400 mb-4" id="result-score-tag">
+          Puntaje Obtenido: 145 / 250 Puntos
+        </div>
+
+        <p class="text-slate-300 text-xs sm:text-sm max-w-xl mx-auto mb-6 leading-relaxed" id="result-desc">
           Tienes buen manejo de herramientas de generación de contenido, pero aún trabajas de forma manual. Tu siguiente salto es dominar prompts cinemáticos y automatizar la distribución.
         </p>
 
         <!-- Roadmap recommendations -->
-        <div class="p-6 rounded-2xl bg-slate-950/90 border border-slate-800 text-left max-w-lg mx-auto mb-6 shadow-inner">
-          <h4 class="text-xs font-bold uppercase tracking-wider text-cyan-400 mb-3 flex items-center gap-1.5">
+        <div class="p-6 rounded-2xl bg-slate-950/90 border border-slate-800 text-left max-w-xl mx-auto mb-8 shadow-inner">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-cyan-400 mb-3.5 flex items-center gap-1.5">
             <i class="fas fa-route"></i> Tu Hoja de Ruta Inmediata Recomendada:
           </h4>
-          <ul class="space-y-2.5 text-xs text-slate-300" id="result-steps">
-            <li class="flex items-start gap-2"><i class="fas fa-check-circle text-cyan-400 mt-0.5"></i> <span>Aplica los 100 Códigos Creativos de ChatGPT para pulir la iluminación de tus tomas.</span></li>
-            <li class="flex items-start gap-2"><i class="fas fa-check-circle text-cyan-400 mt-0.5"></i> <span>Implementa la fórmula del Reel de Spiderman para video continuo en Seedance 2.0.</span></li>
-            <li class="flex items-start gap-2"><i class="fas fa-check-circle text-cyan-400 mt-0.5"></i> <span>Únete a la comunidad oficial de WhatsApp para recibir casos de estudio semanales.</span></li>
+          <ul class="space-y-2.5 text-xs text-slate-300">
+            <li class="flex items-start gap-2.5">
+              <i class="fas fa-check-circle text-cyan-400 mt-0.5 text-sm flex-shrink-0"></i> 
+              <span id="result-step-1">Aplica los 100 Códigos Creativos de ChatGPT para pulir la iluminación de tus tomas.</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <i class="fas fa-check-circle text-cyan-400 mt-0.5 text-sm flex-shrink-0"></i> 
+              <span id="result-step-2">Implementa la fórmula del Reel de Spiderman para video continuo en Seedance 2.0.</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <i class="fas fa-check-circle text-cyan-400 mt-0.5 text-sm flex-shrink-0"></i> 
+              <span id="result-step-3">Únete a la comunidad oficial de WhatsApp para recibir casos de estudio semanales.</span>
+            </li>
           </ul>
         </div>
 
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto">
-          <a href="https://chat.whatsapp.com/HIjs3Bytduy9ucOtn6jeKw?s=sh&p=a&ilr=4" target="_blank" rel="noopener" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-bold text-sm bg-emerald-400 text-slate-950 hover:bg-emerald-300 transition-all shadow-[0_0_20px_rgba(16,185,129,0.3)]">
-            <i class="fab fa-whatsapp text-lg"></i> Unirme al WhatsApp
-          </a>
-          <a href="#codigos-grid" class="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-5 py-3.5 rounded-xl text-xs font-semibold text-slate-300 bg-slate-900 border border-slate-700 hover:text-white">
-            <i class="fas fa-eye text-cyan-400"></i> Ver 100 Códigos
+        <!-- Community WhatsApp Invitation Box (Requested by User) -->
+        <div class="p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-emerald-950/70 via-slate-950 to-slate-950 border border-emerald-500/40 text-center max-w-xl mx-auto shadow-2xl mb-6">
+          <div class="w-14 h-14 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 text-2xl mx-auto mb-3 shadow-[0_0_20px_rgba(16,185,129,0.3)]">
+            <i class="fab fa-whatsapp"></i>
+          </div>
+          <h4 class="text-lg sm:text-xl font-extrabold text-white mb-2">
+            ¿Quieres aprender más de IA y dominar estas herramientas?
+          </h4>
+          <p class="text-xs sm:text-sm text-slate-300 mb-6 leading-relaxed max-w-md mx-auto">
+            Únete a nuestra comunidad oficial y gratuita de WhatsApp donde te enseñaremos a usar la IA paso a paso, compartimos prompts diarios y analizamos casos reales de éxito.
+          </p>
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <a href="https://chat.whatsapp.com/HIjs3Bytduy9ucOtn6jeKw?s=sh&p=a&ilr=4" target="_blank" rel="noopener" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-bold text-sm bg-emerald-400 text-slate-950 hover:bg-emerald-300 transition-all shadow-[0_0_20px_rgba(16,185,129,0.35)]">
+              <i class="fab fa-whatsapp text-lg"></i> Unirme Gratis a la Comunidad
+            </a>
+            <button type="button" onclick="restartQuiz()" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl font-medium text-xs text-slate-400 hover:text-white bg-slate-900 border border-slate-700 transition-colors">
+              <i class="fas fa-redo-alt text-[10px]"></i> Repetir Test
+            </button>
+          </div>
+        </div>
+
+        <div class="text-center">
+          <a href="#codigos-grid" class="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-cyan-400 transition-colors">
+            <i class="fas fa-arrow-up text-[10px]"></i> Volver a Explorar los 100 Códigos
           </a>
         </div>
+
       </div>
 
     </div>
@@ -1307,86 +1428,199 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
       }}
     }}
 
-    // AI Quiz Logic
+    // AI Quiz Logic (5 Steps with Navigation Arrows & 3 Tiers: Novato, Intermedio, Avanzado)
+    let currentQuizStep = 1;
     let quizAnswers = {{}};
-    let quizTotalScore = 0;
+    let quizAutoAdvanceTimer = null;
 
-    function selectAnswer(step, score, optionLetter) {{
+    function selectQuizOption(step, score, optionLetter, btn) {{
+      if (quizAutoAdvanceTimer) clearTimeout(quizAutoAdvanceTimer);
+
       quizAnswers[step] = {{ score: score, option: optionLetter }};
-      
-      const currentStepEl = document.getElementById('quiz-step-' + step);
-      currentStepEl.classList.add('hidden');
 
-      if (step < 4) {{
-        const nextStepEl = document.getElementById('quiz-step-' + (step + 1));
-        nextStepEl.classList.remove('hidden');
-        const nextPercent = (step + 1) * 25;
-        document.getElementById('quiz-progress').style.width = nextPercent + '%';
-        document.getElementById('quiz-step-indicator').textContent = 'Paso ' + (step + 1) + ' de 4';
-        document.getElementById('quiz-percent-indicator').textContent = nextPercent + '% Completado';
-      }} else {{
-        document.getElementById('quiz-lead-gate').classList.remove('hidden');
-        document.getElementById('quiz-progress').style.width = '100%';
-        document.getElementById('quiz-step-indicator').textContent = 'Paso 4 de 4';
-        document.getElementById('quiz-percent-indicator').textContent = '100% Completado';
+      // Highlight selected button inside the current step
+      const stepEl = document.getElementById('quiz-step-' + step);
+      if (stepEl) {{
+        stepEl.querySelectorAll('.quiz-opt').forEach(opt => {{
+          opt.classList.remove('border-cyan-400', 'bg-cyan-950/60', 'text-white', 'shadow-[0_0_15px_rgba(0,229,255,0.2)]');
+          opt.classList.add('border-slate-800', 'bg-slate-950/70', 'text-slate-300');
+          const icon = opt.querySelector('.quiz-opt-icon');
+          if (icon) {{
+            icon.className = 'quiz-opt-icon far fa-circle text-slate-600 text-sm ml-3';
+          }}
+        }});
+      }}
+
+      btn.classList.remove('border-slate-800', 'bg-slate-950/70', 'text-slate-300');
+      btn.classList.add('border-cyan-400', 'bg-cyan-950/60', 'text-white', 'shadow-[0_0_15px_rgba(0,229,255,0.2)]');
+      const activeIcon = btn.querySelector('.quiz-opt-icon');
+      if (activeIcon) {{
+        activeIcon.className = 'quiz-opt-icon fas fa-check-circle text-cyan-400 text-sm ml-3';
+      }}
+
+      // Enable next button for this step
+      const nextBtn = document.getElementById('btn-next-' + step);
+      if (nextBtn) {{
+        nextBtn.removeAttribute('disabled');
+        nextBtn.classList.remove('opacity-40', 'cursor-not-allowed');
+      }}
+
+      // Auto advance smoothly after 380ms
+      quizAutoAdvanceTimer = setTimeout(() => {{
+        if (step < 5) {{
+          goToQuizStep(step + 1);
+        }} else {{
+          calculateQuizResult();
+        }}
+      }}, 380);
+    }}
+
+    function goToQuizStep(step) {{
+      if (step < 1 || step > 5) return;
+      currentQuizStep = step;
+
+      // Hide all steps
+      for (let i = 1; i <= 5; i++) {{
+        const el = document.getElementById('quiz-step-' + i);
+        if (el) el.classList.add('hidden');
+      }}
+      const resultEl = document.getElementById('quiz-result');
+      if (resultEl) resultEl.classList.add('hidden');
+
+      // Show current step
+      const currentEl = document.getElementById('quiz-step-' + step);
+      if (currentEl) currentEl.classList.remove('hidden');
+
+      // Update progress
+      const percent = step * 20;
+      document.getElementById('quiz-progress').style.width = percent + '%';
+      document.getElementById('quiz-step-indicator').textContent = 'Pregunta ' + step + ' de 5';
+      document.getElementById('quiz-percent-indicator').textContent = percent + '% Completado';
+
+      // Update dots
+      for (let i = 1; i <= 5; i++) {{
+        document.querySelectorAll('.quiz-dot-' + i).forEach(dot => {{
+          if (i <= step) {{
+            dot.classList.remove('bg-slate-800');
+            dot.classList.add('bg-cyan-400');
+          }} else {{
+            dot.classList.remove('bg-cyan-400');
+            dot.classList.add('bg-slate-800');
+          }}
+        }});
+      }}
+
+      // If already answered, enable next button
+      const nextBtn = document.getElementById('btn-next-' + step);
+      if (nextBtn) {{
+        if (quizAnswers[step]) {{
+          nextBtn.removeAttribute('disabled');
+          nextBtn.classList.remove('opacity-40', 'cursor-not-allowed');
+        }} else {{
+          nextBtn.setAttribute('disabled', 'true');
+          nextBtn.classList.add('opacity-40', 'cursor-not-allowed');
+        }}
       }}
     }}
 
-    async function submitQuizLead(e) {{
-      e.preventDefault();
-      const name = document.getElementById('quiz-name').value;
-      const email = document.getElementById('quiz-email').value;
-      const phone = document.getElementById('quiz-phone').value;
-      const btn = document.getElementById('btn-submit-quiz');
+    function prevQuizStep() {{
+      if (currentQuizStep > 1) {{
+        goToQuizStep(currentQuizStep - 1);
+      }}
+    }}
 
-      btn.disabled = true;
-      btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i> Calculando Diagnóstico...';
+    function nextQuizStep() {{
+      if (quizAnswers[currentQuizStep]) {{
+        if (currentQuizStep < 5) {{
+          goToQuizStep(currentQuizStep + 1);
+        }} else {{
+          calculateQuizResult();
+        }}
+      }}
+    }}
 
-      // Compute score
-      quizTotalScore = Object.values(quizAnswers).reduce((acc, curr) => acc + curr.score, 0);
+    function calculateQuizResult() {{
+      const totalScore = Object.values(quizAnswers).reduce((acc, curr) => acc + curr.score, 0);
 
-      let levelTitle = '';
-      let levelBadge = '';
-      let levelDesc = '';
+      // Hide questions
+      for (let i = 1; i <= 5; i++) {{
+        const el = document.getElementById('quiz-step-' + i);
+        if (el) el.classList.add('hidden');
+      }}
 
-      if (quizTotalScore <= 80) {{
-        levelBadge = 'NIVEL 1: EXPLORADOR DE IA';
-        levelTitle = 'Nivel 1: Explorador Creativo';
-        levelDesc = 'Estás en una fase ideal para construir cimientos sólidos. Tu oportunidad inmediata es aplicar los 100 Códigos Creativos de ChatGPT para dejar atrás prompts genéricos y lograr estética fotográfica profesional.';
-      }} else if (quizTotalScore <= 150) {{
-        levelBadge = 'NIVEL 2: CREADOR VISUAL PRO';
-        levelTitle = 'Nivel 2: Creador Visual Avanzado';
-        levelDesc = 'Tienes un dominio notable de prompts y herramientas creativas. Tu próximo gran salto es conectar estos contenidos visuales con pauta publicitaria y sistemas automatizados de respuesta en WhatsApp.';
+      // Progress bar 100%
+      document.getElementById('quiz-progress').style.width = '100%';
+      document.getElementById('quiz-step-indicator').textContent = 'Diagnóstico Completado';
+      document.getElementById('quiz-percent-indicator').textContent = '100%';
+
+      let badgeText = '';
+      let badgeClass = '';
+      let title = '';
+      let desc = '';
+      let step1 = '';
+      let step2 = '';
+      let step3 = '';
+
+      if (totalScore <= 110) {{
+        // NOVATO
+        badgeText = '🌱 NIVEL IDENTIFICADO: NOVATO';
+        badgeClass = 'bg-emerald-950/80 text-emerald-300 border-emerald-500/40 shadow-[0_0_15px_rgba(16,185,129,0.25)]';
+        title = 'Nivel Novato: Explorador de Inteligencia Artificial';
+        desc = 'Estás dando tus primeros pasos y descubriendo el potencial de la tecnología. Usas la IA de forma ocasional o como buscador. Tu mayor oportunidad es reemplazar prompts improvisados por comandos estructurados para ahorrar horas de trabajo y evitar respuestas genéricas.';
+        step1 = 'Aplica los 100 Códigos Creativos de ChatGPT para crear prompts profesionales sin inventar la rueda.';
+        step2 = 'Practica la fórmula de estructuración [/] para guiones, resúmenes y generación de ideas.';
+        step3 = 'Únete a nuestra comunidad de WhatsApp para aprender trucos semanales y consultar dudas en vivo.';
+      }} else if (totalScore <= 185) {{
+        // INTERMEDIO
+        badgeText = '⚡ NIVEL IDENTIFICADO: INTERMEDIO';
+        badgeClass = 'bg-amber-950/80 text-amber-300 border-amber-500/40 shadow-[0_0_15px_rgba(245,158,11,0.25)]';
+        title = 'Nivel Intermedio: Creador Visual y Proactivo';
+        desc = 'Tienes un dominio notable de herramientas creativas y comprendes la lógica de los prompts. Creas contenido con buena estética, pero aún dependes de procesos manuales y te falta conectar tu contenido con prospección y automatizaciones de venta.';
+        step1 = 'Implementa la directiva del Reel de Spiderman para video cinemático continuo y multi-escena.';
+        step2 = 'Estandariza tus plantillas de carruseles y guiones con ganchos psicológicos de alta retención.';
+        step3 = 'Conecta tu contenido con llamados a la acción comerciales y automatización de respuestas en WhatsApp.';
       }} else {{
-        levelBadge = 'NIVEL 3: ARQUITECTO COMERCIAL';
-        levelTitle = 'Nivel 3: Arquitecto Comercial de IA';
-        levelDesc = 'Dominas herramientas avanzadas y entiendes el impacto en ventas. Tu prioridad no es hacer prompts manuales, sino delegar la producción o integrar infraestructura de IA para maximizar ingresos.';
+        // AVANZADO
+        badgeText = '🚀 NIVEL IDENTIFICADO: AVANZADO';
+        badgeClass = 'bg-indigo-950/80 text-cyan-300 border-cyan-400/50 shadow-[0_0_20px_rgba(0,229,255,0.35)]';
+        title = 'Nivel Avanzado: Arquitecto Comercial de IA';
+        desc = 'Dominas herramientas de vanguardia, entiendes el impacto de los sistemas en el flujo de caja y conectas la IA con objetivos de facturación. Tu prioridad no es hacer prompts manuales, sino sistematizar flujos, desplegar agentes autónomos y delegar la ejecución técnica.';
+        step1 = 'Despliega agentes AI SDR en WhatsApp con respuestas en menos de 15 segundos y calificación automática.';
+        step2 = 'Implementa prospección B2B masiva y enriquecimiento de datos de empresas con PassportAI.';
+        step3 = 'Escala la pauta publicitaria (Meta Ads / YouTube Ads) apalancada en creativos visuales de IA.';
       }}
 
-      // Send lead to backend
-      try {{
-        await fetch('/api/auth/contact', {{
-          method: 'POST',
-          headers: {{ 'Content-Type': 'application/json' }},
-          body: JSON.stringify({{
-            name: name,
-            email: email,
-            phone: phone,
-            source: 'test_nivel_ia_hub',
-            message: `[TEST DE NIVEL DE IA] Puntaje: ${{quizTotalScore}}/200. ${{levelTitle}}. Respuestas: ${{JSON.stringify(quizAnswers)}}`
-          }})
-        }});
-      }} catch (err) {{
-        console.warn('Lead capture notification error (cached locally):', err);
-      }}
+      // Set DOM elements
+      const badgeEl = document.getElementById('result-badge');
+      badgeEl.textContent = badgeText;
+      badgeEl.className = 'px-4 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider inline-block mb-3 border ' + badgeClass;
 
-      // Display result
-      document.getElementById('result-badge').textContent = levelBadge;
-      document.getElementById('result-title').textContent = levelTitle;
-      document.getElementById('result-desc').textContent = levelDesc;
+      document.getElementById('result-title').textContent = title;
+      document.getElementById('result-desc').textContent = desc;
+      document.getElementById('result-score-tag').textContent = `Puntaje Obtenido: ${{totalScore}} / 250 Puntos`;
 
-      document.getElementById('quiz-lead-gate').classList.add('hidden');
-      document.getElementById('quiz-result').classList.remove('hidden');
+      document.getElementById('result-step-1').textContent = step1;
+      document.getElementById('result-step-2').textContent = step2;
+      document.getElementById('result-step-3').textContent = step3;
+
+      const resultBox = document.getElementById('quiz-result');
+      resultBox.classList.remove('hidden');
+      resultBox.scrollIntoView({{ behavior: 'smooth' }});
+    }}
+
+    function restartQuiz() {{
+      quizAnswers = {{}};
+      currentQuizStep = 1;
+      document.querySelectorAll('.quiz-opt').forEach(opt => {{
+        opt.classList.remove('border-cyan-400', 'bg-cyan-950/60', 'text-white', 'shadow-[0_0_15px_rgba(0,229,255,0.2)]');
+        opt.classList.add('border-slate-800', 'bg-slate-950/70', 'text-slate-300');
+        const icon = opt.querySelector('.quiz-opt-icon');
+        if (icon) {{
+          icon.className = 'quiz-opt-icon far fa-circle text-slate-600 text-sm ml-3';
+        }}
+      }});
+      goToQuizStep(1);
+      document.getElementById('test-ia').scrollIntoView({{ behavior: 'smooth' }});
     }}
 
     // Direct Quotation Form Logic (No Modals)
