@@ -1288,6 +1288,37 @@ async def read_exmamiami(request: Request):
 async def read_harmonypayments(request: Request):
     return templates.TemplateResponse(request=request, name="harmonypayments.html")
 
+def get_codigos_data():
+    json_path = os.path.join(os.path.dirname(__file__), "content", "codigos_100.json")
+    if os.path.exists(json_path):
+        import json
+        with open(json_path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return []
+
+CODIGOS_DATA = get_codigos_data()
+
+@app.get("/codigos", response_class=HTMLResponse)
+@app.head("/codigos")
+@app.get("/codigos/", response_class=HTMLResponse)
+@app.head("/codigos/")
+@app.get("/codigos.html", response_class=HTMLResponse)
+@app.head("/codigos.html")
+async def read_codigos(request: Request):
+    global CODIGOS_DATA
+    if not CODIGOS_DATA:
+        CODIGOS_DATA = get_codigos_data()
+    try:
+        return templates.TemplateResponse(request=request, name="codigos.html", context={"categories": CODIGOS_DATA})
+    except Exception:
+        static_html = os.path.join(os.path.dirname(__file__), "static", "codigos", "index.html")
+        if os.path.exists(static_html):
+            with open(static_html, "r", encoding="utf-8") as f:
+                return HTMLResponse(content=f.read())
+        raise
+
+
+
 # ─── TECHNICAL SEO ENDPOINTS ────────────────────────────────────────────────
 from fastapi.responses import PlainTextResponse
 
@@ -1356,6 +1387,11 @@ async def get_sitemap(db: Session = Depends(get_db)):
         '    <loc>https://agenciaprosperia.com/podcast</loc>\n'
         '    <changefreq>daily</changefreq>\n'
         '    <priority>0.8</priority>\n'
+        '  </url>\n'
+        '  <url>\n'
+        '    <loc>https://agenciaprosperia.com/codigos</loc>\n'
+        '    <changefreq>weekly</changefreq>\n'
+        '    <priority>0.9</priority>\n'
         '  </url>\n'
         '  <url>\n'
         '    <loc>https://agenciaprosperia.com/politica-privacidad</loc>\n'
