@@ -2353,3 +2353,8 @@ template_html = generate_page(is_template=True)
 with open('scratch/template_codigos.html', 'w', encoding='utf-8') as f:
     f.write(template_html)
 print('Successfully generated scratch/template_codigos.html')
+
+with open('templates/codigos.html', 'w', encoding='utf-8') as f:
+    f.write(template_html)
+print('Successfully generated templates/codigos.html')
+
