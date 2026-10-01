@@ -256,71 +256,112 @@
         </a>
       </div>
 
-      <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-8">
-        Aquí tienes el procedimiento exacto de 3 pasos para recrear la transición del sujeto sentado en la ventana lanzándose al vacío por la ciudad de Nueva York. Los prompts están traducidos al español, con las directivas físicas de cámara listas para copiar y pegar en tu herramienta favorita.
+      <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-6">
+        Aquí tienes el procedimiento de 3 pasos para recrear la transición del sujeto en la ventana lanzándose al vacío como Spiderman. <strong>Pícale a cada paso para desplegar su prompt</strong> traducido y listo para copiar en 1 clic:
       </p>
 
-      <!-- Step 1 -->
-      <div class="mb-8 p-5 sm:p-6 rounded-2xl bg-slate-950/90 border border-slate-800">
-        <div class="flex items-center justify-between gap-2 mb-3">
-          <h3 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
-            <span class="w-6 h-6 rounded-lg bg-red-950 border border-red-500/40 text-red-400 text-xs flex items-center justify-center font-bold">1</span>
-            Paso 1: Genera tu Retrato Base en ChatGPT
-          </h3>
-          <button onclick="copyCode(document.getElementById('prompt-spiderman-1').innerText, this)" class="btn-copy px-3 py-1.5 rounded-lg text-xs font-bold inline-flex items-center gap-1.5">
-            <i class="far fa-copy"></i> Copiar Prompt
+      <!-- Compact Clickable Accordion for the 3 Steps -->
+      <div class="space-y-3 mb-6" id="spiderman-accordion">
+        
+        <!-- Accordion Item 1 -->
+        <div class="border border-red-500/40 rounded-2xl bg-slate-950/80 overflow-hidden transition-all duration-200" id="accordion-item-1">
+          <button type="button" onclick="toggleSpidermanStep(1)" class="w-full p-4 sm:p-5 flex items-center justify-between text-left hover:bg-slate-900/60 transition-colors">
+            <div class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-xl bg-red-950 border border-red-500/40 text-red-400 text-sm flex items-center justify-center font-bold flex-shrink-0">1</span>
+              <div>
+                <h4 class="text-sm sm:text-base font-bold text-white flex items-center gap-2">
+                  <span>Paso 1: Genera tu Retrato Base en ChatGPT</span>
+                  <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-red-950/60 text-red-300 border border-red-500/20">DALL-E 3</span>
+                </h4>
+                <p class="text-xs text-slate-400 mt-0.5">Sube tu foto y genera la escena del sujeto sentado en la ventana abierta de NYC.</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-3 flex-shrink-0 ml-2">
+              <span class="text-xs text-red-400 hidden sm:inline font-mono">Pícale aquí</span>
+              <i class="fas fa-chevron-down text-slate-400 transition-transform duration-300 rotate-180" id="chevron-1"></i>
+            </div>
           </button>
-        </div>
-        <p class="text-xs text-slate-400 mb-3">
-          <strong>Instrucción:</strong> Entra a ChatGPT (GPT-4o / DALL-E 3), sube una foto tuya de frente (selfie) y pega este prompt:
-        </p>
-        <div id="prompt-spiderman-1" class="prompt-box p-4 select-all">Referencia: Utiliza la imagen subida como referencia directa para la fisonomía del rostro, pero coloca al personaje como un hombre joven sentado en el alféizar de una ventana de piso a techo completamente abierta dentro de una acogedora habitación de Nueva York. La ventana está totalmente abierta y deja pasar una brisa natural. El sujeto se sienta con las piernas hacia el cuarto, postura relajada y confiada, mirando a la cámara con una sonrisa natural.
+          
+          <div id="step-content-1" class="px-4 sm:px-6 pb-5 pt-1 border-t border-slate-800/80">
+            <div class="flex items-center justify-between gap-2 mb-3 mt-3">
+              <span class="text-xs text-slate-300 font-medium"><strong>Instrucción:</strong> Sube tu foto de frente (selfie) a ChatGPT y pega:</span>
+              <button onclick="copyCode(document.getElementById('prompt-spiderman-1').innerText, this)" class="btn-copy px-3 py-1.5 rounded-lg text-xs font-bold inline-flex items-center gap-1.5 flex-shrink-0">
+                <i class="far fa-copy"></i> Copiar Prompt
+              </button>
+            </div>
+            <div id="prompt-spiderman-1" class="prompt-box p-4 select-all text-xs leading-relaxed max-h-72 overflow-y-auto">Referencia: Utiliza la imagen subida como referencia directa para la fisonomía del rostro, pero coloca al personaje como un hombre joven sentado en el alféizar de una ventana de piso a techo completamente abierta dentro de una acogedora habitación de Nueva York. La ventana está totalmente abierta y deja pasar una brisa natural. El sujeto se sienta con las piernas hacia el cuarto, postura relajada y confiada, mirando a la cámara con una sonrisa natural.
 
 Vestuario: Chaqueta de cuero negro mate, camiseta blanca de algodón grueso, pantalones anchos negros oversize, zapatillas blancas Nike Air Force 1 impecables, y auriculares negros over-ear descansando alrededor del cuello.
 
 Entorno: Habitación creativa en Manhattan con estantes llenos de cómics manga, libros de fotografía, equipo de cámaras y pósters de cine. Al fondo de la ventana abierta se observa el skyline de Manhattan en hora dorada (golden hour), con edificios de ladrillo y escaleras de incendio bañadas en luz cálida y suave bruma atmosférica.
 
 Cámara & Estilo: Encuadre centrado a nivel de ojos, lente anamórfico de 35mm, grano orgánico de película estilo A24 y Kodak Vision3 250D, ultra-fotorrealista, 8K HDR, calidad fotográfica de revista.</div>
-      </div>
-
-      <!-- Step 2 -->
-      <div class="mb-8 p-5 sm:p-6 rounded-2xl bg-slate-950/90 border border-slate-800">
-        <div class="flex items-center justify-between gap-2 mb-3">
-          <h3 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
-            <span class="w-6 h-6 rounded-lg bg-red-950 border border-red-500/40 text-red-400 text-xs flex items-center justify-center font-bold">2</span>
-            Paso 2: La Salida al Vacío (Seedance 2.0 / Kling / Runway)
-          </h3>
-          <button onclick="copyCode(document.getElementById('prompt-spiderman-2').innerText, this)" class="btn-copy px-3 py-1.5 rounded-lg text-xs font-bold inline-flex items-center gap-1.5">
-            <i class="far fa-copy"></i> Copiar Prompt
-          </button>
+          </div>
         </div>
-        <p class="text-xs text-slate-400 mb-3">
-          <strong>Instrucción:</strong> Sube la imagen obtenida en el Paso 1 a Seedance 2.0 (o Kling/Runway) y utiliza este prompt para la primera fase del video:
-        </p>
-        <div id="prompt-spiderman-2" class="prompt-box p-4 select-all">Reference: Use the uploaded image as the exact character reference. Preserve face, hairstyle, leather jacket, sneakers, headphones, and the NYC golden-hour open window.
+
+        <!-- Accordion Item 2 -->
+        <div class="border border-slate-800 rounded-2xl bg-slate-950/80 overflow-hidden transition-all duration-200" id="accordion-item-2">
+          <button type="button" onclick="toggleSpidermanStep(2)" class="w-full p-4 sm:p-5 flex items-center justify-between text-left hover:bg-slate-900/60 transition-colors">
+            <div class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-xl bg-red-950 border border-red-500/40 text-red-400 text-sm flex items-center justify-center font-bold flex-shrink-0">2</span>
+              <div>
+                <h4 class="text-sm sm:text-base font-bold text-white flex items-center gap-2">
+                  <span>Paso 2: La Salida al Vacío</span>
+                  <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-red-950/60 text-red-300 border border-red-500/20">Seedance 2.0 / Kling</span>
+                </h4>
+                <p class="text-xs text-slate-400 mt-0.5">El sujeto se pone los audífonos y se deja caer hacia atrás con naturalidad.</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-3 flex-shrink-0 ml-2">
+              <span class="text-xs text-red-400 hidden sm:inline font-mono">Pícale aquí</span>
+              <i class="fas fa-chevron-down text-slate-400 transition-transform duration-300" id="chevron-2"></i>
+            </div>
+          </button>
+          
+          <div id="step-content-2" class="px-4 sm:px-6 pb-5 pt-1 border-t border-slate-800/80 hidden">
+            <div class="flex items-center justify-between gap-2 mb-3 mt-3">
+              <span class="text-xs text-slate-300 font-medium"><strong>Instrucción:</strong> Sube la imagen del Paso 1 a Seedance 2.0 (o Kling/Runway) y pega:</span>
+              <button onclick="copyCode(document.getElementById('prompt-spiderman-2').innerText, this)" class="btn-copy px-3 py-1.5 rounded-lg text-xs font-bold inline-flex items-center gap-1.5 flex-shrink-0">
+                <i class="far fa-copy"></i> Copiar Prompt
+              </button>
+            </div>
+            <div id="prompt-spiderman-2" class="prompt-box p-4 select-all text-xs leading-relaxed max-h-72 overflow-y-auto">Reference: Use the uploaded image as the exact character reference. Preserve face, hairstyle, leather jacket, sneakers, headphones, and the NYC golden-hour open window.
 
 Camera (Strict): Locked-off tripod shot. No movement, no pan, no tilt, no zoom. Maintain exact framing throughout.
 
 Action: The man sits on the window ledge. Warm evening sunlight fills the room and a gentle breeze moves the curtains. He looks at the camera with a relaxed smile and says naturally: "Alright... let's do this one more time." He calmly lifts the headphones from his neck and places them over his ears, adjusting them with confidence. He then leans backward with complete trust as if pulled smoothly by an invisible superhero force, disappearing gracefully beyond the open window into the skyline. No distress, no panic, no danger. The curtains continue moving gently. Hold on the empty window for two seconds.
 
 Look: Ultra photorealistic Hollywood comic-book film aesthetic, 8K HDR, natural fabric physics.</div>
-      </div>
-
-      <!-- Step 3 -->
-      <div class="mb-8 p-5 sm:p-6 rounded-2xl bg-slate-950/90 border border-slate-800">
-        <div class="flex items-center justify-between gap-2 mb-3">
-          <h3 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
-            <span class="w-6 h-6 rounded-lg bg-red-950 border border-red-500/40 text-red-400 text-xs flex items-center justify-center font-bold">3</span>
-            Paso 3: Vuelo Continuo de 15s en Dron por Manhattan
-          </h3>
-          <button onclick="copyCode(document.getElementById('prompt-spiderman-3').innerText, this)" class="btn-copy px-3 py-1.5 rounded-lg text-xs font-bold inline-flex items-center gap-1.5">
-            <i class="far fa-copy"></i> Copiar Prompt
-          </button>
+          </div>
         </div>
-        <p class="text-xs text-slate-400 mb-3">
-          <strong>Instrucción:</strong> Con la misma imagen de referencia, genera la secuencia de acción con este prompt continuo de 15 segundos:
-        </p>
-        <div id="prompt-spiderman-3" class="prompt-box p-4 select-all">15-second continuous drone-follow shot. ZERO CUTS. Real Hollywood film, RED Monstro 8K anamorphic lens.
+
+        <!-- Accordion Item 3 -->
+        <div class="border border-slate-800 rounded-2xl bg-slate-950/80 overflow-hidden transition-all duration-200" id="accordion-item-3">
+          <button type="button" onclick="toggleSpidermanStep(3)" class="w-full p-4 sm:p-5 flex items-center justify-between text-left hover:bg-slate-900/60 transition-colors">
+            <div class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-xl bg-red-950 border border-red-500/40 text-red-400 text-sm flex items-center justify-center font-bold flex-shrink-0">3</span>
+              <div>
+                <h4 class="text-sm sm:text-base font-bold text-white flex items-center gap-2">
+                  <span>Paso 3: Vuelo Continuo de 15s en Dron por Manhattan</span>
+                  <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-red-950/60 text-red-300 border border-red-500/20">Seedance 2.0 (Zero Cuts)</span>
+                </h4>
+                <p class="text-xs text-slate-400 mt-0.5">Toma continua sin cortes siguiendo las acrobacias aéreas entre taxis y rascacielos.</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-3 flex-shrink-0 ml-2">
+              <span class="text-xs text-red-400 hidden sm:inline font-mono">Pícale aquí</span>
+              <i class="fas fa-chevron-down text-slate-400 transition-transform duration-300" id="chevron-3"></i>
+            </div>
+          </button>
+          
+          <div id="step-content-3" class="px-4 sm:px-6 pb-5 pt-1 border-t border-slate-800/80 hidden">
+            <div class="flex items-center justify-between gap-2 mb-3 mt-3">
+              <span class="text-xs text-slate-300 font-medium"><strong>Instrucción:</strong> Con la misma imagen de referencia, genera la secuencia de acción continua de 15s:</span>
+              <button onclick="copyCode(document.getElementById('prompt-spiderman-3').innerText, this)" class="btn-copy px-3 py-1.5 rounded-lg text-xs font-bold inline-flex items-center gap-1.5 flex-shrink-0">
+                <i class="far fa-copy"></i> Copiar Prompt
+              </button>
+            </div>
+            <div id="prompt-spiderman-3" class="prompt-box p-4 select-all text-xs leading-relaxed max-h-72 overflow-y-auto">15-second continuous drone-follow shot. ZERO CUTS. Real Hollywood film, RED Monstro 8K anamorphic lens.
 
 Physics & Movement (Critical): Does NOT float. Interacts physically with the city. Feet push off walls, hands grab ledges. Clean acrobatic rope-swing athlete posture.
 0–1s: Wrist snaps, web shoots, camera pulls back immediately.
@@ -328,6 +369,9 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
 4–7s: Releases web at peak, runs 4 steps horizontally along a brick wall of a brownstone, then pushes off hard and fires a new web across an intersection.
 7–10s: Comes LOW down a street packed with yellow taxis, runs 3 steps on wet pavement between cars. A taxi honks. He laughs with an adrenaline grin, kicks off a taxi roof and rockets HIGH shouting "WOOHOO!"
 10–15s: Reaches peak altitude at rooftop level against a massive warm orange sunset sky. Hangs weightless for one breathless moment, arms slightly open, pure freedom. The frame holds as he begins to fall.</div>
+          </div>
+        </div>
+
       </div>
 
       <!-- Signature block -->
@@ -5853,6 +5897,24 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
     }
     function jumpToDownloads() {
       document.getElementById('descargas').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Spiderman Accordion Toggle
+    function toggleSpidermanStep(stepNum) {
+      const content = document.getElementById('step-content-' + stepNum);
+      const chevron = document.getElementById('chevron-' + stepNum);
+      const item = document.getElementById('accordion-item-' + stepNum);
+      
+      const isHidden = content.classList.contains('hidden');
+      if (isHidden) {
+        content.classList.remove('hidden');
+        chevron.classList.add('rotate-180');
+        item.classList.add('border-red-500/40');
+      } else {
+        content.classList.add('hidden');
+        chevron.classList.remove('rotate-180');
+        item.classList.remove('border-red-500/40');
+      }
     }
 
     // AI Quiz Logic
