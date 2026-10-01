@@ -349,6 +349,141 @@ def generate_page(is_template=False):
       backdrop-filter: blur(16px);
       border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     }}
+
+    /* PassportAI Showcase Styles */
+    .passportai-container {{
+      background: linear-gradient(145deg, rgba(8, 16, 32, 0.95) 0%, rgba(3, 7, 16, 0.98) 100%);
+      border: 2px solid rgba(0, 229, 255, 0.4);
+      border-radius: 28px;
+      box-shadow: 0 0 50px rgba(0, 229, 255, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }}
+    .passportai-container:hover {{
+      border-color: rgba(0, 229, 255, 0.65);
+      box-shadow: 0 0 65px rgba(0, 229, 255, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    }}
+    .passportai-layout {{
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      align-items: center;
+    }}
+    @media (min-width: 1024px) {{
+      .passportai-layout {{
+        grid-template-columns: 1.18fr 0.82fr;
+        gap: 2.5rem;
+      }}
+    }}
+    .text-gradient-cyan {{
+      background: linear-gradient(135deg, #00e5ff 0%, #38bdf8 50%, #818cf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }}
+    .btn-passport-cta {{
+      background: linear-gradient(135deg, #00e5ff 0%, #38bdf8 50%, #818cf8 100%) !important;
+      color: #020710 !important;
+      font-weight: 900 !important;
+      font-size: 14px !important;
+      padding: 14px 26px !important;
+      border-radius: 14px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 10px !important;
+      box-shadow: 0 0 25px rgba(0, 229, 255, 0.4) !important;
+      transition: all 0.25s ease !important;
+      text-decoration: none !important;
+      border: none !important;
+      cursor: pointer !important;
+    }}
+    .btn-passport-cta:hover {{
+      transform: translateY(-2px) scale(1.02) !important;
+      box-shadow: 0 0 45px rgba(0, 229, 255, 0.65) !important;
+      background: linear-gradient(135deg, #38bdf8 0%, #00e5ff 50%, #a5b4fc 100%) !important;
+      color: #020710 !important;
+    }}
+    .btn-passport-secondary {{
+      background: rgba(15, 23, 42, 0.85) !important;
+      color: #cbd5e1 !important;
+      font-weight: 600 !important;
+      font-size: 13px !important;
+      padding: 14px 20px !important;
+      border-radius: 14px !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 8px !important;
+      transition: all 0.2s ease !important;
+      text-decoration: none !important;
+    }}
+    .btn-passport-secondary:hover {{
+      background: rgba(30, 41, 59, 0.95) !important;
+      border-color: rgba(0, 229, 255, 0.45) !important;
+      color: #ffffff !important;
+    }}
+    .passport-badge-gift {{
+      background: rgba(6, 78, 59, 0.85);
+      border: 1px solid rgba(16, 185, 129, 0.5);
+      color: #6ee7b7;
+      font-weight: 800;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.25);
+    }}
+    .feature-row-item {{
+      background: rgba(10, 20, 38, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 14px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      transition: all 0.2s ease;
+    }}
+    .feature-row-item:hover {{
+      border-color: rgba(0, 229, 255, 0.35);
+      background: rgba(12, 24, 46, 0.9);
+    }}
+    .passport-suite-preview {{
+      background: rgba(3, 7, 18, 0.96);
+      border: 1px solid rgba(0, 229, 255, 0.25);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+    }}
+    .model-chip-active {{
+      background: rgba(0, 229, 255, 0.14);
+      border: 1px solid #00e5ff;
+      color: #00e5ff;
+      font-weight: 700;
+      font-size: 12px;
+      padding: 8px 12px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 0 12px rgba(0, 229, 255, 0.2);
+    }}
+    .model-chip-inactive {{
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #94a3b8;
+      font-size: 12px;
+      padding: 8px 12px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }}
   </style>
 </head>
 <body class="relative">
@@ -793,33 +928,174 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
   </section>
 
   <!-- ════════════════════════════════════════════════════
-       BLOQUE 5: PASSPORTAI BANNER (FREE TOKENS & OFFICIAL LOGO)
+       BLOQUE 5: PASSPORTAI SHOWCASE (VARIAS IAS EN 1 INTERFAZ + TOKENS GRATIS)
        ════════════════════════════════════════════════════ -->
-  <section class="py-8 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto relative z-10">
-    <div class="glass-panel p-5 sm:p-6 rounded-2xl border border-cyan-500/30 bg-gradient-to-r from-slate-950 via-slate-900/90 to-slate-950 flex flex-col md:flex-row items-center justify-between gap-5 shadow-[0_0_30px_rgba(0,229,255,0.08)]">
+  <section class="py-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto relative z-10 scroll-mt-28" id="passportai-suite">
+    <!-- Ambient Glow Effects -->
+    <div class="absolute -top-10 -right-10 w-80 h-80 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -bottom-10 -left-10 w-80 h-80 bg-indigo-600/15 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="passportai-container p-6 sm:p-10 lg:p-12 relative">
       
-      <div class="flex items-center gap-4 text-left w-full md:w-auto">
-        <div class="relative flex-shrink-0">
-          <img src="{s_asset('passportai_logo_official.jpg')}" alt="PassportAI Logo" class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl object-cover border border-cyan-400/40 shadow-[0_0_15px_rgba(0,229,255,0.25)]">
+      <!-- Top Badges Row -->
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-8 pb-5 border-b border-slate-800/80">
+        <div class="passport-badge-gift">
+          <i class="fas fa-gift text-emerald-400 animate-pulse"></i> 🎁 Tokens de Cortesía + 5 Días Gratis
         </div>
-        <div class="flex-1">
-          <div class="flex items-center gap-2 flex-wrap mb-1">
-            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
-              🎁 Tokens de Cortesía + 5 Días Gratis
-            </span>
-            <span class="text-[11px] text-slate-400 font-mono">B2B Prospección IA</span>
-          </div>
-          <h3 class="text-base sm:text-lg font-bold text-white leading-tight">¿Haces prospección comercial? Prueba PassportAI</h3>
-          <p class="text-xs text-slate-300 mt-1 leading-relaxed max-w-xl">
-            Encuentra empresas, teléfonos y tomadores de decisión verificados en minutos. Regístrate y recibe tus tokens de cortesía para comenzar.
-          </p>
+        <div class="flex items-center gap-2 text-xs text-slate-400 font-mono">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          <span class="text-cyan-300 font-semibold">Integración Multi-IA</span> • <span>Acceso Inmediato en passportai.app</span>
         </div>
       </div>
 
-      <div class="flex-shrink-0 w-full md:w-auto">
-        <a href="https://passportai.app/register" target="_blank" rel="noopener" class="w-full md:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-bold text-xs bg-gradient-to-r from-cyan-400 to-cyan-500 text-slate-950 hover:from-cyan-300 hover:to-cyan-400 transition-all shadow-[0_0_15px_rgba(0,229,255,0.3)]">
-          <i class="fas fa-bolt"></i> <span>Registrarme Gratis</span> <i class="fas fa-external-link-alt text-[10px] ml-1"></i>
-        </a>
+      <!-- Main Showcase Grid with guaranteed CSS Grid -->
+      <div class="passportai-layout">
+        
+        <!-- Left Column: Copy & Conversion Hook -->
+        <div class="text-left space-y-5">
+          
+          <div class="flex items-center gap-3">
+            <img src="{s_asset('passportai_logo_official.jpg')}" alt="PassportAI" class="w-12 h-12 rounded-xl object-cover border border-cyan-400/50 shadow-[0_0_15px_rgba(0,229,255,0.3)]">
+            <div>
+              <span class="text-xs uppercase tracking-wider text-cyan-400 font-mono font-bold block">Plataforma Todo-en-Uno</span>
+              <h4 class="text-base font-extrabold text-white">PassportAI Studio</h4>
+            </div>
+          </div>
+
+          <h3 class="text-2xl sm:text-3xl lg:text-4xl font-black text-white leading-tight tracking-tight">
+            ¿Quieres probar <span class="text-gradient-cyan">YA mismo</span> todo este conocimiento?
+          </h3>
+
+          <p class="text-sm sm:text-base text-slate-300 leading-relaxed">
+            No gastes cientos de dólares en 5 suscripciones separadas ni saltes entre decenas de pestañas. <strong class="text-white">PassportAI</strong> integra los mejores modelos de Inteligencia Artificial del mundo en una sola interfaz gráfica unificada para poner a prueba tus prompts hoy mismo.
+          </p>
+
+          <!-- 3 Pure-AI Value Pillars -->
+          <div class="space-y-3 pt-1">
+            <div class="feature-row-item">
+              <div class="w-7 h-7 rounded-lg bg-cyan-950 border border-cyan-500/30 flex items-center justify-center text-cyan-400 text-xs flex-shrink-0 mt-0.5">
+                <i class="fas fa-layer-group"></i>
+              </div>
+              <div>
+                <span class="text-xs font-bold text-white block">Múltiples IAs en un solo panel</span>
+                <p class="text-[11px] sm:text-xs text-slate-400 mt-0.5">Alterna al instante entre GPT-4o, Claude 3.5 Sonnet, Gemini 1.5 Pro y modelos de imagen sin cambiar de cuenta.</p>
+              </div>
+            </div>
+
+            <div class="feature-row-item">
+              <div class="w-7 h-7 rounded-lg bg-cyan-950 border border-cyan-500/30 flex items-center justify-center text-cyan-400 text-xs flex-shrink-0 mt-0.5">
+                <i class="fas fa-bolt"></i>
+              </div>
+              <div>
+                <span class="text-xs font-bold text-white block">Ejecuta los 100 Códigos al instante</span>
+                <p class="text-[11px] sm:text-xs text-slate-400 mt-0.5">Pega los prompts directamente, compara respuestas de diferentes IAs en paralelo y obtén resultados cinematográficos.</p>
+              </div>
+            </div>
+
+            <div class="feature-row-item">
+              <div class="w-7 h-7 rounded-lg bg-cyan-950 border border-cyan-500/30 flex items-center justify-center text-cyan-400 text-xs flex-shrink-0 mt-0.5">
+                <i class="fas fa-coins"></i>
+              </div>
+              <div>
+                <span class="text-xs font-bold text-white block">Comienza 100% Gratis con Tokens de Regalo</span>
+                <p class="text-[11px] sm:text-xs text-slate-400 mt-0.5">Regístrate en menos de 1 minuto, recibe tu saldo de cortesía y disfruta de 5 días de acceso total sin compromiso.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- CTA Buttons & Reassurance -->
+          <div class="pt-3 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            <a href="https://passportai.app/register" target="_blank" rel="noopener" class="btn-passport-cta">
+              <i class="fas fa-bolt"></i>
+              <span>Entrar a PassportAI y Reclamar Tokens</span>
+              <i class="fas fa-arrow-right text-xs"></i>
+            </a>
+            <a href="https://passportai.app" target="_blank" rel="noopener" class="btn-passport-secondary">
+              <span>Conocer passportai.app</span>
+              <i class="fas fa-external-link-alt text-[10px]"></i>
+            </a>
+          </div>
+          
+          <div class="flex items-center gap-4 text-[11px] text-slate-400 pt-1">
+            <span class="flex items-center gap-1.5"><i class="fas fa-check text-cyan-400"></i> Sin tarjeta obligatoria</span>
+            <span class="flex items-center gap-1.5"><i class="fas fa-check text-cyan-400"></i> Activación inmediata</span>
+            <span class="flex items-center gap-1.5"><i class="fas fa-check text-cyan-400"></i> Todas las IAs en 1 login</span>
+          </div>
+
+        </div>
+
+        <!-- Right Column: Visual Interactive Interface Preview -->
+        <div class="w-full">
+          <div class="passport-suite-preview relative overflow-hidden">
+            
+            <!-- Window header -->
+            <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
+              <div class="flex items-center gap-1.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-rose-500/80"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-500/80"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500/80"></span>
+                <span class="text-[10px] text-slate-500 font-mono ml-2">passportai.app/studio</span>
+              </div>
+              <span class="px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-cyan-950 text-cyan-400 border border-cyan-500/30">
+                MULTI-AI ACTIVE
+              </span>
+            </div>
+
+            <!-- Multi-Model Switcher Chips -->
+            <div class="mb-3">
+              <div class="text-[10px] text-slate-400 font-mono mb-1.5 flex items-center justify-between">
+                <span>MODELO ACTIVO:</span>
+                <span class="text-emerald-400 font-bold">CAMBIO EN 1 CLIC</span>
+              </div>
+              <div class="grid grid-cols-2 gap-1.5 text-xs">
+                <div class="model-chip-active">
+                  <span class="w-2 h-2 rounded-full bg-cyan-400"></span> GPT-4o Omni
+                </div>
+                <div class="model-chip-inactive">
+                  <span class="w-2 h-2 rounded-full bg-indigo-400"></span> Claude 3.5
+                </div>
+                <div class="model-chip-inactive">
+                  <span class="w-2 h-2 rounded-full bg-sky-400"></span> Gemini 1.5
+                </div>
+                <div class="model-chip-inactive">
+                  <span class="w-2 h-2 rounded-full bg-purple-400"></span> Flux / Vision
+                </div>
+              </div>
+            </div>
+
+            <!-- Simulated Prompt Input -->
+            <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800 mb-3 text-left">
+              <div class="text-[10px] text-slate-400 font-mono flex items-center justify-between mb-1">
+                <span>PROMPT EN EJECUCIÓN:</span>
+                <span class="text-cyan-400 font-semibold">Código #24 Iluminación</span>
+              </div>
+              <p class="text-[11px] text-slate-200 font-mono line-clamp-2 italic">
+                "Actúa como director de fotografía cinematográfica. Formula una toma hiperrealista 8k..."
+              </p>
+            </div>
+
+            <!-- Simulated Output Card -->
+            <div class="p-3 rounded-xl bg-gradient-to-r from-cyan-950/60 to-indigo-950/60 border border-cyan-500/30 text-left">
+              <div class="flex items-center justify-between text-[10px] text-cyan-300 font-bold mb-1">
+                <span class="flex items-center gap-1"><i class="fas fa-check-circle text-cyan-400"></i> Orquestación Exitosa</span>
+                <span class="font-mono text-slate-400">Tokens: -2 / Saldo: 1,498</span>
+              </div>
+              <p class="text-[11px] text-slate-300 leading-snug">
+                Toma estructurada con iluminación volumétrica y paleta cinematográfica generada en 1.1s.
+              </p>
+            </div>
+
+            <!-- Bottom Showcase Link -->
+            <div class="mt-3 pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
+              <span>Todas tus IAs en una sola cuenta</span>
+              <a href="https://passportai.app/register" target="_blank" rel="noopener" class="text-cyan-400 hover:underline font-bold text-xs flex items-center gap-1">
+                Probar en Vivo <i class="fas fa-chevron-right text-[9px]"></i>
+              </a>
+            </div>
+
+          </div>
+        </div>
+
       </div>
 
     </div>
@@ -1010,7 +1286,7 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
             <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
           </button>
           <button type="button" onclick="selectQuizOption(4, 50, 'D', this)" class="quiz-opt w-full p-4 rounded-xl text-left bg-slate-950/70 border border-slate-800 hover:border-cyan-400 hover:bg-slate-900/80 text-slate-300 hover:text-white transition-all text-xs sm:text-sm flex items-center justify-between group">
-            <span>D. Tengo agentes de WhatsApp o prospección B2B conectados a CRM y bases de datos (PassportAI).</span>
+            <span>D. Conecto múltiples modelos de IA (APIs, agentes autónomos o suites como PassportAI) en mis flujos.</span>
             <i class="quiz-opt-icon far fa-circle text-slate-600 group-hover:text-cyan-400 text-sm ml-3"></i>
           </button>
         </div>
@@ -1575,19 +1851,19 @@ Physics & Movement (Critical): Does NOT float. Interacts physically with the cit
         badgeText = '⚡ NIVEL IDENTIFICADO: INTERMEDIO';
         badgeClass = 'bg-amber-950/80 text-amber-300 border-amber-500/40 shadow-[0_0_15px_rgba(245,158,11,0.25)]';
         title = 'Nivel Intermedio: Creador Visual y Proactivo';
-        desc = 'Tienes un dominio notable de herramientas creativas y comprendes la lógica de los prompts. Creas contenido con buena estética, pero aún dependes de procesos manuales y te falta conectar tu contenido con prospección y automatizaciones de venta.';
+        desc = 'Tienes un dominio notable de herramientas creativas y comprendes la lógica de los prompts. Creas contenido con buena estética, pero aún dependes de procesos manuales y te falta centralizar tus herramientas en una suite gráfica y conectar flujos automatizados.';
         step1 = 'Implementa la directiva del Reel de Spiderman para video cinemático continuo y multi-escena.';
         step2 = 'Estandariza tus plantillas de carruseles y guiones con ganchos psicológicos de alta retención.';
-        step3 = 'Conecta tu contenido con llamados a la acción comerciales y automatización de respuestas en WhatsApp.';
+        step3 = 'Únete a nuestra comunidad de WhatsApp para dominar prompts avanzados y resolver dudas en vivo.';
       }} else {{
         // AVANZADO
         badgeText = '🚀 NIVEL IDENTIFICADO: AVANZADO';
         badgeClass = 'bg-indigo-950/80 text-cyan-300 border-cyan-400/50 shadow-[0_0_20px_rgba(0,229,255,0.35)]';
         title = 'Nivel Avanzado: Arquitecto Comercial de IA';
-        desc = 'Dominas herramientas de vanguardia, entiendes el impacto de los sistemas en el flujo de caja y conectas la IA con objetivos de facturación. Tu prioridad no es hacer prompts manuales, sino sistematizar flujos, desplegar agentes autónomos y delegar la ejecución técnica.';
-        step1 = 'Despliega agentes AI SDR en WhatsApp con respuestas en menos de 15 segundos y calificación automática.';
-        step2 = 'Implementa prospección B2B masiva y enriquecimiento de datos de empresas con PassportAI.';
-        step3 = 'Escala la pauta publicitaria (Meta Ads / YouTube Ads) apalancada en creativos visuales de IA.';
+        desc = 'Dominas herramientas de vanguardia, entiendes el impacto de los sistemas en el negocio y conectas la IA con objetivos reales. Tu prioridad no es hacer prompts manuales, sino sistematizar flujos, orquestar múltiples modelos de IA y delegar la ejecución técnica.';
+        step1 = 'Despliega agentes autónomos con respuestas instantáneas y memoria de contexto.';
+        step2 = 'Centraliza la orquestación multi-modelo (GPT-4o, Claude 3.5, Flux) en una sola interfaz con PassportAI.';
+        step3 = 'Escala la producción masiva de creativos visuales y video con flujos automatizados de IA.';
       }}
 
       // Set DOM elements
