@@ -280,11 +280,8 @@ reels_cards_html = []
 for r in reels_data:
     if r["id"] == "reel-spiderman":
         cta_btn_html = f'''
-        <button onclick="window.open('/spiderman', '_blank')" class="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-xs font-bold bg-cyan-400 text-slate-950 hover:bg-cyan-300 transition-all shadow-[0_0_10px_rgba(0,229,255,0.2)]" title="Ver Prompts en Pantalla Nueva">
-          <i class="fas fa-external-link-alt"></i> Ver Prompts (Pantalla Nueva)
-        </button>
-        <button type="button" onclick="openSpidermanModal()" class="px-2.5 py-2.5 rounded-xl text-xs font-bold bg-slate-900 border border-slate-700 hover:border-red-500/50 text-slate-300 hover:text-white transition-all shadow" title="Ver en Pop-up Rápido">
-          <i class="fas fa-window-restore"></i> Pop-up
+        <button onclick="window.open('/spiderman', '_blank')" class="flex-1 inline-flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs font-bold bg-cyan-400 text-slate-950 hover:bg-cyan-300 transition-all shadow-[0_0_15px_rgba(0,229,255,0.25)]" title="Ver Prompts en Pantalla Nueva">
+          <i class="fas fa-spider text-red-600"></i> Ver Prompts Traducidos
         </button>'''
     else:
         cta_btn_html = f'''
@@ -744,6 +741,19 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       color: #ffffff !important;
       box-shadow: 0 0 20px rgba(0, 229, 255, 0.25) !important;
     }
+
+    /* VENTANAS EMERGENTES - 100% OPACAS Y NADA TRANSPARENTES */
+    .modal-backdrop-solid {
+      background-color: rgba(2, 6, 23, 0.94) !important;
+      backdrop-filter: blur(12px) !important;
+      -webkit-backdrop-filter: blur(12px) !important;
+    }
+    .modal-box-solid {
+      background-color: #030712 !important;
+      background: #030712 !important;
+      opacity: 1 !important;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.98), 0 0 60px rgba(0, 0, 0, 0.95) !important;
+    }
   </style>
 </head>
 <body class="min-h-screen flex flex-col relative selection:bg-cyan-500 selection:text-slate-950">
@@ -772,7 +782,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
           <a href="#descargas" class="nav-link-item px-3 py-1.5 rounded-lg text-slate-300 hover:text-white transition-colors">
             <i class="far fa-file-pdf text-xs text-red-400"></i> <span>Descargas PDF</span>
           </a>
-          <a href="javascript:void(0)" onclick="openSpidermanModal()" class="nav-link-item px-3 py-1.5 rounded-lg text-slate-300 hover:text-white transition-colors">
+          <a href="/spiderman" target="_blank" rel="noopener" class="nav-link-item px-3 py-1.5 rounded-lg text-slate-300 hover:text-white transition-colors">
             <i class="fas fa-spider text-xs text-red-400"></i> <span>Reel Spiderman</span>
           </a>
           <a href="#reels-gallery" class="nav-link-item px-3 py-1.5 rounded-lg text-slate-300 hover:text-white transition-colors">
@@ -817,7 +827,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       <a href="#descargas" onclick="closeMobileMenu()" class="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-900">
         <i class="far fa-file-pdf text-xs text-red-400"></i> <span>Descargas PDF (2 Guías)</span>
       </a>
-      <a href="javascript:void(0)" onclick="closeMobileMenu(); openSpidermanModal();" class="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-900">
+      <a href="/spiderman" target="_blank" rel="noopener" onclick="closeMobileMenu()" class="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-900">
         <i class="fas fa-spider text-xs text-red-400"></i> <span>Reel Spiderman ("The Swing")</span>
       </a>
       <a href="#reels-gallery" onclick="closeMobileMenu()" class="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-900">
@@ -1392,7 +1402,7 @@ __REELS_GRID_STR__
         <ul class="space-y-2.5">
           <li><a href="#codigos-grid" class="hover:text-white transition-colors">200 Códigos Creativos</a></li>
           <li><a href="#descargas" class="hover:text-white transition-colors">Descargas PDF Oficiales</a></li>
-          <li><a href="javascript:void(0)" onclick="openSpidermanModal()" class="hover:text-white transition-colors">Prompt Reel Spiderman (Popup)</a></li>
+          <li><a href="/spiderman" target="_blank" rel="noopener" class="hover:text-white transition-colors">Efecto Spiderman (Página Nueva)</a></li>
           <li><a href="#reels-gallery" class="hover:text-white transition-colors">Galería de Nuestros Reels</a></li>
           <li><a href="/test-ia" target="_blank" rel="noopener" class="text-amber-400 hover:text-amber-300 font-semibold transition-colors">Diagnóstico IA (Página Nueva)</a></li>
           <li><a href="https://chat.whatsapp.com/HIjs3Bytduy9ucOtn6jeKw?s=sh&p=a&ilr=4" target="_blank" rel="noopener" class="text-emerald-400 hover:underline">Comunidad VIP WhatsApp</a></li>
@@ -1442,8 +1452,8 @@ __REELS_GRID_STR__
   <!-- ════════════════════════════════════════════════════
        REQUISITO 2: POPUP MODAL REEL DE SPIDERMAN ("THE SWING PROMPTS")
        ════════════════════════════════════════════════════ -->
-  <div id="spiderman-modal" style="display: none; z-index: 999999;" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md items-center justify-center p-3 sm:p-6 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="spiderman-modal-title">
-    <div class="relative w-full max-w-4xl bg-slate-950 border-2 border-red-500/40 rounded-3xl p-5 sm:p-8 shadow-[0_0_60px_rgba(239,68,68,0.25)] my-auto max-h-[92vh] overflow-y-auto">
+  <div id="spiderman-modal" style="display: none; z-index: 999999;" class="fixed inset-0 modal-backdrop-solid items-center justify-center p-3 sm:p-6 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="spiderman-modal-title">
+    <div class="modal-box-solid relative w-full max-w-4xl border-2 border-red-500/50 rounded-3xl p-5 sm:p-8 my-auto max-h-[92vh] overflow-y-auto" style="background-color: #030712 !important;">
       
       <!-- Close Button -->
       <button type="button" onclick="closeSpidermanModal()" class="absolute top-4 right-4 sm:top-6 sm:right-6 w-10 h-10 rounded-full bg-slate-900 border border-slate-700 text-slate-400 hover:text-white hover:border-red-400 flex items-center justify-center transition-all focus:outline-none z-10" aria-label="Cerrar modal">
@@ -1607,8 +1617,8 @@ Atmosphere & Speed: Heavy wind turbulence rippling clothes and hair, dynamic sun
   <!-- ════════════════════════════════════════════════════
        REQUISITO 5: POPUP MODAL FORMULARIO DE COTIZACIÓN ENTUSIASTA
        ════════════════════════════════════════════════════ -->
-  <div id="cotizacion-modal" style="display: none; z-index: 999999;" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md items-center justify-center p-3 sm:p-6 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="cotizacion-modal-title">
-    <div class="relative w-full max-w-lg bg-slate-950 border-2 border-orange-500/40 rounded-3xl p-6 sm:p-8 shadow-[0_0_60px_rgba(249,115,22,0.3)] my-auto max-h-[92vh] overflow-y-auto">
+  <div id="cotizacion-modal" style="display: none; z-index: 999999;" class="fixed inset-0 modal-backdrop-solid items-center justify-center p-3 sm:p-6 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="cotizacion-modal-title">
+    <div class="modal-box-solid relative w-full max-w-lg border-2 border-orange-500/50 rounded-3xl p-6 sm:p-8 my-auto max-h-[92vh] overflow-y-auto" style="background-color: #030712 !important;">
       
       <!-- Close Button -->
       <button type="button" onclick="closeCotizacionModal()" class="absolute top-4 right-4 sm:top-5 sm:right-5 w-10 h-10 rounded-full bg-slate-900 border border-slate-700 text-slate-400 hover:text-white hover:border-orange-400 flex items-center justify-center transition-all focus:outline-none z-10" aria-label="Cerrar modal">
@@ -1631,11 +1641,11 @@ Atmosphere & Speed: Heavy wind turbulence rippling clothes and hair, dynamic sun
         <div>
           <label class="block text-xs font-semibold text-slate-300 mb-1.5">¿Qué modalidad te interesa? *</label>
           <div class="grid grid-cols-2 gap-2 text-xs">
-            <label class="flex items-center gap-2 p-3 rounded-xl bg-slate-900/90 border border-slate-700 cursor-pointer hover:border-orange-400 transition-colors" id="modal-label-opt-contenido">
+            <label class="flex items-center gap-2 p-3 rounded-xl border border-slate-700 cursor-pointer hover:border-orange-400 transition-colors" style="background-color: #0d1527 !important;" id="modal-label-opt-contenido">
               <input type="radio" name="modal_servicio_opcion" value="contenido" class="text-orange-400 focus:ring-0">
               <span class="text-slate-200 font-medium text-[11px] sm:text-xs">1. Contenido Viral</span>
             </label>
-            <label class="flex items-center gap-2 p-3 rounded-xl bg-slate-900/90 border border-slate-700 cursor-pointer hover:border-amber-400 transition-colors" id="modal-label-opt-integral">
+            <label class="flex items-center gap-2 p-3 rounded-xl border border-slate-700 cursor-pointer hover:border-amber-400 transition-colors" style="background-color: #0d1527 !important;" id="modal-label-opt-integral">
               <input type="radio" name="modal_servicio_opcion" value="integral" checked class="text-amber-400 focus:ring-0">
               <span class="text-slate-200 font-medium text-[11px] sm:text-xs">2. Sistema 360°</span>
             </label>
