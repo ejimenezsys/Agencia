@@ -1276,6 +1276,19 @@ async def read_test_ia(request: Request):
             return HTMLResponse(content=f.read())
     return templates.TemplateResponse(request=request, name="test-ia.html")
 
+@app.get("/spiderman", response_class=HTMLResponse)
+@app.head("/spiderman")
+@app.get("/spiderman/", response_class=HTMLResponse)
+@app.head("/spiderman/")
+@app.get("/spiderman.html", response_class=HTMLResponse)
+@app.head("/spiderman.html")
+async def read_spiderman(request: Request):
+    static_html = os.path.join(os.path.dirname(__file__), "static", "spiderman", "index.html")
+    if os.path.exists(static_html):
+        with open(static_html, "r", encoding="utf-8") as f:
+            return HTMLResponse(content=f.read())
+    return templates.TemplateResponse(request=request, name="spiderman.html")
+
 @app.get("/podcast", response_class=HTMLResponse)
 @app.get("/podcast.html", response_class=HTMLResponse)
 async def read_podcast(request: Request):

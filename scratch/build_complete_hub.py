@@ -278,7 +278,16 @@ reels_data = [
 
 reels_cards_html = []
 for r in reels_data:
-    cta_btn_html = f'''
+    if r["id"] == "reel-spiderman":
+        cta_btn_html = f'''
+        <button onclick="window.open('/spiderman', '_blank')" class="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-xs font-bold bg-cyan-400 text-slate-950 hover:bg-cyan-300 transition-all shadow-[0_0_10px_rgba(0,229,255,0.2)]" title="Ver Prompts en Pantalla Nueva">
+          <i class="fas fa-external-link-alt"></i> Ver Prompts (Pantalla Nueva)
+        </button>
+        <button type="button" onclick="openSpidermanModal()" class="px-2.5 py-2.5 rounded-xl text-xs font-bold bg-slate-900 border border-slate-700 hover:border-red-500/50 text-slate-300 hover:text-white transition-all shadow" title="Ver en Pop-up Rápido">
+          <i class="fas fa-window-restore"></i> Pop-up
+        </button>'''
+    else:
+        cta_btn_html = f'''
         <button onclick="{r['cta_action']}" class="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-xs font-bold bg-cyan-400 text-slate-950 hover:bg-cyan-300 transition-all shadow-[0_0_10px_rgba(0,229,255,0.2)]">
           <i class="{r['cta_icon']}"></i> {r['cta_label']}
         </button>'''
@@ -1210,8 +1219,19 @@ __REELS_GRID_STR__
        ════════════════════════════════════════════════════ -->
   <section id="carta-ventas" class="py-12 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 scroll-mt-24">
     
-    <div class="glass-panel p-6 sm:p-12 lg:p-14 rounded-3xl border-2 border-orange-500/35 relative overflow-hidden bg-gradient-to-b from-slate-950 via-[#1a0c02] to-slate-950 shadow-[0_0_60px_rgba(249,115,22,0.14)]">
-      <div class="absolute -top-32 -right-32 w-80 h-80 bg-orange-500/10 rounded-full blur-3xl pointer-events-none"></div>
+    <!-- Imagen Arriba del Bloque Generada Especialmente -->
+    <div class="mb-10 rounded-3xl overflow-hidden border-2 border-amber-500/40 shadow-[0_0_60px_rgba(245,158,11,0.22)] max-w-5xl mx-auto relative group">
+      <img src="/static/prosperia_agency_banner.jpg" alt="Agencia ProsperIA - Producción de Contenido y Crecimiento con Inteligencia Artificial" class="w-full h-auto max-h-[460px] object-cover object-center group-hover:scale-[1.01] transition-transform duration-500">
+      <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent flex items-end p-5 sm:p-8">
+        <span class="px-4 py-1.5 rounded-full text-[11px] sm:text-xs font-black uppercase tracking-wider bg-gradient-to-r from-amber-400 via-orange-500 to-amber-500 text-slate-950 shadow-xl inline-flex items-center gap-2">
+          <i class="fas fa-crown text-slate-950"></i> SERVICIO DE AGENCIA PROSPERIA · PRODUCCIÓN Y ESCALAMIENTO CON IA
+        </span>
+      </div>
+    </div>
+
+    <!-- Cuadro Naranja / Ámbar Elegante (Mismo estilo que PassportAI) -->
+    <div class="passportai-container p-6 sm:p-12 lg:p-14 relative overflow-hidden">
+      <div class="absolute -top-32 -right-32 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
       <div class="max-w-3xl mx-auto text-center mb-10 sm:mb-14">
         <span class="px-3.5 py-1 rounded-full text-xs font-bold bg-orange-950 text-orange-300 border border-orange-500/40 uppercase tracking-wider mb-4 inline-block">
@@ -1422,7 +1442,7 @@ __REELS_GRID_STR__
   <!-- ════════════════════════════════════════════════════
        REQUISITO 2: POPUP MODAL REEL DE SPIDERMAN ("THE SWING PROMPTS")
        ════════════════════════════════════════════════════ -->
-  <div id="spiderman-modal" class="fixed inset-0 z-50 hidden bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="spiderman-modal-title">
+  <div id="spiderman-modal" style="display: none; z-index: 999999;" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md items-center justify-center p-3 sm:p-6 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="spiderman-modal-title">
     <div class="relative w-full max-w-4xl bg-slate-950 border-2 border-red-500/40 rounded-3xl p-5 sm:p-8 shadow-[0_0_60px_rgba(239,68,68,0.25)] my-auto max-h-[92vh] overflow-y-auto">
       
       <!-- Close Button -->
@@ -1448,9 +1468,12 @@ __REELS_GRID_STR__
             Por <strong>Edward Jiménez</strong> (<a href="https://www.instagram.com/edwardjimenezia/" target="_blank" rel="noopener" class="text-red-400 font-bold hover:underline">@edwardjimenezia</a>) · Agencia ProsperIA
           </p>
         </div>
-        <div class="pt-2 sm:pt-0">
+        <div class="pt-2 sm:pt-0 flex flex-wrap gap-2">
+          <a href="/spiderman" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-red-600 hover:bg-red-500 text-white transition-all shadow-md">
+            <i class="fas fa-external-link-alt"></i> <span>Pantalla Completa</span>
+          </a>
           <a href="https://www.instagram.com/p/DdsN1nasM46/" target="_blank" rel="noopener" class="spiderman-ig-btn">
-            <i class="fab fa-instagram text-base"></i> <span>Ver en Instagram</span>
+            <i class="fab fa-instagram text-base"></i> <span>Ver en IG</span>
           </a>
         </div>
       </div>
@@ -1584,7 +1607,7 @@ Atmosphere & Speed: Heavy wind turbulence rippling clothes and hair, dynamic sun
   <!-- ════════════════════════════════════════════════════
        REQUISITO 5: POPUP MODAL FORMULARIO DE COTIZACIÓN ENTUSIASTA
        ════════════════════════════════════════════════════ -->
-  <div id="cotizacion-modal" class="fixed inset-0 z-50 hidden bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="cotizacion-modal-title">
+  <div id="cotizacion-modal" style="display: none; z-index: 999999;" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md items-center justify-center p-3 sm:p-6 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="cotizacion-modal-title">
     <div class="relative w-full max-w-lg bg-slate-950 border-2 border-orange-500/40 rounded-3xl p-6 sm:p-8 shadow-[0_0_60px_rgba(249,115,22,0.3)] my-auto max-h-[92vh] overflow-y-auto">
       
       <!-- Close Button -->
@@ -1814,7 +1837,8 @@ Atmosphere & Speed: Heavy wind turbulence rippling clothes and hair, dynamic sun
     function openSpidermanModal() {
       const modal = document.getElementById('spiderman-modal');
       if (modal) {
-        modal.classList.remove('hidden');
+        modal.style.display = 'flex';
+        modal.style.zIndex = '999999';
         document.body.style.overflow = 'hidden';
         toggleSpidermanStep(1);
       }
@@ -1823,7 +1847,7 @@ Atmosphere & Speed: Heavy wind turbulence rippling clothes and hair, dynamic sun
     function closeSpidermanModal() {
       const modal = document.getElementById('spiderman-modal');
       if (modal) {
-        modal.classList.add('hidden');
+        modal.style.display = 'none';
         document.body.style.overflow = '';
       }
     }
@@ -1865,7 +1889,8 @@ Atmosphere & Speed: Heavy wind turbulence rippling clothes and hair, dynamic sun
       const radio = document.querySelector(`input[name="modal_servicio_opcion"][value="${option}"]`);
       if (radio) radio.checked = true;
 
-      modal.classList.remove('hidden');
+      modal.style.display = 'flex';
+      modal.style.zIndex = '999999';
       document.body.style.overflow = 'hidden';
       setTimeout(() => {
         const nameInput = document.getElementById('modal-direct-name');
@@ -1876,7 +1901,7 @@ Atmosphere & Speed: Heavy wind turbulence rippling clothes and hair, dynamic sun
     function closeCotizacionModal() {
       const modal = document.getElementById('cotizacion-modal');
       if (modal) {
-        modal.classList.add('hidden');
+        modal.style.display = 'none';
         document.body.style.overflow = '';
       }
     }

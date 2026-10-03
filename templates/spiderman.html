@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Efecto Spiderman 'The Swing' con IA — Prompts & Desglose Técnico | ProsperIA</title>
+  <meta name="description" content="Aprende paso a paso cómo recrear el efecto viral de Spiderman 'The Swing' con ChatGPT, Midjourney y Kling AI / Runway Gen-3. Prompts exactos listos para copiar.">
+  <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            spider: {
+              red: '#ef4444',
+              darkred: '#7f1d1d',
+              blue: '#0284c7',
+              darkblue: '#082f49',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #030712;
+      color: #f3f4f6;
+    }
+    .hero-glow {
+      background: radial-gradient(circle at 50% 20%, rgba(239, 68, 68, 0.18) 0%, rgba(2, 132, 199, 0.12) 40%, rgba(3, 7, 18, 0) 75%);
+    }
+    .prompt-box {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      background: #080f1d;
+      border: 1px solid #1e293b;
+      border-radius: 14px;
+      padding: 1.1rem;
+      color: #93c5fd;
+      position: relative;
+    }
+    .spider-card {
+      background: linear-gradient(145deg, rgba(15, 23, 42, 0.9) 0%, rgba(8, 12, 22, 0.95) 100%);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 25px rgba(239, 68, 68, 0.1);
+      border-radius: 24px;
+      transition: all 0.3s ease;
+    }
+    .spider-card:hover {
+      border-color: rgba(239, 68, 68, 0.6);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7), 0 0 35px rgba(239, 68, 68, 0.2);
+    }
+    .copy-btn {
+      transition: all 0.2s ease;
+    }
+    .copy-btn:hover {
+      transform: translateY(-1px);
+    }
+    .btn-gradient {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 50%, #b91c1c 100%);
+      box-shadow: 0 0 20px rgba(239, 68, 68, 0.35);
+    }
+    .btn-gradient:hover {
+      background: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
+      box-shadow: 0 0 30px rgba(239, 68, 68, 0.5);
+    }
+  </style>
+</head>
+<body class="min-h-screen relative selection:bg-red-500 selection:text-white">
+
+  <!-- Glow Background -->
+  <div class="fixed inset-0 hero-glow pointer-events-none z-0"></div>
+
+  <!-- Top Navigation Bar -->
+  <header class="sticky top-0 z-50 bg-slate-950/85 backdrop-blur-md border-b border-slate-800/80 px-4 sm:px-8 py-3.5">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href="/codigos" class="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-300 hover:text-white bg-slate-900 border border-slate-700 hover:border-slate-500 px-3.5 py-1.5 rounded-xl transition-all">
+          <i class="fas fa-arrow-left text-xs"></i> <span>Volver al Catálogo</span>
+        </a>
+        <div class="hidden sm:flex items-center gap-2 pl-3 border-l border-slate-800">
+          <img src="/static/logo-prosperia.png" alt="ProsperIA" class="h-6 w-auto" onerror="this.style.display='none'">
+          <span class="text-sm font-extrabold text-white tracking-wider">Agencia ProsperIA</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2.5">
+        <a href="https://www.instagram.com/p/DdsN1nasM46/" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-gradient-to-r from-pink-600 via-rose-600 to-purple-600 text-white hover:opacity-95 transition-opacity shadow-md">
+          <i class="fab fa-instagram"></i> <span>Ver Reel en IG</span>
+        </a>
+        <a href="/codigos#carta-ventas" class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 transition-all">
+          <i class="fas fa-bolt"></i> <span>Hacerlo para mi Negocio</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+
+    <!-- Hero Header -->
+    <div class="text-center mb-10 sm:mb-14">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-extrabold bg-red-950/80 text-red-400 border border-red-500/40 uppercase tracking-wider mb-4 shadow-[0_0_15px_rgba(239,68,68,0.2)]">
+        <i class="fas fa-spider text-sm"></i> Desglose de Producción Cinemática con IA
+      </div>
+      <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight mb-4 leading-tight">
+        Efecto Spiderman <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-rose-400 to-orange-400">"The Swing"</span>
+      </h1>
+      <p class="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
+        El procedimiento técnico de 3 pasos para recrear la transición del sujeto relajado en el alféizar de un rascacielos lanzándose al vacío como Spiderman.
+      </p>
+    </div>
+
+    <!-- Video Showcase & Context Card -->
+    <div class="spider-card p-6 sm:p-8 mb-10">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+        <!-- Thumbnail / Video -->
+        <div class="md:col-span-5 relative rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 shadow-2xl group">
+          <img src="/static/reel_spiderman_thumb.jpg" alt="Efecto Spiderman The Swing" class="w-full h-72 sm:h-80 object-cover object-center group-hover:scale-105 transition-transform duration-500" onerror="this.src='/static/reel_director_thumb.jpg'">
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-black/20 to-transparent flex items-center justify-center">
+            <a href="https://www.instagram.com/p/DdsN1nasM46/" target="_blank" rel="noopener" class="w-16 h-16 rounded-full bg-red-600/90 text-white flex items-center justify-center text-xl shadow-[0_0_30px_rgba(239,68,68,0.6)] hover:scale-110 transition-transform">
+              <i class="fas fa-play ml-1"></i>
+            </a>
+          </div>
+          <div class="absolute bottom-3 left-3 right-3 text-center">
+            <span class="text-[11px] font-mono text-slate-300 bg-black/75 backdrop-blur-sm px-2.5 py-1 rounded-md border border-white/10">
+              <i class="fab fa-instagram text-pink-400 mr-1"></i> Reel Viral Oficial de Edward Jiménez
+            </span>
+          </div>
+        </div>
+
+        <!-- Details & Architecture -->
+        <div class="md:col-span-7 space-y-4">
+          <div class="flex flex-wrap gap-2">
+            <span class="px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-900 border border-slate-700 text-slate-300">
+              <i class="fas fa-film text-red-400 mr-1"></i> Formato: 9:16 Vertical
+            </span>
+            <span class="px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-900 border border-slate-700 text-slate-300">
+              <i class="fas fa-microchip text-cyan-400 mr-1"></i> Motor: ChatGPT + Midjourney + Kling AI
+            </span>
+            <span class="px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-900 border border-slate-700 text-emerald-400">
+              <i class="fas fa-check-circle mr-1"></i> 100% Reproducible
+            </span>
+          </div>
+
+          <h2 class="text-xl sm:text-2xl font-extrabold text-white">¿Cómo funciona la ilusión visual?</h2>
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            La clave para que el salto no se deforme ni pierda identidad facial es la técnica del <strong>doble fotograma clave (Keyframe Interpolation)</strong>:
+          </p>
+          <ol class="space-y-2 text-xs sm:text-sm text-slate-300 list-decimal list-inside pl-1">
+            <li><strong>Fotograma A (Inicio):</strong> Rostro y vestimenta fijos en la ventana.</li>
+            <li><strong>Fotograma B (Fin del arco):</strong> Misma vestimenta pero en postura acrobática de vuelo hacia la cámara.</li>
+            <li><strong>Prompt de Cámara:</strong> Empuje frontal continuo atravesando el alféizar hacia el vacío neoyorquino.</li>
+          </ol>
+
+          <div class="pt-2 flex flex-wrap gap-3">
+            <a href="https://www.instagram.com/p/DdsN1nasM46/" target="_blank" rel="noopener" class="btn-gradient px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white inline-flex items-center gap-2">
+              <i class="fab fa-instagram"></i> Ver Video en Instagram
+            </a>
+            <button onclick="scrollToSteps()" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 inline-flex items-center gap-2 transition-all">
+              <i class="fas fa-arrow-down text-red-400"></i> Ir a los Prompts
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 Steps Section -->
+    <div id="prompts-section" class="space-y-6 sm:space-y-8 mb-14">
+      
+      <!-- Paso 1 -->
+      <div class="bg-slate-950/80 rounded-2xl border border-slate-800 hover:border-red-500/40 p-5 sm:p-7 transition-all">
+        <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
+          <div class="flex items-center gap-3">
+            <span class="w-8 h-8 rounded-xl bg-red-950 border border-red-500/50 text-red-400 font-extrabold text-sm flex items-center justify-center">1</span>
+            <div>
+              <h3 class="text-base sm:text-lg font-bold text-white">Paso 1: Genera el Fotograma de Partida (Sujeto en Ventana)</h3>
+              <p class="text-xs text-slate-400">Herramienta: ChatGPT (DALL-E 3) o Midjourney v6</p>
+            </div>
+          </div>
+          <button onclick="copyPrompt('prompt-1', this)" class="copy-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-cyan-400 text-slate-950 hover:bg-cyan-300 inline-flex items-center gap-1.5 shadow">
+            <i class="fas fa-copy"></i> <span>Copiar Prompt</span>
+          </button>
+        </div>
+
+        <p class="text-xs sm:text-sm text-slate-300 mb-3 leading-relaxed">
+          Sube tu foto como referencia facial y utiliza la siguiente directiva para colocar al personaje relajado en el alféizar de un rascacielos de Manhattan:
+        </p>
+
+        <div id="prompt-1" class="prompt-box mb-3 select-all">Referencia: Utiliza la imagen subida como referencia directa para la fisonomía del rostro, pero coloca al personaje como un hombre joven sentado en el alféizar de una ventana de piso a techo completamente abierta dentro de una acogedora habitación de Nueva York. La ventana está totalmente abierta y deja pasar una brisa natural. El sujeto se sienta con las piernas hacia el cuarto, postura relajada y confiada, mirando a la cámara con una sonrisa natural. Fuera de la ventana, una vista panorámica impresionante y realista del atardecer sobre Manhattan, con rascacielos iluminados y tonos dorados. Iluminación cinematográfica 8k, estilo editorial moderno. --ar 9:16 --v 6.1 --style raw</div>
+
+        <div class="text-[11px] text-slate-400 flex items-center gap-2">
+          <i class="fas fa-lightbulb text-amber-400"></i>
+          <span><strong>Tip Pro:</strong> Conserva este fotograma exacto. Será tu imagen inicial para alimentar el motor de video.</span>
+        </div>
+      </div>
+
+      <!-- Paso 2 -->
+      <div class="bg-slate-950/80 rounded-2xl border border-slate-800 hover:border-red-500/40 p-5 sm:p-7 transition-all">
+        <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
+          <div class="flex items-center gap-3">
+            <span class="w-8 h-8 rounded-xl bg-red-950 border border-red-500/50 text-red-400 font-extrabold text-sm flex items-center justify-center">2</span>
+            <div>
+              <h3 class="text-base sm:text-lg font-bold text-white">Paso 2: Genera el Fotograma de Acción (Vuelo Spiderman)</h3>
+              <p class="text-xs text-slate-400">Herramienta: Midjourney v6 / Seedance 2.0</p>
+            </div>
+          </div>
+          <button onclick="copyPrompt('prompt-2', this)" class="copy-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-cyan-400 text-slate-950 hover:bg-cyan-300 inline-flex items-center gap-1.5 shadow">
+            <i class="fas fa-copy"></i> <span>Copiar Prompt</span>
+          </button>
+        </div>
+
+        <p class="text-xs sm:text-sm text-slate-300 mb-3 leading-relaxed">
+          Ahora generamos el segundo punto clave de la animación: el sujeto en caída libre con la pose clásica de balanceo de Peter Parker:
+        </p>
+
+        <div id="prompt-2" class="prompt-box mb-3 select-all">Plano de acción acrobático en caída libre: El mismo hombre joven del Paso 1 (misma chaqueta de cuero negro, pantalones anchos negros, zapatillas blancas) ahora está en pleno aire lanzándose desde la ventana del rascacielos. Postura dinámica inspirada en Spiderman: cuerpo arqueado en pose de balanceo, una mano estirada hacia adelante como si disparara una telaraña, la otra hacia atrás para estabilizar el equilibrio. Vista en picada hacia abajo con el cañón urbano de rascacielos de Manhattan y las calles con tráfico abajo. Iluminación dorada del atardecer con destellos de lente cinematográficos, desenfoque de movimiento en el fondo para dar sensación de velocidad extrema, realismo fotográfico hiperdetallado 8k. --ar 9:16 --v 6.1 --chaos 10</div>
+
+        <div class="text-[11px] text-slate-400 flex items-center gap-2">
+          <i class="fas fa-lightbulb text-amber-400"></i>
+          <span><strong>Tip Pro:</strong> Asegúrate de que la ropa y colores coincidan al 100% con el Paso 1 para evitar inconsistencias de vestuario.</span>
+        </div>
+      </div>
+
+      <!-- Paso 3 -->
+      <div class="bg-slate-950/80 rounded-2xl border border-slate-800 hover:border-red-500/40 p-5 sm:p-7 transition-all">
+        <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
+          <div class="flex items-center gap-3">
+            <span class="w-8 h-8 rounded-xl bg-red-950 border border-red-500/50 text-red-400 font-extrabold text-sm flex items-center justify-center">3</span>
+            <div>
+              <h3 class="text-base sm:text-lg font-bold text-white">Paso 3: Directiva de Movimiento de Cámara ("The Swing")</h3>
+              <p class="text-xs text-slate-400">Herramienta: Kling AI v1.5 / Runway Gen-3 Alpha / Luma Dream Machine</p>
+            </div>
+          </div>
+          <button onclick="copyPrompt('prompt-3', this)" class="copy-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-cyan-400 text-slate-950 hover:bg-cyan-300 inline-flex items-center gap-1.5 shadow">
+            <i class="fas fa-copy"></i> <span>Copiar Prompt</span>
+          </button>
+        </div>
+
+        <p class="text-xs sm:text-sm text-slate-300 mb-3 leading-relaxed">
+          Carga el Fotograma 1 como <strong>Start Frame</strong> y el Fotograma 2 como <strong>End Frame</strong> en Kling AI o Runway Gen-3. En el campo de directiva de movimiento (Prompt de texto), escribe:
+        </p>
+
+        <div id="prompt-3" class="prompt-box mb-3 select-all">Camera Movement: Cinematic continuous forward push through the open window, tracking the character seamlessly as he turns, smiles at the camera, and confidently leans backward dropping out of the window into the urban void. The camera rushes past the window frame, tilting downward into an extreme high-angle tracking shot that follows the subject falling through the skyscraper canyon. Fast motion blur, wind whipping through jacket and hair, smooth high-octane Hollywood blockbuster transition, physics-accurate gravity momentum, 24fps filmic realism.</div>
+
+        <div class="text-[11px] text-slate-400 flex items-center gap-2">
+          <i class="fas fa-magic text-cyan-400"></i>
+          <span><strong>Configuración Clave:</strong> Motion Scale: 7/10 · Duration: 5s · Camera: Forward Push + Tilt Down.</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom CTAs -->
+    <div class="spider-card p-6 sm:p-8 text-center">
+      <h3 class="text-xl sm:text-2xl font-bold text-white mb-2">¿Quieres que la Agencia ProsperIA cree estos videos para ti?</h3>
+      <p class="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto mb-6">
+        No pierdas semanas afinando prompts. Nosotros creamos todo el contenido viral para tu marca, o administramos tu ecosistema integral 360° (Contenido + Pauta + CRM).
+      </p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+        <a href="/codigos#carta-ventas" class="w-full sm:w-auto px-6 py-3 rounded-xl text-xs sm:text-sm font-bold bg-gradient-to-r from-amber-400 to-orange-500 text-slate-950 hover:opacity-95 transition-all shadow-lg">
+          <i class="fas fa-handshake mr-1.5"></i> Ver Modalidades y Cotizar
+        </a>
+        <a href="https://wa.me/17865573119?text=Hola,%20vi%20el%20desglose%20del%20efecto%20Spiderman%20y%20quiero%20cotizar%20producci%C3%B3n%20con%20IA%20para%20mi%20marca" target="_blank" rel="noopener" class="w-full sm:w-auto px-6 py-3 rounded-xl text-xs sm:text-sm font-bold bg-emerald-600 hover:bg-emerald-500 text-white transition-all shadow-lg inline-flex items-center justify-center gap-2">
+          <i class="fab fa-whatsapp text-lg"></i> Chatear por WhatsApp
+        </a>
+        <a href="/codigos" class="w-full sm:w-auto px-6 py-3 rounded-xl text-xs sm:text-sm font-bold bg-slate-900 border border-slate-700 hover:border-slate-500 text-slate-300 hover:text-white transition-all">
+          <i class="fas fa-layer-group mr-1.5"></i> Explorar 200 Códigos
+        </a>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="border-t border-slate-800/80 bg-slate-950/90 py-6 px-4 text-center text-xs text-slate-400">
+    <p>© 2026 Agencia ProsperIA. Todos los derechos reservados. Desarrollado para creadores y empresarios visionarios.</p>
+  </footer>
+
+  <script>
+    function scrollToSteps() {
+      document.getElementById('prompts-section').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function copyPrompt(elementId, btn) {
+      const text = document.getElementById(elementId).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check text-slate-950"></i> <span class="text-slate-950 font-black">¡Copiado! ✓</span>';
+        btn.classList.remove('bg-cyan-400', 'hover:bg-cyan-300');
+        btn.classList.add('bg-emerald-400');
+        setTimeout(() => {
+          btn.innerHTML = originalHTML;
+          btn.classList.remove('bg-emerald-400');
+          btn.classList.add('bg-cyan-400', 'hover:bg-cyan-300');
+        }, 2200);
+      }).catch(err => {
+        alert('Copiado al portapapeles');
+      });
+    }
+  </script>
+</body>
+</html>
