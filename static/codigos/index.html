@@ -449,8 +449,9 @@
       <div class="flex items-center justify-between h-16 sm:h-20">
         
         <!-- Logo -->
-        <a href="/" class="flex items-center gap-3 group">
+        <a href="https://agenciaprosperia.com/" class="flex items-center gap-3 group" title="Ir a la Página Principal de Agencia ProsperIA">
           <img src="/static/logo_prosper_ia_cropped.jpg" alt="AGENCIA PROSPERIA" class="h-9 sm:h-12 w-auto object-contain rounded-lg group-hover:scale-105 transition-transform">
+          <span class="hidden sm:inline font-black text-white text-base tracking-wider group-hover:text-cyan-400 transition-colors">Agencia ProsperIA</span>
         </a>
 
         <!-- Desktop Links -->
@@ -9628,6 +9629,27 @@
         </div>
       </div>
 
+      <!-- ════════════════════════════════════════════════════
+           BLOQUE REDIRECCIÓN A HOME: ¿QUIERES VER TODO LO QUE HACE LA AGENCIA?
+           ════════════════════════════════════════════════════ -->
+      <div class="mt-8 p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-blue-950/80 via-slate-950 to-indigo-950/80 border border-cyan-500/40 flex flex-col md:flex-row items-center justify-between gap-6 max-w-5xl mx-auto shadow-[0_0_40px_rgba(0,229,255,0.15)] relative overflow-hidden">
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-cyan-400 text-xl sm:text-2xl flex-shrink-0">
+            <i class="fas fa-home"></i>
+          </div>
+          <div>
+            <span class="text-xs font-bold text-cyan-400 uppercase tracking-wider block mb-0.5">Portal Oficial de ProsperIA</span>
+            <h4 class="text-base sm:text-xl font-bold text-white">¿Quieres ver todo lo que hace la Agencia ProsperIA?</h4>
+            <p class="text-xs text-slate-300 mt-0.5">Conoce nuestras soluciones integrales: automatización con IA, agentes comerciales, contenido viral y casos de éxito reales.</p>
+          </div>
+        </div>
+        <div class="flex-shrink-0 w-full md:w-auto">
+          <a href="https://agenciaprosperia.com/" class="w-full md:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-bold text-sm bg-gradient-to-r from-cyan-400 to-blue-500 text-slate-950 hover:from-cyan-300 hover:to-blue-400 transition-all shadow-[0_0_20px_rgba(0,229,255,0.35)]">
+            <i class="fas fa-external-link-alt text-sm"></i> Ir a la Página Principal
+          </a>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -9872,23 +9894,23 @@ Atmosphere & Speed: Heavy wind turbulence rippling clothes and hair, dynamic sun
   <!-- ════════════════════════════════════════════════════
        REQUISITO 5: POPUP MODAL FORMULARIO DE COTIZACIÓN ENTUSIASTA
        ════════════════════════════════════════════════════ -->
-  <div id="cotizacion-modal" style="display: none; z-index: 999999;" class="fixed inset-0 modal-backdrop-solid items-center justify-center p-3 sm:p-6 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="cotizacion-modal-title">
-    <div class="modal-box-solid relative w-full max-w-lg border-2 border-orange-500/50 rounded-3xl p-6 sm:p-8 my-auto max-h-[92vh] overflow-y-auto" style="background-color: #030712 !important;">
+  <div id="cotizacion-modal" style="display: none; position: fixed; inset: 0; z-index: 99999999; background: rgba(0, 0, 0, 0.94) !important; background-color: rgba(0, 0, 0, 0.94) !important; -webkit-backdrop-filter: blur(16px) !important; backdrop-filter: blur(16px) !important; align-items: center; justify-content: center; padding: 16px; overflow-y: auto;" role="dialog" aria-modal="true" aria-labelledby="cotizacion-modal-title">
+    <div class="relative w-full max-w-lg rounded-3xl p-6 sm:p-8 my-auto max-h-[92vh] overflow-y-auto" style="background: #040813 !important; background-color: #040813 !important; border: 2px solid #f97316 !important; box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.99), 0 0 60px rgba(249, 115, 22, 0.35) !important; opacity: 1 !important;">
       
       <!-- Close Button -->
-      <button type="button" onclick="closeCotizacionModal()" class="absolute top-4 right-4 sm:top-5 sm:right-5 w-10 h-10 rounded-full bg-slate-900 border border-slate-700 text-slate-400 hover:text-white hover:border-orange-400 flex items-center justify-center transition-all focus:outline-none z-10" aria-label="Cerrar modal">
+      <button type="button" onclick="closeCotizacionModal()" class="absolute top-4 right-4 sm:top-5 sm:right-5 w-10 h-10 rounded-full text-slate-300 hover:text-white hover:border-orange-400 flex items-center justify-center transition-all focus:outline-none z-10" style="background: #0c1427 !important; background-color: #0c1427 !important; border: 1px solid #334155 !important;" aria-label="Cerrar modal">
         <i class="fas fa-times text-base"></i>
       </button>
 
       <div class="text-center mb-6 pr-6">
-        <span class="px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-orange-950 text-orange-300 border border-orange-500/40 inline-block mb-2">
+        <span class="px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-orange-950 text-orange-300 border border-orange-500/40 inline-block mb-2 shadow">
           🚀 ¡Gran Decisión de Crecimiento!
         </span>
         <h3 id="cotizacion-modal-title" class="text-xl sm:text-2xl font-black text-white">
           Cotización de Servicio ProsperIA
         </h3>
         <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">
-          Llena tus datos con entusiasmo y coordinamos una propuesta a la medida en tiempo récord.
+          Llena tus datos y coordinamos una propuesta a la medida en tiempo récord con respuesta directa.
         </p>
       </div>
 
@@ -9896,11 +9918,11 @@ Atmosphere & Speed: Heavy wind turbulence rippling clothes and hair, dynamic sun
         <div>
           <label class="block text-xs font-semibold text-slate-300 mb-1.5">¿Qué modalidad te interesa? *</label>
           <div class="grid grid-cols-2 gap-2 text-xs">
-            <label class="flex items-center gap-2 p-3 rounded-xl border border-slate-700 cursor-pointer hover:border-orange-400 transition-colors" style="background-color: #0d1527 !important;" id="modal-label-opt-contenido">
+            <label class="flex items-center gap-2 p-3 rounded-xl border border-slate-700 cursor-pointer hover:border-orange-400 transition-colors" style="background: #0c1427 !important; background-color: #0c1427 !important; border: 1px solid #334155 !important;" id="modal-label-opt-contenido">
               <input type="radio" name="modal_servicio_opcion" value="contenido" class="text-orange-400 focus:ring-0">
               <span class="text-slate-200 font-medium text-[11px] sm:text-xs">1. Contenido Viral</span>
             </label>
-            <label class="flex items-center gap-2 p-3 rounded-xl border border-slate-700 cursor-pointer hover:border-amber-400 transition-colors" style="background-color: #0d1527 !important;" id="modal-label-opt-integral">
+            <label class="flex items-center gap-2 p-3 rounded-xl border border-slate-700 cursor-pointer hover:border-amber-400 transition-colors" style="background: #0c1427 !important; background-color: #0c1427 !important; border: 1px solid #334155 !important;" id="modal-label-opt-integral">
               <input type="radio" name="modal_servicio_opcion" value="integral" checked class="text-amber-400 focus:ring-0">
               <span class="text-slate-200 font-medium text-[11px] sm:text-xs">2. Sistema 360°</span>
             </label>
@@ -9909,17 +9931,17 @@ Atmosphere & Speed: Heavy wind turbulence rippling clothes and hair, dynamic sun
 
         <div>
           <label class="block text-xs font-semibold text-slate-300 mb-1">Nombre Completo *</label>
-          <input type="text" id="modal-direct-name" required placeholder="Ej. Carlos Mendoza" class="input-cotizacion w-full px-4 py-3 rounded-xl border border-slate-700 text-sm focus:border-orange-400 focus:outline-none" style="background-color: #030712 !important; color: #ffffff !important; font-size: 15px !important;">
+          <input type="text" id="modal-direct-name" required placeholder="Ej. Carlos Mendoza" class="w-full px-4 py-3 rounded-xl text-sm focus:border-orange-400 focus:outline-none" style="background: #0c1427 !important; background-color: #0c1427 !important; color: #ffffff !important; border: 1px solid #334155 !important; font-size: 15px !important;">
         </div>
 
         <div>
           <label class="block text-xs font-semibold text-slate-300 mb-1">Correo Electrónico *</label>
-          <input type="email" id="modal-direct-email" required placeholder="tu@empresa.com" class="input-cotizacion w-full px-4 py-3 rounded-xl border border-slate-700 text-sm focus:border-orange-400 focus:outline-none" style="background-color: #030712 !important; color: #ffffff !important; font-size: 15px !important;">
+          <input type="email" id="modal-direct-email" required placeholder="tu@empresa.com" class="w-full px-4 py-3 rounded-xl text-sm focus:border-orange-400 focus:outline-none" style="background: #0c1427 !important; background-color: #0c1427 !important; color: #ffffff !important; border: 1px solid #334155 !important; font-size: 15px !important;">
         </div>
 
         <div>
           <label class="block text-xs font-semibold text-slate-300 mb-1">WhatsApp (con código de país) *</label>
-          <input type="tel" id="modal-direct-phone" required placeholder="+1 786 555 0199" class="input-cotizacion w-full px-4 py-3 rounded-xl border border-slate-700 text-sm focus:border-orange-400 focus:outline-none" style="background-color: #030712 !important; color: #ffffff !important; font-size: 15px !important;">
+          <input type="tel" id="modal-direct-phone" required placeholder="+1 786 555 0199" class="w-full px-4 py-3 rounded-xl text-sm focus:border-orange-400 focus:outline-none" style="background: #0c1427 !important; background-color: #0c1427 !important; color: #ffffff !important; border: 1px solid #334155 !important; font-size: 15px !important;">
         </div>
 
         <button type="submit" id="btn-submit-modal" class="btn-cotizacion-cta mt-3">
@@ -10155,7 +10177,12 @@ Atmosphere & Speed: Heavy wind turbulence rippling clothes and hair, dynamic sun
       if (radio) radio.checked = true;
 
       modal.style.display = 'flex';
-      modal.style.zIndex = '999999';
+      modal.style.position = 'fixed';
+      modal.style.inset = '0';
+      modal.style.zIndex = '99999999';
+      modal.style.backgroundColor = 'rgba(0, 0, 0, 0.94)';
+      modal.style.backdropFilter = 'blur(16px)';
+      modal.style.webkitBackdropFilter = 'blur(16px)';
       document.body.style.overflow = 'hidden';
       setTimeout(() => {
         const nameInput = document.getElementById('modal-direct-name');
@@ -10182,38 +10209,51 @@ Atmosphere & Speed: Heavy wind turbulence rippling clothes and hair, dynamic sun
       const btn = document.getElementById('btn-submit-modal');
       const originalHtml = btn.innerHTML;
       btn.disabled = true;
-      btn.innerHTML = '<i class="fas fa-spinner fa-spin text-lg"></i> <span>Coordinando...</span>';
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin text-lg"></i> <span>Registrando y enviando a edward@agenciaprosperia.com...</span>';
+
+      const servicioText = servicio === 'contenido' ? 'Opción 1: Contenido Viral con IA' : 'Opción 2: Sistema Integral 360°';
 
       try {
-        await fetch('/api/leads', {
+        // Envío directo a FastAPI /api/auth/contact que despacha correo SMTP a edward@agenciaprosperia.com
+        await fetch('/api/auth/contact', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             name: name,
             email: email,
             phone: phone,
-            company: 'Solicitud desde Hub Códigos IA (Modal)',
-            source: 'hub_codigos_modal',
-            service: servicio === 'contenido' ? 'Opción 1: Contenido Viral' : 'Opción 2: Sistema Integral 360',
-            notes: `Cotización solicitada desde popup de 200 códigos. Modalidad: ${servicio}`
+            company: 'Hub Códigos Creativos ProsperIA',
+            source: 'hub_codigos_cotizacion',
+            message: `COTIZACIÓN DE SERVICIO PROSPERIA
+Modalidad Solicitada: ${servicioText}
+Nombre: ${name}
+Email: ${email}
+WhatsApp: ${phone}
+Origen: Popup Cotización Hub 200 Códigos`
           })
         });
       } catch (err) {
-        console.warn('Silent lead logging sync');
+        console.warn('Silent contact sync error', err);
       }
 
-      // WhatsApp redirection
-      const servicioText = servicio === 'contenido' ? 'Opción 1: Contenido Viral con IA' : 'Opción 2: Sistema Integral 360°';
-      const textWa = encodeURIComponent(`Hola Edward & ProsperIA! Acabo de solicitar una cotización desde su Hub de Códigos de IA:\n\n👤 Nombre: ${name}\n📧 Correo: ${email}\n📱 WhatsApp: ${phone}\n🎯 Modalidad: ${servicioText}\n\n¿Cuándo podríamos coordinar la propuesta?`);
+      // WhatsApp redirection con mensaje formateado
+      const textWa = encodeURIComponent(`Hola Edward & ProsperIA! Acabo de solicitar una cotización desde su Hub de Códigos de IA:
+
+👤 Nombre: ${name}
+📧 Correo: ${email}
+📱 WhatsApp: ${phone}
+🎯 Modalidad: ${servicioText}
+
+¿Cuándo podríamos coordinar la propuesta?`);
       
-      btn.innerHTML = '<i class="fas fa-check text-lg"></i> <span>¡Abriendo WhatsApp!</span>';
+      btn.innerHTML = '<i class="fas fa-check text-lg"></i> <span>¡Cotización Enviada! Abriendo WhatsApp...</span>';
       
       setTimeout(() => {
         window.open(`https://wa.me/17865573119?text=${textWa}`, '_blank');
         closeCotizacionModal();
         btn.disabled = false;
         btn.innerHTML = originalHtml;
-      }, 600);
+      }, 1000);
     }
 
     // Mobile navigation menu toggle

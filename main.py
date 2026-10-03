@@ -1923,19 +1923,23 @@ async def api_contact(req: ContactRequest, background_tasks: BackgroundTasks, db
     created_at = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
     score = 75
     
-    new_lead = DbLead(
-        name=req.name,
-        email=req.email,
-        company=req.company or "",
-        phone=req.phone or "",
-        status="new",
-        source=req.source or "website",
-        score=score,
-        notes=req.message or "",
-        created_at=created_at
-    )
-    db.add(new_lead)
-    db.commit()
+    try:
+        new_lead = DbLead(
+            name=req.name,
+            email=req.email,
+            company=req.company or "",
+            phone=req.phone or "",
+            status="new",
+            source=req.source or "website",
+            score=score,
+            notes=req.message or "",
+            created_at=created_at
+        )
+        db.add(new_lead)
+        db.commit()
+    except Exception as db_err:
+        print(f"⚠️ [DB LEAD WARNING] Could not persist lead to SQLite: {db_err}", flush=True)
+        db.rollback()
     
     # Enviar notificación automática por correo electrónico a edward@agenciaprosperia.com
     background_tasks.add_task(
