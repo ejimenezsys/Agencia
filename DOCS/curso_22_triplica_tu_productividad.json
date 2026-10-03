@@ -1,0 +1,46 @@
+{
+  "curso_id": 22,
+  "titulo": "Triplica tu Productividad",
+  "instructor": "Agustín Casorzo",
+  "url_base": "https://ninjasuite.app.clientclub.net/courses/products/c4808340-1b5f-45bb-bb39-7e86c578e578",
+  "progreso": "92%",
+  "total_lecciones": 12,
+  "recursos_oficiales": {
+    "doc_21_frameworks_decisiones": "https://docs.google.com/document/d/1PJR-C4miqw2xskQnCKvaJwZIhixP6f-yU_cZ4YKQl1U/edit?usp=sharing",
+    "doc_matriz_eisenhower": "https://docs.google.com/document/d/1gZHZCvBCyL5H2TOSJK2cImG7Z7g6FsQOsATOjZpJ1w8/edit?usp=drive_link"
+  },
+  "modulos": [
+    {
+      "modulo_num": 1,
+      "titulo": "Inicia Acá",
+      "lecciones": ["Organización del Espacio de Trabajo", "Deep Work", "Preguntas y Respuestas"]
+    },
+    {
+      "modulo_num": 2,
+      "titulo": "Organización del Espacio de Trabajo",
+      "lecciones": ["Creando un Entorno de Enfoque Optimo", "Crea un Espacio de Trabajo Consciente", "Optimiza tu Espacio de Trabajo"]
+    },
+    {
+      "modulo_num": 3,
+      "titulo": "Trabajo Profundo (Deep Work)",
+      "lecciones": [
+        "El Ciclo de Enfoque de 90 Minutos",
+        "Protocolo de Implementación Deep Work de 21 Días",
+        "Configuración de las Sesiones de Deep Work"
+      ]
+    },
+    {
+      "modulo_num": 4,
+      "titulo": "Organízate con Eficacia",
+      "lecciones": ["Sistema GTD (Getting Things Done)"]
+    },
+    {
+      "modulo_num": 5,
+      "titulo": "Toma de Decisiones Exitosas",
+      "lecciones": [
+        "21 Frameworks Para la Toma de Decisiones Exitosas",
+        "La Matriz de Eisenhower"
+      ]
+    }
+  ]
+}

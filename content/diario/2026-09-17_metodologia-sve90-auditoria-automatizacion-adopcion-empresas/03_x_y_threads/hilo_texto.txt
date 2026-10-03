@@ -1,51 +1,48 @@
 --- Tweet 1/7 ---
-La IA no te va a quitar el empleo.
+Comprar IA sin un sistema operativo previo es el error más costoso que veo cometer a dueños de clínicas y directores de empresas de servicios en 2026.
 
-Va a hacer algo mucho más rápido e imperceptible: va a desarmar tus tareas una por una hasta que lo que sabes hacer hoy valga la mitad.
+Un bot suelto no resuelve fugas operativas. Las amplifica si no tiene gobernanza.
 
-Abro hilo con datos de Stanford, la OIT y Anthropic que todo líder debe entender 👇🧵
+Abro hilo con datos y la solución directiva 👇🧵
 
 --- Tweet 2/7 ---
-1/ La adopción corporativa ya es masiva.
+1/ El mito de la herramienta mágica:
 
-El Stanford AI Index 2025 reporta que el 78% de las empresas utilizó IA en 2024 (frente al 55% en 2023).
+Muchas empresas conectan un chatbot genérico a WhatsApp esperando duplicar citas y ventas.
 
-Terminó la experimentación en laboratorios; estamos en plena integración de procesos.
+El resultado real: alucinación de precios, promesas fuera de protocolo y el equipo humano sobrecargado corrigiendo errores del modelo.
 
 --- Tweet 3/7 ---
-2/ Exposición no significa desempleo.
+2/ El mercado ya cambió de escala:
 
-La OIT estima que 1 de cada 4 trabajadores está expuesto a la IA generativa.
+• 78% de organizaciones ya integró IA en sus operaciones (Stanford HAI 2025).
+• 57% de los usos reales corresponden a AUMENTO humano (Anthropic Economic Index).
 
-Sin embargo, la OIT concluye algo crucial: la gran mayoría de empleos incluye tareas que exigen criterio humano irreemplazable.
+Los agentes no reemplazan al especialista: eliminan las 30 tareas burocráticas mecánicas.
 
 --- Tweet 4/7 ---
-3/ Hoy gana el aumento sobre la sustitución.
+3/ Speed-to-lead con precisión milimétrica:
 
-El primer Economic Index de Anthropic (1M de interacciones en Claude) reveló:
-• 57% aumento de capacidad humana.
-• 43% automatización de procesos.
+Responder en menos de 15 segundos eleva la tasa de conversión hasta un 391%.
 
-La IA potencia a quien sabe dirigirla.
+Pero en salud y servicios de alto ticket, la velocidad sin exactitud clínica es un riesgo letal. La rapidez exige gobernanza matemática.
 
 --- Tweet 5/7 ---
-4/ ¿Dónde está el cambio de precio?
+4/ La Metodología SVE90 en 3 fases:
 
-Redactar, resumir y buscar datos hoy valen casi cero.
-
-Lo que multiplicó su valor en el mercado es verificar veracidad, integrar contexto de negocio y asumir la responsabilidad final del resultado.
+• 01. AUDITAR: Mapear tareas mecánicas, cuellos de botella y límites de riesgo.
+• 02. AUTOMATIZAR: AI SDRs con esquemas tipados, límites de balance y circuit breakers.
+• 03. ADOPTAR: Capacitar al personal en supervisión y gobierno activo.
 
 --- Tweet 6/7 ---
-5/ En Agencia ProsperIA aplicamos la Metodología SVE90:
+5/ Soberanía de Aumento Tecnológico:
 
-1. Mapea tareas antes de tocar nómina.
-2. Automatiza lo operativo repetitivo.
-3. Gobierna las decisiones institucionales.
+Los agentes operan 24/7 en captación, calificación y agenda.
 
-El valor migró de «hacer» a «gobernar».
+Pero el criterio clínico, la custodia de datos y la relación de confianza con el cliente jamás se delegan a un algoritmo externo.
 
 --- Tweet 7/7 ---
-La IA no está esperando a que cambies de carrera. Ya está transformando aquello por lo que te pagan.
+La IA no sustituye el criterio directivo: exige gobernanza real y arquitectura de sistemas.
 
-Lee el informe completo con fuentes verificadas en PROSPERIA Intelligence:
+Lee el análisis cuantitativo completo y las fuentes verificadas en PROSPERIA Intelligence:
 https://agenciaprosperia.com/blog/metodologia-sve90-auditoria-automatizacion-adopcion-empresas

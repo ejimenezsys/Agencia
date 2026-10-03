@@ -1,0 +1,29 @@
+{
+  "curso_id": 17,
+  "titulo": "Metodología Scrum Aplicada en Equipos de Marketing",
+  "instructor": "Agustín Casorzo",
+  "url_base": "https://ninjasuite.app.clientclub.net/courses/products/c600100c-7b0f-4dc3-8208-a8ee33a39e87",
+  "total_lecciones": 10,
+  "modulos": [
+    {
+      "modulo_num": 1,
+      "titulo": "Inicia Acá",
+      "lecciones": ["Tu Primer Contacto con Scrum", "El Manifiesto Ágil y Principios de Scrum", "Roles Principales en Scrum"]
+    },
+    {
+      "modulo_num": 2,
+      "titulo": "Fundamentos de Scrum en Marketing",
+      "lecciones": ["Adaptación de Scrum a Agencias y Equipos de Marketing", "El Product Backlog de Marketing"]
+    },
+    {
+      "modulo_num": 3,
+      "titulo": "Eventos y Artefactos de Scrum",
+      "lecciones": ["Sprint Planning y Sprint Backlog", "Daily Standups Eficientes", "Sprint Review y Retrospectiva"]
+    },
+    {
+      "modulo_num": 4,
+      "titulo": "Herramientas e Implementación Práctica",
+      "lecciones": ["Configuración de Tableros Kanban/Scrum en Trello o ClickUp", "Métricas de Rendimiento del Equipo (Velocity y Burndown Charts)"]
+    }
+  ]
+}

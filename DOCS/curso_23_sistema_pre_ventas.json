@@ -1,0 +1,41 @@
+{
+  "curso_id": 23,
+  "titulo": "Sistema de PRE Ventas",
+  "subtitulo": "Cómo PRE Vender a los Prospectos y Resolver Objeciones y Dudas por Anticipado",
+  "instructor": "Expertos NinjaPerformance (Agustín Casorzo)",
+  "total_lecciones": 15,
+  "url_base": "https://ninjasuite.app.clientclub.net/products/1012a0cc-a1a9-4070-bd77-9807e6b8530f",
+  "recursos_oficiales": {
+    "guion_video_1_pre_ventas": "https://docs.google.com/document/d/1PkXp5lkz_xZV7EBsN7VR2F3IKsItJNyzCHm0TLIEefM/edit?usp=sharing",
+    "slides_presentacion_video_1": "https://docs.google.com/presentation/d/1g59aTqIX2nxMmg6sDbWeOJFYKkHlCZy5Rf3yhr0eLPQ/edit?usp=sharing",
+    "encuesta_calificacion_post_booking": "https://docs.google.com/document/d/1QsFFpm-wmV3PlP5WFCmjkUxuRUMZiBN6ACDM_wE_4vI/edit?usp=sharing",
+    "plantilla_email_post_booking": "https://docs.google.com/document/d/1srodHLpJS73r9sKEetMxvV_2Qjtp4B2VD0eHV-ddkNc/edit?usp=sharing"
+  },
+  "lecciones": [
+    {"num": 1, "titulo": "El Elemento Clave: Recaer en el Sistema, No en la Gente"},
+    {"num": 2, "titulo": "Los Beneficios de la Pre Venta y Cómo Funciona"},
+    {"num": 3, "titulo": "Herramientas de la Pre Venta"},
+    {"num": 4, "titulo": "3 Requisitos"},
+    {"num": 5, "titulo": "Método / Vehículo"},
+    {"num": 6, "titulo": "Ayuda"},
+    {"num": 7, "titulo": "Autoridad"},
+    {"num": 8, "titulo": "Página de Preparación Avanzada"},
+    {"num": 9, "titulo": "El Guión de Pre Ventas Video 1"},
+    {"num": 10, "titulo": "El Guión de Pre Ventas Video 2 (Método)"},
+    {"num": 11, "titulo": "Asegurando al Cliente: Encuesta + Email (OPCIONAL)"},
+    {"num": 12, "titulo": "Email"},
+    {"num": 13, "titulo": "Dinámica del Programa y Precios (OPCIONAL)"},
+    {"num": 14, "titulo": "Página de Preparación (Con TODO esto)"},
+    {"num": 15, "titulo": "Confirmación a Toda Costa"}
+  ],
+  "filosofia_sistema": {
+    "principio": "Automatizar la eliminación de objeciones (precio, tiempo, confianza) antes de que el prospecto hable con el closer.",
+    "embudo_pagina_preparacion_4_pasos": [
+      {"paso": 1, "elemento": "Video 1 Pre-Ventas", "contenido": "Introducción + Vehículo Único + Caso de Autoridad"},
+      {"paso": 2, "elemento": "Video 2 Pre-Ventas", "contenido": "Desglose técnico y operativo del Método"},
+      {"paso": 3, "elemento": "Encuesta de Calificación", "contenido": "Formulario de 1-2 min (presupuesto, rol, dolor)"},
+      {"paso": 4, "elemento": "Expectativas y Precios", "contenido": "Filtro de inversión previa a la llamada"}
+    ],
+    "protocolo_asistencia_show_up": "Si el prospecto no responde la encuesta y no confirma por WhatsApp en 24h, el sistema cancela la cita automáticamente para liberar el espacio a otro cliente."
+  }
+}

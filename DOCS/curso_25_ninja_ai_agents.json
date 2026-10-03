@@ -1,0 +1,46 @@
+{
+  "curso_id": 25,
+  "titulo": "Ninja AI AGENTS (Agentes Conversacionales en GoHighLevel)",
+  "url_base": "https://ninjasuite.app.clientclub.net/courses/products/84257183-a6b9-4979-b573-8c9a52053eb1",
+  "instructor": "Ninja Performance",
+  "total_lecciones": 13,
+  "recursos_externos": {
+    "custom_gpts": [
+      {
+        "nombre": "Ninja Agent AI Basic",
+        "url": "https://chatgpt.com/g/g-69b1bc952e308191a9910951d23f9f29-ninja-agent-ai-basic"
+      },
+      {
+        "nombre": "Ninja Conversational AI Agent Builder",
+        "url": "https://chatgpt.com/g/g-691f5c68132881918925648cdea5c024-ninja-conversational-ai-agent-builder"
+      }
+    ],
+    "documentos_trabajo_google_docs": [
+      {
+        "doc": "01 PROMPTS",
+        "url": "https://docs.google.com/document/d/1XQwt0QIwBQlS3ilo-hKVR32BUAKr9faAgApqEii0sPk/edit?usp=sharing"
+      },
+      {
+        "doc": "02 FORMATOS DE PROMPTS (Markdown)",
+        "url": "https://docs.google.com/document/d/15Yh-khHTmFkGjPLM6f9a6ehSWt75f2xwOjC0AcMQtNs/edit?usp=sharing"
+      },
+      {
+        "doc": "03 PROMPT STACK (5 Capas)",
+        "url": "https://docs.google.com/document/d/1IQO9B5Ef4vk_ll3VTqywwDkFIBtIIz6yseftYM1rWhI/edit?usp=sharing"
+      }
+    ],
+    "plantilla_knowledge_base_csv": "https://cdn.courses.apisystem.tech/memberships/4PELThvbKruGE3Uxyzrt/courses/ghl-ai-employee-knowledge-base-example-lpha.csv"
+  },
+  "costos_y_eficiencia": {
+    "modelo_estandar": "~$0.004992 USD / mensaje (~182 contactos con $10 USD)",
+    "modelo_mini_recomendado": "~$0.0004 USD / mensaje (~23,000 mensajes con $10 USD)",
+    "tiempo_respuesta_optimo": "~7 segundos para mantener naturalidad sin parecer inmediato ni demorado"
+  },
+  "prompt_stack_5_capas": [
+    {"capa": 1, "nombre": "System Prompt", "funcion": "Identidad, rol y marco general"},
+    {"capa": 2, "nombre": "Reglas de Comportamiento", "funcion": "Tono, extensión estricta, estilo"},
+    {"capa": 3, "nombre": "Base de Conocimientos (KB)", "funcion": "Hechos, precios y respuestas de negocio en CSV/Tabla"},
+    {"capa": 4, "nombre": "Flujo de Conversación", "funcion": "Secuencia de calificación y toma de decisión"},
+    {"capa": 5, "nombre": "Límites y Guardrails", "funcion": "Prohibiciones, manejo de errores y escalación"}
+  ]
+}

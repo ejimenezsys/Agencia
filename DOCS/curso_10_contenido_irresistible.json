@@ -1,0 +1,73 @@
+{
+  "curso_id": 10,
+  "titulo": "Contenido Irresistible",
+  "descripcion": "Cómo Crear el Contenido que Debes Usar para Vender por Redes Sociales",
+  "url_base": "https://ninjasuite.app.clientclub.net/courses/products/6b796444-d4dc-4c06-8d23-0f7060a8d2a8",
+  "total_modulos": 10,
+  "total_lecciones": 48,
+  "estructura_funnel_contenido": {
+    "1_atraccion_tofu": "Reels y carruseles virales de interrupción de patrón para detener el scroll",
+    "2_nutricion_mofu": "Stories diarias de backstage + Videos de YouTube y casos de estudio para generar confianza profunda",
+    "3_conversion_bofu": "Documentos de oferta, VSLs de 5 a 12 min y Web Funnels que dirigen a WhatsApp o Calendario"
+  },
+  "formulas_ganchos_reels_virales": [
+    {"tipo": "Extremo", "formula": "[Dato o resultado extremo en números] + [Pregunta de choque]"},
+    {"tipo": "Loop Continuo", "formula": "Abrir una incógnita en los primeros 3 segundos que solo se responde al final"},
+    {"tipo": "Autoridad Verificable", "formula": "Invertí [X tiempo/dinero en masterminds] y te resumo las [N] reglas de oro"},
+    {"tipo": "Resultado sin Dolor", "formula": "Cómo lograr [RESULTADO SOÑADO] sin [EL DOLOR QUE TODOS ODIAN]"},
+    {"tipo": "La Verdad / Insight", "formula": "Lo que la mayoría no te dice sobre [TEMA] es que..."},
+    {"tipo": "Advertencia", "formula": "Si eres [NICHO/DIRECTOR DE CLÍNICA], detén este video antes de..."}
+  ],
+  "modulos": [
+    {
+      "modulo_num": 1,
+      "titulo": "Introducción",
+      "lecciones": ["Introducción a la creación de contenido", "Creación y Seguridad de Cuentas"]
+    },
+    {
+      "modulo_num": 2,
+      "titulo": "Video Sales Letter (VSL) para High Ticket",
+      "lecciones": ["¿Qué es un VSL?", "Características de un VSL High Ticket", "Guión de un VSL paso a paso", "Ejemplos reales", "¿Cuándo Hacer VSLs Más Largas?"]
+    },
+    {
+      "modulo_num": 3,
+      "titulo": "Sitio Web (Web Funnel)",
+      "lecciones": ["¿Qué es un Web Funnel?", "Estructura y Copys 1: LP > Chat", "Estructura y Copys 2: LP > Agendamiento de Citas", "Ejemplos de Web Funnels", "Plantillas NinjaSuite"]
+    },
+    {
+      "modulo_num": 4,
+      "titulo": "Documento de Oferta",
+      "lecciones": ["Qué es, Objetivo y Tipos de Documento de Oferta", "Estructura General del Documento de Oferta", "Ejemplos Prácticos"]
+    },
+    {
+      "modulo_num": 5,
+      "titulo": "Calendarios de Contenido",
+      "lecciones": ["Introducción a la Planificación", "Herramientas Necesarias (Notion, Metricool, Canva)", "¿Qué Redes Sociales Usar?", "Calendario Regular vs Promocional", "Cómo Redactar los Contenidos", "Aspectos Generales", "Optimización de Perfil para RRSS"]
+    },
+    {
+      "modulo_num": 6,
+      "titulo": "Contenido de ATRACCIÓN (Top of Funnel)",
+      "lecciones": ["Qué Quieren los Algoritmos de Redes Sociales", "Principal Contenido de Atracción", "Mentalidad para Crear Reels Virales", "Proceso de 6 Pasos para Reels Virales", "Factores de Viralidad", "Estructura de un Contenido Viral", "Paso 1: Buscar Ideas", "Paso 2: Seleccionar Ideas", "Paso 3: Crear Contenido", "Paso 4: Editar con Retención", "Paso 5: Publicar", "Paso 6: Repetir"]
+    },
+    {
+      "modulo_num": 7,
+      "titulo": "Contenido NUTRICIÓN (Middle of Funnel)",
+      "lecciones": ["Pilares de Contenido de Autoridad", "Estrategia de Stories Diarias", "YouTube Orgánico para Autoridad Profunda"]
+    },
+    {
+      "modulo_num": 8,
+      "titulo": "Contenido CONVERSIÓN (Bottom of Funnel)",
+      "lecciones": ["Estructura del Contenido de Conversión Directa"]
+    },
+    {
+      "modulo_num": 9,
+      "titulo": "Guía de Creación de Reels & Shortform",
+      "lecciones": ["Formatos B2B", "Copywriting de Contenidos", "Plantillas de Ganchos de Reels Virales", "Prompts de AI y GPT para Reels y Shortform", "Copywriting de Guión / Cuerpo", "Copywriting de Captions"]
+    },
+    {
+      "modulo_num": 10,
+      "titulo": "Grabación y Edición de Contenido",
+      "lecciones": ["Grabación y Edición en Lote (Batching)", "Multipropositación (Repurposing de Video Largo a Micro-contenidos)", "Análisis de Datos y KPIs"]
+    }
+  ]
+}

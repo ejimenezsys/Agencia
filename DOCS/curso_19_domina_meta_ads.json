@@ -1,0 +1,75 @@
+{
+  "curso_id": 19,
+  "titulo": "Domina Meta Ads",
+  "instructor": "Entrenadores Ninja Performance",
+  "url_base": "https://ninjasuite.app.clientclub.net/courses/products/dbcc2532-9c5e-4fb3-91f9-8554a51fe73c",
+  "total_lecciones": 36,
+  "modulos": [
+    {
+      "modulo_num": 1,
+      "titulo": "Bienvenida y Algoritmo",
+      "lecciones": ["Bienvenidos!", "Cómo funciona el algoritmo en 2026", "Los Creativos"]
+    },
+    {
+      "modulo_num": 2,
+      "titulo": "Fundamentos y Activos",
+      "lecciones": ["Cómo crear tu Fanpage en Facebook", "Cómo crear tu cuenta profesional en Instagram", "Meta Pixel Helper"]
+    },
+    {
+      "modulo_num": 3,
+      "titulo": "Configuración Ninja de Cuenta y CAPI",
+      "lecciones": [
+        "Creación y Configuración del Business Manager",
+        "Configuración del Portafolio Comercial y Verificación del Negocio en Meta",
+        "Las métricas importantes",
+        "Configuración del Pixel y API (CAPI)",
+        "Análisis de Resultados",
+        "Configuración Ninja (Avanzado)",
+        "Públicos Personalizados Avanzados"
+      ]
+    },
+    {
+      "modulo_num": 4,
+      "titulo": "Estrategias de Campaña",
+      "lecciones": [
+        "¿Qué campañas debo utilizar?",
+        "¿Y cómo puedo empezar?",
+        "Calentamiento de la Cuenta Publicitaria",
+        "Campaña de Reconocimiento",
+        "Campaña de Tráfico al Perfil de Instagram",
+        "Campaña de Interacción a WhatsApp (Clave para Clínicas)",
+        "Campaña de Interacción a Instagram DMs",
+        "Campaña de Clientes potenciales a Formularios Instantáneos",
+        "Campaña de Clientes Potenciales en Landing Page",
+        "Campaña de Agendamiento",
+        "Campañas de Venta a Ecommerce"
+      ]
+    },
+    {
+      "modulo_num": 5,
+      "titulo": "Análisis y Escalamiento",
+      "lecciones": ["Análisis y Escalado"]
+    },
+    {
+      "modulo_num": 6,
+      "titulo": "Errores Comunes y Políticas",
+      "lecciones": ["Errores Comunes", "Anuncios Rechazados", "Campañas Pausadas", "Anuncio no distribuido", "Límites de Anuncios"]
+    },
+    {
+      "modulo_num": 7,
+      "titulo": "Masterclasses con Invitados",
+      "lecciones": ["Cómo OPTIMIZAR Campañas en Meta Ads - Javier Quest"]
+    },
+    {
+      "modulo_num": 8,
+      "titulo": "Video Respuestas Técnicas",
+      "lecciones": [
+        "Diferencia entre Pixel y API de conversión",
+        "Pixel + Instalación de la API + Testeo",
+        "Como hacer una audiencia en base a una lista de emails y públicos similares",
+        "Cómo conceder permisos para administrar campañas y cuentas comerciales",
+        "Como Conectar el Pixel de Meta o la Etiqueta de Conversión de Google en NinjaSuite / GHL"
+      ]
+    }
+  ]
+}

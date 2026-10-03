@@ -1,0 +1,299 @@
+[
+  {
+    "id": 1,
+    "title": "Fórmula Crea Tu Agencia IA",
+    "description": "Crea y Lanza tu Agencia IA para Conseguir tu Primer o Próximo Cliente en 14 Días o Menos",
+    "progress": "43%",
+    "instructor": "Equipo NinjaPerformance",
+    "badge": "En la biblioteca",
+    "category": "Agencia / IA"
+  },
+  {
+    "id": 2,
+    "title": "Empieza Aquí con Marketing Ninjas",
+    "description": "Primeros pasos y dinámica de funcionamiento de la comunidad",
+    "progress": "43%",
+    "instructor": "Nombre del instructor",
+    "badge": "En la biblioteca",
+    "category": "Onboarding"
+  },
+  {
+    "id": 3,
+    "title": "Tus Primeros Pasos con NinjaSuite",
+    "description": "Tus Primeros Pasos con NinjaSuite. Conoce la Plataforma, Cambia el Idioma, Pide Soporte Técnico y Entrénate en Marketing Digital y Ventas",
+    "progress": "75%",
+    "instructor": "Expertos NinjaSuite",
+    "badge": "En la biblioteca",
+    "category": "Plataforma / Software"
+  },
+  {
+    "id": 4,
+    "title": "Agentes IA y Automatizaciones Comerciales",
+    "description": "Tutoriales Completos para Crear, Entrenar y Optimizar Agentes Comerciales Autónomos con IA y Automatizaciones de Marketing y Ventas",
+    "progress": "28%",
+    "instructor": "Agustín Casorzo",
+    "badge": "En la biblioteca",
+    "category": "IA / Agentes"
+  },
+  {
+    "id": 5,
+    "title": "Implementaciones Ninja",
+    "description": "Maratones, Setups & Snapshots Acceso a las Grabaciones de las Sesiones Pasadas",
+    "progress": "0%",
+    "instructor": "Expertos de Ninja",
+    "badge": "En la biblioteca",
+    "category": "Grabaciones / Setups"
+  },
+  {
+    "id": 6,
+    "title": "Mentoría Escala / Funnel Híbrido",
+    "description": "Aumenta tu Facturación de un 30% a un 150% a Través del Funnel Híbrido",
+    "progress": "0%",
+    "instructor": "Nombre del instructor",
+    "badge": "En la biblioteca",
+    "category": "Escalamiento / Funnels"
+  },
+  {
+    "id": 7,
+    "title": "Prospección Semiautomatizada por LinkedIn",
+    "description": "Aprende a prospectar clientes de alto valor de manera semiautomatizada por email y linkedin",
+    "progress": "0%",
+    "instructor": "Expertos NinjaSuite",
+    "badge": "En la biblioteca",
+    "category": "Prospección B2B"
+  },
+  {
+    "id": 8,
+    "title": "Business Closer",
+    "description": "Curso de Closer de Ventas para Empresas de Servicio y Consultoría",
+    "progress": "0%",
+    "instructor": "Carlo Casorzo",
+    "badge": "En la biblioteca",
+    "category": "Ventas / Closing"
+  },
+  {
+    "id": 9,
+    "title": "Funnels Evergreen",
+    "description": "Construcción, Diseño y Ensamblaje de Funnels Evergreen",
+    "progress": "0%",
+    "instructor": "Agustín Casorzo",
+    "badge": "En la biblioteca",
+    "category": "Funnels"
+  },
+  {
+    "id": 10,
+    "title": "Contenido Irresistible",
+    "description": "Cómo Crear el Contenido que Debes Usar para Vender por Redes Sociales",
+    "progress": "0%",
+    "instructor": "Nombre del instructor",
+    "badge": "En la biblioteca",
+    "category": "Contenido"
+  },
+  {
+    "id": 11,
+    "title": "Curso Gerencia de Ventas",
+    "description": "Aprende a Gestionar un Equipo de Ventas de Alto Rendimiento",
+    "progress": "0%",
+    "instructor": "Agustín Casorzo",
+    "badge": "En la biblioteca",
+    "category": "Ventas / Liderazgo"
+  },
+  {
+    "id": 12,
+    "title": "La Ciencia del Éxito - Napoleon Hill",
+    "description": "Resúmen e Interpretación del Libro \"La Ciencia del Éxito\" de Napoleon Hill",
+    "progress": "0%",
+    "instructor": "Nombre del instructor",
+    "badge": "En la biblioteca",
+    "category": "Mindset / Desarrollo Personal"
+  },
+  {
+    "id": 13,
+    "title": "Ofertas Irresistibles Claras y con Sentido",
+    "description": "Cómo Crear Ofertas de Alto Valor que \"Sólo un Tonto Podría Rechazar\"",
+    "progress": "0%",
+    "instructor": "Agustín Casorzo",
+    "badge": "En la biblioteca",
+    "category": "Ofertas High Ticket"
+  },
+  {
+    "id": 14,
+    "title": "Masterclass Youtube Ads",
+    "description": "Estrategias de Publicidad y Generación de Leads en Youtube Ads",
+    "progress": "100%",
+    "instructor": "Nombre del instructor",
+    "badge": "En la biblioteca",
+    "category": "Tráfico Pagado / Ads"
+  },
+  {
+    "id": 15,
+    "title": "Casos de Estudio: Diseño y Construcción de Funnels",
+    "description": "Casos de Estudio Reales con Clientes de Nuestra Agencia de Diseño e Implementación de Funnels. Desde el Diseño de la Estrategia Hasta la Implementación",
+    "progress": "0%",
+    "instructor": "Expertos NinjaPerformance",
+    "badge": "En la biblioteca",
+    "category": "Casos de Estudio"
+  },
+  {
+    "id": 16,
+    "title": "Domina Google Ads",
+    "description": "Aprende a Crear, Optimizar y Escalar Campañas de Google Ads",
+    "progress": "0%",
+    "instructor": "Entrenadores Ninja",
+    "badge": "En la biblioteca",
+    "category": "Tráfico Pagado / Ads"
+  },
+  {
+    "id": 17,
+    "title": "Metodología Scrum Aplicada en Equipos de Marketing",
+    "description": "Cómo Implementar la Metodología de Trabajo SCRUM en Equipos de Marketing y Agencias",
+    "progress": "0%",
+    "instructor": "Agustín Casorzo",
+    "badge": "En la biblioteca",
+    "category": "Gestión / Scrum"
+  },
+  {
+    "id": 18,
+    "title": "Inteligencia Artificial para Marketing Digital",
+    "description": "Cómo Utilizar Chat GPT y Otras Herramientas de Inteligencia Artificial para Marketing Digital",
+    "progress": "0%",
+    "instructor": "Equipo NinjaPerformance",
+    "badge": "En la biblioteca",
+    "category": "IA Aplicada"
+  },
+  {
+    "id": 19,
+    "title": "Domina Meta Ads",
+    "description": "Aprende a Crear, Optimizar y Escalar Campañas de Meta Ads",
+    "progress": "0%",
+    "instructor": "Entrenadores Ninja",
+    "badge": "En la biblioteca",
+    "category": "Tráfico Pagado / Ads"
+  },
+  {
+    "id": 20,
+    "title": "Hábitos Estoicos para el Éxito y la Felicidad",
+    "description": "Conoce e Implementa en tu Vida los Hábitos Estoicos para Ser Más Feliz, Exitoso, Productivo, Ganar Más Salud y Más Dinero",
+    "progress": "0%",
+    "instructor": "Agustín Casorzo",
+    "badge": "En la biblioteca",
+    "category": "Mindset / Desarrollo Personal"
+  },
+  {
+    "id": 21,
+    "title": "Resetea tu Mente",
+    "description": "Reprogramación Mental para el Éxito y la Felicidad",
+    "progress": "0%",
+    "instructor": "Agustín Casorzo",
+    "badge": "En la biblioteca",
+    "category": "Mindset"
+  },
+  {
+    "id": 22,
+    "title": "Triplica tu Productividad",
+    "description": "Técnicas y Rutinas para Maximizar el Rendimiento y Gestión del Tiempo",
+    "progress": "92%",
+    "instructor": "Agustín Casorzo",
+    "badge": "En la biblioteca",
+    "category": "Productividad"
+  },
+  {
+    "id": 23,
+    "title": "Sistema de PRE Ventas",
+    "description": "Como PRE Vender a los Prospectos y Resolver Objeciones y Dudas por Anticipado",
+    "progress": "0%",
+    "instructor": "Expertos NinjaPerformance",
+    "badge": "En la biblioteca",
+    "category": "Ventas / Pre-Ventas"
+  },
+  {
+    "id": 24,
+    "title": "Ventas de Alto Valor y Gestión Comercial",
+    "description": "Como Cerrar Ventas de Alto Valor y Hacer una Gestión Comercial Exitosa",
+    "progress": "0%",
+    "instructor": "Expertos NinjaPerformance",
+    "badge": "En la biblioteca",
+    "category": "Ventas High Ticket"
+  },
+  {
+    "id": 25,
+    "title": "Ninja AI AGENTS",
+    "description": "Curso completo de Agentes Conversacionales IA en NinjaSuite (GHL)",
+    "progress": "0%",
+    "instructor": "Ninja Performance",
+    "badge": "En la biblioteca",
+    "category": "IA / Agentes Conversacionales"
+  },
+  {
+    "id": 26,
+    "title": "Lanzamiento: Webinar en Vivo",
+    "description": "Estrategia de Lanzamientos Utilizando Webinars en Vivo",
+    "progress": "0%",
+    "instructor": "Expertos NinjaPerformance",
+    "badge": "En la biblioteca",
+    "category": "Lanzamientos"
+  },
+  {
+    "id": 27,
+    "title": "Lanzamiento: Meteórico",
+    "description": "Estrategia de Lanzamientos Meteóricos",
+    "progress": "0%",
+    "instructor": "Expertos NinjaPerformance",
+    "badge": "En la biblioteca",
+    "category": "Lanzamientos"
+  },
+  {
+    "id": 28,
+    "title": "Lanzamiento: Taller Pagado",
+    "description": "Estrategia de Lanzamientos Mediante Talleres, Workshops o Inmersiones Pagadas",
+    "progress": "0%",
+    "instructor": "Expertos NinjaPerformance",
+    "badge": "En la biblioteca",
+    "category": "Lanzamientos"
+  },
+  {
+    "id": 29,
+    "title": "Curso de Ventas y Gestión Comercial (MRR)",
+    "description": "Programa Completo de Ventas y Gestión Comercial para Negocios con Derechos de Reventa (MRR - Master Resell Rights)",
+    "progress": "0%",
+    "instructor": "Expertos NinjaPerformance",
+    "badge": "En la biblioteca",
+    "category": "Ventas / MRR"
+  },
+  {
+    "id": 30,
+    "title": "Método Sitios IA",
+    "description": "Tu Primer Cliente en 14 Días (o menos) y de $0 a $1,000-$2,000 USD/mes Recurrentes en 90 Días Vendiendo Sitios IA a Negocios Locales",
+    "progress": "0%",
+    "instructor": "Nombre del instructor",
+    "badge": "En la biblioteca",
+    "category": "Servicios Productizados / IA"
+  },
+  {
+    "id": 31,
+    "title": "Mentoría Reto Estratega",
+    "description": "Cómo Agregar de US$5,000 a US$20,000 Extras al Mes con Servicios Productizados",
+    "progress": "0%",
+    "instructor": "Expertos NinjaPerformance",
+    "badge": "En la biblioteca",
+    "category": "Escalamiento / B2B"
+  },
+  {
+    "id": 32,
+    "title": "Método Reviews",
+    "description": "Agencia de Reputación con el Servicio de Automatización de Reviews",
+    "progress": "0%",
+    "instructor": "Instructores Ninja",
+    "badge": "En la biblioteca",
+    "category": "Servicios Productizados / Reputación"
+  },
+  {
+    "id": 33,
+    "title": "Método Reactivación",
+    "description": "Curso Completo Sobre Cómo Vender y Entregar el Servicio Productizado de Reactivación de Bases de Datos a Empresas",
+    "progress": "0%",
+    "instructor": "Marketing Ninjas",
+    "badge": "En la biblioteca",
+    "category": "Servicios Productizados / B2B"
+  }
+]

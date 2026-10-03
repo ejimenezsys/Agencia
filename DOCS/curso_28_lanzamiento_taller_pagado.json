@@ -1,0 +1,25 @@
+{
+  "curso_id": 28,
+  "titulo": "Lanzamiento: Taller Pagado",
+  "instructor": "Agustín Casorzo",
+  "url_base": "https://ninjasuite.app.clientclub.net/courses/products/b291a133-fbcc-4be2-ba64-a690e729ea5b",
+  "total_lecciones": 5,
+  "recursos_oficiales": {
+    "doc_leccion_1_introduccion": "https://docs.google.com/document/d/12e-13VlM7zHq30rGv4x66e70S5RuhzNf4uU8Rls7_4s/edit?usp=sharing",
+    "doc_leccion_2_oferta_irresistible": "https://docs.google.com/document/d/1Xl2w3m31pylQ1T34l6i00J2Fk9R0k7hR/edit?usp=sharing",
+    "doc_leccion_3_estrategia_captacion": "https://docs.google.com/document/d/1R-TzY9iJzFvR0wS7qX4n07E_G1N-4z2-V3O00E7_1b0/edit?usp=sharing",
+    "doc_leccion_4_estructura_entrega": "https://docs.google.com/document/d/1bE_W9-u8gT4K7g030G-31F1x_Z94x6y85T9J3_rZ3vA/edit?usp=sharing",
+    "doc_leccion_5_upsell_high_ticket": "https://docs.google.com/document/d/1N_W6g-J1w9Y_6s_E3F109G703rN0R2Z30w4zG70_Qv0/edit?usp=sharing"
+  },
+  "lecciones": [
+    "Taller Pagado - Introducción",
+    "Taller Pagado - Oferta Irresistible",
+    "Taller Pagado - Estrategia de Captación",
+    "Taller Pagado - Estructura de Entrega",
+    "Taller Pagado - Upsell a High Ticket"
+  ],
+  "modelo_de_negocio": {
+    "estrategia": "Venta de taller o workshop de bajo ticket ($27 - $97 USD) para autofinanciar la publicidad y filtrar compradores reales",
+    "backend": "Al finalizar el taller intensivo de 3-4 horas, hacer la transición y venta del servicio High Ticket de $1,500 - $3,000 USD"
+  }
+}

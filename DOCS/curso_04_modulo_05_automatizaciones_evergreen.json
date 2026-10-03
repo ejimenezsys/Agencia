@@ -1,0 +1,85 @@
+{
+  "curso_id": 4,
+  "modulo_id": 5,
+  "titulo_modulo": "Automatizaciones para Funnels Evergreen",
+  "fecha_extraccion": "2026-09-26",
+  "lecciones": [
+    {
+      "leccion_id": 1,
+      "titulo": "Automatización de Activación de Agente",
+      "trigger": "Entrada de lead (Meta Ads Lead Form / DM / Creación CRM)",
+      "acciones": [
+        "1. Activar Agente IA (Turn AI Agent ON)",
+        "2. Asignar Tag de control ('Agente-Activo' / 'In-Conversation')",
+        "3. Mover/crear oportunidad en Pipeline CRM en etapa 'En Conversación'"
+      ],
+      "condiciones_de_salida": [
+        "El lead agenda cita en el calendario",
+        "Intervención de un operador o asesor humano",
+        "El lead solicita explícitamente hablar con una persona o se desuscribe"
+      ],
+      "accion_salida": "Desactivar Agente IA (Turn AI Agent OFF) + Remover Tag 'Agente-Activo'"
+    },
+    {
+      "leccion_id": 2,
+      "titulo": "Automatización de Captura de Lead con Secuencia Conversacional",
+      "trigger": "Formulario enviado en Web / Landing Page (Form Submitted)",
+      "acciones": [
+        "1. Asignar Tag ('Lead-Form-Web')",
+        "2. Enviar evento de conversión a Meta Ads (FB Conversion API)",
+        "3. Notificación interna multicanal (Email/Push/WhatsApp a la clínica)",
+        "4. Disparar secuencia conversacional por WhatsApp (Inmediato, +2h, +3h)"
+      ],
+      "bifurcacion": {
+        "si_responde": "Se activa de inmediato el Agente IA para cualificar y se cancela la secuencia fría",
+        "si_no_responde": "Se continúa con los toques programados de reactivación"
+      }
+    },
+    {
+      "leccion_id": 3,
+      "titulo": "Automatización de Agendamiento y Secuencia de Recordatorio (Anti No-Shows)",
+      "trigger": "Cita agendada en calendario (Appointment Booked)",
+      "acciones_inmediatas": [
+        "1. Desactivar Agente IA de cualificación",
+        "2. Asignar Tag ('Cita-Agendada')",
+        "3. Mover oportunidad a etapa 'Cita Agendada' en Pipeline",
+        "4. Enviar confirmación inmediata con detalles de fecha, hora y ubicación"
+      ],
+      "cadencia_recordatorios": [
+        {"tiempo": "24 horas antes", "canal": "WhatsApp/SMS", "contenido": "Recordatorio formal con detalles del tratamiento y mapa"},
+        {"tiempo": "2 horas antes", "canal": "WhatsApp interactivo", "contenido": "Reconfirmación obligatoria ('¿Confirmas tu asistencia hoy a las XX:XX? Responde SÍ o NO')"},
+        {"tiempo": "10 minutos antes", "canal": "WhatsApp", "contenido": "Aviso de sala preparada / Enlace de videollamada"}
+      ]
+    },
+    {
+      "leccion_id": 4,
+      "titulo": "Automatización para Comentaristas en Instagram y Facebook",
+      "trigger": "Comentario en post/reel/anuncio con palabra clave (ej. 'VALORACION', 'SONRISA', 'AGENDA')",
+      "acciones": [
+        "1. Respuesta pública aleatoria (ej. '¡Te enviamos los detalles por privado! 📩')",
+        "2. Envío de Mensaje Privado (DM) con el enlace o entregable",
+        "3. Asignar Tag ('Lead-Comment-IG')",
+        "4. Activar Agente IA en la bandeja de DMs para cualificar y agendar"
+      ]
+    },
+    {
+      "leccion_id": 5,
+      "titulo": "Automatización DMs (Directos y Respuestas a Historias)",
+      "trigger": "Mensaje directo entrante o Respuesta a Historia (Story Reply)",
+      "acciones": [
+        "1. Detección automática en CRM",
+        "2. Creación o actualización de contacto",
+        "3. Activación inmediata del Agente IA en Instagram/Facebook DM"
+      ]
+    },
+    {
+      "leccion_id": 6,
+      "titulo": "Automatizaciones Elementales y Lead Magnets de Captación",
+      "recursos_alto_impacto": [
+        "Guías y Checklists descargables ('Guía de Preparación para Implantes o Rinoplastia')",
+        "Demos y Diagnósticos interactivos",
+        "Auditorías gratuitas / Valoraciones previas con IA"
+      ]
+    }
+  ]
+}

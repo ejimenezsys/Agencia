@@ -1,0 +1,32 @@
+{
+  "curso_id": 8,
+  "titulo": "Business Closer",
+  "instructor": "Carlo Casorzo Casorzo",
+  "url_base": "https://ninjasuite.app.clientclub.net/courses/products/40f55ee0-a6dd-42b4-a05b-3d25bf41b90f",
+  "total_lecciones": 10,
+  "lecciones": [
+    "Bienvenida e Introducción al Business Closer",
+    "Clase 1: Modelo Ganador (Mentalidad y Postura Comercial B2B)",
+    "Clase 2: Pitch de Ventas (Estructura y Tiempos de Llamada)",
+    "Clase 3: Acción del Business Closer (Control de Marco y Escucha Activa)",
+    "Clase 4: Role Playing (Calibración de Tono y Ritmo)",
+    "Clase 5: Estructura de la Propuesta de Valor (Value Stack y Anclaje)",
+    "Clase 6: Presentación de la Propuesta de Valor y Cierre",
+    "Clase 7: Role Playing Estructura A y B",
+    "Clase 8: Recapitulación, Preguntas y Respuestas",
+    "Clase Extra: Seguimiento y Recaudación de Pagos en Llamada"
+  ],
+  "framework_llamada_5_pasos": {
+    "paso_1": "Marco de Autoridad y Agenda (0 - 3 min)",
+    "paso_2": "Diagnóstico Profundo y Brecha de Dolor (3 - 18 min)",
+    "paso_3": "Transición y Pitch de Valor Conectado (18 - 30 min)",
+    "paso_4": "Anclaje de Precio y Bajada de Oferta (30 - 35 min)",
+    "paso_5": "Cobro en la Llamada / Payment Collection (35 - 45 min)"
+  },
+  "resolucion_objeciones": {
+    "esta_muy_caro": "Reencuadre a ROI: '1 o 2 pacientes de implantes cubren el Setup de $1,500 USD'",
+    "tengo_que_pensarlo": "Aislamiento: '¿Es el ROI, el timing o alguna duda técnica?'",
+    "hablar_con_socio": "Llamada a 3 bandas de 15 min al día siguiente",
+    "mala_experiencia_previa": "Diferenciación: 'No vendemos leads fríos, entregamos citas confirmadas con garantía por contrato'"
+  }
+}

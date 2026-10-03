@@ -1,0 +1,50 @@
+{
+  "curso_id": 6,
+  "titulo": "Mentoría Escala / Funnel Híbrido",
+  "subtitulo": "Aumenta tu Facturación de un 30% a un 150% a Través del Funnel Híbrido",
+  "instructor": "Agustín Casorzo / Equipo Ninja",
+  "url_base": "https://ninjasuite.app.clientclub.net/courses/products/2f30dd54-fb07-4d1e-8101-80e05dc6db71",
+  "total_lecciones": 112,
+  "modulos_destacados": [
+    {
+      "modulo": "Bienvenida y Hoja de Ruta",
+      "lecciones": ["Bienvenida Oficial", "Autosuficiencia", "Hoja de Ruta de Escalamiento"]
+    },
+    {
+      "modulo": "Sistema de Autoridad de Marca",
+      "lecciones": [
+        "Marca Atractiva, Vendedora y Persuasiva",
+        "Lo que se Debe Hacer Para Vender en los Medios de Hoy"
+      ]
+    },
+    {
+      "modulo": "Sistema de Contenido & Scripting",
+      "lecciones": [
+        "Qué Tiene que ser Cierto Para que te Compren",
+        "Estructuración de Contenido y Scripting",
+        "B2B vs B2C: Diferencias Cruciales",
+        "Mitos y Errores Habituales"
+      ]
+    },
+    {
+      "modulo": "Agentes de IA de tu Empresa",
+      "lecciones": [
+        "Usando la IA Desde el Principio",
+        "Agente: Director General",
+        "Agente: Director de Marketing",
+        "Agente: Director de Ventas"
+      ]
+    },
+    {
+      "modulo": "Ajuste de Mensajería & Storybrand",
+      "lecciones": [
+        "Historia Personal y Posicionamiento",
+        "Escogiendo un Nicho Rentable",
+        "Storybrand y Avatar Profundo",
+        "Cambiando los Paradigmas de la Audiencia",
+        "El Gran Dominó: Nuevo Método vs Viejos Métodos",
+        "Análisis del Avatar Clínico / B2B"
+      ]
+    }
+  ]
+}

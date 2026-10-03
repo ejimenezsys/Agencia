@@ -1,0 +1,90 @@
+{
+  "programa": "Sistema Paciente 360™ & IA Comercial para Clínicas",
+  "academia": "Academia ProsperIA",
+  "plataforma": "GoHighLevel Membership / Marca Blanca ProsperIA",
+  "vertical": "Clínicas Dentales, Estéticas y Capilares",
+  "total_modulos": 8,
+  "modulos": [
+    {
+      "modulo_id": 0,
+      "titulo": "Fundamentos y Configuración del Ecosistema ProsperIA",
+      "lecciones": [
+        "0.1 Bienvenida al Sistema Paciente 360™",
+        "0.2 Conexión de Canales Oficiales (WhatsApp, Instagram, Facebook)",
+        "0.3 Configuración del Calendario y Horarios de la Clínica",
+        "0.4 Importación del Snapshot ProsperIA"
+      ]
+    },
+    {
+      "modulo_id": 1,
+      "titulo": "Dominio Local con Review Gating (Google Maps 5★)",
+      "lecciones": [
+        "1.1 El Oro del Map Pack",
+        "1.2 El Mecanismo de Review Gating (Filtro 1-3 vs 4-5 estrellas)",
+        "1.3 Automatización Post-Consulta en GHL",
+        "1.4 Material POP para Recepción (QR Inteligente)"
+      ]
+    },
+    {
+      "modulo_id": 2,
+      "titulo": "La Mina de Oro Oculta — Reactivación de Pacientes (DBR)",
+      "lecciones": [
+        "2.1 El Método del Semáforo (Verde, Amarillo, Rojo)",
+        "2.2 La Oferta de Razón + Incentivo",
+        "2.3 Las 5 Reglas del Guion Inicial",
+        "2.4 Configuración Técnica en Drip Mode",
+        "2.5 Integración del Agente IA Calificador"
+      ]
+    },
+    {
+      "modulo_id": 3,
+      "titulo": "Agentes IA Conversacionales 24/7 (Conversational AI V2)",
+      "lecciones": [
+        "3.1 Arquitectura del Prompt Stack de 5 Capas",
+        "3.2 Carga de la Base de Conocimiento (CSV RAG)",
+        "3.3 La Regla de los 160 Caracteres",
+        "3.4 Guardrails Médicos y Kill-Switch",
+        "3.5 Auditoría y Quality Assurance (QA)"
+      ]
+    },
+    {
+      "modulo_id": 4,
+      "titulo": "El Protocolo Anti No-Shows (Eliminando el Ausentismo)",
+      "lecciones": [
+        "4.1 La Psicología del Paciente que No Llega",
+        "4.2 La Cadencia de 4 Toques",
+        "4.3 El Mensaje Interactivo de 2 Horas",
+        "4.4 Reagendamiento Automático"
+      ]
+    },
+    {
+      "modulo_id": 5,
+      "titulo": "Captación Multicanal & Embudos Evergreen",
+      "lecciones": [
+        "5.1 El Embudo de Conversación (Meta Ads directo a WhatsApp)",
+        "5.2 Campañas de Tráfico de Alta Intención en Google Search",
+        "5.3 El Embudo de Comentarios en Instagram (Growth Loop)",
+        "5.4 Páginas de Preparación y Adoctrinamiento"
+      ]
+    },
+    {
+      "modulo_id": 6,
+      "titulo": "El Protocolo de Cierre en Mostrador y Atención al Paciente",
+      "lecciones": [
+        "6.1 Speed to Lead en Sala de Espera",
+        "6.2 Presentación de Presupuestos de Alto Valor",
+        "6.3 Manejo de Objeciones en Consultorio",
+        "6.4 Seguimiento Automatizado de Presupuestos No Cerrados"
+      ]
+    },
+    {
+      "modulo_id": 7,
+      "titulo": "Tableros de Control, Métricas y Escalamiento",
+      "lecciones": [
+        "7.1 El Dashboard Ejecutivo de ProsperIA",
+        "7.2 Cálculo del Costo por Paciente Asistido (CPA)",
+        "7.3 Apertura de Nuevas Sedes y Escalamiento"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>PROSPERIA Intelligence — Carrusel Interactivo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #060A12;
+      --card: #0D1424;
+      --cyan: #00E5FF;
+      --text: #F8FAFC;
+      --muted: #94A3B8;
+      --border: rgba(255, 255, 255, 0.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #02050A;
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px 20px;
+    }
+    .nav-bar {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 24px;
+      background: var(--card);
+      padding: 10px 24px;
+      border-radius: 9999px;
+      border: 1px solid var(--border);
+    }
+    .btn {
+      background: #182238;
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 8px 16px;
+      border-radius: 9999px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    .btn:hover { border-color: var(--cyan); }
+    .stage {
+      position: relative;
+      width: 540px;
+      height: 675px;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.8);
+    }
+    .slide-canvas {
+      position: absolute;
+      top: 0; left: 0;
+      width: 1080px; height: 1350px;
+      transform: scale(0.5);
+      transform-origin: top left;
+      background: var(--bg);
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 90px 80px 100px 80px;
+      overflow: hidden;
+    }
+    .slide-canvas.active { display: flex; }
+    .ambient-glow {
+      position: absolute;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      filter: blur(140px);
+      opacity: 0.18;
+      pointer-events: none;
+    }
+    .glow-cyan { top: -100px; right: -100px; background: var(--cyan); }
+    .glow-purple { bottom: -100px; left: -100px; background: #818CF8; }
+    .slide-header {
+      display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px solid var(--border); padding-bottom: 24px;
+      position: relative; z-index: 10;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; font-size: 22px; }
+    .dot { width: 14px; height: 14px; border-radius: 50%; background: var(--cyan); }
+    .sep { opacity: 0.3; }
+    .sve { color: var(--cyan); font-weight: 700; font-size: 18px; }
+    .badge-num {
+      background: var(--card); border: 1px solid rgba(0,229,255,0.4);
+      padding: 6px 18px; border-radius: 12px; color: var(--cyan); font-weight: 800; font-size: 20px;
+    }
+    .slide-body { position: relative; z-index: 10; margin: auto 0; display: flex; flex-direction: column; gap: 24px; }
+    .pill-type {
+      align-self: flex-start; background: var(--card); border: 1px solid rgba(0,229,255,0.4);
+      padding: 8px 20px; border-radius: 9999px; color: var(--cyan); font-weight: 800; font-size: 18px;
+    }
+    .slide-title { font-size: 56px; font-weight: 800; line-height: 1.15; }
+    .slide-sub { font-size: 32px; font-weight: 700; color: var(--cyan); line-height: 1.3; }
+    .card-content {
+      background: var(--card); border: 1px solid var(--border); border-radius: 20px;
+      padding: 36px; display: flex; flex-direction: column; gap: 16px; font-size: 26px; color: var(--muted);
+    }
+    .slide-footer {
+      display: flex; justify-content: space-between; align-items: center;
+      border-top: 1px solid var(--border); padding-top: 28px;
+      position: relative; z-index: 10;
+    }
+    .author { display: flex; align-items: center; gap: 14px; }
+    .av {
+      width: 52px; height: 52px; border-radius: 50%; background: var(--card);
+      border: 2px solid var(--cyan); color: var(--cyan); display: flex;
+      align-items: center; justify-content: center; font-weight: 800; font-size: 20px;
+    }
+    .author strong { display: block; font-size: 20px; }
+    .author span { font-size: 15px; color: var(--muted); }
+    .hint { font-weight: 800; color: var(--cyan); font-size: 20px; }
+  </style>
+</head>
+<body>
+  <div class="nav-bar">
+    <button class="btn" onclick="prev()">← Anterior</button>
+    <span id="counter" style="color: var(--cyan); font-weight: 800;">1 / 8</span>
+    <button class="btn" onclick="next()">Siguiente →</button>
+  </div>
+  <div class="stage">
+    
+        <div class="slide-canvas active" id="slide-1">
+          <div class="ambient-glow glow-cyan"></div>
+          <div class="ambient-glow glow-purple"></div>
+          <div class="slide-header">
+            <div class="brand">
+              <span class="dot"></span>
+              <strong>PROSPERIA INTELLIGENCE</strong>
+              <span class="sep">|</span>
+              <span class="sve">SISTEMA SVE90</span>
+            </div>
+            <div class="badge-num">01 / 08</div>
+          </div>
+          <div class="slide-body">
+            <div class="pill-type">PORTADA</div>
+            <h2 class="slide-title">Comprar IA sin un sistema operativo es un error costoso.</h2>
+            <p class="slide-sub">Cómo auditar, automatizar y adoptar agentes en clínicas y servicios sin alucinaciones.</p>
+            
+          </div>
+          <div class="slide-footer">
+            <div class="author">
+              <div class="av">EJ</div>
+              <div>
+                <strong>Edward Jiménez</strong>
+                <span>@edwardjimenezia</span>
+              </div>
+            </div>
+            <div class="hint">Desliza →</div>
+          </div>
+        </div>
+        
+        <div class="slide-canvas " id="slide-2">
+          <div class="ambient-glow glow-cyan"></div>
+          <div class="ambient-glow glow-purple"></div>
+          <div class="slide-header">
+            <div class="brand">
+              <span class="dot"></span>
+              <strong>PROSPERIA INTELLIGENCE</strong>
+              <span class="sep">|</span>
+              <span class="sve">SISTEMA SVE90</span>
+            </div>
+            <div class="badge-num">02 / 08</div>
+          </div>
+          <div class="slide-body">
+            <div class="pill-type">TENSIÓN</div>
+            <h2 class="slide-title">La trampa de las herramientas sueltas</h2>
+            <p class="slide-sub">Lo que creen las clínicas vs. lo que realmente ocurre</p>
+            <div class='card-content'><p>Contratar un bot genérico para WhatsApp o comprar licencias aisladas de IA no resuelve las fugas operativas.</p><p>Sin protocolos de contención, un agente alucina precios de tratamientos, promete tiempos irreales y satura al equipo humano con citas no calificadas.</p></div>
+          </div>
+          <div class="slide-footer">
+            <div class="author">
+              <div class="av">EJ</div>
+              <div>
+                <strong>Edward Jiménez</strong>
+                <span>@edwardjimenezia</span>
+              </div>
+            </div>
+            <div class="hint">Desliza →</div>
+          </div>
+        </div>
+        
+        <div class="slide-canvas " id="slide-3">
+          <div class="ambient-glow glow-cyan"></div>
+          <div class="ambient-glow glow-purple"></div>
+          <div class="slide-header">
+            <div class="brand">
+              <span class="dot"></span>
+              <strong>PROSPERIA INTELLIGENCE</strong>
+              <span class="sep">|</span>
+              <span class="sve">SISTEMA SVE90</span>
+            </div>
+            <div class="badge-num">03 / 08</div>
+          </div>
+          <div class="slide-body">
+            <div class="pill-type">CASO CLINICAS</div>
+            <h2 class="slide-title">El costo de la lentitud y el error</h2>
+            <p class="slide-sub">Speed-to-lead y precisión en servicios de alto valor</p>
+            <div class='card-content'><p>En clínicas dentales, estéticas o capilares, responder en 15 segundos multiplica la conversión un 391%.</p><p>Pero responder rápido con datos inventados destruye la reputación médica en segundos. Se requiere precisión milimétrica.</p></div>
+          </div>
+          <div class="slide-footer">
+            <div class="author">
+              <div class="av">EJ</div>
+              <div>
+                <strong>Edward Jiménez</strong>
+                <span>@edwardjimenezia</span>
+              </div>
+            </div>
+            <div class="hint">Desliza →</div>
+          </div>
+        </div>
+        
+        <div class="slide-canvas " id="slide-4">
+          <div class="ambient-glow glow-cyan"></div>
+          <div class="ambient-glow glow-purple"></div>
+          <div class="slide-header">
+            <div class="brand">
+              <span class="dot"></span>
+              <strong>PROSPERIA INTELLIGENCE</strong>
+              <span class="sep">|</span>
+              <span class="sve">SISTEMA SVE90</span>
+            </div>
+            <div class="badge-num">04 / 08</div>
+          </div>
+          <div class="slide-body">
+            <div class="pill-type">EVIDENCIA 1</div>
+            <h2 class="slide-title">78% adopción vs. 0% gobernanza</h2>
+            <p class="slide-sub">Stanford HAI &amp; Anthropic Index 2025</p>
+            <div class='card-content'><p>El 78% de las organizaciones ya usa IA en sus operaciones, y el 57% de los usos exitosos buscan AUMENTO humano (no reemplazo total).</p><p>Los agentes no reemplazan al médico o al especialista: eliminan las 30 tareas burocráticas que le impiden atender pacientes.</p></div>
+          </div>
+          <div class="slide-footer">
+            <div class="author">
+              <div class="av">EJ</div>
+              <div>
+                <strong>Edward Jiménez</strong>
+                <span>@edwardjimenezia</span>
+              </div>
+            </div>
+            <div class="hint">Desliza →</div>
+          </div>
+        </div>
+        
+        <div class="slide-canvas " id="slide-5">
+          <div class="ambient-glow glow-cyan"></div>
+          <div class="ambient-glow glow-purple"></div>
+          <div class="slide-header">
+            <div class="brand">
+              <span class="dot"></span>
+              <strong>PROSPERIA INTELLIGENCE</strong>
+              <span class="sep">|</span>
+              <span class="sve">SISTEMA SVE90</span>
+            </div>
+            <div class="badge-num">05 / 08</div>
+          </div>
+          <div class="slide-body">
+            <div class="pill-type">PROCESO</div>
+            <h2 class="slide-title">Las 3 Fases de la Metodología SVE90</h2>
+            <p class="slide-sub">Implementación directiva en 90 días</p>
+            <div class='card-content'><p>01. AUDITAR: Mapear tareas mecánicas, cuellos de botella y límites de riesgo.</p><p>02. AUTOMATIZAR: AI SDRs y agentes con esquemas estrictos (cero alucinación).</p><p>03. ADOPTAR: Capacitar al personal en supervisión y gobierno activo.</p></div>
+          </div>
+          <div class="slide-footer">
+            <div class="author">
+              <div class="av">EJ</div>
+              <div>
+                <strong>Edward Jiménez</strong>
+                <span>@edwardjimenezia</span>
+              </div>
+            </div>
+            <div class="hint">Desliza →</div>
+          </div>
+        </div>
+        
+        <div class="slide-canvas " id="slide-6">
+          <div class="ambient-glow glow-cyan"></div>
+          <div class="ambient-glow glow-purple"></div>
+          <div class="slide-header">
+            <div class="brand">
+              <span class="dot"></span>
+              <strong>PROSPERIA INTELLIGENCE</strong>
+              <span class="sep">|</span>
+              <span class="sve">SISTEMA SVE90</span>
+            </div>
+            <div class="badge-num">06 / 08</div>
+          </div>
+          <div class="slide-body">
+            <div class="pill-type">INTERPRETACIÓN</div>
+            <h2 class="slide-title">Soberanía Operativa para la Dirección</h2>
+            <p class="slide-sub">Los 4 Pilares de Soberanía Empresarial</p>
+            <div class='card-content'><p>• Financiero: Reducción del CAC y blindaje de margen.</p><p>• Emocional: Fin de la fatiga del equipo por tareas repetitivas.</p><p>• Estratégico: Claridad en qué delegar y qué retener.</p><p>• Tecnológico: Infraestructura autónoma 24/7 propia de la empresa.</p></div>
+          </div>
+          <div class="slide-footer">
+            <div class="author">
+              <div class="av">EJ</div>
+              <div>
+                <strong>Edward Jiménez</strong>
+                <span>@edwardjimenezia</span>
+              </div>
+            </div>
+            <div class="hint">Desliza →</div>
+          </div>
+        </div>
+        
+        <div class="slide-canvas " id="slide-7">
+          <div class="ambient-glow glow-cyan"></div>
+          <div class="ambient-glow glow-purple"></div>
+          <div class="slide-header">
+            <div class="brand">
+              <span class="dot"></span>
+              <strong>PROSPERIA INTELLIGENCE</strong>
+              <span class="sep">|</span>
+              <span class="sve">SISTEMA SVE90</span>
+            </div>
+            <div class="badge-num">07 / 08</div>
+          </div>
+          <div class="slide-body">
+            <div class="pill-type">DECISIÓN DIRECTIVA</div>
+            <h2 class="slide-title">La regla de oro para implementar IA</h2>
+            <p class="slide-sub">Tolerancia cero a errores en salud y servicios</p>
+            <div class='card-content'><p>1. Nunca conectes un LLM a la base de datos sin un esquema tipado.</p><p>2. Todo agente debe tener un circuit breaker que conmute a humanos si duda.</p><p>3. Audita la trazabilidad de cada conversación en tiempo real.</p></div>
+          </div>
+          <div class="slide-footer">
+            <div class="author">
+              <div class="av">EJ</div>
+              <div>
+                <strong>Edward Jiménez</strong>
+                <span>@edwardjimenezia</span>
+              </div>
+            </div>
+            <div class="hint">Desliza →</div>
+          </div>
+        </div>
+        
+        <div class="slide-canvas " id="slide-8">
+          <div class="ambient-glow glow-cyan"></div>
+          <div class="ambient-glow glow-purple"></div>
+          <div class="slide-header">
+            <div class="brand">
+              <span class="dot"></span>
+              <strong>PROSPERIA INTELLIGENCE</strong>
+              <span class="sep">|</span>
+              <span class="sve">SISTEMA SVE90</span>
+            </div>
+            <div class="badge-num">08 / 08</div>
+          </div>
+          <div class="slide-body">
+            <div class="pill-type">CIERRE</div>
+            <h2 class="slide-title">¿Tu clínica u operación tiene fugas de gobernanza?</h2>
+            <p class="slide-sub">Diagnóstico de Madurez Operativa SVE90 en 3 minutos.</p>
+            <div class='card-content'><p>Evalúa tus puntos ciegos en captación, seguimiento y blindaje de datos antes de contratar más personal en:</p><p>agenciaprosperia.com/diagnostico</p></div>
+          </div>
+          <div class="slide-footer">
+            <div class="author">
+              <div class="av">EJ</div>
+              <div>
+                <strong>Edward Jiménez</strong>
+                <span>@edwardjimenezia</span>
+              </div>
+            </div>
+            <div class="hint">Desliza →</div>
+          </div>
+        </div>
+        
+  </div>
+  <script>
+    let cur = 1;
+    const total = 8;
+    function show(n) {
+      document.querySelectorAll('.slide-canvas').forEach(s => s.classList.remove('active'));
+      const s = document.getElementById('slide-' + n);
+      if (s) s.classList.add('active');
+      document.getElementById('counter').innerText = n + ' / ' + total;
+    }
+    function next() { cur = (cur >= total) ? 1 : cur + 1; show(cur); }
+    function prev() { cur = (cur <= 1) ? total : cur - 1; show(cur); }
+  </script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+{
+  "curso_id": 33,
+  "titulo": "Método Reactivación (Database Reactivation - DBR)",
+  "instructor": "Marketing Ninjas",
+  "url_base": "https://ninjasuite.app.clientclub.net/courses/products/703c50b6-17fe-4f8f-a95b-d8d6cb653204",
+  "total_modulos": 5,
+  "total_lecciones": 26,
+  "modulos": [
+    {
+      "modulo_num": 1,
+      "titulo": "Fundamentos de la Reactivación de BBDD",
+      "lecciones": [
+        "Qué es la reactivación de bases de datos (DBR) y sus conceptos básicos",
+        "La 'mina de oro' oculta y el mito de los leads fríos",
+        "El problema de la negligencia y el poder del 'Speed to Lead'",
+        "El impacto en la retención de clientes y el poder de las 'Victorias Rápidas'"
+      ]
+    },
+    {
+      "modulo_num": 2,
+      "titulo": "Identificando al Cliente y la Base de Datos Ideal",
+      "lecciones": [
+        "El nicho perfecto y por qué enfocarse en negocios basados en citas",
+        "El Método del Semáforo (Clasificando la Base de Datos)",
+        "Segmentación por industria (Contratistas vs. Servicios Recurrentes)"
+      ]
+    },
+    {
+      "modulo_num": 3,
+      "titulo": "Creación de la Oferta y los Guiones (Copywriting)",
+      "lecciones": [
+        "La fórmula de la oferta exitosa (Razón + Incentivo)",
+        "Aprovechar ofertas probadas (No inventes la rueda)",
+        "Las 5 reglas de oro del mensaje inicial"
+      ]
+    },
+    {
+      "modulo_num": 4,
+      "titulo": "Configuración Técnica Paso a Paso",
+      "lecciones": [
+        "Pre-configuración",
+        "Conectar el WhatsApp",
+        "Limpiar el CSV",
+        "Etiquetas y pipeline",
+        "Importación y mapeo de contactos",
+        "Workflow 1: Reactivación",
+        "Drip Mode, horarios y calentamiento del número",
+        "Workflow 2: Filtro de bajas (va antes que la IA)",
+        "Configurar el Agente de IA y su base de conocimientos",
+        "Workflows 3, 4",
+        "Workflow 5",
+        "Análisis de la Campaña"
+      ]
+    },
+    {
+      "modulo_num": 5,
+      "titulo": "Cómo Vender el Servicio de DBR",
+      "lecciones": [
+        "El 'Pitch' Irresistible",
+        "Estrategias de Precios",
+        "La Oferta de 'Prueba Gratuita'",
+        "Upsells, Cross-Selling y Retención a largo plazo"
+      ]
+    }
+  ]
+}

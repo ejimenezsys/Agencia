@@ -1,0 +1,36 @@
+{
+  "curso_id": 31,
+  "titulo": "Mentoría Reto Estratega (Agencia Productizada)",
+  "promesa": "Cómo Agregar de US$5,000 a US$20,000 Extras al Mes con Servicios Productizados",
+  "instructor": "Expertos NinjaPerformance",
+  "url_base": "https://ninjasuite.app.clientclub.net/courses/products/b63c788d-71b5-44ea-8822-6b9be57662c1",
+  "total_categorias": 5,
+  "total_lecciones": 25,
+  "categorias": [
+    {
+      "categoria_num": 1,
+      "titulo": "Onboarding",
+      "lecciones": ["Primeros Pasos", "Dinámica del Programa", "Recorrido por el Área de Miembros", "Comunidad y Llamadas en Vivo", "Grupo de WhatsApp", "Herramienta NinjaSuite", "Ingresa a Ninja Suite"]
+    },
+    {
+      "categoria_num": 2,
+      "titulo": "Sistema Estratégico Comercial",
+      "lecciones": ["Cliente Ideal", "Parrilla de Servicios y Escalera de Valor", "Sobre el Servicio de Funnels Como Producto Frontal", "Funnel de Agencia y Sistema de Ventas", "Arquitectura del Sistema de Ventas Híbrido de Agencia", "Mensajería para Estrategia de Contenido Orgánico con CTA a Comentar", "Sistema Comercial General"]
+    },
+    {
+      "categoria_num": 3,
+      "titulo": "Sistemas de Implementación",
+      "lecciones": ["Sitios IA", "Automatización de Reviews", "Reactivación de BBDD", "Funnels con Agentes IA"]
+    },
+    {
+      "categoria_num": 4,
+      "titulo": "Fundamentos de un Servicio de Excelencia",
+      "lecciones": ["El Funnel Invisible", "5 Claves para Aumentar Satisfacción y Resultados", "8 Fases Sicológicas que Recorren los Clientes", "11 Áreas Optimizables de tu Servicio", "El Recorrido de Éxito para tus Clientes"]
+    },
+    {
+      "categoria_num": 5,
+      "titulo": "Sistema de Escalamiento",
+      "lecciones": ["Creación de SOPs y Procesos Estandarizados", "Asistentes Virtuales"]
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "curso_id": 3,
+  "titulo": "Tus Primeros Pasos con NinjaSuite",
+  "instructor": "Expertos NinjaSuite",
+  "url_base": "https://ninjasuite.app.clientclub.net/courses/products/8bc4795b-d1a9-481a-a2c6-b540dccf1600",
+  "total_lecciones": 4,
+  "lecciones": [
+    "Primeros Pasos",
+    "Cambiando el idioma de la plataforma",
+    "Recorrido por la plataforma",
+    "Cómo Ganar Dinero con NinjaSuite"
+  ]
+}

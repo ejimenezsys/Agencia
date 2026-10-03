@@ -1,0 +1,41 @@
+{
+  "curso_id": 5,
+  "titulo": "Implementaciones Ninja",
+  "subtitulo": "Maratones, Setups & Snapshots Grabaciones Pasadas",
+  "instructores": "Expertos de NinjaSuite & Miembros del Equipo",
+  "url_base": "https://ninjasuite.app.clientclub.net/courses/products/d30457a0-93fb-4f96-a905-89907108a339",
+  "total_lecciones": 13,
+  "modulos": [
+    {
+      "modulo": "Guía de Setup",
+      "lecciones": ["Guía de Setup"]
+    },
+    {
+      "modulo": "Snapshots",
+      "lecciones": [
+        "Snapshots NinjaSuite",
+        "Agencia GoHighLevel",
+        "Agencia SaaS en GoHighLevel 1/2",
+        "Agencia SaaS en GoHighLevel 2/2"
+      ]
+    },
+    {
+      "modulo": "Maratones de Implementación",
+      "lecciones": [
+        "Setup Completo en NinjaSuite (Estrategia + Implementación)",
+        "Agendamientos 31.05.2025",
+        "Campañas en Meta 14.06.2025",
+        "Estrategia y Campaña Inmobiliaria 27.12.2025",
+        "Ecommerce 21.03.2026"
+      ]
+    },
+    {
+      "modulo": "Clases Históricas",
+      "lecciones": [
+        "Sesiones de Publicidad & Tech",
+        "Sesiones de Estrategia",
+        "Sesiones Automatizaciones & IA"
+      ]
+    }
+  ]
+}

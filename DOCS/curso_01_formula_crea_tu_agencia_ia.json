@@ -1,0 +1,65 @@
+{
+  "curso_id": 1,
+  "titulo": "Fórmula Crea Tu Agencia IA",
+  "instructor": "Agustín / Equipo NinjaPerformance",
+  "url_base": "https://ninjasuite.app.clientclub.net/courses/products/6e514b35-eda8-40d2-a9b5-ea7925a2062e",
+  "total_modulos": 8,
+  "total_lecciones": 40,
+  "recursos_externos": {
+    "miro_board_funnels": "https://miro.com/app/board/uXjVIBxTfA4=/?share_link_id=868570812326",
+    "guiones_plantillas_comerciales_doc": "https://docs.google.com/document/d/1AOXmYpHNqMa5oM8Gje6FCL15XrBMeEAox77tqKWI738/edit?usp=sharing",
+    "presentaciones_comerciales_drive": "https://drive.google.com/drive/folders/16iOf5TEcdnVgGtYHM6b9B3yzKpzd8aPo?usp=sharing",
+    "notas_kickoff_doc": "https://docs.google.com/document/d/1djg7B1w9wxvqtsFLnQFr32WQG4EmMtKeILHxsO3SZH4/edit?usp=sharing",
+    "grabacion_kickoff_drive": "https://drive.google.com/file/d/1i-H8V8r8y2l1HnRpgrDTo3_QMLmDfKcZ/view?usp=sharing"
+  },
+  "modulos": [
+    {
+      "num": 1,
+      "titulo": "Bienvenido/a Fórmula Crea Tu Agencia IA",
+      "lecciones": 7,
+      "foco": "Onboarding, plan de acción, soporte en vivo y sesión de KickOff"
+    },
+    {
+      "num": 2,
+      "titulo": "Entendiendo el Negocio",
+      "lecciones": 10,
+      "foco": "Modelo productizado de IA, selección de nicho, empaquetado de oferta sin riesgo, naming y setup de dominio"
+    },
+    {
+      "num": 3,
+      "titulo": "Construcción de Funnel de Agencia",
+      "lecciones": 6,
+      "foco": "Funnel Mínimo Viable (FMV), Landing Page, VSL, agendamiento y automatizaciones de confirmación"
+    },
+    {
+      "num": 4,
+      "titulo": "Implementación de Campaña de Agencia",
+      "lecciones": 6,
+      "foco": "Meta Ads (CAPI, Píxel), creativos que detienen el scroll, scripting de video selfie y prospección fría"
+    },
+    {
+      "num": 5,
+      "titulo": "Empezando la Venta",
+      "lecciones": 8,
+      "foco": "Proceso comercial en 2 llamadas (Discovery + Pitch de Cierre), gestión de pipeline y manejo de objeciones"
+    },
+    {
+      "num": 6,
+      "titulo": "Dando Resultados a Clientes",
+      "lecciones": 1,
+      "foco": "Delivery rápido mediante snapshots de NinjaSuite / GHL para clonar funnels y agentes en minutos"
+    },
+    {
+      "num": 7,
+      "titulo": "Los Siguientes Pasos de tu Agencia",
+      "lecciones": 1,
+      "foco": "Escalamiento, transición de operador a dueño y delegación comercial"
+    },
+    {
+      "num": 8,
+      "titulo": "Clases Extras",
+      "lecciones": 1,
+      "foco": "Apertura de cuenta bancaria y LLC en EEUU (Mercury, Stripe) para facturar internacionalmente"
+    }
+  ]
+}

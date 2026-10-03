@@ -1,0 +1,61 @@
+{
+  "curso_id": 9,
+  "titulo": "Funnels Evergreen",
+  "instructor": "Agustín Casorzo",
+  "url_base": "https://ninjasuite.app.clientclub.net/courses/products/b9345989-8f7b-49ab-9d69-b8e41ffb461f",
+  "total_categorias": 11,
+  "total_lecciones": 62,
+  "los_5_arquetipos_de_funnels": [
+    {
+      "nombre": "Funnel de Conversación",
+      "mecanismo": "Lead Magnet simple -> Calificación y conversación inmediata por Chat/WhatsApp/DM"
+    },
+    {
+      "nombre": "Funnel Clásico (FMV)",
+      "mecanismo": "Captura rápida mediante VSL directa o Lead Magnet tradicional con opt-in"
+    },
+    {
+      "nombre": "Funnel de Agendamiento",
+      "mecanismo": "Opt-in -> Encuesta de calificación -> Calendario directo -> Página de preparación"
+    },
+    {
+      "nombre": "Funnel de Presentación (Webinar / VSL High Ticket)",
+      "mecanismo": "Captura -> Clase/Webinar de 25-45 min -> Pitch de agendamiento -> Página de preparación"
+    },
+    {
+      "nombre": "Funnel Social & Web Funnel",
+      "mecanismo": "Tráfico orgánico y de pago en redes sociales -> Web tipo embudo orientada a conversión directa"
+    }
+  ],
+  "recursos_oficiales": {
+    "miro_tableros": [
+      {"nombre": "Mapa General de Diagramas de Funnels", "url": "https://miro.com/app/board/uXjVICIaH3c=/?share_link_id=221301744904"},
+      {"nombre": "Mockup de Web Funnel (WF)", "url": "https://miro.com/app/board/uXjVNhK-FWM=/?share_link_id=528742555310"}
+    ],
+    "planillas_metricas": [
+      {"nombre": "Planilla de Rastreo de Campañas", "url": "https://docs.google.com/spreadsheets/d/11Hg_OpK60aNyZywgoJ0i97iXZi-X0N5_/edit?usp=drive_link"},
+      {"nombre": "Planilla de Testing de Creativos", "url": "https://docs.google.com/spreadsheets/d/1vCyG_1N6f_Ah-yfzX7Asf4GFnMsdB1k6/edit?usp=drive_link"}
+    ],
+    "plantillas_copys_y_documentos": [
+      {"nombre": "Landing Page Pre-Captura (Sin Calificación)", "url": "https://drive.google.com/file/d/1b5dCTSPxnPAwi9Oil_6HMrzc9ADAj5RB/view?usp=drive_link"},
+      {"nombre": "Landing Page Pre-Captura (Con Calificación)", "url": "https://drive.google.com/file/d/1j9dQcsRMmDzEAGWCECdc9JQ8ZSiH8bTH/view?usp=drive_link"},
+      {"nombre": "Preguntas de Calificación para Agendamiento", "url": "https://drive.google.com/file/d/1pqcnnjEH0sfqVZTMdDODfRh5e2hpQbkx/view?usp=drive_link"},
+      {"nombre": "Estructura Encuesta de Calificación", "url": "https://drive.google.com/file/d/1rAuswm5UuPnAqJgU4dyerYMY4YqKxiUZ/view?usp=drive_link"},
+      {"nombre": "Secuencia de Email de Agendamiento", "url": "https://drive.google.com/file/d/1GsJf0xr9pDA3_CA9nU01Jsm2tJ4vu0_L/view?usp=drive_link"},
+      {"nombre": "Secuencia de Email de Recordatorio", "url": "https://drive.google.com/file/d/13B61uhBuwEXayT4bVI757yF0BTI9Lq8M/view?usp=drive_link"},
+      {"nombre": "Secuencia de Correos Post Captura Inicial", "url": "https://drive.google.com/file/d/1yJyTRXObWYf1wqPt6fd-6fgZTQBdv4Nj/view?usp=drive_link"},
+      {"nombre": "Documento Copys para Web Funnel", "url": "https://drive.google.com/file/d/1Ufkn637RVbWz_9Knc-Bk1Qgl8T3Uo7EL/view?usp=drive_link"},
+      {"nombre": "Preguntas para Entrevista de Caso de Éxito", "url": "https://drive.google.com/file/d/1_xYi08YbHCobrZHX4vI6xmQaJUeSGHOi/view?usp=drive_link"}
+    ],
+    "videos_y_slides": [
+      {"nombre": "Ejemplo VSL Corto (Video)", "url": "https://vimeo.com/842972090/18ffb84faa"},
+      {"nombre": "Ejemplo Slides VSL Corto", "url": "https://drive.google.com/file/d/1gJnie2rwz_aPzK0zdVGReAfuO0s6farf/view?usp=drive_link"},
+      {"nombre": "Ejemplo Video Webinar Largo", "url": "https://vimeo.com/593012452"},
+      {"nombre": "Ejemplo Slides Webinar Largo", "url": "https://drive.google.com/file/d/1Zp1g37tUcCx8rtdxSTo-IyRHA7SgWWGG/view?usp=drive_link"},
+      {"nombre": "Video de Preparación 1", "url": "https://vimeo.com/843827083/d9c2c0a2f4"},
+      {"nombre": "Slides Video de Preparación 1", "url": "https://drive.google.com/file/d/1y-IhZQAfFFfxzWaihqdemXe34i-gM2o3/view?usp=drive_link"},
+      {"nombre": "Video de Valor", "url": "https://vimeo.com/843000423/9f823908bf"},
+      {"nombre": "Slides Video de Valor", "url": "https://drive.google.com/file/d/1vhOntzhGiW5Xat7-xHbv28z6BVUbFe-6/view?usp=drive_link"}
+    ]
+  }
+}

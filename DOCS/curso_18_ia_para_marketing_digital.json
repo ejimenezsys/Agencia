@@ -1,0 +1,39 @@
+{
+  "curso_id": 18,
+  "titulo": "Inteligencia Artificial para Marketing Digital",
+  "instructor": "Equipo Ninja Performance",
+  "url_base": "https://ninjasuite.app.clientclub.net/courses/products/aed62d80-c32c-4402-b1b8-d5636eb21541",
+  "total_lecciones": 13,
+  "recursos_oficiales": {
+    "guia_comandos_chatgpt_doc": "https://docs.google.com/document/d/1gw11cDld5Wuyk7lCqEzIWgwEqzYiylNSxYE88rg3IaM/edit?usp=sharing",
+    "comandos_ejemplo_chatgpt_drive": "https://drive.google.com/file/d/1uOeleOfKsFrumK5uFiyvTT0hrvxt9ufG/view?usp=drive_link"
+  },
+  "modulos": [
+    {
+      "modulo_num": 1,
+      "titulo": "Guía Comandos (Prompts) para Chat GPT",
+      "lecciones": ["Guía Comandos Chat GPT", "Cómo Hacer Buenos Prompts con ChatGPT"]
+    },
+    {
+      "modulo_num": 2,
+      "titulo": "Guía de Creación de Reels Virales con IA",
+      "lecciones": [
+        "Visión General del Proceso",
+        "Creando los Textos y/o Guiones Parte 1 de 2",
+        "Creando los Textos y/o Guiones Parte 2 de 2",
+        "Grabación de Audio y Video",
+        "Creación de Video con www.d-id.com",
+        "Edición de Video con Descript",
+        "Edición de Video sólo Imágenes con Descript",
+        "Creación y Obtención de Imágenes con IA (MidJourney)",
+        "Miniaturas para Instagram Reels con Canva",
+        "Publicación de Videos en Instagram Reels, Facebook Reels, TikTok y Youtube Shorts"
+      ]
+    },
+    {
+      "modulo_num": 3,
+      "titulo": "Mensajería y Oferta",
+      "lecciones": ["Creando tu Storybrand, Mensajería y Oferta con Chat GPT"]
+    }
+  ]
+}

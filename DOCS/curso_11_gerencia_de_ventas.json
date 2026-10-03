@@ -1,0 +1,24 @@
+{
+  "curso_id": 11,
+  "titulo": "Curso Gerencia de Ventas",
+  "instructor": "Agustín Casorzo",
+  "url_base": "https://ninjasuite.app.clientclub.net/courses/products/80be40cc-2962-42b4-9f6f-463f1020b3e1",
+  "total_lecciones": 10,
+  "lecciones": [
+    "Lo que Haremos en este Curso",
+    "Los Roles Clave (Setters, Confirmers, Closers)",
+    "Procesos de Venta",
+    "Etapas de Venta",
+    "Ejemplo de CRM (NinjaSuite / GHL)",
+    "Ritmo de Juntas (Daily Huddles & Weekly Review)",
+    "Guiones de Venta (Principiantes vs Cierre 1 Llamada)",
+    "Grabar las Llamadas (Auditoría y QA Comercial)",
+    "Entrenamiento en Ventas (Roleplay Continuo)",
+    "Documentos de Trabajo para Roles (Carpetas Drive Setters, Confirmers, Closers)"
+  ],
+  "roles_equipo_comercial": {
+    "setter": "Prospección activa, DMs, LinkedIn, respuesta en < 5 min, agendar llamada de discovery",
+    "call_confirmer": "Llamada o WhatsApp 2-3h antes para garantizar show-up rate > 85%",
+    "closer": "Conducir la videollamada de 30-45 min y cobrar el setup de $1,500 en vivo"
+  }
+}

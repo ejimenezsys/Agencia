@@ -1,0 +1,53 @@
+{
+  "curso_id": 16,
+  "titulo": "Domina Google Ads",
+  "instructor": "Entrenadores Ninja Performance",
+  "url_base": "https://ninjasuite.app.clientclub.net/courses/products/970b0831-e984-44e8-b19b-3b3f0760dbc7",
+  "total_lecciones": 26,
+  "modulos": [
+    {
+      "modulo_num": 1,
+      "titulo": "Curso de Tráfico con Google Ads (Search)",
+      "lecciones": [
+        "Lo que Veremos en Este Curso",
+        "Redes Publicitarias de Google",
+        "Red de Búsqueda (Search)",
+        "La Misión de Google",
+        "Subasta de Anuncios",
+        "Palabras Clave",
+        "Concordancias de Palabras Clave (Exacta, Frase, Amplia)",
+        "Como Usar Palabras Clave para Iniciar una Campaña",
+        "Estructura de Cuenta de Google Ads",
+        "Estructura Optimizada de Campaña",
+        "Grupos de Anuncios",
+        "Anuncios",
+        "Porcentaje de Impresiones",
+        "Optimización de Campañas",
+        "Escalamiento de Campañas",
+        "Previsiones y Pronósticos",
+        "Ejemplo: Selección de Palabras Clave",
+        "Ejemplo: Previsión de Palabras Clave",
+        "¿Que Hacer Ahora?",
+        "Recursos y Tutoriales Recomendados"
+      ]
+    },
+    {
+      "modulo_num": 2,
+      "titulo": "Masterclasses con Invitados",
+      "lecciones": [
+        "Clase 1 de 2: Cómo Configurar Correctamente una Campaña de Google Search - Alex del Ángel",
+        "Clase 2 de 2: Cómo Optimizar y Escalar Campañas de Google Search - Alex del Ángel"
+      ]
+    },
+    {
+      "modulo_num": 3,
+      "titulo": "Taller Domina Google Ads",
+      "lecciones": ["Clase 1", "Clase 2", "Clase 3"]
+    },
+    {
+      "modulo_num": 4,
+      "titulo": "Video Respuestas",
+      "lecciones": ["Como Conectar el Pixel de Meta o la Etiqueta de Conversión de Google en NinjaSuite / GHL"]
+    }
+  ]
+}

@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>¿En qué Nivel de Dominio de IA te Encuentras Realmente? | Agencia ProsperIA & Edward Jiménez</title>
+  <meta name="description" content="Diagnóstico interactivo de 10 preguntas de IA: evalúa tu dominio en Prompt Engineering, generación visual, automatización y agentes autónomos. Descubre tu pipeline de IA, gráfica de radar y plan de crecimiento.">
+  <meta name="keywords" content="test ia, nivel de inteligencia artificial, diagnostico ia, edward jimenez, agenciaprosperia, passportai, prompt engineering, automatizacion comercial">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://agenciaprosperia.com/test-ia">
+  <link rel="icon" type="image/png" href="{{ static_versioned('favicon.png') }}">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://agenciaprosperia.com/test-ia">
+  <meta property="og:title" content="¿En qué Nivel de Dominio de IA te Encuentras Realmente? — Test Interactivo">
+  <meta property="og:description" content="10 escenarios prácticos, gráfica radar de habilidades, análisis de pipeline y diagnóstico personalizado en 2 minutos.">
+  <meta property="og:image" content="{{ static_versioned('logo_prosper_ia_cropped.jpg') }}">
+
+  <link rel="stylesheet" href="{{ static_versioned('tw.css') }}">
+  <link rel="stylesheet" href="{{ static_versioned('fonts.css') }}">
+  <link rel="stylesheet" href="{{ static_versioned('fa.min.css') }}">
+  <script src="{{ static_versioned('chart.min.js') }}"></script>
+
+  <style>
+    body {
+      background-color: #030712;
+      color: #f8fafc;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      overflow-x: hidden;
+    }
+    .font-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+    
+    .glass-panel {
+      background: rgba(11, 18, 35, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    
+    .glow-cyan {
+      box-shadow: 0 0 35px rgba(0, 229, 255, 0.2);
+    }
+    .glow-amber {
+      box-shadow: 0 0 35px rgba(245, 158, 11, 0.25);
+    }
+    .glow-purple {
+      box-shadow: 0 0 35px rgba(168, 85, 247, 0.25);
+    }
+
+    .quiz-option-card {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1.5px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 16px 20px;
+      transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      position: relative;
+    }
+    .quiz-option-card:hover {
+      background: rgba(30, 41, 59, 0.9);
+      border-color: rgba(0, 229, 255, 0.5);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 229, 255, 0.15);
+    }
+    .quiz-option-card.selected {
+      background: linear-gradient(135deg, rgba(8, 51, 68, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%);
+      border-color: #00e5ff;
+      box-shadow: 0 0 25px rgba(0, 229, 255, 0.35);
+    }
+    
+    .opt-letter {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 13px;
+      color: #94a3b8;
+      flex-shrink: 0;
+      transition: all 0.2s;
+    }
+    .quiz-option-card:hover .opt-letter {
+      background: #00e5ff;
+      color: #020710;
+      border-color: #00e5ff;
+    }
+    .quiz-option-card.selected .opt-letter {
+      background: #00e5ff;
+      color: #020710;
+      border-color: #00e5ff;
+    }
+
+    .pipeline-step-node {
+      position: relative;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1.5px solid rgba(255, 255, 255, 0.1);
+      border-radius: 18px;
+      padding: 16px;
+      transition: all 0.3s ease;
+    }
+    .pipeline-step-node.optimal {
+      border-color: rgba(16, 185, 129, 0.6);
+      background: linear-gradient(145deg, rgba(6, 78, 59, 0.3) 0%, rgba(15, 23, 42, 0.9) 100%);
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+    }
+    .pipeline-step-node.bottleneck {
+      border-color: rgba(239, 68, 68, 0.6);
+      background: linear-gradient(145deg, rgba(127, 29, 29, 0.3) 0%, rgba(15, 23, 42, 0.9) 100%);
+      box-shadow: 0 0 20px rgba(239, 68, 68, 0.25);
+    }
+    .pipeline-step-node.growth {
+      border-color: rgba(245, 158, 11, 0.6);
+      background: linear-gradient(145deg, rgba(120, 53, 15, 0.3) 0%, rgba(15, 23, 42, 0.9) 100%);
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.2);
+    }
+
+    /* Custom range slider */
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%;
+      background: #1e293b;
+      height: 8px;
+      border-radius: 4px;
+      outline: none;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #f59e0b;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(245, 158, 11, 0.6);
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.4; transform: scale(1); }
+      50% { opacity: 0.8; transform: scale(1.05); }
+    }
+    .pulse-bg {
+      animation: pulseGlow 6s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between relative selection:bg-cyan-500 selection:text-slate-950">
+
+  <!-- Background Ambience -->
+  <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+    <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[500px] bg-gradient-to-b from-cyan-600/15 via-indigo-600/10 to-transparent blur-[120px] pulse-bg"></div>
+    <div class="absolute top-1/3 -left-40 w-[450px] h-[450px] bg-amber-600/10 blur-[130px] rounded-full"></div>
+    <div class="absolute bottom-10 right-0 w-[550px] h-[550px] bg-purple-600/10 blur-[140px] rounded-full"></div>
+  </div>
+
+  <!-- Top Navigation Bar -->
+  <header class="sticky top-0 z-40 bg-slate-950/80 backdrop-blur-xl border-b border-slate-800/80">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-3 group">
+        <img src="{{ static_versioned('logo_prosper_ia_cropped.jpg') }}" alt="Agencia ProsperIA" class="h-9 sm:h-11 w-auto rounded-lg group-hover:scale-105 transition-transform">
+        <span class="text-xs font-mono font-bold tracking-wider text-slate-300 hidden sm:inline">DIAGNÓSTICO OFICIAL DE IA</span>
+      </a>
+
+      <div class="flex items-center gap-3">
+        <a href="/codigos" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-300 hover:text-white bg-slate-900 border border-slate-700 transition-colors">
+          <i class="fas fa-arrow-left text-[11px] text-cyan-400"></i> <span class="hidden sm:inline">Volver a los</span> 200 Códigos
+        </a>
+        <a href="https://passportai.app" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold bg-gradient-to-r from-amber-400 to-orange-500 text-slate-950 hover:from-amber-300 hover:to-orange-400 transition-all shadow-[0_0_15px_rgba(245,158,11,0.3)]">
+          <i class="fas fa-bolt text-[11px]"></i> <span>PassportAI</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 flex-1 w-full">
+
+    <!-- Screen 1: Welcome Hero -->
+    <div id="quiz-intro-screen" class="glass-panel p-6 sm:p-12 rounded-3xl border-2 border-cyan-500/30 text-center relative overflow-hidden shadow-2xl">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold bg-gradient-to-r from-cyan-950 to-indigo-950 text-cyan-300 border border-cyan-400/40 uppercase tracking-wider mb-6">
+        <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+        <span>Auditoría de Destreza Real en Inteligencia Artificial</span>
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight mb-4">
+        ¿En qué Nivel de Dominio de IA te Encuentras Realmente?
+      </h1>
+
+      <p class="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto mb-8 leading-relaxed font-light">
+        La mayoría de usuarios cree que sabe de IA porque le pide resúmenes a ChatGPT. Este test evalúa tu dominio en <strong>10 dimensiones críticas</strong>: Prompt Engineering, generación visual cinematográfica, workflows autónomos, agentes y monetización comercial.
+      </p>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl mx-auto mb-8 text-center text-xs font-mono">
+        <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800">
+          <div class="text-cyan-400 text-lg font-bold mb-1">10</div>
+          <div class="text-slate-400 text-[11px]">Escenarios Reales</div>
+        </div>
+        <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800">
+          <div class="text-amber-400 text-lg font-bold mb-1">0% Sesgo</div>
+          <div class="text-slate-400 text-[11px]">Opciones al Azar</div>
+        </div>
+        <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800">
+          <div class="text-purple-400 text-lg font-bold mb-1">Radar &amp; PIPELINE</div>
+          <div class="text-slate-400 text-[11px]">Gráfica Interactiva</div>
+        </div>
+        <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800">
+          <div class="text-emerald-400 text-lg font-bold mb-1">Acción Inmediata</div>
+          <div class="text-slate-400 text-[11px]">Plan y Cotización</div>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <button type="button" onclick="startTest()" class="w-full sm:w-auto px-8 py-4 rounded-2xl font-black text-sm sm:text-base bg-gradient-to-r from-cyan-400 to-sky-400 text-slate-950 hover:from-cyan-300 hover:to-sky-300 transition-all shadow-[0_0_30px_rgba(0,229,255,0.4)] cursor-pointer flex items-center justify-center gap-2">
+          <span>Comenzar Diagnóstico (2 Minutos)</span>
+          <i class="fas fa-play text-xs"></i>
+        </button>
+      </div>
+      <p class="text-slate-500 text-xs mt-4 font-mono">100% Gratuito · Sin registro previo para responder</p>
+    </div>
+
+    <!-- Screen 2: Active Question Card -->
+    <div id="quiz-question-screen" class="hidden glass-panel p-5 sm:p-10 rounded-3xl border-2 border-cyan-500/30 relative shadow-2xl">
+      
+      <!-- Progress Bar & Indicator -->
+      <div class="mb-6">
+        <div class="flex items-center justify-between text-xs text-slate-300 font-mono mb-2">
+          <span class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+            <span>Progreso: <strong id="q-percent" class="text-cyan-400">10%</strong></span>
+          </span>
+          <span>Pregunta <strong id="q-current-num" class="text-cyan-400 text-sm">1</strong> de 10</span>
+        </div>
+        <div class="w-full bg-slate-900 rounded-full h-2.5 overflow-hidden border border-slate-800">
+          <div id="q-progress-bar" class="h-full bg-gradient-to-r from-cyan-400 via-sky-400 to-indigo-500 transition-all duration-300" style="width: 10%;"></div>
+        </div>
+      </div>
+
+      <!-- Question Content Header -->
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-800/80">
+        <div>
+          <div class="flex items-center gap-2 mb-2">
+            <span id="q-category-badge" class="px-3 py-1 rounded-lg text-[11px] font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/30 uppercase tracking-wider">
+              PROMPT ENGINEERING
+            </span>
+            <span class="text-[11px] text-slate-400 font-mono hidden sm:inline">Respuestas aleatorias sin orden de nivel</span>
+          </div>
+          <h2 id="q-title" class="text-lg sm:text-2xl font-extrabold text-white leading-snug">
+            ¿Cómo diriges habitualmente la generación de imágenes con IA?
+          </h2>
+        </div>
+        
+        <!-- Illustration Badge -->
+        <div id="q-illustration-box" class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-700 flex items-center justify-center text-3xl flex-shrink-0 shadow-lg">
+          🎨
+        </div>
+      </div>
+
+      <!-- Dynamic Options Container (Shuffled options) -->
+      <div id="q-options-container" class="space-y-3 mb-8">
+        <!-- Rendered by JS -->
+      </div>
+
+      <!-- AI Joke / Curiosity Dynamic Toast -->
+      <div id="q-joke-box" class="mb-6 p-4 rounded-2xl bg-gradient-to-r from-slate-900/90 via-slate-950 to-slate-900/90 border border-amber-500/30 text-xs text-amber-200/90 flex items-start gap-3 hidden">
+        <span class="text-xl flex-shrink-0">🤖</span>
+        <div>
+          <div class="font-bold text-amber-400 text-[11px] uppercase tracking-wider mb-0.5">Momento Geek &amp; Chiste de IA</div>
+          <p id="q-joke-text" class="text-slate-300 text-xs leading-relaxed"></p>
+        </div>
+      </div>
+
+      <!-- Bottom Nav Buttons -->
+      <div class="flex items-center justify-between pt-2">
+        <button type="button" id="btn-prev" onclick="prevQuestion()" class="px-4 py-2.5 rounded-xl border border-slate-700 bg-slate-900 text-slate-300 text-xs font-semibold hover:border-slate-500 hover:text-white transition-all disabled:opacity-30 disabled:pointer-events-none flex items-center gap-1.5" disabled>
+          <i class="fas fa-arrow-left text-xs"></i> <span>Anterior</span>
+        </button>
+        <span class="text-xs text-slate-400 font-mono">Haz clic en la opción para avanzar</span>
+      </div>
+
+    </div>
+
+    <!-- Screen 3: Interactive Mini-Game (Checkpoint) -->
+    <div id="minigame-screen" class="hidden glass-panel p-6 sm:p-10 rounded-3xl border-2 border-amber-500/40 text-center relative overflow-hidden shadow-2xl">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold bg-amber-950 text-amber-300 border border-amber-500/40 uppercase tracking-wider mb-4">
+        🎯 Checkpoint Mitad de Camino • Minijuego de IA
+      </div>
+      
+      <h3 class="text-xl sm:text-3xl font-extrabold text-white mb-2">
+        ¡Desafío Rápido: Calibra la Temperatura del LLM!
+      </h3>
+      <p class="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto mb-6">
+        Tienes que generar el <strong>guion de un Reel viral de misterio</strong>. Si dejas la temperatura en 0.0 será frío como un manual de matemáticas. Si la pones en 1.0 alucinará marcianos. ¿Cuál es el rango ideal?
+      </p>
+
+      <div class="max-w-md mx-auto p-6 rounded-2xl bg-slate-950 border border-amber-500/30 mb-6">
+        <div class="flex items-center justify-between text-xs font-mono text-slate-300 mb-2">
+          <span>0.0 (Determinista)</span>
+          <strong id="temp-display" class="text-amber-400 text-lg font-bold">0.7</strong>
+          <span>1.0 (Creativo Caótico)</span>
+        </div>
+        <input type="range" id="temp-slider" min="0" max="1" step="0.05" value="0.7" oninput="updateTempDisplay(this.value)">
+        
+        <div id="temp-feedback" class="mt-4 p-3 rounded-xl bg-slate-900 border border-slate-800 text-xs text-amber-300 font-mono">
+          Temperatura 0.7: Balance ideal para storytelling con chispa sin perder la coherencia.
+        </div>
+      </div>
+
+      <button type="button" onclick="completeMiniGame()" class="px-6 py-3 rounded-xl text-xs sm:text-sm font-bold bg-gradient-to-r from-amber-400 to-orange-500 text-slate-950 hover:from-amber-300 hover:to-orange-400 transition-all shadow-[0_0_20px_rgba(245,158,11,0.35)]">
+        <span>¡Calibración Aceptada! Continuar a la Pregunta 6</span>
+        <i class="fas fa-arrow-right ml-2 text-xs"></i>
+      </button>
+    </div>
+
+    <!-- Screen 4: Results, Pipeline & Radar Chart -->
+    <div id="quiz-results-screen" class="hidden space-y-8">
+      
+      <!-- Top Score Hero -->
+      <div class="glass-panel p-6 sm:p-10 rounded-3xl border-2 border-cyan-500/35 text-center relative overflow-hidden shadow-2xl">
+        <span class="px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-cyan-950 text-cyan-300 border border-cyan-400/30 inline-block mb-3">
+          📊 Tu Radiografía Oficial de IA
+        </span>
+        
+        <div class="text-4xl sm:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-300 to-indigo-400 mb-1" id="res-total-score">
+          320 / 400 PTS
+        </div>
+        <h2 class="text-xl sm:text-3xl font-extrabold text-white mb-2" id="res-level-title">
+          Nivel: Especialista Avanzado en IA
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-300 max-w-2xl mx-auto leading-relaxed mb-6" id="res-level-desc">
+          Tienes un dominio superior al 85% de los profesionales. Integras modelos y herramientas, pero tu mayor área de expansión está en automatizar la conexión comercial directa a ventas.
+        </p>
+
+        <div class="flex items-center justify-center gap-3 flex-wrap">
+          <button type="button" onclick="shareResultWhatsApp()" class="px-4 py-2.5 rounded-xl text-xs font-bold bg-emerald-500 text-slate-950 hover:bg-emerald-400 transition-colors inline-flex items-center gap-2">
+            <i class="fab fa-whatsapp text-sm"></i> Compartir Mi Nivel
+          </button>
+          <button type="button" onclick="restartTest()" class="px-4 py-2.5 rounded-xl text-xs font-semibold bg-slate-900 border border-slate-700 text-slate-300 hover:text-white transition-colors">
+            <i class="fas fa-redo-alt mr-1"></i> Repetir Test
+          </button>
+        </div>
+      </div>
+
+      <!-- Animated Interactive PIPELINE Breakdown -->
+      <div class="glass-panel p-6 sm:p-10 rounded-3xl border-2 border-indigo-500/30 shadow-2xl">
+        <div class="text-center mb-6">
+          <span class="text-xs font-bold text-indigo-400 uppercase tracking-wider block mb-1">Arquitectura de Procesos</span>
+          <h3 class="text-xl sm:text-2xl font-black text-white">Tu PIPELINE Operativo de IA</h3>
+          <p class="text-xs text-slate-300 max-w-xl mx-auto mt-1">
+            Así fluye la inteligencia artificial en tu negocio desde la idea hasta el dinero en el banco:
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-3 relative" id="pipeline-nodes-container">
+          <!-- Dynamically populated 5 nodes -->
+        </div>
+
+        <div class="mt-6 p-4 rounded-2xl bg-slate-950/80 border border-slate-800 text-xs text-slate-300 flex items-start gap-3">
+          <i class="fas fa-lightbulb text-amber-400 text-base mt-0.5"></i>
+          <div>
+            <strong class="text-white">Diagnóstico del Pipeline:</strong>
+            <span id="pipeline-diagnostic-summary">Tu flujo creativo es muy veloz, pero pierdes tracción al no tener integraciones automatizadas que conviertan prospectos en tiempo récord.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Radar Chart & Skills Matrix Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
+        
+        <!-- Radar Chart Container -->
+        <div class="glass-panel p-6 rounded-3xl border border-slate-800 flex flex-col items-center justify-between">
+          <div class="w-full text-center mb-4">
+            <h4 class="text-base font-bold text-white">Gráfica Radar de Competencias IA</h4>
+            <p class="text-xs text-slate-400">Distribución de tu destreza en 5 ejes clave</p>
+          </div>
+          <div class="relative w-full max-w-[340px] aspect-square flex items-center justify-center">
+            <canvas id="skillsRadarChart"></canvas>
+          </div>
+          <div class="w-full text-center pt-3 text-[11px] text-slate-400 font-mono">
+            Escala de 0 a 100% por categoría técnica
+          </div>
+        </div>
+
+        <!-- 5 Categories Detailed Bars -->
+        <div class="glass-panel p-6 rounded-3xl border border-slate-800 flex flex-col justify-between">
+          <div>
+            <h4 class="text-base font-bold text-white mb-4">Desglose por Disciplina</h4>
+            
+            <div class="space-y-4" id="categories-bars-container">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <div class="pt-4 border-t border-slate-800/80 text-[11px] text-slate-400 font-mono">
+            * Basado en la correlación estadística de tus 10 respuestas.
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Action Center: Dual CTAs (PassportAI + Cotización Agencia ProsperIA) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <!-- CTA 1: PassportAI Free Trial -->
+        <div class="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-[#1c1204] via-slate-950 to-[#291503] border-2 border-amber-500/40 flex flex-col justify-between shadow-xl">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="px-3 py-1 rounded-full text-[10px] font-bold bg-amber-950 text-amber-300 border border-amber-500/40 uppercase">
+                HERRAMIENTA RECOMENDADA
+              </span>
+              <span class="text-xs text-amber-400 font-mono">5 DÍAS GRATIS</span>
+            </div>
+            <h4 class="text-xl font-bold text-white mb-2">Prueba Todo en PassportAI</h4>
+            <p class="text-xs text-slate-300 leading-relaxed mb-6">
+              Acelera tu pipeline unificando GPT-4o, Claude 3.5 Sonnet, Gemini 1.5 Pro, Flux y motores de video en un solo centro de comando sin pestañas sueltas.
+            </p>
+          </div>
+          <a href="https://passportai.app" target="_blank" rel="noopener" class="w-full py-3.5 px-6 rounded-xl font-extrabold text-xs sm:text-sm bg-gradient-to-r from-amber-400 to-orange-500 text-slate-950 hover:from-amber-300 hover:to-orange-400 transition-all text-center flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(245,158,11,0.35)]">
+            <i class="fas fa-bolt"></i> Entrar a PassportAI con Tokens Gratis
+          </a>
+        </div>
+
+        <!-- CTA 2: Cotización Agencia ProsperIA -->
+        <div class="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-[#120824] via-slate-950 to-[#1e0a38] border-2 border-purple-500/40 flex flex-col justify-between shadow-xl">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="px-3 py-1 rounded-full text-[10px] font-bold bg-purple-950 text-purple-300 border border-purple-500/40 uppercase">
+                IMPLEMENTACIÓN A LA MEDIDA
+              </span>
+              <span class="text-xs text-purple-300 font-mono">EQUIPO HUMANO + IA</span>
+            </div>
+            <h4 class="text-xl font-bold text-white mb-2">¿Quieres que ProsperIA lo Implemente por Ti?</h4>
+            <p class="text-xs text-slate-300 leading-relaxed mb-6">
+              Diseñamos tus guiones virales de alta retención, automatizamos tu prospección en WhatsApp con AI SDRs y blindamos el pipeline comercial de tu empresa.
+            </p>
+          </div>
+          <button type="button" onclick="openDiagnosticCotizacionModal()" class="w-full py-3.5 px-6 rounded-xl font-extrabold text-xs sm:text-sm bg-gradient-to-r from-purple-500 via-indigo-500 to-cyan-400 text-slate-950 hover:opacity-95 transition-all text-center flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(168,85,247,0.35)] cursor-pointer">
+            <i class="fas fa-file-invoice-dollar"></i> Solicitar Cotización con Mi Diagnóstico
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Modal Cotización Personalizada con Diagnóstico Precargado -->
+  <div id="diagnostic-cotizacion-modal" class="fixed inset-0 z-50 hidden bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 overflow-y-auto" role="dialog" aria-modal="true">
+    <div class="relative w-full max-w-lg bg-slate-950 border-2 border-purple-500/40 rounded-3xl p-6 sm:p-8 shadow-[0_0_60px_rgba(168,85,247,0.25)] my-auto max-h-[92vh] overflow-y-auto">
+      <button type="button" onclick="closeDiagnosticCotizacionModal()" class="absolute top-4 right-4 sm:top-5 sm:right-5 w-10 h-10 rounded-full bg-slate-900 border border-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition-all">
+        <i class="fas fa-times text-base"></i>
+      </button>
+
+      <div class="text-center mb-6 pr-6">
+        <span class="px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-purple-950 text-purple-300 border border-purple-500/40 inline-block mb-2">
+          🚀 Solicitud de Cotización Oficial
+        </span>
+        <h3 class="text-xl sm:text-2xl font-black text-white">
+          Cotiza tu Sistema de IA
+        </h3>
+        <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">
+          Tu puntaje y diagnóstico se sincronizarán directamente para que el equipo te proponga la solución exacta para tu cuello de botella.
+        </p>
+      </div>
+
+      <form id="diagnostic-lead-form" onsubmit="submitDiagnosticLead(event)" class="space-y-4 text-left">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Nombre Completo *</label>
+          <input type="text" id="diag-name" required placeholder="Ej. Alejandra Morales" class="w-full px-4 py-3 rounded-xl border border-slate-700 text-sm focus:border-purple-400 focus:outline-none" style="background-color: #030712 !important; color: #ffffff !important;">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Correo Electrónico *</label>
+          <input type="email" id="diag-email" required placeholder="tu@empresa.com" class="w-full px-4 py-3 rounded-xl border border-slate-700 text-sm focus:border-purple-400 focus:outline-none" style="background-color: #030712 !important; color: #ffffff !important;">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">WhatsApp (con código de país) *</label>
+          <input type="tel" id="diag-phone" required placeholder="+1 786 555 0199" class="w-full px-4 py-3 rounded-xl border border-slate-700 text-sm focus:border-purple-400 focus:outline-none" style="background-color: #030712 !important; color: #ffffff !important;">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1.5">¿Qué te gustaría resolver primero?</label>
+          <select id="diag-need" class="w-full px-4 py-3 rounded-xl border border-slate-700 text-sm focus:border-purple-400 focus:outline-none text-slate-200" style="background-color: #030712 !important;">
+            <option value="contenido">Producción de Reels y Contenido Viral con IA (+450K)</option>
+            <option value="360">Sistema Comercial 360° (Contenido + Pauta + WhatsApp CRM)</option>
+            <option value="setters">AI SDRs y Automatización de Ventas en WhatsApp</option>
+            <option value="consultoria">Consultoría y Capacitación de Equipo (AZ Academy)</option>
+          </select>
+        </div>
+
+        <button type="submit" id="btn-diag-submit" class="w-full py-4 px-6 rounded-xl font-black text-sm bg-gradient-to-r from-purple-500 via-indigo-500 to-cyan-400 text-slate-950 hover:opacity-95 transition-all shadow-[0_0_25px_rgba(168,85,247,0.4)] mt-2">
+          <i class="fab fa-whatsapp text-lg mr-2"></i> <span>Enviar y Abrir WhatsApp con Mi Reporte</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="py-6 px-4 text-center text-xs text-slate-500 border-t border-slate-900 relative z-10">
+    © 2026 Agencia ProsperIA &amp; Edward Jiménez. Todos los derechos reservados.
+  </footer>
+
+  <script>
+    // 10 Detailed Questions Data
+    // Note: Options are shuffled on render; NO "Nivel X" labels shown in the options!
+    const testQuestions = [
+      {
+        category: "01. GENERACIÓN VISUAL & PROMPTS",
+        title: "1. ¿Cómo diriges habitualmente la generación de imágenes en Midjourney, DALL-E 3 o Flux?",
+        illustration: "🎨",
+        dimension: "visual",
+        joke: "¿Sabías que los primeros modelos de IA ponían 7 dedos en cada mano porque creían que así tecleábamos más rápido? 🤖🖐️",
+        options: [
+          { text: "Escribo 4 o 5 palabras ('persona futurista ultra realista 8k') y cruzo los dedos con lo que arroje el modelo.", points: 10 },
+          { text: "Añado adjetivos de iluminación básica ('cyberpunk', 'luz de estudio', 'cinematográfico') y parámetros de ratio.", points: 20 },
+          { text: "Especifico óptica y lentes (35mm anamórfico, f/1.8), esquemas de luz (Rembrandt, chiaroscuro) y semillas de consistencia.", points: 30 },
+          { text: "Arquitectura de prompt avanzada: pesos (--no, negativos), blending de múltiples fotos de referencia y edición quirúrgica inpainting.", points: 40 }
+        ]
+      },
+      {
+        category: "02. MODELOS DE LENGUAJE (LLMs)",
+        title: "2. ¿Cómo le pides tareas analíticas o creativas a ChatGPT, Claude o Gemini?",
+        illustration: "🧠",
+        dimension: "reasoning",
+        joke: "El cliente: 'Quiero una app de IA como Jarvis pero con presupuesto de $20 dólares'. La IA: Error 402: Payment Required y lágrimas en el servidor. 💻",
+        options: [
+          { text: "Consultas breves sin formato ('resúmeme esto', 'escríbeme un email') tal como un buscador de Google.", points: 10 },
+          { text: "Le asigno un rol claro ('actúa como copywriter senior') y le describo brevemente a quién va dirigido.", points: 20 },
+          { text: "Diseño prompts con estructura Markdown, Few-Shot examples (ejemplos previos de entrada/salida) y restricciones estrictas.", points: 30 },
+          { text: "Encadeno cadenas de pensamiento (Chain of Thought), auto-evaluación paso a paso y consumo por API o plataformas unificadas.", points: 40 }
+        ]
+      },
+      {
+        category: "03. STACK & PLATAFORMAS DE IA",
+        title: "3. ¿Cómo organizas tus herramientas y suscripciones de Inteligencia Artificial?",
+        illustration: "⚡",
+        dimension: "stack",
+        joke: "¿Por qué el LLM cruzó la calle? Para predecir con alta probabilidad el siguiente token. 🐔",
+        options: [
+          { text: "Uso solo versiones gratuitas y me detengo cuando se acaban los mensajes por hora o los créditos del día.", points: 10 },
+          { text: "Pago 2 o 3 suscripciones separadas y salto entre 6 pestañas abiertas en el navegador perdiendo tiempo y contexto.", points: 20 },
+          { text: "Stack seleccionado por especialidad (Claude para lógica de código, Flux para imágenes, ElevenLabs para voz).", points: 30 },
+          { text: "Centralizo en plataformas multi-modelo unificadas (como PassportAI) o consumo directo de APIs para maximizar eficiencia y costos.", points: 40 }
+        ]
+      },
+      {
+        category: "04. AUTOMATIZACIÓN DE PROCESOS",
+        title: "4. ¿En qué grado la Inteligencia Artificial ejecuta tus tareas operativas diarias?",
+        illustration: "⚙️",
+        dimension: "automation",
+        joke: "Programador de IA: 'Mi automatización reemplazará a 5 personas'. También él: Pasa 8 horas buscando un punto y coma en el webhook. ⏳",
+        options: [
+          { text: "Operación 100% manual: copio del chat de IA y pego a mano en correos, hojas de cálculo o redes sociales.", points: 10 },
+          { text: "Uso atajos o extensiones del navegador para redactar respuestas o transcribir audios de forma puntual.", points: 20 },
+          { text: "Tengo flujos automáticos con Make, Zapier o n8n que disparan alertas o clasifican datos cuando entra un prospecto.", points: 30 },
+          { text: "Ecosistema autónomo con webhooks bidireccionales, sincronización en CRM en tiempo real y reportes automáticos sin intervención manual.", points: 40 }
+        ]
+      },
+      {
+        category: "05. VÍDEO CINEMATOGRÁFICO CON IA",
+        title: "5. Al generar video en movimiento (Runway Gen-3, Kling, Seedance 2.0, Luma), ¿cuál es tu alcance?",
+        illustration: "🎬",
+        dimension: "visual",
+        joke: "La física en el video con IA: 'En este fotograma el coche vuela y el conductor tiene tres brazos'. ¡Por eso dominar los prompts es un arte! 🏎️",
+        options: [
+          { text: "No he generado video con IA aún o solo produzco imágenes fijas.", points: 10 },
+          { text: "Convierto imágenes fijas a video con animación automática (Image-to-Video) dejando que la herramienta decida el movimiento.", points: 20 },
+          { text: "Dirijo movimientos de cámara exactos (Continuous forward push, tracking lateral, dolly) y controlo fotogramas clave.", points: 30 },
+          { text: "Produzco secuencias complejas completas: empalme de tomas de acción (tipo salto Spiderman), sincronización de audio y exportación en alta definición.", points: 40 }
+        ]
+      },
+      {
+        category: "06. AUDIO, VOZ Y AVATARES DIGITALES",
+        title: "6. ¿Cómo aprovechas la síntesis de voz, clonación y avatares (ElevenLabs, HeyGen)?",
+        illustration: "🎙️",
+        dimension: "multimodal",
+        joke: "¿Por qué la IA no puede guardar secretos? ¡Porque todo lo comparte en el contexto de atención! 🤫",
+        options: [
+          { text: "Grabo todo con mi voz tradicional o uso voces robóticas genéricas predeterminadas del teléfono.", points: 10 },
+          { text: "He usado herramientas de texto a voz estándar para locutar algún video corto ocasional.", points: 20 },
+          { text: "He clonado mi propia voz con calidad de estudio y calibro estabilidad, claridad y entonación según el guion.", points: 30 },
+          { text: "Despliego avatares multimodales sincronizados (lip-sync de alta fidelidad), clonación instantánea y localización en múltiples idiomas.", points: 40 }
+        ]
+      },
+      {
+        category: "07. AGENTES AUTÓNOMOS & TOOL CALLING",
+        title: "7. ¿Cómo utilizas agentes de IA que llaman a herramientas externas (APIs, RAG, búsqueda web)?",
+        illustration: "🤖",
+        dimension: "agents",
+        joke: "La gente normal: 'La IA nos va a conquistar'. El agente de IA: 'No pude reservar el vuelo porque el selector de fecha no tiene aria-label'. 😅",
+        options: [
+          { text: "No conozco la diferencia práctica entre un chat de texto y un agente autónomo.", points: 10 },
+          { text: "He probado GPTs personalizados dentro de ChatGPT pero solo responden texto sin interactuar con sistemas externos.", points: 20 },
+          { text: "Configuro agentes que navegan en vivo, analizan archivos documentales en PDF y ejecutan código en sandbox.", points: 30 },
+          { text: "Diseño arquitecturas multi-agente donde varios agentes especializados colaboran entre sí llamando APIs con function calling.", points: 40 }
+        ]
+      },
+      {
+        category: "08. SPEED-TO-LEAD EN WHATSAPP & CRM",
+        title: "8. ¿Cuánto tarda tu negocio en responder a un prospecto que escribe por WhatsApp o redes?",
+        illustration: "💬",
+        dimension: "business",
+        joke: "Datos de Harvard: si tardas más de 5 minutos en responder, el prospecto ya le compró a tu competencia o se fue a ver memes. ⏱️",
+        options: [
+          { text: "Los mensajes esperan varias horas o hasta el día siguiente a que alguien del equipo conteste a mano.", points: 10 },
+          { text: "Tengo un menú rígido tipo 'Marca 1 para ventas, 2 para soporte' que muchos clientes abandonan frustrados.", points: 20 },
+          { text: "Cuento con respuestas rápidas y mensajes de bienvenida automáticos en WhatsApp Business.", points: 30 },
+          { text: "AI SDRs entrenados con los manuales de la empresa responden en menos de 15 segundos, califican presupuesto y agendan citas en el CRM.", points: 40 }
+        ]
+      },
+      {
+        category: "09. CONVERSIÓN & EMBUDOS DE VENTA",
+        title: "9. ¿Qué pasa cuando tu contenido de IA se vuelve viral o recibe miles de reproducciones?",
+        illustration: "📈",
+        dimension: "business",
+        joke: "Celebrar 100K vistas sin un llamado a la acción comercial es como festejar que entró mucha gente a tu tienda... pero no pusiste caja registradora. 💸",
+        options: [
+          { text: "Me alegro por las vistas y los likes, pero no tengo ningún embudo para captar nombres ni números de clientes.", points: 10 },
+          { text: "Coloco un enlace genérico en mi biografía (Linktree) y espero a que la gente decida buscar por su cuenta.", points: 20 },
+          { text: "Ofrezco un Lead Magnet de alto valor (como estos 200 códigos) para dirigir a una comunidad de WhatsApp o lista privada.", points: 30 },
+          { text: "Embudo automatizado de alta conversión: Reel viral ➔ Lead magnet exclusivo ➔ Calificación por IA ➔ Cierre de clientes de alto ticket.", points: 40 }
+        ]
+      },
+      {
+        category: "10. SOBERANÍA DIGITAL & BLINDAJE OPERATIVO",
+        title: "10. ¿Dónde reside el conocimiento y la base de datos de tu empresa?",
+        illustration: "🛡️",
+        dimension: "strategy",
+        joke: "Tener la base de clientes en el celular del vendedor es como guardar la caja fuerte de tu negocio en la mochila de un empleado. 📱🔐",
+        options: [
+          { text: "En los teléfonos personales de los vendedores y en chats informales sin respaldo centralizado.", points: 10 },
+          { text: "En hojas de Excel o Google Sheets compartidas que cualquiera puede editar o borrar por error.", points: 20 },
+          { text: "En un CRM estándar pero el proceso comercial sigue dependiendo de la memoria de personas clave sin documentar en SOPs.", points: 30 },
+          { text: "Soberanía digital absoluta: API oficial de WhatsApp Cloud, propiedad intelectual centralizada (como PassportAI) y SOPs documentados.", points: 40 }
+        ]
+      }
+    ];
+
+    let currentQIdx = 0;
+    const recordedAnswers = [];
+    let radarChartInstance = null;
+
+    // Fisher-Yates Shuffle
+    function shuffleArray(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function startTest() {
+      document.getElementById('quiz-intro-screen').classList.add('hidden');
+      document.getElementById('quiz-question-screen').classList.remove('hidden');
+      renderCurrentQuestion();
+    }
+
+    function renderCurrentQuestion() {
+      const q = testQuestions[currentQIdx];
+      const progress = Math.round(((currentQIdx + 1) / testQuestions.length) * 100);
+
+      document.getElementById('q-percent').textContent = `${progress}%`;
+      document.getElementById('q-current-num').textContent = currentQIdx + 1;
+      document.getElementById('q-progress-bar').style.width = `${progress}%`;
+      document.getElementById('q-category-badge').textContent = q.category;
+      document.getElementById('q-title').textContent = q.title;
+      document.getElementById('q-illustration-box').textContent = q.illustration;
+
+      // Show/Hide joke
+      const jokeBox = document.getElementById('q-joke-box');
+      const jokeText = document.getElementById('q-joke-text');
+      if (q.joke && (currentQIdx === 1 || currentQIdx === 3 || currentQIdx === 6 || currentQIdx === 8)) {
+        jokeText.textContent = q.joke;
+        jokeBox.classList.remove('hidden');
+      } else {
+        jokeBox.classList.add('hidden');
+      }
+
+      // Shuffle options for this render
+      const optionsContainer = document.getElementById('q-options-container');
+      optionsContainer.innerHTML = '';
+
+      const letters = ['A', 'B', 'C', 'D'];
+      const shuffledOptions = shuffleArray(q.options);
+
+      shuffledOptions.forEach((opt, idx) => {
+        const letter = letters[idx];
+        const isSelected = recordedAnswers[currentQIdx] && recordedAnswers[currentQIdx].points === opt.points;
+
+        const card = document.createElement('div');
+        card.className = `quiz-option-card ${isSelected ? 'selected' : ''}`;
+        card.innerHTML = `
+          <div class="opt-letter">${letter}</div>
+          <div class="flex-1">
+            <p class="text-xs sm:text-sm text-slate-200 leading-relaxed font-normal">${opt.text}</p>
+          </div>
+        `;
+        card.onclick = () => selectOption(opt.points, q.dimension);
+        optionsContainer.appendChild(card);
+      });
+
+      // Update Prev Button
+      const btnPrev = document.getElementById('btn-prev');
+      btnPrev.disabled = currentQIdx === 0;
+    }
+
+    function selectOption(points, dimension) {
+      recordedAnswers[currentQIdx] = { points, dimension };
+
+      // Checkpoint mini-game after question 5 (index 4)
+      if (currentQIdx === 4 && !sessionStorage.getItem('minigame_passed')) {
+        document.getElementById('quiz-question-screen').classList.add('hidden');
+        document.getElementById('minigame-screen').classList.remove('hidden');
+        return;
+      }
+
+      if (currentQIdx < testQuestions.length - 1) {
+        currentQIdx++;
+        renderCurrentQuestion();
+      } else {
+        finishTest();
+      }
+    }
+
+    function prevQuestion() {
+      if (currentQIdx > 0) {
+        currentQIdx--;
+        renderCurrentQuestion();
+      }
+    }
+
+    // Mini-game handlers
+    function updateTempDisplay(val) {
+      document.getElementById('temp-display').textContent = val;
+      const feedback = document.getElementById('temp-feedback');
+      const num = parseFloat(val);
+      if (num < 0.3) {
+        feedback.textContent = `Temperatura ${val}: Muy rígido y analítico. Bueno para SQL o matemáticas, pero sin gancho dramático para video.`;
+      } else if (num > 0.85) {
+        feedback.textContent = `Temperatura ${val}: Demasiado caótico. El guion inventará palabras y perderá el hilo narrativo.`;
+      } else {
+        feedback.textContent = `Temperatura ${val}: ¡Zona de Oro! Creatividad controlada, metáforas frescas y alta retención.`;
+      }
+    }
+
+    function completeMiniGame() {
+      sessionStorage.setItem('minigame_passed', 'true');
+      document.getElementById('minigame-screen').classList.add('hidden');
+      document.getElementById('quiz-question-screen').classList.remove('hidden');
+      currentQIdx++;
+      renderCurrentQuestion();
+    }
+
+    function finishTest() {
+      document.getElementById('quiz-question-screen').classList.add('hidden');
+      document.getElementById('quiz-results-screen').classList.remove('hidden');
+
+      // Calculate Total Points (100 - 400)
+      const totalPoints = recordedAnswers.reduce((sum, item) => sum + (item ? item.points : 10), 0);
+      document.getElementById('res-total-score').textContent = `${totalPoints} / 400 PTS`;
+
+      // Level determination
+      let levelTitle = '';
+      let levelDesc = '';
+      let bottleneckStage = '';
+
+      if (totalPoints <= 180) {
+        levelTitle = 'Nivel: Explorador Curioso de IA';
+        levelDesc = 'Conoces las herramientas superficialmente y experimentas con prompts básicos. Tu mayor oportunidad está en estructurar un flujo repetible y centralizar herramientas.';
+        bottleneckStage = 'Ingesta de Ideas & Workflows';
+      } else if (totalPoints <= 270) {
+        levelTitle = 'Nivel: Operador Práctico';
+        levelDesc = 'Usas la IA a diario como un acelerador de tareas, pero tu sistema depende de múltiples pestañas y trabajo manual al momento de convertir audiencia en ventas.';
+        bottleneckStage = 'Automatización & CRM';
+      } else if (totalPoints <= 350) {
+        levelTitle = 'Nivel: Especialista Avanzado en IA';
+        levelDesc = 'Diriges prompts precisos y entiendes la lógica multi-modelo. Tu cuello de botella actual es integrar AI SDRs y automatizaciones comerciales para escalar sin contratar más personal.';
+        bottleneckStage = 'Speed-to-Lead & Conversión';
+      } else {
+        levelTitle = 'Nivel: Arquitecto & Master en IA';
+        levelDesc = '¡Perteneces al 2% élite! No solo consumes IA: diseñas ecosistemas, dominas directivas de Hollywood, integras hubs multi-modelo y monetizas tu tráfico.';
+        bottleneckStage = 'Escalamiento Agéntico';
+      }
+
+      document.getElementById('res-level-title').textContent = levelTitle;
+      document.getElementById('res-level-desc').textContent = levelDesc;
+
+      // Populate Pipeline Nodes
+      renderPipeline(totalPoints);
+
+      // Render Radar Chart
+      renderRadarChart();
+
+      // Render Category Bars
+      renderCategoryBars();
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderPipeline(score) {
+      const container = document.getElementById('pipeline-nodes-container');
+      container.innerHTML = '';
+
+      const pipelineStages = [
+        {
+          title: "1. Ingesta & SOPs",
+          desc: "Estructura de ideas y manuales",
+          status: score >= 240 ? "optimal" : "growth",
+          badge: score >= 240 ? "✓ Impecable" : "▲ Optimizable"
+        },
+        {
+          title: "2. Multi-IA Engine",
+          desc: "PassportAI & Modelos líderes",
+          status: score >= 280 ? "optimal" : "growth",
+          badge: score >= 280 ? "✓ Fluido" : "▲ Por Unificar"
+        },
+        {
+          title: "3. Creación Multimodal",
+          desc: "Video, prompts e imagen",
+          status: score >= 260 ? "optimal" : "growth",
+          badge: score >= 260 ? "✓ Avanzado" : "▲ Manual"
+        },
+        {
+          title: "4. CRM & WhatsApp",
+          desc: "Speed-to-lead y AI Setters",
+          status: score >= 340 ? "optimal" : "bottleneck",
+          badge: score >= 340 ? "✓ Automatizado" : "⚠️ CUELLO DE BOTELLA"
+        },
+        {
+          title: "5. Facturación & ROI",
+          desc: "Cierre comercial de clientes",
+          status: score >= 320 ? "optimal" : "growth",
+          badge: score >= 320 ? "✓ Predecible" : "▲ En Fuga"
+        }
+      ];
+
+      pipelineStages.forEach(st => {
+        const node = document.createElement('div');
+        node.className = `pipeline-step-node ${st.status} text-left`;
+        node.innerHTML = `
+          <div class="text-[10px] font-mono font-bold uppercase tracking-wider mb-1 text-slate-400">
+            ${st.badge}
+          </div>
+          <h5 class="text-xs sm:text-sm font-bold text-white mb-1">${st.title}</h5>
+          <p class="text-[11px] text-slate-400 leading-snug">${st.desc}</p>
+        `;
+        container.appendChild(node);
+      });
+
+      const summaryEl = document.getElementById('pipeline-diagnostic-summary');
+      if (score < 270) {
+        summaryEl.textContent = 'Tu cuello de botella está en la desconexión operativa: realizas muchas tareas a mano y pierdes horas saltando entre plataformas sin unificar.';
+      } else if (score < 340) {
+        summaryEl.textContent = 'Tu producción creativa es potente, pero tu cuello de botella crítico está en la Etapa 4 (Speed-to-lead en WhatsApp): tardas demasiado en contestar o no tienes un AI SDR que califique prospectos de inmediato.';
+      } else {
+        summaryEl.textContent = '¡Felicidades! Cuentas con un pipeline muy maduro. Para llevarlo a 7 cifras sugerimos orquestación multi-agente y campañas de tráfico pago altamente optimizadas.';
+      }
+    }
+
+    function renderRadarChart() {
+      const ctx = document.getElementById('skillsRadarChart').getContext('2d');
+      if (radarChartInstance) {
+        radarChartInstance.destroy();
+      }
+
+      // Calculate dimension scores (normalized 0-100)
+      const visualScore = calculateDimScore('visual');
+      const reasoningScore = calculateDimScore('reasoning');
+      const autoScore = calculateDimScore('automation');
+      const agentsScore = calculateDimScore('agents');
+      const bizScore = calculateDimScore('business');
+
+      radarChartInstance = new Chart(ctx, {
+        type: 'radar',
+        data: {
+          labels: [
+            'Prompting & Visual',
+            'Razonamiento LLM',
+            'Automatización',
+            'Agentes & APIs',
+            'Ventas & Estrategia'
+          ],
+          datasets: [{
+            label: 'Tu Nivel de Dominio (%)',
+            data: [visualScore, reasoningScore, autoScore, agentsScore, bizScore],
+            backgroundColor: 'rgba(0, 229, 255, 0.25)',
+            borderColor: '#00e5ff',
+            borderWidth: 2,
+            pointBackgroundColor: '#f59e0b',
+            pointBorderColor: '#ffffff',
+            pointHoverBackgroundColor: '#ffffff',
+            pointHoverBorderColor: '#00e5ff'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          scales: {
+            r: {
+              angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
+              grid: { color: 'rgba(255, 255, 255, 0.08)' },
+              pointLabels: {
+                color: '#94a3b8',
+                font: { size: 10, weight: 'bold' }
+              },
+              ticks: {
+                display: false,
+                min: 0,
+                max: 100,
+                stepSize: 25
+              }
+            }
+          },
+          plugins: {
+            legend: { display: false }
+          }
+        }
+      });
+    }
+
+    function calculateDimScore(dim) {
+      const matched = recordedAnswers.filter(a => a && a.dimension === dim);
+      if (!matched.length) return 50;
+      const sum = matched.reduce((acc, curr) => acc + curr.points, 0);
+      const maxPossible = matched.length * 40;
+      return Math.round((sum / maxPossible) * 100);
+    }
+
+    function renderCategoryBars() {
+      const container = document.getElementById('categories-bars-container');
+      container.innerHTML = '';
+
+      const categories = [
+        { label: "1. Prompt Engineering & Creatividad Visual", dim: "visual", color: "from-cyan-400 to-sky-400" },
+        { label: "2. Razonamiento & Modelos de Lenguaje", dim: "reasoning", color: "from-indigo-400 to-purple-400" },
+        { label: "3. Automatización de Flujos y Tareas", dim: "automation", color: "from-amber-400 to-orange-400" },
+        { label: "4. Agentes Autónomos & Tool Calling", dim: "agents", color: "from-emerald-400 to-teal-400" },
+        { label: "5. Estrategia Comercial & Conversión B2B", dim: "business", color: "from-pink-400 to-rose-400" }
+      ];
+
+      categories.forEach(cat => {
+        const pct = calculateDimScore(cat.dim);
+        const barItem = document.createElement('div');
+        barItem.innerHTML = `
+          <div class="flex items-center justify-between text-xs mb-1">
+            <span class="text-slate-300 font-medium">${cat.label}</span>
+            <span class="text-white font-mono font-bold">${pct}%</span>
+          </div>
+          <div class="w-full bg-slate-900 rounded-full h-2 overflow-hidden border border-slate-800">
+            <div class="h-full bg-gradient-to-r ${cat.color} rounded-full" style="width: ${pct}%;"></div>
+          </div>
+        `;
+        container.appendChild(barItem);
+      });
+    }
+
+    function shareResultWhatsApp() {
+      const totalPoints = recordedAnswers.reduce((sum, item) => sum + (item ? item.points : 10), 0);
+      const levelTitle = document.getElementById('res-level-title').textContent;
+      const text = encodeURIComponent(`¡Acabo de hacer el Diagnóstico de Dominio de IA en ProsperIA! Obtuve ${totalPoints}/400 PTS (${levelTitle}). Haz tu radiografía gratis en https://agenciaprosperia.com/test-ia`);
+      window.open(`https://wa.me/?text=${text}`, '_blank');
+    }
+
+    function restartTest() {
+      recordedAnswers.length = 0;
+      currentQIdx = 0;
+      sessionStorage.removeItem('minigame_passed');
+      document.getElementById('quiz-results-screen').classList.add('hidden');
+      document.getElementById('quiz-question-screen').classList.remove('hidden');
+      renderCurrentQuestion();
+    }
+
+    // Diagnostic Lead Modal
+    function openDiagnosticCotizacionModal() {
+      document.getElementById('diagnostic-cotizacion-modal').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => {
+        const el = document.getElementById('diag-name');
+        if (el) el.focus();
+      }, 300);
+    }
+
+    function closeDiagnosticCotizacionModal() {
+      document.getElementById('diagnostic-cotizacion-modal').classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    async function submitDiagnosticLead(e) {
+      e.preventDefault();
+      const name = document.getElementById('diag-name').value.trim();
+      const email = document.getElementById('diag-email').value.trim();
+      const phone = document.getElementById('diag-phone').value.trim();
+      const need = document.getElementById('diag-need').value;
+      const totalPoints = recordedAnswers.reduce((sum, item) => sum + (item ? item.points : 10), 0);
+      const levelTitle = document.getElementById('res-level-title').textContent;
+
+      const btn = document.getElementById('btn-diag-submit');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Coordinando propuesta...';
+
+      try {
+        await fetch('/api/leads', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: name,
+            email: email,
+            phone: phone,
+            company: 'Diagnóstico IA Lead',
+            source: 'test_ia_results',
+            service: `Cotización IA - ${need}`,
+            notes: `Test IA Score: ${totalPoints}/400. ${levelTitle}. Necesidad elegida: ${need}`
+          })
+        });
+      } catch (err) {
+        console.warn('Lead logged silently');
+      }
+
+      const textWa = encodeURIComponent(`Hola Edward & Agencia ProsperIA! Hice el Test de Dominio de IA y obtuve ${totalPoints}/400 PTS (${levelTitle}).\n\n👤 Nombre: ${name}\n📧 Correo: ${email}\n📱 WhatsApp: ${phone}\n🎯 Interés principal: ${need}\n\nMe gustaría cotizar la implementación de este sistema para mi negocio.`);
+      
+      btn.innerHTML = '<i class="fas fa-check"></i> ¡Abriendo WhatsApp!';
+      setTimeout(() => {
+        window.open(`https://wa.me/17865573119?text=${textWa}`, '_blank');
+        closeDiagnosticCotizacionModal();
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fab fa-whatsapp text-lg mr-2"></i> <span>Enviar y Abrir WhatsApp con Mi Reporte</span>';
+      }, 500);
+    }
+  </script>
+
+</body>
+</html>

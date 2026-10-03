@@ -1,0 +1,34 @@
+{
+  "curso_id": 21,
+  "titulo": "Resetea tu Mente",
+  "instructor": "Agustín Casorzo",
+  "url_base": "https://ninjasuite.app.clientclub.net/courses/products/f9db6ac6-b843-4013-b791-e511e84b902c",
+  "total_lecciones": 12,
+  "modulos": [
+    {
+      "modulo": "Fundamentos Esenciales",
+      "lecciones": [
+        "Tus resultados dependen de tus hábitos",
+        "Toma de Conciencia: Desatando tu Potencial",
+        "Tus Dones y Propósito",
+        "Rutina 202020 de los Ganadores",
+        "Cómo Definir y Cumplir Metas"
+      ]
+    },
+    {
+      "modulo": "Resúmenes de Libros Recomendados",
+      "lecciones": [
+        "Libérate de tus Miedos - Napoleón Hill",
+        "Los Secretos de la Mente Millonaria - T. Harv Eker",
+        "Hábitos Millonarios - Napoleón Hill",
+        "Lo Crees, Lo Creas - Brian Tracy",
+        "La Actitud del Éxito - Carol Dweck",
+        "El Obstáculo es el Camino - Ryan Holiday"
+      ]
+    },
+    {
+      "modulo": "Mejora Continua",
+      "lecciones": ["Dar lo máximo y no arrepentirse"]
+    }
+  ]
+}

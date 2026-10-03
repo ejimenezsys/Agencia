@@ -1,0 +1,48 @@
+{
+  "curso_id": 4,
+  "modulo_id": 7,
+  "titulo_modulo": "Plantillas de Configuración de Agentes IA (Casos Reales y Conversational AI V2)",
+  "fecha_extraccion": "2026-09-26",
+  "lecciones": [
+    {
+      "leccion_id": 1,
+      "titulo": "Configuración General de un Bot en Conversational AI V2 (Agencia B2B)",
+      "arquitectura": {
+        "rol": "Gerente comercial de agencia",
+        "regla_mensajes": "Máximo 160 caracteres por mensaje, una sola pregunta por turno",
+        "embudo_7_pasos": [
+          {"paso": 1, "fase": "Saludo y Conexión", "objetivo": "Romper el hielo y filtrar rubro"},
+          {"paso": 2, "fase": "Aporte de Valor Inmediato", "objetivo": "Citar casos de automatización y ahorro"},
+          {"paso": 3, "fase": "Segmentación", "objetivo": "Identificar tamaño (emprendedor vs empresa consolidada)"},
+          {"paso": 4, "fase": "Identificación de Desafíos", "objetivo": "Detectar cuello de botella: leads, cierre o retención"},
+          {"paso": 5, "fase": "Presentación del Servicio", "objetivo": "Introducir Suite IA integral (Web + Redes + WhatsApp)"},
+          {"paso": 6, "fase": "Calificación e Inversión", "objetivo": "Preguntar metas de facturación y compromiso de inversión"},
+          {"paso": 7, "fase": "CTA Cierre", "objetivo": "Agendar llamada para mostrar implementación mañana"}
+        ]
+      }
+    },
+    {
+      "leccion_id": 2,
+      "titulo": "Configuración de Agente de Coordinación de Llamada",
+      "arquitectura": {
+        "mision": "Agendamiento, validación y confirmación en tiempo real con calendario GHL",
+        "triggers": ["Validación de horario", "Alternativas si no hay cupo", "Envío de confirmación y recordatorios preventivos"]
+      }
+    },
+    {
+      "leccion_id": 3,
+      "titulo": "Cierre de Venta Ecommerce (Caso Verantia)",
+      "tactica_clave": "Descuento exclusivo in-chat (10%) para cerrar venta inmediata sin escape al carrito"
+    },
+    {
+      "leccion_id": 4,
+      "titulo": "Cierre de Venta Servicio (Caso Automotriz)",
+      "tactica_clave": "Diagnóstico rápido + Descuento promocional de urgencia (15%) + Reserva de franja horaria"
+    },
+    {
+      "leccion_id": 5,
+      "titulo": "Soporte y Atención a Cliente (Caso SaaS RRHH)",
+      "tactica_clave": "Onboarding guiado por módulos + Matriz de resolución primer nivel + Escalación formal a ticket < 24h"
+    }
+  ]
+}

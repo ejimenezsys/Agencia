@@ -1,0 +1,47 @@
+{
+  "curso_id": 20,
+  "titulo": "Hábitos Estoicos para el Éxito y la Felicidad",
+  "instructor": "Agustín Casorzo",
+  "url_base": "https://ninjasuite.app.clientclub.net/courses/products/f89df783-2083-4f93-bdef-b229c76f7b84",
+  "total_lecciones": 6,
+  "recursos_oficiales": {
+    "semana_1_doc": "https://docs.google.com/document/d/1ufK_uFkJzvqAUE6Cuct6carw7WvhAIUl2Ngi-f-09fY/edit?usp=sharing",
+    "semana_2_doc": "https://docs.google.com/document/d/1vxKEsOQJHNDRdNvGJo19MTxSutEiUIgnv7myyo9xHds/edit?usp=drive_link",
+    "semana_3_doc": "https://docs.google.com/document/d/1ipHySayUHUZEmT5I0A5KQZutsMULc96B9qlCGamHiQw/edit?usp=drive_link",
+    "semana_4_doc": "https://docs.google.com/document/d/1PrSSjwE7A6o5zT1zCGBYlmlT0GvLpXWZ6NlNZDF_gpI/edit?usp=drive_link",
+    "semana_5_doc": "https://docs.google.com/document/d/1yOZMOXMguyv_sHXWYEFG_vXfOx2FxxskqQf9Y3uE-js/edit?usp=drive_link",
+    "semana_6_doc": "https://docs.google.com/document/d/1bALcQFE03o_HNs0v9CitiYQGy3JbgWxz68vJolg4AOQ/edit?usp=drive_link"
+  },
+  "modulos": [
+    {
+      "modulo_num": 1,
+      "titulo": "Semana 1: Gana la Mañana",
+      "lecciones": ["Semana 1: Gana la Mañana"]
+    },
+    {
+      "modulo_num": 2,
+      "titulo": "Semana 2: Prepárate para Mañana, Hoy",
+      "lecciones": ["Semana 2: Prepárate para Mañana, Hoy"]
+    },
+    {
+      "modulo_num": 3,
+      "titulo": "Semana 3: Dedicar Tiempo para el Dominio",
+      "lecciones": ["Semana 3: Dedicar Tiempo para el Dominio"]
+    },
+    {
+      "modulo_num": 4,
+      "titulo": "Semana 4: Deja Atrás lo que te Está Frenando",
+      "lecciones": ["Semana 4: Deja Atrás lo que te Está Frenando"]
+    },
+    {
+      "modulo_num": 5,
+      "titulo": "Semana 5: Sal a Hacer Ejercicio",
+      "lecciones": ["Semana 5: Sal a Hacer Ejercicio"]
+    },
+    {
+      "modulo_num": 6,
+      "titulo": "Semana 6: Invierte en tus Relaciones",
+      "lecciones": ["Semana 6: Invierte en tus Relaciones"]
+    }
+  ]
+}

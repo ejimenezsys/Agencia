@@ -1,0 +1,62 @@
+{
+  "curso_id": 7,
+  "titulo": "Prospección Semiautomatizada por LinkedIn y Cold Email",
+  "metodologia": "Blast Marketing / Funnel Outbound Multicanal B2B",
+  "fecha_extraccion": "2026-09-26",
+  "documentos_maestros": [
+    {
+      "doc_id": 1,
+      "titulo": "Fundamentos y Estrategia del Funnel",
+      "drive_url": "https://drive.google.com/file/d/1tWvnvtFgVc0UdeV5QJ0XsMQjg7Ca8aZO/view?usp=drive_link",
+      "puntos_clave": "Arquitectura Outbound, speed to lead, venta de la llamada de triage de 15 min en lugar de vender el servicio directo"
+    },
+    {
+      "doc_id": 2,
+      "titulo": "Optimización del Perfil de LinkedIn como Landing Page",
+      "drive_url": "https://drive.google.com/file/d/1ejfc4a5FCXVZL31pPpyCYvPrYCbEReM4/view?usp=drive_link",
+      "puntos_clave": "Titular de alto impacto, portada con CTA, sección Featured con VSL/Demo, modo creador"
+    },
+    {
+      "doc_id": 3,
+      "titulo": "Obtención y Extracción de Leads (Scraping)",
+      "drive_url": "https://drive.google.com/file/d/1H9REchLmwYPFCO5V6harxHklik7vDKkl/view?usp=drive_link",
+      "puntos_clave": "Sales Navigator, Meta Ads Library, Google Maps para negocios locales, Apollo, enriquecimiento de datos"
+    },
+    {
+      "doc_id": 4,
+      "titulo": "Plantillas de Mensajes y Copywriting",
+      "drive_url": "https://drive.google.com/file/d/16osQDNTtdcMfhOLKWlg39vQe8OcBYQ73/view?usp=drive_link",
+      "puntos_clave": "Permission-based outreach, pitches de capacidad, icebreakers dinámicos"
+    },
+    {
+      "doc_id": 5,
+      "titulo": "Proceso Outbound y Guión de Llamada de Descubrimiento (Triage)",
+      "drive_url": "https://drive.google.com/file/d/1IVLce3igUJNnkqRC6LzEkDmvDmK1cPzc/view?usp=drive_link",
+      "puntos_clave": "Filtro de 4 pasos: Apertura, Diagnóstico, Cuantificación financiera de la brecha, Agendamiento con Closer"
+    },
+    {
+      "doc_id": 6,
+      "titulo": "Auditorías en Video (Loom Framework - 3 a 5 min)",
+      "drive_url": "https://drive.google.com/file/d/1IRZ8UDYB9PIhpYSAMW3-gmP6A9DlEbZa/view?usp=drive_link",
+      "puntos_clave": "Estructura de 5 actos para video Loom personalizado que genera un 40%+ de agendamientos"
+    },
+    {
+      "doc_id": 7,
+      "titulo": "Infraestructura Técnica Anti-SPAM y Entregabilidad",
+      "drive_url": "https://drive.google.com/file/d/141NRV21zoBMkNItRKUot6S_7LqeQBdmY/view?usp=drive_link",
+      "puntos_clave": "Dominios secundarios, SPF, DKIM, DMARC, Warmup de 2-3 semanas, máx 50-100 emails/día por cuenta"
+    },
+    {
+      "doc_id": 8,
+      "titulo": "Tracking de KPIs y Métricas Benchmark",
+      "drive_url": "https://drive.google.com/file/d/1uoVPohU8rWi8cBwxSdlX8xaQ9zozXd3R/view?usp=drive_link",
+      "puntos_clave": "Benchmarks: Open rate > 50-60%, Reply rate > 5-10%, Booking rate 5-15%"
+    },
+    {
+      "doc_id": 9,
+      "titulo": "Planificación y Escalamiento Masivo",
+      "drive_url": "https://drive.google.com/file/d/1tmTR2efShvr9gES8HiPetH4eHgQGPtiL/view?usp=drive_link",
+      "puntos_clave": "Estructura de roles: Appointment Setter, Data Miner y Closer"
+    }
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "curso_id": 32,
+  "titulo": "Método Reviews (Agencia de Reputación y Automatización de Reseñas)",
+  "instructor": "Instructores Ninja",
+  "url_base": "https://ninjasuite.app.clientclub.net/courses/products/da57b98c-110b-4561-90a7-b0cce2c4e99b",
+  "total_modulos": 6,
+  "total_lecciones": 40,
+  "framework_central": "Las 3 R's: Reputación (Google Map Pack), Reactivación (Database), Retención (Widgets y Reportes)",
+  "modulos": [
+    {
+      "modulo_num": 1,
+      "titulo": "La Oportunidad",
+      "lecciones": [
+        "El problema de los negocios locales y su psicología",
+        "El oro detrás del Map Pack de Google",
+        "El modelo Servicio Público",
+        "La Ecuación de Valor",
+        "El Valle de la Desesperación"
+      ]
+    },
+    {
+      "modulo_num": 2,
+      "titulo": "Modelo de Negocios",
+      "lecciones": [
+        "¿Qué vendemos? (El framework de las 3 R's)",
+        "El Gancho: La Reactivación de Reseñas",
+        "El Avatar Ideal y los Nichos",
+        "Estructura de Precios y Ofertas Irresistibles ($97 a $297/mes)",
+        "El Stack de Herramientas y Costos (~$40-$45/mes operativo)"
+      ]
+    },
+    {
+      "modulo_num": 3,
+      "titulo": "Setup del Negocio",
+      "lecciones": [
+        "Setup Legal y Financiero",
+        "Tu Presencia Online",
+        "Cuenta de Agencia de Reviews",
+        "Cuenta para Clientes",
+        "Requisitos Técnicos",
+        "Plantillas de Agencia"
+      ]
+    },
+    {
+      "modulo_num": 4,
+      "titulo": "Cómo Vender",
+      "lecciones": [
+        "Prospección Orgánica Hiperlocal",
+        "Email Mágico y DM en Redes",
+        "Mentalidad y Preparación de la Llamada de Ventas",
+        "El Proceso Comercial (Framework C.L.O.S.E.)",
+        "Manejo de Objeciones y Cierre",
+        "Opciones Más Escalables de Marketing"
+      ]
+    },
+    {
+      "modulo_num": 5,
+      "titulo": "Cómo Entregar el Servicio / Onboarding",
+      "lecciones": [
+        "Stack de Entrega",
+        "Estructura de Llamada de Onboarding",
+        "Buenas Prácticas para Onboarding sin Fricción",
+        "Onboarding",
+        "Google Business Profile",
+        "Conexión de WhatsApp",
+        "Gestión de Reviews del Cliente",
+        "Plantillas para el Cliente",
+        "Solicitar Reseñas: Nuevos Clientes (1/2)",
+        "Solicitar Reseñas: Nuevos Clientes (2/2)",
+        "Solicitar Reseñas: Reactivación",
+        "Integración Avanzada para Reviews",
+        "Widget de Reputación",
+        "Análisis de Competidores"
+      ]
+    },
+    {
+      "modulo_num": 6,
+      "titulo": "Cómo Escalar",
+      "lecciones": [
+        "Comunicación y Retención",
+        "Sistema de Referidos",
+        "Upsell de Reactivación de BBDD",
+        "Delegación y Sistematización"
+      ]
+    }
+  ],
+  "mecanismo_gating_anti_negativas": {
+    "paso_1": "Escaneo de QR en clínica o WhatsApp post-tratamiento",
+    "paso_2": "Rating Gate: ¿Cómo calificarías tu experiencia del 1 al 5?",
+    "paso_3_positiva_4_5_estrellas": "Redirección inmediata a Google Business Profile para publicar reseña 5 estrellas",
+    "paso_4_negativa_1_2_3_estrellas": "Redirección a formulario privado interno de mejora para resolver la queja sin manchar Google Maps"
+  }
+}

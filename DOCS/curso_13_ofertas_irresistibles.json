@@ -1,0 +1,34 @@
+{
+  "curso_id": 13,
+  "titulo": "Ofertas Irresistibles Claras y con Sentido",
+  "instructor": "Agustín Casorzo",
+  "url_base": "https://ninjasuite.app.clientclub.net/courses/products/25ea70ad-4160-45cc-91b1-0141345cc893",
+  "total_lecciones": 11,
+  "marcos_de_trabajo": [
+    "Círculo Dorado (Simon Sinek): Why -> How -> What",
+    "StoryBrand Framework (7 Pasos de Donald Miller)",
+    "Ecuación de Valor (Hormozi / Casorzo): (Resultado Soñado x Certeza) / (Tiempo x Esfuerzo)",
+    "Viejo Método vs Nuevo Método (Big Domino)",
+    "Matriz de Oferta High Ticket en 6 Dimensiones"
+  ],
+  "recursos_externos": {
+    "google_docs": [
+      {"nombre": "Guía Teórica de Sentido y Mensaje", "url": "https://docs.google.com/document/d/1HG-Civ0O7yetgTFKpnofiAXOvqVoyCqBmBvihSTtpKQ/edit?usp=sharing"},
+      {"nombre": "Resumen Círculo Dorado", "url": "https://docs.google.com/document/d/1LLCj65F6X8-mHx5w5Yx1KMGynHsH4QAvbAgTEz3JGEU/edit?usp=sharing"},
+      {"nombre": "Guía Práctica Descubre tu Porqué", "url": "https://docs.google.com/document/d/1xE1Qv4tw6t8qB_t1MU6w1mr4KFroBFx2nzzHFgdqF3w/edit?usp=sharing"},
+      {"nombre": "Framework StoryBrand", "url": "https://docs.google.com/document/d/1i5H47B8lku4LTLeAqsaJL_q6spkxgg3GwKMAi9Fmef4/edit?usp=sharing"},
+      {"nombre": "Comandos de ChatGPT para Copy y Storybrand", "url": "https://drive.google.com/file/d/1uOeleOfKsFrumK5uFiyvTT0hrvxt9ufG/view?usp=sharing"},
+      {"nombre": "Guía Construcción Oferta High Ticket", "url": "https://drive.google.com/file/d/1iFdIlwzcIPAm2QLI3X4lArrplFDVceVe/view?usp=sharing"},
+      {"nombre": "Plantilla Matriz Oferta de Alto Valor (Sheet)", "url": "https://docs.google.com/spreadsheets/d/1Bcr7Ob7Ivwo1g36QfePbm8WgghsyXmrZ/edit?usp=sharing"},
+      {"nombre": "Ejemplo Matriz Llena (Padre Stoico)", "url": "https://docs.google.com/spreadsheets/d/1lXgYevtvXxPjQBuckY-qtbp-apB5kEYR/edit?usp=sharing"}
+    ]
+  },
+  "matriz_oferta_high_ticket": {
+    "1_entregables": "Solución directa a cada obstáculo mapeado",
+    "2_presentacion": "Done For You + Done With You + Acompañamiento",
+    "3_bonos_aceleracion": "Scripts, prompts pre-entrenados, snapshots de GHL",
+    "4_garantias": "Garantía condicional o inversión protegida",
+    "5_urgencia_escasez": "Cupos limitados por mes para onboarding de calidad",
+    "6_nombramiento": "[Resultado Deseado] + [Nuevo Método] + [Tiempo]"
+  }
+}

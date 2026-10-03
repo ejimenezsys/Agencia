@@ -1,0 +1,78 @@
+{
+  "curso_id": 30,
+  "titulo": "Método Sitios IA",
+  "promesa": "Tu Primer Cliente en 14 Días (o menos) y de $0 a $1,000-$2,000 USD/mes Recurrentes en 90 Días Vendiendo Sitios IA a Negocios Locales",
+  "total_modulos": 4,
+  "total_lecciones": 32,
+  "recursos_exclusivos": {
+    "prompts_vault_url": "https://prompts.ninjasuite.ai/",
+    "password_acceso": "NINJA$"
+  },
+  "modulos": [
+    {
+      "modulo_num": 1,
+      "titulo": "Onboarding",
+      "total_lecciones": 5,
+      "lecciones": [
+        "Inicia aquí",
+        "Cómo funciona el programa",
+        "Plan de acción",
+        "Comunidad, soporte y llamadas en vivo",
+        "Herramientas a utilizar"
+      ]
+    },
+    {
+      "modulo_num": 2,
+      "titulo": "La Venta",
+      "total_lecciones": 15,
+      "lecciones": [
+        "Cómo vender Sitios IA (Clase de Bienvenida)",
+        "La Evolución del Mercado",
+        "El Principal Problema de los Negocios Locales",
+        "Venta de Servicios Productizados vs Modelo Tradicional de Agencias",
+        "Generación de Ingresos Recurrentes Mensuales (MRR)",
+        "Márgenes de Ganancia, Alta Retención y Escalabilidad",
+        "Qué Servicio Vender",
+        "Definición del Perfil del Cliente Ideal (ICP)",
+        "Enfoque en Negocios Locales Basados en Servicios",
+        "La Estrategia de los 3 Nichos",
+        "Cómo Identificar Prospectos Ideales",
+        "Vender Regalando Sitios IA (Estrategia Caballo de Troya)",
+        "Guión de Ventas",
+        "Ofertas y Stack (Planes A, B y C)",
+        "Otros Métodos de Acercamiento"
+      ]
+    },
+    {
+      "modulo_num": 3,
+      "titulo": "La Entrega",
+      "total_lecciones": 11,
+      "lecciones": [
+        "Cómo entregar el servicio",
+        "Nuevo Cliente",
+        "Cómo crear un sitio IA (Prompting, Agent Studio, ChatGPT y Claude)",
+        "Creación de un Agente de Chat",
+        "Creación de un Agente de Voz",
+        "Widget Chat IA",
+        "Calendarios y secuencia de recordatorios",
+        "SEO Básico",
+        "Conectar dominio",
+        "Automatización básica de reviews (Google Maps)",
+        "Material Complementario"
+      ]
+    },
+    {
+      "modulo_num": 4,
+      "titulo": "Retención y Upsells",
+      "total_lecciones": 1,
+      "lecciones": [
+        "Sistema de retención y upsells"
+      ]
+    }
+  ],
+  "modelo_precios_mrr": {
+    "plan_starter": "$97 USD/mes (Sitio web responsivo + hosting en GHL + dominio conectado)",
+    "plan_growth": "$197 USD/mes (Sitio web + Chatbot IA 24/7 + Calendario de citas)",
+    "plan_scale": "$297 - $497 USD/mes (Sitio web + Agente de Voz + Chatbot IA + Automatización de Reviews)"
+  }
+}

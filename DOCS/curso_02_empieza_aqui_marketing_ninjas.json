@@ -1,0 +1,16 @@
+{
+  "curso_id": 2,
+  "titulo": "Empieza Aquí con Marketing Ninjas",
+  "instructor": "Agustín Casorzo / Equipo Ninja",
+  "url_base": "https://ninjasuite.app.clientclub.net/courses/products/1019df42-7f05-446a-a606-3f3c5d6d1264",
+  "total_lecciones": 7,
+  "lecciones": [
+    "Bienvenido/a a la Comunidad",
+    "¿Qué hay acá dentro?",
+    "Mentorías en VIVO",
+    "Plataforma NinjaSuite",
+    "Grupo de Whatsapp",
+    "¿Por dónde empezar?",
+    "Próximos pasos"
+  ]
+}

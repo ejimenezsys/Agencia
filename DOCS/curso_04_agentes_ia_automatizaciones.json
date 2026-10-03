@@ -1,0 +1,100 @@
+{
+  "curso_id": 4,
+  "titulo": "Agentes IA y Automatizaciones Comerciales",
+  "instructor": "Agustín Casorzo",
+  "url_base": "https://ninjasuite.app.clientclub.net/courses/products/538f7942-9889-43ea-9ab1-5915ff3600d6?source=communities",
+  "progreso": "28%",
+  "lecciones_totales": 25,
+  "lecciones_completadas": 7,
+  "descripcion": "Tutoriales Completos para Crear, Entrenar y Optimizar Agentes Comerciales Autónomos con IA y Automatizaciones de Marketing y Ventas",
+  "modulos": [
+    {
+      "modulo_num": 1,
+      "titulo": "Fundamentos",
+      "descripcion": "Introducción y Conceptos Fundamentales a Entender para Crear Agentes IA y Automatizaciones Comerciales",
+      "categoria_url": "https://ninjasuite.app.clientclub.net/products/538f7942-9889-43ea-9ab1-5915ff3600d6/categories/3b7776d9-289f-459b-bc64-fe2664d33100",
+      "lecciones": [
+        {"num": 1, "titulo": "Bienvenida e Introducción", "estado": "Completada"}
+      ]
+    },
+    {
+      "modulo_num": 2,
+      "titulo": "El Stack",
+      "descripcion": "El Conjunto de Herramientas que se Necesitan para Construir Agentes IA y Automatizaciones Comerciales",
+      "categoria_url": "https://ninjasuite.app.clientclub.net/products/538f7942-9889-43ea-9ab1-5915ff3600d6/categories/ee3d6678-8507-47fa-ad9a-8ae3fa9abe10",
+      "lecciones": [
+        {"num": 1, "titulo": "NinjaSuite", "estado": "Completada"},
+        {"num": 2, "titulo": "Presentación de Herramientas", "estado": "Completada"},
+        {"num": 3, "titulo": "Applevel e Instalación", "estado": "Completada"}
+      ]
+    },
+    {
+      "modulo_num": 3,
+      "titulo": "Conceptos Previos",
+      "descripcion": "Conceptos Importantes a Entender Antes de Empezar a Crear Agentes y Automatizaciones",
+      "categoria_url": "https://ninjasuite.app.clientclub.net/products/538f7942-9889-43ea-9ab1-5915ff3600d6/categories/f9464298-7ec0-45c9-8c43-84bfc1a01f8a",
+      "lecciones": [
+        {"num": 1, "titulo": "Gestión de Contactos, Conversaciones y Pipelines", "estado": "Completada"},
+        {"num": 2, "titulo": "Gestión de Calendario", "estado": "Completada"},
+        {"num": 3, "titulo": "Custom Values y Custom Fields", "estado": "Completada"},
+        {"num": 4, "titulo": "Marketing: Social", "estado": "Pendiente"}
+      ]
+    },
+    {
+      "modulo_num": 4,
+      "titulo": "Creando Agentes y Automatizaciones",
+      "descripcion": "Empezando a Crear Agentes y Automatizaciones para Ti y/o tus Clientes",
+      "categoria_url": "https://ninjasuite.app.clientclub.net/products/538f7942-9889-43ea-9ab1-5915ff3600d6/categories/4073b7f5-70b5-4ccc-b1f2-d1700ced5701",
+      "lecciones": []
+    },
+    {
+      "modulo_num": 5,
+      "titulo": "Automatizaciones para Funnels Evergreen",
+      "descripcion": "Automatizaciones que se utilizan en los Funnels Evergreen",
+      "categoria_url": "https://ninjasuite.app.clientclub.net/products/538f7942-9889-43ea-9ab1-5915ff3600d6/categories/eacadc34-330d-4242-9d9b-2a6fc514c854",
+      "lecciones": [
+        {"num": 1, "titulo": "Automatización de Activación de Agente", "estado": "Pendiente"},
+        {"num": 2, "titulo": "Automatización de Captura de Lead con Secuencia Conversacional", "estado": "Pendiente"},
+        {"num": 3, "titulo": "Automatización de Agendamiento y Secuencia de Recordatorio", "estado": "Pendiente"},
+        {"num": 4, "titulo": "Automatización para Comentaristas en Instagram y Facebook", "estado": "Pendiente"},
+        {"num": 5, "titulo": "Automatización DMs (directos y respuestas a historias)", "estado": "Pendiente"},
+        {"num": 6, "titulo": "Automatizaciones Elementales que Debes Conocer", "estado": "Pendiente"}
+      ]
+    },
+    {
+      "modulo_num": 6,
+      "titulo": "Comprendiendo la IA en NinjaSuite",
+      "descripcion": "Conceptos y técnicas de prompting y QA para bots en NinjaSuite",
+      "categoria_url": "https://ninjasuite.app.clientclub.net/products/538f7942-9889-43ea-9ab1-5915ff3600d6/categories/6b8e8417-6e13-4e69-8cc8-409da01fc382",
+      "lecciones": [
+        {"num": 1, "titulo": "¿Cómo hacer buenos Prompts?: Las Plantillas", "estado": "Pendiente"},
+        {"num": 2, "titulo": "Prompts de Instrucciones cortas: ¿Dónde lo voy a usar? - Optimización de automatización", "estado": "Pendiente"},
+        {"num": 3, "titulo": "Prompts de Instrucciones amplias: ¿Dónde lo voy a usar?: Conversational IA V2", "estado": "Pendiente"},
+        {"num": 4, "titulo": "¿Cómo hacer los QA? Recomendaciones + Ejemplo de Agencia", "estado": "Pendiente"}
+      ]
+    },
+    {
+      "modulo_num": 7,
+      "titulo": "Plantillas de Configuración de Agentes IA",
+      "descripcion": "Configurando Agentes Autónomos Comerciales de IA y de Soporte y Atención a Clientes",
+      "categoria_url": "https://ninjasuite.app.clientclub.net/products/538f7942-9889-43ea-9ab1-5915ff3600d6/categories/8b1efd82-d37f-47f6-a1db-36058b8cb231",
+      "lecciones": [
+        {"num": 1, "titulo": "Configuración General de un Bot en Conversational AI V2", "estado": "Pendiente"},
+        {"num": 2, "titulo": "Configuración de Agente de Coordinación de Llamada", "estado": "Pendiente"},
+        {"num": 3, "titulo": "Cierre de Venta Ecommerce (Caso Empresa Accesorios)", "estado": "Pendiente"},
+        {"num": 4, "titulo": "Cierre de Venta Servicio (Caso Empresa de Mantenimiento Vehicular)", "estado": "Pendiente"},
+        {"num": 5, "titulo": "Soporte y/o Atención a Cliente (Caso Empresa de Software de RRHH)", "estado": "Pendiente"}
+      ]
+    },
+    {
+      "modulo_num": 8,
+      "titulo": "Aplicaciones Reales y Casos",
+      "descripcion": "Estudio de Casos y Aplicaciones Reales de Agentes IA y Automatizaciones",
+      "categoria_url": "https://ninjasuite.app.clientclub.net/products/538f7942-9889-43ea-9ab1-5915ff3600d6/categories/32926b16-5203-4172-bc3b-09fa9da4f69f",
+      "lecciones": [
+        {"num": 1, "titulo": "El Bot de Múltiples Pasos", "estado": "Pendiente"},
+        {"num": 2, "titulo": "Un Agente Básico Puede Ser Suficiente: El Caso de DirecTV", "estado": "Pendiente"}
+      ]
+    }
+  ]
+}

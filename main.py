@@ -1257,6 +1257,25 @@ async def redirect_shortlink(code: str, request: Request, db: Session = Depends(
 async def read_diagnostico(request: Request):
     return templates.TemplateResponse(request=request, name="diagnostico.html")
 
+@app.get("/test-ia", response_class=HTMLResponse)
+@app.head("/test-ia")
+@app.get("/test-ia/", response_class=HTMLResponse)
+@app.head("/test-ia/")
+@app.get("/test-ia.html", response_class=HTMLResponse)
+@app.head("/test-ia.html")
+@app.get("/diagnostico-ia", response_class=HTMLResponse)
+@app.head("/diagnostico-ia")
+@app.get("/diagnostico-ia/", response_class=HTMLResponse)
+@app.head("/diagnostico-ia/")
+@app.get("/diagnostico-ia.html", response_class=HTMLResponse)
+@app.head("/diagnostico-ia.html")
+async def read_test_ia(request: Request):
+    static_html = os.path.join(os.path.dirname(__file__), "static", "test-ia", "index.html")
+    if os.path.exists(static_html):
+        with open(static_html, "r", encoding="utf-8") as f:
+            return HTMLResponse(content=f.read())
+    return templates.TemplateResponse(request=request, name="test-ia.html")
+
 @app.get("/podcast", response_class=HTMLResponse)
 @app.get("/podcast.html", response_class=HTMLResponse)
 async def read_podcast(request: Request):

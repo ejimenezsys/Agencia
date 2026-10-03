@@ -1,0 +1,57 @@
+{
+  "curso_id": 29,
+  "titulo": "Curso de Ventas y Gestión Comercial (MRR)",
+  "instructor": "Agustín Casorzo",
+  "url_base": "https://ninjasuite.app.clientclub.net/courses/products/5ebf91b7-e9a0-43aa-a514-640a3ddb4a03",
+  "total_lecciones": 14,
+  "modulos": [
+    {
+      "modulo_num": 1,
+      "titulo": "Bienvenida al Curso",
+      "lecciones": ["Bienvenida"]
+    },
+    {
+      "modulo_num": 2,
+      "titulo": "Fundamentos del Modelo de Negocio de Ingresos Recurrentes (MRR)",
+      "lecciones": [
+        "Introducción a los Ingresos Recurrentes Mensuales",
+        "Ventajas del Modelo MRR frente a Proyectos Únicos"
+      ]
+    },
+    {
+      "modulo_num": 3,
+      "titulo": "Generación de Demanda y Prospección B2B",
+      "lecciones": [
+        "Estrategias de Captación de Clientes B2B",
+        "Métodos de Contacto Directo e Inbound",
+        "Calificación de Prospectos"
+      ]
+    },
+    {
+      "modulo_num": 4,
+      "titulo": "Proceso de Ventas Consultivas",
+      "lecciones": [
+        "La Reunión de Diagnóstico",
+        "Presentación de la Propuesta de Valor",
+        "Manejo de Objeciones",
+        "Cierre de la Venta"
+      ]
+    },
+    {
+      "modulo_num": 5,
+      "titulo": "Gestión y Retención de Clientes (Customer Success)",
+      "lecciones": [
+        "Onboarding de Nuevos Clientes",
+        "Reducción del Churn y Up-selling"
+      ]
+    },
+    {
+      "modulo_num": 6,
+      "titulo": "Métricas Clave y Escalabilidad del Negocio",
+      "lecciones": [
+        "CAC, LTV y MRR",
+        "Escalar el Equipo Comercial"
+      ]
+    }
+  ]
+}
