@@ -8,3 +8,5 @@ data/*.db
 scratch/
 .chrome_temp/
 777_tools/.chrome_temp/
+*.log
+*.bak
