@@ -8,12 +8,12 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      VPS_HOST: ${{ secrets.VPS_HOST }}
+      VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+      VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
     steps:
       - name: Desplegar en VPS vía SSH
-        env:
-          VPS_HOST: ${{ secrets.VPS_HOST }}
-          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
-          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
         if: env.VPS_HOST != '' && (env.VPS_SSH_KEY != '' || env.VPS_PASSWORD != '')
         uses: appleboy/ssh-action@v1.0.3
         with:
