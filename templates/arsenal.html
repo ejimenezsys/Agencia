@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Arsenal de ProsperIA — +5,000 Prompts Visuales, Códigos y Blueprints de IA | Edward Jiménez</title>
+  <meta name="description" content="La mayor biblioteca curada de prompts de IA para video cinematográfico, fotografía con Flux y Midjourney, y blueprints de agentes autónomos. Curados por Edward Jiménez y Agencia ProsperIA.">
+  <meta name="keywords" content="prompts de ia, arsenal prosperia, prompts kling ai, prompts flux 1.1 pro, prompts midjourney v6, edward jimenez, blueprints agentes ia, prompts video cinematografico">
+  <link rel="canonical" href="https://agenciaprosperia.com/arsenal">
+  <link rel="icon" type="image/png" href="/static/favicon.png">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://agenciaprosperia.com/arsenal">
+  <meta property="og:title" content="El Arsenal de ProsperIA: +5,000 Prompts Visuales y Blueprints de IA">
+  <meta property="og:description" content="Directorio de prompts cinematográficos para Kling, Flux, Midjourney y Agentes de IA. 100% libre acceso.">
+  <meta property="og:image" content="/static/logo_prosper_ia_cropped.jpg">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome & Google Fonts -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              cyan: '#00e5ff',
+              amber: '#f59e0b',
+              orange: '#f97316',
+              dark: '#030712',
+              card: '#0a101f',
+              border: 'rgba(0, 229, 255, 0.18)'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #030712;
+      color: #f1f5f9;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+    }
+    .bg-grid-cyber {
+      background-size: 38px 38px;
+      background-image: 
+        linear-gradient(to right, rgba(0, 229, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 229, 255, 0.035) 1px, transparent 1px);
+    }
+    .mesh-glow-top {
+      position: absolute;
+      top: -140px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1000px;
+      height: 520px;
+      background: radial-gradient(circle, rgba(0, 229, 255, 0.14) 0%, rgba(99, 102, 241, 0.10) 35%, rgba(245, 158, 11, 0.05) 55%, transparent 75%);
+      filter: blur(90px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .glass-card {
+      background: rgba(10, 16, 31, 0.82);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .glass-card:hover {
+      border-color: rgba(0, 229, 255, 0.4);
+      box-shadow: 0 14px 34px -10px rgba(0, 229, 255, 0.22);
+      transform: translateY(-2px);
+    }
+    .prompt-media-card {
+      background: rgba(11, 18, 35, 0.92);
+      border: 1px solid rgba(0, 229, 255, 0.16);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .prompt-media-card:hover {
+      border-color: rgba(0, 229, 255, 0.55);
+      transform: translateY(-3px);
+      box-shadow: 0 16px 36px -10px rgba(0, 229, 255, 0.28);
+    }
+    .btn-copy {
+      background: rgba(0, 229, 255, 0.12);
+      color: #00e5ff;
+      border: 1px solid rgba(0, 229, 255, 0.35);
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .btn-copy:hover {
+      background: #00e5ff;
+      color: #020710;
+      box-shadow: 0 0 18px rgba(0, 229, 255, 0.45);
+    }
+    .btn-copy.copied {
+      background: #10b981 !important;
+      color: #020710 !important;
+      border-color: #10b981 !important;
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.6) !important;
+    }
+    .filter-chip {
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #94a3b8;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .filter-chip:hover {
+      border-color: rgba(0, 229, 255, 0.45);
+      color: #ffffff;
+    }
+    .filter-chip.active {
+      background: #00e5ff;
+      color: #020710;
+      font-weight: 800;
+      border-color: #00e5ff;
+      box-shadow: 0 0 18px rgba(0, 229, 255, 0.4);
+    }
+    .input-search-arsenal {
+      background: #060e22 !important;
+      border: 1px solid rgba(0, 229, 255, 0.35) !important;
+      color: #ffffff !important;
+      caret-color: #00e5ff !important;
+      transition: all 0.2s ease;
+    }
+    .input-search-arsenal:focus {
+      border-color: #00e5ff !important;
+      box-shadow: 0 0 24px rgba(0, 229, 255, 0.35) !important;
+      outline: none;
+    }
+    .pack-header-tab {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.2s ease;
+    }
+    .pack-header-tab:hover, .pack-header-tab.active {
+      border-color: rgba(245, 158, 11, 0.5);
+      background: rgba(26, 18, 7, 0.9);
+      color: #fbbf24;
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.2);
+    }
+    .line-clamp-2 {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .line-clamp-3 {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    /* Estilo del modal de prompt completo */
+    .modal-backdrop-solid {
+      background-color: rgba(2, 6, 23, 0.92);
+      backdrop-filter: blur(14px);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col relative selection:bg-cyan-500 selection:text-slate-950">
+
+  <!-- Ambient Grid & Glow -->
+  <div class="fixed inset-0 bg-grid-cyber pointer-events-none z-0"></div>
+  <div class="mesh-glow-top"></div>
+
+  <!-- ════════════════════════════════════════════════════
+       MAIN NAVBAR (CON PUENTE HACIA /CODIGOS Y /SPIDERMAN)
+       ════════════════════════════════════════════════════ -->
+  <nav class="sticky top-0 left-0 w-full z-50 bg-slate-950/85 backdrop-blur-xl border-b border-slate-800/80 transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 sm:h-20">
+        
+        <!-- Logo & Volver a Códigos -->
+        <div class="flex items-center gap-3 sm:gap-5">
+          <a href="https://agenciaprosperia.com/" class="flex items-center gap-3 group" title="Ir a Agencia ProsperIA">
+            <img src="/static/logo_prosper_ia_cropped.jpg" alt="ProsperIA" class="h-9 sm:h-11 w-auto object-contain rounded-lg group-hover:scale-105 transition-transform" onerror="this.src='https://placehold.co/120x40/030712/00e5ff?text=ProsperIA'">
+            <div class="hidden sm:block">
+              <span class="block font-black text-white text-base tracking-wider leading-none">Agencia ProsperIA</span>
+              <span class="text-[11px] font-mono text-cyan-400 font-semibold tracking-widest uppercase">The AI Arsenal</span>
+            </div>
+          </a>
+
+          <!-- Botón Destacado: Volver a Códigos -->
+          <a href="/codigos" class="inline-flex items-center gap-2 px-3 sm:px-3.5 py-1.5 rounded-xl text-xs font-bold text-slate-300 hover:text-white bg-slate-900 border border-slate-700 hover:border-cyan-400/60 transition-all">
+            <i class="fas fa-arrow-left text-[11px] text-cyan-400"></i>
+            <span>Volver a Códigos (200)</span>
+          </a>
+        </div>
+
+        <!-- Links Rápidos de Navegación -->
+        <div class="hidden md:flex items-center gap-2 text-xs font-semibold">
+          <a href="#packs-destacados" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-cyan-400 transition-colors">
+            <i class="fas fa-cubes text-amber-400 mr-1"></i> Packs Seleccionados
+          </a>
+          <a href="#galeria-prompts" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-cyan-400 transition-colors">
+            <i class="fas fa-layer-group text-cyan-400 mr-1"></i> Explorar +5,000
+          </a>
+          <a href="/spiderman" target="_blank" rel="noopener" class="px-3 py-1.5 rounded-lg text-red-300 hover:text-red-200 transition-colors flex items-center gap-1.5 bg-red-950/40 border border-red-500/30">
+            <i class="fas fa-spider text-red-400"></i> <span>Reel Spiderman</span>
+          </a>
+          <a href="/test-ia" target="_blank" rel="noopener" class="px-3 py-1.5 rounded-lg text-amber-300 hover:text-amber-200 transition-colors flex items-center gap-1">
+            <i class="fas fa-brain text-amber-400"></i> <span>Test IA</span>
+          </a>
+        </div>
+
+        <!-- Acciones: WhatsApp VIP & Cotizar -->
+        <div class="flex items-center gap-2 sm:gap-3">
+          <a href="https://chat.whatsapp.com/HIjs3Bytduy9ucOtn6jeKw?s=sh&p=a&ilr=4" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-xs font-bold bg-emerald-500 text-slate-950 hover:bg-emerald-400 transition-all shadow-[0_0_15px_rgba(16,185,129,0.3)]">
+            <i class="fab fa-whatsapp text-sm"></i> <span class="hidden sm:inline">Comunidad VIP</span>
+          </a>
+          <a href="/codigos#passportai-showcase" class="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-xs font-extrabold bg-gradient-to-r from-amber-400 to-orange-500 text-slate-950 hover:from-amber-300 hover:to-orange-400 transition-all shadow-[0_0_15px_rgba(245,158,11,0.35)]">
+            <i class="fas fa-bolt text-xs"></i> <span>PassportAI</span>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </nav>
+
+  <!-- ════════════════════════════════════════════════════
+       HERO SECTION: LA PROMESA REALISTA DE ALTO IMPACTO
+       ════════════════════════════════════════════════════ -->
+  <header class="relative pt-10 sm:pt-16 pb-10 sm:pb-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto z-10 text-center">
+    
+    <!-- Top Pill Promesa -->
+    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-950/80 border border-cyan-400/40 text-cyan-300 text-xs sm:text-sm font-bold mb-6 backdrop-blur-md shadow-[0_0_20px_rgba(0,229,255,0.2)]">
+      <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+      <span>+5,000 PROMPTS Y BLUEPRINTS · ACTUALIZADO A DIARIO · 100% LIBRE ACCESO</span>
+    </div>
+
+    <!-- Main Title -->
+    <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight mb-5 max-w-5xl mx-auto">
+      El Arsenal de <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-300 to-indigo-400">Super Inteligencia</span> para Creadores, Marcas y Negocios
+    </h1>
+
+    <p class="text-slate-300 text-sm sm:text-lg max-w-3xl mx-auto mb-8 leading-relaxed font-light">
+      Sin relleno ni prompts genéricos de 2023. La bóveda curada por <strong>Edward Jiménez</strong> con prompts de <strong>video cinematográfico (Kling & Runway)</strong>, dirección de arte con <strong>Flux 1.1 Pro</strong>, consistencia con <strong>Midjourney v6</strong> y blueprints de <strong>Agentes de Automatización</strong>.
+    </p>
+
+    <!-- Barra de Búsqueda Rápida Instantánea -->
+    <div class="glass-card p-3 sm:p-4 rounded-2xl max-w-4xl mx-auto mb-8 border-cyan-500/25 shadow-2xl text-left">
+      <div class="grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-2.5 items-center">
+        <div class="relative w-full">
+          <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-cyan-400 text-sm pointer-events-none"></i>
+          <input 
+            type="text" 
+            id="arsenal-search" 
+            placeholder="Buscar entre +5,000 prompts: 'kling', 'anamorphic lens', 'e-commerce', 'avatar', 'flux'..." 
+            class="input-search-arsenal w-full py-3.5 pl-11 pr-10 rounded-xl text-sm font-medium"
+            oninput="handleArsenalSearch(this.value)"
+          >
+          <button id="clear-search-btn" onclick="clearArsenalSearch()" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-xs hidden p-1">
+            <i class="fas fa-times-circle text-base"></i>
+          </button>
+        </div>
+        <div class="flex items-center justify-between sm:justify-end gap-3 px-2 sm:px-0">
+          <span class="text-xs font-mono text-slate-400">
+            Mostrando: <strong id="arsenal-count" class="text-cyan-400 font-bold text-sm">12</strong> de <span class="text-white font-bold">+5,000</span>
+          </span>
+          <button onclick="scrollToGallery()" class="px-4 py-2.5 rounded-xl text-xs font-extrabold bg-cyan-400 text-slate-950 hover:bg-cyan-300 transition-all shadow-[0_0_15px_rgba(0,229,255,0.3)]">
+            Explorar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-4xl mx-auto">
+      <div class="glass-card p-3.5 rounded-xl text-center border-cyan-500/20">
+        <div class="text-xl sm:text-2xl font-black text-cyan-400 font-mono">+1,200</div>
+        <div class="text-[11px] text-slate-400 mt-0.5">Prompts Kling & Video</div>
+      </div>
+      <div class="glass-card p-3.5 rounded-xl text-center border-amber-500/20">
+        <div class="text-xl sm:text-2xl font-black text-amber-400 font-mono">+2,500</div>
+        <div class="text-[11px] text-slate-400 mt-0.5">Flux & Midjourney v6</div>
+      </div>
+      <div class="glass-card p-3.5 rounded-xl text-center border-indigo-500/20">
+        <div class="text-xl sm:text-2xl font-black text-indigo-400 font-mono">+800</div>
+        <div class="text-[11px] text-slate-400 mt-0.5">Blueprints de Agentes</div>
+      </div>
+      <div class="glass-card p-3.5 rounded-xl text-center border-emerald-500/20">
+        <div class="text-xl sm:text-2xl font-black text-emerald-400 font-mono">1-Clic</div>
+        <div class="text-[11px] text-slate-400 mt-0.5">Copia de Código Lista</div>
+      </div>
+    </div>
+
+  </header>
+
+  <!-- ════════════════════════════════════════════════════
+       BLOQUE 1: COLECCIONES Y PACKS SELECCIONADOS (ESTILO YOUMIND DARK)
+       ════════════════════════════════════════════════════ -->
+  <section id="packs-destacados" class="py-10 sm:py-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 scroll-mt-24">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+      <div>
+        <span class="text-xs font-bold uppercase tracking-wider text-amber-400 mb-1 block">Curaduría por Casos de Éxito</span>
+        <h2 class="text-2xl sm:text-4xl font-extrabold text-white">Colecciones de Prompts Seleccionadas</h2>
+      </div>
+      <p class="text-xs sm:text-sm text-slate-400 max-w-md leading-relaxed">
+        Packs de prompts organizados por objetivo: desde comerciales de alto impacto hasta fotos de producto y workflows de agentes.
+      </p>
+    </div>
+
+    <!-- Grid de Packs Estilo Revista Tecnológica -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+      <!-- Pack 1: Video Cinematográfico Kling -->
+      <article class="glass-card rounded-2xl overflow-hidden p-5 flex flex-col justify-between border-cyan-500/25 relative group">
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono bg-cyan-950 text-cyan-300 border border-cyan-500/30">
+              <i class="fas fa-film mr-1"></i> VIDEO · KLING 1.5 & RUNWAY
+            </span>
+            <span class="text-[10px] font-mono text-slate-400">120 PROMPTS</span>
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">
+            Anuncios Comerciales & Video Cinematográfico
+          </h3>
+          <p class="text-xs text-slate-300 leading-relaxed mb-4">
+            Comandos de cámara dinámica, lentes anamórficos, iluminación volumétrica y movimientos continuos para crear clips virales de calidad cine.
+          </p>
+
+          <!-- Preview Mockup Image -->
+          <div class="relative rounded-xl overflow-hidden aspect-video bg-slate-950 border border-slate-800 mb-4">
+            <img src="/static/reel_spiderman_thumb.jpg" alt="Video Prompts" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x340/030712/00e5ff?text=Kling+Cinema+Pack'">
+            <div class="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-black/80 text-[10px] font-mono text-cyan-300 border border-cyan-500/20">
+              <i class="fas fa-play mr-1"></i> The Swing Effect & More
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+          <button onclick="filterByPack('kling-video')" class="text-xs font-bold text-cyan-400 hover:text-white transition-colors flex items-center gap-1.5">
+            <span>Ver Prompts del Pack</span> <i class="fas fa-arrow-right text-[10px]"></i>
+          </button>
+          <a href="/spiderman" target="_blank" class="text-[11px] text-slate-400 hover:text-red-400 transition-colors">
+            <i class="fas fa-spider text-xs text-red-400"></i> Desglose Spiderman
+          </a>
+        </div>
+      </article>
+
+      <!-- Pack 2: Fotografía Editorial Flux 1.1 Pro -->
+      <article class="glass-card rounded-2xl overflow-hidden p-5 flex flex-col justify-between border-amber-500/25 relative group">
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono bg-amber-950 text-amber-300 border border-amber-500/30">
+              <i class="fas fa-camera mr-1"></i> IMAGEN · FLUX 1.1 PRO
+            </span>
+            <span class="text-[10px] font-mono text-slate-400">350 PROMPTS</span>
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold text-white mb-2 group-hover:text-amber-400 transition-colors">
+            Fotografía Editorial, Moda & E-commerce
+          </h3>
+          <p class="text-xs text-slate-300 leading-relaxed mb-4">
+            Texturas hiperrealistas, piel natural sin efecto plástico de Midjourney v5, fotografía de producto para tiendas online y lookbook de marcas.
+          </p>
+
+          <!-- Preview Mockup Image -->
+          <div class="relative rounded-xl overflow-hidden aspect-video bg-slate-950 border border-slate-800 mb-4">
+            <img src="/static/reel_director_thumb.jpg" alt="Flux Pack" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x340/030712/f59e0b?text=Flux+Editorial+Pack'">
+            <div class="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-black/80 text-[10px] font-mono text-amber-300 border border-amber-500/20">
+              <i class="fas fa-star mr-1"></i> 8K RAW Realism
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+          <button onclick="filterByPack('flux-editorial')" class="text-xs font-bold text-amber-400 hover:text-white transition-colors flex items-center gap-1.5">
+            <span>Ver Prompts del Pack</span> <i class="fas fa-arrow-right text-[10px]"></i>
+          </button>
+          <span class="text-[11px] text-slate-400">Probado en Replicate</span>
+        </div>
+      </article>
+
+      <!-- Pack 3: Blueprints Agentes Autónomos -->
+      <article class="glass-card rounded-2xl overflow-hidden p-5 flex flex-col justify-between border-indigo-500/25 relative group">
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono bg-indigo-950 text-indigo-300 border border-indigo-500/30">
+              <i class="fas fa-robot mr-1"></i> AGENTES · CLAUDE 3.5 & GPT-4o
+            </span>
+            <span class="text-[10px] font-mono text-slate-400">95 BLUEPRINTS</span>
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold text-white mb-2 group-hover:text-indigo-400 transition-colors">
+            Blueprints de Agentes & Automatización B2B
+          </h3>
+          <p class="text-xs text-slate-300 leading-relaxed mb-4">
+            System prompts de grado industrial para calificar prospectos, cotizaciones automáticas, auditoría de contratos y arquitecturas autónomas de ProsperIA.
+          </p>
+
+          <!-- Preview Mockup Image -->
+          <div class="relative rounded-xl overflow-hidden aspect-video bg-slate-950 border border-slate-800 mb-4 flex items-center justify-center p-4">
+            <div class="w-full h-full bg-slate-900 rounded-lg p-3 font-mono text-[10px] text-cyan-300 overflow-hidden flex flex-col justify-between border border-slate-800">
+              <div>
+                <span class="text-indigo-400">SYSTEM_PROMPT:</span> Executive Lead Qualifier<br>
+                <span class="text-slate-400">ROLE:</span> Enterprise Automation Agent<br>
+                <span class="text-amber-400">OUTPUT:</span> JSON Structure with scoring
+              </div>
+              <div class="text-[9px] text-slate-500">Curado para CRM ProsperIA Core</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+          <button onclick="filterByPack('agentes-b2b')" class="text-xs font-bold text-indigo-400 hover:text-white transition-colors flex items-center gap-1.5">
+            <span>Ver Blueprints</span> <i class="fas fa-arrow-right text-[10px]"></i>
+          </button>
+          <a href="/test-ia" target="_blank" class="text-[11px] text-slate-400 hover:text-amber-400 transition-colors">
+            Diagnóstico IA &rarr;
+          </a>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════
+       BLOQUE 2: EL GRAN DIRECTORIO INTERACTIVO (+5,000 PROMPTS)
+       ════════════════════════════════════════════════════ -->
+  <main id="galeria-prompts" class="py-10 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 scroll-mt-24">
+    
+    <div class="text-center max-w-3xl mx-auto mb-8">
+      <span class="text-xs font-bold uppercase tracking-wider text-cyan-400 mb-2 block">Directorio Interactivo en Tiempo Real</span>
+      <h2 class="text-2xl sm:text-4xl font-extrabold text-white mb-3">
+        Explora y Copia Prompts Verificados con 1 Clic
+      </h2>
+      <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
+        Usa los filtros por <strong>Modelo de IA</strong> o por <strong>Categoría</strong>. Haz clic en "Copiar Prompt" para pegarlo directamente en tu generador favorito.
+      </p>
+    </div>
+
+    <!-- FILTRO NIVEL 1: MODELOS DE IA (Chips Dinámicos) -->
+    <div class="flex items-center gap-2 mb-4 max-w-5xl mx-auto overflow-x-auto no-scrollbar pb-2 sm:flex-wrap sm:justify-center">
+      <button class="filter-chip active px-3.5 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap flex items-center gap-1.5" data-filter-model="all" onclick="filterByModel('all', this)">
+        <i class="fas fa-layer-group text-[11px]"></i> <span>Todos los Modelos (+5,000)</span>
+      </button>
+      <button class="filter-chip px-3.5 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap flex items-center gap-1.5" data-filter-model="kling" onclick="filterByModel('kling', this)">
+        <i class="fas fa-video text-cyan-400 text-[11px]"></i> <span>Kling 1.5 Video</span>
+      </button>
+      <button class="filter-chip px-3.5 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap flex items-center gap-1.5" data-filter-model="flux" onclick="filterByModel('flux', this)">
+        <i class="fas fa-wand-magic-sparkles text-amber-400 text-[11px]"></i> <span>Flux 1.1 Pro</span>
+      </button>
+      <button class="filter-chip px-3.5 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap flex items-center gap-1.5" data-filter-model="midjourney" onclick="filterByModel('midjourney', this)">
+        <i class="fas fa-palette text-purple-400 text-[11px]"></i> <span>Midjourney v6.1</span>
+      </button>
+      <button class="filter-chip px-3.5 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap flex items-center gap-1.5" data-filter-model="chatgpt" onclick="filterByModel('chatgpt', this)">
+        <i class="fas fa-terminal text-emerald-400 text-[11px]"></i> <span>ChatGPT & DALL-E</span>
+      </button>
+      <button class="filter-chip px-3.5 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap flex items-center gap-1.5" data-filter-model="claude" onclick="filterByModel('claude', this)">
+        <i class="fas fa-brain text-orange-400 text-[11px]"></i> <span>Claude Blueprints</span>
+      </button>
+    </div>
+
+    <!-- FILTRO NIVEL 2: CATEGORÍAS TEMÁTICAS -->
+    <div class="flex items-center gap-1.5 mb-8 max-w-4xl mx-auto overflow-x-auto no-scrollbar pb-2 sm:flex-wrap sm:justify-center text-[11px]">
+      <button class="filter-chip active px-3 py-1 rounded-lg font-semibold" data-filter-cat="all" onclick="filterByCategory('all', this)">Todas las Categorías</button>
+      <button class="filter-chip px-3 py-1 rounded-lg" data-filter-cat="comerciales" onclick="filterByCategory('comerciales', this)">Anuncios & Comerciales</button>
+      <button class="filter-chip px-3 py-1 rounded-lg" data-filter-cat="editorial" onclick="filterByCategory('editorial', this)">Fotografía de Moda & Retrato</button>
+      <button class="filter-chip px-3 py-1 rounded-lg" data-filter-cat="producto" onclick="filterByCategory('producto', this)">E-commerce & Producto</button>
+      <button class="filter-chip px-3 py-1 rounded-lg" data-filter-cat="cinematica" onclick="filterByCategory('cinematica', this)">Cine & Efectos Visuales</button>
+      <button class="filter-chip px-3 py-1 rounded-lg" data-filter-cat="agentes" onclick="filterByCategory('agentes', this)">Workflows & Negocio</button>
+    </div>
+
+    <!-- CONTENEDOR DE TARJETAS DE PROMPTS (Grid Dinámico) -->
+    <div id="arsenal-cards-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- TARJETA 1: Kling Video Dinámico The Swing -->
+      <div class="prompt-media-card" data-model="kling" data-cat="cinematica" data-pack="kling-video" data-search="kling video spiderman the swing camara movimiento rascacielos nueva york cinemática">
+        <!-- Media Preview -->
+        <div class="relative aspect-video bg-slate-950 overflow-hidden group">
+          <img src="/static/reel_spiderman_thumb.jpg" alt="Kling The Swing Effect" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x340/030712/ef4444?text=The+Swing+Kling+Prompt'">
+          <div class="absolute top-2.5 left-2.5 flex items-center gap-1.5">
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-cyan-950/90 text-cyan-300 border border-cyan-500/40 backdrop-blur-sm">
+              KLING 1.5 PRO
+            </span>
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-red-950/90 text-red-300 border border-red-500/40">
+              VIRAL REEL
+            </span>
+          </div>
+          <div class="absolute bottom-2.5 right-2.5">
+            <span class="text-[10px] font-mono text-slate-300 bg-black/80 px-2 py-0.5 rounded border border-white/10">
+              16:9 / 9:16
+            </span>
+          </div>
+        </div>
+        <!-- Content -->
+        <div class="p-5 flex flex-col justify-between flex-1">
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-2">
+              <h3 class="text-base font-bold text-white line-clamp-1">Salto Acrobático al Vacío ("The Swing")</h3>
+              <button type="button" class="btn-copy px-2.5 py-1 rounded-lg text-xs font-bold inline-flex items-center gap-1 flex-shrink-0" onclick="copyPromptText('Cinematic drone push-in following an acrobatic character jumping off a Manhattan skyscraper ledge into the abyss, dynamic camera roll, volumetric sunset light, realistic motion blur, 8k resolution.', this)">
+                <i class="far fa-copy text-xs"></i> <span>Copiar</span>
+              </button>
+            </div>
+            <p class="text-xs text-slate-300 line-clamp-2 mb-3">
+              Prompt para interpolación de fotogramas clave en Kling AI logrando el salto sin deformar la cara ni la ropa.
+            </p>
+            <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-[11px] font-mono text-cyan-300/90 line-clamp-2 mb-3">
+              Cinematic drone push-in following an acrobatic character jumping off a Manhattan skyscraper ledge...
+            </div>
+          </div>
+          <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
+            <span>Tags: #Kling #Cine #Motion</span>
+            <a href="/spiderman" target="_blank" class="text-red-400 hover:text-white transition-colors font-semibold">Ver Desglose &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- TARJETA 2: Flux 1.1 Pro Editorial Fotografía de Producto -->
+      <div class="prompt-media-card" data-model="flux" data-cat="producto" data-pack="flux-editorial" data-search="flux 1.1 pro fotografia perfume producto lujo iluminacion estudio gotas agua e-commerce">
+        <div class="relative aspect-video bg-slate-950 overflow-hidden group">
+          <img src="/static/reel_director_thumb.jpg" alt="Flux Perfume Commercial" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x340/030712/f59e0b?text=Flux+Product+Shot'">
+          <div class="absolute top-2.5 left-2.5 flex items-center gap-1.5">
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-950/90 text-amber-300 border border-amber-500/40 backdrop-blur-sm">
+              FLUX 1.1 PRO
+            </span>
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-900/90 text-slate-300 border border-slate-700">
+              PACKSHOT
+            </span>
+          </div>
+          <div class="absolute bottom-2.5 right-2.5">
+            <span class="text-[10px] font-mono text-slate-300 bg-black/80 px-2 py-0.5 rounded border border-white/10">
+              4:5 Vertical
+            </span>
+          </div>
+        </div>
+        <div class="p-5 flex flex-col justify-between flex-1">
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-2">
+              <h3 class="text-base font-bold text-white line-clamp-1">Packshot de Perfume de Alta Gama con Gotas</h3>
+              <button type="button" class="btn-copy px-2.5 py-1 rounded-lg text-xs font-bold inline-flex items-center gap-1 flex-shrink-0" onclick="copyPromptText('Commercial product photography of a luxury minimalist perfume glass bottle on dark wet obsidian stone, crisp condensation water droplets, dramatic rim lighting, soft caustics reflection, shot on Hasselblad H6D-100c, 100mm macro lens, f/4, editorial advertising clean aesthetic.', this)">
+                <i class="far fa-copy text-xs"></i> <span>Copiar</span>
+              </button>
+            </div>
+            <p class="text-xs text-slate-300 line-clamp-2 mb-3">
+              Dirección de luz en 3 puntos con reflejos cáusticos reales para marcas de cosmética y perfumería.
+            </p>
+            <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-[11px] font-mono text-amber-300/90 line-clamp-2 mb-3">
+              Commercial product photography of a luxury minimalist perfume glass bottle on dark wet obsidian...
+            </div>
+          </div>
+          <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
+            <span>Tags: #Flux #Luxury #Macro</span>
+            <span class="text-amber-400 font-semibold">Macro 100mm</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- TARJETA 3: Midjourney v6.1 Retrato Moda Streetwear Editorial -->
+      <div class="prompt-media-card" data-model="midjourney" data-cat="editorial" data-pack="midjourney-fashion" data-search="midjourney v6.1 moda streetwear tokyo lluvia neon flash directo editorial 35mm">
+        <div class="relative aspect-video bg-slate-950 overflow-hidden group">
+          <div class="w-full h-full bg-gradient-to-br from-indigo-950 via-slate-950 to-purple-950 flex items-center justify-center p-4">
+            <div class="text-center">
+              <i class="fas fa-camera text-3xl text-purple-400/80 mb-1"></i>
+              <div class="text-xs font-mono text-purple-300 font-bold">VOGUE / DAZED STYLE</div>
+            </div>
+          </div>
+          <div class="absolute top-2.5 left-2.5 flex items-center gap-1.5">
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-purple-950/90 text-purple-300 border border-purple-500/40 backdrop-blur-sm">
+              MIDJOURNEY V6.1
+            </span>
+          </div>
+          <div class="absolute bottom-2.5 right-2.5">
+            <span class="text-[10px] font-mono text-slate-300 bg-black/80 px-2 py-0.5 rounded border border-white/10">
+              --ar 4:5 --v 6.1
+            </span>
+          </div>
+        </div>
+        <div class="p-5 flex flex-col justify-between flex-1">
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-2">
+              <h3 class="text-base font-bold text-white line-clamp-1">Streetwear Tokio con Flash Directo en Lluvia</h3>
+              <button type="button" class="btn-copy px-2.5 py-1 rounded-lg text-xs font-bold inline-flex items-center gap-1 flex-shrink-0" onclick="copyPromptText('Fashion editorial street photography in Shibuya at rainy night, young Japanese model wearing oversized technical jacket, direct on-camera ring flash, wet reflections on asphalt, neon signs blurred in background, 35mm film grain, shot by Juergen Teller --ar 4:5 --v 6.1 --style raw', this)">
+                <i class="far fa-copy text-xs"></i> <span>Copiar</span>
+              </button>
+            </div>
+            <p class="text-xs text-slate-300 line-clamp-2 mb-3">
+              Estilo editorial sucio y raw sin sobre-estilización de IA, emulando flash de anillo de revista Dazed.
+            </p>
+            <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-[11px] font-mono text-purple-300/90 line-clamp-2 mb-3">
+              Fashion editorial street photography in Shibuya at rainy night, direct on-camera ring flash...
+            </div>
+          </div>
+          <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
+            <span>Tags: #Midjourney #35mm #Fashion</span>
+            <span class="text-purple-400 font-semibold">--style raw</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- TARJETA 4: Claude 3.5 Sonnet Blueprint Agente Calificador -->
+      <div class="prompt-media-card" data-model="claude" data-cat="agentes" data-pack="agentes-b2b" data-search="claude 3.5 sonnet blueprint agente calificador leads ventas cotizacion b2b pyme">
+        <div class="relative aspect-video bg-slate-950 overflow-hidden p-4 flex flex-col justify-between border-b border-slate-800">
+          <div class="flex items-center justify-between">
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-orange-950/90 text-orange-300 border border-orange-500/40">
+              CLAUDE 3.5 SONNET
+            </span>
+            <span class="text-[10px] font-mono text-cyan-400 font-bold">SYSTEM PROMPT B2B</span>
+          </div>
+          <div class="font-mono text-[10px] text-slate-400 leading-tight">
+            &lt;agent_protocol role="Enterprise_Auditor" target="WhatsApp_Sales_Flow"&gt;<br>
+            - Validates client revenue & budget<br>
+            - Triggers custom PDF quote via Webhook
+          </div>
+          <div class="text-[10px] font-mono text-emerald-400">
+            Status: Verificado en Producción ProsperIA
+          </div>
+        </div>
+        <div class="p-5 flex flex-col justify-between flex-1">
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-2">
+              <h3 class="text-base font-bold text-white line-clamp-1">Agente Calificador de Prospectos de Alto Ticket</h3>
+              <button type="button" class="btn-copy px-2.5 py-1 rounded-lg text-xs font-bold inline-flex items-center gap-1 flex-shrink-0" onclick="copyPromptText('Eres el Agente Autónomo de Calificación de ProsperIA. Tu misión es diagnosticar el dolor operativo del prospecto sin sonar invasivo. Formula exactamente 3 preguntas estratégicas sobre: 1) Facturación anual estimada, 2) Número de colaboradores, 3) Cuello de botella principal. Si el prospecto califica con más de 10 empleados o $300k USD/año, devuelve un JSON estructurado con lead_score: A y el webhook de agendamiento.', this)">
+                <i class="far fa-copy text-xs"></i> <span>Copiar</span>
+              </button>
+            </div>
+            <p class="text-xs text-slate-300 line-clamp-2 mb-3">
+              Arquitectura de prompt maestro para bots comerciales que filtran clientes curiosos y agendan decisores.
+            </p>
+            <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-[11px] font-mono text-orange-300/90 line-clamp-2 mb-3">
+              Eres el Agente Autónomo de Calificación de ProsperIA. Tu misión es diagnosticar el dolor operativo...
+            </div>
+          </div>
+          <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
+            <span>Tags: #Claude #B2B #SalesAgent</span>
+            <a href="/test-ia" target="_blank" class="text-amber-400 hover:text-white transition-colors font-semibold">Ver Sistema &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- TARJETA 5: Kling Video Motion Control Transferencia de Movimiento -->
+      <div class="prompt-media-card" data-model="kling" data-cat="comerciales" data-pack="kling-video" data-search="kling motion control higgsfield transferencia movimiento ugc anuncio producto reel">
+        <div class="relative aspect-video bg-slate-950 overflow-hidden group">
+          <div class="w-full h-full bg-gradient-to-tr from-cyan-950 via-slate-950 to-blue-950 flex items-center justify-center p-4">
+            <div class="text-center">
+              <i class="fas fa-video text-3xl text-cyan-400/80 mb-1"></i>
+              <div class="text-xs font-mono text-cyan-300 font-bold">REEL KEYWORD: MOTION</div>
+            </div>
+          </div>
+          <div class="absolute top-2.5 left-2.5 flex items-center gap-1.5">
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-cyan-950/90 text-cyan-300 border border-cyan-500/40 backdrop-blur-sm">
+              KLING MOTION
+            </span>
+          </div>
+          <div class="absolute bottom-2.5 right-2.5">
+            <span class="text-[10px] font-mono text-slate-300 bg-black/80 px-2 py-0.5 rounded border border-white/10">
+              Higgsfield.ai
+            </span>
+          </div>
+        </div>
+        <div class="p-5 flex flex-col justify-between flex-1">
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-2">
+              <h3 class="text-base font-bold text-white line-clamp-1">Transferencia de Movimiento para Anuncios UGC</h3>
+              <button type="button" class="btn-copy px-2.5 py-1 rounded-lg text-xs font-bold inline-flex items-center gap-1 flex-shrink-0" onclick="copyPromptText('Motion-transfer reference: Preserve precise head tilt, eye contact and natural hand holding beverage cup, substitute character with 30-year-old fitness entrepreneur in modern loft kitchen, morning golden hour sunlight through window, hyper-realistic skin pores, 4k 60fps cinematic look.', this)">
+                <i class="far fa-copy text-xs"></i> <span>Copiar</span>
+              </button>
+            </div>
+            <p class="text-xs text-slate-300 line-clamp-2 mb-3">
+              El prompt y parámetros exactos de la guía de Instagram para clonar movimientos de anuncios ganadores.
+            </p>
+            <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-[11px] font-mono text-cyan-300/90 line-clamp-2 mb-3">
+              Motion-transfer reference: Preserve precise head tilt, eye contact and natural hand holding...
+            </div>
+          </div>
+          <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
+            <span>Tags: #Motion #UGC #AdReel</span>
+            <a href="/codigos#descargas" class="text-cyan-400 hover:text-white transition-colors font-semibold">Descargar PDF &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- TARJETA 6: ChatGPT Prompt Maestro 400 Hooks Virales -->
+      <div class="prompt-media-card" data-model="chatgpt" data-cat="agentes" data-pack="hooks-virales" data-search="chatgpt prompt 400 hooks virales ganchos reels investigacion audiencia copy marketing">
+        <div class="relative aspect-video bg-slate-950 overflow-hidden p-4 flex flex-col justify-between border-b border-slate-800">
+          <div class="flex items-center justify-between">
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-950/90 text-emerald-300 border border-emerald-500/40">
+              CHATGPT 4o / o1
+            </span>
+            <span class="text-[10px] font-mono text-amber-400 font-bold">REEL KEYWORD: HOOKS</span>
+          </div>
+          <div class="font-mono text-[10px] text-slate-300 leading-tight">
+            Prompt de Generación Masiva en 1 sola corrida:<br>
+            • 100 Ganchos por Frustración / Dolor<br>
+            • 100 Ganchos por Deseo / Ambición<br>
+            • 100 Ganchos Anti-intuitivos (Contrarian)<br>
+            • 100 Ganchos de Datos y Pruebas
+          </div>
+          <div class="text-[10px] font-mono text-cyan-300">
+            Guía Oficial Edward Jiménez
+          </div>
+        </div>
+        <div class="p-5 flex flex-col justify-between flex-1">
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-2">
+              <h3 class="text-base font-bold text-white line-clamp-1">Prompt Maestro de los 400 Hooks para Redes</h3>
+              <button type="button" class="btn-copy px-2.5 py-1 rounded-lg text-xs font-bold inline-flex items-center gap-1 flex-shrink-0" onclick="copyPromptText('Actúa como estratega de contenido viral de Hollywood y psicología del consumidor. Analiza a mi cliente ideal: [DEFINIR_CLIENTE]. Genera 4 matrices de 100 ganchos de apertura (0-3 segundos) categorizados por: 1) El Dolor Oculto, 2) El Error del que nadie habla, 3) La Solución Inesperada, 4) La Revelación Numérica. Cada gancho debe usar verbos de acción directa y tensión dramática sin rodeos.', this)">
+                <i class="far fa-copy text-xs"></i> <span>Copiar</span>
+              </button>
+            </div>
+            <p class="text-xs text-slate-300 line-clamp-2 mb-3">
+              Investigación de audiencia aplicada para generar en segundos los 400 ganchos más potentes para tus videos.
+            </p>
+            <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-[11px] font-mono text-emerald-300/90 line-clamp-2 mb-3">
+              Actúa como estratega de contenido viral de Hollywood y psicología del consumidor...
+            </div>
+          </div>
+          <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
+            <span>Tags: #Copy #Hooks #Reels</span>
+            <a href="/codigos#descargas" class="text-emerald-400 hover:text-white transition-colors font-semibold">PDF Guía &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Paginación / Carga Infinita Simulada -->
+    <div class="text-center mt-12">
+      <button id="btn-load-more" onclick="loadMorePrompts()" class="inline-flex items-center gap-2 px-8 py-3.5 rounded-2xl font-bold text-sm bg-gradient-to-r from-cyan-500 to-sky-500 text-slate-950 hover:from-cyan-400 hover:to-sky-400 transition-all shadow-[0_0_25px_rgba(0,229,255,0.35)] cursor-pointer">
+        <i class="fas fa-sync-alt text-xs" id="load-more-icon"></i>
+        <span>Cargar Más Prompts del Arsenal (+5,000 Disponibles)</span>
+      </button>
+      <p class="text-xs text-slate-500 mt-3 font-mono">
+        Base de datos optimizada en cliente · Cero latencia · Actualización diaria
+      </p>
+    </div>
+
+  </main>
+
+  <!-- ════════════════════════════════════════════════════
+       BLOQUE 3: CONVERSIÓN PROSPERIA (EL SALTO CUÁNTICO B2B)
+       ════════════════════════════════════════════════════ -->
+  <section class="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto relative z-10">
+    <div class="glass-card p-6 sm:p-10 rounded-3xl border-amber-500/35 relative overflow-hidden bg-gradient-to-r from-slate-950 via-amber-950/20 to-slate-950">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div class="lg:col-span-8">
+          <span class="px-3 py-1 rounded-full text-xs font-bold bg-amber-950 text-amber-300 border border-amber-500/30 uppercase tracking-wider inline-block mb-3">
+            ⚡ PARA MARCAS, AGENCIAS Y EMPRESAS
+          </span>
+          <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-white mb-3 leading-tight">
+            ¿Quieres que un Agente Autónomo cree 50 de estas piezas al día para tu empresa?
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed mb-6 max-w-2xl">
+            Copiar prompts a mano es el primer paso. El verdadero salto cuántico es implementar la arquitectura de <strong>PassportAI Core</strong> y agentes autónomos conectados a tus redes y CRM para generar anuncios, prospectar y cotizar en piloto automático.
+          </p>
+
+          <div class="flex flex-wrap gap-3">
+            <a href="/test-ia" target="_blank" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl text-xs sm:text-sm font-black bg-gradient-to-r from-amber-400 to-orange-500 text-slate-950 hover:from-amber-300 hover:to-orange-400 transition-all shadow-[0_0_20px_rgba(245,158,11,0.4)]">
+              <i class="fas fa-brain"></i> <span>Hacer Test de Madurez IA (90 seg)</span>
+            </a>
+            <a href="/codigos" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl text-xs sm:text-sm font-semibold bg-slate-900 border border-slate-700 text-slate-300 hover:text-white transition-all">
+              <i class="fas fa-terminal text-cyan-400"></i> <span>Ver los 200 Códigos Básicos</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="lg:col-span-4 text-center lg:text-right">
+          <div class="inline-block p-4 rounded-2xl bg-slate-900/90 border border-amber-500/30 font-mono text-left text-xs">
+            <div class="text-amber-400 font-bold mb-1">PROSPERIA ADVISORY</div>
+            <div class="text-slate-400 mb-2">Reducción OPEX & Automatización</div>
+            <div class="text-emerald-400 font-bold text-sm">+70% Ahorro Tokens</div>
+            <div class="text-slate-500 text-[10px] mt-2">Soberanía de Datos & RAG Privado</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════
+       FOOTER UNIFICADO
+       ════════════════════════════════════════════════════ -->
+  <footer class="mt-auto border-t border-slate-800/80 bg-slate-950/90 py-8 px-4 sm:px-6 lg:px-8 text-center text-xs text-slate-500 relative z-10">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <img src="/static/logo_prosper_ia_cropped.jpg" alt="ProsperIA" class="h-6 w-auto rounded" onerror="this.style.display='none'">
+        <span class="text-slate-300 font-bold">Agencia ProsperIA</span>
+        <span>— The AI Arsenal (+5,000 Prompts)</span>
+      </div>
+      <div class="flex items-center gap-4 text-slate-400">
+        <a href="/codigos" class="hover:text-cyan-400 transition-colors">200 Códigos</a>
+        <a href="/spiderman" class="hover:text-red-400 transition-colors">Reel Spiderman</a>
+        <a href="/test-ia" class="hover:text-amber-400 transition-colors">Diagnóstico IA</a>
+        <a href="https://chat.whatsapp.com/HIjs3Bytduy9ucOtn6jeKw?s=sh&p=a&ilr=4" target="_blank" class="hover:text-emerald-400 transition-colors">WhatsApp VIP</a>
+      </div>
+      <div>
+        © 2026 Agencia ProsperIA & Edward Jiménez. Todos los derechos reservados.
+      </div>
+    </div>
+  </footer>
+
+  <!-- ════════════════════════════════════════════════════
+       SCRIPTS: FILTROS REACTIVOS, BÚSQUEDA Y COPIA
+       ════════════════════════════════════════════════════ -->
+  <script>
+    // Función de copia de texto con feedback táctil inmediato
+    function copyPromptText(text, btn) {
+      if (!text) return;
+      navigator.clipboard.writeText(text).then(() => {
+        const origHTML = btn.innerHTML;
+        btn.classList.add('copied');
+        btn.innerHTML = '<i class="fas fa-check text-xs"></i> <span>¡Copiado!</span>';
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          btn.innerHTML = origHTML;
+        }, 2000);
+      }).catch(err => {
+        console.error('Error al copiar:', err);
+      });
+    }
+
+    // Scroll suave hacia la galería
+    function scrollToGallery() {
+      const el = document.getElementById('galeria-prompts');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Búsqueda en tiempo real
+    function handleArsenalSearch(term) {
+      const query = (term || '').toLowerCase().trim();
+      const clearBtn = document.getElementById('clear-search-btn');
+      if (clearBtn) {
+        clearBtn.classList.toggle('hidden', query.length === 0);
+      }
+
+      const cards = document.querySelectorAll('#arsenal-cards-grid > div');
+      let visible = 0;
+
+      cards.forEach(card => {
+        const searchData = (card.getAttribute('data-search') || '').toLowerCase();
+        const textContent = card.innerText.toLowerCase();
+        const matches = query === '' || searchData.includes(query) || textContent.includes(query);
+        
+        card.style.display = matches ? 'flex' : 'none';
+        if (matches) visible++;
+      });
+
+      const countEl = document.getElementById('arsenal-count');
+      if (countEl) countEl.innerText = visible;
+    }
+
+    function clearArsenalSearch() {
+      const input = document.getElementById('arsenal-search');
+      if (input) {
+        input.value = '';
+        handleArsenalSearch('');
+        input.focus();
+      }
+    }
+
+    // Filtro por Modelo
+    function filterByModel(model, btn) {
+      document.querySelectorAll('[data-filter-model]').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+
+      const cards = document.querySelectorAll('#arsenal-cards-grid > div');
+      let visible = 0;
+
+      cards.forEach(card => {
+        const cardModel = card.getAttribute('data-model');
+        const matches = (model === 'all' || cardModel === model);
+        card.style.display = matches ? 'flex' : 'none';
+        if (matches) visible++;
+      });
+
+      const countEl = document.getElementById('arsenal-count');
+      if (countEl) countEl.innerText = visible;
+    }
+
+    // Filtro por Categoría
+    function filterByCategory(cat, btn) {
+      document.querySelectorAll('[data-filter-cat]').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+
+      const cards = document.querySelectorAll('#arsenal-cards-grid > div');
+      let visible = 0;
+
+      cards.forEach(card => {
+        const cardCat = card.getAttribute('data-cat');
+        const matches = (cat === 'all' || cardCat === cat);
+        card.style.display = matches ? 'flex' : 'none';
+        if (matches) visible++;
+      });
+
+      const countEl = document.getElementById('arsenal-count');
+      if (countEl) countEl.innerText = visible;
+    }
+
+    // Filtro directo al hacer clic en un Pack
+    function filterByPack(packName) {
+      scrollToGallery();
+      const cards = document.querySelectorAll('#arsenal-cards-grid > div');
+      let visible = 0;
+
+      cards.forEach(card => {
+        const cardPack = card.getAttribute('data-pack');
+        const matches = (cardPack === packName);
+        card.style.display = matches ? 'flex' : 'none';
+        if (matches) visible++;
+      });
+
+      const countEl = document.getElementById('arsenal-count');
+      if (countEl) countEl.innerText = visible;
+    }
+
+    // Cargar más prompts (simulación dinámica)
+    function loadMorePrompts() {
+      const icon = document.getElementById('load-more-icon');
+      if (icon) icon.classList.add('fa-spin');
+      
+      setTimeout(() => {
+        if (icon) icon.classList.remove('fa-spin');
+        alert('Se han cargado 18 prompts adicionales de la biblioteca curada de ProsperIA.');
+        const countEl = document.getElementById('arsenal-count');
+        if (countEl) countEl.innerText = '30';
+      }, 600);
+    }
+  </script>
+
+</body>
+</html>

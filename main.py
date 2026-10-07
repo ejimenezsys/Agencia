@@ -1289,6 +1289,20 @@ async def read_spiderman(request: Request):
             return HTMLResponse(content=f.read())
     return templates.TemplateResponse(request=request, name="spiderman.html")
 
+@app.get("/arsenal", response_class=HTMLResponse)
+@app.head("/arsenal")
+@app.get("/arsenal/", response_class=HTMLResponse)
+@app.head("/arsenal/")
+@app.get("/arsenal.html", response_class=HTMLResponse)
+@app.head("/arsenal.html")
+async def read_arsenal(request: Request):
+    static_html = os.path.join(os.path.dirname(__file__), "static", "arsenal", "index.html")
+    if os.path.exists(static_html):
+        with open(static_html, "r", encoding="utf-8") as f:
+            return HTMLResponse(content=f.read())
+    return templates.TemplateResponse(request=request, name="arsenal.html")
+
+
 @app.get("/podcast", response_class=HTMLResponse)
 @app.get("/podcast.html", response_class=HTMLResponse)
 async def read_podcast(request: Request):
@@ -1429,6 +1443,11 @@ async def get_sitemap(db: Session = Depends(get_db)):
         '  <url>\n'
         '    <loc>https://agenciaprosperia.com/codigos</loc>\n'
         '    <changefreq>weekly</changefreq>\n'
+        '    <priority>0.9</priority>\n'
+        '  </url>\n'
+        '  <url>\n'
+        '    <loc>https://agenciaprosperia.com/arsenal</loc>\n'
+        '    <changefreq>daily</changefreq>\n'
         '    <priority>0.9</priority>\n'
         '  </url>\n'
         '  <url>\n'
