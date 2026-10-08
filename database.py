@@ -99,6 +99,26 @@ class IntegrationSetting(Base):
     key = Column(String, primary_key=True, index=True)
     value = Column(String, nullable=True)
 
+class ArsenalPrompt(Base):
+    """Modelo ORM para almacenar prompts indexados de la biblioteca El Arsenal (+5,000 Prompts)."""
+    __tablename__ = "arsenal_prompts"
+
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    title = Column(String, nullable=False, index=True)
+    category = Column(String, nullable=False, index=True)  # video, image, agent, code
+    model = Column(String, nullable=False, index=True)     # Kling 1.5, Flux.1 Schnell, Midjourney v6.1, Runway Gen-3, Claude 3.5, ChatGPT / GPT-4o
+    tags = Column(String, nullable=True)                  # e.g. "Comercial, Producto, 4K"
+    prompt = Column(String, nullable=False)
+    negative_prompt = Column(String, nullable=True)
+    aspect_ratio = Column(String, nullable=True)          # e.g. "9:16", "16:9", "1:1"
+    lens = Column(String, nullable=True)                  # e.g. "Macro 100mm f/2.8", "35mm Anamorphic"
+    lighting = Column(String, nullable=True)              # e.g. "Caustics & Underwater Rim Light"
+    style = Column(String, nullable=True)                 # e.g. "Comercial Ultra-Nítido"
+    thumbnail_url = Column(String, nullable=True)
+    badge = Column(String, nullable=True)                 # e.g. "PRO", "NUEVO", "TRENDING", "HOT"
+    views_count = Column(Integer, default=0)
+    created_at = Column(String, nullable=False)
+
 def init_db():
     """Inicializa la base de datos y crea las tablas correspondientes."""
     Base.metadata.create_all(bind=engine)

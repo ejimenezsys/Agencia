@@ -865,13 +865,13 @@
               </div>
             </a>
 
-            <a href="#passportai-business" class="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/5 transition-colors group/item" onclick="trackEvent('click_solution', {item: 'passportai_business'})">
-              <span class="w-9 h-9 rounded-xl bg-indigo-950/70 border border-indigo-500/20 flex items-center justify-center text-indigo-400 group-hover/item:border-indigo-400 transition-colors flex-shrink-0">
-                <i class="fas fa-brain text-xs"></i>
+            <a href="#passportai-trial" class="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/5 transition-colors group/item" onclick="trackEvent('click_solution', {item: 'passportai_trial'})">
+              <span class="w-9 h-9 rounded-xl bg-orange-950/70 border border-orange-500/20 flex items-center justify-center text-orange-400 group-hover/item:border-orange-400 transition-colors flex-shrink-0">
+                <i class="fas fa-bolt text-xs"></i>
               </span>
               <div>
-                <div class="font-bold text-white text-xs">PassportAI Business</div>
-                <div class="text-[11px] text-slate-400 font-light">Hub de inteligencia empresarial</div>
+                <div class="font-bold text-white text-xs">PassportAI (5 Días Gratis)</div>
+                <div class="text-[11px] text-slate-400 font-light">Prueba la potencia en tu negocio</div>
               </div>
             </a>
 
@@ -896,7 +896,40 @@
             <i class="fas fa-chevron-down chevron-rotate"></i>
           </button>
           
-          <div class="dropdown-menu w-64">
+          <div class="dropdown-menu w-72">
+            <a href="/arsenal" class="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/5 transition-colors group/item" onclick="trackEvent('arsenal_click', {location: 'navbar'})">
+              <span class="w-9 h-9 rounded-xl bg-cyan-950/90 border border-cyan-400/40 flex items-center justify-center text-cyan-300 group-hover/item:border-cyan-300 transition-colors flex-shrink-0 shadow-[0_0_10px_rgba(0,229,255,0.2)]">
+                <i class="fas fa-bolt text-xs"></i>
+              </span>
+              <div>
+                <div class="font-bold text-white text-xs flex items-center gap-1.5">
+                  <span>El Arsenal IA</span>
+                  <span class="text-[9px] font-mono font-bold bg-cyan-950 text-cyan-300 px-1.5 py-0.2 rounded border border-cyan-500/30">+5,000</span>
+                </div>
+                <div class="text-[11px] text-slate-400 font-light">Biblioteca de video, fotos y agentes</div>
+              </div>
+            </a>
+
+            <a href="/codigos" class="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/5 transition-colors group/item" onclick="trackEvent('codigos_click', {location: 'navbar'})">
+              <span class="w-9 h-9 rounded-xl bg-amber-950/70 border border-amber-500/25 flex items-center justify-center text-amber-400 group-hover/item:border-amber-400 transition-colors flex-shrink-0">
+                <i class="fas fa-terminal text-xs"></i>
+              </span>
+              <div>
+                <div class="font-bold text-white text-xs">200 Códigos Creativos</div>
+                <div class="text-[11px] text-slate-400 font-light">Prompts y guías PDF descargables</div>
+              </div>
+            </a>
+
+            <a href="/test-ia" class="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/5 transition-colors group/item" onclick="trackEvent('test_ia_click', {location: 'navbar'})">
+              <span class="w-9 h-9 rounded-xl bg-purple-950/70 border border-purple-500/25 flex items-center justify-center text-purple-400 group-hover/item:border-purple-400 transition-colors flex-shrink-0">
+                <i class="fas fa-brain text-xs"></i>
+              </span>
+              <div>
+                <div class="font-bold text-white text-xs">Test de Madurez IA</div>
+                <div class="text-[11px] text-slate-400 font-light">Evalúa tu negocio en 90 segundos</div>
+              </div>
+            </a>
+
             <a href="/intelligence" class="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/5 transition-colors group/item" onclick="trackEvent('intelligence_click', {location: 'navbar'})">
               <span class="w-9 h-9 rounded-xl bg-cyan-950/70 border border-cyan-500/20 flex items-center justify-center text-cyan-400 group-hover/item:border-cyan-400 transition-colors flex-shrink-0">
                 <i class="fas fa-newspaper text-xs"></i>
@@ -944,12 +977,18 @@
         <div class="text-[11px] font-bold uppercase tracking-wider text-cyan-400 pt-2">Soluciones</div>
         <div class="flex flex-col gap-1.5 pl-2 text-slate-300">
           <a href="#soluciones-industria" class="hover:text-white py-1">Soluciones por Industria</a>
-          <a href="#passportai-business" class="hover:text-white py-1">PassportAI Business</a>
+          <a href="#passportai-trial" class="hover:text-white py-1">PassportAI (Prueba Gratis)</a>
           <a href="#sve90-enterprise" class="hover:text-white py-1">SVE90 Enterprise</a>
         </div>
         <a href="#demo-tour" class="text-slate-300 hover:text-white py-1">Ver cómo funciona</a>
         <div class="text-[11px] font-bold uppercase tracking-wider text-cyan-400 pt-2">Recursos</div>
         <div class="flex flex-col gap-1.5 pl-2 text-slate-300">
+          <a href="/arsenal" class="text-cyan-300 hover:text-white py-1 font-bold flex items-center justify-between">
+            <span>⚡ El Arsenal (+5,000 Prompts)</span>
+            <span class="text-[9px] font-mono bg-cyan-950 px-1.5 py-0.5 rounded border border-cyan-500/30">NUEVO</span>
+          </a>
+          <a href="/codigos" class="hover:text-white py-1">🎁 200 Códigos Creativos & PDFs</a>
+          <a href="/test-ia" class="hover:text-white py-1">🧠 Test de Madurez IA (90s)</a>
           <a href="/intelligence" class="hover:text-white py-1">PROSPERIA Intelligence</a>
           <a href="/podcast" class="hover:text-white py-1">Podcast Hub</a>
         </div>
@@ -980,130 +1019,145 @@
 
   <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
 
-    <!-- Eyebrow Badge -->
+    <!-- Eyebrow Badge Oficial -->
     <div class="inline-flex items-center gap-2 mb-6" data-reveal>
       <div class="badge-linear">
         <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
-        <span>AGENCIA PROSPERIA LLC</span>
-        <span class="text-slate-500">— Ecosistema Empresarial</span>
+        <span>AGENCIA PROSPERIA LLC · MIAMI, FL</span>
+        <span class="text-slate-500">| Edward Jiménez · EXMA Global</span>
       </div>
     </div>
 
-    <!-- H1 Headline -->
+    <!-- H1 Headline Maestro -->
     <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight leading-[1.08] mb-6 text-white max-w-4xl mx-auto" data-reveal style="transition-delay: 0.05s;">
-      Inteligencia artificial convertida en <span class="cyan-glow-text">sistemas reales de negocio.</span>
+      No necesitas más herramientas. <span class="cyan-glow-text">Necesitas un sistema.</span>
     </h1>
 
     <!-- Subheadline -->
-    <p class="text-lg sm:text-xl md:text-2xl text-slate-200 max-w-3xl mx-auto mb-6 font-normal leading-relaxed" data-reveal style="transition-delay: 0.1s;">
-      Conectamos IA, automatización, CRM y estrategia para ayudar a empresas a captar oportunidades, operar mejor y crecer con menos fricción.
+    <p class="text-lg sm:text-xl md:text-2xl text-slate-200 max-w-3xl mx-auto mb-4 font-normal leading-relaxed" data-reveal style="transition-delay: 0.1s;">
+      La IA aislada produce herramientas; dirigida con metodología produce sistemas de negocio. Convertimos IA, CRM y operación comercial en una máquina empresarial predecible.
     </p>
 
-    <!-- Párrafo adicional de profundidad directiva (amplitud y respiro) -->
-    <p class="text-sm sm:text-base text-slate-400 max-w-2xl mx-auto mb-10 font-light leading-relaxed" data-reveal style="transition-delay: 0.12s;">
-      Diseñamos e instalamos infraestructuras operativas donde la captación omnicanal, la cualificación autónoma y el cierre comercial conviven en una arquitectura soberana, escalable y sin silos tecnológicos.
-    </p>
-
-    <!-- ════════════════════════════════════════════════════
-         CARD DE CAPTURA EXPRESS — RUTA INSTAGRAM/BIO (3 DATOS ➔ DIAGNÓSTICO)
-         ════════════════════════════════════════════════════ -->
-    <div id="express-funnel-card" class="max-w-xl mx-auto mb-10 p-6 sm:p-7 rounded-2xl text-left relative z-20" data-reveal style="background: #060b17 !important; border: 1.5px solid rgba(0, 229, 255, 0.45) !important; box-shadow: 0 0 50px rgba(0, 229, 255, 0.22), 0 20px 40px rgba(0, 0, 0, 0.85) !important; transition-delay: 0.14s;">
-      <!-- Pill Badge -->
-      <div class="flex items-center justify-between gap-2 mb-3">
-        <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider text-cyan-400" style="background: rgba(0, 229, 255, 0.1) !important; border: 1px solid rgba(0, 229, 255, 0.35) !important;">
-          <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-          <span>Diagnóstico de Eficiencia Comercial con IA</span>
-        </div>
-        <span class="text-[11px] text-slate-400 font-medium hidden sm:inline">⏱ 3 Minutos</span>
-      </div>
-
-      <h3 class="text-base sm:text-lg font-bold text-white leading-snug mb-1.5">
-        ¿Cuántas ventas pierde tu empresa hoy por lentitud o falta de IA?
-      </h3>
-      <p class="text-xs sm:text-xs text-slate-300 mb-4 leading-relaxed font-light">
-        Ingresa 3 datos para desbloquear tu cálculo de fuga de prospectos y acceder de inmediato a tu radiografía operativa:
-      </p>
-
-      <form id="hero-lead-form" onsubmit="handleExpressLeadSubmit(event, 'hero-lead-form')" class="space-y-3">
-        <div class="relative">
-          <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-cyan-400">
-            <i class="fas fa-user text-xs text-cyan-400"></i>
-          </span>
-          <input type="text" id="hero-lead-name" required placeholder="Tu nombre completo o de empresa" class="express-lead-input w-full pl-9 pr-4 py-3 rounded-xl text-xs sm:text-sm" style="background-color: #070d1a !important; color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; border: 1.5px solid rgba(0, 229, 255, 0.4) !important;">
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-          <div class="relative">
-            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-cyan-400">
-              <i class="fas fa-envelope text-xs text-cyan-400"></i>
-            </span>
-            <input type="email" id="hero-lead-email" required placeholder="Correo corporativo" class="express-lead-input w-full pl-9 pr-4 py-3 rounded-xl text-xs sm:text-sm" style="background-color: #070d1a !important; color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; border: 1.5px solid rgba(0, 229, 255, 0.4) !important;">
-          </div>
-          <div class="relative">
-            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-emerald-400">
-              <i class="fab fa-whatsapp text-xs text-emerald-400"></i>
-            </span>
-            <input type="tel" id="hero-lead-whatsapp" required placeholder="WhatsApp (+código país)" class="express-lead-input w-full pl-9 pr-4 py-3 rounded-xl text-xs sm:text-sm" style="background-color: #070d1a !important; color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; border: 1.5px solid rgba(0, 229, 255, 0.4) !important;">
-          </div>
-        </div>
-
-        <button type="submit" id="hero-submit-btn" class="btn-express-cta w-full mt-2 py-3.5 px-6 rounded-xl cursor-pointer" style="background: linear-gradient(135deg, #00f0ff 0%, #00c8f8 40%, #0284c7 100%) !important; color: #020617 !important; border: 2.5px solid #67e8f9 !important; box-shadow: 0 0 30px rgba(0, 240, 255, 0.55), inset 0 1px 1px #ffffff !important;">
-          <i class="fas fa-bolt" style="color: #020617 !important;"></i>
-          <span style="color: #020617 !important; font-weight: 900 !important;">Comenzar Diagnóstico Gratis Ahora →</span>
-        </button>
-
-        <div class="flex items-center justify-between text-[11px] text-slate-400 pt-0.5 px-1">
-          <span class="inline-flex items-center gap-1.5"><i class="fas fa-shield-halved text-cyan-400 text-[10px]"></i> Datos protegidos institucionalmente</span>
-          <span class="text-cyan-400 font-semibold">100% Sin Costo</span>
-        </div>
-      </form>
+    <!-- Dos caminos claros (Hazlo tú vs Lo implementamos por ti) -->
+    <div class="inline-flex flex-wrap items-center justify-center gap-3 max-w-2xl mx-auto mb-10 text-xs sm:text-sm text-slate-300 font-light" data-reveal style="transition-delay: 0.12s;">
+      <span class="px-3 py-1.5 rounded-full bg-cyan-950/60 border border-cyan-500/30 text-cyan-300">
+        <strong class="font-bold text-white">Hazlo tú:</strong> con PassportAI y constructores guiados
+      </span>
+      <span class="text-slate-600 font-bold">•</span>
+      <span class="px-3 py-1.5 rounded-full bg-indigo-950/60 border border-indigo-500/30 text-indigo-300">
+        <strong class="font-bold text-white">Lo implementamos por ti:</strong> con la Agencia y SVE90
+      </span>
     </div>
 
-    <!-- Hero CTAs Secundarios -->
-    <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mb-12" data-reveal style="transition-delay: 0.16s;">
-      <a href="#soluciones-industria" class="btn-linear-dark px-6 py-3 text-xs flex items-center justify-center gap-2.5 w-full sm:w-auto text-slate-300 hover:text-white" onclick="trackEvent('click_solution', {location: 'hero_primary'})">
-        <span>Conocer soluciones por industria</span>
-        <i class="fas fa-arrow-down text-[10px]"></i>
-      </a>
-      <a href="#demo-tour" class="btn-linear-dark px-6 py-3 text-xs flex items-center justify-center gap-2.5 w-full sm:w-auto text-slate-300 hover:text-white" onclick="trackEvent('demo_play', {location: 'hero_secondary'})">
-        <i class="fas fa-circle-play text-cyan-400 text-xs"></i>
-        <span>Ver cómo funciona</span>
-      </a>
-      <a href="https://passportai.app/" target="_blank" rel="noopener" class="hidden md:inline-flex items-center gap-2 text-xs font-bold text-slate-400 hover:text-cyan-300 transition-colors px-3 py-2" onclick="trackEvent('passportai_trial_click', {location: 'hero_inline'})">
-        <span>O explora PassportAI</span>
-        <i class="fas fa-arrow-right text-[10px]"></i>
-      </a>
-    </div>
-
-    <!-- Píldoras Interactivas de Credenciales y Bot de Voz (Todas Clicables) -->
-    <div class="flex flex-wrap items-center justify-center gap-3 pt-2" data-reveal style="transition-delay: 0.2s;">
+    <!-- ════ CUADROS DE NAVEGACIÓN DE ALTO IMPACTO (COLORIDOS, CLAROS Y ATRACTIVOS) ════ -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto mb-10 mt-6 text-left" data-reveal style="transition-delay: 0.16s;">
       
-      <!-- Píldora 1: Bot de Voz IA en vivo -->
-      <button type="button" onclick="triggerVoiceAgent()" class="hero-pill-badge" style="background: rgba(0, 229, 255, 0.08); border-color: rgba(0, 229, 255, 0.35); color: #00e5ff; box-shadow: 0 0 20px rgba(0, 229, 255, 0.15);" title="Conversar en vivo con Asistente de Voz">
-        <i class="fas fa-headset text-cyan-400 animate-pulse"></i>
-        <span>¿Dudas? Habla en vivo con mi Asistente de Voz IA</span>
-        <i class="fas fa-arrow-turn-down text-[10px] text-cyan-400"></i>
-      </button>
-
-      <!-- Píldora 2: Soberanía & Privacidad de Datos -->
-      <a href="#sve90-enterprise" class="hero-pill-badge" title="Ver arquitectura privada y soberanía de datos" onclick="trackEvent('click_pillar', {pillar: 'soberania_datos'})">
-        <i class="fas fa-shield-check text-cyan-400 text-xs"></i>
-        <span>Soberanía & Privacidad de Datos</span>
-        <i class="fas fa-arrow-right text-[9px] opacity-60"></i>
+      <!-- Cuadro 1: Agendar Llamada Estratégica (Cyan / Esmeralda Eléctrico) -->
+      <a href="https://lc.passportai.app/business-empresario-profesional" target="_blank" rel="noopener" class="group relative p-5 rounded-2xl transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl overflow-hidden flex flex-col justify-between"
+         style="background: linear-gradient(145deg, rgba(0, 229, 255, 0.16) 0%, rgba(16, 185, 129, 0.09) 100%); border: 1.5px solid rgba(0, 229, 255, 0.5); box-shadow: 0 10px 30px -10px rgba(0, 229, 255, 0.3);"
+         onclick="trackEvent('click_contact', {location: 'hero_grid_agendar_external'})">
+        <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-cyan-400/10 rounded-full blur-xl group-hover:scale-150 transition-transform"></div>
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <span class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 to-emerald-400 text-slate-950 flex items-center justify-center text-base shadow-lg shadow-cyan-500/30 group-hover:scale-110 transition-transform">
+              <i class="fas fa-calendar-check"></i>
+            </span>
+            <span class="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-400/40">
+              RECOMENDADO
+            </span>
+          </div>
+          <h3 class="text-base font-black text-white group-hover:text-cyan-300 transition-colors leading-snug">
+            Agendar Llamada Estratégica
+          </h3>
+          <p class="text-xs text-slate-300 mt-1 font-light leading-relaxed">
+            Sesión ejecutiva personalizada para evaluar tu infraestructura y automatización comercial.
+          </p>
+        </div>
+        <div class="mt-4 pt-3 border-t border-cyan-500/20 flex items-center justify-between text-xs font-bold text-cyan-300 group-hover:text-white">
+          <span>Reservar llamada</span>
+          <i class="fas fa-arrow-up-right-from-square text-[10px] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+        </div>
       </a>
 
-      <!-- Píldora 3: +25 Años de Dirección Empresarial -->
-      <a href="#nosotros" class="hero-pill-badge" title="Conoce la trayectoria directiva de Edward Jiménez" onclick="trackEvent('click_pillar', {pillar: 'trayectoria_edward'})">
-        <i class="fas fa-briefcase text-indigo-400 text-xs"></i>
-        <span>+25 Años de Dirección Empresarial</span>
-        <i class="fas fa-arrow-right text-[9px] opacity-60"></i>
+      <!-- Cuadro 2: PassportAI Core + ProsperIA CRM (Púrpura / Violeta Tecnológico) -->
+      <a href="#ecosistema" class="group relative p-5 rounded-2xl transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl overflow-hidden flex flex-col justify-between"
+         style="background: linear-gradient(145deg, rgba(168, 85, 247, 0.16) 0%, rgba(99, 102, 241, 0.09) 100%); border: 1.5px solid rgba(168, 85, 247, 0.5); box-shadow: 0 10px 30px -10px rgba(168, 85, 247, 0.3);"
+         onclick="trackEvent('click_pillar', {pillar: 'hero_grid_ecosistema_core'})">
+        <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-purple-400/10 rounded-full blur-xl group-hover:scale-150 transition-transform"></div>
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <span class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-400 to-indigo-500 text-white flex items-center justify-center text-base shadow-lg shadow-purple-500/30 group-hover:scale-110 transition-transform">
+              <i class="fas fa-brain"></i>
+            </span>
+            <span class="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-400/40">
+              SISTEMA CORE
+            </span>
+          </div>
+          <h3 class="text-base font-black text-white group-hover:text-purple-300 transition-colors leading-snug">
+            PassportAI Core + ProsperIA CRM
+          </h3>
+          <p class="text-xs text-slate-300 mt-1 font-light leading-relaxed">
+            Infraestructura integral: Modelos de IA, orquestación de agentes y CRM de alta conversión.
+          </p>
+        </div>
+        <div class="mt-4 pt-3 border-t border-purple-500/20 flex items-center justify-between text-xs font-bold text-purple-300 group-hover:text-white">
+          <span>Ver arquitectura</span>
+          <i class="fas fa-arrow-right text-[11px] group-hover:translate-x-1 transition-transform"></i>
+        </div>
       </a>
 
-      <!-- Píldora 4: PassportAI Core + ProsperIA CRM -->
-      <a href="#ecosistema" class="hero-pill-badge" title="Explorar la arquitectura del ecosistema" onclick="trackEvent('click_pillar', {pillar: 'ecosistema_core'})">
-        <i class="fas fa-brain text-purple-400 text-xs"></i>
-        <span>PassportAI Core + ProsperIA CRM</span>
-        <i class="fas fa-arrow-right text-[9px] opacity-60"></i>
+      <!-- Cuadro 3: El Arsenal & 200 Códigos Creativos (Ámbar / Naranja Neón) -->
+      <a href="/codigos" class="group relative p-5 rounded-2xl transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl overflow-hidden flex flex-col justify-between"
+         style="background: linear-gradient(145deg, rgba(245, 158, 11, 0.16) 0%, rgba(234, 88, 12, 0.09) 100%); border: 1.5px solid rgba(245, 158, 11, 0.5); box-shadow: 0 10px 30px -10px rgba(245, 158, 11, 0.3);"
+         onclick="trackEvent('codigos_click', {location: 'hero_grid_arsenal_codigos'})">
+        <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-amber-400/10 rounded-full blur-xl group-hover:scale-150 transition-transform"></div>
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <span class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 text-slate-950 flex items-center justify-center text-base shadow-lg shadow-amber-500/30 group-hover:scale-110 transition-transform">
+              <i class="fas fa-layer-group"></i>
+            </span>
+            <span class="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-400/40">
+              ⚡ PACK GRATIS
+            </span>
+          </div>
+          <h3 class="text-base font-black text-white group-hover:text-amber-300 transition-colors leading-snug">
+            El Arsenal & 200 Códigos
+          </h3>
+          <p class="text-xs text-slate-300 mt-1 font-light leading-relaxed">
+            Biblioteca masiva de +5,000 prompts probados, PDFs oficiales y recursos creativos con IA.
+          </p>
+        </div>
+        <div class="mt-4 pt-3 border-t border-amber-500/20 flex items-center justify-between text-xs font-bold text-amber-300 group-hover:text-white">
+          <span>Abrir recursos</span>
+          <i class="fas fa-arrow-right text-[11px] group-hover:translate-x-1 transition-transform"></i>
+        </div>
+      </a>
+
+      <!-- Cuadro 4: Ver Tour del Ecosistema (Azul Eléctrico / Índigo) -->
+      <a href="#demo-tour" class="group relative p-5 rounded-2xl transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl overflow-hidden flex flex-col justify-between"
+         style="background: linear-gradient(145deg, rgba(59, 130, 246, 0.16) 0%, rgba(99, 102, 241, 0.09) 100%); border: 1.5px solid rgba(59, 130, 246, 0.5); box-shadow: 0 10px 30px -10px rgba(59, 130, 246, 0.3);"
+         onclick="trackEvent('demo_play', {location: 'hero_grid_tour'})">
+        <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-blue-400/10 rounded-full blur-xl group-hover:scale-150 transition-transform"></div>
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <span class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-400 to-indigo-500 text-white flex items-center justify-center text-base shadow-lg shadow-blue-500/30 group-hover:scale-110 transition-transform">
+              <i class="fas fa-circle-play"></i>
+            </span>
+            <span class="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-400/40">
+              DEMO VIVA
+            </span>
+          </div>
+          <h3 class="text-base font-black text-white group-hover:text-blue-300 transition-colors leading-snug">
+            Tour del Ecosistema
+          </h3>
+          <p class="text-xs text-slate-300 mt-1 font-light leading-relaxed">
+            Visualiza los 4 niveles operativos: Captación, Agentes IA, CRM y Blindaje.
+          </p>
+        </div>
+        <div class="mt-4 pt-3 border-t border-blue-500/20 flex items-center justify-between text-xs font-bold text-blue-300 group-hover:text-white">
+          <span>Ver cómo funciona</span>
+          <i class="fas fa-arrow-right text-[11px] group-hover:translate-x-1 transition-transform"></i>
+        </div>
       </a>
 
     </div>
@@ -1207,108 +1261,123 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
     <div class="text-center max-w-3xl mx-auto mb-16" data-reveal>
-      <div class="badge-linear mb-4">Arquitectura Unificada</div>
-      <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-white leading-tight mb-6">
-        Inteligencia, operación y <span class="cyan-glow-text">automatización conectadas.</span>
+      <div class="badge-linear mb-4">Arquitectura Oficial en 4 Capas</div>
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-white leading-tight mb-4">
+        Un solo ecosistema. <span class="cyan-glow-text">Cuatro capas sincronizadas.</span>
       </h2>
-      <p class="text-slate-300 text-base sm:text-lg leading-relaxed font-light">
-        Unificamos tres componentes clave para que la tecnología no sea una carga, sino una ventaja competitiva sólida y protegida.
+      <p class="text-base sm:text-lg text-slate-300 leading-relaxed font-light max-w-3xl mx-auto">
+        <strong class="text-white font-semibold">«PassportAI piensa. ProsperIA CRM opera. Agencia ProsperIA implementa. SVE90 transforma.»</strong>
+        <br><span class="text-xs sm:text-sm text-cyan-400 font-normal">Convierte curiosidad e inteligencia artificial en una operación comercial con citas y ventas reales.</span>
       </p>
     </div>
 
-    <!-- Las 3 Capas Con Botones Directos de Conversión -->
-    <div class="grid lg:grid-cols-3 gap-8 mb-16 items-stretch">
+    <!-- Las 4 Capas Oficiales del Ecosistema -->
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16 items-stretch">
       
-      <!-- Capa 1: PassportAI (Capa de Inteligencia) -->
-      <div class="glass-card p-8 relative overflow-hidden flex flex-col justify-between" data-reveal style="transition-delay: 0.05s;">
+      <!-- Capa 1: PassportAI (Inteligencia / Piensa) -->
+      <div class="glass-card p-6 sm:p-7 relative overflow-hidden flex flex-col justify-between border-cyan-500/30" data-reveal style="transition-delay: 0.05s;">
         <div>
-          <div class="flex items-center gap-3 mb-4">
-            <span class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/25 flex items-center justify-center text-cyan-400 font-bold">1</span>
-            <span class="text-xs font-bold uppercase tracking-wider text-cyan-400">Capa de Inteligencia</span>
+          <div class="flex items-center justify-between mb-4">
+            <span class="w-9 h-9 rounded-xl bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center text-cyan-400 font-bold text-sm">1</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/25">Inteligencia</span>
           </div>
-          <h3 class="text-2xl font-black text-white mb-2">PassportAI</h3>
-          <p class="text-xs font-bold text-slate-400 uppercase tracking-wide mb-4">El motor de inteligencia</p>
-          <p class="text-slate-300 text-sm leading-relaxed mb-6 font-light">
-            Centraliza modelos de lenguaje, procesamiento seguro, generación de contenido y agentes guiados para evitar la fuga de propiedad intelectual.
+          <h3 class="text-xl font-black text-white mb-1">PassportAI</h3>
+          <p class="text-xs font-bold text-cyan-400 uppercase tracking-wide mb-3">PassportAI piensa</p>
+          <p class="text-slate-300 text-xs leading-relaxed mb-4 font-light">
+            Investiga, crea, decide y estructura activos de negocio con los 5 Constructores guiados y canvas multimodal sin depender de herramientas sueltas.
           </p>
-          <ul class="space-y-2.5 text-xs text-slate-300 mb-6">
-            <li class="flex items-center gap-2"><i class="fas fa-check text-cyan-400 text-[10px]"></i> Chat Multimodelo unificado</li>
-            <li class="flex items-center gap-2"><i class="fas fa-check text-cyan-400 text-[10px]"></i> Research y análisis documental</li>
-            <li class="flex items-center gap-2"><i class="fas fa-check text-cyan-400 text-[10px]"></i> Creación de audio, imagen y video</li>
-            <li class="flex items-center gap-2"><i class="fas fa-check text-cyan-400 text-[10px]"></i> Business Workflows y agentes autónomos</li>
+          <ul class="space-y-2 text-[11px] text-slate-300 mb-6">
+            <li class="flex items-center gap-1.5"><i class="fas fa-check text-cyan-400 text-[9px]"></i> 5 Constructores Guiados</li>
+            <li class="flex items-center gap-1.5"><i class="fas fa-check text-cyan-400 text-[9px]"></i> DeepSearch & NotebookLM</li>
+            <li class="flex items-center gap-1.5"><i class="fas fa-check text-cyan-400 text-[9px]"></i> Estudio multimedia seguro</li>
           </ul>
         </div>
 
-        <!-- CTA Capa 1: Probar PassportAI -->
-        <div class="pt-6 border-t border-white/5">
-          <a href="https://passportai.app/register" target="_blank" rel="noopener" class="btn-linear-primary w-full py-3 text-xs font-bold flex items-center justify-center gap-2" onclick="trackEvent('passportai_trial_click', {location: 'ecosistema_capa_1'})">
-            <span>¿Quieres probarlo? Pincha aquí</span>
-            <i class="fas fa-arrow-up-right-from-square text-[10px]"></i>
+        <div class="pt-4 border-t border-white/5">
+          <a href="https://passportai.app/register" target="_blank" rel="noopener" class="btn-linear-primary w-full py-2.5 text-xs font-bold flex items-center justify-center gap-1.5" onclick="trackEvent('passportai_trial_click', {location: 'ecosistema_capa_1'})">
+            <span>Probar 5 Días Gratis</span>
+            <i class="fas fa-arrow-up-right-from-square text-[9px]"></i>
           </a>
-          <span class="block text-center text-[10px] text-slate-500 mt-2">5 días de prueba gratis sin compromiso</span>
         </div>
       </div>
 
-      <!-- Capa 2: ProsperIA CRM (Capa de Operación) -->
-      <div class="glass-card p-8 relative overflow-hidden flex flex-col justify-between" data-reveal style="transition-delay: 0.15s;">
+      <!-- Capa 2: ProsperIA CRM (Operación / Opera) -->
+      <div class="glass-card p-6 sm:p-7 relative overflow-hidden flex flex-col justify-between border-indigo-500/30" data-reveal style="transition-delay: 0.1s;">
         <div>
-          <div class="flex items-center gap-3 mb-4">
-            <span class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/25 flex items-center justify-center text-indigo-400 font-bold">2</span>
-            <span class="text-xs font-bold uppercase tracking-wider text-indigo-400">Capa de Operación</span>
+          <div class="flex items-center justify-between mb-4">
+            <span class="w-9 h-9 rounded-xl bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center text-indigo-400 font-bold text-sm">2</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-indigo-500/10 text-indigo-300 border border-indigo-500/25">Operación</span>
           </div>
-          <h3 class="text-2xl font-black text-white mb-2">ProsperIA CRM</h3>
-          <p class="text-xs font-bold text-slate-400 uppercase tracking-wide mb-4">La capa de operación</p>
-          <p class="text-slate-300 text-sm leading-relaxed mb-6 font-light">
-            Estructura el proceso de venta, sincroniza los canales comerciales y asegura visibilidad total de oportunidades y conversiones en tiempo real.
+          <h3 class="text-xl font-black text-white mb-1">ProsperIA CRM</h3>
+          <p class="text-xs font-bold text-indigo-400 uppercase tracking-wide mb-3">ProsperIA CRM opera</p>
+          <p class="text-slate-300 text-xs leading-relaxed mb-4 font-light">
+            No te entregamos un CRM vacío. Recibes una estructura comercial lista: pipeline, calendarios, formularios y seguimiento en WhatsApp.
           </p>
-          <ul class="space-y-2.5 text-xs text-slate-300 mb-6">
-            <li class="flex items-center gap-2"><i class="fas fa-check text-indigo-400 text-[10px]"></i> Contactos y segmentación avanzada</li>
-            <li class="flex items-center gap-2"><i class="fas fa-check text-indigo-400 text-[10px]"></i> Pipeline comercial y etapas de cierre</li>
-            <li class="flex items-center gap-2"><i class="fas fa-check text-indigo-400 text-[10px]"></i> Calendarios y agendamiento automático</li>
-            <li class="flex items-center gap-2"><i class="fas fa-check text-indigo-400 text-[10px]"></i> Conversaciones omnicanal y seguimiento</li>
+          <ul class="space-y-2 text-[11px] text-slate-300 mb-6">
+            <li class="flex items-center gap-1.5"><i class="fas fa-check text-indigo-400 text-[9px]"></i> Pipeline comercial activo</li>
+            <li class="flex items-center gap-1.5"><i class="fas fa-check text-indigo-400 text-[9px]"></i> Agendas & recordatorios automáticos</li>
+            <li class="flex items-center gap-1.5"><i class="fas fa-check text-indigo-400 text-[9px]"></i> Bandeja unificada y métricas</li>
           </ul>
         </div>
 
-        <!-- CTA Capa 2: Diagnóstico Comercial -->
-        <div class="pt-6 border-t border-white/5">
-          <a href="/diagnostico" class="btn-linear-primary w-full py-3 text-xs font-bold flex items-center justify-center gap-2" onclick="trackEvent('diagnostic_start', {location: 'ecosistema_capa_2'})">
-            <i class="fas fa-calculator text-[10px]"></i>
-            <span>Hacer diagnóstico comercial</span>
-            <i class="fas fa-arrow-right text-[10px]"></i>
+        <div class="pt-4 border-t border-white/5">
+          <a href="/diagnostico" class="btn-linear-primary w-full py-2.5 text-xs font-bold flex items-center justify-center gap-1.5" onclick="trackEvent('diagnostic_start', {location: 'ecosistema_capa_2'})">
+            <i class="fas fa-calculator text-[9px]"></i>
+            <span>Diagnóstico Comercial</span>
           </a>
-          <span class="block text-center text-[10px] text-slate-500 mt-2">Mide fuga de prospectos y eficiencia en 6 pasos</span>
         </div>
       </div>
 
-      <!-- Capa 3: Agencia ProsperIA (Capa de Implementación) -->
-      <div class="glass-card p-8 relative overflow-hidden flex flex-col justify-between" data-reveal style="transition-delay: 0.25s;">
+      <!-- Capa 3: Agencia ProsperIA (Implementación / Implementa) -->
+      <div class="glass-card p-6 sm:p-7 relative overflow-hidden flex flex-col justify-between border-purple-500/30" data-reveal style="transition-delay: 0.15s;">
         <div>
-          <div class="flex items-center gap-3 mb-4">
-            <span class="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/25 flex items-center justify-center text-purple-400 font-bold">3</span>
-            <span class="text-xs font-bold uppercase tracking-wider text-purple-400">Capa de Implementación</span>
+          <div class="flex items-center justify-between mb-4">
+            <span class="w-9 h-9 rounded-xl bg-purple-500/15 border border-purple-500/30 flex items-center justify-center text-purple-400 font-bold text-sm">3</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-purple-500/10 text-purple-300 border border-purple-500/25">Implementación</span>
           </div>
-          <h3 class="text-2xl font-black text-white mb-2">Agencia ProsperIA</h3>
-          <p class="text-xs font-bold text-slate-400 uppercase tracking-wide mb-4">La capa de implementación</p>
-          <p class="text-slate-300 text-sm leading-relaxed mb-6 font-light">
-            Aportamos criterio empresarial, arquitectura técnica y acompañamiento para que el sistema funcione, adopte y evolucione en tu empresa.
+          <h3 class="text-xl font-black text-white mb-1">Agencia ProsperIA</h3>
+          <p class="text-xs font-bold text-purple-400 uppercase tracking-wide mb-3">La Agencia implementa</p>
+          <p class="text-slate-300 text-xs leading-relaxed mb-4 font-light">
+            Servicio Done-For-You y Activación ProsperIA. Dejamos todo configurado, probado y funcionando llave en mano para tu equipo.
           </p>
-          <ul class="space-y-2.5 text-xs text-slate-300 mb-6">
-            <li class="flex items-center gap-2"><i class="fas fa-check text-purple-400 text-[10px]"></i> Estrategia y diseño de arquitectura</li>
-            <li class="flex items-center gap-2"><i class="fas fa-check text-purple-400 text-[10px]"></i> Configuración y entrenamiento de agentes</li>
-            <li class="flex items-center gap-2"><i class="fas fa-check text-purple-400 text-[10px]"></i> Automatizaciones e integraciones API</li>
-            <li class="flex items-center gap-2"><i class="fas fa-check text-purple-400 text-[10px]"></i> Soporte directivo y evolución continua</li>
+          <ul class="space-y-2 text-[11px] text-slate-300 mb-6">
+            <li class="flex items-center gap-1.5"><i class="fas fa-check text-purple-400 text-[9px]"></i> Activación y setup llave en mano</li>
+            <li class="flex items-center gap-1.5"><i class="fas fa-check text-purple-400 text-[9px]"></i> Vertical especializada para clínicas</li>
+            <li class="flex items-center gap-1.5"><i class="fas fa-check text-purple-400 text-[9px]"></i> Capacitación directiva del equipo</li>
           </ul>
         </div>
 
-        <!-- CTA Capa 3: WhatsApp Directo o Correo -->
-        <div class="pt-6 border-t border-white/5 space-y-2">
-          <a href="https://wa.me/17865573119?text=Hola%20Edward,%20deseo%20hablar%20sobre%20mi%20empresa%20con%20Agencia%20ProsperIA" target="_blank" rel="noopener" class="btn-linear-primary w-full py-2.5 text-xs font-bold flex items-center justify-center gap-2" style="background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); color: #fff;" onclick="trackEvent('whatsapp_click', {location: 'ecosistema_capa_3'})">
-            <i class="fab fa-whatsapp text-sm"></i>
-            <span>Hablar por WhatsApp</span>
+        <div class="pt-4 border-t border-white/5">
+          <a href="#contacto" class="btn-linear-primary w-full py-2.5 text-xs font-bold flex items-center justify-center gap-1.5" onclick="trackEvent('click_activation', {location: 'ecosistema_capa_3'})">
+            <i class="fas fa-calendar-check text-[9px]"></i>
+            <span>Agendar Activación</span>
           </a>
-          <a href="mailto:edward@agenciaprosperia.com" class="btn-linear-dark w-full py-2.5 text-xs font-bold flex items-center justify-center gap-2" onclick="trackEvent('email_click', {location: 'ecosistema_capa_3'})">
-            <i class="fas fa-envelope text-[11px] text-cyan-400"></i>
-            <span>Escribir a mi correo directo</span>
+        </div>
+      </div>
+
+      <!-- Capa 4: SVE90 (Transformación / Transforma) -->
+      <div class="glass-card p-6 sm:p-7 relative overflow-hidden flex flex-col justify-between border-amber-500/30" data-reveal style="transition-delay: 0.2s;">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <span class="w-9 h-9 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400 font-bold text-sm">4</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/25">Transformación</span>
+          </div>
+          <h3 class="text-xl font-black text-white mb-1">SVE90</h3>
+          <p class="text-xs font-bold text-amber-400 uppercase tracking-wide mb-3">SVE90 transforma</p>
+          <p class="text-slate-300 text-xs leading-relaxed mb-4 font-light">
+            Sistema de Ventas Exponenciales con metodología de las 6 A's (Auditoría a Avance) para empresas con múltiples áreas, ERPs y alta complejidad.
+          </p>
+          <ul class="space-y-2 text-[11px] text-slate-300 mb-6">
+            <li class="flex items-center gap-1.5"><i class="fas fa-check text-amber-400 text-[9px]"></i> Metodología consultiva 6 A's</li>
+            <li class="flex items-center gap-1.5"><i class="fas fa-check text-amber-400 text-[9px]"></i> Soberanía corporativa de datos</li>
+            <li class="flex items-center gap-1.5"><i class="fas fa-check text-amber-400 text-[9px]"></i> Arquitectura privada de gran escala</li>
+          </ul>
+        </div>
+
+        <div class="pt-4 border-t border-white/5">
+          <a href="#contacto" class="btn-linear-dark w-full py-2.5 text-xs font-bold flex items-center justify-center gap-1.5 text-amber-300 border-amber-500/30 hover:border-amber-400" onclick="trackEvent('click_sve90', {location: 'ecosistema_capa_4'}); selectIndustry('enterprise');">
+            <span>Consultar SVE90</span>
+            <i class="fas fa-arrow-right text-[9px]"></i>
           </a>
         </div>
       </div>
@@ -1598,53 +1667,84 @@
     <!-- Grid de Industrias -->
     <div class="grid lg:grid-cols-12 gap-8 mb-16 items-stretch">
       
-      <!-- Columna Izquierda: Tarjeta Clínicas (Vertical Activa Comercial) -->
+      <!-- Columna Izquierda: Tarjeta Clínicas (Vertical Activa Comercial — Odontología, Estética & Capilar) -->
       <div class="lg:col-span-6 flex" data-reveal-left>
-        <div class="glass-card p-8 sm:p-10 w-full flex flex-col justify-between relative overflow-hidden border-cyan-500/30 bg-gradient-to-b from-cyan-950/20 to-transparent">
+        <div class="glass-card p-6 sm:p-8 w-full flex flex-col justify-between relative overflow-hidden border-cyan-500/30 bg-gradient-to-b from-cyan-950/30 via-slate-950/40 to-transparent shadow-2xl">
           
           <div>
-            <div class="flex items-center justify-between gap-4 mb-6">
-              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                Vertical Activa Comercial
-              </span>
-              <span class="text-xs text-slate-400 font-mono">Infraestructura Especializada</span>
+            <!-- Header Compacto: Foto Odontología/Estética + Badges de Vertical -->
+            <div class="flex items-center gap-4 p-3 rounded-2xl bg-white/[0.03] border border-cyan-500/20 mb-5">
+              <img src="{{ static_versioned('clinica_odontologia_estetica.jpg') }}" alt="Clínica de Odontología, Estética y Capilar" class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl object-cover flex-shrink-0 border border-cyan-500/40 shadow-lg shadow-cyan-500/10">
+              <div class="min-w-0 flex-1">
+                <div class="flex flex-wrap items-center gap-2 mb-1">
+                  <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-500/20 border border-emerald-400/40 text-emerald-300">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    Vertical 1 Activa
+                  </span>
+                  <span class="text-[10px] font-semibold text-slate-400">Liderado por Richi</span>
+                </div>
+                <h4 class="text-sm sm:text-base font-bold text-white leading-tight">Clínicas de Odontología, Estética & Capilar</h4>
+                <p class="text-[11px] text-slate-300 mt-1 font-light leading-snug">Sistemas automatizados de captación y agenda 24/7 sin fricción operativa.</p>
+              </div>
             </div>
 
-            <div class="w-14 h-14 rounded-2xl bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center text-cyan-400 text-2xl mb-6">
-              <i class="fas fa-stethoscope"></i>
-            </div>
 
-            <h3 class="text-3xl font-black text-white mb-4">Clínicas</h3>
+            <!-- Título y Tesis del Embudo de Richi -->
+            <h3 class="text-2xl sm:text-3xl font-black text-white mb-2 leading-tight">
+              Aumenta de un 30% a un 150% la Facturación de tu Clínica
+            </h3>
             
-            <p class="text-slate-200 text-base leading-relaxed mb-6 font-normal">
-              Sistemas de captación, respuesta, seguimiento y agenda para clínicas <strong>dentales</strong>, <strong>estéticas</strong> y <strong>capilares</strong>.
+            <p class="text-cyan-400 text-xs sm:text-sm font-bold mb-3 flex items-center gap-1.5">
+              <i class="fas fa-bolt text-xs"></i>
+              <span>Con Sistemas Automatizados y Agentes IA 24/7</span>
             </p>
 
-            <div class="space-y-3 mb-8 text-sm text-slate-300">
-              <div class="flex items-start gap-3">
-                <i class="fas fa-check-circle text-cyan-400 mt-1"></i>
-                <span>Respuesta inmediata en WhatsApp e Instagram a pacientes interesados.</span>
+            <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-5 font-light">
+              Implementa un sistema integral que <strong>capta, filtra, responde y agenda pacientes calificados</strong> de forma ininterrumpida sin que tengas que atender el WhatsApp manualmente.
+            </p>
+
+            <!-- 4 Beneficios Clave del Embudo -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-5 text-xs text-slate-300">
+              <div class="flex items-start gap-2 bg-white/[0.02] p-2.5 rounded-xl border border-white/5">
+                <i class="fas fa-check-circle text-emerald-400 mt-0.5 text-xs flex-shrink-0"></i>
+                <span><strong>Respuesta en &lt; 30s:</strong> Agente IA cualifica tratamientos en WhatsApp e Instagram.</span>
               </div>
-              <div class="flex items-start gap-3">
-                <i class="fas fa-check-circle text-cyan-400 mt-1"></i>
-                <span>Cualificación de tratamientos y agenda sincronizada con recepción.</span>
+              <div class="flex items-start gap-2 bg-white/[0.02] p-2.5 rounded-xl border border-white/5">
+                <i class="fas fa-check-circle text-emerald-400 mt-0.5 text-xs flex-shrink-0"></i>
+                <span><strong>Agenda 24/7 Sincronizada:</strong> Citas confirmadas en recepción sin fricción de llamadas.</span>
               </div>
-              <div class="flex items-start gap-3">
-                <i class="fas fa-check-circle text-cyan-400 mt-1"></i>
-                <span>Confirmaciones y blindaje para reducir la tasa de ausencias (No-Show).</span>
+              <div class="flex items-start gap-2 bg-white/[0.02] p-2.5 rounded-xl border border-white/5">
+                <i class="fas fa-check-circle text-emerald-400 mt-0.5 text-xs flex-shrink-0"></i>
+                <span><strong>Blindaje Anti No-Show:</strong> Confirmaciones automáticas que reducen ausentismo.</span>
+              </div>
+              <div class="flex items-start gap-2 bg-white/[0.02] p-2.5 rounded-xl border border-white/5">
+                <i class="fas fa-check-circle text-emerald-400 mt-0.5 text-xs flex-shrink-0"></i>
+                <span><strong>Cero Personal Extra:</strong> Sin contratar más comerciales ni depender de llamadas manuales.</span>
               </div>
             </div>
           </div>
 
-          <div>
-            <a href="#contacto" class="btn-linear-primary w-full py-4 text-center block text-sm font-bold" onclick="trackEvent('click_clinic', {location: 'card_clinicas'}); selectIndustry('clinicas');">
-              Ver solución para clínicas
+          <!-- CTAs al Embudo de Richi y a la Agencia -->
+          <div class="space-y-3 pt-3 border-t border-white/10">
+            <a href="https://app.agenciaprosperia.com/prosper-ia-pag-cap-profesionales-1" target="_blank" rel="noopener" class="w-full py-4 px-6 rounded-xl text-center block text-xs sm:text-sm font-black transition-all transform hover:scale-[1.01] shadow-xl shadow-emerald-500/25" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important; color: #ffffff !important;" onclick="trackEvent('click_clinic_funnel', {vertical: 'clinicas_richi', destination: 'prosper-ia-pag-cap-profesionales-1'})">
+              <i class="fab fa-whatsapp text-white mr-2 text-base"></i>
+              <span>¡SÍ, QUIERO MI CONSULTORÍA PARA CLÍNICAS! →</span>
             </a>
+            
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-slate-400 px-1 pt-1">
+              <span class="inline-flex items-center gap-1.5 text-slate-300">
+                <i class="fas fa-shield-halved text-emerald-400"></i> Embudo Vertical 1 liderado por Richi
+              </span>
+              <a href="#contacto" class="text-cyan-400 hover:text-cyan-300 font-semibold transition-colors flex items-center gap-1" onclick="selectIndustry('clinica')">
+                <span>O agenda diagnóstico corporativo</span>
+                <i class="fas fa-arrow-down text-[9px]"></i>
+              </a>
+            </div>
           </div>
 
         </div>
       </div>
+
 
       <!-- Columna Derecha: Infraestructura Adaptable / Otras Industrias -->
       <div class="lg:col-span-6 flex flex-col justify-between gap-6" data-reveal-right>
@@ -1710,104 +1810,7 @@
   </div>
 </section>
 
-<div class="divider"></div>
 
-<!-- ════════════════════════════════════════════════════
-     SECCIÓN 5 — PASSPORTAI BUSINESS
-     ════════════════════════════════════════════════════ -->
-<section id="passportai-business" class="py-24 relative" style="background: var(--bg-dark);">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-    <div class="text-center max-w-3xl mx-auto mb-16" data-reveal>
-      <div class="badge-linear mb-4">Tecnología Propietaria</div>
-      <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-white leading-tight mb-4">
-        Tu centro de inteligencia para <span class="cyan-glow-text">trabajar con IA.</span>
-      </h2>
-      <p class="text-base sm:text-lg text-slate-300 leading-relaxed font-light">
-        PassportAI reúne modelos de inteligencia artificial, investigación, creación y agentes guiados dentro de una sola experiencia.
-      </p>
-    </div>
-
-    <!-- Malla de Capacidades de PassportAI -->
-    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-      
-      <div class="glass-card p-6" data-reveal style="transition-delay: 0.05s;">
-        <div class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 mb-4">
-          <i class="fas fa-comments text-lg"></i>
-        </div>
-        <h3 class="font-bold text-white text-base mb-2">Chat Multimodelo</h3>
-        <p class="text-slate-400 text-xs leading-relaxed">
-          Acceso a los mejores LLMs en un único entorno empresarial sin saltar de suscripción.
-        </p>
-      </div>
-
-      <div class="glass-card p-6" data-reveal style="transition-delay: 0.1s;">
-        <div class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 mb-4">
-          <i class="fas fa-book-open-reader text-lg"></i>
-        </div>
-        <h3 class="font-bold text-white text-base mb-2">Deep Research</h3>
-        <p class="text-slate-400 text-xs leading-relaxed">
-          Investigación estructurada, análisis de mercados y síntesis documental profunda.
-        </p>
-      </div>
-
-      <div class="glass-card p-6" data-reveal style="transition-delay: 0.15s;">
-        <div class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 mb-4">
-          <i class="fas fa-wand-magic-sparkles text-lg"></i>
-        </div>
-        <h3 class="font-bold text-white text-base mb-2">Estudio Multimedia</h3>
-        <p class="text-slate-400 text-xs leading-relaxed">
-          Generación y edición de imagen, video comercial, clonación de voz y transcripciones.
-        </p>
-      </div>
-
-      <div class="glass-card p-6" data-reveal style="transition-delay: 0.2s;">
-        <div class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 mb-4">
-          <i class="fas fa-network-wired text-lg"></i>
-        </div>
-        <h3 class="font-bold text-white text-base mb-2">Business Constructor</h3>
-        <p class="text-slate-400 text-xs leading-relaxed">
-          Flujos de trabajo preconfigurados y agentes inteligentes guiados para tu operación.
-        </p>
-      </div>
-
-    </div>
-
-    <!-- Mención Secundaria: PassportAI Leads - BETA -->
-    <div class="glass-card p-6 sm:p-8 mb-12 bg-black/40 border-white/10" data-reveal>
-      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-        <div class="space-y-2">
-          <div class="flex items-center gap-2.5">
-            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-violet-500/20 border border-violet-500/40 text-violet-300">
-              BETA
-            </span>
-            <h4 class="font-bold text-white text-sm sm:text-base">PassportAI Leads</h4>
-          </div>
-          <p class="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-2xl font-light">
-            Nueva capacidad en validación para encontrar, analizar y convertir prospectos en oportunidades comerciales dentro del flujo integrado.
-          </p>
-        </div>
-        <div class="text-xs text-slate-500 font-mono flex items-center gap-2">
-          <i class="fas fa-circle-check text-slate-600"></i>
-          <span>Capacidad en validación privada</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Enlace a Showcase / Prueba PassportAI -->
-    <div class="flex flex-col sm:flex-row items-center justify-center gap-4" data-reveal>
-      <a href="#passportai-trial" class="btn-linear-primary px-8 py-4 text-xs font-bold inline-flex items-center gap-2 w-full sm:w-auto justify-center">
-        <span>Ver demostración y prueba de 5 días</span>
-        <i class="fas fa-arrow-down text-xs"></i>
-      </a>
-      <a href="https://passportai.app/" target="_blank" rel="noopener" class="btn-linear-dark px-8 py-4 text-xs font-bold inline-flex items-center gap-2 w-full sm:w-auto justify-center">
-        <span>Conocer la plataforma</span>
-        <i class="fas fa-arrow-up-right-from-square text-xs"></i>
-      </a>
-    </div>
-
-  </div>
-</section>
 
 <div class="divider"></div>
 
@@ -1941,40 +1944,42 @@
 <div class="divider"></div>
 
 <!-- ════════════════════════════════════════════════════
-     SECCIÓN 8.5 — SHOWCASE PASSPORTAI (5 DÍAS GRATIS)
+     SECCIÓN 8.5 — SHOWCASE PASSPORTAI (5 DÍAS GRATIS — RESALTADO EN NARANJA Y VERDE)
      ════════════════════════════════════════════════════ -->
-<section id="passportai-trial" class="py-24 relative overflow-hidden" style="background: radial-gradient(circle at 50% 30%, rgba(0, 229, 255, 0.05) 0%, var(--bg-dark) 70%);">
-  <!-- Luces ambientales de fondo -->
-  <div class="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none"></div>
-  <div class="absolute bottom-0 right-1/4 w-80 h-80 bg-blue-600/10 rounded-full blur-[100px] pointer-events-none"></div>
+<section id="passportai-trial" class="py-24 relative overflow-hidden" style="background: radial-gradient(circle at 50% 30%, rgba(245, 158, 11, 0.14) 0%, rgba(16, 185, 129, 0.08) 50%, var(--bg-dark) 80%);">
+  <!-- Luces ambientales de fondo en naranja y verde -->
+  <div class="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-amber-500/18 rounded-full blur-[130px] pointer-events-none"></div>
+  <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-emerald-500/15 rounded-full blur-[120px] pointer-events-none"></div>
 
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-    <div class="glass-card p-8 sm:p-12 lg:p-16 border-cyan-500/25 relative overflow-hidden" data-reveal>
+    <!-- Card con borde resplandeciente en naranja y verde -->
+    <div class="glass-card p-8 sm:p-12 lg:p-16 relative overflow-hidden transition-all duration-500 hover:shadow-[0_0_80px_rgba(245,158,11,0.3)]" data-reveal style="border: 2px solid rgba(245, 158, 11, 0.5) !important; box-shadow: 0 0 60px rgba(245, 158, 11, 0.22), 0 25px 60px -10px rgba(0,0,0,0.9), 0 0 40px rgba(16, 185, 129, 0.18) !important; background: linear-gradient(135deg, rgba(245, 158, 11, 0.06) 0%, rgba(6, 11, 23, 0.85) 40%, rgba(16, 185, 129, 0.05) 100%) !important;">
       
-      <!-- Línea de gradiente superior -->
-      <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-75"></div>
+      <!-- Línea de gradiente superior naranja ➔ verde -->
+      <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-amber-400 via-orange-400 to-emerald-400 opacity-90"></div>
 
       <div class="grid lg:grid-cols-12 gap-10 lg:gap-12 items-center">
         
         <!-- Columna Izquierda: Mensaje persuasivo, beneficios y CTAs -->
         <div class="lg:col-span-6 text-left">
-          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold mb-6 border" style="background: rgba(0, 229, 255, 0.08); border-color: rgba(0, 229, 255, 0.3); color: #00e5ff;">
-            <i class="fas fa-sparkles text-xs"></i>
-            <span>Acceso Exclusivo · 5 Días de Prueba Gratis</span>
+          <!-- Badge Naranja de Acceso Exclusivo -->
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-black mb-6 border shadow-lg shadow-amber-500/20" style="background: rgba(245, 158, 11, 0.18); border-color: rgba(245, 158, 11, 0.6); color: #fbbf24;">
+            <i class="fas fa-fire text-amber-400 text-xs animate-pulse"></i>
+            <span>Acceso Exclusivo · 5 Días de Prueba Gratis sin Tarjeta</span>
           </div>
 
           <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-white leading-tight mb-5 tracking-tight">
-            Prueba la potencia de <span class="cyan-glow-text">PassportAI</span> en tu negocio.
+            Prueba la potencia de <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-orange-400 to-emerald-400 drop-shadow-[0_0_25px_rgba(245,158,11,0.5)]">PassportAI</span> en tu negocio.
           </h2>
 
-          <p class="text-slate-300 text-base sm:text-lg leading-relaxed font-light mb-8">
+          <p class="text-slate-200 text-base sm:text-lg leading-relaxed font-light mb-8">
             Automatiza la calificación de prospectos, activa agentes inteligentes 24/7 y consolida los mejores modelos de IA dentro de un solo ecosistema comercial sin fricción.
           </p>
 
-          <!-- Viñetas de valor clave -->
+          <!-- Viñetas de valor clave con acento Verde Esmeralda -->
           <div class="space-y-4 mb-8">
             <div class="flex items-start gap-3">
-              <div class="w-6 h-6 rounded-full bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shrink-0 mt-0.5 text-xs">
+              <div class="w-6 h-6 rounded-full bg-emerald-500/20 border border-emerald-400/50 flex items-center justify-center text-emerald-400 shrink-0 mt-0.5 text-xs shadow-md shadow-emerald-500/20">
                 <i class="fas fa-check"></i>
               </div>
               <p class="text-sm text-slate-200">
@@ -1983,7 +1988,7 @@
             </div>
 
             <div class="flex items-start gap-3">
-              <div class="w-6 h-6 rounded-full bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shrink-0 mt-0.5 text-xs">
+              <div class="w-6 h-6 rounded-full bg-emerald-500/20 border border-emerald-400/50 flex items-center justify-center text-emerald-400 shrink-0 mt-0.5 text-xs shadow-md shadow-emerald-500/20">
                 <i class="fas fa-check"></i>
               </div>
               <p class="text-sm text-slate-200">
@@ -1992,7 +1997,7 @@
             </div>
 
             <div class="flex items-start gap-3">
-              <div class="w-6 h-6 rounded-full bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shrink-0 mt-0.5 text-xs">
+              <div class="w-6 h-6 rounded-full bg-emerald-500/20 border border-emerald-400/50 flex items-center justify-center text-emerald-400 shrink-0 mt-0.5 text-xs shadow-md shadow-emerald-500/20">
                 <i class="fas fa-check"></i>
               </div>
               <p class="text-sm text-slate-200">
@@ -2001,23 +2006,24 @@
             </div>
           </div>
 
-          <!-- CTAs Principales -->
+          <!-- CTAs Principales: Botón Naranja Potente + Botón Verde Acceso -->
           <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
-            <a href="https://passportai.app/register" target="_blank" rel="noopener" class="btn-linear-primary px-8 py-4 text-sm font-bold inline-flex items-center justify-center gap-2 group shadow-xl shadow-cyan-500/20" onclick="trackEvent('passportai_trial_click', {location: 'showcase_block_5days'})">
-              <span>Probar PassportAI (5 días gratis)</span>
-              <i class="fas fa-arrow-up-right-from-square text-xs group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+            <a href="https://passportai.app/register" target="_blank" rel="noopener" class="px-8 py-4 text-sm font-black inline-flex items-center justify-center gap-2 group rounded-xl transition-all transform hover:scale-[1.02] shadow-xl shadow-amber-500/35 cursor-pointer" style="background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%) !important; color: #020617 !important; border: 2px solid #fde68a !important;" onclick="trackEvent('passportai_trial_click', {location: 'showcase_block_5days'})">
+              <i class="fas fa-bolt text-slate-950 text-xs"></i>
+              <span>Probar PassportAI (5 Días Gratis)</span>
+              <i class="fas fa-arrow-up-right-from-square text-xs text-slate-950 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
             </a>
 
-            <a href="https://passportai.app/api/auth/login" target="_blank" rel="noopener" class="btn-linear-dark px-7 py-4 text-sm font-bold inline-flex items-center justify-center gap-2 text-slate-300 hover:text-white transition-colors">
-              <i class="fas fa-arrow-right-to-bracket text-xs text-cyan-400"></i>
+            <a href="https://passportai.app/api/auth/login" target="_blank" rel="noopener" class="px-7 py-4 text-sm font-bold inline-flex items-center justify-center gap-2 rounded-xl border transition-all hover:bg-emerald-500/20" style="background: rgba(16, 185, 129, 0.12); border-color: rgba(16, 185, 129, 0.45); color: #34d399;">
+              <i class="fas fa-arrow-right-to-bracket text-xs text-emerald-400"></i>
               <span>Acceso a PassportAI (Login)</span>
             </a>
           </div>
 
-          <!-- Micro-insignias de confianza -->
-          <div class="flex flex-wrap items-center gap-4 mt-6 text-xs text-slate-400 font-light">
+          <!-- Micro-insignias de confianza en Naranja y Verde -->
+          <div class="flex flex-wrap items-center gap-4 mt-6 text-xs text-slate-300 font-light">
             <span class="flex items-center gap-1.5">
-              <i class="fas fa-bolt text-cyan-400"></i> Activación inmediata
+              <i class="fas fa-bolt text-amber-400"></i> Activación inmediata
             </span>
             <span class="text-slate-600">•</span>
             <span class="flex items-center gap-1.5">
@@ -2030,23 +2036,23 @@
           </div>
         </div>
 
-        <!-- Columna Derecha: Mockup Visual de Alto Impacto -->
+        <!-- Columna Derecha: Mockup Visual de Alto Impacto con Resplandor Naranja/Verde -->
         <div class="lg:col-span-6 relative">
           <div class="relative mx-auto max-w-lg lg:max-w-none group">
             
-            <!-- Resplandor neón detrás del mockup -->
-            <div class="absolute -inset-1 bg-gradient-to-r from-cyan-500/30 to-blue-600/30 rounded-3xl blur-2xl opacity-60 group-hover:opacity-90 transition-opacity duration-500"></div>
+            <!-- Resplandor neón detrás del mockup en Naranja y Verde -->
+            <div class="absolute -inset-1.5 bg-gradient-to-r from-amber-500/40 via-orange-500/30 to-emerald-500/35 rounded-3xl blur-2xl opacity-75 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-            <!-- Marco contenedor con vidrio y borde cian -->
-            <div class="relative rounded-2xl overflow-hidden border border-cyan-500/40 bg-slate-950/90 shadow-2xl p-2 sm:p-2.5">
+            <!-- Marco contenedor con borde naranja y reflejo -->
+            <div class="relative rounded-2xl overflow-hidden border-2 border-amber-500/45 bg-slate-950/95 shadow-2xl p-2 sm:p-2.5">
               <img src="{{ static_versioned('passportai_mockup_showcase.jpg') }}" alt="Plataforma PassportAI - Interfaz de Agentes y Orquestación Comercial" class="w-full h-auto rounded-xl object-cover transform group-hover:scale-[1.02] transition-transform duration-700 ease-out shadow-inner">
               
-              <!-- Badge flotante en la imagen -->
-              <div class="absolute bottom-5 left-5 right-5 sm:right-auto bg-slate-950/90 backdrop-blur-md border border-cyan-500/40 rounded-xl p-3 shadow-xl flex items-center gap-3">
-                <div class="w-3 h-3 rounded-full bg-emerald-400 animate-pulse shrink-0"></div>
+              <!-- Badge flotante en la imagen en Verde Esmeralda -->
+              <div class="absolute bottom-5 left-5 right-5 sm:right-auto bg-slate-950/95 backdrop-blur-md border border-emerald-400/50 rounded-xl p-3 shadow-xl flex items-center gap-3">
+                <div class="w-3 h-3 rounded-full bg-emerald-400 animate-ping shrink-0"></div>
                 <div class="text-left">
                   <div class="text-[11px] font-bold text-white uppercase tracking-wider">PassportAI Core Online</div>
-                  <div class="text-[10px] text-cyan-300 font-mono">Agentes activos · Calificación 24/7</div>
+                  <div class="text-[10px] text-emerald-300 font-mono">Agentes activos · Calificación 24/7</div>
                 </div>
               </div>
             </div>
@@ -2056,9 +2062,49 @@
 
       </div>
 
+      <!-- ════ MÓDULO ESPECIALIZADO: INTELIGENCIA CLÍNICA CON IA EN PASSPORTAI ════ -->
+      <div class="mt-12 p-6 sm:p-8 rounded-2xl relative overflow-hidden transition-all duration-300 hover:scale-[1.005]" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.16) 0%, rgba(6, 11, 23, 0.92) 50%, rgba(16, 185, 129, 0.1) 100%); border: 1.5px solid rgba(245, 158, 11, 0.5); box-shadow: 0 10px 35px -10px rgba(245, 158, 11, 0.25);">
+        <div class="flex flex-col lg:flex-row items-center justify-between gap-6">
+          <div class="flex items-start gap-4">
+            <div class="w-14 h-14 rounded-2xl bg-amber-500/20 border border-amber-400/40 text-amber-400 flex items-center justify-center text-2xl shrink-0 mt-1 shadow-lg shadow-amber-500/20">
+              <i class="fas fa-stethoscope"></i>
+            </div>
+            <div>
+              <div class="flex flex-wrap items-center gap-2 mb-2">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider text-amber-300 bg-amber-500/25 border border-amber-400/40">
+                  <i class="fas fa-fire text-amber-400 text-xs"></i>
+                  <span>Inteligencia Clínica con IA</span>
+                </span>
+                <span class="text-[10px] font-bold text-amber-200 bg-amber-950/70 px-2.5 py-0.5 rounded-md border border-amber-500/30">
+                  5 Días de Prueba Gratis
+                </span>
+                <span class="text-[10px] font-medium text-slate-400">Odontología · Medicina Estética · Capilar</span>
+              </div>
+              <h3 class="text-xl sm:text-2xl font-black text-white leading-tight mb-2">
+                ¿Operas una clínica dental o médica? Lleva la Inteligencia de PassportAI a tu consulta
+              </h3>
+              <p class="text-xs sm:text-sm text-slate-300 font-light leading-relaxed max-w-3xl">
+                Diseña guiones de venta odontológicos, respuestas inteligentes para WhatsApp y ofertas irresistibles de alto ticket para tu clínica usando los <strong>5 Business Constructors</strong> de PassportAI sin dejar a tu equipo ante un chat en blanco.
+              </p>
+            </div>
+          </div>
+          <div class="shrink-0 w-full lg:w-auto flex flex-col sm:flex-row items-center gap-3">
+            <a href="https://passportai.app/register" target="_blank" rel="noopener" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-xs sm:text-sm font-black transition-all transform hover:scale-[1.02] shadow-xl shadow-amber-500/30 cursor-pointer" style="background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%) !important; color: #020617 !important;" onclick="trackEvent('passportai_clinic_trial', {location: 'passportai_section_clinica_banner'})">
+              <i class="fas fa-bolt text-slate-950 text-xs"></i>
+              <span>Probar PassportAI para Clínicas →</span>
+            </a>
+            <a href="https://app.agenciaprosperia.com/prosper-ia-pag-cap-profesionales-1" target="_blank" rel="noopener" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl text-xs sm:text-sm font-bold text-emerald-300 bg-emerald-950/50 border border-emerald-500/40 hover:bg-emerald-900/60 transition-colors">
+              <i class="fas fa-arrow-up-right-from-square text-xs"></i>
+              <span>Ver Embudo Clínicas Richi</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
+
 
 <div class="divider"></div>
 
@@ -2212,18 +2258,22 @@
           </div>
 
           <!-- Credential badges -->
-          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2">
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
             <div class="p-3 rounded-xl bg-white/[0.02] border border-white/5 text-left">
               <div class="text-cyan-400 font-bold text-base">+25 Años</div>
-              <div class="text-[11px] text-slate-400">Trayectoria Directiva</div>
+              <div class="text-[11px] text-slate-400">Trayectoria Empresarial</div>
+            </div>
+            <div class="p-3 rounded-xl bg-white/[0.02] border border-white/5 text-left">
+              <div class="text-amber-400 font-bold text-base">EXMA Global</div>
+              <div class="text-[11px] text-slate-400">Partnership Mgr 2026</div>
             </div>
             <div class="p-3 rounded-xl bg-white/[0.02] border border-white/5 text-left">
               <div class="text-indigo-400 font-bold text-base">Core Bancario</div>
               <div class="text-[11px] text-slate-400">1,500+ Sucursales</div>
             </div>
-            <div class="p-3 rounded-xl bg-white/[0.02] border border-white/5 text-left col-span-2 sm:col-span-1">
-              <div class="text-purple-400 font-bold text-base">PassportAI</div>
-              <div class="text-[11px] text-slate-400">Arquitectura de IA</div>
+            <div class="p-3 rounded-xl bg-white/[0.02] border border-white/5 text-left">
+              <div class="text-purple-400 font-bold text-base">+500K Views</div>
+              <div class="text-[11px] text-slate-400">Picos de Alcance & Libro</div>
             </div>
           </div>
           
@@ -2280,7 +2330,7 @@
               El mayor costo de una empresa moderna no es el software, sino la <strong>fragmentación operativa y los silos tecnológicos</strong>. Las agencias de marketing traen prospectos que el equipo de ventas atiende con horas de retraso; las cuentas individuales de ChatGPT generan fuga de secretos comerciales; y los CRM desarticulados se convierten en bases de datos abandonadas.
             </p>
             <p>
-              <strong>Agencia ProsperIA unifica las 3 capas:</strong> 1) <strong class="text-cyan-300">PassportAI</strong> como motor centralizado y soberano de inteligencia artificial; 2) <strong class="text-indigo-300">ProsperIA CRM</strong> como capa de captación omnicanal y seguimiento automatizado en tiempo real; y 3) <strong class="text-purple-300">Agencia ProsperIA</strong> para diseñar la arquitectura e instalar los agentes en tus procesos reales.
+              <strong>Agencia ProsperIA unifica las 4 capas del ecosistema:</strong> 1) <strong class="text-cyan-300">PassportAI</strong> (Inteligencia / Piensa), 2) <strong class="text-indigo-300">ProsperIA CRM</strong> (Operación / Opera), 3) <strong class="text-purple-300">Agencia ProsperIA</strong> (Implementación / Implementa), y 4) <strong class="text-amber-300">SVE90</strong> (Transformación / Transforma).
             </p>
             <div class="pt-3 flex flex-wrap items-center gap-3">
               <a href="/diagnostico" class="btn-linear-primary px-4 py-2 text-xs font-bold inline-flex items-center gap-2">
@@ -2664,15 +2714,20 @@
       <!-- Puerta 1 -->
       <div class="glass-card p-8 flex flex-col justify-between" data-reveal style="transition-delay: 0.05s;">
         <div>
-          <div class="text-xs font-bold uppercase tracking-wider text-cyan-400 mb-2">Ruta Directa</div>
-          <h3 class="text-xl font-black text-white mb-3">Sé lo que necesito</h3>
+          <div class="text-xs font-bold uppercase tracking-wider text-cyan-400 mb-2">Ruta de Recursos Gratis</div>
+          <h3 class="text-xl font-black text-white mb-3">Vengo por los Prompts y Códigos</h3>
           <p class="text-slate-400 text-xs leading-relaxed mb-6 font-light">
-            Explora nuestros sistemas adaptados por industria para clínicas y modelos de alta captación.
+            ¿Vienes de un Reel de Instagram? Accede a los 200 Códigos Creativos o busca en El Arsenal con +5,000 prompts y biblioteca de videos.
           </p>
         </div>
-        <a href="#soluciones-industria" class="btn-linear-primary py-3 text-center text-xs font-bold block" onclick="trackEvent('click_solution', {location: 'tres_puertas_soluciones'})">
-          Ver soluciones
-        </a>
+        <div class="space-y-2">
+          <a href="/codigos" class="btn-linear-primary py-3 text-center text-xs font-bold block" onclick="trackEvent('codigos_click', {location: 'tres_puertas_codigos'})">
+            🎁 Descargar 200 Códigos
+          </a>
+          <a href="/arsenal" class="btn-linear-dark py-2.5 text-center text-xs font-bold block text-slate-300 hover:text-white" onclick="trackEvent('arsenal_click', {location: 'tres_puertas_arsenal'})">
+            ⚡ Explorar El Arsenal (+5,000)
+          </a>
+        </div>
       </div>
 
       <!-- Puerta 2 -->
@@ -2681,25 +2736,25 @@
           <div class="text-xs font-bold uppercase tracking-wider text-amber-400 mb-2">Ruta Asistida</div>
           <h3 class="text-xl font-black text-white mb-3">Quiero entender dónde empezar</h3>
           <p class="text-slate-400 text-xs leading-relaxed mb-6 font-light">
-            Responde 6 preguntas y evalúa la eficiencia de tu proceso comercial con nuestro diagnóstico.
+            Responde 6 preguntas y evalúa la fuga de prospectos y eficiencia de tu proceso comercial con nuestro diagnóstico en 2 minutos.
           </p>
         </div>
         <a href="/diagnostico" class="btn-linear-primary py-3 text-center text-xs font-bold block" onclick="trackEvent('diagnostic_start', {location: 'tres_puertas_diagnostico'})">
-          Hacer diagnóstico
+          Hacer diagnóstico gratis
         </a>
       </div>
 
       <!-- Puerta 3 -->
       <div class="glass-card p-8 flex flex-col justify-between" data-reveal style="transition-delay: 0.25s;">
         <div>
-          <div class="text-xs font-bold uppercase tracking-wider text-indigo-400 mb-2">Ruta Producto</div>
-          <h3 class="text-xl font-black text-white mb-3">Quiero explorar la plataforma</h3>
+          <div class="text-xs font-bold uppercase tracking-wider text-indigo-400 mb-2">Ruta Empresarial</div>
+          <h3 class="text-xl font-black text-white mb-3">Quiero agendar implementación</h3>
           <p class="text-slate-400 text-xs leading-relaxed mb-6 font-light">
-            Prueba PassportAI de forma autónoma con 5 días de prueba gratis de toda la suite.
+            Para clínicas, empresas de servicios y proyectos que requieren Activación ProsperIA o consultoría SVE90.
           </p>
         </div>
-        <a href="https://passportai.app/register" target="_blank" rel="noopener" class="btn-linear-primary py-3 text-center text-xs font-bold block" onclick="trackEvent('passportai_trial_click', {location: 'tres_puertas_passportai'})">
-          Probar PassportAI (5 Días Gratis)
+        <a href="#contacto" class="btn-linear-primary py-3 text-center text-xs font-bold block" onclick="trackEvent('click_contact', {location: 'tres_puertas_agenda'})">
+          Agendar Sesión Estratégica
         </a>
       </div>
 
@@ -2719,10 +2774,10 @@
     <div class="glass-card p-8 sm:p-12 relative overflow-hidden" data-reveal>
       
       <div class="text-center max-w-xl mx-auto mb-10">
-        <div class="badge-linear mb-3">Contacto Directivo</div>
-        <h3 class="text-2xl sm:text-3xl font-black text-white mb-3">Cuéntanos sobre tu negocio</h3>
+        <div class="badge-linear mb-3">Agenda Tu Sesión Estratégica</div>
+        <h3 class="text-2xl sm:text-3xl font-black text-white mb-3">Agenda tu llamada de diagnóstico</h3>
         <p class="text-slate-400 text-xs sm:text-sm font-light leading-relaxed">
-          Diseñamos soluciones personalizadas para empresas establecidas. Completa el formulario o escríbenos directamente por WhatsApp y te responderemos en menos de 24 horas hábiles.
+          Evaluamos el estado de tus procesos, canales y cuellos de botella para diseñar la infraestructura exacta que tu negocio necesita (PassportAI, ProsperIA CRM, Activación o SVE90).
         </p>
       </div>
 
@@ -2732,19 +2787,19 @@
         
         <div class="grid sm:grid-cols-2 gap-5">
           <div>
-            <label for="c-name" class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Nombre y Apellidos *</label>
-            <input type="text" id="c-name" class="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/10 text-white text-sm focus:outline-none focus:border-cyan-400 transition-colors" placeholder="Ej. Carlos Mendoza" required>
+            <label for="c-first-name" class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Nombre *</label>
+            <input type="text" id="c-first-name" class="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/10 text-white text-sm focus:outline-none focus:border-cyan-400 transition-colors" placeholder="Ej. Carlos" required>
           </div>
           <div>
-            <label for="c-email" class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Correo Corporativo *</label>
-            <input type="email" id="c-email" class="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/10 text-white text-sm focus:outline-none focus:border-cyan-400 transition-colors" placeholder="carlos@tuempresa.com" required>
+            <label for="c-last-name" class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Apellidos *</label>
+            <input type="text" id="c-last-name" class="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/10 text-white text-sm focus:outline-none focus:border-cyan-400 transition-colors" placeholder="Ej. Mendoza" required>
           </div>
         </div>
 
         <div class="grid sm:grid-cols-2 gap-5">
           <div>
-            <label for="c-company" class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Nombre de la Empresa *</label>
-            <input type="text" id="c-company" class="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/10 text-white text-sm focus:outline-none focus:border-cyan-400 transition-colors" placeholder="Tu Empresa LLC" required>
+            <label for="c-email" class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Correo Corporativo *</label>
+            <input type="email" id="c-email" class="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/10 text-white text-sm focus:outline-none focus:border-cyan-400 transition-colors" placeholder="carlos@tuempresa.com" required>
           </div>
           <div>
             <label for="c-phone" class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Teléfono / WhatsApp *</label>
@@ -2753,6 +2808,10 @@
         </div>
 
         <div class="grid sm:grid-cols-2 gap-5">
+          <div>
+            <label for="c-company" class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Nombre de la Empresa o Negocio *</label>
+            <input type="text" id="c-company" class="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/10 text-white text-sm focus:outline-none focus:border-cyan-400 transition-colors" placeholder="Tu Empresa LLC" required>
+          </div>
           <div>
             <label for="c-industry" class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Industria o Sector *</label>
             <select id="c-industry" class="w-full px-4 py-3 rounded-xl bg-[#090a0f] border border-white/10 text-white text-sm focus:outline-none focus:border-cyan-400 transition-colors">
@@ -2766,14 +2825,15 @@
               <option value="otra">Otra industria</option>
             </select>
           </div>
-          <div>
-            <label for="c-team" class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Tamaño de Equipo</label>
-            <select id="c-team" class="w-full px-4 py-3 rounded-xl bg-[#090a0f] border border-white/10 text-white text-sm focus:outline-none focus:border-cyan-400 transition-colors">
-              <option value="1-4">1 a 4 personas</option>
-              <option value="5-15">5 a 15 personas</option>
-              <option value="15+">Más de 15 personas</option>
-            </select>
-          </div>
+        </div>
+
+        <div>
+          <label for="c-team" class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Tamaño de Equipo</label>
+          <select id="c-team" class="w-full px-4 py-3 rounded-xl bg-[#090a0f] border border-white/10 text-white text-sm focus:outline-none focus:border-cyan-400 transition-colors">
+            <option value="1-4">1 a 4 personas</option>
+            <option value="5-15">5 a 15 personas</option>
+            <option value="15+">Más de 15 personas</option>
+          </select>
         </div>
 
         <div>
@@ -2782,95 +2842,24 @@
         </div>
 
         <div class="text-center pt-2">
-          <button type="submit" id="contact-btn" class="btn-linear-primary px-10 py-4 text-xs font-bold inline-flex items-center justify-center gap-2 w-full sm:w-auto">
-            <span id="contact-btn-text">Enviar Solicitud Ejecutiva</span>
+          <button type="submit" id="contact-btn" class="btn-linear-primary px-10 py-4 text-xs font-bold inline-flex items-center justify-center gap-2 w-full sm:w-auto shadow-xl shadow-cyan-500/20">
+            <span id="contact-btn-text">Agendar Llamada Estratégica</span>
             <span id="contact-spinner" style="display:none;"><i class="fas fa-spinner fa-spin"></i></span>
           </button>
           <p class="text-[11px] text-slate-500 mt-3">
-            Tus datos están protegidos bajo estricto acuerdo de confidencialidad y nuestra política de privacidad.
+            Tus datos se sincronizan de forma confidencial con nuestro equipo comercial para coordinar tu horario.
           </p>
         </div>
 
       </form>
+
 
     </div>
 
   </div>
 </section>
 
-<!-- ════════════════════════════════════════════════════
-     FOOTER
-     ════════════════════════════════════════════════════ -->
-<footer style="background: #000000; border-top: 1px solid rgba(255, 255, 255, 0.08);">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
-      
-      <!-- Columna 1: Marca Corporativa -->
-      <div>
-        <div class="flex items-center gap-2.5 mb-4">
-          <img src="{{ static_versioned('logo_prosper_ia_cropped.jpg') }}" alt="AGENCIA PROSPERIA LLC" style="height: 52px; object-fit: contain;" class="rounded-lg">
-        </div>
-        <p class="text-slate-400 text-xs leading-relaxed font-light mb-5">
-          Agencia ProsperIA LLC. Diseñamos e implementamos sistemas que conectan inteligencia artificial, ventas, automatización, CRM y datos para que las empresas operen y crezcan con menos fricción.
-        </p>
-        <div class="flex gap-4">
-          <a href="https://www.instagram.com/edwardjimenezia/" target="_blank" rel="noopener" class="text-slate-400 hover:text-cyan-400 transition-colors text-sm" aria-label="Instagram" onclick="trackEvent('social_click', {platform: 'instagram_footer'})"><i class="fab fa-instagram"></i></a>
-          <a href="https://www.facebook.com/AgenciaProsperarIA/" target="_blank" rel="noopener" class="text-slate-400 hover:text-cyan-400 transition-colors text-sm" aria-label="Facebook" onclick="trackEvent('social_click', {platform: 'facebook_footer'})"><i class="fab fa-facebook-f"></i></a>
-          <a href="https://www.youtube.com/@AgenciaProsper_IA" target="_blank" rel="noopener" class="text-slate-400 hover:text-cyan-400 transition-colors text-sm" aria-label="YouTube" onclick="trackEvent('social_click', {platform: 'youtube_footer'})"><i class="fab fa-youtube"></i></a>
-          <a href="https://www.linkedin.com/in/edwardjimenezia/" target="_blank" rel="noopener" class="text-slate-400 hover:text-cyan-400 transition-colors text-sm" aria-label="LinkedIn" onclick="trackEvent('social_click', {platform: 'linkedin_footer'})"><i class="fab fa-linkedin-in"></i></a>
-        </div>
-      </div>
-
-      <!-- Columna 2: Soluciones -->
-      <div>
-        <h4 class="text-white font-bold text-xs mb-4 uppercase tracking-wider text-cyan-400">Soluciones</h4>
-        <ul class="space-y-2.5 text-xs text-slate-400">
-          <li><a href="#soluciones-industria" class="hover:text-white transition-colors">Soluciones por Industria</a></li>
-          <li><a href="#soluciones-industria" class="hover:text-white transition-colors" onclick="selectIndustry('clinicas')">Sistema para Clínicas</a></li>
-          <li><a href="#passportai-business" class="hover:text-white transition-colors">PassportAI Business</a></li>
-          <li><a href="#sve90-enterprise" class="hover:text-white transition-colors">SVE90 Enterprise</a></li>
-          <li><a href="#demo-tour" class="hover:text-white transition-colors">Demostración del Ecosistema</a></li>
-        </ul>
-      </div>
-
-      <!-- Columna 3: Recursos y Diagnóstico -->
-      <div>
-        <h4 class="text-white font-bold text-xs mb-4 uppercase tracking-wider text-cyan-400">Recursos</h4>
-        <ul class="space-y-2.5 text-xs text-slate-400">
-          <li><a href="/diagnostico" class="hover:text-white transition-colors font-medium text-slate-300">Diagnóstico Comercial</a></li>
-          <li><a href="/intelligence" class="hover:text-white transition-colors">PROSPERIA Intelligence</a></li>
-          <li><a href="/podcast" class="hover:text-white transition-colors">Podcast Hub</a></li>
-          <li><a href="https://passportai.app/register" target="_blank" rel="noopener" class="hover:text-white transition-colors">Registro PassportAI (5 Días Gratis)</a></li>
-          <li><a href="https://passportai.app/api/auth/login" target="_blank" rel="noopener" class="hover:text-white transition-colors">Acceso a PassportAI (Login)</a></li>
-          <li><a href="/login" class="hover:text-white transition-colors">Acceso al CRM Interno</a></li>
-        </ul>
-      </div>
-
-      <!-- Columna 4: Contacto Oficial -->
-      <div>
-        <h4 class="text-white font-bold text-xs mb-4 uppercase tracking-wider text-cyan-400">Contacto Directo</h4>
-        <ul class="space-y-2.5 text-xs text-slate-400 leading-relaxed font-light">
-          <li><strong>Sede:</strong> Miami, Florida, USA.</li>
-          <li><strong>Liderazgo:</strong> Edward Jiménez.</li>
-          <li><strong>Email:</strong> <a href="mailto:edward@agenciaprosperia.com" class="hover:text-white transition-colors">edward@agenciaprosperia.com</a></li>
-          <li><strong>WhatsApp:</strong> <a href="https://wa.me/17865573119" target="_blank" rel="noopener" class="hover:text-white transition-colors font-semibold text-emerald-400 inline-flex items-center gap-1.5" onclick="trackEvent('whatsapp_click', {location: 'footer'})"><i class="fab fa-whatsapp"></i> Chatear por WhatsApp</a></li>
-        </ul>
-      </div>
-
-    </div>
-
-    <div class="divider mb-8"></div>
-
-    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 font-light">
-      <p>© 2026 AGENCIA PROSPERIA LLC. Todos los derechos reservados.</p>
-      <div class="flex gap-6">
-        <a href="/politica-privacidad" class="hover:text-slate-300 transition-colors">Política de Privacidad</a>
-        <a href="/terminos-servicio" class="hover:text-slate-300 transition-colors">Términos de Servicio</a>
-        <a href="/login" class="hover:text-slate-300 transition-colors">CRM Privado</a>
-      </div>
-    </div>
-  </div>
-</footer>
+{% include "footer.html" %}
 
 <!-- ════════════════════════════════════════════════════
      JAVASCRIPT DE CONTROL Y SEGUIMIENTO
@@ -2969,7 +2958,7 @@ document.addEventListener('DOMContentLoaded', () => {
       experiencia: "+25 años de trayectoria directiva y empresarial en tecnología, finanzas y operaciones masivas (Banco Azteca, Grupo Elektra, Miami)",
       email: "edward@agenciaprosperia.com",
       whatsapp: "+1 786 557 3119",
-      arquitectura_3_capas: "1. PassportAI (Inteligencia / LLMs / 5 días gratis en passportai.app), 2. ProsperIA CRM (Operación / Pipeline / Diagnóstico en agenciaprosperia.com/diagnostico), 3. Agencia ProsperIA (Implementación / SVE90 Enterprise)",
+      arquitectura_4_capas: "1. PassportAI (Inteligencia / Piensa / 5 días gratis en passportai.app), 2. ProsperIA CRM (Operación / Opera / Diagnóstico en agenciaprosperia.com/diagnostico), 3. Agencia ProsperIA (Implementación / Implementa / Activación), 4. SVE90 (Transformación / Transforma / Consultoría 6 A's)",
       vertical_activa: "Clínicas (dental, estética, capilar) con captación omnicanal, reducción de no-show y sincronización de agenda",
       otras_verticales: "Inmobiliarias, Servicios Profesionales, Belleza & Bienestar, Fitness & Salud, Servicios para el Hogar"
     };
@@ -3063,22 +3052,23 @@ function selectIndustry(industryValue) {
 
 // ── Envío del Formulario Corporativo a /api/auth/contact ────────────────────
 async function submitContact() {
-  const name = document.getElementById('c-name').value.trim();
-  const email = document.getElementById('c-email').value.trim();
-  const company = document.getElementById('c-company').value.trim();
-  const phone = document.getElementById('c-phone').value.trim();
-  const industry = document.getElementById('c-industry').value;
-  const team = document.getElementById('c-team').value;
-  const message = document.getElementById('c-message').value.trim();
+  const firstName = (document.getElementById('c-first-name')?.value || '').trim();
+  const lastName = (document.getElementById('c-last-name')?.value || '').trim();
+  const email = (document.getElementById('c-email')?.value || '').trim();
+  const company = (document.getElementById('c-company')?.value || '').trim();
+  const phone = (document.getElementById('c-phone')?.value || '').trim();
+  const industry = document.getElementById('c-industry')?.value || '';
+  const team = document.getElementById('c-team')?.value || '';
+  const message = (document.getElementById('c-message')?.value || '').trim();
   
   const alertEl = document.getElementById('contact-alert');
   const btn = document.getElementById('contact-btn');
   const btnText = document.getElementById('contact-btn-text');
   const spinner = document.getElementById('contact-spinner');
 
-  if (!name || !email || !company || !phone || !message) {
+  if (!firstName || !lastName || !email || !company || !phone || !message) {
     alertEl.className = 'mb-6 p-4 rounded-xl text-xs font-semibold text-red-400 bg-red-950/40 border border-red-500/30 block';
-    alertEl.innerHTML = '<i class="fas fa-circle-exclamation mr-2"></i>Por favor, completa todos los campos requeridos.';
+    alertEl.innerHTML = '<i class="fas fa-circle-exclamation mr-2"></i>Por favor, completa todos los campos requeridos marcados con *.';
     return;
   }
 
@@ -3087,18 +3077,21 @@ async function submitContact() {
   if (spinner) spinner.style.display = 'inline-block';
   alertEl.style.display = 'none';
 
-  const structuredNotes = `[Industria: ${industry}] [Tamaño Equipo: ${team}] Mensaje / Objetivo: ${message}`;
-
   const payload = {
-    name,
-    email,
-    company,
-    phone,
-    message: structuredNotes,
+    first_name: firstName,
+    last_name: lastName,
+    name: `${firstName} ${lastName}`.trim(),
+    email: email,
+    company: company,
+    phone: phone,
+    industry: industry,
+    team_size: team,
+    message: message,
     source: 'portal_corporativo'
   };
 
   trackEvent('form_submit', { industry, team });
+
 
   try {
     const res = await fetch('/api/auth/contact', {
@@ -3121,7 +3114,7 @@ async function submitContact() {
     alertEl.innerHTML = '<i class="fas fa-triangle-exclamation mr-2"></i>' + (e.message || 'Error de conexión. Inténtalo de nuevo o contáctanos por WhatsApp.');
   } finally {
     btn.disabled = false;
-    btnText.textContent = 'Enviar Solicitud Ejecutiva';
+    btnText.textContent = 'Agendar Llamada Estratégica';
     if (spinner) spinner.style.display = 'none';
   }
 }

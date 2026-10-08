@@ -514,64 +514,7 @@
   });
 </script>
 
-<!-- Footer -->
-<footer style="background:#030b16; border-top:1px solid rgba(0,229,255,0.15);">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-    <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-10 mb-12">
-      <div>
-        <div class="flex items-center gap-2.5 mb-4">
-          <img src="{{ static_versioned('logo_prosper_ia_cropped.jpg') }}" alt="PROSPER IA" style="height: 120px; object-fit: contain;" class="rounded-xl">
-        </div>
-        <p class="text-slate-500 text-xs leading-relaxed font-light">
-          Instalamos Sistemas Operativos de Inteligencia Artificial para agencias de servicios. Transformamos el caos manual en Empresas Aumentadas.
-        </p>
-        <div class="flex gap-4 mt-5">
-          <a href="https://www.instagram.com/edwardjimenezia/" target="_blank" rel="noopener" class="text-slate-500 hover:text-cyan-400 transition-colors text-base" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-          <a href="https://www.facebook.com/AgenciaProsperarIA/" target="_blank" rel="noopener" class="text-slate-500 hover:text-cyan-400 transition-colors text-base" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-          <a href="https://www.youtube.com/@AgenciaProsper_IA" target="_blank" rel="noopener" class="text-slate-500 hover:text-cyan-400 transition-colors text-base" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-          <a href="https://www.linkedin.com/in/edwardjimenezia/" target="_blank" rel="noopener" class="text-slate-500 hover:text-cyan-400 transition-colors text-base" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-        </div>
-      </div>
-      <div>
-        <h4 class="text-white font-bold text-sm mb-4 uppercase tracking-wider" style="color: #00e5ff;">Solución</h4>
-        <ul class="space-y-3 text-xs sm:text-sm">
-          <li><a href="/index.html#problema" class="text-slate-500 hover:text-white transition-colors">El Caos Operativo</a></li>
-          <li><a href="/index.html#sistema" class="text-slate-500 hover:text-white transition-colors">La Solución SVE90</a></li>
-          <li><a href="/index.html#mecanismo" class="text-slate-500 hover:text-white transition-colors">Método de las 6 Fases</a></li>
-          <li><a href="/index.html#arquitectura" class="text-slate-500 hover:text-white transition-colors">Arquitectura Técnica</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4 class="text-white font-bold text-sm mb-4 uppercase tracking-wider" style="color: #00e5ff;">Ecosistema</h4>
-        <ul class="space-y-3 text-xs sm:text-sm">
-          <li><a href="/index.html#masterclass" class="text-slate-500 hover:text-white transition-colors">Demostración Operativa SVE90</a></li>
-          <li><a href="/index.html#contacto" class="text-slate-500 hover:text-white transition-colors">Aplicar al Diagnóstico de Madurez</a></li>
-          <li><a href="/intelligence" class="text-slate-500 hover:text-white transition-colors">PROSPERIA Intelligence</a></li>
-          <li><a href="https://passportai.app/api/auth/login" target="_blank" class="text-slate-500 hover:text-white transition-colors">Acceso a PassportAI (Login)</a></li>
-          <li><a href="/login" class="text-slate-500 hover:text-white transition-colors">Acceso al Portal SVE90</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4 class="text-white font-bold text-sm mb-4 uppercase tracking-wider" style="color: #00e5ff;">Dirección Ejecutiva</h4>
-        <ul class="space-y-3 text-xs text-slate-500 leading-relaxed font-light">
-          <li><strong>Sede:</strong> Miami, Florida, USA.</li>
-          <li><strong>Director:</strong> Edward Jiménez, CEO.</li>
-          <li><strong>Email:</strong> <a href="mailto:edward@agenciaprosperia.com" class="hover:text-white transition-colors">edward@agenciaprosperia.com</a></li>
-          <li><strong>WhatsApp:</strong> <a href="https://wa.me/17865573119" target="_blank" rel="noopener" class="hover:text-white transition-colors font-semibold text-emerald-400 inline-flex items-center gap-1.5"><i class="fab fa-whatsapp"></i> Chatear por WhatsApp</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="divider mb-8" style="height: 1px; background: rgba(0,229,255,0.15);"></div>
-    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-700">
-      <p>© 2026 PROSPER IA. Todos los derechos reservados.</p>
-      <div class="flex gap-6">
-        <a href="/login" class="hover:text-slate-500 transition-colors">Portal SVE90</a>
-        <a href="/politica-privacidad" class="hover:text-slate-500 transition-colors">Política de privacidad</a>
-        <a href="/terminos-servicio" class="hover:text-slate-500 transition-colors">Términos de servicio</a>
-      </div>
-    </div>
-  </div>
-</footer>
+{% include "footer.html" %}
 
 </body>
 </html>

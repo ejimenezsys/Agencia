@@ -4,7 +4,7 @@ import hmac
 from datetime import datetime
 from typing import Optional, List, Dict, Any
 import urllib.parse
-from fastapi import FastAPI, Request, Response, Depends, status, HTTPException, BackgroundTasks
+from fastapi import FastAPI, Request, Response, Depends, status, HTTPException, BackgroundTasks, Query
 from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 import smtplib
 from email.mime.text import MIMEText
@@ -13,7 +13,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, EmailStr
 from sqlalchemy.orm import Session
-from database import init_db, SessionLocal, User, Lead as DbLead, SessionModel, BlogPost, sync_blog_posts, IntegrationSetting, hash_password, verify_password
+from database import init_db, SessionLocal, User, Lead as DbLead, SessionModel, BlogPost, ArsenalPrompt, sync_blog_posts, IntegrationSetting, hash_password, verify_password
 from editorial import LANES, enrich_post
 
 app = FastAPI(title="Prosper IA API Stack", version="1.0.0")
@@ -1042,12 +1042,16 @@ class LeadCreateRequest(BaseModel):
     notes: Optional[str] = ""
 
 class ContactRequest(BaseModel):
-    name: str
+    name: Optional[str] = ""
+    first_name: Optional[str] = ""
+    last_name: Optional[str] = ""
     email: EmailStr
     company: Optional[str] = ""
     phone: Optional[str] = ""
+    industry: Optional[str] = ""
+    team_size: Optional[str] = ""
     message: Optional[str] = ""
-    source: Optional[str] = "website"
+    source: Optional[str] = "portal_corporativo"
 
 # Auth helper
 def get_current_user(request: Request):
@@ -1296,14 +1300,94 @@ async def read_spiderman(request: Request):
 @app.get("/arsenal.html", response_class=HTMLResponse)
 @app.head("/arsenal.html")
 async def read_arsenal(request: Request):
-    static_html = os.path.join(os.path.dirname(__file__), "static", "arsenal", "index.html")
-    if os.path.exists(static_html):
-        with open(static_html, "r", encoding="utf-8") as f:
-            return HTMLResponse(content=f.read())
-    return templates.TemplateResponse(request=request, name="arsenal.html")
+    try:
+        return templates.TemplateResponse(request=request, name="arsenal.html")
+    except Exception:
+        static_html = os.path.join(os.path.dirname(__file__), "static", "arsenal", "index.html")
+        if os.path.exists(static_html):
+            with open(static_html, "r", encoding="utf-8") as f:
+                return HTMLResponse(content=f.read())
+        raise
 
 
-@app.get("/podcast", response_class=HTMLResponse)
+@app.get("/api/arsenal/prompts")
+async def get_arsenal_prompts(
+    page: int = Query(1, ge=1, description="Número de página"),
+    limit: int = Query(24, ge=1, le=100, description="Cantidad por página"),
+    category: Optional[str] = Query(None, description="video, image, agent, code"),
+    model: Optional[str] = Query(None, description="Filtro por modelo: kling, flux, midjourney, runway, claude, etc."),
+    q: Optional[str] = Query(None, description="Búsqueda por texto"),
+    sort: Optional[str] = Query("popular", description="popular o recent")
+):
+    """API REST de alto rendimiento para consultar y paginar el catálogo de El Arsenal (+5,000 Prompts)."""
+    db = SessionLocal()
+    try:
+        query = db.query(ArsenalPrompt)
+        
+        # Filtro de categoría
+        if category and category.lower() not in {"all", "todos"}:
+            query = query.filter(ArsenalPrompt.category == category.lower())
+            
+        # Filtro de modelo
+        if model and model.lower() not in {"all", "todos"}:
+            query = query.filter(ArsenalPrompt.model.ilike(f"%{model}%"))
+            
+        # Búsqueda por texto libre
+        if q and q.strip():
+            term = f"%{q.strip()}%"
+            query = query.filter(
+                (ArsenalPrompt.title.ilike(term)) |
+                (ArsenalPrompt.prompt.ilike(term)) |
+                (ArsenalPrompt.tags.ilike(term)) |
+                (ArsenalPrompt.style.ilike(term))
+            )
+            
+        # Ordenación
+        if sort == "recent":
+            query = query.order_by(ArsenalPrompt.id.desc())
+        else:
+            query = query.order_by(ArsenalPrompt.views_count.desc(), ArsenalPrompt.id.desc())
+            
+        total = query.count()
+        offset = (page - 1) * limit
+        items = query.offset(offset).limit(limit).all()
+        
+        prompts_data = [
+            {
+                "id": p.id,
+                "title": p.title,
+                "category": p.category,
+                "model": p.model,
+                "tags": [t.strip() for t in p.tags.split(",") if t.strip()] if p.tags else [],
+                "prompt": p.prompt,
+                "negative_prompt": p.negative_prompt or "",
+                "aspect_ratio": p.aspect_ratio or "16:9",
+                "lens": p.lens or "Estándar",
+                "lighting": p.lighting or "Iluminación de Estudio",
+                "style": p.style or "Cinematográfico",
+                "thumbnail_url": p.thumbnail_url or "/static/logo_prosper_ia_cropped.jpg",
+                "badge": p.badge or "PRO",
+                "views_count": p.views_count or 0
+            }
+            for p in items
+        ]
+        
+        total_pages = (total + limit - 1) // limit if total > 0 else 1
+        
+        return {
+            "status": "success",
+            "total": total,
+            "page": page,
+            "limit": limit,
+            "total_pages": total_pages,
+            "has_next": page < total_pages,
+            "prompts": prompts_data
+        }
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"status": "error", "message": str(e)})
+    finally:
+        db.close()
+
 @app.get("/podcast.html", response_class=HTMLResponse)
 async def read_podcast(request: Request):
     return templates.TemplateResponse(request=request, name="podcast.html", context={"podcasts": INITIAL_PODCASTS})
@@ -1368,6 +1452,18 @@ async def read_codigos(request: Request):
     if not CODIGOS_DATA:
         CODIGOS_DATA = get_codigos_data()
     return templates.TemplateResponse(request=request, name="codigos.html", context={"categories": CODIGOS_DATA})
+
+
+@app.get("/Cotizacion_ConsultoriaIA", response_class=HTMLResponse)
+@app.head("/Cotizacion_ConsultoriaIA")
+@app.get("/cotizacion_consultoria_ia", response_class=HTMLResponse)
+@app.head("/cotizacion_consultoria_ia")
+@app.get("/Cotizacion_ConsultoriaIA.html", response_class=HTMLResponse)
+@app.head("/Cotizacion_ConsultoriaIA.html")
+@app.get("/cotizacion-consultoria-ia", response_class=HTMLResponse)
+@app.head("/cotizacion-consultoria-ia")
+async def cotizacion_consultoria_ia_page(request: Request):
+    return templates.TemplateResponse(request=request, name="Cotizacion_ConsultoriaIA.html", context={"request": request})
 
 
 
@@ -1832,7 +1928,20 @@ def send_webhook_background(url: str, payload: dict):
     except Exception as e:
         print(f"❌ Failed to send webhook to {url}: {e}", flush=True)
 
-def trigger_lead_sync(lead_name: str, lead_email: str, lead_phone: str, lead_company: str, lead_notes: str, lead_source: str, db: Session):
+def trigger_lead_sync(
+    lead_name: str,
+    lead_email: str,
+    lead_phone: str,
+    lead_company: str,
+    lead_notes: str,
+    lead_source: str,
+    db: Session,
+    first_name_param: str = "",
+    last_name_param: str = "",
+    industry: str = "",
+    team_size: str = "",
+    raw_message: str = ""
+):
     # Fetch webhook settings
     settings = db.query(IntegrationSetting).all()
     settings_dict = {s.key: s.value for s in settings}
@@ -1871,22 +1980,34 @@ def trigger_lead_sync(lead_name: str, lead_email: str, lead_phone: str, lead_com
                 try: fuga_ingresos = int(line.replace("$", "").replace("USD/mes", "").replace(",", "").replace(" ", "").split(":")[1].strip())
                 except: pass
 
-    name_parts = lead_name.strip().split()
-    first_name = name_parts[0] if name_parts else ""
-    last_name = " ".join(name_parts[1:]) if len(name_parts) > 1 else ""
+    if first_name_param:
+        first_name = first_name_param
+        last_name = last_name_param
+    else:
+        name_parts = lead_name.strip().split()
+        first_name = name_parts[0] if name_parts else ""
+        last_name = " ".join(name_parts[1:]) if len(name_parts) > 1 else ""
 
     ghl_payload = {
+        "locationId": "CNvJBINRWBUL2EdqRh3G",
+        "location_id": "CNvJBINRWBUL2EdqRh3G",
         "name": lead_name,
+        "fullName": lead_name,
         "first_name": first_name,
+        "firstName": first_name,
         "last_name": last_name,
+        "lastName": last_name,
         "phone": lead_phone,
         "email": lead_email,
         "company": lead_company,
         "company_name": lead_company,
         "companyName": lead_company,
+        "industry": industry,
+        "team_size": team_size,
         "source": lead_source,
-        "tags": ["contactosdeinstagram", "diagnostico_comercial", "lead_diagnostico"],
-        "tag": "contactosdeinstagram",
+        "tags": ["agenciaprosperia", "llamada_estrategica", "lead_web", "contactosdeinstagram"],
+        "tag": "agenciaprosperia",
+        "notes": lead_notes,
         "sender_email": "edward@agenciaprosperia.com",
         "sender_name": "Edward Jiménez",
         "score_eficiencia": score_eficiencia,
@@ -1900,6 +2021,10 @@ def trigger_lead_sync(lead_name: str, lead_email: str, lead_phone: str, lead_com
         "calculated_report": lead_notes,
         "reporte_diagnostico": lead_notes,
         "customFields": {
+            "location_id": "CNvJBINRWBUL2EdqRh3G",
+            "industria": industry,
+            "tamano_equipo": team_size,
+            "objetivo_negocio": raw_message or lead_notes,
             "leads_mensuales": leads_volume,
             "speed_to_lead": speed_to_lead,
             "storage_method": storage_method,
@@ -1912,6 +2037,10 @@ def trigger_lead_sync(lead_name: str, lead_email: str, lead_phone: str, lead_com
             "reporte_diagnostico": lead_notes
         },
         "customData": {
+            "location_id": "CNvJBINRWBUL2EdqRh3G",
+            "industria": industry,
+            "tamano_equipo": team_size,
+            "objetivo_negocio": raw_message or lead_notes,
             "leads_mensuales": leads_volume,
             "speed_to_lead": speed_to_lead,
             "storage_method": storage_method,
@@ -1940,18 +2069,39 @@ def trigger_lead_sync(lead_name: str, lead_email: str, lead_phone: str, lead_com
 @app.post("/api/auth/contact")
 async def api_contact(req: ContactRequest, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
     created_at = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
-    score = 75
+    score = 80
     
+    full_name = req.name.strip() if req.name else ""
+    first_name = req.first_name.strip() if req.first_name else ""
+    last_name = req.last_name.strip() if req.last_name else ""
+    
+    if not full_name and (first_name or last_name):
+        full_name = f"{first_name} {last_name}".strip()
+    elif full_name and not first_name:
+        parts = full_name.split()
+        first_name = parts[0] if parts else ""
+        last_name = " ".join(parts[1:]) if len(parts) > 1 else ""
+
+    formatted_notes_parts = []
+    if req.industry:
+        formatted_notes_parts.append(f"[Industria: {req.industry}]")
+    if req.team_size:
+        formatted_notes_parts.append(f"[Equipo: {req.team_size}]")
+    if req.message:
+        formatted_notes_parts.append(f"Objetivo / Mensaje: {req.message}")
+    
+    combined_notes = " ".join(formatted_notes_parts) if formatted_notes_parts else (req.message or "")
+
     try:
         new_lead = DbLead(
-            name=req.name,
+            name=full_name,
             email=req.email,
             company=req.company or "",
             phone=req.phone or "",
             status="new",
-            source=req.source or "website",
+            source=req.source or "portal_corporativo",
             score=score,
-            notes=req.message or "",
+            notes=combined_notes,
             created_at=created_at
         )
         db.add(new_lead)
@@ -1963,35 +2113,41 @@ async def api_contact(req: ContactRequest, background_tasks: BackgroundTasks, db
     # Enviar notificación automática por correo electrónico a edward@agenciaprosperia.com
     background_tasks.add_task(
         send_email_notification,
-        name=req.name,
+        name=full_name,
         email=req.email,
         company=req.company or "",
         phone=req.phone or "",
-        message=req.message or ""
+        message=combined_notes
     )
 
     # Envío automático de la radiografía de diagnóstico comercial al cliente desde edward@agenciaprosperia.com
-    if "DIAGNÓSTICO COMERCIAL" in (req.message or ""):
+    if "DIAGNÓSTICO COMERCIAL" in combined_notes:
         background_tasks.add_task(
             send_client_diagnostic_email,
-            name=req.name,
+            name=full_name,
             email=req.email,
             phone=req.phone or "",
-            message=req.message or ""
+            message=combined_notes
         )
     
-    # Sincronizar automáticamente con GoHighLevel y n8n siempre que existan webhooks configurados
+    # Sincronizar automáticamente con GoHighLevel y n8n con payload adaptado 1:1
     trigger_lead_sync(
-        req.name,
-        req.email,
-        req.phone or "",
-        req.company or "",
-        req.message or "",
-        req.source or "website",
-        db
+        lead_name=full_name,
+        lead_email=req.email,
+        lead_phone=req.phone or "",
+        lead_company=req.company or "",
+        lead_notes=combined_notes,
+        lead_source=req.source or "portal_corporativo",
+        db=db,
+        first_name_param=first_name,
+        last_name_param=last_name,
+        industry=req.industry or "",
+        team_size=req.team_size or "",
+        raw_message=req.message or ""
     )
     
     return {"success": True}
+
 
 @app.get("/api/users/me")
 async def api_get_profile(current_user: dict = Depends(get_current_user)):

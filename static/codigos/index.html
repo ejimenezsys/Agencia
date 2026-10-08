@@ -512,8 +512,8 @@
             <i class="fas fa-brain text-xs text-amber-400"></i> <span>Diagnóstico IA</span>
             <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">NUEVO</span>
           </a>
-          <!-- Cotizar opens popup modal -->
-          <a href="javascript:void(0)" onclick="openCotizacionModal('integral')" class="nav-link-item px-3 py-1.5 rounded-lg text-orange-300 hover:text-white transition-colors">
+          <!-- Cotizar opens dedicated page -->
+          <a href="/Cotizacion_ConsultoriaIA" class="nav-link-item px-3 py-1.5 rounded-lg text-orange-300 hover:text-white transition-colors">
             <i class="fas fa-briefcase text-xs text-orange-400"></i> <span>Cotizar</span>
           </a>
         </div>
@@ -523,9 +523,9 @@
           <a href="https://chat.whatsapp.com/HIjs3Bytduy9ucOtn6jeKw?s=sh&p=a&ilr=4" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-xs font-bold bg-emerald-500 text-slate-950 hover:bg-emerald-400 transition-all shadow-[0_0_15px_rgba(16,185,129,0.3)]">
             <i class="fab fa-whatsapp text-sm"></i> <span>Comunidad VIP</span>
           </a>
-          <button type="button" onclick="openCotizacionModal('integral')" class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-gradient-to-r from-orange-400 to-amber-500 text-slate-950 hover:from-orange-300 hover:to-amber-400 transition-all shadow-[0_0_15px_rgba(249,115,22,0.3)] cursor-pointer">
+          <a href="/Cotizacion_ConsultoriaIA" class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-gradient-to-r from-orange-400 to-amber-500 text-slate-950 hover:from-orange-300 hover:to-amber-400 transition-all shadow-[0_0_15px_rgba(249,115,22,0.3)] cursor-pointer">
             <i class="fas fa-file-invoice-dollar text-xs"></i> <span>Cotizar</span>
-          </button>
+          </a>
           <!-- Mobile Hamburger Toggle Button -->
           <button type="button" id="mobile-menu-btn" onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-xl text-slate-300 hover:text-white bg-slate-900 border border-slate-700 focus:outline-none" aria-label="Abrir menú de navegación">
             <i class="fas fa-bars text-base" id="mobile-menu-icon"></i>
@@ -555,7 +555,7 @@
       <a href="/test-ia" target="_blank" rel="noopener" onclick="closeMobileMenu()" class="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-bold text-amber-300 bg-amber-950/30 border border-amber-500/30">
         <i class="fas fa-brain text-xs text-amber-400"></i> <span>Diagnóstico IA (Página Nueva)</span>
       </a>
-      <a href="javascript:void(0)" onclick="closeMobileMenu(); openCotizacionModal('integral');" class="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-bold text-orange-400 bg-orange-950/30 border border-orange-500/20">
+      <a href="/Cotizacion_ConsultoriaIA" onclick="closeMobileMenu()" class="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-bold text-orange-400 bg-orange-950/30 border border-orange-500/20">
         <i class="fas fa-briefcase text-xs"></i> <span>Solicitar Cotización</span>
       </a>
     </div>
@@ -579,22 +579,101 @@
     </p>
 
     <!-- Social Proof Metrics Bar -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-4 max-w-4xl mx-auto mb-6">
-      <div class="glass-panel p-3.5 sm:p-4 rounded-2xl text-center border-amber-500/20">
-        <div class="text-xl sm:text-3xl font-extrabold text-amber-400 font-heading">+450,000</div>
-        <div class="text-[11px] sm:text-xs text-slate-300 mt-1">Vistas en Reel Viral</div>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-4 max-w-5xl mx-auto mb-8">
+      <div class="glass-panel p-3.5 sm:p-4 rounded-2xl text-center border-amber-500/30 shadow-[0_0_20px_rgba(245,158,11,0.15)] flex flex-col justify-center">
+        <div class="text-2xl sm:text-3xl font-extrabold text-amber-400 font-heading">+519,000</div>
+        <div class="text-[11px] sm:text-xs text-slate-300 mt-1 font-medium">Vistas en Reel Viral</div>
       </div>
-      <div class="glass-panel p-3.5 sm:p-4 rounded-2xl text-center border-cyan-500/20">
-        <div class="text-xl sm:text-3xl font-extrabold text-cyan-400 font-heading">10,000+</div>
-        <div class="text-[11px] sm:text-xs text-slate-300 mt-1">Seguidores en ProsperIA FB</div>
+      <div class="glass-panel p-3.5 sm:p-4 rounded-2xl text-center border-cyan-500/30 shadow-[0_0_20px_rgba(0,229,255,0.15)] flex flex-col justify-center">
+        <div class="text-2xl sm:text-3xl font-extrabold text-cyan-400 font-heading">+11,000</div>
+        <div class="text-[11px] sm:text-xs text-slate-300 mt-1 font-medium">ProsperIA FB</div>
       </div>
-      <div class="glass-panel p-3.5 sm:p-4 rounded-2xl text-center border-pink-500/20">
-        <div class="text-xl sm:text-3xl font-extrabold text-pink-400 font-heading">+2,000</div>
-        <div class="text-[11px] sm:text-xs text-slate-300 mt-1">Comunidad @edwardjimenezia</div>
+      <div class="glass-panel p-3.5 sm:p-4 rounded-2xl text-center border-pink-500/30 shadow-[0_0_20px_rgba(236,72,153,0.15)] flex flex-col justify-center">
+        <div class="text-2xl sm:text-3xl font-extrabold text-pink-400 font-heading">2,131</div>
+        <div class="text-[11px] sm:text-xs text-slate-300 mt-1 font-medium">Seguidores en IG y contando</div>
       </div>
-      <div class="glass-panel p-3.5 sm:p-4 rounded-2xl text-center border-emerald-500/20">
-        <div class="text-xl sm:text-3xl font-extrabold text-emerald-400 font-heading">200 Códigos</div>
-        <div class="text-[11px] sm:text-xs text-slate-300 mt-1">Visuales 100% Gratuitos</div>
+      <div class="glass-panel p-3 sm:p-3.5 rounded-2xl text-center border-emerald-500/30 shadow-[0_0_20px_rgba(16,185,129,0.15)] flex flex-col justify-between">
+        <div>
+          <div class="text-base sm:text-lg font-extrabold text-white font-heading leading-tight">
+            <span class="text-orange-400">200 Códigos</span> + <span class="text-emerald-400">Arsenal</span>
+          </div>
+          <a href="#codigos-grid" class="inline-flex items-center gap-1 text-[11px] sm:text-xs text-slate-300 hover:text-white mt-1 underline decoration-orange-400/50">
+            <span>200 Códigos: mira abajo</span> <i class="fas fa-arrow-down text-[10px] text-orange-400"></i>
+          </a>
+        </div>
+        <div class="mt-2">
+          <a href="/arsenal" class="inline-flex items-center justify-center gap-1.5 w-full py-1.5 px-2.5 rounded-xl text-[11px] font-bold bg-emerald-500 text-slate-950 hover:bg-emerald-400 transition-all shadow-sm">
+            <i class="fas fa-bolt text-[10px]"></i>
+            <span>Arsenal 5K: oprime aquí</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pantallas Reales Ordenadas de Resultados y Social Proof -->
+    <div class="max-w-5xl mx-auto mb-10 sm:mb-14">
+      <div class="text-center mb-5">
+        <span class="px-3.5 py-1 rounded-full text-[11px] font-mono font-bold uppercase tracking-wider bg-slate-900 border border-slate-700 text-slate-300 inline-flex items-center gap-2 shadow-md">
+          <i class="fas fa-chart-line text-cyan-400"></i> Pantallas Oficiales · Resultados de Agencia ProsperIA &amp; Edward Jiménez
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6 items-stretch">
+        
+        <!-- Pantalla 1: Reel Viral 519K -->
+        <div class="rounded-2xl overflow-hidden border border-amber-500/40 bg-slate-950/85 shadow-[0_0_30px_rgba(245,158,11,0.18)] group hover:border-amber-400 transition-all flex flex-col">
+          <div class="p-3 bg-slate-900/90 border-b border-slate-800 flex items-center justify-between">
+            <span class="text-xs font-bold text-amber-400 flex items-center gap-1.5">
+              <i class="fas fa-play-circle text-amber-400"></i> +519K Reproducciones
+            </span>
+            <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">VIRAL</span>
+          </div>
+          <div class="relative overflow-hidden bg-black flex-grow flex items-center justify-center p-1">
+            <img src="/static/proof_reels_519k.jpg" alt="Reel Viral de IA con +519,000 vistas" class="w-full h-auto max-h-[420px] object-cover rounded-xl group-hover:scale-[1.02] transition-transform duration-300" loading="lazy">
+          </div>
+          <div class="p-3 bg-slate-950/90 text-left border-t border-slate-800/80">
+            <p class="text-[11px] text-slate-300 leading-snug">
+              Video con <strong>519K reproducciones</strong>: <em>"Convierte una imagen en video con IA"</em> y alcance masivo de clientes.
+            </p>
+          </div>
+        </div>
+
+        <!-- Pantalla 2: ProsperIA Facebook +11,000 -->
+        <div class="rounded-2xl overflow-hidden border border-cyan-500/40 bg-slate-950/85 shadow-[0_0_30px_rgba(0,229,255,0.18)] group hover:border-cyan-400 transition-all flex flex-col">
+          <div class="p-3 bg-slate-900/90 border-b border-slate-800 flex items-center justify-between">
+            <span class="text-xs font-bold text-cyan-400 flex items-center gap-1.5">
+              <i class="fab fa-facebook text-cyan-400"></i> +11,000 ProsperIA FB
+            </span>
+            <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">AUDIENCIA</span>
+          </div>
+          <div class="relative overflow-hidden bg-black flex-grow flex items-center justify-center p-1">
+            <img src="/static/proof_fb_followers_11k.jpg" alt="Facebook de ProsperIA con más de 11,860 seguidores" class="w-full h-auto max-h-[420px] object-cover rounded-xl group-hover:scale-[1.02] transition-transform duration-300" loading="lazy">
+          </div>
+          <div class="p-3 bg-slate-950/90 text-left border-t border-slate-800/80">
+            <p class="text-[11px] text-slate-300 leading-snug">
+              Página oficial con <strong>11,861 seguidores en Facebook</strong> y <strong>2,131 en Instagram</strong> en constante expansión.
+            </p>
+          </div>
+        </div>
+
+        <!-- Pantalla 3: Catálogo Reels 79.5K y Producción IA -->
+        <div class="rounded-2xl overflow-hidden border border-pink-500/40 bg-slate-950/85 shadow-[0_0_30px_rgba(244,63,94,0.18)] group hover:border-pink-400 transition-all flex flex-col">
+          <div class="p-3 bg-slate-900/90 border-b border-slate-800 flex items-center justify-between">
+            <span class="text-xs font-bold text-pink-400 flex items-center gap-1.5">
+              <i class="fab fa-instagram text-pink-400"></i> +79.5K &amp; Reels Virales
+            </span>
+            <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-pink-500/20 text-pink-300 border border-pink-500/30">PRODUCCIÓN</span>
+          </div>
+          <div class="relative overflow-hidden bg-black flex-grow flex items-center justify-center p-1">
+            <img src="/static/proof_reels_grid.jpg" alt="Catálogo de Reels virales con IA" class="w-full h-auto max-h-[420px] object-cover rounded-xl group-hover:scale-[1.02] transition-transform duration-300" loading="lazy">
+          </div>
+          <div class="p-3 bg-slate-950/90 text-left border-t border-slate-800/80">
+            <p class="text-[11px] text-slate-300 leading-snug">
+              Dirección de arte y guiones con IA que superan <strong>+79.5K vistas</strong> y detienen el scroll en Instagram y TikTok.
+            </p>
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -9742,177 +9821,47 @@
   </section>
 
   <!-- ════════════════════════════════════════════════════
-       BLOQUE 7: CARTA DE VENTAS (COLOR NARANJA ELEGANTE)
+       BLOQUE 7: CUADRO NARANJA CONSULTORÍA IA + BOTÓN VERDE COMUNIDAD
        ════════════════════════════════════════════════════ -->
-  <section id="carta-ventas" class="py-12 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 scroll-mt-24">
+  <section id="cotizacion-consultoria" class="pt-16 sm:pt-24 pb-20 sm:pb-28 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto relative z-10">
     
-    <!-- Imagen Arriba del Bloque Generada Especialmente -->
-    <div class="mb-10 rounded-3xl overflow-hidden border-2 border-amber-500/40 shadow-[0_0_60px_rgba(245,158,11,0.22)] max-w-5xl mx-auto relative group">
-      <img src="/static/prosperia_agency_banner.jpg" alt="Agencia ProsperIA - Producción de Contenido y Crecimiento con Inteligencia Artificial" class="w-full h-auto max-h-[460px] object-cover object-center group-hover:scale-[1.01] transition-transform duration-500">
-      <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent flex items-end p-5 sm:p-8">
-        <span class="px-4 py-1.5 rounded-full text-[11px] sm:text-xs font-black uppercase tracking-wider bg-gradient-to-r from-amber-400 via-orange-500 to-amber-500 text-slate-950 shadow-xl inline-flex items-center gap-2">
-          <i class="fas fa-crown text-slate-950"></i> SERVICIO DE AGENCIA PROSPERIA · PRODUCCIÓN Y ESCALAMIENTO CON IA
+    <!-- Cuadro Rectángulo Naranja Elegante (Espacio 1) -->
+    <div style="background: linear-gradient(145deg, rgba(35, 17, 5, 0.96) 0%, rgba(18, 9, 2, 0.98) 100%) !important; border: 2px solid #f97316 !important; border-radius: 24px !important; box-shadow: 0 0 55px rgba(249, 115, 22, 0.28), inset 0 1px 0 rgba(251, 146, 60, 0.25) !important; padding: 2.75rem 2rem !important; margin-bottom: 3.5rem !important;" class="text-center relative overflow-hidden">
+      
+      <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4" style="background: rgba(124, 45, 18, 0.6) !important; border: 1px solid rgba(249, 115, 22, 0.45) !important; color: #fed7aa !important;">
+        <i class="fas fa-crown text-amber-400"></i> SERVICIO DE AGENCIA PROSPERIA
+      </div>
+
+      <h3 style="color: #ffffff !important; font-size: 1.6rem; font-weight: 800; line-height: 1.35; margin-bottom: 1.25rem;" class="sm:text-2xl lg:text-3xl">
+        Puedes Aprender Solo con Todos Estos Ejemplos...<br>
+        <span style="color: #fb923c !important; text-shadow: 0 0 20px rgba(249, 115, 22, 0.3);">
+          O Dejar que la Agencia ProsperIA lo Haga por Ti
         </span>
-      </div>
-    </div>
+      </h3>
 
-    <!-- Cuadro Naranja / Ámbar Elegante (Mismo estilo que PassportAI) -->
-    <div class="passportai-container p-6 sm:p-12 lg:p-14 relative overflow-hidden">
-      <div class="absolute -top-32 -right-32 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <p style="color: #cbd5e1 !important; font-size: 14px; max-width: 650px; margin: 0 auto 1.75rem auto; line-height: 1.6;">
+        Producción de contenido viral con IA, embudos comerciales y dirección de crecimiento 360° llave en mano.
+      </p>
 
-      <div class="max-w-3xl mx-auto text-center mb-10 sm:mb-14">
-        <span class="px-3.5 py-1 rounded-full text-xs font-bold bg-orange-950 text-orange-300 border border-orange-500/40 uppercase tracking-wider mb-4 inline-block">
-          <i class="fas fa-handshake mr-1"></i> Dos Formas de Crecer con Nosotros
-        </span>
-        <h2 class="text-2xl sm:text-4xl font-extrabold text-white mb-4">
-          Puedes Aprender Solo con Todos Estos Ejemplos...<br>
-          <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500">
-            O Dejar que la Agencia ProsperIA lo Haga por Ti.
-          </span>
-        </h2>
-        <p class="text-slate-300 text-xs sm:text-base leading-relaxed">
-          Ya viste que nuestros videos superan <strong>+450K reproducciones</strong> y atraen miles de prospectos calificados cada mes. Si tienes el tiempo de experimentar y montar los sistemas tú mismo, aprovecha todo nuestro material gratuito. Pero si eres dueño de empresa y buscas velocidad de ejecución, ponemos a tu disposición nuestras dos modalidades de servicio:
-        </p>
-      </div>
-
-      <!-- 2 Quotation Cards Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 max-w-5xl mx-auto mb-10">
-        
-        <!-- Cuadro 1: Creación de Contenido Viral -->
-        <div class="p-6 sm:p-8 rounded-3xl bg-slate-950/80 border-2 border-orange-500/30 hover:border-orange-400 transition-all flex flex-col justify-between relative shadow-xl">
-          <div class="absolute top-0 right-0 transform translate-x-1 sm:translate-x-2 -translate-y-2">
-            <span class="px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-orange-500 text-slate-950 shadow">
-              OPCIÓN 1
-            </span>
-          </div>
-
-          <div>
-            <div class="w-12 h-12 rounded-2xl bg-orange-950 border border-orange-400/40 text-orange-400 flex items-center justify-center text-xl mb-4">
-              <i class="fas fa-video"></i>
-            </div>
-            <h3 class="text-xl font-bold text-white mb-2">Hacemos Este Mismo Contenido para Tu Negocio</h3>
-            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed mb-6">
-              Producción integral de Reels y videos cortos con IA diseñados para detener el scroll, posicionar tu marca como referente de autoridad y disparar tu alcance orgánico.
-            </p>
-
-            <ul class="space-y-3 text-xs sm:text-sm text-slate-300 mb-8">
-              <li class="flex items-start gap-2.5">
-                <i class="fas fa-check-circle text-orange-400 mt-1"></i>
-                <span><strong>Guiones de Alta Retención:</strong> Ganchos psicológicos probados en los primeros 3 segundos.</span>
-              </li>
-              <li class="flex items-start gap-2.5">
-                <i class="fas fa-check-circle text-orange-400 mt-1"></i>
-                <span><strong>Generación Visual con IA:</strong> Prompts de Hollywood, efectos visuales tipo Spiderman y dirección de arte.</span>
-              </li>
-              <li class="flex items-start gap-2.5">
-                <i class="fas fa-check-circle text-orange-400 mt-1"></i>
-                <span><strong>Edición Cinematográfica 9:16:</strong> Subtítulos cinéticos, música y sonido de estudio listos para publicar.</span>
-              </li>
-              <li class="flex items-start gap-2.5">
-                <i class="fas fa-check-circle text-orange-400 mt-1"></i>
-                <span><strong>Llamados a la Acción Estratégicos:</strong> Transformamos vistas en seguidores y mensajes directos.</span>
-              </li>
-            </ul>
-          </div>
-
-          <button type="button" onclick="openCotizacionModal('contenido')" class="btn-opt1-cta">
-            <i class="fas fa-paper-plane"></i> Solicitar Cotización Opción 1
-          </button>
-        </div>
-
-        <!-- Cuadro 2: Administración Integral 360° -->
-        <div class="p-6 sm:p-8 rounded-3xl bg-slate-950/80 border-2 border-amber-500/40 hover:border-amber-400 transition-all flex flex-col justify-between relative shadow-xl">
-          <div class="absolute top-0 right-0 transform translate-x-1 sm:translate-x-2 -translate-y-2">
-            <span class="px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-gradient-to-r from-amber-400 to-orange-500 text-slate-950 font-black shadow">
-              OPCIÓN 2 · RECOMENDADO
-            </span>
-          </div>
-
-          <div>
-            <div class="w-12 h-12 rounded-2xl bg-amber-950 border border-amber-400/40 text-amber-400 flex items-center justify-center text-xl mb-4">
-              <i class="fas fa-chart-line"></i>
-            </div>
-            <h3 class="text-xl font-bold text-white mb-2">Administración Integral 360° (Contenido + Tráfico + CRM)</h3>
-            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed mb-6">
-              Nos convertimos en el brazo de crecimiento y adquisición de tu empresa: desde la producción audiovisual hasta el cierre comercial de clientes en WhatsApp.
-            </p>
-
-            <ul class="space-y-3 text-xs sm:text-sm text-slate-300 mb-8">
-              <li class="flex items-start gap-2.5">
-                <i class="fas fa-check-circle text-amber-400 mt-1"></i>
-                <span><strong>Administración &amp; Publicación:</strong> Gestión de tus canales (Instagram, Facebook, YouTube, LinkedIn).</span>
-              </li>
-              <li class="flex items-start gap-2.5">
-                <i class="fas fa-check-circle text-amber-400 mt-1"></i>
-                <span><strong>Campañas de Tráfico Pago:</strong> Anuncios en Meta Ads y Google Ads para escalar las vistas virales a prospectos.</span>
-              </li>
-              <li class="flex items-start gap-2.5">
-                <i class="fas fa-check-circle text-amber-400 mt-1"></i>
-                <span><strong>Infraestructura CRM &amp; WhatsApp:</strong> Automatización para responder en segundos y agendar citas.</span>
-              </li>
-              <li class="flex items-start gap-2.5">
-                <i class="fas fa-check-circle text-amber-400 mt-1"></i>
-                <span><strong>Acompañamiento Estratégico:</strong> Asesoría y dirección directa para optimizar tu embudo comercial.</span>
-              </li>
-            </ul>
-          </div>
-
-          <button type="button" onclick="openCotizacionModal('integral')" class="btn-opt2-cta">
-            <i class="fas fa-rocket"></i> Solicitar Cotización Opción 2
-          </button>
-        </div>
-
-      </div>
-
-      <!-- Quick WhatsApp banner -->
-      <div class="text-center pt-2 pb-6">
-        <a href="https://wa.me/17865573119?text=Hola,%20quiero%20solicitar%20una%20cotizaci%C3%B3n%20para%20mi%20empresa" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-xs sm:text-sm text-emerald-400 hover:text-emerald-300 transition-colors py-2 px-4 rounded-xl bg-emerald-950/40 border border-emerald-500/30">
-          <i class="fab fa-whatsapp text-emerald-400"></i> ¿Quieres respuesta inmediata en 1 clic? <strong>Chatear directamente por WhatsApp con el equipo</strong> <i class="fas fa-arrow-right text-xs"></i>
+      <div>
+        <a href="/Cotizacion_ConsultoriaIA" style="background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%) !important; color: #020710 !important; font-weight: 900 !important; font-size: 15px !important; padding: 16px 36px !important; border-radius: 14px !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; gap: 10px !important; text-decoration: none !important; box-shadow: 0 0 35px rgba(234, 88, 12, 0.55) !important; transition: all 0.25s ease !important;" onmouseover="this.style.transform='translateY(-2px) scale(1.02)'" onmouseout="this.style.transform='none'">
+          <i class="fas fa-file-invoice-dollar" style="font-size: 18px;"></i>
+          <span>Cotiza una Consultoría en Inteligencia Artificial</span>
+          <i class="fas fa-arrow-right"></i>
         </a>
       </div>
-
-      <!-- WhatsApp Community Card -->
-      <div class="p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-emerald-950/80 via-slate-950 to-slate-950 border border-emerald-500/40 flex flex-col md:flex-row items-center justify-between gap-6 max-w-5xl mx-auto">
-        <div class="flex items-center gap-4">
-          <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 text-xl sm:text-2xl flex-shrink-0">
-            <i class="fab fa-whatsapp"></i>
-          </div>
-          <div>
-            <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider block mb-0.5">Comunidad Oficial y Networking</span>
-            <h4 class="text-base sm:text-xl font-bold text-white">¿Quieres hacer preguntas y aprender con otros creadores?</h4>
-            <p class="text-xs text-slate-300 mt-0.5">Únete a nuestro grupo oficial de WhatsApp donde compartimos prompts, novedades y sesiones en vivo.</p>
-          </div>
-        </div>
-        <div class="flex-shrink-0 w-full md:w-auto">
-          <a href="https://chat.whatsapp.com/HIjs3Bytduy9ucOtn6jeKw?s=sh&p=a&ilr=4" target="_blank" rel="noopener" class="w-full md:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-bold text-sm bg-emerald-400 text-slate-950 hover:bg-emerald-300 transition-all shadow-[0_0_20px_rgba(16,185,129,0.3)]">
-            <i class="fab fa-whatsapp text-lg"></i> Unirme Gratis a la Comunidad
-          </a>
-        </div>
-      </div>
-
-      <!-- ════════════════════════════════════════════════════
-           BLOQUE REDIRECCIÓN A HOME: ¿QUIERES VER TODO LO QUE HACE LA AGENCIA?
-           ════════════════════════════════════════════════════ -->
-      <div class="mt-8 p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-blue-950/80 via-slate-950 to-indigo-950/80 border border-cyan-500/40 flex flex-col md:flex-row items-center justify-between gap-6 max-w-5xl mx-auto shadow-[0_0_40px_rgba(0,229,255,0.15)] relative overflow-hidden">
-        <div class="flex items-center gap-4">
-          <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-cyan-400 text-xl sm:text-2xl flex-shrink-0">
-            <i class="fas fa-home"></i>
-          </div>
-          <div>
-            <span class="text-xs font-bold text-cyan-400 uppercase tracking-wider block mb-0.5">Portal Oficial de ProsperIA</span>
-            <h4 class="text-base sm:text-xl font-bold text-white">¿Quieres ver todo lo que hace la Agencia ProsperIA?</h4>
-            <p class="text-xs text-slate-300 mt-0.5">Conoce nuestras soluciones integrales: automatización con IA, agentes comerciales, contenido viral y casos de éxito reales.</p>
-          </div>
-        </div>
-        <div class="flex-shrink-0 w-full md:w-auto">
-          <a href="https://agenciaprosperia.com/" class="w-full md:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-bold text-sm bg-gradient-to-r from-cyan-400 to-blue-500 text-slate-950 hover:from-cyan-300 hover:to-blue-400 transition-all shadow-[0_0_20px_rgba(0,229,255,0.35)]">
-            <i class="fas fa-external-link-alt text-sm"></i> Ir a la Página Principal
-          </a>
-        </div>
-      </div>
-
     </div>
+
+    <!-- Botón Verde Rectangular: Únete a la Comunidad (Espacio 2 generoso antes del pie de página) -->
+    <div class="text-center" style="margin-top: 3.5rem !important; margin-bottom: 4.5rem !important; padding-bottom: 1.5rem !important;">
+      <a href="https://chat.whatsapp.com/HIjs3Bytduy9ucOtn6jeKw?s=sh&p=a&ilr=4" target="_blank" rel="noopener" style="background: #25D366 !important; background-color: #25D366 !important; color: #061c0e !important; font-weight: 900 !important; font-size: 16px !important; padding: 18px 42px !important; border-radius: 14px !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; gap: 12px !important; text-decoration: none !important; border: 2px solid #86efac !important; box-shadow: 0 0 35px rgba(37, 211, 102, 0.6), 0 4px 15px rgba(0, 0, 0, 0.4) !important; transition: all 0.2s ease !important;" onmouseover="this.style.backgroundColor='#20ba59'; this.style.transform='translateY(-2px)'" onmouseout="this.style.backgroundColor='#25D366'; this.style.transform='none'">
+        <i class="fab fa-whatsapp" style="font-size: 26px; color: #061c0e !important;"></i>
+        <span style="color: #061c0e !important; letter-spacing: 0.02em;">Únete a la Comunidad</span>
+      </a>
+    </div>
+
   </section>
+
 
   <!-- ════════════════════════════════════════════════════
        FOOTER
@@ -9951,10 +9900,10 @@
       <div>
         <h4 class="text-white font-bold text-xs uppercase tracking-wider mb-4 text-cyan-400">Soluciones de Negocio</h4>
         <ul class="space-y-2.5">
-          <li><a href="#carta-ventas" class="hover:text-white transition-colors">Creación de Contenido Viral</a></li>
-          <li><a href="#carta-ventas" class="hover:text-white transition-colors">Administración Integral 360°</a></li>
+          <li><a href="/Cotizacion_ConsultoriaIA" class="hover:text-white transition-colors">Creación de Contenido Viral</a></li>
+          <li><a href="/Cotizacion_ConsultoriaIA" class="hover:text-white transition-colors">Administración Integral 360°</a></li>
           <li><a href="https://passportai.app" target="_blank" rel="noopener" class="hover:text-white transition-colors text-amber-400 font-semibold">Plataforma PassportAI</a></li>
-          <li><a href="javascript:void(0)" onclick="openCotizacionModal('integral')" class="hover:text-white transition-colors text-orange-400 font-semibold">Solicitar Cotización</a></li>
+          <li><a href="/Cotizacion_ConsultoriaIA" class="hover:text-white transition-colors text-orange-400 font-semibold">Solicitar Cotización</a></li>
         </ul>
       </div>
 
