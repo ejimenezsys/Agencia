@@ -1390,6 +1390,9 @@ Cinematic prompt goes here...
 
     // Inicialización al cargar la página
     document.addEventListener('DOMContentLoaded', () => {
+      // 1. Renderizado instantáneo de la colección curada local (cero espera o pantalla en blanco)
+      renderLocalFallbackGrid(false);
+      // 2. Consulta y sincronización asíncrona con el catálogo completo
       fetchArsenalPrompts(1, false);
     });
 
@@ -1443,12 +1446,16 @@ Cinematic prompt goes here...
       const container = document.getElementById('prompts-grid-container');
 
       try {
-        const response = await fetch(`/api/arsenal/prompts?${params.toString()}`);
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 6000);
+
+        const response = await fetch(`/api/arsenal/prompts?${params.toString()}`, { signal: controller.signal });
+        clearTimeout(timeoutId);
         if (!response.ok) throw new Error(`HTTP error ${response.status}`);
         
         const data = await response.json();
         
-        if (data.status === 'success') {
+        if (data.status === 'success' && Array.isArray(data.prompts) && data.prompts.length > 0) {
           currentApiPage = data.page;
           totalApiPages = data.total_pages;
           totalApiPrompts = data.total;
@@ -1491,6 +1498,13 @@ Cinematic prompt goes here...
 
           // Actualizar estado del botón de carga
           updateLoadMoreButtonState(data.has_next, data.total);
+        } else if (data.status === 'success' && (!data.prompts || data.prompts.length === 0) && (!searchQuery || !searchQuery.trim()) && currentFilterMedia === 'all' && currentFilterModel === 'all') {
+          // Si la API no devolvió registros y no hay búsqueda activa, mantener fallback local
+          renderLocalFallbackGrid(append);
+        } else {
+          // Búsqueda o filtro específico sin resultados
+          renderPromptsMarkup([]);
+          updateLoadMoreButtonState(false, 0);
         }
       } catch (err) {
         console.warn('⚠️ [ARSENAL API] Fallback a base local en memoria:', err);

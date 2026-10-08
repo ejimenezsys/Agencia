@@ -1016,6 +1016,18 @@ def get_db():
 @app.on_event("startup")
 async def startup_event():
     init_db()
+    # Auto-seed El Arsenal si la tabla está vacía en producción
+    try:
+        from database import SessionLocal, ArsenalPrompt
+        db = SessionLocal()
+        count = db.query(ArsenalPrompt).count()
+        db.close()
+        if count == 0:
+            print("🚀 [STARTUP] Catálogo El Arsenal vacío. Sembrando prompts automáticamente...", flush=True)
+            from populate_arsenal import populate
+            populate()
+    except Exception as e:
+        print(f"⚠️ [STARTUP] Error auto-poblando El Arsenal: {e}", flush=True)
 
 
 # Request schemas
@@ -1322,6 +1334,14 @@ async def get_arsenal_prompts(
     """API REST de alto rendimiento para consultar y paginar el catálogo de El Arsenal (+5,000 Prompts)."""
     db = SessionLocal()
     try:
+        # Si la tabla está vacía, poblarla bajo demanda (Lazy-seed resiliente)
+        if db.query(ArsenalPrompt).count() == 0:
+            try:
+                from populate_arsenal import populate
+                populate()
+            except Exception as e:
+                print(f"⚠️ Error poblando Arsenal bajo demanda: {e}", flush=True)
+
         query = db.query(ArsenalPrompt)
         
         # Filtro de categoría
