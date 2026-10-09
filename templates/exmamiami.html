@@ -1590,8 +1590,12 @@
           </div>
         </div>
 
-        <div class="ghl-calendar-container" style="background: rgba(7, 8, 14, 0.95); border-radius: 14px; border: 1px solid rgba(255, 0, 127, 0.25); overflow: hidden; padding: 4px;">
-          <iframe id="ghl-booking-iframe" src="https://api.leadconnectorhq.com/widget/booking/aT3eXMuYSOnWwjnC063t" allow="payment" style="width: 100%;border:none;overflow: hidden;" scrolling="no" id="aT3eXMuYSOnWwjnC063t_1791556555633"></iframe><br><script src="https://link.msgsndr.com/js/form_embed.js" type="text/javascript"></script>
+        <div class="ghl-calendar-container" id="ghl-calendar-mount" style="background: rgba(7, 8, 14, 0.95); border-radius: 14px; border: 1px solid rgba(255, 0, 127, 0.25); overflow: hidden; padding: 4px; min-height: 480px;">
+          <!-- El iframe se inyecta dinámicamente con first_name, last_name, email, phone y company prellenados -->
+          <div style="text-align: center; padding: 40px 20px; color: #94a3b8; font-size: 0.9rem;">
+            <i class="fa-solid fa-spinner fa-spin" style="font-size: 1.5rem; color: #ff007f; margin-bottom: 12px; display: block;"></i>
+            Cargando calendario oficial...
+          </div>
         </div>
 
         <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px; flex-wrap: wrap; gap: 10px;">
@@ -1994,12 +1998,43 @@
         btn.innerHTML = '<span>Continuar a Agendar Videollamada</span> <i class="fa-solid fa-arrow-right"></i>';
       }
 
-      // Prellenar URL del calendario con los datos del prospecto
-      const bookingUrl = `https://api.leadconnectorhq.com/widget/booking/aT3eXMuYSOnWwjnC063t?name=${encodeURIComponent(nameVal)}&email=${encodeURIComponent(emailVal)}&phone=${encodeURIComponent(phoneVal)}`;
-      const iframe = document.getElementById('ghl-booking-iframe');
-      if (iframe) {
-        iframe.src = bookingUrl;
+      // Desglosar nombre en First Name y Last Name para compatibilidad nativa con GHL
+      const nameParts = nameVal.trim().split(/\s+/);
+      const firstName = nameParts[0] || '';
+      const lastName = nameParts.slice(1).join(' ') || '';
+      const cleanPhone = phoneVal.replace(/[^\d+]/g, '');
+
+      // Armar query params completos para precargar en GHL sin pedir reescribir datos
+      const qp = new URLSearchParams();
+      qp.set('first_name', firstName);
+      qp.set('last_name', lastName);
+      qp.set('name', nameVal);
+      qp.set('email', emailVal);
+      qp.set('phone', cleanPhone || phoneVal);
+      qp.set('company_name', companyVal);
+      qp.set('company', companyVal);
+      qp.set('notes', `[EXMA Miami 2026] Interés: ${tierVal} - Empresa: ${companyVal}`);
+      qp.set('additional_info', `[EXMA Miami 2026] Interés: ${tierVal} - Empresa: ${companyVal}`);
+
+      const baseUrl = 'https://api.leadconnectorhq.com/widget/booking/aT3eXMuYSOnWwjnC063t';
+      const bookingUrl = `${baseUrl}?${qp.toString()}`;
+
+      // Montar iframe con parámetros pre-cargados
+      const mount = document.getElementById('ghl-calendar-mount');
+      if (mount) {
+        mount.innerHTML = `
+          <iframe id="ghl-booking-iframe" src="${bookingUrl}" allow="payment" style="width: 100%; border:none; overflow: hidden;" scrolling="no"></iframe>
+        `;
+        // Asegurar form_embed script
+        const existingScript = document.getElementById('ghl-embed-script');
+        if (existingScript) existingScript.remove();
+        const script = document.createElement('script');
+        script.id = 'ghl-embed-script';
+        script.src = 'https://link.msgsndr.com/js/form_embed.js';
+        script.type = 'text/javascript';
+        document.body.appendChild(script);
       }
+
       const directLink = document.getElementById('ghl-direct-link');
       if (directLink) {
         directLink.href = bookingUrl;
