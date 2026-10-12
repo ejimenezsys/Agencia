@@ -38,7 +38,7 @@
     },
     "contactPoint": {
       "@type": "ContactPoint",
-      "telephone": "+1-786-557-3119",
+      "telephone": "+1-786-833-6964",
       "contactType": "sales",
       "areaServed": ["US", "LATAM", "ES"],
       "availableLanguage": ["Spanish", "English"]
@@ -818,16 +818,7 @@
   </div>
 </div>
 
-<!-- ════════════════════════════════════════════════════
-     BURBUJA FLOTANTE WHATSAPP: SOLO LOGO OFICIAL
-     ════════════════════════════════════════════════════ -->
-<div class="whatsapp-floating-bubble">
-  <a href="https://wa.me/17865573119?text=Hola%20Edward,%20deseo%20conversar%20sobre%20mi%20empresa%20con%20Agencia%20ProsperIA" target="_blank" rel="noopener" class="flex items-center justify-center w-14 h-14 rounded-full bg-[#25D366] hover:bg-[#20bd5a] text-white shadow-[0_10px_25px_rgba(37,211,102,0.45)] border-2 border-[#34e77a] hover:scale-110 transition-all group relative" aria-label="Contactar por WhatsApp" onclick="trackEvent('whatsapp_click', {location: 'floating_bubble'})">
-    <i class="fab fa-whatsapp text-3xl"></i>
-    <span class="absolute top-0 right-0 w-3.5 h-3.5 rounded-full bg-white animate-ping"></span>
-    <span class="absolute top-0 right-0 w-3.5 h-3.5 rounded-full bg-emerald-300 border-2 border-[#25D366]"></span>
-  </a>
-</div>
+<!-- Widget flotante LeadConnector: se carga desde footer.html -->
 
 <!-- Bot de voz IA incrustado al final de la página (sección #demo-voz) para evitar sobrecargar la pantalla móvil -->
 
@@ -2282,7 +2273,7 @@
               <i class="fab fa-linkedin-in text-cyan-400"></i>
               <span>Conoce a Edward</span>
             </a>
-            <a href="https://wa.me/17865573119" target="_blank" rel="noopener" class="text-xs text-slate-400 hover:text-emerald-400 transition-colors font-medium flex items-center gap-1.5">
+            <a href="tel:+17868336964" onclick="return openProsperChat(event)" class="text-xs text-slate-400 hover:text-emerald-400 transition-colors font-medium flex items-center gap-1.5">
               <i class="fab fa-whatsapp text-emerald-400"></i>
               <span>Conversar por WhatsApp directo</span>
             </a>
@@ -2366,7 +2357,7 @@
               <li><strong>3. Blindaje contra ausencias:</strong> Disparan recordatorios multicanal dinámicos con confirmación interactiva, reduciendo el absentismo médico hasta en un 60%.</li>
             </ul>
             <div class="pt-3 flex flex-wrap items-center gap-3">
-              <a href="https://wa.me/17865573119?text=Hola%20Edward,%20deseo%20conocer%20la%20solución%20para%20Clínicas%20de%20Agencia%20ProsperIA" target="_blank" rel="noopener" class="btn-linear-primary px-4 py-2 text-xs font-bold inline-flex items-center gap-2" style="background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);">
+              <a href="tel:+17868336964" onclick="return openProsperChat(event)" class="btn-linear-primary px-4 py-2 text-xs font-bold inline-flex items-center gap-2" style="background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);">
                 <i class="fab fa-whatsapp text-sm"></i>
                 <span>Solicitar Demo para mi Clínica por WhatsApp</span>
               </a>
@@ -2579,7 +2570,7 @@
                 <i class="fas fa-phone-volume text-xs animate-bounce"></i>
                 <span>🎙️ Iniciar Llamada con mi Asistente de Voz IA</span>
               </button>
-              <a href="https://wa.me/17865573119" target="_blank" rel="noopener" class="text-xs text-slate-400 hover:text-emerald-400 inline-flex items-center gap-1.5">
+              <a href="tel:+17868336964" onclick="return openProsperChat(event)" class="text-xs text-slate-400 hover:text-emerald-400 inline-flex items-center gap-1.5">
                 <i class="fab fa-whatsapp text-emerald-400"></i>
                 <span>O chatear por WhatsApp</span>
               </a>
@@ -2681,7 +2672,7 @@
         <span class="flex items-center gap-1.5 font-light">
           <i class="fas fa-microphone-alt text-cyan-400"></i> Requiere permiso de micrófono para audio en tiempo real.
         </span>
-        <a href="https://wa.me/17865573119?text=Hola%20Edward,%20prefiero%20chatear%20por%20WhatsApp" target="_blank" rel="noopener" class="text-emerald-400 hover:text-emerald-300 inline-flex items-center gap-1 font-medium transition-colors">
+        <a href="tel:+17868336964" onclick="return openProsperChat(event)" class="text-emerald-400 hover:text-emerald-300 inline-flex items-center gap-1 font-medium transition-colors">
           <i class="fab fa-whatsapp"></i> ¿Prefieres escribir? Chatea por WhatsApp
         </a>
       </div>
@@ -2803,7 +2794,7 @@
           </div>
           <div>
             <label for="c-phone" class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Teléfono / WhatsApp *</label>
-            <input type="tel" id="c-phone" class="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/10 text-white text-sm focus:outline-none focus:border-cyan-400 transition-colors" placeholder="+1 786 557 3119" required>
+            <input type="tel" id="c-phone" class="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/10 text-white text-sm focus:outline-none focus:border-cyan-400 transition-colors" placeholder="+1 786 833 6964" required>
           </div>
         </div>
 
@@ -2944,7 +2935,7 @@ function triggerVoiceAgent() {
       }
     }, 450);
   } else {
-    window.open('https://wa.me/17865573119?text=Hola%20Edward,%20deseo%20conversar%20sobre%20mi%20empresa%20con%20Agencia%20ProsperIA', '_blank');
+    openProsperChat();
   }
 }
 
@@ -2957,7 +2948,7 @@ document.addEventListener('DOMContentLoaded', () => {
       fundador: "Edward Jiménez",
       experiencia: "+25 años de trayectoria directiva y empresarial en tecnología, finanzas y operaciones masivas (Banco Azteca, Grupo Elektra, Miami)",
       email: "edward@agenciaprosperia.com",
-      whatsapp: "+1 786 557 3119",
+      whatsapp: "+1 786 833 6964",
       arquitectura_4_capas: "1. PassportAI (Inteligencia / Piensa / 5 días gratis en passportai.app), 2. ProsperIA CRM (Operación / Opera / Diagnóstico en agenciaprosperia.com/diagnostico), 3. Agencia ProsperIA (Implementación / Implementa / Activación), 4. SVE90 (Transformación / Transforma / Consultoría 6 A's)",
       vertical_activa: "Clínicas (dental, estética, capilar) con captación omnicanal, reducción de no-show y sincronización de agenda",
       otras_verticales: "Inmobiliarias, Servicios Profesionales, Belleza & Bienestar, Fitness & Salud, Servicios para el Hogar"

@@ -57,7 +57,7 @@
           <li><strong style="color: #f8fafc; font-weight: 600;">Sede:</strong> Miami, Florida, USA.</li>
           <li><strong style="color: #f8fafc; font-weight: 600;">Liderazgo:</strong> Edward Jiménez.</li>
           <li><strong style="color: #f8fafc; font-weight: 600;">Email:</strong> <a href="mailto:edward@agenciaprosperia.com" class="hover:text-white transition-colors" style="color: inherit; text-decoration: underline;">edward@agenciaprosperia.com</a></li>
-          <li><strong style="color: #f8fafc; font-weight: 600;">WhatsApp:</strong> <a href="https://wa.me/17865573119" target="_blank" rel="noopener" class="hover:text-white transition-colors font-semibold text-emerald-400 inline-flex items-center gap-1.5" style="color: #34d399; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 0.375rem;" onclick="if(typeof trackEvent==='function')trackEvent('whatsapp_click', {location: 'footer'})"><i class="fab fa-whatsapp"></i> Chatear por WhatsApp</a></li>
+          <li><strong style="color: #f8fafc; font-weight: 600;">Teléfono:</strong> <a href="tel:+17868336964" onclick="if(typeof trackEvent==='function')trackEvent('phone_chat_click', {location: 'footer'}); return openProsperChat(event)" class="hover:text-white transition-colors font-semibold inline-flex items-center gap-1.5" style="color: #22d3ee; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 0.375rem;"><i class="fas fa-phone"></i> +1 786-833-6964</a></li>
         </ul>
       </div>
 
@@ -85,4 +85,30 @@ if (typeof window.trackEvent === 'undefined') {
     } catch(e) {}
   };
 }
+</script>
+
+<!-- Widget LeadConnector (chat/teléfono) -->
+<script src="https://widgets.leadconnectorhq.com/loader.js" data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js" data-widget-id="6acce973acaaba2812d524e2" data-source="WEB_USER"></script>
+<script>
+  // Abre el widget de LeadConnector; si no está disponible, cae a llamada telefónica.
+  window.openProsperChat = function(e) {
+    try {
+      var cw = window.leadConnector && window.leadConnector.chatWidget;
+      if (cw && typeof cw.openWidget === 'function') {
+        if (e && e.preventDefault) e.preventDefault();
+        cw.openWidget();
+        return false;
+      }
+      var el = document.querySelector('chat-widget');
+      var root = el && el.shadowRoot;
+      var btn = root && root.querySelector('button, [role="button"]');
+      if (btn) {
+        if (e && e.preventDefault) e.preventDefault();
+        btn.click();
+        return false;
+      }
+    } catch (err) {}
+    if (!e) { window.location.href = 'tel:+17868336964'; }
+    return true;
+  };
 </script>

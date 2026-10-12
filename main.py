@@ -1776,7 +1776,7 @@ def send_email_notification(name: str, email: str, company: str, phone: str, mes
                 </tr>
                 <tr>
                   <td style="padding: 10px 0; font-weight: bold; font-size: 13px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px;">Edward WhatsApp Directo:</td>
-                  <td style="padding: 10px 0; font-size: 14px; color: #10b981; font-weight: 600;"><a href="https://wa.me/17865573119" style="color: #10b981; text-decoration: none;">+1 (786) 557-3119</a></td>
+                  <td style="padding: 10px 0; font-size: 14px; color: #10b981; font-weight: 600;"><a href="https://wa.me/17868336964" style="color: #10b981; text-decoration: none;">+1 (786) 833-6964</a></td>
                 </tr>
               </table>
               

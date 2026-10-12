@@ -133,7 +133,7 @@
         <a href="/codigos" class="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-slate-300 hover:text-white bg-slate-900 border border-slate-800 hover:border-slate-700 transition-all">
           <i class="fas fa-arrow-left text-xs"></i> Volver a Códigos
         </a>
-        <a href="https://wa.me/17865573119?text=Hola%20Edward,%20deseo%20una%20cotizaci%C3%B3n%20para%20mi%20empresa" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-emerald-500 hover:bg-emerald-400 text-slate-950 transition-all shadow-[0_0_15px_rgba(16,185,129,0.3)]">
+        <a href="tel:+17868336964" onclick="return openProsperChat(event)" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-emerald-500 hover:bg-emerald-400 text-slate-950 transition-all shadow-[0_0_15px_rgba(16,185,129,0.3)]">
           <i class="fab fa-whatsapp text-base"></i>
           <span>WhatsApp Directo</span>
         </a>
@@ -266,7 +266,7 @@
 
       <!-- Quick WhatsApp banner (Verde sólido, más grande, letras blancas) -->
       <div class="text-center pt-6 pb-12">
-        <a href="https://wa.me/17865573119?text=Hola,%20quiero%20solicitar%20una%20cotizaci%C3%B3n%20para%20mi%20empresa" target="_blank" rel="noopener" style="background: #25D366 !important; background-color: #25D366 !important; color: #ffffff !important; font-weight: 800 !important; font-size: 16px !important; padding: 18px 36px !important; border-radius: 16px !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; gap: 12px !important; text-decoration: none !important; border: 2px solid #86efac !important; box-shadow: 0 10px 30px rgba(37, 211, 102, 0.45) !important; transition: all 0.25s ease !important;" onmouseover="this.style.backgroundColor='#20ba59'; this.style.transform='translateY(-2px)'" onmouseout="this.style.backgroundColor='#25D366'; this.style.transform='none'">
+        <a href="tel:+17868336964" onclick="return openProsperChat(event)" style="background: #25D366 !important; background-color: #25D366 !important; color: #ffffff !important; font-weight: 800 !important; font-size: 16px !important; padding: 18px 36px !important; border-radius: 16px !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; gap: 12px !important; text-decoration: none !important; border: 2px solid #86efac !important; box-shadow: 0 10px 30px rgba(37, 211, 102, 0.45) !important; transition: all 0.25s ease !important;" onmouseover="this.style.backgroundColor='#20ba59'; this.style.transform='translateY(-2px)'" onmouseout="this.style.backgroundColor='#25D366'; this.style.transform='none'">
           <i class="fab fa-whatsapp" style="font-size: 24px; color: #ffffff !important;"></i>
           <span style="color: #ffffff !important; font-weight: 800 !important;">¿Quieres respuesta inmediata en 1 clic? Chatear directamente por WhatsApp</span>
           <i class="fas fa-arrow-right" style="font-size: 14px; color: #ffffff !important;"></i>
@@ -335,7 +335,7 @@
         </button>
         
         <div class="text-center pt-2">
-          <a href="https://wa.me/17865573119?text=Hola,%20quiero%20solicitar%20una%20cotizaci%C3%B3n%20para%20mi%20empresa" target="_blank" rel="noopener" class="text-xs text-emerald-400 hover:text-emerald-300 transition-colors inline-flex items-center gap-1.5 font-semibold">
+          <a href="tel:+17868336964" onclick="return openProsperChat(event)" class="text-xs text-emerald-400 hover:text-emerald-300 transition-colors inline-flex items-center gap-1.5 font-semibold">
             <i class="fab fa-whatsapp"></i> ¿Prefieres escribir directo sin llenar el formulario? Clic aquí
           </a>
         </div>
@@ -410,7 +410,7 @@
       btn.innerHTML = '<i class="fas fa-check text-lg"></i> <span>¡Cotización Enviada! Abriendo WhatsApp...</span>';
       
       setTimeout(() => {
-        window.open(`https://wa.me/17865573119?text=${textWa}`, '_blank');
+        openProsperChat();
         closeCotizacionModal();
         btn.disabled = false;
         btn.innerHTML = originalHtml;

@@ -1025,7 +1025,7 @@
       
       btn.innerHTML = '<i class="fas fa-check"></i> ¡Abriendo WhatsApp!';
       setTimeout(() => {
-        window.open(`https://wa.me/17865573119?text=${textWa}`, '_blank');
+        openProsperChat();
         closeDiagnosticCotizacionModal();
         btn.disabled = false;
         btn.innerHTML = '<i class="fab fa-whatsapp text-lg mr-2"></i> <span>Enviar y Abrir WhatsApp con Mi Reporte</span>';
