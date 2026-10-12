@@ -1,8 +1,9 @@
 name: Despliegue Automático en VPS
 
+# DESACTIVADO: el despliegue lo hace Coolify automáticamente en cada push a main.
+# No agregar secretos VPS_* ni ejecutar este workflow: correría docker compose
+# fuera de Coolify y podría duplicar el contenedor en el mismo puerto.
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 jobs:
