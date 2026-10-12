@@ -23,6 +23,10 @@ services:
       - ADMIN_EMAIL=${ADMIN_EMAIL}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD}
       - ADMIN_NAME=${ADMIN_NAME:-Administrador ProsperIA}
+      - GHL_PRIVATE_TOKEN=${GHL_PRIVATE_TOKEN:-}
+      - GHL_LOCATION_ID=${GHL_LOCATION_ID:-CNvJBINRWBUL2EdqRh3G}
+      - GHL_PIPELINE_ID=${GHL_PIPELINE_ID:-SJ4xiMasQ0GZcUNYFgpa}
+      - GHL_STAGE_ID=${GHL_STAGE_ID:-ffd8ae02-c4c0-431c-a827-0e909a80c752}
 
 volumes:
   prosper_ia_prod_data:

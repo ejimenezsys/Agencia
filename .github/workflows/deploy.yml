@@ -38,4 +38,7 @@ jobs:
             fi
             echo "Directorio de trabajo: $(pwd)"
             git pull origin main
+            if [ -n "${{ secrets.GHL_PRIVATE_TOKEN }}" ]; then
+              export GHL_PRIVATE_TOKEN="${{ secrets.GHL_PRIVATE_TOKEN }}"
+            fi
             docker compose -f docker-compose.prod.yml up -d --build

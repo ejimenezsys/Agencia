@@ -15,6 +15,7 @@ from pydantic import BaseModel, EmailStr
 from sqlalchemy.orm import Session
 from database import init_db, SessionLocal, User, Lead as DbLead, SessionModel, BlogPost, ArsenalPrompt, sync_blog_posts, IntegrationSetting, hash_password, verify_password
 from editorial import LANES, enrich_post
+from ghl_client import sync_lead_to_ghl_async
 
 app = FastAPI(title="Prosper IA API Stack", version="1.0.0")
 
@@ -2085,6 +2086,20 @@ def trigger_lead_sync(
     if n8n_url and n8n_url.strip():
         t = threading.Thread(target=send_webhook_background, args=(n8n_url, ghl_payload))
         t.start()
+
+    # 3. GoHighLevel API v2: contacto + oportunidad en "Nuevo Contacto"
+    sync_lead_to_ghl_async(
+        first_name=first_name,
+        last_name=last_name,
+        email=lead_email,
+        phone=lead_phone,
+        company=lead_company,
+        source=lead_source,
+        industry=industry,
+        team_size=team_size,
+        message=raw_message,
+        notes=lead_notes,
+    )
 
 @app.post("/api/auth/contact")
 async def api_contact(req: ContactRequest, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
