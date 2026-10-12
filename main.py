@@ -1422,6 +1422,15 @@ async def read_politica_privacidad(request: Request):
 async def read_terminos_servicio(request: Request):
     return templates.TemplateResponse(request=request, name="terminos-servicio.html")
 
+@app.get("/chat", response_class=HTMLResponse)
+@app.head("/chat")
+@app.get("/chat/", response_class=HTMLResponse)
+@app.head("/chat/")
+@app.get("/chat.html", response_class=HTMLResponse)
+@app.head("/chat.html")
+async def read_chat(request: Request):
+    return templates.TemplateResponse(request=request, name="chat.html")
+
 @app.get("/exmamiami", response_class=HTMLResponse)
 @app.head("/exmamiami")
 @app.get("/exmamiami/", response_class=HTMLResponse)
@@ -1582,6 +1591,11 @@ async def get_sitemap(db: Session = Depends(get_db)):
         '    <loc>https://agenciaprosperia.com/terminos-servicio</loc>\n'
         '    <changefreq>monthly</changefreq>\n'
         '    <priority>0.3</priority>\n'
+        '  </url>\n'
+        '  <url>\n'
+        '    <loc>https://agenciaprosperia.com/chat</loc>\n'
+        '    <changefreq>monthly</changefreq>\n'
+        '    <priority>0.5</priority>\n'
         '  </url>\n'
     )
     
