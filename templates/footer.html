@@ -87,27 +87,12 @@ if (typeof window.trackEvent === 'undefined') {
 }
 </script>
 
-<!-- Widget LeadConnector (chat/teléfono) -->
-<script src="https://widgets.leadconnectorhq.com/loader.js" data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js" data-widget-id="6acce973acaaba2812d524e2" data-source="WEB_USER"></script>
+<!-- Widget de chat LeadConnector retirado por cumplimiento A2P 10DLC:
+     los formularios web (con casilla de consentimiento SMS) son la única fuente de suscripción. -->
+<script src="/static/sms-consent.js"></script>
 <script>
-  // Abre el widget de LeadConnector; si no está disponible, cae a llamada telefónica.
+  // Compatibilidad: los enlaces que llamaban al chat ahora marcan directo (tel:).
   window.openProsperChat = function(e) {
-    try {
-      var cw = window.leadConnector && window.leadConnector.chatWidget;
-      if (cw && typeof cw.openWidget === 'function') {
-        if (e && e.preventDefault) e.preventDefault();
-        cw.openWidget();
-        return false;
-      }
-      var el = document.querySelector('chat-widget');
-      var root = el && el.shadowRoot;
-      var btn = root && root.querySelector('button, [role="button"]');
-      if (btn) {
-        if (e && e.preventDefault) e.preventDefault();
-        btn.click();
-        return false;
-      }
-    } catch (err) {}
     if (!e) { window.location.href = 'tel:+17868336964'; }
     return true;
   };

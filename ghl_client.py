@@ -20,6 +20,7 @@ import re
 import threading
 import urllib.error
 import urllib.request
+from datetime import datetime, timezone
 from typing import Optional
 
 GHL_BASE_URL = "https://services.leadconnectorhq.com"
@@ -105,6 +106,7 @@ def sync_lead_to_ghl(
     team_size: str = "",
     message: str = "",
     notes: str = "",
+    sms_consent: bool = False,
 ) -> dict:
     """Sincroniza un lead con GHL. Devuelve un resumen; nunca lanza excepciones."""
     token = _cfg("GHL_PRIVATE_TOKEN")
@@ -156,11 +158,17 @@ def sync_lead_to_ghl(
     is_new = res.get("new")
 
     # 2. Etiquetas (aditivas: no borran las existentes).
+    consent_tag = "sms_opt_in" if sms_consent else "sms_sin_consentimiento"
     _request("POST", f"/contacts/{contact_id}/tags", token,
-             {"tags": ["lead_web", _source_tag(source)]})
+             {"tags": ["lead_web", _source_tag(source), consent_tag]})
 
     # 3. Nota con el detalle completo del envío.
     note_lines = [f"📥 Formulario web ({source})"]
+    if sms_consent:
+        stamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+        note_lines.append(f"✅ Consentimiento SMS otorgado: {stamp} – casilla del formulario web ({source}).")
+    else:
+        note_lines.append("⛔ Sin consentimiento SMS (no enviar SMS de marketing).")
     if company:
         note_lines.append(f"Empresa: {company}")
     if industry_label or industry:

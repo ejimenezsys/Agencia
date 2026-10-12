@@ -1065,6 +1065,7 @@ class ContactRequest(BaseModel):
     team_size: Optional[str] = ""
     message: Optional[str] = ""
     source: Optional[str] = "portal_corporativo"
+    sms_consent: Optional[bool] = False
 
 # Auth helper
 def get_current_user(request: Request):
@@ -1961,7 +1962,8 @@ def trigger_lead_sync(
     last_name_param: str = "",
     industry: str = "",
     team_size: str = "",
-    raw_message: str = ""
+    raw_message: str = "",
+    sms_consent: bool = False
 ):
     # Fetch webhook settings
     settings = db.query(IntegrationSetting).all()
@@ -2099,6 +2101,7 @@ def trigger_lead_sync(
         team_size=team_size,
         message=raw_message,
         notes=lead_notes,
+        sms_consent=sms_consent,
     )
 
 @app.post("/api/auth/contact")
@@ -2178,7 +2181,8 @@ async def api_contact(req: ContactRequest, background_tasks: BackgroundTasks, db
         last_name_param=last_name,
         industry=req.industry or "",
         team_size=req.team_size or "",
-        raw_message=req.message or ""
+        raw_message=req.message or "",
+        sms_consent=bool(req.sms_consent)
     )
     
     return {"success": True}

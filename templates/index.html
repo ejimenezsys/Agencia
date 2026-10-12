@@ -2832,6 +2832,13 @@
           <textarea id="c-message" rows="4" class="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/10 text-white text-sm focus:outline-none focus:border-cyan-400 transition-colors" placeholder="Explícanos brevemente tus procesos actuales o qué te gustaría automatizar..." required></textarea>
         </div>
 
+        <div class="sms-consent" style="display:flex;gap:.6rem;align-items:flex-start;text-align:left;margin:.5rem 0 .25rem;">
+          <input type="checkbox" id="sms-consent-contacto" class="sms-consent-input" name="sms_consent" value="yes" style="margin-top:.2rem;width:16px;height:16px;min-width:16px;flex-shrink:0;accent-color:#22d3ee;cursor:pointer;">
+          <label for="sms-consent-contacto" style="font-size:11px;line-height:1.5;color:#94a3b8;font-weight:400;text-transform:none;letter-spacing:normal;cursor:pointer;">
+            Acepto recibir mensajes de texto (SMS) de <strong style="color:#cbd5e1;">Agencia ProsperIA LLC</strong> al número proporcionado sobre mi solicitud, citas y seguimiento comercial. La frecuencia de mensajes varía. Pueden aplicar tarifas de mensajes y datos. Responde <strong style="color:#cbd5e1;">STOP</strong> para cancelar o <strong style="color:#cbd5e1;">HELP</strong> para ayuda. El consentimiento no es condición de compra. Ver <a href="/politica-privacidad#sms" target="_blank" rel="noopener" style="color:#22d3ee;text-decoration:underline;">Política de Privacidad</a> y <a href="/terminos-servicio#sms" target="_blank" rel="noopener" style="color:#22d3ee;text-decoration:underline;">Términos</a>.
+          </label>
+        </div>
+
         <div class="text-center pt-2">
           <button type="submit" id="contact-btn" class="btn-linear-primary px-10 py-4 text-xs font-bold inline-flex items-center justify-center gap-2 w-full sm:w-auto shadow-xl shadow-cyan-500/20">
             <span id="contact-btn-text">Agendar Llamada Estratégica</span>
@@ -3361,6 +3368,13 @@ document.addEventListener('DOMContentLoaded', () => {
             </span>
             <input type="tel" id="modal-lead-whatsapp" required placeholder="Ej. +52 55 1234 5678" class="express-lead-input w-full pl-9 pr-4 py-2.5 rounded-xl text-xs sm:text-sm" style="background-color: #070d1a !important; color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; border: 1.5px solid rgba(0, 229, 255, 0.4) !important;">
           </div>
+        </div>
+
+        <div class="sms-consent" style="display:flex;gap:.6rem;align-items:flex-start;text-align:left;margin:.5rem 0 .25rem;">
+          <input type="checkbox" id="sms-consent-express" class="sms-consent-input" name="sms_consent" value="yes" style="margin-top:.2rem;width:16px;height:16px;min-width:16px;flex-shrink:0;accent-color:#22d3ee;cursor:pointer;">
+          <label for="sms-consent-express" style="font-size:11px;line-height:1.5;color:#94a3b8;font-weight:400;text-transform:none;letter-spacing:normal;cursor:pointer;">
+            Acepto recibir mensajes de texto (SMS) de <strong style="color:#cbd5e1;">Agencia ProsperIA LLC</strong> al número proporcionado sobre mi solicitud, citas y seguimiento comercial. La frecuencia de mensajes varía. Pueden aplicar tarifas de mensajes y datos. Responde <strong style="color:#cbd5e1;">STOP</strong> para cancelar o <strong style="color:#cbd5e1;">HELP</strong> para ayuda. El consentimiento no es condición de compra. Ver <a href="/politica-privacidad#sms" target="_blank" rel="noopener" style="color:#22d3ee;text-decoration:underline;">Política de Privacidad</a> y <a href="/terminos-servicio#sms" target="_blank" rel="noopener" style="color:#22d3ee;text-decoration:underline;">Términos</a>.
+          </label>
         </div>
 
         <button type="submit" id="modal-submit-btn" class="btn-express-cta w-full mt-2 py-3.5 px-6 rounded-xl cursor-pointer" style="background: linear-gradient(135deg, #00f0ff 0%, #00c8f8 40%, #0284c7 100%) !important; color: #020617 !important; border: 2.5px solid #67e8f9 !important; box-shadow: 0 0 30px rgba(0, 240, 255, 0.55), inset 0 1px 1px #ffffff !important;">
