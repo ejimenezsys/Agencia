@@ -214,14 +214,10 @@
       <p class="text-xs text-slate-400 mb-3">
         ¿No encuentras un horario conveniente o necesitas atención comercial inmediata?
       </p>
-      <div class="flex flex-wrap items-center justify-center gap-3">
-        <a id="btn-whatsapp-directo" href="https://wa.me/17868336964?text=Hola%20Agencia%20ProsperIA%2C%20acabo%20de%20llenar%20el%20formulario%20y%20quiero%20coordinar%20mi%20llamada%20estrat%C3%A9gica." target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-950/60 border border-emerald-500/40 text-emerald-300 hover:bg-emerald-900/60 transition-colors text-xs font-semibold shadow-lg shadow-emerald-950/40">
-          <i class="fab fa-whatsapp text-sm text-emerald-400"></i>
+      <div class="flex items-center justify-center">
+        <a id="btn-whatsapp-directo" href="https://wa.me/17865573119?text=Hola%20Agencia%20ProsperIA%2C%20acabo%20de%20llenar%20el%20formulario%20y%20quiero%20coordinar%20mi%20llamada%20estrat%C3%A9gica." target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-950/70 border border-emerald-500/50 text-emerald-300 hover:bg-emerald-900/70 transition-colors text-xs font-semibold shadow-lg shadow-emerald-950/50 hover:scale-[1.02] transform transition-transform">
+          <i class="fab fa-whatsapp text-base text-emerald-400"></i>
           <span>Escribirnos directamente por WhatsApp</span>
-        </a>
-        <a href="tel:+17868336964" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-900/60 border border-white/10 text-slate-300 hover:text-white hover:bg-white/5 transition-colors text-xs font-semibold">
-          <i class="fas fa-phone text-xs text-cyan-400"></i>
-          <span>+1 (786) 833-6964</span>
         </a>
       </div>
     </div>
@@ -288,11 +284,11 @@
           }
         }
 
-        // Personalizar mensaje de WhatsApp
+        // Personalizar mensaje de WhatsApp (enlace a WhatsApp personal sin mostrar número en texto)
         const waBtn = document.getElementById('btn-whatsapp-directo');
         if (waBtn && fullName) {
           const waMsg = `Hola Agencia ProsperIA, soy ${fullName}${company ? ' de ' + company : ''}. Acabo de llenar el formulario en la web y me gustaría coordinar mi llamada estratégica.`;
-          waBtn.href = `https://wa.me/17868336964?text=${encodeURIComponent(waMsg)}`;
+          waBtn.href = `https://wa.me/17865573119?text=${encodeURIComponent(waMsg)}`;
         }
       } catch (err) {
         console.warn('Error en script de precarga de gracias:', err);
