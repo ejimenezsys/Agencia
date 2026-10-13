@@ -1465,7 +1465,57 @@ async def read_consultoria_ia(request: Request):
 @app.get("/gracias.html", response_class=HTMLResponse)
 @app.head("/gracias.html")
 async def read_gracias(request: Request):
-    return templates.TemplateResponse(request=request, name="gracias.html")
+    import urllib.parse
+    first_name = request.query_params.get("first_name", "").strip()
+    last_name = request.query_params.get("last_name", "").strip()
+    name = request.query_params.get("name", "").strip()
+    email = request.query_params.get("email", "").strip()
+    phone = request.query_params.get("phone", "").strip()
+    company = request.query_params.get("company", "").strip() or request.query_params.get("organization", "").strip()
+
+    if not first_name and name:
+        parts = name.split()
+        first_name = parts[0]
+        last_name = " ".join(parts[1:]) if len(parts) > 1 else ""
+
+    full_name = f"{first_name} {last_name}".strip() if (first_name or last_name) else name
+
+    # GHL Nuxt widget oficial usa exactamente estas claves:
+    # Gv = ["full_name","first_name","last_name","phone","email","organization",...]
+    cal_params = {}
+    if first_name:
+        cal_params["first_name"] = first_name
+    if last_name:
+        cal_params["last_name"] = last_name
+    if full_name:
+        cal_params["full_name"] = full_name
+        cal_params["name"] = full_name
+    if email:
+        cal_params["email"] = email
+    if phone:
+        cal_params["phone"] = phone
+    if company:
+        cal_params["organization"] = company
+        cal_params["company_name"] = company
+        cal_params["company"] = company
+
+    base_cal = "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8"
+    if cal_params:
+        calendar_url = f"{base_cal}?{urllib.parse.urlencode(cal_params)}"
+    else:
+        calendar_url = base_cal
+
+    return templates.TemplateResponse(
+        request=request,
+        name="gracias.html",
+        context={
+            "calendar_url": calendar_url,
+            "lead_name": first_name or full_name or "bienvenido",
+            "lead_email": email,
+            "lead_phone": phone,
+            "lead_company": company
+        }
+    )
 
 def get_codigos_data():
     json_path = os.path.join(os.path.dirname(__file__), "content", "codigos_100.json")

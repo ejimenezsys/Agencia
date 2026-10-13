@@ -3104,13 +3104,28 @@ async function submitContact() {
       alertEl.innerHTML = '<i class="fas fa-circle-check text-emerald-400 mr-2"></i>¡Solicitud recibida! Abriendo tu calendario de reservas...';
       btnText.textContent = 'Abriendo agenda...';
       
+      const fullName = `${firstName} ${lastName}`.trim();
+      try {
+        sessionStorage.setItem('pia_first_name', firstName);
+        sessionStorage.setItem('pia_last_name', lastName);
+        sessionStorage.setItem('pia_full_name', fullName);
+        sessionStorage.setItem('pia_name', fullName);
+        sessionStorage.setItem('pia_email', email);
+        sessionStorage.setItem('pia_phone', phone);
+        sessionStorage.setItem('pia_company', company);
+        sessionStorage.setItem('pia_organization', company);
+      } catch(e) {}
+
       const redirectParams = new URLSearchParams({
-        name: `${firstName} ${lastName}`.trim(),
+        full_name: fullName,
+        name: fullName,
         first_name: firstName,
         last_name: lastName,
         email: email,
         phone: phone,
-        company: company
+        organization: company,
+        company: company,
+        company_name: company
       });
 
       setTimeout(() => {

@@ -200,8 +200,8 @@
       <div class="p-2 sm:p-4 bg-slate-950/40 relative min-h-[750px]">
         <iframe
           id="ghl-booking-iframe"
-          src="https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8"
-          style="width: 100%; border:none; min-height: 800px; display: block;"
+          src="{{ calendar_url }}"
+          style="width: 100%; border:none; min-height: 850px; display: block;"
           scrolling="yes"
           allow="camera; microphone; autoplay">
         </iframe>
@@ -231,58 +231,71 @@
   <!-- Script oficial de GHL para auto-ajustar altura del iframe si está disponible -->
   <script src="https://api.agenciaprosperia.com/js/form_embed.js" type="text/javascript"></script>
 
-  <!-- Script de personalización de la página con parámetros de URL -->
+  <!-- Script de personalización y precarga con claves oficiales GoHighLevel -->
   <script>
     (function() {
       try {
         const urlParams = new URLSearchParams(window.location.search);
-        const name = urlParams.get('name') || urlParams.get('first_name') || '';
-        const email = urlParams.get('email') || '';
-        const phone = urlParams.get('phone') || '';
-        const company = urlParams.get('company') || '';
+        
+        // Extraer de URL o de sessionStorage
+        const firstName = urlParams.get('first_name') || sessionStorage.getItem('pia_first_name') || '';
+        const lastName = urlParams.get('last_name') || sessionStorage.getItem('pia_last_name') || '';
+        const fullName = urlParams.get('full_name') || urlParams.get('name') || sessionStorage.getItem('pia_full_name') || `${firstName} ${lastName}`.trim();
+        const email = urlParams.get('email') || sessionStorage.getItem('pia_email') || '';
+        const phone = urlParams.get('phone') || sessionStorage.getItem('pia_phone') || '';
+        const company = urlParams.get('organization') || urlParams.get('company') || urlParams.get('company_name') || sessionStorage.getItem('pia_company') || '';
 
-        // Personalizar saludo
-        if (name) {
+        // Personalizar saludo visual
+        const displayName = firstName || (fullName ? fullName.split(' ')[0] : '');
+        if (displayName) {
           const greetingEl = document.getElementById('client-greeting-name');
-          if (greetingEl) {
-            // Tomamos el primer nombre para un saludo más cálido
-            const firstName = name.split(' ')[0];
-            greetingEl.textContent = firstName;
-          }
+          if (greetingEl) greetingEl.textContent = displayName;
         }
 
-        // Mostrar correo en aviso
+        // Mostrar correo en aviso visual
         if (email) {
           const emailEl = document.getElementById('client-greeting-email');
-          if (emailEl) {
-            emailEl.textContent = email;
-          }
+          if (emailEl) emailEl.textContent = email;
         }
 
-        // Inyectar parámetros en el iframe de GoHighLevel para precargar campos si el widget lo admite
+        // Si el iframe aún no tiene los parámetros (ej. render estático o recarga sin query string)
         const iframe = document.getElementById('ghl-booking-iframe');
-        if (iframe) {
-          const baseUrl = "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8";
-          const bookingParams = new URLSearchParams();
-          if (name) bookingParams.set('name', name);
-          if (email) bookingParams.set('email', email);
-          if (phone) bookingParams.set('phone', phone);
-          if (company) bookingParams.set('company', company);
+        if (iframe && (firstName || email || phone || company)) {
+          const currentSrc = iframe.getAttribute('src') || '';
+          if (!currentSrc.includes('email=') && !currentSrc.includes('phone=')) {
+            const baseUrl = "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8";
+            const bookingParams = new URLSearchParams();
+            
+            // Claves estándar Gv de GoHighLevel
+            if (firstName) bookingParams.set('first_name', firstName);
+            if (lastName) bookingParams.set('last_name', lastName);
+            if (fullName) {
+              bookingParams.set('full_name', fullName);
+              bookingParams.set('name', fullName);
+            }
+            if (email) bookingParams.set('email', email);
+            if (phone) bookingParams.set('phone', phone);
+            if (company) {
+              bookingParams.set('organization', company);
+              bookingParams.set('company_name', company);
+              bookingParams.set('company', company);
+            }
 
-          const paramStr = bookingParams.toString();
-          if (paramStr) {
-            iframe.src = baseUrl + '?' + paramStr;
+            const paramStr = bookingParams.toString();
+            if (paramStr) {
+              iframe.src = baseUrl + '?' + paramStr;
+            }
           }
         }
 
         // Personalizar mensaje de WhatsApp
         const waBtn = document.getElementById('btn-whatsapp-directo');
-        if (waBtn && name) {
-          const waMsg = `Hola Agencia ProsperIA, soy ${name}${company ? ' de ' + company : ''}. Acabo de llenar el formulario en la web y me gustaría coordinar mi llamada estratégica.`;
+        if (waBtn && fullName) {
+          const waMsg = `Hola Agencia ProsperIA, soy ${fullName}${company ? ' de ' + company : ''}. Acabo de llenar el formulario en la web y me gustaría coordinar mi llamada estratégica.`;
           waBtn.href = `https://wa.me/17868336964?text=${encodeURIComponent(waMsg)}`;
         }
       } catch (err) {
-        console.warn('Error personalizando página de gracias:', err);
+        console.warn('Error en script de precarga de gracias:', err);
       }
     })();
   </script>
