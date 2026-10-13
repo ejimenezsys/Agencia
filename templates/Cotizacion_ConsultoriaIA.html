@@ -133,7 +133,7 @@
         <a href="/codigos" class="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-slate-300 hover:text-white bg-slate-900 border border-slate-800 hover:border-slate-700 transition-all">
           <i class="fas fa-arrow-left text-xs"></i> Volver a Códigos
         </a>
-        <a href="tel:+17868336964" onclick="return openProsperChat(event)" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-emerald-500 hover:bg-emerald-400 text-slate-950 transition-all shadow-[0_0_15px_rgba(16,185,129,0.3)]">
+        <a href="https://wa.me/17865573119?text=Hola%20Agencia%20ProsperIA%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20servicios" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-emerald-500 hover:bg-emerald-400 text-slate-950 transition-all shadow-[0_0_15px_rgba(16,185,129,0.3)]">
           <i class="fab fa-whatsapp text-base"></i>
           <span>WhatsApp Directo</span>
         </a>
@@ -254,19 +254,19 @@
               </li>
             </ul>
           </div>
-
-          <a href="https://lc.passportai.app/business-empresario-profesional" target="_blank" rel="noopener" class="btn-opt2-cta" style="text-decoration: none !important;">
+ 
+          <button type="button" onclick="openCotizacionModal('integral')" class="btn-opt2-cta w-full" style="text-decoration: none !important; cursor: pointer; border: none;">
             <i class="fas fa-calendar-check text-base"></i>
-            <span>Agenda una Reunión</span>
+            <span>Agendar Llamada Estratégica (30 min)</span>
             <i class="fas fa-arrow-right text-xs"></i>
-          </a>
+          </button>
         </div>
 
       </div>
 
-      <!-- Quick WhatsApp banner (Verde sólido, más grande, letras blancas) -->
+      <!-- Quick WhatsApp banner -->
       <div class="text-center pt-6 pb-12">
-        <a href="tel:+17868336964" onclick="return openProsperChat(event)" style="background: #25D366 !important; background-color: #25D366 !important; color: #ffffff !important; font-weight: 800 !important; font-size: 16px !important; padding: 18px 36px !important; border-radius: 16px !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; gap: 12px !important; text-decoration: none !important; border: 2px solid #86efac !important; box-shadow: 0 10px 30px rgba(37, 211, 102, 0.45) !important; transition: all 0.25s ease !important;" onmouseover="this.style.backgroundColor='#20ba59'; this.style.transform='translateY(-2px)'" onmouseout="this.style.backgroundColor='#25D366'; this.style.transform='none'">
+        <a href="https://wa.me/17865573119?text=Hola%20Agencia%20ProsperIA%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20servicios%20de%20consultor%C3%ADa%20en%20IA." target="_blank" rel="noopener" style="background: #25D366 !important; background-color: #25D366 !important; color: #ffffff !important; font-weight: 800 !important; font-size: 16px !important; padding: 18px 36px !important; border-radius: 16px !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; gap: 12px !important; text-decoration: none !important; border: 2px solid #86efac !important; box-shadow: 0 10px 30px rgba(37, 211, 102, 0.45) !important; transition: all 0.25s ease !important;" onmouseover="this.style.backgroundColor='#20ba59'; this.style.transform='translateY(-2px)'" onmouseout="this.style.backgroundColor='#25D366'; this.style.transform='none'">
           <i class="fab fa-whatsapp" style="font-size: 24px; color: #ffffff !important;"></i>
           <span style="color: #ffffff !important; font-weight: 800 !important;">¿Quieres respuesta inmediata en 1 clic? Chatear directamente por WhatsApp</span>
           <i class="fas fa-arrow-right" style="font-size: 14px; color: #ffffff !important;"></i>
@@ -338,12 +338,12 @@
         </div>
 
         <button type="submit" id="btn-submit-modal" class="btn-cotizacion-cta mt-3">
-          <i class="fab fa-whatsapp text-lg"></i> <span>¡Enviar y Recibir Propuesta en WhatsApp!</span>
+          <i class="fas fa-calendar-check text-lg"></i> <span>¡Continuar a la Agenda de Citas!</span>
         </button>
         
         <div class="text-center pt-2">
-          <a href="tel:+17868336964" onclick="return openProsperChat(event)" class="text-xs text-emerald-400 hover:text-emerald-300 transition-colors inline-flex items-center gap-1.5 font-semibold">
-            <i class="fab fa-whatsapp"></i> ¿Prefieres escribir directo sin llenar el formulario? Clic aquí
+          <a href="https://wa.me/17865573119?text=Hola%20Agencia%20ProsperIA%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20servicios%20de%20consultor%C3%ADa" target="_blank" rel="noopener" class="text-xs text-emerald-400 hover:text-emerald-300 transition-colors inline-flex items-center gap-1.5 font-semibold">
+            <i class="fab fa-whatsapp"></i> ¿Prefieres escribir directo por WhatsApp sin llenar el formulario? Clic aquí
           </a>
         </div>
       </form>
@@ -391,37 +391,62 @@
       const btn = document.getElementById('btn-submit-modal');
       const originalHtml = btn.innerHTML;
       btn.disabled = true;
-      btn.innerHTML = '<i class="fas fa-spinner fa-spin text-lg"></i> <span>Registrando cotización...</span>';
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin text-lg"></i> <span>Registrando solicitud...</span>';
 
       const servicioText = servicio === 'contenido' ? 'Opción 1: Contenido Viral con IA' : 'Opción 2: Sistema Integral 360°';
+
+      const parts = name.split(' ');
+      const firstName = parts[0] || name;
+      const lastName = parts.slice(1).join(' ') || '';
+
+      try {
+        sessionStorage.setItem('pia_first_name', firstName);
+        sessionStorage.setItem('pia_last_name', lastName);
+        sessionStorage.setItem('pia_full_name', name);
+        sessionStorage.setItem('pia_name', name);
+        sessionStorage.setItem('pia_email', email);
+        sessionStorage.setItem('pia_phone', phone);
+        sessionStorage.setItem('pia_company', 'Cotización Consultoría IA');
+        sessionStorage.setItem('pia_organization', 'Cotización Consultoría IA');
+      } catch (err) {}
 
       try {
         await fetch('/api/auth/contact', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
+            first_name: firstName,
+            last_name: lastName,
             name: name,
             email: email,
             phone: phone,
             company: 'Página Cotización Consultoría IA',
             source: 'pagina_cotizacion_consultoria',
-            message: `SOLICITUD DE COTIZACIÓN PROSPERIA\nModalidad: ${servicioText}\nNombre: ${name}\nEmail: ${email}\nWhatsApp: ${phone}`
+            message: `SOLICITUD DE COTIZACIÓN PROSPERIA\nModalidad: ${servicioText}\nNombre: ${name}\nEmail: ${email}\nWhatsApp: ${phone}`,
+            sms_consent: true
           })
         });
       } catch (err) {
         console.warn('Silent contact sync error', err);
       }
 
-      const textWa = encodeURIComponent(`Hola Edward & ProsperIA! Acabo de solicitar una cotización desde la página de Consultoría IA:\n\n👤 Nombre: ${name}\n📧 Correo: ${email}\n📱 WhatsApp: ${phone}\n🎯 Modalidad: ${servicioText}\n\n¿Cuándo podríamos coordinar la propuesta?`);
+      btn.innerHTML = '<i class="fas fa-check text-lg text-emerald-400"></i> <span>¡Listo! Abriendo agenda de citas...</span>';
       
-      btn.innerHTML = '<i class="fas fa-check text-lg"></i> <span>¡Cotización Enviada! Abriendo WhatsApp...</span>';
-      
+      const calParams = new URLSearchParams({
+        full_name: name,
+        name: name,
+        first_name: firstName,
+        last_name: lastName,
+        email: email,
+        phone: phone,
+        organization: 'Cotización Consultoría IA',
+        company: 'Cotización Consultoría IA',
+        company_name: 'Cotización Consultoría IA'
+      });
+
       setTimeout(() => {
-        openProsperChat();
-        closeCotizacionModal();
-        btn.disabled = false;
-        btn.innerHTML = originalHtml;
-      }, 1000);
+        window.location.href = `/gracias?${calParams.toString()}`;
+      }, 600);
     }
 
     // Escape listener
