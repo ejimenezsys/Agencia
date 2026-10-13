@@ -3100,17 +3100,28 @@ async function submitContact() {
     const data = await res.json();
 
     if (data.success) {
-      alertEl.className = 'mb-6 p-4 rounded-xl text-xs font-semibold text-cyan-300 bg-cyan-950/50 border border-cyan-500/30 block';
-      alertEl.innerHTML = '<i class="fas fa-circle-check mr-2"></i>¡Solicitud recibida con éxito! Nuestro equipo directivo revisará tus requerimientos y se comunicará en menos de 24 horas hábiles.';
+      alertEl.className = 'mb-6 p-4 rounded-xl text-xs font-semibold text-cyan-300 bg-cyan-950/70 border border-cyan-500/50 block';
+      alertEl.innerHTML = '<i class="fas fa-circle-check text-emerald-400 mr-2"></i>¡Solicitud recibida! Abriendo tu calendario de reservas...';
+      btnText.textContent = 'Abriendo agenda...';
       
-      document.getElementById('corporate-contact-form').reset();
+      const redirectParams = new URLSearchParams({
+        name: `${firstName} ${lastName}`.trim(),
+        first_name: firstName,
+        last_name: lastName,
+        email: email,
+        phone: phone,
+        company: company
+      });
+
+      setTimeout(() => {
+        window.location.href = `/gracias?${redirectParams.toString()}`;
+      }, 500);
     } else {
       throw new Error(data.error || 'Error en el procesamiento de la solicitud.');
     }
   } catch(e) {
     alertEl.className = 'mb-6 p-4 rounded-xl text-xs font-semibold text-red-400 bg-red-950/40 border border-red-500/30 block';
     alertEl.innerHTML = '<i class="fas fa-triangle-exclamation mr-2"></i>' + (e.message || 'Error de conexión. Inténtalo de nuevo o contáctanos por WhatsApp.');
-  } finally {
     btn.disabled = false;
     btnText.textContent = 'Agendar Llamada Estratégica';
     if (spinner) spinner.style.display = 'none';

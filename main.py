@@ -1458,6 +1458,15 @@ async def read_harmonypayments(request: Request):
 async def read_consultoria_ia(request: Request):
     return templates.TemplateResponse(request=request, name="consultoriadeinteligenciaartificial.html")
 
+@app.get("/gracias", response_class=HTMLResponse)
+@app.head("/gracias")
+@app.get("/gracias/", response_class=HTMLResponse)
+@app.head("/gracias/")
+@app.get("/gracias.html", response_class=HTMLResponse)
+@app.head("/gracias.html")
+async def read_gracias(request: Request):
+    return templates.TemplateResponse(request=request, name="gracias.html")
+
 def get_codigos_data():
     json_path = os.path.join(os.path.dirname(__file__), "content", "codigos_100.json")
     if os.path.exists(json_path):
