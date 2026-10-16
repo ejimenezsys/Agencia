@@ -1410,6 +1410,10 @@ async def get_arsenal_prompts(
     finally:
         db.close()
 
+@app.get("/podcast", response_class=HTMLResponse)
+@app.head("/podcast")
+@app.get("/podcast/", response_class=HTMLResponse)
+@app.head("/podcast/")
 @app.get("/podcast.html", response_class=HTMLResponse)
 async def read_podcast(request: Request):
     return templates.TemplateResponse(request=request, name="podcast.html", context={"podcasts": INITIAL_PODCASTS})
