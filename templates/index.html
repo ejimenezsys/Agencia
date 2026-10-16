@@ -55,6 +55,7 @@
   <link rel="stylesheet" href="{{ static_versioned('tw.css') }}">
   <link rel="stylesheet" href="{{ static_versioned('fonts.css') }}">
   <link rel="stylesheet" href="{{ static_versioned('fa.min.css') }}">
+  <link rel="stylesheet" href="{{ static_versioned('home.css') }}">
 
   <style>
     /* ════════════════════════════════════════════════════
@@ -77,7 +78,7 @@
 
     * { font-family: 'Inter', sans-serif; box-sizing: border-box; }
     h1, h2, h3, h4, .font-heading { font-family: 'Space Grotesk', sans-serif; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; overflow-x: hidden; overflow-x: clip; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
     body { background: var(--bg-dark); color: var(--white); overflow-x: hidden; padding-top: 104px; }
 
     /* Top Announcement Ribbon */
@@ -802,13 +803,7 @@
      TOP ANNOUNCEMENT BAR
      ════════════════════════════════════════════════════ -->
 <div class="top-bar">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex items-center justify-between">
-    <div class="flex items-center gap-2 text-[11px]">
-      <span class="inline-block w-1.5 h-1.5 rounded-full animate-pulse bg-cyan-400"></span>
-      <span class="text-slate-400">
-        Infraestructura comercial y operativa para empresas con Inteligencia Artificial.
-      </span>
-    </div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex items-center justify-end">
     <div class="flex items-center gap-4 text-slate-400 text-xs">
       <a href="https://www.instagram.com/edwardjimenezia/" target="_blank" rel="noopener" class="hover:text-cyan-400 transition-colors" aria-label="Instagram" onclick="trackEvent('social_click', {platform: 'instagram'})"><i class="fab fa-instagram"></i></a>
       <a href="https://www.facebook.com/AgenciaProsperarIA/" target="_blank" rel="noopener" class="hover:text-cyan-400 transition-colors" aria-label="Facebook" onclick="trackEvent('social_click', {platform: 'facebook'})"><i class="fab fa-facebook-f"></i></a>
@@ -1663,54 +1658,48 @@
         <div class="glass-card p-6 sm:p-8 w-full flex flex-col justify-between relative overflow-hidden border-cyan-500/30 bg-gradient-to-b from-cyan-950/30 via-slate-950/40 to-transparent shadow-2xl">
           
           <div>
-            <!-- Header Compacto: Foto Odontología/Estética + Badges de Vertical -->
-            <div class="flex items-center gap-4 p-3 rounded-2xl bg-white/[0.03] border border-cyan-500/20 mb-5">
+            <!-- Cabecera: foto + vertical (compacta) -->
+            <div class="flex items-center gap-4 mb-5">
               <img src="{{ static_versioned('clinica_odontologia_estetica.jpg') }}" alt="Clínica de Odontología, Estética y Capilar" class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl object-cover flex-shrink-0 border border-cyan-500/40 shadow-lg shadow-cyan-500/10">
               <div class="min-w-0 flex-1">
-                <div class="flex flex-wrap items-center gap-2 mb-1">
-                  <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-500/20 border border-emerald-400/40 text-emerald-300">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                    Vertical 1 Activa
-                  </span>
-                  <span class="text-[10px] font-semibold text-slate-400">Liderado por Richi</span>
-                </div>
-                <h4 class="text-sm sm:text-base font-bold text-white leading-tight">Clínicas de Odontología, Estética & Capilar</h4>
-                <p class="text-[11px] text-slate-300 mt-1 font-light leading-snug">Sistemas automatizados de captación y agenda 24/7 sin fricción operativa.</p>
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 mb-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                  Vertical 1 Activa
+                </span>
+                <h4 class="text-sm sm:text-base font-bold text-white leading-tight">Clínicas de Odontología, Estética &amp; Capilar</h4>
+                <p class="text-[11px] text-slate-400 mt-0.5">Liderado por Richi</p>
               </div>
             </div>
 
-
-            <!-- Título y Tesis del Embudo de Richi -->
+            <!-- Título y tesis -->
             <h3 class="text-2xl sm:text-3xl font-black text-white mb-2 leading-tight">
               Aumenta de un 30% a un 150% la Facturación de tu Clínica
             </h3>
-            
             <p class="text-cyan-400 text-xs sm:text-sm font-bold mb-3 flex items-center gap-1.5">
               <i class="fas fa-bolt text-xs"></i>
               <span>Con Sistemas Automatizados y Agentes IA 24/7</span>
             </p>
-
             <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-5 font-light">
-              Implementa un sistema integral que <strong>capta, filtra, responde y agenda pacientes calificados</strong> de forma ininterrumpida sin que tengas que atender el WhatsApp manualmente.
+              Un sistema integral que <strong>capta, filtra, responde y agenda pacientes calificados</strong> sin que atiendas el WhatsApp manualmente.
             </p>
 
-            <!-- 4 Beneficios Clave del Embudo -->
+            <!-- 4 beneficios clave -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-5 text-xs text-slate-300">
               <div class="flex items-start gap-2 bg-white/[0.02] p-2.5 rounded-xl border border-white/5">
                 <i class="fas fa-check-circle text-emerald-400 mt-0.5 text-xs flex-shrink-0"></i>
-                <span><strong>Respuesta en &lt; 30s:</strong> Agente IA cualifica tratamientos en WhatsApp e Instagram.</span>
+                <span><strong>Respuesta en &lt; 30s:</strong> IA cualifica tratamientos por WhatsApp e Instagram.</span>
               </div>
               <div class="flex items-start gap-2 bg-white/[0.02] p-2.5 rounded-xl border border-white/5">
                 <i class="fas fa-check-circle text-emerald-400 mt-0.5 text-xs flex-shrink-0"></i>
-                <span><strong>Agenda 24/7 Sincronizada:</strong> Citas confirmadas en recepción sin fricción de llamadas.</span>
+                <span><strong>Agenda 24/7:</strong> Citas confirmadas en recepción sin llamadas.</span>
               </div>
               <div class="flex items-start gap-2 bg-white/[0.02] p-2.5 rounded-xl border border-white/5">
                 <i class="fas fa-check-circle text-emerald-400 mt-0.5 text-xs flex-shrink-0"></i>
-                <span><strong>Blindaje Anti No-Show:</strong> Confirmaciones automáticas que reducen ausentismo.</span>
+                <span><strong>Anti No-Show:</strong> Confirmaciones automáticas que reducen ausentismo.</span>
               </div>
               <div class="flex items-start gap-2 bg-white/[0.02] p-2.5 rounded-xl border border-white/5">
                 <i class="fas fa-check-circle text-emerald-400 mt-0.5 text-xs flex-shrink-0"></i>
-                <span><strong>Cero Personal Extra:</strong> Sin contratar más comerciales ni depender de llamadas manuales.</span>
+                <span><strong>Cero personal extra:</strong> Sin contratar más comerciales.</span>
               </div>
             </div>
           </div>
@@ -1722,11 +1711,8 @@
               <span>¡SÍ, QUIERO MI CONSULTORÍA PARA CLÍNICAS! →</span>
             </a>
             
-            <div class="flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-slate-400 px-1 pt-1">
-              <span class="inline-flex items-center gap-1.5 text-slate-300">
-                <i class="fas fa-shield-halved text-emerald-400"></i> Embudo Vertical 1 liderado por Richi
-              </span>
-              <a href="#contacto" class="text-cyan-400 hover:text-cyan-300 font-semibold transition-colors flex items-center gap-1" onclick="selectIndustry('clinica')">
+            <div class="text-center text-[11px] pt-1">
+              <a href="#contacto" class="text-cyan-400 hover:text-cyan-300 font-semibold transition-colors inline-flex items-center gap-1" onclick="selectIndustry('clinica')">
                 <span>O agenda diagnóstico corporativo</span>
                 <i class="fas fa-arrow-down text-[9px]"></i>
               </a>
