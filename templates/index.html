@@ -576,6 +576,86 @@
     /* ════════════════════════════════════════════════════
        ANIMACIONES DE CIRCUITOS VIVOS (CIRCUIT-ONLY FLOW)
        ════════════════════════════════════════════════════ */
+    /* ════ DIAGRAMAS HTML LIMPIOS (flujo del ecosistema + industrias) ════ */
+    .flow-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 40px; grid-template-columns: 1fr; }
+    @media (min-width: 640px) { .flow-steps { grid-template-columns: repeat(2, 1fr); gap: 40px 36px; } }
+    @media (min-width: 1024px) { .flow-steps { grid-template-columns: repeat(4, 1fr); gap: 36px; } }
+    .flow-step {
+      position: relative; padding: 24px 20px 22px; border-radius: 20px; text-align: left;
+      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015));
+      border: 1px solid rgba(255,255,255,0.09);
+      box-shadow: inset 0 2px 0 var(--c), 0 18px 40px -20px rgba(0,0,0,0.8);
+      transition: transform .3s ease, border-color .3s ease;
+    }
+    .flow-step:hover { transform: translateY(-4px); border-color: var(--c); }
+    .flow-num {
+      display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px;
+      border-radius: 10px; font-weight: 800; font-size: 14px; color: var(--c);
+      background: rgba(255,255,255,0.05); border: 1px solid var(--c); margin-bottom: 12px;
+    }
+    .flow-step h4 { color: #fff; font-size: 17px; font-weight: 800; margin: 0 0 4px; }
+    .flow-step > p { color: #94a3b8; font-size: 12.5px; line-height: 1.5; margin: 0 0 14px; }
+    .flow-tags { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+    .flow-tags li {
+      font-size: 11px; color: #cbd5e1; padding: 4px 9px; border-radius: 999px;
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    }
+    /* Conector animado, suave */
+    .flow-step:not(:last-child)::after {
+      content: ""; position: absolute; pointer-events: none; opacity: .8;
+      left: 50%; top: 100%; width: 2px; height: 40px; transform: translateX(-50%);
+      background: linear-gradient(180deg, transparent, var(--c), transparent); background-size: 100% 250%;
+      animation: flowV 3s ease-in-out infinite;
+    }
+    @media (min-width: 640px) and (max-width: 1023px) { .flow-step:not(:last-child)::after { display: none; } }
+    @media (min-width: 1024px) {
+      .flow-step:not(:last-child)::after {
+        left: 100%; top: 50%; width: 36px; height: 2px; transform: translateY(-50%);
+        background: linear-gradient(90deg, transparent, var(--c), transparent); background-size: 250% 100%;
+        animation: flowH 3s ease-in-out infinite;
+      }
+    }
+    @keyframes flowV { 0% { background-position: 0 -150%; } 100% { background-position: 0 150%; } }
+    @keyframes flowH { 0% { background-position: -150% 0; } 100% { background-position: 150% 0; } }
+    @media (prefers-reduced-motion: reduce) { .flow-step::after { animation: none !important; } }
+    .flow-support { display: grid; gap: 12px; grid-template-columns: 1fr; margin-top: 36px; }
+    @media (min-width: 640px) { .flow-support { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1024px) { .flow-support { grid-template-columns: repeat(4, 1fr); } }
+    .flow-support > div {
+      padding: 14px 16px; border-radius: 14px; text-align: left;
+      background: rgba(255,255,255,0.025); border: 1px dashed rgba(255,255,255,0.14);
+    }
+    .flow-support strong { display: block; color: #e2e8f0; font-size: 13px; margin-bottom: 2px; }
+    .flow-support span { color: #94a3b8; font-size: 11.5px; line-height: 1.45; }
+
+    .ind-hub {
+      max-width: 520px; margin: 0 auto 28px; text-align: center; padding: 16px 22px; border-radius: 18px;
+      background: radial-gradient(circle at 50% 0%, rgba(94,106,210,0.28), rgba(2,6,23,0.6));
+      border: 1px solid rgba(0,229,255,0.28); box-shadow: 0 0 40px rgba(94,106,210,0.18);
+    }
+    .ind-hub strong { display: block; color: #fff; font-size: 17px; font-weight: 800; }
+    .ind-hub span { color: #67e8f9; font-size: 12.5px; }
+    .ind-grid { display: grid; gap: 16px; grid-template-columns: 1fr; }
+    @media (min-width: 640px) { .ind-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1024px) { .ind-grid { grid-template-columns: repeat(3, 1fr); gap: 20px; } }
+    .ind-card {
+      padding: 20px; border-radius: 18px; text-align: left;
+      background: linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.01));
+      border: 1px solid rgba(255,255,255,0.09); border-left: 3px solid var(--c);
+      transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+    }
+    .ind-card:hover { transform: translateY(-4px); border-color: var(--c); box-shadow: 0 18px 40px -20px var(--c); }
+    .ind-card h4 { color: #fff; font-size: 17px; font-weight: 800; margin: 0 0 2px; }
+    .ind-card > p { color: var(--c); font-size: 11.5px; margin: 0 0 12px; }
+    .ind-card ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+    .ind-card li { color: #cbd5e1; font-size: 12.5px; padding-left: 16px; position: relative; }
+    .ind-card li::before { content: ""; position: absolute; left: 0; top: .55em; width: 6px; height: 6px; border-radius: 50%; background: var(--c); }
+    .ind-results { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 24px; }
+    .ind-results span {
+      font-size: 12px; font-weight: 600; color: #a5f3fc; padding: 7px 14px; border-radius: 999px;
+      background: rgba(0,229,255,0.07); border: 1px solid rgba(0,229,255,0.22);
+    }
+
     /* Brillo suave y lento sobre los diagramas (reemplaza los circuitos saturados) */
     .diagram-sheen {
       position: absolute;
@@ -1496,9 +1576,9 @@
       </div>
     </div>
 
-    <!-- VITRINA MAESTRA: IMAGEN 1 — FLUJO (Ecosistema Inteligente de Crecimiento con 3D Tilt & Holograma) -->
-    <div class="mt-14 cinematic-interactive-wrapper" data-reveal>
-      <div class="text-center max-w-2xl mx-auto mb-8">
+    <!-- DIAGRAMA 1 — FLUJO DEL ECOSISTEMA (HTML limpio, reemplaza la imagen saturada) -->
+    <div class="mt-14" data-reveal>
+      <div class="text-center max-w-2xl mx-auto mb-10">
         <div class="badge-linear mb-2">Arquitectura Integral en Acción</div>
         <h3 class="text-2xl sm:text-3xl font-black text-white mb-2">Flujo del Ecosistema de Crecimiento</h3>
         <p class="text-xs sm:text-sm text-slate-400 font-light">
@@ -1506,27 +1586,50 @@
         </p>
       </div>
 
-      <div class="cinematic-tilt-card glass-card p-2.5 sm:p-4 rounded-3xl border-cyan-500/25 shadow-[0_25px_60px_-10px_rgba(0,0,0,0.9),0_0_40px_rgba(0,229,255,0.12)] group" onclick="openImageModal('{{ static_versioned('flujooperativo_AgenciaProsperIA.png') }}', 'Agencia ProsperIA — Flujo Operativo y Ecosistema Inteligente')">
-        
-        <!-- Zoom Hint Badge -->
-        <div class="zoom-hint-badge">
-          <i class="fas fa-magnifying-glass-plus text-cyan-400"></i>
-          <span>Clic para ampliar en alta resolución</span>
-        </div>
+      <ol class="flow-steps" aria-label="Flujo del ecosistema en 4 pasos">
+        <li class="flow-step" style="--c:#22d3ee;">
+          <span class="flow-num">1</span>
+          <h4>Captación omnicanal</h4>
+          <p>Atraemos, conectamos y convertimos.</p>
+          <ul class="flow-tags">
+            <li>Meta Ads</li><li>Instagram</li><li>WhatsApp</li><li>Google Ads</li>
+            <li>TikTok Ads</li><li>Email Marketing</li><li>Referencias</li><li>Orgánico / SEO</li>
+          </ul>
+        </li>
+        <li class="flow-step" style="--c:#818cf8;">
+          <span class="flow-num">2</span>
+          <h4>PassportAI</h4>
+          <p>El núcleo de inteligencia: investiga, entiende tu negocio y recomienda.</p>
+          <ul class="flow-tags">
+            <li>Chat multimedia</li><li>Investigación profunda</li><li>Conocimiento de negocio</li>
+            <li>Análisis &amp; insights</li><li>Recomendaciones accionables</li><li>Contenido &amp; estrategias</li>
+          </ul>
+        </li>
+        <li class="flow-step" style="--c:#c084fc;">
+          <span class="flow-num">3</span>
+          <h4>ProsperIA CRM</h4>
+          <p>Central de mando comercial: todo el negocio en una sola vista.</p>
+          <ul class="flow-tags">
+            <li>Contactos 360°</li><li>Conversaciones omnicanal</li><li>Pipelines &amp; oportunidades</li>
+            <li>Calendarios &amp; citas</li><li>Seguimientos &amp; tareas</li><li>Reportes &amp; analytics</li>
+          </ul>
+        </li>
+        <li class="flow-step" style="--c:#fbbf24;">
+          <span class="flow-num">4</span>
+          <h4>Empleados digitales IA</h4>
+          <p>Trabajan 24/7, califican, responden y agendan.</p>
+          <ul class="flow-tags">
+            <li>SDR AI: califica leads</li><li>Setter AI: agenda citas</li>
+            <li>Closer AI: presenta y da seguimiento</li><li>Soporte AI: resuelve dudas</li>
+          </ul>
+        </li>
+      </ol>
 
-        <!-- Dynamic Specular Glare -->
-        <div class="card-specular-glare"></div>
-
-        <div class="relative w-full rounded-2xl overflow-hidden bg-black">
-          <img src="{{ static_versioned('flujooperativo_AgenciaProsperIA.png') }}" alt="Agencia ProsperIA — Flujo Operativo y Ecosistema Inteligente" class="w-full h-auto object-cover rounded-2xl transition-transform duration-700 group-hover:scale-[1.01]" loading="lazy">
-          
-          <div class="diagram-sheen" aria-hidden="true"></div>
-
-          <div class="tilt-floating-badge absolute bottom-4 right-4 bg-slate-950/90 backdrop-blur-md border border-white/15 px-3.5 py-1.5 rounded-xl text-[11px] font-bold text-cyan-300 flex items-center gap-2 shadow-lg">
-            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-            <span>Ecosistema Conectado 2026</span>
-          </div>
-        </div>
+      <div class="flow-support">
+        <div><strong>Creación &amp; producción</strong><span>Imágenes, videos, voz y avatares con IA</span></div>
+        <div><strong>Investigación &amp; conocimiento</strong><span>Deep Research, NotebookLM, mapas mentales</span></div>
+        <div><strong>Integraciones</strong><span>WhatsApp, Instagram, Facebook, Gmail, Stripe, Zapier, Google</span></div>
+        <div><strong>ProsperIA Stack</strong><span>Implementación, hosting, seguridad y soporte continuo</span></div>
       </div>
     </div>
 
@@ -1569,29 +1672,43 @@
       </p>
     </div>
 
-    <!-- IMAGEN 2 — SECTORES (Infografía Maestra de Soluciones por Industria con 3D Tilt & Holograma) -->
-    <div class="max-w-6xl mx-auto mb-16 cinematic-interactive-wrapper" data-reveal>
-      <div class="cinematic-tilt-card glass-card p-2.5 sm:p-4 rounded-3xl border-cyan-500/25 shadow-[0_25px_60px_-10px_rgba(0,0,0,0.9),0_0_35px_rgba(94,106,210,0.15)] group" onclick="openImageModal('{{ static_versioned('flujoperativo_ghl.png') }}', 'Agencia ProsperIA — Infraestructura Inteligente por Industria')">
-        
-        <!-- Zoom Hint Badge -->
-        <div class="zoom-hint-badge">
-          <i class="fas fa-magnifying-glass-plus text-cyan-400"></i>
-          <span>Clic para ampliar en alta resolución</span>
-        </div>
+    <!-- DIAGRAMA 2 — SECTORES (HTML limpio, reemplaza la imagen saturada) -->
+    <div class="max-w-6xl mx-auto mb-16" data-reveal>
+      <div class="ind-hub">
+        <strong>Infraestructura inteligente</strong>
+        <span>IA · Automatización · CRM · Datos — un solo ecosistema</span>
+      </div>
 
-        <!-- Dynamic Specular Glare -->
-        <div class="card-specular-glare"></div>
+      <div class="ind-grid">
+        <article class="ind-card" style="--c:#22d3ee;">
+          <h4>Clínicas</h4><p>Dental · Estética · Capilar</p>
+          <ul><li>Captación automática</li><li>Agenda inteligente</li><li>Seguimiento automatizado</li><li>Pacientes satisfechos</li></ul>
+        </article>
+        <article class="ind-card" style="--c:#818cf8;">
+          <h4>Inmobiliarias</h4><p>Venta · Alquiler · Proyectos</p>
+          <ul><li>Leads calificados</li><li>Visitas automáticas</li><li>Seguimiento inteligente</li><li>Cierre de oportunidades</li></ul>
+        </article>
+        <article class="ind-card" style="--c:#c084fc;">
+          <h4>Servicios profesionales</h4><p>Consultoras · Abogados · Contadores · Agencias</p>
+          <ul><li>Leads calificados</li><li>Propuestas automáticas</li><li>Proyectos organizados</li><li>Facturación inteligente</li></ul>
+        </article>
+        <article class="ind-card" style="--c:#f472b6;">
+          <h4>Belleza &amp; Bienestar</h4><p>Spas · Salones · Estética · Wellness</p>
+          <ul><li>Reservas automáticas</li><li>Recordatorios inteligentes</li><li>Programas personalizados</li><li>Clientes recurrentes</li></ul>
+        </article>
+        <article class="ind-card" style="--c:#34d399;">
+          <h4>Fitness &amp; Salud</h4><p>Gimnasios · Entrenadores · Centros deportivos</p>
+          <ul><li>Nuevos miembros</li><li>Planes personalizados</li><li>Seguimiento de resultados</li><li>Retención inteligente</li></ul>
+        </article>
+        <article class="ind-card" style="--c:#fbbf24;">
+          <h4>Servicios para el hogar</h4><p>Plomería · Electricidad · Limpieza · Reparaciones</p>
+          <ul><li>Solicitudes automáticas</li><li>Despacho inteligente</li><li>Seguimiento en tiempo real</li><li>Clientes fieles</li></ul>
+        </article>
+      </div>
 
-        <div class="relative w-full rounded-2xl overflow-hidden bg-black">
-          <img src="{{ static_versioned('flujoperativo_ghl.png') }}" alt="Agencia ProsperIA — Infraestructura Inteligente por Industria" class="w-full h-auto object-cover rounded-2xl transition-transform duration-700 group-hover:scale-[1.01]" loading="lazy">
-          
-          <div class="diagram-sheen" aria-hidden="true"></div>
-
-          <div class="tilt-floating-badge absolute bottom-4 right-4 bg-slate-950/90 backdrop-blur-md border border-white/15 px-3.5 py-1.5 rounded-xl text-[11px] font-bold text-cyan-300 flex items-center gap-2 shadow-lg">
-            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
-            <span>Infraestructura Inteligente Multivertical</span>
-          </div>
-        </div>
+      <div class="ind-results">
+        <span>Más leads de calidad</span><span>Más conversiones y ventas</span><span>Más eficiencia operativa</span>
+        <span>Mejor experiencia para tus clientes</span><span>Mayor crecimiento y rentabilidad</span>
       </div>
     </div>
 
