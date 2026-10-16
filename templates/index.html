@@ -576,6 +576,26 @@
     /* ════════════════════════════════════════════════════
        ANIMACIONES DE CIRCUITOS VIVOS (CIRCUIT-ONLY FLOW)
        ════════════════════════════════════════════════════ */
+    /* Brillo suave y lento sobre los diagramas (reemplaza los circuitos saturados) */
+    .diagram-sheen {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 6;
+      background: linear-gradient(105deg, transparent 35%, rgba(0, 229, 255, 0.07) 48%, rgba(255, 255, 255, 0.09) 50%, rgba(94, 106, 210, 0.07) 52%, transparent 65%);
+      background-size: 250% 100%;
+      background-position: 120% 0;
+      mix-blend-mode: screen;
+      animation: diagramSheen 9s ease-in-out infinite;
+    }
+    @keyframes diagramSheen {
+      0%, 15% { background-position: 120% 0; }
+      70%, 100% { background-position: -40% 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .diagram-sheen { animation: none; opacity: 0; }
+    }
+
     .circuit-overlay-svg {
       position: absolute;
       inset: 0;
@@ -1500,109 +1520,7 @@
         <div class="relative w-full rounded-2xl overflow-hidden bg-black">
           <img src="{{ static_versioned('flujooperativo_AgenciaProsperIA.png') }}" alt="Agencia ProsperIA — Flujo Operativo y Ecosistema Inteligente" class="w-full h-auto object-cover rounded-2xl transition-transform duration-700 group-hover:scale-[1.01]" loading="lazy">
           
-          <!-- Circuit Only Animated Overlay (Bloque 1) -->
-          <svg class="circuit-overlay-svg" viewBox="0 0 1024 576" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="circuitGradCyan1" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#00e5ff" stop-opacity="0.9" />
-                <stop offset="100%" stop-color="#3b82f6" stop-opacity="0.9" />
-              </linearGradient>
-              <linearGradient id="circuitGradAmber1" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.95" />
-                <stop offset="100%" stop-color="#f59e0b" stop-opacity="0.95" />
-              </linearGradient>
-            </defs>
-
-            <!-- 1. Captación Omnicanal: Circuitos desde Hub LEADS hacia canales -->
-            <path class="circuit-stream-cyan" d="M 108 200 C 135 200, 155 130, 190 130" />
-            <path class="circuit-stream-cyan-fast" d="M 108 205 C 140 205, 155 160, 190 160" />
-            <path class="circuit-stream-cyan" d="M 108 212 C 145 212, 160 190, 190 190" />
-            <path class="circuit-stream-cyan-fast" d="M 108 218 L 190 218" />
-            <path class="circuit-stream-cyan" d="M 108 224 C 145 224, 160 250, 190 250" />
-            <path class="circuit-stream-cyan-fast" d="M 108 230 C 140 230, 155 280, 190 280" />
-            <path class="circuit-stream-cyan" d="M 108 236 C 135 236, 155 310, 190 310" />
-            <path class="circuit-stream-cyan-fast" d="M 108 242 C 130 242, 150 340, 190 340" />
-
-            <!-- Nodos en canales -->
-            <circle class="circuit-node-dot" cx="190" cy="130" r="3.5" />
-            <circle class="circuit-node-dot" cx="190" cy="160" r="3.5" />
-            <circle class="circuit-node-dot" cx="190" cy="190" r="3.5" />
-            <circle class="circuit-node-dot" cx="190" cy="218" r="3.5" />
-            <circle class="circuit-node-dot" cx="190" cy="250" r="3.5" />
-            <circle class="circuit-node-dot" cx="190" cy="280" r="3.5" />
-            <circle class="circuit-node-dot" cx="190" cy="310" r="3.5" />
-            <circle class="circuit-node-dot" cx="190" cy="340" r="3.5" />
-
-            <!-- Bus Troncal Izquierdo: Conecta Bloque 1 y 2 al Core Central -->
-            <path class="circuit-stream-cyan" d="M 307 100 H 335 V 270 H 425" />
-            <path class="circuit-stream-reverse" d="M 307 540 H 335 V 270" />
-            <circle class="circuit-node-dot" cx="335" cy="270" r="5" />
-            <circle class="circuit-node-dot" cx="425" cy="270" r="4" />
-
-            <!-- Core Central PassportAI: Hexágono y pistas radiantes -->
-            <path class="circuit-stream-cyan" d="M 440 210 L 512 180 L 584 210 L 610 270 L 584 330 L 512 345 L 440 330 L 414 270 Z" />
-            
-            <!-- Pistas laterales Core -> Módulos IA izquierda -->
-            <path class="circuit-stream-cyan-fast" d="M 425 210 H 360" />
-            <path class="circuit-stream-cyan" d="M 416 270 H 360" />
-            <path class="circuit-stream-purple" d="M 425 330 H 360" />
-            <path class="circuit-stream-cyan-fast" d="M 440 395 H 360" />
-            <path class="circuit-stream-cyan" d="M 455 460 H 360" />
-            <circle class="circuit-node-dot" cx="360" cy="210" r="3" />
-            <circle class="circuit-node-dot" cx="360" cy="270" r="3" />
-            <circle class="circuit-node-dot" cx="360" cy="330" r="3" />
-            <circle class="circuit-node-dot" cx="360" cy="395" r="3" />
-            <circle class="circuit-node-dot" cx="360" cy="460" r="3" />
-
-            <!-- Pistas laterales Core -> Módulos IA derecha -->
-            <path class="circuit-stream-cyan-fast" d="M 600 210 H 664" />
-            <path class="circuit-stream-purple" d="M 608 270 H 664" />
-            <path class="circuit-stream-cyan" d="M 600 330 H 664" />
-            <path class="circuit-stream-cyan-fast" d="M 584 395 H 664" />
-            <path class="circuit-stream-cyan" d="M 570 460 H 664" />
-            <circle class="circuit-node-dot" cx="664" cy="210" r="3" />
-            <circle class="circuit-node-dot" cx="664" cy="270" r="3" />
-            <circle class="circuit-node-dot" cx="664" cy="330" r="3" />
-            <circle class="circuit-node-dot" cx="664" cy="395" r="3" />
-            <circle class="circuit-node-dot" cx="664" cy="460" r="3" />
-
-            <!-- Conexión vertical Core -> Bloque 6 CRM -->
-            <path class="circuit-stream-cyan" d="M 490 335 V 368" />
-            <path class="circuit-stream-cyan-fast" d="M 512 345 V 368" />
-            <path class="circuit-stream-cyan" d="M 534 335 V 368" />
-
-            <!-- Bloque 6: Operación & CRM ProsperIA (Circuitos Ámbar / Dorados) -->
-            <circle class="circuit-stream-amber" cx="512" cy="412" r="48" />
-            <circle class="circuit-stream-reverse" cx="512" cy="412" r="36" style="stroke: #f59e0b; stroke-dasharray: 14 60;" />
-            
-            <!-- Conexiones CRM hacia la izquierda -->
-            <path class="circuit-stream-amber" d="M 464 380 H 435" />
-            <path class="circuit-stream-amber" d="M 464 402 H 435" />
-            <path class="circuit-stream-amber" d="M 464 424 H 435" />
-            <path class="circuit-stream-amber" d="M 464 445 H 435" />
-            <circle class="circuit-node-dot-amber" cx="435" cy="380" r="3" />
-            <circle class="circuit-node-dot-amber" cx="435" cy="402" r="3" />
-            <circle class="circuit-node-dot-amber" cx="435" cy="424" r="3" />
-            <circle class="circuit-node-dot-amber" cx="435" cy="445" r="3" />
-
-            <!-- Conexiones CRM hacia la derecha -->
-            <path class="circuit-stream-amber" d="M 560 380 H 590" />
-            <path class="circuit-stream-amber" d="M 560 402 H 590" />
-            <path class="circuit-stream-amber" d="M 560 424 H 590" />
-            <path class="circuit-stream-amber" d="M 560 445 H 590" />
-            <circle class="circuit-node-dot-amber" cx="590" cy="380" r="3" />
-            <circle class="circuit-node-dot-amber" cx="590" cy="402" r="3" />
-            <circle class="circuit-node-dot-amber" cx="590" cy="424" r="3" />
-            <circle class="circuit-node-dot-amber" cx="590" cy="445" r="3" />
-
-            <!-- Bus Troncal Derecho: Conecta Core con Bloques 3, 4, 5, 7 -->
-            <path class="circuit-stream-cyan" d="M 600 270 H 690 V 100 H 718" />
-            <path class="circuit-stream-reverse" d="M 690 270 V 540 H 718" />
-            <circle class="circuit-node-dot" cx="690" cy="270" r="5" />
-
-            <!-- Línea inferior Stack de Infraestructura -->
-            <path class="circuit-stream-cyan-fast" d="M 35 525 H 989" style="opacity: 0.7; stroke-width: 1.8;" />
-          </svg>
+          <div class="diagram-sheen" aria-hidden="true"></div>
 
           <div class="tilt-floating-badge absolute bottom-4 right-4 bg-slate-950/90 backdrop-blur-md border border-white/15 px-3.5 py-1.5 rounded-xl text-[11px] font-bold text-cyan-300 flex items-center gap-2 shadow-lg">
             <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
@@ -1667,86 +1585,7 @@
         <div class="relative w-full rounded-2xl overflow-hidden bg-black">
           <img src="{{ static_versioned('flujoperativo_ghl.png') }}" alt="Agencia ProsperIA — Infraestructura Inteligente por Industria" class="w-full h-auto object-cover rounded-2xl transition-transform duration-700 group-hover:scale-[1.01]" loading="lazy">
           
-          <!-- Circuit Only Animated Overlay (Bloque 2) -->
-          <svg class="circuit-overlay-svg" viewBox="0 0 1024 682" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="circuitGradCyan2" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#00e5ff" stop-opacity="0.95" />
-                <stop offset="100%" stop-color="#60a5fa" stop-opacity="0.95" />
-              </linearGradient>
-            </defs>
-
-            <!-- Órbitas concéntricas del Disco Central (Infraestructura Inteligente) -->
-            <circle class="circuit-stream-cyan-fast" cx="486" cy="365" r="118" style="stroke-dasharray: 40 180; stroke-width: 2.2;" />
-            <circle class="circuit-stream-reverse" cx="486" cy="365" r="92" style="stroke-dasharray: 25 120; stroke-width: 2.2;" />
-            <circle class="circuit-stream-cyan" cx="486" cy="365" r="68" style="stroke-dasharray: 20 90; stroke-width: 2.2;" />
-
-            <!-- Pistas 1: Rama Superior Izquierda (Clínicas: Dental, Estética, Capilar) -->
-            <path class="circuit-stream-cyan" d="M 432 292 L 370 230 H 260 V 170 H 180" />
-            <path class="circuit-stream-cyan-fast" d="M 370 230 V 275 H 200" />
-            <path class="circuit-stream-reverse" d="M 410 270 L 350 205 H 280" />
-            <circle class="circuit-node-dot" cx="370" cy="230" r="4" />
-            <circle class="circuit-node-dot" cx="260" cy="170" r="3.5" />
-            <circle class="circuit-node-dot" cx="180" cy="170" r="4" />
-            <circle class="circuit-node-dot" cx="200" cy="275" r="3.5" />
-
-            <!-- Pistas 2: Rama Superior Derecha (Inmobiliarias: Venta, Alquiler, Proyectos) -->
-            <path class="circuit-stream-cyan" d="M 540 292 L 602 230 H 712 V 170 H 792" />
-            <path class="circuit-stream-cyan-fast" d="M 602 230 V 275 H 772" />
-            <path class="circuit-stream-reverse" d="M 562 270 L 622 205 H 692" />
-            <circle class="circuit-node-dot" cx="602" cy="230" r="4" />
-            <circle class="circuit-node-dot" cx="712" cy="170" r="3.5" />
-            <circle class="circuit-node-dot" cx="792" cy="170" r="4" />
-            <circle class="circuit-node-dot" cx="772" cy="275" r="3.5" />
-
-            <!-- Pistas 3: Rama Central Izquierda (Servicios Profesionales: Consultoras, Abogados, etc.) -->
-            <path class="circuit-stream-cyan-fast" d="M 368 365 L 305 365 L 280 395 H 180" />
-            <path class="circuit-stream-cyan" d="M 305 365 L 285 335 H 210" />
-            <circle class="circuit-node-dot" cx="305" cy="365" r="4" />
-            <circle class="circuit-node-dot" cx="280" cy="395" r="3.5" />
-            <circle class="circuit-node-dot" cx="180" cy="395" r="4" />
-            <circle class="circuit-node-dot" cx="210" cy="335" r="3.5" />
-
-            <!-- Pistas 4: Rama Central Derecha (Belleza & Bienestar: Spas, Salones, Estética) -->
-            <path class="circuit-stream-cyan-fast" d="M 604 365 L 667 365 L 692 395 H 792" />
-            <path class="circuit-stream-cyan" d="M 667 365 L 687 335 H 762" />
-            <circle class="circuit-node-dot" cx="667" cy="365" r="4" />
-            <circle class="circuit-node-dot" cx="692" cy="395" r="3.5" />
-            <circle class="circuit-node-dot" cx="792" cy="395" r="4" />
-            <circle class="circuit-node-dot" cx="762" cy="335" r="3.5" />
-
-            <!-- Pistas 5: Rama Inferior Izquierda (Fitness & Salud: Gimnasios, Entrenadores) -->
-            <path class="circuit-stream-cyan" d="M 432 438 L 370 500 H 260 V 560 H 180" />
-            <path class="circuit-stream-cyan-fast" d="M 370 500 V 455 H 200" />
-            <path class="circuit-stream-reverse" d="M 410 460 L 350 525 H 280" />
-            <circle class="circuit-node-dot" cx="370" cy="500" r="4" />
-            <circle class="circuit-node-dot" cx="260" cy="560" r="3.5" />
-            <circle class="circuit-node-dot" cx="180" cy="560" r="4" />
-            <circle class="circuit-node-dot" cx="200" cy="455" r="3.5" />
-
-            <!-- Pistas 6: Rama Inferior Derecha (Servicios para el Hogar: Plomería, Electricidad) -->
-            <path class="circuit-stream-cyan" d="M 540 438 L 602 500 H 712 V 560 H 792" />
-            <path class="circuit-stream-cyan-fast" d="M 602 500 V 455 H 772" />
-            <path class="circuit-stream-reverse" d="M 562 460 L 622 525 H 692" />
-            <circle class="circuit-node-dot" cx="602" cy="500" r="4" />
-            <circle class="circuit-node-dot" cx="712" cy="560" r="3.5" />
-            <circle class="circuit-node-dot" cx="792" cy="560" r="4" />
-            <circle class="circuit-node-dot" cx="772" cy="455" r="3.5" />
-
-            <!-- Pistas Bus Inferior: Todo Conectado. Todo Bajo Control -->
-            <path class="circuit-stream-cyan" d="M 486 485 V 555" />
-            <path class="circuit-stream-cyan-fast" d="M 486 555 H 350 V 580" />
-            <path class="circuit-stream-cyan-fast" d="M 486 555 H 420 V 580" />
-            <path class="circuit-stream-cyan" d="M 486 555 V 580" />
-            <path class="circuit-stream-cyan-fast" d="M 486 555 H 552 V 580" />
-            <path class="circuit-stream-cyan-fast" d="M 486 555 H 622 V 580" />
-            <circle class="circuit-node-dot" cx="486" cy="555" r="4.5" />
-            <circle class="circuit-node-dot" cx="350" cy="580" r="3.5" />
-            <circle class="circuit-node-dot" cx="420" cy="580" r="3.5" />
-            <circle class="circuit-node-dot" cx="486" cy="580" r="4" />
-            <circle class="circuit-node-dot" cx="552" cy="580" r="3.5" />
-            <circle class="circuit-node-dot" cx="622" cy="580" r="3.5" />
-          </svg>
+          <div class="diagram-sheen" aria-hidden="true"></div>
 
           <div class="tilt-floating-badge absolute bottom-4 right-4 bg-slate-950/90 backdrop-blur-md border border-white/15 px-3.5 py-1.5 rounded-xl text-[11px] font-bold text-cyan-300 flex items-center gap-2 shadow-lg">
             <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
