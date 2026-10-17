@@ -1867,13 +1867,22 @@
     </div>
 
     <!-- Contenedor Modular de Video -->
-    <div class="glass-card p-3 sm:p-5 rounded-3xl overflow-hidden mb-12 shadow-[0_20px_50px_rgba(0,0,0,0.8)]" data-reveal>
+    <div class="glass-card p-3 sm:p-5 rounded-3xl overflow-hidden mb-6 shadow-[0_20px_50px_rgba(0,0,0,0.8)]" data-reveal>
       <div class="relative w-full rounded-2xl overflow-hidden bg-black" style="aspect-ratio: 16 / 9;">
-        <video id="ecosystem-video-player" class="w-full h-full object-cover" controls preload="metadata" poster="{{ static_versioned('logo_prosper_ia_cropped.jpg') }}" onplay="trackEvent('demo_play', {video: 'demostracion_sve90'})" onended="trackEvent('demo_complete', {video: 'demostracion_sve90'})">
-          <source src="/static/video/demostracion_sve90.mp4" type="video/mp4">
+        <video id="ecosystem-video-player" class="w-full h-full object-contain" controls playsinline preload="none" poster="{{ static_versioned('video/tour_ecosistema_poster.jpg') }}" onplay="trackEvent('demo_play', {video: window.__tourMode === 'full' ? 'tour_completo_40min' : 'tour_resumen_3min'})" onended="trackEvent('demo_complete', {video: window.__tourMode === 'full' ? 'tour_completo_40min' : 'tour_resumen_3min'})">
+          <source src="/static/video/tour_ecosistema_corto.mp4" type="video/mp4">
           Tu navegador no soporta reproducción de video HTML5.
         </video>
       </div>
+    </div>
+
+    <!-- Resumen vs. recorrido completo -->
+    <div class="mb-12 flex flex-col items-center gap-2" data-reveal>
+      <p id="tour-mode-label" class="text-xs sm:text-sm text-slate-400 font-light">Resumen del ecosistema · 3 min</p>
+      <button type="button" id="tour-toggle-btn" onclick="toggleTourVideo()" class="btn-linear-dark px-6 py-3 text-xs sm:text-sm font-bold inline-flex items-center gap-2 cursor-pointer">
+        <i id="tour-toggle-icon" class="fas fa-circle-play text-cyan-400"></i>
+        <span id="tour-toggle-text">Ver el recorrido completo (40 min)</span>
+      </button>
     </div>
 
     <!-- CTAs de la sección Demo -->
@@ -2746,6 +2755,30 @@ document.addEventListener('click', function (e) {
   const a = e.target.closest && e.target.closest('a[href="#faq"]');
   if (a) { toggleFaqSection(true); }
 });
+
+// ── Tour: resumen de 3 min  <->  recorrido completo de 40 min ───────────────
+window.__tourMode = 'short';
+function toggleTourVideo() {
+  const v = document.getElementById('ecosystem-video-player');
+  const label = document.getElementById('tour-mode-label');
+  const text = document.getElementById('tour-toggle-text');
+  const icon = document.getElementById('tour-toggle-icon');
+  if (!v) return;
+  const FULL = 'https://assets.cdn.filesafe.space/USoTuDcjo7ZglijIyJQG/media/6ad2d0e5436f78fefb4b1b11.mp4';
+  const SHORT = '/static/video/tour_ecosistema_corto.mp4';
+  const goFull = window.__tourMode !== 'full';
+  window.__tourMode = goFull ? 'full' : 'short';
+  v.pause();
+  v.removeAttribute('poster');
+  v.src = goFull ? FULL : SHORT;
+  v.preload = 'metadata';
+  v.load();
+  v.play().catch(() => {});
+  if (label) label.textContent = goFull ? 'Recorrido completo · 40 min' : 'Resumen del ecosistema · 3 min';
+  if (text) text.textContent = goFull ? 'Volver al resumen de 3 min' : 'Ver el recorrido completo (40 min)';
+  if (icon) icon.className = goFull ? 'fas fa-rotate-left text-cyan-400' : 'fas fa-circle-play text-cyan-400';
+  if (typeof trackEvent === 'function') trackEvent('tour_toggle', { mode: window.__tourMode });
+}
 
 // ── Helper para preseleccionar industria en formulario ──────────────────────
 function selectIndustry(industryValue) {
