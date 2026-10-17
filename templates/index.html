@@ -2212,19 +2212,20 @@
 <!-- ════════════════════════════════════════════════════
      SECCIÓN 11 — DECISIONES EJECUTIVAS (FAQ ESTRATÉGICO & ACCIÓN DIRECTA)
      ════════════════════════════════════════════════════ -->
-<section id="faq" class="py-24 relative" style="background: var(--bg-dark);">
+<section id="faq" class="py-16 relative scroll-mt-24" style="background: var(--bg-dark);">
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-16" data-reveal>
+    <div class="text-center mb-8" data-reveal>
       <div class="badge-linear mb-3">Criterio y Respuestas Clave</div>
-      <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4">
-        Decisiones Ejecutivas & <span class="cyan-glow-text">Preguntas Frecuentes</span>
-      </h2>
-      <p class="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto font-light">
+      <p class="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto font-light mb-6">
         Respuestas de arquitectura, gobernanza y rentabilidad para directores, fundadores y líderes comerciales que buscan certezas antes de actuar.
       </p>
+      <button type="button" id="faq-section-btn" onclick="toggleFaqSection()" aria-expanded="false" aria-controls="faq-container" class="btn-linear-dark px-6 py-3.5 text-sm sm:text-base font-bold inline-flex items-center gap-3 cursor-pointer">
+        <span>Decisiones Ejecutivas &amp; Preguntas Frecuentes</span>
+        <i id="faq-section-btn-icon" class="fas fa-chevron-down text-xs text-cyan-400 transition-transform"></i>
+      </button>
     </div>
 
-    <div class="space-y-4" id="faq-container">
+    <div class="space-y-4" id="faq-container" hidden>
       
       <!-- FAQ 1: Ecosistema Unificado vs Herramientas Sueltas -->
       <div class="glass-card p-6 rounded-2xl border-white/10 hover:border-cyan-500/30 transition-colors" data-reveal>
@@ -2724,6 +2725,27 @@ function toggleFaq(index) {
     icon.className = 'fas fa-minus flex-shrink-0 text-cyan-400 transition-transform';
   }
 }
+
+// ── Mostrar/ocultar toda la sección de Decisiones Ejecutivas & FAQ ─────────
+function toggleFaqSection(forceOpen) {
+  const box = document.getElementById('faq-container');
+  const btn = document.getElementById('faq-section-btn');
+  if (!box || !btn) return;
+  const open = (typeof forceOpen === 'boolean') ? forceOpen : box.hidden;
+  box.hidden = !open;
+  btn.setAttribute('aria-expanded', String(open));
+  const label = document.getElementById('faq-section-btn-icon');
+  if (label) label.style.transform = open ? 'rotate(180deg)' : 'rotate(0deg)';
+  if (open) {
+    box.querySelectorAll('[data-reveal]').forEach(el => el.classList.add('revealed'));
+    if (typeof trackEvent === 'function') trackEvent('faq_section_open', {});
+  }
+}
+if (location.hash === '#faq') { toggleFaqSection(true); }
+document.addEventListener('click', function (e) {
+  const a = e.target.closest && e.target.closest('a[href="#faq"]');
+  if (a) { toggleFaqSection(true); }
+});
 
 // ── Helper para preseleccionar industria en formulario ──────────────────────
 function selectIndustry(industryValue) {
