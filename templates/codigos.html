@@ -23,6 +23,63 @@
   <meta name="twitter:description" content="Arsenal visual con IA: 200 códigos interactivos, 2 guías PDF oficiales, prompt de video viral Spiderman y comunidad.">
   <meta name="twitter:image" content="{{ static_versioned('logo_prosper_ia_cropped.jpg') }}">
 
+  <!-- Marcado Estructurado JSON-LD para Google, ChatGPT Search, Perplexity y LLMs -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://agenciaprosperia.com/#website",
+        "url": "https://agenciaprosperia.com/",
+        "name": "Agencia ProsperIA",
+        "publisher": {
+          "@id": "https://agenciaprosperia.com/#organization"
+        }
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://agenciaprosperia.com/#organization",
+        "name": "Agencia ProsperIA LLC",
+        "url": "https://agenciaprosperia.com/",
+        "logo": "https://agenciaprosperia.com/static/logo_prosper_ia_cropped.jpg",
+        "founder": {
+          "@id": "https://agenciaprosperia.com/#edward"
+        },
+        "description": "Firma de consultoría, arquitectura e ingeniería en Inteligencia Artificial y automatización comercial para Clínicas, Profesionales y PyMEs."
+      },
+      {
+        "@type": "Person",
+        "@id": "https://agenciaprosperia.com/#edward",
+        "name": "Edward Jiménez",
+        "jobTitle": "Fundador & AI System Architect",
+        "worksFor": {
+          "@id": "https://agenciaprosperia.com/#organization"
+        },
+        "description": "Arquitecto de sistemas con más de 25 años de experiencia liderando integraciones bancarias masivas en 1,500 sucursales (Grupo Elektra y Banco Azteca). Autor del libro 'Las 4 Inteligencias' (presentación en EXMA Miami 2026, 4 y 5 de diciembre) y creador de PassportAI.",
+        "sameAs": [
+          "https://www.instagram.com/edwardjimenezia/",
+          "https://www.youtube.com/@AgenciaProsper_IA",
+          "https://www.facebook.com/AgenciaProsperarIA/"
+        ]
+      },
+      {
+        "@type": "TechArticle",
+        "@id": "https://agenciaprosperia.com/codigos#article",
+        "headline": "200 Códigos Creativos de ChatGPT para Imágenes, Video y Automatización",
+        "author": {
+          "@id": "https://agenciaprosperia.com/#edward"
+        },
+        "publisher": {
+          "@id": "https://agenciaprosperia.com/#organization"
+        },
+        "description": "Arsenal curado de más de 200 códigos de dirección fotográfica, cinematografía, prompts y blueprints de IA por Edward Jiménez.",
+        "inLanguage": "es"
+      }
+    ]
+  }
+  </script>
+
   <link rel="stylesheet" href="/static/tw.css">
   <link rel="stylesheet" href="/static/fonts.css">
   <link rel="stylesheet" href="/static/fa.min.css">
@@ -75,7 +132,10 @@
       box-shadow: 0 10px 30px -10px rgba(0, 229, 255, 0.15);
     }
 
+    /* Turbo Performance Core Web Vitals: renderiza tarjetas bajo demanda */
     .code-card {
+      content-visibility: auto;
+      contain-intrinsic-size: 0 160px;
       background: rgba(13, 22, 43, 0.9);
       border: 1px solid rgba(0, 229, 255, 0.15);
       border-radius: 16px;
@@ -511,14 +571,14 @@
           <a href="#siguientes-pasos" class="nav-link-item px-3 py-1.5 rounded-lg text-slate-300 hover:text-white transition-colors">
             <i class="fas fa-compass text-xs text-cyan-400"></i> <span>Siguientes Pasos</span>
           </a>
-          <!-- Link to new dedicated diagnostic page in new tab -->
-          <a href="/test-ia" target="_blank" rel="noopener" class="nav-link-item px-3 py-1.5 rounded-lg text-amber-300 hover:text-white transition-colors flex items-center gap-1.5">
-            <i class="fas fa-brain text-xs text-amber-400"></i> <span>Diagnóstico IA</span>
-            <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">NUEVO</span>
+          <!-- Link to EXMA Miami -->
+          <a href="/exmamiami" class="nav-link-item px-3 py-1.5 rounded-lg text-amber-300 hover:text-white transition-colors flex items-center gap-1.5 font-bold">
+            <i class="fas fa-crown text-xs text-amber-400"></i> <span>EXMA Miami</span>
+            <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">DICIEMBRE</span>
           </a>
-          <!-- Cotizar opens dedicated page -->
-          <a href="/Cotizacion_ConsultoriaIA" class="nav-link-item px-3 py-1.5 rounded-lg text-orange-300 hover:text-white transition-colors">
-            <i class="fas fa-briefcase text-xs text-orange-400"></i> <span>Cotizar</span>
+          <!-- Link to HOME: Agencia B2B -->
+          <a href="/" class="nav-link-item px-3 py-1.5 rounded-lg text-cyan-300 hover:text-white transition-colors flex items-center gap-1.5">
+            <i class="fas fa-building text-xs text-cyan-400"></i> <span>Empresas &amp; Clínicas</span>
           </a>
         </div>
 
@@ -527,8 +587,8 @@
           <a href="https://chat.whatsapp.com/HIjs3Bytduy9ucOtn6jeKw?s=sh&p=a&ilr=4" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-xs font-bold bg-emerald-500 text-slate-950 hover:bg-emerald-400 transition-all shadow-[0_0_15px_rgba(16,185,129,0.3)]">
             <i class="fab fa-whatsapp text-sm"></i> <span>Comunidad VIP</span>
           </a>
-          <a href="/Cotizacion_ConsultoriaIA" class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-gradient-to-r from-orange-400 to-amber-500 text-slate-950 hover:from-orange-300 hover:to-amber-400 transition-all shadow-[0_0_15px_rgba(249,115,22,0.3)] cursor-pointer">
-            <i class="fas fa-file-invoice-dollar text-xs"></i> <span>Cotizar</span>
+          <a href="/" class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-gradient-to-r from-amber-400 to-yellow-300 text-slate-950 hover:from-amber-300 hover:to-yellow-200 transition-all shadow-[0_0_15px_rgba(245,158,11,0.3)] cursor-pointer" style="text-decoration: none !important;">
+            <i class="fas fa-building text-xs"></i> <span>Agencia HOME</span>
           </a>
           <!-- Mobile Hamburger Toggle Button -->
           <button type="button" id="mobile-menu-btn" onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-xl text-slate-300 hover:text-white bg-slate-900 border border-slate-700 focus:outline-none" aria-label="Abrir menú de navegación">
@@ -553,20 +613,11 @@
       <a href="#descargas" onclick="closeMobileMenu()" class="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-900">
         <i class="far fa-file-pdf text-xs text-red-400"></i> <span>Descargas PDF (2 Guías)</span>
       </a>
-      <a href="/spiderman" target="_blank" rel="noopener" onclick="closeMobileMenu()" class="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-900">
-        <i class="fas fa-spider text-xs text-red-400"></i> <span>Reel Spiderman ("The Swing")</span>
+      <a href="/exmamiami" onclick="closeMobileMenu()" class="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-bold text-amber-300 bg-amber-950/30 border border-amber-500/30">
+        <i class="fas fa-crown text-xs text-amber-400"></i> <span>EXMA Miami 2026 (4 y 5 Dic)</span>
       </a>
-      <a href="#reels-gallery" onclick="closeMobileMenu()" class="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-900">
-        <i class="fab fa-instagram text-xs text-pink-400"></i> <span>Nuestros Reels Virales</span>
-      </a>
-      <a href="/Cotizacion_ConsultoriaIA" onclick="closeMobileMenu()" class="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-900">
-        <i class="fas fa-crown text-xs text-amber-400"></i> <span>Cotización & Consultoría</span>
-      </a>
-      <a href="/test-ia" target="_blank" rel="noopener" onclick="closeMobileMenu()" class="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-bold text-amber-300 bg-amber-950/30 border border-amber-500/30">
-        <i class="fas fa-brain text-xs text-amber-400"></i> <span>Diagnóstico IA (Página Nueva)</span>
-      </a>
-      <a href="/Cotizacion_ConsultoriaIA" onclick="closeMobileMenu()" class="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-bold text-orange-400 bg-orange-950/30 border border-orange-500/20">
-        <i class="fas fa-briefcase text-xs"></i> <span>Solicitar Cotización</span>
+      <a href="/" onclick="closeMobileMenu()" class="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-bold text-cyan-300 bg-cyan-950/30 border border-cyan-500/30">
+        <i class="fas fa-building text-xs text-cyan-400"></i> <span>Agencia ProsperIA (Sitio Oficial HOME)</span>
       </a>
     </div>
   </nav>
@@ -9857,119 +9908,118 @@
 
   </section>
   <!-- ════════════════════════════════════════════════════
-       BLOQUE 7: CUADRO NARANJA CONSULTORÍA IA + BOTÓN VERDE COMUNIDAD
+       SECCIÓN DE AUTORIDAD: EDWARD JIMÉNEZ · LAS 4 INTELIGENCIAS & EXMA MIAMI 2026
        ════════════════════════════════════════════════════ -->
-  <!-- ════════════════════════════════════════════════════
-       BLOQUE UNIFICADO: PASSPORTAI (SOFTWARE) + AGENCIA PROSPERIA (SERVICIO)
-       ════════════════════════════════════════════════════ -->
-  <section id="ecosistema-prosperia" class="py-14 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto relative z-10 scroll-mt-24">
-    
-    <!-- Encabezado Maestro Unificado -->
-    <div class="text-center max-w-2xl mx-auto mb-10 sm:mb-12">
-      <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-3 bg-amber-950/70 border border-amber-500/40 text-amber-300">
-        <i class="fas fa-bolt text-amber-400"></i> Dos Vías de Crecimiento con IA
-      </div>
-      <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight">
-        ¿Cómo Quieres Llevar Todo Esto a la Práctica?
-      </h2>
-      <p class="text-xs sm:text-sm text-slate-300 font-light mt-2 leading-relaxed">
-        Elige la opción ideal para tu negocio: ejecuta los códigos tú mismo con nuestra plataforma todo-en-uno, o deja que nuestro equipo de agencia lo construya por ti.
-      </p>
-    </div>
-
-    <!-- Grid de 2 Opciones Claras (Software vs. Servicio) -->
-    <div class="grid md:grid-cols-2 gap-6 sm:gap-8 items-stretch mb-10">
+  <section id="autor-edward-jimenez" class="py-14 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto relative z-10 scroll-mt-24">
+    <div class="rounded-3xl p-6 sm:p-10 relative overflow-hidden" style="background: linear-gradient(145deg, rgba(8, 14, 28, 0.96) 0%, rgba(4, 7, 15, 0.99) 100%) !important; border: 2px solid rgba(229, 185, 95, 0.4) !important; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 50px rgba(229, 185, 95, 0.15) !important;">
       
-      <!-- Vía 1: PassportAI (Software / Autoservicio) -->
-      <div class="rounded-3xl p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden" style="background: linear-gradient(145deg, rgba(24, 15, 6, 0.95) 0%, rgba(12, 7, 2, 0.98) 100%) !important; border: 2px solid rgba(245, 158, 11, 0.4) !important; box-shadow: 0 10px 40px rgba(245, 158, 11, 0.15) !important;">
-        <div class="absolute -top-12 -right-12 w-44 h-44 bg-amber-500/15 rounded-full blur-2xl pointer-events-none"></div>
-        
-        <div>
-          <div class="flex items-center justify-between mb-4">
-            <span class="px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-amber-950/90 text-amber-300 border border-amber-500/40">
-              <i class="fas fa-laptop-code text-amber-400 mr-1"></i> Software IA
-            </span>
-            <span class="text-xs text-amber-400 font-semibold flex items-center gap-1">
-              <i class="fas fa-gift"></i> 5 Días Gratis
-            </span>
-          </div>
+      <div class="absolute -top-20 -right-20 w-72 h-72 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-20 -left-20 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
-          <h3 class="text-xl sm:text-2xl font-black text-white mb-2">
-            Usa la Plataforma Tú Mismo
-          </h3>
-          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed font-light mb-5">
-            Accede a <strong>PassportAI</strong>: la suite unificada que integra GPT-4o, Claude 3.5, Gemini, generadores de imagen, video y base de prospectos en una sola interfaz.
-          </p>
-
-          <ul class="space-y-2.5 text-xs text-slate-300 mb-8 font-light">
-            <li class="flex items-center gap-2"><i class="fas fa-check-circle text-amber-400"></i> Aplica los 200 códigos directamente en su canvas visual</li>
-            <li class="flex items-center gap-2"><i class="fas fa-check-circle text-amber-400"></i> Genera imágenes, guiones y contenido en segundos</li>
-            <li class="flex items-center gap-2"><i class="fas fa-check-circle text-amber-400"></i> Sin tarjeta de crédito para comenzar tu prueba gratuita</li>
-          </ul>
-        </div>
-
-        <a href="https://passportai.app" target="_blank" rel="noopener" class="w-full inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl text-xs sm:text-sm font-extrabold text-slate-950 transition-all hover:scale-[1.02] shadow-xl" style="background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%) !important; box-shadow: 0 0 25px rgba(245, 158, 11, 0.45) !important; text-decoration: none !important;">
-          <i class="fas fa-rocket"></i>
-          <span>Probar PassportAI Gratis en passportai.app</span>
-          <i class="fas fa-arrow-right text-xs"></i>
-        </a>
+      <!-- Badge Superior -->
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+        <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-950/80 border border-amber-400/50 text-amber-300 shadow">
+          <i class="fas fa-crown text-amber-400"></i> Autor &amp; AI System Architect
+        </span>
+        <span class="text-xs text-amber-400 font-mono font-semibold flex items-center gap-1.5">
+          <i class="fas fa-star text-amber-400"></i> EXMA Miami 2026 Speaker Oficial
+        </span>
       </div>
 
-      <!-- Vía 2: Agencia ProsperIA (Servicio Hecho por Nosotros) -->
-      <div class="rounded-3xl p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden" style="background: linear-gradient(145deg, rgba(6, 18, 32, 0.95) 0%, rgba(3, 10, 20, 0.98) 100%) !important; border: 2px solid rgba(6, 182, 212, 0.4) !important; box-shadow: 0 10px 40px rgba(6, 182, 212, 0.15) !important;">
-        <div class="absolute -top-12 -right-12 w-44 h-44 bg-cyan-500/15 rounded-full blur-2xl pointer-events-none"></div>
-
-        <div>
-          <div class="flex items-center justify-between mb-4">
-            <span class="px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-cyan-950/90 text-cyan-300 border border-cyan-500/40">
-              <i class="fas fa-crown text-cyan-400 mr-1"></i> Servicio de Agencia
-            </span>
-            <span class="text-xs text-cyan-300 font-semibold flex items-center gap-1">
-              <i class="fas fa-handshake"></i> Llave en Mano
-            </span>
-          </div>
-
-          <h3 class="text-xl sm:text-2xl font-black text-white mb-2">
-            Dejar que ProsperIA lo Haga por Ti
-          </h3>
-          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed font-light mb-5">
-            Nuestro equipo diseña, produce y opera tu contenido viral, embudos de ventas y sistemas de automatización con IA de inicio a fin.
+      <div class="grid lg:grid-cols-12 gap-8 items-center">
+        
+        <!-- Columna Izquierda: Biografía y Credenciales -->
+        <div class="lg:col-span-7 space-y-4">
+          <h2 class="text-2xl sm:text-4xl font-black text-white tracking-tight leading-tight">
+            Conoce a <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-500">Edward Jiménez</span>
+          </h2>
+          <p class="text-sm sm:text-base text-slate-300 font-light leading-relaxed">
+            Con más de <strong class="text-white font-semibold">25 años de experiencia en integraciones tecnológicas de escala masiva</strong> —liderando sistemas centrales bancarios para Grupo Elektra y Banco Azteca en más de 1.500 sucursales—, Edward fundó <strong>Agencia ProsperIA LLC</strong> y creó <strong>PassportAI</strong> para ayudar a clínicas, profesionales y PyMEs a operar, vender y escalar con Inteligencia Artificial soberana.
           </p>
 
-          <ul class="space-y-2.5 text-xs text-slate-300 mb-8 font-light">
-            <li class="flex items-center gap-2"><i class="fas fa-check-circle text-cyan-400"></i> Producción de contenido de alta retención para redes</li>
-            <li class="flex items-center gap-2"><i class="fas fa-check-circle text-cyan-400"></i> Configuración de CRM, bots y seguimiento por WhatsApp</li>
-            <li class="flex items-center gap-2"><i class="fas fa-check-circle text-cyan-400"></i> Dirección estratégica personalizada con Edward Jiménez</li>
-          </ul>
+          <!-- Métricas de Autoridad -->
+          <div class="grid grid-cols-3 gap-3 pt-2">
+            <div class="p-3 rounded-2xl bg-slate-900/80 border border-slate-800 text-center">
+              <div class="text-xl sm:text-2xl font-black text-amber-400 font-mono">+25 Años</div>
+              <div class="text-[10px] sm:text-xs text-slate-400 mt-0.5">Ingeniería &amp; Banca</div>
+            </div>
+            <div class="p-3 rounded-2xl bg-slate-900/80 border border-slate-800 text-center">
+              <div class="text-xl sm:text-2xl font-black text-cyan-400 font-mono">1.500+</div>
+              <div class="text-[10px] sm:text-xs text-slate-400 mt-0.5">Sucursales Operadas</div>
+            </div>
+            <div class="p-3 rounded-2xl bg-slate-900/80 border border-slate-800 text-center">
+              <div class="text-xl sm:text-2xl font-black text-emerald-400 font-mono">+750K</div>
+              <div class="text-[10px] sm:text-xs text-slate-400 mt-0.5">Vistas de IA en Redes</div>
+            </div>
+          </div>
         </div>
 
-        <div class="space-y-2.5">
-          <button type="button" onclick="openCotizacionModal('agendar')" class="w-full inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl text-xs sm:text-sm font-extrabold text-slate-950 transition-all hover:scale-[1.02] shadow-xl cursor-pointer" style="background: linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%) !important; box-shadow: 0 0 25px rgba(6, 182, 212, 0.45) !important; border: none !important;">
-            <i class="fas fa-calendar-check"></i>
-            <span>Agendar Llamada Estratégica (30 min)</span>
-            <i class="fas fa-arrow-right text-xs"></i>
-          </button>
+        <!-- Columna Derecha: Tarjeta del Libro & EXMA Miami -->
+        <div class="lg:col-span-5 p-5 sm:p-6 rounded-2xl bg-gradient-to-b from-amber-950/40 via-slate-950/80 to-slate-950 border border-amber-500/40 shadow-xl space-y-4">
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded text-[10px] font-black uppercase tracking-wider bg-amber-400 text-slate-950">
+              PRÓXIMO LANZAMIENTO
+            </span>
+            <span class="text-[11px] text-amber-300/80 font-mono">4 y 5 de Diciembre · Miami</span>
+          </div>
 
-          <div class="text-center">
-            <a href="/Cotizacion_ConsultoriaIA" class="text-[11px] text-slate-400 hover:text-cyan-300 transition-colors inline-flex items-center gap-1">
-              <span>Ver detalles de consultoría de agencia</span>
-              <i class="fas fa-arrow-up-right-from-square text-[9px]"></i>
+          <div>
+            <h3 class="text-lg sm:text-xl font-black text-white flex items-center gap-2">
+              <i class="fas fa-book-open text-amber-400"></i> "Las 4 Inteligencias"
+            </h3>
+            <p class="text-xs text-slate-300 mt-1.5 leading-relaxed font-light">
+              El nuevo libro de Edward Jiménez presentado en el escenario de <strong>EXMA Miami 2026: Xtraordinary Humans</strong>. El mapa definitivo que une Inteligencia Humana, Artificial, de Sistemas y Comercial para dueños de empresas.
+            </p>
+          </div>
+
+          <div class="pt-2 flex flex-col sm:flex-row gap-2.5">
+            <a href="/" class="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-bold text-xs text-slate-950 bg-gradient-to-r from-amber-400 to-yellow-300 hover:scale-[1.02] transition-all shadow-md" style="text-decoration: none !important;">
+              <i class="fas fa-building"></i>
+              <span>Ver Arquitectura en HOME</span>
+            </a>
+            <a href="/exmamiami" class="inline-flex items-center justify-center gap-1.5 px-4 py-3 rounded-xl font-semibold text-xs text-slate-200 border border-amber-500/40 bg-slate-900/80 hover:text-white hover:bg-slate-800 transition-colors" style="text-decoration: none !important;">
+              <i class="fas fa-calendar-alt text-amber-400"></i>
+              <span>EXMA Miami</span>
             </a>
           </div>
         </div>
 
       </div>
-
     </div>
+  </section>
 
-    <!-- Botón Verde Rectangular: Comunidad WhatsApp Oficial -->
-    <div class="text-center pt-2 pb-6">
-      <a href="https://chat.whatsapp.com/HIjs3Bytduy9ucOtn6jeKw?s=sh&p=a&ilr=4" target="_blank" rel="noopener" style="background: #25D366 !important; background-color: #25D366 !important; color: #061c0e !important; font-weight: 900 !important; font-size: 15px !important; padding: 16px 38px !important; border-radius: 14px !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; gap: 10px !important; text-decoration: none !important; border: 2px solid #86efac !important; box-shadow: 0 0 30px rgba(37, 211, 102, 0.5) !important; transition: all 0.2s ease !important;" onmouseover="this.style.backgroundColor='#20ba59'; this.style.transform='translateY(-2px)'" onmouseout="this.style.backgroundColor='#25D366'; this.style.transform='none'">
-        <i class="fab fa-whatsapp" style="font-size: 24px; color: #061c0e !important;"></i>
-        <span style="color: #061c0e !important; letter-spacing: 0.01em;">Únete a la Comunidad Gratuita de IA en WhatsApp</span>
-      </a>
+  <!-- ════════════════════════════════════════════════════
+       BLOQUE: COMUNIDAD VIP WHATSAPP & CLASES EN VIVO EN YOUTUBE
+       ════════════════════════════════════════════════════ -->
+  <section id="comunidad-vip" class="py-14 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto relative z-10 scroll-mt-24">
+    <div class="rounded-3xl p-8 sm:p-12 text-center relative overflow-hidden" style="background: linear-gradient(145deg, rgba(11, 20, 38, 0.95) 0%, rgba(4, 9, 20, 0.98) 100%) !important; border: 2px solid rgba(0, 229, 255, 0.35) !important; box-shadow: 0 20px 60px rgba(0, 229, 255, 0.15) !important;">
+      <div class="absolute -top-24 -left-24 w-60 h-60 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-24 -right-24 w-60 h-60 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-4 bg-emerald-950/80 border border-emerald-500/40 text-emerald-300">
+        <i class="fab fa-whatsapp text-emerald-400"></i> Comunidad Oficial de Edward Jiménez
+      </div>
+
+      <h2 class="text-2xl sm:text-4xl font-black text-white tracking-tight leading-tight max-w-3xl mx-auto mb-4">
+        Aprende a Dominar la Inteligencia Artificial Todos los Viernes en Vivo
+      </h2>
+      <p class="text-sm sm:text-base text-slate-300 font-light max-w-2xl mx-auto mb-8 leading-relaxed">
+        Únete a nuestra comunidad exclusiva de empresarios y profesionales. Todos los viernes transmitimos <strong class="text-white font-semibold">Clases Gratuitas en YouTube</strong> donde aplicamos estos códigos en casos reales de negocios, automatizaciones y producción visual.
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="https://chat.whatsapp.com/HIjs3Bytduy9ucOtn6jeKw?s=sh&p=a&ilr=4" target="_blank" rel="noopener" class="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl text-sm sm:text-base font-extrabold text-slate-950 transition-all hover:scale-105 shadow-xl" style="background: #25D366 !important; background-color: #25D366 !important; color: #061c0e !important; box-shadow: 0 0 30px rgba(37, 211, 102, 0.45) !important; text-decoration: none !important;">
+          <i class="fab fa-whatsapp text-2xl"></i>
+          <span>Unirme a la Comunidad en WhatsApp (Gratis)</span>
+          <i class="fas fa-arrow-right text-xs"></i>
+        </a>
+
+        <a href="https://www.youtube.com/@AgenciaProsper_IA" target="_blank" rel="noopener" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-2xl text-sm font-bold text-white transition-all hover:bg-red-600/30 border border-red-500/40 bg-red-950/40 shadow-lg" style="text-decoration: none !important;">
+          <i class="fab fa-youtube text-red-500 text-xl"></i>
+          <span>Canal de YouTube @AgenciaProsper_IA</span>
+        </a>
+      </div>
     </div>
-
   </section>
 
 {% include "footer.html" %}
@@ -10660,77 +10710,117 @@ https://www.doubao.com/</div>
   </div>
 
   <!-- ════════════════════════════════════════════════════
-       REQUISITO 5: POPUP MODAL FORMULARIO DE COTIZACIÓN ENTUSIASTA
+       MODAL EJECUTIVO: CAPTURA WHATSAPP + COMUNIDAD VIP & CLASES LOS VIERNES
        ════════════════════════════════════════════════════ -->
   <div id="cotizacion-modal" style="display: none; position: fixed; inset: 0; z-index: 99999999; background: rgba(0, 0, 0, 0.94) !important; background-color: rgba(0, 0, 0, 0.94) !important; -webkit-backdrop-filter: blur(16px) !important; backdrop-filter: blur(16px) !important; align-items: center; justify-content: center; padding: 16px; overflow-y: auto;" role="dialog" aria-modal="true" aria-labelledby="cotizacion-modal-title">
-    <div class="relative w-full max-w-lg rounded-3xl p-6 sm:p-8 my-auto max-h-[92vh] overflow-y-auto" style="background: #040813 !important; background-color: #040813 !important; border: 2px solid #f97316 !important; box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.99), 0 0 60px rgba(249, 115, 22, 0.35) !important; opacity: 1 !important;">
+    <div class="relative w-full max-w-lg rounded-3xl p-6 sm:p-8 my-auto max-h-[94vh] overflow-y-auto" style="background: #040813 !important; background-color: #040813 !important; border: 2px solid #10b981 !important; box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.99), 0 0 60px rgba(16, 185, 129, 0.3) !important; opacity: 1 !important;">
       
       <!-- Close Button -->
-      <button type="button" onclick="closeCotizacionModal()" class="absolute top-4 right-4 sm:top-5 sm:right-5 w-10 h-10 rounded-full text-slate-300 hover:text-white hover:border-orange-400 flex items-center justify-center transition-all focus:outline-none z-10" style="background: #0c1427 !important; background-color: #0c1427 !important; border: 1px solid #334155 !important;" aria-label="Cerrar modal">
+      <button type="button" onclick="closeCotizacionModal()" class="absolute top-4 right-4 sm:top-5 sm:right-5 w-10 h-10 rounded-full text-slate-300 hover:text-white hover:border-emerald-400 flex items-center justify-center transition-all focus:outline-none z-10" style="background: #0c1427 !important; background-color: #0c1427 !important; border: 1px solid #334155 !important;" aria-label="Cerrar modal">
         <i class="fas fa-times text-base"></i>
       </button>
 
-      <div class="text-center mb-6 pr-6">
-        <span class="px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-orange-950 text-orange-300 border border-orange-500/40 inline-block mb-2 shadow">
-          🚀 ¡Gran Decisión de Crecimiento!
-        </span>
-        <h3 id="cotizacion-modal-title" class="text-xl sm:text-2xl font-black text-white">
-          Cotización de Servicio ProsperIA
-        </h3>
-        <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">
-          Llena tus datos y coordinamos una propuesta a la medida en tiempo récord con respuesta directa.
-        </p>
-      </div>
+      <!-- PASO 1: FORMULARIO DE CAPTURA Y PERFILADO -->
+      <div id="modal-step-form">
+        <div class="text-center mb-5 pr-6">
+          <span class="px-3.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-emerald-950 text-emerald-300 border border-emerald-500/40 inline-block mb-2 shadow">
+            🎁 ARSENAL DE +200 CÓDIGOS & CLASES EN VIVO
+          </span>
+          <h3 id="cotizacion-modal-title" class="text-xl sm:text-2xl font-black text-white">
+            Desbloquear Códigos y Clases de los Viernes
+          </h3>
+          <p class="text-xs text-slate-300 mt-1 leading-relaxed">
+            Aprende a aplicar la Inteligencia Artificial en tu negocio o profesión sin ser programador, guiado en vivo por <strong>Edward Jiménez</strong>.
+          </p>
+        </div>
 
-      <form id="modal-cotizacion-form" onsubmit="submitCotizacionModal(event)" class="space-y-4 text-left">
-        <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1.5">¿Qué modalidad te interesa? *</label>
-          <div class="grid grid-cols-2 gap-2 text-xs">
-            <label class="flex items-center gap-2 p-3 rounded-xl border border-slate-700 cursor-pointer hover:border-orange-400 transition-colors" style="background: #0c1427 !important; background-color: #0c1427 !important; border: 1px solid #334155 !important;" id="modal-label-opt-contenido">
-              <input type="radio" name="modal_servicio_opcion" value="contenido" class="text-orange-400 focus:ring-0">
-              <span class="text-slate-200 font-medium text-[11px] sm:text-xs">1. Contenido Viral</span>
-            </label>
-            <label class="flex items-center gap-2 p-3 rounded-xl border border-slate-700 cursor-pointer hover:border-amber-400 transition-colors" style="background: #0c1427 !important; background-color: #0c1427 !important; border: 1px solid #334155 !important;" id="modal-label-opt-integral">
-              <input type="radio" name="modal_servicio_opcion" value="integral" checked class="text-amber-400 focus:ring-0">
-              <span class="text-slate-200 font-medium text-[11px] sm:text-xs">2. Sistema 360°</span>
+        <form id="modal-cotizacion-form" onsubmit="submitCotizacionModal(event)" class="space-y-3.5 text-left">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Nombre Completo *</label>
+            <input type="text" id="modal-direct-name" required placeholder="Ej. Carlos Mendoza" class="w-full px-4 py-2.5 rounded-xl text-sm focus:border-emerald-400 focus:outline-none" style="background: #0c1427 !important; background-color: #0c1427 !important; color: #ffffff !important; border: 1px solid #334155 !important; font-size: 14px !important;">
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">WhatsApp (con código de país) *</label>
+            <input type="tel" id="modal-direct-phone" required placeholder="+52 / +57 / +1 786 555 0199" class="w-full px-4 py-2.5 rounded-xl text-sm focus:border-emerald-400 focus:outline-none" style="background: #0c1427 !important; background-color: #0c1427 !important; color: #ffffff !important; border: 1px solid #334155 !important; font-size: 14px !important;">
+            <span class="text-[10px] text-slate-400">Te enviaremos los accesos directos y recordatorios por WhatsApp.</span>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Correo Electrónico *</label>
+            <input type="email" id="modal-direct-email" required placeholder="tu@correo.com" class="w-full px-4 py-2.5 rounded-xl text-sm focus:border-emerald-400 focus:outline-none" style="background: #0c1427 !important; background-color: #0c1427 !important; color: #ffffff !important; border: 1px solid #334155 !important; font-size: 14px !important;">
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">¿Cuál es tu interés principal? *</label>
+            <div class="space-y-1.5 text-xs">
+              <label class="flex items-center gap-2.5 p-2.5 rounded-xl border border-slate-700 cursor-pointer hover:border-emerald-400 transition-colors" style="background: #0c1427 !important;">
+                <input type="radio" name="modal_servicio_opcion" value="aprender" checked class="text-emerald-400 focus:ring-0">
+                <span class="text-slate-200 font-medium text-xs">🎓 Aprender a usar IA en mi profesión / Clases de los Viernes</span>
+              </label>
+              <label class="flex items-center gap-2.5 p-2.5 rounded-xl border border-slate-700 cursor-pointer hover:border-cyan-400 transition-colors" style="background: #0c1427 !important;">
+                <input type="radio" name="modal_servicio_opcion" value="empresa" class="text-cyan-400 focus:ring-0">
+                <span class="text-slate-200 font-medium text-xs">🏢 Automatizar mi Empresa / Clínica (Servicio Llave en Mano)</span>
+              </label>
+              <label class="flex items-center gap-2.5 p-2.5 rounded-xl border border-slate-700 cursor-pointer hover:border-amber-400 transition-colors" style="background: #0c1427 !important;">
+                <input type="radio" name="modal_servicio_opcion" value="passport" class="text-amber-400 focus:ring-0">
+                <span class="text-slate-200 font-medium text-xs">⚡ Probar la herramienta PassportAI (5 días gratis)</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="sms-consent" style="display:flex;gap:.5rem;align-items:flex-start;text-align:left;margin:.4rem 0 .2rem;">
+            <input type="checkbox" id="sms-consent-codigos" class="sms-consent-input" name="sms_consent" value="yes" checked style="margin-top:.2rem;width:15px;height:15px;min-width:15px;flex-shrink:0;accent-color:#10b981;cursor:pointer;">
+            <label for="sms-consent-codigos" style="font-size:10px;line-height:1.4;color:#94a3b8;cursor:pointer;">
+              Acepto recibir accesos a clases, guías y seguimiento por WhatsApp/SMS de Agencia ProsperIA LLC.
             </label>
           </div>
+
+          <button type="submit" id="btn-submit-modal" class="w-full inline-flex items-center justify-center gap-2.5 py-3.5 px-6 rounded-xl font-black text-sm text-slate-950 transition-all hover:scale-[1.02] shadow-xl cursor-pointer" style="background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%) !important; box-shadow: 0 0 25px rgba(16, 185, 129, 0.4) !important;">
+            <i class="fab fa-whatsapp text-lg"></i>
+            <span>¡Desbloquear Códigos y Acceder a la Comunidad!</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- PASO 2: BIENVENIDA A LA COMUNIDAD DE WHATSAPP (SE ACTIVA AL ENVIAR) -->
+      <div id="modal-step-success" style="display: none;" class="text-center py-4">
+        <div class="w-16 h-16 rounded-full bg-emerald-500/20 border-2 border-emerald-400 text-emerald-400 flex items-center justify-center text-3xl mx-auto mb-4 shadow-[0_0_30px_rgba(16,185,129,0.4)] animate-bounce">
+          <i class="fas fa-check"></i>
         </div>
 
-        <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Nombre Completo *</label>
-          <input type="text" id="modal-direct-name" required placeholder="Ej. Carlos Mendoza" class="w-full px-4 py-3 rounded-xl text-sm focus:border-orange-400 focus:outline-none" style="background: #0c1427 !important; background-color: #0c1427 !important; color: #ffffff !important; border: 1px solid #334155 !important; font-size: 15px !important;">
-        </div>
+        <h3 class="text-2xl font-black text-white mb-2">
+          🎉 ¡Acceso Desbloqueado con Éxito!
+        </h3>
+        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-md mx-auto mb-6">
+          Te enviamos la confirmación a tu correo. <strong class="text-emerald-400">Paso 2 obligatorio:</strong> Únete ahora mismo a nuestra Comunidad Oficial en WhatsApp donde transmitimos las <strong class="text-white">Clases en Vivo Gratuitas todos los Viernes</strong> en YouTube.
+        </p>
 
-        <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Correo Electrónico *</label>
-          <input type="email" id="modal-direct-email" required placeholder="tu@empresa.com" class="w-full px-4 py-3 rounded-xl text-sm focus:border-orange-400 focus:outline-none" style="background: #0c1427 !important; background-color: #0c1427 !important; color: #ffffff !important; border: 1px solid #334155 !important; font-size: 15px !important;">
-        </div>
+        <div class="space-y-3 mb-6">
+          <a href="https://chat.whatsapp.com/HIjs3Bytduy9ucOtn6jeKw?s=sh&p=a&ilr=4" target="_blank" rel="noopener" class="w-full inline-flex items-center justify-center gap-3 py-4 px-6 rounded-2xl font-black text-sm sm:text-base text-slate-950 transition-all hover:scale-105 shadow-xl" style="background: #25D366 !important; background-color: #25D366 !important; color: #061c0e !important; box-shadow: 0 0 35px rgba(37, 211, 102, 0.6) !important; text-decoration: none !important;">
+            <i class="fab fa-whatsapp text-2xl"></i>
+            <span>📲 Entrar a la Comunidad VIP de WhatsApp</span>
+          </a>
 
-        <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">WhatsApp (con código de país) *</label>
-          <input type="tel" id="modal-direct-phone" required placeholder="+1 786 555 0199" class="w-full px-4 py-3 rounded-xl text-sm focus:border-orange-400 focus:outline-none" style="background: #0c1427 !important; background-color: #0c1427 !important; color: #ffffff !important; border: 1px solid #334155 !important; font-size: 15px !important;">
-        </div>
-
-        <div class="sms-consent" style="display:flex;gap:.6rem;align-items:flex-start;text-align:left;margin:.5rem 0 .25rem;">
-          <input type="checkbox" id="sms-consent-codigos" class="sms-consent-input" name="sms_consent" value="yes" style="margin-top:.2rem;width:16px;height:16px;min-width:16px;flex-shrink:0;accent-color:#fb923c;cursor:pointer;">
-          <label for="sms-consent-codigos" style="font-size:11px;line-height:1.5;color:#94a3b8;font-weight:400;text-transform:none;letter-spacing:normal;cursor:pointer;">
-            Acepto recibir mensajes de texto (SMS) de <strong style="color:#cbd5e1;">Agencia ProsperIA LLC</strong> al número proporcionado sobre mi solicitud, citas y seguimiento comercial. La frecuencia de mensajes varía. Pueden aplicar tarifas de mensajes y datos. Responde <strong style="color:#cbd5e1;">STOP</strong> para cancelar o <strong style="color:#cbd5e1;">HELP</strong> para ayuda. El consentimiento no es condición de compra. Ver <a href="/politica-privacidad#sms" target="_blank" rel="noopener" style="color:#fb923c;text-decoration:underline;">Política de Privacidad</a> y <a href="/terminos-servicio#sms" target="_blank" rel="noopener" style="color:#fb923c;text-decoration:underline;">Términos</a>.
-          </label>
-        </div>
-
-        <button type="submit" id="btn-submit-modal" class="btn-cotizacion-cta mt-3">
-          <i class="fab fa-whatsapp text-lg"></i> <span>¡Enviar y Recibir Propuesta en WhatsApp!</span>
-        </button>
-        
-        <div class="text-center pt-2">
-          <a href="https://wa.me/17865573119?text=Hola,%20quiero%20solicitar%20una%20cotizaci%C3%B3n%20para%20mi%20empresa" target="_blank" rel="noopener" class="text-xs text-emerald-400 hover:text-emerald-300 transition-colors inline-flex items-center gap-1.5 font-semibold">
-            <i class="fab fa-whatsapp"></i> ¿Prefieres escribir directo sin llenar el formulario? Clic aquí
+          <a href="https://www.youtube.com/@AgenciaProsper_IA" target="_blank" rel="noopener" class="w-full inline-flex items-center justify-center gap-2 py-3 px-6 rounded-xl font-bold text-xs text-white border border-red-500/40 bg-red-950/40 hover:bg-red-900/40 transition-all" style="text-decoration: none !important;">
+            <i class="fab fa-youtube text-red-500 text-base"></i>
+            <span>Suscribirme al Canal de YouTube @AgenciaProsper_IA</span>
           </a>
         </div>
-      </form>
+
+        <button type="button" onclick="closeCotizacionModal()" class="text-xs text-slate-400 hover:text-slate-200 underline">
+          Volver a navegar los +200 Códigos
+        </button>
+      </div>
+
     </div>
   </div>
+
+  <!-- Botón Flotante Fijo para Abrir el Modal en Cualquier Momento -->
+  <button type="button" onclick="openCotizacionModal('aprender')" class="fixed bottom-5 right-5 z-40 inline-flex items-center gap-2.5 px-4 py-3 sm:px-5 sm:py-3.5 rounded-full font-extrabold text-xs sm:text-sm text-slate-950 transition-all hover:scale-105 shadow-[0_0_25px_rgba(16,185,129,0.5)] cursor-pointer" style="background: linear-gradient(135deg, #10b981 0%, #00e5ff 100%) !important; border: 2px solid #86efac !important;">
+    <i class="fab fa-whatsapp text-lg text-slate-950"></i>
+    <span>🎁 +200 Códigos & Clases en Vivo</span>
+  </button>
 
   <!-- ════════════════════════════════════════════════════
        JAVASCRIPT LOGIC
@@ -11033,10 +11123,15 @@ https://www.doubao.com/</div>
       }
     }
 
-    // REQUISITO 5: Modal de Cotización Logic
-    function openCotizacionModal(option = 'integral') {
+    // Modal de Captura Ejecutiva & Comunidad Logic
+    function openCotizacionModal(option = 'aprender') {
       const modal = document.getElementById('cotizacion-modal');
       if (!modal) return;
+
+      const stepForm = document.getElementById('modal-step-form');
+      const stepSuccess = document.getElementById('modal-step-success');
+      if (stepForm) stepForm.style.display = 'block';
+      if (stepSuccess) stepSuccess.style.display = 'none';
 
       const radio = document.querySelector(`input[name="modal_servicio_opcion"][value="${option}"]`);
       if (radio) radio.checked = true;
@@ -11066,7 +11161,7 @@ https://www.doubao.com/</div>
     async function submitCotizacionModal(e) {
       e.preventDefault();
       const selectedRadio = document.querySelector('input[name="modal_servicio_opcion"]:checked');
-      const servicio = selectedRadio ? selectedRadio.value : 'integral';
+      const servicio = selectedRadio ? selectedRadio.value : 'aprender';
       const name = document.getElementById('modal-direct-name').value.trim();
       const email = document.getElementById('modal-direct-email').value.trim();
       const phone = document.getElementById('modal-direct-phone').value.trim();
@@ -11074,9 +11169,17 @@ https://www.doubao.com/</div>
       const btn = document.getElementById('btn-submit-modal');
       const originalHtml = btn.innerHTML;
       btn.disabled = true;
-      btn.innerHTML = '<i class="fas fa-spinner fa-spin text-lg"></i> <span>Registrando y enviando a edward@agenciaprosperia.com...</span>';
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin text-lg"></i> <span>Registrando en la Comunidad VIP...</span>';
 
-      const servicioText = servicio === 'contenido' ? 'Opción 1: Contenido Viral con IA' : 'Opción 2: Sistema Integral 360°';
+      let servicioText = 'Aprender IA en mi Profesión / Clases de los Viernes';
+      let companyText = 'Profesional / Alumno IA';
+      if (servicio === 'empresa') {
+        servicioText = 'Automatizar mi Empresa / Clínica (Servicio Llave en Mano)';
+        companyText = 'Empresa / Negocio Calificado';
+      } else if (servicio === 'passport') {
+        servicioText = 'Probar PassportAI (5 días de prueba)';
+        companyText = 'PassportAI Trial';
+      }
 
       const parts = name.split(' ');
       const firstName = parts[0] || name;
@@ -11089,8 +11192,7 @@ https://www.doubao.com/</div>
         sessionStorage.setItem('pia_name', name);
         sessionStorage.setItem('pia_email', email);
         sessionStorage.setItem('pia_phone', phone);
-        sessionStorage.setItem('pia_company', 'Hub Códigos Creativos');
-        sessionStorage.setItem('pia_organization', 'Hub Códigos Creativos');
+        sessionStorage.setItem('pia_modal_auto_shown', 'true');
       } catch (err) {}
 
       try {
@@ -11104,9 +11206,10 @@ https://www.doubao.com/</div>
             name: name,
             email: email,
             phone: phone,
-            company: 'Hub Códigos Creativos ProsperIA',
-            source: 'hub_codigos_cotizacion',
-            message: `SOLICITUD DE ASESORÍA / SERVICIO DESDE HUB DE CÓDIGOS\nNombre: ${name}\nEmail: ${email}\nWhatsApp: ${phone}\nModalidad: ${servicioText}`,
+            company: companyText,
+            industry: servicio === 'empresa' ? 'Servicios Profesionales / Empresa' : 'Educación / IA',
+            source: 'hub_codigos_comunidad',
+            message: `REGISTRO DESDE HUB DE CÓDIGOS & COMUNIDAD DE WHATSAPP\nNombre: ${name}\nEmail: ${email}\nWhatsApp: ${phone}\nInterés: ${servicioText}`,
             sms_consent: true
           })
         });
@@ -11114,24 +11217,26 @@ https://www.doubao.com/</div>
         console.warn('Silent contact sync error', err);
       }
 
-      btn.innerHTML = '<i class="fas fa-check text-lg text-emerald-400"></i> <span>¡Listo! Abriendo agenda de citas...</span>';
-      
-      const calParams = new URLSearchParams({
-        full_name: name,
-        name: name,
-        first_name: firstName,
-        last_name: lastName,
-        email: email,
-        phone: phone,
-        organization: 'Hub Códigos Creativos',
-        company: 'Hub Códigos Creativos',
-        company_name: 'Hub Códigos Creativos'
-      });
-
-      setTimeout(() => {
-        window.location.href = `/gracias?${calParams.toString()}`;
-      }, 600);
+      // Transición directa al Paso 2 (Acceso a Comunidad de WhatsApp y YouTube)
+      const stepForm = document.getElementById('modal-step-form');
+      const stepSuccess = document.getElementById('modal-step-success');
+      if (stepForm && stepSuccess) {
+        stepForm.style.display = 'none';
+        stepSuccess.style.display = 'block';
+      }
     }
+
+    // Auto-disparador tras 7 segundos para no perder visitantes
+    window.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        try {
+          if (!sessionStorage.getItem('pia_modal_auto_shown')) {
+            openCotizacionModal('aprender');
+            sessionStorage.setItem('pia_modal_auto_shown', 'true');
+          }
+        } catch (e) {}
+      }, 7000);
+    });
 
     // Mobile navigation menu toggle
     function toggleMobileMenu() {
