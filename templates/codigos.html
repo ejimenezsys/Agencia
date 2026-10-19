@@ -547,6 +547,75 @@
     .nav-dropdown:focus-within .nav-dropdown-menu {
       display: block;
     }
+
+    /* ── Responsive: móvil / tablet ── */
+    html {
+      overflow-x: hidden;
+      overflow-x: clip;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+    body {
+      max-width: 100vw;
+    }
+    .search-grid-layout { grid-template-columns: minmax(0, 1fr); }
+    @media (min-width: 640px) { .search-grid-layout { grid-template-columns: minmax(0, 1fr) auto; } }
+    .search-input-field { min-width: 0; box-sizing: border-box; text-overflow: ellipsis; }
+    .search-counter-badge { width: 100%; }
+    @media (min-width: 640px) { .search-counter-badge { width: auto; } }
+
+    /* Categorías: grilla de tarjetas táctiles para móvil y desktop */
+    .cat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      max-width: 64rem;
+      margin: 0 auto 1.5rem;
+    }
+    @media (min-width: 640px) { .cat-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; } }
+    @media (min-width: 1024px) { .cat-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+    .cat-chip {
+      display: flex; align-items: center; gap: 10px;
+      width: 100%; min-height: 58px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      text-align: left; white-space: normal;
+      background: rgba(13, 22, 43, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      color: #cbd5e1;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .cat-chip.cat-all { grid-column: 1 / -1; justify-content: center; min-height: 48px; }
+    .cat-ico {
+      flex: 0 0 auto;
+      width: 32px; height: 32px;
+      display: inline-flex; align-items: center; justify-content: center;
+      border-radius: 10px; font-size: 13px;
+      background: rgba(0, 229, 255, 0.1);
+      border: 1px solid rgba(0, 229, 255, 0.22);
+      color: #00e5ff;
+    }
+    .cat-txt { display: flex; flex-direction: column; min-width: 0; }
+    .cat-name { font-size: 12.5px; font-weight: 600; line-height: 1.25; color: #e2e8f0; }
+    .cat-count { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 10.5px; color: #64748b; margin-top: 2px; }
+    .cat-chip:hover { border-color: rgba(0, 229, 255, 0.45); background: rgba(16, 28, 54, 0.95); }
+    .cat-chip.active { background: linear-gradient(135deg, rgba(0,229,255,0.22), rgba(99,102,241,0.22)); border-color: #00e5ff; box-shadow: 0 0 18px rgba(0, 229, 255, 0.25); color: #fff; }
+    .cat-chip.active .cat-name { color: #fff; }
+    .cat-chip.active .cat-count { color: #7dd3fc; }
+    .cat-chip.active .cat-ico { background: #00e5ff; color: #020710; border-color: #00e5ff; }
+    .nav-link-item { white-space: nowrap; }
+    .nav-link-item:hover { background: rgba(15, 23, 42, 0.8); }
+    img, video { max-width: 100%; }
+    @media (max-width: 639px) {
+      .tab-collection { width: 100%; justify-content: center; }
+      .search-input-field { font-size: 16px !important; } /* evita zoom automático en iOS */
+      .code-card { padding: 16px !important; }
+      .prompt-box, .prompt-box-cyan, .prompt-box-amber, .prompt-box-rose { font-size: 11.5px; padding: 12px; }
+    }
+    @media (min-width: 640px) and (max-width: 1023px) {
+      .tab-collection { flex: 0 1 auto; }
+    }
   </style>
 </head>
 <body class="min-h-screen flex flex-col relative selection:bg-cyan-500 selection:text-slate-950">
@@ -872,7 +941,7 @@
           <input 
             type="text" 
             id="search-input" 
-            placeholder="Buscar entre los 200 códigos: /spotlight, 35mm..." 
+            placeholder="Buscar: /spotlight, 35mm..." autocomplete="off" enterkeyhint="search" aria-label="Buscar entre los 200 códigos" 
             class="search-input-field input-search"
             oninput="handleSearch(this.value)"
           >
@@ -888,19 +957,19 @@
       </div>
     </div>
 
-    <!-- Category Pills -->
-    <div class="flex items-center gap-1.5 sm:gap-2 mb-6 max-w-5xl mx-auto overflow-x-auto no-scrollbar pb-2 sm:flex-wrap sm:justify-center sm:overflow-visible" id="category-pills">
-      <button class="filter-chip active px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap" data-cat="all" onclick="filterCategory('all', this)"><i class="fas fa-th-large mr-1 text-[10px]"></i> Todas las Categorías (200)</button>
-      <button class="filter-chip px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap" data-cat="01" onclick="filterCategory('01', this)"><i class="fas fa-lightbulb mr-1 text-[10px]"></i> Iluminación de Estudio y Publicidad (20)</button>
-      <button class="filter-chip px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap" data-cat="02" onclick="filterCategory('02', this)"><i class="fas fa-paint-brush mr-1 text-[10px]"></i> Composición y Planos Fotográficos (20)</button>
-      <button class="filter-chip px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap" data-cat="03" onclick="filterCategory('03', this)"><i class="fas fa-eye mr-1 text-[10px]"></i> Retrato Cinematográfico y Expresión (20)</button>
-      <button class="filter-chip px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap" data-cat="04" onclick="filterCategory('04', this)"><i class="fas fa-sun mr-1 text-[10px]"></i> Dirección de Luz Natural y Hora Mágica (20)</button>
-      <button class="filter-chip px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap" data-cat="05" onclick="filterCategory('05', this)"><i class="fas fa-video mr-1 text-[10px]"></i> Ángulos Dinámicos y Movimiento (20)</button>
-      <button class="filter-chip px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap" data-cat="06" onclick="filterCategory('06', this)"><i class="fas fa-palette mr-1 text-[10px]"></i> Texturas, Moda y Paletas de Color (20)</button>
-      <button class="filter-chip px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap" data-cat="07" onclick="filterCategory('07', this)"><i class="fas fa-film mr-1 text-[10px]"></i> Efectos Visuales y Cinematografía (20)</button>
-      <button class="filter-chip px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap" data-cat="08" onclick="filterCategory('08', this)"><i class="fas fa-camera mr-1 text-[10px]"></i> Estilismo Editorial y Lookbook (20)</button>
-      <button class="filter-chip px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap" data-cat="09" onclick="filterCategory('09', this)"><i class="fas fa-running mr-1 text-[10px]"></i> Acción, Impacto y Alto Contraste (20)</button>
-      <button class="filter-chip px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap" data-cat="10" onclick="filterCategory('10', this)"><i class="fas fa-box-open mr-1 text-[10px]"></i> Packshot y Fotografía de Producto (20)</button>
+    <!-- Categorías (grilla de tarjetas táctiles responsive) -->
+    <div class="cat-grid" id="category-pills" role="group" aria-label="Filtrar por categoría">
+      <button type="button" class="filter-chip cat-chip cat-all active" data-cat="all" onclick="filterCategory('all', this)"><span class="cat-ico"><i class="fas fa-th-large"></i></span><span class="cat-txt"><span class="cat-name">Todas las categorías</span><span class="cat-count">200 códigos</span></span></button>
+      <button type="button" class="filter-chip cat-chip" data-cat="01" onclick="filterCategory('01', this)"><span class="cat-ico"><i class="fas fa-lightbulb"></i></span><span class="cat-txt"><span class="cat-name">Iluminación de Estudio y Publicidad</span><span class="cat-count">20 códigos</span></span></button>
+      <button type="button" class="filter-chip cat-chip" data-cat="02" onclick="filterCategory('02', this)"><span class="cat-ico"><i class="fas fa-paint-brush"></i></span><span class="cat-txt"><span class="cat-name">Composición y Planos Fotográficos</span><span class="cat-count">20 códigos</span></span></button>
+      <button type="button" class="filter-chip cat-chip" data-cat="03" onclick="filterCategory('03', this)"><span class="cat-ico"><i class="fas fa-eye"></i></span><span class="cat-txt"><span class="cat-name">Retrato Cinematográfico y Expresión</span><span class="cat-count">20 códigos</span></span></button>
+      <button type="button" class="filter-chip cat-chip" data-cat="04" onclick="filterCategory('04', this)"><span class="cat-ico"><i class="fas fa-sun"></i></span><span class="cat-txt"><span class="cat-name">Dirección de Luz Natural y Hora Mágica</span><span class="cat-count">20 códigos</span></span></button>
+      <button type="button" class="filter-chip cat-chip" data-cat="05" onclick="filterCategory('05', this)"><span class="cat-ico"><i class="fas fa-video"></i></span><span class="cat-txt"><span class="cat-name">Ángulos Dinámicos y Movimiento</span><span class="cat-count">20 códigos</span></span></button>
+      <button type="button" class="filter-chip cat-chip" data-cat="06" onclick="filterCategory('06', this)"><span class="cat-ico"><i class="fas fa-palette"></i></span><span class="cat-txt"><span class="cat-name">Texturas, Moda y Paletas de Color</span><span class="cat-count">20 códigos</span></span></button>
+      <button type="button" class="filter-chip cat-chip" data-cat="07" onclick="filterCategory('07', this)"><span class="cat-ico"><i class="fas fa-film"></i></span><span class="cat-txt"><span class="cat-name">Efectos Visuales y Cinematografía</span><span class="cat-count">20 códigos</span></span></button>
+      <button type="button" class="filter-chip cat-chip" data-cat="08" onclick="filterCategory('08', this)"><span class="cat-ico"><i class="fas fa-camera"></i></span><span class="cat-txt"><span class="cat-name">Estilismo Editorial y Lookbook</span><span class="cat-count">20 códigos</span></span></button>
+      <button type="button" class="filter-chip cat-chip" data-cat="09" onclick="filterCategory('09', this)"><span class="cat-ico"><i class="fas fa-running"></i></span><span class="cat-txt"><span class="cat-name">Acción, Impacto y Alto Contraste</span><span class="cat-count">20 códigos</span></span></button>
+      <button type="button" class="filter-chip cat-chip" data-cat="10" onclick="filterCategory('10', this)"><span class="cat-ico"><i class="fas fa-box-open"></i></span><span class="cat-txt"><span class="cat-name">Packshot y Fotografía de Producto</span><span class="cat-count">20 códigos</span></span></button>
     </div>
 
     <!-- REQUISITO 1: Botón de Desplegar Catálogo Completo (TOP: Abajo del Índice) -->
