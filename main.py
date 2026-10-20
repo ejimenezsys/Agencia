@@ -1314,8 +1314,23 @@ async def read_spiderman(request: Request):
 @app.get("/arsenal.html", response_class=HTMLResponse)
 @app.head("/arsenal.html")
 async def read_arsenal(request: Request):
+    # SSR: prompts reales en el HTML para que bots de búsqueda e IA los lean sin ejecutar JS
+    seo_prompts, seo_prompts_total = [], 0
+    db = SessionLocal()
     try:
-        return templates.TemplateResponse(request=request, name="arsenal.html")
+        q = db.query(ArsenalPrompt).order_by(ArsenalPrompt.views_count.desc(), ArsenalPrompt.id.desc())
+        seo_prompts_total = q.count()
+        seo_prompts = q.limit(120).all()
+    except Exception as e:
+        print(f"⚠️ [ARSENAL SSR] No se pudieron cargar prompts: {e}", flush=True)
+    finally:
+        db.close()
+    try:
+        return templates.TemplateResponse(
+            request=request,
+            name="arsenal.html",
+            context={"seo_prompts": seo_prompts, "seo_prompts_total": seo_prompts_total},
+        )
     except Exception:
         static_html = os.path.join(os.path.dirname(__file__), "static", "arsenal", "index.html")
         if os.path.exists(static_html):
@@ -1607,6 +1622,39 @@ async def get_robots():
         "Sitemap: https://agenciaprosperia.com/sitemap.xml\n"
     )
     return content
+
+@app.get("/llms.txt", response_class=PlainTextResponse)
+async def get_llms_txt():
+    """Resumen del sitio para LLMs (estándar llms.txt). Solo datos ya publicados en el sitio."""
+    return (
+        "# Agencia ProsperIA\n\n"
+        "> Agencia ProsperIA LLC es una agencia de automatización con Inteligencia Artificial con sede en Miami, Florida (EE. UU.), "
+        "fundada y liderada por Edward Jiménez. Diseña e implementa sistemas que conectan IA, automatización comercial, CRM, "
+        "agentes autónomos y datos para que clínicas, profesionales y PyMEs en Latinoamérica y Estados Unidos operen y crezcan con menos fricción.\n\n"
+        "## Servicios\n"
+        "- [Inicio: IA, automatización y sistemas de negocio](https://agenciaprosperia.com/): sistemas que conectan IA, automatización, CRM y estrategia.\n"
+        "- [Consultoría de IA y automatización de procesos](https://agenciaprosperia.com/consultoriadeinteligenciaartificial): automatización de procesos críticos para PyMEs y corporativos.\n"
+        "- [Diagnóstico comercial](https://agenciaprosperia.com/diagnostico): autoevaluación del pipeline comercial.\n"
+        "- [Test de madurez en IA](https://agenciaprosperia.com/test-ia): diagnóstico interactivo de 10 preguntas.\n"
+        "- [PassportAI](https://passportai.app): plataforma creada por Edward Jiménez (prueba de 5 días).\n\n"
+        "## Recursos gratuitos\n"
+        "- [El Arsenal: biblioteca de prompts de IA](https://agenciaprosperia.com/arsenal): prompts para imagen, video y agentes autónomos.\n"
+        "- [200 Códigos Creativos de ChatGPT](https://agenciaprosperia.com/codigos): prompts de dirección fotográfica y video, guías PDF.\n"
+        "- [PROSPERIA Intelligence](https://agenciaprosperia.com/intelligence): análisis sobre tecnología y transformación empresarial.\n"
+        "- [Podcast](https://agenciaprosperia.com/podcast): metodología SVE90, PassportAI y automatización comercial.\n\n"
+        "## Sobre Edward Jiménez\n"
+        "- Fundador de Agencia ProsperIA y AI System Architect, con más de 25 años en integraciones tecnológicas "
+        "(sistemas bancarios para Grupo Elektra y Banco Azteca en más de 1,500 sucursales).\n"
+        "- Autor del libro \"Las 4 Inteligencias\", con presentación en EXMA Miami 2026 (4 y 5 de diciembre): https://agenciaprosperia.com/exmamiami\n\n"
+        "## Redes oficiales\n"
+        "- Instagram: https://www.instagram.com/edwardjimenezia/\n"
+        "- LinkedIn: https://www.linkedin.com/in/edwardjimenezia/\n"
+        "- YouTube: https://www.youtube.com/@AgenciaProsper_IA\n"
+        "- Facebook: https://www.facebook.com/AgenciaProsperarIA/\n\n"
+        "## Contacto\n"
+        "- Email: edward@agenciaprosperia.com\n"
+        "- Sitio: https://agenciaprosperia.com\n"
+    )
 
 @app.get("/sitemap.xml")
 async def get_sitemap(db: Session = Depends(get_db)):
