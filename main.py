@@ -1618,7 +1618,21 @@ async def get_robots():
         "Disallow: /api/\n"
         "Disallow: /dashboard\n"
         "Disallow: /login\n\n"
-        
+
+        # Bots de búsqueda / navegación en vivo de asistentes de IA
+        + "".join(
+            f"User-agent: {bot}\nAllow: /\nDisallow: /api/\nDisallow: /dashboard\nDisallow: /login\n\n"
+            for bot in (
+                "ChatGPT-User",
+                "Claude-SearchBot",
+                "Claude-User",
+                "Perplexity-User",
+                "Bingbot",
+                "Applebot-Extended",
+                "meta-externalagent",
+            )
+        )
+        +
         "Sitemap: https://agenciaprosperia.com/sitemap.xml\n"
     )
     return content
@@ -1628,12 +1642,14 @@ async def get_llms_txt():
     """Resumen del sitio para LLMs (estándar llms.txt). Solo datos ya publicados en el sitio."""
     return (
         "# Agencia ProsperIA\n\n"
-        "> Agencia ProsperIA LLC es una agencia de automatización con Inteligencia Artificial con sede en Miami, Florida (EE. UU.), "
-        "fundada y liderada por Edward Jiménez. Diseña e implementa sistemas que conectan IA, automatización comercial, CRM, "
-        "agentes autónomos y datos para que clínicas, profesionales y PyMEs en Latinoamérica y Estados Unidos operen y crezcan con menos fricción.\n\n"
+        "> Agencia ProsperIA LLC es una firma de consultoría en inteligencia artificial e implementación con sede en Miami, Florida (EE. UU.), "
+        "fundada y dirigida por Edward Jiménez. Diseña la estrategia, programa e implementa agentes de IA, RAG privado, automatización de procesos, CRM "
+        "y datos para que PyMEs, corporativos, clínicas y profesionales en Estados Unidos, Latinoamérica y España operen y crezcan con menos fricción.\n\n"
         "## Servicios\n"
         "- [Inicio: IA, automatización y sistemas de negocio](https://agenciaprosperia.com/): sistemas que conectan IA, automatización, CRM y estrategia.\n"
-        "- [Consultoría de IA y automatización de procesos](https://agenciaprosperia.com/consultoriadeinteligenciaartificial): automatización de procesos críticos para PyMEs y corporativos.\n"
+        "- [Consultoría en Inteligencia Artificial](https://agenciaprosperia.com/consultoriadeinteligenciaartificial): consultoría de IA que termina en sistemas en producción "
+        "para PyMEs y corporativos: diagnóstico de madurez, business case, RAG privado, agentes de IA, integración con ERP/CRM, metodología SVE90 de 90 días "
+        "y Fractional Chief AI Officer. Incluye definición de consultoría en IA, comparativa y preguntas frecuentes.\n"
         "- [Diagnóstico comercial](https://agenciaprosperia.com/diagnostico): autoevaluación del pipeline comercial.\n"
         "- [Test de madurez en IA](https://agenciaprosperia.com/test-ia): diagnóstico interactivo de 10 preguntas.\n"
         "- [PassportAI](https://passportai.app): plataforma creada por Edward Jiménez (prueba de 5 días).\n\n"

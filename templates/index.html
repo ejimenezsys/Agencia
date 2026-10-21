@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AGENCIA PROSPERIA — Inteligencia Artificial, Automatización y Sistemas de Negocio</title>
-  <meta name="description" content="Convertimos inteligencia artificial en sistemas reales de crecimiento y operación. Conectamos IA, automatización, CRM y estrategia para ayudar a las empresas a operar y crecer con menos fricción.">
+  <title>Agencia ProsperIA — Consultoría en Inteligencia Artificial, Automatización y Sistemas de Negocio</title>
+  <meta name="description" content="Firma de consultoría en inteligencia artificial en Miami dirigida por Edward Jiménez. Convertimos IA en sistemas reales de crecimiento y operación: agentes de IA, automatización, CRM y estrategia para operar y crecer con menos fricción.">
   <meta name="keywords" content="agencia prosperia, passportai, prosperia crm, inteligencia artificial empresas, sistemas de ventas ia, automatizacion b2b, edward jimenez, sve90, agentes ia, clinicas ia">
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
   <link rel="canonical" href="https://agenciaprosperia.com/">
@@ -12,6 +12,8 @@
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_LA">
+  <meta property="og:site_name" content="Agencia ProsperIA">
   <meta property="og:url" content="https://agenciaprosperia.com/">
   <meta property="og:title" content="AGENCIA PROSPERIA — Inteligencia Artificial convertida en sistemas reales">
   <meta property="og:description" content="Diseñamos sistemas que conectan inteligencia artificial, ventas, automatización, CRM y datos para ayudar a las empresas a operar y crecer con menos fricción.">
@@ -24,30 +26,98 @@
   <meta name="twitter:description" content="Convertimos inteligencia artificial en sistemas reales de crecimiento y operación comercial.">
   <meta name="twitter:image" content="https://agenciaprosperia.com/static/logo_prosper_ia_cropped.jpg">
 
-  <!-- Marcado Estructurado JSON-LD -->
+  <!-- Marcado Estructurado JSON-LD (mismos @id que /codigos y /consultoriadeinteligenciaartificial) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Agencia ProsperIA LLC",
-    "url": "https://agenciaprosperia.com/",
-    "logo": "https://agenciaprosperia.com/static/logo_prosper_ia_cropped.jpg",
-    "founder": {
-      "@type": "Person",
-      "name": "Edward Jiménez"
-    },
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "telephone": "+1-786-833-6964",
-      "contactType": "sales",
-      "areaServed": ["US", "LATAM", "ES"],
-      "availableLanguage": ["Spanish", "English"]
-    },
-    "sameAs": [
-      "https://www.instagram.com/edwardjimenezia/",
-      "https://www.facebook.com/AgenciaProsperarIA/",
-      "https://www.youtube.com/@AgenciaProsper_IA",
-      "https://www.linkedin.com/in/edwardjimenezia/"
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://agenciaprosperia.com/#website",
+        "url": "https://agenciaprosperia.com/",
+        "name": "Agencia ProsperIA",
+        "inLanguage": "es",
+        "publisher": { "@id": "https://agenciaprosperia.com/#organization" }
+      },
+      {
+        "@type": ["Organization", "ProfessionalService"],
+        "@id": "https://agenciaprosperia.com/#organization",
+        "name": "Agencia ProsperIA LLC",
+        "alternateName": "Agencia ProsperIA",
+        "url": "https://agenciaprosperia.com/",
+        "logo": "https://agenciaprosperia.com/static/logo_prosper_ia_cropped.jpg",
+        "image": "https://agenciaprosperia.com/static/logo_prosper_ia_cropped.jpg",
+        "description": "Firma de consultoría en inteligencia artificial con sede en Miami, Florida. Diseña la estrategia, programa e implementa agentes de IA, RAG privado, CRM y automatización de procesos para PyMEs y corporativos en Estados Unidos y Latinoamérica.",
+        "email": "edward@agenciaprosperia.com",
+        "telephone": "+1-786-833-6964",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Miami",
+          "addressRegion": "FL",
+          "addressCountry": "US"
+        },
+        "areaServed": ["US", "LATAM", "ES"],
+        "knowsLanguage": ["es", "en"],
+        "knowsAbout": ["Consultoría en inteligencia artificial", "Agentes de IA", "Retrieval-Augmented Generation (RAG)", "Automatización de procesos", "Gobernanza de IA", "CRM", "Automatización comercial"],
+        "founder": { "@id": "https://agenciaprosperia.com/#edward" },
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+1-786-833-6964",
+          "contactType": "sales",
+          "areaServed": ["US", "LATAM", "ES"],
+          "availableLanguage": ["Spanish", "English"]
+        },
+        "makesOffer": [
+          { "@type": "Offer", "itemOffered": { "@id": "https://agenciaprosperia.com/consultoriadeinteligenciaartificial#service" } },
+          { "@type": "Offer", "itemOffered": { "@type": "SoftwareApplication", "name": "PassportAI", "url": "https://passportai.app", "applicationCategory": "BusinessApplication" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "ProsperIA CRM" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "SVE90 Enterprise" } }
+        ],
+        "sameAs": [
+          "https://www.instagram.com/edwardjimenezia/",
+          "https://www.facebook.com/AgenciaProsperarIA/",
+          "https://www.youtube.com/@AgenciaProsper_IA",
+          "https://www.linkedin.com/in/edwardjimenezia/"
+        ]
+      },
+      {
+        "@type": "Person",
+        "@id": "https://agenciaprosperia.com/#edward",
+        "name": "Edward Jiménez",
+        "jobTitle": "Fundador & AI System Architect",
+        "image": "https://agenciaprosperia.com/static/edwar_jimenez.jpg",
+        "worksFor": { "@id": "https://agenciaprosperia.com/#organization" },
+        "description": "Empresario y tecnólogo con más de 25 años en tecnología, finanzas y operaciones. Lideró la arquitectura de implementación del core bancario para más de 1,500 sucursales de Grupo Elektra y Banco Azteca. Autor del libro 'Las 4 Inteligencias' y creador de PassportAI.",
+        "sameAs": [
+          "https://www.instagram.com/edwardjimenezia/",
+          "https://www.linkedin.com/in/edwardjimenezia/",
+          "https://www.youtube.com/@AgenciaProsper_IA"
+        ]
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://agenciaprosperia.com/#webpage",
+        "url": "https://agenciaprosperia.com/",
+        "name": "Agencia ProsperIA — Consultoría en Inteligencia Artificial, Automatización y Sistemas de Negocio",
+        "isPartOf": { "@id": "https://agenciaprosperia.com/#website" },
+        "about": { "@id": "https://agenciaprosperia.com/#organization" },
+        "inLanguage": "es",
+        "dateModified": "2026-10-20"
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://agenciaprosperia.com/#faq",
+        "mainEntity": [
+          { "@type": "Question", "name": "¿Por qué implementar el Ecosistema ProsperIA en vez de contratar ChatGPT Team, un CRM suelto y una agencia de marketing tradicional?", "acceptedAnswer": { "@type": "Answer", "text": "El mayor costo de una empresa moderna no es el software, sino la fragmentación operativa y los silos tecnológicos. Agencia ProsperIA unifica las 4 capas del ecosistema: PassportAI (Inteligencia / Piensa), ProsperIA CRM (Operación / Opera), Agencia ProsperIA (Implementación / Implementa) y SVE90 (Transformación / Transforma)." } },
+          { "@type": "Question", "name": "¿Cómo funciona la vertical especializada para Clínicas y cómo reducen el absentismo (No-Show)?", "acceptedAnswer": { "@type": "Answer", "text": "En clínicas dentales, estéticas y capilares, la velocidad de respuesta en los primeros minutos es decisiva para agendar. El sistema se conecta a Meta Ads, Google Ads, Instagram y WhatsApp para responder en segundos con agentes conversacionales, sincronizar la agenda y confirmar la cita en el calendario médico, y enviar recordatorios multicanal con confirmación interactiva para reducir el absentismo." } },
+          { "@type": "Question", "name": "Mi empresa no es una clínica (ej. Inmobiliaria, Servicios Profesionales o Construcción). ¿Puedo aplicar su sistema?", "acceptedAnswer": { "@type": "Answer", "text": "Sí. Aunque Clínicas es la vertical empaquetada llave en mano, la arquitectura técnica es la misma para cualquier sector de servicios de ticket medio o alto: captación omnicanal, agentes SDR de cualificación, pipelines en CRM y seguimiento automatizado, adaptados a su negocio en un plazo de entre 7 y 21 días hábiles." } },
+          { "@type": "Question", "name": "¿Cómo garantizan que la información confidencial de mi empresa y mis prospectos no se filtre a modelos públicos?", "acceptedAnswer": { "@type": "Answer", "text": "Mediante PassportAI Enterprise y una arquitectura privada: cero entrenamiento público con sus datos. Toda la interacción ocurre bajo APIs empresariales dedicadas con cifrado en tránsito y en reposo, y las bases de clientes, manuales, estados financieros y prompts permanecen bajo soberanía corporativa y confidencialidad." } },
+          { "@type": "Question", "name": "¿Cómo sé si mi empresa realmente necesita este sistema antes de invertir?", "acceptedAnswer": { "@type": "Answer", "text": "Con el Diagnóstico de Fuga Comercial en 6 pasos (https://agenciaprosperia.com/diagnostico), que en menos de 2 minutos analiza cuántos prospectos recibe al mes y por qué canales, su tiempo real de primer contacto, su score de eficiencia operativa y la estimación en USD que está perdiendo, con prioridades de automatización recomendadas." } },
+          { "@type": "Question", "name": "Si mi empresa ya cuenta con equipo propio de tecnología o marketing, ¿podemos contratar solo la plataforma PassportAI?", "acceptedAnswer": { "@type": "Answer", "text": "Sí. PassportAI opera integrado al ecosistema o como plataforma SaaS independiente: chat multimodelo con los principales modelos de frontera, Deep Research documental, estudio multimedia y constructor de agentes autónomos, con facturación corporativa y gestión de accesos. Incluye una prueba de 5 días en https://passportai.app." } },
+          { "@type": "Question", "name": "¿Quién lidera la estrategia y cuál es la experiencia real detrás de las implementaciones?", "acceptedAnswer": { "@type": "Answer", "text": "Cada proyecto es dirigido por Edward Jiménez, CEO y fundador de Agencia ProsperIA LLC, con más de 25 años de trayectoria directiva en tecnología, finanzas y operaciones a gran escala. Lideró la arquitectura de implementación del core bancario para más de 1,500 sucursales en Grupo Elektra y Banco Azteca." } },
+          { "@type": "Question", "name": "¿Cuánto tiempo toma la puesta en marcha y qué soporte recibimos tras la entrega?", "acceptedAnswer": { "@type": "Answer", "text": "Para paquetes estandarizados de ProsperIA CRM, entre 7 y 14 días hábiles. Para proyectos a medida (SVE90 Enterprise), un programa de 90 días: Fase 1 (días 1-15) auditoría y diseño de arquitectura; Fase 2 (días 16-45) configuración, entrenamiento de agentes y pruebas; Fase 3 (días 46-90) despliegue en producción, capacitación y optimización con reuniones directivas quincenales." } }
+        ]
+      }
     ]
   }
   </script>
@@ -958,6 +1028,16 @@
           </button>
           
           <div class="dropdown-menu w-72">
+            <a href="/consultoriadeinteligenciaartificial" class="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/5 transition-colors group/item" onclick="trackEvent('click_solution', {item: 'consultoria_ia'})">
+              <span class="w-9 h-9 rounded-xl bg-indigo-950/70 border border-indigo-500/20 flex items-center justify-center text-indigo-400 group-hover/item:border-indigo-400 transition-colors flex-shrink-0">
+                <i class="fas fa-chess-knight text-xs"></i>
+              </span>
+              <div>
+                <div class="font-bold text-white text-xs">Consultoría en Inteligencia Artificial</div>
+                <div class="text-[11px] text-slate-400 font-light">PyMEs y corporativos · RAG y agentes</div>
+              </div>
+            </a>
+
             <a href="#soluciones-industria" class="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/5 transition-colors group/item" onclick="trackEvent('click_solution', {item: 'industrias'})">
               <span class="w-9 h-9 rounded-xl bg-cyan-950/70 border border-cyan-500/20 flex items-center justify-center text-cyan-400 group-hover/item:border-cyan-400 transition-colors flex-shrink-0">
                 <i class="fas fa-building-user text-xs"></i>
@@ -1081,6 +1161,7 @@
         <div class="flex flex-col gap-1.5 pl-2 text-slate-300">
           <a href="#soluciones-industria" class="hover:text-white py-1">Soluciones por Industria</a>
           <a href="#passportai-trial" class="hover:text-white py-1">PassportAI (Prueba Gratis)</a>
+          <a href="/consultoriadeinteligenciaartificial" class="hover:text-white py-1">Consultoría en Inteligencia Artificial</a>
           <a href="#sve90-enterprise" class="hover:text-white py-1">SVE90 Enterprise</a>
         </div>
         <a href="#demo-tour" class="text-slate-300 hover:text-white py-1">Ver cómo funciona</a>
@@ -2227,8 +2308,9 @@
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-8" data-reveal>
       <div class="badge-linear mb-3">Criterio y Respuestas Clave</div>
+      <h2 class="text-2xl sm:text-3xl font-black text-white leading-tight mb-3">Preguntas frecuentes sobre IA, automatización y consultoría</h2>
       <p class="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto font-light mb-6">
-        Respuestas de arquitectura, gobernanza y rentabilidad para directores, fundadores y líderes comerciales que buscan certezas antes de actuar.
+        Respuestas de arquitectura, gobernanza y rentabilidad para directores, fundadores y líderes comerciales que buscan certezas antes de actuar. ¿Busca consultoría para su empresa? Vea nuestra <a href="/consultoriadeinteligenciaartificial" class="text-cyan-400 hover:text-cyan-300 underline underline-offset-2">Consultoría en Inteligencia Artificial</a>.
       </p>
       <button type="button" id="faq-section-btn" onclick="toggleFaqSection()" aria-expanded="false" aria-controls="faq-container" class="btn-linear-dark px-6 py-3.5 text-sm sm:text-base font-bold inline-flex items-center gap-3 cursor-pointer">
         <span>Decisiones Ejecutivas &amp; Preguntas Frecuentes</span>
@@ -2281,12 +2363,12 @@
         <div id="faq-1" class="faq-answer">
           <div class="pt-4 border-t border-white/5 mt-4 space-y-3 text-xs sm:text-sm text-slate-300 leading-relaxed font-light">
             <p>
-              En clínicas dentales, estéticas y capilares, la velocidad de respuesta en los primeros <strong>5 minutos</strong> multiplica por 7 la tasa de agendamiento. Nuestro sistema se conecta a tus campañas de Meta Ads, Google Ads, Instagram y WhatsApp para:
+              En clínicas dentales, estéticas y capilares, la velocidad de respuesta en los <strong>primeros minutos</strong> es decisiva para lograr la cita. Nuestro sistema se conecta a tus campañas de Meta Ads, Google Ads, Instagram y WhatsApp para:
             </p>
             <ul class="space-y-1.5 pl-3 border-l-2 border-emerald-500/40 text-slate-200">
               <li><strong>1. Responder en segundos:</strong> Agentes conversacionales atienden dudas sobre tratamientos y cualifican el interés.</li>
               <li><strong>2. Sincronizar agenda:</strong> Proponen horarios disponibles y confirman la cita directamente en el calendario médico.</li>
-              <li><strong>3. Blindaje contra ausencias:</strong> Disparan recordatorios multicanal dinámicos con confirmación interactiva, reduciendo el absentismo médico hasta en un 60%.</li>
+              <li><strong>3. Blindaje contra ausencias:</strong> Disparan recordatorios multicanal dinámicos con confirmación interactiva para reducir el absentismo a las citas.</li>
             </ul>
             <div class="pt-3 flex flex-wrap items-center gap-3">
               <a href="tel:+17868336964" onclick="return openProsperChat(event)" class="btn-linear-primary px-4 py-2 text-xs font-bold inline-flex items-center gap-2" style="background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);">
@@ -2403,7 +2485,7 @@
               <strong>Sí.</strong> PassportAI opera tanto integrado al ecosistema como en modalidad de <strong>plataforma SaaS independiente</strong>. Puedes registrar a tu organización para acceder de inmediato a:
             </p>
             <p>
-              Chat multimodelo unificado (Claude 3.5 Sonnet, GPT-4o, Gemini 1.5 Pro), Deep Research documental masivo, estudio multimedia (clonación de voz, video e imágenes) y constructor de agentes autónomos, con facturación corporativa y gestión de accesos para tu equipo.
+              Chat multimodelo unificado con los principales modelos de frontera (familias Claude, GPT y Gemini), Deep Research documental masivo, estudio multimedia (clonación de voz, video e imágenes) y constructor de agentes autónomos, con facturación corporativa y gestión de accesos para tu equipo.
             </p>
             <div class="pt-3 flex flex-wrap items-center gap-3">
               <a href="https://passportai.app/" target="_blank" rel="noopener" class="btn-linear-primary px-4 py-2 text-xs font-bold inline-flex items-center gap-2">

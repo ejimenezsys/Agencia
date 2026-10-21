@@ -389,12 +389,12 @@ function showQuizResults() {
     if (paragraphDesc) paragraphDesc.textContent = 'Su operación tiene cuellos de botella severos en cotizaciones y operaciones. Si el dueño o directores no están presentes, la facturación se detiene. Sus competidores automatizados están capturando a sus clientes en minutos.';
     if (statHours) statHours.textContent = '40 a 60 Horas / semana';
     if (statMoney) statMoney.textContent = '$12,000 - $30,000 USD / mes';
-    if (actionPlan) actionPlan.textContent = 'Urgente: Desplegar de inmediato el Sistema de Cotización y Ventas Autónomas 24/7 y documentar los procesos centrales en un CRM ProsperIA Enterprise con control móvil.';
+    if (actionPlan) actionPlan.textContent = 'Urgente: Desplegar el Sistema de Cotización y Atención Comercial con agentes de IA 24/7 y documentar los procesos centrales en ProsperIA CRM con control móvil.';
   } else if (totalScore <= 12) {
     // Nivel 2: Juguetes Aislados
     if (badgeLevel) badgeLevel.textContent = 'NIVEL 2: JUGUETES DE IA AISLADOS (PARÁLISIS POR HERRAMIENTAS)';
     if (headlineTitle) headlineTitle.textContent = 'Su Equipo Experimenta con Prompts, Pero Sus Procesos Centrales Siguen Siendo Manuales';
-    if (paragraphDesc) paragraphDesc.textContent = 'Pagan cuentas de ChatGPT sueltas pero no hay impacto en el balance contable. Tienen silos de información y riesgo latente de fuga de datos corporativos (Shadow AI). Necesitan pasar de la curiosidad a la arquitectura de Super Inteligencia.';
+    if (paragraphDesc) paragraphDesc.textContent = 'Pagan cuentas de ChatGPT sueltas pero no hay impacto en el balance contable. Tienen silos de información y riesgo latente de fuga de datos corporativos (Shadow AI). Necesitan pasar de la curiosidad a una arquitectura de IA dirigida por consultoría.';
     if (statHours) statHours.textContent = '25 a 45 Horas / semana';
     if (statMoney) statMoney.textContent = '$8,000 - $22,000 USD / mes';
     if (actionPlan) actionPlan.textContent = 'Sustituir las suscripciones dispersas por un Cerebro Corporativo Privado (RAG) y conectar agentes autónomos a sus ERPs o flujos comerciales clave.';
@@ -402,18 +402,18 @@ function showQuizResults() {
     // Nivel 3: Automatización Parcial
     if (badgeLevel) badgeLevel.textContent = 'NIVEL 3: AUTOMATIZACIÓN EN SILOS (LISTO PARA ESCALAR)';
     if (headlineTitle) headlineTitle.textContent = 'Tienen Buena Eficiencia Básica, Pero Falta Orquestación Central y RAG Privado';
-    if (paragraphDesc) paragraphDesc.textContent = 'Cuentan con flujos de trabajo funcionales, pero sus departamentos no están sincronizados por un cerebro central de Super Inteligencia. Hay duplicidad de esfuerzos analíticos y costo excesivo en horas de mandos medios.';
+    if (paragraphDesc) paragraphDesc.textContent = 'Cuentan con flujos de trabajo funcionales, pero sus departamentos no están sincronizados por un cerebro central de IA. Hay duplicidad de esfuerzos analíticos y costo excesivo en horas de mandos medios.';
     if (statHours) statHours.textContent = '15 a 30 Horas / semana';
     if (statMoney) statMoney.textContent = '$15,000 - $45,000 USD / mes';
-    if (actionPlan) actionPlan.textContent = 'Implementar RAG Privado Enterprise multi-modelo, agentes con supervisión dual y gobernanza con Zero-Data Retention para reducir masivamente el OPEX departamental.';
+    if (actionPlan) actionPlan.textContent = 'Implementar RAG Privado Enterprise multi-modelo, agentes de IA con supervisión humana dual y gobernanza con Zero-Data Retention para reducir el OPEX departamental.';
   } else {
     // Nivel 4: Super Inteligencia Avanzada
-    if (badgeLevel) badgeLevel.textContent = 'NIVEL 4: MADUREZ ALTA · FRONTERA DE SUPER INTELIGENCIA';
-    if (headlineTitle) headlineTitle.textContent = 'Su Organización Tiene Cultura Digital Sólida: Es Momento de Consolidar Liderazgo Global';
-    if (paragraphDesc) paragraphDesc.textContent = 'Cuentan con infraestructura avanzada. El siguiente paso estratégico es la optimización algorítmica de costos (70% ahorro de tokens), enrutamiento híbrido local/cloud y dirección de Fractional Chief AI Officer.';
+    if (badgeLevel) badgeLevel.textContent = 'NIVEL 4: MADUREZ ALTA · LISTOS PARA GOBERNANZA Y ESCALA';
+    if (headlineTitle) headlineTitle.textContent = 'Su Organización Tiene Cultura Digital Sólida: Es Momento de Consolidar Liderazgo';
+    if (paragraphDesc) paragraphDesc.textContent = 'Cuentan con infraestructura avanzada. El siguiente paso estratégico es la optimización de costos de modelos, el enrutamiento híbrido local/cloud y la dirección de un Fractional Chief AI Officer.';
     if (statHours) statHours.textContent = 'Optimización Continua';
-    if (statMoney) statMoney.textContent = '+$50,000 USD / mes';
-    if (actionPlan) actionPlan.textContent = 'Advisory Board mensual con ProsperIA para auditar modelos de frontera, integrar el White House Accord on Super Intelligence y liderar su sector.';
+    if (statMoney) statMoney.textContent = 'Se calcula en el diagnóstico';
+    if (actionPlan) actionPlan.textContent = 'Advisory mensual con ProsperIA para auditar modelos, adoptar como referencia las cuatro capas de control del White House Accord on Super Intelligence y liderar su sector.';
   }
 
   // Preload test results in lead form for seamless booking
@@ -520,7 +520,7 @@ async function handleLeadSubmit(event) {
   const vertical = form.elements['vertical']?.value || '';
   const bottleneck = form.elements['bottleneck']?.value || '';
 
-  const notes = `[CONSULTORÍA SUPER INTELIGENCIA & PROCESOS]\nCargo: ${role}\nEmpresa: ${company}\nWeb: ${website}\nFacturación: ${revenue}\nColaboradores: ${employees}\nVertical: ${vertical}\nObjetivo/Cuello de botella: ${bottleneck}`;
+  const notes = `[CONSULTORÍA EN INTELIGENCIA ARTIFICIAL]\nCargo: ${role}\nEmpresa: ${company}\nWeb: ${website}\nFacturación: ${revenue}\nColaboradores: ${employees}\nVertical: ${vertical}\nObjetivo/Cuello de botella: ${bottleneck}`;
 
   const payload = {
     name: name,
@@ -543,14 +543,14 @@ async function handleLeadSubmit(event) {
   }
 
   const successBox = document.getElementById('form-success-message');
-  const waMsg = encodeURIComponent(`Hola Edward / ProsperIA, completé mi solicitud para la Sesión Ejecutiva de Consultoría en Super Inteligencia.\n\nNombre: ${name} (${role})\nEmpresa: ${company}\nObjetivo: ${bottleneck}`);
+  const waMsg = encodeURIComponent(`Hola Edward / ProsperIA, completé mi solicitud para la Sesión Ejecutiva de Consultoría en Inteligencia Artificial.\n\nNombre: ${name} (${role})\nEmpresa: ${company}\nObjetivo: ${bottleneck}`);
   const waLink = `https://wa.me/17865573119?text=${waMsg}`;
   
   if (successBox) {
     successBox.innerHTML = `
       <div class="success-icon-badge">✓</div>
       <h4>Solicitud Registrada con Éxito</h4>
-      <p style="margin-bottom: 1rem; color: #cbd5e1; font-size: 0.95rem; line-height: 1.5;">Estimado/a <strong>${name}</strong>, hemos recibido los antecedentes de <strong>${company || 'su organización'}</strong>. Nuestro equipo directivo revisará la viabilidad operativa y le contactará en menos de 2 horas laborables.</p>
+      <p style="margin-bottom: 1rem; color: #cbd5e1; font-size: 0.95rem; line-height: 1.5;">Estimado/a <strong>${name}</strong>, hemos recibido los antecedentes de <strong>${company || 'su organización'}</strong>. Nuestro equipo revisará la viabilidad operativa y le contactará a la brevedad.</p>
       <div style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem;">
         <a href="${waLink}" target="_blank" rel="noopener" class="btn btn-primary btn-block glow-btn" style="text-decoration:none; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;">
           <i class="fab fa-whatsapp" style="font-size: 1.25rem;"></i>
