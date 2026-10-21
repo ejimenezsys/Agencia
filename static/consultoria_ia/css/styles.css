@@ -2301,3 +2301,165 @@ input[type="range"]::-webkit-slider-thumb:hover {
     grid-template-columns: 1fr;
   }
 }
+
+/* ==========================================================================
+   YOUTUBE SALES FUNNEL & INLINE DIAGNOSTIC FORM STYLES
+   ========================================================================== */
+
+/* Fugas Comerciales Section */
+.fugas-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.fuga-card {
+  padding: 2rem 1.75rem;
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  background: linear-gradient(180deg, rgba(239, 68, 68, 0.04) 0%, rgba(13, 17, 26, 0.8) 100%);
+  position: relative;
+  transition: transform var(--transition-medium), border-color var(--transition-medium);
+}
+
+.fuga-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(239, 68, 68, 0.5);
+  box-shadow: 0 10px 30px rgba(239, 68, 68, 0.15);
+}
+
+.fuga-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-full);
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  margin-bottom: 1.25rem;
+  width: fit-content;
+}
+
+.fuga-card h3 {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.75rem;
+  line-height: 1.35;
+}
+
+.fuga-card p {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.fuga-impact {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 0.8rem;
+  color: #fb7185;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Inline Diagnostic Section */
+.inline-diagnostic-section {
+  position: relative;
+  padding: 5rem 0;
+  background: radial-gradient(circle at 50% 20%, rgba(0, 240, 255, 0.08) 0%, transparent 70%);
+}
+
+.inline-diagnostic-card {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 3rem 2.5rem;
+  border-radius: var(--radius-xl);
+  border: 1.5px solid rgba(0, 240, 255, 0.35);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 50px rgba(0, 240, 255, 0.12);
+  background: rgba(8, 12, 22, 0.92);
+}
+
+.service-radio-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+.service-radio-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background: rgba(255, 255, 255, 0.02);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.service-radio-card:hover {
+  border-color: var(--cyan-primary);
+  background: rgba(0, 240, 255, 0.04);
+}
+
+.service-radio-card input[type="radio"] {
+  margin-top: 0.25rem;
+  accent-color: var(--cyan-primary);
+  cursor: pointer;
+}
+
+.service-radio-content strong {
+  display: block;
+  font-size: 0.84rem;
+  color: #ffffff;
+  margin-bottom: 0.2rem;
+}
+
+.service-radio-content span {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  line-height: 1.35;
+}
+
+/* FAQ Controls */
+.faq-controls {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1.25rem;
+}
+
+#btn-toggle-all-faqs {
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+}
+
+@media (max-width: 860px) {
+  .fugas-grid {
+    grid-template-columns: 1fr;
+  }
+  .service-radio-grid {
+    grid-template-columns: 1fr;
+  }
+  .inline-diagnostic-card {
+    padding: 2rem 1.25rem;
+  }
+}
+

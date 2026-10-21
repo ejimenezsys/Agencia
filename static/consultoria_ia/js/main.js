@@ -472,9 +472,9 @@ function openDiagnosticModal(context = 'General') {
 
   const verticalSelect = document.getElementById('lead-vertical');
   if (verticalSelect) {
-    if (context === 'PYMES') {
+    if (context === 'PYMES' || context === 'Ruta1_Vertical') {
       verticalSelect.value = 'PymeMediana';
-    } else if (context === 'Corporativo') {
+    } else if (context === 'Corporativo' || context === 'Ruta2_SVE90') {
       verticalSelect.value = 'Corporativo';
     } else if (context === 'Clinicas') {
       verticalSelect.value = 'ClinicaEspecializada';
@@ -484,8 +484,14 @@ function openDiagnosticModal(context = 'General') {
   // Reset form views
   const form = document.getElementById('lead-form');
   const successBox = document.getElementById('form-success-message');
-  if (form) form.removeAttribute('hidden');
-  if (successBox) successBox.setAttribute('hidden', 'true');
+  if (form) {
+    form.style.display = 'flex';
+    form.removeAttribute('hidden');
+  }
+  if (successBox) {
+    successBox.style.display = 'none';
+    successBox.setAttribute('hidden', 'true');
+  }
 
   diagnosticDialog.showModal();
 }
@@ -498,75 +504,144 @@ function closeDiagnosticModal() {
 }
 window.closeDiagnosticModal = closeDiagnosticModal;
 
-/* ---------------- Form Submission Handler ---------------- */
-async function handleLeadSubmit(event) {
+/* ---------------- FAQ Accordion Toggle Control ---------------- */
+let allFaqsExpanded = false;
+function toggleAllFaqs() {
+  const items = document.querySelectorAll('.faq-item');
+  const btn = document.getElementById('btn-toggle-all-faqs');
+  allFaqsExpanded = !allFaqsExpanded;
+  
+  items.forEach(item => {
+    if (allFaqsExpanded) {
+      item.setAttribute('open', '');
+    } else {
+      item.removeAttribute('open');
+    }
+  });
+
+  if (btn) {
+    btn.innerHTML = allFaqsExpanded 
+      ? '<span>🔼 Replegar Todas las Preguntas</span>' 
+      : '<span>🔽 Desplegar Todas las Preguntas</span>';
+  }
+}
+window.toggleAllFaqs = toggleAllFaqs;
+
+/* ---------------- Form Submission Handler (Sincronizado con GHL) ---------------- */
+async function handleLeadSubmit(event, formType = 'modal') {
   event.preventDefault();
   const form = event.target;
-  const submitBtn = document.getElementById('btn-submit-form');
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const originalBtnHtml = submitBtn ? submitBtn.innerHTML : '';
   
   if (submitBtn) {
     submitBtn.disabled = true;
-    submitBtn.innerHTML = `<span>Procesando solicitud ejecutiva...</span>`;
+    submitBtn.innerHTML = `<span><i class="fas fa-spinner fa-spin"></i> Conectando con CRM y agendando...</span>`;
   }
 
-  const name = form.elements['name']?.value || '';
-  const role = form.elements['role']?.value || '';
-  const company = form.elements['company']?.value || '';
-  const website = form.elements['website']?.value || '';
-  const email = form.elements['email']?.value || '';
-  const phone = form.elements['phone']?.value || '';
+  const name = (form.elements['name']?.value || '').trim();
+  const role = (form.elements['role']?.value || '').trim();
+  const company = (form.elements['company']?.value || '').trim();
+  const website = (form.elements['website']?.value || '').trim();
+  const email = (form.elements['email']?.value || '').trim();
+  const phone = (form.elements['phone']?.value || '').trim();
   const revenue = form.elements['revenue']?.value || '';
   const employees = form.elements['employees']?.value || '';
-  const vertical = form.elements['vertical']?.value || '';
-  const bottleneck = form.elements['bottleneck']?.value || '';
+  const selectedInterest = form.querySelector('input[name="modal_servicio_opcion"]:checked')?.value || form.elements['vertical']?.value || 'DiagnosticoGeneral';
+  const bottleneck = (form.elements['bottleneck']?.value || '').trim();
 
-  const notes = `[CONSULTORÍA EN INTELIGENCIA ARTIFICIAL]\nCargo: ${role}\nEmpresa: ${company}\nWeb: ${website}\nFacturación: ${revenue}\nColaboradores: ${employees}\nVertical: ${vertical}\nObjetivo/Cuello de botella: ${bottleneck}`;
+  const parts = name.split(' ');
+  const firstName = parts[0] || name;
+  const lastName = parts.slice(1).join(' ') || '';
+
+  try {
+    sessionStorage.setItem('pia_name', name);
+    sessionStorage.setItem('pia_email', email);
+    sessionStorage.setItem('pia_phone', phone);
+    sessionStorage.setItem('pia_company', company);
+  } catch (e) {}
+
+  let interestLabel = 'Diagnóstico Estratégico General (45 Min)';
+  if (selectedInterest === 'Ruta1_Vertical' || selectedInterest === 'PymeMediana') {
+    interestLabel = 'Ruta 1: Activación Vertical en 10 Días (Ventas & WhatsApp 24/7)';
+  } else if (selectedInterest === 'Ruta2_SVE90' || selectedInterest === 'Corporativo') {
+    interestLabel = 'Ruta 2: Transformación SVE90 (RAG Privado, ERPs y Empleados Digitales)';
+  } else if (selectedInterest === 'FractionalCAIO') {
+    interestLabel = 'Fractional Chief AI Officer (Dirección Externa para Directorio)';
+  } else if (selectedInterest === 'ClinicaEspecializada') {
+    interestLabel = 'Sector Salud: Sistema Paciente 360™';
+  }
+
+  const notes = `[DIAGNÓSTICO EN INTELIGENCIA ARTIFICIAL - TRÁFICO YOUTUBE]\nNombre: ${name}\nCargo: ${role}\nEmpresa: ${company}\nEmail: ${email}\nWhatsApp: ${phone}\nSitio Web: ${website}\nInterés Principal: ${interestLabel}\nFacturación: ${revenue}\nColaboradores: ${employees}\nMayor Cuello de Botella: ${bottleneck}`;
 
   const payload = {
+    first_name: firstName,
+    last_name: lastName,
     name: name,
     email: email,
     phone: phone,
-    company: company,
+    company: company || 'Empresa Privada',
+    industry: 'Consultoría / Implementación de IA',
+    team_size: employees || '',
     message: notes,
-    source: "consultoria-super-inteligencia"
+    source: "landing_youtube_consultoria",
+    sms_consent: true
   };
 
   try {
+    // Sincronización automática con FastAPI, SQLite, GoHighLevel y notificaciones automáticas
     const res = await fetch('/api/auth/contact', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
-    console.log('Contacto enviado a Agencia ProsperIA:', res.status);
+    console.log('Lead sincronizado con GHL y Agencia ProsperIA:', res.status);
   } catch (err) {
     console.warn('Backend contact api offline o local:', err);
   }
 
-  const successBox = document.getElementById('form-success-message');
-  const waMsg = encodeURIComponent(`Hola Edward / ProsperIA, completé mi solicitud para la Sesión Ejecutiva de Consultoría en Inteligencia Artificial.\n\nNombre: ${name} (${role})\nEmpresa: ${company}\nObjetivo: ${bottleneck}`);
+  // Transición al Paso 2: Mensaje de Éxito y WhatsApp VIP directo
+  const successBoxId = formType === 'inline' ? 'inline-form-success' : 'form-success-message';
+  const successBox = document.getElementById(successBoxId);
+  const waMsg = encodeURIComponent(`Hola Edward / ProsperIA, completé mi solicitud de Diagnóstico Ejecutivo de IA desde el canal de YouTube.\n\nNombre: ${name} (${role || 'Director'})\nEmpresa: ${company || 'Mi Empresa'}\nInterés: ${interestLabel}\nObjetivo: ${bottleneck}`);
   const waLink = `https://wa.me/17865573119?text=${waMsg}`;
   
   if (successBox) {
     successBox.innerHTML = `
-      <div class="success-icon-badge">✓</div>
-      <h4>Solicitud Registrada con Éxito</h4>
-      <p style="margin-bottom: 1rem; color: #cbd5e1; font-size: 0.95rem; line-height: 1.5;">Estimado/a <strong>${name}</strong>, hemos recibido los antecedentes de <strong>${company || 'su organización'}</strong>. Nuestro equipo revisará la viabilidad operativa y le contactará a la brevedad.</p>
-      <div style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem;">
-        <a href="${waLink}" target="_blank" rel="noopener" class="btn btn-primary btn-block glow-btn" style="text-decoration:none; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;">
-          <i class="fab fa-whatsapp" style="font-size: 1.25rem;"></i>
-          <span>Confirmar Prioridad por WhatsApp Directo</span>
+      <div class="success-icon-badge" style="animation: bounce 1s infinite;">✓</div>
+      <h4 style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-bottom: 0.5rem;">🎉 ¡Diagnóstico Solicitado con Éxito!</h4>
+      <p style="margin-bottom: 1.25rem; color: #cbd5e1; font-size: 0.95rem; line-height: 1.6; max-width: 520px; margin-inline: auto;">
+        Estimado/a <strong>${name}</strong>, hemos registrado los antecedentes de <strong>${company || 'tu empresa'}</strong> y sincronizado tu solicitud en nuestro CRM comercial.
+      </p>
+      
+      <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 16px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+        <div style="font-weight: 700; color: #10b981; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 0.3rem;">Paso 2 Obligatorio para Prioridad:</div>
+        <p style="font-size: 0.85rem; color: #e2e8f0; line-height: 1.5; margin: 0;">
+          Para agendar tu sesión de 45 minutos sin lista de espera, confirma directamente con Edward Jiménez en su WhatsApp comercial.
+        </p>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 0.85rem; max-width: 440px; margin-inline: auto;">
+        <a href="${waLink}" target="_blank" rel="noopener" class="btn btn-primary btn-block glow-btn" style="text-decoration:none; display: inline-flex; align-items: center; justify-content: center; gap: 0.65rem; background: #25D366; color: #052e16; font-weight: 800; padding: 1rem 1.5rem; border-radius: 12px; font-size: 1rem;">
+          <i class="fab fa-whatsapp" style="font-size: 1.35rem;"></i>
+          <span>📲 Coordinar Cita por WhatsApp Directo</span>
         </a>
-        <button class="btn btn-secondary btn-sm" onclick="closeDiagnosticModal()">Cerrar Ventana</button>
+        <a href="https://www.youtube.com/@AgenciaProsper_IA" target="_blank" rel="noopener" class="btn btn-secondary btn-sm" style="text-decoration:none; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;">
+          <i class="fab fa-youtube" style="color: #ef4444;"></i>
+          <span>Seguir el Canal de YouTube @AgenciaProsper_IA</span>
+        </a>
+        ${formType === 'modal' ? '<button class="btn btn-secondary btn-sm" onclick="closeDiagnosticModal()" style="margin-top: 0.5rem;">Cerrar Ventana</button>' : ''}
       </div>
     `;
-    form.setAttribute('hidden', 'true');
+    form.style.display = 'none';
+    successBox.style.display = 'block';
     successBox.removeAttribute('hidden');
   }
 
   form.reset();
   if (submitBtn) {
     submitBtn.disabled = false;
-    submitBtn.innerHTML = `<span>Enviar Solicitud y Reservar Sesión de 45 Min</span>`;
+    submitBtn.innerHTML = originalBtnHtml;
   }
 }
 window.handleLeadSubmit = handleLeadSubmit;
