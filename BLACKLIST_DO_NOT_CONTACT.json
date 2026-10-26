@@ -12,5 +12,26 @@
     "nombre": "Liliam Lopez",
     "motivo": "YA RESPONDI\u00d3 / EN CONVERSACI\u00d3N DIRECTA CON EDWARD",
     "fecha_exclusion": "2026-10-07"
+  },
+  {
+    "email": "amacedo@oceanbank.com",
+    "empresa": "Ocean Bank",
+    "nombre": "Agostinho Alfonso Macedo",
+    "motivo": "CONTACTO DIRECTO YA REALIZADO POR EDWARD (AYER)",
+    "fecha_exclusion": "2026-10-15"
+  },
+  {
+    "email": "cesteve@amerantbank.com",
+    "empresa": "Amerant Bank",
+    "nombre": "Christine Esteve",
+    "motivo": "CONTACTO DIRECTO YA REALIZADO POR EDWARD (AYER)",
+    "fecha_exclusion": "2026-10-15"
+  },
+  {
+    "email": "dalegre@univision.net",
+    "empresa": "TelevisaUnivision",
+    "nombre": "Daniel Alegre",
+    "motivo": "EXCLUSI\u00d3N ESTRAT\u00c9GICA \u00b7 NEGOCIACI\u00d3N ACTIVA CON TELEMUNDO (REGLA EXCLUSIVIDAD)",
+    "fecha_exclusion": "2026-10-15"
   }
 ]
