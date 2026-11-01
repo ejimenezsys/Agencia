@@ -58,11 +58,14 @@ def _get_font(size: int, weight: str = "bold") -> ImageFont.FreeTypeFont:
         except Exception:
             pass
 
+    is_bold = weight.lower() in ("bold", "heavy", "extrabold", "demibold")
     candidates = [
         "/System/Library/Fonts/HelveticaNeue.ttc",
         "/System/Library/Fonts/SFNS.ttf",
-        "/System/Library/Fonts/Supplemental/Arial Bold.ttf" if weight in ("bold", "heavy", "demibold") else "/System/Library/Fonts/Supplemental/Arial.ttf",
-        "/Library/Fonts/Arial.ttf"
+        "/System/Library/Fonts/Supplemental/Arial Bold.ttf" if is_bold else "/System/Library/Fonts/Supplemental/Arial.ttf",
+        "/Library/Fonts/Arial.ttf",
+        "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf" if is_bold else "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf",
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf" if is_bold else "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
     ]
     for c in candidates:
         if Path(c).exists():
@@ -916,3 +919,73 @@ def render_pdf_carousel(slides: List[Dict[str, Any]], output_pdf: Path) -> bool:
             temp_dir.rmdir()
         except Exception:
             pass
+
+
+def render_blog_cover_pillow(
+    title: str,
+    subtitle: str,
+    lane_name: str,
+    output_path: Path,
+) -> Path:
+    """Genera una portada ejecutiva 1200x750 JPG en estilo Dark Luxury para PROSPERIA Intelligence."""
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    width, height = 1200, 750
+    base_img = Image.new("RGBA", (width, height), color=COLOR_BG)
+
+    glow = _create_ambient_glow(width, height, 1, 8)
+    base_img = Image.alpha_composite(base_img, glow)
+    draw = ImageDraw.Draw(base_img)
+
+    # Marco exterior sutil
+    draw.rounded_rectangle([40, 40, width - 40, height - 40], radius=24, fill=None, outline=(0, 229, 255, 55), width=2)
+
+    # Header institucional
+    draw.ellipse([80, 78, 98, 96], fill=COLOR_CYAN)
+    draw.ellipse([73, 71, 105, 103], outline=(0, 229, 255, 60), width=2)
+    font_brand = _get_font(20, weight="heavy")
+    font_sub_brand = _get_font(15, weight="medium")
+    draw.text((116, 76), "PROSPERIA INTELLIGENCE", font=font_brand, fill=COLOR_WHITE)
+    draw.text((425, 80), "|", font=font_sub_brand, fill=(255, 255, 255, 60))
+    draw.text((445, 80), "BRIEFING EJECUTIVO CEO", font=font_sub_brand, fill=COLOR_CYAN)
+
+    # Pill de categoría a la derecha
+    clean_lane = (lane_name or "RADAR DE DISRUPCIÓN").upper()
+    font_badge = _get_font(15, weight="heavy")
+    bbox = draw.textbbox((0, 0), clean_lane, font=font_badge)
+    bw = bbox[2] - bbox[0]
+    draw.rounded_rectangle([width - 80 - bw - 36, 68, width - 80, 108], radius=10, fill=COLOR_CARD, outline=COLOR_CYAN_DIM, width=1)
+    draw.text((width - 80 - bw - 18, 79), clean_lane, font=font_badge, fill=COLOR_CYAN)
+
+    draw.line([80, 132, width - 80, 132], fill=(255, 255, 255, 24), width=1)
+
+    # Titular principal
+    y_cursor = 175
+    font_hero = _get_font(46, weight="heavy")
+    title_lines = _wrap_text(title, font_hero, width - 160, draw)[:4]
+    for line in title_lines:
+        draw.text((80, y_cursor), line, font=font_hero, fill=COLOR_WHITE)
+        y_cursor += 58
+
+    # Tarjeta de síntesis ejecutiva
+    y_cursor = max(y_cursor + 24, 430)
+    card_bot = min(615, y_cursor + 150)
+    if card_bot - y_cursor >= 95:
+        draw.rounded_rectangle([80, y_cursor, width - 80, card_bot], radius=18, fill=COLOR_CARD, outline=(0, 229, 255, 110), width=1)
+        font_sub = _get_font(22, weight="medium")
+        sub_lines = _wrap_text(subtitle or "Análisis con criterio directivo y fuentes verificadas.", font_sub, width - 220, draw)[:2]
+        sy = y_cursor + 28
+        for sline in sub_lines:
+            draw.text((110, sy), sline, font=font_sub, fill=COLOR_TEXT_MUTED)
+            sy += 34
+
+    # Footer con firma de Edward Jiménez
+    draw.line([80, 635, width - 80, 635], fill=(255, 255, 255, 24), width=1)
+    draw.ellipse([80, 652, 126, 698], fill=COLOR_CARD, outline=COLOR_CYAN, width=2)
+    draw.text((92, 663), "EJ", font=_get_font(18, weight="heavy"), fill=COLOR_CYAN)
+    draw.text((140, 656), "Edward Jiménez · Director ProsperIA", font=_get_font(18, weight="bold"), fill=COLOR_WHITE)
+    draw.text((140, 680), "Metodología SVE90 · Los 4 Pilares de Soberanía Empresarial", font=_get_font(14, weight="medium"), fill=COLOR_TEXT_MUTED)
+    draw.text((width - 355, 666), "agenciaprosperia.com/intelligence", font=_get_font(16, weight="heavy"), fill=COLOR_CYAN)
+
+    final_rgb = base_img.convert("RGB")
+    final_rgb.save(output_path, "JPEG", quality=92)
+    return output_path

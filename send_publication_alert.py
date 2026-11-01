@@ -146,7 +146,7 @@ def send_publication_email(
 
       <p style="color: #64748b; font-size: 12px; text-align: center; margin-top: 30px; margin-bottom: 0;">
         Enviado de forma autónoma desde el servidor de Agencia ProsperIA.<br>
-        Disfruta tus vacaciones en Orlando. 🌴
+        Sistema Cortexia 5×4×1 · LinkedIn Sales Navigator &amp; PROSPERIA Intelligence
       </p>
     </div>
 
@@ -191,7 +191,7 @@ def send_publication_email(
             server = smtplib.SMTP(smtp_host, 587, timeout=15)
             server.starttls()
             server.login(smtp_user, smtp_pass)
-            server.sendmail(sender, recipient, msg.as_string())
+            server.sendmail(sender, recipient, msg_root.as_string())
             server.quit()
             print(f"✓ [Alerta Email] Correo de confirmación enviado exitosamente a {recipient} (TLS 587).")
             return True

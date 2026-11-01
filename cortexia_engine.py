@@ -16,18 +16,22 @@ import os
 from pathlib import Path
 import re
 import sys
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 import urllib.parse
 import urllib.request
 
 from database import BlogPost, SessionLocal, init_db
-from editorial import PUBLISHED_DIR
+from editorial import LANES, PUBLISHED_DIR
 from cortexia_prompts import (
     CANONICAL_WEEKLY_BANK,
     build_daily_prompt,
     build_weekly_youtube_prompt,
 )
-from cortexia_renderer import render_pdf_carousel, render_png_slides
+from cortexia_renderer import (
+    render_blog_cover_pillow,
+    render_pdf_carousel,
+    render_png_slides,
+)
 
 BASE_DIR = Path(__file__).resolve().parent
 CONTENT_DIR = BASE_DIR / "content"
@@ -907,6 +911,18 @@ def save_daily_package(package_data: Dict[str, Any], target_dir: Path) -> Dict[s
     pub_file = PUBLISHED_DIR / f"{slug}.json"
     pub_file.write_text(json.dumps(article_data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
+    # Generar portada ejecutiva /static/blog/{slug}.jpg si no existe aún
+    cover_file = BASE_DIR / "static" / "blog" / f"{slug}.jpg"
+    if not cover_file.exists():
+        lane_label = LANES.get(article_data["lane"], "Radar de Disrupción")
+        render_blog_cover_pillow(
+            title=article_data["title"],
+            subtitle=article_data["summary"],
+            lane_name=lane_label,
+            output_path=cover_file,
+        )
+        print(f"✓ Portada ejecutiva generada: {cover_file}")
+
     # Sincronizar con SQLite local
     init_db()
     db = SessionLocal()
@@ -934,7 +950,14 @@ def save_daily_package(package_data: Dict[str, Any], target_dir: Path) -> Dict[s
     # 2. 02_linkedin_post.txt
     ln_post = package_data.get("linkedin_post", {})
     ln_text = ln_post.get("text", "")
-    first_comm = ln_post.get("first_comment", "")
+    first_comm = (ln_post.get("first_comment") or "").replace("<slug>", slug)
+    if not first_comm or f"/blog/{slug}" not in first_comm:
+        first_comm = (
+            f"Análisis canónico completo con fuentes verificadas en PROSPERIA Intelligence:\n"
+            f"https://agenciaprosperia.com/blog/{slug}?utm_source=linkedin&utm_medium=comment"
+        )
+    if "linkedin_post" in package_data and isinstance(package_data["linkedin_post"], dict):
+        package_data["linkedin_post"]["first_comment"] = first_comm
     full_ln_content = f"{ln_text}\n\n" + "=" * 50 + f"\nPRIMER COMENTARIO PROGRAMADO:\n{first_comm}\n"
     file_linkedin = target_dir / "02_linkedin_post.txt"
     file_linkedin.write_text(full_ln_content, encoding="utf-8")
@@ -1022,6 +1045,121 @@ def save_daily_package(package_data: Dict[str, Any], target_dir: Path) -> Dict[s
     }
 
 
+def _get_published_urls_and_titles() -> Tuple[set, set]:
+    """Obtiene todas las URLs de fuentes y títulos ya publicados para evitar repetir noticias."""
+    used_urls = set()
+    used_titles = set()
+    for p in PUBLISHED_DIR.glob("*.json"):
+        try:
+            data = json.loads(p.read_text(encoding="utf-8"))
+            used_titles.add((data.get("title") or "").strip().lower())
+            for src in data.get("sources", []):
+                if src.get("url"):
+                    used_urls.add(src["url"].strip())
+        except Exception:
+            pass
+    for meta_p in DIARIO_DIR.glob("*/_meta_noticia.json"):
+        try:
+            data = json.loads(meta_p.read_text(encoding="utf-8"))
+            used_titles.add((data.get("title") or "").strip().lower())
+            for src in data.get("verified_sources", []):
+                if src.get("url"):
+                    used_urls.add(src["url"].strip())
+        except Exception:
+            pass
+    return used_urls, used_titles
+
+
+def fetch_live_executive_news(day_index: int = 1) -> Optional[Dict[str, Any]]:
+    """Extrae en tiempo real la noticia verificada más reciente de feeds oficiales de IA y tecnología empresarial."""
+    import html as html_lib
+    import requests
+    import xml.etree.ElementTree as ET
+
+    feeds = [
+        ("MIT Technology Review AI", "https://www.technologyreview.com/topic/artificial-intelligence/feed"),
+        ("TechCrunch AI", "https://techcrunch.com/category/artificial-intelligence/feed/"),
+        ("OpenAI News", "https://openai.com/news/rss.xml"),
+    ]
+    day_lanes = {
+        1: "radar-disrupcion",
+        2: "criterio-edward",
+        3: "laboratorio-prosperia",
+        4: "cuatro-inteligencias",
+        5: "inteligencia-clinicas",
+    }
+    lane = day_lanes.get(day_index, "radar-disrupcion")
+    bank_item = CANONICAL_WEEKLY_BANK[(day_index - 1) % len(CANONICAL_WEEKLY_BANK)]
+    used_urls, used_titles = _get_published_urls_and_titles()
+
+    candidates: List[Dict[str, str]] = []
+    for source_name, feed_url in feeds:
+        try:
+            resp = requests.get(feed_url, headers={"User-Agent": "Mozilla/5.0 (ProsperIA Intelligence)"}, timeout=12)
+            if not resp.ok:
+                continue
+            root = ET.fromstring(resp.content)
+            for item in root.findall(".//item")[:8]:
+                title = (item.findtext("title") or "").strip()
+                link = (item.findtext("link") or "").strip()
+                desc_raw = item.findtext("description") or ""
+                desc_clean = re.sub(r"<[^>]+>", " ", html_lib.unescape(desc_raw)).strip()
+                desc_clean = re.sub(r"\s+", " ", desc_clean)[:500]
+                pub_date = (item.findtext("pubDate") or "").strip()
+                if not title or not link:
+                    continue
+                if link in used_urls or title.lower() in used_titles:
+                    continue
+                candidates.append({
+                    "source_name": source_name,
+                    "title": title,
+                    "url": link,
+                    "summary": desc_clean,
+                    "pub_date": pub_date,
+                })
+        except Exception as e:
+            print(f"[Radar RSS Aviso] {source_name}: {e}")
+
+    if not candidates:
+        return None
+
+    chosen = candidates[0]
+    combined_sources = [
+        {"title": f"{chosen['source_name']}: {chosen['title']}", "url": chosen["url"]},
+    ] + bank_item["sources"]
+
+    news_context = (
+        f"Fuente Primaria del Día ({chosen['source_name']} - {chosen['pub_date']}): {chosen['title']}.\n"
+        f"Resumen oficial de la fuente: {chosen['summary']}\n"
+        f"Enlace verificado: {chosen['url']}\n"
+        f"Instrucción CEO: Conecta este hecho noticioso actual con el impacto directo en dirección general (CEOs, clínicas y empresas de servicios B2B) bajo la Metodología SVE90 y Los 4 Pilares de Soberanía Empresarial."
+    )
+    return {
+        "topic": chosen["title"],
+        "sources": combined_sources,
+        "lane": lane,
+        "news_context": news_context,
+    }
+
+
+def _sanitize_slug(raw_slug: str, date_str: str) -> str:
+    """Limpia el slug en kebab-case y garantiza unicidad respecto a publicaciones de meses anteriores."""
+    clean = re.sub(r"[^a-z0-9-]+", "-", (raw_slug or "").lower()).strip("-")
+    clean = re.sub(r"-{2,}", "-", clean)[:75].strip("-")
+    if not clean:
+        clean = f"analisis-ejecutivo-ia-{date_str}"
+    existing_file = PUBLISHED_DIR / f"{clean}.json"
+    if existing_file.exists():
+        try:
+            old_data = json.loads(existing_file.read_text(encoding="utf-8"))
+            old_date = (old_data.get("published_at") or "")[:10]
+            if old_date and old_date != date_str:
+                clean = f"{clean[:62]}-{date_str}"
+        except Exception:
+            pass
+    return clean
+
+
 def run_daily_pipeline(
     topic: Optional[str] = None,
     sources: Optional[List[Dict[str, str]]] = None,
@@ -1034,12 +1172,21 @@ def run_daily_pipeline(
     if not date_str:
         date_str = datetime.now().strftime("%Y-%m-%d")
 
-    # Selección de tema
+    # Selección de tema: priorizar noticia fresca en tiempo real si no se forzó un topic manual
     bank_item = CANONICAL_WEEKLY_BANK[(day_index - 1) % len(CANONICAL_WEEKLY_BANK)]
+    news_context = ""
     if not topic:
-        topic = bank_item["topic"]
-        sources = bank_item["sources"]
-        lane = bank_item["lane"]
+        live_news = fetch_live_executive_news(day_index=day_index)
+        if live_news:
+            topic = live_news["topic"]
+            sources = live_news["sources"]
+            lane = live_news["lane"]
+            news_context = live_news["news_context"]
+            print(f"[Radar en Vivo] Noticia fresca detectada: {topic}")
+        else:
+            topic = bank_item["topic"]
+            sources = bank_item["sources"]
+            lane = bank_item["lane"]
     elif not sources:
         sources = bank_item["sources"]
 
@@ -1049,7 +1196,7 @@ def run_daily_pipeline(
     print(f" Lane: {lane}")
     print(f"=======================================================")
 
-    prompt = build_daily_prompt(topic, sources, lane)
+    prompt = build_daily_prompt(topic, sources, lane, news_context=news_context)
     package_data = None
 
     # Intentar generar mediante Gemini API
@@ -1068,7 +1215,8 @@ def run_daily_pipeline(
         print("Activando generador de respaldo de alta fidelidad con datos oficiales verificados...")
         package_data = build_fallback_daily_pack(bank_item, date_str)
 
-    slug = package_data.get("slug") or bank_item["default_slug"]
+    raw_slug = package_data.get("slug") or bank_item["default_slug"]
+    slug = _sanitize_slug(raw_slug, date_str)
     package_data["slug"] = slug
 
     # Crear carpeta diaria con formato YYYY-MM-DD_<slug>

@@ -34,32 +34,36 @@ REGLAS MAESTRAS DE CORTEXIA (INNEGOCIABLES):
    - Español Neutro (tuteo formal). Cero voseo rioplatense (prohibido "tenés", "hacé", "mirá", "sabés"), cero modismos peninsulares ("vosotros", "vale", "curro", "guay").
    - Ortografía española completa: signos de apertura obligatorios («¿», «¡») en todas las oraciones interrogativas y exclamativas; acentuación impecable.
 
-4. PRINCIPIOS DE VÍCTOR HERAS (RETENCIÓN, VIRALIDAD Y LA REGLA DEL ELEFANTE):
+4. PRINCIPIOS DE VÍCTOR HERAS & REGLA 777 EDGE OF CURIOSITY (LINKEDIN SALES NAVIGATOR CEO AUTHORITY):
+   - POSICIONAMIENTO CEO (LINKEDIN SALES NAVIGATOR PREMIUM):
+     * El contenido de LinkedIn y del blog va dirigido directamente a tomadores de decisión (CEOs, Fundadores, Directores Médicos de Clínicas, Directores de Operaciones y Comités Ejecutivos).
+     * Prohibido sonar a "resumen escolar de noticias" o a "vendedor de herramientas". Edward Jiménez escribe como Arquitecto de Sistemas de Misión Crítica y CEO que traduce una señal tecnológica del día en una decisión de margen, soberanía y riesgo operativo para el directorio.
+   - TEST DEL «¿¡QUÉ!?» (REGLA 777-EDGE-OF-CURIOSITY):
+     * La primera oración del post de LinkedIn, del hilo y del Reel debe detener el dedo en seco mediante provocación 100% verificable (Negación inesperada T1, Pregunta de alto stake T2 o Contradicción aparente T5). Cero aperturas tibias o corporativas.
    - LA REGLA DEL ELEFANTE (VALIDACIÓN VISUAL INMEDIATA):
      «Si me hablas sobre el elefante, ponme el elefante arriba. Sea así o sea en pantalla dividida, pero utiliza recursos visuales que ayuden a validar eso de lo que estás hablando».
-     * Si nombras una personalidad (Mo Gawdat, Mustafa Suleyman, Sam Altman, Dario Amodei), clip o fotografía en tercio superior o split screen.
-     * Si citas una estadística (78% Stanford HAI, 25% OIT, 57% Anthropic), gráfica oficial o titular de prensa en pantalla en el segundo exacto en que se pronuncia.
-     * Si mencionas infraestructura o casos reales (migración nocturna de 1.500 sucursales Elektra/Banco Azteca bajo CNBV, SYNETCOM, JPX Miami), recorte de prensa, diagrama o rótulo oficial.
-     * Cero pantalla estática o busto parlante sin estímulo visual cada 8–12 segundos.
-   - LA REGLA DEL CRECIMIENTO EXPONENCIAL (MASIVO ANTES QUE NICHO):
-     «Vuélvete primero masivo, vuélvete viral con debate y autoridad incuestionable; luego vas a nicho B2B para monetizar sin empujar la venta directa». Cero pitch de venta invasivo.
-   - ESTRUCTURA H.V.A.:
-     * Hook (0 a 3 segundos): Parada de scroll inmediata por tensión o negación inesperada. Cero saludos suaves.
-     * Mini-hook a los :22 segundos: Abre NUEVA FRICCIÓN antes del payoff.
+     * Si nombras una empresa, laboratorio o líder (OpenAI, Anthropic, MIT, Stanford, Sam Altman, Dario Amodei), titular oficial o captura en tercio superior.
+     * Si citas una estadística verificada (78% Stanford HAI, 25% OIT, 57% Anthropic), gráfica oficial en el segundo exacto en que se pronuncia.
+     * Si mencionas infraestructura o casos reales (migración nocturna de 1.500 sucursales Elektra/Banco Azteca bajo CNBV, SYNETCOM, JPX Miami), diagrama o rótulo oficial.
+   - ESTRUCTURA H.V.A. Y BUT/SO:
+     * Hook (0 a 3 segundos): Parada de scroll inmediata sin saludos.
+     * Body con conectores causales (Pero / Entonces / Por eso) — prohibido listar hechos planos sin tensión.
+     * Mini-hook a los :22 segundos: Abre NUEVA FRICCIÓN o riesgo oculto antes del payoff.
      * Loop close causal que conecta la última frase gramaticalmente con el hook inicial.
 """.strip()
 
 
-def build_daily_prompt(topic: str, sources: List[Dict[str, str]], lane: str = "radar-disrupcion") -> str:
+def build_daily_prompt(topic: str, sources: List[Dict[str, str]], lane: str = "radar-disrupcion", news_context: str = "") -> str:
     sources_text = "\n".join([f"- {s.get('title')}: {s.get('url')}" for s in sources])
+    context_block = f"\nCONTEXTO FACTUAL VERIFICADO DE LA NOTICIA DEL DÍA:\n{news_context}\n" if news_context else ""
     return f"""
-Eres el Director de Estrategia Editorial de PROSPERIA Intelligence y Cortexia.
-Debes generar el PAQUETE OMNICANAL DIARIO COMPLETO (Sistema 5×4×1) a partir de la siguiente noticia/tendencia verificada.
+Eres el Director de Estrategia Editorial de PROSPERIA Intelligence y Cortexia, redactando para Edward Jiménez (CEO de Agencia ProsperIA).
+Debes generar el PAQUETE OMNICANAL DIARIO COMPLETO (Sistema 5×4×1) a partir de la siguiente noticia/señal verificada de última hora, conectándola con el criterio directivo de Edward Jiménez para su audiencia de CEOs y Directores en LinkedIn Sales Navigator.
 
-TEMA / NOTICIA:
+TEMA / NOTICIA DEL DÍA:
 {topic}
-
-FUENTES VERIFICADAS DISPONIBLES:
+{context_block}
+FUENTES VERIFICADAS DISPONIBLES (USA ÚNICAMENTE ESTAS URLS EN EL CAMPO "sources"):
 {sources_text}
 
 RUTA EDITORIAL (LANE):

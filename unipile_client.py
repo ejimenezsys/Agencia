@@ -64,13 +64,62 @@ class UnipileClient:
 
     def get_edward_account(self) -> Optional[Dict[str, Any]]:
         accounts = self.list_accounts()
+        # 1. Priorizar coincidencia por publicIdentifier o nombre de Edward Jiménez
+        for acc in accounts:
+            if acc.get("type") != "LINKEDIN":
+                continue
+            conn = acc.get("connection_params", {}).get("im", {})
+            pub_id = (conn.get("publicIdentifier") or "").lower()
+            acc_name = (acc.get("name") or "").lower()
+            username = (conn.get("username") or "").lower()
+            if pub_id == "edwardjimenezia" or "edward" in acc_name or "edward" in username:
+                self._sync_edward_account_id(acc.get("id"))
+                return acc
+        # 2. Fallback por ID explícito configurado en entorno
         for acc in accounts:
             if acc.get("id") == EDWARD_ACCOUNT_ID:
                 return acc
-            conn = acc.get("connection_params", {}).get("im", {})
-            if conn.get("publicIdentifier") == "edwardjimenezia":
-                return acc
         return None
+
+    def _sync_edward_account_id(self, new_id: Optional[str]) -> None:
+        """Sincroniza automáticamente el nuevo ID de cuenta de Edward en .env cuando reconecta LinkedIn."""
+        global EDWARD_ACCOUNT_ID
+        if not new_id or new_id == EDWARD_ACCOUNT_ID:
+            return
+        EDWARD_ACCOUNT_ID = new_id
+        os.environ["UNIPILE_EDWARD_ACCOUNT_ID"] = new_id
+        env_file = Path(__file__).resolve().parent / ".env"
+        if env_file.exists():
+            try:
+                content = env_file.read_text(encoding="utf-8")
+                if "UNIPILE_EDWARD_ACCOUNT_ID=" in content:
+                    import re
+                    content = re.sub(
+                        r"^UNIPILE_EDWARD_ACCOUNT_ID=.*$",
+                        f"UNIPILE_EDWARD_ACCOUNT_ID={new_id}",
+                        content,
+                        flags=re.MULTILINE,
+                    )
+                else:
+                    content = content.rstrip() + f"\nUNIPILE_EDWARD_ACCOUNT_ID={new_id}\n"
+                env_file.write_text(content, encoding="utf-8")
+            except OSError:
+                pass
+
+    def create_hosted_auth_link(self, name: str = "Edward Jimenez LinkedIn CEO") -> str:
+        """Genera un enlace oficial Hosted Auth de Unipile válido por 24 horas para conectar LinkedIn / Sales Navigator."""
+        from datetime import datetime, timedelta, timezone
+
+        expires = (datetime.now(timezone.utc) + timedelta(hours=24)).strftime("%Y-%m-%dT%H:%M:%S.000Z")
+        payload = {
+            "type": "create",
+            "providers": ["LINKEDIN"],
+            "api_url": self.base_url,
+            "expiresOn": expires,
+            "name": name,
+        }
+        res = self._request("POST", "/api/v1/hosted/accounts/link", payload)
+        return res.get("url", "")
 
     def post_to_linkedin(
         self,
@@ -147,27 +196,44 @@ def main():
 
     parser = argparse.ArgumentParser(description="Gestor de conexión Unipile para LinkedIn")
     parser.add_argument("--check", action="store_true", help="Verifica el estado de la conexión y las cuentas")
+    parser.add_argument("--connect", action="store_true", help="Genera un enlace de autenticación para conectar LinkedIn en Unipile")
     args = parser.parse_args()
 
     client = UnipileClient()
+    if args.connect:
+        auth_url = client.create_hosted_auth_link()
+        print("Enlace oficial de conexión Unipile (válido por 24h):")
+        print(f"  {auth_url}")
+        return
+
     if args.check or not any(vars(args).values()):
         print("Conectando con Unipile...")
         accounts = client.list_accounts()
         print(f"Cuentas conectadas en total: {len(accounts)}")
+        for acc in accounts:
+            conn = acc.get("connection_params", {}).get("im", {})
+            print(f"  • [{acc.get('id')}] {acc.get('name')} (@{conn.get('publicIdentifier')}) - Estado: {acc.get('sources', [{}])[0].get('status')}")
         edward = client.get_edward_account()
         if edward:
-            print("Cuenta de Edward Jiménez encontrada:")
+            conn = edward.get("connection_params", {}).get("im", {})
+            print("\n✓ Cuenta de Edward Jiménez detectada y sincronizada:")
             print(f"  - ID: {edward.get('id')}")
-            print(f"  - Nombre: {edward.get('name')}")
-            print(f"  - Tipo: {edward.get('type')}")
+            print(f"  - Nombre: {edward.get('name')} (@{conn.get('publicIdentifier')})")
+            print(f"  - Premium Features: {conn.get('premiumFeatures', [])}")
             print(f"  - Estado: {edward.get('sources', [{}])[0].get('status')}")
-            orgs = edward.get("connection_params", {}).get("im", {}).get("organizations", [])
+            orgs = conn.get("organizations", [])
             if orgs:
                 print("  - Organizaciones disponibles:")
                 for org in orgs:
                     print(f"    * {org.get('name')}: {org.get('organization_urn')}")
         else:
-            print("AVISO: No se localizó la cuenta con ID configurado.")
+            print("\n⚠️ AVISO: La cuenta de LinkedIn de Edward Jiménez (@edwardjimenezia) aún no aparece conectada en Unipile.")
+            try:
+                auth_url = client.create_hosted_auth_link()
+                print("👉 Conecta tu cuenta con Sales Navigator Premium en 1 clic aquí:")
+                print(f"   {auth_url}")
+            except Exception as e:
+                print(f"Error al generar link de conexión: {e}")
 
 
 if __name__ == "__main__":

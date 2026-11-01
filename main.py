@@ -1192,7 +1192,7 @@ async def read_dashboard(request: Request):
 @app.get("/intelligence", response_class=HTMLResponse)
 async def read_blog(request: Request, db: Session = Depends(get_db)):
     sync_blog_posts(db)
-    rows = db.query(BlogPost).order_by(BlogPost.id.desc()).all()
+    rows = db.query(BlogPost).order_by(BlogPost.published_at.desc(), BlogPost.id.desc()).all()
     posts = [
         enrich_post({
             "slug": r.slug,
@@ -1750,7 +1750,7 @@ async def get_intelligence_feed(db: Session = Depends(get_db)):
     from html import escape
     from datetime import timezone
 
-    rows = db.query(BlogPost).order_by(BlogPost.id.desc()).limit(30).all()
+    rows = db.query(BlogPost).order_by(BlogPost.published_at.desc(), BlogPost.id.desc()).limit(30).all()
     items = []
     for row in rows:
         metadata = enrich_post({"slug": row.slug})
