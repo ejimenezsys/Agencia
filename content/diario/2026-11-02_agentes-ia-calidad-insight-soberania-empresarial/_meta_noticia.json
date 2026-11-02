@@ -1,0 +1,27 @@
+{
+  "date": "2026-11-03",
+  "slug": "agentes-ia-calidad-insight-soberania-empresarial",
+  "title": "Agentes IA: ¿Automatización ciego o soberanía de insights?",
+  "executive_summary": "La IA agentiva, capaz de automatizar workflows y tomar acciones, enfrenta un problema crucial: la calidad de sus insights. Este defecto inherente a su fase actual de desarrollo representa un riesgo operativo y estratégico directo para los directorios, que deben gobernar la IA para asegurar la soberanía de sus decisiones en lugar de delegar ciegamente, tal como lo establece la Metodología SVE90.",
+  "verified_sources": [
+    {
+      "title": "MIT Technology Review AI: Raising the quality of insights in agentic analytics",
+      "url": "https://www.technologyreview.com/2026/11/02/1147660/raising-the-quality-of-insights-in-agentic-analytics/"
+    },
+    {
+      "title": "The 2025 AI Index Report - Stanford HAI",
+      "url": "https://hai.stanford.edu/ai-index/2025-ai-index-report"
+    },
+    {
+      "title": "Anthropic Economic Index 2025",
+      "url": "https://www.anthropic.com/research/the-anthropic-economic-index"
+    }
+  ],
+  "affected_pillars": [
+    "Aumento Tecnológico",
+    "Estratégico",
+    "Financiero"
+  ],
+  "sve90_phase": "Auditoría de Procesos y Tareas",
+  "core_takeaway": "La calidad de los insights generados por la IA agentiva es el cuello de botella que exige un gobierno estricto y una auditoría proactiva, transformando la automatización ciega en un aumento inteligente de la soberanía empresarial."
+}

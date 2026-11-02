@@ -1,0 +1,20 @@
+--- Tweet 1/7 ---
+El 78% YA usa IA (Stanford HAI '25). Pero la 'calidad de insights' en agentes IA es su riesgo oculto. No es si automatizan, sino CÓMO. Abro hilo con evidencia de MIT Tech Review, OIT y Anthropic 👇🧵
+
+--- Tweet 2/7 ---
+MIT Technology Review AI alerta: la IA agentiva promete automatizar flujos y tomar acciones. Pero la calidad de sus 'insights' es deficiente. Esto no es un bug, es un error de fábrica que puede comprometer decisiones estratégicas.
+
+--- Tweet 3/7 ---
+Dato clave: 78% de organizaciones encuestadas ya usa IA (Stanford HAI 2025). La adopción es masiva. Pero, ¿con qué nivel de gobierno sobre lo que la IA considera un 'insight' válido para actuar?
+
+--- Tweet 4/7 ---
+El quiebre en el modelo de tareas: La OIT revela que el 25% de la fuerza laboral está expuesta a IA. Predomina la transformación de tareas sobre el reemplazo destructivo. Sus equipos se reconfiguran, no desaparecen. Pero su criterio debe gobernar la IA.
+
+--- Tweet 5/7 ---
+Qué pierde valor vs qué multiplica su precio: Anthropic Economic Index (1M usos Claude) demuestra: 57% es aumento de capacidad humana, 43% automatización. El valor está en el 'aumento' crítico, no en la 'delegación' ciega.
+
+--- Tweet 6/7 ---
+Aplicación a la empresa bajo la Metodología SVE90: 1. Audite la calidad del insight del agente. 2. Automatice las tareas, NO el criterio. 3. Adopte la IA para amplificar su soberanía decisoria, no para diluirla.
+
+--- Tweet 7/7 ---
+La automatización con IA agentiva sin gobierno de insights es un camino al riesgo. Su empresa debe gobernar la inteligencia artificial, no ser gobernada por ella. Conozca el análisis completo: https://agenciaprosperia.com/blog/agentes-ia-calidad-insight-soberania-empresarial
