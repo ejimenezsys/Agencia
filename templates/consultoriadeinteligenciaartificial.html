@@ -71,9 +71,9 @@
         "@id": "https://agenciaprosperia.com/#edward",
         "name": "Edward Jiménez",
         "jobTitle": "Fundador & AI System Architect",
-        "image": "https://agenciaprosperia.com/static/edwar_jimenez.jpg",
+        "image": "https://agenciaprosperia.com/static/edward_hero_depth.jpg",
         "worksFor": { "@id": "https://agenciaprosperia.com/#organization" },
-        "description": "Empresario y tecnólogo con más de 25 años en tecnología, finanzas y operaciones. Lideró la arquitectura de implementación del core bancario para más de 1,500 sucursales de Grupo Elektra y Banco Azteca. Autor del libro 'Las 4 Inteligencias' y creador de PassportAI.",
+        "description": "Empresario y tecnólogo con más de 25 años en tecnología, finanzas y operaciones. Lideró la migración e implementación del core bancario para más de 1,500 sucursales de Grupo Elektra y Banco Azteca bajo supervisión de la CNBV. Creador de PassportAI, Los 4 Pilares de Soberanía Empresarial y la Metodología SVE90.",
         "sameAs": [
           "https://www.instagram.com/edwardjimenezia/",
           "https://www.linkedin.com/in/edwardjimenezia/",
@@ -141,12 +141,16 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="{{ static_versioned('edward_hero_depth.webp') }}" type="image/webp" fetchpriority="high">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="icon" type="image/png" href="{{ static_versioned('favicon.png') }}">
   <link rel="stylesheet" href="{{ static_versioned('consultoria_ia/css/styles.css') }}">
 </head>
 <body class="bg-dark text-slate-100 antialiased selection:bg-cyan-500 selection:text-black">
+
+  <!-- Barra de progreso vertical izquierda (estilo inmersivo) -->
+  <div id="global-scroll-line" class="cine-scroll-line" aria-hidden="true"></div>
 
   <!-- Ambient Glow Orbs -->
   <div class="ambient-glow glow-top" aria-hidden="true"></div>
@@ -156,7 +160,7 @@
   <header id="main-header" class="site-header">
     <div class="container nav-container">
       <a href="/" class="brand-logo" id="brand-logo" aria-label="Agencia ProsperIA">
-        <img src="{{ static_versioned('logo_prosper_ia_cropped.jpg') }}" alt="Agencia ProsperIA" class="agency-header-logo">
+        <img src="{{ static_versioned('logo_prosper_ia_cropped.jpg') }}" alt="Agencia ProsperIA" class="agency-header-logo" width="40" height="40">
         <div class="brand-names">
           <span class="brand-primary">Agencia ProsperIA</span>
           <span class="brand-tagline-nav">Consultoría en Inteligencia Artificial</span>
@@ -164,11 +168,11 @@
       </a>
 
       <nav class="desktop-nav" aria-label="Navegación del Embudo">
-        <a href="#diagnostico" class="nav-item">Diagnóstico</a>
-        <a href="#fugas" class="nav-item">Fugas Comerciales</a>
-        <a href="#ecosistema" class="nav-item">Ecosistema</a>
-        <a href="#rutas" class="nav-item">Rutas SVE90</a>
-        <a href="#quienes-somos" class="nav-item">Quiénes Somos</a>
+        <a href="#inmersion-sve90" class="nav-item">Túnel SVE90</a>
+        <a href="#fugas" class="nav-item">3 Fugas</a>
+        <a href="#rutas" class="nav-item">2 Rutas</a>
+        <a href="#evidencia" class="nav-item">Evidencia Viva</a>
+        <a href="#calculadora" class="nav-item">Simulador ROI</a>
         <a href="#faq" class="nav-item">FAQ</a>
       </nav>
 
@@ -183,89 +187,392 @@
   </header>
 
   <main>
-    <!-- HERO SECTION: EMBUDO DE CONVERSIÓN PARA TRÁFICO DE YOUTUBE -->
-    <section id="hero" class="hero-section">
-      <div class="container hero-container">
-        
-        <div class="hero-badge-wrapper">
-          <div class="glass-pill">
-            <span class="pill-dot"></span>
-            <span>Canal Oficial de YouTube · De la Teoría a la Operación Real</span>
-            <span class="pill-tag">Dirigida por Edward Jiménez (+25 Años IT)</span>
+    <!-- =====================================================================
+         EXPERIENCIA INMERSIVA "SCROLL HACIA ADENTRO" (EJE Z + ZOOM AL OJO)
+         Inspirado en arquitectura CSS3D perspective + Canvas Warp + Eye Portal
+         ===================================================================== -->
+    <section id="hero" class="cine-section" aria-label="Consultoría e Implementación de Inteligencia Artificial — Viaje Inmersivo al Ecosistema ProsperIA">
+      <div id="cine-track" class="cine-track">
+        <!-- Anclas internas del túnel para salto directo -->
+        <div id="inmersion-sve90" class="ancla-cine" aria-hidden="true"></div>
+
+        <div id="cine-sticky" class="cine-sticky">
+
+          <!-- CAPA 1: FONDO BOKEH + RETRATO DE EDWARD CON ZOOM AL OJO (52.97%, 24.64%) -->
+          <div id="hero-capas" class="hero-capas">
+            <div id="hero-bokeh" class="hero-bokeh" aria-hidden="true"></div>
+            <div id="hero-particulas-wrap" class="hero-particulas-capa" aria-hidden="true">
+              <canvas id="hero-particulas-canvas" class="hero-particulas"></canvas>
+            </div>
+
+            <!-- Retrato con Zoom Exponencial hacia la pupila del ojo derecho del espectador -->
+            <div id="hero-figura" class="hero-figura">
+              <div id="hero-figura-zoom" class="hero-figura-zoom">
+                <picture>
+                  <source srcset="{{ static_versioned('edward_hero_depth.webp') }}" type="image/webp">
+                  <img
+                    src="{{ static_versioned('edward_hero_depth.jpg') }}"
+                    alt="Edward Jiménez — Fundador de Agencia ProsperIA y AI System Architect"
+                    width="1024"
+                    height="1024"
+                    fetchpriority="high"
+                  >
+                </picture>
+                <!-- Retícula biométrica sutil sobre el ojo que guía la inmersión -->
+                <div id="hero-eye-reticle" class="hero-eye-reticle" aria-hidden="true">
+                  <span class="reticle-ring"></span>
+                  <span class="reticle-core"></span>
+                  <span class="reticle-tag">VISIÓN SVE90 · ZOOM IN</span>
+                </div>
+              </div>
+            </div>
+
+            <div id="hero-velo" class="hero-velo" aria-hidden="true"></div>
+            <div id="hero-tunel" class="hero-tunel" aria-hidden="true"></div>
           </div>
-        </div>
 
-        <h1 class="hero-title">
-          Tu Siguiente Paso tras ver Nuestros Videos:<br>
-          <span class="gradient-text">Convierte la Inteligencia Artificial en un Sistema Comercial que Produce Dinero.</span>
-        </h1>
+          <!-- CAPA 2: TITULARES DEL HERO (SE DESVANECEN AL ENTRAR POR EL OJO) -->
+          <div id="hero-titulos" class="hero-titulos">
+            <div class="hero-eyebrow-cine">
+              <span class="cine-pulse"></span>
+              <span>CANAL OFICIAL DE YOUTUBE · DE LA TEORÍA A LA OPERACIÓN REAL</span>
+            </div>
 
-        <p class="hero-lead">
-          Si llegaste desde nuestros videos de YouTube, ya viste lo que la IA promete. Pero el mayor costo operativo moderno no es el software, sino la <strong>fragmentación de 15 herramientas aisladas</strong> que nadie adopta y las ventas que se enfrían en WhatsApp. En <strong>Agencia ProsperIA</strong> no te dejamos con presentaciones teóricas: <strong>diseñamos la arquitectura, escribimos el código e implementamos en tu empresa</strong> agentes 24/7, RAG privado y CRM unificado con retorno medible desde el primer mes.
-        </p>
+            <h1 class="hero-nombre-cine">
+              CONVIERTE LA IA<br>
+              <em>EN UN SISTEMA</em><br>
+              QUE PRODUCE DINERO<span class="cine-period">.</span>
+            </h1>
 
-        <!-- DUAL VALUE PROPOSITION BANNER -->
-        <div class="hero-dual-box glass-panel">
-          <div class="dual-col pyme-col">
-            <div class="dual-badge">🏢 RUTA 1 · ACTIVACIÓN VERTICAL (10 DÍAS HÁBILES)</div>
-            <p>
-              <strong>Ventas primero, procesos después:</strong> Si eres el dueño y vives apagando fuegos mientras las ventas se enfrían en WhatsApp, activamos en 10 días tu sistema de captación, calificación, agenda y seguimiento 24/7 con ProsperIA CRM, <strong>sin inflar nómina</strong> y con control móvil total.
+            <p class="hero-roles-cine">
+              Dirigida por Edward Jiménez · +25 Años IT · 1,500+ Sucursales Core Bancario
             </p>
-          </div>
-          <div class="dual-divider"></div>
-          <div class="dual-col corp-col">
-            <div class="dual-badge badge-purple">🌐 RUTA 2 · TRANSFORMACIÓN SVE90 (30 A 90 DÍAS)</div>
-            <p>
-              <strong>Para holdings y operaciones multi-área:</strong> Desplegamos <strong>RAG Privado (Cerebro Corporativo) con Zero-Data Retention</strong>, conexión profunda a SAP/Salesforce/ERPs legados y agentes supervisados para <strong>reducir su OPEX</strong> con gobernanza y soberanía total de datos.
+
+            <p class="hero-lead-cine">
+              No te dejamos con presentaciones teóricas. <strong>Diseñamos la arquitectura, escribimos el código e implementamos en tu empresa</strong> agentes 24/7, RAG privado y CRM unificado con retorno medible desde el primer mes.
             </p>
-          </div>
-        </div>
 
-        <div class="hero-cta-group">
-          <a href="#diagnostico" class="btn btn-primary btn-lg glow-btn" id="hero-cta-primary">
-            <span>Solicitar Diagnóstico Ejecutivo (45 Min) &darr;</span>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </a>
-          <a href="#fugas" class="btn btn-secondary btn-lg" id="hero-cta-fugas">
-            <span>⚠️ Ver las 3 Fugas Comerciales &darr;</span>
-          </a>
-        </div>
+            <div class="hero-dual-mini">
+              <div class="dual-mini-pill">
+                <strong>🏢 Ruta 1 (10 Días):</strong> Ventas, calificación y agenda 24/7 en WhatsApp con ProsperIA CRM.
+              </div>
+              <div class="dual-mini-pill pill-purple">
+                <strong>🌐 Ruta 2 (SVE90 30-90 Días):</strong> RAG Privado Zero-Data Retention, SAP/ERPs y reducción de OPEX.
+              </div>
+            </div>
 
-        <!-- Social Proof Stats Strip (datos verificables, mismos que el home) -->
-        <div class="hero-proof-strip">
-          <div class="proof-card">
-            <div class="proof-number">+25 Años</div>
-            <div class="proof-label">De trayectoria directiva en tecnología, finanzas y operaciones</div>
+            <div class="hero-acciones-cine">
+              <a href="#diagnostico" class="cine-btn cine-btn-primary">
+                <span>Solicitar Diagnóstico (45 Min)</span>
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+              <button type="button" class="cine-btn cine-btn-secondary" onclick="scrollToTunnelPhase(0.36)">
+                <span>Entrar al Túnel SVE90 (Scroll ↓)</span>
+              </button>
+            </div>
           </div>
-          <div class="proof-divider"></div>
-          <div class="proof-card">
-            <div class="proof-number">1,500+</div>
-            <div class="proof-label">Sucursales en el core bancario de Grupo Elektra y Banco Azteca</div>
-          </div>
-          <div class="proof-divider"></div>
-          <div class="proof-card">
-            <div class="proof-number">Estrategia + Código</div>
-            <div class="proof-label">Diseñamos la arquitectura y programamos la solución</div>
-          </div>
-          <div class="proof-divider"></div>
-          <div class="proof-card">
-            <div class="proof-number">4 Capas</div>
-            <div class="proof-label">Del Ecosistema ProsperIA en producción (Home)</div>
-          </div>
-        </div>
 
+          <!-- Eco borroso cinemático al hacer scroll -->
+          <div id="hero-titulos-blur" class="hero-titulos hero-titulos-borroso" aria-hidden="true">
+            <div class="hero-eyebrow-cine">
+              <span class="cine-pulse"></span>
+              <span>CANAL OFICIAL DE YOUTUBE · DE LA TEORÍA A LA OPERACIÓN REAL</span>
+            </div>
+            <div class="hero-nombre-cine">
+              CONVIERTE LA IA<br>
+              <em>EN UN SISTEMA</em><br>
+              QUE PRODUCE DINERO<span class="cine-period">.</span>
+            </div>
+          </div>
+
+          <div id="hero-credenciales" class="hero-credenciales-cine">
+            <span>PASSPORTAI CORE</span>
+            <i aria-hidden="true">·</i>
+            <span>PROSPERIA CRM</span>
+            <i aria-hidden="true">·</i>
+            <span>METODOLOGÍA SVE90</span>
+            <i aria-hidden="true">·</i>
+            <span>RAG PRIVADO RBAC</span>
+            <i aria-hidden="true">·</i>
+            <span>AZ ACADEMY</span>
+          </div>
+
+          <!-- CAPA 3: CANVAS DE PARTÍCULAS WARP (VELOCIDAD EN EJE Z) -->
+          <div id="cine-particulas-wrap" class="cine-particulas-capa" aria-hidden="true">
+            <canvas id="cine-warp-canvas" class="cine-particulas"></canvas>
+          </div>
+
+          <!-- CAPA 4: VUELO DE AUTORIDAD Y CIFRAS (AL ATRAVESAR EL OJO DE EDWARD) -->
+          <div id="vuelo-origen" class="vuelo-origen" aria-hidden="true">
+            <p>"La consultoría tradicional te entrega un PDF. Nosotros escribimos el código y entregamos el sistema produciendo."</p>
+            <span>EDWARD JIMÉNEZ · AI SYSTEM ARCHITECT · MIAMI, FLORIDA</span>
+          </div>
+
+          <div id="vuelo-cifras" class="vuelo-cifras" aria-hidden="true">
+            <div class="vuelo-cifra">
+              <span class="vuelo-num"><b data-counter-target="25" data-prefix="+">+25</b><i>AÑOS</i></span>
+              <span class="vuelo-pie">Trayectoria Directiva TI</span>
+            </div>
+            <div class="vuelo-cifra">
+              <span class="vuelo-num"><b data-counter-target="1500" data-suffix="+">1500+</b><i>SUCURSALES</i></span>
+              <span class="vuelo-pie">Core Bancario Elektra / Azteca</span>
+            </div>
+            <div class="vuelo-cifra">
+              <span class="vuelo-num"><b data-counter-target="10">10</b><i>DÍAS HÁBILES</i></span>
+              <span class="vuelo-pie">Go-Live Ruta 1 Vertical</span>
+            </div>
+            <div class="vuelo-cifra">
+              <span class="vuelo-num"><b data-counter-target="90">90</b><i>DÍAS SVE90</i></span>
+              <span class="vuelo-pie">Transformación Corporativa</span>
+            </div>
+            <div class="vuelo-cifra">
+              <span class="vuelo-num"><b data-counter-target="4">4</b><i>CAPAS</i></span>
+              <span class="vuelo-pie">Ecosistema Propio en Vivo</span>
+            </div>
+          </div>
+
+          <div id="ascenso-metodo" class="ascenso-metodo" aria-hidden="true">
+            <span class="metodo-eyebrow">INGENIERÍA PROPIETARIA DE EJECUCIÓN</span>
+            <strong>EL MARCO DE LAS 6 A · SVE90.</strong>
+            <p>Seis misiones sincronizadas para pasar del caos de herramientas aisladas a una arquitectura autónoma que produce flujo de caja.</p>
+          </div>
+
+          <!-- CAPA 5: TÚNEL 3D DE CAPÍTULOS EN EL EJE Z (perspective: 1500px; preserve-3d) -->
+          <div class="journey-vignette" aria-hidden="true"></div>
+
+          <div id="cine-capa-escape" class="cine-capa-escape">
+            <div class="journey-top">
+              <span>INMERSIÓN EN EJE Z · METODOLOGÍA SVE90</span>
+              <span>SEIS FASES DE TRANSFORMACIÓN · UN ECOSISTEMA</span>
+            </div>
+
+            <div id="journey-intro" class="journey-intro">
+              <span>DE LA ESTRATEGIA AL CÓDIGO EN PRODUCCIÓN</span>
+              <h2>ARQUITECTURA DE SUPER INTELIGENCIA.</h2>
+            </div>
+
+            <!-- ESCENA 3D CON PERSPECTIVA 1500PX: LOS 6 CAPÍTULOS VIAJAN DE Z=-10500PX A Z=+760PX -->
+            <div id="journey-escena" class="journey-escena">
+
+              <!-- CAPÍTULO 01: AUDITORÍA -->
+              <article class="journey-chapter" data-chapter="0" style="--tone: #00f0ff;">
+                <div class="journey-copy">
+                  <span class="journey-counter">01 / 06 · FASE AUDITORÍA</span>
+                  <div class="journey-letter" aria-hidden="true">A1</div>
+                  <h3>AUDITORÍA</h3>
+                  <p class="journey-statement">Antes de invertir un dólar, cuantificamos dónde se fuga tu dinero.</p>
+                  <p class="journey-detail">Mapeamos tus flujos comerciales y operativos, detectamos las 3 fugas críticas (leads fríos en WhatsApp, cuello de botella del dueño y herramientas desconectadas) y armamos el Business Case con ROI real.</p>
+                </div>
+                <figure class="journey-visual">
+                  <div class="holo-card" style="--holo-color: #00f0ff;">
+                    <div class="holo-header">
+                      <span class="holo-dot"></span>
+                      <span>ENTREGABLE FASE 01 · BUSINESS CASE</span>
+                    </div>
+                    <div class="holo-metric">+70%</div>
+                    <div class="holo-metric-sub">Fuga comercial tapada al responder en &lt;15 seg</div>
+                    <ul class="holo-list">
+                      <li>Diagnóstico de tiempos de respuesta en WhatsApp</li>
+                      <li>Mapa de cuellos de botella del dueño o director</li>
+                      <li>Cálculo financiero de horas y ventas recuperables</li>
+                    </ul>
+                    <figcaption>01 · AUDITORÍA DE MADUREZ &amp; ROI</figcaption>
+                  </div>
+                </figure>
+              </article>
+
+              <!-- CAPÍTULO 02: ARQUITECTURA -->
+              <article class="journey-chapter" data-chapter="1" style="--tone: #38bdf8;">
+                <div class="journey-copy">
+                  <span class="journey-counter">02 / 06 · FASE ARQUITECTURA</span>
+                  <div class="journey-letter" aria-hidden="true">A2</div>
+                  <h3>ARQUITECTURA</h3>
+                  <p class="journey-statement">Diseñamos tu Cerebro Corporativo Privado con soberanía total.</p>
+                  <p class="journey-detail">Seleccionamos modelos de frontera en PassportAI (Claude 3.7, GPT-4o, Gemini 2.5), diseñamos bases vectoriales RAG con aislamiento Zero-Data Retention, guardrails anti-alucinación y permisos por rol (RBAC).</p>
+                </div>
+                <figure class="journey-visual">
+                  <div class="holo-card" style="--holo-color: #38bdf8;">
+                    <div class="holo-header">
+                      <span class="holo-dot"></span>
+                      <span>CAPA 1 · PASSPORTAI CORE &amp; RAG</span>
+                    </div>
+                    <div class="holo-metric">Zero-Data</div>
+                    <div class="holo-metric-sub">Retención cero en modelos públicos · RBAC por rol</div>
+                    <ul class="holo-list">
+                      <li>Búsqueda semántica en contratos, manuales y tarifas</li>
+                      <li>Enrutamiento multi-modelo (Claude, GPT, Gemini)</li>
+                      <li>Fin del Shadow AI y protección de secretos industriales</li>
+                    </ul>
+                    <figcaption>02 · ARQUITECTURA &amp; SOBERANÍA DE DATOS</figcaption>
+                  </div>
+                </figure>
+              </article>
+
+              <!-- CAPÍTULO 03: ACTIVACIÓN -->
+              <article class="journey-chapter" data-chapter="2" style="--tone: #818cf8;">
+                <div class="journey-copy">
+                  <span class="journey-counter">03 / 06 · FASE ACTIVACIÓN</span>
+                  <div class="journey-letter" aria-hidden="true">A3</div>
+                  <h3>ACTIVACIÓN</h3>
+                  <p class="journey-statement">Tu máquina comercial atendiendo, calificando y agendando en 10 días.</p>
+                  <p class="journey-detail">Entramos por ventas: encendemos ProsperIA CRM preconfigurado con pipelines activos, agentes conversacionales 24/7 en WhatsApp e Instagram, reactivación de base de datos (DBR) y control desde tu móvil.</p>
+                </div>
+                <figure class="journey-visual">
+                  <div class="holo-card" style="--holo-color: #818cf8;">
+                    <div class="holo-header">
+                      <span class="holo-dot"></span>
+                      <span>CAPA 2 · PROSPERIA CRM EN VIVO</span>
+                    </div>
+                    <div class="holo-metric">10 Días</div>
+                    <div class="holo-metric-sub">Go-Live Ruta 1 · Activación Vertical Llave en Mano</div>
+                    <ul class="holo-list">
+                      <li>Agentes 24/7 que califican y agendan en calendario</li>
+                      <li>Secuencias persistentes de nutrición y reactivación</li>
+                      <li>Bandeja unificada y atribución exacta de campañas</li>
+                    </ul>
+                    <figcaption>03 · ACTIVACIÓN COMERCIAL 24/7</figcaption>
+                  </div>
+                </figure>
+              </article>
+
+              <!-- CAPÍTULO 04: AUTOMATIZACIÓN -->
+              <article class="journey-chapter" data-chapter="3" style="--tone: #a855f7;">
+                <div class="journey-copy">
+                  <span class="journey-counter">04 / 06 · FASE AUTOMATIZACIÓN</span>
+                  <div class="journey-letter" aria-hidden="true">A4</div>
+                  <h3>AUTOMATIZACIÓN</h3>
+                  <p class="journey-statement">Conectamos la IA a tus ERPs, SAP, Salesforce y bases transaccionales.</p>
+                  <p class="journey-detail">Somos consultores que programan. Escribimos el código de integración vía APIs y contenedores para que tus empleados digitales coticen proyectos complejos, concilien cuentas y operen sin silos.</p>
+                </div>
+                <figure class="journey-visual">
+                  <div class="holo-card" style="--holo-color: #a855f7;">
+                    <div class="holo-header">
+                      <span class="holo-dot"></span>
+                      <span>CAPA 3 · INGENIERÍA DE INTEGRACIÓN</span>
+                    </div>
+                    <div class="holo-metric">-35% OPEX</div>
+                    <div class="holo-metric-sub">Reducción de carga mecánica en áreas operativas</div>
+                    <ul class="holo-list">
+                      <li>Integración profunda con SAP, Salesforce y SQL</li>
+                      <li>Empleados digitales con supervisión humana dual</li>
+                      <li>Cotizaciones técnicas generadas en segundos</li>
+                    </ul>
+                    <figcaption>04 · AUTOMATIZACIÓN MULTI-ÁREA</figcaption>
+                  </div>
+                </figure>
+              </article>
+
+              <!-- CAPÍTULO 05: ADOPCIÓN -->
+              <article class="journey-chapter" data-chapter="4" style="--tone: #f59e0b;">
+                <div class="journey-copy">
+                  <span class="journey-counter">05 / 06 · FASE ADOPCIÓN</span>
+                  <div class="journey-letter" aria-hidden="true">A5</div>
+                  <h3>ADOPCIÓN</h3>
+                  <p class="journey-statement">La tecnología sin adopción del equipo es dinero tirado.</p>
+                  <p class="journey-detail">A través de AZ Academy y el principio de la Interfaz Oculta, entrenamos al dueño en gobernanza y al operador en su flujo diario con checklists simples, garantizando que el sistema se use al 100%.</p>
+                </div>
+                <figure class="journey-visual">
+                  <div class="holo-card" style="--holo-color: #f59e0b;">
+                    <div class="holo-header">
+                      <span class="holo-dot"></span>
+                      <span>CAPA 4 · INFRAESTRUCTURA AZ ACADEMY</span>
+                    </div>
+                    <div class="holo-metric">100% Uso</div>
+                    <div class="holo-metric-sub">Adopción guiada por rol: directivo y operador</div>
+                    <ul class="holo-list">
+                      <li>Principio de Interfaz Oculta (cero fricción técnica)</li>
+                      <li>Rutas formativas y checklists operativos diarios</li>
+                      <li>Eliminación de la resistencia al cambio interno</li>
+                    </ul>
+                    <figcaption>05 · ADOPCIÓN &amp; CULTURA EJECUTIVA</figcaption>
+                  </div>
+                </figure>
+              </article>
+
+              <!-- CAPÍTULO 06: AVANCE -->
+              <article class="journey-chapter" data-chapter="5" style="--tone: #10b981;">
+                <div class="journey-copy">
+                  <span class="journey-counter">06 / 06 · FASE AVANCE</span>
+                  <div class="journey-letter" aria-hidden="true">A6</div>
+                  <h3>AVANCE</h3>
+                  <p class="journey-statement">Gobernanza continua y liderazgo con un Fractional Chief AI Officer.</p>
+                  <p class="journey-detail">Monitoreamos latencia, calidad y costos de tokens en tiempo real (Grafana/Prometheus). Acompañamos a tu Directorio bajo los 4 pilares de gobernanza del White House Accord on Super Intelligence.</p>
+                </div>
+                <figure class="journey-visual">
+                  <div class="holo-card" style="--holo-color: #10b981;">
+                    <div class="holo-header">
+                      <span class="holo-dot"></span>
+                      <span>DIRECCIÓN CONTINUA · FRACTIONAL CAIO</span>
+                    </div>
+                    <div class="holo-metric">10x Ventaja</div>
+                    <div class="holo-metric-sub">Gobernanza ejecutiva sin nómina de $250K/año</div>
+                    <ul class="holo-list">
+                      <li>Telemetría en vivo y optimización algorítmica</li>
+                      <li>Auditoría de modelos y nuevas capacidades trimestrales</li>
+                      <li>Reporte ejecutivo directo al CEO y Consejo</li>
+                    </ul>
+                    <figcaption>06 · AVANCE &amp; FRACTIONAL CAIO</figcaption>
+                  </div>
+                </figure>
+              </article>
+
+            </div>
+
+            <!-- CTA DE SALIDA AL FINAL DEL TÚNEL -->
+            <div id="journey-salida" class="journey-salida">
+              <a href="#diagnostico" class="journey-salida-boton">
+                <span>Agendar Diagnóstico Ejecutivo de 45 Minutos</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+
+            <!-- BARRA INFERIOR DE PASOS INTERACTIVOS (01..06) -->
+            <div class="journey-bottom">
+              <div id="journey-step-list" class="journey-step-list" role="navigation" aria-label="Fases del túnel SVE90">
+                <button type="button" class="journey-step-btn is-active" onclick="scrollToChapter(0)"><span>A<small>01</small></span><em class="step-lbl">Auditoría</em></button>
+                <button type="button" class="journey-step-btn" onclick="scrollToChapter(1)"><span>A<small>02</small></span><em class="step-lbl">Arquitectura</em></button>
+                <button type="button" class="journey-step-btn" onclick="scrollToChapter(2)"><span>A<small>03</small></span><em class="step-lbl">Activación</em></button>
+                <button type="button" class="journey-step-btn" onclick="scrollToChapter(3)"><span>A<small>04</small></span><em class="step-lbl">Automatización</em></button>
+                <button type="button" class="journey-step-btn" onclick="scrollToChapter(4)"><span>A<small>05</small></span><em class="step-lbl">Adopción</em></button>
+                <button type="button" class="journey-step-btn" onclick="scrollToChapter(5)"><span>A<small>06</small></span><em class="step-lbl">Avance</em></button>
+              </div>
+              <div class="journey-progress">
+                <div id="journey-progress-bar" style="width: 0%;"></div>
+              </div>
+              <span id="journey-scroll-hint" class="journey-scroll-hint">DESLIZA HACIA ADENTRO ↓</span>
+            </div>
+          </div>
+
+          <!-- CAPA 6: CROMO HUD & VELOCÍMETRO DE EJECUCIÓN SVE90 -->
+          <div id="cine-cromo" class="cine-cromo">
+            <div id="cine-velocimetro" class="cine-velocimetro" aria-hidden="true">
+              <span class="cine-vel-num"><b id="cine-vel-val">1.0</b>x ROI / VELOCIDAD</span>
+              <span class="cine-vel-pie">ÍNDICE DE AUTOMATIZACIÓN · SVE90</span>
+            </div>
+            <a href="#fugas" class="cine-skip-btn" aria-label="Saltar animación e ir al contenido">
+              <span>Saltar Inmersión ↓</span>
+            </a>
+            <div class="cine-barra">
+              <div id="cine-barra-fill" style="transform: scaleX(0);"></div>
+            </div>
+          </div>
+
+        </div>
       </div>
     </section>
 
-    <!-- SECCIÓN FUGAS COMERCIALES (CONVERSIÓN DIRECTA DE TRÁFICO YOUTUBE) -->
+    <!-- =====================================================================
+         BLOQUE 2: LAS 3 FUGAS COMERCIALES + COMPARATIVA EJECUTIVA RÁPIDA
+         Lectura en 30 segundos · Cero paja · Tensión directa al margen
+         ===================================================================== -->
     <section id="fugas" class="section fugas-section">
       <div class="container">
         
         <div class="section-heading text-center">
-          <div class="section-tag">EL DIAGNÓSTICO QUE VISTE EN YOUTUBE</div>
-          <h2 class="section-title">Las 3 Grandes Fugas Comerciales que Están Frenando a tu Empresa</h2>
+          <div class="section-tag">DIAGNÓSTICO DIRECTO AL FLUJO DE CAJA</div>
+          <h2 class="section-title">El 78% de las Empresas ya Usa IA, pero el 90% Sigue Perdiendo Dinero en Estas 3 Fugas</h2>
           <p class="section-subtitle">
-            Si eres dueño o director, es muy probable que tu cuello de botella esté en uno de estos tres puntos críticos. Nuestro trabajo de consultoría e implementación existe para tapar estas fugas con ingeniería y sistemas en producción:
+            Según el <strong>Stanford HAI AI Index</strong>, la adopción de IA se disparó al 78%, pero tener cuentas sueltas de ChatGPT no cambia tu estado de resultados. Intervenimos tu empresa para erradicar estos tres cuellos de botella:
           </p>
         </div>
 
@@ -273,364 +580,199 @@
           
           <div class="fuga-card glass-panel">
             <div>
-              <div class="fuga-badge">🔴 FUGA CRÍTICA #1</div>
-              <h3>Los Prospectos se Enfrían en WhatsApp (Respuesta Tardía)</h3>
+              <div class="fuga-badge">🔴 FUGA #1 · VELOCIDAD COMERCIAL</div>
+              <h3>Leads que se Enfrían en WhatsApp</h3>
               <p>
-                Inviertes en pauta o recibes tráfico calificado, pero si tardas más de 15 minutos en calificar y responder en WhatsApp, la tasa de conversión se desploma más del 70%. Tu cliente ya le escribió a tu competidor.
+                Si tardas más de 15 minutos en calificar y agendar a un prospecto, tu conversión cae más del 70%. Tu inversión publicitaria termina pagando los clientes de tu competencia.
               </p>
             </div>
             <div class="fuga-impact">
               <i class="fas fa-bolt"></i>
-              <span>Solución: Agentes de IA 24/7 que califican y agendan en tiempo real con ProsperIA CRM.</span>
+              <span><strong>Resolvemos en 10 días:</strong> Agentes 24/7 que califican y agendan en vivo en ProsperIA CRM.</span>
             </div>
           </div>
 
           <div class="fuga-card glass-panel">
             <div>
-              <div class="fuga-badge">🔴 FUGA CRÍTICA #2</div>
-              <h3>El Dueño o Director es el Único Cuello de Botella</h3>
+              <div class="fuga-badge">🔴 FUGA #2 · DEPENDENCIA DEL LÍDER</div>
+              <h3>El Dueño o Director como Cuello de Botella</h3>
               <p>
-                Eres el único que sabe cómo cotizar proyectos complejos, responder dudas técnicas o resolver excepciones. Si tú no estás frente a la pantalla, la venta y la operación se congelan. No tienes una empresa escalable: tienes un autoempleo de alto estrés.
+                Si eres el único que sabe cotizar proyectos complejos, autorizar excepciones o cruzar datos de SAP/ERPs, no tienes una empresa escalable: tienes un autoempleo de alto riesgo.
               </p>
             </div>
             <div class="fuga-impact">
               <i class="fas fa-brain"></i>
-              <span>Solución: RAG Privado (Cerebro Corporativo) que replica tus criterios de decisión.</span>
+              <span><strong>Resolvemos con SVE90:</strong> RAG Privado (Cerebro Corporativo) que replica tu criterio técnico.</span>
             </div>
           </div>
 
           <div class="fuga-card glass-panel">
             <div>
-              <div class="fuga-badge">🔴 FUGA CRÍTICA #3</div>
-              <h3>El Cementerio de 15 Herramientas de IA Desconectadas</h3>
+              <div class="fuga-badge">🔴 FUGA #3 · CAOS Y SHADOW AI</div>
+              <h3>15 Herramientas Sueltas que Nadie Adopta</h3>
               <p>
-                Pagas licencias sueltas de ChatGPT, Make, Canva y un CRM genérico que tu equipo no termina de usar. Tienes datos dispersos, riesgo de fuga de información confidencial y cero retorno financiero medible en tu estado de resultados.
+                Pagas licencias aisladas mientras tu equipo sube contratos confidenciales a IAs públicas sin control (<em>Shadow AI</em>) y sigue operando manualmente en hojas de Excel.
               </p>
             </div>
             <div class="fuga-impact">
-              <i class="fas fa-network-wired"></i>
-              <span>Solución: Ecosistema unificado de 4 capas con capacitación por rol en AZ Academy.</span>
+              <i class="fas fa-shield-halved"></i>
+              <span><strong>Resolvemos con 4 Capas:</strong> Ecosistema unificado, Zero-Data Retention y adopción en AZ Academy.</span>
             </div>
           </div>
 
         </div>
 
-        <div class="text-center" style="margin-top: 2.5rem;">
-          <a href="#diagnostico" class="btn btn-primary btn-md glow-btn">
-            <span>Tapar estas fugas en mi empresa con el Diagnóstico (45 Min) &rarr;</span>
-          </a>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- QUÉ ES: BLOQUE DEFINITORIO ANSWER-FIRST (citable por buscadores e IA) -->
-    <section id="que-es" class="section definition-section">
-      <div class="container">
-
-        <div class="section-heading text-center">
-          <div class="section-tag">CONSULTORÍA EN INTELIGENCIA ARTIFICIAL · DEFINICIÓN & ALCANCE</div>
-          <h2 class="section-title">¿Qué es una Consultoría en Inteligencia Artificial de Alto Nivel?</h2>
-        </div>
-
-        <div class="definition-grid">
-          <div class="definition-box glass-panel">
-            <p class="definition-lead">
-              Una <strong>consultoría en inteligencia artificial</strong> analiza los procesos de una organización, identifica dónde la IA genera retorno financiero y diseña, programa e implementa los sistemas para capturarlo. En <strong>Agencia ProsperIA</strong> la consultoría no termina en un reporte: termina con agentes autónomos, RAG privado y automatizaciones <strong>funcionando en producción</strong>, conectados a sus ERPs, CRM y canales comerciales.
-            </p>
-            <h3 class="definition-subtitle">Lo que hace un consultor de IA de Agencia ProsperIA</h3>
-            <ul class="definition-list">
-              <li><strong>Audita</strong> la madurez tecnológica y calcula el business case con datos reales antes de invertir.</li>
-              <li><strong>Diseña la arquitectura</strong>: selección de modelos de frontera, bases vectoriales y guardrails de seguridad.</li>
-              <li><strong>Escribe el código e integra</strong>: conecta modelos de IA a SAP, Salesforce, ERPs legados y CRMs.</li>
-              <li><strong>Despliega en producción</strong>: agentes de cotización, atención 24/7 y empleados digitales supervisados.</li>
-              <li><strong>Garantiza la adopción y el avance</strong>: capacita al equipo vía AZ Academy y gobierna como Fractional Chief AI Officer.</li>
-            </ul>
-            <p class="definition-updated">Actualizado: octubre 2026 · Por Edward Jiménez, AI System Architect y Fundador de Agencia ProsperIA</p>
-          </div>
-
-          <div class="compare-wrapper glass-panel">
-            <h3 class="definition-subtitle">Consultoría tradicional vs herramientas sueltas vs Agencia ProsperIA</h3>
-            <div class="compare-scroll">
-              <table class="compare-table">
-                <thead>
-                  <tr>
-                    <th scope="col">Criterio Estratégico</th>
-                    <th scope="col">Consultora tradicional</th>
-                    <th scope="col">Herramientas / Freelancers</th>
-                    <th scope="col" class="col-highlight">Agencia ProsperIA</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">Estrategia Directiva</th>
-                    <td>Sí (teórica)</td>
-                    <td>Rara vez</td>
-                    <td class="col-highlight">Sí, ligada a ROI y flujo de caja</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Escribe el Código</th>
-                    <td>Normalmente no</td>
-                    <td>Parcial (scripts)</td>
-                    <td class="col-highlight">Sí, ingeniería propia en producción</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Ecosistema Integrado</th>
-                    <td>Sin software propio</td>
-                    <td>Herramientas dispersas</td>
-                    <td class="col-highlight">PassportAI + ProsperIA CRM + SVE90</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Integra ERPs / CRMs</th>
-                    <td>Lo delega a TI</td>
-                    <td>Limitado a webhooks</td>
-                    <td class="col-highlight">Sí, APIs profundas y contenedores</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Gobernanza y Privacidad</th>
-                    <td>Recomendaciones</td>
-                    <td>Depende del proveedor</td>
-                    <td class="col-highlight">RAG privado + RBAC + Zero-Data Retention</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Entregable Final</th>
-                    <td>PDF y diapositivas</td>
-                    <td>Automatizaciones aisladas</td>
-                    <td class="col-highlight">Sistemas en vivo + adopción con AZ Academy</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- SECCIÓN ECOSISTEMA: ASOCIACIÓN DIRECTA CON EL HOME (EL GRAN PODER) -->
-    <section id="ecosistema" class="section ecosystem-section">
-      <div class="container">
-        
-        <div class="section-heading text-center">
-          <div class="section-tag">EL PODER DEL ECOSISTEMA PROSPER IA</div>
-          <h2 class="section-title">Un Solo Ecosistema. Cuatro Capas Sincronizadas.</h2>
-          <p class="section-subtitle">
-            Una consultora tradicional le entrega un reporte y le desea suerte. Una agencia de marketing revende suscripciones que no controla. En <strong>Agencia Prosper IA</strong> respaldamos cada proyecto de consultoría con nuestra propia infraestructura tecnológica de cuatro capas:
-          </p>
-        </div>
-
-        <div class="ecosystem-grid">
-          
-          <!-- Capa 1: PassportAI -->
-          <div class="layer-card glass-panel card-cyan">
+        <!-- Tabla Comparativa Compacta (Answer-First para CEOs y Motores de IA) -->
+        <div id="que-es" class="compare-wrapper glass-panel" style="margin-top: 2.5rem;">
+          <div class="compare-compact-head">
             <div>
-              <div class="layer-header">
-                <span class="layer-number">1</span>
-                <span class="layer-pill">Inteligencia</span>
-              </div>
-              <h3 class="layer-title">PassportAI</h3>
-              <p class="layer-verb">PassportAI Piensa</p>
-              <p class="layer-desc">
-                Nuestro motor SaaS de producción e inteligencia. Centraliza modelos de frontera (Claude 3.7, GPT-4o, Gemini 2.5), 5 constructores guiados de activos de negocio, DeepSearch documental y canvas multimodal. Salga del caos caro de 20 suscripciones dispersas.
-              </p>
+              <span class="section-tag" style="margin-bottom: 0.35rem;">POR QUÉ SOMOS DIFERENTES</span>
+              <h3 class="definition-subtitle" style="margin-bottom: 0;">Consultores que Programan vs. Consultoría de Diapositivas</h3>
             </div>
-            <div>
-              <ul class="layer-features">
-                <li><i class="fas fa-check"></i> 5 Constructores Guiados de Activos</li>
-                <li><i class="fas fa-check"></i> DeepSearch & Análisis Documental</li>
-                <li><i class="fas fa-check"></i> SaaS en vivo en passportai.app</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Capa 2: ProsperIA CRM -->
-          <div class="layer-card glass-panel card-indigo">
-            <div>
-              <div class="layer-header">
-                <span class="layer-number">2</span>
-                <span class="layer-pill">Operación</span>
-              </div>
-              <h3 class="layer-title">ProsperIA CRM</h3>
-              <p class="layer-verb">ProsperIA CRM Opera</p>
-              <p class="layer-desc">
-                No le entregamos un CRM vacío. Recibe una máquina comercial preconfigurada: pipelines de ventas, agentes conversacionales 24/7 en WhatsApp e Instagram, formularios inteligentes, calendarios sincronizados y atribución de campañas.
-              </p>
-            </div>
-            <div>
-              <ul class="layer-features">
-                <li><i class="fas fa-check"></i> Pipeline comercial activo y visible</li>
-                <li><i class="fas fa-check"></i> Respuesta y agenda 24/7 en WhatsApp</li>
-                <li><i class="fas fa-check"></i> Bandeja unificada y control móvil</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Capa 3: Agencia Prosper IA -->
-          <div class="layer-card glass-panel card-purple">
-            <div>
-              <div class="layer-header">
-                <span class="layer-number">3</span>
-                <span class="layer-pill">Implementación</span>
-              </div>
-              <h3 class="layer-title">Agencia Prosper IA</h3>
-              <p class="layer-verb">La Agencia Implementa</p>
-              <p class="layer-desc">
-                Consultores que programan. Nuestro equipo de ingenieros y especialistas adapta blueprints probados, integra APIs, construye el RAG privado corporativo y entrega sistemas funcionando llave en mano, listos para producir.
-              </p>
-            </div>
-            <div>
-              <ul class="layer-features">
-                <li><i class="fas fa-check"></i> Servicio Done-For-You llave en mano</li>
-                <li><i class="fas fa-check"></i> Estrategia directiva + código a medida</li>
-                <li><i class="fas fa-check"></i> Conexión a ERPs, CRMs y bases de datos</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Capa 4: SVE90 & AZ Academy -->
-          <div class="layer-card glass-panel card-amber">
-            <div>
-              <div class="layer-header">
-                <span class="layer-number">4</span>
-                <span class="layer-pill">Transformación</span>
-              </div>
-              <h3 class="layer-title">SVE90 & AZ Academy</h3>
-              <p class="layer-verb">SVE90 Transforma · AZ Capacita</p>
-              <p class="layer-desc">
-                Metodología propietaria de 6 A's (Auditoría, Arquitectura, Activación, Automatización, Adopción, Avance) respaldada por las rutas formativas de AZ Academy para que directores y colaboradores adopten la IA sin resistencia.
-              </p>
-            </div>
-            <div>
-              <ul class="layer-features">
-                <li><i class="fas fa-check"></i> Metodología consultiva de las 6 A's</li>
-                <li><i class="fas fa-check"></i> Capacitación por rol (dueño y operador)</li>
-                <li><i class="fas fa-check"></i> Gobernanza continua como Fractional CAIO</li>
-              </ul>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Puente con el Home -->
-        <div class="home-bridge-banner">
-          <div class="home-bridge-content">
-            <h3>¿Desea ver el Tour interactivo del Ecosistema Prosper IA?</h3>
-            <p>
-              En nuestra página principal encontrará el diagrama oficial de flujos, el video tour guiado y la demostración de cómo se comunican las cuatro capas para transformar prospectos en clientes y operaciones manuales en activos automatizados.
-            </p>
-          </div>
-          <div class="home-bridge-actions">
-            <a href="/#ecosistema" class="btn btn-secondary btn-md">
-              <span>Ver Tour del Ecosistema en el Home &rarr;</span>
+            <a href="#diagnostico" class="btn btn-primary btn-sm glow-btn">
+              <span>Auditar mis 3 Fugas (45 Min) &rarr;</span>
             </a>
           </div>
+          <div class="compare-scroll" style="margin-top: 1.25rem;">
+            <table class="compare-table">
+              <thead>
+                <tr>
+                  <th scope="col">Criterio Ejecutivo</th>
+                  <th scope="col">Consultora Tradicional</th>
+                  <th scope="col">Agencias / Freelancers</th>
+                  <th scope="col" class="col-highlight">Agencia ProsperIA (SVE90)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Entregable Real</th>
+                  <td>PDF de 80 diapositivas teóricas</td>
+                  <td>Bots básicos desconectados</td>
+                  <td class="col-highlight"><strong>Sistemas en producción + Código propio</strong></td>
+                </tr>
+                <tr>
+                  <th scope="row">Infraestructura</th>
+                  <td>No tienen software propio</td>
+                  <td>Revenden 10 herramientas sueltas</td>
+                  <td class="col-highlight"><strong>PassportAI + ProsperIA CRM + AZ Academy</strong></td>
+                </tr>
+                <tr>
+                  <th scope="row">Seguridad y Datos</th>
+                  <td>Solo recomendaciones en papel</td>
+                  <td>Riesgo alto en IAs públicas</td>
+                  <td class="col-highlight"><strong>RAG Privado + RBAC + Zero-Data Retention</strong></td>
+                </tr>
+                <tr>
+                  <th scope="row">Tiempo a Valor (ROI)</th>
+                  <td>6 a 12 meses de planeación</td>
+                  <td>Impredecible / Sin adopción</td>
+                  <td class="col-highlight"><strong>Go-Live en 10 días (Ruta 1) o 30-90 días (SVE90)</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
 
       </div>
     </section>
 
-    <!-- SECCIÓN 2 RUTAS DE IMPLEMENTACIÓN: SVE90 OFICIAL -->
+    <!-- =====================================================================
+         BLOQUE 3: DOS RUTAS CLARAS DE IMPLEMENTACIÓN (FUSIÓN PYME & CORPORATIVO)
+         Regla de oro: Entrar por ventas (10 días) y expandir por procesos (SVE90)
+         ===================================================================== -->
     <section id="rutas" class="section routes-section">
       <div class="container">
         
         <div class="section-heading text-center">
-          <div class="section-tag">ARQUITECTURA DE OFERTA OFICIAL</div>
-          <h2 class="section-title">Una Metodología. Dos Rutas Claras de Implementación.</h2>
+          <div class="section-tag">ARQUITECTURA DE OFERTA SIN FRICCIÓN</div>
+          <h2 class="section-title">Elige la Ruta Exacta para el Tamaño de tu Operación</h2>
           <p class="section-subtitle">
-            Nuestra regla estratégica es inflexible: <strong>entrar por ventas y expandir por procesos</strong>. No le vendemos una transformación teórica de seis meses cuando lo que necesita es dejar de perder prospectos hoy; ni le ofrecemos un bot genérico si opera una corporación compleja.
+            Nuestra regla estratégica es simple: <strong>entrar por ventas y expandir por procesos</strong>. Selecciona tu perfil empresarial:
           </p>
         </div>
 
         <div class="routes-grid">
           
-          <!-- RUTA 1: ACTIVACIÓN VERTICAL -->
+          <!-- RUTA 1: PYME MEDIANA / ACTIVACIÓN EN 10 DÍAS -->
           <div class="route-card glass-panel route-vertical">
             <div>
               <div class="route-badge">
-                <span>RUTA 1 · ACTIVACIÓN VERTICAL</span>
+                <span>🏢 RUTA 1 · PYME Y NEGOCIOS EN CRECIMIENTO</span>
                 <span class="route-time-pill">GO-LIVE EN 10 DÍAS HÁBILES</span>
               </div>
-              <h3 class="route-title">Tu Primer Sistema Comercial con IA en 10 Días Hábiles</h3>
+              <h3 class="route-title">Activación Vertical Comercial 24/7</h3>
               <p class="route-subtitle">
-                Diseñado para negocios con oferta validada que necesitan resolver de inmediato su mayor fuga de dinero: prospectos sin atender, mensajes tardíos y citas perdidas.
+                <strong>Ideal para facturación de $300K a $3M USD/año (10 a 80 colaboradores):</strong> Deja de ser el cuello de botella de tus ventas y atiende, califica y agenda prospectos en segundos sin inflar tu nómina.
               </p>
 
               <ul class="route-features-list">
                 <li>
                   <i class="fas fa-check-circle"></i>
-                  <div><strong>Auditoría Express:</strong> Diagnóstico de canales, tiempos de respuesta, embudo y calendario comercial.</div>
+                  <div><strong>ProsperIA CRM Llave en Mano:</strong> Pipeline comercial activo, embudo, calendario y control móvil ejecutivo.</div>
                 </li>
                 <li>
                   <i class="fas fa-check-circle"></i>
-                  <div><strong>Blueprint Vertical Probado:</strong> Subcuenta y experiencia ProsperIA CRM con pipeline, calendario y campos especializados.</div>
+                  <div><strong>Agentes de IA 24/7 en WhatsApp e Instagram:</strong> Calificación y agendamiento automático en menos de 15 segundos.</div>
                 </li>
                 <li>
                   <i class="fas fa-check-circle"></i>
-                  <div><strong>Agentes de Respuesta & Agenda 24/7:</strong> Calificación y agendamiento automático de citas en WhatsApp e Instagram sin intervención humana.</div>
+                  <div><strong>Protocolo de Reactivación (DBR):</strong> Secuencias inteligentes para convertir tu base de prospectos antiguos en citas nuevas.</div>
                 </li>
                 <li>
                   <i class="fas fa-check-circle"></i>
-                  <div><strong>Secuencias de Nutrición & Reactivación:</strong> Seguimiento persistente por email, SMS y WhatsApp para prospectos fríos y pacientes inactivos.</div>
-                </li>
-                <li>
-                  <i class="fas fa-check-circle"></i>
-                  <div><strong>Capacitación del Operador Responsable:</strong> Checklist operativo y ruta de adopción rápida en AZ Academy para que su equipo lo opere con soltura.</div>
+                  <div><strong>Adopción Garantizada en AZ Academy:</strong> Entrenamiento práctico y checklist diario para tu operador comercial.</div>
                 </li>
               </ul>
             </div>
 
             <div>
               <button class="btn btn-primary btn-block glow-btn" onclick="openDiagnosticModal('Ruta1_Vertical')">
-                <span>Postular a una Activación en 10 Días &rarr;</span>
+                <span>Activar mi Sistema Comercial en 10 Días &rarr;</span>
               </button>
               <p class="route-footer-note">
-                *El plazo de 10 días inicia formalmente con la entrega completa de accesos, calendario, oferta y materiales requeridos.
+                *El plazo de 10 días hábiles inicia con la entrega completa de accesos y oferta comercial.
               </p>
             </div>
           </div>
 
-          <!-- RUTA 2: TRANSFORMACIÓN SVE90 -->
+          <!-- RUTA 2: CORPORATIVO / SVE90 -->
           <div class="route-card glass-panel route-enterprise">
             <div>
               <div class="route-badge">
-                <span>RUTA 2 · TRANSFORMACIÓN SVE90</span>
-                <span class="route-time-pill">30 · 60 · 90 DÍAS</span>
+                <span>🌐 RUTA 2 · CORPORATIVOS &amp; HOLDINGS</span>
+                <span class="route-time-pill">30 · 60 · 90 DÍAS (SVE90)</span>
               </div>
-              <h3 class="route-title">Transformación Empresarial SVE90 & Cerebro Corporativo</h3>
+              <h3 class="route-title">Transformación SVE90 &amp; Cerebro Corporativo</h3>
               <p class="route-subtitle">
-                Diseñamos e implementamos un sistema integral de ventas y operaciones adaptado a la complejidad real de su organización, sus ERPs y sus datos privados.
+                <strong>Ideal para facturación de +$3M a +$50M USD/año:</strong> Elimina silos entre departamentos, protege tu propiedad intelectual del <em>Shadow AI</em> y reduce hasta un 35% el OPEX mecánico.
               </p>
 
               <ul class="route-features-list">
                 <li>
                   <i class="fas fa-check-circle"></i>
-                  <div><strong>Metodología de las 6 A:</strong> Auditoría, Arquitectura, Activación, Automatización, Adopción y Avance continuo.</div>
+                  <div><strong>RAG Privado &amp; Soberanía Total:</strong> Cerebro corporativo sobre tus contratos, políticas y balances con <em>Zero-Data Retention</em> y permisos RBAC.</div>
                 </li>
                 <li>
                   <i class="fas fa-check-circle"></i>
-                  <div><strong>RAG Privado & Soberanía de Datos:</strong> Cerebro corporativo sobre contratos, manuales y políticas con acuerdos de Zero-Data Retention y RBAC.</div>
+                  <div><strong>Conexión Profunda a ERPs/SAP/Salesforce:</strong> Ingeniería de software vía APIs y contenedores para cruzar datos en segundos.</div>
                 </li>
                 <li>
                   <i class="fas fa-check-circle"></i>
-                  <div><strong>Integración con ERPs & Sistemas Legados:</strong> Conexión vía APIs a SAP, Salesforce, Oracle y bases de datos transaccionales.</div>
+                  <div><strong>Empleados Digitales con Supervisión Dual:</strong> Agentes de cotización técnica, auditoría documental y conciliación operativa.</div>
                 </li>
                 <li>
                   <i class="fas fa-check-circle"></i>
-                  <div><strong>Empleados Digitales Autónomos:</strong> Agentes de cotización compleja, análisis documental y soporte interdepartamental con supervisión dual.</div>
-                </li>
-                <li>
-                  <i class="fas fa-check-circle"></i>
-                  <div><strong>Fractional Chief AI Officer:</strong> Dirección ejecutiva externa para el Directorio, gobernanza de modelos, optimización de tokens y reducción de OPEX.</div>
+                  <div><strong>Fractional Chief AI Officer:</strong> Gobernanza ejecutiva para el Directorio sin el costo de un ejecutivo de $250K USD/año.</div>
                 </li>
               </ul>
             </div>
 
             <div>
               <button class="btn btn-purple btn-block glow-btn" onclick="openDiagnosticModal('Ruta2_SVE90')">
-                <span>Solicitar Diagnóstico SVE90 para Corporativos &rarr;</span>
+                <span>Solicitar Diagnóstico SVE90 Corporativo &rarr;</span>
               </button>
               <p class="route-footer-note">
-                *Estructurado en paquetes oficiales: Arranque (30 días), Crecimiento (60 días) y Expansión (90 días) según complejidad y áreas involucradas.
+                *Despliegue modular en fases de 30 (Arranque), 60 (Crecimiento) y 90 días (Expansión).
               </p>
             </div>
           </div>
@@ -640,285 +782,145 @@
       </div>
     </section>
 
-    <!-- DUAL FOCUS: IDENTIFICACIÓN CLARA DE DOLORES (PYMES VS CORPORATIVOS) -->
-    <section id="dual-focus" class="section focus-section">
+    <!-- =====================================================================
+         BLOQUE 4: EVIDENCIA VIVA & BLINDAJE NDA (EL ANTÍDOTO A LA FALTA DE TESTIMONIOS)
+         Regla del Elefante de Cortexia: En vez de citas anónimas, mostramos
+         plataformas reales en producción + récord bancario verificable + NDA
+         ===================================================================== -->
+    <section id="evidencia" class="section credentials-section">
       <div class="container">
         
         <div class="section-heading text-center">
-          <div class="section-tag">DIAGNÓSTICO DIRECTO DE SU REALIDAD</div>
-          <h2 class="section-title">El Espejo de su Empresa: Identifique su Mayor Dolor Operativo</h2>
+          <div class="section-tag">REGLA DE EVIDENCIA VIVA · CERO HUMO</div>
+          <h2 class="section-title">¿Por Qué No Publicamos Logos de Clientes? Porque Firmamos NDAs y Te Mostramos Nuestro Código Funcionando en Vivo</h2>
           <p class="section-subtitle">
-            No todas las empresas tienen el mismo desafío. Seleccione su perfil para entender con precisión quirúrgica dónde se está fugando su dinero:
+            En arquitectura empresarial y financiera, exponer qué procesos automatizó un cliente revela su ventaja competitiva. No te pedimos que creas en citas de texto: <strong>te invitamos a auditar las plataformas que nosotros mismos construimos y operamos todos los días</strong>.
           </p>
         </div>
 
-        <div class="focus-grid">
-          
-          <!-- PYMES CARD -->
-          <div class="focus-card glass-panel border-cyan">
-            <div class="focus-header">
-              <span class="focus-icon">🏢</span>
-              <div>
-                <span class="focus-tag">PERFIL PYME MEDIANA</span>
-                <h3>Facturación de $300K a $3M USD/año · 10 a 80 colaboradores</h3>
-              </div>
-            </div>
+        <!-- 3 Tarjetas de Prueba Irrefutable -->
+        <div class="evidence-triad-grid">
 
-            <div class="pain-list">
-              <div class="pain-item-box">
-                <strong>1. El Caos Caro de Herramientas Aisladas:</strong>
-                <p>Paga suscripciones mensuales de ChatGPT, Canva, un CRM que nadie actualiza y automatizaciones sueltas. Nada está conectado y su equipo sigue trabajando a mano.</p>
-              </div>
-              <div class="pain-item-box">
-                <strong>2. El Cuello de Botella del Dueño:</strong>
-                <p>Usted no puede tomar vacaciones sin que las cotizaciones se frenen, los clientes reclamen o las operaciones colapsen. La empresa depende de su cerebro para casi todo.</p>
-              </div>
-              <div class="pain-item-box">
-                <strong>3. Vendedores Inconsistentes y Leads Fríos en WhatsApp:</strong>
-                <p>Prospectos interesados que tardan horas en recibir respuesta, cotizaciones que se quedan en el tintero y falta de estandarización en el seguimiento comercial.</p>
-              </div>
-            </div>
-
-            <div class="focus-outcome">
-              <span class="outcome-label">Lo que Implementamos (Ruta 1):</span>
-              <p>Activación Vertical en 10 días: agentes de IA para cotización y agenda 24/7 en WhatsApp, automatización del onboarding de clientes y ProsperIA CRM con control móvil total para el dueño.</p>
-            </div>
-
-            <button class="btn btn-primary btn-block glow-btn" onclick="openDiagnosticModal('PYMES')">
-              <span>Automatizar mi PYME Mediana en 10 Días &rarr;</span>
-            </button>
-          </div>
-
-          <!-- CORPORATIVOS CARD -->
-          <div class="focus-card glass-panel border-purple">
-            <div class="focus-header">
-              <span class="focus-icon">🌐</span>
-              <div>
-                <span class="focus-tag tag-purple">PERFIL GRAN CORPORATIVO & HOLDING</span>
-                <h3>Facturación de +$3M a +$50M USD/año · Cientos de colaboradores</h3>
-              </div>
-            </div>
-
-            <div class="pain-list">
-              <div class="pain-item-box">
-                <strong>1. Burocracia Cognitiva y Silos de Información:</strong>
-                <p>Datos atrapados en SAP, ERPs legados, Salesforce y miles de PDFs. Armar un informe de inteligencia cruzada para el Directorio consume semanas de trabajo de analistas.</p>
-              </div>
-              <div class="pain-item-box">
-                <strong>2. Pánico de Ciberseguridad y "Shadow AI":</strong>
-                <p>Empleados subiendo balances, patentes, bases de datos y contratos a herramientas públicas de IA sin autorización, sin trazabilidad ni gobernanza corporativa.</p>
-              </div>
-              <div class="pain-item-box">
-                <strong>3. Diagnósticos que Terminan en Diapositivas:</strong>
-                <p>Estudios costosos de consultoras tradicionales con recomendaciones que nadie implementa. Sin APIs conectadas, sin agentes en producción, sin un solo proceso que cambie el lunes.</p>
-              </div>
-            </div>
-
-            <div class="focus-outcome outcome-purple">
-              <span class="outcome-label">Lo que Implementamos (Ruta 2):</span>
-              <p>Transformación SVE90: Cerebro Corporativo Privado (RAG Enterprise) con aislamiento Zero-Data Retention, conexión a ERPs y agentes supervisados diseñados para reducir el OPEX de los procesos intervenidos.</p>
-            </div>
-
-            <button class="btn btn-purple btn-block glow-btn" onclick="openDiagnosticModal('Corporativo')">
-              <span>Solicitar Transformación SVE90 &rarr;</span>
-            </button>
-          </div>
-
-        </div>
-
-      </div>
-    </section>
-
-    <!-- TEST INTERACTIVO RENOVADO: DIAGNÓSTICO DE MADUREZ EN SUPER INTELIGENCIA -->
-    <section id="test-madurez" class="section quiz-section">
-      <div class="container max-w-3xl">
-        
-        <div class="quiz-wrapper glass-panel">
-          
-          <!-- Quiz Header -->
-          <div class="quiz-top text-center">
-            <div class="section-tag">DIAGNÓSTICO INTERACTIVO EJECUTIVO (90 SEGUNDOS)</div>
-            <h2 class="quiz-main-title">¿Cuál es el Nivel Real de Madurez en IA de su Empresa?</h2>
-            <p class="quiz-main-desc">
-              Descubra en 5 preguntas estratégicas si su organización está en <strong>Riesgo de Obsolescencia</strong>, atrapada en <strong>Juguetes de IA Aislados</strong>, o lista para dar el salto a la <strong>Super Inteligencia Autónoma</strong>.
-            </p>
-          </div>
-
-          <!-- Progress Bar & Indicator -->
-          <div class="quiz-progress-wrapper">
-            <div class="quiz-progress-meta">
-              <span id="quiz-question-counter">Pregunta 1 de 5</span>
-              <span id="quiz-category-badge" class="quiz-cat-pill">VELOCIDAD & ATENCIÓN</span>
-            </div>
-            <div class="progress-track">
-              <div id="quiz-progress-fill" class="progress-fill" style="width: 20%;"></div>
-            </div>
-          </div>
-
-          <!-- Question Box Container -->
-          <div id="quiz-interactive-card" class="quiz-card">
-            
-            <h3 id="quiz-question-text" class="quiz-question-title">
-              1. ¿Cuánto tarda hoy su empresa en cotizar o responder a un prospecto calificado?
-            </h3>
-
-            <!-- 4 Rich Options Grid -->
-            <div id="quiz-options-grid" class="quiz-options-list">
-              <!-- Dynamically populated by JS with 4 rich choices -->
-            </div>
-
-            <!-- Quiz Navigation -->
-            <div class="quiz-nav-row">
-              <button id="quiz-prev-btn" class="btn btn-secondary btn-sm" onclick="handleQuizPrev()" disabled>
-                <span>&larr; Anterior</span>
-              </button>
-              <button id="quiz-next-btn" class="btn btn-primary btn-sm glow-btn" onclick="handleQuizNext()" disabled>
-                <span>Siguiente Pregunta &rarr;</span>
-              </button>
-            </div>
-
-          </div>
-
-          <!-- Quiz Dynamic Result Screen (Hidden by Default) -->
-          <div id="quiz-result-view" class="quiz-result-box" hidden>
-            
-            <div class="result-score-badge" id="result-badge-level">NIVEL 2: JUGUETES AISLADOS</div>
-            
-            <h3 class="result-headline" id="result-headline-title">
-              Su Empresa Tiene Automatizaciones Superficiales, Pero Sus Procesos Centrales Siguen Siendo Manuales
-            </h3>
-
-            <p class="result-paragraph" id="result-paragraph-desc">
-              Su equipo experimenta con ChatGPT o herramientas sueltas, pero no cuenta con un cerebro centralizado ni agentes autónomos conectados a sus ERPs o sistemas comerciales. Esto genera silos de información, lentitud en cotizaciones y riesgo de filtración de datos confidenciales.
-            </p>
-
-            <div class="result-metrics-grid">
-              <div class="result-stat-card">
-                <span class="stat-number" id="result-stat-hours">25 a 40 Horas</span>
-                <span class="stat-label">Rango estimado de horas semanales en tareas mecánicas por departamento (referencial)</span>
-              </div>
-              <div class="result-stat-card">
-                <span class="stat-number gradient-text" id="result-stat-money">$8,000 - $20,000 USD</span>
-                <span class="stat-label">Rango estimado de valor mensual recuperable (referencial; se valida en el diagnóstico)</span>
-              </div>
-            </div>
-
-            <div class="result-callout">
-              <h4>Hoja de Ruta Recomendada para su Nivel:</h4>
-              <p id="result-action-plan">
-                Intervenir de inmediato los 3 cuellos de botella de mayor fricción operativa mediante un RAG privado seguro y agentes de IA de cotización/operaciones con entrega llave en mano.
-              </p>
-            </div>
-
-            <div class="result-cta-actions">
-              <button class="btn btn-primary btn-lg glow-btn" onclick="openDiagnosticModal('QuizCompleted')">
-                <span>Agendar Sesión de 45 Min con mi Diagnóstico</span>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-              </button>
-              <button class="btn btn-secondary btn-sm" onclick="restartQuiz()">
-                <span>Repetir Diagnóstico</span>
-              </button>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-    </section>
-
-    <!-- PROOF OF WORK: NUESTRAS DOS VERTICALES COMO EVIDENCIA INCONTESTABLE -->
-    <section id="credenciales" class="section credentials-section">
-      <div class="container">
-        
-        <div class="section-heading text-center">
-          <div class="section-tag">SISTEMAS PROPIOS EN PRODUCCIÓN</div>
-          <h2 class="section-title">No Vendemos Hipótesis. Operamos Nuestras Propias Plataformas de IA</h2>
-          <p class="section-subtitle">
-            Cualquier consultor puede hablar de IA en una presentación. Nosotros mostramos la tecnología que construimos y operamos en el mundo real:
-          </p>
-        </div>
-
-        <div class="cases-grid">
-          
-          <!-- Vertical 1: Salud y Clínicas -->
+          <!-- Prueba 1: PassportAI Core -->
           <article class="case-card glass-panel">
-            <div class="case-badge">PLATAFORMA PROPIA #1 · SALUD</div>
-            <h3 class="case-title">Sistema Paciente 360™ (Clínicas Especializadas)</h3>
+            <div class="case-badge badge-purple">PRUEBA VIVA #1 · SAAS EN PRODUCCIÓN</div>
+            <h3 class="case-title">PassportAI Core (passportai.app)</h3>
             <p class="case-intro">
-              Infraestructura comercial con IA para clínicas dentales, capilares y de medicina estética de alto ticket: atención, agenda y reactivación de pacientes en un solo sistema.
+              Nuestra propia plataforma SaaS multi-modelo en producción. Centraliza Claude 3.7, GPT-4o y Gemini 2.5 con 5 constructores de activos de negocio, DeepSearch documental, pasarela Stripe y telemetría Prometheus/Grafana.
             </p>
-
             <div class="case-metrics-strip">
               <div class="metric-box">
-                <span class="metric-num">24/7</span>
-                <span class="metric-lbl">Respuesta inmediata en WhatsApp e Instagram</span>
+                <span class="metric-num purple">Multi-LLM</span>
+                <span class="metric-lbl">Claude · GPT · Gemini</span>
               </div>
               <div class="metric-box">
-                <span class="metric-num">Fuera de horario</span>
-                <span class="metric-lbl">Agenda citas cuando la clínica está cerrada</span>
+                <span class="metric-num purple">57%</span>
+                <span class="metric-lbl">Aumento humano (Anthropic Index)</span>
+              </div>
+              <div class="metric-box">
+                <span class="metric-num purple">En Vivo</span>
+                <span class="metric-lbl">Auditable hoy mismo</span>
+              </div>
+            </div>
+            <a href="https://passportai.app" target="_blank" rel="noopener" class="btn btn-secondary btn-sm" style="margin-top: 0.5rem; align-self: flex-start;">
+              <span>Verificar Plataforma en passportai.app &nearr;</span>
+            </a>
+          </article>
+
+          <!-- Prueba 2: Paciente 360 & ProsperIA CRM -->
+          <article class="case-card glass-panel">
+            <div class="case-badge">PRUEBA VIVA #2 · MOTOR COMERCIAL 24/7</div>
+            <h3 class="case-title">ProsperIA CRM &amp; Sistema Paciente 360™</h3>
+            <p class="case-intro">
+              Infraestructura conversacional de alta velocidad operando en clínicas especializadas y empresas de servicios en EE. UU. y LATAM: responde en menos de 15 segundos, resuelve objeciones con guardrails estrictos y agenda en calendario sin humanos.
+            </p>
+            <div class="case-metrics-strip">
+              <div class="metric-box">
+                <span class="metric-num">&lt;15 seg</span>
+                <span class="metric-lbl">Tiempo de respuesta 24/7</span>
               </div>
               <div class="metric-box">
                 <span class="metric-num">DBR</span>
-                <span class="metric-lbl">Protocolo de reactivación de pacientes inactivos</span>
+                <span class="metric-lbl">Reactivación de bases frías</span>
+              </div>
+              <div class="metric-box">
+                <span class="metric-num">NDA</span>
+                <span class="metric-lbl">Zero-Data Retention</span>
               </div>
             </div>
-
-            <p class="case-detail">
-              <strong>Lo que esto demuestra a su empresa:</strong> Sabemos cómo hacer que un agente de IA converse con prospectos reales, responda objeciones complejas, respete guardrails médicos estrictos y lleve al prospecto hasta la cita sin intervención humana.
-            </p>
+            <a href="/#ecosistema" class="btn btn-secondary btn-sm" style="margin-top: 0.5rem; align-self: flex-start;">
+              <span>Ver Arquitectura de 4 Capas &rarr;</span>
+            </a>
           </article>
 
-          <!-- Vertical 2: SaaS Enterprise -->
-          <article class="case-card glass-panel">
-            <div class="case-badge badge-purple">PLATAFORMA PROPIA #2 · SAAS MULTI-MODELO</div>
-            <h3 class="case-title">PassportAI Core (Motor de Inteligencia & Producción)</h3>
-            <p class="case-intro">
-              Plataforma SaaS multi-modelo creada y operada por Edward Jiménez. Centraliza los mejores modelos de frontera (Claude 3.7, GPT-4o, Gemini 2.5), 5 constructores guiados de activos de negocio, DeepSearch documental y canvas multimodal. Disponible en producción en <a href="https://passportai.app" target="_blank" rel="noopener" class="inline-link">passportai.app</a>.
-            </p>
+        </div>
 
-            <div class="case-metrics-strip">
-              <div class="metric-box">
-                <span class="metric-num purple">5 Builders</span>
-                <span class="metric-lbl">Constructores guiados de ofertas, copys y activos</span>
-              </div>
-              <div class="metric-box">
-                <span class="metric-num purple">DeepSearch</span>
-                <span class="metric-lbl">Análisis documental semántico y extracción profunda</span>
-              </div>
-              <div class="metric-box">
-                <span class="metric-num purple">Multi-Modelo</span>
-                <span class="metric-lbl">Enrutamiento algorítmico entre Claude, GPT y Gemini</span>
-              </div>
+        <!-- Liderazgo y Track Record Bancario Auditable (Edward Jiménez) -->
+        <div id="quienes-somos" class="leader-card glass-panel" style="margin-top: 2rem;">
+          <figure class="leader-photo">
+            <picture>
+              <source srcset="{{ static_versioned('edward_hero_depth.webp') }}" type="image/webp">
+              <img src="{{ static_versioned('edward_hero_depth.jpg') }}" alt="Edward Jiménez, Fundador de Agencia ProsperIA y AI System Architect" width="460" height="460" loading="lazy" style="object-fit: cover; border-radius: 14px;">
+            </picture>
+          </figure>
+          <div class="leader-content">
+            <div class="section-tag">DIRECCIÓN DE MISIÓN CRÍTICA · TRACK RECORD VERIFICABLE</div>
+            <h3 class="section-title" style="font-size: clamp(1.55rem, 2.5vw, 2.2rem); margin-bottom: 0.75rem;">
+              Edward Jiménez: 25 Años Construyendo Sistemas Donde Fallar No Es Opción
+            </h3>
+            <p class="leader-text">
+              Antes de confiarle los procesos de tu empresa a un consultor, revisa qué ha puesto en producción. <strong>Edward Jiménez</strong> lideró la migración nocturna e implementación del <strong>core bancario para más de 1,500 sucursales de Grupo Elektra a Banco Azteca</strong> bajo estricta supervisión regulatoria de la CNBV, además de dirigir infraestructura crítica en <strong>SYNETCOM</strong> y operaciones corporativas en <strong>JPX Miami</strong>.
+            </p>
+            <p class="leader-text">
+              Creador de <strong>Los 4 Pilares de Soberanía Empresarial de Agencia ProsperIA</strong> (Financiero, Emocional, Estratégico y de Aumento Tecnológico) y de la <strong>Metodología SVE90</strong>.
+            </p>
+            <div class="leader-badges">
+              <span class="leader-badge"><strong>+25 años</strong> en arquitectura TI y banca</span>
+              <span class="leader-badge"><strong>1,500+ sucursales</strong> migradas (Elektra / Banco Azteca)</span>
+              <span class="leader-badge"><strong>Creador</strong> de PassportAI &amp; SVE90</span>
+              <span class="leader-badge"><strong>100% NDA</strong> &amp; Secreto Profesional</span>
             </div>
-
-            <p class="case-detail">
-              <strong>Lo que esto demuestra a su empresa:</strong> No somos una agencia que improvisa prompts en ChatGPT. Diseñamos, programamos y operamos arquitectura de software de misión crítica, telemetría Prometheus/Grafana, pasarela Stripe y observabilidad de nivel industrial.
-            </p>
-          </article>
-
+            <div class="leader-links">
+              <a href="https://www.linkedin.com/in/edwardjimenezia/" target="_blank" rel="noopener" class="btn btn-secondary btn-sm"><i class="fab fa-linkedin-in"></i> <span>Verificar Trayectoria en LinkedIn</span></a>
+              <button type="button" class="btn btn-primary btn-sm glow-btn" onclick="openDiagnosticModal('Liderazgo')"><span>Hablar con el Equipo de Edward &rarr;</span></button>
+            </div>
+          </div>
         </div>
 
       </div>
     </section>
 
-    <!-- CALCULADORA DE IMPACTO Y ROI -->
+    <!-- =====================================================================
+         BLOQUE 5: SIMULADOR DE ROI + TEST RÁPIDO DE MADUREZ (EN PESTAÑAS INTERACTIVAS)
+         Sin saturar la vista: el usuario alterna entre calcular su ROI en dólares
+         o responder las 5 preguntas de diagnóstico en el mismo espacio limpio
+         ===================================================================== -->
     <section id="calculadora" class="section calc-section">
       <div class="container">
         
-        <div class="calc-wrapper glass-panel">
-          <div class="calc-header text-center">
-            <div class="section-tag">SIMULADOR FINANCIERO EJECUTIVO</div>
-            <h2 class="section-title">¿Cuánto Podría Ahorrar y Facturar su Empresa con IA?</h2>
-            <p class="section-subtitle">
-              Ajuste los valores de su empresa para simular el impacto financiero anual de implementar nuestros sistemas.
-            </p>
-          </div>
+        <div class="section-heading text-center" style="margin-bottom: 1.75rem;">
+          <div class="section-tag">HERRAMIENTAS INTERACTIVAS DE AUTODIAGNÓSTICO</div>
+          <h2 class="section-title">Cuantifica tu Retorno Antes de Agendar</h2>
+          <p class="section-subtitle">
+            Simula en 30 segundos cuánto dinero estás dejando sobre la mesa o evalúa el nivel de madurez en IA de tu organización:
+          </p>
 
+          <!-- Selector de Herramienta para evitar scroll infinito -->
+          <div class="interactive-switcher" role="tablist" aria-label="Herramientas de diagnóstico">
+            <button type="button" id="switch-btn-roi" class="switch-pill active" role="tab" aria-selected="true" onclick="switchInteractiveTool('roi')">
+              <i class="fas fa-calculator"></i> <span>1. Calculadora de ROI en Dólares</span>
+            </button>
+            <button type="button" id="switch-btn-quiz" class="switch-pill" role="tab" aria-selected="false" onclick="switchInteractiveTool('quiz')">
+              <i class="fas fa-chart-line"></i> <span>2. Test de Madurez en IA (5 Preguntas)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- PANEL A: CALCULADORA DE ROI -->
+        <div id="tool-panel-roi" class="calc-wrapper glass-panel">
           <div class="calc-grid">
             
             <div class="calc-inputs">
-              
               <div class="calc-control-group">
                 <div class="calc-label-row">
                   <label for="range-leads">Volumen mensual de prospectos o transacciones:</label>
@@ -929,7 +931,7 @@
 
               <div class="calc-control-group">
                 <div class="calc-label-row">
-                  <label for="range-ticket">Valor promedio de su cliente o contrato (Ticket USD):</label>
+                  <label for="range-ticket">Valor promedio de tu cliente o contrato (Ticket USD):</label>
                   <span id="val-ticket" class="calc-value-badge">$1,200 USD</span>
                 </div>
                 <input type="range" id="range-ticket" min="200" max="10000" step="200" value="1200" oninput="calculateROI()">
@@ -944,32 +946,32 @@
               </div>
 
               <p class="calc-hint">
-                *Simulación ilustrativa, no constituye una garantía de resultados. Supuestos del modelo: mejora de conversión por respuesta inmediata al prospecto, reducción de tareas manuales y menor ausentismo a citas. El retorno real se calcula con sus datos en la sesión de diagnóstico.
+                *Estimación referencial basada en recuperación de oportunidades por atención en &lt;15s y reducción de carga administrativa repetitiva. Se valida con tus números reales en la sesión de diagnóstico.
               </p>
             </div>
 
             <div class="calc-results glass-panel">
-              <div class="result-badge">RETORNO SIMULADO DEL PROYECTO</div>
+              <div class="result-badge">IMPACTO FINANCIERO ESTIMADO</div>
               
               <div class="result-box primary-result">
-                <span class="result-title">Ingresos Nuevos Recuperables:</span>
+                <span class="result-title">Ventas Mensuales Recuperables:</span>
                 <div class="result-big-number gradient-text" id="res-extra-revenue">+$27,000 USD / mes</div>
-                <span class="result-subtext">Por leads y ventas que hoy se enfrían o se pierden</span>
+                <span class="result-subtext">Prospectos que hoy se enfrían por respuesta tardía</span>
               </div>
 
               <div class="result-box secondary-result">
-                <span class="result-title">Ahorro Mensual en Eficiencia Operativa:</span>
+                <span class="result-title">Ahorro Mensual en Horas Operativas:</span>
                 <div class="result-mid-number" id="res-payroll-savings">$2,800 USD / mes</div>
-                <span class="result-subtext">Eliminación de horas hombre en tareas mecánicas</span>
+                <span class="result-subtext">Liberación de tareas mecánicas para tu equipo</span>
               </div>
 
               <div class="result-total">
-                <div class="total-label">Beneficio Financiero Neto Anual:</div>
+                <div class="total-label">Potencial Neto Anual:</div>
                 <div class="total-number" id="res-annual-impact">+$357,600 USD</div>
               </div>
 
               <button class="btn btn-primary btn-block glow-btn" onclick="openDiagnosticModal('Calculadora')">
-                <span>Solicitar Auditoría para Capturar este Retorno</span>
+                <span>Capturar este Retorno en mi Empresa</span>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
               </button>
             </div>
@@ -977,174 +979,84 @@
           </div>
         </div>
 
-      </div>
-    </section>
-
-    <!-- GEOPOLITICAL MANIFESTO: LA ORDEN EJECUTIVA DE TRUMP -->
-    <section id="manifiesto" class="section manifest-section">
-      <div class="container">
-        <div class="manifest-box glass-panel">
-          <div class="manifest-header">
-            <div class="manifest-icon-badge">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00f0ff" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <!-- PANEL B: TEST INTERACTIVO DE 5 PREGUNTAS (OCULTO POR DEFECTO HASTA CLIC EN TAB) -->
+        <div id="test-madurez" class="quiz-wrapper glass-panel" hidden style="display: none; max-width: 860px; margin-inline: auto;">
+          <div class="quiz-progress-wrapper">
+            <div class="quiz-progress-meta">
+              <span id="quiz-question-counter">Pregunta 1 de 5</span>
+              <span id="quiz-category-badge" class="quiz-cat-pill">VELOCIDAD &amp; ATENCIÓN</span>
             </div>
-            <div>
-              <div class="section-tag">CONTEXTO 2026 · LO QUE PASÓ Y LO QUE NO</div>
-              <h2 class="section-title">La Casa Blanca Cambió el Nombre. La Pregunta Es Si su Empresa Cambió la Operación.</h2>
+            <div class="progress-track">
+              <div id="quiz-progress-fill" class="progress-fill" style="width: 20%;"></div>
             </div>
           </div>
 
-          <div class="manifest-grid">
-            <div class="manifest-item">
-              <div class="manifest-number">01</div>
-              <h3>Lo que pasó el 29 de septiembre</h3>
-              <p>
-                Donald Trump firmó la <strong>Orden Ejecutiva 14434</strong>, que ordena a las agencias federales sustituir "Inteligencia Artificial" por <strong>"Super Inteligencia"</strong> en sus comunicaciones, y presentó el <em>White House Accord on Super Intelligence</em>: un compromiso voluntario firmado por líderes de Google, Anthropic, Meta, OpenAI, Nvidia y xAI con cuatro capas de control: monitoreo interno, equipos de supervisión, auditoría externa y gobierno desde el consejo.
-              </p>
-            </div>
-            <div class="manifest-item">
-              <div class="manifest-number">02</div>
-              <h3>Lo que no le dijeron</h3>
-              <p>
-                Nada de eso obliga a su empresa. Ese es el punto: <strong>los gigantes ya están formalizando cómo gobiernan la IA</strong>, mientras muchas empresas siguen cotizando a mano y pegando contratos en herramientas públicas. La distancia entre quien opera con sistemas y quien opera con personas apagando fuegos se sigue ensanchando.
-              </p>
-            </div>
-            <div class="manifest-item">
-              <div class="manifest-number">03</div>
-              <h3>Soberanía Tecnológica Corporativa</h3>
-              <p>
-                El activo más valioso de su empresa no puede quedar disperso en prompts públicos. Usamos las mismas cuatro capas del acuerdo como referencia de gobernanza e implementamos infraestructuras privadas donde sus manuales, contratos y datos transaccionales se procesan con aislamiento, cifrado y control de accesos por rol.
-              </p>
+          <div id="quiz-interactive-card" class="quiz-card">
+            <h3 id="quiz-question-text" class="quiz-question-title">
+              1. ¿Cuánto tarda hoy tu empresa en cotizar o responder a un prospecto calificado?
+            </h3>
+            <div id="quiz-options-grid" class="quiz-options-list"></div>
+            <div class="quiz-nav-row">
+              <button id="quiz-prev-btn" class="btn btn-secondary btn-sm" onclick="handleQuizPrev()" disabled>
+                <span>&larr; Anterior</span>
+              </button>
+              <button id="quiz-next-btn" class="btn btn-primary btn-sm glow-btn" onclick="handleQuizNext()" disabled>
+                <span>Siguiente Pregunta &rarr;</span>
+              </button>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- QUIÉN DIRIGE: E-E-A-T (misma información verificada del home) -->
-    <section id="quienes-somos" class="section leader-section">
-      <div class="container">
-        <div class="leader-card glass-panel">
-          <figure class="leader-photo">
-            <img src="{{ static_versioned('edwar_jimenez.jpg') }}" alt="Edward Jiménez, fundador de Agencia ProsperIA y consultor en inteligencia artificial" width="480" height="560" loading="lazy">
-          </figure>
-          <div class="leader-content">
-            <div class="section-tag">QUIÉN DIRIGE LA CONSULTORÍA · CONÓCENOS</div>
-            <h2 class="section-title">Edward Jiménez: Tecnología con Criterio Empresarial</h2>
-            <p class="leader-text">
-              Cada proyecto de consultoría en IA de Agencia ProsperIA es dirigido personalmente por <strong>Edward Jiménez</strong>, fundador de la firma y AI System Architect, con <strong>más de 25 años</strong> construyendo y dirigiendo negocios, proyectos tecnológicos y operaciones internacionales.
-            </p>
-            <p class="leader-text">
-              Lideró la arquitectura de implementación del <strong>core bancario para más de 1,500 sucursales de Grupo Elektra y Banco Azteca</strong>, dirigió operaciones corporativas en Miami y hoy lidera Agencia ProsperIA y el desarrollo de PassportAI. Es autor del libro <em>Las 4 Inteligencias</em>, con presentación en <a href="/exmamiami" class="inline-link">EXMA Miami 2026</a>.
-            </p>
-            <blockquote class="leader-quote">
-              "La inteligencia artificial no reemplaza al empresario. Multiplica su capacidad cuando se combina con dirección, criterio y sistemas."
-            </blockquote>
-            <div class="leader-badges">
-              <span class="leader-badge"><strong>+25 años</strong> trayectoria directiva</span>
-              <span class="leader-badge"><strong>1,500+</strong> sucursales en core bancario</span>
-              <span class="leader-badge"><strong>Autor</strong> de Las 4 Inteligencias</span>
-              <span class="leader-badge"><strong>Creador</strong> de PassportAI</span>
+          <div id="quiz-result-view" class="quiz-result-box" hidden>
+            <div class="result-score-badge" id="result-badge-level">NIVEL 2: JUGUETES AISLADOS</div>
+            <h3 class="result-headline" id="result-headline-title">
+              Tu Empresa Tiene Automatizaciones Superficiales, Pero Sus Procesos Centrales Siguen Siendo Manuales
+            </h3>
+            <p class="result-paragraph" id="result-paragraph-desc"></p>
+            <div class="result-metrics-grid">
+              <div class="result-stat-card">
+                <span class="stat-number" id="result-stat-hours">25 a 40 Horas</span>
+                <span class="stat-label">Horas semanales estimadas en tareas mecánicas</span>
+              </div>
+              <div class="result-stat-card">
+                <span class="stat-number gradient-text" id="result-stat-money">$8,000 - $20,000 USD</span>
+                <span class="stat-label">Valor mensual recuperable estimado</span>
+              </div>
             </div>
-            <div class="leader-links">
-              <a href="https://www.linkedin.com/in/edwardjimenezia/" target="_blank" rel="noopener" class="btn btn-secondary btn-sm"><i class="fab fa-linkedin-in"></i> <span>LinkedIn de Edward</span></a>
-              <a href="/#nosotros" class="btn btn-secondary btn-sm"><span>Perfil completo</span></a>
-              <a href="/codigos" class="btn btn-secondary btn-sm"><span>200 Códigos de IA gratis</span></a>
+            <div class="result-callout">
+              <h4>Hoja de Ruta Recomendada:</h4>
+              <p id="result-action-plan"></p>
+            </div>
+            <div class="result-cta-actions">
+              <button class="btn btn-primary btn-lg glow-btn" onclick="openDiagnosticModal('QuizCompleted')">
+                <span>Agendar Sesión de 45 Min con mi Diagnóstico</span>
+              </button>
+              <button class="btn btn-secondary btn-sm" onclick="restartQuiz()">
+                <span>Repetir Test</span>
+              </button>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- METHODOLOGY: EL PROCESO CLARO (Metodología propietaria SVE90 y las 6 A) -->
-    <section id="metodologia" class="section methodology-section">
-      <div class="container">
-        
-        <div class="section-heading text-center">
-          <div class="section-tag">METODOLOGÍA PROPIETARIA SVE90</div>
-          <h2 class="section-title">El Marco de las 6 A: De la Consultoría al Sistema en Producción</h2>
-          <p class="section-subtitle">
-            Un método disciplinado y probado para pasar del diagnóstico a sistemas comerciales y operativos funcionando, sin frenar ni arriesgar la operación diaria de su empresa.
-          </p>
-        </div>
-
-        <div class="timeline-container">
-          
-          <div class="timeline-step glass-panel">
-            <div class="step-badge">1. AUDITORÍA</div>
-            <div class="step-time">Fase Inicial</div>
-            <h3>Auditoría de Madurez & Cuantificación de ROI</h3>
-            <p>
-              Mapeamos sus flujos comerciales y operativos actuales, identificamos cuellos de botella críticos, evaluamos riesgos de seguridad y construimos el business case con los datos reales de su empresa antes de invertir un solo dólar.
-            </p>
-          </div>
-
-          <div class="timeline-step glass-panel">
-            <div class="step-badge">2. ARQUITECTURA</div>
-            <div class="step-time">Fase de Diseño</div>
-            <h3>Diseño del Cerebro Corporativo & Blueprint</h3>
-            <p>
-              Diseñamos la infraestructura técnica: qué modelos de frontera utilizar, arquitectura RAG privada con aislamiento Zero-Data Retention, diseño de bases vectoriales, guardrails anti-alucinación y matriz de roles (RBAC).
-            </p>
-          </div>
-
-          <div class="timeline-step glass-panel">
-            <div class="step-badge">3. ACTIVACIÓN</div>
-            <div class="step-time">10 Días (Vertical) · 30 Días (SVE90)</div>
-            <h3>Puesta en Marcha en Entorno de Producción</h3>
-            <p>
-              Activamos la subcuenta y experiencia ProsperIA CRM, provisionamos el snapshot vertical o el sandbox corporativo y desplegamos los primeros agentes de IA validados para captación, agenda y atención comercial inmediata.
-            </p>
-          </div>
-
-          <div class="timeline-step glass-panel">
-            <div class="step-badge">4. AUTOMATIZACIÓN</div>
-            <div class="step-time">Fase de Integración</div>
-            <h3>Conexión Profunda a ERPs, CRMs & Datos</h3>
-            <p>
-              Conectamos los modelos y agentes a sus sistemas legados (SAP, Salesforce, bases SQL transaccionales o pasarelas de pago). Escribimos el código de integración para que los datos fluyan en tiempo real sin tareas mecánicas.
-            </p>
-          </div>
-
-          <div class="timeline-step glass-panel">
-            <div class="step-badge">5. ADOPCIÓN</div>
-            <div class="step-time">Infraestructura AZ Academy</div>
-            <h3>Capacitación Directiva & Operativa por Rol</h3>
-            <p>
-              La tecnología sin adopción es dinero tirado. A través de AZ Academy, capacitamos al empresario en gobernanza y al operador en el uso diario de CRM, pipelines y excepciones, bajo el principio de la <em>Interfaz Oculta</em>.
-            </p>
-          </div>
-
-          <div class="timeline-step glass-panel">
-            <div class="step-badge">6. AVANCE</div>
-            <div class="step-time">Continuo / Fractional CAIO</div>
-            <h3>Gobernanza, Optimización de Costes & Escala</h3>
-            <p>
-              Monitoreo continuo de latencia, calidad de respuesta y consumo algorítmico de tokens. Acompañamos a su Directorio mensualmente como Fractional Chief AI Officer para capturar nuevas ventajas competitivas.
-            </p>
-          </div>
-
         </div>
 
       </div>
     </section>
 
-    <!-- SECCIÓN DIAGNÓSTICO EN VIVO (FORMULARIO GHL EMBEDDED CON PASO 2 WHATSAPP VIP) -->
+    <!-- =====================================================================
+         BLOQUE 6: FORMULARIO DE DIAGNÓSTICO EN VIVO (CONECTADO A GHL + WHATSAPP VIP)
+         ===================================================================== -->
     <section id="diagnostico" class="section inline-diagnostic-section">
       <div class="container">
         
         <div class="inline-diagnostic-card glass-panel">
-          <div class="text-center" style="margin-bottom: 2rem;">
-            <div class="section-tag">SESIÓN ESTRATÉGICA 1-A-1 (45 MINUTOS)</div>
-            <h2 class="section-title" style="font-size: 2.2rem; margin-bottom: 0.75rem;">
-              Solicita tu Diagnóstico Ejecutivo de IA & ROI
+          <div class="text-center" style="margin-bottom: 1.75rem;">
+            <div class="section-tag">SESIÓN EJECUTIVA 1-A-1 (45 MINUTOS · BAJO NDA)</div>
+            <h2 class="section-title" style="font-size: 2.1rem; margin-bottom: 0.6rem;">
+              Solicita tu Diagnóstico de Arquitectura IA &amp; ROI
             </h2>
-            <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto; font-size: 0.95rem; line-height: 1.6;">
-              Si vienes de nuestros videos de YouTube, completa este formulario para que analicemos tus cuellos de botella comerciales y preparemos una propuesta con estimación de retorno antes de la sesión.
+            <p style="color: var(--text-secondary); max-width: 580px; margin: 0 auto; font-size: 0.95rem; line-height: 1.55;">
+              Analizaremos tus cuellos de botella y te entregaremos un plan de implementación con retorno estimado (Ruta 1 en 10 días o Ruta 2 SVE90).
             </p>
           </div>
 
-          <!-- PASO 1: FORMULARIO INLINE GHL -->
           <form id="inline-diagnostic-form" class="diagnostic-form" onsubmit="handleLeadSubmit(event, 'inline')">
             
             <div class="form-row">
@@ -1154,14 +1066,14 @@
               </div>
               <div class="form-group">
                 <label for="inline-lead-role">Cargo en la Organización *</label>
-                <input type="text" id="inline-lead-role" name="role" required placeholder="Ej. Dueño / CEO / COO / Director Comercial">
+                <input type="text" id="inline-lead-role" name="role" required placeholder="Ej. Dueño / CEO / Director General">
               </div>
             </div>
 
             <div class="form-row">
               <div class="form-group">
-                <label for="inline-lead-company">Nombre de la Empresa o Negocio *</label>
-                <input type="text" id="inline-lead-company" name="company" required placeholder="Ej. Mi Empresa S.A.">
+                <label for="inline-lead-company">Empresa o Negocio *</label>
+                <input type="text" id="inline-lead-company" name="company" required placeholder="Ej. Grupo Industrial S.A.">
               </div>
               <div class="form-group">
                 <label for="inline-lead-website">Sitio Web (Opcional)</label>
@@ -1181,19 +1093,19 @@
             </div>
 
             <div class="form-group">
-              <label>¿Cuál es tu principal interés o ruta de solución? *</label>
+              <label>Ruta de Solución de Interés *</label>
               <div class="service-radio-grid">
                 <label class="service-radio-card">
                   <input type="radio" name="modal_servicio_opcion" value="Ruta1_Vertical" checked>
                   <div class="service-radio-content">
-                    <strong>🏢 Ruta 1: Activación Vertical en 10 Días</strong>
-                    <span>Ventas, agenda y atención 24/7 en WhatsApp con ProsperIA CRM.</span>
+                    <strong>🏢 Ruta 1: Activación en 10 Días</strong>
+                    <span>Ventas, calificación y agenda 24/7 en WhatsApp con ProsperIA CRM.</span>
                   </div>
                 </label>
                 <label class="service-radio-card">
                   <input type="radio" name="modal_servicio_opcion" value="Ruta2_SVE90">
                   <div class="service-radio-content">
-                    <strong>🌐 Ruta 2: Transformación SVE90 (30-90 Días)</strong>
+                    <strong>🌐 Ruta 2: SVE90 (30-90 Días)</strong>
                     <span>RAG Privado, ERPs (SAP/Salesforce) y reducción de OPEX.</span>
                   </div>
                 </label>
@@ -1201,42 +1113,41 @@
                   <input type="radio" name="modal_servicio_opcion" value="FractionalCAIO">
                   <div class="service-radio-content">
                     <strong>👔 Fractional Chief AI Officer</strong>
-                    <span>Dirección externa para Directorio y gobernanza continua de IA.</span>
+                    <span>Dirección externa y gobernanza continua para Directorio.</span>
                   </div>
                 </label>
                 <label class="service-radio-card">
                   <input type="radio" name="modal_servicio_opcion" value="ClinicaEspecializada">
                   <div class="service-radio-content">
                     <strong>🏥 Sector Salud: Paciente 360™</strong>
-                    <span>Atención y agenda automática para clínicas de alta especialidad.</span>
+                    <span>Atención y agenda 24/7 para clínicas especializadas.</span>
                   </div>
                 </label>
               </div>
             </div>
 
             <div class="form-group">
-              <label for="inline-lead-bottleneck">¿Cuál es tu mayor cuello de botella u objetivo a resolver? *</label>
-              <textarea id="inline-lead-bottleneck" name="bottleneck" rows="3" required placeholder="Ej. El dueño es el único que puede cotizar; o bien, perdemos prospectos en WhatsApp por tardar horas en contestar."></textarea>
+              <label for="inline-lead-bottleneck">¿Cuál es el principal cuello de botella que deseas resolver? *</label>
+              <textarea id="inline-lead-bottleneck" name="bottleneck" rows="2" required placeholder="Ej. Perdemos leads en WhatsApp por contestar tarde, o todo depende del dueño para cotizar."></textarea>
             </div>
 
             <div class="sms-consent" style="display:flex;gap:.6rem;align-items:flex-start;text-align:left;margin:.5rem 0 .25rem;">
               <input type="checkbox" id="inline-sms-consent" class="sms-consent-input" name="sms_consent" value="yes" checked style="margin-top:.2rem;width:16px;height:16px;min-width:16px;flex-shrink:0;accent-color:#22d3ee;cursor:pointer;">
               <label for="inline-sms-consent" style="font-size:11px;line-height:1.5;color:#94a3b8;cursor:pointer;">
-                Acepto recibir mensajes por WhatsApp y SMS de <strong style="color:#cbd5e1;">Agencia ProsperIA LLC</strong> con la confirmación de mi diagnóstico y recordatorios de la sesión. Ver <a href="/politica-privacidad#sms" target="_blank" rel="noopener" style="color:#22d3ee;text-decoration:underline;">Privacidad</a>.
+                Acepto recibir confirmación de mi diagnóstico por WhatsApp y SMS de <strong style="color:#cbd5e1;">Agencia ProsperIA LLC</strong>. Ver <a href="/politica-privacidad#sms" target="_blank" rel="noopener" style="color:#22d3ee;text-decoration:underline;">Privacidad</a>.
               </label>
             </div>
 
             <button type="submit" id="inline-btn-submit" class="btn btn-primary btn-block glow-btn" style="padding: 1.1rem; font-size: 1.05rem;">
-              <span>Agendar Diagnóstico Ejecutivo (45 Min)</span>
+              <span>Agendar mi Diagnóstico Ejecutivo (45 Min)</span>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </button>
 
             <p class="form-privacy-note">
-              🔒 Sesión 100% confidencial · Dirigida a Dueños, CEOs y Directores · Sincronizado en tiempo real.
+              🔒 Protegido bajo secreto profesional y protocolo Zero-Data Retention · Miami, FL.
             </p>
           </form>
 
-          <!-- PASO 2: CONFIRMACIÓN Y WHATSAPP VIP (SE DESPLIEGA AUTOMÁTICAMENTE TRAS ENVIAR) -->
           <div id="inline-form-success" class="form-success" hidden style="display: none;"></div>
 
         </div>
@@ -1244,158 +1155,81 @@
       </div>
     </section>
 
-    <!-- FAQ SECTION: PREGUNTAS EJECUTIVAS C-LEVEL -->
-    <section id="faq" class="section faq-section">
+    <!-- =====================================================================
+         BLOQUE 7: 5 PREGUNTAS FRECUENTES DIRECTAS AL GRANO (CERO RELLENO)
+         ===================================================================== -->
+    <section id="faq" class="section faq-section" style="padding-top: 2rem;">
       <div class="container max-w-3xl">
         
         <div class="section-heading text-center">
-          <div class="section-tag">RESOLUCIÓN DE DUDAS C-LEVEL</div>
-          <h2 class="section-title">Preguntas Frecuentes sobre Consultoría e Implementación en IA</h2>
-        </div>
-
-        <!-- Botón para Replegar/Desplegar todas las FAQs -->
-        <div class="faq-controls">
-          <button id="btn-toggle-all-faqs" class="btn btn-secondary btn-sm" onclick="toggleAllFaqs()">
-            <span>🔽 Desplegar Todas las Preguntas</span>
-          </button>
+          <div class="section-tag">RESPUESTAS RÁPIDAS PARA TOMADORES DE DECISIÓN</div>
+          <h2 class="section-title">5 Preguntas Clave antes de Agendar</h2>
         </div>
 
         <div class="faq-list">
 
           <details class="faq-item glass-panel">
             <summary class="faq-question">
-              <span>¿Qué es una consultoría en inteligencia artificial y por qué Prosper IA programa el código?</span>
+              <span>1. ¿En qué se diferencia Agencia ProsperIA de una consultora tradicional o agencia de marketing?</span>
               <span class="faq-icon">+</span>
             </summary>
             <div class="faq-answer">
               <p>
-                Una consultoría en IA de alto nivel audita los procesos de una empresa, identifica dónde la IA genera retorno financiero y construye los sistemas para capturarlo. La mayoría de consultoras tradicionales solo entregan presentaciones en diapositivas que el equipo interno no sabe cómo implementar. En <strong>Agencia Prosper IA somos consultores que programan</strong>: diseñamos la estrategia, escribimos el código, conectamos los modelos a sus ERPs/CRMs y entregamos sistemas funcionando en producción con acompañamiento posterior.
-              </p>
-            </div>
-          </details>
-          
-          <details class="faq-item glass-panel">
-            <summary class="faq-question">
-              <span>¿Por qué implementar el Ecosistema Prosper IA en vez de herramientas sueltas de IA?</span>
-              <span class="faq-icon">+</span>
-            </summary>
-            <div class="faq-answer">
-              <p>
-                El mayor costo operativo moderno no es el software, sino la fragmentación de tener 15 herramientas aisladas (ChatGPT, Canva, Make, CRM suelto) que no se comunican entre sí y que ningún empleado termina de usar. Agencia Prosper IA unifica las 4 capas del ecosistema: <strong>1) PassportAI</strong> (Inteligencia / Piensa), <strong>2) ProsperIA CRM</strong> (Operación / Opera), <strong>3) Agencia Prosper IA</strong> (Implementación / Implementa) y <strong>4) SVE90 y AZ Academy</strong> (Transformación / Transforma y Capacita). Un solo ecosistema comercial sin fricción.
+                Las consultoras tradicionales entregan diagnósticos teóricos en PowerPoint y las agencias revenden herramientas sueltas que no controlan. En <strong>Agencia ProsperIA somos consultores que programan</strong> y operamos nuestra propia infraestructura de 4 capas (PassportAI, ProsperIA CRM, Ingeniería de Integración y AZ Academy): te entregamos el sistema funcionando en producción.
               </p>
             </div>
           </details>
 
           <details class="faq-item glass-panel">
             <summary class="faq-question">
-              <span>¿Cuáles son las dos rutas de implementación y cómo saber cuál necesita mi empresa?</span>
+              <span>2. ¿Cómo sé si necesito la Ruta 1 (10 Días) o la Ruta 2 (Transformación SVE90)?</span>
               <span class="faq-icon">+</span>
             </summary>
             <div class="faq-answer">
               <p>
-                Operamos bajo la regla estratégica: <strong>"entrar por ventas y expandir por procesos"</strong>. Ofrecemos dos rutas según su complejidad:
-              </p>
-              <ul style="margin: 0.75rem 0 0.75rem 1.25rem; font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6;">
-                <li><strong>Ruta 1 (Activación Vertical):</strong> Go-Live en 10 días hábiles. Para negocios con oferta validada que necesitan resolver de inmediato su fuga comercial (captación, respuesta inmediata 24/7 y agenda en WhatsApp con ProsperIA CRM).</li>
-                <li><strong>Ruta 2 (Transformación Empresarial SVE90):</strong> 30, 60 o 90 días (paquetes Arranque, Crecimiento, Expansión). Para medianas empresas y corporativos con múltiples áreas, ERPs legados (SAP, Salesforce), RAG privado corporativo y empleados digitales supervisados.</li>
-              </ul>
-            </div>
-          </details>
-
-          <details class="faq-item glass-panel">
-            <summary class="faq-question">
-              <span>¿Qué es PassportAI y cómo complementa las implementaciones de la agencia?</span>
-              <span class="faq-icon">+</span>
-            </summary>
-            <div class="faq-answer">
-              <p>
-                PassportAI es nuestra propia plataforma SaaS de producción e inteligencia (<a href="https://passportai.app" target="_blank" rel="noopener" class="inline-link">passportai.app</a>), creada por Edward Jiménez. Centraliza modelos de frontera (Claude 3.7, GPT-4o, Gemini 2.5), 5 constructores guiados de activos de negocio, DeepSearch documental y canvas multimodal. Opera tanto como plataforma SaaS independiente como el motor de investigación y creación que alimenta las implementaciones de la agencia.
+                Si tu urgencia principal es dejar de perder prospectos en WhatsApp/Instagram y sistematizar tu pipeline comercial sin inflar nómina, comienzas con la <strong>Ruta 1 (Go-Live en 10 días hábiles)</strong>. Si diriges una operación multi-área que necesita conectar ERPs (SAP, Salesforce), desplegar un Cerebro Corporativo Privado (RAG) y reducir OPEX, aplicas a la <strong>Ruta 2 (SVE90 en 30, 60 o 90 días)</strong>.
               </p>
             </div>
           </details>
 
           <details class="faq-item glass-panel">
             <summary class="faq-question">
-              <span>¿Qué es un Fractional Chief AI Officer y cuándo lo necesita una organización?</span>
+              <span>3. ¿Cómo garantizan que nuestros contratos, precios y bases de datos no se filtren a IAs públicas?</span>
               <span class="faq-icon">+</span>
             </summary>
             <div class="faq-answer">
               <p>
-                Es un director ejecutivo de inteligencia artificial a tiempo parcial. Define la estrategia tecnológica de la empresa, supervisa modelos, audita proveedores de software, optimiza el consumo de tokens y reporta directamente al Directorio o CEO, sin el costo fijo de contratar un ejecutivo senior de tiempo completo ($250k+/año).
+                Implementamos arquitecturas RAG privadas bajo acuerdos de <strong>Zero-Data Retention</strong>, control de acceso por roles (RBAC) y firma de convenio de confidencialidad (NDA). Tu información confidencial jamás se utiliza para entrenar modelos públicos.
               </p>
             </div>
           </details>
 
           <details class="faq-item glass-panel">
             <summary class="faq-question">
-              <span>¿Qué es un RAG privado o cerebro corporativo y cómo protege nuestros datos confidenciales?</span>
+              <span>4. ¿Qué pasa si mi equipo no es técnico o se resiste a usar nuevas herramientas?</span>
               <span class="faq-icon">+</span>
             </summary>
             <div class="faq-answer">
               <p>
-                RAG (Retrieval-Augmented Generation) es una arquitectura donde la IA responde consultando exclusivamente los documentos y bases de datos privadas de la empresa (manuales, contratos, políticas, balances). En Prosper IA implementamos RAG privado con aislamiento <strong>Zero-Data Retention</strong> y control de acceso por roles (RBAC). Su información confidencial nunca se comparte con modelos públicos ni se usa para reentrenar IAs públicas.
+                Diseñamos bajo el principio de la <strong>Interfaz Oculta</strong> (la IA opera sobre los canales que tu equipo ya usa, como WhatsApp, el CRM o tu ERP) y acompañamos cada entrega con capacitación práctica por rol en <strong>AZ Academy</strong> para garantizar el 100% de adopción.
               </p>
             </div>
           </details>
 
           <details class="faq-item glass-panel">
             <summary class="faq-question">
-              <span>¿Cómo asegura Prosper IA que el equipo interno adopte los sistemas implementados?</span>
+              <span>5. ¿Cuál es el modelo de inversión y atienden fuera de Estados Unidos?</span>
               <span class="faq-icon">+</span>
             </summary>
             <div class="faq-answer">
               <p>
-                A través de la quinta A de SVE90 (Adopción) y la infraestructura formativa de <strong>AZ Academy</strong>. No dejamos al cliente solo con un manual de 100 páginas: capacitamos al operador en su día a día con checklists simples y al directivo en gobernanza y medición de KPIs, asegurando que la tecnología sea operada y no quede abandonada.
-              </p>
-            </div>
-          </details>
-
-          <details class="faq-item glass-panel">
-            <summary class="faq-question">
-              <span>¿Atienden empresas fuera de Estados Unidos?</span>
-              <span class="faq-icon">+</span>
-            </summary>
-            <div class="faq-answer">
-              <p>
-                Sí. Agencia ProsperIA LLC tiene sede en Miami, Florida, y atiende empresas en Estados Unidos, Latinoamérica y España, en español e inglés. Las sesiones de diagnóstico, la arquitectura técnica y el acompañamiento se realizan de forma remota y con despliegue seguro en la nube.
-              </p>
-            </div>
-          </details>
-
-          <details class="faq-item glass-panel">
-            <summary class="faq-question">
-              <span>¿Cuál es el modelo de inversión y cómo se mide el retorno financiero?</span>
-              <span class="faq-icon">+</span>
-            </summary>
-            <div class="faq-answer">
-              <p>
-                Trabajamos con proyectos cerrados por fases (cuota de activación de 10 días o paquetes SVE90 de 30/60/90 días) combinados con planes de continuidad y soporte. En la sesión de diagnóstico calculamos la viabilidad económica con los datos reales de su empresa y solo recomendamos avanzar cuando el modelo financiero demuestra un retorno de inversión claro sobre el costo de la implementación.
+                Desde nuestra sede en Miami, Florida, atendemos empresas en <strong>Estados Unidos, Latinoamérica y España</strong>. Trabajamos con proyectos llave en mano por fases cerradas y solo recomendamos avanzar cuando el Business Case de la sesión diagnóstica demuestra un retorno financiero claro sobre la inversión.
               </p>
             </div>
           </details>
 
         </div>
 
-      </div>
-    </section>
-
-    <!-- FINAL CALL TO ACTION CARD -->
-    <section class="section final-cta-section">
-      <div class="container">
-        <div class="final-cta-card glass-panel text-center">
-          <div class="section-tag">EL LIDERAZGO NO SE IMPROVISA</div>
-          <h2 class="final-cta-title">La Era de la Super Inteligencia Comenzó.<br><span class="gradient-text">Construya su Ventaja Operativa Hoy.</span></h2>
-          <p class="final-cta-desc">
-            Agende una sesión ejecutiva confidencial de 45 minutos con nuestro equipo de consultoría en inteligencia artificial. Analizaremos sus cuellos de botella y le presentaremos una hoja de ruta concreta con estimación de ROI.
-          </p>
-          <div class="final-cta-actions">
-            <button class="btn btn-primary btn-xl glow-btn" onclick="openDiagnosticModal('CierreFinal')">
-              <span>Agendar Sesión de Diagnóstico Ejecutivo</span>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </button>
-          </div>
-          <p class="cta-guarantee">Sesión 100% confidencial · Dirigida a Dueños, CEOs, COOs y Directores Generales · Agencia ProsperIA LLC · Miami, FL</p>
-        </div>
       </div>
     </section>
 

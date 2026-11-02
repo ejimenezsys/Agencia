@@ -5,6 +5,7 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+  initCineTunnel();
   initTabs();
   initROI();
   initModal();
@@ -661,3 +662,590 @@ function initHeaderScroll() {
     }
   });
 }
+
+/* ==========================================================================
+   3D Z-AXIS TUNNEL & EYE-PORTAL ENGINE (Ulises Aldana Architecture for ProsperIA)
+   - Exact Eye Pupil Target: (52.97%, 24.64%) on edward_hero_depth.webp
+   - Spring Physics (stiffness: 85, damping: 26, mass: 0.25)
+   - CSS3D Perspective 1500px Chapters (-10500px -> 0px -> +760px)
+   - Warp Speed Radial Particle Canvas & Floating Hero Particles
+   ========================================================================== */
+
+const EYE_ORIGIN = [0.5297, 0.2464]; // Exact centroid of Edward's viewer-right pupil
+const QS_START_Z = -10500;
+const XS_END_Z = 760;
+
+// Chapter weights & offsets (exact formula from ulisesaldana.com: Eg=0.08, 0.92^a)
+const CHAPTER_LEAD = 0.08;
+const CHAPTER_WEIGHTS = (() => {
+  const raw = Array.from({ length: 7 }, (_, a) => Math.pow(0.92, a));
+  const sum = raw.reduce((s, a) => s + a, 0);
+  return raw.map(s => s * (1 - CHAPTER_LEAD) / sum);
+})();
+const CHAPTER_STARTS = CHAPTER_WEIGHTS.reduce((acc, _, idx) => {
+  acc.push(idx ? acc[idx - 1] + CHAPTER_WEIGHTS[idx - 1] : CHAPTER_LEAD);
+  return acc;
+}, []);
+
+function clamp01(n) {
+  return n < 0 ? 0 : n > 1 ? 1 : n;
+}
+
+// Piecewise linear interpolation (matches Framer Motion useTransform `G(val, inArr, outArr)`)
+function mapRange(val, inArr, outArr) {
+  if (val <= inArr[0]) return outArr[0];
+  const last = inArr.length - 1;
+  if (val >= inArr[last]) return outArr[last];
+  for (let i = 1; i <= last; i++) {
+    if (val <= inArr[i]) {
+      const t = (val - inArr[i - 1]) / (inArr[i] - inArr[i - 1] || 1);
+      return outArr[i - 1] + t * (outArr[i] - outArr[i - 1]);
+    }
+  }
+  return outArr[last];
+}
+
+function getActiveChapterIndex(qProg) {
+  let bestIdx = 0;
+  let bestDist = Infinity;
+  for (let a = 0; a < 6; a++) {
+    const d = Math.abs(qProg - (CHAPTER_STARTS[a] + CHAPTER_WEIGHTS[a] * 0.65));
+    if (d < bestDist) {
+      bestDist = d;
+      bestIdx = a;
+    }
+  }
+  return bestIdx;
+}
+
+function scrollToTunnelPhase(normProgress) {
+  const track = document.getElementById('cine-track');
+  if (!track) return;
+  const trackTop = track.getBoundingClientRect().top + window.scrollY;
+  const scrollable = Math.max(1, track.offsetHeight - window.innerHeight);
+  window.scrollTo({
+    top: trackTop + clamp01(normProgress) * scrollable,
+    behavior: 'smooth'
+  });
+}
+window.scrollToTunnelPhase = scrollToTunnelPhase;
+
+function scrollToChapter(chapterIdx) {
+  const idx = Math.max(0, Math.min(5, chapterIdx));
+  // Center of visibility of chapter `idx` is at ~48% of its [f, h] window
+  const f = CHAPTER_STARTS[idx];
+  const h = f + CHAPTER_WEIGHTS[idx] + CHAPTER_WEIGHTS[idx + 1];
+  const qTarget = f + (h - f) * 0.48;
+  // q maps from overall progress [0.34, 0.96]
+  const overallTarget = 0.34 + qTarget * (0.96 - 0.34);
+  scrollToTunnelPhase(overallTarget);
+}
+window.scrollToChapter = scrollToChapter;
+
+function initCineTunnel() {
+  const track = document.getElementById('cine-track');
+  const sticky = document.getElementById('cine-sticky');
+  if (!track || !sticky) return;
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced) return;
+
+  // DOM References
+  const globalScrollLine = document.getElementById('global-scroll-line');
+  const heroCapas = document.getElementById('hero-capas');
+  const heroBokeh = document.getElementById('hero-bokeh');
+  const heroPartWrap = document.getElementById('hero-particulas-wrap');
+  const heroFigura = document.getElementById('hero-figura');
+  const heroFiguraZoom = document.getElementById('hero-figura-zoom');
+  const heroReticle = document.getElementById('hero-eye-reticle');
+  const heroVelo = document.getElementById('hero-velo');
+  const heroTunel = document.getElementById('hero-tunel');
+  const heroTitulos = document.getElementById('hero-titulos');
+  const heroTitulosBlur = document.getElementById('hero-titulos-blur');
+  const heroCredenciales = document.getElementById('hero-credenciales');
+
+  const warpWrap = document.getElementById('cine-particulas-wrap');
+  const vueloOrigen = document.getElementById('vuelo-origen');
+  const vueloCifras = document.getElementById('vuelo-cifras');
+  const counterNodes = vueloCifras ? Array.from(vueloCifras.querySelectorAll('b[data-counter-target]')) : [];
+  const ascensoMetodo = document.getElementById('ascenso-metodo');
+
+  const capaEscape = document.getElementById('cine-capa-escape');
+  const journeyIntro = document.getElementById('journey-intro');
+  const chapterEls = Array.from(document.querySelectorAll('.journey-chapter')).map(el => ({
+    root: el,
+    copy: el.querySelector('.journey-copy'),
+    letter: el.querySelector('.journey-letter'),
+    visual: el.querySelector('.journey-visual')
+  }));
+  const journeySalida = document.getElementById('journey-salida');
+  const stepBtns = Array.from(document.querySelectorAll('#journey-step-list .journey-step-btn'));
+  const journeyProgBar = document.getElementById('journey-progress-bar');
+  const journeyHint = document.getElementById('journey-scroll-hint');
+
+  const cineCromo = document.getElementById('cine-cromo');
+  const cineVelVal = document.getElementById('cine-vel-val');
+  const cineBarraFill = document.getElementById('cine-barra-fill');
+
+  let isMobile = window.matchMedia('(max-width: 860px)').matches;
+  window.matchMedia('(max-width: 860px)').addEventListener('change', e => {
+    isMobile = e.matches;
+    measureEyeTransform();
+  });
+
+  // Dynamic Eye Target Measurement (exact math from `fE` in ulisesaldana.com)
+  const eyeMetrics = { ox: '52.97%', oy: '24.64%', k: 16.5, dx: 0, dy: 0 };
+  function measureEyeTransform() {
+    if (!heroFigura || !sticky) return;
+    const figW = heroFigura.offsetWidth;
+    const figH = heroFigura.offsetHeight;
+    const stW = sticky.clientWidth;
+    const stH = sticky.clientHeight;
+    if (!figW || !figH || !stW || !stH) return;
+
+    const eyeX = heroFigura.offsetLeft + EYE_ORIGIN[0] * figW;
+    const eyeY = heroFigura.offsetTop + EYE_ORIGIN[1] * figH;
+
+    eyeMetrics.ox = (EYE_ORIGIN[0] * figW).toFixed(1) + 'px';
+    eyeMetrics.oy = (EYE_ORIGIN[1] * figH).toFixed(1) + 'px';
+    eyeMetrics.k = isMobile ? 13.5 : 17.5;
+    eyeMetrics.dx = stW / 2 - eyeX;
+    eyeMetrics.dy = stH / 2 - eyeY;
+
+    if (heroFiguraZoom) {
+      heroFiguraZoom.style.transformOrigin = `${eyeMetrics.ox} ${eyeMetrics.oy}`;
+    }
+  }
+  measureEyeTransform();
+  const ro = new ResizeObserver(measureEyeTransform);
+  if (heroFigura) ro.observe(heroFigura);
+  ro.observe(sticky);
+
+  // Subtle Pointer Parallax on Hero Portrait
+  let mouseX = 0;
+  let mouseY = 0;
+  window.addEventListener('pointermove', e => {
+    if (isMobile) return;
+    mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+    mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+  }, { passive: true });
+
+  // Spring State (stiffness: 85, damping: 26, mass: 0.25)
+  let targetProgress = 0;
+  let smoothProgress = 0;
+  let velocity = 0;
+  let currentActiveChap = -1;
+  const warpProgressRef = { current: 0 };
+
+  function computeRawProgress() {
+    const rect = track.getBoundingClientRect();
+    const scrollable = Math.max(1, track.offsetHeight - window.innerHeight);
+    targetProgress = clamp01(-rect.top / scrollable);
+
+    // Global page progress line
+    if (globalScrollLine) {
+      const docMax = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      globalScrollLine.style.height = (clamp01(window.scrollY / docMax) * 100).toFixed(1) + '%';
+    }
+  }
+  computeRawProgress();
+  window.addEventListener('scroll', computeRawProgress, { passive: true });
+  window.addEventListener('resize', computeRawProgress, { passive: true });
+
+  // Render Frame at 60fps
+  function applyTunnelFrame(O) {
+    // Phase 1: Hero & Eye Zoom [0.00 -> 0.23]
+    const K = clamp01(O / 0.34); // Normalized pre-chapter progress [0..1]
+    const Zn = 0.055; // Eye zoom start inside K
+    const an = 0.58;  // Eye zoom end inside K
+
+    const bokehScale = mapRange(K, [0, an], [1.04, 1.34]);
+    const bokehOp = mapRange(K, [0, Zn, 0.45], [1, 1, 0]);
+    const veloOp = mapRange(K, [0, 0.16, 0.38], [1, 1, 0]);
+    const tunelOp = mapRange(K, [0.18, 0.42, an + 0.04, an + 0.16], [0, 1, 1, 0]);
+    const partOp = mapRange(K, [0, 0.06, 0.26, 0.45], [0.4, 1, 0.7, 0]);
+
+    const zoomLinear = clamp01((K - Zn) / (an - Zn));
+    const zoomScale = 1 + (eyeMetrics.k - 1) * Math.pow(zoomLinear, 2.5);
+    const zoomDx = eyeMetrics.dx * Math.pow(zoomLinear, 1.55);
+    const zoomDy = eyeMetrics.dy * Math.pow(zoomLinear, 1.55);
+    const figOp = mapRange(K, [an - 0.08, an + 0.02], [1, 0]);
+    const heroCapasOp = mapRange(O, [0.22, 0.26], [1, 0]);
+
+    const parallaxFade = mapRange(K, [0, Zn * 1.4], [1, 0]);
+    const px = mouseX * 8 * parallaxFade;
+    const py = mouseY * 5 * parallaxFade;
+
+    if (heroCapas) heroCapas.style.opacity = heroCapasOp.toFixed(3);
+    if (heroBokeh) {
+      heroBokeh.style.opacity = bokehOp.toFixed(3);
+      heroBokeh.style.transform = `translate3d(${(mouseX * -14).toFixed(1)}px, ${(mouseY * -9).toFixed(1)}px, 0) scale(${bokehScale.toFixed(3)})`;
+    }
+    if (heroPartWrap) {
+      heroPartWrap.style.opacity = partOp.toFixed(3);
+    }
+    if (heroVelo) heroVelo.style.opacity = veloOp.toFixed(3);
+    if (heroTunel) heroTunel.style.opacity = tunelOp.toFixed(3);
+
+    if (heroFigura) {
+      heroFigura.style.opacity = figOp.toFixed(3);
+      heroFigura.style.transform = `translate3d(${px.toFixed(1)}px, ${py.toFixed(1)}px, 0)`;
+    }
+    if (heroFiguraZoom) {
+      heroFiguraZoom.style.transform = `translate3d(${zoomDx.toFixed(1)}px, ${zoomDy.toFixed(1)}px, 0) scale(${zoomScale.toFixed(3)})`;
+    }
+    if (heroReticle) {
+      const retOp = mapRange(zoomLinear, [0, 0.08, 0.42, 0.65], [0.75, 1, 0.9, 0]);
+      heroReticle.style.opacity = retOp.toFixed(3);
+    }
+
+    // Hero Titles fade & upward glide
+    const titOp = mapRange(K, [0, 0.03, 0.15, 0.25], [1, 1, 1, 0]);
+    const titY = mapRange(K, [0, 0.28], [0, -48]);
+    const titBlurOp = mapRange(K, [0.16, 0.21, 0.27], [0, 0.55, 0]);
+    if (heroTitulos) {
+      heroTitulos.style.opacity = titOp.toFixed(3);
+      heroTitulos.style.transform = isMobile
+        ? `translate3d(0, ${titY.toFixed(1)}px, 0)`
+        : `translate3d(0, calc(-50% + ${titY.toFixed(1)}px), 0)`;
+      heroTitulos.style.pointerEvents = titOp > 0.25 ? 'auto' : 'none';
+    }
+    if (heroTitulosBlur) {
+      heroTitulosBlur.style.opacity = titBlurOp.toFixed(3);
+      heroTitulosBlur.style.transform = isMobile
+        ? `translate3d(0, ${titY.toFixed(1)}px, 0)`
+        : `translate3d(0, calc(-50% + ${titY.toFixed(1)}px), 0)`;
+    }
+    if (heroCredenciales) {
+      heroCredenciales.style.opacity = titOp.toFixed(3);
+    }
+
+    // Phase 2: Mid-Tunnel Flight Statements & Animated Counters [0.17 -> 0.35]
+    const origenWin = [0.50, 0.56, 0.72, 0.78];
+    const cifrasWin = [0.56, 0.62, 0.78, 0.84];
+    const metodoWin = [0.83, 0.88, 0.96, 1.0];
+
+    const origenOp = mapRange(K, origenWin, [0, 1, 1, 0]);
+    const origenY = mapRange(K, [origenWin[0], origenWin[3]], [26, -26]);
+    if (vueloOrigen) {
+      vueloOrigen.style.opacity = origenOp.toFixed(3);
+      vueloOrigen.style.transform = `translate3d(0, ${origenY.toFixed(1)}px, 0)`;
+    }
+
+    const cifrasOp = mapRange(K, cifrasWin, [0, 1, 1, 0]);
+    const cifrasY = mapRange(K, [cifrasWin[0], cifrasWin[3]], [28, -28]);
+    if (vueloCifras) {
+      vueloCifras.style.opacity = cifrasOp.toFixed(3);
+      vueloCifras.style.transform = `translate3d(0, ${cifrasY.toFixed(1)}px, 0)`;
+    }
+
+    if (cifrasOp > 0.01 && counterNodes.length) {
+      const cProg = clamp01((K - cifrasWin[0]) / (cifrasWin[2] - cifrasWin[0]));
+      const eased = 1 - Math.pow(1 - cProg, 2.4);
+      counterNodes.forEach(node => {
+        const target = parseInt(node.getAttribute('data-counter-target') || '0', 10);
+        const prefix = node.getAttribute('data-prefix') || '';
+        const suffix = node.getAttribute('data-suffix') || '';
+        node.textContent = prefix + Math.round(target * eased) + suffix;
+      });
+    }
+
+    const metodoOp = mapRange(K, metodoWin, [0, 1, 1, 0]);
+    const metodoY = mapRange(K, [metodoWin[0], metodoWin[3]], [30, -30]);
+    if (ascensoMetodo) {
+      ascensoMetodo.style.opacity = metodoOp.toFixed(3);
+      ascensoMetodo.style.transform = `translate3d(0, ${metodoY.toFixed(1)}px, 0)`;
+    }
+
+    // Phase 3: 6-Chapter 3D Z-Axis Tunnel [0.33 -> 0.98]
+    const q = clamp01((O - 0.34) / (0.96 - 0.34));
+    warpProgressRef.current = clamp01((O - 0.14) / 0.84);
+
+    const warpOp = mapRange(O, [0.12, 0.20, 0.94, 0.995], [0, 1, 1, 0]);
+    if (warpWrap) warpWrap.style.opacity = warpOp.toFixed(3);
+
+    const escapeLayerOp = mapRange(O, [0.325, 0.345, 0.965, 0.992], [0, 1, 1, 0]);
+    if (capaEscape) {
+      capaEscape.style.opacity = escapeLayerOp.toFixed(3);
+      capaEscape.style.pointerEvents = escapeLayerOp > 0.2 ? 'auto' : 'none';
+    }
+
+    const introOp = mapRange(q, [0.0, 0.06, 0.12], [1, 1, 0]);
+    if (journeyIntro) journeyIntro.style.opacity = introOp.toFixed(3);
+
+    // Update each of the 6 3D Chapters (exact `tE` math from ulisesaldana.com)
+    chapterEls.forEach((ch, r) => {
+      const f = CHAPTER_STARTS[r];
+      const h = f + CHAPTER_WEIGHTS[r] + CHAPTER_WEIGHTS[r + 1];
+      const m = QS_START_Z - r * 1200;
+      const y = XS_END_Z + r * 220;
+      const v = clamp01((q - f) / (h - f));
+
+      const zPos = mapRange(v, [0, 0.17, 0.30, 0.37, 0.62, 0.70, 0.84, 1], [m, m * 0.52, -1500, 0, 60, 320, 620, y]);
+      const op = mapRange(v, [0, 0.12, 0.20, 0.34, 0.64, 0.76, 0.86], [0, 0, 0.34, 1, 1, 0.3, 0]);
+      const blurVal = mapRange(v, [0, 0.30, 0.37, 0.62, 0.72, 1], [10, 4, 0, 0, 5.5, 12]);
+      const splitL = clamp01((v - 0.62) / (1 - 0.62));
+
+      ch.root.style.opacity = op.toFixed(3);
+      if (op <= 0.005) {
+        ch.root.style.visibility = 'hidden';
+        return;
+      }
+      ch.root.style.visibility = 'visible';
+      ch.root.style.transform = `translate3d(0px, 0px, ${zPos.toFixed(1)}px)`;
+
+      const copyX = isMobile ? '0vw' : (-splitL * 74).toFixed(2) + 'vw';
+      const copyY = isMobile ? (-splitL * 30).toFixed(2) + 'vh' : '0vh';
+      const visX = isMobile ? '0vw' : (splitL * 70).toFixed(2) + 'vw';
+      const visY = isMobile ? (splitL * 34).toFixed(2) + 'vh' : '0vh';
+
+      const copyBlur = blurVal * 0.6 < 0.1 ? 'none' : `blur(${(blurVal * 0.6).toFixed(2)}px)`;
+      const visBlur = blurVal < 0.06 ? 'none' : `blur(${blurVal.toFixed(2)}px)`;
+
+      if (ch.copy) {
+        ch.copy.style.transform = `translate3d(${copyX}, ${copyY}, -70px)`;
+        ch.copy.style.filter = copyBlur;
+      }
+      if (ch.visual) {
+        ch.visual.style.transform = `translate3d(${visX}, ${visY}, 150px)`;
+        ch.visual.style.filter = visBlur;
+      }
+      if (ch.letter) {
+        const clipPct = mapRange(v, [0.18, 0.40], [100, 0]);
+        ch.letter.style.clipPath = `inset(0 0 0 ${clipPct.toFixed(1)}%)`;
+      }
+    });
+
+    // Exit CTA button at end of tunnel
+    const salidaOp = mapRange(q, [0.92, 0.96], [0, 1]);
+    const salidaY = mapRange(q, [0.92, 0.98], [26, 0]);
+    if (journeySalida) {
+      journeySalida.style.opacity = salidaOp.toFixed(3);
+      journeySalida.style.transform = `translate3d(0, calc(-50% + ${salidaY.toFixed(1)}px), 0)`;
+      journeySalida.style.pointerEvents = salidaOp > 0.4 ? 'auto' : 'none';
+    }
+
+    // Step indicator & progress bar
+    const activeChap = getActiveChapterIndex(q);
+    if (activeChap !== currentActiveChap) {
+      currentActiveChap = activeChap;
+      stepBtns.forEach((btn, idx) => {
+        btn.classList.toggle('is-active', idx === activeChap);
+      });
+    }
+    if (journeyProgBar) {
+      journeyProgBar.style.width = (q * 100).toFixed(1) + '%';
+    }
+    if (journeyHint) {
+      journeyHint.style.opacity = mapRange(q, [0.08, 0.20], [1, 0]).toFixed(2);
+    }
+
+    // HUD Chrome & Speedometer
+    const cromoOp = mapRange(O, [0.005, 0.025, 0.965, 0.998], [0, 1, 1, 0]);
+    if (cineCromo) cineCromo.style.opacity = cromoOp.toFixed(3);
+    if (cineBarraFill) cineBarraFill.style.transform = `scaleX(${O.toFixed(4)})`;
+    if (cineVelVal) {
+      const velNum = 1 + clamp01(O / 0.94) * 9.0;
+      cineVelVal.textContent = velNum.toFixed(1);
+    }
+  }
+
+  // Spring Physics Loop (stiffness: 85, damping: 26, mass: 0.25)
+  let lastTime = performance.now();
+  function tickSpring(now) {
+    const dt = Math.min(0.04, (now - lastTime) / 1000);
+    lastTime = now;
+
+    const stiffness = 85;
+    const damping = 26;
+    const mass = 0.25;
+    const force = -stiffness * (smoothProgress - targetProgress) - damping * velocity;
+    const accel = force / mass;
+    velocity += accel * dt;
+    smoothProgress += velocity * dt;
+
+    if (Math.abs(targetProgress - smoothProgress) < 0.00005 && Math.abs(velocity) < 0.00005) {
+      smoothProgress = targetProgress;
+      velocity = 0;
+    }
+
+    applyTunnelFrame(clamp01(smoothProgress));
+    requestAnimationFrame(tickSpring);
+  }
+  requestAnimationFrame(tickSpring);
+
+  // Initialize Canvases
+  initHeroParticlesCanvas(isMobile);
+  initWarpParticlesCanvas(warpProgressRef, isMobile);
+}
+
+/* ---------------- Floating Hero Neural Particles Canvas (`dE`) ---------------- */
+function initHeroParticlesCanvas(isMobile) {
+  const canvas = document.getElementById('hero-particulas-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const count = isMobile ? 32 : 58;
+
+  const spawn = () => ({
+    x: Math.random(),
+    y: Math.random(),
+    r: Math.random() * 2.1 + 0.7,
+    vx: (Math.random() - 0.5) * 0.012,
+    vy: -(Math.random() * 0.015 + 0.004),
+    a: Math.random() * 0.5 + 0.2,
+    f: Math.random() * Math.PI * 2,
+    capa: Math.random() < 0.4 ? 0.55 : 1,
+    cyan: Math.random() > 0.35
+  });
+
+  const particles = Array.from({ length: count }, spawn);
+
+  function resize() {
+    const r = canvas.getBoundingClientRect();
+    canvas.width = Math.max(1, Math.round(r.width * dpr));
+    canvas.height = Math.max(1, Math.round(r.height * dpr));
+  }
+  resize();
+  new ResizeObserver(resize).observe(canvas);
+
+  let prev = performance.now();
+  function draw(now) {
+    const dt = Math.min(0.05, (now - prev) / 1000);
+    prev = now;
+    const W = canvas.width;
+    const H = canvas.height;
+    ctx.clearRect(0, 0, W, H);
+
+    for (const p of particles) {
+      p.x += p.vx * dt;
+      p.y += p.vy * dt;
+      p.f += dt * 1.1;
+      if (p.y < -0.05) {
+        Object.assign(p, spawn(), { y: 1.05 });
+      }
+      const alpha = p.a * (0.55 + 0.45 * Math.sin(p.f));
+      const rad = p.r * dpr * p.capa;
+      const gx = p.x * W;
+      const gy = p.y * H;
+      const grad = ctx.createRadialGradient(gx, gy, 0, gx, gy, rad * 4);
+      const rgb = p.cyan ? '0, 240, 255' : '168, 85, 247';
+      grad.addColorStop(0, `rgba(${rgb}, ${(alpha * 0.85).toFixed(3)})`);
+      grad.addColorStop(1, `rgba(${rgb}, 0)`);
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(gx, gy, rad * 4, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+  requestAnimationFrame(draw);
+}
+
+/* ---------------- Warp Speed Z-Tunnel Canvas (`uE` from ulisesaldana.com) ---------------- */
+function initWarpParticlesCanvas(progressRef, isMobile) {
+  const canvas = document.getElementById('cine-warp-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const count = isMobile ? 68 : 138;
+
+  const spawn = () => {
+    const R = Math.random();
+    return {
+      a: Math.random() * Math.PI * 2,
+      r: Math.random() * 0.16 + 0.02,
+      v: 0.3 + R * 1.35,
+      b: (0.22 + R * 0.78) * (Math.random() * 0.4 + 0.6),
+      capa: R,
+      hue: Math.random() > 0.28 ? '0, 240, 255' : '168, 85, 247'
+    };
+  };
+
+  const streaks = Array.from({ length: count }, spawn);
+
+  function resize() {
+    const r = canvas.getBoundingClientRect();
+    canvas.width = Math.max(1, Math.round(r.width * dpr));
+    canvas.height = Math.max(1, Math.round(r.height * dpr));
+  }
+  resize();
+  new ResizeObserver(resize).observe(canvas);
+
+  let prev = performance.now();
+  function draw(now) {
+    const dt = Math.min(0.05, (now - prev) / 1000);
+    prev = now;
+    const V = clamp01(progressRef.current);
+    const P = 0.06 + V * 0.32;
+    const A = clamp01((V - 0.8) / 0.2);
+
+    const W = canvas.width;
+    const H = canvas.height;
+    const cx = W / 2;
+    const cy = H * 0.5;
+    const maxR = Math.hypot(W, H) / 2;
+
+    ctx.clearRect(0, 0, W, H);
+    ctx.lineCap = 'round';
+
+    for (const s of streaks) {
+      s.r += dt * P * s.v * (1 + A * 3.4);
+      if (s.r > 1.25) {
+        Object.assign(s, spawn());
+      }
+      const tailLen = (0.008 + V * 0.052 + A * 0.15) * (0.35 + s.capa);
+      const r0 = Math.max(0, s.r - tailLen);
+      const x0 = cx + Math.cos(s.a) * r0 * maxR;
+      const y0 = cy + Math.sin(s.a) * r0 * maxR;
+      const x1 = cx + Math.cos(s.a) * s.r * maxR;
+      const y1 = cy + Math.sin(s.a) * s.r * maxR;
+      const fade = Math.min(1, s.r * 3.2) * (1 - clamp01((s.r - 0.95) / 0.3));
+      const alpha = (fade * s.b * (0.36 + A * 0.6)).toFixed(3);
+
+      ctx.strokeStyle = `rgba(${s.hue}, ${alpha})`;
+      ctx.lineWidth = (0.55 + s.capa * 1.75 + A * 0.9) * dpr;
+      ctx.beginPath();
+      ctx.moveTo(x0, y0);
+      ctx.lineTo(x1, y1);
+      ctx.stroke();
+    }
+    requestAnimationFrame(draw);
+  }
+  requestAnimationFrame(draw);
+}
+
+/* ---------------- Interactive Tool Tab Switcher (ROI vs Test) ---------------- */
+function switchInteractiveTool(tool = 'roi') {
+  const roiPanel = document.getElementById('tool-panel-roi');
+  const quizPanel = document.getElementById('test-madurez');
+  const btnRoi = document.getElementById('tab-btn-roi');
+  const btnQuiz = document.getElementById('tab-btn-quiz');
+
+  if (tool === 'quiz') {
+    if (roiPanel) roiPanel.setAttribute('hidden', 'true');
+    if (quizPanel) quizPanel.removeAttribute('hidden');
+    if (btnRoi) {
+      btnRoi.classList.remove('is-active');
+      btnRoi.setAttribute('aria-selected', 'false');
+    }
+    if (btnQuiz) {
+      btnQuiz.classList.add('is-active');
+      btnQuiz.setAttribute('aria-selected', 'true');
+    }
+  } else {
+    if (quizPanel) quizPanel.setAttribute('hidden', 'true');
+    if (roiPanel) roiPanel.removeAttribute('hidden');
+    if (btnQuiz) {
+      btnQuiz.classList.remove('is-active');
+      btnQuiz.setAttribute('aria-selected', 'false');
+    }
+    if (btnRoi) {
+      btnRoi.classList.add('is-active');
+      btnRoi.setAttribute('aria-selected', 'true');
+    }
+  }
+}
+window.switchInteractiveTool = switchInteractiveTool;
+
+

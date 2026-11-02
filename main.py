@@ -1474,6 +1474,18 @@ async def read_harmonypayments(request: Request):
 @app.head("/consultoriadeinteligenciaartificial/")
 @app.get("/consultoriadeinteligenciaartificial.html", response_class=HTMLResponse)
 @app.head("/consultoriadeinteligenciaartificial.html")
+@app.get("/consultoria-inteligencia-artificial", response_class=HTMLResponse)
+@app.head("/consultoria-inteligencia-artificial")
+@app.get("/consultoria-inteligencia-artificial/", response_class=HTMLResponse)
+@app.head("/consultoria-inteligencia-artificial/")
+@app.get("/consultoria-inteligencia-artificial.html", response_class=HTMLResponse)
+@app.head("/consultoria-inteligencia-artificial.html")
+@app.get("/consultoria-de-inteligencia-artificial", response_class=HTMLResponse)
+@app.head("/consultoria-de-inteligencia-artificial")
+@app.get("/consultoria-de-inteligencia-artificial/", response_class=HTMLResponse)
+@app.head("/consultoria-de-inteligencia-artificial/")
+@app.get("/consultoria-de-inteligencia-artificial.html", response_class=HTMLResponse)
+@app.head("/consultoria-de-inteligencia-artificial.html")
 async def read_consultoria_ia(request: Request):
     return templates.TemplateResponse(request=request, name="consultoriadeinteligenciaartificial.html")
 
@@ -1647,7 +1659,7 @@ async def get_llms_txt():
         "y datos para que PyMEs, corporativos, clínicas y profesionales en Estados Unidos, Latinoamérica y España operen y crezcan con menos fricción.\n\n"
         "## Servicios\n"
         "- [Inicio: IA, automatización y sistemas de negocio](https://agenciaprosperia.com/): sistemas que conectan IA, automatización, CRM y estrategia.\n"
-        "- [Consultoría en Inteligencia Artificial](https://agenciaprosperia.com/consultoriadeinteligenciaartificial): consultoría de IA que termina en sistemas en producción "
+        "- [Consultoría en Inteligencia Artificial](https://agenciaprosperia.com/consultoriadeinteligenciaartificial) (también en https://agenciaprosperia.com/consultoria-inteligencia-artificial): consultoría de IA que termina en sistemas en producción "
         "para PyMEs y corporativos: diagnóstico de madurez, business case, RAG privado, agentes de IA, integración con ERP/CRM, metodología SVE90 de 90 días "
         "y Fractional Chief AI Officer. Incluye definición de consultoría en IA, comparativa y preguntas frecuentes.\n"
         "- [Diagnóstico comercial](https://agenciaprosperia.com/diagnostico): autoevaluación del pipeline comercial.\n"
@@ -1661,7 +1673,7 @@ async def get_llms_txt():
         "## Sobre Edward Jiménez\n"
         "- Fundador de Agencia ProsperIA y AI System Architect, con más de 25 años en integraciones tecnológicas "
         "(sistemas bancarios para Grupo Elektra y Banco Azteca en más de 1,500 sucursales).\n"
-        "- Autor del libro \"Las 4 Inteligencias\", con presentación en EXMA Miami 2026 (4 y 5 de diciembre): https://agenciaprosperia.com/exmamiami\n\n"
+        "- Creador de Los 4 Pilares de Soberanía Empresarial de Agencia ProsperIA y la Metodología SVE90, con conferencia en EXMA Miami 2026 (4 y 5 de diciembre): https://agenciaprosperia.com/exmamiami\n\n"
         "## Redes oficiales\n"
         "- Instagram: https://www.instagram.com/edwardjimenezia/\n"
         "- LinkedIn: https://www.linkedin.com/in/edwardjimenezia/\n"
@@ -1706,6 +1718,11 @@ async def get_sitemap(db: Session = Depends(get_db)):
         '  </url>\n'
         '  <url>\n'
         '    <loc>https://agenciaprosperia.com/consultoriadeinteligenciaartificial</loc>\n'
+        '    <changefreq>weekly</changefreq>\n'
+        '    <priority>0.9</priority>\n'
+        '  </url>\n'
+        '  <url>\n'
+        '    <loc>https://agenciaprosperia.com/consultoria-inteligencia-artificial</loc>\n'
         '    <changefreq>weekly</changefreq>\n'
         '    <priority>0.9</priority>\n'
         '  </url>\n'
