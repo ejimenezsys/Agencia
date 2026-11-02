@@ -28,7 +28,7 @@ load_env_file()
 
 BASE_URL = os.environ.get("UNIPILE_BASE_URL", "https://api32.unipile.com:16298")
 API_KEY = os.environ.get("UNIPILE_API_KEY", "")
-EDWARD_ACCOUNT_ID = os.environ.get("UNIPILE_EDWARD_ACCOUNT_ID", "7c0v6JijRjG9Pn97KDMq9A")
+EDWARD_ACCOUNT_ID = os.environ.get("UNIPILE_EDWARD_ACCOUNT_ID", "Mp-utjLbT0uQRGUWWHvVkA")
 
 
 class UnipileClient:
