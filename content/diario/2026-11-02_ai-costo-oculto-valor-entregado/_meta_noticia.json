@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-02",
+  "slug": "ai-costo-oculto-valor-entregado",
+  "title": "Stop counting tokens, start counting what ships",
+  "executive_summary": "La medición del rendimiento de la IA basada únicamente en el consumo de tokens es engañosa. La IA productiva, que realiza tareas complejas (planificación, testing, corrección), consume hasta 50 veces más tokens que un chat básico, generando un costo oculto significativo. La implicación económica radica en la necesidad de pivotar las métricas hacia el 'valor entregado' y el impacto en los resultados de negocio para asegurar la soberanía financiera y estratégica.",
+  "verified_sources": [
+    {
+      "title": "MIT Technology Review AI: Stop counting tokens, start counting what ships",
+      "url": "https://www.technologyreview.com/2026/11/02/1147702/stop-counting-tokens-start-counting-what-ships/"
+    }
+  ],
+  "affected_pillars": [
+    "Aumento Tecnológico",
+    "Estratégico",
+    "Financiero"
+  ],
+  "sve90_phase": "Auditoría de Procesos y Tareas",
+  "core_takeaway": "El valor real de la IA no se mide por los tokens consumidos, sino por su capacidad de ejecutar tareas complejas que entregan resultados cuantificables, requiriendo un cambio radical en la forma de medir y gobernar la inversión tecnológica para asegurar la soberanía empresarial."
+}

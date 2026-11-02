@@ -1,0 +1,20 @@
+--- Tweet 1/7 ---
+🛑 Paradójico: Contamos 'tokens' para medir la IA, pero lo que realmente importa es lo que se *entrega*. Y ahí, el costo se multiplica x50. ¿Tu Directorio lo sabe? Abro hilo con evidencia 👇🧵
+
+--- Tweet 2/7 ---
+El MIT Technology Review lo advierte: la IA que resuelve problemas complejos (planifica, genera, testea, corrige) consume 10 a 50 veces más tokens que un chat. La métrica 'token' es un engaño para medir el valor.
+
+--- Tweet 3/7 ---
+El 78% de las empresas ya usa IA (Stanford HAI 2025). Pero, ¿cuántas saben el costo *real* de lo que esa IA "envía"? No es lo mismo un prompt que un ciclo completo de trabajo.
+
+--- Tweet 4/7 ---
+La OIT dice que el 25% de la fuerza laboral está expuesta a IA, pero el efecto dominante es la *transformación* de tareas, no el reemplazo. Esto cambia el mapa de valor de lo que hacemos.
+
+--- Tweet 5/7 ---
+Anthropic revela que el 57% de los usos de IA son para *aumentar* la capacidad humana vs. 43% de automatización. La IA es un multiplicador de talento, pero su "precio" no es el que crees.
+
+--- Tweet 6/7 ---
+Bajo la Metodología SVE90 (Auditoría, Automatización, Adopción), hay que mapear el *valor entregado*. Los 4 Pilares de Soberanía Empresarial exigen dejar de contar insumos y medir resultados tangibles.
+
+--- Tweet 7/7 ---
+Si su Directorio sigue contando tokens, está midiendo lo obsoleto y perdiendo margen. Es hora de gobernar la IA por su capacidad de "enviar" valor crítico. Análisis completo aquí: https://agenciaprosperia.com/blog/ai-costo-oculto-valor-entregado
