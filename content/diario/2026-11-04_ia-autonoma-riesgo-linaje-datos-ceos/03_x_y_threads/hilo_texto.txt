@@ -1,0 +1,20 @@
+--- Tweet 1/7 ---
+La autonomía de la IA es una bomba de tiempo si ignora el linaje de datos. MIT alerta: agentes de IA manejan datos sensibles sin supervisión humana. Esto no es eficiencia, es riesgo. Abro hilo con evidencia 👇🧵 #IA #CEO
+
+--- Tweet 2/7 ---
+El escenario del MIT es claro: un agente AI saca precios de sistemas restringidos, otro lo usa para una propuesta. Cero validación humana. ¿Su negocio puede permitirse ese nivel de ceguera operativa? #DataLineage
+
+--- Tweet 3/7 ---
+El linaje de datos es la cadena de custodia digital. Es la base de la confianza, la compliance y la seguridad. Sin él, un error en la fuente se amplifica exponencialmente a través de la 'empresa agéntica'. La reputación está en juego. #RiesgoOperacional
+
+--- Tweet 4/7 ---
+La OIT dice que el 25% de la fuerza laboral está expuesta a IA, transformando tareas más que reemplazando. Cada tarea transformada por IA, sin linaje, es un nuevo punto de fricción y riesgo oculto. #OIT #FuturoDelTrabajo
+
+--- Tweet 5/7 ---
+La evidencia de Anthropic (57% aumento vs 43% automatización) es clave: la IA debe potenciar el talento, no sustituir el criterio. La automatización ciega es una deuda, no un activo. #Anthropic #AumentoHumano
+
+--- Tweet 6/7 ---
+¿Cómo gobernar este riesgo? Con la Metodología SVE90 de ProsperIA: 1. Auditoría: mapee los flujos de IA. 2. Automatización: incorpore gobernanza y 'human-in-the-loop'. 3. Adopción: establezca políticas y trazabilidad. #SVE90
+
+--- Tweet 7/7 ---
+No delegue la soberanía de su empresa a la IA. Gobiérnela. La advertencia del MIT es una llamada a la acción directiva. El futuro de su margen y reputación depende de ello. Análisis completo: https://agenciaprosperia.com/blog/ia-autonoma-riesgo-linaje-datos-ceos

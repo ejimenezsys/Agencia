@@ -273,6 +273,7 @@ def sync_blog_posts(db):
                 article = json.loads(article_path.read_text(encoding="utf-8"))
                 if article.get("status") != "published":
                     continue
+                synced_slugs.add(article["slug"])
                 values = {
                     "title": article["title"],
                     "category": article.get("lane", "laboratorio-prosperia"),
@@ -290,5 +291,10 @@ def sync_blog_posts(db):
                         setattr(existing_article, key, value)
             except Exception as e:
                 print(f"Error syncing {article_path}: {e}")
+
+    # Limpiar artículos huérfanos o duplicados retirados de content/editorial_published
+    for row in db.query(BlogPost).all():
+        if row.slug not in synced_slugs:
+            db.delete(row)
 
     db.commit()

@@ -921,14 +921,96 @@ def render_pdf_carousel(slides: List[Dict[str, Any]], output_pdf: Path) -> bool:
             pass
 
 
+def generate_photorealistic_cover_gemini(
+    title: str,
+    subtitle: str,
+    lane_name: str,
+    output_path: Path,
+) -> bool:
+    """Genera una portada fotorrealista ejecutiva 16:9 usando Gemini Image API (estilo Dark Luxury Cyan/Navy)."""
+    import base64
+    from io import BytesIO
+    import requests
+
+    api_key = os.environ.get("GEMINI_API_KEY")
+    if not api_key:
+        env_file = BASE_DIR / ".env"
+        if env_file.exists():
+            for line in env_file.read_text(encoding="utf-8").splitlines():
+                line = line.strip()
+                if line.startswith("GEMINI_API_KEY=") and not line.startswith("#"):
+                    api_key = line.split("=", 1)[1].strip().strip("'\"")
+                    break
+    if not api_key:
+        return False
+
+    prompt = (
+        f"Generate a cinematic, photorealistic 16:9 widescreen executive editorial photograph for a high-level "
+        f"technology and business intelligence publication. "
+        f"Topic: '{title}'. Context: '{subtitle}'. Category: '{lane_name}'. "
+        f"Visual style: Dark luxury corporate aesthetic, deep navy blue (#020710) and glowing electric cyan (#00e5ff) "
+        f"and warm gold accents, C-suite boardroom or mission-critical AI operations command center with sleek "
+        f"transparent holographic data visualizations, architectural glass, dramatic rim lighting, ultra-sharp 8k photography. "
+        f"Do NOT include large paragraphs of text, watermarks, or website URLs."
+    )
+
+    for model_name in ("gemini-3.1-flash-image", "gemini-2.5-flash-image"):
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={api_key}"
+        payload = {
+            "contents": [{"parts": [{"text": prompt}]}],
+            "generationConfig": {"responseModalities": ["TEXT", "IMAGE"]},
+        }
+        try:
+            resp = requests.post(url, json=payload, timeout=75)
+            if resp.status_code != 200:
+                print(f"[Cover IA Aviso] {model_name} HTTP {resp.status_code}: {resp.text[:160]}")
+                continue
+            data = resp.json()
+            for cand in data.get("candidates", []):
+                for part in cand.get("content", {}).get("parts", []):
+                    if "inlineData" in part:
+                        raw_bytes = base64.b64decode(part["inlineData"]["data"])
+                        img = Image.open(BytesIO(raw_bytes)).convert("RGB")
+                        output_path.parent.mkdir(parents=True, exist_ok=True)
+                        img.save(output_path, "JPEG", quality=92)
+                        print(f"✓ Portada fotorrealista IA generada con {model_name}: {output_path.name} ({output_path.stat().st_size // 1024} KB)")
+                        return True
+        except Exception as e:
+            print(f"[Cover IA Aviso] Error con {model_name}: {e}")
+    return False
+
+
 def render_blog_cover_pillow(
     title: str,
     subtitle: str,
     lane_name: str,
     output_path: Path,
 ) -> Path:
-    """Genera una portada ejecutiva 1200x750 JPG en estilo Dark Luxury para PROSPERIA Intelligence."""
+    """Genera una portada ejecutiva para PROSPERIA Intelligence priorizando imagen fotorrealista IA."""
     output_path.parent.mkdir(parents=True, exist_ok=True)
+    if generate_photorealistic_cover_gemini(title=title, subtitle=subtitle, lane_name=lane_name, output_path=output_path):
+        return output_path
+
+    # Respaldo fotorrealista curado (cuando Gemini Image API alcanza límite de cuota en CI)
+    curated_pool = [
+        BASE_DIR / "static/blog/ia-autonoma-riesgo-linaje-datos-ceos.jpg",
+        BASE_DIR / "static/blog/agentes-ia-calidad-insight-soberania-empresarial.jpg",
+        BASE_DIR / "static/blog/ai-costo-oculto-valor-entregado.jpg",
+        BASE_DIR / "static/blog/de-herramientas-a-agentes-autonomos-obsolescencia-software.jpg",
+        BASE_DIR / "static/blog/gobernanza-infraestructura-critica-lecciones-bancarias-edward-jimenez.jpg",
+        BASE_DIR / "static/blog/stanford-ai-index-adopcion-empresarial-desarme-tareas.jpg",
+        BASE_DIR / "static/blog/agentes-autonomos-disrupcion-software.jpg",
+        BASE_DIR / "static/blog/metodologia-sve90-auditoria-automatizacion-adopcion-empresas.jpg",
+    ]
+    available_photos = [p for p in curated_pool if p.exists() and p.resolve() != output_path.resolve() and p.stat().st_size > 300_000]
+    if available_photos:
+        import hashlib
+        idx = int(hashlib.md5(output_path.stem.encode("utf-8")).hexdigest(), 16) % len(available_photos)
+        src_img = Image.open(available_photos[idx]).convert("RGB")
+        src_img.save(output_path, "JPEG", quality=92)
+        print(f"✓ Portada fotorrealista asignada desde acervo ejecutivo: {output_path.name}")
+        return output_path
+
     width, height = 1200, 750
     base_img = Image.new("RGBA", (width, height), color=COLOR_BG)
 

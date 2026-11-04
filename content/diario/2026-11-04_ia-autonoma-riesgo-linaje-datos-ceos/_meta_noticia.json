@@ -1,0 +1,24 @@
+{
+  "date": "2026-11-04",
+  "slug": "ia-autonoma-riesgo-linaje-datos-ceos",
+  "title": "Securing the agentic enterprise with data lineage",
+  "executive_summary": "La autonomía de agentes de IA en el manejo de datos críticos (precios, propuestas) sin supervisión humana directa, tal como advierte MIT Technology Review AI, representa un riesgo fundamental para la soberanía, la integridad y el valor de las operaciones empresariales. La ausencia de linaje de datos en procesos automatizados expone a las organizaciones a decisiones erróneas, incumplimiento regulatorio y daño reputacional, impactando directamente en el margen y la confianza directiva.",
+  "verified_sources": [
+    {
+      "title": "MIT Technology Review AI: Securing the agentic enterprise with data lineage",
+      "url": "https://www.technologyreview.com/2026/11/04/1147596/securing-the-agentic-enterprise-with-data-lineage/"
+    },
+    {
+      "title": "Anthropic Economic Index: 57% Aumento vs 43% Automatización",
+      "url": "https://www.anthropic.com/research/the-anthropic-economic-index"
+    }
+  ],
+  "affected_pillars": [
+    "Aumento Tecnológico",
+    "Estratégico",
+    "Financiero",
+    "Emocional"
+  ],
+  "sve90_phase": "Auditoría de Procesos y Tareas",
+  "core_takeaway": "La gobernanza del linaje de datos es el pilar olvidado de la adopción de IA en la empresa agéntica. Sin supervisión humana y trazabilidad, la supuesta eficiencia se convierte en una peligrosa delegación de la soberanía empresarial que los CEOs no pueden permitirse."
+}
