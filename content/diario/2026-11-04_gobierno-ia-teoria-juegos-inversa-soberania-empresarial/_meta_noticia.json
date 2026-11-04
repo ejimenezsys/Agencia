@@ -1,0 +1,20 @@
+{
+  "date": "2026-11-03",
+  "slug": "gobierno-ia-teoria-juegos-inversa-soberania-empresarial",
+  "title": "How “reverse game theory” could keep AI agents in check",
+  "executive_summary": "La \"Teoría de Juegos Inversa\" es un nuevo enfoque para alinear agentes de IA con objetivos humanos, diseñando sistemas que incentivan su adhesión a reglas. Esto es crítico para CEOs, ya que aborda el riesgo de IA \"rebelde\" y subraya la necesidad de una gobernanza proactiva para mantener la soberanía empresarial y evitar la desalineación de decisiones estratégicas y operativas.",
+  "verified_sources": [
+    {
+      "title": "MIT Technology Review AI: How “reverse game theory” could keep AI agents in check",
+      "url": "https://www.technologyreview.com/2026/11/03/1147934/reverse-game-theory-mechanism-design-ai-alignment/"
+    }
+  ],
+  "affected_pillars": [
+    "Aumento Tecnológico",
+    "Estratégico",
+    "Financiero",
+    "Emocional"
+  ],
+  "sve90_phase": "Auditoría de Procesos y Tareas",
+  "core_takeaway": "La era de la IA requiere un gobierno proactivo de sus incentivos y comportamientos, no solo una implementación técnica. La soberanía empresarial depende de la alineación intencional de los agentes de IA con los objetivos estratégicos y éticos de la dirección."
+}
