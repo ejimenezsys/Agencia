@@ -1,0 +1,20 @@
+{
+  "date": "2026-11-04",
+  "slug": "texas-ai-data-center-riesgo-geopolitico-soberania",
+  "title": "Texas: Centro de Datos de IA en Riesgo Político",
+  "executive_summary": "La victoria demócrata en Texas pone en riesgo su liderazgo como hub de centros de datos de IA, revelando la vulnerabilidad de la infraestructura tecnológica global a los cambios geopolíticos. Implica una necesidad urgente para los CEOs de reevaluar la soberanía tecnológica y la resiliencia operativa de sus empresas ante disrupciones súbitas.",
+  "verified_sources": [
+    {
+      "title": "MIT Technology Review AI: Texas was the new epicenter of the AI data center buildout. That might be kaput.",
+      "url": "https://www.technologyreview.com/2026/11/04/1148043/texas-was-the-new-epicenter-of-the-ai-data-center-buildout-that-might-be-kaput/"
+    }
+  ],
+  "affected_pillars": [
+    "Aumento Tecnológico",
+    "Estratégico",
+    "Financiero",
+    "Emocional"
+  ],
+  "sve90_phase": "Auditoría de Procesos y Tareas",
+  "core_takeaway": "La geopolítica es un factor crítico en la planificación de infraestructura de IA; la soberanía del cómputo y del dato es esencial para la continuidad del negocio y la resiliencia estratégica, exigiendo una auditoría proactiva de dependencias y riesgos."
+}
