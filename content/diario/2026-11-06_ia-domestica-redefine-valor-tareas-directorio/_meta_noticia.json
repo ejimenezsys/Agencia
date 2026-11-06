@@ -1,0 +1,28 @@
+{
+  "date": "2026-11-06",
+  "slug": "ia-domestica-redefine-valor-tareas-directorio",
+  "title": "El robot que limpia tu apartamento y la incómoda verdad sobre el valor de tus tareas directivas",
+  "executive_summary": "La aparición de un robot humanoide limpiando un apartamento, verificada por MIT Technology Review, señala una disrupción fundamental: la IA ya no es futura, es presente. Esta señal implica una redefinición del valor de las tareas empresariales. El 78% de organizaciones usa IA (Stanford 2025), transformando tareas más que reemplazando empleos (OIT), y aumentando capacidad humana en 57% (Anthropic). CEOs y Directores deben gobernar esta IA a través de los 4 Pilares de Soberanía Empresarial y la Metodología SVE90 (Auditoría, Automatización, Adopción) para proteger el criterio directivo y asegurar la ventaja competitiva.",
+  "verified_sources": [
+    {
+      "title": "MIT Technology Review AI: I watched a humanoid robot clean my apartment. It felt like a taste of the future.",
+      "url": "https://www.technologyreview.com/2026/11/06/1148090/i-watched-a-humanoid-robot-clean-my-apartment-it-felt-like-a-taste-of-the-future/"
+    },
+    {
+      "title": "Metodología SVE90 - Agencia ProsperIA",
+      "url": "https://agenciaprosperia.com/#sistema"
+    },
+    {
+      "title": "Stanford AI Index 2025 - Integración Sectorial",
+      "url": "https://hai.stanford.edu/ai-index/2025-ai-index-report"
+    }
+  ],
+  "affected_pillars": [
+    "Aumento Tecnológico",
+    "Estratégico",
+    "Financiero",
+    "Emocional"
+  ],
+  "sve90_phase": "Auditoría de Procesos y Tareas",
+  "core_takeaway": "La IA en el ámbito doméstico es un síntoma de una redefinición global del valor de las tareas. Los CEOs deben liderar la auditoría, automatización y gobernanza de la IA para potenciar el criterio humano y asegurar la soberanía empresarial, en lugar de esperar la disrupción pasivamente."
+}
