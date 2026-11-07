@@ -616,6 +616,15 @@
     @media (min-width: 640px) and (max-width: 1023px) {
       .tab-collection { flex: 0 1 auto; }
     }
+    .max-h-\[420px\] { max-height: 420px; }
+    .max-h-\[320px\] { max-height: 320px; }
+    .border-emerald-500\/40 { border-color: rgba(16, 185, 129, 0.4); }
+    .border-emerald-500\/30 { border-color: rgba(16, 185, 129, 0.3); }
+    .bg-emerald-500\/20 { background-color: rgba(16, 185, 129, 0.2); }
+    .bg-emerald-950\/80 { background-color: rgba(2, 44, 34, 0.8); }
+    .text-emerald-300 { color: #6ee7b7; }
+    .hover\:border-emerald-400:hover { border-color: #34d399; }
+    .shadow-\[0_0_30px_rgba\(16\,185\,129\,0\.15\)\] { box-shadow: 0 0 30px rgba(16, 185, 129, 0.15); }
   </style>
 </head>
 <body class="min-h-screen flex flex-col relative selection:bg-cyan-500 selection:text-slate-950">
@@ -793,7 +802,7 @@
     <!-- Social Proof Metrics Bar -->
     <div class="flex items-center justify-center mb-3">
       <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-semibold bg-slate-900/90 border border-slate-700/80 text-slate-300 shadow-sm">
-        <i class="fas fa-check-circle text-emerald-400 text-[10px]"></i> Datos verificados · Corte a finales de Octubre 2026
+        <i class="fas fa-check-circle text-emerald-400 text-[10px]"></i> Datos verificados · Corte Noviembre 2026
       </span>
     </div>
     <div class="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-4 max-w-5xl mx-auto mb-8">
@@ -806,8 +815,8 @@
         <div class="text-[11px] sm:text-xs text-slate-300 mt-1 font-medium">ProsperIA FB</div>
       </div>
       <div class="glass-panel p-3.5 sm:p-4 rounded-2xl text-center border-pink-500/30 shadow-[0_0_20px_rgba(236,72,153,0.15)] flex flex-col justify-center">
-        <div class="text-2xl sm:text-3xl font-extrabold text-pink-400 font-heading">4,379</div>
-        <div class="text-[11px] sm:text-xs text-slate-300 mt-1 font-medium">Seguidores en IG y contando</div>
+        <div class="text-2xl sm:text-3xl font-extrabold text-pink-400 font-heading">5,428</div>
+        <div class="text-[11px] sm:text-xs text-slate-300 mt-1 font-medium">Seguidores en IG (@edwardjimenezia)</div>
       </div>
       <div class="glass-panel p-3 sm:p-3.5 rounded-2xl text-center border-emerald-500/30 shadow-[0_0_20px_rgba(16,185,129,0.15)] flex flex-col justify-between">
         <div>
@@ -845,7 +854,7 @@
             <!-- Recurso 1: Foto / Reel en Instagram -->
             <a href="https://www.instagram.com/p/DevKN1lMYOB/" target="_blank" rel="noopener" class="group relative w-full sm:w-1/2 max-w-[240px] rounded-2xl overflow-hidden border border-pink-500/40 bg-black shadow-[0_10px_30px_rgba(236,72,153,0.25)] hover:border-pink-400 hover:scale-[1.03] transition-all duration-300 block" title="Ver Reel en Instagram">
               <div class="relative aspect-[9/16] overflow-hidden">
-                <img src="/static/reel_ltx_video_thumb.jpg?v=20261026_1142" alt="Reel Viral LTX Video con IA - Edward Jiménez" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy">
+                <img src="/static/reel_ltx_video_thumb.jpg?v=20261026_1142" alt="Reel Viral LTX Video con IA - Edward Jiménez" width="540" height="960" fetchpriority="high" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/30"></div>
                 <div class="absolute top-2.5 left-2.5">
                   <span class="px-2 py-0.5 rounded-md text-[9px] font-extrabold uppercase tracking-wider bg-pink-950/80 text-pink-300 border border-pink-500/50 backdrop-blur-md">
@@ -931,16 +940,53 @@
     </div>
 
     <!-- Pantallas Reales Ordenadas de Resultados y Social Proof -->
-    <div class="max-w-5xl mx-auto mb-10 sm:mb-14">
+    <div class="max-w-6xl mx-auto mb-10 sm:mb-14">
       <div class="text-center mb-5">
         <span class="px-3.5 py-1 rounded-full text-[11px] font-mono font-bold uppercase tracking-wider bg-slate-900 border border-slate-700 text-slate-300 inline-flex items-center gap-2 shadow-md">
-          <i class="fas fa-chart-line text-cyan-400"></i> Pantallas Oficiales · Resultados de Agencia ProsperIA &amp; Edward Jiménez <span class="text-emerald-400 font-normal">· Corte a finales de Octubre 2026</span>
+          <i class="fas fa-chart-line text-cyan-400"></i> Pantallas Oficiales · Resultados de Agencia ProsperIA &amp; Edward Jiménez <span class="text-emerald-400 font-normal">· Datos verificados · Corte Noviembre 2026</span>
         </span>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6 items-stretch">
+      <!-- Fila 1: Alcance Orgánico y Viralidad en Instagram y Facebook -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 items-stretch mb-8">
         
-        <!-- Pantalla 1: Reel Viral 592K -->
+        <!-- Pantalla 1: Nuevo Perfil IG 5,428 Seguidores + 109K Reel LTX -->
+        <div class="rounded-2xl overflow-hidden border border-pink-500/40 bg-slate-950/85 shadow-[0_0_30px_rgba(244,63,94,0.18)] group hover:border-pink-400 transition-all flex flex-col">
+          <div class="p-3 bg-slate-900/90 border-b border-slate-800 flex items-center justify-between">
+            <span class="text-xs font-bold text-pink-400 flex items-center gap-1.5">
+              <i class="fab fa-instagram text-pink-400"></i> 5,428 Segs + 109K Reel
+            </span>
+            <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-pink-500/20 text-pink-300 border border-pink-500/30">NUEVO</span>
+          </div>
+          <div class="relative overflow-hidden bg-black flex-grow flex items-center justify-center p-1">
+            <img src="/static/proof_ig_perfil_5428_109k.jpg" alt="Perfil oficial @edwardjimenezia con 5,428 seguidores y Reel LTX Video con 109K vistas" width="600" height="450" class="w-full h-auto max-h-[420px] object-cover rounded-xl group-hover:scale-[1.02] transition-transform duration-300" loading="lazy">
+          </div>
+          <div class="p-3 bg-slate-950/90 text-left border-t border-slate-800/80">
+            <p class="text-[11px] text-slate-300 leading-snug">
+              Perfil oficial <strong>@edwardjimenezia</strong> con <strong>5,428 seguidores</strong> y el Reel <em>"Genera Videos con IA Gratis e Ilimitados"</em> superando <strong>109K vistas</strong>.
+            </p>
+          </div>
+        </div>
+
+        <!-- Pantalla 2: Grilla Oficial de Reels 109K + Producción IA -->
+        <div class="rounded-2xl overflow-hidden border border-pink-500/40 bg-slate-950/85 shadow-[0_0_30px_rgba(244,63,94,0.18)] group hover:border-pink-400 transition-all flex flex-col">
+          <div class="p-3 bg-slate-900/90 border-b border-slate-800 flex items-center justify-between">
+            <span class="text-xs font-bold text-pink-400 flex items-center gap-1.5">
+              <i class="fas fa-film text-pink-400"></i> Grilla 109K &amp; Reels IA
+            </span>
+            <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-pink-500/20 text-pink-300 border border-pink-500/30">PRODUCCIÓN</span>
+          </div>
+          <div class="relative overflow-hidden bg-black flex-grow flex items-center justify-center p-1">
+            <img src="/static/proof_ig_reels_grid_109k.jpg" alt="Grilla completa de Reels virales con IA superando 109K vistas" width="600" height="500" class="w-full h-auto max-h-[420px] object-cover rounded-xl group-hover:scale-[1.02] transition-transform duration-300" loading="lazy">
+          </div>
+          <div class="p-3 bg-slate-950/90 text-left border-t border-slate-800/80">
+            <p class="text-[11px] text-slate-300 leading-snug">
+              Dirección de arte y edición con IA que superan <strong>109K, 98.2K y 30.4K vistas</strong> deteniendo el scroll de forma orgánica.
+            </p>
+          </div>
+        </div>
+
+        <!-- Pantalla 3: Reel Viral 592K -->
         <div class="rounded-2xl overflow-hidden border border-amber-500/40 bg-slate-950/85 shadow-[0_0_30px_rgba(245,158,11,0.18)] group hover:border-amber-400 transition-all flex flex-col">
           <div class="p-3 bg-slate-900/90 border-b border-slate-800 flex items-center justify-between">
             <span class="text-xs font-bold text-amber-400 flex items-center gap-1.5">
@@ -949,16 +995,16 @@
             <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">VIRAL</span>
           </div>
           <div class="relative overflow-hidden bg-black flex-grow flex items-center justify-center p-1">
-            <img src="/static/proof_reels_592k.jpg?v=20261026_1125" alt="Reel Viral de IA con +592,000 vistas" class="w-full h-auto max-h-[420px] object-cover rounded-xl group-hover:scale-[1.02] transition-transform duration-300" loading="lazy">
+            <img src="/static/proof_reels_592k.jpg?v=20261026_1125" alt="Reel Viral de IA con +592,000 vistas" width="600" height="750" class="w-full h-auto max-h-[420px] object-cover rounded-xl group-hover:scale-[1.02] transition-transform duration-300" loading="lazy">
           </div>
           <div class="p-3 bg-slate-950/90 text-left border-t border-slate-800/80">
             <p class="text-[11px] text-slate-300 leading-snug">
-              Video con <strong>592K reproducciones</strong>: <em>"Convierte una imagen en video con IA"</em> y alcance masivo de clientes.
+              Video récord con <strong>592K reproducciones</strong>: <em>"Convierte una imagen en video con IA"</em> y alcance masivo de clientes.
             </p>
           </div>
         </div>
 
-        <!-- Pantalla 2: ProsperIA Facebook +13,732 -->
+        <!-- Pantalla 4: ProsperIA Facebook +13,732 -->
         <div class="rounded-2xl overflow-hidden border border-cyan-500/40 bg-slate-950/85 shadow-[0_0_30px_rgba(0,229,255,0.18)] group hover:border-cyan-400 transition-all flex flex-col">
           <div class="p-3 bg-slate-900/90 border-b border-slate-800 flex items-center justify-between">
             <span class="text-xs font-bold text-cyan-400 flex items-center gap-1.5">
@@ -967,29 +1013,76 @@
             <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">AUDIENCIA</span>
           </div>
           <div class="relative overflow-hidden bg-black flex-grow flex items-center justify-center p-1">
-            <img src="/static/proof_fb_followers_13732.jpg?v=20261026_1125" alt="Facebook de ProsperIA con más de 13,700 seguidores" class="w-full h-auto max-h-[420px] object-cover rounded-xl group-hover:scale-[1.02] transition-transform duration-300" loading="lazy">
+            <img src="/static/proof_fb_followers_13732.jpg?v=20261026_1125" alt="Facebook de ProsperIA con más de 13,700 seguidores" width="600" height="750" class="w-full h-auto max-h-[420px] object-cover rounded-xl group-hover:scale-[1.02] transition-transform duration-300" loading="lazy">
           </div>
           <div class="p-3 bg-slate-950/90 text-left border-t border-slate-800/80">
             <p class="text-[11px] text-slate-300 leading-snug">
-              Página oficial con <strong>13,732 seguidores en Facebook</strong> y <strong>4,379 en Instagram</strong> en constante expansión.
+              Página oficial con <strong>13,732 seguidores en Facebook</strong> y <strong>5,428 en Instagram</strong> en constante expansión.
             </p>
           </div>
         </div>
 
-        <!-- Pantalla 3: Catálogo Reels 98.2K y Producción IA -->
-        <div class="rounded-2xl overflow-hidden border border-pink-500/40 bg-slate-950/85 shadow-[0_0_30px_rgba(244,63,94,0.18)] group hover:border-pink-400 transition-all flex flex-col">
+      </div>
+
+      <!-- Fila 2: Prueba Social Financiera Verificada (Hotmart & PassportAI) -->
+      <div class="text-center mb-4">
+        <span class="px-3.5 py-1 rounded-full text-[11px] font-mono font-bold uppercase tracking-wider bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 inline-flex items-center gap-2 shadow-md">
+          <i class="fas fa-check-circle text-emerald-400"></i> Tracción Comercial Verificada · +740 Usuarios Activos en PassportAI y +US$20,000 USD en Ventas en Hotmart
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6 items-stretch">
+
+        <!-- Hotmart 1: Logro Rumbo a US$20,000 -->
+        <div class="rounded-2xl overflow-hidden border border-emerald-500/40 bg-slate-950/85 shadow-[0_0_30px_rgba(16,185,129,0.15)] group hover:border-emerald-400 transition-all flex flex-col">
           <div class="p-3 bg-slate-900/90 border-b border-slate-800 flex items-center justify-between">
-            <span class="text-xs font-bold text-pink-400 flex items-center gap-1.5">
-              <i class="fab fa-instagram text-pink-400"></i> +98.2K &amp; Reels Virales
+            <span class="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
+              <i class="fas fa-trophy text-emerald-400"></i> Hotmart · +US$20,000 USD
             </span>
-            <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-pink-500/20 text-pink-300 border border-pink-500/30">PRODUCCIÓN</span>
+            <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">VERIFICADO</span>
           </div>
           <div class="relative overflow-hidden bg-black flex-grow flex items-center justify-center p-1">
-            <img src="/static/proof_reels_grid_98k.jpg?v=20261026_1125" alt="Catálogo de Reels virales con IA" class="w-full h-auto max-h-[420px] object-cover rounded-xl group-hover:scale-[1.02] transition-transform duration-300" loading="lazy">
+            <img src="/static/proof_hotmart_logro_20k.jpg" alt="Panel de logros de Hotmart rumbo a los US$20,000 USD en ventas" width="800" height="400" class="w-full h-auto max-h-[320px] object-cover rounded-xl group-hover:scale-[1.02] transition-transform duration-300" loading="lazy">
           </div>
           <div class="p-3 bg-slate-950/90 text-left border-t border-slate-800/80">
             <p class="text-[11px] text-slate-300 leading-snug">
-              Dirección de arte y guiones con IA que superan <strong>+98.2K vistas</strong> (como <em>"Un código, cero prompts eternos"</em>) y detienen el scroll.
+              Insignias oficiales desbloqueadas en <strong>Hotmart (JPX International)</strong> superando los <strong>+US$20,000 USD en ventas</strong> del ecosistema.
+            </p>
+          </div>
+        </div>
+
+        <!-- Hotmart 2: +740 Usuarios Activos en Central PassportAI -->
+        <div class="rounded-2xl overflow-hidden border border-emerald-500/40 bg-slate-950/85 shadow-[0_0_30px_rgba(16,185,129,0.15)] group hover:border-emerald-400 transition-all flex flex-col">
+          <div class="p-3 bg-slate-900/90 border-b border-slate-800 flex items-center justify-between">
+            <span class="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
+              <i class="fas fa-users text-emerald-400"></i> +740 Usuarios PassportAI
+            </span>
+            <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">PASSPORTAI</span>
+          </div>
+          <div class="relative overflow-hidden bg-black flex-grow flex items-center justify-center p-1">
+            <img src="/static/proof_hotmart_passportai_ventas.jpg" alt="Transacciones verificadas de Central PassportAI en Hotmart" width="800" height="400" class="w-full h-auto max-h-[320px] object-cover rounded-xl group-hover:scale-[1.02] transition-transform duration-300" loading="lazy">
+          </div>
+          <div class="p-3 bg-slate-950/90 text-left border-t border-slate-800/80">
+            <p class="text-[11px] text-slate-300 leading-snug">
+              Más de <strong>+740 usuarios activos en Central PassportAI</strong> con compras aprobadas de empresas y profesionales en toda Hispanoamérica y EE.UU.
+            </p>
+          </div>
+        </div>
+
+        <!-- Hotmart 3: Facturación Recurrente USD y Euros -->
+        <div class="rounded-2xl overflow-hidden border border-emerald-500/40 bg-slate-950/85 shadow-[0_0_30px_rgba(16,185,129,0.15)] group hover:border-emerald-400 transition-all flex flex-col">
+          <div class="p-3 bg-slate-900/90 border-b border-slate-800 flex items-center justify-between">
+            <span class="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
+              <i class="fas fa-globe-americas text-emerald-400"></i> Ventas en USD &amp; Euros
+            </span>
+            <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">HOTMART</span>
+          </div>
+          <div class="relative overflow-hidden bg-black flex-grow flex items-center justify-center p-1">
+            <img src="/static/proof_hotmart_ingresos_transacciones.jpg" alt="Panel financiero de Hotmart con ingresos en USD y Euros" width="800" height="400" class="w-full h-auto max-h-[320px] object-cover rounded-xl group-hover:scale-[1.02] transition-transform duration-300" loading="lazy">
+          </div>
+          <div class="p-3 bg-slate-950/90 text-left border-t border-slate-800/80">
+            <p class="text-[11px] text-slate-300 leading-snug">
+              Pagos recurrentes verificados en <strong>dólares (USD) y euros (€)</strong> dentro del ecosistema de software y consultoría de <strong>Agencia ProsperIA</strong>.
             </p>
           </div>
         </div>

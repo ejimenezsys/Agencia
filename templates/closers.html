@@ -1,0 +1,1680 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Kickoff Comercial Black November (11:00 AM BUE) | Agencia ProsperIA LLC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --bg-dark: #02040a;
+      --bg-surface: #070b14;
+      --bg-card: rgba(13, 20, 36, 0.86);
+      --bg-card-hover: rgba(18, 28, 50, 0.94);
+      --border-subtle: rgba(255, 255, 255, 0.09);
+      --border-cyan: rgba(0, 229, 255, 0.35);
+      --cyan: #00e5ff;
+      --lavender: #6366f1;
+      --emerald: #10b981;
+      --amber: #f59e0b;
+      --pink: #f43f5e;
+      --text-main: #f8fafc;
+      --text-secondary: #cbd5e1;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background-color: var(--bg-dark);
+      background-image:
+        radial-gradient(circle at 15% 10%, rgba(0, 229, 255, 0.10) 0%, transparent 40%),
+        radial-gradient(circle at 85% 20%, rgba(99, 102, 241, 0.12) 0%, transparent 45%),
+        linear-gradient(to right, rgba(0, 229, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 229, 255, 0.03) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 44px 44px, 44px 44px;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    h1, h2, h3, h4, .font-heading {
+      font-family: 'Space Grotesk', sans-serif;
+      letter-spacing: -0.02em;
+    }
+
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Accessible Focus Ring (modern-web-guidance compliance) */
+    :where(a:any-link, button, input, select, summary):focus-visible {
+      outline: 3px solid var(--cyan);
+      outline-offset: 3px;
+    }
+
+    /* Top Control Bar */
+    .deck-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(4, 8, 18, 0.90);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 10px 20px;
+    }
+
+    .deck-header-inner {
+      max-width: 1440px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .brand-cluster {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      height: 40px;
+      width: 40px;
+      border-radius: 10px;
+      object-fit: cover;
+      border: 1px solid var(--border-cyan);
+    }
+
+    .brand-title {
+      font-weight: 800;
+      font-size: 15px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .badge-live {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.45);
+      color: #6ee7b7;
+    }
+
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 8px #10b981;
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.35); opacity: 0.55; }
+    }
+
+    /* Slide Navigation Pills */
+    .slide-pills {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      overflow-x: auto;
+      padding: 2px 4px;
+      scrollbar-width: none;
+    }
+
+    .slide-pills::-webkit-scrollbar {
+      display: none;
+    }
+
+    .pill-btn {
+      min-height: 34px;
+      min-width: 34px;
+      padding: 6px 11px;
+      border-radius: 10px;
+      border: 1px solid var(--border-subtle);
+      background: rgba(15, 23, 42, 0.75);
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pill-btn:hover {
+      border-color: var(--border-cyan);
+      color: #fff;
+    }
+
+    .pill-btn.active {
+      background: linear-gradient(135deg, #00e5ff 0%, #3b82f6 100%);
+      color: #020617;
+      border-color: #00e5ff;
+      box-shadow: 0 0 18px rgba(0, 229, 255, 0.35);
+    }
+
+    .deck-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ctrl-btn {
+      min-height: 36px;
+      min-width: 36px;
+      padding: 7px 13px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(15, 23, 42, 0.9);
+      color: #f8fafc;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .ctrl-btn:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+      transform: translateY(-1px);
+    }
+
+    .ctrl-btn-primary {
+      background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+      color: #020617;
+      border: none;
+    }
+
+    .ctrl-btn-primary:hover {
+      color: #020617;
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+    }
+
+    /* Progress Bar */
+    .progress-track {
+      width: 100%;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.06);
+      margin-top: 8px;
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 10%;
+      background: linear-gradient(90deg, var(--cyan), var(--lavender), var(--amber));
+      transition: width 0.3s ease;
+    }
+
+    /* Main Stage */
+    main {
+      flex: 1;
+      max-width: 1380px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 26px 20px 60px;
+    }
+
+    .slide-section {
+      display: none;
+      animation: fadeSlide 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .slide-section.active {
+      display: block;
+    }
+
+    body.scroll-all-mode .slide-section {
+      display: block;
+      margin-bottom: 56px;
+      padding-bottom: 48px;
+      border-bottom: 1px dashed rgba(0, 229, 255, 0.22);
+    }
+
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Reusable UI Components */
+    .slide-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      background: rgba(0, 229, 255, 0.1);
+      border: 1px solid rgba(0, 229, 255, 0.3);
+      color: #67e8f9;
+      margin-bottom: 14px;
+    }
+
+    .slide-title {
+      font-size: clamp(1.85rem, 3.3vw, 3rem);
+      font-weight: 800;
+      line-height: 1.12;
+      margin-bottom: 12px;
+      color: #ffffff;
+    }
+
+    .text-gradient-cyan {
+      background: linear-gradient(90deg, #00e5ff, #38bdf8, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .text-gradient-amber {
+      background: linear-gradient(90deg, #fbbf24, #f97316, #fb7185);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .slide-subtitle {
+      font-size: clamp(0.98rem, 1.35vw, 1.15rem);
+      color: var(--text-secondary);
+      max-width: 900px;
+      line-height: 1.55;
+      margin-bottom: 26px;
+    }
+
+    /* Grids & Cards */
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 22px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 20px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(235px, 1fr)); gap: 16px; }
+
+    .glass-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 22px;
+      padding: 24px;
+      box-shadow: 0 20px 45px -15px rgba(0, 0, 0, 0.8);
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .glass-card:hover {
+      border-color: rgba(0, 229, 255, 0.35);
+      box-shadow: 0 22px 50px -12px rgba(0, 229, 255, 0.14);
+    }
+
+    .card-highlight-cyan { border-color: rgba(0, 229, 255, 0.45); background: linear-gradient(160deg, rgba(8, 28, 48, 0.9), rgba(11, 17, 32, 0.92)); }
+    .card-highlight-amber { border-color: rgba(245, 158, 11, 0.5); background: linear-gradient(160deg, rgba(35, 22, 6, 0.92), rgba(12, 14, 24, 0.95)); }
+    .card-highlight-emerald { border-color: rgba(16, 185, 129, 0.45); background: linear-gradient(160deg, rgba(6, 32, 26, 0.92), rgba(11, 17, 32, 0.95)); }
+    .card-highlight-pink { border-color: rgba(244, 63, 94, 0.45); background: linear-gradient(160deg, rgba(38, 10, 24, 0.9), rgba(11, 17, 32, 0.95)); }
+
+    /* KPI Stat Boxes */
+    .stat-number {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1.9rem, 3vw, 2.75rem);
+      font-weight: 800;
+      line-height: 1.05;
+      margin-bottom: 6px;
+    }
+
+    /* Clickable Proof Image Cards */
+    .proof-img-btn {
+      width: 100%;
+      background: #000;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 16px;
+      overflow: hidden;
+      cursor: zoom-in;
+      position: relative;
+      display: block;
+      text-align: left;
+      transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+
+    .proof-img-btn:hover {
+      transform: scale(1.015);
+      border-color: var(--cyan);
+    }
+
+    .proof-img-btn img {
+      width: 100%;
+      height: 310px;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+    }
+
+    .zoom-pill {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background: rgba(2, 6, 23, 0.88);
+      border: 1px solid rgba(0, 229, 255, 0.4);
+      color: #67e8f9;
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* Tables */
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border-radius: 18px;
+      border: 1px solid var(--border-subtle);
+      background: rgba(7, 11, 22, 0.92);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 13.5px;
+    }
+
+    th {
+      background: rgba(15, 23, 42, 0.98);
+      color: #fff;
+      font-weight: 700;
+      padding: 13px 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    td {
+      padding: 13px 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      color: var(--text-secondary);
+      vertical-align: top;
+      line-height: 1.45;
+    }
+
+    tr:hover td {
+      background: rgba(0, 229, 255, 0.04);
+    }
+
+    .price-pill {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-size: 13.5px;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #6ee7b7;
+    }
+
+    .comm-pill {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-size: 13px;
+      background: rgba(245, 158, 11, 0.16);
+      border: 1px solid rgba(245, 158, 11, 0.45);
+      color: #fde68a;
+    }
+
+    /* Squad Roster Slots */
+    .hunter-slot {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+    }
+
+    .hunter-slot.open-vacancy {
+      border: 1px dashed rgba(245, 158, 11, 0.65);
+      background: rgba(245, 158, 11, 0.07);
+    }
+
+    .slot-num {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: rgba(0, 229, 255, 0.15);
+      border: 1px solid rgba(0, 229, 255, 0.35);
+      color: var(--cyan);
+      font-weight: 800;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* Interactive Calculator Sliders */
+    .slider-row {
+      margin-bottom: 16px;
+    }
+
+    .slider-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13.5px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #e2e8f0;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--cyan);
+      cursor: pointer;
+      height: 8px;
+      border-radius: 99px;
+    }
+
+    /* Native Dialog Lightbox */
+    dialog#img-lightbox {
+      margin: auto;
+      max-width: 92vw;
+      max-height: 90vh;
+      background: #030712;
+      color: #fff;
+      border: 1px solid var(--border-cyan);
+      border-radius: 20px;
+      padding: 16px;
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.95);
+    }
+
+    dialog#img-lightbox::backdrop {
+      background: rgba(2, 4, 10, 0.88);
+      backdrop-filter: blur(10px);
+    }
+
+    .lightbox-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .lightbox-img {
+      max-width: 86vw;
+      max-height: 76vh;
+      width: auto;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      border-radius: 12px;
+      object-fit: contain;
+    }
+
+    /* Bottom Fixed Deck Bar */
+    .deck-footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 90;
+      background: rgba(4, 8, 18, 0.92);
+      backdrop-filter: blur(16px);
+      border-top: 1px solid var(--border-subtle);
+      padding: 10px 20px;
+    }
+
+    .deck-footer-inner {
+      max-width: 1380px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .kbd-hint {
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    kbd {
+      background: rgba(30, 41, 59, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 6px;
+      padding: 2px 7px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #e2e8f0;
+    }
+
+    .check-list {
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .check-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.45;
+    }
+
+    .check-list li i {
+      color: var(--emerald);
+      margin-top: 4px;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ════════════════════════════════════════════════════════════════
+       TOP NAVIGATION & SLIDE SELECTOR
+       ════════════════════════════════════════════════════════════════ -->
+  <header class="deck-header">
+    <div class="deck-header-inner">
+      <div class="brand-cluster">
+        <img src="https://agenciaprosperia.com/static/logo_prosper_ia_cropped.jpg" alt="Logo Agencia ProsperIA" width="40" height="40" fetchpriority="high" class="brand-logo">
+        <div>
+          <div class="brand-title">
+            <span>AGENCIA PROSPER IA LLC</span>
+            <span class="badge-live"><span class="pulse-dot" aria-hidden="true"></span> KICKOFF 11:00 AM BUE</span>
+          </div>
+          <div style="font-size: 11px; color: var(--text-muted);">Escuadrón Argentina · Campaña Black November · Método Wolf</div>
+        </div>
+      </div>
+
+      <nav aria-label="Láminas de la presentación" class="slide-pills" id="slide-pills-nav">
+        <button type="button" class="pill-btn active" data-slide="0">1. Bienvenida</button>
+        <button type="button" class="pill-btn" data-slide="1">2. Ecosistema</button>
+        <button type="button" class="pill-btn" data-slide="2">3. Prueba Social</button>
+        <button type="button" class="pill-btn" data-slide="3">4. Las 3 Cajas</button>
+        <button type="button" class="pill-btn" data-slide="4">5. Sitio Inteligente</button>
+        <button type="button" class="pill-btn" data-slide="5">6. Industrias</button>
+        <button type="button" class="pill-btn" data-slide="6">7. Precios Black Nov</button>
+        <button type="button" class="pill-btn" data-slide="7">8. Meta US$6,000</button>
+        <button type="button" class="pill-btn" data-slide="8">9. Regla 100 Leads</button>
+        <button type="button" class="pill-btn" data-slide="9">10. Firma &amp; Arranque</button>
+      </nav>
+
+      <div class="deck-controls">
+        <button type="button" class="ctrl-btn" id="toggle-mode-btn" aria-pressed="false">
+          <i class="fas fa-layer-group" aria-hidden="true"></i>
+          <span id="toggle-mode-label">Ver Todo Corrido</span>
+        </button>
+        <button type="button" class="ctrl-btn" id="fullscreen-btn" aria-label="Activar pantalla completa">
+          <i class="fas fa-expand" aria-hidden="true"></i>
+        </button>
+        <a href="/static/CONTRATO_Y_PROTOCOLO_VENTAS_PROSPER_IA.pdf" target="_blank" rel="noopener" class="ctrl-btn ctrl-btn-primary" style="text-decoration: none;">
+          <i class="fas fa-file-signature" aria-hidden="true"></i>
+          <span>Abrir Contrato PDF</span>
+        </a>
+      </div>
+    </div>
+    <div class="progress-track" aria-hidden="true">
+      <div class="progress-fill" id="deck-progress"></div>
+    </div>
+  </header>
+
+  <!-- ════════════════════════════════════════════════════════════════
+       MAIN PRESENTATION STAGE (10 SLIDES)
+       ════════════════════════════════════════════════════════════════ -->
+  <main id="deck-main">
+
+    <!-- ==============================================================
+         SLIDE 1: BIENVENIDA, VISIÓN Y EL ESCUADRÓN ARGENTINA (8 + 2)
+         ============================================================== -->
+    <section class="slide-section active" data-index="0" aria-labelledby="s1-title">
+      <div class="slide-badge">
+        <i class="fas fa-bolt" aria-hidden="true"></i>
+        <span>Lámina 1 de 10 · Reunión Oficial Kickoff · 11:00 AM Hora Buenos Aires</span>
+      </div>
+      <h1 id="s1-title" class="slide-title">
+        Escuadrón Comercial <span class="text-gradient-cyan">Sitios Inteligentes</span> &amp; Operación <span class="text-gradient-amber">Black November</span>
+      </h1>
+      <p class="slide-subtitle">
+        Bienvenidos a <strong>Agencia Prosper IA LLC (Miami, Florida)</strong>. Hoy integran la fuerza de choque comercial que lleva Inteligencia Artificial real, Sitios Web Inteligentes, Contenido Viral y Tráfico a Clínicas, Profesionales y PYMEs en toda Hispanoamérica y EE. UU.
+      </p>
+
+      <div class="grid-2" style="align-items: stretch;">
+        <!-- Columna Izquierda: Quién Lidera (Edward Jiménez) -->
+        <div class="glass-card card-highlight-cyan" style="display: flex; flex-direction: column; justify-content: space-between;">
+          <div style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap; margin-bottom: 18px;">
+            <img src="https://agenciaprosperia.com/static/edwar_jimenez.jpg?v=1793987472" alt="Edward Jiménez, CEO y Fundador de Agencia ProsperIA" width="120" height="145" fetchpriority="high" style="width: 120px; height: 145px; object-fit: cover; object-position: top; border-radius: 16px; border: 2px solid var(--cyan); box-shadow: 0 10px 25px rgba(0,229,255,0.25);">
+            <div style="flex: 1; min-width: 210px;">
+              <span style="font-size: 11px; font-weight: 800; color: var(--cyan); text-transform: uppercase; letter-spacing: 0.06em;">Liderazgo &amp; Respaldo</span>
+              <h2 style="font-size: 24px; color: #fff; margin: 4px 0;">Edward Jiménez</h2>
+              <p style="font-size: 13px; color: #94a3b8; margin-bottom: 10px;">CEO &amp; Fundador de Agencia ProsperIA LLC y PassportAI · Miami, FL</p>
+              <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                <span style="font-size: 11px; padding: 4px 9px; border-radius: 8px; background: rgba(0,229,255,0.12); border: 1px solid rgba(0,229,255,0.3); color: #a5f3fc; font-weight: 700;">+25 Años Exp. Directiva</span>
+                <span style="font-size: 11px; padding: 4px 9px; border-radius: 8px; background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.4); color: #fde68a; font-weight: 700;">Speaker EXMA Miami 2026</span>
+              </div>
+            </div>
+          </div>
+
+          <ul class="check-list">
+            <li><i class="fas fa-check-circle" aria-hidden="true"></i><span><strong>Arquitectura probada a gran escala:</strong> Lideró la implementación del core bancario en más de <strong>1,500 sucursales</strong> (Grupo Elektra y Banco Azteca).</span></li>
+            <li><i class="fas fa-check-circle" aria-hidden="true"></i><span><strong>Autor del libro «Las 4 Inteligencias»:</strong> Lanzamiento oficial en <strong>EXMA Miami (4 y 5 de diciembre 2026)</strong>.</span></li>
+            <li><i class="fas fa-check-circle" aria-hidden="true"></i><span><strong>Respaldo Técnico Total:</strong> Ustedes cazan y cierran; nuestro equipo técnico y de editores en Miami y LATAM entrega el trabajo en tiempo récord.</span></li>
+          </ul>
+        </div>
+
+        <!-- Columna Derecha: Estructura del Escuadrón Argentina (8 Activos + 2 Vacantes) -->
+        <div class="glass-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
+            <div>
+              <span style="font-size: 11px; font-weight: 800; color: var(--amber); text-transform: uppercase;">Fuerza Full-Cycle (Setter 5% + Closer 10% = 15%)</span>
+              <h2 style="font-size: 21px; color: #fff; margin-top: 2px;">La Manada en Argentina: 2 Células de Caza</h2>
+            </div>
+            <span class="price-pill">1,000 Leads Listos (100 c/u)</span>
+          </div>
+
+          <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 14px;">
+            Hoy arrancamos con los <strong>8 Cazadores convocados en sala</strong> y tenemos <strong>2 posiciones abiertas adicionales</strong> en reclutamiento activo para completar los 10 asientos del Escuadrón:
+          </p>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px;">
+            <div>
+              <div style="font-size: 12px; font-weight: 800; color: var(--cyan); margin-bottom: 8px; text-transform: uppercase;">⚡ Escuadrón Alfa (Célula 1)</div>
+              <div style="display: grid; gap: 7px;">
+                <div class="hunter-slot"><span class="slot-num">01</span><div><strong style="color:#fff; font-size:13px;">Cazador Full-Cycle #1</strong><div style="font-size:11px; color:#6ee7b7;">En Sala · 100 Registros Asignados</div></div></div>
+                <div class="hunter-slot"><span class="slot-num">02</span><div><strong style="color:#fff; font-size:13px;">Cazador Full-Cycle #2</strong><div style="font-size:11px; color:#6ee7b7;">En Sala · 100 Registros Asignados</div></div></div>
+                <div class="hunter-slot"><span class="slot-num">03</span><div><strong style="color:#fff; font-size:13px;">Cazador Full-Cycle #3</strong><div style="font-size:11px; color:#6ee7b7;">En Sala · 100 Registros Asignados</div></div></div>
+                <div class="hunter-slot"><span class="slot-num">04</span><div><strong style="color:#fff; font-size:13px;">Cazador Full-Cycle #4</strong><div style="font-size:11px; color:#6ee7b7;">En Sala · 100 Registros Asignados</div></div></div>
+                <div class="hunter-slot open-vacancy"><span class="slot-num" style="color:var(--amber); border-color:var(--amber); background:rgba(245,158,11,0.15);">05</span><div><strong style="color:#fde68a; font-size:13px;">Vacante Abierta #9 (Reclutando)</strong><div style="font-size:11px; color:#fcd34d;">Bono por referir un Closer A-Player</div></div></div>
+              </div>
+            </div>
+
+            <div>
+              <div style="font-size: 12px; font-weight: 800; color: #a5b4fc; margin-bottom: 8px; text-transform: uppercase;">🐺 Escuadrón Lobo (Célula 2)</div>
+              <div style="display: grid; gap: 7px;">
+                <div class="hunter-slot"><span class="slot-num">06</span><div><strong style="color:#fff; font-size:13px;">Cazador Full-Cycle #5</strong><div style="font-size:11px; color:#6ee7b7;">En Sala · 100 Registros Asignados</div></div></div>
+                <div class="hunter-slot"><span class="slot-num">07</span><div><strong style="color:#fff; font-size:13px;">Cazador Full-Cycle #6</strong><div style="font-size:11px; color:#6ee7b7;">En Sala · 100 Registros Asignados</div></div></div>
+                <div class="hunter-slot"><span class="slot-num">08</span><div><strong style="color:#fff; font-size:13px;">Cazador Full-Cycle #7</strong><div style="font-size:11px; color:#6ee7b7;">En Sala · 100 Registros Asignados</div></div></div>
+                <div class="hunter-slot"><span class="slot-num">09</span><div><strong style="color:#fff; font-size:13px;">Cazador Full-Cycle #8</strong><div style="font-size:11px; color:#6ee7b7;">En Sala · 100 Registros Asignados</div></div></div>
+                <div class="hunter-slot open-vacancy"><span class="slot-num" style="color:var(--amber); border-color:var(--amber); background:rgba(245,158,11,0.15);">10</span><div><strong style="color:#fde68a; font-size:13px;">Vacante Abierta #10 (Reclutando)</strong><div style="font-size:11px; color:#fcd34d;">Bono por referir un Closer A-Player</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================================
+         SLIDE 2: EL PROBLEMA Y NUESTRO ECOSISTEMA EN 4 CAPAS (DEL HOME)
+         ============================================================== -->
+    <section class="slide-section" data-index="1" aria-labelledby="s2-title">
+      <div class="slide-badge">
+        <i class="fas fa-cubes" aria-hidden="true"></i>
+        <span>Lámina 2 de 10 · Qué Empresa Estás Representando (Directo de agenciaprosperia.com)</span>
+      </div>
+      <h2 id="s2-title" class="slide-title">
+        No vendemos páginas sueltas. <span class="text-gradient-cyan">Vendemos un Sistema Conectado.</span>
+      </h2>
+      <p class="slide-subtitle">
+        La frase oficial que todo vendedor de Agencia Prosper IA domina de memoria:
+        <strong style="color:#fff;">«PassportAI piensa. ProsperIA CRM opera. Agencia ProsperIA implementa. SVE90 transforma.»</strong>
+      </p>
+
+      <div class="grid-2" style="align-items: center; margin-bottom: 22px;">
+        <!-- Imagen 3D del Home -->
+        <div>
+          <button type="button" class="proof-img-btn" data-zoom-src="https://agenciaprosperia.com/static/hero_ecosistema_3d.jpg?v=1793987474" data-zoom-title="Arquitectura Oficial en 4 Capas — Agencia ProsperIA">
+            <img src="https://agenciaprosperia.com/static/hero_ecosistema_3d.jpg?v=1793987474" alt="Ecosistema ProsperIA en 3D: PassportAI, ProsperIA CRM, Agencia ProsperIA y SVE90" width="1376" height="768" loading="lazy" style="height: 340px; object-fit: cover;">
+            <span class="zoom-pill"><i class="fas fa-magnifying-glass-plus" aria-hidden="true"></i> Clic para ampliar 3D</span>
+          </button>
+        </div>
+
+        <!-- Los 3 Dolores que matamos -->
+        <div style="display: grid; gap: 14px;">
+          <div class="glass-card" style="padding: 18px; border-left: 4px solid var(--pink);">
+            <h3 style="font-size: 16px; color: #fda4af; margin-bottom: 4px;"><i class="fas fa-triangle-exclamation" aria-hidden="true"></i> Dolor 1: Herramientas Aisladas y Webs Mudas</h3>
+            <p style="font-size: 13px; color: var(--text-secondary);">El empresario tiene una web vieja que parece folleto muerto, responde WhatsApp tarde y anota clientes en cuadernos o Excel.</p>
+          </div>
+          <div class="glass-card" style="padding: 18px; border-left: 4px solid var(--amber);">
+            <h3 style="font-size: 16px; color: #fde68a; margin-bottom: 4px;"><i class="fas fa-hourglass-half" aria-hidden="true"></i> Dolor 2: Fuga de Prospectos en los Primeros 5 Minutos</h3>
+            <p style="font-size: 13px; color: var(--text-secondary);">Si un paciente de clínica o comprador pide informes y nadie le contesta en menos de 1 minuto, le compra a la competencia.</p>
+          </div>
+          <div class="glass-card" style="padding: 18px; border-left: 4px solid var(--cyan);">
+            <h3 style="font-size: 16px; color: #67e8f9; margin-bottom: 4px;"><i class="fas fa-user-lock" aria-hidden="true"></i> Dolor 3: Invisibilidad en Redes Sociales</h3>
+            <p style="font-size: 13px; color: var(--text-secondary);">Saben que necesitan subir Reels y correr anuncios en Meta Ads, pero no tienen tiempo de escribir guiones, editar en CapCut ni configurar campañas.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Las 4 Capas -->
+      <div class="grid-4">
+        <div class="glass-card card-highlight-cyan" style="padding: 18px;">
+          <div style="font-size: 11px; font-weight: 800; color: var(--cyan); text-transform: uppercase;">Capa 1 · Inteligencia</div>
+          <h3 style="font-size: 19px; color: #fff; margin: 4px 0;">PassportAI</h3>
+          <p style="font-size: 12.5px; color: var(--text-secondary);"><strong>PassportAI piensa:</strong> 5 Constructores guiados que crean la oferta, marca, landing y guiones sin saber de prompts.</p>
+        </div>
+        <div class="glass-card" style="padding: 18px; border-color: rgba(99,102,241,0.45);">
+          <div style="font-size: 11px; font-weight: 800; color: #a5b4fc; text-transform: uppercase;">Capa 2 · Operación</div>
+          <h3 style="font-size: 19px; color: #fff; margin: 4px 0;">ProsperIA CRM</h3>
+          <p style="font-size: 12.5px; color: var(--text-secondary);"><strong>ProsperIA CRM opera:</strong> Sitio Web Inteligente (+60 plantillas), Formulario, Chatbot IA 24/7, Agenda y Pipeline.</p>
+        </div>
+        <div class="glass-card card-highlight-emerald" style="padding: 18px;">
+          <div style="font-size: 11px; font-weight: 800; color: #6ee7b7; text-transform: uppercase;">Capa 3 · Implementación</div>
+          <h3 style="font-size: 19px; color: #fff; margin: 4px 0;">Agencia ProsperIA</h3>
+          <p style="font-size: 12.5px; color: var(--text-secondary);"><strong>Agencia implementa:</strong> Configuración llave en mano, Edición Viral (Equipo 744K vistas) y Trafficker Meta Ads.</p>
+        </div>
+        <div class="glass-card card-highlight-amber" style="padding: 18px;">
+          <div style="font-size: 11px; font-weight: 800; color: #fde68a; text-transform: uppercase;">Capa 4 · Corporativo</div>
+          <h3 style="font-size: 19px; color: #fff; margin: 4px 0;">SVE90 Enterprise</h3>
+          <p style="font-size: 12.5px; color: var(--text-secondary);"><strong>SVE90 transforma:</strong> Proyectos de US$2,500 a US$10,000 para empresas de +15 empleados con procesos complejos.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================================
+         SLIDE 3: PRUEBA SOCIAL REAL (EXTRAÍDA DE AGENCIAPROSPERIA.COM/CODIGOS)
+         ============================================================== -->
+    <section class="slide-section" data-index="2" aria-labelledby="s3-title">
+      <div class="slide-badge">
+        <i class="fas fa-chart-line" aria-hidden="true"></i>
+        <span>Lámina 3 de 10 · Prueba Social Verificada en Vivo (agenciaprosperia.com/codigos)</span>
+      </div>
+      <h2 id="s3-title" class="slide-title">
+        Cuando el Cliente Pide Testimonios: <span class="text-gradient-amber">Mostramos Datos Reales</span>
+      </h2>
+      <p class="slide-subtitle">
+        Muchos prospectos preguntan: <em>«¿Y qué resultados han tenido ustedes?»</em>. Aquí tienes la munición real auditada en nuestras cuentas y en Hotmart para cerrar sin titubear:
+      </p>
+
+      <!-- Barra de 4 Grandes Métricas de Autoridad -->
+      <div class="grid-4" style="margin-bottom: 22px;">
+        <div class="glass-card card-highlight-amber" style="padding: 18px; text-align: center;">
+          <div class="stat-number" style="color: #fbbf24;">+744,000</div>
+          <div style="font-size: 13px; font-weight: 700; color: #fff;">Visualizaciones Orgánicas</div>
+          <div style="font-size: 11.5px; color: #fde68a; margin-top: 4px;"><strong>640K en Facebook + 104K en Instagram</strong> con nuestros 3 editores</div>
+        </div>
+        <div class="glass-card card-highlight-cyan" style="padding: 18px; text-align: center;">
+          <div class="stat-number" style="color: #00e5ff;">+592,000</div>
+          <div style="font-size: 13px; font-weight: 700; color: #fff;">Vistas en 1 Solo Reel Viral</div>
+          <div style="font-size: 11.5px; color: #a5f3fc; margin-top: 4px;"><em>"Convierte una imagen en video con IA"</em> (Captura oficial abajo)</div>
+        </div>
+        <div class="glass-card card-highlight-emerald" style="padding: 18px; text-align: center;">
+          <div class="stat-number" style="color: #34d399;">+740</div>
+          <div style="font-size: 13px; font-weight: 700; color: #fff;">Usuarios Activos en PassportAI</div>
+          <div style="font-size: 11.5px; color: #6ee7b7; margin-top: 4px;"><strong>+US$20,000 USD en ventas en Hotmart</strong> verificadas</div>
+        </div>
+        <div class="glass-card card-highlight-pink" style="padding: 18px; text-align: center;">
+          <div class="stat-number" style="color: #fb7185;">+19,160</div>
+          <div style="font-size: 13px; font-weight: 700; color: #fff;">Seguidores de Negocios</div>
+          <div style="font-size: 11.5px; color: #fda4af; margin-top: 4px;"><strong>13,732 en Facebook + 5,428 en Instagram</strong> + Reel LTX con <strong>109K vistas</strong></div>
+        </div>
+      </div>
+
+      <!-- Fila 1: Las 3 Capturas de Redes Sociales (Actualizadas con las nuevas pantallas de IG 5,428 segs y 109K vistas) -->
+      <h3 style="font-size: 16px; color: #67e8f9; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em;">
+        <i class="fas fa-photo-film" aria-hidden="true"></i> 1. Evidencia Real en Redes Sociales (+744K Vistas · 592K + 109K Reels · 5,428 Seguidores IG)
+      </h3>
+      <div class="grid-4" style="margin-bottom: 22px;">
+        <div class="glass-card" style="padding: 14px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px;">
+            <span style="font-size: 11.5px; font-weight: 800; color: #fb7185;"><i class="fab fa-instagram" aria-hidden="true"></i> PERFIL IG · 5,428 SEGS + 109K</span>
+            <span style="font-size: 9.5px; padding: 2px 7px; border-radius: 6px; background: rgba(244,63,94,0.2); color: #fda4af; font-weight: 700;">NUEVO</span>
+          </div>
+          <button type="button" class="proof-img-btn" data-zoom-src="/static/proof_ig_perfil_5428_109k.jpg" data-zoom-title="Instagram Oficial @edwardjimenezia: 5,428 Seguidores y Reel LTX Video con 109K Vistas">
+            <img src="/static/proof_ig_perfil_5428_109k.jpg" onerror="this.src='/static/proof_ig_perfil_5428_109k.jpg'" alt="Perfil de Instagram de Edward Jiménez con 5,428 seguidores y Reel de 109K vistas" width="600" height="450" loading="lazy" style="height: 220px;">
+            <span class="zoom-pill"><i class="fas fa-expand" aria-hidden="true"></i> Ampliar</span>
+          </button>
+          <p style="font-size: 11.5px; color: var(--text-secondary); margin-top: 8px;">
+            <strong>5,428 seguidores</strong> en IG y el nuevo Reel <em>"Genera Videos con IA Gratis"</em> superando <strong>109,000 vistas</strong>.
+          </p>
+        </div>
+
+        <div class="glass-card" style="padding: 14px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px;">
+            <span style="font-size: 11.5px; font-weight: 800; color: #fbbf24;"><i class="fas fa-table-cells" aria-hidden="true"></i> GRILLA 18 REELS · EDICIÓN IA</span>
+            <span style="font-size: 9.5px; padding: 2px 7px; border-radius: 6px; background: rgba(245,158,11,0.2); color: #fde68a; font-weight: 700;">CAPCUT + IA</span>
+          </div>
+          <button type="button" class="proof-img-btn" data-zoom-src="/static/proof_ig_reels_grid_109k.jpg" data-zoom-title="Máquina Editorial de Agencia ProsperIA: 109K, 30.4K, 3.6K, 2.8K Vistas en Reels">
+            <img src="/static/proof_ig_reels_grid_109k.jpg" onerror="this.src='/static/proof_ig_reels_grid_109k.jpg'" alt="Grilla completa de Reels producidos por el equipo de edición de Agencia ProsperIA" width="600" height="500" loading="lazy" style="height: 220px;">
+            <span class="zoom-pill"><i class="fas fa-expand" aria-hidden="true"></i> Ampliar</span>
+          </button>
+          <p style="font-size: 11.5px; color: var(--text-secondary); margin-top: 8px;">
+            Muestras esta grilla para vender el <strong>Pack de Edición Viral (US$497–$697/mes)</strong> hecho por nuestros 3 editores.
+          </p>
+        </div>
+
+        <div class="glass-card" style="padding: 14px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px;">
+            <span style="font-size: 11.5px; font-weight: 800; color: #fbbf24;"><i class="fas fa-fire" aria-hidden="true"></i> REEL VIRAL · +592K VISTAS</span>
+            <span style="font-size: 9.5px; padding: 2px 7px; border-radius: 6px; background: rgba(245,158,11,0.2); color: #fde68a; font-weight: 700;">RÉCORD</span>
+          </div>
+          <button type="button" class="proof-img-btn" data-zoom-src="https://agenciaprosperia.com/static/proof_reels_592k.jpg?v=20261026_1125" data-zoom-title="Evidencia Oficial: +592,000 Reproducciones en Reel Viral de IA">
+            <img src="https://agenciaprosperia.com/static/proof_reels_592k.jpg?v=20261026_1125" alt="Captura de Reel Viral con más de 592,000 vistas" width="600" height="750" loading="lazy" style="height: 220px;">
+            <span class="zoom-pill"><i class="fas fa-expand" aria-hidden="true"></i> Ampliar</span>
+          </button>
+          <p style="font-size: 11.5px; color: var(--text-secondary); margin-top: 8px;">
+            Más de <strong>592,000 reproducciones</strong> en un solo Reel demostrando cómo captamos atención masiva.
+          </p>
+        </div>
+
+        <div class="glass-card" style="padding: 14px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px;">
+            <span style="font-size: 11.5px; font-weight: 800; color: #00e5ff;"><i class="fab fa-facebook" aria-hidden="true"></i> FACEBOOK · +13,732 SEGS</span>
+            <span style="font-size: 9.5px; padding: 2px 7px; border-radius: 6px; background: rgba(0,229,255,0.2); color: #a5f3fc; font-weight: 700;">640K VISTAS</span>
+          </div>
+          <button type="button" class="proof-img-btn" data-zoom-src="https://agenciaprosperia.com/static/proof_fb_followers_13732.jpg?v=20261026_1125" data-zoom-title="Comunidad Oficial en Facebook: +13,732 Seguidores y +640,000 Visualizaciones">
+            <img src="https://agenciaprosperia.com/static/proof_fb_followers_13732.jpg?v=20261026_1125" alt="Captura de Facebook de Agencia ProsperIA con 13,732 seguidores" width="600" height="750" loading="lazy" style="height: 220px;">
+            <span class="zoom-pill"><i class="fas fa-expand" aria-hidden="true"></i> Ampliar</span>
+          </button>
+          <p style="font-size: 11.5px; color: var(--text-secondary); margin-top: 8px;">
+            <strong>+13,732 seguidores</strong> y más de <strong>640,000 visualizaciones en Facebook</strong> en los últimos 30 días.
+          </p>
+        </div>
+      </div>
+
+      <!-- Fila 2: Las 3 Capturas Oficiales de Hotmart (Ventas Reales de PassportAI y Ecosistema IA) -->
+      <h3 style="font-size: 16px; color: #34d399; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em;">
+        <i class="fas fa-sack-dollar" aria-hidden="true"></i> 2. Evidencia Financiera en Hotmart (+740 Usuarios en PassportAI y +US$20,000 Facturados)
+      </h3>
+      <div class="grid-3">
+        <div class="glass-card card-highlight-emerald" style="padding: 15px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px;">
+            <span style="font-size: 12px; font-weight: 800; color: #6ee7b7;"><i class="fas fa-trophy" aria-hidden="true"></i> HOTMART · RUMBO AL LOGRO US$20K</span>
+            <span style="font-size: 10px; padding: 2px 8px; border-radius: 6px; background: rgba(16,185,129,0.2); color: #6ee7b7; font-weight: 700;">VERIFICADO</span>
+          </div>
+          <button type="button" class="proof-img-btn" data-zoom-src="/static/proof_hotmart_logro_20k.jpg" data-zoom-title="Hotmart Oficial (JPX International): Insignias Project y Blueprint Desbloqueadas rumbo a US$20,000">
+            <img src="/static/proof_hotmart_logro_20k.jpg" onerror="this.src='/static/proof_hotmart_logro_20k.jpg'" alt="Panel de logros de Hotmart rumbo a los US$20,000 de facturación" width="800" height="400" loading="lazy" style="height: 200px; object-fit: cover;">
+            <span class="zoom-pill"><i class="fas fa-expand" aria-hidden="true"></i> Ampliar Hotmart</span>
+          </button>
+          <p style="font-size: 12px; color: var(--text-secondary); margin-top: 8px;">
+            Cuenta corporativa <strong>JPX International en Hotmart</strong> con niveles desbloqueados y tracción probada de mercado.
+          </p>
+        </div>
+
+        <div class="glass-card card-highlight-emerald" style="padding: 15px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px;">
+            <span style="font-size: 12px; font-weight: 800; color: #6ee7b7;"><i class="fas fa-credit-card" aria-hidden="true"></i> VENTAS EN VIVO · CENTRAL PASSPORTAI</span>
+            <span style="font-size: 10px; padding: 2px 8px; border-radius: 6px; background: rgba(16,185,129,0.2); color: #6ee7b7; font-weight: 700;">PASSPORTAI</span>
+          </div>
+          <button type="button" class="proof-img-btn" data-zoom-src="/static/proof_hotmart_passportai_ventas.jpg" data-zoom-title="Transacciones Aprobadas en Hotmart: Central PassportAI — Ecosistema IA (JPX International)">
+            <img src="/static/proof_hotmart_passportai_ventas.jpg" onerror="this.src='/static/proof_hotmart_passportai_ventas.jpg'" alt="Transacciones reales de Central PassportAI en Hotmart" width="800" height="400" loading="lazy" style="height: 200px; object-fit: cover;">
+            <span class="zoom-pill"><i class="fas fa-expand" aria-hidden="true"></i> Ampliar Hotmart</span>
+          </button>
+          <p style="font-size: 12px; color: var(--text-secondary); margin-top: 8px;">
+            Compras reales de empresas y profesionales pagando con Visa, Mastercard y PayPal en USD y Euros por <strong>PassportAI</strong>.
+          </p>
+        </div>
+
+        <div class="glass-card card-highlight-emerald" style="padding: 15px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px;">
+            <span style="font-size: 12px; font-weight: 800; color: #6ee7b7;"><i class="fas fa-money-bill-trend-up" aria-hidden="true"></i> INGRESO NETO USD + EUROS EN HOTMART</span>
+            <span style="font-size: 10px; padding: 2px 8px; border-radius: 6px; background: rgba(16,185,129,0.2); color: #6ee7b7; font-weight: 700;">CASH REAL</span>
+          </div>
+          <button type="button" class="proof-img-btn" data-zoom-src="/static/proof_hotmart_ingresos_transacciones.jpg" data-zoom-title="Panel Financiero Hotmart: USD$ 5,377.06 + 4,651.30 € en Pagos Recurrentes Completados">
+            <img src="/static/proof_hotmart_ingresos_transacciones.jpg" onerror="this.src='/static/proof_hotmart_ingresos_transacciones.jpg'" alt="Panel de ingresos en USD y Euros en Hotmart con decenas de transacciones completadas" width="800" height="400" loading="lazy" style="height: 200px; object-fit: cover;">
+            <span class="zoom-pill"><i class="fas fa-expand" aria-hidden="true"></i> Ampliar Hotmart</span>
+          </button>
+          <p style="font-size: 12px; color: var(--text-secondary); margin-top: 8px;">
+            Evidencia irrefutable de clientes pagando mes a mes en dólares y euros dentro de nuestro ecosistema de IA.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================================
+         SLIDE 4: EL ANTÍDOTO CONTRA LA PARÁLISIS ("LAS 3 CAJAS")
+         ============================================================== -->
+    <section class="slide-section" data-index="3" aria-labelledby="s4-title">
+      <div class="slide-badge">
+        <i class="fas fa-brain" aria-hidden="true"></i>
+        <span>Lámina 4 de 10 · Regla Comercial #1 · Cero Sobrecarga Técnica</span>
+      </div>
+      <h2 id="s4-title" class="slide-title">
+        Prohibido Explicar 100 Botones: <span class="text-gradient-cyan">Vende por las «3 Cajas»</span>
+      </h2>
+      <p class="slide-subtitle">
+        PassportAI y ProsperIA CRM son gigantescos. Si intentas explicarle todas las funciones al dueño de una clínica o taller, <strong>le vuelas la cabeza y te dice «déjame pensarlo»</strong>. Tu trabajo es diagnosticar su dolor en 5 minutos y abrir <strong>solo la Caja que resuelve su urgencia</strong>:
+      </p>
+
+      <div class="grid-3" style="margin-bottom: 24px;">
+        <!-- Caja 1 -->
+        <div class="glass-card card-highlight-cyan">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px;">
+            <span style="padding: 5px 12px; border-radius: 99px; font-size: 11px; font-weight: 800; background: var(--cyan); color: #020617;">CAJA 1 · LA CARNADA</span>
+            <span class="font-mono" style="font-size: 13px; color: #67e8f9; font-weight: 700;">US$497 / US$990 / US$1,500</span>
+          </div>
+          <h3 style="font-size: 22px; color: #fff; margin-bottom: 8px;">Sitio Web Inteligente + Bot IA + CRM</h3>
+          <p style="font-size: 13px; color: #a5f3fc; font-weight: 600; margin-bottom: 12px;">
+            ¿Cuándo la ofreces? Cuando el negocio no tiene web que venda, responde tarde o pierde el seguimiento.
+          </p>
+          <ul class="check-list">
+            <li><i class="fas fa-check" aria-hidden="true"></i><span><strong>1 Sitio Inteligente listo</strong> (elegido de nuestras +60 plantillas por industria en GHL).</span></li>
+            <li><i class="fas fa-check" aria-hidden="true"></i><span><strong>1 Formulario Calificador + 1 Chatbot IA</strong> que responde en &lt; 30 segundos.</span></li>
+            <li><i class="fas fa-check" aria-hidden="true"></i><span><strong>ProsperIA CRM + PassportAI Business</strong> (en plan anual US$990) para que no empiece frente a un sistema vacío.</span></li>
+          </ul>
+        </div>
+
+        <!-- Caja 2 -->
+        <div class="glass-card card-highlight-amber">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px;">
+            <span style="padding: 5px 12px; border-radius: 99px; font-size: 11px; font-weight: 800; background: var(--amber); color: #020617;">CAJA 2 · AUTORIDAD VIRAL</span>
+            <span class="font-mono" style="font-size: 13px; color: #fde68a; font-weight: 700;">US$497 – US$697 / mes</span>
+          </div>
+          <h3 style="font-size: 22px; color: #fff; margin-bottom: 8px;">Pack Edición de Videos y Contenido</h3>
+          <p style="font-size: 13px; color: #fde68a; font-weight: 600; margin-bottom: 12px;">
+            ¿Cuándo la ofreces? Cuando el doctor, abogado o PYME dice: «Necesito salir en Reels/TikTok pero no sé qué decir ni quién me edite».
+          </p>
+          <ul class="check-list">
+            <li><i class="fas fa-check" aria-hidden="true"></i><span><strong>10 a 15 Reels/Videos cortos al mes</strong> editados en CapCut Pro por nuestros <strong>3 chicos de las 744K vistas</strong>.</span></li>
+            <li><i class="fas fa-check" aria-hidden="true"></i><span><strong>Guiones de retención creados con PassportAI</strong> (gancho en 3 segundos, subtítulos dinámicos y ritmo visual).</span></li>
+            <li><i class="fas fa-check" aria-hidden="true"></i><span>Cierre perfecto para quien ya tiene web pero nadie lo conoce.</span></li>
+          </ul>
+        </div>
+
+        <!-- Caja 3 -->
+        <div class="glass-card card-highlight-emerald">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px;">
+            <span style="padding: 5px 12px; border-radius: 99px; font-size: 11px; font-weight: 800; background: var(--emerald); color: #020617;">CAJA 3 · FLUJO DE LEADS</span>
+            <span class="font-mono" style="font-size: 13px; color: #6ee7b7; font-weight: 700;">US$497 / mes (+ pauta)</span>
+          </div>
+          <h3 style="font-size: 22px; color: #fff; margin-bottom: 8px;">Servicio Trafficker IA (Meta Ads)</h3>
+          <p style="font-size: 13px; color: #6ee7b7; font-weight: 600; margin-bottom: 12px;">
+            ¿Cuándo la ofreces? Cuando el cliente dice: «Quiero que me suene el WhatsApp con pacientes o compradores esta misma semana».
+          </p>
+          <ul class="check-list">
+            <li><i class="fas fa-check" aria-hidden="true"></i><span><strong>Montaje y optimización de campañas en Meta Ads</strong> (Facebook, Instagram y WhatsApp).</span></li>
+            <li><i class="fas fa-check" aria-hidden="true"></i><span>Conectado directo al Sitio Inteligente y a ProsperIA CRM para no quemar su presupuesto.</span></li>
+            <li><i class="fas fa-check" aria-hidden="true"></i><span><strong>Combo Joya Black November (Caja 1 + 2 + 3): US$1,490</strong> todo incluido el primer mes.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="glass-card" style="padding: 18px 24px; border-color: rgba(244,63,94,0.45); background: rgba(38,10,24,0.65); display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+        <div style="font-size: 14px; color: #fecdd3;">
+          <strong style="color: #fff;"><i class="fas fa-ban text-pink-400" aria-hidden="true"></i> REGLA DE ORO EN DEMO:</strong> En PassportAI solo muestras <strong>2 constructores</strong> (ej. Arquitecto de Ofertas + Sprint de Contenido) y en el CRM solo muestras <strong>1 Plantilla Web + el Chatbot + el Pipeline</strong>. ¡En 5 minutos pasas al cierre!
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================================
+         SLIDE 5: EL SITIO WEB INTELIGENTE EN ACCIÓN (FLUJO DEL HOME)
+         ============================================================== -->
+    <section class="slide-section" data-index="4" aria-labelledby="s5-title">
+      <div class="slide-badge">
+        <i class="fas fa-diagram-project" aria-hidden="true"></i>
+        <span>Lámina 5 de 10 · Cómo Explicar el "Sitio Web Inteligente" en 60 Segundos</span>
+      </div>
+      <h2 id="s5-title" class="slide-title">
+        Por qué Nuestra Carnada <span class="text-gradient-cyan">Destruye a las Páginas Web Tradicionales</span>
+      </h2>
+      <p class="slide-subtitle">
+        Tenemos <strong>más de 60 modelos de plantillas en GoHighLevel / ProsperIA CRM</strong> por industria, pero en la llamada <strong>solo muestras 1 plantilla ganadora</strong> conectada a estos 4 motores:
+      </p>
+
+      <div class="grid-2" style="align-items: center;">
+        <div>
+          <button type="button" class="proof-img-btn" data-zoom-src="https://agenciaprosperia.com/static/flujo_ecosistema_agencia_v2.jpg?v=1793987474" data-zoom-title="Flujo del Ecosistema de Crecimiento — Agencia ProsperIA">
+            <img src="https://agenciaprosperia.com/static/flujo_ecosistema_agencia_v2.jpg?v=1793987474" alt="Diagrama del Flujo del Ecosistema de Crecimiento de Agencia ProsperIA" width="1024" height="576" loading="lazy" style="height: 360px; object-fit: cover;">
+            <span class="zoom-pill"><i class="fas fa-magnifying-glass-plus" aria-hidden="true"></i> Clic para ampliar diagrama</span>
+          </button>
+        </div>
+
+        <div style="display: grid; gap: 12px;">
+          <div class="glass-card" style="padding: 16px 20px;">
+            <div style="font-size: 12px; font-weight: 800; color: var(--cyan);">PASO 1 · PRESENCIA VISUAL INMEDIATA (+60 PLANTILLAS)</div>
+            <p style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">No tardamos 2 meses diseñando desde cero. Seleccionamos la plantilla probada de su giro (Clínica, Inmobiliaria, Abogado, Taller, Spa) lista para convertir visitantes en citas.</p>
+          </div>
+          <div class="glass-card" style="padding: 16px 20px;">
+            <div style="font-size: 12px; font-weight: 800; color: #a5b4fc;">PASO 2 · FORMULARIO DE CALIFICACIÓN INTELIGENTE</div>
+            <p style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">Filtra a los curiosos y captura Nombre, WhatsApp, Servicio de interés y Urgencia directamente dentro de ProsperIA CRM.</p>
+          </div>
+          <div class="glass-card" style="padding: 16px 20px;">
+            <div style="font-size: 12px; font-weight: 800; color: var(--emerald);">PASO 3 · CHATBOT IA 24/7 CONECTADO A AGENDA</div>
+            <p style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">Atiende en menos de 30 segundos en la Web, WhatsApp e Instagram, responde preguntas frecuentes y agenda la cita en el calendario del negocio.</p>
+          </div>
+          <div class="glass-card" style="padding: 16px 20px;">
+            <div style="font-size: 12px; font-weight: 800; color: var(--amber);">PASO 4 · PIPELINE CRM + CONSTRUCTORES PASSPORTAI</div>
+            <p style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">El dueño ve en un solo tablero cuántos leads entraron, quién agendó y envía recordatorios automáticos para eliminar los <em>No-Shows</em>.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================================
+         SLIDE 6: SECTORES E INDUSTRIAS QUE ATACAMOS (DEL HOME DE LA AGENCIA)
+         ============================================================== -->
+    <section class="slide-section" data-index="5" aria-labelledby="s6-title">
+      <div class="slide-badge">
+        <i class="fas fa-bullseye" aria-hidden="true"></i>
+        <span>Lámina 6 de 10 · Nuestro ICP Maestro (Extraído del Home de agenciaprosperia.com)</span>
+      </div>
+      <h2 id="s6-title" class="slide-title">
+        Un Mismo Sistema. <span class="text-gradient-cyan">Todas las Industrias Rentables.</span>
+      </h2>
+      <p class="slide-subtitle">
+        Tus listas de <strong>100 registros</strong> incluyen Clínicas, Inmobiliarias, Profesionales, Centros de Bienestar y Talleres. Mira cuánto gana cada uno por cliente y qué dolor debes tocar al llamar:
+      </p>
+
+      <div class="grid-3" style="margin-bottom: 22px;">
+        <div class="glass-card" style="border-left: 4px solid #22d3ee; padding: 18px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h3 style="font-size: 18px; color: #fff;">🦷 Clínicas Médicas y Estéticas</h3>
+            <span style="font-size:11px; color:#6ee7b7; font-weight:700;">Ticket Alto</span>
+          </div>
+          <p style="font-size: 12px; color: #22d3ee; margin: 4px 0 10px;">Dental · Estética · Capilar · Fertilidad · Cirugía</p>
+          <p style="font-size: 12.5px; color: var(--text-secondary);"><strong>Por qué compran rápido:</strong> 1 solo paciente de implante o tratamiento les deja US$500 a US$3,000. Sufren por pacientes que dejan en visto y citas perdidas (No-Shows).</p>
+        </div>
+
+        <div class="glass-card" style="border-left: 4px solid #818cf8; padding: 18px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h3 style="font-size: 18px; color: #fff;">🏢 Inmobiliarias y Desarrollos</h3>
+            <span style="font-size:11px; color:#6ee7b7; font-weight:700;">Ticket Muy Alto</span>
+          </div>
+          <p style="font-size: 12px; color: #818cf8; margin: 4px 0 10px;">Venta · Alquiler · Desarrolladoras · Brokers</p>
+          <p style="font-size: 12.5px; color: var(--text-secondary);"><strong>Por qué compran rápido:</strong> El primero que contesta al lead inmobiliario se queda la comisión. Necesitan Sitio Inteligente + Bot pre-calificador + Reels de propiedades.</p>
+        </div>
+
+        <div class="glass-card" style="border-left: 4px solid #c084fc; padding: 18px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h3 style="font-size: 18px; color: #fff;">⚖️ Servicios Profesionales</h3>
+            <span style="font-size:11px; color:#fde68a; font-weight:700;">Volumen Masivo</span>
+          </div>
+          <p style="font-size: 12px; color: #c084fc; margin: 4px 0 10px;">Abogados · Contadores · Consultores · Arquitectos</p>
+          <p style="font-size: 12.5px; color: var(--text-secondary);"><strong>Por qué compran rápido:</strong> Viven solo del boca a boca. Con el Sitio Inteligente de US$497 (o 2 pagos de US$250) + Pack de Edición de Reels se posicionan como líderes en su ciudad.</p>
+        </div>
+
+        <div class="glass-card" style="border-left: 4px solid #f472b6; padding: 18px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h3 style="font-size: 18px; color: #fff;">✨ Belleza, Spas &amp; Wellness</h3>
+            <span style="font-size:11px; color:#6ee7b7; font-weight:700;">Alta Recurrencia</span>
+          </div>
+          <p style="font-size: 12px; color: #f472b6; margin: 4px 0 10px;">Spas · Salones Premium · Centros de Bienestar</p>
+          <p style="font-size: 12.5px; color: var(--text-secondary);"><strong>Por qué compran rápido:</strong> Necesitan reservas automáticas 24/7, recordatorios por WhatsApp y Reels visuales que llenen los horarios vacíos de lunes a jueves.</p>
+        </div>
+
+        <div class="glass-card" style="border-left: 4px solid #34d399; padding: 18px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h3 style="font-size: 18px; color: #fff;">🏋️ Fitness, Salud &amp; Academias</h3>
+            <span style="font-size:11px; color:#6ee7b7; font-weight:700;">Tráfico Constante</span>
+          </div>
+          <p style="font-size: 12px; color: #34d399; margin: 4px 0 10px;">Gimnasios · Centros Deportivos · Escuelas</p>
+          <p style="font-size: 12.5px; color: var(--text-secondary);"><strong>Por qué compran rápido:</strong> Requieren captación continua de nuevos miembros con Trafficker Meta Ads + Bot que agende clases muestra en automático.</p>
+        </div>
+
+        <div class="glass-card" style="border-left: 4px solid #fbbf24; padding: 18px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h3 style="font-size: 18px; color: #fff;">🔧 Talleres, Hogar &amp; PYMEs</h3>
+            <span style="font-size:11px; color:#fde68a; font-weight:700;">Cierre con 50/50</span>
+          </div>
+          <p style="font-size: 12px; color: #fbbf24; margin: 4px 0 10px;">Talleres Automotrices · Detailing · Reformas · Flotas</p>
+          <p style="font-size: 12.5px; color: var(--text-secondary);"><strong>Por qué compran rápido:</strong> Quieren dejar de depender de quien pasa por la calle. Entran fácil con el Sitio Express (2 pagos de US$250) o el Rescate de US$297.</p>
+        </div>
+      </div>
+
+      <!-- Destacado Clínicas del Home -->
+      <div class="glass-card card-highlight-cyan" style="padding: 18px 22px; display: flex; align-items: center; gap: 18px; flex-wrap: wrap;">
+        <img src="https://agenciaprosperia.com/static/clinica_odontologia_estetica.jpg?v=1793987472" alt="Vertical Clínicas de Odontología, Estética y Capilar" width="84" height="84" loading="lazy" style="width: 84px; height: 84px; border-radius: 14px; object-fit: cover; border: 2px solid var(--cyan);">
+        <div style="flex: 1; min-width: 260px;">
+          <span style="font-size: 11px; font-weight: 800; color: #6ee7b7; text-transform: uppercase;">★ Promesa probada en el Home para Clínicas:</span>
+          <h3 style="font-size: 20px; color: #fff; margin: 2px 0;">«Aumenta de un 30% a un 150% la Facturación de tu Clínica con Agentes IA 24/7»</h3>
+          <p style="font-size: 13px; color: var(--text-secondary);">Respuesta en &lt; 30 segundos en WhatsApp/IG · Agenda 24/7 · Confirmaciones Anti No-Show · Cero personal adicional.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================================
+         SLIDE 7: CATÁLOGO Y LISTA DE PRECIOS "BLACK NOVEMBER" + REGLA 50/50
+         ============================================================== -->
+    <section class="slide-section" data-index="6" aria-labelledby="s7-title">
+      <div class="slide-badge">
+        <i class="fas fa-tags" aria-hidden="true"></i>
+        <span>Lámina 7 de 10 · Abanico Oficial de Cierre · Campaña Black November</span>
+      </div>
+      <h2 id="s7-title" class="slide-title">
+        Catálogo Oficial <span class="text-gradient-amber">Black November</span> + Arma Secreta <span class="text-gradient-cyan">50/50 LATAM</span>
+      </h2>
+      <p class="slide-subtitle">
+        Investiguemos la realidad de Argentina, México y Colombia: a veces una PYME quiere comprar pero US$497 o US$990 en un solo pago hoy la frena. <strong>Con la regla 50/50 (50% hoy para iniciar y 50% al entregar la web en 10-15 días), nadie se te escapa:</strong>
+      </p>
+
+      <div class="table-wrap" style="margin-bottom: 18px;">
+        <table>
+          <caption>Lista Oficial de Precios Black November y Comisiones del Vendedor Full-Cycle (15%)</caption>
+          <thead>
+            <tr>
+              <th scope="col">Opción del Abanico</th>
+              <th scope="col">Precio Lista</th>
+              <th scope="col">Precio Black November</th>
+              <th scope="col">Facilidad 50/50 LATAM</th>
+              <th scope="col">Qué Recibe el Cliente (Sin Prometer de Más)</th>
+              <th scope="col">Tu Comisión 15% (5% Setter + 10% Closer)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong style="color:#00e5ff;">1. OFERTA CORE (Anual)</strong><br>Sitio Inteligente + PassportAI Business (12 Meses)</td>
+              <td style="text-decoration:line-through; color:#64748b;">US$1,990</td>
+              <td><span class="price-pill">US$990 / año</span></td>
+              <td><strong style="color:#fff;">2 pagos de US$495</strong><br><span style="font-size:11.5px;">(50% hoy + 50% al entregar)</span></td>
+              <td>• 1 Sitio Web Inteligente (+60 plantillas) + Formulario + Chatbot IA<br>• ProsperIA CRM Starter + <strong>12 meses de PassportAI Business</strong><br>• <strong>Bono Black November:</strong> 2 Reels editados por el equipo de 744K vistas.</td>
+              <td><span class="comm-pill">US$148.50</span><br><span style="font-size:11px;">($49.50 Set + $99 Clo)</span></td>
+            </tr>
+            <tr>
+              <td><strong style="color:#fde68a;">2. DOWNSELL PYME</strong><br>Sitio Web Inteligente Express (Clínicas / Profesionales)</td>
+              <td style="text-decoration:line-through; color:#64748b;">US$990</td>
+              <td><span class="price-pill">US$497</span><br><span style="font-size:11px;">(+ US$99/mes desde mes 2)</span></td>
+              <td><strong style="color:#fde68a;">2 pagos de US$250</strong><br><span style="font-size:11.5px;">(US$250 hoy + US$250 al entregar web)</span></td>
+              <td>• 1 Sitio Web Inteligente adaptado a su sector + Formulario + Chatbot IA<br>• <strong>30 días de ProsperIA CRM Starter incluidos</strong> (luego US$99/mes)<br>• <em>El cierre perfecto para Argentina, México y Colombia.</em></td>
+              <td><span class="comm-pill">US$74.55</span><br><span style="font-size:11px;">($24.85 Set + $49.70 Clo)</span></td>
+            </tr>
+            <tr>
+              <td><strong style="color:#a5b4fc;">3. UPSELL LLAVE EN MANO</strong><br>Implementación Full ProsperIA CRM + Sitio IA</td>
+              <td style="text-decoration:line-through; color:#64748b;">US$2,500</td>
+              <td><span class="price-pill">US$1,500</span></td>
+              <td><strong style="color:#fff;">2 pagos de US$750</strong><br><span style="font-size:11.5px;">(50% inicio / 50% entrega)</span></td>
+              <td>• Todo lo del Pack Anual US$990 <strong>MÁS:</strong><br>• Configuración completa a medida de Pipeline, 5 automatizaciones, conexión WhatsApp/IG/Web y capacitación al equipo.</td>
+              <td><span class="comm-pill">US$225.00</span><br><span style="font-size:11px;">($75 Set + $150 Clo)</span></td>
+            </tr>
+            <tr>
+              <td><strong style="color:#f472b6;">4. PACK AUTORIDAD VIRAL</strong><br>Edición de Reels/TikTok/FB (Equipo 744K Vistas)</td>
+              <td style="text-decoration:line-through; color:#64748b;">US$1,000/m</td>
+              <td><span class="price-pill">US$497 / mes</span> (10 Reels)<br><span class="price-pill" style="margin-top:4px;">US$697 / mes</span> (15 Reels)</td>
+              <td>Pago mensual<br><span style="font-size:11.5px;">(o 50% día 1 / 50% día 15 en Mes 1)</span></td>
+              <td>• <strong>10 a 15 Videos cortos al mes</strong> editados en CapCut Pro por nuestros 3 especialistas (640K FB + 104K IG)<br>• Guiones generados con PassportAI, subtítulos dinámicos y retención.</td>
+              <td><span class="comm-pill">US$74.55 a US$104.55</span><br><span style="font-size:11px;">por mes cobrado</span></td>
+            </tr>
+            <tr>
+              <td><strong style="color:#34d399;">5. SERVICIO TRAFFICKER</strong><br>Gestión Campañas Meta Ads (FB / IG / WhatsApp)</td>
+              <td style="text-decoration:line-through; color:#64748b;">US$900/m</td>
+              <td><span class="price-pill">US$497 / mes</span><br><span style="font-size:11px;">(+ Pauta del cliente)</span></td>
+              <td>Pago mensual anticipado</td>
+              <td>• Montaje, segmentación y optimización semanal de campañas de clientes potenciales / citas en Meta Ads conectadas al CRM.</td>
+              <td><span class="comm-pill">US$74.55</span><br><span style="font-size:11px;">por mes cobrado</span></td>
+            </tr>
+            <tr>
+              <td><strong style="color:#fbbf24;">6. COMBO TOTAL BLACK NOV</strong><br>"Máquina Completa de Clientes" (Web IA + 10 Reels + Trafficker)</td>
+              <td style="text-decoration:line-through; color:#64748b;">US$3,400</td>
+              <td><span class="price-pill">US$1,490</span></td>
+              <td><strong style="color:#fff;">2 pagos de US$745</strong><br><span style="font-size:11.5px;">(50% hoy + 50% día 15)</span></td>
+              <td>• <strong>Sitio Inteligente + Bot IA + CRM + PassportAI</strong> + <strong>10 Reels editados</strong> + <strong>1 Mes de Trafficker Meta Ads</strong> trayendo clientes.</td>
+              <td><span class="comm-pill">US$223.50</span><br><span style="font-size:11px;">($74.50 Set + $149 Clo)</span></td>
+            </tr>
+            <tr>
+              <td><strong style="color:#94a3b8;">7. RESCATE MICRO-PYME</strong><br>Landing Básica + Bot WhatsApp (Talleres pequeños)</td>
+              <td style="text-decoration:line-through; color:#64748b;">US$497</td>
+              <td><span class="price-pill">US$297</span><br><span style="font-size:11px;">(+ US$67/mes desde mes 2)</span></td>
+              <td>Pago único de <strong>US$297</strong></td>
+              <td>• <em>Solo con permiso del Líder para comercios/talleres pequeños:</em> 1 Landing sobre plantilla + Formulario + Bot básico a WhatsApp.</td>
+              <td><span class="comm-pill">US$44.55</span><br><span style="font-size:11px;">($14.85 Set + $29.70 Clo)</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ==============================================================
+         SLIDE 8: COMISIÓN 15% (5% + 10%) Y CALCULADORA INTERACTIVA A US$6,000/MES
+         ============================================================== -->
+    <section class="slide-section" data-index="7" aria-labelledby="s8-title">
+      <div class="slide-badge">
+        <i class="fas fa-calculator" aria-hidden="true"></i>
+        <span>Lámina 8 de 10 · Tu Plan de Compensación (15% = 5% Setter + 10% Closer)</span>
+      </div>
+      <h2 id="s8-title" class="slide-title">
+        Cómo Construyes tus <span class="text-gradient-amber">US$6,000 USD Mensuales</span> en Agencia Prosper IA
+      </h2>
+      <p class="slide-subtitle">
+        Cada vendedor hace las dos funciones (<strong>5% por agendar un Show calificado con CRM completo + 10% por cerrar la venta = 15% Total sobre Cash Collected</strong>). Si pides ayuda a un Líder para cerrar una cuenta grande, <strong>conservas tu 5% de Setter garantizado</strong>.
+      </p>
+
+      <div class="grid-2" style="align-items: start; margin-bottom: 22px;">
+        <!-- Simulador Interactivo en Vivo -->
+        <div class="glass-card card-highlight-cyan">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 14px;">
+            <h3 style="font-size: 19px; color: #fff;"><i class="fas fa-sliders text-cyan-400" aria-hidden="true"></i> Simulador en Vivo de Comisiones Mensuales</h3>
+            <span style="font-size: 11px; color: #67e8f9; font-weight: 700;">Mueve los controles</span>
+          </div>
+
+          <div class="slider-row">
+            <div class="slider-header">
+              <label for="sl-497">Sitios Express / Edición / Trafficker (US$497 c/u):</label>
+              <span id="val-497" class="font-mono" style="color: var(--cyan);">20 ventas</span>
+            </div>
+            <input type="range" id="sl-497" min="0" max="45" value="20">
+          </div>
+
+          <div class="slider-row">
+            <div class="slider-header">
+              <label for="sl-990">Packs Anuales Sitio Inteligente + PassportAI (US$990 c/u):</label>
+              <span id="val-990" class="font-mono" style="color: var(--cyan);">14 ventas</span>
+            </div>
+            <input type="range" id="sl-990" min="0" max="35" value="14">
+          </div>
+
+          <div class="slider-row">
+            <div class="slider-header">
+              <label for="sl-1500">Combos Máquina Completa / Implementación Full (US$1,500 c/u):</label>
+              <span id="val-1500" class="font-mono" style="color: var(--cyan);">11 ventas</span>
+            </div>
+            <input type="range" id="sl-1500" min="0" max="25" value="11">
+          </div>
+
+          <div style="margin-top: 18px; padding: 16px; border-radius: 16px; background: rgba(2, 6, 23, 0.9); border: 1px solid rgba(0, 229, 255, 0.35);">
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; text-align: center;">
+              <div>
+                <div style="font-size: 11px; color: var(--text-muted);">Cash Collected Mes</div>
+                <div id="calc-cash" class="font-mono" style="font-size: 18px; font-weight: 800; color: #fff; margin-top: 3px;">US$40,300</div>
+              </div>
+              <div>
+                <div style="font-size: 11px; color: var(--text-muted);">5% Setter + 10% Closer</div>
+                <div id="calc-split" class="font-mono" style="font-size: 13px; font-weight: 700; color: #94a3b8; margin-top: 6px;">$2,015 + $4,030</div>
+              </div>
+              <div>
+                <div style="font-size: 11px; color: #fde68a; font-weight: 700;">TU COMISIÓN (15%)</div>
+                <div id="calc-total" class="font-mono" style="font-size: 22px; font-weight: 800; color: #34d399; margin-top: 2px;">US$6,045</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Los 4 Escalones Oficiales del Contrato -->
+        <div class="table-wrap">
+          <table>
+            <caption>Escalera de Producción Mensual del Contrato</caption>
+            <thead>
+              <tr>
+                <th scope="col">Nivel</th>
+                <th scope="col">Lotes / Mes</th>
+                <th scope="col">Cash Collected</th>
+                <th scope="col">5% Setter</th>
+                <th scope="col">10% Closer</th>
+                <th scope="col">Total (15%)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>1. Ramp-Up</strong><br><span style="font-size:11px;">Mínimo Mes 1</span></td>
+                <td>1–2 Lotes<br><span style="font-size:11px;">(100–200 leads)</span></td>
+                <td class="font-mono">US$7,949</td>
+                <td class="font-mono">US$397</td>
+                <td class="font-mono">US$795</td>
+                <td><span class="price-pill">US$1,192</span></td>
+              </tr>
+              <tr>
+                <td><strong>2. Cuota Base</strong><br><span style="font-size:11px;">Confirmado</span></td>
+                <td>2–3 Lotes<br><span style="font-size:11px;">(200–300 leads)</span></td>
+                <td class="font-mono">US$16,404</td>
+                <td class="font-mono">US$820</td>
+                <td class="font-mono">US$1,640</td>
+                <td><span class="price-pill">US$2,460</span></td>
+              </tr>
+              <tr>
+                <td><strong>3. Cazador Senior</strong><br><span style="font-size:11px;">Alto Rendimiento</span></td>
+                <td>3 Lotes<br><span style="font-size:11px;">(300 leads)</span></td>
+                <td class="font-mono">US$26,852</td>
+                <td class="font-mono">US$1,342</td>
+                <td class="font-mono">US$2,685</td>
+                <td><span class="price-pill">US$4,027</span></td>
+              </tr>
+              <tr style="background: rgba(245, 158, 11, 0.12);">
+                <td><strong style="color:#fde68a;">4. META ÉLITE WOLF</strong><br><span style="font-size:11px; color:#fde68a;">Objetivo Total</span></td>
+                <td><strong>4 Lotes</strong><br><span style="font-size:11px;">(100 leads/sem)</span></td>
+                <td class="font-mono"><strong style="color:#fff;">US$40,300</strong></td>
+                <td class="font-mono" style="color:#fde68a;">US$2,015</td>
+                <td class="font-mono" style="color:#fde68a;">US$4,030</td>
+                <td><span class="comm-pill" style="font-size:14px;">US$6,045/mes</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================================
+         SLIDE 9: REGLA DE LOS 100 REGISTROS, RITMO DIARIO Y GUION WOLF
+         ============================================================== -->
+    <section class="slide-section" data-index="8" aria-labelledby="s9-title">
+      <div class="slide-badge">
+        <i class="fas fa-shield-halved" aria-hidden="true"></i>
+        <span>Lámina 9 de 10 · Disciplina Operativa · Método Wolf</span>
+      </div>
+      <h2 id="s9-title" class="slide-title">
+        Cómo Explotar tus <span class="text-gradient-cyan">100 Registros</span> y Ganar tu Día
+      </h2>
+      <p class="slide-subtitle">
+        Los 100 registros no se queman en un día. Se trabajan con <strong>cadencia 5x5</strong> (Llamada + WhatsApp con micro-video de la plantilla + Audio + Seguimiento). Quien mantiene el CRM al 100% y agenda 15+ demos, desbloquea su nuevo lote de 100 cada lunes.
+      </p>
+
+      <div class="grid-3" style="margin-bottom: 22px;">
+        <div class="glass-card card-highlight-cyan" style="padding: 18px;">
+          <div style="font-size: 12px; font-weight: 800; color: var(--cyan);">🕘 09:00 AM (HORA BUENOS AIRES)</div>
+          <h3 style="font-size: 18px; color: #fff; margin: 5px 0;">1. Stand-Up Diario (15 Min en Zoom)</h3>
+          <p style="font-size: 13px; color: var(--text-secondary);">Cámara encendida obligatoria. Cada vendedor responde en 60 segundos: <em>1) Llamadas y cierres de ayer, 2) Demos de hoy, 3) Compromiso de cierre hoy.</em></p>
+        </div>
+
+        <div class="glass-card card-highlight-amber" style="padding: 18px;">
+          <div style="font-size: 12px; font-weight: 800; color: var(--amber);">🕑 02:00 PM (HORA BUENOS AIRES)</div>
+          <h3 style="font-size: 18px; color: #fff; margin: 5px 0;">2. Semáforo de Medio Día en CRM</h3>
+          <p style="font-size: 13px; color: var(--text-secondary);">Auditoría en vivo en ProsperIA CRM: mínimo <strong>25 toques registrados</strong> y <strong>2 citas nuevas agendadas</strong> antes de las 2:00 PM.</p>
+        </div>
+
+        <div class="glass-card card-highlight-emerald" style="padding: 18px;">
+          <div style="font-size: 12px; font-weight: 800; color: var(--emerald);">🕡 06:30 PM (HORA BUENOS AIRES)</div>
+          <h3 style="font-size: 18px; color: #fff; margin: 5px 0;">3. Campana de Caza en WhatsApp</h3>
+          <p style="font-size: 13px; color: var(--text-secondary);">Reporte diario obligatorio en el grupo:<br><code style="color:#6ee7b7;">Nombre — Toques: 55 / Demos Agendadas: 4 / Demos Hechas: 3 / Cierres: 2 ($ USD)</code></p>
+        </div>
+      </div>
+
+      <!-- Guion de Apertura y Estructura de 25 Minutos -->
+      <div class="grid-2">
+        <div class="glass-card" style="border-left: 4px solid var(--cyan);">
+          <h3 style="font-size: 17px; color: #fff; margin-bottom: 8px;"><i class="fas fa-phone-volume text-cyan-400" aria-hidden="true"></i> Guion de Apertura Setter (5%) — 20 Segundos</h3>
+          <blockquote style="background: rgba(2,6,23,0.85); border: 1px solid rgba(0,229,255,0.3); padding: 14px; border-radius: 12px; font-size: 13px; color: #e2e8f0; line-height: 1.55;">
+            «Hola <strong>[Nombre del Doctor/Dueño]</strong>, te habla <strong>[Tu Nombre]</strong> de Agencia Prosper IA en Miami. Vi que en <strong>[Nombre del Negocio]</strong> están atendiendo clientes en <strong>[Ciudad]</strong>, y por el <strong>Black November</strong> estamos instalando a negocios de tu rubro nuestro <strong>Sitio Web Inteligente con Chatbot IA y CRM</strong>, respaldado por más de <strong>740 negocios activos en nuestra IA</strong> y nuestro equipo creativo con <strong>más de 744,000 reproducciones en redes</strong>. Ya tenemos armada la plantilla exacta de tu sector funcionando en vivo. ¿Te queda mejor hoy a las <strong>[Hora A]</strong> o mañana a las <strong>[Hora B]</strong> para mostrártela en 15 minutos por Zoom?»
+          </blockquote>
+        </div>
+
+        <div class="glass-card" style="border-left: 4px solid var(--amber);">
+          <h3 style="font-size: 17px; color: #fff; margin-bottom: 8px;"><i class="fas fa-handshake text-amber-400" aria-hidden="true"></i> Los 4 Bloques de la Demo Closer (10%) — 25 Minutos</h3>
+          <ul class="check-list">
+            <li><i class="fas fa-bolt" aria-hidden="true"></i><span><strong>Min 0–5 (Diagnóstico):</strong> ¿Cuántos prospectos pierden por responder tarde en WhatsApp, no dar seguimiento o no subir Reels?</span></li>
+            <li><i class="fas fa-bolt" aria-hidden="true"></i><span><strong>Min 5–12 (Demo de 1 Sola Plantilla + Prueba Social):</strong> Muestras la plantilla de su nicho + llenas el Formulario + muestras el Chatbot IA + enseñas las capturas de <strong>740 usuarios / 744K vistas</strong>.</span></li>
+            <li><i class="fas fa-bolt" aria-hidden="true"></i><span><strong>Min 12–20 (Anclaje Black November):</strong> Presentas US$1,490 / US$990 y guardas silencio. Si requiere menor entrada hoy, bajas a <strong>US$497 (o 2 pagos de US$250)</strong>.</span></li>
+            <li><i class="fas fa-bolt" aria-hidden="true"></i><span><strong>Min 20–25 (Cobro en Llamada):</strong> Envías link de pago, confirmas comprobante y pasas a entrega técnica.</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================================
+         SLIDE 10: CIERRE DEL KICKOFF — FIRMA DE CONTRATO Y ARRANQUE HOY
+         ============================================================== -->
+    <section class="slide-section" data-index="9" aria-labelledby="s10-title">
+      <div class="slide-badge">
+        <i class="fas fa-flag-checkered" aria-hidden="true"></i>
+        <span>Lámina 10 de 10 · Acción Inmediata al Terminar esta Reunión</span>
+      </div>
+      <h2 id="s10-title" class="slide-title">
+        Checklist de Arranque Hoy: <span class="text-gradient-emerald" style="color:#34d399;">Firmar, Activar CRM y Salir a Cazar</span>
+      </h2>
+      <p class="slide-subtitle">
+        Una contratación clara desde el día uno previene el 80% de los problemas futuros. Para recibir hoy mismo tu usuario de ProsperIA CRM y tu primer <strong>Lote de 100 Registros</strong>, completa estos 4 pasos:
+      </p>
+
+      <div class="grid-2" style="align-items: stretch;">
+        <div class="glass-card card-highlight-emerald">
+          <h3 style="font-size: 20px; color: #fff; margin-bottom: 14px;"><i class="fas fa-clipboard-check text-emerald-400" aria-hidden="true"></i> Tus 4 Pasos en los Próximos 30 Minutos</h3>
+          <div style="display: grid; gap: 12px;">
+            <label style="display:flex; align-items:flex-start; gap:12px; padding:12px; border-radius:12px; background:rgba(2,6,23,0.7); border:1px solid rgba(255,255,255,0.08); cursor:pointer;">
+              <input type="checkbox" style="width:18px; height:18px; margin-top:2px; accent-color:#10b981;">
+              <span style="font-size:13.5px; color:#e2e8f0;"><strong>Paso 1 · Sección 1 del Contrato:</strong> Completar Nombre Completo, DNI/Pasaporte, CUIT/CUIL, Domicilio en Argentina y WhatsApp.</span>
+            </label>
+            <label style="display:flex; align-items:flex-start; gap:12px; padding:12px; border-radius:12px; background:rgba(2,6,23,0.7); border:1px solid rgba(255,255,255,0.08); cursor:pointer;">
+              <input type="checkbox" style="width:18px; height:18px; margin-top:2px; accent-color:#10b981;">
+              <span style="font-size:13.5px; color:#e2e8f0;"><strong>Paso 2 · Sección 2 (Cuenta de Banco / USDT):</strong> Registrar CBU/Banco o Wallet USDT (TRC20/BEP20) / Payoneer / Wise donde cobrarás tus comisiones quincenales.</span>
+            </label>
+            <label style="display:flex; align-items:flex-start; gap:12px; padding:12px; border-radius:12px; background:rgba(2,6,23,0.7); border:1px solid rgba(255,255,255,0.08); cursor:pointer;">
+              <input type="checkbox" style="width:18px; height:18px; margin-top:2px; accent-color:#10b981;">
+              <span style="font-size:13.5px; color:#e2e8f0;"><strong>Paso 3 · Firma en Sección 10:</strong> Enviar el PDF firmado a Dirección Comercial para habilitar tu subcuenta en ProsperIA CRM.</span>
+            </label>
+            <label style="display:flex; align-items:flex-start; gap:12px; padding:12px; border-radius:12px; background:rgba(2,6,23,0.7); border:1px solid rgba(255,255,255,0.08); cursor:pointer;">
+              <input type="checkbox" style="width:18px; height:18px; margin-top:2px; accent-color:#10b981;">
+              <span style="font-size:13.5px; color:#e2e8f0;"><strong>Paso 4 · Entrega de tus Primeros 100 Registros:</strong> Iniciar el bloque de llamadas hoy mismo y agendar tus primeras 3 a 4 Demos para mañana.</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="glass-card card-highlight-amber" style="display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <span style="font-size:11px; font-weight:800; color:var(--amber); text-transform:uppercase;">Documento Oficial Listo</span>
+            <h3 style="font-size:24px; color:#fff; margin:6px 0 10px;">Contrato, Catálogo Black November &amp; Scorecard (PDF)</h3>
+            <p style="font-size:13.5px; color:var(--text-secondary); line-height:1.55; margin-bottom:16px;">
+              Todo lo que acabamos de ver en esta presentación —los precios de Black November, la regla 50/50 para LATAM, el desglose del <strong>15% (5% Setter + 10% Closer)</strong> y la tabla hacia los <strong>US$6,000/mes</strong>— está escrito y respaldado en tu contrato oficial.
+            </p>
+            <div style="padding:14px; border-radius:14px; background:rgba(2,6,23,0.8); border:1px dashed rgba(245,158,11,0.5); font-size:13px; color:#fde68a; margin-bottom:18px;">
+              <strong>🔥 Bono de Reclutamiento Interno:</strong> Tenemos <strong>2 asientos abiertos (#9 y #10)</strong> para completar los 10 vendedores del Escuadrón en Argentina. Si conoces a un Closer o Setter agresivo y disciplinado, preséntalo hoy al terminar la reunión.
+            </div>
+          </div>
+
+          <div style="display:flex; gap:12px; flex-wrap:wrap;">
+            <a href="/static/CONTRATO_Y_PROTOCOLO_VENTAS_PROSPER_IA.pdf" target="_blank" rel="noopener" class="ctrl-btn ctrl-btn-primary" style="flex:1; justify-content:center; padding:14px 20px; font-size:14px; text-decoration:none;">
+              <i class="fas fa-file-pdf" aria-hidden="true"></i>
+              <span>Abrir Contrato Oficial en PDF</span>
+            </a>
+            <a href="https://agenciaprosperia.com/codigos" target="_blank" rel="noopener" class="ctrl-btn" style="flex:1; justify-content:center; padding:14px 20px; font-size:14px; text-decoration:none;">
+              <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
+              <span>Ver Hub /codigos en Vivo</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ════════════════════════════════════════════════════════════════
+       NATIVE DIALOG FOR FULLSCREEN IMAGE ZOOM (modern-web-guidance)
+       ════════════════════════════════════════════════════════════════ -->
+  <dialog id="img-lightbox" closedby="any" aria-labelledby="lightbox-caption">
+    <div class="lightbox-top">
+      <h2 id="lightbox-caption" style="font-size: 15px; color: #fff;">Vista Ampliada</h2>
+      <form method="dialog">
+        <button type="submit" class="ctrl-btn" aria-label="Cerrar imagen ampliada">
+          <i class="fas fa-xmark" aria-hidden="true"></i>
+          <span>Cerrar (Esc)</span>
+        </button>
+      </form>
+    </div>
+    <img id="lightbox-target-img" src="https://agenciaprosperia.com/static/logo_prosper_ia_cropped.jpg" alt="Vista ampliada de evidencia comercial" width="1200" height="800" class="lightbox-img">
+  </dialog>
+
+  <!-- ════════════════════════════════════════════════════════════════
+       BOTTOM PRESENTATION FOOTER CONTROLS
+       ════════════════════════════════════════════════════════════════ -->
+  <footer class="deck-footer">
+    <div class="deck-footer-inner">
+      <div class="kbd-hint">
+        <span>Navegación rápida:</span>
+        <kbd>←</kbd> <kbd>→</kbd> <span>Cambiar lámina</span>
+        <kbd>F</kbd> <span>Pantalla completa</span>
+      </div>
+
+      <div id="slide-counter-text" class="font-mono" style="font-size: 12.5px; color: var(--cyan); font-weight: 700;">
+        LÁMINA 01 / 10
+      </div>
+
+      <div style="display: flex; gap: 8px;">
+        <button type="button" class="ctrl-btn" id="prev-slide-btn">
+          <i class="fas fa-arrow-left" aria-hidden="true"></i>
+          <span>Anterior</span>
+        </button>
+        <button type="button" class="ctrl-btn ctrl-btn-primary" id="next-slide-btn">
+          <span>Siguiente Lámina</span>
+          <i class="fas fa-arrow-right" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ════════════════════════════════════════════════════════════════
+       INTERACTIVE PRESENTATION SCRIPT
+       ════════════════════════════════════════════════════════════════ -->
+  <script>
+    (() => {
+      const slides = Array.from(document.querySelectorAll('.slide-section'));
+      const pills = Array.from(document.querySelectorAll('.pill-btn'));
+      const progress = document.getElementById('deck-progress');
+      const counterText = document.getElementById('slide-counter-text');
+      const prevBtn = document.getElementById('prev-slide-btn');
+      const nextBtn = document.getElementById('next-slide-btn');
+      const toggleModeBtn = document.getElementById('toggle-mode-btn');
+      const toggleModeLabel = document.getElementById('toggle-mode-label');
+      const fullscreenBtn = document.getElementById('fullscreen-btn');
+
+      let currentSlide = 0;
+      let isScrollMode = false;
+
+      function goToSlide(index) {
+        if (index < 0) index = 0;
+        if (index >= slides.length) index = slides.length - 1;
+        currentSlide = index;
+
+        slides.forEach((s, i) => {
+          s.classList.toggle('active', i === currentSlide);
+        });
+        pills.forEach((p, i) => {
+          p.classList.toggle('active', i === currentSlide);
+          if (i === currentSlide) {
+            p.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+          }
+        });
+
+        const pct = ((currentSlide + 1) / slides.length) * 100;
+        progress.style.width = `${pct}%`;
+        counterText.textContent = `LÁMINA ${String(currentSlide + 1).padStart(2, '0')} / ${slides.length}`;
+
+        if (isScrollMode) {
+          slides[currentSlide].scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      }
+
+      pills.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const idx = Number(btn.getAttribute('data-slide'));
+          goToSlide(idx);
+        });
+      });
+
+      prevBtn.addEventListener('click', () => goToSlide(currentSlide - 1));
+      nextBtn.addEventListener('click', () => goToSlide(currentSlide + 1));
+
+      toggleModeBtn.addEventListener('click', () => {
+        isScrollMode = !isScrollMode;
+        document.body.classList.toggle('scroll-all-mode', isScrollMode);
+        toggleModeBtn.setAttribute('aria-pressed', String(isScrollMode));
+        toggleModeLabel.textContent = isScrollMode ? 'Modo Diapositivas' : 'Ver Todo Corrido';
+      });
+
+      fullscreenBtn.addEventListener('click', () => {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen().catch(() => {});
+        } else {
+          document.exitFullscreen().catch(() => {});
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+        if (e.key === 'ArrowRight') {
+          goToSlide(currentSlide + 1);
+        } else if (e.key === 'ArrowLeft') {
+          goToSlide(currentSlide - 1);
+        } else if (e.key === 'f' || e.key === 'F') {
+          fullscreenBtn.click();
+        }
+      });
+
+      // Native <dialog> Lightbox handler
+      const dialog = document.getElementById('img-lightbox');
+      const dialogImg = document.getElementById('lightbox-target-img');
+      const dialogCaption = document.getElementById('lightbox-caption');
+
+      document.querySelectorAll('.proof-img-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const src = btn.getAttribute('data-zoom-src');
+          const title = btn.getAttribute('data-zoom-title') || 'Vista Ampliada';
+          dialogImg.onerror = () => {
+            if (src && src.startsWith('/static/')) {
+              dialogImg.src = '/static/' + src.replace('/static/', '');
+            }
+          };
+          dialogImg.src = src;
+          dialogImg.alt = title;
+          dialogCaption.textContent = title;
+          dialog.showModal();
+        });
+      });
+
+      // Live Commission Calculator (Slide 8)
+      const sl497 = document.getElementById('sl-497');
+      const sl990 = document.getElementById('sl-990');
+      const sl1500 = document.getElementById('sl-1500');
+      const val497 = document.getElementById('val-497');
+      const val990 = document.getElementById('val-990');
+      const val1500 = document.getElementById('val-1500');
+      const calcCash = document.getElementById('calc-cash');
+      const calcSplit = document.getElementById('calc-split');
+      const calcTotal = document.getElementById('calc-total');
+
+      function updateCalculator() {
+        const c497 = Number(sl497.value);
+        const c990 = Number(sl990.value);
+        const c1500 = Number(sl1500.value);
+
+        val497.textContent = `${c497} ventas`;
+        val990.textContent = `${c990} ventas`;
+        val1500.textContent = `${c1500} ventas`;
+
+        const cash = (c497 * 497) + (c990 * 990) + (c1500 * 1500);
+        const setter5 = Math.round(cash * 0.05);
+        const closer10 = Math.round(cash * 0.10);
+        const total15 = setter5 + closer10;
+
+        calcCash.textContent = `US$${cash.toLocaleString('en-US')}`;
+        calcSplit.textContent = `$${setter5.toLocaleString('en-US')} + $${closer10.toLocaleString('en-US')}`;
+        calcTotal.textContent = `US$${total15.toLocaleString('en-US')}`;
+        calcTotal.style.color = total15 >= 6000 ? '#34d399' : '#fbbf24';
+      }
+
+      [sl497, sl990, sl1500].forEach((input) => {
+        input.addEventListener('input', updateCalculator);
+      });
+      updateCalculator();
+    })();
+  </script>
+</body>
+</html>

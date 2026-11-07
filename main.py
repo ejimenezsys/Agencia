@@ -1587,6 +1587,16 @@ async def cotizacion_consultoria_ia_page(request: Request):
     return templates.TemplateResponse(request=request, name="Cotizacion_ConsultoriaIA.html", context={"request": request})
 
 
+@app.get("/closers", response_class=HTMLResponse)
+@app.head("/closers")
+@app.get("/closers/", response_class=HTMLResponse)
+@app.head("/closers/")
+@app.get("/closers.html", response_class=HTMLResponse)
+@app.head("/closers.html")
+async def closers_kickoff_page(request: Request):
+    return templates.TemplateResponse(request=request, name="closers.html", context={"request": request})
+
+
 
 # ─── TECHNICAL SEO ENDPOINTS ────────────────────────────────────────────────
 from fastapi.responses import PlainTextResponse
