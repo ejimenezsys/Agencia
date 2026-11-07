@@ -581,6 +581,9 @@ def init_db():
                 setting = IntegrationSetting(key=key, value=val)
                 db.add(setting)
 
+        # Confirmar usuarios del Sales OS, lista DND y configuraciones de inmediato
+        db.commit()
+
         # Seed Leads si estuviera vacía
         if db.query(Lead).count() == 0:
             from main import INITIAL_LEADS
@@ -601,6 +604,7 @@ def init_db():
                     created_at=lead_data["created_at"]
                 )
                 db.add(lead)
+            db.commit()
 
         # Seed Blog Posts
         from main import INITIAL_BLOG_POSTS
@@ -626,24 +630,27 @@ def init_db():
         published_dir = Path(__file__).parent / "content" / "editorial_published"
         if published_dir.exists():
             for article_path in published_dir.glob("*.json"):
-                article = json.loads(article_path.read_text(encoding="utf-8"))
-                if article.get("status") != "published":
-                    continue
-                values = {
-                    "title": article["title"],
-                    "category": article["lane"],
-                    "summary": article["summary"],
-                    "content": article["content"],
-                    "image_url": article.get("image_url", "/static/logo_prosper_ia_cropped.jpg"),
-                    "published_at": article["published_at"],
-                    "author": article["author"],
-                }
-                existing_article = db.query(BlogPost).filter(BlogPost.slug == article["slug"]).first()
-                if existing_article is None:
-                    db.add(BlogPost(slug=article["slug"], **values))
-                else:
-                    for key, value in values.items():
-                        setattr(existing_article, key, value)
+                try:
+                    article = json.loads(article_path.read_text(encoding="utf-8"))
+                    if article.get("status") != "published":
+                        continue
+                    values = {
+                        "title": article["title"],
+                        "category": article.get("lane", "laboratorio-prosperia"),
+                        "summary": article["summary"],
+                        "content": article["content"],
+                        "image_url": article.get("image_url", "/static/logo_prosper_ia_cropped.jpg"),
+                        "published_at": article.get("published_at", now_iso),
+                        "author": article.get("author", "Edward Jiménez"),
+                    }
+                    existing_article = db.query(BlogPost).filter(BlogPost.slug == article["slug"]).first()
+                    if existing_article is None:
+                        db.add(BlogPost(slug=article["slug"], **values))
+                    else:
+                        for key, value in values.items():
+                            setattr(existing_article, key, value)
+                except Exception as art_err:
+                    print(f"⚠️ Error leyendo artículo {article_path}: {art_err}")
 
         db.commit()
     except Exception as e:
