@@ -46,19 +46,19 @@ CF_PLANTILLA_WEB = "saKXYwR9f9KiM8uFvKE5"           # contact.plantilla_web_sele
 CF_ESTADO_ENTREGA = "WSy2ykDYJpLcHUthLenI"          # contact.estado_entrega_sitio_web
 CF_DUPLA_COMERCIAL = "HWashNLd4BfxzgTbhG0C"         # contact.dupla_comercial_asignada
 
-# Mapeo de las 11 Etapas Canónicas del Sales OS -> Stage IDs reales del Pipeline "Ventas Agencia ProsperIA" (SJ4xiMasQ0GZcUNYFgpa) en GoHighLevel
+# Mapeo 1 a 1 de las Etapas del Sales OS -> Stage IDs reales del Pipeline "Ventas Agencia ProsperIA" (SJ4xiMasQ0GZcUNYFgpa) en GoHighLevel
 GHL_STAGE_MAP = {
     "Lead identificado": "ffd8ae02-c4c0-431c-a827-0e909a80c752",     # Nuevo Contacto
     "Primer contacto": "da2cda3e-8c0b-4c11-b6aa-03f9549b4824",       # Contactado
     "Conversación": "da2cda3e-8c0b-4c11-b6aa-03f9549b4824",          # Contactado
     "Calificado": "da2cda3e-8c0b-4c11-b6aa-03f9549b4824",            # Contactado
     "Diagnóstico agendado": "32169283-eb6a-446a-9092-67a39af8efdf",  # Llamada agendada
-    "Demo realizada": "32169283-eb6a-446a-9092-67a39af8efdf",        # Llamada agendada
+    "Demo realizada": "46602de4-7daf-4624-aa44-8aabca028497",        # Demo Realizada
     "Propuesta enviada": "21cded24-ce3b-4031-bbb1-0324723ce1f6",     # Propuesta enviada
-    "Pago pendiente": "21cded24-ce3b-4031-bbb1-0324723ce1f6",        # Propuesta enviada
-    "Pago confirmado": "ba6fe7cd-ca39-4cc4-873c-e39b5998a418",       # Cliente Ganado
-    "Implementación": "ba6fe7cd-ca39-4cc4-873c-e39b5998a418",        # Cliente Ganado
-    "Entregado": "ba6fe7cd-ca39-4cc4-873c-e39b5998a418",             # Cliente Ganado
+    "Pago pendiente": "443683ab-9200-4d93-891a-8960a668e86b",        # Pago Pendiente
+    "Pago confirmado": "f84fbfc3-06fd-48d0-a4dc-541792558815",       # Pago confirmado
+    "Implementación": "4a358f0e-0c45-40fb-8b64-2b4c75746e3d",        # En implementacion
+    "Entregado": "c05d2654-58de-48ee-bdf7-bb61cf1cefbd",             # Entregado
 }
 
 # Valores del <select> del formulario → opciones exactas del campo en GHL.
