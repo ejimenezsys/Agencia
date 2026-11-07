@@ -154,6 +154,43 @@
     .table-row:hover { background: rgba(0,229,255,0.03); }
     .table-row:last-child { border-bottom: none; }
 
+    .table-wrapper {
+      overflow: auto;
+      max-inline-size: 100%;
+      max-block-size: min(560px, 78vh);
+      container-type: inline-size;
+    }
+    .table-wrapper table {
+      border-collapse: separate;
+      border-spacing: 0;
+      width: 100%;
+    }
+    .table-wrapper thead {
+      position: sticky;
+      inset-block-start: 0;
+      z-index: 2;
+      background: #081325;
+    }
+    .table-wrapper tbody th {
+      position: sticky;
+      inset-inline-start: 0;
+      background: #0b182e;
+      z-index: 1;
+    }
+    dialog.sales-dialog {
+      background: #071224;
+      color: #f8fafc;
+      border: 1px solid rgba(0,229,255,0.35);
+      border-radius: 16px;
+      padding: 24px;
+      max-width: 580px;
+      width: 94%;
+    }
+    dialog.sales-dialog::backdrop {
+      background-color: rgba(2, 6, 23, 0.78);
+      backdrop-filter: blur(4px);
+    }
+
     /* ── PROGRESS ── */
     .progress-track { height: 5px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; }
     .progress-fill { height: 100%; background: linear-gradient(90deg, var(--cyan), #0ea5e9); border-radius: 4px; transition: width 0.6s ease; }
@@ -247,7 +284,22 @@
 
   <!-- Navigation -->
   <div class="sidebar-nav">
-    <div class="nav-section-label">Principal</div>
+    <div class="nav-section-label">Fuerza Comercial · Sitios Web</div>
+    <button onclick="showSection('sales-os')" id="nav-sales-os" class="nav-item">
+      <i class="fas fa-funnel-dollar"></i>
+      <span>Sales OS & Comisiones</span>
+      <span class="ml-auto text-[10px] px-1.5 py-0.5 rounded font-bold" style="background:rgba(16,185,129,0.18); color:#34d399;">15%</span>
+    </button>
+    <button onclick="showSection('web-showcase')" id="nav-web-showcase" class="nav-item">
+      <i class="fas fa-laptop-code"></i>
+      <span>Mostrar Cómo se Hacen</span>
+    </button>
+    <button onclick="showSection('sellers-admin')" id="nav-sellers-admin" class="nav-item">
+      <i class="fas fa-user-shield"></i>
+      <span>Alta Vendedores & Lotes</span>
+    </button>
+
+    <div class="nav-section-label" style="margin-top:12px;">Principal</div>
     <button onclick="showSection('overview')" id="nav-overview" class="nav-item active">
       <i class="fas fa-th-large"></i>
       <span>Dashboard</span>
@@ -1311,6 +1363,430 @@
       </button>
     </div>
   </div>
+
+  <!-- ════════════════════════════════════════════════════════════════════════
+       SECTION: SALES OPERATING SYSTEM (PIPELINE CANÓNICO + COMISIONES 15%)
+  ════════════════════════════════════════════════════════════════════════ -->
+  <div id="section-sales-os" class="p-6 hidden space-y-6">
+    <!-- Banner de Rol y Oferta Principal -->
+    <div class="card p-5 flex flex-wrap items-center justify-between gap-4" style="background:linear-gradient(135deg,#07162c,#0d2244); border-color:rgba(0,229,255,0.3);">
+      <div>
+        <div class="flex items-center gap-2 mb-1">
+          <span id="sos-role-badge" class="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">ROL: VENDEDOR</span>
+          <span id="sos-dupla-badge" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-500/15 text-amber-300 border border-amber-500/30">Dupla A — Clínicas</span>
+        </div>
+        <h2 class="text-xl font-bold text-white">Sales Operating System — Sitios Web Inteligentes</h2>
+        <p class="text-xs text-slate-300 mt-0.5">
+          <strong>Oferta Principal Estandarizada:</strong> <code class="text-cyan-300">Sitio Web Inteligente Express — US$497</code> (Facilidad 50/50: <strong>US$250 hoy + US$247 contra entrega = US$497 USD</strong>). Comisión 15% (5% Setter + 10% Closer) sobre dinero <strong>realmente cobrado</strong>.
+        </p>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <a href="/demo-sitio-web" target="_blank" class="btn-primary px-4 py-2.5 rounded-xl text-xs font-bold inline-flex items-center gap-2 no-underline">
+          <i class="fas fa-bolt"></i> Abrir Demostrador en Vivo (Pantalla Completa)
+        </a>
+        <button onclick="showModal('lead')" class="btn-ghost px-4 py-2.5 rounded-xl text-xs font-semibold">
+          <i class="fas fa-user-plus mr-1"></i> Dar de Alta Prospecto
+        </button>
+      </div>
+    </div>
+
+    <!-- KPIs Financieros Reales (Sin confundir propuestas con cobros) -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+      <div class="kpi-card">
+        <div class="text-xs text-slate-400 font-semibold uppercase">💵 Dinero Cobrado (Verificado)</div>
+        <div id="sos-kpi-collected" class="text-2xl font-black text-emerald-400 mt-1">US$0.00</div>
+        <div class="text-[11px] text-slate-500 mt-1">Con factura/comprobante verificado</div>
+      </div>
+      <div class="kpi-card">
+        <div class="text-xs text-slate-400 font-semibold uppercase">📄 Propuestas Abiertas (Cotizado)</div>
+        <div id="sos-kpi-quoted" class="text-2xl font-black text-cyan-400 mt-1">US$0.00</div>
+        <div class="text-[11px] text-slate-500 mt-1">No genera comisión hasta cobro</div>
+      </div>
+      <div class="kpi-card">
+        <div class="text-xs text-slate-400 font-semibold uppercase">🏆 Comisiones 15% Causadas</div>
+        <div id="sos-kpi-commissions" class="text-2xl font-black text-amber-400 mt-1">US$0.00</div>
+        <div class="text-[11px] text-slate-500 mt-1">5% Setter + 10% Closer sobre cobro</div>
+      </div>
+      <div class="kpi-card">
+        <div class="text-xs text-slate-400 font-semibold uppercase">📊 Contribución Neta Agencia</div>
+        <div id="sos-kpi-contribution" class="text-2xl font-black text-white mt-1">US$0.00</div>
+        <div class="text-[11px] text-slate-500 mt-1">Cobros − 15% com. − costo entrega</div>
+      </div>
+      <div class="kpi-card">
+        <div class="text-xs text-slate-400 font-semibold uppercase">🎯 Meta Punto de Equilibrio ($6K)</div>
+        <div id="sos-kpi-breakeven" class="text-2xl font-black text-rose-400 mt-1">19 ventas</div>
+        <div id="sos-kpi-breakeven-sub" class="text-[11px] text-slate-500 mt-1">Brecha actual: US$6,000.00</div>
+      </div>
+    </div>
+
+    <!-- Filtros del Flujo Comercial Canónico -->
+    <div class="card p-5 space-y-4">
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h3 class="text-base font-bold text-white">Pipeline Comercial Canónico (11 Etapas + Rutas de Salida)</h3>
+          <p class="text-xs text-slate-400">Haz clic en <strong>"⚡ Demo Web"</strong> para mostrarle al cliente su sitio en vivo, en <strong>"📋 Etapa / Propuesta"</strong> para avanzar o en <strong>"💳 Verificar Pago"</strong> cuando pague.</p>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <select id="sos-stage-filter" class="input-dark text-xs py-2 px-3" style="width:auto;" onchange="renderSalesOsTable()">
+            <option value="">Todas las etapas canónicas</option>
+            <option value="Lead identificado">1. Lead identificado</option>
+            <option value="Primer contacto">2. Primer contacto</option>
+            <option value="Conversación">3. Conversación</option>
+            <option value="Calificado">4. Calificado</option>
+            <option value="Diagnóstico agendado">5. Diagnóstico agendado</option>
+            <option value="Demo realizada">6. Demo realizada</option>
+            <option value="Propuesta enviada">7. Propuesta enviada</option>
+            <option value="Pago pendiente">8. Pago pendiente</option>
+            <option value="Pago confirmado">9. Pago confirmado ✅</option>
+            <option value="Implementación">10. Implementación 🛠️</option>
+            <option value="Entregado">11. Entregado 🚀</option>
+            <option value="No interesado">Salida: No interesado</option>
+            <option value="No responde">Salida: No responde</option>
+            <option value="Opt-out">Salida: Opt-out / DND</option>
+          </select>
+          <button onclick="loadSalesOsData()" class="btn-ghost px-3 py-2 rounded-xl text-xs font-semibold">
+            <i class="fas fa-sync-alt mr-1"></i> Actualizar
+          </button>
+        </div>
+      </div>
+
+      <!-- Tabla Responsiva Accesible (modern-web-guidance: responsive-table) -->
+      <div tabindex="0" role="region" aria-labelledby="sos-table-caption" class="table-wrapper rounded-xl border border-slate-800">
+        <table>
+          <caption id="sos-table-caption" class="sr-only">Oportunidades activas del Sales Operating System</caption>
+          <thead>
+            <tr class="text-left text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800">
+              <th class="px-4 py-3">Prospecto / Negocio</th>
+              <th class="px-3 py-3">Vendedor</th>
+              <th class="px-3 py-3">Etapa Canónica</th>
+              <th class="px-3 py-3">Oferta Versionada</th>
+              <th class="px-3 py-3">Cotizado vs Cobrado</th>
+              <th class="px-3 py-3">Comisión 15%</th>
+              <th class="px-3 py-3">Siguiente Paso / Entrega</th>
+              <th class="px-4 py-3">Acciones Comerciales</th>
+            </tr>
+          </thead>
+          <tbody id="sos-leads-tbody" class="text-xs">
+            <tr><td colspan="8" class="text-center py-8 text-slate-500">Cargando oportunidades del Sales OS...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════════════
+       SECTION: DEMOSTRADOR EN VIVO ("MOSTRAR CÓMO SE HACEN LAS PÁGINAS")
+  ════════════════════════════════════════════════════════════════════════ -->
+  <div id="section-web-showcase" class="p-6 hidden space-y-5">
+    <div class="card p-5 flex flex-wrap items-center justify-between gap-4">
+      <div>
+        <span class="text-xs font-bold uppercase tracking-wider text-cyan-400">HERRAMIENTA EN VIVO PARA LA LLAMADA DE 25 MINUTOS</span>
+        <h2 class="text-xl font-bold text-white mt-0.5">Demostrador de Sitios Web Inteligentes — Muestra cómo queda su página en 5 segundos</h2>
+        <p class="text-xs text-slate-400">
+          Selecciona el giro del cliente o escribe el nombre de su negocio aquí abajo. Puedes usarlo aquí mismo o abrirlo en pestaña limpia para compartir pantalla en Zoom.
+        </p>
+      </div>
+      <div class="flex gap-2">
+        <a href="/demo-sitio-web" target="_blank" class="btn-primary px-4 py-2.5 rounded-xl text-xs font-bold inline-flex items-center gap-2 no-underline">
+          <i class="fas fa-external-link-alt"></i> Abrir en Pestaña Limpia para Compartir Pantalla
+        </a>
+      </div>
+    </div>
+
+    <!-- Tarjetas de Acceso Rápido por Dupla / Giro -->
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-3">
+      <button onclick="loadEmbeddedShowcase('clinica_dental_estetica')" class="card p-4 text-left hover:border-cyan-400 transition">
+        <div class="text-cyan-400 font-bold text-xs">🦷 DUPLA A · CLÍNICAS</div>
+        <div class="text-white font-bold text-sm mt-1">Odontología, Estética & Capilar</div>
+        <div class="text-[11px] text-slate-400 mt-1">Con valoración + turno automático 24/7</div>
+      </button>
+      <button onclick="loadEmbeddedShowcase('servicios_locales_taller')" class="card p-4 text-left hover:border-amber-400 transition">
+        <div class="text-amber-400 font-bold text-xs">🔧 DUPLA B · SERVICIOS</div>
+        <div class="text-white font-bold text-sm mt-1">Talleres, Hogar & Comercios</div>
+        <div class="text-[11px] text-slate-400 mt-1">Captura datos y falla sin atender el teléfono</div>
+      </button>
+      <button onclick="loadEmbeddedShowcase('inmobiliaria_bienes_raices')" class="card p-4 text-left hover:border-emerald-400 transition">
+        <div class="text-emerald-400 font-bold text-xs">🏢 DUPLA B · INMOBILIARIA</div>
+        <div class="text-white font-bold text-sm mt-1">Propiedades & Desarrollos</div>
+        <div class="text-[11px] text-slate-400 mt-1">Filtra presupuesto y zona antes de agendar</div>
+      </button>
+      <button onclick="loadEmbeddedShowcase('profesionales_consultoria_legal')" class="card p-4 text-left hover:border-indigo-400 transition">
+        <div class="text-indigo-400 font-bold text-xs">⚖️ DUPLA C · PROFESIONALES</div>
+        <div class="text-white font-bold text-sm mt-1">Contadores, Abogados & Consultores</div>
+        <div class="text-[11px] text-slate-400 mt-1">Pre-diagnóstico ejecutivo + agenda Zoom</div>
+      </button>
+      <button onclick="loadEmbeddedShowcase('academia_educacion_cursos')" class="card p-4 text-left hover:border-pink-400 transition">
+        <div class="text-pink-400 font-bold text-xs">🎓 DUPLA C · ACADEMIAS</div>
+        <div class="text-white font-bold text-sm mt-1">Institutos, Cursos & Coaching</div>
+        <div class="text-[11px] text-slate-400 mt-1">Admisiones 24/7 por WhatsApp</div>
+      </button>
+    </div>
+
+    <!-- Visor Interactivo Embebido -->
+    <div class="card overflow-hidden border border-cyan-500/30" style="height: 760px;">
+      <iframe id="embedded-showcase-iframe" src="/demo-sitio-web?template=clinica_dental_estetica" style="width:100%; height:100%; border:none;"></iframe>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════════════
+       SECTION: ALTA DE VENDEDORES, ASIGNACIÓN DE LOTES Y AUDITORÍA
+  ════════════════════════════════════════════════════════════════════════ -->
+  <div id="section-sellers-admin" class="p-6 hidden space-y-6">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <!-- Formulario de Alta / Edición de Vendedor -->
+      <div class="lg:col-span-5 card p-5 space-y-4">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-cyan-400">ESCUADRÓN COMERCIAL (6 A 20 CLOSERS)</span>
+          <h3 class="text-lg font-bold text-white mt-0.5">Dar de Alta o Actualizar Vendedor en CRM</h3>
+          <p class="text-xs text-slate-400">Crea sus credenciales de acceso a <code class="text-cyan-300">/login</code> y asígnalo a su Dupla oficial.</p>
+        </div>
+        <div id="seller-form-alert" class="hidden p-3 rounded-xl text-xs font-semibold"></div>
+        <div class="space-y-3">
+          <div>
+            <label class="block text-xs text-slate-400 font-semibold mb-1">Nombre Completo del Vendedor *</label>
+            <input type="text" id="new-seller-name" class="input-dark text-sm" placeholder="Ej. Martín Gómez (Closer Dupla A)">
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs text-slate-400 font-semibold mb-1">Correo de Acceso (Login) *</label>
+              <input type="email" id="new-seller-email" class="input-dark text-sm" placeholder="closer7@agenciaprosperia.com">
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 font-semibold mb-1">Contraseña Inicial *</label>
+              <input type="text" id="new-seller-pass" class="input-dark text-sm" placeholder="CloserProsper2026!" value="CloserProsper2026!">
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs text-slate-400 font-semibold mb-1">Rol en el Sistema</label>
+              <select id="new-seller-role" class="input-dark text-sm">
+                <option value="seller">Vendedor / Closer (Solo ve sus leads)</option>
+                <option value="supervisor">Supervisor Comercial (Distribuye y audita)</option>
+                <option value="operations">Operaciones / Ingeniería (Entregas web)</option>
+                <option value="admin">Admin / Dirección</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 font-semibold mb-1">Dupla / Segmento Asignado</label>
+              <select id="new-seller-dupla" class="input-dark text-sm">
+                <option value="Dupla A — Clínicas (Dental, Estética y Capilar)">🦷 Dupla A — Clínicas (Dental, Estética, Capilar)</option>
+                <option value="Dupla B — Servicios Locales & Agenda">🔧 Dupla B — Servicios Locales & Agenda</option>
+                <option value="Dupla C — Profesionales, Consultores & Academias">🎓 Dupla C — Profesionales, Consultores & Academias</option>
+                <option value="Supervisión General">🛡️ Supervisión General</option>
+                <option value="Operaciones & QA (10 Ingenieros)">⚙️ Operaciones & QA (10 Ingenieros)</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs text-slate-400 font-semibold mb-1">Teléfono / WhatsApp del Vendedor</label>
+            <input type="text" id="new-seller-phone" class="input-dark text-sm" placeholder="+54 9 11 ... / +57 ... / +52 ...">
+          </div>
+          <button onclick="submitNewOrUpdatedSeller()" class="btn-primary w-full py-3 rounded-xl text-sm font-bold">
+            <i class="fas fa-user-check mr-1.5"></i> Guardar / Dar de Alta Vendedor en CRM
+          </button>
+        </div>
+
+        <!-- Distribución Automática de Lotes sin Duplicación -->
+        <div class="pt-4 border-t border-slate-800 space-y-3">
+          <h4 class="text-sm font-bold text-amber-300"><i class="fas fa-random mr-1"></i> Repartir Lote de Prospectos (Sin Duplicar y con Filtro DND)</h4>
+          <p class="text-xs text-slate-400">Asigna automáticamente los leads sin propietario en partes iguales entre los vendedores activos.</p>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-[11px] text-slate-400 mb-1">Filtrar por Dupla</label>
+              <select id="batch-dupla-filter" class="input-dark text-xs py-2">
+                <option value="all">Todas las Duplas (6 Closers)</option>
+                <option value="Dupla A">Solo Dupla A (Clínicas)</option>
+                <option value="Dupla B">Solo Dupla B (Servicios Locales)</option>
+                <option value="Dupla C">Solo Dupla C (Profesionales)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[11px] text-slate-400 mb-1">Máx. Leads por Vendedor</label>
+              <input type="number" id="batch-max-per-seller" class="input-dark text-xs py-2" value="20" min="1" max="100">
+            </div>
+          </div>
+          <button onclick="distributeBatchToSellers()" class="w-full py-2.5 px-4 rounded-xl text-xs font-bold text-slate-950 bg-amber-400 hover:bg-amber-300 transition">
+            <i class="fas fa-bolt mr-1"></i> Distribuir Prospectos Ahora (Con Auditoría)
+          </button>
+          <div id="batch-assign-alert" class="hidden p-2.5 rounded-lg text-xs"></div>
+        </div>
+      </div>
+
+      <!-- Tabla de Vendedores Activos y Rendimiento -->
+      <div class="lg:col-span-7 card p-5 space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="text-base font-bold text-white">Equipo Comercial Activo (6 Closers Iniciales + Supervisión + Operaciones)</h3>
+            <p class="text-xs text-slate-400">Contraseña inicial por defecto de los 6 closers: <code class="text-cyan-300">Closer1Prosper2026!</code> ... <code class="text-cyan-300">Closer6Prosper2026!</code></p>
+          </div>
+          <button onclick="loadSalesUsersAndLogs()" class="btn-ghost px-3 py-1.5 rounded-lg text-xs">
+            <i class="fas fa-sync-alt mr-1"></i> Refrescar
+          </button>
+        </div>
+
+        <div tabindex="0" role="region" aria-label="Tabla de vendedores y rendimiento" class="table-wrapper rounded-xl border border-slate-800">
+          <table>
+            <thead>
+              <tr class="text-left text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800">
+                <th class="px-3 py-2.5">Vendedor / Usuario</th>
+                <th class="px-3 py-2.5">Rol & Dupla</th>
+                <th class="px-3 py-2.5">Asignados</th>
+                <th class="px-3 py-2.5">Demos / Prop.</th>
+                <th class="px-3 py-2.5">Cobrado Real</th>
+                <th class="px-3 py-2.5">Comisión 15%</th>
+                <th class="px-3 py-2.5">Editar</th>
+              </tr>
+            </thead>
+            <tbody id="sellers-table-tbody" class="text-xs">
+              <tr><td colspan="7" class="text-center py-6 text-slate-500">Cargando vendedores...</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Historial Inmutable de Auditoría -->
+        <div class="pt-3 border-t border-slate-800">
+          <h4 class="text-sm font-bold text-white mb-2"><i class="fas fa-shield-alt text-cyan-400 mr-1"></i> Registro de Auditoría en Tiempo Real (Cambios de Etapa, Precio, Asignación y Pagos)</h4>
+          <div id="audit-logs-container" class="max-h-56 overflow-y-auto space-y-1.5 pr-1 text-xs">
+            <div class="text-slate-500">Cargando auditoría...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ DIALOG 1: AVANZAR ETAPA / ENVIAR PROPUESTA VERSIONADA (modern-web-guidance: light-dismiss-a-dialog) ══ -->
+  <dialog id="stageUpdateDialog" closedby="any" aria-labelledby="stageDialogTitle" class="sales-dialog">
+    <div class="flex items-center justify-between mb-4 border-b border-slate-800 pb-3">
+      <div>
+        <h3 id="stageDialogTitle" class="text-base font-bold text-white">📋 Avanzar Etapa Comercial / Enviar Propuesta</h3>
+        <p id="stage-dialog-lead-label" class="text-xs text-cyan-400 font-semibold mt-0.5"></p>
+      </div>
+      <button onclick="document.getElementById('stageUpdateDialog').close()" class="text-slate-400 hover:text-white text-sm">✕</button>
+    </div>
+    <input type="hidden" id="stage-lead-id">
+    <div class="space-y-3 text-xs">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Etapa del Flujo Canónico *</label>
+          <select id="stage-select-val" class="input-dark text-xs py-2">
+            <option value="Lead identificado">1. Lead identificado</option>
+            <option value="Primer contacto">2. Primer contacto</option>
+            <option value="Conversación">3. Conversación</option>
+            <option value="Calificado">4. Calificado</option>
+            <option value="Diagnóstico agendado">5. Diagnóstico agendado</option>
+            <option value="Demo realizada">6. Demo realizada</option>
+            <option value="Propuesta enviada">7. Propuesta enviada</option>
+            <option value="Pago pendiente">8. Pago pendiente</option>
+            <option value="No interesado">Salida: No interesado</option>
+            <option value="No responde">Salida: No responde</option>
+            <option value="No cumple perfil">Salida: No cumple perfil</option>
+            <option value="Opt-out">Salida: Opt-out / Baja DND</option>
+            <option value="Venta perdida">Salida: Venta perdida</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Oferta Versionada *</label>
+          <select id="stage-offer-val" class="input-dark text-xs py-2" onchange="syncOfferDefaultPrice()">
+            <option value="EXPRESS_497">🟢 Caja 1: Sitio Web Express — US$497 ($250 hoy + $247 entrega)</option>
+            <option value="ANUAL_990">⭐ Caja 2: Pack Estrella Anual — US$990 ($495 hoy + $495 entrega)</option>
+            <option value="MAQUINA_1490">🔥 Caja 3: Máquina 3 en 1 — US$1,490 ($745 hoy + $745 día 15)</option>
+            <option value="RESCATE_197">🛟 Plan Rescate Micro-PYME — US$197 ($100 hoy + $97 entrega)</option>
+            <option value="SVE90_CORP">🏛️ Escalamiento Corporativo SVE90 (Con Dirección)</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Monto Propuesto / Cotizado (USD)</label>
+          <input type="number" id="stage-quoted-val" class="input-dark text-xs py-2" value="497" step="1">
+        </div>
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Plantilla Sectorial Elegida</label>
+          <select id="stage-template-val" class="input-dark text-xs py-2">
+            <option value="clinica_dental_estetica">🦷 Clínica Dental / Estética / Capilar</option>
+            <option value="servicios_locales_taller">🔧 Servicios Locales / Taller / Hogar</option>
+            <option value="inmobiliaria_bienes_raices">🏢 Inmobiliaria / Bienes Raíces</option>
+            <option value="profesionales_consultoria_legal">⚖️ Profesionales / Consultoría / Legal</option>
+            <option value="academia_educacion_cursos">🎓 Academia / Cursos / Educación</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Fecha/Hora Siguiente Paso Obligatorio *</label>
+          <input type="datetime-local" id="stage-next-date" class="input-dark text-xs py-2">
+        </div>
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Resumen Siguiente Paso / Objeción</label>
+          <input type="text" id="stage-next-note" class="input-dark text-xs py-2" placeholder="Ej. Llamada de cierre martes 11am">
+        </div>
+      </div>
+      <div class="flex gap-2 pt-3">
+        <button type="button" onclick="document.getElementById('stageUpdateDialog').close()" class="btn-ghost flex-1 py-2.5 rounded-xl font-semibold">Cancelar</button>
+        <button type="button" onclick="submitStageAndProposalUpdate()" class="btn-primary flex-1 py-2.5 rounded-xl font-bold">Guardar y Sincronizar con GHL</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- ══ DIALOG 2: VERIFICAR PAGO REAL Y ACTIVAR COMISIÓN 15% + ONBOARDING ══ -->
+  <dialog id="paymentVerifyDialog" closedby="any" aria-labelledby="payDialogTitle" class="sales-dialog">
+    <div class="flex items-center justify-between mb-4 border-b border-slate-800 pb-3">
+      <div>
+        <h3 id="payDialogTitle" class="text-base font-bold text-emerald-400">💳 Verificar Cobro Real, Causar Comisión 15% y Dar de Alta</h3>
+        <p id="pay-dialog-lead-label" class="text-xs text-slate-300 mt-0.5"></p>
+      </div>
+      <button onclick="document.getElementById('paymentVerifyDialog').close()" class="text-slate-400 hover:text-white text-sm">✕</button>
+    </div>
+    <input type="hidden" id="pay-lead-id">
+    <div class="space-y-3 text-xs">
+      <div class="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-200 leading-relaxed">
+        <strong>Regla de Oro P0:</strong> Solo se registra como <em>Pago Confirmado</em> cuando el dinero ingresó y existe un comprobante/ID de transacción verificable. La comisión del <strong>15% (5% Setter + 10% Closer)</strong> se calcula automáticamente sobre el monto efectivamente cobrado hoy.
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">ID de Factura / Comprobante (Hotmart/Stripe/Zelle) *</label>
+          <input type="text" id="pay-invoice-id" class="input-dark text-xs py-2" placeholder="Ej. HP3969615565 o ZELLE-9921">
+        </div>
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Monto Real Cobrado Hoy en Caja (USD) *</label>
+          <input type="number" id="pay-amount-collected" class="input-dark text-xs py-2" value="250" step="0.01" oninput="previewCommissionMath()">
+        </div>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Oferta Contratada</label>
+          <select id="pay-offer-version" class="input-dark text-xs py-2">
+            <option value="EXPRESS_497">🟢 Caja 1: Sitio Web Express (Total US$497)</option>
+            <option value="ANUAL_990">⭐ Caja 2: Pack Estrella Anual (Total US$990)</option>
+            <option value="MAQUINA_1490">🔥 Caja 3: Máquina Completa 3 en 1 (Total US$1,490)</option>
+            <option value="RESCATE_197">🛟 Plan Rescate Micro-PYME (Total US$197)</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Modalidad de Pago Aplicada</label>
+          <select id="pay-plan-mode" class="input-dark text-xs py-2">
+            <option value="50_50_reserva_250_entrega_247">50% Hoy ($250) + 50% Contra Entrega ($247) = US$497</option>
+            <option value="100_contado">100% Pago Único de Contado</option>
+            <option value="rescate_100_97">Rescate: US$100 Hoy + US$97 Contra Entrega = US$197</option>
+          </select>
+        </div>
+      </div>
+      <div class="p-3 rounded-xl bg-slate-900 border border-slate-700 flex items-center justify-between">
+        <span>Comisión 15% generada por este cobro:</span>
+        <strong id="pay-commission-preview" class="text-amber-400 text-sm">US$37.50 USD (US$12.50 Setter + US$25.00 Closer)</strong>
+      </div>
+      <div>
+        <label class="block text-slate-300 font-semibold mb-1">Instrucciones de Onboarding para los 10 Ingenieros (UBA)</label>
+        <textarea id="pay-onboarding-notes" rows="2" class="input-dark text-xs" placeholder="Color preferido, WhatsApp donde recibirá los turnos y oferta principal del sitio..."></textarea>
+      </div>
+      <div class="flex gap-2 pt-2">
+        <button type="button" onclick="document.getElementById('paymentVerifyDialog').close()" class="btn-ghost flex-1 py-2.5 rounded-xl font-semibold">Cancelar</button>
+        <button type="button" onclick="submitVerifiedPayment()" class=" flex-1 py-2.5 rounded-xl font-bold text-slate-950" style="background:linear-gradient(135deg,#34d399,#10b981);">
+          ✅ Confirmar Pago y Enviar a Ingeniería
+        </button>
+      </div>
+    </div>
+  </dialog>
 </main>
 
 <!-- ════════════════════════════════════════════════════
@@ -1425,7 +1901,11 @@
 ════════════════════════════════════════════════════ -->
 <script>
 // ─── State ───────────────────────────────────────────────────────────────────
-let token = localStorage.getItem('prosper_token') || localStorage.getItem('auth_token');
+const _urlToken = new URLSearchParams(window.location.search).get('token');
+if (_urlToken) {
+  localStorage.setItem('auth_token', _urlToken);
+}
+let token = _urlToken || localStorage.getItem('prosper_token') || localStorage.getItem('auth_token');
 let currentUser = null;
 let currentPage = 1;
 const perPage = 10;
@@ -1455,7 +1935,14 @@ let currentIntType = '';
     await loadDashboardStats();
     await loadLeads();
     await loadIntegrationSettings();
+    await loadSalesOsData();
+    await loadSalesUsersAndLogs();
     buildCharts();
+    if (currentUser && currentUser.role === 'seller') {
+      const adminBtn = document.getElementById('nav-sellers-admin');
+      if (adminBtn) adminBtn.style.display = 'none';
+      showSection('sales-os');
+    }
   } catch {
     localStorage.removeItem('prosper_token');
     localStorage.removeItem('auth_token');
@@ -2112,6 +2599,9 @@ function copyApiKey() {
 // ─── Navigation ──────────────────────────────────────────────────────────────
 function showSection(name) {
   const titles = {
+    'sales-os': ['Sales OS & Comisiones 15%', 'Flujo Comercial Canónico — Sitios Web Inteligentes ($497 / $990 / $1,490 / Rescate $197)'],
+    'web-showcase': ['Demostrador de Sitios Web en Vivo', 'Muestra al cliente en 5 segundos cómo queda su página y agenda en GoHighLevel'],
+    'sellers-admin': ['Alta de Vendedores, Lotes & Auditoría', 'Administración de los 6-20 Closers por Duplas (A, B, C) sin duplicados'],
     overview: ['Dashboard', 'Sistema SVE-90 activo'],
     leads: ['Leads & CRM', 'Prospectos del sistema'],
     automations: ['Automatizaciones', 'Flujos SVE-90 activos'],
@@ -2136,6 +2626,10 @@ function showSection(name) {
   
   if (name === 'agents') {
     selectAgent(currentAgent);
+  } else if (name === 'sales-os') {
+    loadSalesOsData();
+  } else if (name === 'sellers-admin') {
+    loadSalesUsersAndLogs();
   }
   closeSidebar();
 }
@@ -2395,6 +2889,373 @@ function fmtDate(d) {
   if (!d) return '—';
   try { return new Date(d).toLocaleDateString('es-ES', { day:'2-digit', month:'short', year:'numeric' }); }
   catch { return d; }
+}
+
+// ─── SALES OPERATING SYSTEM & DEMOSTRADOR EN VIVO ────────────────────────────
+let salesOsLeads = [];
+let salesOsMetrics = null;
+let salesOsUsers = [];
+
+// Fallback para <dialog closedby="any"> en Safari / navegadores sin soporte nativo (modern-web-guidance)
+document.querySelectorAll('dialog.sales-dialog').forEach((dialog) => {
+  if (!('closedBy' in HTMLDialogElement.prototype)) {
+    dialog.addEventListener('click', (event) => {
+      if (event.target !== dialog) return;
+      const rect = dialog.getBoundingClientRect();
+      const isDialogContent = (
+        rect.top <= event.clientY &&
+        event.clientY <= rect.top + rect.height &&
+        rect.left <= event.clientX &&
+        event.clientX <= rect.left + rect.width
+      );
+      if (isDialogContent) return;
+      dialog.close();
+    });
+  }
+});
+
+async function loadSalesOsData() {
+  try {
+    const [mRes, lRes] = await Promise.all([
+      fetch('/api/sales-os/metrics', { headers: { Authorization: 'Bearer ' + token } }),
+      fetch('/api/leads?limit=250', { headers: { Authorization: 'Bearer ' + token } })
+    ]);
+    if (mRes.ok) {
+      const mData = await mRes.json();
+      salesOsMetrics = mData.data || {};
+      const fin = salesOsMetrics.financials || {};
+      const fmtUsd = v => 'US$' + Number(v || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+      const roleBadge = document.getElementById('sos-role-badge');
+      const duplaBadge = document.getElementById('sos-dupla-badge');
+      if (roleBadge && currentUser) roleBadge.textContent = 'ROL: ' + (currentUser.role || 'seller').toUpperCase();
+      if (duplaBadge && currentUser) duplaBadge.textContent = currentUser.dupla || 'Dupla Comercial';
+
+      document.getElementById('sos-kpi-collected').textContent = fmtUsd(fin.amount_collected_verified);
+      document.getElementById('sos-kpi-quoted').textContent = fmtUsd(fin.quoted_open_amount);
+      document.getElementById('sos-kpi-commissions').textContent = fmtUsd(fin.commissions_accrued_pending + (fin.commissions_paid || 0));
+      document.getElementById('sos-kpi-contribution').textContent = fmtUsd(fin.net_contribution);
+      document.getElementById('sos-kpi-breakeven').textContent = (fin.express_497_sales_needed_for_breakeven ?? 19) + ' ventas Express';
+      document.getElementById('sos-kpi-breakeven-sub').textContent = 'Brecha a $6,000 fijos: ' + fmtUsd(fin.gap_to_break_even ?? 6000);
+    }
+    if (lRes.ok) {
+      const lData = await lRes.json();
+      salesOsLeads = lData.data?.leads || [];
+      renderSalesOsTable();
+    }
+  } catch (err) {
+    console.warn('Error cargando Sales OS:', err);
+  }
+}
+
+function renderSalesOsTable() {
+  const tbody = document.getElementById('sos-leads-tbody');
+  if (!tbody) return;
+  const stageFilter = document.getElementById('sos-stage-filter')?.value || '';
+  const rows = salesOsLeads.filter(l => !stageFilter || (l.pipeline_stage || 'Lead identificado') === stageFilter);
+
+  if (!rows.length) {
+    tbody.innerHTML = '<tr><td colspan="8" class="text-center py-8 text-slate-500">No hay oportunidades en esta etapa.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = rows.map(l => {
+    const stage = l.pipeline_stage || 'Lead identificado';
+    const isPaid = Number(l.amount_collected || 0) > 0 && (l.invoice_id || '').trim() !== '';
+    const stageBadgeColor = isPaid
+      ? 'background:rgba(16,185,129,0.18); color:#34d399; border:1px solid rgba(16,185,129,0.35);'
+      : stage.includes('Propuesta') || stage.includes('Demo')
+      ? 'background:rgba(0,229,255,0.14); color:#00e5ff; border:1px solid rgba(0,229,255,0.3);'
+      : 'background:rgba(148,163,184,0.12); color:#cbd5e1; border:1px solid rgba(148,163,184,0.25);';
+
+    const demoUrl = `/demo-sitio-web?lead_id=${l.id}&template=${encodeURIComponent(l.selected_template || 'clinica_dental_estetica')}&business=${encodeURIComponent(l.business_name || l.company || l.name)}&phone=${encodeURIComponent(l.phone || '')}`;
+
+    return `<tr class="table-row">
+      <th scope="row" class="px-4 py-3 text-left font-normal">
+        <div class="font-bold text-white">${esc(l.business_name || l.company || l.name)}</div>
+        <div class="text-[11px] text-slate-400">${esc(l.full_name || l.name)} · ${esc(l.phone_e164 || l.phone || l.email)}</div>
+      </th>
+      <td class="px-3 py-3 text-slate-300">
+        ${l.owner_id ? `<span class="px-2 py-0.5 rounded bg-slate-800 text-cyan-300 font-semibold">${esc(l.owner_id.split('@')[0])}</span>` : '<span class="text-amber-400">Sin asignar</span>'}
+      </td>
+      <td class="px-3 py-3">
+        <span class="px-2.5 py-1 rounded-full text-[11px] font-bold inline-block" style="${stageBadgeColor}">${esc(stage)}</span>
+      </td>
+      <td class="px-3 py-3 text-slate-300 font-semibold">${esc(l.offer_version || 'EXPRESS_497')}</td>
+      <td class="px-3 py-3">
+        <div class="text-slate-400">Cotizado: <strong class="text-cyan-300">US$${Number(l.quoted_amount || 0).toFixed(0)}</strong></div>
+        <div class="text-slate-400">Cobrado: <strong class="${isPaid ? 'text-emerald-400' : 'text-slate-500'}">US$${Number(l.amount_collected || 0).toFixed(2)}</strong> ${isPaid ? `<span class="text-[10px] text-emerald-300">(${esc(l.invoice_id)})</span>` : ''}</div>
+      </td>
+      <td class="px-3 py-3">
+        ${isPaid
+          ? `<div class="font-bold text-amber-400">US$${Number(l.commission_amount || 0).toFixed(2)}</div><div class="text-[10px] text-emerald-300 uppercase">${esc(l.commission_status)}</div>`
+          : `<span class="text-slate-500 text-[11px]">Pendiente de cobro</span>`}
+      </td>
+      <td class="px-3 py-3">
+        <div class="text-slate-300">${l.next_action_at ? `📅 ${esc(l.next_action_at)}` : '<span class="text-amber-400">⚠️ Definir siguiente paso</span>'}</div>
+        <div class="text-[11px] text-slate-500">Entrega: <strong class="text-slate-300">${esc(l.site_delivery_status || 'pendiente_pago')}</strong></div>
+      </td>
+      <td class="px-4 py-3">
+        <div class="flex flex-wrap gap-1.5">
+          <a href="${demoUrl}" target="_blank" class="px-2.5 py-1.5 rounded-lg text-[11px] font-bold bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/25 no-underline" title="Abrir Demostrador de Sitio Web en Vivo">
+            ⚡ Demo Web
+          </a>
+          <button onclick="openStageDialog(${l.id})" class="px-2.5 py-1.5 rounded-lg text-[11px] font-semibold bg-slate-800 text-slate-200 border border-slate-700 hover:border-cyan-400">
+            📋 Etapa / Prop.
+          </button>
+          <button onclick="openPaymentDialog(${l.id})" class="px-2.5 py-1.5 rounded-lg text-[11px] font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/25">
+            💳 Verificar Pago
+          </button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function openStageDialog(leadId) {
+  const lead = salesOsLeads.find(x => x.id === leadId);
+  if (!lead) return;
+  document.getElementById('stage-lead-id').value = lead.id;
+  document.getElementById('stage-dialog-lead-label').textContent = `${lead.business_name || lead.company || lead.name} (${lead.email})`;
+  document.getElementById('stage-select-val').value = lead.pipeline_stage || 'Primer contacto';
+  document.getElementById('stage-offer-val').value = lead.offer_version || 'EXPRESS_497';
+  document.getElementById('stage-quoted-val').value = lead.quoted_amount && lead.quoted_amount > 0 ? lead.quoted_amount : 497;
+  document.getElementById('stage-template-val').value = lead.selected_template || 'clinica_dental_estetica';
+  document.getElementById('stage-next-date').value = lead.next_action_at || '';
+  document.getElementById('stage-next-note').value = lead.next_action_note || '';
+  document.getElementById('stageUpdateDialog').showModal();
+}
+
+function syncOfferDefaultPrice() {
+  const map = { EXPRESS_497: 497, ANUAL_990: 990, MAQUINA_1490: 1490, RESCATE_197: 197, SVE90_CORP: 5000 };
+  const code = document.getElementById('stage-offer-val').value;
+  if (map[code]) document.getElementById('stage-quoted-val').value = map[code];
+}
+
+async function submitStageAndProposalUpdate() {
+  const leadId = document.getElementById('stage-lead-id').value;
+  const payload = {
+    pipeline_stage: document.getElementById('stage-select-val').value,
+    offer_version: document.getElementById('stage-offer-val').value,
+    quoted_amount: parseFloat(document.getElementById('stage-quoted-val').value || '497'),
+    selected_template: document.getElementById('stage-template-val').value,
+    next_action_at: document.getElementById('stage-next-date').value,
+    next_action_note: document.getElementById('stage-next-note').value
+  };
+  try {
+    const res = await fetch(`/api/sales-os/leads/${leadId}/stage`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      alert(data.detail || data.error || 'Error al actualizar etapa.');
+      return;
+    }
+    document.getElementById('stageUpdateDialog').close();
+    await loadSalesOsData();
+    await loadLeads();
+  } catch (err) {
+    alert('Error de conexión al guardar etapa.');
+  }
+}
+
+function openPaymentDialog(leadId) {
+  const lead = salesOsLeads.find(x => x.id === leadId);
+  if (!lead) return;
+  document.getElementById('pay-lead-id').value = lead.id;
+  document.getElementById('pay-dialog-lead-label').textContent = `Cliente: ${lead.business_name || lead.company || lead.name} · Vendedor: ${lead.owner_id || currentUser?.email}`;
+  document.getElementById('pay-invoice-id').value = lead.invoice_id || '';
+  document.getElementById('pay-offer-version').value = lead.offer_version || 'EXPRESS_497';
+  const defaultCollect = lead.offer_version === 'ANUAL_990' ? 495 : lead.offer_version === 'MAQUINA_1490' ? 745 : lead.offer_version === 'RESCATE_197' ? 100 : 250;
+  document.getElementById('pay-amount-collected').value = lead.amount_collected > 0 ? lead.amount_collected : defaultCollect;
+  previewCommissionMath();
+  document.getElementById('paymentVerifyDialog').showModal();
+}
+
+function previewCommissionMath() {
+  const amt = parseFloat(document.getElementById('pay-amount-collected').value || '0');
+  const setter = (amt * 0.05).toFixed(2);
+  const closer = (amt * 0.10).toFixed(2);
+  const total = (amt * 0.15).toFixed(2);
+  document.getElementById('pay-commission-preview').textContent = `US$${total} USD (US$${setter} Setter + US$${closer} Closer)`;
+}
+
+async function submitVerifiedPayment() {
+  const leadId = document.getElementById('pay-lead-id').value;
+  const invoiceId = document.getElementById('pay-invoice-id').value.trim();
+  const amount = parseFloat(document.getElementById('pay-amount-collected').value || '0');
+  if (!invoiceId) {
+    alert('Debes ingresar el ID de Factura / Comprobante verificable (Hotmart, Stripe, Zelle o Transferencia).');
+    return;
+  }
+  if (amount <= 0) {
+    alert('El monto cobrado debe ser mayor a US$0.');
+    return;
+  }
+  try {
+    const res = await fetch(`/api/sales-os/leads/${leadId}/verify-payment`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+      body: JSON.stringify({
+        invoice_id: invoiceId,
+        amount_collected: amount,
+        offer_version: document.getElementById('pay-offer-version').value,
+        payment_plan: document.getElementById('pay-plan-mode').value,
+        notes: document.getElementById('pay-onboarding-notes').value
+      })
+    });
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      alert(data.detail || data.error || 'No se pudo verificar el pago.');
+      return;
+    }
+    alert('✅ ' + data.message);
+    document.getElementById('paymentVerifyDialog').close();
+    await loadSalesOsData();
+    await loadDashboardStats();
+    await loadLeads();
+  } catch (err) {
+    alert('Error de conexión al verificar el pago.');
+  }
+}
+
+function loadEmbeddedShowcase(tpl) {
+  const iframe = document.getElementById('embedded-showcase-iframe');
+  if (iframe) iframe.src = '/demo-sitio-web?template=' + encodeURIComponent(tpl);
+}
+
+async function loadSalesUsersAndLogs() {
+  try {
+    const [uRes, aRes] = await Promise.all([
+      fetch('/api/sales-os/users', { headers: { Authorization: 'Bearer ' + token } }),
+      fetch('/api/sales-os/audit-logs?limit=40', { headers: { Authorization: 'Bearer ' + token } })
+    ]);
+    if (uRes.ok) {
+      const uData = await uRes.json();
+      salesOsUsers = uData.data?.users || [];
+      const tbody = document.getElementById('sellers-table-tbody');
+      if (tbody) {
+        tbody.innerHTML = salesOsUsers.map(u => {
+          const m = u.metrics || {};
+          return `<tr class="table-row">
+            <th scope="row" class="px-3 py-2.5 text-left font-normal">
+              <div class="font-bold text-white">${esc(u.name)}</div>
+              <div class="text-[11px] text-cyan-300">${esc(u.email)}</div>
+            </th>
+            <td class="px-3 py-2.5">
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-slate-800 text-slate-200">${esc(u.role)}</span>
+              <div class="text-[11px] text-slate-400 mt-0.5">${esc(u.dupla)}</div>
+            </td>
+            <td class="px-3 py-2.5 font-bold text-white">${m.assigned_leads ?? 0}</td>
+            <td class="px-3 py-2.5 text-slate-300">${m.demos_completed ?? 0} demos / ${m.proposals_sent ?? 0} prop.</td>
+            <td class="px-3 py-2.5 font-bold text-emerald-400">US$${Number(m.amount_collected || 0).toFixed(2)}</td>
+            <td class="px-3 py-2.5 font-bold text-amber-400">US$${Number(m.commission_accrued || 0).toFixed(2)}</td>
+            <td class="px-3 py-2.5">
+              <button onclick="fillSellerEditForm('${esc(u.email)}')" class="px-2.5 py-1 rounded bg-slate-800 text-cyan-300 hover:bg-slate-700 text-[11px]">
+                Editar
+              </button>
+            </td>
+          </tr>`;
+        }).join('');
+      }
+    }
+    if (aRes.ok) {
+      const aData = await aRes.json();
+      const logs = aData.data?.logs || [];
+      const box = document.getElementById('audit-logs-container');
+      if (box) {
+        box.innerHTML = logs.length
+          ? logs.map(lg => `
+            <div class="p-2 rounded-lg bg-slate-900/80 border border-slate-800 flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <span class="text-cyan-400 font-bold">[${esc(lg.action)}]</span>
+                <span class="text-slate-300 ml-1">${esc(lg.new_value)}</span>
+                ${lg.notes ? `<span class="text-slate-500 ml-1">— ${esc(lg.notes)}</span>` : ''}
+              </div>
+              <div class="text-[10px] text-slate-500">${esc(lg.actor_email)} · ${esc(lg.created_at)}</div>
+            </div>
+          `).join('')
+          : '<div class="text-slate-500">Sin eventos de auditoría aún.</div>';
+      }
+    }
+  } catch (err) {
+    console.warn('Error cargando vendedores/auditoría:', err);
+  }
+}
+
+function fillSellerEditForm(email) {
+  const u = salesOsUsers.find(x => x.email === email);
+  if (!u) return;
+  document.getElementById('new-seller-name').value = u.name || '';
+  document.getElementById('new-seller-email').value = u.email || '';
+  document.getElementById('new-seller-pass').value = '';
+  document.getElementById('new-seller-role').value = u.role || 'seller';
+  document.getElementById('new-seller-dupla').value = u.dupla || 'Dupla A — Clínicas (Dental, Estética y Capilar)';
+  document.getElementById('new-seller-phone').value = u.phone || '';
+}
+
+async function submitNewOrUpdatedSeller() {
+  const name = document.getElementById('new-seller-name').value.trim();
+  const email = document.getElementById('new-seller-email').value.trim();
+  const password = document.getElementById('new-seller-pass').value.trim();
+  const role = document.getElementById('new-seller-role').value;
+  const dupla = document.getElementById('new-seller-dupla').value;
+  const phone = document.getElementById('new-seller-phone').value.trim();
+  const alertEl = document.getElementById('seller-form-alert');
+
+  if (!name || !email) {
+    alert('Nombre y correo del vendedor son obligatorios.');
+    return;
+  }
+  try {
+    const res = await fetch('/api/sales-os/users', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+      body: JSON.stringify({ name, email, password: password || undefined, role, dupla, phone })
+    });
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      alert(data.detail || data.error || 'No se pudo guardar el vendedor.');
+      return;
+    }
+    if (alertEl) {
+      alertEl.textContent = '✅ ' + data.message;
+      alertEl.className = 'p-3 rounded-xl text-xs font-semibold bg-emerald-500/15 border border-emerald-500/30 text-emerald-300';
+      alertEl.classList.remove('hidden');
+    }
+    await loadSalesUsersAndLogs();
+  } catch (err) {
+    alert('Error de conexión al dar de alta al vendedor.');
+  }
+}
+
+async function distributeBatchToSellers() {
+  const duplaFilter = document.getElementById('batch-dupla-filter').value;
+  const maxPerSeller = parseInt(document.getElementById('batch-max-per-seller').value || '20', 10);
+  const alertEl = document.getElementById('batch-assign-alert');
+  try {
+    const res = await fetch('/api/sales-os/assign-batch', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+      body: JSON.stringify({ dupla_filter: duplaFilter, max_per_seller: maxPerSeller })
+    });
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      alert(data.detail || data.error || 'No se pudo distribuir el lote.');
+      return;
+    }
+    if (alertEl) {
+      alertEl.textContent = '✅ ' + data.message;
+      alertEl.className = 'p-2.5 rounded-lg text-xs font-semibold bg-emerald-500/15 border border-emerald-500/30 text-emerald-300';
+      alertEl.classList.remove('hidden');
+    }
+    await loadSalesUsersAndLogs();
+    await loadSalesOsData();
+  } catch (err) {
+    alert('Error de conexión al distribuir lote.');
+  }
 }
 </script>
 </body>

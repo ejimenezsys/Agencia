@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demostrador en Vivo — Sitio Web Inteligente | Agencia Prosper IA</title>
+  <link rel="icon" type="image/png" href="{{ static_versioned('favicon.png') }}">
+  <link rel="stylesheet" href="{{ static_versioned('tw.css') }}">
+  <link rel="stylesheet" href="{{ static_versioned('fonts.css') }}">
+  <link rel="stylesheet" href="{{ static_versioned('fa.min.css') }}">
+  <style>
+    :root {
+      --accent: #00e5ff;
+      --secondary: #0ea5e9;
+      --bg-dark: #040b16;
+      --bg-card: #0b182e;
+      --border-col: rgba(0, 229, 255, 0.22);
+    }
+    * { box-sizing: border-box; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+    h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; }
+    body {
+      margin: 0;
+      background: var(--bg-dark);
+      color: #f8fafc;
+      min-height: 100vh;
+    }
+    .closer-toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(5, 13, 26, 0.96);
+      border-bottom: 2px solid var(--accent);
+      backdrop-filter: blur(14px);
+      padding: 12px 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.65);
+    }
+    .closer-toolbar.minimized .toolbar-controls {
+      display: none;
+    }
+    .input-mini {
+      background: #0d1f3c;
+      border: 1px solid #1e3a5f;
+      color: #fff;
+      border-radius: 8px;
+      padding: 7px 11px;
+      font-size: 13px;
+      width: 100%;
+      outline: none;
+    }
+    .input-mini:focus {
+      border-color: var(--accent);
+    }
+    .hero-glow {
+      background: radial-gradient(circle at 20% 20%, rgba(0, 229, 255, 0.14), transparent 55%),
+                  radial-gradient(circle at 80% 30%, rgba(99, 102, 241, 0.14), transparent 55%);
+    }
+    .accent-btn {
+      background: linear-gradient(135deg, var(--accent), var(--secondary));
+      color: #040b16;
+      font-weight: 800;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 24px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .accent-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(0, 229, 255, 0.3);
+    }
+    .feature-box {
+      background: rgba(13, 31, 60, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      padding: 24px;
+      transition: all 0.25s ease;
+    }
+    .feature-box:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+    }
+    .whatsapp-bubble {
+      background: #075e54;
+      color: #fff;
+      border-radius: 14px 14px 14px 2px;
+      padding: 14px 16px;
+      font-size: 13.5px;
+      line-height: 1.45;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+    }
+    dialog::backdrop {
+      background-color: rgba(2, 6, 23, 0.78);
+      backdrop-filter: blur(4px);
+    }
+    dialog {
+      background: #091528;
+      color: #f8fafc;
+      border: 1px solid var(--accent);
+      border-radius: 18px;
+      padding: 0;
+      max-width: 920px;
+      width: 94%;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══ BARRA DE PERSONALIZACIÓN EN VIVO PARA EL VENDEDOR/CLOSER ══ -->
+  <header class="closer-toolbar" id="closer-toolbar">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-2">
+        <div class="flex items-center gap-2.5">
+          <span class="px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider" style="background:rgba(0,229,255,0.15); color:#00e5ff; border:1px solid rgba(0,229,255,0.3);">
+            <i class="fas fa-bolt mr-1"></i> DEMOSTRADOR EN VIVO (CLOSER)
+          </span>
+          <span class="text-xs text-slate-300 hidden sm:inline">
+            Personaliza en 5 segundos el sitio del cliente, prueba el formulario en vivo y dalo de alta en el CRM.
+          </span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="openLookGalleryModal()" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-amber-300 border border-amber-400/30 hover:bg-amber-400/10">
+            <i class="fas fa-palette mr-1"></i> +60 Looks de Diseño
+          </button>
+          <button onclick="saveDemoToCrm()" id="btn-save-crm" class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-950" style="background:linear-gradient(135deg,#34d399,#10b981);">
+            <i class="fas fa-check-circle mr-1"></i> Guardar Demo / Dar de Alta en CRM
+          </button>
+          <button onclick="toggleToolbar()" id="btn-toggle-bar" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-300 border border-slate-700 hover:border-cyan-400">
+            <i class="fas fa-eye-slash mr-1"></i> Modo Cliente
+          </button>
+          <a href="/dashboard" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/10">
+            <i class="fas fa-arrow-left mr-1"></i> Volver al CRM
+          </a>
+        </div>
+      </div>
+
+      <div class="toolbar-controls grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2.5 pt-2 border-t border-slate-800/80">
+        <div>
+          <label class="block text-[11px] text-slate-400 mb-1 font-semibold">1. Giro / Plantilla Sectorial</label>
+          <select id="ctrl-template" class="input-mini" onchange="applyTemplateChange()">
+            <option value="clinica_dental_estetica">🦷 Clínica Dental / Estética / Capilar (Dupla A)</option>
+            <option value="servicios_locales_taller">🔧 Servicios Locales / Taller / Hogar (Dupla B)</option>
+            <option value="inmobiliaria_bienes_raices">🏢 Inmobiliaria / Bienes Raíces (Dupla B)</option>
+            <option value="profesionales_consultoria_legal">⚖️ Estudio Contable / Legal / Consultoría (Dupla C)</option>
+            <option value="academia_educacion_cursos">🎓 Academia / Cursos / Coaching (Dupla C)</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-[11px] text-slate-400 mb-1 font-semibold">2. Nombre del Negocio del Cliente</label>
+          <input type="text" id="ctrl-business" class="input-mini" placeholder="Ej. Clínica Dra. Laura" oninput="syncLivePreview()">
+        </div>
+        <div>
+          <label class="block text-[11px] text-slate-400 mb-1 font-semibold">3. Ciudad / País del Cliente</label>
+          <input type="text" id="ctrl-city" class="input-mini" placeholder="Ej. Buenos Aires / Miami" oninput="syncLivePreview()">
+        </div>
+        <div>
+          <label class="block text-[11px] text-slate-400 mb-1 font-semibold">4. Oferta / Gancho del Mes</label>
+          <input type="text" id="ctrl-offer" class="input-mini" placeholder="Ej. Evaluación Diagnóstica 20% OFF" oninput="syncLivePreview()">
+        </div>
+        <div>
+          <label class="block text-[11px] text-slate-400 mb-1 font-semibold">5. WhatsApp Recepción 24/7</label>
+          <input type="text" id="ctrl-phone" class="input-mini" placeholder="+1 786 557 3119" oninput="syncLivePreview()">
+        </div>
+      </div>
+      <div id="crm-save-banner" class="hidden mt-2 px-3 py-2 rounded-lg text-xs font-semibold bg-emerald-500/15 border border-emerald-500/40 text-emerald-300"></div>
+    </div>
+  </header>
+
+  <!-- ══ SITIO WEB INTELIGENTE EN VIVO (VISTA DEL CLIENTE) ══ -->
+  <div class="hero-glow min-h-screen">
+    <!-- Top Navigation del Sitio del Cliente -->
+    <nav class="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between border-b border-slate-800/80">
+      <div class="flex items-center gap-3">
+        <div id="site-logo-badge" class="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-lg text-slate-950" style="background:linear-gradient(135deg, var(--accent), var(--secondary));">
+          <i class="fas fa-sparkles"></i>
+        </div>
+        <div>
+          <div id="view-business-name" class="font-bold text-lg text-white leading-tight">Clínica Dental & Estética Avanzada</div>
+          <div class="text-xs text-slate-400 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 inline-block"></span>
+            <span id="view-city">Miami / Buenos Aires / Bogotá</span> · Recepción Digital Activa 24/7
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="#qualify-section" class="accent-btn text-xs sm:text-sm py-2.5 px-4 inline-flex items-center gap-2 no-underline">
+          <i class="fab fa-whatsapp text-base"></i>
+          <span>Agendar / Cotizar Ahora</span>
+        </a>
+      </div>
+    </nav>
+
+    <!-- HERO SECTION + FORMULARIO CALIFICADOR 24/7 -->
+    <section class="max-w-6xl mx-auto px-6 py-12 lg:py-16 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center" id="qualify-section">
+      <!-- Columna Izquierda: Propuesta de Valor del Cliente -->
+      <div class="lg:col-span-7 space-y-6">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase" style="background:rgba(0,229,255,0.12); color:var(--accent); border:1px solid var(--border-col);">
+          <i class="fas fa-check-circle"></i>
+          <span id="view-badge">SALUD & ESTÉTICA PREMIUM</span>
+        </div>
+
+        <h1 id="view-hero-title" class="text-3xl sm:text-5xl font-extrabold text-white leading-tight">
+          Agenda tu Valoración Especializada en Menos de 60 Segundos sin Esperar en Línea
+        </h1>
+
+        <p id="view-hero-subtitle" class="text-slate-300 text-base sm:text-lg leading-relaxed">
+          Nuestro sistema inteligente califica tu caso y te asigna turno prioritario con nuestros especialistas por WhatsApp las 24 horas.
+        </p>
+
+        <!-- Caja de Oferta Activa -->
+        <div class="p-4 rounded-2xl border border-amber-400/30 bg-amber-500/10 flex items-start gap-3.5">
+          <div class="w-9 h-9 rounded-xl bg-amber-400/20 text-amber-300 flex items-center justify-center flex-shrink-0 mt-0.5">
+            <i class="fas fa-gift"></i>
+          </div>
+          <div>
+            <div class="text-xs font-bold uppercase tracking-wider text-amber-300">Beneficio Especial al Registrarte Hoy en la Web</div>
+            <div id="view-offer" class="text-sm sm:text-base font-semibold text-white mt-0.5">
+              Valoración Diagnóstica + Diseño de Sonrisa / Armonización con 20% OFF esta semana
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 Pilares del Negocio -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2" id="view-services-grid">
+          <!-- Renderizado por JS según el giro -->
+        </div>
+      </div>
+
+      <!-- Columna Derecha: Formulario Calificador + Asistente 24/7 -->
+      <div class="lg:col-span-5">
+        <div class="p-6 sm:p-8 rounded-2xl border-2 shadow-2xl" style="background:#091528; border-color:var(--accent);">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+                ⚡ Respuesta en &lt; 1 Minuto
+              </span>
+              <h3 class="text-xl font-bold text-white mt-2">Solicita tu Turno / Presupuesto</h3>
+            </div>
+            <div class="w-11 h-11 rounded-full flex items-center justify-center text-xl" style="background:rgba(0,229,255,0.12); color:var(--accent);">
+              <i class="fas fa-robot"></i>
+            </div>
+          </div>
+
+          <form id="live-demo-form" onsubmit="simulateClientSubmission(event)" class="space-y-3.5">
+            <div>
+              <label class="block text-xs text-slate-300 font-semibold mb-1">Tu Nombre y Apellido *</label>
+              <input type="text" id="sim-name" required class="input-mini py-2.5" placeholder="Ej. María Fernanda López" value="María Fernanda López">
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs text-slate-300 font-semibold mb-1">Tu WhatsApp *</label>
+                <input type="tel" id="sim-phone" required class="input-mini py-2.5" placeholder="+54 9 11 5555 4444" value="+5491155554444">
+              </div>
+              <div>
+                <label class="block text-xs text-slate-300 font-semibold mb-1">Tu Correo *</label>
+                <input type="email" id="sim-email" required class="input-mini py-2.5" placeholder="maria@correo.com" value="maria@cliente-demo.com">
+              </div>
+            </div>
+            <div>
+              <label id="view-q1-label" class="block text-xs text-slate-300 font-semibold mb-1">¿Qué tratamiento te interesa evaluar primero?</label>
+              <input type="text" id="sim-q1" required class="input-mini py-2.5" placeholder="Escribe aquí tu consulta principal" value="Quiero agendar valoración esta semana">
+            </div>
+            <div>
+              <label id="view-q2-label" class="block text-xs text-slate-300 font-semibold mb-1">¿Para cuándo buscas disponibilidad?</label>
+              <select id="sim-q2" class="input-mini py-2.5">
+                <option value="Lo antes posible (Esta semana)">🔥 Lo antes posible (Esta semana)</option>
+                <option value="Próxima semana">📅 Próxima semana</option>
+                <option value="Solo quiero cotización por WhatsApp">💬 Solo quiero cotización por WhatsApp</option>
+              </select>
+            </div>
+            <div class="flex items-start gap-2 pt-1">
+              <input type="checkbox" id="sim-consent" checked class="mt-1">
+              <label for="sim-consent" class="text-[11px] text-slate-400 leading-snug">
+                Acepto recibir confirmación de mi turno y atención automática por WhatsApp y correo de <strong id="view-consent-biz">Clínica Dental & Estética Avanzada</strong>.
+              </label>
+            </div>
+
+            <button type="submit" class="accent-btn w-full text-sm py-3.5 mt-2 flex items-center justify-center gap-2">
+              <span>Continuar y Ver Disponibilidad en Vivo</span>
+              <i class="fas fa-arrow-right"></i>
+            </button>
+          </form>
+
+          <!-- Resultado en vivo al enviar el formulario (lo que el vendedor le muestra al dueño del negocio) -->
+          <div id="sim-result-box" class="hidden mt-5 pt-5 border-t border-slate-800 space-y-4">
+            <div class="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
+              <i class="fas fa-bolt"></i> ¡Así le contesta tu Asistente 24/7 en menos de 40 segundos!
+            </div>
+            <div class="whatsapp-bubble" id="sim-whatsapp-msg"></div>
+            <div class="p-3.5 rounded-xl bg-slate-900/90 border border-cyan-500/30 text-xs text-slate-300 space-y-1.5">
+              <div class="font-bold text-cyan-300">📊 Registro Automático en tu Tablero CRM (En tu Celular):</div>
+              <div id="sim-crm-summary"></div>
+            </div>
+            <button type="button" onclick="openGhlCalendarModal()" class="w-full py-2.5 px-4 rounded-xl font-bold text-xs text-slate-950 bg-amber-400 hover:bg-amber-300 transition">
+              <i class="fas fa-calendar-alt mr-1"></i> Paso 2: Abrir Calendario Oficial Pre-Cargado (GoHighLevel)
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN EDUCATIVA PARA EL CLIENTE: ¿CÓMO FUNCIONA TU SUCURSAL DIGITAL? -->
+    <section class="max-w-6xl mx-auto px-6 py-10 border-t border-slate-800/80">
+      <div class="text-center max-w-2xl mx-auto mb-8">
+        <span class="text-xs font-bold uppercase tracking-widest text-cyan-400">ARQUITECTURA LLAVE EN MANO EN 7 A 10 DÍAS</span>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">Lo que nuestros 10 Ingenieros dejan instalado en tu negocio</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="feature-box">
+          <div class="text-cyan-400 text-xl mb-2"><i class="fas fa-globe"></i> 1. Sucursal Web 24/7</div>
+          <p class="text-xs text-slate-300 leading-relaxed">Adaptada a la identidad de <strong id="view-step-biz">tu negocio</strong> sobre nuestros +60 modelos de alta conversión.</p>
+        </div>
+        <div class="feature-box">
+          <div class="text-emerald-400 text-xl mb-2"><i class="fab fa-whatsapp"></i> 2. Recepcionista IA</div>
+          <p class="text-xs text-slate-300 leading-relaxed">Responde consultas en menos de 1 minuto a cualquier hora, filtra curiosos y pide los datos clave.</p>
+        </div>
+        <div class="feature-box">
+          <div class="text-amber-400 text-xl mb-2"><i class="fas fa-calendar-check"></i> 3. Agenda Anti-Faltazos</div>
+          <p class="text-xs text-slate-300 leading-relaxed">El cliente elige horario y recibe recordatorios automáticos 24h y 1h antes por WhatsApp.</p>
+        </div>
+        <div class="feature-box">
+          <div class="text-indigo-400 text-xl mb-2"><i class="fas fa-mobile-screen-button"></i> 4. Tablero en tu Celular</div>
+          <p class="text-xs text-slate-300 leading-relaxed">Ves quién pidió precio, quién agendó cita y cuánta plata tienes por cobrar esta semana.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ══ MODAL 1: CALENDARIO OFICIAL GHL PRE-CARGADO ══ -->
+  <dialog id="ghlCalendarDialog" closedby="any" aria-labelledby="ghlCalTitle">
+    <div class="p-4 border-b border-slate-800 flex items-center justify-between">
+      <div>
+        <h3 id="ghlCalTitle" class="text-base font-bold text-white">📅 Calendario Inteligente GoHighLevel (Pre-cargado con los datos del cliente)</h3>
+        <p class="text-xs text-slate-400">El cliente no tiene que volver a escribir su nombre, correo ni teléfono.</p>
+      </div>
+      <button onclick="document.getElementById('ghlCalendarDialog').close()" class="px-3 py-1 rounded-lg bg-slate-800 text-slate-300 text-xs hover:bg-slate-700">
+        Cerrar ✕
+      </button>
+    </div>
+    <div class="p-4 bg-slate-950" style="min-height:620px;">
+      <iframe
+        id="ghl-calendar-iframe"
+        src="https://api.leadconnectorhq.com/widget/bookings/calendario-de-edward-jimenez"
+        style="width:100%; border:none; min-height:600px; height:600px; border-radius:12px;"
+        scrolling="yes"
+        allow="payment">
+      </iframe>
+    </div>
+  </dialog>
+
+  <!-- ══ MODAL 2: GALERÍA DE +20 SISTEMAS VISUALES (777 BRAND CODEX) ══ -->
+  <dialog id="lookGalleryDialog" closedby="any" aria-labelledby="lookGalleryTitle">
+    <div class="p-5 border-b border-slate-800 flex items-center justify-between">
+      <div>
+        <h3 id="lookGalleryTitle" class="text-lg font-bold text-white">🎨 Biblioteca de Estilos Visuales (Brand Codex 777)</h3>
+        <p class="text-xs text-slate-400">Haz clic en cualquier sistema visual para aplicar su paleta de color en vivo al sitio del cliente.</p>
+      </div>
+      <button onclick="document.getElementById('lookGalleryDialog').close()" class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 text-xs hover:bg-slate-700">
+        Cerrar ✕
+      </button>
+    </div>
+    <div class="p-5 grid grid-cols-2 sm:grid-cols-4 gap-3 max-h-[70vh] overflow-y-auto" id="looks-grid">
+      <!-- Renderizado por JS -->
+    </div>
+  </dialog>
+
+  <script src="https://link.msgsndr.com/js/form_embed.js" type="text/javascript"></script>
+  <script>
+    const TEMPLATES = {{ templates_json | safe }};
+    const INITIAL_LEAD_ID = {{ lead_id_json | safe }};
+
+    const BRAND_LOOKS = [
+      { id: "prosper_cyan", name: "ProsperIA Cyber Cyan", accent: "#00e5ff", secondary: "#0ea5e9", bg: "#040b16" },
+      { id: "stripe_indigo", name: "Stripe Financial Indigo", accent: "#635bff", secondary: "#00d4ff", bg: "#0a2540" },
+      { id: "apple_minimal", name: "Apple Cupertino Clean", accent: "#2997ff", secondary: "#147ce5", bg: "#000000" },
+      { id: "starbucks_emerald", name: "Starbucks Reserve Green", accent: "#00a862", secondary: "#1e3932", bg: "#071a12" },
+      { id: "airbnb_coral", name: "Airbnb Hospitality Coral", accent: "#ff385c", secondary: "#e31c5f", bg: "#14080c" },
+      { id: "shopify_commerce", name: "Shopify Commerce Lime", accent: "#95bf47", secondary: "#5e8e3e", bg: "#08140b" },
+      { id: "tesla_crimson", name: "Tesla Performance Red", accent: "#e82127", secondary: "#b91c1c", bg: "#0b0b0d" },
+      { id: "claude_warm", name: "Anthropic Executive Gold", accent: "#d97757", secondary: "#b45309", bg: "#14120e" },
+      { id: "vercel_mono", name: "Vercel High-Contrast", accent: "#38bdf8", secondary: "#818cf8", bg: "#030712" },
+      { id: "ferrari_luxury", name: "Luxury Gold & Amber", accent: "#f59e0b", secondary: "#d97706", bg: "#110c04" },
+      { id: "notion_slate", name: "Notion Consulting Slate", accent: "#60a5fa", secondary: "#3b82f6", bg: "#0f172a" },
+      { id: "nvidia_neon", name: "Tech Neon Emerald", accent: "#76b900", secondary: "#10b981", bg: "#050e04" }
+    ];
+
+    // Fallback para <dialog closedby="any"> en Safari / navegadores sin soporte nativo
+    document.querySelectorAll('dialog').forEach((dialog) => {
+      if (!('closedBy' in HTMLDialogElement.prototype)) {
+        dialog.addEventListener('click', (event) => {
+          if (event.target !== dialog) return;
+          const rect = dialog.getBoundingClientRect();
+          const isDialogContent = (
+            rect.top <= event.clientY &&
+            event.clientY <= rect.top + rect.height &&
+            rect.left <= event.clientX &&
+            event.clientX <= rect.left + rect.width
+          );
+          if (isDialogContent) return;
+          dialog.close();
+        });
+      }
+    });
+
+    function initFromQuery() {
+      const params = new URLSearchParams(window.location.search);
+      const tpl = params.get("template") || "clinica_dental_estetica";
+      if (TEMPLATES[tpl]) {
+        document.getElementById("ctrl-template").value = tpl;
+      }
+      applyTemplateChange(false);
+
+      if (params.get("business")) document.getElementById("ctrl-business").value = params.get("business");
+      if (params.get("city")) document.getElementById("ctrl-city").value = params.get("city");
+      if (params.get("offer")) document.getElementById("ctrl-offer").value = params.get("offer");
+      if (params.get("phone")) document.getElementById("ctrl-phone").value = params.get("phone");
+      syncLivePreview();
+      renderLooksGrid();
+    }
+
+    function applyTemplateChange(resetFields = true) {
+      const key = document.getElementById("ctrl-template").value;
+      const t = TEMPLATES[key] || TEMPLATES["clinica_dental_estetica"];
+      document.documentElement.style.setProperty("--accent", t.accent);
+      document.documentElement.style.setProperty("--secondary", t.secondary);
+
+      if (resetFields || !document.getElementById("ctrl-business").value) {
+        document.getElementById("ctrl-business").value = t.default_business;
+      }
+      if (resetFields || !document.getElementById("ctrl-city").value) {
+        document.getElementById("ctrl-city").value = t.default_city;
+      }
+      if (resetFields || !document.getElementById("ctrl-offer").value) {
+        document.getElementById("ctrl-offer").value = t.default_offer;
+      }
+      if (!document.getElementById("ctrl-phone").value) {
+        document.getElementById("ctrl-phone").value = "+1 786 557 3119";
+      }
+
+      document.getElementById("view-badge").textContent = t.badge;
+      document.getElementById("view-hero-title").textContent = t.hero_title;
+      document.getElementById("view-hero-subtitle").textContent = t.hero_subtitle;
+      document.getElementById("view-q1-label").textContent = t.form_questions[0];
+      document.getElementById("view-q2-label").textContent = t.form_questions[1];
+
+      const grid = document.getElementById("view-services-grid");
+      grid.innerHTML = t.services.map(s => `
+        <div class="feature-box p-4">
+          <div class="text-lg font-bold mb-1" style="color:var(--accent);">
+            <i class="fas ${s.icon} mr-1.5"></i>${s.title}
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed m-0">${s.desc}</p>
+        </div>
+      `).join("");
+
+      syncLivePreview();
+    }
+
+    function syncLivePreview() {
+      const biz = document.getElementById("ctrl-business").value || "Tu Negocio Inteligente";
+      const city = document.getElementById("ctrl-city").value || "Tu Ciudad";
+      const offer = document.getElementById("ctrl-offer").value || "Diagnóstico Preferencial Hoy";
+
+      document.getElementById("view-business-name").textContent = biz;
+      document.getElementById("view-city").textContent = city;
+      document.getElementById("view-offer").textContent = offer;
+      document.getElementById("view-consent-biz").textContent = biz;
+      document.getElementById("view-step-biz").textContent = biz;
+    }
+
+    function toggleToolbar() {
+      const bar = document.getElementById("closer-toolbar");
+      const btn = document.getElementById("btn-toggle-bar");
+      bar.classList.toggle("minimized");
+      if (bar.classList.contains("minimized")) {
+        btn.innerHTML = '<i class="fas fa-Sliders-h mr-1"></i> Mostrar Controles Closer';
+      } else {
+        btn.innerHTML = '<i class="fas fa-eye-slash mr-1"></i> Modo Cliente';
+      }
+    }
+
+    function simulateClientSubmission(e) {
+      e.preventDefault();
+      const biz = document.getElementById("ctrl-business").value || "Tu Negocio";
+      const offer = document.getElementById("ctrl-offer").value || "Promoción activa";
+      const clientName = document.getElementById("sim-name").value || "Cliente";
+      const clientPhone = document.getElementById("sim-phone").value || "";
+      const clientEmail = document.getElementById("sim-email").value || "";
+      const q1 = document.getElementById("sim-q1").value || "";
+      const q2 = document.getElementById("sim-q2").value || "";
+
+      const msgHtml = `
+        <strong>🤖 Recepcionista IA de ${biz}:</strong><br>
+        "¡Hola <strong>${clientName}</strong>! 👋 Recibimos tu solicitud para <em>${q1}</em> (${q2}).<br>
+        Tienes activado tu beneficio: <strong>${offer}</strong>.<br>
+        👇 Selecciona aquí abajo el horario que te quede más cómodo para dejarte confirmada tu cita hoy mismo."
+      `;
+      document.getElementById("sim-whatsapp-msg").innerHTML = msgHtml;
+      document.getElementById("sim-crm-summary").innerHTML = `
+        • <strong>Contacto:</strong> ${clientName} (${clientPhone} | ${clientEmail})<br>
+        • <strong>Interés calificado:</strong> ${q1} | <strong>Urgencia:</strong> ${q2}<br>
+        • <strong>Estado en Pipeline:</strong> Diagnóstico Agendado + Recordatorios WhatsApp Activados ✅
+      `;
+      document.getElementById("sim-result-box").classList.remove("hidden");
+    }
+
+    function openGhlCalendarModal() {
+      const clientName = document.getElementById("sim-name").value || "";
+      const clientPhone = document.getElementById("sim-phone").value || "";
+      const clientEmail = document.getElementById("sim-email").value || "";
+      const firstName = clientName.split(" ")[0] || "";
+
+      const baseUrl = "https://api.leadconnectorhq.com/widget/bookings/calendario-de-edward-jimenez";
+      const qp = new URLSearchParams();
+      if (firstName) qp.set("first_name", firstName);
+      if (clientName) qp.set("name", clientName);
+      if (clientEmail) qp.set("email", clientEmail);
+      if (clientPhone) qp.set("phone", clientPhone);
+
+      document.getElementById("ghl-calendar-iframe").src = `${baseUrl}?${qp.toString()}`;
+      document.getElementById("ghlCalendarDialog").showModal();
+    }
+
+    function renderLooksGrid() {
+      const container = document.getElementById("looks-grid");
+      container.innerHTML = BRAND_LOOKS.map(l => `
+        <button type="button" onclick="applyBrandLook('${l.accent}','${l.secondary}','${l.bg}')"
+                class="p-3 rounded-xl border border-slate-700 hover:border-cyan-400 text-left transition flex flex-col gap-2"
+                style="background:${l.bg};">
+          <div class="flex items-center gap-1.5">
+            <span class="w-4 h-4 rounded-full inline-block" style="background:${l.accent};"></span>
+            <span class="w-4 h-4 rounded-full inline-block" style="background:${l.secondary};"></span>
+          </div>
+          <div class="text-xs font-bold text-white">${l.name}</div>
+        </button>
+      `).join("");
+    }
+
+    function openLookGalleryModal() {
+      document.getElementById("lookGalleryDialog").showModal();
+    }
+
+    function applyBrandLook(accent, secondary, bg) {
+      document.documentElement.style.setProperty("--accent", accent);
+      document.documentElement.style.setProperty("--secondary", secondary);
+      document.documentElement.style.setProperty("--bg-dark", bg);
+      document.getElementById("lookGalleryDialog").close();
+    }
+
+    async function saveDemoToCrm() {
+      const payloadConfig = {
+        template: document.getElementById("ctrl-template").value,
+        business_name: document.getElementById("ctrl-business").value,
+        city: document.getElementById("ctrl-city").value,
+        offer: document.getElementById("ctrl-offer").value,
+        phone: document.getElementById("ctrl-phone").value,
+        saved_at: new Date().toISOString()
+      };
+      const banner = document.getElementById("crm-save-banner");
+
+      if (INITIAL_LEAD_ID) {
+        try {
+          const res = await fetch(`/api/sales-os/leads/${INITIAL_LEAD_ID}/stage`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              pipeline_stage: "Demo realizada",
+              offer_version: "EXPRESS_497",
+              quoted_amount: 497,
+              selected_template: payloadConfig.template,
+              demo_config_json: JSON.stringify(payloadConfig),
+              next_action_note: `Demo realizada en vivo para ${payloadConfig.business_name} (${payloadConfig.template}). Propuesta Express US$497.`
+            })
+          });
+          const data = await res.json();
+          if (data.success) {
+            banner.textContent = `✅ Demo guardada en el prospecto #${INITIAL_LEAD_ID} (${payloadConfig.business_name}) -> Etapa actualizada a "Demo realizada" y sincronizada con GoHighLevel.`;
+            banner.classList.remove("hidden");
+            return;
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      }
+
+      localStorage.setItem("last_prosperia_demo_config", JSON.stringify(payloadConfig));
+      banner.textContent = `✅ Configuración de Sitio Web Inteligente para "${payloadConfig.business_name}" lista. Regresa al CRM para asignarla al prospecto o registrar su pago.`;
+      banner.classList.remove("hidden");
+    }
+
+    window.addEventListener("DOMContentLoaded", initFromQuery);
+  </script>
+</body>
+</html>
+

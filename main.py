@@ -13,11 +13,14 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, EmailStr
 from sqlalchemy.orm import Session
-from database import init_db, SessionLocal, User, Lead as DbLead, SessionModel, BlogPost, ArsenalPrompt, sync_blog_posts, IntegrationSetting, hash_password, verify_password
+from database import init_db, SessionLocal, User, Lead as DbLead, SessionModel, BlogPost, ArsenalPrompt, sync_blog_posts, IntegrationSetting, hash_password, verify_password, normalize_phone_e164, normalize_email
 from editorial import LANES, enrich_post
 from ghl_client import sync_lead_to_ghl_async
+from sales_os_router import router as sales_os_router, WEBSITE_TEMPLATES_SHOWCASE, serialize_lead, record_audit, is_contact_excluded
+import json
 
 app = FastAPI(title="Prosper IA API Stack", version="1.0.0")
+app.include_router(sales_os_router)
 
 
 def feature_enabled(name: str) -> bool:
@@ -1105,7 +1108,11 @@ def get_current_user(request: Request):
             "company": user_row.company,
             "phone": user_row.phone,
             "plan": user_row.plan,
-            "api_key": user_row.api_key
+            "api_key": user_row.api_key,
+            "role": getattr(user_row, "role", "seller") or "seller",
+            "dupla": getattr(user_row, "dupla", "Dupla A — Clínicas") or "Dupla A — Clínicas",
+            "is_active": int(getattr(user_row, "is_active", 1) or 1),
+            "commission_rate": float(getattr(user_row, "commission_rate", 0.15) or 0.15),
         }
     finally:
         db.close()
@@ -1151,11 +1158,13 @@ async def read_login(request: Request):
 
 @app.get("/dashboard", response_class=HTMLResponse)
 @app.get("/dashboard.html", response_class=HTMLResponse)
-async def read_dashboard(request: Request):
+async def read_dashboard(request: Request, token_q: Optional[str] = Query(default=None, alias="token")):
     auth_header = request.headers.get("Authorization")
     token = None
     if auth_header and auth_header.startswith("Bearer "):
         token = auth_header.split(" ")[1]
+    if not token and token_q:
+        token = token_q
     if not token:
         token = request.cookies.get("auth_token")
 
@@ -1177,6 +1186,9 @@ async def read_dashboard(request: Request):
             "phone": user_row.phone,
             "plan": user_row.plan,
             "api_key": user_row.api_key,
+            "role": getattr(user_row, "role", "seller") or "seller",
+            "dupla": getattr(user_row, "dupla", "Dupla A — Clínicas") or "Dupla A — Clínicas",
+            "commission_rate": float(getattr(user_row, "commission_rate", 0.15) or 0.15),
         }
     finally:
         db.close()
@@ -1185,6 +1197,18 @@ async def read_dashboard(request: Request):
         request=request,
         name="dashboard.html",
         context={"current_user": current_user},
+    )
+
+@app.get("/demo-sitio-web", response_class=HTMLResponse)
+@app.get("/demo-sitio-web.html", response_class=HTMLResponse)
+async def read_demo_sitio_web(request: Request, lead_id: Optional[int] = None):
+    return templates.TemplateResponse(
+        request=request,
+        name="demo_sitio_web.html",
+        context={
+            "templates_json": json.dumps(WEBSITE_TEMPLATES_SHOWCASE, ensure_ascii=False),
+            "lead_id_json": json.dumps(lead_id),
+        },
     )
 
 @app.get("/blog", response_class=HTMLResponse)
@@ -1848,17 +1872,20 @@ async def api_login(req: LoginRequest, request: Request, response: Response, db:
         "company": user.company,
         "phone": user.phone,
         "plan": user.plan,
-        "api_key": user.api_key
+        "api_key": user.api_key,
+        "role": getattr(user, "role", "seller") or "seller",
+        "dupla": getattr(user, "dupla", "Dupla A — Clínicas") or "Dupla A — Clínicas",
+        "commission_rate": float(getattr(user, "commission_rate", 0.15) or 0.15),
     }
     
-    is_secure = request.url.scheme == "https"
+    is_secure = (request.url.scheme == "https") or (request.headers.get("x-forwarded-proto") == "https")
     response.set_cookie(
         key="auth_token",
         value=token,
         max_age=604800,
         path="/",
         httponly=True,
-        samesite="lax",
+        samesite="none" if is_secure else "lax",
         secure=is_secure
     )
     
@@ -2364,7 +2391,10 @@ async def api_get_profile(current_user: dict = Depends(get_current_user)):
         "company": current_user["company"],
         "phone": current_user["phone"],
         "plan": current_user["plan"],
-        "api_key": current_user["api_key"]
+        "api_key": current_user["api_key"],
+        "role": current_user.get("role", "seller"),
+        "dupla": current_user.get("dupla", "Dupla A — Clínicas"),
+        "commission_rate": current_user.get("commission_rate", 0.15),
     }
     return {"success": True, "data": user_payload}
 
@@ -2390,46 +2420,39 @@ async def api_update_password(req: PasswordUpdateRequest, current_user: dict = D
 async def api_get_leads(
     status: Optional[str] = None,
     source: Optional[str] = None,
-    limit: Optional[int] = 100,
+    pipeline_stage: Optional[str] = None,
+    owner_id: Optional[str] = None,
+    include_dnd: Optional[bool] = False,
+    limit: Optional[int] = 250,
     current_user: dict = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
-    """Obtiene el listado de leads filtrado y ordenado.
-
-    Args:
-        status (Optional[str]): Filtro de estado del lead (ej. 'new', 'converted').
-        source (Optional[str]): Filtro de origen del lead (ej. 'website', 'social').
-        limit (Optional[int]): Límite máximo de resultados a retornar.
-        current_user (dict): Payload del usuario autenticado actual.
-        db (Session): Sesión de base de datos SQLAlchemy.
-
-    Returns:
-        dict: Diccionario con el listado de leads formateado.
-    """
+    """Obtiene el listado de leads respetando permisos RBAC (un vendedor solo ve sus oportunidades y sin DND)."""
     query = db.query(DbLead)
-    
+
+    user_role = current_user.get("role", "seller")
+    if user_role == "seller":
+        # Regla P0: un vendedor solo puede ver sus prospectos asignados y nunca ve contactos DND/Opt-out en cola activa
+        query = query.filter(DbLead.owner_id == current_user["email"])
+        query = query.filter((DbLead.contact_status == None) | (~DbLead.contact_status.in_(["dnd", "opt_out"])))
+    else:
+        if owner_id:
+            if owner_id == "__unassigned__":
+                query = query.filter((DbLead.owner_id == None) | (DbLead.owner_id == ""))
+            else:
+                query = query.filter(DbLead.owner_id == owner_id)
+        if not include_dnd and user_role != "admin":
+            query = query.filter((DbLead.contact_status == None) | (~DbLead.contact_status.in_(["dnd", "opt_out"])))
+
     if status:
         query = query.filter(DbLead.status == status)
     if source:
         query = query.filter(DbLead.source == source)
-        
+    if pipeline_stage:
+        query = query.filter(DbLead.pipeline_stage == pipeline_stage)
+
     rows = query.order_by(DbLead.id.desc()).limit(limit).all()
-    
-    leads = [
-        {
-            "id": r.id,
-            "name": r.name,
-            "email": r.email,
-            "company": r.company,
-            "phone": r.phone,
-            "status": r.status,
-            "source": r.source,
-            "score": r.score,
-            "notes": r.notes,
-            "created_at": r.created_at
-        }
-        for r in rows
-    ]
+    leads = [serialize_lead(r) for r in rows]
     return {"success": True, "data": {"leads": leads}}
 
 @app.post("/api/leads")
@@ -2438,32 +2461,83 @@ async def api_create_lead(
     current_user: dict = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
-    """Crea un nuevo lead en la base de datos.
+    """Crea un nuevo lead con deduplicación (email/phone_e164), filtro DND y registro de auditoría."""
+    clean_em = normalize_email(req.email)
+    clean_ph = normalize_phone_e164(req.phone or "")
 
-    Args:
-        req (LeadCreateRequest): Objeto con los datos de creación del lead.
-        current_user (dict): Payload del usuario autenticado actual.
-        db (Session): Sesión de base de datos SQLAlchemy.
+    # 1. Verificar lista de exclusión DND/Opt-out
+    dnd_reason = is_contact_excluded(db, clean_em, clean_ph)
+    if dnd_reason:
+        return JSONResponse(
+            status_code=400,
+            content={"success": False, "error": f"Contacto bloqueado por política Do-Not-Contact: {dnd_reason}"}
+        )
 
-    Returns:
-        dict: Detalle del lead creado.
-    """
+    # 2. Deduplicación por email o teléfono normalizado E.164
+    existing = db.query(DbLead).filter(DbLead.email == clean_em).first()
+    if not existing and clean_ph:
+        existing = db.query(DbLead).filter(DbLead.phone_e164 == clean_ph).first()
+
+    if existing:
+        existing_owner = getattr(existing, "owner_id", "") or ""
+        if existing_owner and existing_owner != current_user["email"] and current_user.get("role") == "seller":
+            return JSONResponse(
+                status_code=409,
+                content={
+                    "success": False,
+                    "error": f"Duplicado detectado: este prospecto ya está asignado a otro vendedor ({existing_owner})."
+                }
+            )
+        return {
+            "success": True,
+            "duplicate_ prevented": True,
+            "message": "El prospecto ya existía en el CRM; se reutilizó su ficha sin duplicar.",
+            "data": serialize_lead(existing)
+        }
+
     created_at = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+    owner_assigned = current_user["email"] if current_user.get("role") == "seller" else ""
     new_lead = DbLead(
-        name=req.name,
-        email=req.email,
-        company=req.company or "",
-        phone=req.phone or "",
+        name=req.name.strip(),
+        full_name=req.name.strip(),
+        email=clean_em,
+        company=(req.company or "").strip(),
+        business_name=(req.company or "").strip(),
+        phone=(req.phone or "").strip(),
+        phone_e164=clean_ph,
         status=req.status or "new",
         source=req.source or "website",
-        score=req.score if req.score is not None else 50,
+        source_channel="Outbound / Manual" if req.source == "outbound" else "Web",
+        score=req.score if req.score is not None else 60,
         notes=req.notes or "",
-        created_at=created_at
+        created_at=created_at,
+        owner_id=owner_assigned,
+        setter_id=owner_assigned,
+        pipeline_stage="Lead identificado",
+        offer_version="EXPRESS_497",
+        quoted_amount=0.0,
+        contracted_amount=0.0,
+        amount_collected=0.0,
+        contact_status="contactable",
+        last_touch=created_at,
     )
     db.add(new_lead)
     db.commit()
     db.refresh(new_lead)
-    
+
+    record_audit(
+        db,
+        actor_email=current_user["email"],
+        actor_role=current_user.get("role", "seller"),
+        lead_id=new_lead.id,
+        action="lead_created",
+        field_changed="leads",
+        old_value="",
+        new_value=f"{new_lead.name} ({new_lead.email}) -> Owner: {owner_assigned or 'unassigned'}",
+        notes="Alta manual de prospecto con deduplicación verificada",
+    )
+    db.commit()
+
     # Sincronizar automáticamente con GHL y n8n
     trigger_lead_sync(
         new_lead.name,
@@ -2474,20 +2548,8 @@ async def api_create_lead(
         new_lead.source or "website",
         db
     )
-    
-    lead_data = {
-        "id": new_lead.id,
-        "name": new_lead.name,
-        "email": new_lead.email,
-        "company": new_lead.company,
-        "phone": new_lead.phone,
-        "status": new_lead.status,
-        "source": new_lead.source,
-        "score": new_lead.score,
-        "notes": new_lead.notes,
-        "created_at": new_lead.created_at
-    }
-    return {"success": True, "data": lead_data}
+
+    return {"success": True, "data": serialize_lead(new_lead)}
 
 @app.delete("/api/leads/{lead_id}")
 async def api_delete_lead(
@@ -2495,23 +2557,29 @@ async def api_delete_lead(
     current_user: dict = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
-    """Elimina un lead por su identificador único.
-
-    Args:
-        lead_id (int): Identificador del lead a eliminar.
-        current_user (dict): Payload del usuario autenticado actual.
-        db (Session): Sesión de base de datos SQLAlchemy.
-
-    Returns:
-        dict: Estado de éxito de la operación.
-    """
+    """Elimina un lead (Solo permitido para Admin; vendedores deben usar Opt-out o Venta perdida)."""
+    if current_user.get("role") not in ("admin", "supervisor"):
+        return JSONResponse(
+            status_code=403,
+            content={"success": False, "error": "Los vendedores no tienen permiso para borrar registros del CRM. Usa la etapa 'No interesado' u 'Opt-out'."}
+        )
     lead = db.query(DbLead).filter(DbLead.id == lead_id).first()
     if not lead:
         return JSONResponse(
             status_code=404,
             content={"success": False, "error": "Lead no encontrado."}
         )
-        
+    record_audit(
+        db,
+        actor_email=current_user["email"],
+        actor_role=current_user.get("role", "admin"),
+        lead_id=lead.id,
+        action="lead_deleted",
+        field_changed="leads",
+        old_value=f"{lead.name} ({lead.email})",
+        new_value="DELETED",
+        notes="Eliminado por administrador",
+    )
     db.delete(lead)
     db.commit()
     return {"success": True}
@@ -2523,49 +2591,47 @@ async def api_update_lead(
     current_user: dict = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
-    """Actualiza la información de un lead existente.
-
-    Args:
-        lead_id (int): Identificador del lead a actualizar.
-        req (LeadCreateRequest): Objeto con los nuevos datos del lead.
-        current_user (dict): Payload del usuario autenticado actual.
-        db (Session): Sesión de base de datos SQLAlchemy.
-
-    Returns:
-        dict: Detalle del lead actualizado.
-    """
+    """Actualiza la información básica de un lead con auditoría y control de permisos."""
     lead = db.query(DbLead).filter(DbLead.id == lead_id).first()
     if not lead:
         return JSONResponse(
             status_code=404,
             content={"success": False, "error": "Lead no encontrado."}
         )
-        
+    if current_user.get("role") == "seller" and (getattr(lead, "owner_id", "") or "") != current_user["email"]:
+        return JSONResponse(
+            status_code=403,
+            content={"success": False, "error": "No puedes editar un prospecto asignado a otro vendedor."}
+        )
+
+    old_status = lead.status
     lead.name = req.name
-    lead.email = req.email
+    lead.full_name = req.name
+    lead.email = normalize_email(req.email)
     lead.company = req.company or ""
+    lead.business_name = req.company or ""
     lead.phone = req.phone or ""
+    lead.phone_e164 = normalize_phone_e164(req.phone or "")
     lead.status = req.status or "new"
     lead.source = req.source or "website"
     lead.score = req.score if req.score is not None else 50
     lead.notes = req.notes or ""
-    
+    lead.last_touch = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+
+    record_audit(
+        db,
+        actor_email=current_user["email"],
+        actor_role=current_user.get("role", "seller"),
+        lead_id=lead.id,
+        action="lead_updated",
+        field_changed="status|notes",
+        old_value=old_status,
+        new_value=lead.status,
+        notes=lead.notes[:200] if lead.notes else "",
+    )
     db.commit()
     db.refresh(lead)
-    
-    lead_data = {
-        "id": lead.id,
-        "name": lead.name,
-        "email": lead.email,
-        "company": lead.company,
-        "phone": lead.phone,
-        "status": lead.status,
-        "source": lead.source,
-        "score": lead.score,
-        "notes": lead.notes,
-        "created_at": lead.created_at
-    }
-    return {"success": True, "data": lead_data}
+    return {"success": True, "data": serialize_lead(lead)}
 
 class SettingsUpdateRequest(BaseModel):
     settings: Dict[str, str]
@@ -2585,6 +2651,8 @@ async def update_integration_settings(
     current_user: dict = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
+    if current_user.get("role") not in ("admin", "supervisor"):
+        raise HTTPException(status_code=403, detail="Solo Dirección puede modificar integraciones.")
     for key, value in req.settings.items():
         row = db.query(IntegrationSetting).filter(IntegrationSetting.key == key).first()
         if row:
@@ -2622,32 +2690,34 @@ async def api_get_stats(
     current_user: dict = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
-    """Calcula las estadísticas globales para el panel de administración.
+    """Calcula estadísticas reales separando cobros verificados (amount_collected) de propuestas (quoted_amount)."""
+    query = db.query(DbLead)
+    if current_user.get("role") == "seller":
+        query = query.filter(DbLead.owner_id == current_user["email"])
+    rows = query.all()
 
-    Args:
-        current_user (dict): Payload del usuario autenticado actual.
-        db (Session): Sesión de base de datos SQLAlchemy.
+    total = len(rows)
+    new_leads = sum(1 for r in rows if (getattr(r, "pipeline_stage", "") or r.status) in ("new", "Lead identificado"))
+    paid_rows = [
+        r for r in rows
+        if float(getattr(r, "amount_collected", 0.0) or 0.0) > 0 and (getattr(r, "invoice_id", "") or "").strip() != ""
+    ]
+    converted = len(paid_rows)
+    verified_revenue = sum(float(getattr(r, "amount_collected", 0.0) or 0.0) for r in paid_rows)
+    quoted_pipeline = sum(float(getattr(r, "quoted_amount", 0.0) or 0.0) for r in rows)
+    commissions_accrued = sum(float(getattr(r, "commission_amount", 0.0) or 0.0) for r in paid_rows)
+    rate = (converted / total * 100.0) if total > 0 else 0.0
 
-    Returns:
-        dict: Estadísticas de leads, facturación estimada y conversión.
-    """
-    from sqlalchemy import func
-    
-    total = db.query(func.count(DbLead.id)).scalar() or 0
-    new_leads = db.query(func.count(DbLead.id)).filter(DbLead.status == "new").scalar() or 0
-    converted = db.query(func.count(DbLead.id)).filter(DbLead.status == "converted").scalar() or 0
-    
-    revenue = converted * 2500
-    rate = (converted / total * 100) if total > 0 else 0.0
-    
     return {
         "success": True,
         "data": {
             "total_leads": total,
             "new_leads": new_leads,
             "converted_leads": converted,
-            "total_revenue": revenue,
-            "conversion_rate": rate
+            "total_revenue": round(verified_revenue, 2),
+            "quoted_pipeline": round(quoted_pipeline, 2),
+            "commissions_accrued": round(commissions_accrued, 2),
+            "conversion_rate": round(rate, 2)
         }
     }
 
