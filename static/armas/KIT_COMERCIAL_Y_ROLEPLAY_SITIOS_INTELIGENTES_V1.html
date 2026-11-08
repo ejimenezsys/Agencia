@@ -10,12 +10,47 @@
   }
   body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-size: 8.65pt;
-    line-height: 1.33;
+    font-size: 10.5pt;
+    line-height: 1.55;
+    background-color: #ffffff;
     color: #0f172a;
     margin: 0;
-    padding: 0;
+    padding: 28px 36px;
+    transition: background-color 0.2s, color 0.2s;
   }
+  main {
+    max-width: 1120px;
+    margin: 0 auto;
+  }
+  body.theme-sapphire {
+    background-color: #0b192c;
+    color: #f8fafc;
+  }
+  body.theme-sapphire h1, body.theme-sapphire h3, body.theme-sapphire h4 { color: #38bdf8; border-color: #1e3a8a; }
+  body.theme-sapphire h1 + h2 { color: #7dd3fc; }
+  body.theme-sapphire .script-box { background: #112240; color: #e2e8f0; border-left-color: #38bdf8; }
+  body.theme-sapphire blockquote { background: #1e293b; color: #fde68a; border-left-color: #f59e0b; }
+  body.theme-sapphire code { background: #1e293b; color: #38bdf8; border-color: #334155; }
+  body.theme-sapphire td { border-color: #334155; color: #f1f5f9; }
+  body.theme-sapphire tr:nth-child(even) td { background-color: #112240; }
+
+  body.theme-emerald {
+    background-color: #062019;
+    color: #ecfdf5;
+  }
+  body.theme-emerald h1, body.theme-emerald h3, body.theme-emerald h4 { color: #34d399; border-color: #065f46; }
+  body.theme-emerald h1 + h2 { color: #6ee7b7; }
+  body.theme-emerald .script-box { background: #0b2e25; color: #ecfdf5; border-left-color: #10b981; }
+  body.theme-emerald blockquote { background: #0f382c; color: #fde68a; border-left-color: #f59e0b; }
+  body.theme-emerald code { background: #0b2e25; color: #34d399; border-color: #065f46; }
+  body.theme-emerald td { border-color: #065f46; color: #ecfdf5; }
+  body.theme-emerald tr:nth-child(even) td { background-color: #0b2e25; }
+
+  body.theme-warm {
+    background-color: #fdfbf7;
+    color: #1e293b;
+  }
+  body.theme-warm tr:nth-child(even) td { background-color: #f5f0e6; }
   h1 {
     font-size: 13.4pt;
     color: #0f172a;
@@ -518,5 +553,20 @@
 <li>☐ <strong>7.</strong> Ya practiqué en voz alta los <strong>4 Casos del Role Play del Martes</strong> (<em>Dra. Laura, Martín, Carlos el del taller y Roberto el corporativo</em>).</li>
 </ul>
 </main>
+<script>
+  function applyDocTheme(theme) {
+    document.body.classList.remove('theme-sapphire', 'theme-emerald', 'theme-warm');
+    if (theme === 'sapphire') document.body.classList.add('theme-sapphire');
+    else if (theme === 'emerald') document.body.classList.add('theme-emerald');
+    else if (theme === 'warm') document.body.classList.add('theme-warm');
+  }
+  const qTheme = new URLSearchParams(window.location.search).get('theme');
+  if (qTheme) applyDocTheme(qTheme);
+  window.addEventListener('message', (ev) => {
+    if (ev.data && ev.data.type === 'PROSPER_WEAPON_THEME') {
+      applyDocTheme(ev.data.theme);
+    }
+  });
+</script>
 </body>
 </html>

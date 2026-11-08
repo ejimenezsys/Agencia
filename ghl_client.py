@@ -295,7 +295,7 @@ def sync_sales_os_event_to_ghl_async(
                 return
             cid = (contact_id or "").strip()
             opp_id = (opportunity_id or "").strip()
-            if not cid and (email or phone):
+            if (not cid or not opp_id) and (email or phone):
                 parts = (full_name or "").split()
                 fn = parts[0] if parts else full_name
                 ln = " ".join(parts[1:]) if len(parts) > 1 else ""
@@ -307,11 +307,19 @@ def sync_sales_os_event_to_ghl_async(
                     company=business_name,
                     source="sales_os_closer",
                 )
-                cid = up_res.get("contact_id") or ""
+                cid = cid or (up_res.get("contact_id") or "")
                 opp_id = opp_id or (up_res.get("opportunity_id") or "")
 
             if not cid:
                 return
+
+            if not opp_id:
+                loc_id = _cfg("GHL_LOCATION_ID")
+                pip_id = _cfg("GHL_PIPELINE_ID")
+                q = f"/opportunities/search?location_id={loc_id}&contact_id={cid}&pipeline_id={pip_id}&limit=1"
+                s_st, s_res = _request("GET", q, token)
+                if s_st == 200 and s_res.get("opportunities"):
+                    opp_id = s_res["opportunities"][0].get("id") or ""
 
             # Actualizar los 8 Campos Personalizados del Sales OS directamente en la ficha del contacto en GoHighLevel
             commission_15 = round(float(amount_collected or 0.0) * 0.15, 2) if (amount_collected and amount_collected > 0 and invoice_id) else 0.0

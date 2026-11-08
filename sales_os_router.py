@@ -12,6 +12,10 @@ Implementa:
   - Demostrador interactivo en vivo de Sitios Web Inteligentes (/demo-sitio-web).
 """
 import json
+import os
+import ssl
+import urllib.parse
+import urllib.request
 from datetime import datetime
 from typing import Optional, List, Dict, Any
 from fastapi import APIRouter, Request, Depends, HTTPException, status
@@ -1416,7 +1420,7 @@ async def api_register_call_outcome(
     if outcome == "no_answer":
         lead.pipeline_stage = "No responde"
         lead.status = "contacted"
-        note_msg = req.notes or "Llamada realizada: No contestó / Buzón (permanece en cola local del Dashboard sin ensuciar GHL)."
+        note_msg = req.notes or "Llamada realizada: No contestó / Buzón (permanece en cola local del Dashboard sin ensuciar CRM ProsperIA)."
         lead.notes = ((lead.notes or "") + f"\n[{now_iso[:16]} 🔴 NO CONTESTÓ]: {note_msg}").strip()
         record_audit(
             db,
@@ -1433,14 +1437,14 @@ async def api_register_call_outcome(
         return {
             "success": True,
             "pushed_to_ghl": False,
-            "message": "🔴 Registrado como 'No Contestó'. Se sumó +1 llamada a tu KPI diario y NO se envió basura a GoHighLevel.",
+            "message": "🔴 Registrado como 'No Contestó'. Se sumó +1 llamada a tu KPI diario y NO se envió basura al CRM ProsperIA.",
             "data": serialize_lead(lead),
         }
 
     elif outcome == "disqualified":
         lead.pipeline_stage = "No cumple perfil"
         lead.status = "lost"
-        note_msg = req.notes or "Llamada realizada: No califica / Sin interés (archivado en Dashboard sin ensuciar GHL)."
+        note_msg = req.notes or "Llamada realizada: No califica / Sin interés (archivado en Dashboard sin ensuciar CRM ProsperIA)."
         lead.notes = ((lead.notes or "") + f"\n[{now_iso[:16]} ⚫ DESCARTADO]: {note_msg}").strip()
         record_audit(
             db,
@@ -1466,7 +1470,7 @@ async def api_register_call_outcome(
             u.calls_answered_week = int(getattr(u, "calls_answered_week", 0) or 0) + 1
         lead.pipeline_stage = "Primer contacto"
         lead.status = "qualified"
-        note_msg = req.notes or "¡Contestó la llamada! Prospecto activo pasado al Pipeline de GoHighLevel y abriendo Demostrador en Vivo."
+        note_msg = req.notes or "¡Contestó la llamada! Prospecto activo pasado al Pipeline de CRM ProsperIA y listo para Demostrador en Vivo."
         lead.notes = ((lead.notes or "") + f"\n[{now_iso[:16]} 🟢 ¡SÍ CONTESTÓ!]: {note_msg}").strip()
         record_audit(
             db,
@@ -1482,7 +1486,7 @@ async def api_register_call_outcome(
         db.commit()
         db.refresh(lead)
 
-        # ¡Ahora SÍ lo inyectamos en vivo al Pipeline de GoHighLevel!
+        # ¡Ahora SÍ lo inyectamos en vivo al Pipeline de CRM ProsperIA!
         sync_sales_os_event_to_ghl_async(
             contact_id=getattr(lead, "contact_id", "") or "",
             opportunity_id=getattr(lead, "ghl_opportunity_id", "") or "",
@@ -1497,16 +1501,18 @@ async def api_register_call_outcome(
             amount_collected=float(getattr(lead, "amount_collected", 0.0) or 0.0),
             invoice_id=getattr(lead, "invoice_id", "") or "",
             selected_template=getattr(lead, "selected_template", "clinica_dental_estetica") or "clinica_dental_estetica",
-            audit_summary=f"¡SÍ CONTESTÓ LLAMADA! Atendido por {current_user['name']} ({current_user['email']}). Inyectado a Ventas Agencia ProsperIA.",
+            audit_summary=f"¡SÍ CONTESTÓ LLAMADA! Atendido por {current_user['name']} ({current_user['email']}). Inyectado a CRM ProsperIA.",
         )
 
         tpl = getattr(lead, "selected_template", "clinica_dental_estetica") or "clinica_dental_estetica"
-        demo_url = f"/demo-sitio-web?lead_id={lead.id}&template={tpl}&closer_email={current_user['email']}"
+        bname = urllib.parse.quote(getattr(lead, "business_name", None) or (lead.company or lead.name or ""))
+        phone_q = urllib.parse.quote(lead.phone or "")
+        demo_url = f"/demo-sitio-web?lead_id={lead.id}&template={tpl}&business={bname}&phone={phone_q}&closer_email={current_user['email']}"
         return {
             "success": True,
             "pushed_to_ghl": True,
             "demo_url": demo_url,
-            "message": "🟢 ¡Excelente! Se sumó +1 Llamada Contestada, el cliente se inyectó en el Pipeline de GoHighLevel ('Contactado') y está listo para el Efecto WOW.",
+            "message": "🟢 ¡Excelente! Se sumó +1 Llamada Contestada y el cliente fue inyectado al Pipeline de CRM ProsperIA ('Primer contacto').",
             "data": serialize_lead(lead),
         }
 
@@ -1649,5 +1655,109 @@ async def api_sales_os_leaderboard(
             "recent_sales": recent_sales[:5],
         },
     }
+
+
+def _resolve_gemini_api_key() -> str:
+    key = (os.environ.get("GEMINI_API_KEY") or "").strip()
+    if key:
+        return key
+    try:
+        if os.path.exists(".env"):
+            with open(".env", "r", encoding="utf-8") as f:
+                for line in f:
+                    line = line.strip()
+                    if line.startswith("GEMINI_API_KEY="):
+                        return line.split("=", 1)[1].strip().strip("'\"")
+    except Exception:
+        pass
+    return os.getenv("GOOGLE_API_KEY", "").strip()
+
+
+def invoke_gemini_assistant(system_prompt: str, user_message: str) -> str:
+    """Invoca Google Gemini (gemini-2.5-flash -> gemini-1.5-flash) en tiempo real."""
+    api_key = _resolve_gemini_api_key()
+    full_prompt = f"{system_prompt}\n\nMENSAJE DEL CLIENTE:\n{user_message}"
+    payload = {
+        "contents": [{"parts": [{"text": full_prompt}]}],
+        "generationConfig": {"temperature": 0.65, "maxOutputTokens": 280},
+    }
+    ctx = ssl._create_unverified_context()
+    for model_name in ("gemini-2.5-flash", "gemini-1.5-flash"):
+        try:
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={api_key}"
+            req = urllib.request.Request(
+                url,
+                data=json.dumps(payload).encode("utf-8"),
+                headers={"Content-Type": "application/json"},
+            )
+            with urllib.request.urlopen(req, context=ctx, timeout=9) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+                reply = data["candidates"][0]["content"]["parts"][0]["text"].strip()
+                if reply:
+                    return reply
+        except Exception as exc:
+            print(f"[Gemini Chat Warning] {model_name}: {exc}", flush=True)
+    return ""
+
+
+class WebsiteDemoChatRequest(BaseModel):
+    message: str
+    template_id: Optional[str] = "clinica_dental_estetica"
+    business_name: Optional[str] = ""
+    city: Optional[str] = ""
+    phone_display: Optional[str] = ""
+    offer_hook: Optional[str] = ""
+    history: Optional[List[Dict[str, str]]] = None
+
+
+@router.post("/api/sales-os/website-chat")
+async def api_website_demo_chat(req: WebsiteDemoChatRequest):
+    """Recepcionista IA 24/7 impulsada por Google Gemini para el Demostrador de Sitio Web Inteligente."""
+    tpl_key = (req.template_id or "clinica_dental_estetica").strip()
+    tpl = WEBSITE_TEMPLATES_SHOWCASE.get(tpl_key) or WEBSITE_TEMPLATES_SHOWCASE["clinica_dental_estetica"]
+    bname = (req.business_name or "").strip() or tpl["default_business"]
+    city = (req.city or "").strip() or tpl["default_city"]
+    phone_disp = (req.phone_display or "").strip() or "+1 (786) 557-3119"
+    offer_hook = (req.offer_hook or "").strip() or tpl["offer_hook"]
+    services_list = ", ".join([s["title"] for s in tpl.get("services", [])])
+    hours = tpl.get("contact_hours", "Atención digital 24/7")
+
+    history_str = ""
+    if req.history:
+        for h in req.history[-4:]:
+            role_lbl = "Cliente" if h.get("role") == "user" else "Recepcionista IA"
+            history_str += f"{role_lbl}: {h.get('text', '')}\n"
+
+    history_block = f"HISTORIAL RECIENTE:\n{history_str}" if history_str else ""
+    system_prompt = (
+        f"Eres el Asistente y Recepcionista Digital con Inteligencia Artificial 24/7 de '{bname}', "
+        f"ubicado en {city} ({tpl['niche_label']}).\n"
+        f"Servicios principales que ofrecemos: {services_list}.\n"
+        f"Beneficio especial vigente hoy al registrarse en la web: {offer_hook}.\n"
+        f"Horario de atención presencial: {hours}. WhatsApp directo: {phone_disp}.\n"
+        f"INSTRUCCIONES DE RESPUESTA:\n"
+        f"- Responde en español, con tono cálido, ejecutivo, muy persuasivo y breve (máximo 3 a 4 oraciones).\n"
+        f"- Responde directamente la duda del visitante sobre '{bname}' y sus servicios.\n"
+        f"- Al final de tu respuesta, invítalo siempre a llenar el formulario de 'Recepción Digital 24/7' aquí mismo en la página o a elegir su horario en el calendario para reservar su turno con el beneficio: '{offer_hook}'.\n"
+        f"- No uses formato markdown pesado ni asteriscos excesivos.\n"
+        f"{history_block}"
+    )
+
+    reply = invoke_gemini_assistant(system_prompt, req.message.strip())
+    if not reply:
+        reply = (
+            f"¡Hola! Soy el Asistente IA 24/7 de {bname} en {city}. "
+            f"Contamos con especialistas en {services_list}. "
+            f"Si te registras hoy aquí en el formulario de la página te activamos nuestro beneficio especial: {offer_hook}. "
+            f"¿Te gustaría dejar tu Nombre y WhatsApp en el recuadro de Recepción Digital para confirmar tu horario ahora mismo?"
+        )
+
+    return {
+        "success": True,
+        "reply": reply,
+        "model": "gemini-2.5-flash",
+        "business_name": bname,
+    }
+
 
 

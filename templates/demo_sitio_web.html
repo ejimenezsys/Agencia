@@ -742,11 +742,11 @@
               </div>
               <div class="whatsapp-bubble" id="sim-whatsapp-msg"></div>
               <div style="padding:14px; border-radius:14px; background:rgba(2,7,16,0.9); border:1px solid var(--border-col); font-size:12px; color:#e2e8f0;">
-                <div style="font-weight:800; color:var(--accent); margin-bottom:4px;">📊 Registro Automático en tu Pipeline CRM (GoHighLevel):</div>
+                <div style="font-weight:800; color:var(--accent); margin-bottom:4px;">📊 Registro Automático en tu Pipeline CRM ProsperIA:</div>
                 <div id="sim-crm-summary"></div>
               </div>
               <button type="button" onclick="openGhlCalendarModal()" style="width:100%; padding:13px 16px; border-radius:12px; font-weight:800; font-size:13px; color:#040b16; background:#fbbf24; border:none; cursor:pointer;">
-                <i class="fas fa-calendar-alt mr-1"></i> Paso 2: Abrir Calendario Oficial del Closer (GoHighLevel)
+                <i class="fas fa-calendar-alt mr-1"></i> Paso 2: Abrir Calendario Oficial del Closer (CRM ProsperIA)
               </button>
             </div>
           </div>
@@ -971,11 +971,11 @@
 
   </div>
 
-  <!-- ══ MODAL 1: CALENDARIO OFICIAL GHL PRE-CARGADO ══ -->
+  <!-- ══ MODAL 1: CALENDARIO OFICIAL CRM PROSPERIA PRE-CARGADO ══ -->
   <dialog id="ghlCalendarDialog" closedby="any" aria-labelledby="ghlCalTitle">
     <div class="p-4 border-b border-slate-800 flex items-center justify-between">
       <div>
-        <h3 id="ghlCalTitle" class="text-base font-bold text-white">📅 Calendario Inteligente GoHighLevel (Pre-cargado con los datos del cliente)</h3>
+        <h3 id="ghlCalTitle" class="text-base font-bold text-white">📅 Calendario Inteligente CRM ProsperIA (Pre-cargado con los datos del cliente)</h3>
         <p class="text-xs text-slate-400">El cliente no tiene que volver a escribir su nombre, correo ni teléfono.</p>
       </div>
       <button onclick="document.getElementById('ghlCalendarDialog').close()" class="px-3 py-1 rounded-lg bg-slate-800 text-slate-300 text-xs hover:bg-slate-700">
@@ -1445,19 +1445,61 @@
       msgBox.scrollTop = msgBox.scrollHeight;
     }
 
-    function generateBotResponse(userText) {
+    let chatbotConversationHistory = [];
+
+    async function generateBotResponse(userText) {
+      const tplKey = document.getElementById("ctrl-template").value || "clinica_dental_estetica";
       const biz = document.getElementById("ctrl-business").value || "nuestro negocio";
+      const city = document.getElementById("ctrl-city").value || "Tu Ciudad";
       const offer = document.getElementById("ctrl-offer").value || "nuestra promoción de esta semana";
+      const phone = document.getElementById("ctrl-phone").value || "+1 786 557 3119";
       const q1Input = document.getElementById("sim-q1");
       if (q1Input) q1Input.value = userText;
 
-      setTimeout(() => {
+      chatbotConversationHistory.push({ role: "user", text: userText });
+
+      const msgBox = document.getElementById("chatbot-messages");
+      const typingDiv = document.createElement("div");
+      typingDiv.id = "chatbot-typing-indicator";
+      typingDiv.style.cssText = "padding:8px 12px; border-radius:12px; background:#0f172a; color:#38bdf8; border:1px solid #1e293b; font-size:11px; font-weight:700;";
+      typingDiv.innerHTML = `<i class="fas fa-circle-notch fa-spin mr-1"></i> Gemini IA de ${biz} está respondiendo...`;
+      if (msgBox) {
+        msgBox.appendChild(typingDiv);
+        msgBox.scrollTop = msgBox.scrollHeight;
+      }
+
+      try {
+        const res = await fetch("/api/sales-os/website-chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            message: userText,
+            template_id: tplKey,
+            business_name: biz,
+            city: city,
+            phone_display: phone,
+            offer_hook: offer,
+            history: chatbotConversationHistory.slice(-6)
+          })
+        });
+        const data = await res.json();
+        document.getElementById("chatbot-typing-indicator")?.remove();
+        const replyText = (data && data.reply)
+          ? data.reply
+          : `¡Excelente! En <strong>${biz}</strong> tenemos disponibilidad prioritaria para <em>"${userText}"</em> con el beneficio activo: <strong>${offer}</strong>.`;
+        chatbotConversationHistory.push({ role: "assistant", text: replyText });
+        appendChatMessage(
+          "bot",
+          `${replyText}<br><br><span style="color:#34d399; font-weight:700; font-size:11px;">✅ Ya pre-cargué tu consulta en el formulario de Recepción Digital 24/7.</span>`
+        );
+      } catch (err) {
+        document.getElementById("chatbot-typing-indicator")?.remove();
         appendChatMessage(
           "bot",
           `¡Excelente! En <strong>${biz}</strong> tenemos disponibilidad prioritaria para <em>"${userText}"</em> con el beneficio activo: <strong>${offer}</strong>.<br><br>` +
           `✅ Ya pre-cargué tu consulta en el formulario. Haz clic en <strong>"Continuar y Ver Disponibilidad en Vivo"</strong> para elegir tu horario.`
         );
-      }, 350);
+      }
     }
 
     function toggleToolbar() {
@@ -1499,7 +1541,7 @@
         • <strong>Contacto:</strong> ${clientName} (${clientPhone} | ${clientEmail})<br>
         • <strong>Negocio personalizado:</strong> ${biz} (${city})<br>
         • <strong>Closer Asignado:</strong> ${closerName} (${closerEmail})<br>
-        • <strong>Estado en Pipeline GHL:</strong> Sincronizando en vivo con <em>Ventas Agencia ProsperIA (Demo Realizada)</em>... ⏳
+        • <strong>Estado en Pipeline CRM ProsperIA:</strong> Sincronizando en vivo con <em>Ventas Agencia ProsperIA (Demo Realizada)</em>... ⏳
       `;
       const resBox = document.getElementById("sim-result-box");
       resBox.classList.remove("hidden");
@@ -1524,7 +1566,7 @@
             document.getElementById("sim-crm-summary").innerHTML = `
               • <strong>Contacto:</strong> ${clientName} (${clientPhone} | ${clientEmail})<br>
               • <strong>Closer Asignado:</strong> ${closerName} (${closerEmail})<br>
-              • <strong>Estado en Pipeline GHL:</strong> ✅ <strong>¡INYECTADO EN VIVO EN GOHIGHLEVEL!</strong> Etapa: <em>Demo Realizada (US$497)</em>
+              • <strong>Estado en Pipeline CRM ProsperIA:</strong> ✅ <strong>¡INYECTADO EN VIVO EN CRM PROSPERIA!</strong> Etapa: <em>Demo Realizada (US$497)</em>
             `;
             return;
           }
@@ -1560,7 +1602,7 @@
         document.getElementById("sim-crm-summary").innerHTML = `
           • <strong>Contacto:</strong> ${clientName} (${clientPhone} | ${clientEmail})<br>
           • <strong>Closer Asignado:</strong> ${closerName} (${closerEmail})<br>
-          • <strong>Estado en Pipeline GHL:</strong> ✅ <strong>¡INYECTADO EN VIVO EN GOHIGHLEVEL!</strong> Etapa: <em>Demo Realizada (US$497)</em>
+          • <strong>Estado en Pipeline CRM ProsperIA:</strong> ✅ <strong>¡INYECTADO EN VIVO EN CRM PROSPERIA!</strong> Etapa: <em>Demo Realizada (US$497)</em>
         `;
       } catch (err) {
         console.error("Error sincronizando formulario de demo:", err);
@@ -1637,7 +1679,7 @@
           });
           const data = await res.json();
           if (data.success) {
-            banner.textContent = `✅ Demo guardada en el prospecto #${ACTIVE_LEAD_ID} (${payloadConfig.business_name}) -> Etapa actualizada a "Demo realizada" y sincronizada con GoHighLevel.`;
+            banner.textContent = `✅ Demo guardada en el prospecto #${ACTIVE_LEAD_ID} (${payloadConfig.business_name}) -> Etapa actualizada a "Demo realizada" y sincronizada con CRM ProsperIA.`;
             banner.classList.remove("hidden");
             return;
           }

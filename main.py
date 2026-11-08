@@ -2766,8 +2766,36 @@ class AgentChatRequest(BaseModel):
 
 @app.post("/api/agents/chat")
 async def api_agent_chat(req: AgentChatRequest):
-    message = req.message.lower()
+    from sales_os_router import invoke_gemini_assistant
+    raw_msg = (req.message or "").strip()
+    message = raw_msg.lower()
     agent_type = req.agent # sdr, setter, support
+
+    role_prompts = {
+        "sdr": (
+            "Eres el Agente 'AI SDR' de Agencia ProsperIA (Sistema SVE-90 y Sitios Web Inteligentes). "
+            "Tu misión es calificar prospectos en menos de 15 segundos, explicar cómo evitamos que pierdan ventas "
+            "por tardar en responder WhatsApp, y presentar nuestras 3 opciones: Sitio Web Inteligente Express (US$497 con facilidad 50/50), "
+            "Plan Crecimiento Anual con Central Passport AI (US$990/año) y Máquina Comercial con CRM ProsperIA (US$1,490) o SVE-90 Corporativo (US$5,000 a US$10,000). "
+            "Responde en español, con tono ejecutivo, directo y persuasivo en máximo 3 a 4 oraciones, cerrando con una pregunta de calificación o invitación a agendar."
+        ),
+        "setter": (
+            "Eres el Agente 'AI Setter' (Agendador Autónomo Anti-Faltazos) de Agencia ProsperIA. "
+            "Tu misión es coordinar citas en vivo en el calendario del CRM ProsperIA, resolver objeciones de tiempo "
+            "y explicar cómo nuestros recordatorios automáticos por WhatsApp (24h y 1h antes) reducen el ausentismo en un 65%. "
+            "Responde en español, cálido y directo en máximo 3 a 4 oraciones."
+        ),
+        "support": (
+            "Eres el Agente 'AI Soporte & Arquitectura SVE-90' de Agencia ProsperIA y Central Passport AI (https://passportai.app). "
+            "Explicas de forma sencilla y con autoridad cómo conectamos el Sitio Web Inteligente, WhatsApp Cloud API (0% bloqueos), "
+            "el CRM ProsperIA (9 etapas) y el ecosistema Central Passport AI (+15 modelos de IA, Constructores de Negocio y Estudio 4K). "
+            "Responde en español en máximo 3 a 4 oraciones claras."
+        ),
+    }
+    sys_prompt = role_prompts.get(agent_type, role_prompts["sdr"])
+    gemini_reply = invoke_gemini_assistant(sys_prompt, raw_msg)
+    if gemini_reply:
+        return {"success": True, "reply": gemini_reply, "model": "gemini-2.5-flash"}
     
     # Respuestas personalizadas del Agente SDR
     if agent_type == "sdr":
