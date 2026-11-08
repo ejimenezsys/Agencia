@@ -13,72 +13,469 @@
       --accent: #00e5ff;
       --secondary: #0ea5e9;
       --bg-dark: #040b16;
-      --bg-card: #0b182e;
-      --border-col: rgba(0, 229, 255, 0.22);
+      --bg-surface: #081528;
+      --bg-card: rgba(11, 25, 48, 0.88);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-col: rgba(0, 229, 255, 0.24);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+    }
+    body.light-theme {
+      --bg-dark: #f8fafc;
+      --bg-surface: #ffffff;
+      --bg-card: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --border-col: rgba(14, 165, 233, 0.35);
+      --border-subtle: rgba(15, 23, 42, 0.1);
     }
     * { box-sizing: border-box; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
-    h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; }
+    html { scroll-behavior: smooth; }
+    h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; margin: 0; }
     body {
       margin: 0;
       background: var(--bg-dark);
-      color: #f8fafc;
+      color: var(--text-main);
       min-height: 100vh;
+      line-height: 1.6;
     }
+
+    /* ── CONTENEDOR AMPLIO (NUNCA AMONTONADO) ── */
+    .site-shell {
+      max-width: 1420px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+    @media (max-width: 768px) {
+      .site-shell { padding: 0 18px; }
+    }
+
+    /* ── BARRA SUPERIOR DEL CLOSER ── */
     .closer-toolbar {
       position: sticky;
       top: 0;
-      z-index: 100;
-      background: rgba(5, 13, 26, 0.96);
+      z-index: 120;
+      background: rgba(4, 11, 22, 0.97);
       border-bottom: 2px solid var(--accent);
-      backdrop-filter: blur(14px);
-      padding: 12px 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(16px);
+      padding: 12px 24px;
+      box-shadow: 0 12px 34px rgba(0, 0, 0, 0.65);
+      color: #f8fafc;
     }
     .closer-toolbar.minimized .toolbar-controls {
-      display: none;
+      display: none !important;
+    }
+    .toolbar-controls {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 12px;
+      padding-top: 12px;
+      margin-top: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    @media (max-width: 1200px) {
+      .toolbar-controls { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    @media (max-width: 680px) {
+      .toolbar-controls { grid-template-columns: 1fr; }
     }
     .input-mini {
       background: #0d1f3c;
-      border: 1px solid #1e3a5f;
+      border: 1px solid #23426b;
       color: #fff;
-      border-radius: 8px;
-      padding: 7px 11px;
+      border-radius: 10px;
+      padding: 9px 12px;
       font-size: 13px;
       width: 100%;
       outline: none;
+      transition: border-color 0.2s;
     }
-    .input-mini:focus {
-      border-color: var(--accent);
+    body.light-theme .form-card .input-mini {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+      color: #0f172a;
     }
-    .hero-glow {
-      background: radial-gradient(circle at 20% 20%, rgba(0, 229, 255, 0.14), transparent 55%),
-                  radial-gradient(circle at 80% 30%, rgba(99, 102, 241, 0.14), transparent 55%);
+    .input-mini:focus { border-color: var(--accent); }
+
+    /* ── NAVBAR DEL SITIO WEB DEL CLIENTE (CON LOGO EN LA ESQUINA IZQUIERDA) ── */
+    .client-navbar {
+      position: sticky;
+      top: 0;
+      z-index: 80;
+      background: rgba(6, 15, 30, 0.9);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 18px 0;
     }
+    body.light-theme .client-navbar {
+      background: rgba(255, 255, 255, 0.94);
+    }
+    .navbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .brand-corner {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .logo-corner-box {
+      position: relative;
+      width: 58px;
+      height: 58px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 22px;
+      color: #040b16;
+      background: linear-gradient(135deg, var(--accent), var(--secondary));
+      overflow: hidden;
+      flex-shrink: 0;
+      box-shadow: 0 6px 20px rgba(0, 229, 255, 0.25);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+    }
+    .logo-corner-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #ffffff;
+      padding: 3px;
+    }
+    .logo-upload-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 9px;
+      border-radius: 8px;
+      background: rgba(0, 229, 255, 0.14);
+      color: var(--accent);
+      border: 1px dashed var(--border-col);
+      cursor: pointer;
+      margin-top: 4px;
+      transition: all 0.2s;
+    }
+    .logo-upload-pill:hover {
+      background: rgba(0, 229, 255, 0.25);
+    }
+    .closer-toolbar.minimized ~ .site-wrapper .logo-upload-pill {
+      display: none;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      flex-wrap: wrap;
+    }
+    .nav-links a {
+      color: var(--text-main);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      opacity: 0.88;
+      transition: color 0.2s, opacity 0.2s;
+    }
+    .nav-links a:hover {
+      color: var(--accent);
+      opacity: 1;
+    }
+    @media (max-width: 960px) {
+      .nav-links { display: none; }
+    }
+
+    /* ── BOTONES Y ELEMENTOS VISUALES ── */
     .accent-btn {
       background: linear-gradient(135deg, var(--accent), var(--secondary));
       color: #040b16;
       font-weight: 800;
       border: none;
       border-radius: 12px;
-      padding: 14px 24px;
+      padding: 14px 26px;
       cursor: pointer;
       transition: all 0.2s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
     .accent-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(0, 229, 255, 0.3);
+      box-shadow: 0 12px 28px rgba(0, 229, 255, 0.3);
     }
-    .feature-box {
-      background: rgba(13, 31, 60, 0.78);
-      border: 1px solid rgba(255, 255, 255, 0.09);
+
+    /* ── HERO PRINCIPAL AMPLIO (2 COLUMNAS REALES SIEMPRE EN DESKTOP) ── */
+    .hero-section {
+      padding: 56px 0 64px 0;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.35fr 0.95fr;
+      gap: 44px;
+      align-items: start;
+    }
+    /* Variantes de Layout seleccionables en vivo */
+    body.layout-reversed .hero-grid {
+      grid-template-columns: 0.95fr 1.35fr;
+    }
+    body.layout-reversed .hero-left-col { order: 2; }
+    body.layout-reversed .hero-right-col { order: 1; }
+
+    body.layout-panoramic .hero-grid {
+      grid-template-columns: 1.15fr 1fr;
+      gap: 48px;
+    }
+    @media (max-width: 1024px) {
+      .hero-grid,
+      body.layout-reversed .hero-grid,
+      body.layout-panoramic .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+      body.layout-reversed .hero-left-col { order: 1; }
+      body.layout-reversed .hero-right-col { order: 2; }
+    }
+
+    /* ── MARCO DE IMAGEN PRINCIPAL (PROPORCIÓN 16:10, NUNCA CORTADA) ── */
+    .hero-showcase-card {
+      border-radius: 22px;
+      overflow: hidden;
+      border: 2px solid var(--border-col);
+      background: #061224;
+      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.45);
+      margin-top: 24px;
+    }
+    .hero-image-viewport {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      min-height: 360px;
+      max-height: 500px;
+      overflow: hidden;
+      background: #081528;
+    }
+    .hero-image-viewport img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 28%;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+    .hero-thumbs-bar {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      padding: 14px;
+      background: rgba(5, 13, 26, 0.95);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    @media (max-width: 680px) {
+      .hero-thumbs-bar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    .thumb-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      background: rgba(15, 23, 42, 0.9);
+      color: #f8fafc;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s;
+    }
+    .thumb-btn:hover, .thumb-btn.active {
+      border-color: var(--accent);
+      background: rgba(0, 229, 255, 0.12);
+    }
+    .thumb-btn img {
+      width: 48px;
+      height: 38px;
+      object-fit: cover;
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+
+    /* ── TARJETA DEL FORMULARIO 24/7 ── */
+    .form-card {
+      background: var(--bg-card);
+      border: 2px solid var(--accent);
+      border-radius: 24px;
+      padding: 34px 32px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+      position: sticky;
+      top: 110px;
+    }
+
+    /* ── SECCIONES AMPLIAS DEL SITIO WEB (QUIÉNES SOMOS, SERVICIOS, GALERÍA, TESTIMONIOS, FOOTER) ── */
+    .site-section {
+      padding: 76px 0;
+      border-top: 1px solid var(--border-subtle);
+    }
+    .section-header {
+      max-width: 780px;
+      margin: 0 auto 48px auto;
+      text-align: center;
+    }
+    .section-eyebrow {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      background: rgba(0, 229, 255, 0.1);
+      border: 1px solid var(--border-col);
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+    }
+
+    /* ── QUIÉNES SOMOS (CON 3 OPCIONES DE DISEÑO INTERACTIVAS) ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .about-grid.about-style-centered {
+      grid-template-columns: 1fr;
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+    .about-grid.about-style-reversed .about-text-col { order: 2; }
+    .about-grid.about-style-reversed .about-img-col { order: 1; }
+    @media (max-width: 960px) {
+      .about-grid { grid-template-columns: 1fr; gap: 32px; }
+      .about-grid.about-style-reversed .about-text-col { order: 1; }
+      .about-grid.about-style-reversed .about-img-col { order: 2; }
+    }
+    .about-photo-frame {
+      border-radius: 22px;
+      overflow: hidden;
+      border: 2px solid var(--border-col);
+      aspect-ratio: 4 / 3;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+    }
+    .about-photo-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 25%;
+      display: block;
+    }
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 28px;
+    }
+    @media (max-width: 600px) {
+      .stats-row { grid-template-columns: 1fr; }
+    }
+    .stat-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-col);
       border-radius: 16px;
-      padding: 24px;
+      padding: 18px;
+      text-align: center;
+    }
+
+    /* ── CATÁLOGO DE PRODUCTOS / SERVICIOS (6 TARJETAS AMPLIAS) ── */
+    .services-catalog-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 24px;
+    }
+    @media (max-width: 1024px) {
+      .services-catalog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 640px) {
+      .services-catalog-grid { grid-template-columns: 1fr; }
+    }
+    .service-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
       transition: all 0.25s ease;
     }
-    .feature-box:hover {
+    .service-card:hover {
       border-color: var(--accent);
-      transform: translateY(-3px);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.3);
     }
+
+    /* ── GALERÍA DE INSTALACIONES Y CASOS (3 FOTOS GRANDES SIN CORTAR) ── */
+    .gallery-showcase-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 24px;
+    }
+    @media (max-width: 900px) {
+      .gallery-showcase-grid { grid-template-columns: 1fr; }
+    }
+    .gallery-card {
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-card);
+    }
+    .gallery-card-img {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      object-position: center 30%;
+      display: block;
+    }
+
+    /* ── RESEÑAS / TESTIMONIOS 5 ESTRELLAS ── */
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 24px;
+    }
+    @media (max-width: 900px) {
+      .reviews-grid { grid-template-columns: 1fr; }
+    }
+    .review-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 28px;
+    }
+
+    /* ── PIE DE PÁGINA COMPLETO (FOOTER + DATOS DE CONTACTO + HORARIOS) ── */
+    .client-footer {
+      background: #020710;
+      color: #e2e8f0;
+      border-top: 2px solid var(--border-col);
+      padding: 68px 0 36px 0;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 0.8fr 1fr 1fr;
+      gap: 36px;
+      margin-bottom: 44px;
+    }
+    @media (max-width: 960px) {
+      .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 600px) {
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+
     .whatsapp-bubble {
       background: #075e54;
       color: #fff;
@@ -98,7 +495,7 @@
       border: 1px solid var(--accent);
       border-radius: 18px;
       padding: 0;
-      max-width: 920px;
+      max-width: 960px;
       width: 94%;
     }
   </style>
@@ -107,33 +504,39 @@
 
   <!-- ══ BARRA DE PERSONALIZACIÓN EN VIVO PARA EL VENDEDOR/CLOSER ══ -->
   <header class="closer-toolbar" id="closer-toolbar">
-    <div class="max-w-7xl mx-auto">
-      <div class="flex flex-wrap items-center justify-between gap-3 mb-2">
-        <div class="flex items-center gap-2.5">
+    <div class="site-shell">
+      <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px;">
+        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
           <span class="px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider" style="background:rgba(0,229,255,0.15); color:#00e5ff; border:1px solid rgba(0,229,255,0.3);">
             <i class="fas fa-bolt mr-1"></i> DEMOSTRADOR EN VIVO (CLOSER)
           </span>
-          <span class="text-xs text-slate-300 hidden sm:inline">
-            Personaliza en 5 segundos el sitio del cliente, prueba el formulario en vivo y dalo de alta en el CRM.
+          <span class="text-xs text-slate-300">
+            Personaliza el sitio completo (Inicio, Quiénes Somos, Catálogo, Galería y Contacto) en 5 segundos.
           </span>
         </div>
-        <div class="flex items-center gap-2">
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+          <button onclick="cyclePageLayout()" class="px-3 py-1.5 rounded-lg text-xs font-bold text-cyan-300 border border-cyan-400/40 hover:bg-cyan-400/10" id="btn-layout-switch">
+            <i class="fas fa-columns mr-1"></i> Diseño: Split Ejecutivo
+          </button>
+          <button onclick="toggleLightDarkTheme()" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-200 border border-slate-600 hover:border-amber-400" id="btn-theme-mode">
+            <i class="fas fa-sun mr-1 text-amber-300"></i> Modo Claro / Oscuro
+          </button>
           <button onclick="openLookGalleryModal()" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-amber-300 border border-amber-400/30 hover:bg-amber-400/10">
-            <i class="fas fa-palette mr-1"></i> +60 Looks de Diseño
+            <i class="fas fa-palette mr-1"></i> +12 Paletas de Marca
           </button>
           <button onclick="saveDemoToCrm()" id="btn-save-crm" class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-950" style="background:linear-gradient(135deg,#34d399,#10b981);">
-            <i class="fas fa-check-circle mr-1"></i> Guardar Demo / Dar de Alta en CRM
+            <i class="fas fa-check-circle mr-1"></i> Guardar Demo en CRM
           </button>
           <button onclick="toggleToolbar()" id="btn-toggle-bar" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-300 border border-slate-700 hover:border-cyan-400">
-            <i class="fas fa-eye-slash mr-1"></i> Modo Cliente
+            <i class="fas fa-eye-slash mr-1"></i> Modo Cliente Limpio
           </button>
-          <a href="/dashboard" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/10">
+          <a href="/dashboard" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/10 no-underline">
             <i class="fas fa-arrow-left mr-1"></i> Volver al CRM
           </a>
         </div>
       </div>
 
-      <div class="toolbar-controls grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-2.5 pt-2 border-t border-slate-800/80">
+      <div class="toolbar-controls">
         <div>
           <label class="block text-[11px] text-slate-400 mb-1 font-semibold">1. Giro / Plantilla Sectorial</label>
           <select id="ctrl-template" class="input-mini" onchange="applyTemplateChange()">
@@ -149,8 +552,8 @@
           <input type="text" id="ctrl-business" class="input-mini" placeholder="Ej. Clínica Dra. Laura" oninput="syncLivePreview()">
         </div>
         <div>
-          <label class="block text-[11px] text-slate-400 mb-1 font-semibold">3. Ciudad / País del Cliente</label>
-          <input type="text" id="ctrl-city" class="input-mini" placeholder="Ej. Buenos Aires / Miami" oninput="syncLivePreview()">
+          <label class="block text-[11px] text-slate-400 mb-1 font-semibold">3. Ciudad / Dirección del Cliente</label>
+          <input type="text" id="ctrl-city" class="input-mini" placeholder="Ej. Av. Libertador 2400, CABA" oninput="syncLivePreview()">
         </div>
         <div>
           <label class="block text-[11px] text-slate-400 mb-1 font-semibold">4. Oferta / Gancho del Mes</label>
@@ -161,21 +564,11 @@
           <input type="text" id="ctrl-phone" class="input-mini" placeholder="+1 786 557 3119" oninput="syncLivePreview()">
         </div>
         <div>
-          <label class="block text-[11px] text-cyan-300 mb-1 font-semibold">6. 🖼️ Imagen / Subir Foto Cliente</label>
-          <div class="flex items-center gap-1">
-            <input type="text" id="ctrl-image-url" class="input-mini" placeholder="URL de foto o sube archivo ->" oninput="applyCustomImageUrl(this.value)">
-            <label class="px-2.5 py-1.5 rounded-lg bg-cyan-500/20 border border-cyan-400/40 text-cyan-300 text-xs font-bold cursor-pointer hover:bg-cyan-500/30 flex-shrink-0" title="Subir foto desde tu computadora">
-              <i class="fas fa-upload"></i>
-              <input type="file" accept="image/*" class="hidden" onchange="handleLocalImageUpload(event)">
-            </label>
-          </div>
-        </div>
-        <div>
-          <label class="block text-[11px] text-emerald-300 mb-1 font-semibold">7. 👤 Closer / Link Calendario</label>
+          <label class="block text-[11px] text-emerald-300 mb-1 font-semibold">6. 👤 Closer / Link Calendario GHL</label>
           <select id="ctrl-closer" class="input-mini" onchange="handleCloserChange()">
             <option value="sheille.perez@gmail.com" data-name="Sheille Pérez">Sheille Pérez (Dupla A)</option>
-            <option value="diegoarriondo03@gmail.com" data-name="Diego Arriondo">Diego Arriondo (Dupla A)</option>
-            <option value="cinthyapenida0@gmail.com" data-name="Cinthya Penida">Cinthya Penida (Dupla B)</option>
+            <option value="diegoarriondo03@gmail.com" data-name="Diego Arriondo">Diego Arriondo (Dupla B)</option>
+            <option value="cinthyapenida0@gmail.com" data-name="Cinthya Penida">Cinthya Penida (Dupla A)</option>
             <option value="claudiniosan@yahoo.com.ar" data-name="Claudio A. Sánchez">Claudio A. Sánchez (Dupla B)</option>
             <option value="loremrodriguezafb@gmail.com" data-name="Lorena Rodríguez">Lorena Rodríguez (Dupla C)</option>
             <option value="sergiotorales608@gmail.com" data-name="Sergio Torales">Sergio Torales (Dupla C)</option>
@@ -187,186 +580,395 @@
     </div>
   </header>
 
-  <!-- ══ SITIO WEB INTELIGENTE EN VIVO (VISTA DEL CLIENTE) ══ -->
-  <div class="hero-glow min-h-screen">
-    <!-- Top Navigation del Sitio del Cliente -->
-    <nav class="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between border-b border-slate-800/80">
-      <div class="flex items-center gap-3">
-        <div id="site-logo-badge" class="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-lg text-slate-950" style="background:linear-gradient(135deg, var(--accent), var(--secondary));">
-          <i class="fas fa-sparkles"></i>
-        </div>
-        <div>
-          <div id="view-business-name" class="font-bold text-lg text-white leading-tight">Clínica Dental & Estética Avanzada</div>
-          <div class="text-xs text-slate-400 flex items-center gap-1.5">
-            <span class="w-2 h-2 rounded-full bg-emerald-400 inline-block"></span>
-            <span id="view-city">Miami / Buenos Aires / Bogotá</span> · Recepción Digital Activa 24/7
+  <!-- ══ SITIO WEB INTELIGENTE COMPLETO (VISTA DEL CLIENTE) ══ -->
+  <div class="site-wrapper">
+
+    <!-- 1. NAVBAR DEL CLIENTE CON SUBIDA DE LOGO EN LA ESQUINA IZQUIERDA -->
+    <nav class="client-navbar">
+      <div class="site-shell navbar-inner">
+        <div class="brand-corner">
+          <div class="logo-corner-box" id="site-logo-badge" title="Logo del Negocio">
+            <span id="site-logo-initials"><i class="fas fa-sparkles"></i></span>
+            <img id="site-logo-img" src="" alt="Logo Cliente" style="display:none;">
+          </div>
+          <div>
+            <div id="view-business-name" style="font-size:20px; font-weight:800; line-height:1.2;">Clínica Dental & Estética Avanzada</div>
+            <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:3px;">
+              <span style="font-size:12px; color:var(--text-muted); display:inline-flex; align-items:center; gap:6px;">
+                <span style="width:8px; height:8px; border-radius:50%; background:#10b981; display:inline-block;"></span>
+                <span id="view-city">Miami / Buenos Aires / Bogotá</span> · Recepción IA 24/7
+              </span>
+              <!-- Botón exclusivo en la esquina para subir el LOGO del cliente (separado de las fotos) -->
+              <label class="logo-upload-pill" title="Sube el logo del cliente para que se vea en esta esquina y en el pie de página">
+                <i class="fas fa-camera"></i> Subir Logo Aquí
+                <input type="file" accept="image/*" style="display:none;" onchange="handleCornerLogoUpload(event)">
+              </label>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="flex items-center gap-3">
-        <a href="#qualify-section" class="accent-btn text-xs sm:text-sm py-2.5 px-4 inline-flex items-center gap-2 no-underline">
-          <i class="fab fa-whatsapp text-base"></i>
-          <span>Agendar / Cotizar Ahora</span>
-        </a>
+
+        <div class="nav-links">
+          <a href="#inicio">Inicio</a>
+          <a href="#quienes-somos">Quiénes Somos</a>
+          <a href="#servicios">Servicios & Catálogo</a>
+          <a href="#galeria">Instalaciones</a>
+          <a href="#testimonios">Reseñas</a>
+          <a href="#contacto">Contacto & Ubicación</a>
+        </div>
+
+        <div>
+          <a href="#qualify-form-box" class="accent-btn" style="padding:11px 20px; font-size:13px;">
+            <i class="fab fa-whatsapp" style="font-size:16px;"></i>
+            <span>Agendar / Cotizar Ahora</span>
+          </a>
+        </div>
       </div>
     </nav>
 
-    <!-- HERO SECTION + FORMULARIO CALIFICADOR 24/7 -->
-    <section class="max-w-6xl mx-auto px-6 py-12 lg:py-16 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center" id="qualify-section">
-      <!-- Columna Izquierda: Propuesta de Valor del Cliente -->
-      <div class="lg:col-span-7 space-y-6">
-        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase" style="background:rgba(0,229,255,0.12); color:var(--accent); border:1px solid var(--border-col);">
-          <i class="fas fa-check-circle"></i>
-          <span id="view-badge">SALUD & ESTÉTICA PREMIUM</span>
-        </div>
+    <!-- 2. HERO SECTION AMPLIO (2 COLUMNAS REALES + FOTO COMPLETA SIN RECORTAR) -->
+    <section class="hero-section" id="inicio">
+      <div class="site-shell hero-grid">
 
-        <h1 id="view-hero-title" class="text-3xl sm:text-5xl font-extrabold text-white leading-tight">
-          Agenda tu Valoración Especializada en Menos de 60 Segundos sin Esperar en Línea
-        </h1>
+        <!-- Columna Izquierda: Propuesta de Valor + Fotografía Panorámica Sin Cortar -->
+        <div class="hero-left-col">
+          <div style="display:inline-flex; align-items:center; gap:8px; padding:6px 14px; border-radius:999px; font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:0.06em; background:rgba(0,229,255,0.12); color:var(--accent); border:1px solid var(--border-col); margin-bottom:18px;">
+            <i class="fas fa-check-circle"></i>
+            <span id="view-badge">SALUD, ODONTOLOGÍA & ESTÉTICA AVANZADA</span>
+          </div>
 
-        <p id="view-hero-subtitle" class="text-slate-300 text-base sm:text-lg leading-relaxed">
-          Nuestro sistema inteligente califica tu caso y te asigna turno prioritario con nuestros especialistas por WhatsApp las 24 horas.
-        </p>
+          <h1 id="view-hero-title" style="font-size:clamp(28px, 3.4vw, 46px); font-weight:900; line-height:1.15; margin-bottom:16px;">
+            Recupera la Confianza en tu Sonrisa e Imagen con Especialistas Certificados
+          </h1>
 
-        <!-- GALERÍA VISUAL INTERACTIVA POR GIRO (EFECTO WOW CON IMÁGENES REALES) -->
-        <div class="rounded-2xl overflow-hidden border-2 shadow-2xl relative group" style="border-color:var(--border-col); background:#071224;">
-          <div class="relative h-64 sm:h-80 w-full overflow-hidden">
-            <img id="view-hero-image" src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1000&q=85" alt="Imagen Principal del Negocio" class="w-full h-full object-cover transition-all duration-500">
-            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/25 to-transparent"></div>
-            <div class="absolute bottom-3 left-4 right-4 flex flex-wrap items-center justify-between gap-2">
-              <div class="flex items-center gap-2">
-                <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-500/90 text-slate-950 shadow">
-                  <i class="fas fa-camera mr-1"></i> <span id="view-image-caption">Instalaciones & Atención Profesional</span>
+          <p id="view-hero-subtitle" style="font-size:17px; color:var(--text-muted); margin-bottom:24px; max-width:740px;">
+            Tecnología digital sin dolor, resultados naturales desde la primera sesión y agendamiento prioritario las 24 horas por WhatsApp.
+          </p>
+
+          <!-- Caja de Oferta / Beneficio Activo -->
+          <div style="padding:16px 20px; border-radius:16px; border:1px solid rgba(245,158,11,0.4); background:rgba(245,158,11,0.1); display:flex; align-items:center; gap:14px; margin-bottom:24px;">
+            <div style="width:42px; height:42px; border-radius:12px; background:rgba(245,158,11,0.2); color:#fbbf24; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0;">
+              <i class="fas fa-gift"></i>
+            </div>
+            <div>
+              <div style="font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.08em; color:#fbbf24;">Beneficio Especial al Registrarte Hoy en la Web</div>
+              <div id="view-offer" style="font-size:15px; font-weight:700; margin-top:2px;">
+                Valoración Diagnóstica 3D + Diseño de Sonrisa / Armonización con 20% OFF esta semana
+              </div>
+            </div>
+          </div>
+
+          <!-- FOTOGRAFÍA PRINCIPAL EN PROPORCIÓN 16:10 COMPLETA (NUNCA SE CORTA AL TECHO) -->
+          <div class="hero-showcase-card">
+            <div class="hero-image-viewport">
+              <img id="view-hero-image" src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=1200&q=85" alt="Instalaciones y Equipo Profesional">
+              <div style="position:absolute; inset:0; background:linear-gradient(to top, rgba(2,7,16,0.85) 0%, rgba(2,7,16,0.1) 45%, transparent 100%);"></div>
+              <div style="position:absolute; bottom:16px; left:20px; right:20px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px;">
+                <span style="padding:6px 14px; border-radius:999px; font-size:12px; font-weight:800; background:rgba(16,185,129,0.92); color:#020710;">
+                  <i class="fas fa-camera mr-1"></i> <span id="view-image-caption">Equipo Médico & Atención Personalizada</span>
+                </span>
+                <span style="font-size:12px; color:#e2e8f0; background:rgba(2,7,16,0.78); padding:6px 12px; border-radius:10px; border:1px solid rgba(255,255,255,0.15);">
+                  Haz clic abajo en Foto 1, Foto 2, Foto 3 o sube una foto del negocio 👇
                 </span>
               </div>
-              <div class="text-[11px] text-slate-200 bg-slate-900/80 px-2.5 py-1 rounded-lg border border-white/10">
-                Haz clic en las miniaturas para cambiar la foto en vivo 👇
-              </div>
             </div>
-          </div>
-          <!-- Selector de Miniaturas por Giro -->
-          <div class="p-3 bg-slate-950/90 border-t border-slate-800/80 flex items-center justify-between gap-2 overflow-x-auto" id="view-gallery-thumbs">
-            <!-- Renderizado dinámico por JS -->
+
+            <!-- Barra de 3 Fotos del Giro + Botón para subir foto de portada -->
+            <div class="hero-thumbs-bar" id="view-gallery-thumbs">
+              <!-- Renderizado por JS -->
+            </div>
           </div>
         </div>
 
-        <!-- Caja de Oferta Activa -->
-        <div class="p-4 rounded-2xl border border-amber-400/30 bg-amber-500/10 flex items-start gap-3.5">
-          <div class="w-9 h-9 rounded-xl bg-amber-400/20 text-amber-300 flex items-center justify-center flex-shrink-0 mt-0.5">
-            <i class="fas fa-gift"></i>
+        <!-- Columna Derecha: Formulario Calificador 24/7 + Agendamiento -->
+        <div class="hero-right-col" id="qualify-form-box">
+          <div class="form-card">
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:20px;">
+              <div>
+                <span style="font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.06em; padding:4px 10px; border-radius:999px; background:rgba(16,185,129,0.15); color:#34d399; border:1px solid rgba(16,185,129,0.35);">
+                  ⚡ Respuesta Automática en &lt; 1 Minuto
+                </span>
+                <h3 style="font-size:24px; font-weight:800; margin-top:10px;">Solicita tu Turno / Presupuesto</h3>
+                <p style="font-size:13px; color:var(--text-muted); margin:4px 0 0 0;">Completa tus datos y elige horario en tiempo real.</p>
+              </div>
+              <div style="width:48px; height:48px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:22px; background:rgba(0,229,255,0.12); color:var(--accent); flex-shrink:0;">
+                <i class="fas fa-robot"></i>
+              </div>
+            </div>
+
+            <form id="live-demo-form" onsubmit="simulateClientSubmission(event)" style="display:flex; flex-direction:column; gap:14px;">
+              <div>
+                <label style="display:block; font-size:12px; font-weight:700; margin-bottom:6px;">Tu Nombre y Apellido *</label>
+                <input type="text" id="sim-name" required class="input-mini" placeholder="Ej. María Fernanda López" value="María Fernanda López">
+              </div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                <div>
+                  <label style="display:block; font-size:12px; font-weight:700; margin-bottom:6px;">Tu WhatsApp *</label>
+                  <input type="tel" id="sim-phone" required class="input-mini" placeholder="+54 9 11 5555 4444" value="+5491155554444">
+                </div>
+                <div>
+                  <label style="display:block; font-size:12px; font-weight:700; margin-bottom:6px;">Tu Correo *</label>
+                  <input type="email" id="sim-email" required class="input-mini" placeholder="maria@correo.com" value="maria@cliente-demo.com">
+                </div>
+              </div>
+              <div>
+                <label id="view-q1-label" style="display:block; font-size:12px; font-weight:700; margin-bottom:6px;">¿Qué tratamiento te interesa evaluar primero?</label>
+                <input type="text" id="sim-q1" required class="input-mini" placeholder="Escribe aquí tu consulta principal" value="Quiero agendar valoración esta semana">
+              </div>
+              <div>
+                <label id="view-q2-label" style="display:block; font-size:12px; font-weight:700; margin-bottom:6px;">¿Para cuándo buscas disponibilidad?</label>
+                <select id="sim-q2" class="input-mini">
+                  <option value="Lo antes posible (Esta semana)">🔥 Lo antes posible (Esta semana)</option>
+                  <option value="Próxima semana">📅 Próxima semana</option>
+                  <option value="Solo quiero cotización por WhatsApp">💬 Solo quiero cotización por WhatsApp</option>
+                </select>
+              </div>
+              <div style="display:flex; align-items:flex-start; gap:8px; padding-top:4px;">
+                <input type="checkbox" id="sim-consent" checked style="margin-top:4px;">
+                <label for="sim-consent" style="font-size:11.5px; color:var(--text-muted); line-height:1.45;">
+                  Acepto recibir confirmación de mi turno y atención automática por WhatsApp y correo de <strong id="view-consent-biz" style="color:var(--text-main);">Clínica Dental & Estética Avanzada</strong>.
+                </label>
+              </div>
+
+              <button type="submit" class="accent-btn" style="width:100%; font-size:15px; padding:16px; margin-top:6px;">
+                <span>Continuar y Ver Disponibilidad en Vivo</span>
+                <i class="fas fa-arrow-right"></i>
+              </button>
+            </form>
+
+            <!-- Resultado en vivo al enviar el formulario -->
+            <div id="sim-result-box" class="hidden" style="margin-top:20px; padding-top:20px; border-top:1px solid var(--border-subtle); display:none; flex-direction:column; gap:14px;">
+              <div style="font-size:12px; font-weight:800; text-transform:uppercase; color:#34d399;">
+                <i class="fas fa-bolt"></i> ¡Así le contesta tu Recepcionista IA en menos de 40 segundos!
+              </div>
+              <div class="whatsapp-bubble" id="sim-whatsapp-msg"></div>
+              <div style="padding:14px; border-radius:14px; background:rgba(2,7,16,0.9); border:1px solid var(--border-col); font-size:12px; color:#e2e8f0;">
+                <div style="font-weight:800; color:var(--accent); margin-bottom:4px;">📊 Registro Automático en tu Pipeline CRM (GoHighLevel):</div>
+                <div id="sim-crm-summary"></div>
+              </div>
+              <button type="button" onclick="openGhlCalendarModal()" style="width:100%; padding:13px 16px; border-radius:12px; font-weight:800; font-size:13px; color:#040b16; background:#fbbf24; border:none; cursor:pointer;">
+                <i class="fas fa-calendar-alt mr-1"></i> Paso 2: Abrir Calendario Oficial del Closer (GoHighLevel)
+              </button>
+            </div>
           </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 3. SECCIÓN: QUIÉNES SOMOS (CON SELECTOR DE 3 OPCIONES DE DISEÑO EN VIVO) -->
+    <section class="site-section" id="quienes-somos">
+      <div class="site-shell">
+        <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:16px; margin-bottom:36px;">
           <div>
-            <div class="text-xs font-bold uppercase tracking-wider text-amber-300">Beneficio Especial al Registrarte Hoy en la Web</div>
-            <div id="view-offer" class="text-sm sm:text-base font-semibold text-white mt-0.5">
-              Valoración Diagnóstica + Diseño de Sonrisa / Armonización con 20% OFF esta semana
-            </div>
+            <span class="section-eyebrow">QUIÉNES SOMOS & RESPALDO PROFESIONAL</span>
+            <h2 id="view-about-title" style="font-size:clamp(24px, 2.6vw, 36px); font-weight:900;">
+              Más de 12 Años Transformando Sonrisas y Rostros con Excelencia Médica
+            </h2>
+          </div>
+          <!-- Selector de Diseño para la sección Quiénes Somos -->
+          <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+            <span style="font-size:11px; font-weight:700; color:var(--text-muted);">Diseño Quiénes Somos:</span>
+            <button type="button" onclick="setAboutLayout('split')" id="about-btn-split" class="px-3 py-1.5 rounded-lg text-xs font-bold" style="background:var(--accent); color:#040b16; border:none; cursor:pointer;">
+              1. Historia + Foto Derecha
+            </button>
+            <button type="button" onclick="setAboutLayout('reversed')" id="about-btn-reversed" class="px-3 py-1.5 rounded-lg text-xs font-bold" style="background:rgba(148,163,184,0.15); color:var(--text-main); border:1px solid var(--border-subtle); cursor:pointer;">
+              2. Foto Izquierda + Pilares
+            </button>
+            <button type="button" onclick="setAboutLayout('centered')" id="about-btn-centered" class="px-3 py-1.5 rounded-lg text-xs font-bold" style="background:rgba(148,163,184,0.15); color:var(--text-main); border:1px solid var(--border-subtle); cursor:pointer;">
+              3. Corporativo Centrado
+            </button>
           </div>
         </div>
 
-        <!-- 3 Pilares del Negocio -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2" id="view-services-grid">
-          <!-- Renderizado por JS según el giro -->
-        </div>
-      </div>
+        <div class="about-grid" id="about-grid-container">
+          <div class="about-text-col">
+            <p id="view-about-story" style="font-size:16px; color:var(--text-main); opacity:0.92; margin-bottom:16px;">
+              Combinamos especialistas certificados internacionalmente, escáneres 3D de última generación y protocolos mínimamente invasivos para que cada paciente viva una experiencia cómoda, transparente y con resultados garantizados por escrito.
+            </p>
+            <p id="view-about-mission" style="font-size:15px; color:var(--text-muted); margin-bottom:24px;">
+              Nuestra misión es brindarte un diagnóstico honesto y un plan de tratamiento a tu medida, con seguimiento digital 24/7 antes, durante y después de cada cita.
+            </p>
 
-      <!-- Columna Derecha: Formulario Calificador + Asistente 24/7 -->
-      <div class="lg:col-span-5">
-        <div class="p-6 sm:p-8 rounded-2xl border-2 shadow-2xl" style="background:#091528; border-color:var(--accent);">
-          <div class="flex items-center justify-between mb-4">
-            <div>
-              <span class="text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
-                ⚡ Respuesta en &lt; 1 Minuto
-              </span>
-              <h3 class="text-xl font-bold text-white mt-2">Solicita tu Turno / Presupuesto</h3>
+            <!-- 4 Pilares de Autoridad -->
+            <div id="view-about-pillars" style="display:grid; grid-template-columns:1fr; gap:10px; margin-bottom:24px;">
+              <!-- Renderizado por JS -->
             </div>
-            <div class="w-11 h-11 rounded-full flex items-center justify-center text-xl" style="background:rgba(0,229,255,0.12); color:var(--accent);">
-              <i class="fas fa-robot"></i>
+
+            <!-- 3 Estadísticas Clave -->
+            <div class="stats-row" id="view-about-stats">
+              <!-- Renderizado por JS -->
             </div>
           </div>
 
-          <form id="live-demo-form" onsubmit="simulateClientSubmission(event)" class="space-y-3.5">
-            <div>
-              <label class="block text-xs text-slate-300 font-semibold mb-1">Tu Nombre y Apellido *</label>
-              <input type="text" id="sim-name" required class="input-mini py-2.5" placeholder="Ej. María Fernanda López" value="María Fernanda López">
+          <div class="about-img-col">
+            <div class="about-photo-frame">
+              <img id="view-about-image" src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=1000&q=85" alt="Equipo e Instalaciones">
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div>
-                <label class="block text-xs text-slate-300 font-semibold mb-1">Tu WhatsApp *</label>
-                <input type="tel" id="sim-phone" required class="input-mini py-2.5" placeholder="+54 9 11 5555 4444" value="+5491155554444">
-              </div>
-              <div>
-                <label class="block text-xs text-slate-300 font-semibold mb-1">Tu Correo *</label>
-                <input type="email" id="sim-email" required class="input-mini py-2.5" placeholder="maria@correo.com" value="maria@cliente-demo.com">
-              </div>
-            </div>
-            <div>
-              <label id="view-q1-label" class="block text-xs text-slate-300 font-semibold mb-1">¿Qué tratamiento te interesa evaluar primero?</label>
-              <input type="text" id="sim-q1" required class="input-mini py-2.5" placeholder="Escribe aquí tu consulta principal" value="Quiero agendar valoración esta semana">
-            </div>
-            <div>
-              <label id="view-q2-label" class="block text-xs text-slate-300 font-semibold mb-1">¿Para cuándo buscas disponibilidad?</label>
-              <select id="sim-q2" class="input-mini py-2.5">
-                <option value="Lo antes posible (Esta semana)">🔥 Lo antes posible (Esta semana)</option>
-                <option value="Próxima semana">📅 Próxima semana</option>
-                <option value="Solo quiero cotización por WhatsApp">💬 Solo quiero cotización por WhatsApp</option>
-              </select>
-            </div>
-            <div class="flex items-start gap-2 pt-1">
-              <input type="checkbox" id="sim-consent" checked class="mt-1">
-              <label for="sim-consent" class="text-[11px] text-slate-400 leading-snug">
-                Acepto recibir confirmación de mi turno y atención automática por WhatsApp y correo de <strong id="view-consent-biz">Clínica Dental & Estética Avanzada</strong>.
-              </label>
-            </div>
-
-            <button type="submit" class="accent-btn w-full text-sm py-3.5 mt-2 flex items-center justify-center gap-2">
-              <span>Continuar y Ver Disponibilidad en Vivo</span>
-              <i class="fas fa-arrow-right"></i>
-            </button>
-          </form>
-
-          <!-- Resultado en vivo al enviar el formulario (lo que el vendedor le muestra al dueño del negocio) -->
-          <div id="sim-result-box" class="hidden mt-5 pt-5 border-t border-slate-800 space-y-4">
-            <div class="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
-              <i class="fas fa-bolt"></i> ¡Así le contesta tu Asistente 24/7 en menos de 40 segundos!
-            </div>
-            <div class="whatsapp-bubble" id="sim-whatsapp-msg"></div>
-            <div class="p-3.5 rounded-xl bg-slate-900/90 border border-cyan-500/30 text-xs text-slate-300 space-y-1.5">
-              <div class="font-bold text-cyan-300">📊 Registro Automático en tu Tablero CRM (En tu Celular):</div>
-              <div id="sim-crm-summary"></div>
-            </div>
-            <button type="button" onclick="openGhlCalendarModal()" class="w-full py-2.5 px-4 rounded-xl font-bold text-xs text-slate-950 bg-amber-400 hover:bg-amber-300 transition">
-              <i class="fas fa-calendar-alt mr-1"></i> Paso 2: Abrir Calendario Oficial Pre-Cargado (GoHighLevel)
-            </button>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- SECCIÓN EDUCATIVA PARA EL CLIENTE: ¿CÓMO FUNCIONA TU SUCURSAL DIGITAL? -->
-    <section class="max-w-6xl mx-auto px-6 py-10 border-t border-slate-800/80">
-      <div class="text-center max-w-2xl mx-auto mb-8">
-        <span class="text-xs font-bold uppercase tracking-widest text-cyan-400">ARQUITECTURA LLAVE EN MANO EN 7 A 10 DÍAS</span>
-        <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">Lo que nuestros 10 Ingenieros dejan instalado en tu negocio</h2>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div class="feature-box">
-          <div class="text-cyan-400 text-xl mb-2"><i class="fas fa-globe"></i> 1. Sucursal Web 24/7</div>
-          <p class="text-xs text-slate-300 leading-relaxed">Adaptada a la identidad de <strong id="view-step-biz">tu negocio</strong> sobre nuestros +60 modelos de alta conversión.</p>
+    <!-- 4. SECCIÓN: CATÁLOGO DE PRODUCTOS Y SERVICIOS DESTACADOS (6 TARJETAS AMPLIAS) -->
+    <section class="site-section" id="servicios" style="background:rgba(8, 21, 40, 0.45);">
+      <div class="site-shell">
+        <div class="section-header">
+          <span class="section-eyebrow">NUESTROS PRODUCTOS & SERVICIOS</span>
+          <h2 style="font-size:clamp(26px, 2.8vw, 38px); font-weight:900;">
+            Soluciones Diseñadas para Resultados Reales y Medibles
+          </h2>
+          <p style="font-size:15px; color:var(--text-muted); margin-top:10px;">
+            Selecciona cualquier servicio para pre-cargar tu consulta en nuestra Recepción Digital 24/7.
+          </p>
         </div>
-        <div class="feature-box">
-          <div class="text-emerald-400 text-xl mb-2"><i class="fab fa-whatsapp"></i> 2. Recepcionista IA</div>
-          <p class="text-xs text-slate-300 leading-relaxed">Responde consultas en menos de 1 minuto a cualquier hora, filtra curiosos y pide los datos clave.</p>
-        </div>
-        <div class="feature-box">
-          <div class="text-amber-400 text-xl mb-2"><i class="fas fa-calendar-check"></i> 3. Agenda Anti-Faltazos</div>
-          <p class="text-xs text-slate-300 leading-relaxed">El cliente elige horario y recibe recordatorios automáticos 24h y 1h antes por WhatsApp.</p>
-        </div>
-        <div class="feature-box">
-          <div class="text-indigo-400 text-xl mb-2"><i class="fas fa-mobile-screen-button"></i> 4. Tablero en tu Celular</div>
-          <p class="text-xs text-slate-300 leading-relaxed">Ves quién pidió precio, quién agendó cita y cuánta plata tienes por cobrar esta semana.</p>
+
+        <div class="services-catalog-grid" id="view-services-grid">
+          <!-- 6 Tarjetas renderizadas dinámicamente por JS -->
         </div>
       </div>
     </section>
+
+    <!-- 5. SECCIÓN: GALERÍA DE INSTALACIONES Y CASOS REALES (3 FOTOS GRANDES SIN CORTAR) -->
+    <section class="site-section" id="galeria">
+      <div class="site-shell">
+        <div class="section-header">
+          <span class="section-eyebrow">RECORRIDO VISUAL & PORTAFOLIO</span>
+          <h2 style="font-size:clamp(26px, 2.8vw, 38px); font-weight:900;">
+            Conoce Nuestras Instalaciones, Tecnología y Casos de Éxito
+          </h2>
+          <p style="font-size:15px; color:var(--text-muted); margin-top:10px;">
+            Calidad, equipamiento moderno y atención cuidada en cada detalle para <strong id="view-gallery-biz">tu negocio</strong>.
+          </p>
+        </div>
+
+        <div class="gallery-showcase-grid" id="view-large-gallery-grid">
+          <!-- Renderizado por JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. SECCIÓN: TESTIMONIOS Y RESEÑAS VERIFICADAS 5 ESTRELLAS -->
+    <section class="site-section" id="testimonios" style="background:rgba(8, 21, 40, 0.45);">
+      <div class="site-shell">
+        <div class="section-header">
+          <span class="section-eyebrow">OPINIONES VERIFICADAS EN GOOGLE MAPS</span>
+          <h2 style="font-size:clamp(26px, 2.8vw, 38px); font-weight:900;">
+            Lo Que Dicen Quienes Ya Confiaron en Nosotros
+          </h2>
+        </div>
+
+        <div class="reviews-grid" id="view-reviews-grid">
+          <!-- Renderizado por JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. SECCIÓN EDUCATIVA: MOTOR DE INTELIGENCIA COMERCIAL 24/7 -->
+    <section class="site-section">
+      <div class="site-shell">
+        <div class="section-header">
+          <span class="section-eyebrow">TECNOLOGÍA DE CONVERSIÓN 24/7 INCLUIDA</span>
+          <h2 style="font-size:clamp(24px, 2.5vw, 34px); font-weight:900;">
+            Lo que nuestros 10 Ingenieros dejan instalado en <span id="view-step-biz" style="color:var(--accent);">tu negocio</span>
+          </h2>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:22px;">
+          <div class="service-card">
+            <div style="font-size:20px; font-weight:800; color:var(--accent); margin-bottom:10px;"><i class="fas fa-globe mr-2"></i>1. Sucursal Web Completa</div>
+            <p style="font-size:14px; color:var(--text-muted); margin:0;">Inicio, Quiénes Somos, Catálogo de Servicios, Galería, Reseñas y Contacto adaptados a tu marca en 5 días hábiles.</p>
+          </div>
+          <div class="service-card">
+            <div style="font-size:20px; font-weight:800; color:#34d399; margin-bottom:10px;"><i class="fab fa-whatsapp mr-2"></i>2. Recepcionista IA 24/7</div>
+            <p style="font-size:14px; color:var(--text-muted); margin:0;">Atiende consultas a cualquier hora, responde preguntas frecuentes, filtra curiosos y captura WhatsApp y correo.</p>
+          </div>
+          <div class="service-card">
+            <div style="font-size:20px; font-weight:800; color:#fbbf24; margin-bottom:10px;"><i class="fas fa-calendar-check mr-2"></i>3. Agenda Anti-Plantones</div>
+            <p style="font-size:14px; color:var(--text-muted); margin:0;">Sincronización directa con tu calendario y recordatorios automáticos 24h y 1h antes de cada cita.</p>
+          </div>
+          <div class="service-card">
+            <div style="font-size:20px; font-weight:800; color:#818cf8; margin-bottom:10px;"><i class="fas fa-mobile-screen-button mr-2"></i>4. Control en tu Celular</div>
+            <p style="font-size:14px; color:var(--text-muted); margin:0;">Recibes notificación inmediata en tu teléfono cada vez que entra un nuevo cliente calificado listo para comprar.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. PIE DE PÁGINA COMPLETO (FOOTER) Y DATOS DE CONTACTO -->
+    <footer class="client-footer" id="contacto">
+      <div class="site-shell">
+        <div class="footer-grid">
+          <!-- Columna 1: Identidad + Logo Esquina -->
+          <div>
+            <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+              <div class="logo-corner-box" style="width:46px; height:46px; font-size:18px;">
+                <span id="footer-logo-initials"><i class="fas fa-sparkles"></i></span>
+                <img id="footer-logo-img" src="" alt="Logo Footer" style="display:none;">
+              </div>
+              <div id="footer-business-name" style="font-size:18px; font-weight:800; color:#fff;">Clínica Dental & Estética Avanzada</div>
+            </div>
+            <p id="footer-about-short" style="font-size:13.5px; color:#94a3b8; line-height:1.6; margin-bottom:18px;">
+              Atención profesional certificada con recepción digital inteligente activa las 24 horas, los 365 días del año.
+            </p>
+            <div style="display:flex; gap:10px;">
+              <a href="#qualify-form-box" style="width:38px; height:38px; border-radius:10px; background:rgba(255,255,255,0.07); color:#fff; display:flex; align-items:center; justify-content:center; text-decoration:none;"><i class="fab fa-instagram"></i></a>
+              <a href="#qualify-form-box" style="width:38px; height:38px; border-radius:10px; background:rgba(255,255,255,0.07); color:#fff; display:flex; align-items:center; justify-content:center; text-decoration:none;"><i class="fab fa-facebook-f"></i></a>
+              <a href="#qualify-form-box" style="width:38px; height:38px; border-radius:10px; background:rgba(255,255,255,0.07); color:#fff; display:flex; align-items:center; justify-content:center; text-decoration:none;"><i class="fab fa-whatsapp"></i></a>
+              <a href="#qualify-form-box" style="width:38px; height:38px; border-radius:10px; background:rgba(255,255,255,0.07); color:#fff; display:flex; align-items:center; justify-content:center; text-decoration:none;"><i class="fas fa-location-dot"></i></a>
+            </div>
+          </div>
+
+          <!-- Columna 2: Navegación Rápida -->
+          <div>
+            <h4 style="font-size:13px; font-weight:800; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); margin-bottom:16px;">Secciones del Sitio</h4>
+            <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:10px; font-size:13.5px;">
+              <li><a href="#inicio" style="color:#cbd5e1; text-decoration:none;">→ Inicio & Promoción del Mes</a></li>
+              <li><a href="#quienes-somos" style="color:#cbd5e1; text-decoration:none;">→ Quiénes Somos & Trayectoria</a></li>
+              <li><a href="#servicios" style="color:#cbd5e1; text-decoration:none;">→ Catálogo de Productos y Servicios</a></li>
+              <li><a href="#galeria" style="color:#cbd5e1; text-decoration:none;">→ Galería de Instalaciones</a></li>
+              <li><a href="#testimonios" style="color:#cbd5e1; text-decoration:none;">→ Reseñas de Clientes</a></li>
+            </ul>
+          </div>
+
+          <!-- Columna 3: Datos de Contacto y Ubicación -->
+          <div>
+            <h4 style="font-size:13px; font-weight:800; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); margin-bottom:16px;">Contacto & Ubicación</h4>
+            <div style="display:flex; flex-direction:column; gap:12px; font-size:13.5px; color:#cbd5e1;">
+              <div>
+                <strong style="color:#fff; display:block;"><i class="fas fa-location-dot mr-1.5" style="color:var(--accent);"></i> Ubicación / Cobertura:</strong>
+                <span id="footer-city">Miami / Buenos Aires / Bogotá</span>
+              </div>
+              <div>
+                <strong style="color:#fff; display:block;"><i class="fab fa-whatsapp mr-1.5" style="color:#34d399;"></i> WhatsApp & Recepción 24/7:</strong>
+                <span id="footer-phone">+1 786 557 3119</span>
+              </div>
+              <div>
+                <strong style="color:#fff; display:block;"><i class="fas fa-clock mr-1.5" style="color:#fbbf24;"></i> Horarios de Atención:</strong>
+                <span id="footer-hours">Lunes a Viernes: 8:30 AM – 7:30 PM · Sábados: 9:00 AM – 2:00 PM · Recepción IA: 24/7</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Columna 4: Reserva Directa -->
+          <div>
+            <h4 style="font-size:13px; font-weight:800; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); margin-bottom:16px;">Atención Prioritaria</h4>
+            <div style="padding:18px; border-radius:16px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1);">
+              <div style="font-size:13px; color:#e2e8f0; margin-bottom:12px;">
+                ¿Listo para agendar tu turno o recibir cotización inmediata en tu WhatsApp?
+              </div>
+              <a href="#qualify-form-box" class="accent-btn" style="width:100%; font-size:13px; padding:12px;">
+                <i class="fas fa-calendar-check"></i> Reservar Turno Online
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div style="padding-top:26px; border-top:1px solid rgba(255,255,255,0.08); display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; font-size:12px; color:#64748b;">
+          <div>© 2026 <strong id="footer-copy-biz" style="color:#94a3b8;">Clínica Dental & Estética Avanzada</strong>. Todos los derechos reservados.</div>
+          <div>Sitio Web Inteligente 24/7 impulsado por <strong style="color:var(--accent);">Agencia Prosper IA</strong></div>
+        </div>
+      </div>
+    </footer>
+
   </div>
 
   <!-- ══ MODAL 1: CALENDARIO OFICIAL GHL PRE-CARGADO ══ -->
@@ -391,62 +993,52 @@
     </div>
   </dialog>
 
-  <!-- ══ MODAL 2: GALERÍA DE +20 SISTEMAS VISUALES (777 BRAND CODEX) ══ -->
+  <!-- ══ MODAL 2: GALERÍA DE +12 PALETAS DE COLOR Y TEMAS ══ -->
   <dialog id="lookGalleryDialog" closedby="any" aria-labelledby="lookGalleryTitle">
     <div class="p-5 border-b border-slate-800 flex items-center justify-between">
       <div>
-        <h3 id="lookGalleryTitle" class="text-lg font-bold text-white">🎨 Biblioteca de Estilos Visuales (Brand Codex 777)</h3>
-        <p class="text-xs text-slate-400">Haz clic en cualquier sistema visual para aplicar su paleta de color en vivo al sitio del cliente.</p>
+        <h3 id="lookGalleryTitle" class="text-lg font-bold text-white">🎨 Biblioteca de Estilos Visuales & Paletas de Marca</h3>
+        <p class="text-xs text-slate-400">Haz clic en cualquier paleta para transformar en vivo los colores del sitio del cliente.</p>
       </div>
       <button onclick="document.getElementById('lookGalleryDialog').close()" class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 text-xs hover:bg-slate-700">
         Cerrar ✕
       </button>
     </div>
-    <div class="p-5 grid grid-cols-2 sm:grid-cols-4 gap-3 max-h-[70vh] overflow-y-auto" id="looks-grid">
+    <div class="p-5" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:12px; max-height:70vh; overflow-y:auto;" id="looks-grid">
       <!-- Renderizado por JS -->
     </div>
   </dialog>
 
-  <!-- ══ WIDGET FLOTANTE INTERACTIVO DE CHATBOT IA 24/7 (EFECTO WOW EN VIVO) ══ -->
-  <div id="live-chatbot-container" style="position:fixed; bottom:22px; right:22px; z-index:90;">
-    <!-- Ventana de Chat Abierta -->
-    <div id="chatbot-window" class="hidden mb-3 w-80 sm:w-96 rounded-2xl overflow-hidden shadow-2xl border-2" style="background:#071224; border-color:var(--accent);">
-      <div class="p-3.5 flex items-center justify-between text-slate-950 font-bold" style="background:linear-gradient(135deg, var(--accent), var(--secondary));">
-        <div class="flex items-center gap-2.5">
-          <div class="w-8 h-8 rounded-full bg-slate-950/20 flex items-center justify-center text-base">
+  <!-- ══ WIDGET FLOTANTE INTERACTIVO DE CHATBOT IA 24/7 ══ -->
+  <div id="live-chatbot-container" style="position:fixed; bottom:22px; right:22px; z-index:95;">
+    <div id="chatbot-window" class="hidden" style="margin-bottom:12px; width:360px; max-width:calc(100vw - 36px); border-radius:20px; overflow:hidden; box-shadow:0 24px 60px rgba(0,0,0,0.65); border:2px solid var(--accent); background:#071224;">
+      <div style="padding:14px 16px; display:flex; align-items:center; justify-content:space-between; color:#040b16; font-weight:800; background:linear-gradient(135deg, var(--accent), var(--secondary));">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="width:34px; height:34px; border-radius:50%; background:rgba(4,11,22,0.18); display:flex; align-items:center; justify-content:center; font-size:16px;">
             <i class="fas fa-robot"></i>
           </div>
           <div>
-            <div class="text-xs font-extrabold leading-tight" id="chatbot-header-biz">Asistente Digital 24/7</div>
-            <div class="text-[10px] opacity-90 flex items-center gap-1">
-              <span class="w-1.5 h-1.5 rounded-full bg-slate-950 inline-block"></span> En línea · Responde en 5 seg
-            </div>
+            <div style="font-size:13px; font-weight:900; line-height:1.2;" id="chatbot-header-biz">Asistente Digital 24/7</div>
+            <div style="font-size:10.5px; opacity:0.9;">● En línea · Responde en 3 segundos</div>
           </div>
         </div>
-        <button type="button" onclick="toggleChatbotWindow()" class="w-7 h-7 rounded-lg bg-slate-950/15 hover:bg-slate-950/30 flex items-center justify-center text-xs font-bold">
-          ✕
-        </button>
+        <button type="button" onclick="toggleChatbotWindow()" style="width:28px; height:28px; border-radius:8px; background:rgba(4,11,22,0.15); border:none; cursor:pointer; font-weight:900;">✕</button>
       </div>
-      <div id="chatbot-messages" class="p-3.5 space-y-2.5 max-h-72 overflow-y-auto text-xs" style="background:#050d1a;">
-        <!-- Mensajes renderizados por JS -->
-      </div>
-      <div id="chatbot-quick-replies" class="px-3.5 py-2 border-t border-slate-800/80 flex flex-wrap gap-1.5" style="background:#081529;">
-        <!-- Botones rápidos renderizados por JS -->
-      </div>
-      <form onsubmit="sendChatbotUserMessage(event)" class="p-2.5 border-t border-slate-800 flex items-center gap-2" style="background:#09172e;">
-        <input type="text" id="chatbot-input" class="input-mini text-xs py-2" placeholder="Escribe una pregunta como cliente...">
-        <button type="submit" class="px-3 py-2 rounded-lg font-bold text-xs text-slate-950 flex-shrink-0" style="background:var(--accent);">
+      <div id="chatbot-messages" style="padding:14px; max-height:280px; overflow-y:auto; font-size:12.5px; background:#050d1a; display:flex; flex-direction:column; gap:10px;"></div>
+      <div id="chatbot-quick-replies" style="padding:10px 14px; border-top:1px solid #1e293b; display:flex; flex-wrap:wrap; gap:6px; background:#081529;"></div>
+      <form onsubmit="sendChatbotUserMessage(event)" style="padding:10px; border-top:1px solid #1e293b; display:flex; align-items:center; gap:8px; background:#09172e;">
+        <input type="text" id="chatbot-input" class="input-mini" style="font-size:12px; padding:8px 10px;" placeholder="Escribe una pregunta como cliente...">
+        <button type="submit" style="padding:8px 12px; border-radius:8px; font-weight:800; font-size:12px; color:#040b16; background:var(--accent); border:none; cursor:pointer;">
           <i class="fas fa-paper-plane"></i>
         </button>
       </form>
     </div>
 
-    <!-- Botón Flotante Redondo -->
-    <div class="flex justify-end">
-      <button type="button" onclick="toggleChatbotWindow()" class="accent-btn rounded-full px-5 py-3.5 shadow-2xl flex items-center gap-2.5 text-xs sm:text-sm font-extrabold">
-        <i class="fas fa-comments text-lg"></i>
+    <div style="display:flex; justify-content:flex-end;">
+      <button type="button" onclick="toggleChatbotWindow()" class="accent-btn" style="border-radius:999px; padding:14px 22px; box-shadow:0 16px 40px rgba(0,0,0,0.5); font-size:13.5px;">
+        <i class="fas fa-comments" style="font-size:18px;"></i>
         <span>Probar Chatbot IA 24/7</span>
-        <span class="px-1.5 py-0.5 rounded-full bg-slate-950 text-white text-[10px]">EN VIVO</span>
+        <span style="padding:2px 8px; border-radius:999px; background:#040b16; color:#fff; font-size:10px;">EN VIVO</span>
       </button>
     </div>
   </div>
@@ -456,23 +1048,28 @@
     const TEMPLATES = {{ templates_json | safe }};
     let ACTIVE_LEAD_ID = {{ lead_id_json | safe }};
     let ACTIVE_CALENDAR_URL = "https://api.leadconnectorhq.com/widget/bookings/calendario-de-edward-jimenez";
-
-    const BRAND_LOOKS = [
-      { id: "prosper_cyan", name: "ProsperIA Cyber Cyan", accent: "#00e5ff", secondary: "#0ea5e9", bg: "#040b16" },
-      { id: "stripe_indigo", name: "Stripe Financial Indigo", accent: "#635bff", secondary: "#00d4ff", bg: "#0a2540" },
-      { id: "apple_minimal", name: "Apple Cupertino Clean", accent: "#2997ff", secondary: "#147ce5", bg: "#000000" },
-      { id: "starbucks_emerald", name: "Starbucks Reserve Green", accent: "#00a862", secondary: "#1e3932", bg: "#071a12" },
-      { id: "airbnb_coral", name: "Airbnb Hospitality Coral", accent: "#ff385c", secondary: "#e31c5f", bg: "#14080c" },
-      { id: "shopify_commerce", name: "Shopify Commerce Lime", accent: "#95bf47", secondary: "#5e8e3e", bg: "#08140b" },
-      { id: "tesla_crimson", name: "Tesla Performance Red", accent: "#e82127", secondary: "#b91c1c", bg: "#0b0b0d" },
-      { id: "claude_warm", name: "Anthropic Executive Gold", accent: "#d97757", secondary: "#b45309", bg: "#14120e" },
-      { id: "vercel_mono", name: "Vercel High-Contrast", accent: "#38bdf8", secondary: "#818cf8", bg: "#030712" },
-      { id: "ferrari_luxury", name: "Luxury Gold & Amber", accent: "#f59e0b", secondary: "#d97706", bg: "#110c04" },
-      { id: "notion_slate", name: "Notion Consulting Slate", accent: "#60a5fa", secondary: "#3b82f6", bg: "#0f172a" },
-      { id: "nvidia_neon", name: "Tech Neon Emerald", accent: "#76b900", secondary: "#10b981", bg: "#050e04" }
+    let currentLayoutIndex = 0;
+    const LAYOUT_MODES = [
+      { cls: "", label: "Diseño: 1. Split Ejecutivo" },
+      { cls: "layout-reversed", label: "Diseño: 2. Editorial Invertido" },
+      { cls: "layout-panoramic", label: "Diseño: 3. Vitrina Amplia" }
     ];
 
-    // Fallback para <dialog closedby="any"> en Safari / navegadores sin soporte nativo
+    const BRAND_LOOKS = [
+      { id: "prosper_cyan", name: "1. ProsperIA Cyber Cyan", accent: "#00e5ff", secondary: "#0ea5e9", bg: "#040b16", light: false },
+      { id: "clinical_white", name: "2. Blanco Clínico / Médico Claro", accent: "#0284c7", secondary: "#0ea5e9", bg: "#f8fafc", light: true },
+      { id: "stripe_indigo", name: "3. Stripe Financial Indigo", accent: "#635bff", secondary: "#00d4ff", bg: "#0a2540", light: false },
+      { id: "starbucks_emerald", name: "4. Inmobiliaria Esmeralda", accent: "#10b981", secondary: "#059669", bg: "#061712", light: false },
+      { id: "ferrari_luxury", name: "5. Industrial Gold & Amber", accent: "#f59e0b", secondary: "#ea580c", bg: "#110c04", light: false },
+      { id: "airbnb_coral", name: "6. Academia & Estética Rose", accent: "#ec4899", secondary: "#db2777", bg: "#140810", light: false },
+      { id: "apple_minimal", name: "7. Cupertino Minimal Blue", accent: "#2997ff", secondary: "#147ce5", bg: "#05070d", light: false },
+      { id: "claude_warm", name: "8. Estudio Jurídico Terracota", accent: "#d97757", secondary: "#b45309", bg: "#14110e", light: false },
+      { id: "shopify_commerce", name: "9. Comercio & Retail Lime", accent: "#84cc16", secondary: "#16a34a", bg: "#071309", light: false },
+      { id: "tesla_crimson", name: "10. Automotriz & Taller Red", accent: "#ef4444", secondary: "#b91c1c", bg: "#110708", light: false },
+      { id: "notion_slate", name: "11. Consultoría Ejecutiva Slate", accent: "#60a5fa", secondary: "#3b82f6", bg: "#0f172a", light: false },
+      { id: "ivory_legal", name: "12. Marfil Corporativo Claro", accent: "#4f46e5", secondary: "#2563eb", bg: "#f8fafc", light: true }
+    ];
+
     document.querySelectorAll('dialog').forEach((dialog) => {
       if (!('closedBy' in HTMLDialogElement.prototype)) {
         dialog.addEventListener('click', (event) => {
@@ -503,7 +1100,6 @@
         }
       }
 
-      // Intentar detectar sesión activa para usar automáticamente el calendario y correo del Closer logueado
       try {
         const catRes = await fetch("/api/sales-os/catalog");
         if (catRes.ok) {
@@ -531,6 +1127,61 @@
       renderLooksGrid();
     }
 
+    function cyclePageLayout() {
+      document.body.classList.remove("layout-reversed", "layout-panoramic");
+      currentLayoutIndex = (currentLayoutIndex + 1) % LAYOUT_MODES.length;
+      const mode = LAYOUT_MODES[currentLayoutIndex];
+      if (mode.cls) document.body.classList.add(mode.cls);
+      document.getElementById("btn-layout-switch").innerHTML = `<i class="fas fa-columns mr-1"></i> ${mode.label}`;
+    }
+
+    function toggleLightDarkTheme() {
+      document.body.classList.toggle("light-theme");
+    }
+
+    function setAboutLayout(styleKey) {
+      const container = document.getElementById("about-grid-container");
+      container.classList.remove("about-style-reversed", "about-style-centered");
+      if (styleKey === "reversed") container.classList.add("about-style-reversed");
+      if (styleKey === "centered") container.classList.add("about-style-centered");
+
+      ["split", "reversed", "centered"].forEach(k => {
+        const btn = document.getElementById("about-btn-" + k);
+        if (!btn) return;
+        if (k === styleKey) {
+          btn.style.background = "var(--accent)";
+          btn.style.color = "#040b16";
+        } else {
+          btn.style.background = "rgba(148,163,184,0.15)";
+          btn.style.color = "var(--text-main)";
+        }
+      });
+    }
+
+    function handleCornerLogoUpload(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(ev) {
+        const dataUrl = ev.target.result;
+        const navImg = document.getElementById("site-logo-img");
+        const navInit = document.getElementById("site-logo-initials");
+        const footImg = document.getElementById("footer-logo-img");
+        const footInit = document.getElementById("footer-logo-initials");
+        if (navImg && navInit) {
+          navImg.src = dataUrl;
+          navImg.style.display = "block";
+          navInit.style.display = "none";
+        }
+        if (footImg && footInit) {
+          footImg.src = dataUrl;
+          footImg.style.display = "block";
+          footInit.style.display = "none";
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+
     function applyTemplateChange(resetFields = true) {
       const key = document.getElementById("ctrl-template").value;
       const t = TEMPLATES[key] || TEMPLATES["clinica_dental_estetica"];
@@ -556,36 +1207,132 @@
       document.getElementById("view-q1-label").textContent = t.form_questions[0];
       document.getElementById("view-q2-label").textContent = t.form_questions[1];
 
-      // Renderizar Galería de Imágenes por Giro
-      const gallery = t.gallery_images || [
-        { label: "Instalaciones Principales", url: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1000&q=85" }
-      ];
-      selectGalleryImage(gallery[0].url, gallery[0].label);
+      // 1. Renderizar Galería Principal (3 Fotos del Giro + Botón Subir Foto de Portada)
+      const gallery = t.gallery_images || [];
+      if (gallery.length) {
+        selectGalleryImage(gallery[0].url, gallery[0].label);
+      }
 
       const thumbsContainer = document.getElementById("view-gallery-thumbs");
       thumbsContainer.innerHTML = gallery.map((img, idx) => `
-        <button type="button" onclick="selectGalleryImage('${img.url}', '${img.label}')"
-                class="flex items-center gap-2 p-1.5 rounded-xl border border-slate-700 hover:border-cyan-400 bg-slate-900/90 text-left transition flex-shrink-0">
-          <img src="${img.url}" alt="${img.label}" class="w-12 h-9 object-cover rounded-lg">
-          <div class="pr-2">
-            <div class="text-[10px] text-cyan-300 font-bold">Foto ${idx + 1}</div>
-            <div class="text-[11px] text-white font-semibold whitespace-nowrap">${img.label}</div>
+        <button type="button" onclick="selectGalleryImage('${img.url}', '${img.label}')" class="thumb-btn">
+          <img src="${img.url}" alt="${img.label}">
+          <div style="min-width:0;">
+            <div style="font-size:10px; font-weight:800; color:var(--accent); text-transform:uppercase;">Foto ${idx + 1}</div>
+            <div style="font-size:11.5px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${img.label}</div>
           </div>
         </button>
-      `).join("");
-
-      const grid = document.getElementById("view-services-grid");
-      grid.innerHTML = t.services.map(s => `
-        <div class="feature-box p-4">
-          <div class="text-lg font-bold mb-1" style="color:var(--accent);">
-            <i class="fas ${s.icon} mr-1.5"></i>${s.title}
+      `).join("") + `
+        <label class="thumb-btn" style="border-style:dashed; border-color:var(--accent); justify-content:center; cursor:pointer;" title="Subir una foto de las instalaciones o producto del cliente">
+          <div style="width:36px; height:36px; border-radius:8px; background:rgba(0,229,255,0.15); color:var(--accent); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <i class="fas fa-upload"></i>
           </div>
-          <p class="text-xs text-slate-300 leading-relaxed m-0">${s.desc}</p>
+          <div>
+            <div style="font-size:10px; font-weight:800; color:var(--accent); text-transform:uppercase;">Tu Foto</div>
+            <div style="font-size:11.5px; font-weight:700;">Subir Portada</div>
+          </div>
+          <input type="file" accept="image/*" style="display:none;" onchange="handleLocalImageUpload(event)">
+        </label>
+      `;
+
+      // 2. Renderizar Sección Quiénes Somos
+      document.getElementById("view-about-title").textContent = t.about_title || "Excelencia, Respaldo y Atención Personalizada 24/7";
+      document.getElementById("view-about-story").textContent = t.about_story || "";
+      document.getElementById("view-about-mission").textContent = t.about_mission || "";
+      if (t.about_image) {
+        document.getElementById("view-about-image").src = t.about_image;
+      }
+
+      const pillarsBox = document.getElementById("view-about-pillars");
+      const pillars = t.about_pillars || [];
+      pillarsBox.innerHTML = pillars.map(p => `
+        <div style="display:flex; align-items:center; gap:10px; padding:10px 14px; border-radius:12px; background:var(--bg-surface); border:1px solid var(--border-subtle); font-size:13.5px; font-weight:600;">
+          <i class="fas fa-check-circle" style="color:var(--accent); font-size:16px; flex-shrink:0;"></i>
+          <span>${p}</span>
         </div>
       `).join("");
 
+      const statsBox = document.getElementById("view-about-stats");
+      const stats = t.about_stats || [];
+      statsBox.innerHTML = stats.map(s => `
+        <div class="stat-card">
+          <div style="font-size:26px; font-weight:900; color:var(--accent); line-height:1.1;">${s.value}</div>
+          <div style="font-size:12px; font-weight:600; color:var(--text-muted); margin-top:4px;">${s.label}</div>
+        </div>
+      `).join("");
+
+      // 3. Renderizar Catálogo de 6 Productos / Servicios
+      const servicesGrid = document.getElementById("view-services-grid");
+      servicesGrid.innerHTML = (t.services || []).map(s => `
+        <div class="service-card">
+          <div>
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:14px;">
+              <div style="width:46px; height:46px; border-radius:12px; background:rgba(0,229,255,0.12); color:var(--accent); display:flex; align-items:center; justify-content:center; font-size:20px;">
+                <i class="fas ${s.icon}"></i>
+              </div>
+              ${s.tag ? `<span style="font-size:11px; font-weight:800; padding:4px 10px; border-radius:999px; background:rgba(16,185,129,0.14); color:#34d399; border:1px solid rgba(16,185,129,0.3);">${s.tag}</span>` : ''}
+            </div>
+            <h3 style="font-size:18px; font-weight:800; margin-bottom:8px;">${s.title}</h3>
+            <p style="font-size:13.5px; color:var(--text-muted); margin:0 0 18px 0;">${s.desc}</p>
+          </div>
+          <button type="button" onclick="prefillServiceInForm('${s.title.replace(/'/g, "\\'")}')" style="width:100%; padding:10px 14px; border-radius:10px; background:rgba(0,229,255,0.12); color:var(--accent); border:1px solid var(--border-col); font-size:12.5px; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
+            <span>Solicitar Turno / Cotizar</span>
+            <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      `).join("");
+
+      // 4. Renderizar Galería Grande de 3 Columnas
+      const largeGallery = document.getElementById("view-large-gallery-grid");
+      largeGallery.innerHTML = gallery.map((img, i) => `
+        <div class="gallery-card">
+          <img src="${img.url}" alt="${img.label}" class="gallery-card-img">
+          <div style="padding:18px 20px; display:flex; align-items:center; justify-content:space-between; gap:10px;">
+            <div>
+              <div style="font-size:11px; font-weight:800; color:var(--accent); text-transform:uppercase;">Espacio / Caso 0${i + 1}</div>
+              <div style="font-size:15px; font-weight:800; margin-top:2px;">${img.label}</div>
+            </div>
+            <button type="button" onclick="selectGalleryImage('${img.url}', '${img.label}'); window.scrollTo({top:0, behavior:'smooth'});" style="padding:7px 12px; border-radius:8px; font-size:11px; font-weight:700; background:rgba(255,255,255,0.06); color:var(--text-main); border:1px solid var(--border-subtle); cursor:pointer;">
+              Ver en Portada
+            </button>
+          </div>
+        </div>
+      `).join("");
+
+      // 5. Renderizar Testimonios Verificados
+      const reviewsGrid = document.getElementById("view-reviews-grid");
+      const reviews = t.testimonials || [];
+      reviewsGrid.innerHTML = reviews.map(r => `
+        <div class="review-card">
+          <div style="color:#fbbf24; font-size:14px; margin-bottom:12px;">
+            ★★★★★ <span style="font-size:11px; color:#34d399; font-weight:700; margin-left:6px;"><i class="fas fa-check-circle"></i> Cliente Verificado</span>
+          </div>
+          <p style="font-size:14px; font-style:italic; color:var(--text-main); opacity:0.92; margin:0 0 18px 0;">"${r.text}"</p>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div style="width:38px; height:38px; border-radius:50%; background:linear-gradient(135deg, var(--accent), var(--secondary)); color:#040b16; font-weight:900; display:flex; align-items:center; justify-content:center; font-size:14px;">
+              ${r.author.charAt(0)}
+            </div>
+            <div>
+              <div style="font-size:13.5px; font-weight:800;">${r.author}</div>
+              <div style="font-size:11.5px; color:var(--text-muted);">${r.role}</div>
+            </div>
+          </div>
+        </div>
+      `).join("");
+
+      // 6. Actualizar Horarios en el Footer
+      if (t.contact_hours) {
+        document.getElementById("footer-hours").textContent = t.contact_hours;
+      }
+
       syncLivePreview();
       resetChatbotForTemplate(t);
+    }
+
+    function prefillServiceInForm(serviceTitle) {
+      const q1 = document.getElementById("sim-q1");
+      if (q1) q1.value = `Me interesa: ${serviceTitle}`;
+      document.getElementById("qualify-form-box").scrollIntoView({ behavior: "smooth" });
     }
 
     function selectGalleryImage(url, label) {
@@ -595,20 +1342,12 @@
       if (cap && label) cap.textContent = label;
     }
 
-    function applyCustomImageUrl(url) {
-      const trimmed = (url || "").trim();
-      if (trimmed.startsWith("http") || trimmed.startsWith("data:image")) {
-        selectGalleryImage(trimmed, "Foto Personalizada del Cliente");
-      }
-    }
-
     function handleLocalImageUpload(event) {
       const file = event.target.files && event.target.files[0];
       if (!file) return;
       const reader = new FileReader();
       reader.onload = function(ev) {
         const dataUrl = ev.target.result;
-        document.getElementById("ctrl-image-url").value = "Foto local cargada (" + file.name + ")";
         selectGalleryImage(dataUrl, file.name.replace(/\.[^/.]+$/, ""));
       };
       reader.readAsDataURL(file);
@@ -627,12 +1366,21 @@
       const biz = document.getElementById("ctrl-business").value || "Tu Negocio Inteligente";
       const city = document.getElementById("ctrl-city").value || "Tu Ciudad";
       const offer = document.getElementById("ctrl-offer").value || "Diagnóstico Preferencial Hoy";
+      const phone = document.getElementById("ctrl-phone").value || "+1 786 557 3119";
 
       document.getElementById("view-business-name").textContent = biz;
       document.getElementById("view-city").textContent = city;
       document.getElementById("view-offer").textContent = offer;
       document.getElementById("view-consent-biz").textContent = biz;
       document.getElementById("view-step-biz").textContent = biz;
+      document.getElementById("view-gallery-biz").textContent = biz;
+
+      // Footer
+      document.getElementById("footer-business-name").textContent = biz;
+      document.getElementById("footer-copy-biz").textContent = biz;
+      document.getElementById("footer-city").textContent = city;
+      document.getElementById("footer-phone").textContent = phone;
+
       const chatBiz = document.getElementById("chatbot-header-biz");
       if (chatBiz) chatBiz.textContent = `Recepcionista IA · ${biz.slice(0, 24)}`;
     }
@@ -650,8 +1398,8 @@
 
       const greeting = t.chatbot_greeting || `¡Hola! 👋 Soy el Asistente 24/7 de ${biz}. ¿En qué puedo ayudarte hoy?`;
       msgBox.innerHTML = `
-        <div class="p-2.5 rounded-xl bg-slate-800/90 text-slate-100 border border-slate-700 leading-relaxed">
-          <div class="font-bold text-cyan-300 text-[11px] mb-0.5">🤖 Asistente IA 24/7</div>
+        <div style="padding:10px 12px; border-radius:12px; background:#0f172a; color:#f1f5f9; border:1px solid #334155; line-height:1.5;">
+          <div style="font-weight:800; color:var(--accent); font-size:11px; margin-bottom:2px;">🤖 Asistente IA 24/7</div>
           ${greeting}
         </div>
       `;
@@ -662,7 +1410,7 @@
       ];
       qrBox.innerHTML = replies.map(r => `
         <button type="button" onclick="triggerQuickReply('${r.replace(/'/g, "\\'")}')"
-                class="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/25 transition">
+                style="padding:5px 10px; border-radius:999px; font-size:11px; font-weight:700; background:rgba(0,229,255,0.14); color:var(--accent); border:1px solid var(--border-col); cursor:pointer;">
           ${r}
         </button>
       `).join("");
@@ -687,11 +1435,11 @@
       const msgBox = document.getElementById("chatbot-messages");
       const div = document.createElement("div");
       if (sender === "user") {
-        div.className = "p-2.5 rounded-xl bg-cyan-500/20 text-white border border-cyan-500/40 ml-6 text-right";
-        div.innerHTML = `<div class="font-bold text-cyan-300 text-[10px] mb-0.5">👤 Cliente Visitante</div>${text}`;
+        div.style.cssText = "padding:10px 12px; border-radius:12px; background:rgba(0,229,255,0.18); color:#fff; border:1px solid var(--border-col); margin-left:24px; text-align:right;";
+        div.innerHTML = `<div style="font-weight:800; color:var(--accent); font-size:10px; margin-bottom:2px;">👤 Cliente Visitante</div>${text}`;
       } else {
-        div.className = "p-2.5 rounded-xl bg-slate-800/90 text-slate-100 border border-slate-700 mr-4 leading-relaxed";
-        div.innerHTML = `<div class="font-bold text-emerald-300 text-[10px] mb-0.5">🤖 Recepcionista IA 24/7</div>${text}`;
+        div.style.cssText = "padding:10px 12px; border-radius:12px; background:#0f172a; color:#f1f5f9; border:1px solid #334155; margin-right:16px; line-height:1.5;";
+        div.innerHTML = `<div style="font-weight:800; color:#34d399; font-size:10px; margin-bottom:2px;">🤖 Recepcionista IA 24/7</div>${text}`;
       }
       msgBox.appendChild(div);
       msgBox.scrollTop = msgBox.scrollHeight;
@@ -706,8 +1454,8 @@
       setTimeout(() => {
         appendChatMessage(
           "bot",
-          `¡Excelente! En <strong>${biz}</strong> tenemos cupo prioritario para <em>"${userText}"</em> con el beneficio activo: <strong>${offer}</strong>.<br><br>` +
-          `✅ Ya pre-cargué tu consulta en el formulario de al lado. Haz clic en <strong>"Continuar y Ver Disponibilidad en Vivo"</strong> para elegir tu horario en el calendario.`
+          `¡Excelente! En <strong>${biz}</strong> tenemos disponibilidad prioritaria para <em>"${userText}"</em> con el beneficio activo: <strong>${offer}</strong>.<br><br>` +
+          `✅ Ya pre-cargué tu consulta en el formulario. Haz clic en <strong>"Continuar y Ver Disponibilidad en Vivo"</strong> para elegir tu horario.`
         );
       }, 350);
     }
@@ -719,7 +1467,7 @@
       if (bar.classList.contains("minimized")) {
         btn.innerHTML = '<i class="fas fa-sliders-h mr-1"></i> Mostrar Controles Closer';
       } else {
-        btn.innerHTML = '<i class="fas fa-eye-slash mr-1"></i> Modo Cliente';
+        btn.innerHTML = '<i class="fas fa-eye-slash mr-1"></i> Modo Cliente Limpio';
       }
     }
 
@@ -753,9 +1501,10 @@
         • <strong>Closer Asignado:</strong> ${closerName} (${closerEmail})<br>
         • <strong>Estado en Pipeline GHL:</strong> Sincronizando en vivo con <em>Ventas Agencia ProsperIA (Demo Realizada)</em>... ⏳
       `;
-      document.getElementById("sim-result-box").classList.remove("hidden");
+      const resBox = document.getElementById("sim-result-box");
+      resBox.classList.remove("hidden");
+      resBox.style.display = "flex";
 
-      // Inyectar en vivo al CRM y a GoHighLevel (Pipeline Ventas Agencia ProsperIA)
       try {
         if (ACTIVE_LEAD_ID) {
           const res = await fetch(`/api/sales-os/leads/${ACTIVE_LEAD_ID}/stage`, {
@@ -781,7 +1530,6 @@
           }
         }
 
-        // Si no venía con lead_id previo, lo creamos en vivo en /api/leads con asignación al closer seleccionado
         const createRes = await fetch("/api/leads", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -839,14 +1587,13 @@
     function renderLooksGrid() {
       const container = document.getElementById("looks-grid");
       container.innerHTML = BRAND_LOOKS.map(l => `
-        <button type="button" onclick="applyBrandLook('${l.accent}','${l.secondary}','${l.bg}')"
-                class="p-3 rounded-xl border border-slate-700 hover:border-cyan-400 text-left transition flex flex-col gap-2"
-                style="background:${l.bg};">
-          <div class="flex items-center gap-1.5">
-            <span class="w-4 h-4 rounded-full inline-block" style="background:${l.accent};"></span>
-            <span class="w-4 h-4 rounded-full inline-block" style="background:${l.secondary};"></span>
+        <button type="button" onclick="applyBrandLook('${l.accent}','${l.secondary}','${l.bg}', ${l.light})"
+                style="padding:14px; border-radius:14px; border:1px solid #334155; text-align:left; cursor:pointer; display:flex; flex-direction:column; gap:8px; background:${l.bg}; color:${l.light ? '#0f172a' : '#fff'};">
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span style="width:18px; height:18px; border-radius:50%; display:inline-block; background:${l.accent};"></span>
+            <span style="width:18px; height:18px; border-radius:50%; display:inline-block; background:${l.secondary};"></span>
           </div>
-          <div class="text-xs font-bold text-white">${l.name}</div>
+          <div style="font-size:12.5px; font-weight:800;">${l.name}</div>
         </button>
       `).join("");
     }
@@ -855,10 +1602,11 @@
       document.getElementById("lookGalleryDialog").showModal();
     }
 
-    function applyBrandLook(accent, secondary, bg) {
+    function applyBrandLook(accent, secondary, bg, isLight) {
       document.documentElement.style.setProperty("--accent", accent);
       document.documentElement.style.setProperty("--secondary", secondary);
       document.documentElement.style.setProperty("--bg-dark", bg);
+      document.body.classList.toggle("light-theme", !!isLight);
       document.getElementById("lookGalleryDialog").close();
     }
 
@@ -907,4 +1655,3 @@
   </script>
 </body>
 </html>
-

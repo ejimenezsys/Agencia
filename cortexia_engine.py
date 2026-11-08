@@ -84,10 +84,10 @@ def call_gemini_api(prompt: str, model: str = "gemini-2.5-flash", json_mode: boo
         data = resp.json()
         return data["candidates"][0]["content"]["parts"][0]["text"]
     except Exception as exc:
-        # Fallback a gemini-2.5-flash-lite si 2.5-flash da error de cuota o timeout
-        if model != "gemini-2.5-flash-lite":
-            print(f"[Aviso] Reintentando con gemini-2.5-flash-lite tras error: {exc}")
-            return call_gemini_api(prompt, model="gemini-2.5-flash-lite", json_mode=json_mode)
+        # Fallback a gemini-1.5-flash si 2.5 da error de cuota o modelo
+        if model != "gemini-1.5-flash":
+            print(f"[Aviso] Reintentando con gemini-1.5-flash tras error: {exc}")
+            return call_gemini_api(prompt, model="gemini-1.5-flash", json_mode=json_mode)
         raise exc
 
 
@@ -911,9 +911,9 @@ def save_daily_package(package_data: Dict[str, Any], target_dir: Path) -> Dict[s
     pub_file = PUBLISHED_DIR / f"{slug}.json"
     pub_file.write_text(json.dumps(article_data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
-    # Generar portada ejecutiva /static/blog/{slug}.jpg si no existe aún o si es un placeholder de texto (<200KB)
+    # Generar portada ejecutiva /static/blog/{slug}.jpg si no existe aún
     cover_file = BASE_DIR / "static" / "blog" / f"{slug}.jpg"
-    if not cover_file.exists() or cover_file.stat().st_size < 200_000:
+    if not cover_file.exists():
         lane_label = LANES.get(article_data["lane"], "Radar de Disrupción")
         render_blog_cover_pillow(
             title=article_data["title"],
