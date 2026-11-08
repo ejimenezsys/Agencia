@@ -1687,7 +1687,11 @@ def invoke_gemini_assistant(system_prompt: str, user_message: str) -> str:
     full_prompt = f"{system_prompt}\n\nMENSAJE DEL CLIENTE:\n{user_message}"
     payload = {
         "contents": [{"parts": [{"text": full_prompt}]}],
-        "generationConfig": {"temperature": 0.65, "maxOutputTokens": 320},
+        "generationConfig": {
+            "temperature": 0.65,
+            "maxOutputTokens": 900,
+            "thinkingConfig": {"thinkingBudget": 0},
+        },
     }
     ctx = ssl._create_unverified_context()
     for model_name in ("gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"):

@@ -3182,7 +3182,11 @@ async def api_prospect_leads(req: ProspectRequest, db: Session = Depends(get_db)
                 )
                 payload = {
                     "contents": [{"parts": [{"text": g_prompt}]}],
-                    "generationConfig": {"temperature": 0.55, "maxOutputTokens": 1800},
+                    "generationConfig": {
+                        "temperature": 0.55,
+                        "maxOutputTokens": 4096,
+                        "thinkingConfig": {"thinkingBudget": 0},
+                    },
                 }
                 ctx = ssl._create_unverified_context()
                 for m_name in ("gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"):
