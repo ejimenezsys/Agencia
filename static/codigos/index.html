@@ -3,6 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google Tag Manager & Google Analytics (GA4) -->
+  <script async fetchpriority="low" src="https://www.googletagmanager.com/gtm.js?id=GTM-PQNCXHDP"></script>
+  <script async fetchpriority="low" src="https://www.googletagmanager.com/gtag/js?id=G-P97NDT1KXZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-P97NDT1KXZ');
+  </script>
   <title>200 Códigos Creativos de ChatGPT para Imágenes y Video | Regalo Instagram @edwardjimenezia & ProsperIA</title>
   <meta name="description" content="200 Códigos Creativos de IA de Edward Jiménez y Agencia ProsperIA: Prompts y Dirección Fotográfica, desglose de The Swing Prompts (Spiderman), 2 guías PDF oficiales y comunidad exclusiva.">
   <meta name="keywords" content="200 codigos chatgpt, prompts de imagenes, test nivel ia, edward jimenez, comunidad whatsapp prosperia, reel spiderman prompt, passportai, automatizacion comercial ia">
@@ -11204,6 +11214,7 @@ https://www.doubao.com/</div>
     }
 
     function openResourceOrGate(url) {
+      try { if (typeof gtag === 'function') gtag('event', 'download_pdf', { event_category: 'codigos_hub', file_url: url }); } catch (e) {}
       if (isLeadRegistered()) {
         window.open(url, '_blank', 'noopener');
       } else {
@@ -11213,6 +11224,7 @@ https://www.doubao.com/</div>
 
     // 1-Click Clipboard Copier (Dispara el modal de registro si aún no está registrado)
     async function copyCode(text, btn) {
+      try { if (typeof gtag === 'function') gtag('event', 'copy_code', { event_category: 'codigos_hub' }); } catch (e) {}
       const originalHtml = btn ? btn.innerHTML : '';
       try {
         await navigator.clipboard.writeText(text);
@@ -11492,6 +11504,9 @@ https://www.doubao.com/</div>
         sessionStorage.setItem('pia_email', email);
         sessionStorage.setItem('pia_phone', phone);
         sessionStorage.setItem('pia_modal_auto_shown', 'true');
+        if (typeof gtag === 'function') {
+          gtag('event', 'generate_lead', { event_category: 'codigos_hub', service_interest: servicio });
+        }
       } catch (err) {}
 
       try {
