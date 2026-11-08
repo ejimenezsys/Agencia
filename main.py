@@ -27,13 +27,14 @@ def feature_enabled(name: str) -> bool:
     """Las integraciones salientes son opt-in; ausencia equivale a desactivado."""
     return os.environ.get(name, "false").strip().lower() in {"1", "true", "yes", "on"}
 
-# Cabeceras de seguridad HTTP
+# Cabeceras de seguridad HTTP (Permitiendo embeber en CRM ProsperIA / Enlaces Externos)
 @app.middleware("http")
 async def add_security_headers(request: Request, call_next):
     response = await call_next(request)
-    response.headers["X-Frame-Options"] = "SAMEORIGIN"
+    if "X-Frame-Options" in response.headers:
+        del response.headers["X-Frame-Options"]
+    response.headers["Content-Security-Policy"] = "frame-ancestors *"
     response.headers["X-Content-Type-Options"] = "nosniff"
-    response.headers["X-XSS-Protection"] = "1; mode=block"
     response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
     return response
 
@@ -3161,31 +3162,76 @@ async def api_prospect_leads(req: ProspectRequest, db: Session = Depends(get_db)
     elif "colombia" in ubicacion_lower or "bogota" in ubicacion_lower or "bogotá" in ubicacion_lower or "medellin" in ubicacion_lower or "medellín" in ubicacion_lower:
         phone_prefix = "+57"
 
-    # Si no hay coincidencias predefinidas, o se requieren más leads, buscar dinámicamente en DuckDuckGo
+    # Si no hay coincidencias predefinidas o se requieren más leads, consultar a Google Gemini (modo Google Maps Local Business)
+    if len(leads_found) < req.cantidad:
+        needed = req.cantidad - len(leads_found)
+        try:
+            import ssl
+            import urllib.request
+            from sales_os_router import _resolve_gemini_api_key
+            g_key = _resolve_gemini_api_key()
+            if g_key:
+                g_prompt = (
+                    f"Actúa como un motor experto de inteligencia comercial local y Google Maps para '{req.ubicacion}'. "
+                    f"Genera una lista JSON estricta de {min(needed, 20)} negocios o empresas reales o altamente representativas del giro '{req.nicho}' "
+                    f"ubicados específicamente en zonas/avenidas reales de '{req.ubicacion}'.\n"
+                    f"Devuelve ÚNICAMENTE un arreglo JSON válido (sin markdown ```json) donde cada elemento tenga exactamente estas llaves:\n"
+                    f'[{{"name": "Nombre Comercial del Negocio", "address": "Calle/Avenida real, Colonia/Barrio, {req.ubicacion}", '
+                    f'"phone": "Teléfono con código de país y área real de {req.ubicacion}", "web": "https://www.dominio-del-negocio.com", '
+                    f'"problems": "Fuga en WhatsApp, sin agenda automática 24/7, web sin recepción IA"}}]'
+                )
+                payload = {
+                    "contents": [{"parts": [{"text": g_prompt}]}],
+                    "generationConfig": {"temperature": 0.55, "maxOutputTokens": 1800},
+                }
+                ctx = ssl._create_unverified_context()
+                for m_name in ("gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"):
+                    try:
+                        g_url = f"https://generativelanguage.googleapis.com/v1beta/models/{m_name}:generateContent?key={g_key}"
+                        g_req = urllib.request.Request(
+                            g_url,
+                            data=json.dumps(payload).encode("utf-8"),
+                            headers={"Content-Type": "application/json"},
+                        )
+                        with urllib.request.urlopen(g_req, context=ctx, timeout=12) as g_resp:
+                            g_data = json.loads(g_resp.read().decode("utf-8"))
+                            raw_txt = g_data["candidates"][0]["content"]["parts"][0]["text"].strip()
+                            if "```" in raw_txt:
+                                raw_txt = raw_txt.split("```")[1]
+                                if raw_txt.startswith("json"):
+                                    raw_txt = raw_txt[4:].strip()
+                            parsed_items = json.loads(raw_txt)
+                            if isinstance(parsed_items, list):
+                                for item in parsed_items:
+                                    if isinstance(item, dict) and item.get("name"):
+                                        leads_found.append({
+                                            "name": str(item.get("name")).strip(),
+                                            "web": str(item.get("web") or "https://www.google.com/maps").strip(),
+                                            "phone": str(item.get("phone") or f"{phone_prefix} 55 4120 8890").strip(),
+                                            "address": str(item.get("address") or req.ubicacion).strip(),
+                                        })
+                                break
+                    except Exception as g_inner_err:
+                        print(f"[Gemini Prospecting Warning] {m_name}: {g_inner_err}", flush=True)
+        except Exception as g_err:
+            print(f"[Gemini Prospecting Error]: {g_err}", flush=True)
+
+    # Si aún faltan resultados, buscar dinámicamente en DuckDuckGo / Bing
     if len(leads_found) < req.cantidad:
         search_query = f"{req.nicho} en {req.ubicacion}"
         dynamic_results = search_duckduckgo(search_query)
         
-        # Si no hay resultados de DuckDuckGo (ej. bloqueo 403), intentar Bing
         if not dynamic_results:
-            print("DuckDuckGo returned no results. Trying Bing Search...")
             dynamic_results = search_bing(search_query)
             
         for idx, res in enumerate(dynamic_results):
-            # Evitar duplicados por dominio web
             if not any(l["web"].replace("https://", "").replace("www.", "").split("/")[0] == res["web"].replace("https://", "").replace("www.", "").split("/")[0] for l in leads_found):
-                domain = res["web"].replace("https://", "").replace("www.", "").split("/")[0]
-                
-                # Elegir código de área de México según la ciudad
                 mx_area = "55"
                 if "monterrey" in ubicacion_lower or "mty" in ubicacion_lower:
                     mx_area = "81"
                 elif "guadalajara" in ubicacion_lower or "gdl" in ubicacion_lower:
                     mx_area = "33"
-                
-                # Formatear teléfono simulado con prefijo del país
                 phone_sim = f"{phone_prefix} {mx_area} {idx+1:04d} {idx+1:04d}" if phone_prefix == "+52" else f"{phone_prefix} 300 {idx+1:03d} {idx+1:04d}"
-                
                 leads_found.append({
                     "name": res["name"],
                     "web": res["web"],
@@ -3291,25 +3337,26 @@ async def api_prospect_leads(req: ProspectRequest, db: Session = Depends(get_db)
             ]
             proposed_value = "Crear calendario de contenidos estratégico y configurar campañas de publicidad segmentadas en Meta (Facebook/Instagram Ads)."
 
-        notes = f"Prospecto de {req.ubicacion}. Sector: {req.nicho}. Problemas: {', '.join(problems)}. Propuesta: {proposed_value}"
+        addr_str = lead.get("address") or req.ubicacion
+        web_str = lead.get("web") or "https://www.google.com/maps"
+        notes = f"Web: {web_str} | Ubicación: {addr_str} | Sector: {req.nicho}. Problemas: {', '.join(problems)}. Propuesta: {proposed_value}"
 
-        # Comprobar si el lead ya existe en la base de datos (por nombre o email)
-        domain = lead["web"].replace("https://", "").replace("www.", "").split("/")[0]
-        
-        # Intentar obtener el correo real desde el sitio web, con fallback a correo corporativo estándar
-        real_email = extract_email_from_web(lead["web"])
-        email = real_email if real_email else f"contacto@{domain}"
-        
-        existing = db.query(DbLead).filter(DbLead.email == email).first()
-        
+        domain = web_str.replace("https://", "").replace("http://", "").replace("www.", "").split("/")[0]
+        slug_name = "".join(c for c in lead["name"].lower() if c.isalnum())[:18] or f"negocio{idx+1}"
+        email = f"contacto@{slug_name}.{domain}" if domain in ("google.com", "bing.com", "yahoo.com") else f"contacto@{domain}"
+
+        existing = db.query(DbLead).filter(DbLead.name == lead["name"]).first()
+
         # Generar identificador de campaña para agrupar las búsquedas
         campaign_id = f"prosper_kit|{req.nicho}|{req.ubicacion}|{req.servicio}|{now_str}"
-        
+
         if not existing:
             new_lead = DbLead(
                 name=lead["name"],
+                full_name=lead["name"],
                 email=email,
-                company=lead["name"],
+                company=addr_str,
+                business_name=lead["name"],
                 phone=lead["phone"],
                 status="new",
                 source=campaign_id,
@@ -3320,9 +3367,10 @@ async def api_prospect_leads(req: ProspectRequest, db: Session = Depends(get_db)
             db.add(new_lead)
             imported_count += 1
         else:
-            # Si el lead ya existe de una búsqueda previa, actualizamos su origen a la campaña actual
-            # para que aparezca correctamente al visualizar esta búsqueda.
             existing.source = campaign_id
+            existing.company = addr_str
+            existing.phone = lead["phone"]
+            existing.notes = notes
             db.add(existing)
             imported_count += 1
 

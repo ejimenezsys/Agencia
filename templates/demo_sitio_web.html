@@ -1485,19 +1485,15 @@
         const data = await res.json();
         document.getElementById("chatbot-typing-indicator")?.remove();
         const replyText = (data && data.reply)
-          ? data.reply
-          : `¡Excelente! En <strong>${biz}</strong> tenemos disponibilidad prioritaria para <em>"${userText}"</em> con el beneficio activo: <strong>${offer}</strong>.`;
+          ? data.reply.replace(/\n/g, "<br>")
+          : `¡Hola! Soy el Asistente IA de <strong>${biz}</strong> en ${city}. Con gusto te brindo información sobre <em>"${userText}"</em> y nuestro beneficio activo (${offer}). ¿Me compartes tu Nombre y WhatsApp en el recuadro de Recepción Digital para confirmar tu horario?`;
         chatbotConversationHistory.push({ role: "assistant", text: replyText });
-        appendChatMessage(
-          "bot",
-          `${replyText}<br><br><span style="color:#34d399; font-weight:700; font-size:11px;">✅ Ya pre-cargué tu consulta en el formulario de Recepción Digital 24/7.</span>`
-        );
+        appendChatMessage("bot", replyText);
       } catch (err) {
         document.getElementById("chatbot-typing-indicator")?.remove();
         appendChatMessage(
           "bot",
-          `¡Excelente! En <strong>${biz}</strong> tenemos disponibilidad prioritaria para <em>"${userText}"</em> con el beneficio activo: <strong>${offer}</strong>.<br><br>` +
-          `✅ Ya pre-cargué tu consulta en el formulario. Haz clic en <strong>"Continuar y Ver Disponibilidad en Vivo"</strong> para elegir tu horario.`
+          `¡Hola! Soy el Asistente IA de <strong>${biz}</strong> en ${city}. Con gusto te ayudo con <em>"${userText}"</em>. Déjanos tu Nombre y WhatsApp en el formulario de Recepción Digital para darte atención prioritaria.`
         );
       }
     }

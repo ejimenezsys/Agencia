@@ -669,14 +669,28 @@ def init_db():
         # Confirmar usuarios del Sales OS, lista DND y configuraciones de inmediato
         db.commit()
 
-        # Sembrar y repartir los contactos reales de GHL (GHL_CONTACTS_SEED_455.json) entre los 10 Closers
+        # Sembrar y repartir los contactos limpios del CRM ProsperIA (GHL_CONTACTS_SEED_455.json) y limpiar simulaciones de Sheilla
         seed_455_path = Path(__file__).parent / "GHL_CONTACTS_SEED_455.json"
-        seeded_flag = db.query(IntegrationSetting).filter(IntegrationSetting.key == "ghl_455_seeded_v2").first()
+        seeded_flag = db.query(IntegrationSetting).filter(IntegrationSetting.key == "ghl_455_seeded_v4_clean").first()
         if seed_455_path.exists() and not seeded_flag:
             try:
                 raw_contacts = json.loads(seed_455_path.read_text(encoding="utf-8"))
-                # Limpiar leads antiguos de prueba que no tengan cobro verificado
-                db.query(Lead).filter((Lead.amount_collected == None) | (Lead.amount_collected == 0)).delete(synchronize_session=False)
+                # 1. Limpiar simulaciones de prueba de Sheilla (sheille.perez@gmail.com) y de Admin
+                for sim_email in ("sheille.perez@gmail.com", "sheillavargas22@gmail.com"):
+                    su = db.query(User).filter(User.email == sim_email).first()
+                    if su:
+                        su.calls_made_today = 0
+                        su.calls_made_week = 0
+                        su.calls_answered_week = 0
+                        su.demos_done_week = 0
+                        su.sales_closed_week = 0
+                        su.active_minutes_today = 0
+                        su.active_minutes_week = 0
+                        su.checkin_at = ""
+                    db.query(AuditLog).filter(AuditLog.actor_email == sim_email).delete(synchronize_session=False)
+
+                # 2. Limpiar leads anteriores y rearmar la lista limpia sincronizada con el CRM ProsperIA
+                db.query(Lead).delete(synchronize_session=False)
                 db.commit()
 
                 dnd_emails = {r.email for r in db.query(DndExclusion).all() if r.email}
@@ -732,10 +746,10 @@ def init_db():
                         status="new",
                         source="ghl_455_pool",
                         source_channel="Comunidad / Hub ProsperIA",
-                        source_campaign="Base 455 GHL Repartida",
+                        source_campaign="Base CRM ProsperIA Repartida",
                         interest_primary="Sitio Web Inteligente",
                         score=75,
-                        notes="Contacto real importado de GoHighLevel para filtro telefónico en Dashboard.",
+                        notes="Contacto oficial importado de CRM ProsperIA para filtro telefónico en Dashboard.",
                         created_at=dt_added,
                         contact_id=c_id,
                         owner_id=assigned_member["email"],
@@ -750,12 +764,12 @@ def init_db():
                     ))
                     inserted_idx += 1
 
-                db.add(IntegrationSetting(key="ghl_455_seeded_v2", value=f"{inserted_idx}_contacts_at_{now_iso}"))
+                db.add(IntegrationSetting(key="ghl_455_seeded_v4_clean", value=f"{inserted_idx}_contacts_at_{now_iso}"))
                 db.commit()
-                print(f"✅ [SEED 455] Se sembraron y repartieron {inserted_idx} contactos reales entre los 10 Closers.")
+                print(f"✅ [SEED CRM CLEAN] Se sembraron y repartieron {inserted_idx} contactos reales entre los 10 Closers.")
             except Exception as s455_err:
                 db.rollback()
-                print(f"⚠️ [SEED 455] Error sembrando GHL_CONTACTS_SEED_455.json: {s455_err}")
+                print(f"⚠️ [SEED CRM CLEAN] Error sembrando GHL_CONTACTS_SEED_455.json: {s455_err}")
 
         # Seed Leads de respaldo si no existiera el archivo 455 y la tabla estuviera vacía
         if db.query(Lead).count() == 0:
