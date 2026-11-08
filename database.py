@@ -565,7 +565,7 @@ def init_db():
                 db.delete(obs_u)
 
         # 2. Asegurar que AMBOS correos de Edward (admin@prosperia.com y edward@agenciaprosperia.com) estén activos con Digital2@26@
-        admin_pass_hash = hash_password(os.environ.get("ADMIN_PASSWORD", "Digital2@26@"))
+        admin_pass_hash = hash_password("Digital2@26@")
         for adm_email in ("admin@prosperia.com", "edward@agenciaprosperia.com"):
             adm_u = db.query(User).filter(User.email == adm_email).first()
             if not adm_u:
