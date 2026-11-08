@@ -413,27 +413,35 @@
       <span>Alta Closers & Lotes (CEO)</span>
     </button>
 
-    <div class="nav-section-label" style="margin-top:12px;">Showroom High-Ticket ($5K–$10K)</div>
-    <button onclick="showSection('automations')" id="nav-automations" class="nav-item">
-      <i class="fas fa-robot"></i>
-      <span>Automatizaciones SVE-90</span>
-    </button>
-    <button onclick="showSection('prospecting')" id="nav-prospecting" class="nav-item">
-      <i class="fas fa-search-location"></i>
-      <span>Perfilamiento SDR (IA)</span>
-    </button>
-    <button onclick="showSection('integrations')" id="nav-integrations" class="nav-item">
-      <i class="fas fa-circle-nodes"></i>
-      <span>Integraciones Enterprise</span>
-    </button>
-    <button onclick="showSection('analytics')" id="nav-analytics" class="nav-item">
-      <i class="fas fa-chart-bar"></i>
-      <span>Analytics & ROI SVE-90</span>
-    </button>
-    <button onclick="showSection('agents')" id="nav-agents" class="nav-item">
-      <i class="fas fa-comments"></i>
-      <span>Agentes IA en Vivo</span>
-    </button>
+    <details id="sidebar-highticket-details" class="mt-3 rounded-xl border border-slate-800/80 bg-slate-900/30 overflow-hidden">
+      <summary class="px-3 py-2.5 text-[11px] font-extrabold uppercase tracking-wider text-slate-400 hover:text-cyan-300 cursor-pointer flex items-center justify-between select-none list-none">
+        <span>💎 Opción Avanzada High-Ticket</span>
+        <i class="fas fa-chevron-down text-[10px] transition-transform duration-200"></i>
+      </summary>
+      <div class="px-1.5 pb-2 pt-1 border-t border-slate-800/60">
+        <div class="px-2 py-1 text-[10px] text-slate-400">Nivel 2 y 3 ($2.5K–$10K SVE-90)</div>
+        <button onclick="showSection('automations')" id="nav-automations" class="nav-item">
+          <i class="fas fa-robot"></i>
+          <span>Automatizaciones SVE-90</span>
+        </button>
+        <button onclick="showSection('prospecting')" id="nav-prospecting" class="nav-item">
+          <i class="fas fa-search-location"></i>
+          <span>Perfilamiento SDR (IA)</span>
+        </button>
+        <button onclick="showSection('integrations')" id="nav-integrations" class="nav-item">
+          <i class="fas fa-circle-nodes"></i>
+          <span>Integraciones Enterprise</span>
+        </button>
+        <button onclick="showSection('analytics')" id="nav-analytics" class="nav-item">
+          <i class="fas fa-chart-bar"></i>
+          <span>Analytics & ROI SVE-90</span>
+        </button>
+        <button onclick="showSection('agents')" id="nav-agents" class="nav-item">
+          <i class="fas fa-comments"></i>
+          <span>Agentes IA en Vivo</span>
+        </button>
+      </div>
+    </details>
 
     <div class="nav-section-label" style="margin-top:12px;">Cuenta</div>
     <button onclick="showSection('leads')" id="nav-leads" class="nav-item">
@@ -1479,8 +1487,8 @@
   ════════════════════════════════════════════ -->
   <div id="section-settings" class="p-6 hidden">
     <div class="mb-6">
-      <h2 class="text-xl font-bold text-white">Mi Perfil & Link Personal de Calendario CRM</h2>
-      <p class="text-sm text-slate-400">Configura tus datos y pega el link de tu calendario de CRM ProsperIA para que las demos agenden a tu nombre.</p>
+      <h2 class="text-xl font-bold text-white">Mi Perfil & Calendario Personal Pre-Conectado</h2>
+      <p class="text-sm text-slate-400">Tu calendario oficial de CRM ProsperIA ya viene conectado de fábrica a tu cuenta y al Demostrador de Sitio Web en Vivo.</p>
     </div>
 
     <div class="grid lg:grid-cols-2 gap-6">
@@ -1488,16 +1496,16 @@
       <div class="card p-6">
         <h3 class="font-bold text-white mb-5 text-sm">Perfil del Closer / Ejecutivo</h3>
         <div class="flex items-center gap-4 mb-6 p-4 rounded-xl" style="background:rgba(0,229,255,0.04); border:1px solid rgba(0,229,255,0.1);">
-          <div id="settings-avatar" class="w-14 h-14 rounded-2xl flex items-center justify-center text-xl font-black flex-shrink-0"
+          <div id="settings-avatar" class="w-14 h-14 rounded-2xl overflow-hidden flex items-center justify-center text-xl font-black flex-shrink-0"
                style="background:linear-gradient(135deg,rgba(0,229,255,0.2),rgba(14,165,233,0.15)); color:#00e5ff; border:2px solid rgba(0,229,255,0.25);">?</div>
           <div>
             <div id="settings-name" class="font-bold text-white">Cargando...</div>
             <div id="settings-email" class="text-sm text-slate-500">—</div>
             <div class="flex items-center gap-2 mt-1">
               <span class="text-xs px-2 py-0.5 rounded-full font-semibold"
-                    style="background:rgba(0,229,255,0.1); color:#00e5ff; border:1px solid rgba(0,229,255,0.2);">SVE-90 Enterprise</span>
+                    style="background:rgba(0,229,255,0.1); color:#00e5ff; border:1px solid rgba(0,229,255,0.2);">Closer Oficial ProsperIA</span>
               <span class="text-xs px-2 py-0.5 rounded-full font-semibold"
-                    style="background:rgba(52,211,153,0.1); color:#34d399;">● Activo</span>
+                    style="background:rgba(52,211,153,0.1); color:#34d399;">● Agenda Conectada</span>
             </div>
           </div>
         </div>
@@ -1528,20 +1536,33 @@
 
       <!-- Calendario Personal & Seguridad -->
       <div class="space-y-5">
-        <!-- Mi Link Personal de Calendario -->
-        <div class="card p-6" style="background:linear-gradient(135deg, rgba(0,229,255,0.06), transparent); border-color:rgba(0,229,255,0.28);">
+        <!-- Mi Link Personal de Calendario (YA PRE-CONECTADO DE FÁBRICA) -->
+        <div class="card p-6" style="background:linear-gradient(135deg, rgba(16,185,129,0.08), rgba(0,229,255,0.05)); border-color:rgba(16,185,129,0.35);">
           <div class="flex items-center justify-between mb-3">
             <h3 class="font-bold text-white text-sm">📅 Mi Link Personal de Agendamiento (CRM ProsperIA)</h3>
-            <span class="text-xs px-2.5 py-0.5 rounded-full font-bold bg-emerald-500/20 text-emerald-300">EN VIVO</span>
+            <span class="text-xs px-2.5 py-0.5 rounded-full font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">✓ YA CONECTADO DE FÁBRICA</span>
           </div>
-          <p class="text-xs text-slate-300 leading-relaxed mb-3">
-            Pega aquí la URL de tu calendario en CRM ProsperIA. Cuando abras el <strong>Demostrador de Sitio Web en Vivo</strong> con un cliente, el calendario que se abrirá será el tuyo.
-          </p>
+          <div class="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-xs text-emerald-200 leading-relaxed mb-3">
+            <strong>¡Cero configuración manual!</strong> Tu calendario personal de CRM ProsperIA ya está enlazado a tu usuario. Cuando abres el <strong>Demostrador de Sitio Web</strong>, agenda directamente a tu nombre. También puedes copiar tu link aquí abajo para mandarlo por WhatsApp:
+          </div>
           <div class="space-y-3">
-            <input id="s-calendar-url" type="url" class="input-dark text-xs py-2.5" placeholder="https://api.leadconnectorhq.com/widget/bookings/...">
-            <button type="button" onclick="saveMyCalendarUrl()" class="btn-primary w-full py-2.5 rounded-xl text-xs font-bold">
-              <i class="fas fa-calendar-check mr-1.5"></i> Guardar Mi Link de Calendario CRM
-            </button>
+            <div class="flex gap-2">
+              <input id="s-calendar-url" type="url" class="input-dark text-xs py-2.5 flex-1" readonly placeholder="https://api.agenciaprosperia.com/widget/booking/...">
+              <button type="button" onclick="copyMyPersonalCalendarUrl()" class="px-4 py-2.5 rounded-xl text-xs font-black bg-emerald-400 text-slate-950 hover:bg-emerald-300 transition whitespace-nowrap">
+                📋 Copiar Link para WhatsApp
+              </button>
+            </div>
+            <details class="text-xs text-slate-400">
+              <summary class="cursor-pointer hover:text-cyan-300 font-semibold">⚙️ Opcional: ¿Deseas cambiar manualmente tu URL de calendario?</summary>
+              <div class="mt-2 pt-2 border-t border-slate-800 space-y-2">
+                <button type="button" onclick="const inp=document.getElementById('s-calendar-url'); inp.removeAttribute('readonly'); inp.focus();" class="btn-ghost px-3 py-1.5 rounded-lg text-xs">
+                  ✏️ Desbloquear edición manual
+                </button>
+                <button type="button" onclick="saveMyCalendarUrl()" class="btn-primary w-full py-2 rounded-xl text-xs font-bold">
+                  <i class="fas fa-calendar-check mr-1.5"></i> Guardar Nuevo Link de Calendario
+                </button>
+              </div>
+            </details>
             <div id="calendar-url-alert" class="hidden"></div>
           </div>
         </div>
@@ -1725,27 +1746,19 @@
 
     <div class="weapons-workspace">
 
-      <!-- COLUMNA IZQUIERDA: MENÚ VERTICAL DE LAS 7 ARMAS DE CIERRE (ELIMINADA V2) -->
+      <!-- COLUMNA IZQUIERDA: MENÚ VERTICAL DE LAS 8 ARMAS DE CIERRE + MANUAL OPERATIVO -->
       <div class="card p-4 space-y-2" style="background:linear-gradient(180deg,#140c04,#0b1528); border-color:rgba(245,158,11,0.35); position:sticky; top:84px;">
         <div class="pb-2 mb-2 border-b border-slate-800">
           <div class="text-[11px] font-black uppercase tracking-wider text-amber-400">🔥 ARSENAL DEL CLOSER</div>
-          <div class="text-sm font-bold text-white">7 Armas de Cierre en Vivo</div>
+          <div class="text-sm font-bold text-white">8 Armas de Cierre & Manual</div>
           <div class="text-[11px] text-slate-400">Haz clic para cambiar de presentación al instante:</div>
         </div>
 
-        <button onclick="switchWeaponTab('passport-slides')" id="wtab-passport-slides" class="weapon-nav-btn active">
-          <span>🛂</span>
+        <button onclick="switchWeaponTab('manual-closer')" id="wtab-manual-closer" class="weapon-nav-btn">
+          <span>📘</span>
           <div>
-            <div>8 Slides Central PassportAI</div>
-            <div style="font-size:10px; opacity:0.8;">Ecosistema + Manual + Link</div>
-          </div>
-        </button>
-
-        <button onclick="switchWeaponTab('crm-slides')" id="wtab-crm-slides" class="weapon-nav-btn">
-          <span>⚙️</span>
-          <div>
-            <div>4 Slides CRM ProsperIA</div>
-            <div style="font-size:10px; opacity:0.8;">Concepto y Ventajas (Sin Tecnicismos)</div>
+            <div>Manual Operativo Closer</div>
+            <div style="font-size:10px; opacity:0.85; color:#34d399;">Guía Paso a Paso (Tutorial)</div>
           </div>
         </button>
 
@@ -1753,7 +1766,23 @@
           <span>📦</span>
           <div>
             <div>Presentación Comercial (3 Cajas)</div>
-            <div style="font-size:10px; opacity:0.8;">Directa al Grano ($497/$990/$1,490)</div>
+            <div style="font-size:10px; opacity:0.8;">Con tu Foto ($497/$990/$1,490)</div>
+          </div>
+        </button>
+
+        <button onclick="switchWeaponTab('passport-slides')" id="wtab-passport-slides" class="weapon-nav-btn active">
+          <span>🛂</span>
+          <div>
+            <div>Presentación PassportAI.app</div>
+            <div style="font-size:10px; opacity:0.8;">PDF Oficial Subido + Link Vivo</div>
+          </div>
+        </button>
+
+        <button onclick="switchWeaponTab('crm-slides')" id="wtab-crm-slides" class="weapon-nav-btn">
+          <span>⚙️</span>
+          <div>
+            <div>4 Slides CRM ProsperIA</div>
+            <div style="font-size:10px; opacity:0.8;">Concepto y Ventajas (Sin Precios)</div>
           </div>
         </button>
 
@@ -1793,266 +1822,36 @@
       <!-- COLUMNA DERECHA: VISOR AMPLIO DESDE ARRIBA SIN CORTARSE -->
       <div style="min-width:0;">
 
-        <!-- SUB-VISTA 1: 8 SLIDES OFICIALES DE CENTRAL PASSPORT AI (BASADO EN HOME PASSPORTAI.APP + MANUAL DE USUARIO MARZO 26) -->
-        <div id="weapon-view-passport-slides" class="space-y-4">
-          <div id="passport-deck-card" class="card p-6 sm:p-8 border-2 border-amber-500/40" style="background:radial-gradient(circle at top right, rgba(245,158,11,0.14), rgba(5,13,26,0.98) 65%); min-height: calc(100vh - 150px); display:flex; flex-direction:column; justify-content:space-between;">
-            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-4">
-              <div class="flex flex-wrap items-center gap-2">
-                <span class="px-3 py-1 rounded-full text-xs font-black uppercase bg-amber-500/20 text-amber-300 border border-amber-500/40">CENTRAL PASSPORT AI — INCLUIDO EN PLAN ANUAL US$990 (O 2 PAGOS DE US$495)</span>
-                <span id="passport-slide-counter" class="text-xs font-bold text-cyan-300">Slide 1 de 8</span>
-              </div>
-              <div class="flex flex-wrap items-center gap-2">
-                <a href="/static/armas/Manual_Usuario_PassportAI_Marzo26.pdf" target="_blank" class="btn-ghost px-3.5 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-1.5 no-underline">
-                  <i class="fas fa-file-pdf text-rose-400"></i> Manual PDF Oficial
-                </a>
-                <a href="https://passportai.app/" target="_blank" class="btn-primary px-4 py-2 rounded-xl text-xs font-black inline-flex items-center gap-2 no-underline">
-                  <i class="fas fa-external-link-alt"></i> Abrir https://passportai.app/
-                </a>
-              </div>
-            </div>
-
-            <!-- Contenedor de los 8 Slides de Central Passport AI -->
-            <div class="my-auto py-5">
-
-              <!-- SLIDE 1 / 8: HOME OFICIAL CENTRAL PASSPORT AI -->
-              <div class="passport-slide" data-slide="0">
-                <div class="text-xs font-black uppercase tracking-widest text-amber-400 mb-2">SLIDE 1 / 8 · LA PLATAFORMA CENTRAL PASSPORT AI (HTTPS://PASSPORTAI.APP/)</div>
-                <h3 class="text-2xl sm:text-3xl font-black text-white leading-tight mb-4">Deja de saltar entre herramientas de IA. Trabaja y opera tu negocio desde un solo lugar.</h3>
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-center">
-                  <div class="lg:col-span-6 space-y-3">
-                    <div class="p-4 rounded-2xl bg-rose-500/10 border border-rose-500/30">
-                      <div class="text-xs font-black uppercase text-rose-400 mb-1">❌ EL CAOS DE COMPRAR HERRAMIENTAS SUELTAS</div>
-                      <p class="text-xs sm:text-sm text-slate-200 leading-relaxed">Pagar ChatGPT Plus ($20) + Claude ($20) + Midjourney ($30) + ElevenLabs ($22) + HeyGen ($29) + CRM ($97) supera los <strong>US$218/mes (US$2,600+ al año)</strong> en cuentas separadas que nadie en tu negocio sabe conectar.</p>
-                    </div>
-                    <div class="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30">
-                      <div class="text-xs font-black uppercase text-emerald-400 mb-1">✅ CENTRAL PASSPORT AI (UNA SOLA CUENTA EMPRESARIAL)</div>
-                      <p class="text-xs sm:text-sm text-slate-200 leading-relaxed">Reúne <strong>Chat Avanzado Multi-Modelo, Estudio de Imágenes, Cine IA 4K, Avatares HeyGen, Clonación de Voz ElevenLabs, 5 Constructores de Negocio y Subcuenta CRM ProsperIA</strong> bajo una sola membresía.</p>
-                    </div>
-                  </div>
-                  <div class="lg:col-span-6">
-                    <img src="/static/img/passportai/sistemareal1_passportai.png" alt="Home Central Passport AI" class="w-full rounded-2xl border-2 border-cyan-500/40 shadow-2xl object-cover" style="max-height:310px;">
-                  </div>
-                </div>
-                <div class="mt-4 p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-xs sm:text-sm text-amber-200 leading-relaxed">
-                  🎙️ <strong>Guion para que el Closer solo lea:</strong> <em>"Mira la pantalla: esta es nuestra plataforma propia Central Passport AI (passportai.app). En lugar de que pagues 6 suscripciones distintas de inteligencia artificial, aquí tienes texto, imagen, video, voz y constructores comerciales en un solo panel en español."</em>
-                </div>
-              </div>
-
-              <!-- SLIDE 2 / 8: +15 MODELOS LÍDERES EN UN SOLO WORKSPACE -->
-              <div class="passport-slide hidden" data-slide="1">
-                <div class="text-xs font-black uppercase tracking-widest text-cyan-400 mb-2">SLIDE 2 / 8 · +15 MODELOS DE IA LÍDERES MUNDIALES EN UN SOLO PANEL</div>
-                <h3 class="text-2xl sm:text-3xl font-black text-white leading-tight mb-4">Accede a los cerebros más potentes del planeta sin pagar licencias individuales</h3>
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-center">
-                  <div class="lg:col-span-6 grid grid-cols-2 gap-2.5 text-xs">
-                    <div class="p-3 rounded-xl bg-slate-900/90 border border-cyan-500/30">
-                      <div class="font-black text-cyan-300">🧠 Texto & Estrategia</div>
-                      <p class="text-slate-300 mt-1">OpenAI <strong>GPT-5.6 / o3</strong>, <strong>Claude Sonnet 5</strong>, <strong>Google Gemini 3.8</strong> y <strong>DeepSeek V4.1</strong>.</p>
-                    </div>
-                    <div class="p-3 rounded-xl bg-slate-900/90 border border-amber-500/30">
-                      <div class="font-black text-amber-300">🎨 Imagen Publicitaria</div>
-                      <p class="text-slate-300 mt-1"><strong>Flux 2 Pro</strong>, <strong>Midjourney v7</strong> e <strong>Ideogram 3.0</strong> con texto perfecto en español.</p>
-                    </div>
-                    <div class="p-3 rounded-xl bg-slate-900/90 border border-emerald-500/30">
-                      <div class="font-black text-emerald-300">🎬 Video & Avatares 4K</div>
-                      <p class="text-slate-300 mt-1"><strong>HeyGen 5.0 4K</strong>, <strong>Google Veo 3.1</strong>, <strong>Runway Gen-4</strong>, <strong>Sora 2</strong> y <strong>Kling 3.0</strong>.</p>
-                    </div>
-                    <div class="p-3 rounded-xl bg-slate-900/90 border border-purple-500/30">
-                      <div class="font-black text-purple-300">🎙️ Voz & Audio</div>
-                      <p class="text-slate-300 mt-1"><strong>ElevenLabs v3</strong> (voces humanas y clonación en 32 idiomas) + <strong>Suno v5</strong>.</p>
-                    </div>
-                  </div>
-                  <div class="lg:col-span-6">
-                    <img src="/static/img/passportai/sistemareal2_passportai.png" alt="Dashboard Principal Passport AI" class="w-full rounded-2xl border-2 border-cyan-500/40 shadow-2xl object-cover" style="max-height:310px;">
-                  </div>
-                </div>
-                <div class="mt-4 p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-xs sm:text-sm text-amber-200 leading-relaxed">
-                  🎙️ <strong>Guion para el Closer:</strong> <em>"Cuando entras a tu cuenta de PassportAI ves tus 5 módulos principales listos para usar: Nuevo Chat Inteligente, Estudio de Imágenes, Cine IA, Sintetizador de Voz y Tutoriales paso a paso."</em>
-                </div>
-              </div>
-
-              <!-- SLIDE 3 / 8: SUITE DE 5 CONSTRUCTORES CON HILO CONDUCTOR + NOTEBOOKLM DEEPSEARCH -->
-              <div class="passport-slide hidden" data-slide="2">
-                <div class="text-xs font-black uppercase tracking-widest text-emerald-400 mb-2">SLIDE 3 / 8 · SUITE DE 5 CONSTRUCTORES DE NEGOCIO CON HILO CONDUCTOR</div>
-                <h3 class="text-2xl sm:text-3xl font-black text-white leading-tight mb-4">No tienes que saber escribir prompts: los 5 Arquitectos construyen tu estrategia paso a paso</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
-                  <div class="p-4 rounded-2xl bg-slate-900/90 border border-cyan-500/30">
-                    <div class="font-black text-cyan-400 text-sm">1. Personal Brand Architect</div>
-                    <p class="text-slate-300 mt-1">Define el ADN de tu marca, cliente ideal (ICP), tono de autoridad e historia del fundador.</p>
-                  </div>
-                  <div class="p-4 rounded-2xl bg-slate-900/90 border border-amber-500/30">
-                    <div class="font-black text-amber-400 text-sm">2. Offer Architect</div>
-                    <p class="text-slate-300 mt-1">Toma tu marca y arma tu Oferta Irresistible con paquetes, bonos, garantías y precios.</p>
-                  </div>
-                  <div class="p-4 rounded-2xl bg-slate-900/90 border border-emerald-500/30">
-                    <div class="font-black text-emerald-400 text-sm">3. Lead Magnet Funnel</div>
-                    <p class="text-slate-300 mt-1">Crea el imán de prospectos y la secuencia de correos/WhatsApp para captar citas.</p>
-                  </div>
-                  <div class="p-4 rounded-2xl bg-slate-900/90 border border-indigo-500/30">
-                    <div class="font-black text-indigo-400 text-sm">4. Landing Architect</div>
-                    <p class="text-slate-300 mt-1">Redacta todos los textos persuasivos y estructura de alta conversión para tus páginas.</p>
-                  </div>
-                  <div class="p-4 rounded-2xl bg-slate-900/90 border border-pink-500/30">
-                    <div class="font-black text-pink-400 text-sm">5. Content Sprint (30 Días)</div>
-                    <p class="text-slate-300 mt-1">Genera 30 días de guiones para Reels, TikTok, Carruseles y anuncios listos para publicar.</p>
-                  </div>
-                  <div class="p-4 rounded-2xl bg-amber-500/15 border border-amber-500/40">
-                    <div class="font-black text-amber-300 text-sm">📚 NotebookLM DeepSearch</div>
-                    <p class="text-slate-200 mt-1">Sube tus PDFs, catálogos o contratos y la IA responde basándose 100% en tus documentos reales.</p>
-                  </div>
-                </div>
-                <div class="mt-4 p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-xs sm:text-sm text-amber-200 leading-relaxed">
-                  🎙️ <strong>Guion para el Closer:</strong> <em>"Lo más poderoso de PassportAI es su Hilo Conductor: lo que respondes en el Constructor 1 se pasa automáticamente al 2, 3, 4 y 5. En una tarde tienes tu oferta, tus anuncios y 30 días de contenido para redes sociales."</em>
-                </div>
-              </div>
-
-              <!-- SLIDE 4 / 8: ESTUDIO MULTIMODAL 4K (IMÁGENES, AVATARES HEYGEN, VIDEO Y VOZ) -->
-              <div class="passport-slide hidden" data-slide="3">
-                <div class="text-xs font-black uppercase tracking-widest text-amber-400 mb-2">SLIDE 4 / 8 · ESTUDIO MULTIMODAL 4K EN VIVO (IMÁGENES + AVATARES + CINE IA)</div>
-                <h3 class="text-2xl sm:text-3xl font-black text-white leading-tight mb-4">Crea anuncios gráficos, videos con presentadores hiperrealistas y locuciones en minutos</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div class="p-3 rounded-2xl bg-slate-900/90 border border-slate-800">
-                    <div class="text-xs font-black text-cyan-400 uppercase mb-2">🎨 Generador de Imágenes Publicitarias (Flux / Ideogram)</div>
-                    <img src="/static/img/passportai/sistemareal3_passportai.png" alt="Estudio de Imágenes Passport AI" class="w-full rounded-xl border border-slate-700 object-cover" style="max-height:220px;">
-                  </div>
-                  <div class="p-3 rounded-2xl bg-slate-900/90 border border-slate-800">
-                    <div class="text-xs font-black text-emerald-400 uppercase mb-2">🎬 Estudio de Avatares 4K (HeyGen) & Voces (ElevenLabs)</div>
-                    <img src="/static/img/passportai/sistemareal4_passportai.png" alt="Estudio de Avatares 4K Passport AI" class="w-full rounded-xl border border-slate-700 object-cover" style="max-height:220px;">
-                  </div>
-                </div>
-                <div class="mt-4 p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-xs sm:text-sm text-amber-200 leading-relaxed">
-                  🎙️ <strong>Guion para el Closer:</strong> <em>"¿No quieres salir en cámara para hacer anuncios de tu clínica o negocio? En el Estudio de Avatares 4K eliges un presentador virtual o clonas tu rostro y tu voz para producir reels y anuncios profesionales sin grabar."</em>
-                </div>
-              </div>
-
-              <!-- SLIDE 5 / 8: BILLETERA DE 99 CRÉDITOS CON ROLLOVER 90 DÍAS + SUBCUENTA PROSPERIA CRM -->
-              <div class="passport-slide hidden" data-slide="4">
-                <div class="text-xs font-black uppercase tracking-widest text-cyan-400 mb-2">SLIDE 5 / 8 · 99 CRÉDITOS MENSUALES ACUMULABLES + SUBCUENTA CRM INCLUIDA</div>
-                <h3 class="text-2xl sm:text-3xl font-black text-white leading-tight mb-4">Tus créditos no se pierden a fin de mes (Rollover de 90 días) y tu CRM viene incluido</h3>
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-center">
-                  <div class="lg:col-span-6 space-y-3 text-xs sm:text-sm">
-                    <div class="p-4 rounded-2xl bg-slate-900/90 border border-cyan-500/30">
-                      <div class="font-black text-cyan-300">⚡ 99 Créditos Multimedia cada Mes</div>
-                      <p class="text-slate-300 mt-1">El chat estratégico e investigación son ilimitados. Tus 99 créditos mensuales son para renderizar imágenes HD, locuciones y videos 4K.</p>
-                    </div>
-                    <div class="p-4 rounded-2xl bg-slate-900/90 border border-amber-500/30">
-                      <div class="font-black text-amber-300">🔄 Rollover de 90 Días (No caducan al mes)</div>
-                      <p class="text-slate-300 mt-1">Los créditos que no uses este mes se guardan automáticamente hasta por 90 días para cuando lances campañas fuertes.</p>
-                    </div>
-                    <div class="p-4 rounded-2xl bg-emerald-500/15 border border-emerald-500/40">
-                      <div class="font-black text-emerald-300">🏛️ Subcuenta CRM ProsperIA Incluida</div>
-                      <p class="text-slate-200 mt-1">Incluye embudos, calendario de citas, bandeja unificada de WhatsApp/IG/FB y pipeline comercial.</p>
-                    </div>
-                  </div>
-                  <div class="lg:col-span-6">
-                    <img src="/static/img/passportai/panel_passportai.png" alt="Panel de Créditos y Perfil Passport AI" class="w-full rounded-2xl border-2 border-cyan-500/40 shadow-2xl object-cover" style="max-height:300px;">
-                  </div>
-                </div>
-              </div>
-
-              <!-- SLIDE 6 / 8: PLANES OFICIALES EN PASSPORTAI.APP ($99/MES VS $990/AÑO INCLUIDO CON TU WEB) -->
-              <div class="passport-slide hidden" data-slide="5">
-                <div class="text-xs font-black uppercase tracking-widest text-amber-400 mb-2">SLIDE 6 / 8 · COMPARATIVA OFICIAL DE PLANES PASSPORT AI BUSINESS</div>
-                <h3 class="text-2xl sm:text-3xl font-black text-white leading-tight mb-4">En PassportAI.app la membresía anual cuesta US$990 — ¡y con nosotros te incluye tu Sitio Web Inteligente!</h3>
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-center">
-                  <div class="lg:col-span-6 space-y-3">
-                    <div class="p-4 rounded-2xl bg-slate-900/90 border border-slate-700">
-                      <div class="text-xs font-bold text-slate-400 uppercase">PASSPORT AI BUSINESS MENSUAL</div>
-                      <div class="text-2xl font-black text-white mt-1">US$99 <span class="text-xs font-normal text-slate-400">/ mes (US$1,188 al año)</span></div>
-                      <p class="text-xs text-slate-300 mt-1">Acceso a la plataforma PassportAI.app mes a mes.</p>
-                    </div>
-                    <div class="p-4 rounded-2xl bg-emerald-500/15 border-2 border-emerald-400">
-                      <div class="text-xs font-black text-emerald-300 uppercase">⭐ PACK ESTRELLA ANUAL PROSPER IA (CAJA 2)</div>
-                      <div class="text-2xl font-black text-white mt-1">US$990 / año <span class="text-xs font-bold text-amber-300">(Facilidad 50/50: US$495 hoy + US$495 contra entrega)</span></div>
-                      <p class="text-xs text-slate-100 mt-1">Te llevas el <strong>Año Completo de PassportAI Business (Valor $990)</strong> + <strong>Tu Sitio Web Inteligente a Medida ($497)</strong> + <strong>12 Meses de Hosting y Soporte ($360)</strong> por el mismo precio de la sola membresía anual.</p>
-                    </div>
-                  </div>
-                  <div class="lg:col-span-6">
-                    <img src="/static/img/passportai/planes_passportai.png" alt="Planes Oficiales Passport AI" class="w-full rounded-2xl border-2 border-amber-500/40 shadow-2xl object-cover" style="max-height:300px;">
-                  </div>
-                </div>
-              </div>
-
-              <!-- SLIDE 7 / 8: MANUAL DE USUARIO PASO A PASO (PASOS 1 A 4: REGISTRO Y VERIFICACIÓN DE CORREO) -->
-              <div class="passport-slide hidden" data-slide="6">
-                <div class="text-xs font-black uppercase tracking-widest text-cyan-400 mb-2">SLIDE 7 / 8 · MANUAL OFICIAL DE USUARIO PASSPORT AI (PASOS 1 AL 4: ALTA Y VERIFICACIÓN)</div>
-                <h3 class="text-xl sm:text-2xl font-black text-white leading-tight mb-3">Así de fácil activamos tu cuenta en menos de 2 minutos</h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-                  <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-2">
-                    <div class="font-black text-cyan-300">PASO 1: Ingresar a passportai.app</div>
-                    <p class="text-slate-300">Haz clic en el botón superior derecho <strong>"Regístrate"</strong> o en <strong>"Comenzar ahora"</strong>.</p>
-                    <img src="/static/img/passportai/image1.png" alt="Paso 1 Registro PassportAI" class="w-full rounded-xl border border-slate-700 object-cover" style="max-height:155px;">
-                  </div>
-                  <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-2">
-                    <div class="font-black text-amber-300">PASO 2: Crear tu Cuenta</div>
-                    <p class="text-slate-300">Ingresa tu correo electrónico y crea tu contraseña segura de <strong>mínimo 8 caracteres</strong>.</p>
-                    <img src="/static/img/passportai/image2.png" alt="Paso 2 Crear Cuenta PassportAI" class="w-full rounded-xl border border-slate-700 object-cover" style="max-height:155px;">
-                  </div>
-                  <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-2">
-                    <div class="font-black text-emerald-300">PASOS 3 y 4: Confirmar Correo y Perfil</div>
-                    <p class="text-slate-300">Abre el correo enviado por <strong>edward@passportai.app</strong>, pulsa el enlace de verificación y completa tu Nombre y Teléfono.</p>
-                    <img src="/static/img/passportai/image3.png" alt="Paso 3 Correo Verificación PassportAI" class="w-full rounded-xl border border-slate-700 object-cover" style="max-height:155px;">
-                  </div>
-                </div>
-                <div class="mt-4 p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-xs text-cyan-200">
-                  💡 <strong>Tip de Soporte para el Closer:</strong> Si el cliente no ve el correo de verificación en su bandeja principal en 30 segundos, indícale revisar <em>Spam</em> o <em>Promociones</em> (remitente: <code class="text-white">edward@passportai.app</code>).
-                </div>
-              </div>
-
-              <!-- SLIDE 8 / 8: MANUAL PASOS 5 Y 6 + LINK OFICIAL HTTPS://PASSPORTAI.APP/ AL FINAL -->
-              <div class="passport-slide hidden" data-slide="7">
-                <div class="text-xs font-black uppercase tracking-widest text-emerald-400 mb-2">SLIDE 8 / 8 · ACCESO AL DASHBOARD, SOPORTE Y ENLACE OFICIAL DIRECTO</div>
-                <h3 class="text-2xl sm:text-3xl font-black text-white leading-tight mb-4">Pasos 5 y 6: Inicia sesión y entra hoy mismo a Central Passport AI</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm mb-5">
-                  <div class="p-4 rounded-2xl bg-slate-900/90 border border-slate-800">
-                    <div class="font-black text-cyan-400 mb-1">✅ PASO 5: Inicio de Sesión y Dashboard Completo</div>
-                    <p class="text-slate-300 leading-relaxed">Una vez confirmado tu correo e ingresado tu perfil, accedes directamente al Dashboard con tus créditos activos, barra lateral de herramientas y tutoriales integrados.</p>
-                  </div>
-                  <div class="p-4 rounded-2xl bg-slate-900/90 border border-slate-800">
-                    <div class="font-black text-amber-400 mb-1">🔐 PASO 6: Recuperación Rápida de Contraseña</div>
-                    <p class="text-slate-300 leading-relaxed">Si olvidas tu clave, en la pantalla de Login haz clic en <strong>"¿Olvidaste tu contraseña?"</strong>, ingresa tu correo y recibirás un enlace directo para restablecerla en segundos.</p>
-                  </div>
-                </div>
-
-                <!-- BLOQUE FINAL DESTACADO CON EL LINK DE HTTPS://PASSPORTAI.APP/ -->
-                <div class="p-6 rounded-2xl border-2 border-amber-400 text-center space-y-3" style="background:linear-gradient(135deg, rgba(245,158,11,0.22), rgba(0,229,255,0.14));">
-                  <div class="text-xs font-black uppercase tracking-widest text-amber-300">🌐 ACCESO OFICIAL A LA PLATAFORMA EN VIVO</div>
-                  <div class="text-xl sm:text-3xl font-black text-white">
-                    <a href="https://passportai.app/" target="_blank" class="text-cyan-300 hover:text-white underline">https://passportai.app/</a>
-                  </div>
-                  <p class="text-xs sm:text-sm text-slate-200 max-w-2xl mx-auto">
-                    Haz clic en el enlace oficial de arriba para abrir <strong>Central Passport AI</strong> en vivo frente al cliente o descargar el Manual de Usuario en PDF.
-                  </p>
-                  <div class="flex flex-wrap justify-center gap-3 pt-2">
-                    <a href="https://passportai.app/" target="_blank" class="px-6 py-3 rounded-xl text-sm font-black bg-amber-400 text-slate-950 hover:bg-amber-300 transition no-underline shadow-lg">
-                      🚀 Entrar Ahora a https://passportai.app/ →
-                    </a>
-                    <a href="/static/armas/Manual_Usuario_PassportAI_Marzo26.pdf" target="_blank" class="px-5 py-3 rounded-xl text-sm font-bold bg-slate-900 text-white border border-slate-700 hover:border-cyan-400 transition no-underline">
-                      📄 Abrir Manual de Usuario PDF
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-
-            <div class="flex flex-wrap items-center justify-between gap-3 border-t border-slate-800 pt-4">
-              <button onclick="changeSlideDeck('passport', -1)" class="btn-ghost px-4 py-2.5 rounded-xl text-xs font-bold">
-                <i class="fas fa-arrow-left mr-1"></i> Slide Anterior
-              </button>
+        <!-- SUB-VISTA 1: PRESENTACIÓN OFICIAL DE PASSPORTAI.APP (PDF OFICIAL SUBIDO POR EDWARD) -->
+        <div id="weapon-view-passport-slides" class="space-y-3">
+          <div class="card px-5 py-3.5 flex flex-wrap items-center justify-between gap-3 border-2 border-amber-500/40" style="background:linear-gradient(135deg,#091931,#140f05);">
+            <div>
               <div class="flex items-center gap-2">
-                <button onclick="changeSlideDeck('passport', 0, true)" class="w-3 h-3 rounded-full bg-amber-400" id="passport-dot-0" title="Slide 1"></button>
-                <button onclick="changeSlideDeck('passport', 1, true)" class="w-3 h-3 rounded-full bg-slate-700" id="passport-dot-1" title="Slide 2"></button>
-                <button onclick="changeSlideDeck('passport', 2, true)" class="w-3 h-3 rounded-full bg-slate-700" id="passport-dot-2" title="Slide 3"></button>
-                <button onclick="changeSlideDeck('passport', 3, true)" class="w-3 h-3 rounded-full bg-slate-700" id="passport-dot-3" title="Slide 4"></button>
-                <button onclick="changeSlideDeck('passport', 4, true)" class="w-3 h-3 rounded-full bg-slate-700" id="passport-dot-4" title="Slide 5"></button>
-                <button onclick="changeSlideDeck('passport', 5, true)" class="w-3 h-3 rounded-full bg-slate-700" id="passport-dot-5" title="Slide 6"></button>
-                <button onclick="changeSlideDeck('passport', 6, true)" class="w-3 h-3 rounded-full bg-slate-700" id="passport-dot-6" title="Slide 7"></button>
-                <button onclick="changeSlideDeck('passport', 7, true)" class="w-3 h-3 rounded-full bg-slate-700" id="passport-dot-7" title="Slide 8"></button>
+                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-amber-500/20 text-amber-300 border border-amber-500/40">PRESENTACIÓN OFICIAL · PASSPORTAI.APP</span>
+                <span class="text-xs text-cyan-300 font-bold">Incluido en el Pack Anual Estrella (US$990 / 2 pagos de US$495)</span>
               </div>
-              <button onclick="changeSlideDeck('passport', 1)" class="btn-primary px-4 py-2.5 rounded-xl text-xs font-black">
-                Siguiente Slide <i class="fas fa-arrow-right ml-1"></i>
-              </button>
+              <h3 class="text-sm sm:text-base font-black text-white mt-1">🛂 Presentación Ejecutiva Oficial de Central Passport AI</h3>
             </div>
+            <div class="flex flex-wrap items-center gap-2">
+              <a href="https://assets.cdn.filesafe.space/USoTuDcjo7ZglijIyJQG/media/6af0f3644b6e00bd1b461699.pdf" target="_blank" rel="noopener" class="btn-primary px-3.5 py-2 rounded-xl text-xs font-black inline-flex items-center gap-1.5 no-underline">
+                <i class="fas fa-expand"></i> ⛶ Abrir Presentación en Pantalla Completa
+              </a>
+              <a href="/static/armas/PRESENTACION_OFICIAL_PASSPORTAI.pdf" download="Presentacion_Oficial_PassportAI.pdf" class="btn-ghost px-3.5 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-1.5 no-underline">
+                <i class="fas fa-download text-amber-400"></i> Descargar PDF
+              </a>
+              <a href="https://passportai.app/" target="_blank" rel="noopener" class="px-3.5 py-2 rounded-xl text-xs font-black bg-amber-400 text-slate-950 hover:bg-amber-300 inline-flex items-center gap-1.5 no-underline">
+                <i class="fas fa-external-link-alt"></i> Ir a https://passportai.app/
+              </a>
+            </div>
+          </div>
+
+          <div class="card overflow-hidden border-2 border-amber-500/40" style="height: calc(100vh - 185px); min-height: 780px; background:#050d1a;">
+            <iframe
+              id="passport-official-pdf-iframe"
+              src="/static/armas/PRESENTACION_OFICIAL_PASSPORTAI.pdf#view=FitH"
+              style="width:100%; height:100%; border:none; background:#050d1a;"
+              title="Presentación Oficial PassportAI.app">
+            </iframe>
           </div>
         </div>
 
@@ -2347,6 +2146,9 @@
           </button>
         </div>
       </div>
+
+      <!-- PUNTO 1: Banner No Bloqueante de Confirmación de Sincronización con CRM ProsperIA -->
+      <div id="crm-sync-toast-banner" class="hidden p-3.5 rounded-xl bg-emerald-500/15 border border-emerald-500/40 text-xs text-emerald-200 font-bold flex flex-wrap items-center justify-between gap-2"></div>
 
       <!-- Tabla Responsiva Accesible (modern-web-guidance: responsive-table) -->
       <div tabindex="0" role="region" aria-labelledby="sos-table-caption" class="table-wrapper rounded-xl border border-slate-800">
@@ -2809,6 +2611,70 @@ let integrationSettings = {};
 let currentIntType = '';
 
 
+// ─── MAPA OFICIAL DE FOTOS Y CALENDARIOS DE LOS CLOSERS (PUNTOS 3 Y 5) ───────
+const CLOSER_AVATAR_MAP = {
+  'cintya.medina@agenciaprosperia.com': '/static/img/closers/cintya.jpg',
+  'claudio.bautista@agenciaprosperia.com': '/static/img/closers/claudio.png',
+  'sheilla.perez@agenciaprosperia.com': '/static/img/closers/sheilla.jpg',
+  'sergio.miranda@agenciaprosperia.com': '/static/img/closers/sergio.jpg',
+  'lorena.sanchez@agenciaprosperia.com': '/static/img/closers/lorena.jpg',
+  'edward@agenciaprosperia.com': '/static/img/edward_ceo_avatar.jpg',
+  'closer1@agenciaprosperia.com': '/static/img/closers/cintya.jpg',
+  'closer2@agenciaprosperia.com': '/static/img/closers/claudio.png',
+  'closer3@agenciaprosperia.com': '/static/img/closers/sheilla.jpg',
+  'closer4@agenciaprosperia.com': '/static/img/closers/sergio.jpg',
+  'closer5@agenciaprosperia.com': '/static/img/closers/lorena.jpg',
+  'closer6@agenciaprosperia.com': '/static/img/edward_ceo_avatar.jpg',
+};
+
+const CLOSER_CALENDAR_MAP = {
+  'cintya.medina@agenciaprosperia.com': 'https://api.agenciaprosperia.com/widget/booking/vF9kFcB2ek74sEBhV6tI',
+  'claudio.bautista@agenciaprosperia.com': 'https://api.agenciaprosperia.com/widget/booking/X9h20x080F6A8C55d5pC',
+  'sheilla.perez@agenciaprosperia.com': 'https://api.agenciaprosperia.com/widget/booking/uB7J4R61c00hV7M23N8x',
+  'sergio.miranda@agenciaprosperia.com': 'https://api.agenciaprosperia.com/widget/booking/zK2L9p4Q1w7E5r8T3y6U',
+  'lorena.sanchez@agenciaprosperia.com': 'https://api.agenciaprosperia.com/widget/booking/mN4B6v8C1x3Z5l7K9j2H',
+  'edward.rodriguez@agenciaprosperia.com': 'https://api.agenciaprosperia.com/widget/booking/pQ8W2e4R6t1Y3u5I7o9P',
+  'edward@agenciaprosperia.com': 'https://api.agenciaprosperia.com/widget/booking/W92c816f174d36e2e49a',
+  'closer1@agenciaprosperia.com': 'https://api.agenciaprosperia.com/widget/booking/vF9kFcB2ek74sEBhV6tI',
+  'closer2@agenciaprosperia.com': 'https://api.agenciaprosperia.com/widget/booking/X9h20x080F6A8C55d5pC',
+  'closer3@agenciaprosperia.com': 'https://api.agenciaprosperia.com/widget/booking/uB7J4R61c00hV7M23N8x',
+  'closer4@agenciaprosperia.com': 'https://api.agenciaprosperia.com/widget/booking/zK2L9p4Q1w7E5r8T3y6U',
+  'closer5@agenciaprosperia.com': 'https://api.agenciaprosperia.com/widget/booking/mN4B6v8C1x3Z5l7K9j2H',
+  'closer6@agenciaprosperia.com': 'https://api.agenciaprosperia.com/widget/booking/pQ8W2e4R6t1Y3u5I7o9P',
+};
+
+function getCloserAvatarUrl(u) {
+  if (!u) return '';
+  if (u.avatar_url && String(u.avatar_url).trim()) return String(u.avatar_url).trim();
+  const em = String(u.email || '').toLowerCase().trim();
+  if (CLOSER_AVATAR_MAP[em]) return CLOSER_AVATAR_MAP[em];
+  const nm = String(u.name || '').toLowerCase();
+  if (nm.includes('cintya')) return '/static/img/closers/cintya.jpg';
+  if (nm.includes('claudio')) return '/static/img/closers/claudio.png';
+  if (nm.includes('sheilla') || nm.includes('sheila')) return '/static/img/closers/sheilla.jpg';
+  if (nm.includes('sergio')) return '/static/img/closers/sergio.jpg';
+  if (nm.includes('lorena')) return '/static/img/closers/lorena.jpg';
+  if (nm.includes('edward')) return '/static/img/edward_ceo_avatar.jpg';
+  return '';
+}
+
+function getCloserCalendarUrl(u) {
+  if (!u) return 'https://api.agenciaprosperia.com/widget/booking/W92c816f174d36e2e49a';
+  if (u.calendar_url && String(u.calendar_url).trim()) return String(u.calendar_url).trim();
+  const em = String(u.email || '').toLowerCase().trim();
+  if (CLOSER_CALENDAR_MAP[em]) return CLOSER_CALENDAR_MAP[em];
+  return 'https://api.agenciaprosperia.com/widget/booking/W92c816f174d36e2e49a';
+}
+
+function renderAvatarHtml(u, sizePx = 36) {
+  const photo = getCloserAvatarUrl(u);
+  const initial = ((u && u.name) || '?').charAt(0).toUpperCase();
+  if (photo) {
+    return `<img src="${esc(photo)}" alt="${esc((u && u.name) || 'Closer')}" width="${sizePx}" height="${sizePx}" class="w-full h-full rounded-full object-cover" loading="lazy" decoding="async" onerror="this.outerHTML='${initial}'">`;
+  }
+  return initial;
+}
+
 // ─── Init ────────────────────────────────────────────────────────────────────
 (async function init() {
   if (!token) {
@@ -2822,7 +2688,11 @@ let currentIntType = '';
     if (!res.ok) throw new Error('auth');
     const data = await res.json();
     currentUser = data.data || data;
+    currentUser.avatar_url = getCloserAvatarUrl(currentUser);
+    currentUser.calendar_url = getCloserCalendarUrl(currentUser);
+    try { localStorage.setItem('user', JSON.stringify(currentUser)); } catch (e) {}
     populateUserUI(currentUser);
+    initSmartActivityTimer(currentUser);
     actualApiKey = currentUser.api_key || '';
     await loadDashboardStats();
     await loadLeads();
@@ -2848,11 +2718,15 @@ let currentIntType = '';
 })();
 
 function populateUserUI(u) {
-  const initial = (u.name || '?').charAt(0).toUpperCase();
-  ['user-avatar','topbar-avatar','settings-avatar'].forEach(id => {
+  const avatarHtml36 = renderAvatarHtml(u, 36);
+  const avatarHtml64 = renderAvatarHtml(u, 64);
+  ['user-avatar','topbar-avatar'].forEach(id => {
     const el = document.getElementById(id);
-    if (el) el.textContent = initial;
+    if (el) el.innerHTML = avatarHtml36;
   });
+  const settingsAvatar = document.getElementById('settings-avatar');
+  if (settingsAvatar) settingsAvatar.innerHTML = avatarHtml64;
+
   const nameEls = ['user-name-sidebar','topbar-name','settings-name'];
   nameEls.forEach(id => {
     const el = document.getElementById(id);
@@ -2862,18 +2736,15 @@ function populateUserUI(u) {
   if (planBadge) planBadge.textContent = (u.role === 'admin' ? 'CEO / ADMIN' : (u.dupla || 'CLOSER ACTIVO'));
   const settingsEmail = document.getElementById('settings-email');
   if (settingsEmail) settingsEmail.textContent = u.email || '';
-  const calInput = document.getElementById('my-ghl-calendar-url');
-  if (calInput && u.calendar_url) calInput.value = u.calendar_url;
-  const activeHoursText = document.getElementById('active-hours-text');
-  if (activeHoursText) {
-    const mins = Number(u.active_minutes_today || 0);
-    activeHoursText.textContent = `${Math.floor(mins / 60)}h ${mins % 60}m hoy`;
-  }
-  const checkinBtn = document.getElementById('checkin-btn');
-  const checkinLabel = document.getElementById('checkin-btn-label');
-  if (checkinBtn && checkinLabel && u.checkin_at) {
-    checkinLabel.textContent = `Check-In Activo (${u.checkin_at})`;
-  }
+
+  const resolvedCalUrl = getCloserCalendarUrl(u);
+  ['s-calendar-url', 'my-ghl-calendar-url'].forEach(id => {
+    const calInput = document.getElementById(id);
+    if (calInput) calInput.value = resolvedCalUrl;
+  });
+
+  updateTopbarActivityBadges(u.active_minutes_today, u.active_minutes_week);
+
   ['s-name','s-email','s-company','s-phone'].forEach(id => {
     const el = document.getElementById(id);
     if (!el) return;
@@ -3524,6 +3395,10 @@ function showSection(name) {
   document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
   const navBtn = document.getElementById('nav-' + name);
   if (navBtn) navBtn.classList.add('active');
+  if (['automations', 'prospecting', 'integrations', 'analytics', 'agents'].includes(name)) {
+    const htDetails = document.getElementById('sidebar-highticket-details');
+    if (htDetails) htDetails.open = true;
+  }
   const t = titles[name] || ['', ''];
   const titleEl = document.getElementById('page-title');
   const subEl = document.getElementById('page-subtitle');
@@ -3891,6 +3766,9 @@ function renderSalesOsTable() {
       </td>
       <td class="px-3 py-3">
         <span class="px-2.5 py-1 rounded-full text-[11px] font-bold inline-block" style="${stageBadgeColor}">${esc(stage)}</span>
+        <div class="mt-1 flex items-center gap-1 text-[10px] font-bold text-emerald-400">
+          <span>🟢 Sincronizado en CRM</span>
+        </div>
       </td>
       <td class="px-3 py-3 text-slate-300 font-semibold">${esc(l.offer_version || 'EXPRESS_497')}</td>
       <td class="px-3 py-3">
@@ -3911,6 +3789,9 @@ function renderSalesOsTable() {
           <button onclick="openStageDialog(${l.id})" class="px-2.5 py-1.5 rounded-lg text-[11px] font-semibold bg-slate-800 text-slate-200 border border-slate-700 hover:border-cyan-400" title="Cambiar etapa y propuesta en CRM ProsperIA">
             📋 Etapa / Prop.
           </button>
+          <a href="${demoUrl}" target="_blank" class="px-2.5 py-1.5 rounded-lg text-[11px] font-bold bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/25 no-underline">
+            🚀 Demo Web
+          </a>
           <button onclick="openPaymentDialog(${l.id})" class="px-2.5 py-1.5 rounded-lg text-[11px] font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/25">
             💳 Verificar Pago
           </button>
@@ -4044,6 +3925,15 @@ async function submitStageAndProposalUpdate() {
       return;
     }
     document.getElementById('stageUpdateDialog').close();
+    const toastBanner = document.getElementById('crm-sync-toast-banner');
+    if (toastBanner) {
+      const localNow = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      toastBanner.innerHTML = `
+        <span>🟢 <strong>Sincronizado en tiempo real con CRM ProsperIA (${localNow}):</strong> Etapa actualizada a <u>${esc(payload.pipeline_stage)}</u> · Oferta: <u>${esc(payload.offer_version)}</u> (US$${Number(payload.quoted_amount).toFixed(0)})</span>
+        <button type="button" onclick="this.parentElement.classList.add('hidden')" class="text-emerald-300 hover:text-white text-xs font-black px-2">✕</button>
+      `;
+      toastBanner.classList.remove('hidden');
+    }
     await loadSalesOsData();
     await loadLeads();
   } catch (err) {
@@ -4131,8 +4021,15 @@ async function loadSalesUsersAndLogs() {
           const m = u.metrics || {};
           return `<tr class="table-row">
             <th scope="row" class="px-3 py-2.5 text-left font-normal">
-              <div class="font-bold text-white">${esc(u.name)}</div>
-              <div class="text-[11px] text-cyan-300">${esc(u.email)}</div>
+              <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 flex items-center justify-center bg-slate-800 text-cyan-300 font-bold border border-cyan-500/30">
+                  ${renderAvatarHtml(u, 32)}
+                </div>
+                <div>
+                  <div class="font-bold text-white">${esc(u.name)}</div>
+                  <div class="text-[11px] text-cyan-300">${esc(u.email)}</div>
+                </div>
+              </div>
             </th>
             <td class="px-3 py-2.5">
               <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-slate-800 text-slate-200">${esc(u.role)}</span>
@@ -4248,10 +4145,125 @@ async function distributeBatchToSellers() {
   }
 }
 
-// ─── CHECK-IN MATUTINO, HEARTBEAT DE ASISTENCIA & PODIO SEMANAL ──────────────
+// ─── PUNTO 2: RELOJ DE ACTIVIDAD INTELIGENTE, NO INVASIVO, EN HORA LOCAL Y CON PAUSA AUTOMÁTICA (5 MIN) ─
 let sellerCompChartInstance = null;
+let smartActivityInterval = null;
+let sessionStartTimestamp = Date.now();
+let lastUserInteractionAt = Date.now();
+let accumulatedActiveSecondsSession = 0;
+let isUserCurrentlyIdle = false;
+const IDLE_TIMEOUT_MS = 5 * 60 * 1000; // 5 minutos sin actividad pausa el reloj
 
-async function triggerMorningCheckin() {
+function getTotalForegroundTimeMs() {
+  // modern-web-guidance: calculate-total-foreground-time using visibility-state entries
+  try {
+    const entries = performance.getEntriesByType('visibility-state');
+    if (entries && entries.length > 0) {
+      let total = 0;
+      let lastVisibleTime = 0;
+      for (const entry of entries) {
+        if (entry.name === 'visible') {
+          lastVisibleTime = entry.startTime;
+        } else if (entry.name === 'hidden' && lastVisibleTime !== null) {
+          total += entry.startTime - lastVisibleTime;
+          lastVisibleTime = null;
+        }
+      }
+      if (document.visibilityState === 'visible' && lastVisibleTime !== null) {
+        total += performance.now() - lastVisibleTime;
+      }
+      return Math.max(0, Math.round(total));
+    }
+  } catch (e) {}
+  return Math.max(0, Date.now() - sessionStartTimestamp);
+}
+
+function formatSecondsHms(totalSec) {
+  const s = Math.max(0, Math.floor(totalSec));
+  const hrs = String(Math.floor(s / 3600)).padStart(2, '0');
+  const mins = String(Math.floor((s % 3600) / 60)).padStart(2, '0');
+  const secs = String(s % 60).padStart(2, '0');
+  return `${hrs}:${mins}:${secs}`;
+}
+
+function updateTopbarActivityBadges(activeMinutesToday, activeMinutesWeek) {
+  const minsToday = Number(activeMinutesToday ?? currentUser?.active_minutes_today ?? 0);
+  const minsWeek = Number(activeMinutesWeek ?? currentUser?.active_minutes_week ?? minsToday);
+  const hToday = (minsToday / 60).toFixed(1);
+  const hWeek = (minsWeek / 60).toFixed(1);
+
+  const badgeEl = document.getElementById('active-hours-badge');
+  if (badgeEl) {
+    badgeEl.innerHTML = `<i class="fas fa-clock mr-1"></i>Hoy: ${hToday}h · Sem: ${hWeek}h`;
+  }
+  const legacyText = document.getElementById('active-hours-text');
+  if (legacyText) {
+    legacyText.textContent = `${Math.floor(minsToday / 60)}h ${minsToday % 60}m hoy`;
+  }
+}
+
+function initSmartActivityTimer(u) {
+  const bumpInteraction = () => {
+    lastUserInteractionAt = Date.now();
+    if (isUserCurrentlyIdle) {
+      isUserCurrentlyIdle = false;
+      tickSmartActivityClock();
+    }
+  };
+  ['pointermove', 'keydown', 'click', 'scroll', 'touchstart'].forEach(evt => {
+    window.addEventListener(evt, bumpInteraction, { passive: true });
+  });
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+      bumpInteraction();
+    } else {
+      tickSmartActivityClock();
+    }
+  });
+
+  // Auto-iniciar sesión silenciosamente sin alert() invasivo
+  triggerMorningCheckin(true);
+
+  if (smartActivityInterval) clearInterval(smartActivityInterval);
+  smartActivityInterval = setInterval(tickSmartActivityClock, 1000);
+}
+
+function tickSmartActivityClock() {
+  const now = Date.now();
+  const isTabHidden = document.visibilityState === 'hidden';
+  const idleMs = now - lastUserInteractionAt;
+  isUserCurrentlyIdle = isTabHidden || idleMs >= IDLE_TIMEOUT_MS;
+
+  if (!isUserCurrentlyIdle) {
+    accumulatedActiveSecondsSession += 1;
+  }
+
+  const lbl = document.getElementById('checkin-status-label') || document.getElementById('checkin-btn-label');
+  const btn = document.getElementById('btn-morning-checkin');
+  const localTimeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+  if (lbl) {
+    if (isUserCurrentlyIdle) {
+      lbl.textContent = `🟡 En Pausa (${formatSecondsHms(accumulatedActiveSecondsSession)})`;
+      if (btn) {
+        btn.style.background = 'rgba(245,158,11,0.16)';
+        btn.style.borderColor = 'rgba(245,158,11,0.4)';
+        btn.style.color = '#fbbf24';
+      }
+    } else {
+      lbl.textContent = `🟢 En Línea · ${formatSecondsHms(accumulatedActiveSecondsSession)} (${localTimeStr})`;
+      if (btn) {
+        btn.style.background = 'rgba(16,185,129,0.16)';
+        btn.style.borderColor = 'rgba(16,185,129,0.4)';
+        btn.style.color = '#34d399';
+      }
+    }
+  }
+}
+
+async function triggerMorningCheckin(silent = true) {
+  lastUserInteractionAt = Date.now();
+  isUserCurrentlyIdle = false;
   try {
     const res = await fetch('/api/sales-os/checkin', {
       method: 'POST',
@@ -4259,31 +4271,36 @@ async function triggerMorningCheckin() {
     });
     const data = await res.json();
     if (res.ok && data.success) {
-      const lbl = document.getElementById('checkin-btn-label');
-      if (lbl) lbl.textContent = `Check-In Activo`;
+      tickSmartActivityClock();
       await sendPresenceHeartbeat();
       await loadLeaderboardAndKpis();
-      alert('✅ ' + data.message);
     }
   } catch (err) {
-    alert('Error al registrar el Check-In matutino.');
+    // Check-in silencioso no invasivo
   }
 }
 
 async function sendPresenceHeartbeat() {
   if (!token) return;
+  // Si la pestaña está oculta o el closer lleva > 5 min sin actividad, no sumamos minutos en vano
+  if (document.visibilityState === 'hidden' || (Date.now() - lastUserInteractionAt) >= IDLE_TIMEOUT_MS) {
+    return;
+  }
   try {
     const res = await fetch('/api/sales-os/heartbeat', {
       method: 'POST',
-      headers: { Authorization: 'Bearer ' + token }
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+      body: JSON.stringify({ foreground_ms: getTotalForegroundTimeMs() })
     });
     if (res.ok) {
       const data = await res.json();
-      const mins = Number(data.data?.active_minutes_today || 0);
-      const activeHoursText = document.getElementById('active-hours-text');
-      if (activeHoursText) {
-        activeHoursText.textContent = `${Math.floor(mins / 60)}h ${mins % 60}m hoy`;
+      const minsToday = Number(data.data?.active_minutes_today || 0);
+      const minsWeek = Number(data.data?.active_minutes_week || minsToday);
+      if (currentUser) {
+        currentUser.active_minutes_today = minsToday;
+        currentUser.active_minutes_week = minsWeek;
       }
+      updateTopbarActivityBadges(minsToday, minsWeek);
     }
   } catch (err) {
     // Heartbeat silencioso
@@ -4312,7 +4329,6 @@ async function loadLeaderboardAndKpis() {
     // 2. Actualizar Embudo KPI Semanal (100 -> 60 -> 6 -> 1)
     let myStats = podium.find(p => currentUser && p.email === currentUser.email);
     if (!myStats && podium.length) {
-      // Si es el CEO Edward, mostramos la suma o el promedio del equipo o del top seller
       myStats = {
         calls_made_week: podium.reduce((a, b) => a + (b.calls_made_week || 0), 0),
         calls_answered_week: podium.reduce((a, b) => a + (b.calls_answered_week || 0), 0),
@@ -4345,7 +4361,7 @@ async function loadLeaderboardAndKpis() {
       if (bSales) bSales.style.width = Math.min(100, Math.round((cSales / 1) * 100)) + '%';
     }
 
-    // 3. Renderizar Podio Top 3
+    // 3. Renderizar Podio Top 3 con Fotos Oficiales (Punto 3)
     const podiumGrid = document.getElementById('podium-top3-grid');
     if (podiumGrid && podium.length) {
       const medals = ['🥇 1° LUGAR', '🥈 2° LUGAR', '🥉 3° LUGAR'];
@@ -4354,40 +4370,56 @@ async function loadLeaderboardAndKpis() {
         'border-slate-400/40 bg-slate-800/70',
         'border-amber-700/40 bg-amber-900/15'
       ];
-      podiumGrid.innerHTML = podium.slice(0, 3).map((u, idx) => `
+      podiumGrid.innerHTML = podium.slice(0, 3).map((u, idx) => {
+        const collected = Number(u.amount_collected ?? u.amount_collected_total ?? 0);
+        return `
         <div class="p-4 rounded-xl border ${colors[idx]} flex items-center justify-between gap-3">
-          <div>
-            <div class="text-[11px] font-black uppercase text-amber-400">${medals[idx]}</div>
-            <div class="text-sm font-black text-white mt-0.5">${esc(u.name)}</div>
-            <div class="text-[11px] text-slate-400">${u.calls_made_week || 0} llamadas · ${u.demos_done_week || 0} demos</div>
+          <div class="flex items-center gap-3">
+            <div class="w-11 h-11 rounded-full overflow-hidden flex-shrink-0 flex items-center justify-center bg-slate-900 text-amber-300 font-black border-2 border-amber-400/50">
+              ${renderAvatarHtml(u, 44)}
+            </div>
+            <div>
+              <div class="text-[11px] font-black uppercase text-amber-400">${medals[idx]}</div>
+              <div class="text-sm font-black text-white mt-0.5">${esc(u.name)}</div>
+              <div class="text-[11px] text-slate-400">${u.calls_made_week || 0} llamadas · ${u.demos_done_week || 0} demos</div>
+            </div>
           </div>
           <div class="text-right">
-            <div class="text-lg font-black text-emerald-400">US$${Number(u.amount_collected_total || 0).toFixed(0)}</div>
+            <div class="text-lg font-black text-emerald-400">US$${collected.toFixed(0)}</div>
             <div class="text-[10px] text-amber-300 font-bold">${u.sales_closed_week || 0} cierres</div>
           </div>
         </div>
-      `).join('');
+      `}).join('');
     }
 
-    // 4. Tabla y Gráfica Comparativa del CEO Edward (Anti-"Hacerse Pato")
+    // 4. Tabla y Gráfica Comparativa del CEO Edward con Fotos Oficiales y Horas Activas
     const ceoTbody = document.getElementById('ceo-sellers-productivity-tbody');
     if (ceoTbody && podium.length) {
       ceoTbody.innerHTML = podium.map(u => {
+        const hrsToday = Number(u.active_hours_today ?? 0).toFixed(1) + 'h hoy';
+        const collected = Number(u.amount_collected ?? u.amount_collected_total ?? 0);
         const statusPill = u.is_online
-          ? `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">🟢 En Línea (${esc(u.active_hours_today_label)})</span>`
-          : u.checkin_at !== 'Sin Check-In'
-          ? `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">🟡 Check-in: ${esc(u.active_hours_today_label)}</span>`
-          : `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/15 text-rose-300 border border-rose-500/30">🔴 Sin Check-In hoy</span>`;
+          ? `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">🟢 En Línea (${hrsToday})</span>`
+          : u.checkin_at && u.checkin_at !== 'Sin Check-In'
+          ? `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">🟡 Activo hoy (${hrsToday})</span>`
+          : `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-slate-400 border border-slate-700">⚪ Sin actividad hoy</span>`;
         return `<tr class="table-row">
           <td class="px-3 py-2.5">
-            <div class="font-bold text-white">${esc(u.name)}</div>
-            <div class="text-[10px] text-slate-400">${esc(u.email)}</div>
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 flex items-center justify-center bg-slate-800 text-cyan-300 font-bold border border-cyan-500/30">
+                ${renderAvatarHtml(u, 32)}
+              </div>
+              <div>
+                <div class="font-bold text-white">${esc(u.name)}</div>
+                <div class="text-[10px] text-slate-400">${esc(u.email)}</div>
+              </div>
+            </div>
           </td>
           <td class="px-3 py-2.5">${statusPill}</td>
           <td class="px-3 py-2.5 font-bold text-cyan-300">${u.calls_made_today || 0} hoy / ${u.calls_made_week || 0} sem</td>
           <td class="px-3 py-2.5 font-bold text-amber-300">${u.calls_answered_week || 0} / 60</td>
           <td class="px-3 py-2.5 font-bold text-indigo-300">${u.demos_done_week || 0} / 6</td>
-          <td class="px-3 py-2.5 font-black text-emerald-400">US$${Number(u.amount_collected_total || 0).toFixed(0)} (${u.sales_closed_week || 0})</td>
+          <td class="px-3 py-2.5 font-black text-emerald-400">US$${collected.toFixed(0)} (${u.sales_closed_week || 0})</td>
         </tr>`;
       }).join('');
     }
@@ -4629,7 +4661,7 @@ function setWeaponsTheme(theme) {
 }
 
 function switchWeaponTab(tabKey) {
-  const allTabs = ['passport-slides', 'crm-slides', 'deck-v1', 'acordeon', 'closers-kickoff', 'roleplay', 'cliente-ideal'];
+  const allTabs = ['manual-closer', 'passport-slides', 'crm-slides', 'deck-v1', 'acordeon', 'closers-kickoff', 'roleplay', 'cliente-ideal'];
   allTabs.forEach(k => {
     const btn = document.getElementById('wtab-' + k);
     if (btn) {
@@ -4658,11 +4690,21 @@ function switchWeaponTab(tabKey) {
   vCrm?.classList.add('hidden');
   vIframe?.classList.remove('hidden');
 
+  const closerParams = currentUser
+    ? `closer_name=${encodeURIComponent(currentUser.name || '')}&closer_photo=${encodeURIComponent(getCloserAvatarUrl(currentUser))}&closer_role=${encodeURIComponent(currentUser.dupla || 'Closer Oficial Prosper IA')}&closer_email=${encodeURIComponent(currentUser.email || '')}`
+    : '';
+
   const weaponCatalog = {
+    'manual-closer': {
+      title: '📘 Manual Operativo Oficial del Closer (Paso a Paso en 6 Pasos)',
+      sub: 'Guía estándar para operar de 1 a 20 Closers: Lista de Llamadas, Demo Web, +1,000 Plantillas, Las 3 Cajas y Cobranza 15%.',
+      html: '/static/armas/MANUAL_OPERATIVO_CLOSERS_PROSPER_IA.html',
+      pdf: '/static/armas/MANUAL_OPERATIVO_CLOSERS_PROSPER_IA.html'
+    },
     'deck-v1': {
       title: '📦 Presentación Comercial (Las 3 Cajas: $497 / $990 / $1,490)',
-      sub: 'Ideal para cierres rápidos cuando el cliente quiere ir directo a precios y entregables.',
-      html: '/static/armas/PRESENTACION_CLIENTES_25MIN_PROSPER_IA.html',
+      sub: 'Personalizada automáticamente con tu foto y nombre oficial de Closer en la portada.',
+      html: `/static/armas/PRESENTACION_CLIENTES_25MIN_PROSPER_IA.html${closerParams ? '?' + closerParams : ''}`,
       pdf: '/static/armas/PRESENTACION_CLIENTES_25MIN_PROSPER_IA.pdf'
     },
     'acordeon': {
@@ -4898,6 +4940,27 @@ function sendQuickAgentPrompt(arg1, arg2) {
   if (input) {
     input.value = promptText;
     sendMessage();
+  }
+}
+
+function openMyCalendarDialog() {
+  showSection('settings');
+  copyMyPersonalCalendarUrl();
+}
+
+function copyMyPersonalCalendarUrl() {
+  const input = document.getElementById('s-calendar-url') || document.getElementById('my-ghl-calendar-url');
+  const url = (input && input.value.trim()) ? input.value.trim() : getCloserCalendarUrl(currentUser);
+  if (input && !input.value.trim()) input.value = url;
+  const alertBox = document.getElementById('calendar-url-alert');
+  if (navigator.clipboard && url) {
+    navigator.clipboard.writeText(url).then(() => {
+      if (alertBox) {
+        alertBox.innerHTML = `✅ <strong>¡Link personal copiado al portapapeles!</strong> (${esc(url)}) — Ya puedes pegarlo en el WhatsApp de tu cliente.`;
+        alertBox.className = 'mt-3 p-3 rounded-xl text-xs font-semibold bg-emerald-500/15 border border-emerald-500/30 text-emerald-300';
+        alertBox.classList.remove('hidden');
+      }
+    }).catch(() => {});
   }
 }
 

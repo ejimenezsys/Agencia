@@ -1099,6 +1099,44 @@
         if (e.key === 'f' || e.key === 'F') fullscreenBtn.click();
       });
 
+      // Personalizar automáticamente la foto y nombre del Closer en la Portada (Slide 1)
+      try {
+        const params = new URLSearchParams(window.location.search);
+        let cName = params.get('closer_name') || '';
+        let cPhoto = params.get('closer_photo') || '';
+        let cRole = params.get('closer_role') || '';
+        let cEmail = (params.get('closer_email') || '').toLowerCase();
+
+        if (!cName || !cPhoto) {
+          const savedUser = JSON.parse(localStorage.getItem('user') || '{}');
+          if (!cName && savedUser.name) cName = savedUser.name;
+          if (!cPhoto && savedUser.avatar_url) cPhoto = savedUser.avatar_url;
+          if (!cRole && savedUser.dupla) cRole = savedUser.dupla;
+          if (!cEmail && savedUser.email) cEmail = savedUser.email.toLowerCase();
+        }
+
+        const closerPhotosByEmail = {
+          'sheille.perez@gmail.com': '/static/img/closers/sheilla.jpg',
+          'cinthyapenida0@gmail.com': '/static/img/closers/cintya.jpg',
+          'claudiniosan@yahoo.com.ar': '/static/img/closers/claudio.png',
+          'loremrodriguezafb@gmail.com': '/static/img/closers/lorena.jpg',
+          'sergiotorales608@gmail.com': '/static/img/closers/sergio.jpg',
+          'admin@prosperia.com': '/static/edward_hero_depth.jpg',
+          'edward@agenciaprosperia.com': '/static/edward_hero_depth.jpg'
+        };
+
+        if (!cPhoto && cEmail && closerPhotosByEmail[cEmail]) {
+          cPhoto = closerPhotosByEmail[cEmail];
+        }
+
+        const photoEl = document.getElementById('closer-presenter-photo');
+        const nameEl = document.getElementById('closer-presenter-name');
+        const roleEl = document.getElementById('closer-presenter-role');
+        if (photoEl && cPhoto) photoEl.src = cPhoto;
+        if (nameEl && cName) nameEl.textContent = cName;
+        if (roleEl && cRole) roleEl.textContent = `${cRole} · Agencia Prosper IA LLC`;
+      } catch (err) {}
+
       show(0);
     })();
   </script>

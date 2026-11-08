@@ -1887,6 +1887,8 @@ async def api_login(req: LoginRequest, request: Request, response: Response, db:
         "role": getattr(user, "role", "seller") or "seller",
         "dupla": getattr(user, "dupla", "Dupla A — Clínicas") or "Dupla A — Clínicas",
         "commission_rate": float(getattr(user, "commission_rate", 0.15) or 0.15),
+        "calendar_url": getattr(user, "calendar_url", "") or "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8",
+        "avatar_url": getattr(user, "avatar_url", "") or "",
     }
     
     is_secure = (request.url.scheme == "https") or (request.headers.get("x-forwarded-proto") == "https")

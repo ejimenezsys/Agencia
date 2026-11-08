@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manual Operativo Oficial del Closer — Agencia Prosper IA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #030712;
+      --card: #0b1325;
+      --card-alt: #0f172a;
+      --cyan: #00e5ff;
+      --emerald: #10b981;
+      --amber: #f59e0b;
+      --rose: #ef4444;
+      --purple: #8b5cf6;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --border: rgba(0, 229, 255, 0.22);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at top right, rgba(0, 229, 255, 0.08), transparent 45%), var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      padding: 28px 20px 60px;
+    }
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+    .top-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      background: rgba(11, 19, 37, 0.92);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px 22px;
+      margin-bottom: 24px;
+      position: sticky;
+      top: 12px;
+      z-index: 50;
+      backdrop-filter: blur(12px);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand img {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      border: 1.5px solid var(--cyan);
+    }
+    .brand-title {
+      font-weight: 900;
+      font-size: 15px;
+      letter-spacing: 0.4px;
+    }
+    .brand-title span { color: var(--cyan); }
+    .brand-sub {
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 16px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 800;
+      text-decoration: none;
+      cursor: pointer;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      background: #1e293b;
+      color: #fff;
+      transition: all 0.18s ease;
+    }
+    .btn:hover { transform: translateY(-1px); border-color: var(--cyan); }
+    .btn-cyan {
+      background: linear-gradient(135deg, #00e5ff, #0284c7);
+      color: #020617;
+      border: none;
+    }
+    .btn-emerald {
+      background: rgba(16, 185, 129, 0.16);
+      border-color: rgba(16, 185, 129, 0.5);
+      color: #34d399;
+    }
+    .hero {
+      background: linear-gradient(135deg, rgba(11, 19, 37, 0.96), rgba(15, 23, 42, 0.92));
+      border: 1.5px solid rgba(0, 229, 255, 0.35);
+      border-radius: 20px;
+      padding: 28px 30px;
+      margin-bottom: 24px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+    }
+    .pill {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      background: rgba(0, 229, 255, 0.14);
+      border: 1px solid rgba(0, 229, 255, 0.4);
+      color: #67e8f9;
+      margin-bottom: 12px;
+    }
+    h1 {
+      font-size: 28px;
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+    h1 span { color: var(--cyan); }
+    .hero p {
+      color: #cbd5e1;
+      font-size: 14px;
+      max-width: 850px;
+    }
+    .kpi-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .kpi-box {
+      background: rgba(2, 6, 23, 0.75);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 12px;
+      padding: 12px 16px;
+    }
+    .kpi-box .num {
+      font-size: 20px;
+      font-weight: 900;
+      color: var(--cyan);
+    }
+    .kpi-box .lbl {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 600;
+      margin-top: 2px;
+    }
+    .step-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .step-card {
+      background: var(--card);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      border-left: 5px solid var(--cyan);
+      border-radius: 16px;
+      padding: 22px 24px;
+    }
+    .step-card.emerald { border-left-color: var(--emerald); }
+    .step-card.amber { border-left-color: var(--amber); }
+    .step-card.purple { border-left-color: var(--purple); }
+    .step-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .step-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 18px;
+      font-weight: 900;
+      color: #fff;
+    }
+    .step-num {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: rgba(0, 229, 255, 0.15);
+      border: 1px solid var(--cyan);
+      color: var(--cyan);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+    .step-tag {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      color: #cbd5e1;
+    }
+    .step-body {
+      color: #cbd5e1;
+      font-size: 13.5px;
+    }
+    .sub-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+    .sub-box {
+      background: rgba(2, 6, 23, 0.65);
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      border-radius: 12px;
+      padding: 14px;
+    }
+    .sub-box h4 {
+      font-size: 13px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .sub-box p, .sub-box li {
+      font-size: 12.5px;
+      color: #94a3b8;
+    }
+    .sub-box ul {
+      padding-left: 16px;
+      margin-top: 6px;
+    }
+    .sub-box li { margin-bottom: 4px; }
+    code {
+      background: rgba(0, 229, 255, 0.12);
+      color: #67e8f9;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-family: monospace;
+      font-size: 12px;
+    }
+    @media print {
+      body { background: #030712 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; padding: 0; }
+      .top-bar { display: none !important; }
+      .step-card { break-inside: avoid; margin-bottom: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="top-bar">
+      <div class="brand">
+        <img src="/static/logo_prosper_ia_cropped.jpg" alt="Agencia Prosper IA" width="40" height="40">
+        <div>
+          <div class="brand-title">MANUAL OPERATIVO OFICIAL · <span>CLOSERS PROSPER IA</span></div>
+          <div class="brand-sub">Guía Paso a Paso de Trabajo Diario, Demostración en Vivo y Cobro de Comisiones (15%)</div>
+        </div>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn btn-cyan" onclick="window.print()">🖨️ Imprimir / Guardar en PDF</button>
+        <a href="/demo-sitio-web" target="_blank" class="btn btn-emerald">🚀 Abrir Demo Sitio Web</a>
+        <a href="/dashboard" target="_top" class="btn">📊 Volver al Panel</a>
+      </div>
+    </header>
+
+    <section class="hero">
+      <span class="pill">SOP Oficial de Entrenamiento · Cero Fricción</span>
+      <h1>Tu Rutina Ganadora de <span>6 Pasos</span> para Cerrar Sitios Web Inteligentes y Ecosistemas IA</h1>
+      <p>
+        Este manual resume exactamente el flujo operativo que ves en el video de entrenamiento de <strong>Edward Jiménez</strong>.
+        No tienes que configurar nada técnico: tus prospectos, tu calendario personal, tu presentación con tu foto y tus plantillas interactivas ya vienen pre-conectadas de fábrica.
+      </p>
+      <div class="kpi-strip">
+        <div class="kpi-box">
+          <div class="num">100 → 60 → 6 → 1+</div>
+          <div class="lbl">Embudo Semanal: 100 Llamadas · 60 Contestan · 6 Demos · 1+ Venta</div>
+        </div>
+        <div class="kpi-box">
+          <div class="num" style="color:#34d399;">15% Comisión Directa</div>
+          <div class="lbl">Sobre cada dólar cobrado y verificado (5% Setter + 10% Closer)</div>
+        </div>
+        <div class="kpi-box">
+          <div class="num" style="color:#fde68a;">US$497 · $990 · $1,490</div>
+          <div class="lbl">Las 3 Cajas Estrella con Reserva 50/50 (Mitad hoy, mitad al entregar)</div>
+        </div>
+        <div class="kpi-box">
+          <div class="num" style="color:#c4b5fd;">100% Sincronizado</div>
+          <div class="lbl">Todo cambio en el Panel impacta automáticamente en CRM ProsperIA</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="step-grid">
+
+      <!-- PASO 1 -->
+      <article class="step-card">
+        <div class="step-header">
+          <div class="step-title">
+            <span class="step-num">1</span>
+            <span>Cómo Entrar a Trabajar y Cómo Funciona tu Reloj de Actividad Inteligente</span>
+          </div>
+          <span class="step-tag">Libertad de Horario · Medición Justa</span>
+        </div>
+        <div class="step-body">
+          Tienes <strong>2 puertas de entrada</strong> conectadas a la misma base de datos (usa la que te resulte más cómoda):
+          <div class="sub-grid">
+            <div class="sub-box">
+              <h4>🚪 Opción A: Desde adentro del CRM ProsperIA (Recomendada)</h4>
+              <p>Entras a <code>https://crm.agenciaprosperia.com</code> con tu correo y en el menú lateral izquierdo haces clic en <strong>📊 Panel Comisiones y Leads</strong>. Ahí operas llamadas, WhatsApp y tu panel en una sola pantalla.</p>
+            </div>
+            <div class="sub-box">
+              <h4>🔑 Opción B: Acceso Directo en Pantalla Completa</h4>
+              <p>Entras directo a <code>https://agenciaprosperia.com/login</code> con tu correo y contraseña (<code>CloserProsper2026!</code>). Ideal si estás desde tu celular o prefieres ver el tablero sin la barra lateral del CRM.</p>
+            </div>
+            <div class="sub-box">
+              <h4>⏱️ Reloj Inteligente (Cero Popups Molestos)</h4>
+              <ul>
+                <li>Al abrir tu panel, el cronómetro arranca solo en tu hora local: <strong>🟢 En Línea (Aplicado)</strong>.</li>
+                <li>Si dejas la pestaña quieta 5 minutos sin mover el mouse o cambias de ventana, pasa a <strong>🟡 En Pausa (Inactivo)</strong>.</li>
+                <li>Si abres y cierras el sistema varias veces en el día, tus minutos se <strong>suman automáticamente</strong>.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- PASO 2 -->
+      <article class="step-card emerald">
+        <div class="step-header">
+          <div class="step-title">
+            <span class="step-num" style="border-color:#10b981; color:#34d399; background:rgba(16,185,129,0.15);">2</span>
+            <span>Mi Lista de Llamadas: El Filtro Anti-Basura (Regla de Oro)</span>
+          </div>
+          <span class="step-tag">Pestaña: 📞 Mi Lista de Llamadas</span>
+        </div>
+        <div class="step-body">
+          En <strong>📞 Mi Lista de Llamadas</strong> ya tienes asignados tus prospectos propios. Para mantener el CRM ProsperIA impecable y solo con gente real interesada, usa los 3 botones de resultado en cada llamada:
+          <div class="sub-grid">
+            <div class="sub-box">
+              <h4 style="color:#f87171;">🔴 No Contestó / Buzón</h4>
+              <p>Suma <strong>+1 llamada</strong> a tu KPI del día, el prospecto se queda en tu lista para reintentar mañana y <strong>NO ensucia el CRM ProsperIA</strong>.</p>
+            </div>
+            <div class="sub-box">
+              <h4 style="color:#94a3b8;">⚫ No Califica</h4>
+              <p>Suma <strong>+1 llamada</strong> a tu KPI, archiva el contacto localmente y <strong>NO ensucia el CRM ProsperIA</strong>.</p>
+            </div>
+            <div class="sub-box" style="border-color:rgba(16,185,129,0.45);">
+              <h4 style="color:#34d399;">🟢 ¡Sí Contestó! → Pasar a CRM &amp; Demo</h4>
+              <p>Suma <strong>+1 llamada contestada</strong>, inyecta automáticamente la oportunidad en el Pipeline de CRM ProsperIA y te habilita el botón azul <strong>🚀 Abrir Demo Web</strong>.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- PASO 3 -->
+      <article class="step-card amber">
+        <div class="step-header">
+          <div class="step-title">
+            <span class="step-num" style="border-color:#f59e0b; color:#fde68a; background:rgba(245,158,11,0.15);">3</span>
+            <span>Tu Calendario Personal Ya Está Conectado (Cero Configuración Manual)</span>
+          </div>
+          <span class="step-tag">Pestaña: 🗓️ Mi Perfil &amp; Calendario</span>
+        </div>
+        <div class="step-body">
+          <strong>No tienes que ir al CRM a buscar ni pegar ningún link.</strong> Tu calendario oficial de CRM ProsperIA ya viene pre-cargado de fábrica en tu cuenta y en el selector del Demostrador en Vivo:
+          <div class="sub-grid">
+            <div class="sub-box">
+              <h4>📋 Copiar para WhatsApp en 1 Clic</h4>
+              <p>Si un prospecto te pide agendar por WhatsApp, haz clic en <strong>🗓️ Mi Perfil &amp; Calendario</strong> en el menú izquierdo y pulsa <strong>📋 Copiar mi Link de Agendamiento</strong>.</p>
+            </div>
+            <div class="sub-box">
+              <h4>🤝 Agendamiento en Vivo en el Demo</h4>
+              <p>Cuando abres <code>/demo-sitio-web</code> desde tu cuenta, el calendario al pie de la página del cliente ya carga automáticamente tu agenda personal.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- PASO 4 -->
+      <article class="step-card">
+        <div class="step-header">
+          <div class="step-title">
+            <span class="step-num">4</span>
+            <span>Cómo Hacer la Demo en Vivo en 5 Minutos (+ Biblioteca de +1,000 Plantillas CRM)</span>
+          </div>
+          <span class="step-tag">Pestaña: 🎨 Demo Sitio Web (En Vivo)</span>
+        </div>
+        <div class="step-body">
+          Cuando estás en Zoom/Meet con el dueño del negocio, comparte pantalla en <strong>🎨 Demo Sitio Web (En Vivo)</strong>:
+          <div class="sub-grid">
+            <div class="sub-box">
+              <h4>1️⃣ Personaliza en 5 Segundos</h4>
+              <p>Elige el giro del cliente (Clínica, Servicios Locales, Inmobiliaria, Profesionales, Academia o Restaurante), escribe el <strong>Nombre de su Negocio</strong> y su Ciudad, y haz clic en <strong>Aplicar en Vivo</strong>. Prueba el <strong>Chatbot IA con Gemini</strong> en la esquina inferior derecha haciendo una pregunta real de su negocio.</p>
+            </div>
+            <div class="sub-box">
+              <h4>2️⃣ Botón 🎨 +60 Looks de Diseño</h4>
+              <p>Si el cliente quiere ver otros colores, tipografías o fondos (Modo Oscuro, Minimalista Suizo, Clínico Puro, Luxury Gold), abre <strong>🎨 +60 Looks de Diseño</strong> y cámbialo con 1 clic.</p>
+            </div>
+            <div class="sub-box" style="border-color:rgba(0,229,255,0.45);">
+              <h4 style="color:#00e5ff;">3️⃣ ¿Quiere ver más plantillas? → 📚 Biblioteca +1,000 Plantillas CRM</h4>
+              <p>Si un cliente exigente te dice <em>"¿Tienen plantillas específicas para mi nicho?"</em>, haz clic en el botón morado/cyan <strong>📚 Biblioteca +1,000 Plantillas CRM</strong> en la barra superior del Demo. Desde ahí puedes mostrarle la vista previa o abrir en 1 clic el catálogo oficial de <strong>Sitios → + Nuevo Sitio Web → De la biblioteca de plantillas</strong> en CRM ProsperIA.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- PASO 5 -->
+      <article class="step-card purple">
+        <div class="step-header">
+          <div class="step-title">
+            <span class="step-num" style="border-color:#8b5cf6; color:#c4b5fd; background:rgba(139,92,246,0.15);">5</span>
+            <span>Tus Armas de Cierre: Las 3 Cajas, Presentación Oficial PassportAI y 4 Slides CRM</span>
+          </div>
+          <span class="step-tag">Pestaña: 🔥 Presentaciones &amp; Armas</span>
+        </div>
+        <div class="step-body">
+          En <strong>🔥 Presentaciones &amp; Armas</strong> tienes todo ordenado para cerrar sin confundir al cliente. Recuerda que hoy tu foco 100% son las <strong>3 Cajas</strong> (el menú <em>💎 Opción Avanzada High-Ticket</em> queda plegado en el menú izquierdo solo para casos corporativos):
+          <div class="sub-grid">
+            <div class="sub-box">
+              <h4>📊 1. Presentación Comercial (3 Cajas) — ¡Con tu Foto!</h4>
+              <p>Al abrirla, la Lámina 1 muestra automáticamente <strong>tu foto profesional y tu nombre</strong> como Especialista Asignado. En la Lámina 8 presentas las 3 Cajas Black November:</p>
+              <ul>
+                <li><strong>🟢 Caja 1 — Express PYME ($497 USD):</strong> Reserva hoy con <strong>$250 USD</strong> y $247 contra entrega.</li>
+                <li><strong>⭐ Caja 2 — Pack Anual Estrella ($990 USD):</strong> Incluye 1 año de CRM + IA + 2 meses de contenido. Reserva hoy con <strong>$495 USD</strong>.</li>
+                <li><strong>🔥 Caja 3 — Máquina Completa ($1,490 USD):</strong> Todo el Pack Anual + 10 Videos Editados + Campaña Meta Ads. Reserva con <strong>$745 USD</strong>.</li>
+              </ul>
+            </div>
+            <div class="sub-box">
+              <h4>🚀 2. Presentación Oficial PassportAI.app (PDF Oficial)</h4>
+              <p>En el botón <strong>🚀 Slides PassportAI (8 Láminas / PDF Oficial)</strong> tienes cargada la presentación ejecutiva oficial subida por Edward para mostrar cómo PassportAI genera contenido viral en 3 clics, junto con el acceso directo a <code>https://passportai.app/</code>.</p>
+            </div>
+            <div class="sub-box">
+              <h4>🏛️ 3. 4 Slides CRM ProsperIA (Sin Precios)</h4>
+              <p>Si el cliente pregunta <em>"¿Dónde caen mis prospectos cuando llenan la web?"</em>, muéstrale las <strong>4 Slides CRM ProsperIA</strong>: explican visualmente la bandeja unificada, el embudo y el calendario sin distraerlo con precios extra.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- PASO 6 -->
+      <article class="step-card emerald">
+        <div class="step-header">
+          <div class="step-title">
+            <span class="step-num" style="border-color:#10b981; color:#34d399; background:rgba(16,185,129,0.15);">6</span>
+            <span>Cómo Sincronizar Etapa en CRM y Registrar tu Pago para Cobrar tu 15%</span>
+          </div>
+          <span class="step-tag">Pestaña: 💰 Mi Pipeline &amp; Comisiones (15%)</span>
+        </div>
+        <div class="step-body">
+          Todo prospecto que contestó o agendó aparece en <strong>💰 Mi Pipeline &amp; Comisiones</strong>. Al final de cada fila tienes los 2 botones más importantes de tu trabajo:
+          <div class="sub-grid">
+            <div class="sub-box">
+              <h4 style="color:#00e5ff;">📋 Botón 1: Etapa / Prop. (Sincronización Instantánea con CRM)</h4>
+              <p>Cada vez que terminas una llamada o envías propuesta, abres <strong>📋 Etapa / Prop.</strong>, eliges la etapa (ej. <em>4. Calificado</em>, <em>6. Demo realizada</em>, <em>7. Propuesta enviada</em>), la Caja cotizada y la fecha del siguiente paso, y pulsas <strong>Guardar y Sincronizar con CRM ProsperIA</strong>.</p>
+              <p style="margin-top:6px; color:#34d399; font-weight:700;">✓ Verás de inmediato el sello <code>🟢 Sincronizado en CRM</code> en la fila sin necesidad de cambiar de pantalla.</p>
+            </div>
+            <div class="sub-box" style="border-color:rgba(16,185,129,0.5);">
+              <h4 style="color:#34d399;">💳 Botón 2: Verificar Pago (Activa tu 15% y Suena la Campana 🔔)</h4>
+              <p>Cuando el cliente paga su 50% de reserva (o el 100%) por Stripe, Hotmart, Zelle o Transferencia, haces clic en <strong>💳 Verificar Pago</strong>, ingresas el número de comprobante y el monto cobrado.</p>
+              <p style="margin-top:6px; color:#fde68a; font-weight:700;">🏆 El sistema calcula automáticamente tu 15% de comisión sobre el dinero cobrado, pasa el cliente a Ingeniería (Onboarding) y te sube en el Podio Semanal.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</body>
+</html>

@@ -197,6 +197,7 @@ class User(Base):
     calls_answered_week = Column(Integer, default=0, nullable=True)
     demos_done_week = Column(Integer, default=0, nullable=True)
     sales_closed_week = Column(Integer, default=0, nullable=True)
+    avatar_url = Column(String, default="", nullable=True)
 
 
 class Lead(Base):
@@ -357,6 +358,7 @@ def _run_safe_migrations():
             ("calls_answered_week", "INTEGER DEFAULT 0"),
             ("demos_done_week", "INTEGER DEFAULT 0"),
             ("sales_closed_week", "INTEGER DEFAULT 0"),
+            ("avatar_url", "TEXT DEFAULT ''"),
         ]
         for col_name, col_def in user_migrations:
             if col_name not in existing_user_cols:
@@ -442,6 +444,8 @@ INITIAL_SALES_TEAM = [
         "phone": "+541128612007",
         "plan": "SVE-90 Enterprise",
         "ghl_user_id": "ucToiI5LKdcDLUpnAC5g",
+        "calendar_url": "https://api.agenciaprosperia.com/widget/booking/GrvltSCThpWp2cEptiTF",
+        "avatar_url": "/static/img/closers/sheilla.jpg",
         "default_pass": "Closer2026!"
     },
     {
@@ -452,6 +456,8 @@ INITIAL_SALES_TEAM = [
         "phone": "+541127950792",
         "plan": "SVE-90 Enterprise",
         "ghl_user_id": "OOzbqNV7cHd43h1u8C7v",
+        "calendar_url": "https://api.agenciaprosperia.com/widget/booking/qIeHTDISu0BGHx7cVhbh",
+        "avatar_url": "/static/edward_hero_depth.jpg",
         "default_pass": "Closer2026!"
     },
     {
@@ -462,6 +468,8 @@ INITIAL_SALES_TEAM = [
         "phone": "+5493704851257",
         "plan": "SVE-90 Enterprise",
         "ghl_user_id": "v273geU17rmcAHWieZlE",
+        "calendar_url": "https://api.agenciaprosperia.com/widget/booking/H2N6v95axx9rqkG7Sibw",
+        "avatar_url": "/static/img/closers/cintya.jpg",
         "default_pass": "Closer2026!"
     },
     {
@@ -472,6 +480,8 @@ INITIAL_SALES_TEAM = [
         "phone": "+5491141948202",
         "plan": "SVE-90 Enterprise",
         "ghl_user_id": "aXESsYsnlFG6Owpd0k68",
+        "calendar_url": "https://api.agenciaprosperia.com/widget/booking/ax6fOmetoC3abxRMlCwu",
+        "avatar_url": "/static/img/closers/claudio.png",
         "default_pass": "Closer2026!"
     },
     {
@@ -482,6 +492,8 @@ INITIAL_SALES_TEAM = [
         "phone": "+5493885862967",
         "plan": "SVE-90 Enterprise",
         "ghl_user_id": "tmB5pG9R65JlJXghrdxE",
+        "calendar_url": "https://api.agenciaprosperia.com/widget/booking/nxAwixR3T3PILNZxv1S4",
+        "avatar_url": "/static/img/closers/lorena.jpg",
         "default_pass": "Closer2026!"
     },
     {
@@ -492,6 +504,8 @@ INITIAL_SALES_TEAM = [
         "phone": "+5493704035398",
         "plan": "SVE-90 Enterprise",
         "ghl_user_id": "hhYMDFJpoBVVrP7AOiZ9",
+        "calendar_url": "https://api.agenciaprosperia.com/widget/booking/w2KriVI4LqhisSjIPiMV",
+        "avatar_url": "/static/img/closers/sergio.jpg",
         "default_pass": "Closer2026!"
     },
     {
@@ -502,6 +516,8 @@ INITIAL_SALES_TEAM = [
         "phone": "",
         "plan": "SVE-90 Enterprise",
         "ghl_user_id": "",
+        "calendar_url": "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8",
+        "avatar_url": "",
         "default_pass": "Closer2026!"
     },
     {
@@ -512,6 +528,8 @@ INITIAL_SALES_TEAM = [
         "phone": "",
         "plan": "SVE-90 Enterprise",
         "ghl_user_id": "",
+        "calendar_url": "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8",
+        "avatar_url": "",
         "default_pass": "Closer2026!"
     },
     {
@@ -522,6 +540,8 @@ INITIAL_SALES_TEAM = [
         "phone": "",
         "plan": "SVE-90 Enterprise",
         "ghl_user_id": "",
+        "calendar_url": "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8",
+        "avatar_url": "",
         "default_pass": "Closer2026!"
     },
     {
@@ -532,6 +552,8 @@ INITIAL_SALES_TEAM = [
         "phone": "",
         "plan": "SVE-90 Enterprise",
         "ghl_user_id": "",
+        "calendar_url": "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8",
+        "avatar_url": "",
         "default_pass": "Closer2026!"
     },
 ]
@@ -582,7 +604,8 @@ def init_db():
                     is_active=1,
                     commission_rate=0.15,
                     created_at=now_iso,
-                    calendar_url="https://api.leadconnectorhq.com/widget/bookings/calendario-de-edward-jimenez",
+                    calendar_url="https://api.agenciaprosperia.com/widget/booking/aT3eXMuYSOnWwjnC063t",
+                    avatar_url="/static/edward_hero_depth.jpg",
                 ))
             else:
                 adm_u.name = "Edward Jiménez (CEO & Admin)"
@@ -591,6 +614,8 @@ def init_db():
                 adm_u.plan = "SVE-90 Enterprise"
                 adm_u.dupla = "Dirección Ejecutiva (CEO)"
                 adm_u.is_active = 1
+                adm_u.calendar_url = "https://api.agenciaprosperia.com/widget/booking/aT3eXMuYSOnWwjnC063t"
+                adm_u.avatar_url = "/static/edward_hero_depth.jpg"
                 if not getattr(adm_u, "api_key", ""):
                     adm_u.api_key = "sve90_live_master_key_777_prosperia"
 
@@ -612,13 +637,18 @@ def init_db():
                     is_active=1,
                     commission_rate=0.15,
                     created_at=now_iso,
-                    calendar_url="https://api.leadconnectorhq.com/widget/bookings/calendario-de-edward-jimenez",
+                    calendar_url=member.get("calendar_url", "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8"),
+                    avatar_url=member.get("avatar_url", ""),
                 ))
             else:
                 exists_u.role = "seller"
                 exists_u.plan = "SVE-90 Enterprise"
                 if member.get("ghl_user_id"):
                     exists_u.ghl_user_id = member["ghl_user_id"]
+                if member.get("calendar_url"):
+                    exists_u.calendar_url = member["calendar_url"]
+                if member.get("avatar_url"):
+                    exists_u.avatar_url = member["avatar_url"]
 
         # Sembrar lista de exclusión DND desde BLACKLIST_DO_NOT_CONTACT.json
         blacklist_path = Path(__file__).parent / "BLACKLIST_DO_NOT_CONTACT.json"

@@ -385,7 +385,8 @@ def get_current_sales_user(request: Request, db: Session = Depends(get_db)) -> D
         "dupla": getattr(user_row, "dupla", "Dupla A — Clínicas") or "Dupla A — Clínicas",
         "ghl_user_id": getattr(user_row, "ghl_user_id", "") or "",
         "commission_rate": float(getattr(user_row, "commission_rate", 0.15) or 0.15),
-        "calendar_url": getattr(user_row, "calendar_url", "") or "https://api.leadconnectorhq.com/widget/bookings/calendario-de-edward-jimenez",
+        "calendar_url": getattr(user_row, "calendar_url", "") or "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8",
+        "avatar_url": getattr(user_row, "avatar_url", "") or "",
         "checkin_at": getattr(user_row, "checkin_at", "") or "",
         "last_seen_at": getattr(user_row, "last_seen_at", "") or "",
         "active_minutes_today": int(getattr(user_row, "active_minutes_today", 0) or 0),
@@ -566,7 +567,8 @@ async def api_get_sales_catalog(current_user: dict = Depends(get_current_sales_u
             "ghl_config": {
                 "location_id": "CNvJBINRWBUL2EdqRh3G",
                 "pipeline_id": "SJ4xiMasQ0GZcUNYFgpa",
-                "calendar_url": "https://api.leadconnectorhq.com/widget/bookings/calendario-de-edward-jimenez",
+                "calendar_url": "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8",
+                "website_templates_library_url": "https://crm.agenciaprosperia.com/v2/location/CNvJBINRWBUL2EdqRh3G/funnels-websites/websites",
             },
         },
     }
@@ -618,7 +620,8 @@ async def api_list_sales_users(
             "ghl_user_id": getattr(u, "ghl_user_id", "") or "",
             "is_active": int(getattr(u, "is_active", 1) or 1),
             "commission_rate": float(getattr(u, "commission_rate", 0.15) or 0.15),
-            "calendar_url": getattr(u, "calendar_url", "") or "https://api.leadconnectorhq.com/widget/bookings/calendario-de-edward-jimenez",
+            "calendar_url": getattr(u, "calendar_url", "") or "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8",
+            "avatar_url": getattr(u, "avatar_url", "") or "",
             "checkin_at": getattr(u, "checkin_at", "") or "",
             "last_seen_at": getattr(u, "last_seen_at", "") or "",
             "active_minutes_today": int(getattr(u, "active_minutes_today", 0) or 0),
@@ -959,7 +962,13 @@ async def api_update_lead_stage_and_proposal(
         audit_summary=req.next_action_note or f"Actualizado por {current_user['name']}",
     )
 
-    return {"success": True, "data": serialize_lead(lead)}
+    return {
+        "success": True,
+        "crm_synced": True,
+        "crm_synced_at": now_iso,
+        "message": f"🟢 Sincronizado con CRM ProsperIA: etapa '{lead.pipeline_stage}' y propuesta actualizadas en tiempo real.",
+        "data": serialize_lead(lead),
+    }
 
 
 @router.post("/api/sales-os/leads/{lead_id}/verify-payment")
@@ -1120,7 +1129,13 @@ async def api_update_delivery_and_commission_settlement(
     )
     db.commit()
     db.refresh(lead)
-    return {"success": True, "data": serialize_lead(lead)}
+    return {
+        "success": True,
+        "crm_synced": True,
+        "crm_synced_at": now_iso,
+        "message": f"🟢 Sincronizado con CRM ProsperIA: etapa '{lead.pipeline_stage}' y propuesta actualizadas en tiempo real.",
+        "data": serialize_lead(lead),
+    }
 
 
 @router.get("/api/sales-os/metrics")
@@ -1596,7 +1611,8 @@ async def api_sales_os_leaderboard(
             "dupla": getattr(u, "dupla", "Dupla A — Clínicas") or "Dupla A — Clínicas",
             "phone": u.phone or "",
             "ghl_user_id": getattr(u, "ghl_user_id", "") or "",
-            "calendar_url": getattr(u, "calendar_url", "") or "https://api.leadconnectorhq.com/widget/bookings/calendario-de-edward-jimenez",
+            "calendar_url": getattr(u, "calendar_url", "") or "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8",
+            "avatar_url": getattr(u, "avatar_url", "") or "",
             "checkin_at": getattr(u, "checkin_at", "") or "",
             "last_seen_at": getattr(u, "last_seen_at", "") or "",
             "active_minutes_today": mins_today,
@@ -1626,7 +1642,8 @@ async def api_sales_os_leaderboard(
             "email": current_user["email"],
             "name": current_user["name"],
             "dupla": "Dirección Ejecutiva (CEO)",
-            "calendar_url": current_user.get("calendar_url", "https://api.leadconnectorhq.com/widget/bookings/calendario-de-edward-jimenez"),
+            "calendar_url": current_user.get("calendar_url", "https://api.agenciaprosperia.com/widget/booking/aT3eXMuYSOnWwjnC063t"),
+            "avatar_url": current_user.get("avatar_url", "/static/edward_hero_depth.jpg"),
             "checkin_at": current_user.get("checkin_at", ""),
             "active_minutes_today": current_user.get("active_minutes_today", 0),
             "active_hours_today": round(current_user.get("active_minutes_today", 0) / 60.0, 1),
