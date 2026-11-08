@@ -54,6 +54,17 @@ WEBSITE_TEMPLATES_SHOWCASE = {
         "default_offer": "Valoración Diagnóstica + Diseño de Sonrisa / Armonización con 20% OFF esta semana",
         "hero_title": "Agenda tu Valoración Especializada en Menos de 60 Segundos sin Esperar en Línea",
         "hero_subtitle": "Nuestro sistema inteligente califica tu caso y te asigna turno prioritario con nuestros especialistas por WhatsApp las 24 horas.",
+        "gallery_images": [
+            {"label": "Consultorio & Tecnología 3D", "url": "https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1000&q=85"},
+            {"label": "Diseño de Sonrisa & Estética", "url": "https://images.unsplash.com/photo-1606811841689-23dfddce3e95?auto=format&fit=crop&w=1000&q=85"},
+            {"label": "Medicina Estética Facial", "url": "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=1000&q=85"},
+        ],
+        "chatbot_greeting": "¡Hola! 👋 Soy la Asistente Digital 24/7 de la Clínica. ¿Qué tratamiento te gustaría cotizar o agendar hoy?",
+        "chatbot_quick_replies": [
+            "🦷 Quiero agendar Diseño de Sonrisa / Implantes",
+            "✨ Consultar promoción 20% OFF de esta semana",
+            "📍 Ver ubicación y horarios disponibles",
+        ],
         "services": [
             {"icon": "fa-tooth", "title": "Implantes & Diseño de Sonrisa", "desc": "Resultados naturales planificados digitalmente en 1 a 2 sesiones."},
             {"icon": "fa-wand-magic-sparkles", "title": "Medicina Estética & Rejuvenecimiento", "desc": "Tratamientos mínimamente invasivos con aprobación médica internacional."},
@@ -77,6 +88,17 @@ WEBSITE_TEMPLATES_SHOWCASE = {
         "default_offer": "Diagnóstico Técnico Prioritario + Presupuesto Exacto por WhatsApp en 15 Minutos",
         "hero_title": "Deja los Datos de tu Solicitud y Recibe Presupuesto y Turno Hoy Mismo",
         "hero_subtitle": "Aunque nuestro equipo esté con las manos ocupadas en el taller o en terreno, nuestro Asistente 24/7 recibe tu pedido y te reserva lugar al instante.",
+        "gallery_images": [
+            {"label": "Taller Automotriz & Diagnóstico", "url": "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=1000&q=85"},
+            {"label": "Climatización & Instalaciones", "url": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1000&q=85"},
+            {"label": "Remodelación & Hogar", "url": "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1000&q=85"},
+        ],
+        "chatbot_greeting": "¡Hola! 🔧 Soy el Asistente Técnico 24/7. Nuestro equipo está en taller ahora mismo, pero yo te cotizo y reservo turno en 30 segundos.",
+        "chatbot_quick_replies": [
+            "⚡ Necesito presupuesto urgente hoy",
+            "📅 Reservar turno de diagnóstico en taller",
+            "💬 Hablar con el jefe técnico por WhatsApp",
+        ],
         "services": [
             {"icon": "fa-screwdriver-wrench", "title": "Diagnóstico Rápido con Garantía", "desc": "Revisamos tu requerimiento y te enviamos cotización clara antes de empezar."},
             {"icon": "fa-bolt", "title": "Reserva de Turno sin Llamar", "desc": "Elige día y franja horaria desde tu celular en 30 segundos."},
@@ -100,6 +122,17 @@ WEBSITE_TEMPLATES_SHOWCASE = {
         "default_offer": "Catálogo Privado de Propiedades de Alta Rentabilidad + Asesoría 1 a 1",
         "hero_title": "Encuentra o Vende tu Propiedad con Pre-Calificación Inteligente 24/7",
         "hero_subtitle": "Filtramos presupuesto, zona y forma de pago en 1 minuto para agendar solo visitas reales con compradores calificados.",
+        "gallery_images": [
+            {"label": "Residencias & Penthouse de Lujo", "url": "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1000&q=85"},
+            {"label": "Desarrollos & Preventa en Pozo", "url": "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1000&q=85"},
+            {"label": "Interiores Modernos & Vista", "url": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=85"},
+        ],
+        "chatbot_greeting": "¡Bienvenido! 🏢 Soy el Asesor Inmobiliario IA 24/7. ¿Buscas invertir en preventa, comprar para vivir o vender tu propiedad?",
+        "chatbot_quick_replies": [
+            "🏙️ Recibir catálogo de propiedades de inversión",
+            "🔑 Quiero tasar y vender mi propiedad",
+            "📅 Agendar visita presencial o virtual",
+        ],
         "services": [
             {"icon": "fa-building", "title": "Compra & Inversión Rentable", "desc": "Acceso a unidades seleccionadas con retorno proyectado y financiación."},
             {"icon": "fa-key", "title": "Venta Rápida de tu Propiedad", "desc": "Captación con videos virales y filtro automático de curiosos."},
@@ -123,6 +156,17 @@ WEBSITE_TEMPLATES_SHOWCASE = {
         "default_offer": "Sesión de Diagnóstico Fiscal, Legal o Empresarial de 20 Minutos",
         "hero_title": "Protege tu Empresa y Ordena tu Operación con Especialistas Certificados",
         "hero_subtitle": "Completa tu pre-diagnóstico en 45 segundos y nuestro sistema agendará tu sesión ejecutiva con el socio especialista en tu caso.",
+        "gallery_images": [
+            {"label": "Sala de Juntas & Socios", "url": "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1000&q=85"},
+            {"label": "Consultoría Financiera & Fiscal", "url": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1000&q=85"},
+            {"label": "Firma Legal & Corporativa", "url": "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=1000&q=85"},
+        ],
+        "chatbot_greeting": "¡Buen día! ⚖️ Soy el Asistente de Pre-Calificación del Estudio. En 45 segundos filtro tu caso y te agendo con el socio especialista.",
+        "chatbot_quick_replies": [
+            "⚖️ Agendar diagnóstico legal / fiscal de 20 min",
+            "🏢 Consultoría para empresas / PYMEs",
+            "📄 Enviar documentación por WhatsApp",
+        ],
         "services": [
             {"icon": "fa-scale-balanced", "title": "Asesoría Corporativa & Blindaje", "desc": "Estructuración legal, contable y financiera para dueños de negocio."},
             {"icon": "fa-chart-line", "title": "Optimización y Crecimiento", "desc": "Planes accionables con seguimiento mensual y reportes claros."},
@@ -146,6 +190,17 @@ WEBSITE_TEMPLATES_SHOWCASE = {
         "default_offer": "Clase Magistral Gratuita + Entrevista de Admisión con Beca Parcial",
         "hero_title": "Inscríbete Hoy y Recibe el Programa Completo Directo en tu WhatsApp",
         "hero_subtitle": "Nuestro asistente de admisiones responde tus dudas de horarios y certificaciones al instante, de día o de noche.",
+        "gallery_images": [
+            {"label": "Campus & Auditorio Ejecutivo", "url": "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1000&q=85"},
+            {"label": "Mentoría Online en Vivo", "url": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1000&q=85"},
+            {"label": "Graduación & Certificación", "url": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1000&q=85"},
+        ],
+        "chatbot_greeting": "¡Hola! 🎓 Soy el Asistente de Admisiones 24/7. ¿Quieres recibir el temario completo y postular a la Beca Parcial de esta semana?",
+        "chatbot_quick_replies": [
+            "🎓 Solicitar Beca Parcial y entrevista",
+            "📘 Recibir temario y precios en WhatsApp",
+            "🎥 Ver clase demostrativa gratuita",
+        ],
         "services": [
             {"icon": "fa-graduation-cap", "title": "Programas Certificados", "desc": "Metodología práctica paso a paso diseñada para resultados rápidos."},
             {"icon": "fa-users", "title": "Mentoría y Comunidad Activa", "desc": "Acompañamiento directo de docentes y tutores especializados."},
@@ -206,6 +261,16 @@ def get_current_sales_user(request: Request, db: Session = Depends(get_db)) -> D
         "dupla": getattr(user_row, "dupla", "Dupla A — Clínicas") or "Dupla A — Clínicas",
         "ghl_user_id": getattr(user_row, "ghl_user_id", "") or "",
         "commission_rate": float(getattr(user_row, "commission_rate", 0.15) or 0.15),
+        "calendar_url": getattr(user_row, "calendar_url", "") or "https://api.leadconnectorhq.com/widget/bookings/calendario-de-edward-jimenez",
+        "checkin_at": getattr(user_row, "checkin_at", "") or "",
+        "last_seen_at": getattr(user_row, "last_seen_at", "") or "",
+        "active_minutes_today": int(getattr(user_row, "active_minutes_today", 0) or 0),
+        "active_minutes_week": int(getattr(user_row, "active_minutes_week", 0) or 0),
+        "calls_made_today": int(getattr(user_row, "calls_made_today", 0) or 0),
+        "calls_made_week": int(getattr(user_row, "calls_made_week", 0) or 0),
+        "calls_answered_week": int(getattr(user_row, "calls_answered_week", 0) or 0),
+        "demos_done_week": int(getattr(user_row, "demos_done_week", 0) or 0),
+        "sales_closed_week": int(getattr(user_row, "sales_closed_week", 0) or 0),
     }
 
 
@@ -429,6 +494,16 @@ async def api_list_sales_users(
             "ghl_user_id": getattr(u, "ghl_user_id", "") or "",
             "is_active": int(getattr(u, "is_active", 1) or 1),
             "commission_rate": float(getattr(u, "commission_rate", 0.15) or 0.15),
+            "calendar_url": getattr(u, "calendar_url", "") or "https://api.leadconnectorhq.com/widget/bookings/calendario-de-edward-jimenez",
+            "checkin_at": getattr(u, "checkin_at", "") or "",
+            "last_seen_at": getattr(u, "last_seen_at", "") or "",
+            "active_minutes_today": int(getattr(u, "active_minutes_today", 0) or 0),
+            "active_minutes_week": int(getattr(u, "active_minutes_week", 0) or 0),
+            "calls_made_today": int(getattr(u, "calls_made_today", 0) or 0),
+            "calls_made_week": int(getattr(u, "calls_made_week", 0) or 0),
+            "calls_answered_week": int(getattr(u, "calls_answered_week", 0) or 0),
+            "demos_done_week": max(int(getattr(u, "demos_done_week", 0) or 0), demos_done),
+            "sales_closed_week": max(int(getattr(u, "sales_closed_week", 0) or 0), len(paid_leads)),
             "metrics": {
                 "assigned_leads": len(my_leads),
                 "diagnostics_booked": diag_booked,
@@ -1065,4 +1140,394 @@ async def api_get_audit_logs(
         for r in rows
     ]
     return {"success": True, "data": {"logs": logs}}
+
+
+class CalendarUpdateRequest(BaseModel):
+    calendar_url: str
+
+
+class CallOutcomeRequest(BaseModel):
+    outcome: str  # "no_answer", "disqualified", "answered"
+    notes: Optional[str] = ""
+
+
+@router.post("/api/sales-os/checkin")
+async def api_sales_os_checkin(
+    current_user: dict = Depends(get_current_sales_user),
+    db: Session = Depends(get_db),
+):
+    """Registra el Check-In matutino de inicio de jornada laboral para el Closer o Admin."""
+    now_iso = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+    u = db.query(User).filter(User.email == current_user["email"]).first()
+    if not u:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado.")
+
+    today_prefix = now_iso[:10]
+    prev_checkin = getattr(u, "checkin_at", "") or ""
+    if not prev_checkin.startswith(today_prefix):
+        u.checkin_at = now_iso
+        u.active_minutes_today = max(1, int(getattr(u, "active_minutes_today", 0) or 0))
+        u.active_minutes_week = int(getattr(u, "active_minutes_week", 0) or 0) + 1
+    u.last_seen_at = now_iso
+
+    record_audit(
+        db,
+        actor_email=u.email,
+        actor_role=getattr(u, "role", "seller"),
+        lead_id=None,
+        action="morning_checkin",
+        field_changed="checkin_at",
+        old_value=prev_checkin,
+        new_value=u.checkin_at,
+        notes=f"Check-in de jornada laboral iniciado por {u.name}",
+    )
+    db.commit()
+    return {
+        "success": True,
+        "message": f"¡Jornada iniciada, {u.name}! Tu Check-In quedó registrado a las {u.checkin_at[11:16]} UTC.",
+        "data": {
+            "checkin_at": u.checkin_at,
+            "last_seen_at": u.last_seen_at,
+            "active_minutes_today": u.active_minutes_today,
+            "active_minutes_week": u.active_minutes_week,
+        },
+    }
+
+
+@router.post("/api/sales-os/heartbeat")
+async def api_sales_os_heartbeat(
+    current_user: dict = Depends(get_current_sales_user),
+    db: Session = Depends(get_db),
+):
+    """Incrementa cada 60 segundos el contador de minutos activo hoy y en la semana (Control Anti-Hacerse Pato)."""
+    now_iso = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+    u = db.query(User).filter(User.email == current_user["email"]).first()
+    if not u:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado.")
+
+    today_prefix = now_iso[:10]
+    if not (getattr(u, "checkin_at", "") or "").startswith(today_prefix):
+        u.checkin_at = now_iso
+        u.active_minutes_today = 1
+    else:
+        u.active_minutes_today = int(getattr(u, "active_minutes_today", 0) or 0) + 1
+
+    u.active_minutes_week = int(getattr(u, "active_minutes_week", 0) or 0) + 1
+    u.last_seen_at = now_iso
+    db.commit()
+    return {
+        "success": True,
+        "data": {
+            "checkin_at": u.checkin_at,
+            "last_seen_at": u.last_seen_at,
+            "active_minutes_today": u.active_minutes_today,
+            "active_minutes_week": u.active_minutes_week,
+        },
+    }
+
+
+@router.put("/api/sales-os/my-calendar")
+async def api_update_my_calendar_url(
+    req: CalendarUpdateRequest,
+    current_user: dict = Depends(get_current_sales_user),
+    db: Session = Depends(get_db),
+):
+    """Permite a cada Closer guardar su propio link de agendamiento de GoHighLevel."""
+    clean_url = (req.calendar_url or "").strip()
+    if not clean_url.startswith("http"):
+        raise HTTPException(status_code=400, detail="Ingresa una URL válida que comience con https://")
+
+    u = db.query(User).filter(User.email == current_user["email"]).first()
+    if not u:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado.")
+
+    old_cal = getattr(u, "calendar_url", "") or ""
+    u.calendar_url = clean_url
+    record_audit(
+        db,
+        actor_email=u.email,
+        actor_role=getattr(u, "role", "seller"),
+        lead_id=None,
+        action="calendar_url_updated",
+        field_changed="calendar_url",
+        old_value=old_cal,
+        new_value=clean_url,
+        notes="Actualización de calendario personal del Closer",
+    )
+    db.commit()
+    return {
+        "success": True,
+        "message": "Tu link personal de Calendario fue guardado. Ahora el Demostrador en Vivo agendará a tu nombre.",
+        "data": {"calendar_url": clean_url},
+    }
+
+
+@router.post("/api/sales-os/leads/{lead_id}/call-outcome")
+async def api_register_call_outcome(
+    lead_id: int,
+    req: CallOutcomeRequest,
+    current_user: dict = Depends(get_current_sales_user),
+    db: Session = Depends(get_db),
+):
+    """Filtro Anti-Basura de la Lista de Llamadas:
+    - 'no_answer' (🔴 No Contestó): Suma +1 llamada al vendedor, se queda en el Dashboard y NO ensucia GoHighLevel.
+    - 'disqualified' (⚫ No Califica): Suma +1 llamada, se archiva en el Dashboard y NO ensucia GoHighLevel.
+    - 'answered' (🟢 ¡SÍ CONTESTÓ!): Suma +1 llamada y +1 contestada, inyecta la oportunidad en GoHighLevel y devuelve la URL del Demo Sitio Web.
+    """
+    lead = db.query(DbLead).filter(DbLead.id == lead_id).first()
+    if not lead:
+        raise HTTPException(status_code=404, detail="Prospecto no encontrado.")
+
+    if current_user["role"] == "seller" and (getattr(lead, "owner_id", "") or "") != current_user["email"]:
+        raise HTTPException(status_code=403, detail="Este contacto está asignado a otro closer.")
+
+    u = db.query(User).filter(User.email == current_user["email"]).first()
+    now_iso = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+    old_stage = getattr(lead, "pipeline_stage", "Lead identificado") or "Lead identificado"
+
+    if u:
+        u.calls_made_today = int(getattr(u, "calls_made_today", 0) or 0) + 1
+        u.calls_made_week = int(getattr(u, "calls_made_week", 0) or 0) + 1
+        u.last_seen_at = now_iso[:19].replace("T", " ")
+
+    outcome = (req.outcome or "").strip().lower()
+    lead.last_touch = now_iso
+
+    if outcome == "no_answer":
+        lead.pipeline_stage = "No responde"
+        lead.status = "contacted"
+        note_msg = req.notes or "Llamada realizada: No contestó / Buzón (permanece en cola local del Dashboard sin ensuciar GHL)."
+        lead.notes = ((lead.notes or "") + f"\n[{now_iso[:16]} 🔴 NO CONTESTÓ]: {note_msg}").strip()
+        record_audit(
+            db,
+            actor_email=current_user["email"],
+            actor_role=current_user["role"],
+            lead_id=lead.id,
+            action="call_no_answer_local_only",
+            field_changed="pipeline_stage",
+            old_value=old_stage,
+            new_value="No responde",
+            notes=note_msg,
+        )
+        db.commit()
+        return {
+            "success": True,
+            "pushed_to_ghl": False,
+            "message": "🔴 Registrado como 'No Contestó'. Se sumó +1 llamada a tu KPI diario y NO se envió basura a GoHighLevel.",
+            "data": serialize_lead(lead),
+        }
+
+    elif outcome == "disqualified":
+        lead.pipeline_stage = "No cumple perfil"
+        lead.status = "lost"
+        note_msg = req.notes or "Llamada realizada: No califica / Sin interés (archivado en Dashboard sin ensuciar GHL)."
+        lead.notes = ((lead.notes or "") + f"\n[{now_iso[:16]} ⚫ DESCARTADO]: {note_msg}").strip()
+        record_audit(
+            db,
+            actor_email=current_user["email"],
+            actor_role=current_user["role"],
+            lead_id=lead.id,
+            action="call_disqualified_local_only",
+            field_changed="pipeline_stage",
+            old_value=old_stage,
+            new_value="No cumple perfil",
+            notes=note_msg,
+        )
+        db.commit()
+        return {
+            "success": True,
+            "pushed_to_ghl": False,
+            "message": "⚫ Registrado como 'No Califica'. Se sumó +1 llamada a tu KPI y quedó archivado localmente.",
+            "data": serialize_lead(lead),
+        }
+
+    elif outcome == "answered":
+        if u:
+            u.calls_answered_week = int(getattr(u, "calls_answered_week", 0) or 0) + 1
+        lead.pipeline_stage = "Primer contacto"
+        lead.status = "qualified"
+        note_msg = req.notes or "¡Contestó la llamada! Prospecto activo pasado al Pipeline de GoHighLevel y abriendo Demostrador en Vivo."
+        lead.notes = ((lead.notes or "") + f"\n[{now_iso[:16]} 🟢 ¡SÍ CONTESTÓ!]: {note_msg}").strip()
+        record_audit(
+            db,
+            actor_email=current_user["email"],
+            actor_role=current_user["role"],
+            lead_id=lead.id,
+            action="call_answered_pushed_to_ghl",
+            field_changed="pipeline_stage",
+            old_value=old_stage,
+            new_value="Primer contacto",
+            notes=note_msg,
+        )
+        db.commit()
+        db.refresh(lead)
+
+        # ¡Ahora SÍ lo inyectamos en vivo al Pipeline de GoHighLevel!
+        sync_sales_os_event_to_ghl_async(
+            contact_id=getattr(lead, "contact_id", "") or "",
+            opportunity_id=getattr(lead, "ghl_opportunity_id", "") or "",
+            email=lead.email,
+            phone=lead.phone or "",
+            full_name=getattr(lead, "full_name", None) or lead.name,
+            business_name=getattr(lead, "business_name", None) or (lead.company or ""),
+            pipeline_stage="Primer contacto",
+            owner_email=getattr(lead, "owner_id", "") or current_user["email"],
+            offer_version=getattr(lead, "offer_version", "EXPRESS_497") or "EXPRESS_497",
+            quoted_amount=float(getattr(lead, "quoted_amount", 497.0) or 497.0),
+            amount_collected=float(getattr(lead, "amount_collected", 0.0) or 0.0),
+            invoice_id=getattr(lead, "invoice_id", "") or "",
+            selected_template=getattr(lead, "selected_template", "clinica_dental_estetica") or "clinica_dental_estetica",
+            audit_summary=f"¡SÍ CONTESTÓ LLAMADA! Atendido por {current_user['name']} ({current_user['email']}). Inyectado a Ventas Agencia ProsperIA.",
+        )
+
+        tpl = getattr(lead, "selected_template", "clinica_dental_estetica") or "clinica_dental_estetica"
+        demo_url = f"/demo-sitio-web?lead_id={lead.id}&template={tpl}&closer_email={current_user['email']}"
+        return {
+            "success": True,
+            "pushed_to_ghl": True,
+            "demo_url": demo_url,
+            "message": "🟢 ¡Excelente! Se sumó +1 Llamada Contestada, el cliente se inyectó en el Pipeline de GoHighLevel ('Contactado') y está listo para el Efecto WOW.",
+            "data": serialize_lead(lead),
+        }
+
+    raise HTTPException(status_code=400, detail="Outcome inválido. Usa 'no_answer', 'disqualified' o 'answered'.")
+
+
+@router.get("/api/sales-os/leaderboard")
+async def api_sales_os_leaderboard(
+    current_user: dict = Depends(get_current_sales_user),
+    db: Session = Depends(get_db),
+):
+    """Devuelve:
+    - Embudo KPI Semanal del usuario (100 Llamadas -> 60 Contestan -> 6 Demos -> 1 Venta).
+    - Ranking y Podio en Vivo (🥇 1°, 🥈 2°, 🥉 3°).
+    - Tabla y Gráfica CEO Anti-'Hacerse Pato' (Check-in hoy, Horas conectado, Llamadas hoy, Contestadas, Demos, Cobrado USD).
+    - Banner de Celebración de Venta Reciente.
+    """
+    users = db.query(User).order_by(User.role.asc(), User.name.asc()).all()
+    all_leads = db.query(DbLead).all()
+
+    sellers_board = []
+    recent_sales = []
+
+    for l in all_leads:
+        col_amt = float(getattr(l, "amount_collected", 0.0) or 0.0)
+        inv = (getattr(l, "invoice_id", "") or "").strip()
+        if col_amt > 0 and inv:
+            recent_sales.append({
+                "lead_id": l.id,
+                "client_name": getattr(l, "full_name", None) or l.name,
+                "business_name": getattr(l, "business_name", None) or (l.company or ""),
+                "amount_collected": round(col_amt, 2),
+                "commission_amount": round(float(getattr(l, "commission_amount", 0.0) or 0.0), 2),
+                "owner_email": getattr(l, "owner_id", "") or "edward@agenciaprosperia.com",
+                "offer_version": getattr(l, "offer_version", "EXPRESS_497") or "EXPRESS_497",
+                "verified_at": getattr(l, "last_touch", "") or l.created_at,
+            })
+
+    recent_sales.sort(key=lambda x: x["verified_at"] or "", reverse=True)
+
+    for u in users:
+        u_role = getattr(u, "role", "seller") or "seller"
+        if u_role != "seller":
+            continue
+        my_leads = [l for l in all_leads if (getattr(l, "owner_id", "") or "") == u.email]
+        paid_leads = [
+            l for l in my_leads
+            if float(getattr(l, "amount_collected", 0.0) or 0.0) > 0 and (getattr(l, "invoice_id", "") or "").strip() != ""
+        ]
+        collected_sum = sum(float(getattr(l, "amount_collected", 0.0) or 0.0) for l in paid_leads)
+        comm_sum = sum(float(getattr(l, "commission_amount", 0.0) or 0.0) for l in paid_leads)
+
+        demos_count = sum(
+            1 for l in my_leads
+            if (getattr(l, "pipeline_stage", "") or "") in ("Demo realizada", "Propuesta enviada", "Pago pendiente", "Pago confirmado", "Implementación", "Entregado")
+        )
+        answered_leads_count = sum(
+            1 for l in my_leads
+            if (getattr(l, "pipeline_stage", "") or "") in ("Primer contacto", "Conversación", "Calificado", "Diagnóstico agendado", "Demo realizada", "Propuesta enviada", "Pago pendiente", "Pago confirmado", "Implementación", "Entregado")
+        )
+        pending_queue_count = sum(
+            1 for l in my_leads
+            if (getattr(l, "pipeline_stage", "") or "") in ("Lead identificado", "No responde")
+            and (getattr(l, "contact_status", "contactable") or "contactable") == "contactable"
+        )
+
+        calls_today = int(getattr(u, "calls_made_today", 0) or 0)
+        calls_week = int(getattr(u, "calls_made_week", 0) or 0)
+        answered_week = max(int(getattr(u, "calls_answered_week", 0) or 0), answered_leads_count)
+        demos_week = max(int(getattr(u, "demos_done_week", 0) or 0), demos_count)
+        sales_week = max(int(getattr(u, "sales_closed_week", 0) or 0), len(paid_leads))
+        mins_today = int(getattr(u, "active_minutes_today", 0) or 0)
+        mins_week = int(getattr(u, "active_minutes_week", 0) or 0)
+
+        # Puntaje compuesto para desempate en el Podio: Ventas USD * 10 + Demos * 50 + Contestadas * 5 + Llamadas
+        score_points = (collected_sum * 10.0) + (demos_week * 50.0) + (answered_week * 5.0) + calls_week
+
+        sellers_board.append({
+            "email": u.email,
+            "name": u.name,
+            "dupla": getattr(u, "dupla", "Dupla A — Clínicas") or "Dupla A — Clínicas",
+            "phone": u.phone or "",
+            "ghl_user_id": getattr(u, "ghl_user_id", "") or "",
+            "calendar_url": getattr(u, "calendar_url", "") or "https://api.leadconnectorhq.com/widget/bookings/calendario-de-edward-jimenez",
+            "checkin_at": getattr(u, "checkin_at", "") or "",
+            "last_seen_at": getattr(u, "last_seen_at", "") or "",
+            "active_minutes_today": mins_today,
+            "active_hours_today": round(mins_today / 60.0, 1),
+            "active_minutes_week": mins_week,
+            "active_hours_week": round(mins_week / 60.0, 1),
+            "calls_made_today": calls_today,
+            "calls_made_week": calls_week,
+            "calls_answered_week": answered_week,
+            "demos_done_week": demos_week,
+            "sales_closed_week": sales_week,
+            "amount_collected": round(collected_sum, 2),
+            "commission_accrued": round(comm_sum, 2),
+            "assigned_leads": len(my_leads),
+            "pending_call_queue": pending_queue_count,
+            "score_points": round(score_points, 1),
+        })
+
+    sellers_board.sort(key=lambda x: (x["amount_collected"], x["sales_closed_week"], x["demos_done_week"], x["calls_answered_week"], x["calls_made_week"]), reverse=True)
+    for idx, item in enumerate(sellers_board):
+        item["rank"] = idx + 1
+
+    my_entry = next((s for s in sellers_board if s["email"] == current_user["email"]), None)
+    if not my_entry:
+        # Si es el Admin (Edward), mostramos la sumatoria del equipo como su vista ejecutiva
+        my_entry = {
+            "email": current_user["email"],
+            "name": current_user["name"],
+            "dupla": "Dirección Ejecutiva (CEO)",
+            "calendar_url": current_user.get("calendar_url", "https://api.leadconnectorhq.com/widget/bookings/calendario-de-edward-jimenez"),
+            "checkin_at": current_user.get("checkin_at", ""),
+            "active_minutes_today": current_user.get("active_minutes_today", 0),
+            "active_hours_today": round(current_user.get("active_minutes_today", 0) / 60.0, 1),
+            "calls_made_today": sum(s["calls_made_today"] for s in sellers_board),
+            "calls_made_week": sum(s["calls_made_week"] for s in sellers_board),
+            "calls_answered_week": sum(s["calls_answered_week"] for s in sellers_board),
+            "demos_done_week": sum(s["demos_done_week"] for s in sellers_board),
+            "sales_closed_week": sum(s["sales_closed_week"] for s in sellers_board),
+            "amount_collected": round(sum(s["amount_collected"] for s in sellers_board), 2),
+            "pending_call_queue": sum(s["pending_call_queue"] for s in sellers_board),
+            "rank": 1,
+        }
+
+    return {
+        "success": True,
+        "data": {
+            "my_kpi": my_entry,
+            "targets": {
+                "weekly_calls": 100,
+                "weekly_answered": 60,
+                "weekly_demos": 6,
+                "weekly_sales": 1,
+            },
+            "leaderboard": sellers_board,
+            "podium_top3": sellers_board[:3],
+            "recent_sales": recent_sales[:5],
+        },
+    }
+
 

@@ -133,7 +133,7 @@
         </div>
       </div>
 
-      <div class="toolbar-controls grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2.5 pt-2 border-t border-slate-800/80">
+      <div class="toolbar-controls grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-2.5 pt-2 border-t border-slate-800/80">
         <div>
           <label class="block text-[11px] text-slate-400 mb-1 font-semibold">1. Giro / Plantilla Sectorial</label>
           <select id="ctrl-template" class="input-mini" onchange="applyTemplateChange()">
@@ -159,6 +159,28 @@
         <div>
           <label class="block text-[11px] text-slate-400 mb-1 font-semibold">5. WhatsApp Recepción 24/7</label>
           <input type="text" id="ctrl-phone" class="input-mini" placeholder="+1 786 557 3119" oninput="syncLivePreview()">
+        </div>
+        <div>
+          <label class="block text-[11px] text-cyan-300 mb-1 font-semibold">6. 🖼️ Imagen / Subir Foto Cliente</label>
+          <div class="flex items-center gap-1">
+            <input type="text" id="ctrl-image-url" class="input-mini" placeholder="URL de foto o sube archivo ->" oninput="applyCustomImageUrl(this.value)">
+            <label class="px-2.5 py-1.5 rounded-lg bg-cyan-500/20 border border-cyan-400/40 text-cyan-300 text-xs font-bold cursor-pointer hover:bg-cyan-500/30 flex-shrink-0" title="Subir foto desde tu computadora">
+              <i class="fas fa-upload"></i>
+              <input type="file" accept="image/*" class="hidden" onchange="handleLocalImageUpload(event)">
+            </label>
+          </div>
+        </div>
+        <div>
+          <label class="block text-[11px] text-emerald-300 mb-1 font-semibold">7. 👤 Closer / Link Calendario</label>
+          <select id="ctrl-closer" class="input-mini" onchange="handleCloserChange()">
+            <option value="sheille.perez@gmail.com" data-name="Sheille Pérez">Sheille Pérez (Dupla A)</option>
+            <option value="diegoarriondo03@gmail.com" data-name="Diego Arriondo">Diego Arriondo (Dupla A)</option>
+            <option value="cinthyapenida0@gmail.com" data-name="Cinthya Penida">Cinthya Penida (Dupla B)</option>
+            <option value="claudiniosan@yahoo.com.ar" data-name="Claudio A. Sánchez">Claudio A. Sánchez (Dupla B)</option>
+            <option value="loremrodriguezafb@gmail.com" data-name="Lorena Rodríguez">Lorena Rodríguez (Dupla C)</option>
+            <option value="sergiotorales608@gmail.com" data-name="Sergio Torales">Sergio Torales (Dupla C)</option>
+            <option value="edward@agenciaprosperia.com" data-name="Edward Jiménez (CEO)">Edward Jiménez (CEO)</option>
+          </select>
         </div>
       </div>
       <div id="crm-save-banner" class="hidden mt-2 px-3 py-2 rounded-lg text-xs font-semibold bg-emerald-500/15 border border-emerald-500/40 text-emerald-300"></div>
@@ -205,6 +227,28 @@
         <p id="view-hero-subtitle" class="text-slate-300 text-base sm:text-lg leading-relaxed">
           Nuestro sistema inteligente califica tu caso y te asigna turno prioritario con nuestros especialistas por WhatsApp las 24 horas.
         </p>
+
+        <!-- GALERÍA VISUAL INTERACTIVA POR GIRO (EFECTO WOW CON IMÁGENES REALES) -->
+        <div class="rounded-2xl overflow-hidden border-2 shadow-2xl relative group" style="border-color:var(--border-col); background:#071224;">
+          <div class="relative h-64 sm:h-80 w-full overflow-hidden">
+            <img id="view-hero-image" src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1000&q=85" alt="Imagen Principal del Negocio" class="w-full h-full object-cover transition-all duration-500">
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/25 to-transparent"></div>
+            <div class="absolute bottom-3 left-4 right-4 flex flex-wrap items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-500/90 text-slate-950 shadow">
+                  <i class="fas fa-camera mr-1"></i> <span id="view-image-caption">Instalaciones & Atención Profesional</span>
+                </span>
+              </div>
+              <div class="text-[11px] text-slate-200 bg-slate-900/80 px-2.5 py-1 rounded-lg border border-white/10">
+                Haz clic en las miniaturas para cambiar la foto en vivo 👇
+              </div>
+            </div>
+          </div>
+          <!-- Selector de Miniaturas por Giro -->
+          <div class="p-3 bg-slate-950/90 border-t border-slate-800/80 flex items-center justify-between gap-2 overflow-x-auto" id="view-gallery-thumbs">
+            <!-- Renderizado dinámico por JS -->
+          </div>
+        </div>
 
         <!-- Caja de Oferta Activa -->
         <div class="p-4 rounded-2xl border border-amber-400/30 bg-amber-500/10 flex items-start gap-3.5">
@@ -363,10 +407,55 @@
     </div>
   </dialog>
 
+  <!-- ══ WIDGET FLOTANTE INTERACTIVO DE CHATBOT IA 24/7 (EFECTO WOW EN VIVO) ══ -->
+  <div id="live-chatbot-container" style="position:fixed; bottom:22px; right:22px; z-index:90;">
+    <!-- Ventana de Chat Abierta -->
+    <div id="chatbot-window" class="hidden mb-3 w-80 sm:w-96 rounded-2xl overflow-hidden shadow-2xl border-2" style="background:#071224; border-color:var(--accent);">
+      <div class="p-3.5 flex items-center justify-between text-slate-950 font-bold" style="background:linear-gradient(135deg, var(--accent), var(--secondary));">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-full bg-slate-950/20 flex items-center justify-center text-base">
+            <i class="fas fa-robot"></i>
+          </div>
+          <div>
+            <div class="text-xs font-extrabold leading-tight" id="chatbot-header-biz">Asistente Digital 24/7</div>
+            <div class="text-[10px] opacity-90 flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-slate-950 inline-block"></span> En línea · Responde en 5 seg
+            </div>
+          </div>
+        </div>
+        <button type="button" onclick="toggleChatbotWindow()" class="w-7 h-7 rounded-lg bg-slate-950/15 hover:bg-slate-950/30 flex items-center justify-center text-xs font-bold">
+          ✕
+        </button>
+      </div>
+      <div id="chatbot-messages" class="p-3.5 space-y-2.5 max-h-72 overflow-y-auto text-xs" style="background:#050d1a;">
+        <!-- Mensajes renderizados por JS -->
+      </div>
+      <div id="chatbot-quick-replies" class="px-3.5 py-2 border-t border-slate-800/80 flex flex-wrap gap-1.5" style="background:#081529;">
+        <!-- Botones rápidos renderizados por JS -->
+      </div>
+      <form onsubmit="sendChatbotUserMessage(event)" class="p-2.5 border-t border-slate-800 flex items-center gap-2" style="background:#09172e;">
+        <input type="text" id="chatbot-input" class="input-mini text-xs py-2" placeholder="Escribe una pregunta como cliente...">
+        <button type="submit" class="px-3 py-2 rounded-lg font-bold text-xs text-slate-950 flex-shrink-0" style="background:var(--accent);">
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </form>
+    </div>
+
+    <!-- Botón Flotante Redondo -->
+    <div class="flex justify-end">
+      <button type="button" onclick="toggleChatbotWindow()" class="accent-btn rounded-full px-5 py-3.5 shadow-2xl flex items-center gap-2.5 text-xs sm:text-sm font-extrabold">
+        <i class="fas fa-comments text-lg"></i>
+        <span>Probar Chatbot IA 24/7</span>
+        <span class="px-1.5 py-0.5 rounded-full bg-slate-950 text-white text-[10px]">EN VIVO</span>
+      </button>
+    </div>
+  </div>
+
   <script src="https://link.msgsndr.com/js/form_embed.js" type="text/javascript"></script>
   <script>
     const TEMPLATES = {{ templates_json | safe }};
-    const INITIAL_LEAD_ID = {{ lead_id_json | safe }};
+    let ACTIVE_LEAD_ID = {{ lead_id_json | safe }};
+    let ACTIVE_CALENDAR_URL = "https://api.leadconnectorhq.com/widget/bookings/calendario-de-edward-jimenez";
 
     const BRAND_LOOKS = [
       { id: "prosper_cyan", name: "ProsperIA Cyber Cyan", accent: "#00e5ff", secondary: "#0ea5e9", bg: "#040b16" },
@@ -401,12 +490,37 @@
       }
     });
 
-    function initFromQuery() {
+    async function initFromQuery() {
       const params = new URLSearchParams(window.location.search);
       const tpl = params.get("template") || "clinica_dental_estetica";
       if (TEMPLATES[tpl]) {
         document.getElementById("ctrl-template").value = tpl;
       }
+      if (params.get("closer_email")) {
+        const sel = document.getElementById("ctrl-closer");
+        if ([...sel.options].some(o => o.value === params.get("closer_email"))) {
+          sel.value = params.get("closer_email");
+        }
+      }
+
+      // Intentar detectar sesión activa para usar automáticamente el calendario y correo del Closer logueado
+      try {
+        const catRes = await fetch("/api/sales-os/catalog");
+        if (catRes.ok) {
+          const catJson = await catRes.json();
+          const cu = catJson?.data?.current_user;
+          if (cu && cu.email) {
+            const sel = document.getElementById("ctrl-closer");
+            if (!params.get("closer_email") && [...sel.options].some(o => o.value === cu.email)) {
+              sel.value = cu.email;
+            }
+            if (cu.calendar_url) {
+              ACTIVE_CALENDAR_URL = cu.calendar_url;
+            }
+          }
+        }
+      } catch (e) {}
+
       applyTemplateChange(false);
 
       if (params.get("business")) document.getElementById("ctrl-business").value = params.get("business");
@@ -442,6 +556,24 @@
       document.getElementById("view-q1-label").textContent = t.form_questions[0];
       document.getElementById("view-q2-label").textContent = t.form_questions[1];
 
+      // Renderizar Galería de Imágenes por Giro
+      const gallery = t.gallery_images || [
+        { label: "Instalaciones Principales", url: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1000&q=85" }
+      ];
+      selectGalleryImage(gallery[0].url, gallery[0].label);
+
+      const thumbsContainer = document.getElementById("view-gallery-thumbs");
+      thumbsContainer.innerHTML = gallery.map((img, idx) => `
+        <button type="button" onclick="selectGalleryImage('${img.url}', '${img.label}')"
+                class="flex items-center gap-2 p-1.5 rounded-xl border border-slate-700 hover:border-cyan-400 bg-slate-900/90 text-left transition flex-shrink-0">
+          <img src="${img.url}" alt="${img.label}" class="w-12 h-9 object-cover rounded-lg">
+          <div class="pr-2">
+            <div class="text-[10px] text-cyan-300 font-bold">Foto ${idx + 1}</div>
+            <div class="text-[11px] text-white font-semibold whitespace-nowrap">${img.label}</div>
+          </div>
+        </button>
+      `).join("");
+
       const grid = document.getElementById("view-services-grid");
       grid.innerHTML = t.services.map(s => `
         <div class="feature-box p-4">
@@ -453,6 +585,42 @@
       `).join("");
 
       syncLivePreview();
+      resetChatbotForTemplate(t);
+    }
+
+    function selectGalleryImage(url, label) {
+      const heroImg = document.getElementById("view-hero-image");
+      const cap = document.getElementById("view-image-caption");
+      if (heroImg && url) heroImg.src = url;
+      if (cap && label) cap.textContent = label;
+    }
+
+    function applyCustomImageUrl(url) {
+      const trimmed = (url || "").trim();
+      if (trimmed.startsWith("http") || trimmed.startsWith("data:image")) {
+        selectGalleryImage(trimmed, "Foto Personalizada del Cliente");
+      }
+    }
+
+    function handleLocalImageUpload(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(ev) {
+        const dataUrl = ev.target.result;
+        document.getElementById("ctrl-image-url").value = "Foto local cargada (" + file.name + ")";
+        selectGalleryImage(dataUrl, file.name.replace(/\.[^/.]+$/, ""));
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function handleCloserChange() {
+      const sel = document.getElementById("ctrl-closer");
+      const opt = sel.options[sel.selectedIndex];
+      const closerName = opt ? opt.getAttribute("data-name") : "Closer ProsperIA";
+      const banner = document.getElementById("crm-save-banner");
+      banner.textContent = `👤 Closer activo para esta Demo: ${closerName} (${sel.value}). Cuando el cliente llene el formulario, entrará directo a tu Pipeline.`;
+      banner.classList.remove("hidden");
     }
 
     function syncLivePreview() {
@@ -465,6 +633,83 @@
       document.getElementById("view-offer").textContent = offer;
       document.getElementById("view-consent-biz").textContent = biz;
       document.getElementById("view-step-biz").textContent = biz;
+      const chatBiz = document.getElementById("chatbot-header-biz");
+      if (chatBiz) chatBiz.textContent = `Recepcionista IA · ${biz.slice(0, 24)}`;
+    }
+
+    function toggleChatbotWindow() {
+      const win = document.getElementById("chatbot-window");
+      win.classList.toggle("hidden");
+    }
+
+    function resetChatbotForTemplate(t) {
+      const biz = document.getElementById("ctrl-business").value || t.default_business;
+      const msgBox = document.getElementById("chatbot-messages");
+      const qrBox = document.getElementById("chatbot-quick-replies");
+      if (!msgBox || !qrBox) return;
+
+      const greeting = t.chatbot_greeting || `¡Hola! 👋 Soy el Asistente 24/7 de ${biz}. ¿En qué puedo ayudarte hoy?`;
+      msgBox.innerHTML = `
+        <div class="p-2.5 rounded-xl bg-slate-800/90 text-slate-100 border border-slate-700 leading-relaxed">
+          <div class="font-bold text-cyan-300 text-[11px] mb-0.5">🤖 Asistente IA 24/7</div>
+          ${greeting}
+        </div>
+      `;
+
+      const replies = t.chatbot_quick_replies || [
+        "📅 Quiero agendar cita esta semana",
+        "💬 Solicitar presupuesto por WhatsApp"
+      ];
+      qrBox.innerHTML = replies.map(r => `
+        <button type="button" onclick="triggerQuickReply('${r.replace(/'/g, "\\'")}')"
+                class="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/25 transition">
+          ${r}
+        </button>
+      `).join("");
+    }
+
+    function triggerQuickReply(text) {
+      appendChatMessage("user", text);
+      generateBotResponse(text);
+    }
+
+    function sendChatbotUserMessage(e) {
+      e.preventDefault();
+      const inp = document.getElementById("chatbot-input");
+      const text = (inp.value || "").trim();
+      if (!text) return;
+      inp.value = "";
+      appendChatMessage("user", text);
+      generateBotResponse(text);
+    }
+
+    function appendChatMessage(sender, text) {
+      const msgBox = document.getElementById("chatbot-messages");
+      const div = document.createElement("div");
+      if (sender === "user") {
+        div.className = "p-2.5 rounded-xl bg-cyan-500/20 text-white border border-cyan-500/40 ml-6 text-right";
+        div.innerHTML = `<div class="font-bold text-cyan-300 text-[10px] mb-0.5">👤 Cliente Visitante</div>${text}`;
+      } else {
+        div.className = "p-2.5 rounded-xl bg-slate-800/90 text-slate-100 border border-slate-700 mr-4 leading-relaxed";
+        div.innerHTML = `<div class="font-bold text-emerald-300 text-[10px] mb-0.5">🤖 Recepcionista IA 24/7</div>${text}`;
+      }
+      msgBox.appendChild(div);
+      msgBox.scrollTop = msgBox.scrollHeight;
+    }
+
+    function generateBotResponse(userText) {
+      const biz = document.getElementById("ctrl-business").value || "nuestro negocio";
+      const offer = document.getElementById("ctrl-offer").value || "nuestra promoción de esta semana";
+      const q1Input = document.getElementById("sim-q1");
+      if (q1Input) q1Input.value = userText;
+
+      setTimeout(() => {
+        appendChatMessage(
+          "bot",
+          `¡Excelente! En <strong>${biz}</strong> tenemos cupo prioritario para <em>"${userText}"</em> con el beneficio activo: <strong>${offer}</strong>.<br><br>` +
+          `✅ Ya pre-cargué tu consulta en el formulario de al lado. Haz clic en <strong>"Continuar y Ver Disponibilidad en Vivo"</strong> para elegir tu horario en el calendario.`
+        );
+      }, 350);
     }
 
     function toggleToolbar() {
@@ -472,35 +717,106 @@
       const btn = document.getElementById("btn-toggle-bar");
       bar.classList.toggle("minimized");
       if (bar.classList.contains("minimized")) {
-        btn.innerHTML = '<i class="fas fa-Sliders-h mr-1"></i> Mostrar Controles Closer';
+        btn.innerHTML = '<i class="fas fa-sliders-h mr-1"></i> Mostrar Controles Closer';
       } else {
         btn.innerHTML = '<i class="fas fa-eye-slash mr-1"></i> Modo Cliente';
       }
     }
 
-    function simulateClientSubmission(e) {
+    async function simulateClientSubmission(e) {
       e.preventDefault();
+      const tplKey = document.getElementById("ctrl-template").value || "clinica_dental_estetica";
       const biz = document.getElementById("ctrl-business").value || "Tu Negocio";
+      const city = document.getElementById("ctrl-city").value || "Tu Ciudad";
       const offer = document.getElementById("ctrl-offer").value || "Promoción activa";
       const clientName = document.getElementById("sim-name").value || "Cliente";
       const clientPhone = document.getElementById("sim-phone").value || "";
       const clientEmail = document.getElementById("sim-email").value || "";
       const q1 = document.getElementById("sim-q1").value || "";
       const q2 = document.getElementById("sim-q2").value || "";
+      const closerSelect = document.getElementById("ctrl-closer");
+      const closerEmail = closerSelect ? closerSelect.value : "sheille.perez@gmail.com";
+      const closerName = closerSelect && closerSelect.options[closerSelect.selectedIndex]
+        ? closerSelect.options[closerSelect.selectedIndex].getAttribute("data-name")
+        : "Closer ProsperIA";
 
       const msgHtml = `
         <strong>🤖 Recepcionista IA de ${biz}:</strong><br>
         "¡Hola <strong>${clientName}</strong>! 👋 Recibimos tu solicitud para <em>${q1}</em> (${q2}).<br>
         Tienes activado tu beneficio: <strong>${offer}</strong>.<br>
-        👇 Selecciona aquí abajo el horario que te quede más cómodo para dejarte confirmada tu cita hoy mismo."
+        👇 Selecciona aquí abajo el horario que te quede más cómodo con <strong>${closerName}</strong> para dejarte confirmada tu cita hoy mismo."
       `;
       document.getElementById("sim-whatsapp-msg").innerHTML = msgHtml;
       document.getElementById("sim-crm-summary").innerHTML = `
         • <strong>Contacto:</strong> ${clientName} (${clientPhone} | ${clientEmail})<br>
-        • <strong>Interés calificado:</strong> ${q1} | <strong>Urgencia:</strong> ${q2}<br>
-        • <strong>Estado en Pipeline:</strong> Diagnóstico Agendado + Recordatorios WhatsApp Activados ✅
+        • <strong>Negocio personalizado:</strong> ${biz} (${city})<br>
+        • <strong>Closer Asignado:</strong> ${closerName} (${closerEmail})<br>
+        • <strong>Estado en Pipeline GHL:</strong> Sincronizando en vivo con <em>Ventas Agencia ProsperIA (Demo Realizada)</em>... ⏳
       `;
       document.getElementById("sim-result-box").classList.remove("hidden");
+
+      // Inyectar en vivo al CRM y a GoHighLevel (Pipeline Ventas Agencia ProsperIA)
+      try {
+        if (ACTIVE_LEAD_ID) {
+          const res = await fetch(`/api/sales-os/leads/${ACTIVE_LEAD_ID}/stage`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              pipeline_stage: "Demo realizada",
+              offer_version: "EXPRESS_497",
+              quoted_amount: 497,
+              selected_template: tplKey,
+              demo_config_json: JSON.stringify({ biz, city, offer, closerEmail, q1, q2 }),
+              next_action_note: `Formulario de Demo en vivo completado por ${clientName} (${biz}). Interés: ${q1} (${q2}).`
+            })
+          });
+          const data = await res.json();
+          if (data.success) {
+            document.getElementById("sim-crm-summary").innerHTML = `
+              • <strong>Contacto:</strong> ${clientName} (${clientPhone} | ${clientEmail})<br>
+              • <strong>Closer Asignado:</strong> ${closerName} (${closerEmail})<br>
+              • <strong>Estado en Pipeline GHL:</strong> ✅ <strong>¡INYECTADO EN VIVO EN GOHIGHLEVEL!</strong> Etapa: <em>Demo Realizada (US$497)</em>
+            `;
+            return;
+          }
+        }
+
+        // Si no venía con lead_id previo, lo creamos en vivo en /api/leads con asignación al closer seleccionado
+        const createRes = await fetch("/api/leads", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: clientName,
+            email: clientEmail,
+            company: biz,
+            phone: clientPhone,
+            source: "demo_sitio_web_vivo",
+            source_channel: "Demo en Vivo (Closer)",
+            source_campaign: tplKey,
+            interest_primary: "Sitio Web Inteligente",
+            owner_id: closerEmail,
+            setter_id: closerEmail,
+            niche: TEMPLATES[tplKey]?.niche || "clinica",
+            country: city,
+            pipeline_stage: "Demo realizada",
+            offer_version: "EXPRESS_497",
+            quoted_amount: 497,
+            selected_template: tplKey,
+            notes: `Demo en vivo realizada por ${closerName}. Consulta: ${q1} | Disponibilidad: ${q2}`
+          })
+        });
+        const createData = await createRes.json();
+        if (createData?.data?.id) {
+          ACTIVE_LEAD_ID = createData.data.id;
+        }
+        document.getElementById("sim-crm-summary").innerHTML = `
+          • <strong>Contacto:</strong> ${clientName} (${clientPhone} | ${clientEmail})<br>
+          • <strong>Closer Asignado:</strong> ${closerName} (${closerEmail})<br>
+          • <strong>Estado en Pipeline GHL:</strong> ✅ <strong>¡INYECTADO EN VIVO EN GOHIGHLEVEL!</strong> Etapa: <em>Demo Realizada (US$497)</em>
+        `;
+      } catch (err) {
+        console.error("Error sincronizando formulario de demo:", err);
+      }
     }
 
     function openGhlCalendarModal() {
@@ -509,7 +825,7 @@
       const clientEmail = document.getElementById("sim-email").value || "";
       const firstName = clientName.split(" ")[0] || "";
 
-      const baseUrl = "https://api.leadconnectorhq.com/widget/bookings/calendario-de-edward-jimenez";
+      const baseUrl = ACTIVE_CALENDAR_URL || "https://api.leadconnectorhq.com/widget/bookings/calendario-de-edward-jimenez";
       const qp = new URLSearchParams();
       if (firstName) qp.set("first_name", firstName);
       if (clientName) qp.set("name", clientName);
@@ -557,9 +873,9 @@
       };
       const banner = document.getElementById("crm-save-banner");
 
-      if (INITIAL_LEAD_ID) {
+      if (ACTIVE_LEAD_ID) {
         try {
-          const res = await fetch(`/api/sales-os/leads/${INITIAL_LEAD_ID}/stage`, {
+          const res = await fetch(`/api/sales-os/leads/${ACTIVE_LEAD_ID}/stage`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -573,7 +889,7 @@
           });
           const data = await res.json();
           if (data.success) {
-            banner.textContent = `✅ Demo guardada en el prospecto #${INITIAL_LEAD_ID} (${payloadConfig.business_name}) -> Etapa actualizada a "Demo realizada" y sincronizada con GoHighLevel.`;
+            banner.textContent = `✅ Demo guardada en el prospecto #${ACTIVE_LEAD_ID} (${payloadConfig.business_name}) -> Etapa actualizada a "Demo realizada" y sincronizada con GoHighLevel.`;
             banner.classList.remove("hidden");
             return;
           }

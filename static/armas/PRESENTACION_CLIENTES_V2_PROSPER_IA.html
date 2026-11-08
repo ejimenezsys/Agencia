@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Presentación Comercial V2 (10 Slides · Clientes) — Agencia Prosper IA</title>
+<style>
+  @page {
+    size: 13.333in 7.5in;
+    margin: 0;
+  }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: #030712;
+    color: #f8fafc;
+    overflow-x: hidden;
+  }
+
+  /* Interactive Top Bar (Hidden when printing to PDF/PPTX) */
+  .presenter-toolbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 54px;
+    background: rgba(3, 7, 18, 0.95);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(0, 229, 255, 0.3);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 22px;
+  }
+  .toolbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    font-weight: 800;
+    color: #fff;
+  }
+  .toolbar-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .t-btn {
+    background: rgba(30, 41, 59, 0.88);
+    border: 1px solid rgba(148, 163, 184, 0.32);
+    color: #f8fafc;
+    padding: 7px 13px;
+    border-radius: 999px;
+    font-size: 11.5px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .t-btn:hover {
+    border-color: #00e5ff;
+    color: #00e5ff;
+  }
+  .t-btn.primary {
+    background: linear-gradient(135deg, #00e5ff, #3b82f6);
+    color: #020617;
+    border: none;
+    font-weight: 800;
+  }
+  .t-btn.amber {
+    background: rgba(245, 158, 11, 0.2);
+    border-color: #f59e0b;
+    color: #fde68a;
+  }
+
+  /* Seller Script Teleprompter Bar */
+  .seller-script-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(15, 23, 42, 0.96);
+    border-top: 2px solid #f59e0b;
+    padding: 11px 26px;
+    z-index: 100;
+    display: none;
+    color: #fef3c7;
+    font-size: 13.5px;
+    line-height: 1.42;
+  }
+  body.show-script .seller-script-bar {
+    display: block;
+  }
+
+  .deck-wrapper {
+    padding-top: 54px;
+  }
+  .slide {
+    width: 13.333in;
+    height: 7.5in;
+    margin: 0 auto;
+    padding: 0.36in 0.5in;
+    background:
+      radial-gradient(circle at 12% 14%, rgba(0, 229, 255, 0.13), transparent 38%),
+      radial-gradient(circle at 88% 18%, rgba(99, 102, 241, 0.15), transparent 42%),
+      radial-gradient(circle at 50% 95%, rgba(16, 185, 129, 0.09), transparent 45%),
+      #040814;
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .slide.active {
+    display: flex;
+  }
+
+  @media print {
+    .presenter-toolbar, .seller-script-bar {
+      display: none !important;
+    }
+    .deck-wrapper {
+      padding-top: 0 !important;
+    }
+    .slide {
+      display: flex !important;
+      margin: 0 !important;
+      border: none !important;
+      page-break-after: always;
+    }
+    .slide:last-child {
+      page-break-after: auto;
+    }
+  }
+
+  /* Slide Header */
+  .s-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+    padding-bottom: 10px;
+  }
+  .s-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .s-brand img {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: 1.5px solid #00e5ff;
+  }
+  .s-brand-name {
+    font-size: 12pt;
+    font-weight: 900;
+    letter-spacing: 0.4px;
+    color: #fff;
+  }
+  .s-brand-name span { color: #00e5ff; }
+  .s-step-pill {
+    background: rgba(0, 229, 255, 0.12);
+    border: 1px solid rgba(0, 229, 255, 0.4);
+    color: #67e8f9;
+    font-size: 8.5pt;
+    font-weight: 800;
+    padding: 5px 13px;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .s-step-pill.pain {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.5);
+    color: #fca5a5;
+  }
+  .s-step-pill.gold {
+    background: rgba(245, 158, 11, 0.18);
+    border-color: rgba(245, 158, 11, 0.6);
+    color: #fde68a;
+  }
+  .s-step-pill.purple {
+    background: rgba(139, 92, 246, 0.2);
+    border-color: rgba(139, 92, 246, 0.6);
+    color: #ddd6fe;
+  }
+
+  /* Headlines */
+  .s-headline {
+    font-size: 24.5pt;
+    font-weight: 900;
+    line-height: 1.12;
+    letter-spacing: -0.5px;
+    color: #ffffff;
+    margin-top: 8px;
+  }
+  .s-headline .cyan { color: #00e5ff; }
+  .s-headline .red { color: #f87171; }
+  .s-headline .emerald { color: #34d399; }
+  .s-headline .amber { color: #fbbf24; }
+  .s-headline .purple { color: #c4b5fd; }
+
+  .s-subheadline {
+    font-size: 11.8pt;
+    color: #94a3b8;
+    font-weight: 500;
+    margin-top: 4px;
+    line-height: 1.35;
+  }
+
+  /* Grids & Cards */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    flex: 1;
+    margin-top: 12px;
+    align-items: stretch;
+  }
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    flex: 1;
+    margin-top: 12px;
+    align-items: stretch;
+  }
+  .grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    flex: 1;
+    margin-top: 12px;
+    align-items: stretch;
+  }
+
+  .card {
+    background: linear-gradient(160deg, rgba(15, 23, 42, 0.94) 0%, rgba(8, 13, 28, 0.98) 100%);
+    border: 1.5px solid rgba(148, 163, 184, 0.22);
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+  }
+  .card.pain-card {
+    border-color: rgba(239, 68, 68, 0.45);
+    background: linear-gradient(160deg, rgba(40, 12, 18, 0.85) 0%, rgba(10, 14, 28, 0.98) 100%);
+  }
+  .card.sol-card {
+    border-color: rgba(0, 229, 255, 0.48);
+  }
+  .card.emerald-card {
+    border-color: rgba(16, 185, 129, 0.55);
+    background: linear-gradient(160deg, rgba(6, 38, 30, 0.85) 0%, rgba(10, 14, 28, 0.98) 100%);
+  }
+  .card.gold-card {
+    border: 2px solid #f59e0b;
+    background: linear-gradient(160deg, rgba(45, 27, 5, 0.92) 0%, rgba(10, 14, 28, 0.98) 100%);
+  }
+  .card.purple-card {
+    border: 2px solid #8b5cf6;
+    background: linear-gradient(160deg, rgba(30, 18, 60, 0.9) 0%, rgba(10, 14, 28, 0.98) 100%);
+  }
+
+  .card h3 {
+    font-size: 14.5pt;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.18;
+    margin-bottom: 6px;
+  }
+  .card p {
+    font-size: 10.5pt;
+    color: #cbd5e1;
+    line-height: 1.38;
+  }
+
+  /* Empty Photo Frame for Closer on Slide 1 & Slide 10 */
+  .closer-photo-frame {
+    width: 155px;
+    height: 185px;
+    border-radius: 16px;
+    border: 2.5px dashed #00e5ff;
+    background: rgba(2, 6, 23, 0.85);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 12px;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .closer-photo-frame .icon {
+    font-size: 28pt;
+    color: #00e5ff;
+    margin-bottom: 6px;
+  }
+  .closer-photo-frame .lbl {
+    font-size: 8pt;
+    font-weight: 800;
+    color: #67e8f9;
+    text-transform: uppercase;
+    line-height: 1.25;
+  }
+  .closer-photo-frame .sub {
+    font-size: 6.8pt;
+    color: #94a3b8;
+    margin-top: 4px;
+  }
+
+  .fillable-field {
+    background: rgba(2, 6, 23, 0.9);
+    border: 1.5px dashed rgba(0, 229, 255, 0.55);
+    border-radius: 10px;
+    padding: 8px 12px;
+    color: #f8fafc;
+    font-size: 10.5pt;
+    font-weight: 700;
+  }
+
+  .s-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 8px;
+    border-top: 1px solid rgba(148, 163, 184, 0.15);
+    font-size: 9pt;
+    color: #64748b;
+    font-weight: 600;
+  }
+</style>
+</head>
+<body class="show-script">
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       BARRA INTERACTIVA DE CONTROL (NO SALE EN EL PDF NI EN EL PPTX)
+       ════════════════════════════════════════════════════════════════════ -->
+  <nav class="presenter-toolbar">
+    <div class="toolbar-left">
+      <span>🚀 PITCH CLIENTES VERSIÓN 2 (10 SLIDES · CON REALCE AL CLOSER + CORTEXIA + SVE90)</span>
+      <span id="slide-indicator" style="color:#00e5ff; font-family:monospace;">SLIDE 01 / 10</span>
+    </div>
+    <div class="toolbar-controls">
+      <button type="button" class="t-btn" id="prev-btn">◀ Anterior</button>
+      <button type="button" class="t-btn primary" id="next-btn">Siguiente ▶</button>
+      <button type="button" class="t-btn amber" id="script-btn">🎙️ Ocultar/Ver Guion Vendedor</button>
+      <button type="button" class="t-btn" id="fullscreen-btn">⛶ Pantalla Completa (F)</button>
+      <a href="PRESENTACION_CLIENTES_V2_PROSPER_IA.pptx" download class="t-btn" style="border-color:#10b981; color:#34d399;">📊 Descargar PowerPoint V2 (.pptx)</a>
+      <a href="PRESENTACION_CLIENTES_V2_PROSPER_IA.pdf" target="_blank" class="t-btn">📄 Abrir PDF V2</a>
+    </div>
+  </nav>
+
+  <div class="seller-script-bar" id="teleprompter">
+    <strong style="color:#fbbf24;">🎙️ GUION PARA EL VENDEDOR EN ESTE SLIDE:</strong>
+    <span id="teleprompter-text"></span>
+  </div>
+
+  <main class="deck-wrapper">
+
+    <!-- ==================================================================
+         SLIDE 1: PORTADA V2 — REALCE AL VENDEDOR/CLOSER + RESPALDO INTERNACIONAL
+         ================================================================== -->
+    <section class="slide active" data-slide="0">
+      <div class="s-top">
+        <div class="s-brand">
+          <img src="file:///Users/ejimenezsys/Desktop/Cortexia/assets_closers/logo_prosper_ia_cropped.jpg" alt="Agencia Prosper IA">
+          <div class="s-brand-name">AGENCIA <span>PROSPER IA LLC</span> · EE.UU. · ARGENTINA · COLOMBIA · MÉXICO</div>
+        </div>
+        <span class="s-step-pill">Diagnóstico Estratégico de Ventas y Ahorro Operativo · 25 Minutos</span>
+      </div>
+
+      <div class="grid-2" style="grid-template-columns: 1.08fr 0.92fr; align-items: stretch;">
+        <!-- Columna Izquierda: Promesa de Ganar/Ahorrar Plata + Tarjeta Protagonista del Vendedor/Closer -->
+        <div style="display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <span style="display:inline-block; background:rgba(16,185,129,0.16); border:1px solid #10b981; color:#34d399; font-size:8.5pt; font-weight:800; padding:4px 11px; border-radius:999px; margin-bottom:8px;">
+              💰 CÓMO GANAR MÁS PLATA EN VENTAS Y AHORRAR MILES EN OPERACIÓN
+            </span>
+            <h1 class="s-headline" style="font-size:25pt;">
+              Multiplica tus <span class="cyan">Citas y Clientes</span> en Menos de 1 Minuto <span class="emerald">Sin Inflar tu Nómina</span>
+            </h1>
+            <p class="s-subheadline" style="font-size:11pt; margin-top:8px;">
+              Dejamos funcionando en <strong>7 a 10 días</strong> tu sucursal digital, tu recepcionista 24/7 y tus empleados digitales para que ningún cliente se vaya con la competencia.
+            </p>
+          </div>
+
+          <!-- TARJETA PROTAGONISTA DEL VENDEDOR / CLOSER (CON CUADRO VACÍO PARA SU FOTO) -->
+          <div class="card sol-card" style="padding:16px; border-width:2px; background:linear-gradient(145deg, rgba(8,22,48,0.96), rgba(4,10,24,0.98));">
+            <div style="font-size:8pt; font-weight:900; color:#00e5ff; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:8px;">
+              👤 TU CONSULTOR COMERCIAL ASIGNADO (CLOSER OFICIAL)
+            </div>
+            <div style="display:flex; gap:16px; align-items:center;">
+              <!-- Cuadro Vacío para Foto del Vendedor -->
+              <div class="closer-photo-frame">
+                <div class="icon">📷</div>
+                <div class="lbl">COLOCA AQUÍ LA FOTO DEL CONSULTOR / CLOSER</div>
+                <div class="sub">(Espacio reservado para foto profesional)</div>
+              </div>
+
+              <!-- Datos del Vendedor para personalizar -->
+              <div style="flex:1; display:grid; gap:8px;">
+                <div class="fillable-field" contenteditable="true">
+                  <span style="font-size:7.5pt; color:#67e8f9; display:block; text-transform:uppercase;">Nombre del Consultor / Closer:</span>
+                  [ ESCRIBE AQUÍ TU NOMBRE COMPLETO ]
+                </div>
+                <div class="fillable-field" contenteditable="true" style="border-color:rgba(16,185,129,0.5);">
+                  <span style="font-size:7.5pt; color:#34d399; display:block; text-transform:uppercase;">Cargo Oficial:</span>
+                  Consultor Certificado en Crecimiento Comercial e IA
+                </div>
+                <div style="font-size:8.8pt; color:#cbd5e1; line-height:1.3;">
+                  ✓ Acompañamiento directo de diagnóstico e implementación junto a nuestra Dirección de Ingeniería.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Columna Derecha: ¿QUIÉN TE RESPALDA? CEO Edward Jiménez + 10 Ingenieros UBA + Equipo Colombia/México -->
+        <div class="card gold-card" style="padding:16px; display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <span style="background:#f59e0b; color:#020617; font-size:8pt; font-weight:900; padding:3px 10px; border-radius:6px; text-transform:uppercase;">
+              🛡️ EL RESPALDO INTERNACIONAL DETRÁS DE TU IMPLEMENTACIÓN
+            </span>
+
+            <!-- Bloque CEO Edward Jiménez -->
+            <div style="display:flex; gap:14px; align-items:center; margin-top:12px; background:rgba(2,6,23,0.78); border:1px solid rgba(245,158,11,0.45); border-radius:14px; padding:10px;">
+              <img src="file:///Users/ejimenezsys/Desktop/Cortexia/landing_consultoria_ia/edward_hero_depth.jpg" alt="Edward Jiménez CEO" style="width:92px; height:106px; border-radius:10px; object-fit:cover; object-position:center 18%; border:1.5px solid #fbbf24; flex-shrink:0;">
+              <div>
+                <div style="font-size:13pt; font-weight:900; color:#fde68a;">Edward Jiménez · CEO &amp; Fundador</div>
+                <div style="font-size:8.8pt; color:#ffffff; font-weight:700; margin-top:2px;">Agencia Prosper IA LLC (EE.UU.) · Creador de PassportAI y Cortexia</div>
+                <div style="font-size:8.2pt; color:#cbd5e1; margin-top:4px; line-height:1.3;">
+                  • <strong>+25 años construyendo empresas</strong> y sistemas comerciales.<br>
+                  • Speaker Internacional <strong>EXMA Miami</strong> · Autor de <em>Las 4 Inteligencias</em>.<br>
+                  • <strong>+740 negocios activos</strong> y <strong>+US$20,000 USD</strong> validados en Hotmart.
+                </div>
+              </div>
+            </div>
+
+            <!-- Bloque 10 Ingenieros UBA (Buenos Aires) -->
+            <div style="margin-top:10px; background:rgba(2,6,23,0.78); border:1px solid rgba(0,229,255,0.4); border-radius:14px; padding:10px 12px;">
+              <div style="font-size:10.5pt; font-weight:900; color:#00e5ff;">
+                🧠 10 Ingenieros Ultra Calificados (Egresados Facultad de Buenos Aires · UBA)
+              </div>
+              <p style="font-size:8.6pt; color:#e2e8f0; margin-top:3px;">
+                Tu negocio no queda en manos de improvisados: nuestra agencia cuenta con un escuadrón propio de <strong>10 ingenieros especialistas en Sistemas e Inteligencia Artificial</strong> que configuran, conectan y prueban toda tu plataforma.
+              </p>
+            </div>
+
+            <!-- Bloque Equipo Colombia y México -->
+            <div style="margin-top:10px; background:rgba(2,6,23,0.78); border:1px solid rgba(16,185,129,0.45); border-radius:14px; padding:10px 12px;">
+              <div style="font-size:10.5pt; font-weight:900; color:#34d399;">
+                🎬 Equipo de Edición Viral y Tráfico en Colombia y México (+744K Vistas)
+              </div>
+              <p style="font-size:8.6pt; color:#e2e8f0; margin-top:3px;">
+                Productores audiovisuales y especialistas en campañas publicitarias en <strong>Colombia y México</strong> que ya generaron <strong>+640,000 vistas en Facebook y +109,000 en Instagram</strong> listos para hacer crecer tu marca.
+              </p>
+            </div>
+          </div>
+
+          <div style="font-size:8.2pt; color:#fde68a; text-align:center; font-weight:800; padding-top:6px;">
+            EE.UU. (Dirección) + Argentina (10 Ingenieros UBA) + Colombia y México (Producción y Tráfico)
+          </div>
+        </div>
+      </div>
+
+      <div class="s-bottom">
+        <span>Agencia Prosper IA LLC · Presentación Oficial Versión 2 · Respaldo Corporativo Internacional</span>
+        <span>Lámina 01 de 10</span>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         SLIDE 2: DOLOR #1 — DÓNDE PIERDES PLATA HOY (FUGA EN WHATSAPP)
+         ================================================================== -->
+    <section class="slide" data-slide="1">
+      <div class="s-top">
+        <div class="s-brand">
+          <img src="file:///Users/ejimenezsys/Desktop/Cortexia/assets_closers/logo_prosper_ia_cropped.jpg" alt="Agencia Prosper IA">
+          <div class="s-brand-name">AGENCIA <span>PROSPER IA</span></div>
+        </div>
+        <span class="s-step-pill pain">💸 Dolor #1 · Dónde Se Te Escapa la Plata Todos los Días</span>
+      </div>
+
+      <div>
+        <h2 class="s-headline">
+          3 Situaciones Reales Donde <span class="red">Pierdes Plata Cada Semana</span> Sin Darte Cuenta
+        </h2>
+        <p class="s-subheadline">
+          No necesitas más curiosos preguntando; necesitas dejar de perder a los clientes que <strong>ya te están escribiendo hoy</strong>:
+        </p>
+      </div>
+
+      <div class="grid-3">
+        <div class="card pain-card">
+          <div>
+            <span style="font-size:8.5pt; font-weight:900; color:#fca5a5;">SITUACIÓN 1 · TARDAR EN CONTESTAR</span>
+            <h3 style="margin-top:6px;">El Cliente Escribe a 3 Negocios y Compra en el Primero que Responde</h3>
+            <p style="margin-top:8px;">
+              Estás atendiendo un paciente, en una reunión o en el taller. Un cliente pide informes por WhatsApp o Instagram y <strong>tardas 45 minutos en contestarle</strong>. Cuando le respondes, te deja en visto porque <strong>ya le pagó a tu competencia</strong>.
+            </p>
+          </div>
+          <div style="padding:10px; background:rgba(2,6,23,0.8); border-radius:10px; border:1px solid #ef4444; font-size:9.5pt; font-weight:800; color:#fca5a5;">
+            📉 Pérdida real: Si pierdes solo 2 ventas por semana de US$150, estás perdiendo US$1,200 USD cada mes.
+          </div>
+        </div>
+
+        <div class="card pain-card">
+          <div>
+            <span style="font-size:8.5pt; font-weight:900; color:#fca5a5;">SITUACIÓN 2 · EL "PRECIO POR FAVOR"</span>
+            <h3 style="margin-top:6px;">El Cementerio de Cotizaciones que Nadie Vuelve a Llamar</h3>
+            <p style="margin-top:8px;">
+              ¿Cuántas personas te pidieron precio en los últimos 90 días, dijeron <em>"Lo voy a pensar"</em> y <strong>nadie de tu equipo volvió a escribirles a los 3, 7 o 15 días</strong>? El 80% de las ventas se cierra en el seguimiento, pero tus vendedores lo olvidan.
+            </p>
+          </div>
+          <div style="padding:10px; background:rgba(2,6,23,0.8); border-radius:10px; border:1px solid #ef4444; font-size:9.5pt; font-weight:800; color:#fca5a5;">
+            📉 Pérdida real: Tienes miles de dólares enterrados hoy mismo en chats viejos de tu celular.
+          </div>
+        </div>
+
+        <div class="card pain-card">
+          <div>
+            <span style="font-size:8.5pt; font-weight:900; color:#fca5a5;">SITUACIÓN 3 · CITAS QUE NO LLEGAN</span>
+            <h3 style="margin-top:6px;">Sillas Vacías, Plantones y Consultas Fuera de Horario</h3>
+            <p style="margin-top:8px;">
+              El 45% de la gente busca servicios <strong>de noche o en domingo</strong> cuando tu negocio está cerrado. Y de los que sí agendan entre semana, muchos te dejan plantado porque nadie les envió recordatorios automáticos para confirmar su asistencia.
+            </p>
+          </div>
+          <div style="padding:10px; background:rgba(2,6,23,0.8); border-radius:10px; border:1px solid #ef4444; font-size:9.5pt; font-weight:800; color:#fca5a5;">
+            📉 Pérdida real: Horas muertas de tu local o consultorio que igual tienes que pagar.
+          </div>
+        </div>
+      </div>
+
+      <div class="s-bottom">
+        <span>Con recuperar apenas 3 a 5 clientes al mes que hoy se te escapan por WhatsApp, nuestro sistema se paga solo.</span>
+        <span>Lámina 02 de 10</span>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         SLIDE 3: DOLOR #2 — DÓNDE QUEMAS PLATA Y TIEMPO OPERATIVO
+         ================================================================== -->
+    <section class="slide" data-slide="2">
+      <div class="s-top">
+        <div class="s-brand">
+          <img src="file:///Users/ejimenezsys/Desktop/Cortexia/assets_closers/logo_prosper_ia_cropped.jpg" alt="Agencia Prosper IA">
+          <div class="s-brand-name">AGENCIA <span>PROSPER IA</span></div>
+        </div>
+        <span class="s-step-pill pain">🔥 Dolor #2 · Por Qué Trabajas el Doble y Gastas de Más</span>
+      </div>
+
+      <div>
+        <h2 class="s-headline">
+          Dónde Estás <span class="red">Quemando Plata en Sueldos y Tiempo</span> que la Tecnología Ya Hace Mejor
+        </h2>
+        <p class="s-subheadline">
+          La mayoría de los dueños de negocio siente que para ganar más plata tiene que contratar más gente y trabajar más horas:
+        </p>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <div>
+            <span style="font-size:8.5pt; font-weight:900; color:#f87171;">GASTO INNECESARIO #1</span>
+            <h3 style="margin-top:6px;">Pagar Sueldos Humanos para Tareas Mecánicas y Repetitivas</h3>
+            <p style="margin-top:8px;">
+              Tener a una persona pagada todos los meses solo para responder <em>"¿Dónde están ubicados?"</em>, <em>"¿Qué horarios tienen?"</em>, pasar nombres a una planilla de Excel o perseguir pagos pendientes <strong>es quemar entre US$500 y US$1,200 USD cada mes</strong>.
+            </p>
+          </div>
+          <div style="background:rgba(16,185,129,0.12); border:1px solid #10b981; padding:10px; border-radius:10px; font-size:9.5pt; color:#6ee7b7; font-weight:700;">
+            💡 Cómo ahorras plata: Un asistente digital hace ese trabajo 24/7 sin sueldo fijo ni cargas sociales.
+          </div>
+        </div>
+
+        <div class="card">
+          <div>
+            <span style="font-size:8.5pt; font-weight:900; color:#f87171;">GASTO INNECESARIO #2</span>
+            <h3 style="margin-top:6px;">Ser Invisible en Redes (O Perder Horas Editando Videos)</h3>
+            <p style="margin-top:8px;">
+              Hoy el negocio que no sube videos cortos (Reels/TikTok) no existe. Pero si lo haces tú mismo pierdes toda la tarde editando, y si contratas una agencia tradicional te cobran una fortuna por diseños lentos que no traen ventas.
+            </p>
+          </div>
+          <div style="background:rgba(16,185,129,0.12); border:1px solid #10b981; padding:10px; border-radius:10px; font-size:9.5pt; color:#6ee7b7; font-weight:700;">
+            💡 Cómo ganas plata: Nuestro equipo en Colombia y México te edita los videos listos para atraer clientes.
+          </div>
+        </div>
+
+        <div class="card">
+          <div>
+            <span style="font-size:8.5pt; font-weight:900; color:#f87171;">GASTO INNECESARIO #3</span>
+            <h3 style="margin-top:6px;">Ceguera Comercial: No Sabes Quién de tu Equipo Sí Vende</h3>
+            <p style="margin-top:8px;">
+              Inviertes plata en publicidad o recomendaciones, le pasas los contactos a tus vendedores o secretarias, y al final del mes te dicen <em>"Nadie quiso comprar"</em>. No tienes cómo ver ni escuchar qué les dijeron realmente.
+            </p>
+          </div>
+          <div style="background:rgba(16,185,129,0.12); border:1px solid #10b981; padding:10px; border-radius:10px; font-size:9.5pt; color:#6ee7b7; font-weight:700;">
+            💡 Cómo cuidas tu plata: Todo queda registrado en un solo tablero bajo tu control total.
+          </div>
+        </div>
+      </div>
+
+      <div class="s-bottom">
+        <span>Regla de Oro Empresarial: No contrates más costos fijos cuando puedes automatizar la recepción, el seguimiento y las citas.</span>
+        <span>Lámina 03 de 10</span>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         SLIDE 4: EL VIEJO CAMINO CARO VS. EL NUEVO CAMINO PROSPER IA
+         ================================================================== -->
+    <section class="slide" data-slide="3">
+      <div class="s-top">
+        <div class="s-brand">
+          <img src="file:///Users/ejimenezsys/Desktop/Cortexia/assets_closers/logo_prosper_ia_cropped.jpg" alt="Agencia Prosper IA">
+          <div class="s-brand-name">AGENCIA <span>PROSPER IA</span></div>
+        </div>
+        <span class="s-step-pill">⚖️ Comparativa Directa a tu Bolsillo · Ahorro Inmediato</span>
+      </div>
+
+      <div>
+        <h2 class="s-headline">
+          Cómo Ahorras <span class="emerald">+US$2,500 USD al Mes</span> Unificando Todo con Nosotros
+        </h2>
+        <p class="s-subheadline">
+          Mira la diferencia en dinero y velocidad entre armar esto por separado vs. instalar nuestra solución llave en mano:
+        </p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card pain-card">
+          <div>
+            <span style="background:#ef4444; color:#fff; font-size:8.5pt; font-weight:900; padding:4px 10px; border-radius:6px;">❌ CONTRATAR POR SEPARADO (CARO Y LENTO)</span>
+            <h3 style="margin-top:10px; font-size:17pt;">Pagar 4 Sueldos y Proveedores que No Se Hablan Entre Sí</h3>
+            <div style="display:grid; gap:9px; margin-top:12px; font-size:10.5pt; color:#fecaca;">
+              <div>💸 <strong>Agencia o Diseñador Web:</strong> <strong>US$1,200 a US$2,000 USD</strong> por una página informativa que tarda 60 días y no agenda sola.</div>
+              <div>💸 <strong>Recepcionista / Telefonista adicional:</strong> <strong>US$600 a US$900 USD/mes</strong> fijos (y solo contesta 8 horas al día de lunes a viernes).</div>
+              <div>💸 <strong>Editor de Video + Trafficker suelto:</strong> <strong>US$800 a US$1,200 USD/mes</strong> adicionales sin garantía de resultados.</div>
+              <div>💸 <strong>Sistemas sueltos de agenda, correo y WhatsApp:</strong> Otros <strong>US$200 USD/mes</strong> en licencias desconectadas.</div>
+            </div>
+          </div>
+          <div style="padding:11px; background:rgba(2,6,23,0.85); border-radius:12px; border:1px solid #ef4444; font-size:11.5pt; font-weight:900; color:#fca5a5; text-align:center;">
+            Desembolso Tradicional: +US$3,000 USD y meses de desgaste para ti
+          </div>
+        </div>
+
+        <div class="card emerald-card">
+          <div>
+            <span style="background:#10b981; color:#022c22; font-size:8.5pt; font-weight:900; padding:4px 10px; border-radius:6px;">✅ CON AGENCIA PROSPER IA (GANAS Y AHORRAS DESDE EL DÍA 7)</span>
+            <h3 style="margin-top:10px; font-size:17pt;">10 Ingenieros + Equipo Colombia/México Trabajando para Ti</h3>
+            <div style="display:grid; gap:9px; margin-top:12px; font-size:10.5pt; color:#d1fae5;">
+              <div>💰 <strong>Tu Sitio Web Inteligente (Listo en 7-10 días):</strong> Basado en +60 modelos ganadores por industria para convertir visitas en citas.</div>
+              <div>💰 <strong>Tu Recepcionista y Vendedor Digital 24/7:</strong> Contesta en menos de 1 minuto de día, de noche y domingos sin cobrar sueldo ni horas extra.</div>
+              <div>💰 <strong>Tu Sistema Comercial todo-en-uno:</strong> Reemplaza 8 programas caros y ordena todas tus ventas en tu celular.</div>
+              <div>💰 <strong>Producción Viral y Campañas bajo el mismo techo:</strong> Editores en Colombia/México y plataforma PassportAI lista para usar.</div>
+            </div>
+          </div>
+          <div style="padding:11px; background:rgba(2,6,23,0.85); border-radius:12px; border:1px solid #10b981; font-size:11.5pt; font-weight:900; color:#34d399; text-align:center;">
+            Inicias hoy desde US$250 USD (50% hoy y 50% cuando te entreguemos todo andando)
+          </div>
+        </div>
+      </div>
+
+      <div class="s-bottom">
+        <span>Ahorras sueldos innecesarios, eliminas licencias sueltas y empiezas a facturar en 7 a 10 días.</span>
+        <span>Lámina 04 de 10</span>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         SLIDE 5: SOLUCIÓN PASO 1 — SITIO INTELIGENTE + LAS 6 ARMAS DEL CRM
+         ================================================================== -->
+    <section class="slide" data-slide="4">
+      <div class="s-top">
+        <div class="s-brand">
+          <img src="file:///Users/ejimenezsys/Desktop/Cortexia/assets_closers/logo_prosper_ia_cropped.jpg" alt="Agencia Prosper IA">
+          <div class="s-brand-name">AGENCIA <span>PROSPER IA</span></div>
+        </div>
+        <span class="s-step-pill">🌐 Paso 1 · Tu Sucursal Digital + Todo el Poder del Sistema Comercial</span>
+      </div>
+
+      <div>
+        <h2 class="s-headline">
+          Tu <span class="cyan">Sitio Web Inteligente</span> + Las 6 Herramientas de Nuestro <span class="emerald">Sistema Comercial</span> que Te Dan Plata
+        </h2>
+        <p class="s-subheadline">
+          Conectamos tu nueva página web y tu asistente 24/7 con un centro de control completo para exprimir cada oportunidad de venta:
+        </p>
+      </div>
+
+      <div class="grid-3" style="grid-template-rows: 1fr 1fr; gap: 12px;">
+        <div class="card sol-card" style="padding:13px;">
+          <h3 style="font-size:13pt; color:#00e5ff;">1. Sitio Web Inteligente + Asistente 24/7</h3>
+          <p style="font-size:9.8pt;">
+            Diseño probado para tu giro + Formulario calificador + Asistente que responde preguntas y captura el WhatsApp del cliente a cualquier hora.
+          </p>
+        </div>
+
+        <div class="card sol-card" style="padding:13px;">
+          <h3 style="font-size:13pt; color:#34d399;">2. Bandeja Única (WhatsApp + IG + FB)</h3>
+          <p style="font-size:9.8pt;">
+            Une tu WhatsApp, mensajes de Instagram, Facebook, correo y web en <strong>una sola pantalla</strong>. Nunca más se pierde un cliente entre celulares.
+          </p>
+        </div>
+
+        <div class="card sol-card" style="padding:13px;">
+          <h3 style="font-size:13pt; color:#fbbf24;">3. Agenda Automática Anti-Plantones</h3>
+          <p style="font-size:9.8pt;">
+            El cliente elige su turno y el sistema le envía <strong>confirmación y recordatorios automáticos por WhatsApp</strong> (reduce un 40% las inasistencias).
+          </p>
+        </div>
+
+        <div class="card emerald-card" style="padding:13px;">
+          <h3 style="font-size:13pt; color:#6ee7b7;">4. Reactivador de Clientes Antiguos (Dinero Rápido)</h3>
+          <p style="font-size:9.8pt;">
+            Cargamos tu lista de clientes o prospectos viejos y el sistema les envía una oferta especial para <strong>generar ventas y flujo de caja en tu primera semana</strong>.
+          </p>
+        </div>
+
+        <div class="card emerald-card" style="padding:13px;">
+          <h3 style="font-size:13pt; color:#6ee7b7;">5. Multiplicador de Reseñas 5★ en Google</h3>
+          <p style="font-size:9.8pt;">
+            Cada vez que atiendes a un cliente feliz, el sistema le pide su reseña en Google Maps por WhatsApp para que <strong>salgas #1 en tu ciudad gratis</strong>.
+          </p>
+        </div>
+
+        <div class="card emerald-card" style="padding:13px;">
+          <h3 style="font-size:13pt; color:#6ee7b7;">6. Tablero de Dinero en Calle y Cobros en Chat</h3>
+          <p style="font-size:9.8pt;">
+            Ves en columnas simples quién pidió precio, quién tiene cita y cuánto dinero tienes por cerrar hoy, enviando <strong>links de cobro directo al WhatsApp</strong>.
+          </p>
+        </div>
+      </div>
+
+      <div class="s-bottom">
+        <span style="color:#00e5ff; font-weight:800;">👉 DEMO EN VIVO (3 MINUTOS): Mira ahora mismo en pantalla cómo funciona tu Sitio Inteligente y este tablero para tu negocio.</span>
+        <span>Lámina 05 de 10</span>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         SLIDE 6: SOLUCIÓN PASO 2 — PASSPORTAI + EQUIPO COLOMBIA/MÉXICO
+         ================================================================== -->
+    <section class="slide" data-slide="5">
+      <div class="s-top">
+        <div class="s-brand">
+          <img src="file:///Users/ejimenezsys/Desktop/Cortexia/assets_closers/logo_prosper_ia_cropped.jpg" alt="Agencia Prosper IA">
+          <div class="s-brand-name">AGENCIA <span>PROSPER IA</span></div>
+        </div>
+        <span class="s-step-pill">🚀 Paso 2 · Fábrica de Clientes Nuevos (PassportAI + Edición Colombia/México)</span>
+      </div>
+
+      <div>
+        <h2 class="s-headline">
+          Cómo Hacemos que Todo Tu Mercado Te Conozca y <span class="cyan">Te Escriba Todos los Días</span>
+        </h2>
+        <p class="s-subheadline">
+          Una vez lista tu casa digital, encendemos nuestros 3 aceleradores para llenarla de compradores calificados:
+        </p>
+      </div>
+
+      <div class="grid-3">
+        <div class="card sol-card">
+          <div>
+            <span style="font-size:8.5pt; font-weight:900; color:#00e5ff;">1. PLATAFORMA PASSPORTAI BUSINESS</span>
+            <h3 style="margin-top:6px;">Tu Director de Marketing y Ofertas en 3 Clics</h3>
+            <p style="margin-top:8px;">
+              ¿No sabes cómo armar una oferta irresistible o qué publicar? En <strong>PassportAI</strong> solo respondes preguntas simples sobre tu negocio y en 2 minutos te entrega <strong>tu plan de 30 días de redes, tus anuncios y tus guiones de venta por WhatsApp</strong>.
+            </p>
+          </div>
+          <div style="padding:10px; background:rgba(0,229,255,0.12); border-radius:10px; font-size:9.2pt; color:#67e8f9; font-weight:700;">
+            💰 Ahorras US$800/mes en consultores de marketing y copywriters
+          </div>
+        </div>
+
+        <div class="card" style="border-color:rgba(236,72,153,0.55);">
+          <div>
+            <span style="font-size:8.5pt; font-weight:900; color:#f472b6;">2. EQUIPO CREATIVO EN COLOMBIA Y MÉXICO</span>
+            <h3 style="margin-top:6px;">10 a 15 Videos Virales al Mes Editados por Expertos</h3>
+            <p style="margin-top:8px;">
+              Tú solo grabas 15 minutos con tu celular leyendo los guiones que te damos. Nuestro <strong>equipo de edición en Colombia y México (creadores de +744,000 vistas)</strong> edita tus Reels con subtítulos dinámicos, efectos y retención para dominar tu sector.
+            </p>
+          </div>
+          <div style="padding:10px; background:rgba(236,72,153,0.14); border-radius:10px; font-size:9.2pt; color:#fbcfe8; font-weight:700;">
+            💰 Ganas autoridad masiva sin perder ni 1 minuto editando
+          </div>
+        </div>
+
+        <div class="card emerald-card">
+          <div>
+            <span style="font-size:8.5pt; font-weight:900; color:#34d399;">3. ESPECIALISTAS EN CAMPAÑAS (META ADS)</span>
+            <h3 style="margin-top:6px;">Anuncios que Traen Compradores Directo a tu WhatsApp</h3>
+            <p style="margin-top:8px;">
+              Nuestros especialistas en tráfico en México y Colombia configuran y optimizan tus campañas en Facebook, Instagram y WhatsApp para que <strong>tu anuncio le aparezca solo a la gente de tu zona que puede pagar tu servicio hoy</strong>.
+            </p>
+          </div>
+          <div style="padding:10px; background:rgba(16,185,129,0.15); border-radius:10px; font-size:9.2pt; color:#a7f3d0; font-weight:700;">
+            💰 Multiplicas tus citas desde la primera semana de campaña
+          </div>
+        </div>
+      </div>
+
+      <div class="s-bottom">
+        <span>Tecnología en EE.UU. + 10 Ingenieros en Buenos Aires + Producción y Tráfico en Colombia y México = Resultados Reales.</span>
+        <span>Lámina 06 de 10</span>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         SLIDE 7: EL MÁS ALTO NIVEL — CONSULTORÍA CORTEXIA & EMPLEADOS DIGITALES
+         ================================================================== -->
+    <section class="slide" data-slide="6">
+      <div class="s-top">
+        <div class="s-brand">
+          <img src="file:///Users/ejimenezsys/Desktop/Cortexia/assets_closers/logo_prosper_ia_cropped.jpg" alt="Agencia Prosper IA">
+          <div class="s-brand-name">CORTEXIA BY <span>AGENCIA PROSPER IA</span> · ALTA CONSULTORÍA DE IA</div>
+        </div>
+        <span class="s-step-pill purple">🧠 El Más Alto Nivel · Creación de Empleados Digitales Autónomos</span>
+      </div>
+
+      <div>
+        <h2 class="s-headline">
+          El Poder de <span class="purple">CORTEXIA</span>: Creamos <span class="cyan">"Empleados Digitales"</span> que Trabajan 24/7 Sin Sueldo Fijo ni Errores
+        </h2>
+        <p class="s-subheadline">
+          Muchas empresas creen que para vender el doble necesitan contratar el doble de personal. Con nuestros <strong>10 ingenieros</strong> clonamos a tus mejores empleados en Inteligencia Artificial:
+        </p>
+      </div>
+
+      <div class="grid-3">
+        <div class="card purple-card">
+          <div>
+            <span style="font-size:8.5pt; font-weight:900; color:#c4b5fd;">EMPLEADO DIGITAL #1 · VENTAS Y COTIZACIONES</span>
+            <h3 style="margin-top:6px;">Vendedores y Cotizadores Digitales (Voz y WhatsApp)</h3>
+            <p style="margin-top:8px;">
+              Entrenamos un empleado digital con <strong>todo tu catálogo, precios, stock y reglas de negocio</strong>. Atiende a 200 clientes a la vez, arma presupuestos complejos en segundos, rebate objeciones, hace llamadas de voz y agenda o cobra sin intervención humana.
+            </p>
+          </div>
+          <div style="padding:10px; background:rgba(2,6,23,0.85); border:1px solid #8b5cf6; border-radius:10px; font-size:9.2pt; color:#ddd6fe; font-weight:800;">
+            💰 Ganas plata: Cero clientes perdidos a las 3 AM y 3x más cierres
+          </div>
+        </div>
+
+        <div class="card purple-card">
+          <div>
+            <span style="font-size:8.5pt; font-weight:900; color:#c4b5fd;">EMPLEADO DIGITAL #2 · ADMINISTRACIÓN Y COBRANZA</span>
+            <h3 style="margin-top:6px;">Cobradores, Auditores y Operativos Digitales 24/7</h3>
+            <p style="margin-top:8px;">
+              ¿Pierdes horas persiguiendo pagos vencidos, validando comprobantes, revisando contratos o cruzando planillas? Nuestros empleados digitales <strong>recuerdan pagos por WhatsApp y teléfono, concilian facturas y le entregan el reporte diario al dueño</strong> en su celular.
+            </p>
+          </div>
+          <div style="padding:10px; background:rgba(2,6,23,0.85); border:1px solid #8b5cf6; border-radius:10px; font-size:9.2pt; color:#ddd6fe; font-weight:800;">
+            💰 Ahorras plata: Reduces de 40% a 70% tus costos administrativos
+          </div>
+        </div>
+
+        <div class="card purple-card">
+          <div>
+            <span style="font-size:8.5pt; font-weight:900; color:#c4b5fd;">EMPLEADO DIGITAL #3 · CEREBRO PRIVADO DE LA EMPRESA</span>
+            <h3 style="margin-top:6px;">Tu Conocimiento Seguro (Sin depender de Empleados Clave)</h3>
+            <p style="margin-top:8px;">
+              Si hoy se va tu mejor vendedor o tu encargado operativo, tu empresa sufre. Con <strong>Cortexia</strong> cargamos todos tus manuales, procesos y secretos en un <strong>Cerebro Privado con seguridad bancaria</strong> que entrena a los nuevos y opera sin cansarse, sin pedir aumento y sin vacaciones.
+            </p>
+          </div>
+          <div style="padding:10px; background:rgba(2,6,23,0.85); border:1px solid #8b5cf6; border-radius:10px; font-size:9.2pt; color:#ddd6fe; font-weight:800;">
+            💰 Blindas tu negocio: Tu empresa escala sin volverse rehén de nadie
+          </div>
+        </div>
+      </div>
+
+      <div class="s-bottom">
+        <span style="color:#c4b5fd; font-weight:800;">Diseñado por Edward Jiménez y nuestros 10 Ingenieros (UBA) para empresas que quieren liderar su industria en 2026–2027.</span>
+        <span>Lámina 07 de 10</span>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         SLIDE 8: PRUEBA SOCIAL VERIFICADA + OFERTAS RÁPIDAS BLACK NOVEMBER
+         ================================================================== -->
+    <section class="slide" data-slide="7">
+      <div class="s-top">
+        <div class="s-brand">
+          <img src="file:///Users/ejimenezsys/Desktop/Cortexia/assets_closers/logo_prosper_ia_cropped.jpg" alt="Agencia Prosper IA">
+          <div class="s-brand-name">AGENCIA <span>PROSPER IA</span></div>
+        </div>
+        <span class="s-step-pill gold">🔥 Prueba Real + Paquetes de Arranque Rápido "Black November" (50% Hoy / 50% Entrega)</span>
+      </div>
+
+      <!-- Mini tira visual de las 4 capturas de prueba social -->
+      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:8px;">
+        <div style="display:flex; align-items:center; gap:8px; background:#091124; border:1px solid rgba(245,158,11,0.4); border-radius:10px; padding:6px;">
+          <img src="file:///Users/ejimenezsys/Desktop/Cortexia/assets_closers/proof_hotmart_logro_20k.jpg" alt="Hotmart 20K" style="width:58px; height:42px; object-fit:cover; border-radius:6px;">
+          <div>
+            <div style="font-size:9pt; font-weight:900; color:#fde68a;">+US$20,000 Hotmart</div>
+            <div style="font-size:7pt; color:#94a3b8;">Facturación Verificada</div>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; background:#091124; border:1px solid rgba(0,229,255,0.4); border-radius:10px; padding:6px;">
+          <img src="file:///Users/ejimenezsys/Desktop/Cortexia/assets_closers/proof_hotmart_passportai_ventas.jpg" alt="740 Negocios" style="width:58px; height:42px; object-fit:cover; border-radius:6px;">
+          <div>
+            <div style="font-size:9pt; font-weight:900; color:#00e5ff;">+740 Negocios Activos</div>
+            <div style="font-size:7pt; color:#94a3b8;">Usando PassportAI</div>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; background:#091124; border:1px solid rgba(236,72,153,0.4); border-radius:10px; padding:6px;">
+          <img src="file:///Users/ejimenezsys/Desktop/Cortexia/assets_closers/proof_ig_perfil_5428_109k.jpg" alt="IG 109K" style="width:58px; height:42px; object-fit:cover; border-radius:6px;">
+          <div>
+            <div style="font-size:9pt; font-weight:900; color:#f472b6;">Reel 109,000 Vistas</div>
+            <div style="font-size:7pt; color:#94a3b8;">Instagram @edwardjimenezia</div>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; background:#091124; border:1px solid rgba(16,185,129,0.4); border-radius:10px; padding:6px;">
+          <img src="file:///Users/ejimenezsys/Desktop/Cortexia/assets_closers/proof_fb_15k_reels_643k.jpg" alt="FB 640K" style="width:58px; height:42px; object-fit:cover; border-radius:6px;">
+          <div>
+            <div style="font-size:9pt; font-weight:900; color:#34d399;">+640,000 Vistas FB</div>
+            <div style="font-size:7pt; color:#94a3b8;">Equipo Colombia &amp; México</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-3" style="margin-top:10px;">
+        <!-- OPCIÓN 1: EXPRESS PYME ($497) -->
+        <div class="card emerald-card" style="padding:14px;">
+          <div>
+            <span style="background:#10b981; color:#022c22; font-size:7.8pt; font-weight:900; padding:3px 8px; border-radius:6px;">OPCIÓN 1 · ENTRADA PYME Y PROFESIONALES</span>
+            <h3 style="margin-top:8px; font-size:15.5pt;">Sitio Web Inteligente Express + Asistente 24/7</h3>
+            <div style="margin:6px 0;">
+              <span style="text-decoration:line-through; color:#64748b; font-size:9.5pt;">Normal: US$990</span>
+              <div style="font-size:24pt; font-weight:900; color:#fff; line-height:1;">US$497 <span style="font-size:9pt; color:#94a3b8;">USD</span></div>
+              <div style="font-size:9.8pt; color:#34d399; font-weight:800; margin-top:3px;">✓ Inicias hoy con solo US$250 USD</div>
+              <div style="font-size:8pt; color:#cbd5e1;">(+ US$250 al entregarte tu web en 7-10 días)</div>
+            </div>
+            <div style="display:grid; gap:4px; font-size:9pt; color:#e2e8f0; border-top:1px solid rgba(255,255,255,0.12); padding-top:8px;">
+              <div>✓ <strong>1 Sitio Web Inteligente</strong> adaptado a tu giro</div>
+              <div>✓ <strong>Formulario Calificador + Asistente 24/7</strong></div>
+              <div>✓ <strong>1er Mes del Sistema Comercial incluido</strong> (Bandeja Única, Agenda y Tablero; desde el mes 2 solo US$99/mes)</div>
+            </div>
+          </div>
+          <div style="font-size:8.2pt; color:#a7f3d0; font-weight:700; text-align:center;">
+            El arranque más rápido para empezar a capturar citas
+          </div>
+        </div>
+
+        <!-- OPCIÓN 2: PACK ESTRELLA ANUAL ($990) -->
+        <div class="card sol-card" style="padding:14px; border-width:2.5px; border-color:#00e5ff;">
+          <div>
+            <span style="background:#00e5ff; color:#020617; font-size:7.8pt; font-weight:900; padding:3px 8px; border-radius:6px;">⭐ OPCIÓN 2 · PACK ESTRELLA ANUAL (CERO MENSUALIDADES)</span>
+            <h3 style="margin-top:8px; font-size:15.5pt;">Sitio Inteligente + Sistema Comercial + PassportAI (1 Año)</h3>
+            <div style="margin:6px 0;">
+              <span style="text-decoration:line-through; color:#64748b; font-size:9.5pt;">Normal: US$1,990</span>
+              <div style="font-size:24pt; font-weight:900; color:#00e5ff; line-height:1;">US$990 <span style="font-size:9pt; color:#94a3b8;">/ año</span></div>
+              <div style="font-size:9.8pt; color:#fde68a; font-weight:800; margin-top:3px;">✓ 2 pagos de US$495 (50% hoy / 50% entrega)</div>
+              <div style="font-size:8pt; color:#67e8f9;">¡Ahorras US$1,188 USD en mensualidades durante todo un año!</div>
+            </div>
+            <div style="display:grid; gap:4px; font-size:9pt; color:#e2e8f0; border-top:1px solid rgba(255,255,255,0.12); padding-top:8px;">
+              <div>✓ <strong>Sitio Web Inteligente + Asistente 24/7</strong></div>
+              <div>✓ <strong>12 Meses de Sistema Comercial Starter</strong> (Cero pagos mensuales)</div>
+              <div>✓ <strong>12 Meses de PassportAI Business</strong> (Ofertas y planes en 3 clics)</div>
+              <div>✓ <strong>🎁 Bono: 2 Videos Virales</strong> editados por el equipo Colombia/México</div>
+            </div>
+          </div>
+          <div style="font-size:8.2pt; color:#00e5ff; font-weight:800; text-align:center;">
+            La mejor inversión para ahorrar plata todo el año
+          </div>
+        </div>
+
+        <!-- OPCIÓN 3: MÁQUINA COMPLETA ($1,490 / $1,500) -->
+        <div class="card gold-card" style="padding:14px;">
+          <div>
+            <span style="background:#f59e0b; color:#020617; font-size:7.8pt; font-weight:900; padding:3px 8px; border-radius:6px;">🔥 OPCIÓN 3 · MÁQUINA COMPLETA 3 EN 1</span>
+            <h3 style="margin-top:8px; font-size:15.5pt;">Web IA + 10 Videos Virales + 1 Mes de Campañas</h3>
+            <div style="margin:6px 0;">
+              <span style="text-decoration:line-through; color:#64748b; font-size:9.5pt;">Normal: US$3,400</span>
+              <div style="font-size:24pt; font-weight:900; color:#fde68a; line-height:1;">US$1,490 <span style="font-size:9pt; color:#fef3c7;">USD</span></div>
+              <div style="font-size:9.8pt; color:#34d399; font-weight:800; margin-top:3px;">✓ 2 pagos de US$745 (50% hoy / 50% día 15)</div>
+              <div style="font-size:8pt; color:#fde68a;">(O Implementación Full del Sistema Comercial por US$1,500)</div>
+            </div>
+            <div style="display:grid; gap:4px; font-size:9pt; color:#fef3c7; border-top:1px solid rgba(245,158,11,0.3); padding-top:8px;">
+              <div>✓ <strong>Sitio Inteligente + Asistente + Sistema Comercial + PassportAI</strong></div>
+              <div>✓ <strong>10 Videos Editados</strong> por nuestro equipo de Colombia y México</div>
+              <div>✓ <strong>1 Mes Completo de Campañas en Facebook/IG</strong> trayendo clientes</div>
+            </div>
+          </div>
+          <div style="font-size:8.2pt; color:#fde68a; font-weight:700; text-align:center;">
+            Servicios sueltos de Edición Viral o Tráfico: US$497/mes
+          </div>
+        </div>
+      </div>
+
+      <div class="s-bottom">
+        <span>Todos nuestros paquetes son implementados por nuestros 10 ingenieros en 7 a 10 días hábiles.</span>
+        <span>Lámina 08 de 10</span>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         SLIDE 9: PROGRAMA CORPORATIVO SVE90 (CON TODO EL CRM EN CADA MÓDULO)
+         ================================================================== -->
+    <section class="slide" data-slide="8">
+      <div class="s-top">
+        <div class="s-brand">
+          <img src="file:///Users/ejimenezsys/Desktop/Cortexia/assets_closers/logo_prosper_ia_cropped.jpg" alt="Agencia Prosper IA">
+          <div class="s-brand-name">AGENCIA <span>PROSPER IA</span> · DIVISIÓN EMPRESARIAL SVE90</div>
+        </div>
+        <span class="s-step-pill gold">💎 Programa Corporativo SVE90 (90 Días) · Todas las Funciones del Sistema Comercial + IA</span>
+      </div>
+
+      <div>
+        <h2 class="s-headline" style="font-size:22pt;">
+          Transformación <span class="amber">SVE90 en 90 Días</span>: Todo Nuestro Sistema Comercial + <span class="cyan">Empleados Digitales</span>
+        </h2>
+        <p class="s-subheadline" style="font-size:10.8pt;">
+          Para empresas que quieren instalar la suite completa de control comercial, automatizar sucursales y ahorrar decenas de miles de dólares en operación:
+        </p>
+      </div>
+
+      <div class="grid-3" style="margin-top:8px;">
+        <!-- SVE90 GROWTH ($2,500) -->
+        <div class="card gold-card" style="padding:14px;">
+          <div>
+            <span style="font-size:8pt; font-weight:900; color:#00e5ff;">MÓDULO 1 · CONTROL Y REACTIVACIÓN COMERCIAL</span>
+            <div style="display:flex; justify-content:space-between; align-items:baseline; margin-top:4px;">
+              <h3 style="font-size:16.5pt; margin:0;">SVE90 GROWTH</h3>
+              <span style="font-size:20pt; font-weight:900; color:#fff;">US$2,500</span>
+            </div>
+            <div style="display:grid; gap:5px; font-size:8.8pt; color:#e2e8f0; margin-top:8px; border-top:1px solid rgba(255,255,255,0.15); padding-top:8px;">
+              <div>✅ <strong>Sitio Web Inteligente + 2 Embudos de Venta</strong> por servicio.</div>
+              <div>✅ <strong>Bandeja Única Omnicanal:</strong> WhatsApp, Instagram, Facebook, Correo y Chat Web unificados (hasta 5 usuarios).</div>
+              <div>✅ <strong>Tablero Visual de Oportunidades (CRM):</strong> Control exacto de cotizaciones abiertas, ganadas y perdidas.</div>
+              <div>✅ <strong>Multi-Calendario y Agenda Anti-Plantones:</strong> Confirmación y recordatorios automáticos por WhatsApp.</div>
+              <div>✅ <strong>Reactivación de Base de Datos Antiguos:</strong> Campaña masiva para cobrar ventas rápidas en los primeros 15 días.</div>
+              <div>✅ <strong>Motor de Reseñas 5★ en Google Maps:</strong> Posicionamiento local automático tras cada venta.</div>
+            </div>
+          </div>
+          <div style="padding:7px; background:rgba(0,229,255,0.14); border-radius:8px; text-align:center; font-size:8.2pt; color:#67e8f9; font-weight:800;">
+            💰 Recuperas la inversión reactivando tus clientes actuales
+          </div>
+        </div>
+
+        <!-- SVE90 SCALE ($5,000) -->
+        <div class="card gold-card" style="padding:14px;">
+          <div>
+            <span style="font-size:8pt; font-weight:900; color:#c4b5fd;">MÓDULO 2 · AUTOMATIZACIÓN 360° + AUDITORÍA DE EQUIPO</span>
+            <div style="display:flex; justify-content:space-between; align-items:baseline; margin-top:4px;">
+              <h3 style="font-size:16.5pt; margin:0;">SVE90 SCALE</h3>
+              <span style="font-size:20pt; font-weight:900; color:#fff;">US$5,000</span>
+            </div>
+            <div style="display:grid; gap:5px; font-size:8.8pt; color:#e2e8f0; margin-top:8px; border-top:1px solid rgba(255,255,255,0.15); padding-top:8px;">
+              <div>✅ <strong>Todo lo del Módulo Growth (US$2,500) MÁS:</strong></div>
+              <div>✅ <strong>Empleados Digitales 24/7 con tu Catálogo Privado:</strong> Cotizan y califican clientes en WhatsApp e Instagram usando tus PDFs y listas de precios reales.</div>
+              <div>✅ <strong>Telefonía Integrada y Grabación de Llamadas:</strong> Escucha qué dicen tus vendedores y mide sus tiempos de respuesta.</div>
+              <div>✅ <strong>Cotizaciones, Contratos Digitales y Cobros en Chat:</strong> Envío automático de propuestas y links de pago por WhatsApp.</div>
+              <div>✅ <strong>Programador Unificado de Redes Sociales + Email Marketing:</strong> Deja programado todo el mes en un solo lugar.</div>
+              <div>✅ <strong>Universidad Interna (Área de Miembros):</strong> Portal privado con videos para capacitar empleados nuevos sin perder tu tiempo.</div>
+            </div>
+          </div>
+          <div style="padding:7px; background:rgba(139,92,246,0.22); border-radius:8px; text-align:center; font-size:8.2pt; color:#ddd6fe; font-weight:800;">
+            💰 Ahorras de 2 a 3 sueldos administrativos y controlas cada vendedor
+          </div>
+        </div>
+
+        <!-- SVE90 ENTERPRISE ($10,000) -->
+        <div class="card gold-card" style="padding:14px; border-width:2.5px; border-color:#fbbf24;">
+          <div>
+            <span style="font-size:8pt; font-weight:900; color:#fde68a;">MÓDULO 3 · TRANSFORMACIÓN TOTAL CORTEXIA + EDWARD JIMÉNEZ</span>
+            <div style="display:flex; justify-content:space-between; align-items:baseline; margin-top:4px;">
+              <h3 style="font-size:16.5pt; margin:0; color:#fde68a;">SVE90 ENTERPRISE</h3>
+              <span style="font-size:20pt; font-weight:900; color:#fde68a;">US$10,000</span>
+            </div>
+            <div style="display:grid; gap:5px; font-size:8.8pt; color:#fef3c7; margin-top:8px; border-top:1px solid rgba(245,158,11,0.35); padding-top:8px;">
+              <div>✅ <strong>Todo lo del Módulo Scale (US$5,000) MÁS:</strong></div>
+              <div>✅ <strong>Dirección Personal de Edward Jiménez + 10 Ingenieros (UBA):</strong> 90 días diseñando la arquitectura a medida de tu empresa.</div>
+              <div>✅ <strong>Empleados Digitales de Voz (Llamadas IA) y Texto:</strong> Agentes que llaman en menos de 60 segundos a cada prospecto, confirman citas y hacen cobranza preventiva.</div>
+              <div>✅ <strong>Cerebro Corporativo Cortexia + Conexión a tu ERP/Facturación:</strong> Integración directa con tu inventario, sistema contable o software médico/inmobiliario.</div>
+              <div>✅ <strong>Arquitectura Multi-Sucursal (Usuarios Ilimitados):</strong> Reportes financieros de rentabilidad publicitaria y ventas por sede en tiempo real para el Directorio.</div>
+            </div>
+          </div>
+          <div style="padding:7px; background:rgba(245,158,11,0.28); border-radius:8px; text-align:center; font-size:8.2pt; color:#fde68a; font-weight:800;">
+            💎 El nivel más alto de Consultoría e Ingeniería de IA en el continente
+          </div>
+        </div>
+      </div>
+
+      <div class="s-bottom">
+        <span>Todos los módulos de SVE90 incluyen facilidades de pago por hitos de avance durante los 90 días.</span>
+        <span>Lámina 09 de 10</span>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         SLIDE 10: CIERRE Y CONTÁCTANOS — ESPACIO PARA DATOS DEL VENDEDOR/CLOSER
+         ================================================================== -->
+    <section class="slide" data-slide="9">
+      <div class="s-top">
+        <div class="s-brand">
+          <img src="file:///Users/ejimenezsys/Desktop/Cortexia/assets_closers/logo_prosper_ia_cropped.jpg" alt="Agencia Prosper IA">
+          <div class="s-brand-name">AGENCIA <span>PROSPER IA LLC</span></div>
+        </div>
+        <span class="s-step-pill">🏁 Paso Final · Arrancamos Hoy y Entregamos en 7 a 10 Días</span>
+      </div>
+
+      <div class="grid-2" style="grid-template-columns: 1.05fr 0.95fr; align-items: stretch;">
+        <!-- Columna Izquierda: Los 3 Pasos de Arranque Hoy + Opciones 50/50 -->
+        <div style="display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <h2 class="s-headline" style="font-size:23pt;">
+              Empieza a <span class="emerald">Ganar y Ahorrar Plata</span> en Solo <span class="cyan">7 a 10 Días</span>
+            </h2>
+            <p class="s-subheadline" style="font-size:10.8pt;">
+              Nosotros hacemos el 100% del trabajo pesado con nuestros 10 ingenieros. Tú solo sigues estos 3 pasos sin riesgo:
+            </p>
+
+            <div style="display:grid; gap:10px; margin-top:12px;">
+              <div class="card sol-card" style="padding:12px;">
+                <div style="font-size:11.5pt; font-weight:900; color:#00e5ff;">PASO 1 (HOY): Reserva tu Cupo con el 50% Inicial</div>
+                <p style="font-size:9.5pt; margin-top:3px;">
+                  Congelas tu beneficio de Black November abonando solo la mitad hoy (<strong>US$250</strong> en el Plan Express, <strong>US$495</strong> en el Pack Anual o <strong>US$745</strong> en la Máquina Completa).
+                </p>
+              </div>
+              <div class="card sol-card" style="padding:12px;">
+                <div style="font-size:11.5pt; font-weight:900; color:#c4b5fd;">PASO 2 (DÍAS 2 AL 6): Nuestros 10 Ingenieros Construyen Todo</div>
+                <p style="font-size:9.5pt; margin-top:3px;">
+                  Adaptamos tu Sitio Web Inteligente, entrenamos tu asistente 24/7 y configuramos tu Sistema Comercial (y tus videos con el equipo de Colombia y México).
+                </p>
+              </div>
+              <div class="card emerald-card" style="padding:12px;">
+                <div style="font-size:11.5pt; font-weight:900; color:#34d399;">PASO 3 (DÍA 7 AL 10): Entrega en Vivo y 50% Final</div>
+                <p style="font-size:9.5pt; margin-top:3px;">
+                  Revisamos juntos tu sistema funcionando en tu celular, liquidas el 50% restante contra entrega y tu negocio empieza a recibir y agendar clientes 24/7.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:rgba(0,229,255,0.12); border:1.5px solid #00e5ff; border-radius:12px; padding:10px 14px; text-align:center; font-size:11pt; font-weight:900; color:#fff;">
+            ¿Arrancamos hoy con el <span style="color:#00e5ff;">Pack Anual (US$495 hoy)</span>, el <span style="color:#34d399;">Express PYME (US$250 hoy)</span> o agendamos <span style="color:#fde68a;">SVE90</span>?
+          </div>
+        </div>
+
+        <!-- Columna Derecha: TARJETA OFICIAL DE CONTÁCTANOS (ESPACIO PARA EL VENDEDOR / CLOSER) -->
+        <div class="card gold-card" style="padding:20px; border-width:2.5px;">
+          <div>
+            <span style="background:#f59e0b; color:#020617; font-size:8.5pt; font-weight:900; padding:4px 12px; border-radius:6px; text-transform:uppercase;">
+              📲 CONTÁCTANOS · TU EJECUTIVO DE CUENTA OFICIAL
+            </span>
+            <h3 style="font-size:19pt; color:#ffffff; margin-top:10px;">
+              Datos Directos de Tu Consultor Comercial / Closer
+            </h3>
+            <p style="font-size:9.8pt; color:#fef3c7; margin-top:4px;">
+              Comunícate directamente conmigo para activar tu implementación o resolver cualquier consulta con Dirección e Ingeniería:
+            </p>
+
+            <!-- Campos Grandes y Claros para que cada Vendedor/Closer ponga Nombre, Teléfono e Email -->
+            <div style="display:grid; gap:12px; margin-top:16px;">
+              <div class="fillable-field" contenteditable="true" style="padding:12px 16px; border-width:2px;">
+                <span style="font-size:8pt; color:#00e5ff; font-weight:900; text-transform:uppercase; display:block; margin-bottom:3px;">
+                  👤 NOMBRE COMPLETO DEL CONSULTOR / CLOSER:
+                </span>
+                <span style="font-size:14pt; font-weight:900; color:#ffffff;">
+                  [ ESCRIBE AQUÍ TU NOMBRE Y APELLIDO ]
+                </span>
+              </div>
+
+              <div class="fillable-field" contenteditable="true" style="padding:12px 16px; border-width:2px; border-color:rgba(16,185,129,0.7);">
+                <span style="font-size:8pt; color:#34d399; font-weight:900; text-transform:uppercase; display:block; margin-bottom:3px;">
+                  📱 TELÉFONO / WHATSAPP DIRECTO:
+                </span>
+                <span style="font-size:14pt; font-weight:900; color:#ffffff;">
+                  [ +54 9 11 ____ - ____ ]
+                </span>
+              </div>
+
+              <div class="fillable-field" contenteditable="true" style="padding:12px 16px; border-width:2px; border-color:rgba(245,158,11,0.7);">
+                <span style="font-size:8pt; color:#fde68a; font-weight:900; text-transform:uppercase; display:block; margin-bottom:3px;">
+                  ✉️ CORREO ELECTRÓNICO OFICIAL:
+                </span>
+                <span style="font-size:14pt; font-weight:900; color:#ffffff;">
+                  [ tunombre@agenciaprosperia.com ]
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div style="border-top:1px solid rgba(255,255,255,0.16); padding-top:10px; display:flex; align-items:center; justify-content:space-between; font-size:8.5pt; color:#cbd5e1;">
+            <div>
+              <strong style="color:#fff;">AGENCIA PROSPER IA LLC</strong> · CEO Edward Jiménez<br>
+              <span>Web Oficial: <strong style="color:#00e5ff;">www.agenciaprosperia.com</strong></span>
+            </div>
+            <div style="text-align:right; color:#fde68a; font-weight:800;">
+              10 Ingenieros (UBA · Argentina)<br>
+              Equipos en Colombia, México y EE.UU.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="s-bottom">
+        <span>Agencia Prosper IA LLC · Todos los derechos reservados · Presentación Comercial Versión 2</span>
+        <span>Lámina 10 de 10</span>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    (() => {
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      const indicator = document.getElementById('slide-indicator');
+      const prevBtn = document.getElementById('prev-btn');
+      const nextBtn = document.getElementById('next-btn');
+      const scriptBtn = document.getElementById('script-btn');
+      const fullscreenBtn = document.getElementById('fullscreen-btn');
+      const teleprompterText = document.getElementById('teleprompter-text');
+
+      const notes = ["SLIDE 1 (Min 0 a 2 - Presentación del Consultor y Respaldo Internacional): 'Hola [Nombre], soy [Tu Nombre], Consultor Certificado de Agencia Prosper IA. Hoy te voy a mostrar cómo hacer que tu negocio gane más dinero cerrando clientes en menos de 1 minuto y cómo ahorrar miles de dólares en tareas manuales. No estoy solo: detrás de lo que vamos a instalar para ti está nuestro CEO Edward Jiménez (+25 años creando empresas en EE.UU. y LATAM), un equipo de 10 ingenieros altamente calificados egresados de la Universidad de Buenos Aires (UBA) y nuestro equipo creativo de edición y campañas en Colombia y México.'", "SLIDE 2 (Min 2 a 5 - Dolor #1: Dónde se te escapa la plata todos los días): 'Hablemos de plata real: hoy cada vez que un cliente escribe a tu negocio y tardan más de 5 minutos en responderle, ese cliente le compra al competidor. Y peor aún: todas las personas que te pidieron precio el mes pasado, te dejaron en visto y nadie volvió a contactar, son miles de dólares que ya pagaste por atraer y que se quedaron tirados en tu WhatsApp.'", "SLIDE 3 (Min 5 a 8 - Dolor #2: Dónde estás quemando plata y tiempo): 'El segundo problema es cuánto te cuesta operar a la antigua: pagar sueldos y horas hombre para contestar las mismas preguntas, perder clientes porque no tienes tiempo de grabarte y editar videos virales cada semana, y que todo el negocio dependa de que tú estés pegado al celular revisando qué hizo o no hizo tu equipo.'", "SLIDE 4 (Min 8 a 10 - Cómo ahorrar +US$2,500/mes): 'Si intentas resolver esto por el camino viejo contratando por separado un diseñador web, una recepcionista extra, un editor de video y una agencia, terminas gastando más de US$3,000 al mes y esperando meses. Con nuestra agencia ahorras todo ese costo fijo y nuestros 10 ingenieros te entregan todo funcionando en 7 a 10 días.'", "SLIDE 5 (Min 10 a 13 - Solución Paso 1: Sitio Inteligente + Todo el Sistema Comercial CRM): 'En el Paso 1 instalamos tu Sucursal Web Inteligente conectada a nuestro Sistema de Control Comercial completo: une tu WhatsApp, Instagram y Facebook en una sola bandeja, agenda citas con recordatorios automáticos para que nadie te deje plantado, reactiva a tus clientes antiguos para generar dinero rápido esta misma semana y sube tus reseñas 5 estrellas en Google Maps.' [MUESTRA 1 PLANTILLA EN VIVO].", "SLIDE 6 (Min 13 a 15 - Solución Paso 2: PassportAI + Editores Colombia/México + Anuncios): 'Para llenar tu negocio de clientes nuevos activamos 3 motores: 1) PassportAI para que en 3 clics tengas tus ofertas y campañas del mes sin gastar en agencias caras, 2) Nuestro equipo de edición en Colombia y México que te entrega de 10 a 15 videos virales al mes listos para subir, y 3) Nuestros especialistas en campañas que traen compradores directo a tu WhatsApp.'", "SLIDE 7 (Min 15 a 18 - El Más Alto Nivel: Consultoría CORTEXIA y Empleados Digitales): 'Muchas empresas creen que para vender el doble necesitan contratar el doble de personal. Con nuestra división de alta consultoría CORTEXIA y nuestros 10 ingenieros creamos Empleados Digitales con Inteligencia Artificial: vendedores digitales que cotizan 24/7, cobradores digitales que recuperan cartera vencida y asistentes internos entrenados con los documentos privados de tu empresa. Así ahorras hasta un 60% en costos operativos.'", "SLIDE 8 (Min 18 a 20 - Prueba Social y Oferta Black November 50/50): 'Más de 740 negocios activos, más de US$20,000 validados en Hotmart y más de 744,000 reproducciones respaldan nuestro trabajo. Para que arranques hoy en Black November con solo el 50% inicial y pagues la otra mitad contra entrega, tienes el Plan Express PYME de US$497 (con US$250 hoy), el Pack Estrella Anual de US$990 sin mensualidades todo el año (con US$495 hoy) o la Máquina Completa de US$1,490.'", "SLIDE 9 (Min 20 a 23 - Programa Corporativo SVE90 con todo el CRM incluido): 'Y si buscas una transformación completa de 90 días con todo nuestro sistema comercial y Empleados Digitales incluidos, tenemos los 3 módulos de SVE90: Growth en US$2,500 (con Bandeja Omnicanal, Embudos, Agenda Anti-Plantones y Reactivación de Clientes), Scale en US$5,000 (sumando Empleados Digitales 24/7, Cobros por WhatsApp y Telefonía Grabada para auditar vendedores) y Enterprise en US$10,000 dirigido personalmente por Edward Jiménez y nuestros 10 ingenieros.'", "SLIDE 10 (Min 23 a 25 - Cierre Directo y Tus Datos de Contacto): 'En 7 a 10 días tienes todo produciendo dinero en tu negocio. Aquí tienes mis datos directos como tu Consultor asignado. Dime [Nombre], ¿reservamos hoy tu lugar con el Pack Anual de US$990 (abonando US$495 hoy) o arrancamos con el Express de US$497 (con US$250 hoy)?'"];
+      let idx = 0;
+
+      function show(i) {
+        if (i < 0) i = 0;
+        if (i >= slides.length) i = slides.length - 1;
+        idx = i;
+        slides.forEach((s, k) => s.classList.toggle('active', k === idx));
+        indicator.textContent = `SLIDE ${String(idx + 1).padStart(2, '0')} / ${slides.length}`;
+        teleprompterText.textContent = notes[idx] || '';
+      }
+
+      prevBtn.addEventListener('click', () => show(idx - 1));
+      nextBtn.addEventListener('click', () => show(idx + 1));
+      scriptBtn.addEventListener('click', () => document.body.classList.toggle('show-script'));
+      fullscreenBtn.addEventListener('click', () => {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen().catch(() => {});
+        } else {
+          document.exitFullscreen().catch(() => {});
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.target.isContentEditable) return;
+        if (e.key === 'ArrowRight' || e.key === ' ') show(idx + 1);
+        if (e.key === 'ArrowLeft') show(idx - 1);
+        if (e.key === 'f' || e.key === 'F') fullscreenBtn.click();
+      });
+
+      show(0);
+    })();
+  </script>
+</body>
+</html>

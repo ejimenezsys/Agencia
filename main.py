@@ -15,7 +15,7 @@ from pydantic import BaseModel, EmailStr
 from sqlalchemy.orm import Session
 from database import init_db, SessionLocal, User, Lead as DbLead, SessionModel, BlogPost, ArsenalPrompt, sync_blog_posts, IntegrationSetting, hash_password, verify_password, normalize_phone_e164, normalize_email
 from editorial import LANES, enrich_post
-from ghl_client import sync_lead_to_ghl_async
+from ghl_client import sync_lead_to_ghl_async, sync_sales_os_event_to_ghl_async
 from sales_os_router import router as sales_os_router, WEBSITE_TEMPLATES_SHOWCASE, serialize_lead, record_audit, is_contact_excluded
 import json
 
@@ -1056,6 +1056,16 @@ class LeadCreateRequest(BaseModel):
     source: Optional[str] = "website"
     score: Optional[int] = 50
     notes: Optional[str] = ""
+    owner_id: Optional[str] = None
+    setter_id: Optional[str] = None
+    pipeline_stage: Optional[str] = None
+    offer_version: Optional[str] = None
+    quoted_amount: Optional[float] = None
+    selected_template: Optional[str] = None
+    niche: Optional[str] = None
+    country: Optional[str] = None
+    source_channel: Optional[str] = None
+    source_campaign: Optional[str] = None
 
 class ContactRequest(BaseModel):
     name: Optional[str] = ""
@@ -2423,7 +2433,7 @@ async def api_get_leads(
     pipeline_stage: Optional[str] = None,
     owner_id: Optional[str] = None,
     include_dnd: Optional[bool] = False,
-    limit: Optional[int] = 250,
+    limit: Optional[int] = 600,
     current_user: dict = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
@@ -2496,7 +2506,12 @@ async def api_create_lead(
         }
 
     created_at = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
-    owner_assigned = current_user["email"] if current_user.get("role") == "seller" else ""
+    owner_assigned = req.owner_id if req.owner_id else (current_user["email"] if current_user.get("role") == "seller" else "")
+    stage_assigned = req.pipeline_stage or "Lead identificado"
+    offer_assigned = req.offer_version or "EXPRESS_497"
+    quoted_assigned = float(req.quoted_amount) if req.quoted_amount is not None else 0.0
+    tpl_assigned = req.selected_template or "clinica_dental_estetica"
+
     new_lead = DbLead(
         name=req.name.strip(),
         full_name=req.name.strip(),
@@ -2507,23 +2522,45 @@ async def api_create_lead(
         phone_e164=clean_ph,
         status=req.status or "new",
         source=req.source or "website",
-        source_channel="Outbound / Manual" if req.source == "outbound" else "Web",
+        source_channel=req.source_channel or ("Outbound / Manual" if req.source == "outbound" else "Web"),
+        source_campaign=req.source_campaign or "",
         score=req.score if req.score is not None else 60,
         notes=req.notes or "",
         created_at=created_at,
         owner_id=owner_assigned,
-        setter_id=owner_assigned,
-        pipeline_stage="Lead identificado",
-        offer_version="EXPRESS_497",
-        quoted_amount=0.0,
+        setter_id=req.setter_id or owner_assigned,
+        niche=req.niche or "clinica",
+        country=req.country or "LATAM / US",
+        pipeline_stage=stage_assigned,
+        offer_version=offer_assigned,
+        quoted_amount=quoted_assigned,
         contracted_amount=0.0,
         amount_collected=0.0,
+        selected_template=tpl_assigned,
         contact_status="contactable",
         last_touch=created_at,
     )
     db.add(new_lead)
     db.commit()
     db.refresh(new_lead)
+
+    if stage_assigned != "Lead identificado":
+        sync_sales_os_event_to_ghl_async(
+            contact_id="",
+            opportunity_id="",
+            email=new_lead.email,
+            phone=new_lead.phone or "",
+            full_name=new_lead.name,
+            business_name=new_lead.company or "",
+            pipeline_stage=stage_assigned,
+            owner_email=owner_assigned or current_user["email"],
+            offer_version=offer_assigned,
+            quoted_amount=quoted_assigned,
+            amount_collected=0.0,
+            invoice_id="",
+            selected_template=tpl_assigned,
+            audit_summary=req.notes or f"Creado desde Demo en Vivo ({stage_assigned})",
+        )
 
     record_audit(
         db,

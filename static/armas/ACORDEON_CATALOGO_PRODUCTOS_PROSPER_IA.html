@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Catálogo Visual de Soluciones — Agencia Prosper IA LLC</title>
+<style>
+  @page {
+    size: 11in 8.5in;
+    margin: 0;
+  }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: #040812;
+    color: #f8fafc;
+    margin: 0;
+    padding: 0;
+  }
+  .page {
+    width: 11in;
+    height: 8.5in;
+    padding: 0.22in 0.32in;
+    background:
+      radial-gradient(circle at 12% 10%, rgba(0, 229, 255, 0.14), transparent 38%),
+      radial-gradient(circle at 88% 15%, rgba(99, 102, 241, 0.16), transparent 40%),
+      radial-gradient(circle at 50% 92%, rgba(245, 158, 11, 0.10), transparent 42%),
+      #040812;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    page-break-after: always;
+    overflow: hidden;
+    position: relative;
+  }
+  .page:last-child {
+    page-break-after: auto;
+  }
+
+  /* Top Header */
+  .top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    border-bottom: 1.5px solid rgba(0, 229, 255, 0.28);
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .brand img {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    border: 1.5px solid #00e5ff;
+    object-fit: cover;
+  }
+  .brand-title {
+    font-size: 18pt;
+    font-weight: 900;
+    letter-spacing: -0.4px;
+    text-transform: uppercase;
+    color: #ffffff;
+    line-height: 1.05;
+  }
+  .brand-title span {
+    color: #00e5ff;
+  }
+  .brand-sub {
+    font-size: 8.5pt;
+    color: #94a3b8;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+  .header-pill {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.22), rgba(217, 119, 6, 0.12));
+    border: 1.5px solid #f59e0b;
+    color: #fde68a;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 9pt;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* Page 1: 4x2 Visual Product Grid */
+  .solutions-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 12px;
+    flex: 1;
+    margin-top: 12px;
+  }
+  .sol-card {
+    background: linear-gradient(165deg, rgba(15, 23, 42, 0.96) 0%, rgba(7, 12, 26, 0.98) 100%);
+    border: 1.5px solid rgba(148, 163, 184, 0.22);
+    border-radius: 16px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+  }
+  .sol-card.cyan { border-color: rgba(0, 229, 255, 0.55); box-shadow: 0 0 18px rgba(0, 229, 255, 0.08); }
+  .sol-card.emerald { border-color: rgba(16, 185, 129, 0.55); }
+  .sol-card.purple { border-color: rgba(139, 92, 246, 0.55); }
+  .sol-card.pink { border-color: rgba(236, 72, 153, 0.55); }
+  .sol-card.amber {
+    background: linear-gradient(165deg, rgba(45, 27, 5, 0.95) 0%, rgba(15, 10, 4, 0.98) 100%);
+    border: 2px solid #f59e0b;
+  }
+
+  .num-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 5;
+    background: rgba(2, 6, 23, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #fff;
+    font-size: 7.5pt;
+    font-weight: 900;
+    padding: 2px 7px;
+    border-radius: 6px;
+    letter-spacing: 0.5px;
+  }
+  .tag-top-right {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 5;
+    font-size: 6.8pt;
+    font-weight: 800;
+    padding: 2px 7px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+
+  /* Visual Mockup Stage inside each card */
+  .visual-stage {
+    height: 134px;
+    border-radius: 11px;
+    background: #091124;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .visual-stage img.cover-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+  }
+
+  /* Browser / Device Mockup Components */
+  .mockup-browser {
+    width: 88%;
+    height: 82%;
+    background: #0f172a;
+    border: 1.5px solid rgba(0, 229, 255, 0.45);
+    border-radius: 9px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+  }
+  .browser-dots {
+    height: 14px;
+    background: #1e293b;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0 7px;
+  }
+  .browser-dots span {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #64748b;
+  }
+  .browser-dots span:nth-child(1) { background: #ef4444; }
+  .browser-dots span:nth-child(2) { background: #f59e0b; }
+  .browser-dots span:nth-child(3) { background: #10b981; }
+  .browser-body {
+    flex: 1;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: linear-gradient(145deg, #0b1528 0%, #111c38 100%);
+    position: relative;
+  }
+  .floating-pill {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background: #10b981;
+    color: #022c22;
+    font-size: 6.8pt;
+    font-weight: 900;
+    padding: 3px 8px;
+    border-radius: 999px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  }
+
+  /* Card Text Footer (Name + Price + Commission) */
+  .sol-info {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .sol-category {
+    font-size: 7pt;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    color: #00e5ff;
+  }
+  .sol-name {
+    font-size: 11.2pt;
+    font-weight: 900;
+    color: #ffffff;
+    line-height: 1.12;
+    letter-spacing: -0.2px;
+  }
+  .sol-sub {
+    font-size: 7.5pt;
+    color: #94a3b8;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+  .price-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 6px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 2px;
+  }
+  .price-main {
+    font-size: 12.5pt;
+    font-weight: 900;
+    color: #ffffff;
+  }
+  .price-split {
+    font-size: 6.8pt;
+    color: #fde68a;
+    font-weight: 700;
+    display: block;
+  }
+  .comm-badge {
+    background: rgba(16, 185, 129, 0.18);
+    border: 1px solid rgba(16, 185, 129, 0.55);
+    color: #34d399;
+    padding: 4px 8px;
+    border-radius: 8px;
+    text-align: right;
+  }
+  .comm-badge .lbl {
+    font-size: 6pt;
+    text-transform: uppercase;
+    font-weight: 800;
+    display: block;
+    color: #a7f3d0;
+  }
+  .comm-badge .val {
+    font-size: 9.5pt;
+    font-weight: 900;
+  }
+
+  /* Page 2: SVE90 Whales + Social Proof Visual Wall */
+  .whales-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-top: 10px;
+  }
+  .whale-card {
+    background: linear-gradient(160deg, rgba(30, 20, 6, 0.95) 0%, rgba(10, 14, 28, 0.98) 100%);
+    border: 2px solid rgba(245, 158, 11, 0.65);
+    border-radius: 16px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+  }
+  .whale-visual {
+    height: 125px;
+    border-radius: 10px;
+    background: #070d1d;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+  .whale-comm-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .w-pill {
+    background: rgba(2, 6, 23, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 8px;
+    padding: 5px 4px;
+    text-align: center;
+  }
+  .w-pill.gold {
+    background: rgba(245, 158, 11, 0.22);
+    border-color: #f59e0b;
+  }
+  .w-pill .k {
+    font-size: 6.2pt;
+    text-transform: uppercase;
+    color: #cbd5e1;
+    font-weight: 700;
+    display: block;
+  }
+  .w-pill .v {
+    font-size: 9.5pt;
+    font-weight: 900;
+    color: #fff;
+  }
+  .w-pill.gold .v {
+    color: #fde68a;
+  }
+
+  /* Visual Proof Wall on Bottom Half of Page 2 */
+  .proof-section-title {
+    font-size: 10.5pt;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: #00e5ff;
+    margin-top: 10px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .proof-wall {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    flex: 1;
+  }
+  .proof-frame {
+    background: #0a1224;
+    border: 1.5px solid rgba(0, 229, 255, 0.35);
+    border-radius: 14px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .proof-img-box {
+    height: 215px;
+    background: #020617;
+    overflow: hidden;
+    position: relative;
+  }
+  .proof-img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+  }
+  .proof-caption {
+    padding: 7px 10px;
+    background: rgba(15, 23, 42, 0.98);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .proof-caption strong {
+    font-size: 8.8pt;
+    color: #ffffff;
+    display: block;
+  }
+  .proof-caption span {
+    font-size: 7.2pt;
+    color: #34d399;
+    font-weight: 700;
+  }
+</style>
+</head>
+<body>
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       PÁGINA 1: LAS 8 SOLUCIONES EN TARJETAS VISUALES (SOLO IMÁGENES + NOMBRES)
+       ════════════════════════════════════════════════════════════════════ -->
+  <section class="page">
+    <header class="top-bar">
+      <div class="brand">
+        <img src="file:///Users/ejimenezsys/Desktop/Cortexia/assets_closers/logo_prosper_ia_cropped.jpg" alt="Logo Agencia ProsperIA">
+        <div>
+          <div class="brand-title">CATÁLOGO VISUAL DE SOLUCIONES · <span>AGENCIA PROSPER IA</span></div>
+          <div class="brand-sub">PassportAI piensa · ProsperIA CRM opera · Agencia ProsperIA implementa · SVE90 transforma</div>
+        </div>
+      </div>
+      <div class="header-pill">🔥 CAMPAÑA BLACK NOVEMBER · COMISIÓN 15% (5% SETTER + 10% CLOSER)</div>
+    </header>
+
+    <div class="solutions-grid">
+
+      <!-- 01. SITIO WEB INTELIGENTE + PASSPORTAI (ANUAL) -->
+      <article class="sol-card cyan">
+        <div>
+          <span class="num-badge">01</span>
+          <span class="tag-top-right" style="background:#00e5ff; color:#020617;">⭐ OFERTA ESTRELLA</span>
+          <div class="visual-stage" style="background:radial-gradient(circle at 50% 30%, rgba(0,229,255,0.28), #071022);">
+            <div class="mockup-browser">
+              <div class="browser-dots"><span></span><span></span><span></span></div>
+              <div class="browser-body">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <span style="font-size:7pt; font-weight:900; color:#00e5ff;">WEB IA + CRM + PASSPORTAI</span>
+                  <span style="font-size:6pt; background:#1e293b; color:#38bdf8; padding:2px 5px; border-radius:4px;">12 MESES</span>
+                </div>
+                <div style="display:grid; grid-template-columns:1.2fr 1fr; gap:5px; margin-top:4px;">
+                  <div style="background:#1e293b; border-radius:6px; padding:5px; border:1px solid rgba(0,229,255,0.3);">
+                    <div style="height:6px; width:75%; background:#00e5ff; border-radius:3px; margin-bottom:4px;"></div>
+                    <div style="height:4px; width:95%; background:#475569; border-radius:2px; margin-bottom:3px;"></div>
+                    <div style="height:14px; width:100%; background:#0284c7; border-radius:4px; font-size:5.5pt; font-weight:800; color:#fff; display:flex; align-items:center; justify-content:center;">FORMULARIO CITA IA</div>
+                  </div>
+                  <div style="background:#0f172a; border-radius:6px; padding:5px; border:1px solid rgba(16,185,129,0.4);">
+                    <div style="font-size:5.5pt; color:#34d399; font-weight:800;">🤖 CHATBOT 24/7</div>
+                    <div style="font-size:5pt; color:#cbd5e1; margin-top:2px;">"¡Hola! Te agendo tu cita en el CRM..."</div>
+                  </div>
+                </div>
+                <div style="display:flex; gap:4px; margin-top:4px;">
+                  <span style="font-size:5.5pt; background:rgba(0,229,255,0.15); color:#67e8f9; padding:2px 5px; border-radius:4px; font-weight:700;">+60 Plantillas</span>
+                  <span style="font-size:5.5pt; background:rgba(245,158,11,0.2); color:#fde68a; padding:2px 5px; border-radius:4px; font-weight:700;">+Bono 2 Reels</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="sol-info">
+            <span class="sol-category">CAJA 1 · PACK ANUAL CERO MENSUALIDADES</span>
+            <h2 class="sol-name">SITIO WEB INTELIGENTE + PASSPORTAI BUSINESS (12 MESES)</h2>
+            <p class="sol-sub">Web IA + Formulario + Chatbot 24/7 + ProsperIA CRM + 2 Reels Bono</p>
+          </div>
+        </div>
+        <div class="price-bar">
+          <div>
+            <span class="price-main">US$990</span>
+            <span class="price-split">o 2 pagos de US$495</span>
+          </div>
+          <div class="comm-badge">
+            <span class="lbl">Tu 15% (5%+10%)</span>
+            <span class="val">US$148.50</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 02. SITIO WEB INTELIGENTE EXPRESS (DOWNSELL PYME) -->
+      <article class="sol-card emerald">
+        <div>
+          <span class="num-badge">02</span>
+          <span class="tag-top-right" style="background:#10b981; color:#022c22;">CIERRE RÁPIDO LATAM</span>
+          <div class="visual-stage" style="background:radial-gradient(circle at 50% 30%, rgba(16,185,129,0.25), #071022);">
+            <div class="mockup-browser" style="border-color:rgba(16,185,129,0.5);">
+              <div class="browser-dots"><span></span><span></span><span></span></div>
+              <div class="browser-body">
+                <div style="font-size:7pt; font-weight:900; color:#34d399;">CLÍNICAS · PROFESIONALES · PYMES</div>
+                <div style="background:#1e293b; border-radius:6px; padding:6px; border:1px solid rgba(16,185,129,0.35);">
+                  <div style="font-size:6.5pt; font-weight:800; color:#fff;">1 Plantilla Ganadora de su Rubro</div>
+                  <div style="font-size:5.5pt; color:#94a3b8; margin-top:2px;">✓ Formulario Calificador + Chatbot IA</div>
+                  <div style="font-size:5.5pt; color:#34d399; margin-top:2px;">✓ 30 Días de ProsperIA CRM Incluidos</div>
+                </div>
+                <div class="floating-pill">Entregado en 7-10 días</div>
+              </div>
+            </div>
+          </div>
+          <div class="sol-info">
+            <span class="sol-category" style="color:#34d399;">CAJA 1 · ENTRADA PYME (DOWNSELL #1)</span>
+            <h2 class="sol-name">SITIO WEB INTELIGENTE EXPRESS + BOT IA</h2>
+            <p class="sol-sub">Sitio Web + Formulario + Chatbot IA + 1er Mes CRM Incluido</p>
+          </div>
+        </div>
+        <div class="price-bar">
+          <div>
+            <span class="price-main">US$497</span>
+            <span class="price-split">o 2 pagos de US$250</span>
+          </div>
+          <div class="comm-badge">
+            <span class="lbl">Tu 15% (5%+10%)</span>
+            <span class="val">US$74.55</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 03. IMPLEMENTACIÓN FULL PROSPERIA CRM -->
+      <article class="sol-card purple">
+        <div>
+          <span class="num-badge">03</span>
+          <span class="tag-top-right" style="background:#8b5cf6; color:#ffffff;">LLAVE EN MANO</span>
+          <div class="visual-stage" style="background:radial-gradient(circle at 50% 30%, rgba(139,92,246,0.28), #071022);">
+            <div class="mockup-browser" style="border-color:rgba(139,92,246,0.55);">
+              <div class="browser-dots"><span></span><span></span><span></span></div>
+              <div class="browser-body">
+                <div style="font-size:7pt; font-weight:900; color:#c4b5fd;">PIPELINE &amp; AUTOMATIZACIÓN 360°</div>
+                <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:4px;">
+                  <div style="background:#1e1b4b; border:1px solid #6366f1; border-radius:5px; padding:4px; text-align:center;">
+                    <div style="font-size:5.5pt; color:#a5b4fc; font-weight:800;">NUEVOS</div>
+                    <div style="font-size:8pt; font-weight:900; color:#fff;">42</div>
+                  </div>
+                  <div style="background:#1e1b4b; border:1px solid #8b5cf6; border-radius:5px; padding:4px; text-align:center;">
+                    <div style="font-size:5.5pt; color:#c4b5fd; font-weight:800;">CITA IA</div>
+                    <div style="font-size:8pt; font-weight:900; color:#34d399;">18</div>
+                  </div>
+                  <div style="background:#1e1b4b; border:1px solid #10b981; border-radius:5px; padding:4px; text-align:center;">
+                    <div style="font-size:5.5pt; color:#6ee7b7; font-weight:800;">VENTAS</div>
+                    <div style="font-size:8pt; font-weight:900; color:#fde68a;">$14K</div>
+                  </div>
+                </div>
+                <div style="font-size:5.8pt; color:#e2e8f0; background:rgba(139,92,246,0.2); padding:3px 6px; border-radius:4px; font-weight:700;">
+                  WhatsApp + IG + Web + 5 Flujos Anti No-Show
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="sol-info">
+            <span class="sol-category" style="color:#c4b5fd;">CAJA 1 · UPSELL CORPORATIVO</span>
+            <h2 class="sol-name">IMPLEMENTACIÓN FULL PROSPERIA CRM + SITIO IA</h2>
+            <p class="sol-sub">Todo el Pack Anual + 5 Automatizaciones + WhatsApp/IG + Capacitación</p>
+          </div>
+        </div>
+        <div class="price-bar">
+          <div>
+            <span class="price-main">US$1,500</span>
+            <span class="price-split">o 2 pagos de US$750</span>
+          </div>
+          <div class="comm-badge">
+            <span class="lbl">Tu 15% (5%+10%)</span>
+            <span class="val">US$225.00</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 04. PACK AUTORIDAD VIRAL (REELS CAPCUT PRO + IA) -->
+      <article class="sol-card pink">
+        <div>
+          <span class="num-badge">04</span>
+          <span class="tag-top-right" style="background:#ec4899; color:#ffffff;">EQUIPO 744K VISTAS</span>
+          <div class="visual-stage">
+            <img src="file:///Users/ejimenezsys/Desktop/Cortexia/assets_closers/proof_ig_reels_grid_109k.jpg" alt="Grid de Reels Virales Agencia ProsperIA" class="cover-img">
+            <div class="floating-pill" style="background:#ec4899; color:#fff;">10 a 15 Reels / Mes</div>
+          </div>
+          <div class="sol-info">
+            <span class="sol-category" style="color:#f472b6;">CAJA 2 · EDICIÓN DE CONTENIDO VIRAL</span>
+            <h2 class="sol-name">PACK AUTORIDAD VIRAL (EDICIÓN REELS CAPCUT PRO)</h2>
+            <p class="sol-sub">10 o 15 Videos al mes editados por nuestros 3 expertos + Guiones IA</p>
+          </div>
+        </div>
+        <div class="price-bar">
+          <div>
+            <span class="price-main">US$497<span style="font-size:8pt; color:#94a3b8;">/mes</span></span>
+            <span class="price-split">o US$697/mes (15 Reels)</span>
+          </div>
+          <div class="comm-badge">
+            <span class="lbl">Tu 15% Mensual</span>
+            <span class="val">US$74.55+</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 05. SERVICIO TRAFFICKER IA (META ADS) -->
+      <article class="sol-card cyan">
+        <div>
+          <span class="num-badge">05</span>
+          <span class="tag-top-right" style="background:#0284c7; color:#ffffff;">CAPTACIÓN DIRECTA</span>
+          <div class="visual-stage" style="background:radial-gradient(circle at 50% 30%, rgba(56,189,248,0.25), #071022);">
+            <div class="mockup-browser" style="border-color:rgba(56,189,248,0.5);">
+              <div class="browser-dots"><span></span><span></span><span></span></div>
+              <div class="browser-body">
+                <div style="font-size:7pt; font-weight:900; color:#38bdf8;">META ADS · FB + IG + WHATSAPP</div>
+                <div style="background:#0f172a; border-radius:6px; padding:6px; border:1px solid rgba(56,189,248,0.35);">
+                  <div style="display:flex; justify-content:space-between; font-size:6pt; color:#94a3b8;">
+                    <span>Campaña Clientes IA</span>
+                    <span style="color:#34d399; font-weight:800;">● ACTIVA</span>
+                  </div>
+                  <div style="display:flex; align-items:flex-end; gap:5px; height:36px; margin-top:6px;">
+                    <div style="flex:1; height:40%; background:#0284c7; border-radius:2px;"></div>
+                    <div style="flex:1; height:65%; background:#0ea5e9; border-radius:2px;"></div>
+                    <div style="flex:1; height:85%; background:#38bdf8; border-radius:2px;"></div>
+                    <div style="flex:1; height:100%; background:#10b981; border-radius:2px;"></div>
+                  </div>
+                </div>
+                <div style="font-size:5.8pt; color:#bae6fd; font-weight:700;">Anuncios conectados directo al Sitio IA y CRM</div>
+              </div>
+            </div>
+          </div>
+          <div class="sol-info">
+            <span class="sol-category" style="color:#38bdf8;">CAJA 3 · TRÁFICO PAGADO Y LEADS</span>
+            <h2 class="sol-name">SERVICIO TRAFFICKER IA (CAMPAÑAS META ADS)</h2>
+            <p class="sol-sub">Montaje, segmentación y optimización semanal en FB / IG / WhatsApp</p>
+          </div>
+        </div>
+        <div class="price-bar">
+          <div>
+            <span class="price-main">US$497<span style="font-size:8pt; color:#94a3b8;">/mes</span></span>
+            <span class="price-split">(+ Pauta del cliente)</span>
+          </div>
+          <div class="comm-badge">
+            <span class="lbl">Tu 15% Mensual</span>
+            <span class="val">US$74.55</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 06. COMBO TOTAL: MÁQUINA COMPLETA DE CLIENTES -->
+      <article class="sol-card emerald">
+        <div>
+          <span class="num-badge">06</span>
+          <span class="tag-top-right" style="background:#f59e0b; color:#020617;">🔥 COMBO 3 EN 1</span>
+          <div class="visual-stage" style="background:radial-gradient(circle at 50% 30%, rgba(16,185,129,0.28), #071022);">
+            <div style="width:90%; display:grid; grid-template-columns:repeat(3,1fr); gap:6px; text-align:center;">
+              <div style="background:#0f172a; border:1.5px solid #00e5ff; border-radius:9px; padding:10px 4px;">
+                <div style="font-size:15pt;">🌐</div>
+                <div style="font-size:6.5pt; font-weight:900; color:#00e5ff; margin-top:4px;">SITIO WEB IA</div>
+                <div style="font-size:5.5pt; color:#94a3b8;">+ Bot + CRM</div>
+              </div>
+              <div style="background:#0f172a; border:1.5px solid #ec4899; border-radius:9px; padding:10px 4px;">
+                <div style="font-size:15pt;">🎬</div>
+                <div style="font-size:6.5pt; font-weight:900; color:#f472b6; margin-top:4px;">10 REELS</div>
+                <div style="font-size:5.5pt; color:#94a3b8;">CapCut Pro</div>
+              </div>
+              <div style="background:#0f172a; border:1.5px solid #10b981; border-radius:9px; padding:10px 4px;">
+                <div style="font-size:15pt;">🚀</div>
+                <div style="font-size:6.5pt; font-weight:900; color:#34d399; margin-top:4px;">TRAFFICKER</div>
+                <div style="font-size:5.5pt; color:#94a3b8;">1 Mes Meta Ads</div>
+              </div>
+            </div>
+            <div class="floating-pill" style="background:#f59e0b; color:#020617;">Ahorra US$1,910</div>
+          </div>
+          <div class="sol-info">
+            <span class="sol-category" style="color:#34d399;">CAJA 1 + 2 + 3 · SOLUCIÓN INTEGRAL</span>
+            <h2 class="sol-name">COMBO "MÁQUINA COMPLETA DE CLIENTES"</h2>
+            <p class="sol-sub">Sitio Web IA + CRM + 10 Reels Virales + 1 Mes Trafficker Meta Ads</p>
+          </div>
+        </div>
+        <div class="price-bar">
+          <div>
+            <span class="price-main">US$1,490</span>
+            <span class="price-split">o 2 pagos de US$745</span>
+          </div>
+          <div class="comm-badge">
+            <span class="lbl">Tu 15% (5%+10%)</span>
+            <span class="val">US$223.50</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 07. RESCATE MICRO-PYME (LANDING + BOT WHATSAPP) -->
+      <article class="sol-card">
+        <div>
+          <span class="num-badge">07</span>
+          <span class="tag-top-right" style="background:#475569; color:#ffffff;">DOWNSELL #2</span>
+          <div class="visual-stage" style="background:radial-gradient(circle at 50% 30%, rgba(148,163,184,0.18), #071022);">
+            <div style="width:92px; height:132px; background:#0f172a; border:2px solid #64748b; border-radius:14px; padding:7px; display:flex; flex-direction:column; justify-content:space-between;">
+              <div style="width:28px; height:4px; background:#475569; border-radius:2px; margin:0 auto;"></div>
+              <div style="background:#1e293b; border-radius:6px; padding:6px; text-align:center;">
+                <div style="font-size:6pt; font-weight:900; color:#fff;">LANDING EXPRESS</div>
+                <div style="font-size:5pt; color:#94a3b8; margin-top:2px;">Talleres / Comercios</div>
+              </div>
+              <div style="background:#10b981; color:#022c22; font-size:6pt; font-weight:900; text-align:center; padding:4px; border-radius:5px;">
+                💬 BOT WHATSAPP
+              </div>
+            </div>
+          </div>
+          <div class="sol-info">
+            <span class="sol-category" style="color:#94a3b8;">ÚLTIMO RECURSO (CON PERMISO LÍDER)</span>
+            <h2 class="sol-name">RESCATE MICRO-PYME: LANDING + BOT WHATSAPP</h2>
+            <p class="sol-sub">1 Landing sobre plantilla + Formulario + Bot básico a WhatsApp</p>
+          </div>
+        </div>
+        <div class="price-bar">
+          <div>
+            <span class="price-main">US$197</span>
+            <span class="price-split">o 2x US$100 (+ US$49/m mes 2)</span>
+          </div>
+          <div class="comm-badge">
+            <span class="lbl">Tu 15% (5%+10%)</span>
+            <span class="val">US$29.55</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 08. LA BALLENA: SVE90 ENTERPRISE -->
+      <article class="sol-card amber">
+        <div>
+          <span class="num-badge" style="background:#f59e0b; color:#020617;">08</span>
+          <span class="tag-top-right" style="background:#fde68a; color:#020617;">💎 LA BALLENA CORPORATIVA</span>
+          <div class="visual-stage">
+            <img src="file:///Users/ejimenezsys/Desktop/Cortexia/landing_consultoria_ia/edward_hero_depth.jpg" alt="Edward Jiménez — SVE90 Enterprise" class="cover-img" style="object-position: center 20%;">
+            <div class="floating-pill" style="background:linear-gradient(90deg,#f59e0b,#fbbf24); color:#020617;">SVE90 · 90 DÍAS</div>
+          </div>
+          <div class="sol-info">
+            <span class="sol-category" style="color:#fde68a;">CAJA 4 · EMPRESAS (+15 EMPLEADOS)</span>
+            <h2 class="sol-name" style="color:#fde68a;">TRANSFORMACIÓN SVE90 ENTERPRISE (90 DÍAS)</h2>
+            <p class="sol-sub" style="color:#fef3c7;">Agentes IA Autónomos + RAG Privado + Integración CRM/ERP con Edward</p>
+          </div>
+        </div>
+        <div class="price-bar">
+          <div>
+            <span class="price-main" style="color:#fde68a;">US$2.5K a US$10K</span>
+            <span class="price-split" style="color:#fcd34d;">¡Solo por agendar (5%) ganas $125–$500!</span>
+          </div>
+          <div class="comm-badge" style="background:rgba(245,158,11,0.25); border-color:#f59e0b; color:#fde68a;">
+            <span class="lbl" style="color:#fef08a;">Tu 15% Full</span>
+            <span class="val">Hasta US$1,500</span>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       PÁGINA 2: LAS 3 BALLENAS SVE90 ($2.5K / $5K / $10K) + PRUEBA SOCIAL EN IMÁGENES
+       ════════════════════════════════════════════════════════════════════ -->
+  <section class="page">
+    <header class="top-bar">
+      <div class="brand">
+        <img src="file:///Users/ejimenezsys/Desktop/Cortexia/assets_closers/logo_prosper_ia_cropped.jpg" alt="Logo Agencia ProsperIA">
+        <div>
+          <div class="brand-title">LA DIVISIÓN DE LAS BALLENAS: <span>SVE90 ENTERPRISE</span> + PRUEBA SOCIAL</div>
+          <div class="brand-sub">Para que sueñes en grande: Con 1 o 2 cuentas corporativas SVE90 disparas tus comisiones a US$6,000+/mes</div>
+        </div>
+      </div>
+      <div class="header-pill">💎 SOLO POR AGENDAR AL DUEÑO (5% SETTER) COBRAS DE US$125 A US$500 USD</div>
+    </header>
+
+    <!-- Top Half: The 3 SVE90 Whale Visual Cards -->
+    <div class="whales-row">
+
+      <!-- SVE90 GROWTH ($2,500) -->
+      <article class="whale-card">
+        <div>
+          <div class="whale-visual" style="background:radial-gradient(circle at 50% 35%, rgba(0,229,255,0.22), #060c1a);">
+            <div style="text-align:center; padding:10px;">
+              <div style="font-size:8pt; font-weight:900; color:#00e5ff; letter-spacing:1px;">NIVEL 1 · CORPORATIVO</div>
+              <div style="font-size:24pt; font-weight:900; color:#ffffff; margin:2px 0;">US$2,500</div>
+              <div style="font-size:7.5pt; color:#94a3b8; font-weight:600;">Auditoría IA + CRM Multi-Usuario + 2 Embudos</div>
+            </div>
+          </div>
+          <span class="sol-category" style="color:#00e5ff;">EMPRESAS EN EXPANSIÓN</span>
+          <h2 class="sol-name" style="font-size:13pt; margin-top:2px;">SVE90 GROWTH (90 DÍAS)</h2>
+        </div>
+        <div class="whale-comm-grid">
+          <div class="w-pill">
+            <span class="k">5% Setter</span>
+            <span class="v" style="color:#38bdf8;">US$125</span>
+          </div>
+          <div class="w-pill">
+            <span class="k">10% Closer</span>
+            <span class="v" style="color:#34d399;">US$250</span>
+          </div>
+          <div class="w-pill gold">
+            <span class="k">15% Full-Cycle</span>
+            <span class="v">US$375</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- SVE90 SCALE ($5,000) -->
+      <article class="whale-card">
+        <div>
+          <div class="whale-visual" style="background:radial-gradient(circle at 50% 35%, rgba(139,92,246,0.28), #060c1a);">
+            <div style="text-align:center; padding:10px;">
+              <div style="font-size:8pt; font-weight:900; color:#c4b5fd; letter-spacing:1px;">NIVEL 2 · MULTI-SEDE / B2B</div>
+              <div style="font-size:24pt; font-weight:900; color:#ffffff; margin:2px 0;">US$5,000</div>
+              <div style="font-size:7.5pt; color:#cbd5e1; font-weight:600;">Agentes IA Omnicanal + RAG Privado + Automatización</div>
+            </div>
+          </div>
+          <span class="sol-category" style="color:#c4b5fd;">CLÍNICAS GRANDES · DESARROLLADORAS · INDUSTRIA</span>
+          <h2 class="sol-name" style="font-size:13pt; margin-top:2px;">SVE90 SCALE (90 DÍAS)</h2>
+        </div>
+        <div class="whale-comm-grid">
+          <div class="w-pill">
+            <span class="k">5% Setter</span>
+            <span class="v" style="color:#38bdf8;">US$250</span>
+          </div>
+          <div class="w-pill">
+            <span class="k">10% Closer</span>
+            <span class="v" style="color:#34d399;">US$500</span>
+          </div>
+          <div class="w-pill gold">
+            <span class="k">15% Full-Cycle</span>
+            <span class="v">US$750</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- SVE90 ENTERPRISE ($10,000) -->
+      <article class="whale-card" style="border-width:2.5px; border-color:#fbbf24;">
+        <div>
+          <div class="whale-visual" style="background:radial-gradient(circle at 50% 35%, rgba(245,158,11,0.35), #060c1a);">
+            <div style="text-align:center; padding:10px;">
+              <div style="font-size:8pt; font-weight:900; color:#fde68a; letter-spacing:1px;">NIVEL 3 · TRANSFORMACIÓN TOTAL</div>
+              <div style="font-size:24pt; font-weight:900; color:#fde68a; margin:2px 0;">US$10,000</div>
+              <div style="font-size:7.5pt; color:#fef3c7; font-weight:600;">Dirigido por Edward Jiménez · Voz/Texto IA + ERP/API</div>
+            </div>
+          </div>
+          <span class="sol-category" style="color:#fde68a;">CORPORATIVOS (+25 A 100 EMPLEADOS)</span>
+          <h2 class="sol-name" style="font-size:13pt; margin-top:2px; color:#fde68a;">SVE90 ENTERPRISE (90 DÍAS)</h2>
+        </div>
+        <div class="whale-comm-grid">
+          <div class="w-pill">
+            <span class="k">5% Setter</span>
+            <span class="v" style="color:#38bdf8;">US$500</span>
+          </div>
+          <div class="w-pill">
+            <span class="k">10% Closer</span>
+            <span class="v" style="color:#34d399;">US$1,000</span>
+          </div>
+          <div class="w-pill gold">
+            <span class="k">15% Full-Cycle</span>
+            <span class="v">US$1,500</span>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- Bottom Half: Real Social Proof Visual Wall -->
+    <div class="proof-section-title">
+      <span>📸 IMÁGENES OFICIALES DE AUTORIDAD (MUÉSTRALAS EN PANTALLA PARA CERRAR EN 5 MINUTOS)</span>
+      <span style="color:#fde68a; font-size:8.5pt;">+740 Usuarios PassportAI · +US$20,000 Hotmart · +744,000 Vistas Orgánicas</span>
+    </div>
+
+    <div class="proof-wall">
+      <div class="proof-frame">
+        <div class="proof-img-box">
+          <img src="file:///Users/ejimenezsys/Desktop/Cortexia/assets_closers/proof_hotmart_logro_20k.jpg" alt="Hotmart US$20,000 Build">
+        </div>
+        <div class="proof-caption">
+          <strong>1. Hotmart Logro US$20,000 USD</strong>
+          <span>Cuenta JPX International Verificada</span>
+        </div>
+      </div>
+
+      <div class="proof-frame">
+        <div class="proof-img-box">
+          <img src="file:///Users/ejimenezsys/Desktop/Cortexia/assets_closers/proof_hotmart_passportai_ventas.jpg" alt="Transacciones PassportAI en Hotmart">
+        </div>
+        <div class="proof-caption">
+          <strong>2. +740 Usuarios en PassportAI</strong>
+          <span>Ventas Diarias Ecosistema IA</span>
+        </div>
+      </div>
+
+      <div class="proof-frame">
+        <div class="proof-img-box">
+          <img src="file:///Users/ejimenezsys/Desktop/Cortexia/assets_closers/proof_ig_perfil_5428_109k.jpg" alt="Instagram @edwardjimenezia 5,428 seguidores y 109K vistas">
+        </div>
+        <div class="proof-caption">
+          <strong>3. Instagram · Reel 109K Vistas</strong>
+          <span>@edwardjimenezia · 5,428 Seguidores</span>
+        </div>
+      </div>
+
+      <div class="proof-frame">
+        <div class="proof-img-box">
+          <img src="file:///Users/ejimenezsys/Desktop/Cortexia/assets_closers/proof_fb_15k_reels_643k.jpg" alt="Facebook Reels 640K Vistas">
+        </div>
+        <div class="proof-caption">
+          <strong>4. Facebook · +640K Vistas (Reel 592K)</strong>
+          <span>13,732 Seguidores · Edición Viral IA</span>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+</body>
+</html>
