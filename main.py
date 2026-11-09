@@ -1845,10 +1845,48 @@ async def get_intelligence_feed(db: Session = Depends(get_db)):
 
 # ─── API ENDPOINTS ──────────────────────────────────────────────────────────
 
+_LOGIN_FAIL_BUCKETS: Dict[str, List[float]] = {}
+_LOGIN_MAX_FAILS_15M = 8
+
+
+def _resolve_env_secret(var_name: str, default: str = "") -> str:
+    """Lee una variable desde os.environ o el archivo .env local sin exponer contraseñas en código fuente."""
+    val = (os.environ.get(var_name) or "").strip()
+    if val:
+        return val
+    try:
+        if os.path.exists(".env"):
+            with open(".env", "r", encoding="utf-8") as f:
+                for line in f:
+                    line = line.strip()
+                    if line.startswith(f"{var_name}="):
+                        parsed = line.split("=", 1)[1].strip().strip("'\"")
+                        if parsed:
+                            return parsed
+    except Exception:
+        pass
+    return default
+
+
 @app.post("/api/auth/login")
 async def api_login(req: LoginRequest, request: Request, response: Response, db: Session = Depends(get_db)):
+    import time
+    from sales_os_router import extract_client_ip
+
+    client_ip = extract_client_ip(request)
+    now_ts = time.time()
+    fails = [t for t in _LOGIN_FAIL_BUCKETS.get(client_ip, []) if now_ts - t < 900]
+    if len(fails) >= _LOGIN_MAX_FAILS_15M:
+        _LOGIN_FAIL_BUCKETS[client_ip] = fails
+        return JSONResponse(
+            status_code=429,
+            content={"success": False, "error": "Demasiados intentos fallidos desde tu IP. Por seguridad, espera 15 minutos."}
+        )
+
     user = db.query(User).filter(User.email == req.email).first()
     if not user:
+        fails.append(now_ts)
+        _LOGIN_FAIL_BUCKETS[client_ip] = fails
         return JSONResponse(
             status_code=400,
             content={"success": False, "error": "Credenciales incorrectas."}
@@ -1860,10 +1898,13 @@ async def api_login(req: LoginRequest, request: Request, response: Response, db:
         and hmac.compare_digest(user.password, req.password)
     )
     if not password_valid and not legacy_password_valid:
+        fails.append(now_ts)
+        _LOGIN_FAIL_BUCKETS[client_ip] = fails
         return JSONResponse(
             status_code=400,
             content={"success": False, "error": "Credenciales incorrectas."}
         )
+    _LOGIN_FAIL_BUCKETS.pop(client_ip, None)
     if legacy_password_valid:
         user.password = hash_password(req.password)
         db.commit()
@@ -1935,11 +1976,11 @@ def send_email_notification(name: str, email: str, company: str, phone: str, mes
     if env_recipient and env_recipient not in recipients_list:
         recipients_list.append(env_recipient)
         
-    smtp_host = os.environ.get("SMTP_HOST") or "smtp.hostinger.com"
-    smtp_port = int(os.environ.get("SMTP_PORT", "465"))
-    smtp_user = os.environ.get("SMTP_USER") or "edward@agenciaprosperia.com"
-    smtp_pass = os.environ.get("SMTP_PASSWORD") or "Digital2@27"
-    smtp_sender = os.environ.get("SMTP_SENDER") or "edward@agenciaprosperia.com"
+    smtp_host = _resolve_env_secret("SMTP_HOST", "smtp.hostinger.com")
+    smtp_port = int(_resolve_env_secret("SMTP_PORT", "465"))
+    smtp_user = _resolve_env_secret("SMTP_USER", "edward@agenciaprosperia.com")
+    smtp_pass = _resolve_env_secret("SMTP_PASSWORD", "")
+    smtp_sender = _resolve_env_secret("SMTP_SENDER", "edward@agenciaprosperia.com")
     
     # Pre-process strings to avoid f-string backslash limitations in older Python versions
     message_html = (message or "").replace('\n', '<br>')
@@ -2038,11 +2079,11 @@ def send_email_notification(name: str, email: str, company: str, phone: str, mes
 
 def send_client_diagnostic_email(name: str, email: str, phone: str, message: str):
     """Envía el resultado de la radiografía de eficiencia comercial directamente al cliente desde edward@agenciaprosperia.com"""
-    smtp_host = os.environ.get("SMTP_HOST") or "smtp.hostinger.com"
-    smtp_port = int(os.environ.get("SMTP_PORT", "465"))
-    smtp_user = os.environ.get("SMTP_USER") or "edward@agenciaprosperia.com"
-    smtp_pass = os.environ.get("SMTP_PASSWORD") or "Digital2@27"
-    smtp_sender = os.environ.get("SMTP_SENDER") or "edward@agenciaprosperia.com"
+    smtp_host = _resolve_env_secret("SMTP_HOST", "smtp.hostinger.com")
+    smtp_port = int(_resolve_env_secret("SMTP_PORT", "465"))
+    smtp_user = _resolve_env_secret("SMTP_USER", "edward@agenciaprosperia.com")
+    smtp_pass = _resolve_env_secret("SMTP_PASSWORD", "")
+    smtp_sender = _resolve_env_secret("SMTP_SENDER", "edward@agenciaprosperia.com")
     
     if not email or "@" not in email:
         return
@@ -2768,11 +2809,12 @@ class AgentChatRequest(BaseModel):
     agent: str
 
 @app.post("/api/agents/chat")
-async def api_agent_chat(req: AgentChatRequest):
-    from sales_os_router import invoke_gemini_assistant
+async def api_agent_chat(req: AgentChatRequest, request: Request = None):
+    from sales_os_router import invoke_gemini_assistant, extract_client_ip
     raw_msg = (req.message or "").strip()
     message = raw_msg.lower()
     agent_type = req.agent # sdr, setter, support
+    client_ip = extract_client_ip(request)
 
     role_prompts = {
         "sdr": (
@@ -2796,7 +2838,7 @@ async def api_agent_chat(req: AgentChatRequest):
         ),
     }
     sys_prompt = role_prompts.get(agent_type, role_prompts["sdr"])
-    gemini_reply = invoke_gemini_assistant(sys_prompt, raw_msg)
+    gemini_reply = invoke_gemini_assistant(sys_prompt, raw_msg, client_ip=client_ip)
     if gemini_reply:
         return {"success": True, "reply": gemini_reply, "model": "gemini-2.5-flash"}
     
@@ -3058,8 +3100,15 @@ def extract_email_from_web(web_url: str) -> Optional[str]:
     return None
 
 @app.post("/api/prospect")
-async def api_prospect_leads(req: ProspectRequest, db: Session = Depends(get_db)):
-    """Ejecuta una búsqueda de prospección inteligente con IA, puntúa e importa en base de datos."""
+async def api_prospect_leads(
+    req: ProspectRequest,
+    current_user: dict = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Ejecuta una búsqueda de prospección inteligente con IA, puntúa e importa en base de datos (Requiere sesión autenticada)."""
+    req.nicho = (req.nicho or "").strip()[:60]
+    req.ubicacion = (req.ubicacion or "").strip()[:60]
+    req.cantidad = max(1, min(int(req.cantidad or 5), 15))
     nicho_lower = req.nicho.lower()
     ubicacion_lower = req.ubicacion.lower()
     
@@ -3396,8 +3445,12 @@ async def api_prospect_leads(req: ProspectRequest, db: Session = Depends(get_db)
     }
 
 @app.get("/api/prospects")
-async def api_get_prospects(campaign: Optional[str] = "all", db: Session = Depends(get_db)):
-    """Retorna la lista de todos los prospectos calificados, opcionalmente filtrados por campaña."""
+async def api_get_prospects(
+    campaign: Optional[str] = "all",
+    current_user: dict = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Retorna la lista de todos los prospectos calificados, opcionalmente filtrados por campaña (Requiere sesión autenticada)."""
     if campaign == "all":
         leads_list = db.query(DbLead).filter(DbLead.source.like("prosper_kit%")).all()
     else:
@@ -3421,8 +3474,11 @@ async def api_get_prospects(campaign: Optional[str] = "all", db: Session = Depen
     return {"success": True, "data": {"leads": leads}}
 
 @app.get("/api/prospect/history")
-async def api_get_prospect_history(db: Session = Depends(get_db)):
-    """Retorna el historial de campañas de prospección individuales registradas."""
+async def api_get_prospect_history(
+    current_user: dict = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Retorna el historial de campañas de prospección individuales registradas (Requiere sesión autenticada)."""
     # Buscar todas las campañas únicas en el campo source
     rows = db.query(DbLead.source).filter(DbLead.source.like("prosper_kit|%")).distinct().all()
     
