@@ -1752,19 +1752,27 @@
 
     <div class="weapons-workspace">
 
-      <!-- COLUMNA IZQUIERDA: MENÚ VERTICAL DE LAS 8 ARMAS DE CIERRE + MANUAL OPERATIVO -->
+      <!-- COLUMNA IZQUIERDA: MENÚ VERTICAL DE LAS ARMAS DE CIERRE + TUTORIAL + MANUAL OPERATIVO -->
       <div class="card p-4 space-y-2" style="background:linear-gradient(180deg,#140c04,#0b1528); border-color:rgba(245,158,11,0.35); position:sticky; top:84px;">
         <div class="pb-2 mb-2 border-b border-slate-800">
           <div class="text-[11px] font-black uppercase tracking-wider text-amber-400">🔥 ARSENAL DEL CLOSER</div>
-          <div class="text-sm font-bold text-white">8 Armas de Cierre & Manual</div>
+          <div class="text-sm font-bold text-white">Tutorial, Manual &amp; Armas</div>
           <div class="text-[11px] text-slate-400">Haz clic para cambiar de presentación al instante:</div>
         </div>
+
+        <button onclick="switchWeaponTab('tutorial-video')" id="wtab-tutorial-video" class="weapon-nav-btn">
+          <span>🎬</span>
+          <div>
+            <div>Video Tutorial Oficial</div>
+            <div style="font-size:10px; opacity:0.9; color:#38bdf8;">Capacitación en Vivo (7 Pasos)</div>
+          </div>
+        </button>
 
         <button onclick="switchWeaponTab('manual-closer')" id="wtab-manual-closer" class="weapon-nav-btn">
           <span>📘</span>
           <div>
             <div>Manual Operativo Closer</div>
-            <div style="font-size:10px; opacity:0.85; color:#34d399;">Guía Paso a Paso (Tutorial)</div>
+            <div style="font-size:10px; opacity:0.85; color:#34d399;">Guía Actualizada (7 Pasos + PDF)</div>
           </div>
         </button>
 
@@ -1827,6 +1835,97 @@
 
       <!-- COLUMNA DERECHA: VISOR AMPLIO DESDE ARRIBA SIN CORTARSE -->
       <div style="min-width:0;">
+
+        <!-- SUB-VISTA 0: VIDEO TUTORIAL OFICIAL DE OPERACIONES PARA CLOSERS (ESPACIO DEDICADO PARA EL VIDEO DE EDWARD) -->
+        <div id="weapon-view-tutorial-video" class="hidden space-y-4">
+          <div class="card p-6 sm:p-7 border-2 border-cyan-500/40" style="background:radial-gradient(circle at top right, rgba(0,229,255,0.14), rgba(5,13,26,0.98) 70%);">
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-4 mb-5">
+              <div>
+                <div class="flex flex-wrap items-center gap-2">
+                  <span class="px-3 py-0.5 rounded-full text-[11px] font-black uppercase bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">🎬 CAPACITACIÓN OFICIAL · CLOSERS PROSPER IA</span>
+                  <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">Entrenamiento Paso a Paso con Edward Jiménez</span>
+                </div>
+                <h3 class="text-lg sm:text-xl font-black text-white mt-1.5">Video Tutorial Operativo: Cómo Llamar, Pasar al Pipeline, Dar Demos y Cobrar tu 15%</h3>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <button type="button" onclick="switchWeaponTab('manual-closer')" class="btn-primary px-4 py-2 rounded-xl text-xs font-black inline-flex items-center gap-1.5">
+                  📘 Ver Manual Escrito (7 Pasos)
+                </button>
+                <a href="/static/armas/MANUAL_OPERATIVO_CLOSERS_PROSPER_IA.html" target="_blank" class="btn-ghost px-3.5 py-2 rounded-xl text-xs font-bold text-emerald-300 border-emerald-500/30 no-underline inline-flex items-center gap-1.5">
+                  🖨️ Abrir Manual para Guardar PDF
+                </a>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+              <!-- Reproductor 16:9 -->
+              <div class="lg:col-span-8 space-y-3">
+                <div id="closer-tutorial-video-box" class="relative w-full rounded-2xl overflow-hidden border-2 border-cyan-500/40 bg-slate-950 shadow-2xl flex items-center justify-center" style="aspect-ratio: 16 / 9; min-height: 380px;">
+                  <div id="closer-tutorial-placeholder" class="p-8 text-center max-w-xl mx-auto space-y-4">
+                    <div class="w-16 h-16 rounded-2xl bg-cyan-500/15 border border-cyan-500/40 text-cyan-300 flex items-center justify-center text-3xl mx-auto shadow-lg">
+                      ▶️
+                    </div>
+                    <div class="text-xs font-black uppercase tracking-widest text-amber-400">ESPACIO RESERVADO · VIDEO TUTORIAL OFICIAL</div>
+                    <h4 class="text-xl sm:text-2xl font-black text-white"> Recorrido Completo del Ecosistema Sales OS &amp; CRM ProsperIA</h4>
+                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                      En este video de entrenamiento <strong>Edward Jiménez</strong> te muestra en vivo cómo trabajar tus prospectos desde <strong>📞 Mi Lista de Llamadas (Etapa 1)</strong> hasta <strong>💰 Mi Pipeline Activo (Etapa 2+)</strong>, cómo dar de alta prospectos nuevos o listas de Excel, y cómo cerrar las <strong>3 Cajas (US$497 / US$990 / US$1,490)</strong>.
+                    </p>
+                    <div class="flex flex-wrap items-center justify-center gap-2 pt-2">
+                      <span class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-slate-300">🎥 Compatible con Loom, YouTube, Vimeo, Drive o MP4</span>
+                    </div>
+                  </div>
+                  <iframe id="closer-tutorial-iframe" class="hidden w-full h-full border-0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen title="Video Tutorial Oficial Closers"></iframe>
+                </div>
+
+                <!-- Barra rápida para pegar link de video y previsualizarlo al instante -->
+                <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800 flex flex-wrap items-center justify-between gap-2">
+                  <div class="text-xs text-slate-300 font-semibold">
+                    🔗 <strong>Cargar / Previsualizar Link del Video Tutorial:</strong> <span class="text-slate-400">(YouTube, Loom, Drive o MP4)</span>
+                  </div>
+                  <div class="flex flex-1 min-w-[260px] gap-2">
+                    <input id="closer-tutorial-url-input" type="url" placeholder="Pega aquí el link del video grabado..." class="flex-1 px-3 py-1.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white" />
+                    <button type="button" onclick="applyCloserTutorialVideoUrl()" class="px-3.5 py-1.5 rounded-xl text-xs font-black bg-cyan-400 text-slate-950 hover:bg-cyan-300">
+                      Cargar Video
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Índice de los 7 Capítulos de la Grabación / Guía Rápida -->
+              <div class="lg:col-span-4 space-y-2.5">
+                <div class="text-xs font-black uppercase tracking-wider text-cyan-400 mb-1">📋 ÍNDICE DE LOS 7 PASOS DEL TUTORIAL</div>
+                <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800 text-xs space-y-1">
+                  <div class="font-black text-white">1️⃣ Acceso Dual y Reloj Inteligente</div>
+                  <p class="text-slate-400">Entrada por CRM o directo y cómo suma tu tiempo activo (pausa a los 5 min sin actividad).</p>
+                </div>
+                <div class="p-3 rounded-xl bg-slate-900/90 border border-emerald-500/30 text-xs space-y-1">
+                  <div class="font-black text-emerald-300">2️⃣ Etapa 1 vs. Etapa 2+ (Sin Bailar de Lista)</div>
+                  <p class="text-slate-400"><em>📞 Mi Lista de Llamadas</em> es solo para fríos (Etapa 1). Al pulsar <strong>¡Sí Contestó!</strong> pasa automático a <em>💰 Mi Pipeline Activo (Etapa 2: Primer contacto)</em>.</p>
+                </div>
+                <div class="p-3 rounded-xl bg-slate-900/90 border border-amber-500/30 text-xs space-y-1">
+                  <div class="font-black text-amber-300">3️⃣ Alta de Prospectos y Excel Propio</div>
+                  <p class="text-slate-400">Botones <strong>➕ Nuevo Prospecto (Inyectar a CRM)</strong> y <strong>📥 Subir Mi Lista (Excel/CSV)</strong> directo a Etapa 2.</p>
+                </div>
+                <div class="p-3 rounded-xl bg-slate-900/90 border border-rose-500/30 text-xs space-y-1">
+                  <div class="font-black text-rose-300">4️⃣ WhatsApp Directo vs. Plantillas CRM</div>
+                  <p class="text-slate-400">Por qué usar el botón verde <strong>💬 WhatsApp</strong> desde tu celular para reactivar fríos (+24h) o usar plantilla oficial en el CRM.</p>
+                </div>
+                <div class="p-3 rounded-xl bg-slate-900/90 border border-cyan-500/30 text-xs space-y-1">
+                  <div class="font-black text-cyan-300">5️⃣ Demo en Vivo + 1,000 Plantillas Web</div>
+                  <p class="text-slate-400">Personalizar el giro en 5 segundos, probar el Chatbot IA, cambiar entre +60 Looks y abrir la <strong>📚 Biblioteca +1,000 Plantillas CRM</strong>.</p>
+                </div>
+                <div class="p-3 rounded-xl bg-slate-900/90 border border-purple-500/30 text-xs space-y-1">
+                  <div class="font-black text-purple-300">6️⃣ Las 3 Presentaciones Estrella</div>
+                  <p class="text-slate-400"><strong>3 Cajas</strong> (9 Slides con tu foto y título ejecutivo), <strong>17 Láminas HD PassportAI</strong> y <strong>8 Slides Visuales del CRM</strong>.</p>
+                </div>
+                <div class="p-3 rounded-xl bg-slate-900/90 border border-emerald-500/30 text-xs space-y-1">
+                  <div class="font-black text-emerald-300">7️⃣ Etapa en CRM y Verificación de Pago 15%</div>
+                  <p class="text-slate-400">Botón <strong>📋 Etapa / Prop.</strong> (<code>🟢 Sincronizado en CRM</code>) y <strong>💳 Verificar Pago</strong> para activar tu 15% y sonar la campana 🔔.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <!-- SUB-VISTA 1: PRESENTACIÓN INTERACTIVA DE 17 LÁMINAS DE PASSPORTAI.APP (CARGADA DIRECTO DE PassportAI-app-ligero.pdf) -->
         <div id="weapon-view-passport-slides" class="space-y-3">
@@ -5276,8 +5375,37 @@ function setWeaponsTheme(theme) {
   }
 }
 
+function applyCloserTutorialVideoUrl(rawUrl) {
+  const input = document.getElementById('closer-tutorial-url-input');
+  const url = (rawUrl || (input ? input.value : '') || localStorage.getItem('prosper_closer_tutorial_video_url') || '').trim();
+  if (!url) return;
+  localStorage.setItem('prosper_closer_tutorial_video_url', url);
+  if (input && !input.value) input.value = url;
+
+  let embedUrl = url;
+  if (url.includes('youtube.com/watch?v=')) {
+    const vid = url.split('v=')[1]?.split('&')[0];
+    if (vid) embedUrl = `https://www.youtube.com/embed/${vid}`;
+  } else if (url.includes('youtu.be/')) {
+    const vid = url.split('youtu.be/')[1]?.split('?')[0];
+    if (vid) embedUrl = `https://www.youtube.com/embed/${vid}`;
+  } else if (url.includes('loom.com/share/')) {
+    embedUrl = url.replace('loom.com/share/', 'loom.com/embed/');
+  } else if (url.includes('drive.google.com/file/d/')) {
+    embedUrl = url.replace('/view', '/preview');
+  }
+
+  const placeholder = document.getElementById('closer-tutorial-placeholder');
+  const iframe = document.getElementById('closer-tutorial-iframe');
+  if (iframe && placeholder) {
+    iframe.src = embedUrl;
+    iframe.classList.remove('hidden');
+    placeholder.classList.add('hidden');
+  }
+}
+
 function switchWeaponTab(tabKey) {
-  const allTabs = ['manual-closer', 'passport-slides', 'crm-slides', 'deck-v1', 'acordeon', 'closers-kickoff', 'roleplay', 'cliente-ideal'];
+  const allTabs = ['tutorial-video', 'manual-closer', 'passport-slides', 'crm-slides', 'deck-v1', 'acordeon', 'closers-kickoff', 'roleplay', 'cliente-ideal'];
   allTabs.forEach(k => {
     const btn = document.getElementById('wtab-' + k);
     if (btn) {
@@ -5285,23 +5413,35 @@ function switchWeaponTab(tabKey) {
     }
   });
 
+  const vTutorial = document.getElementById('weapon-view-tutorial-video');
   const vPassport = document.getElementById('weapon-view-passport-slides');
   const vCrm = document.getElementById('weapon-view-crm-slides');
   const vIframe = document.getElementById('weapon-view-iframe-box');
 
+  if (tabKey === 'tutorial-video') {
+    vTutorial?.classList.remove('hidden');
+    vPassport?.classList.add('hidden');
+    vCrm?.classList.add('hidden');
+    vIframe?.classList.add('hidden');
+    applyCloserTutorialVideoUrl();
+    return;
+  }
   if (tabKey === 'passport-slides') {
+    vTutorial?.classList.add('hidden');
     vPassport?.classList.remove('hidden');
     vCrm?.classList.add('hidden');
     vIframe?.classList.add('hidden');
     return;
   }
   if (tabKey === 'crm-slides') {
+    vTutorial?.classList.add('hidden');
     vPassport?.classList.add('hidden');
     vCrm?.classList.remove('hidden');
     vIframe?.classList.add('hidden');
     return;
   }
 
+  vTutorial?.classList.add('hidden');
   vPassport?.classList.add('hidden');
   vCrm?.classList.add('hidden');
   vIframe?.classList.remove('hidden');
@@ -5312,10 +5452,10 @@ function switchWeaponTab(tabKey) {
 
   const weaponCatalog = {
     'manual-closer': {
-      title: '📘 Manual Operativo Oficial del Closer (Paso a Paso en 6 Pasos)',
-      sub: 'Guía estándar para operar de 1 a 20 Closers: Lista de Llamadas, Demo Web, +1,000 Plantillas, Las 3 Cajas y Cobranza 15%.',
-      html: '/static/armas/MANUAL_OPERATIVO_CLOSERS_PROSPER_IA.html',
-      pdf: '/static/armas/MANUAL_OPERATIVO_CLOSERS_PROSPER_IA.html'
+      title: '📘 Manual Operativo Oficial del Closer (Versión Actualizada en 7 Pasos)',
+      sub: 'Guía estándar para operar de 1 a 20 Closers: Etapa 1 vs Etapa 2+, Alta de Prospectos, WhatsApp, Demo +1,000 Plantillas, Las 3 Cajas y Comisión 15%.',
+      html: '/static/armas/MANUAL_OPERATIVO_CLOSERS_PROSPER_IA.html?v=2',
+      pdf: '/static/armas/MANUAL_OPERATIVO_CLOSERS_PROSPER_IA.html?v=2'
     },
     'deck-v1': {
       title: '📦 Presentación Comercial (Las 3 Cajas: $497 / $990 / $1,490)',

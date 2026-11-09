@@ -30,7 +30,7 @@
       padding: 28px 20px 60px;
     }
     .container {
-      max-width: 1120px;
+      max-width: 1140px;
       margin: 0 auto;
     }
     .top-bar {
@@ -101,6 +101,11 @@
       border-color: rgba(16, 185, 129, 0.5);
       color: #34d399;
     }
+    .btn-amber {
+      background: rgba(245, 158, 11, 0.18);
+      border-color: rgba(245, 158, 11, 0.5);
+      color: #fde68a;
+    }
     .hero {
       background: linear-gradient(135deg, rgba(11, 19, 37, 0.96), rgba(15, 23, 42, 0.92));
       border: 1.5px solid rgba(0, 229, 255, 0.35);
@@ -132,7 +137,7 @@
     .hero p {
       color: #cbd5e1;
       font-size: 14px;
-      max-width: 850px;
+      max-width: 900px;
     }
     .kpi-strip {
       display: grid;
@@ -147,7 +152,7 @@
       padding: 12px 16px;
     }
     .kpi-box .num {
-      font-size: 20px;
+      font-size: 19px;
       font-weight: 900;
       color: var(--cyan);
     }
@@ -156,6 +161,20 @@
       color: var(--muted);
       font-weight: 600;
       margin-top: 2px;
+    }
+    .flow-banner {
+      margin-top: 18px;
+      padding: 14px 18px;
+      border-radius: 14px;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      font-size: 13px;
+      color: #d1fae5;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
     }
     .step-grid {
       display: flex;
@@ -172,6 +191,7 @@
     .step-card.emerald { border-left-color: var(--emerald); }
     .step-card.amber { border-left-color: var(--amber); }
     .step-card.purple { border-left-color: var(--purple); }
+    .step-card.rose { border-left-color: var(--rose); }
     .step-header {
       display: flex;
       align-items: center;
@@ -249,6 +269,15 @@
       font-family: monospace;
       font-size: 12px;
     }
+    .callout {
+      margin-top: 14px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: rgba(0, 229, 255, 0.08);
+      border: 1px solid rgba(0, 229, 255, 0.28);
+      font-size: 12.5px;
+      color: #e0f2fe;
+    }
     @media print {
       body { background: #030712 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; padding: 0; }
       .top-bar { display: none !important; }
@@ -262,8 +291,8 @@
       <div class="brand">
         <img src="/static/logo_prosper_ia_cropped.jpg" alt="Agencia Prosper IA" width="40" height="40">
         <div>
-          <div class="brand-title">MANUAL OPERATIVO OFICIAL · <span>CLOSERS PROSPER IA</span></div>
-          <div class="brand-sub">Guía Paso a Paso de Trabajo Diario, Demostración en Vivo y Cobro de Comisiones (15%)</div>
+          <div class="brand-title">MANUAL OPERATIVO OFICIAL · <span>CLOSERS PROSPER IA (V2 ACTUALIZADO)</span></div>
+          <div class="brand-sub">Guía Oficial en 7 Pasos: Cola de Llamadas, Pipeline Activo, Alta de Prospectos, Armas Visuales y Comisión 15%</div>
         </div>
       </div>
       <div class="actions">
@@ -274,16 +303,16 @@
     </header>
 
     <section class="hero">
-      <span class="pill">SOP Oficial de Entrenamiento · Cero Fricción</span>
-      <h1>Tu Rutina Ganadora de <span>6 Pasos</span> para Cerrar Sitios Web Inteligentes y Ecosistemas IA</h1>
+      <span class="pill">SOP Oficial de Entrenamiento · 100% Sincronizado con CRM ProsperIA</span>
+      <h1>Tu Sistema Ganador de <span>7 Pasos</span> como Director de Arquitectura Comercial &amp; IA</h1>
       <p>
-        Este manual resume exactamente el flujo operativo que ves en el video de entrenamiento de <strong>Edward Jiménez</strong>.
-        No tienes que configurar nada técnico: tus prospectos, tu calendario personal, tu presentación con tu foto y tus plantillas interactivas ya vienen pre-conectadas de fábrica.
+        Este manual documenta paso a paso el flujo exacto del video tutorial oficial de <strong>Edward Jiménez</strong>.
+        Todo tu ecosistema —tus prospectos asignados, tu calendario personal, tu presentación con tu foto ejecutiva, las 17 láminas de PassportAI y los 8 slides visuales del CRM— ya viene pre-conectado de fábrica para que te concentres al 100% en hablar con dueños de negocio y cerrar las <strong>3 Cajas (US$497 / US$990 / US$1,490)</strong>.
       </p>
       <div class="kpi-strip">
         <div class="kpi-box">
           <div class="num">100 → 60 → 6 → 1+</div>
-          <div class="lbl">Embudo Semanal: 100 Llamadas · 60 Contestan · 6 Demos · 1+ Venta</div>
+          <div class="lbl">Meta Semanal: 100 Llamadas · 60 Contestan · 6 Demos · 1+ Cierre</div>
         </div>
         <div class="kpi-box">
           <div class="num" style="color:#34d399;">15% Comisión Directa</div>
@@ -291,11 +320,17 @@
         </div>
         <div class="kpi-box">
           <div class="num" style="color:#fde68a;">US$497 · $990 · $1,490</div>
-          <div class="lbl">Las 3 Cajas Estrella con Reserva 50/50 (Mitad hoy, mitad al entregar)</div>
+          <div class="lbl">Las 3 Cajas Estrella con Reserva 50/50 + Rescate Express ($197)</div>
         </div>
         <div class="kpi-box">
-          <div class="num" style="color:#c4b5fd;">100% Sincronizado</div>
-          <div class="lbl">Todo cambio en el Panel impacta automáticamente en CRM ProsperIA</div>
+          <div class="num" style="color:#c4b5fd;">Etapa 1 vs. Etapa 2+</div>
+          <div class="lbl">Separación automática entre Lista de Llamadas y Pipeline Activo</div>
+        </div>
+      </div>
+      <div class="flow-banner">
+        <div>
+          <strong>🧭 REGLA DE ORO PARA NO BAILAR ENTRE DOS PANTALLAS:</strong>
+          <span><strong>📞 Mi Lista de Llamadas</strong> es solo para <em>Etapa 1 (Fríos por contactar)</em> · En cuanto te contestan, pasan solos a <strong>💰 Mi Pipeline &amp; Comisiones</strong> (<em>Etapa 2: Primer contacto en adelante</em>).</span>
         </div>
       </div>
     </section>
@@ -312,22 +347,22 @@
           <span class="step-tag">Libertad de Horario · Medición Justa</span>
         </div>
         <div class="step-body">
-          Tienes <strong>2 puertas de entrada</strong> conectadas a la misma base de datos (usa la que te resulte más cómoda):
+          Tienes <strong>2 puertas de entrada</strong> conectadas en tiempo real a la misma base de datos:
           <div class="sub-grid">
             <div class="sub-box">
-              <h4>🚪 Opción A: Desde adentro del CRM ProsperIA (Recomendada)</h4>
-              <p>Entras a <code>https://crm.agenciaprosperia.com</code> con tu correo y en el menú lateral izquierdo haces clic en <strong>📊 Panel Comisiones y Leads</strong>. Ahí operas llamadas, WhatsApp y tu panel en una sola pantalla.</p>
+              <h4>🚪 Opción A: Desde adentro del CRM ProsperIA</h4>
+              <p>Entras a <code>https://crm.agenciaprosperia.com</code> con tu correo y en el menú lateral izquierdo haces clic en <strong>📊 Panel Comisiones y Leads</strong>. Ideal para tener el CRM y tu panel en una misma pestaña.</p>
             </div>
             <div class="sub-box">
               <h4>🔑 Opción B: Acceso Directo en Pantalla Completa</h4>
-              <p>Entras directo a <code>https://agenciaprosperia.com/login</code> con tu correo y contraseña (<code>CloserProsper2026!</code>). Ideal si estás desde tu celular o prefieres ver el tablero sin la barra lateral del CRM.</p>
+              <p>Entras directo a <code>https://agenciaprosperia.com/login</code> con tu correo y contraseña (<code>CloserProsper2026!</code>). Ideal para usar toda la pantalla en tus presentaciones de Zoom o desde tu celular.</p>
             </div>
             <div class="sub-box">
               <h4>⏱️ Reloj Inteligente (Cero Popups Molestos)</h4>
               <ul>
                 <li>Al abrir tu panel, el cronómetro arranca solo en tu hora local: <strong>🟢 En Línea (Aplicado)</strong>.</li>
-                <li>Si dejas la pestaña quieta 5 minutos sin mover el mouse o cambias de ventana, pasa a <strong>🟡 En Pausa (Inactivo)</strong>.</li>
-                <li>Si abres y cierras el sistema varias veces en el día, tus minutos se <strong>suman automáticamente</strong>.</li>
+                <li>Si dejas la pestaña sin actividad durante 5 minutos, pasa automáticamente a <strong>🟡 En Pausa (Inactivo)</strong>.</li>
+                <li>Si entras varias veces al día (mañana, tarde y noche), tus minutos efectivos se <strong>suman automáticamente</strong>.</li>
               </ul>
             </div>
           </div>
@@ -339,25 +374,28 @@
         <div class="step-header">
           <div class="step-title">
             <span class="step-num" style="border-color:#10b981; color:#34d399; background:rgba(16,185,129,0.15);">2</span>
-            <span>Mi Lista de Llamadas: El Filtro Anti-Basura (Regla de Oro)</span>
+            <span>Etapa 1 vs. Etapa 2+: Cómo Operar 📞 Mi Lista de Llamadas sin Bailar entre Dos Listas</span>
           </div>
-          <span class="step-tag">Pestaña: 📞 Mi Lista de Llamadas</span>
+          <span class="step-tag">Pestaña: 📞 Mi Lista de Llamadas (Etapa 1)</span>
         </div>
         <div class="step-body">
-          En <strong>📞 Mi Lista de Llamadas</strong> ya tienes asignados tus prospectos propios. Para mantener el CRM ProsperIA impecable y solo con gente real interesada, usa los 3 botones de resultado en cada llamada:
+          Los <strong>455 prospectos</strong> precargados en tu cuenta <strong>ya existen dentro del CRM ProsperIA</strong> (verás el sello <code>🟢 Sincronizado en CRM</code>). Para que tengas orden absoluto, el sistema separa tu trabajo en dos momentos muy claros:
           <div class="sub-grid">
             <div class="sub-box">
-              <h4 style="color:#f87171;">🔴 No Contestó / Buzón</h4>
-              <p>Suma <strong>+1 llamada</strong> a tu KPI del día, el prospecto se queda en tu lista para reintentar mañana y <strong>NO ensucia el CRM ProsperIA</strong>.</p>
+              <h4 style="color:#f87171;">🔴 1. Botón "No Contestó"</h4>
+              <p>Úsalo cuando suena ocupado o entra buzón. Suma <strong>+1 llamada</strong> a tu KPI diario y el prospecto permanece en tu cola para volver a intentarlo más tarde.</p>
             </div>
             <div class="sub-box">
-              <h4 style="color:#94a3b8;">⚫ No Califica</h4>
-              <p>Suma <strong>+1 llamada</strong> a tu KPI, archiva el contacto localmente y <strong>NO ensucia el CRM ProsperIA</strong>.</p>
+              <h4 style="color:#94a3b8;">⚫ 2. Botón "No Califica"</h4>
+              <p>Úsalo si el número no existe o la persona ya no tiene negocio. Suma <strong>+1 llamada</strong> a tu KPI diario y lo retira de tu cola pendiente para no hacerte perder tiempo.</p>
             </div>
-            <div class="sub-box" style="border-color:rgba(16,185,129,0.45);">
-              <h4 style="color:#34d399;">🟢 ¡Sí Contestó! → Pasar a CRM &amp; Demo</h4>
-              <p>Suma <strong>+1 llamada contestada</strong>, inyecta automáticamente la oportunidad en el Pipeline de CRM ProsperIA y te habilita el botón azul <strong>🚀 Abrir Demo Web</strong>.</p>
+            <div class="sub-box" style="border-color:rgba(16,185,129,0.5);">
+              <h4 style="color:#34d399;">🟢 3. Botón "¡Sí Contestó! → Pasar a Mi Pipeline Activo"</h4>
+              <p>En cuanto el prospecto te contesta por teléfono o WhatsApp, haz clic aquí: <strong>el sistema lo avanza automáticamente al Paso 2 (<code>2. Primer contacto</code>) en el Portal y en el CRM ProsperIA</strong>, lo saca de tu cola de llamadas frías y lo pasa directo a <strong>💰 Mi Pipeline &amp; Comisiones</strong>.</p>
             </div>
+          </div>
+          <div class="callout">
+            💡 <strong>¿Dónde sigo trabajando a un prospecto que ya me contestó?</strong> ¡Siempre en <strong>💰 Mi Pipeline &amp; Comisiones</strong>! Así nunca tienes que estar buscando a un cliente activo entre los cientos de contactos fríos de la lista de llamadas.
           </div>
         </div>
       </article>
@@ -367,107 +405,148 @@
         <div class="step-header">
           <div class="step-title">
             <span class="step-num" style="border-color:#f59e0b; color:#fde68a; background:rgba(245,158,11,0.15);">3</span>
-            <span>Tu Calendario Personal Ya Está Conectado (Cero Configuración Manual)</span>
+            <span>Iniciativa del Closer: Cómo Dar de Alta un Prospecto Nuevo o Subir tu Propia Lista de Excel</span>
           </div>
-          <span class="step-tag">Pestaña: 🗓️ Mi Perfil &amp; Calendario</span>
+          <span class="step-tag">Botones Superiores en Llamadas y Pipeline</span>
         </div>
         <div class="step-body">
-          <strong>No tienes que ir al CRM a buscar ni pegar ningún link.</strong> Tu calendario oficial de CRM ProsperIA ya viene pre-cargado de fábrica en tu cuenta y en el selector del Demostrador en Vivo:
+          Si tú consigues un prospecto por tu cuenta (un referido, un dueño de negocio conocido, de redes sociales o de tu propia base de datos), tienes <strong>2 herramientas en la parte superior</strong> tanto de <em>Mi Lista de Llamadas</em> como de <em>Mi Pipeline &amp; Comisiones</em>:
           <div class="sub-grid">
-            <div class="sub-box">
-              <h4>📋 Copiar para WhatsApp en 1 Clic</h4>
-              <p>Si un prospecto te pide agendar por WhatsApp, haz clic en <strong>🗓️ Mi Perfil &amp; Calendario</strong> en el menú izquierdo y pulsa <strong>📋 Copiar mi Link de Agendamiento</strong>.</p>
+            <div class="sub-box" style="border-color:rgba(16,185,129,0.45);">
+              <h4 style="color:#34d399;">➕ Nuevo Prospecto (Inyectar a CRM)</h4>
+              <p>Abre una ventana rápida con los campos básicos: <strong>Nombre y Apellido, WhatsApp (con código de país), Correo Electrónico, Nombre del Negocio/Giro y Notas</strong>.</p>
+              <p style="margin-top:6px; color:#a7f3d0;">Al guardar, el sistema lo crea en tu Portal, <strong>lo inyecta en vivo en el CRM ProsperIA con tu etiqueta de Closer</strong> y lo coloca directamente en <strong>Etapa 2 (<code>2. Primer contacto</code>)</strong> dentro de tu Pipeline Activo.</p>
             </div>
-            <div class="sub-box">
-              <h4>🤝 Agendamiento en Vivo en el Demo</h4>
-              <p>Cuando abres <code>/demo-sitio-web</code> desde tu cuenta, el calendario al pie de la página del cliente ya carga automáticamente tu agenda personal.</p>
+            <div class="sub-box" style="border-color:rgba(0,229,255,0.45);">
+              <h4 style="color:#00e5ff;">📥 Subir Mi Lista (Excel / CSV)</h4>
+              <p>¿Tienes una lista de 20, 50 o 200 prospectos en Excel? Haz clic en <strong>📥 Subir Mi Lista (Excel/CSV)</strong>: puedes subir tu archivo <code>.csv</code> o simplemente <strong>copiar y pegar las filas directamente desde Excel</strong> (<code>Nombre, WhatsApp, Email, Giro</code>).</p>
+              <p style="margin-top:6px; color:#67e8f9;">Tú eliges si quieres que entren a tu <em>Cola de Llamadas (Etapa 1)</em> o directo a tu <em>Pipeline Activo (Etapa 2)</em>.</p>
             </div>
           </div>
         </div>
       </article>
 
       <!-- PASO 4 -->
-      <article class="step-card">
+      <article class="step-card rose">
         <div class="step-header">
           <div class="step-title">
-            <span class="step-num">4</span>
-            <span>Cómo Hacer la Demo en Vivo en 5 Minutos (+ Biblioteca de +1,000 Plantillas CRM)</span>
+            <span class="step-num" style="border-color:#ef4444; color:#fca5a5; background:rgba(239,68,68,0.15);">4</span>
+            <span>Cómo Contactar a los Prospectos Fríos: WhatsApp Directo vs. Plantillas Oficiales CRM</span>
           </div>
-          <span class="step-tag">Pestaña: 🎨 Demo Sitio Web (En Vivo)</span>
+          <span class="step-tag">Regla de las 24 Horas de WhatsApp / Meta</span>
         </div>
         <div class="step-body">
-          Cuando estás en Zoom/Meet con el dueño del negocio, comparte pantalla en <strong>🎨 Demo Sitio Web (En Vivo)</strong>:
+          Muchos prospectos de la base de datos pidieron informes hace días o semanas. Es fundamental que conozcas cómo funciona la regla de WhatsApp para que tus mensajes siempre lleguen:
           <div class="sub-grid">
-            <div class="sub-box">
-              <h4>1️⃣ Personaliza en 5 Segundos</h4>
-              <p>Elige el giro del cliente (Clínica, Servicios Locales, Inmobiliaria, Profesionales, Academia o Restaurante), escribe el <strong>Nombre de su Negocio</strong> y su Ciudad, y haz clic en <strong>Aplicar en Vivo</strong>. Prueba el <strong>Chatbot IA con Gemini</strong> en la esquina inferior derecha haciendo una pregunta real de su negocio.</p>
+            <div class="sub-box" style="border-color:rgba(16,185,129,0.45);">
+              <h4 style="color:#34d399;">📱 1. Desde tu Celular / Botón Verde "💬 WhatsApp" del Panel (Recomendado para Fríos)</h4>
+              <p>Cuando haces clic en el botón verde <strong>💬 WhatsApp</strong> en tu <em>Lista de Llamadas</em> o en <em>Mi Pipeline</em>, se abre WhatsApp en tu celular o computadora con un saludo personalizado listo para enviar. <strong>No tiene restricción de 24 horas</strong> y genera la mayor tasa de respuesta humana.</p>
             </div>
             <div class="sub-box">
-              <h4>2️⃣ Botón 🎨 +60 Looks de Diseño</h4>
-              <p>Si el cliente quiere ver otros colores, tipografías o fondos (Modo Oscuro, Minimalista Suizo, Clínico Puro, Luxury Gold), abre <strong>🎨 +60 Looks de Diseño</strong> y cámbialo con 1 clic.</p>
+              <h4 style="color:#fde68a;">📋 2. Desde Adentro del CRM ProsperIA (Ventana de Conversaciones)</h4>
+              <p>Por regla oficial de Meta, si un cliente lleva <strong>más de 24 horas sin escribirnos</strong>, el CRM no permite enviar un texto libre de WhatsApp hasta que uses una <strong>Plantilla Oficial de WhatsApp Marketing</strong> (como <code>saludo_inicial_passportai</code> con botones interactivos) o le envíes un Correo/SMS. En cuanto el cliente toca un botón o te responde, se abre la ventana de 24 horas para chatear libremente desde el CRM.</p>
             </div>
-            <div class="sub-box" style="border-color:rgba(0,229,255,0.45);">
-              <h4 style="color:#00e5ff;">3️⃣ ¿Quiere ver más plantillas? → 📚 Biblioteca +1,000 Plantillas CRM</h4>
-              <p>Si un cliente exigente te dice <em>"¿Tienen plantillas específicas para mi nicho?"</em>, haz clic en el botón morado/cyan <strong>📚 Biblioteca +1,000 Plantillas CRM</strong> en la barra superior del Demo. Desde ahí puedes mostrarle la vista previa o abrir en 1 clic el catálogo oficial de <strong>Sitios → + Nuevo Sitio Web → De la biblioteca de plantillas</strong> en CRM ProsperIA.</p>
+            <div class="sub-box">
+              <h4 style="color:#67e8f9;">🗓️ 3. Tu Link Personal de Calendario en 1 Clic</h4>
+              <p>Tu calendario personal del CRM ya está pre-conectado. En <strong>🗓️ Mi Perfil &amp; Calendario</strong> tienes el botón <strong>📋 Copiar mi Link de Agendamiento</strong> para pegarlo en WhatsApp en 2 segundos cuando el cliente está listo para ver el Demo.</p>
             </div>
           </div>
         </div>
       </article>
 
       <!-- PASO 5 -->
-      <article class="step-card purple">
+      <article class="step-card">
         <div class="step-header">
           <div class="step-title">
-            <span class="step-num" style="border-color:#8b5cf6; color:#c4b5fd; background:rgba(139,92,246,0.15);">5</span>
-            <span>Tus Armas de Cierre: Las 3 Cajas, Presentación Oficial PassportAI y 4 Slides CRM</span>
+            <span class="step-num">5</span>
+            <span>Cómo Hacer la Demo en Vivo en 5 Minutos (+ Biblioteca de +1,000 Plantillas Web en CRM)</span>
           </div>
-          <span class="step-tag">Pestaña: 🔥 Presentaciones &amp; Armas</span>
+          <span class="step-tag">Pestaña: 🎨 Demo Sitio Web (En Vivo)</span>
         </div>
         <div class="step-body">
-          En <strong>🔥 Presentaciones &amp; Armas</strong> tienes todo ordenado para cerrar sin confundir al cliente. Recuerda que hoy tu foco 100% son las <strong>3 Cajas</strong> (el menú <em>💎 Opción Avanzada High-Ticket</em> queda plegado en el menú izquierdo solo para casos corporativos):
+          Cuando estás en videollamada (Zoom/Meet) con el dueño del negocio, abre <strong>🎨 Demo Sitio Web (En Vivo)</strong> y sigue esta secuencia de 3 minutos:
           <div class="sub-grid">
             <div class="sub-box">
-              <h4>📊 1. Presentación Comercial (3 Cajas) — ¡Con tu Foto!</h4>
-              <p>Al abrirla, la Lámina 1 muestra automáticamente <strong>tu foto profesional y tu nombre</strong> como Especialista Asignado. En la Lámina 8 presentas las 3 Cajas Black November:</p>
-              <ul>
-                <li><strong>🟢 Caja 1 — Express PYME ($497 USD):</strong> Reserva hoy con <strong>$250 USD</strong> y $247 contra entrega.</li>
-                <li><strong>⭐ Caja 2 — Pack Anual Estrella ($990 USD):</strong> Incluye 1 año de CRM + IA + 2 meses de contenido. Reserva hoy con <strong>$495 USD</strong>.</li>
-                <li><strong>🔥 Caja 3 — Máquina Completa ($1,490 USD):</strong> Todo el Pack Anual + 10 Videos Editados + Campaña Meta Ads. Reserva con <strong>$745 USD</strong>.</li>
-              </ul>
+              <h4>1️⃣ Personaliza con el Nombre de su Negocio</h4>
+              <p>Selecciona su giro (Clínica/Médico, Servicios Locales, Inmobiliaria, Profesionales, Academia o Restaurante), escribe el <strong>Nombre de su Empresa</strong> y su Ciudad, y pulsa <strong>Aplicar en Vivo</strong>. Haz una prueba en vivo del <strong>Chatbot IA con Gemini</strong> en la esquina inferior derecha.</p>
             </div>
             <div class="sub-box">
-              <h4>🚀 2. Presentación Oficial PassportAI.app (PDF Oficial)</h4>
-              <p>En el botón <strong>🚀 Slides PassportAI (8 Láminas / PDF Oficial)</strong> tienes cargada la presentación ejecutiva oficial subida por Edward para mostrar cómo PassportAI genera contenido viral en 3 clics, junto con el acceso directo a <code>https://passportai.app/</code>.</p>
+              <h4>2️⃣ Cambia el Estilo con 🎨 +60 Looks de Diseño</h4>
+              <p>Muestra cómo su sitio cambia de personalidad al instante (Modo Oscuro, Clínico Puro, Minimalista Suizo, Luxury Gold) con 1 clic en <strong>🎨 +60 Looks de Diseño</strong>.</p>
             </div>
-            <div class="sub-box">
-              <h4>🏛️ 3. 4 Slides CRM ProsperIA (Sin Precios)</h4>
-              <p>Si el cliente pregunta <em>"¿Dónde caen mis prospectos cuando llenan la web?"</em>, muéstrale las <strong>4 Slides CRM ProsperIA</strong>: explican visualmente la bandeja unificada, el embudo y el calendario sin distraerlo con precios extra.</p>
+            <div class="sub-box" style="border-color:rgba(0,229,255,0.45);">
+              <h4 style="color:#00e5ff;">3️⃣ Abre la 📚 Biblioteca +1,000 Plantillas CRM</h4>
+              <p>Si el cliente pregunta <em>"¿Tienen más diseños para mi giro específico?"</em>, haz clic en el botón superior <strong>📚 Biblioteca +1,000 Plantillas CRM</strong>. Ahí le muestras la galería oficial del CRM ProsperIA con más de 1,000 sitios por industria incluidos.</p>
             </div>
           </div>
         </div>
       </article>
 
       <!-- PASO 6 -->
+      <article class="step-card purple">
+        <div class="step-header">
+          <div class="step-title">
+            <span class="step-num" style="border-color:#8b5cf6; color:#c4b5fd; background:rgba(139,92,246,0.15);">6</span>
+            <span>Tus Armas Visuales Renovadas: Las 3 Cajas (9 Slides), 17 Láminas PassportAI y 8 Slides CRM</span>
+          </div>
+          <span class="step-tag">Pestaña: 🔥 Presentaciones &amp; Armas</span>
+        </div>
+        <div class="step-body">
+          En <strong>🔥 Presentaciones &amp; Armas</strong> tienes tus presentaciones listas para proyectar en pantalla completa (sin precios corporativos altos que espanten al cliente; el menú <em>💎 Opción Avanzada High-Ticket</em> está plegado en el menú izquierdo solo para casos especiales):
+          <div class="sub-grid">
+            <div class="sub-box" style="border-color:rgba(245,158,11,0.45);">
+              <h4 style="color:#fde68a;">📦 1. Presentación Comercial (3 Cajas — 9 Slides con Tu Foto)</h4>
+              <p>La portada muestra automáticamente <strong>tu foto circular y tu título ejecutivo como Director de Arquitectura Comercial &amp; IA</strong>. Se retiró la lámina de precios corporativos altos para ir directo al cierre con las <strong>3 Cajas Black November (Reserva 50/50)</strong>:</p>
+              <ul>
+                <li><strong>🟢 Caja 1 — Express PYME (US$497):</strong> Reserva hoy con <strong>US$250</strong> y US$247 contra entrega.</li>
+                <li><strong>⭐ Caja 2 — Pack Anual Estrella (US$990):</strong> Sitio Web + 1 Año de CRM + IA + PassportAI. Reserva con <strong>US$495</strong>.</li>
+                <li><strong>🔥 Caja 3 — Máquina Completa (US$1,490):</strong> Todo el Pack Anual + 10 Videos + Meta Ads. Reserva con <strong>US$745</strong>.</li>
+                <li><strong>🛟 Rescate Express (US$197/año):</strong> Si no alcanza hoy para las 3 Cajas, aseguras la venta con la Tarjeta Digital + Chatbot IA + Agenda.</li>
+              </ul>
+            </div>
+            <div class="sub-box" style="border-color:rgba(0,229,255,0.45);">
+              <h4 style="color:#00e5ff;">🛂 2. Presentación PassportAI.app (17 Láminas Interactivas HD)</h4>
+              <p>Ya no abre un visor PDF pesado: ahora tienes las <strong>17 láminas oficiales en alta definición</strong> integradas directo en pantalla, con botones <em>◀ Anterior / Siguiente ▶</em>, barra numérica del <code>1</code> al <code>17</code>, botón de <strong>⛶ Pantalla Completa</strong> y acceso vivo a <code>https://passportai.app/</code>.</p>
+            </div>
+            <div class="sub-box" style="border-color:rgba(16,185,129,0.45);">
+              <h4 style="color:#34d399;">⚙️ 3. 8 Slides CRM ProsperIA (Presentación Visual Ilustrada)</h4>
+              <p>Ampliada a <strong>8 láminas visuales con capturas reales del CRM</strong> en cada slide:</p>
+              <ul>
+                <li><strong>Slide 1:</strong> Centro de Control Todo-en-Uno.</li>
+                <li><strong>Slide 2:</strong> Bandeja Única Omnicanal (WhatsApp, IG, FB, SMS, Email).</li>
+                <li><strong>Slide 3:</strong> Embudo Visual de Ventas (Pipeline Kanban).</li>
+                <li><strong>Slide 4:</strong> Agenda Inteligente Anti-Plantones.</li>
+                <li><strong>Slide 5:</strong> Constructor Web + Biblioteca de +1,000 Plantillas.</li>
+                <li><strong>Slide 6:</strong> Plantillas Oficiales de WhatsApp con Botones.</li>
+                <li><strong>Slide 7:</strong> Recepcionista IA 24/7 (&lt; 60 segundos) + App Móvil.</li>
+                <li><strong>Slide 8:</strong> Reemplazo de +10 Softwares y botón directo a las 3 Cajas.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- PASO 7 -->
       <article class="step-card emerald">
         <div class="step-header">
           <div class="step-title">
-            <span class="step-num" style="border-color:#10b981; color:#34d399; background:rgba(16,185,129,0.15);">6</span>
-            <span>Cómo Sincronizar Etapa en CRM y Registrar tu Pago para Cobrar tu 15%</span>
+            <span class="step-num" style="border-color:#10b981; color:#34d399; background:rgba(16,185,129,0.15);">7</span>
+            <span>Cómo Actualizar Etapa en 1 Clic y Verificar el Pago para Cobrar tu 15%</span>
           </div>
           <span class="step-tag">Pestaña: 💰 Mi Pipeline &amp; Comisiones (15%)</span>
         </div>
         <div class="step-body">
-          Todo prospecto que contestó o agendó aparece en <strong>💰 Mi Pipeline &amp; Comisiones</strong>. Al final de cada fila tienes los 2 botones más importantes de tu trabajo:
+          En <strong>💰 Mi Pipeline &amp; Comisiones</strong> (vista por defecto: <code>🔥 Mi Pipeline Activo · Paso 2+</code>) gestionas a todos los prospectos con los que ya hablaste. Al final de cada fila tienes tus 2 botones de cierre:
           <div class="sub-grid">
             <div class="sub-box">
-              <h4 style="color:#00e5ff;">📋 Botón 1: Etapa / Prop. (Sincronización Instantánea con CRM)</h4>
-              <p>Cada vez que terminas una llamada o envías propuesta, abres <strong>📋 Etapa / Prop.</strong>, eliges la etapa (ej. <em>4. Calificado</em>, <em>6. Demo realizada</em>, <em>7. Propuesta enviada</em>), la Caja cotizada y la fecha del siguiente paso, y pulsas <strong>Guardar y Sincronizar con CRM ProsperIA</strong>.</p>
-              <p style="margin-top:6px; color:#34d399; font-weight:700;">✓ Verás de inmediato el sello <code>🟢 Sincronizado en CRM</code> en la fila sin necesidad de cambiar de pantalla.</p>
+              <h4 style="color:#00e5ff;">📋 Botón 1: Etapa / Prop. (Sincronización Bidireccional con CRM)</h4>
+              <p>Cada vez que avanzas con un cliente, haz clic en <strong>📋 Etapa / Prop.</strong>, selecciona la nueva etapa (<em>3. En conversación</em>, <em>4. Calificado</em>, <em>5. Cita agendada</em>, <em>6. Demo realizada</em>, <em>7. Propuesta enviada</em>, <em>8. En negociación</em>), la Caja ofrecida y la fecha del próximo contacto, y pulsa <strong>Guardar y Sincronizar con CRM ProsperIA</strong>.</p>
+              <p style="margin-top:6px; color:#34d399; font-weight:700;">✓ Verás al instante el sello <code>🟢 Sincronizado en CRM</code> y una barra verde confirmando que el Pipeline en CRM ProsperIA fue actualizado.</p>
             </div>
             <div class="sub-box" style="border-color:rgba(16,185,129,0.5);">
               <h4 style="color:#34d399;">💳 Botón 2: Verificar Pago (Activa tu 15% y Suena la Campana 🔔)</h4>
-              <p>Cuando el cliente paga su 50% de reserva (o el 100%) por Stripe, Hotmart, Zelle o Transferencia, haces clic en <strong>💳 Verificar Pago</strong>, ingresas el número de comprobante y el monto cobrado.</p>
-              <p style="margin-top:6px; color:#fde68a; font-weight:700;">🏆 El sistema calcula automáticamente tu 15% de comisión sobre el dinero cobrado, pasa el cliente a Ingeniería (Onboarding) y te sube en el Podio Semanal.</p>
+              <p>Cuando el cliente realiza su pago (50% de reserva o 100%) por Stripe, Hotmart, Zelle o Transferencia, abre <strong>💳 Verificar Pago</strong>, registra el método, la referencia del comprobante y el monto cobrado.</p>
+              <p style="margin-top:6px; color:#fde68a; font-weight:700;">🏆 El sistema liquida tu <strong>15% de comisión</strong> sobre el dinero cobrado, mueve al cliente a Onboarding Técnico, toca la campana de victoria 🔔 y actualiza tu posición en el Podio Semanal.</p>
             </div>
           </div>
         </div>
