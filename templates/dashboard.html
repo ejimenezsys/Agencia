@@ -1640,23 +1640,29 @@
     <div class="card p-5 flex flex-wrap items-center justify-between gap-4" style="background:linear-gradient(135deg,#071a16,#0d2e26); border-color:rgba(16,185,129,0.35);">
       <div>
         <div class="flex items-center gap-2 mb-1">
-          <span class="px-2.5 py-0.5 rounded-full text-xs font-black uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">FILTRO ANTI-BASURA PARA CRM PROSPERIA</span>
+          <span class="px-2.5 py-0.5 rounded-full text-xs font-black uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">PASO 1 · PROSPECCIÓN FRÍA (455)</span>
           <span id="call-queue-owner-badge" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">Mis Prospectos Asignados</span>
         </div>
-        <h2 class="text-xl font-bold text-white">📋 Mi Lista de Llamadas (455 Prospectos Repartidos + Lotes Semanales)</h2>
+        <h2 class="text-xl font-bold text-white">📋 Mi Lista de Llamadas (Paso 1: Prospectos por Contactar)</h2>
         <p class="text-xs text-slate-300 mt-0.5">
-          <strong>Regla de Oro:</strong> Llama desde tu WhatsApp o celular. Si <strong>NO contesta</strong> o <strong>No califica</strong>, márcalo aquí (se queda en este Dashboard sin ensuciar el CRM). Solo cuando <strong>¡SÍ CONTESTA!</strong> pasa limpio al Pipeline de <strong>CRM ProsperIA</strong> y te habilita el Cuadro de Demo Web.
+          <strong>Flujo Lineal Sin Confusión:</strong> Aquí solo están los prospectos con los que <strong>aún no has hablado</strong>. En cuanto el cliente <strong>¡SÍ CONTESTA!</strong>, se gradúa automáticamente al <strong>Paso 2 (Primer Contacto) en <code class="text-cyan-300">💰 Mi Pipeline &amp; Comisiones</code></strong> y nunca más tienes que buscarlo aquí.
         </p>
       </div>
-      <div class="flex flex-wrap gap-2">
+      <div class="flex flex-wrap gap-2 items-center">
+        <button type="button" onclick="openQuickCloserLeadDialog('Primer contacto')" class="px-3.5 py-2 rounded-xl text-xs font-black bg-emerald-400 text-slate-950 hover:bg-emerald-300 transition shadow">
+          ➕ Nuevo Prospecto (Inyectar a CRM)
+        </button>
+        <button type="button" onclick="openCloserBulkImportDialog()" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30 transition">
+          📥 Subir Mi Lista (Excel/CSV)
+        </button>
         <select id="call-queue-filter" class="input-dark text-xs py-2 px-3" style="width:auto;" onchange="renderCallQueueTable()">
-          <option value="pending">⏳ Pendientes de Llamar / Recién Contestados</option>
-          <option value="answered">🟢 Sí Contestaron (Ya en CRM ProsperIA)</option>
+          <option value="pending">⏳ Paso 1: Pendientes de Llamar (Fríos)</option>
           <option value="no_answer">🔴 No Contestaron / Buzón</option>
+          <option value="answered">🟢 Ya Graduados a Mi Pipeline (Paso 2+)</option>
           <option value="disqualified">⚫ No Califican</option>
           <option value="all">Todos mis asignados</option>
         </select>
-        <input id="call-queue-search" type="text" class="input-dark text-xs py-2 px-3" style="width:210px;" placeholder="Buscar nombre, negocio o tel..." oninput="renderCallQueueTable()">
+        <input id="call-queue-search" type="text" class="input-dark text-xs py-2 px-3" style="width:200px;" placeholder="Buscar nombre, negocio o tel..." oninput="renderCallQueueTable()">
         <button onclick="loadSalesOsData()" class="btn-ghost px-3 py-2 rounded-xl text-xs font-semibold">
           <i class="fas fa-sync-alt mr-1"></i> Actualizar
         </button>
@@ -2078,12 +2084,15 @@
         </p>
       </div>
       <div class="flex flex-wrap gap-2">
-        <a href="/demo-sitio-web" target="_blank" class="btn-primary px-4 py-2.5 rounded-xl text-xs font-bold inline-flex items-center gap-2 no-underline">
-          <i class="fas fa-bolt"></i> Abrir Demostrador en Vivo (Pantalla Completa)
-        </a>
-        <button onclick="showModal('lead')" class="btn-ghost px-4 py-2.5 rounded-xl text-xs font-semibold">
-          <i class="fas fa-user-plus mr-1"></i> Dar de Alta Prospecto
+        <button type="button" onclick="openQuickCloserLeadDialog('Primer contacto')" class="px-4 py-2.5 rounded-xl text-xs font-black bg-emerald-400 text-slate-950 hover:bg-emerald-300 transition shadow">
+          ➕ Nuevo Prospecto (Inyectar a CRM)
         </button>
+        <button type="button" onclick="openCloserBulkImportDialog()" class="px-4 py-2.5 rounded-xl text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30 transition">
+          📥 Subir Lista Excel/CSV
+        </button>
+        <a href="/demo-sitio-web" target="_blank" class="btn-primary px-4 py-2.5 rounded-xl text-xs font-bold inline-flex items-center gap-2 no-underline">
+          <i class="fas fa-bolt"></i> Abrir Demostrador en Vivo
+        </a>
       </div>
     </div>
 
@@ -2120,14 +2129,13 @@
     <div class="card p-5 space-y-4">
       <div class="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h3 class="text-base font-bold text-white">Pipeline Comercial Canónico (11 Etapas + Rutas de Salida)</h3>
-          <p class="text-xs text-slate-400">Haz clic en <strong>"⚡ Demo Web"</strong> para mostrarle al cliente su sitio en vivo, en <strong>"📋 Etapa / Propuesta"</strong> para avanzar o en <strong>"💳 Verificar Pago"</strong> cuando pague.</p>
+          <h3 class="text-base font-bold text-white">💰 Mi Pipeline Activo (Desde Paso 2: Primer Contacto hasta Pago Confirmado)</h3>
+          <p class="text-xs text-slate-400">Aquí viven únicamente los clientes que <strong>ya te contestaron</strong> (o que diste de alta directos). Gestiona aquí su WhatsApp, <strong>"📋 Etapa / Prop."</strong> y <strong>"💳 Verificar Pago"</strong> sin regresar a la lista de llamadas.</p>
         </div>
         <div class="flex flex-wrap gap-2">
           <select id="sos-stage-filter" class="input-dark text-xs py-2 px-3" style="width:auto;" onchange="renderSalesOsTable()">
-            <option value="">Todas las etapas canónicas</option>
-            <option value="Lead identificado">1. Lead identificado</option>
-            <option value="Primer contacto">2. Primer contacto</option>
+            <option value="active_pipeline" selected>🔥 Mi Pipeline Activo (Paso 2: Primer Contacto al Paso 11)</option>
+            <option value="Primer contacto">2. Primer contacto (Recién contestaron)</option>
             <option value="Conversación">3. Conversación</option>
             <option value="Calificado">4. Calificado</option>
             <option value="Diagnóstico agendado">5. Diagnóstico agendado</option>
@@ -2137,6 +2145,8 @@
             <option value="Pago confirmado">9. Pago confirmado ✅</option>
             <option value="Implementación">10. Implementación 🛠️</option>
             <option value="Entregado">11. Entregado 🚀</option>
+            <option value="">Ver absolutamente todos (incluyendo Paso 1 Fríos)</option>
+            <option value="Lead identificado">1. Lead identificado (En Lista de Llamadas)</option>
             <option value="No interesado">Salida: No interesado</option>
             <option value="No responde">Salida: No responde</option>
             <option value="Opt-out">Salida: Opt-out / DND</option>
@@ -2477,6 +2487,109 @@
         <button type="button" onclick="document.getElementById('paymentVerifyDialog').close()" class="btn-ghost flex-1 py-2.5 rounded-xl font-semibold">Cancelar</button>
         <button type="button" onclick="submitVerifiedPayment()" class="flex-1 py-2.5 rounded-xl font-bold text-slate-950" style="background:linear-gradient(135deg,#34d399,#10b981);">
           ✅ Confirmar Pago en CRM ProsperIA y Enviar a Ingeniería
+        </button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- ══ DIALOG 3: ALTA RÁPIDA DE NUEVO PROSPECTO DEL CLOSER (INYECTAR A CRM PROSPERIA) ══ -->
+  <dialog id="closerNewLeadDialog" closedby="any" aria-labelledby="closerNewLeadTitle" class="sales-dialog" style="max-width:560px;">
+    <div class="flex items-center justify-between mb-4 border-b border-slate-800 pb-3">
+      <div>
+        <h3 id="closerNewLeadTitle" class="text-base font-bold text-emerald-400">➕ Dar de Alta Nuevo Prospecto (Inyectar a CRM ProsperIA)</h3>
+        <p class="text-xs text-slate-300 mt-0.5">Registra un contacto nuevo que conseguiste por tu cuenta; se creará en tu cuenta y en <strong>CRM ProsperIA</strong>.</p>
+      </div>
+      <button type="button" onclick="document.getElementById('closerNewLeadDialog').close()" class="text-slate-400 hover:text-white text-sm">✕</button>
+    </div>
+    <div class="space-y-3 text-xs">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Nombre del Cliente / Dueño *</label>
+          <input type="text" id="cnew-name" class="input-dark text-xs py-2" placeholder="Ej. Dr. Carlos Mendoza">
+        </div>
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Nombre del Negocio / Empresa</label>
+          <input type="text" id="cnew-business" class="input-dark text-xs py-2" placeholder="Ej. Clínica Dental Sonrisa">
+        </div>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">WhatsApp / Teléfono (con código país) *</label>
+          <input type="tel" id="cnew-phone" class="input-dark text-xs py-2" placeholder="Ej. +52 55 4123 9988">
+        </div>
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Correo Electrónico (Opcional)</label>
+          <input type="email" id="cnew-email" class="input-dark text-xs py-2" placeholder="cliente@empresa.com">
+        </div>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Giro / Plantilla Sectorial</label>
+          <select id="cnew-template" class="input-dark text-xs py-2">
+            <option value="clinica_dental_estetica">🦷 Clínica Dental / Estética / Médico</option>
+            <option value="servicios_locales_taller">🔧 Taller / Servicios Locales / Hogar</option>
+            <option value="inmobiliaria_bienes_raices">🏢 Inmobiliaria / Bienes Raíces</option>
+            <option value="profesionales_consultoria_legal">⚖️ Abogados / Contadores / Consultoría</option>
+            <option value="academia_educacion_cursos">🎓 Academia / Cursos / Educación</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">¿Dónde quieres ubicarlo? *</label>
+          <select id="cnew-stage" class="input-dark text-xs py-2">
+            <option value="Primer contacto" selected>🟢 Paso 2: Primer Contacto (Ya hablé con él → Directo a Mi Pipeline &amp; CRM)</option>
+            <option value="Lead identificado">⏳ Paso 1: En Mi Lista de Llamadas (Aún por llamar)</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label class="block text-slate-300 font-semibold mb-1">Nota rápida (Opcional)</label>
+        <input type="text" id="cnew-notes" class="input-dark text-xs py-2" placeholder="Ej. Referido / Prospectado por Instagram, interesado en web de $497">
+      </div>
+      <div class="flex gap-2 pt-2">
+        <button type="button" onclick="document.getElementById('closerNewLeadDialog').close()" class="btn-ghost flex-1 py-2.5 rounded-xl font-semibold">Cancelar</button>
+        <button type="button" onclick="submitCloserNewLead()" id="btn-submit-closer-lead" class="flex-1 py-2.5 rounded-xl font-black text-slate-950" style="background:linear-gradient(135deg,#34d399,#10b981);">
+          🚀 Guardar e Inyectar en CRM ProsperIA
+        </button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- ══ DIALOG 4: SUBIR LISTA DE EXCEL / CSV PROPIA DEL CLOSER ══ -->
+  <dialog id="closerBulkImportDialog" closedby="any" aria-labelledby="closerBulkTitle" class="sales-dialog" style="max-width:620px;">
+    <div class="flex items-center justify-between mb-4 border-b border-slate-800 pb-3">
+      <div>
+        <h3 id="closerBulkTitle" class="text-base font-bold text-amber-300">📥 Subir Mi Propia Lista de Prospectos (Excel / CSV)</h3>
+        <p class="text-xs text-slate-300 mt-0.5">Carga de golpe tu propia cartera de prospectos asignados 100% a tu cuenta con filtro anti-duplicados.</p>
+      </div>
+      <button type="button" onclick="document.getElementById('closerBulkImportDialog').close()" class="text-slate-400 hover:text-white text-sm">✕</button>
+    </div>
+    <div class="space-y-3 text-xs">
+      <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 leading-relaxed">
+        <strong>Formato súper simple (1 prospecto por línea):</strong><br>
+        Puedes seleccionar un archivo <code class="text-cyan-300">.csv</code> exportado de Excel o copiar y pegar las celdas directamente desde Excel con las columnas:<br>
+        <code class="text-amber-300">Nombre, Negocio, Teléfono/WhatsApp, Email</code>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">1. Seleccionar archivo .CSV (Opcional)</label>
+          <input type="file" id="cbulk-file" accept=".csv,.txt" class="input-dark text-xs py-1.5" onchange="handleCloserCsvFileSelect(event)">
+        </div>
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">2. Etapa Inicial del Lote</label>
+          <select id="cbulk-stage" class="input-dark text-xs py-2">
+            <option value="Lead identificado" selected>⏳ Paso 1: En Mi Lista de Llamadas (Para llamarlos 1 por 1)</option>
+            <option value="Primer contacto">🟢 Paso 2: Directo a Mi Pipeline (Primer contacto)</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label class="block text-slate-300 font-semibold mb-1">O pega aquí tus filas desde Excel (Nombre, Negocio, Teléfono, Email):</label>
+        <textarea id="cbulk-text" rows="5" class="input-dark text-xs font-mono" placeholder="Dra. Laura Gómez, Clínica Dental Laura, +5491122334455, laura@clinica.com&#10;Martín Ruiz, Inmobiliaria Sur, +525511223344, martin@inmob.com"></textarea>
+      </div>
+      <div class="flex gap-2 pt-2">
+        <button type="button" onclick="document.getElementById('closerBulkImportDialog').close()" class="btn-ghost flex-1 py-2.5 rounded-xl font-semibold">Cancelar</button>
+        <button type="button" onclick="submitCloserBulkCsv()" id="btn-submit-closer-bulk" class="flex-1 py-2.5 rounded-xl font-black text-slate-950 bg-amber-400 hover:bg-amber-300">
+          📥 Importar Lote a Mi Cuenta Ahora
         </button>
       </div>
     </div>
@@ -3733,11 +3846,34 @@ async function loadSalesOsData() {
 function renderSalesOsTable() {
   const tbody = document.getElementById('sos-leads-tbody');
   if (!tbody) return;
-  const stageFilter = document.getElementById('sos-stage-filter')?.value || '';
-  const rows = salesOsLeads.filter(l => !stageFilter || (l.pipeline_stage || 'Lead identificado') === stageFilter);
+  const stageFilter = document.getElementById('sos-stage-filter')?.value ?? 'active_pipeline';
+  const inactiveStages = ['Lead identificado', 'No responde', 'No interesado', 'No cumple perfil', 'Opt-out', 'Venta perdida'];
+
+  const rows = salesOsLeads.filter(l => {
+    const st = l.pipeline_stage || 'Lead identificado';
+    if (stageFilter === 'active_pipeline') {
+      return !inactiveStages.includes(st);
+    }
+    if (!stageFilter) return true;
+    return st === stageFilter;
+  });
+
+  // Actualizar el badge del menú lateral con la cantidad real de prospectos activos en el Pipeline (Paso 2+)
+  const activePipelineCount = salesOsLeads.filter(l => !inactiveStages.includes(l.pipeline_stage || 'Lead identificado')).length;
+  const navSalesOsBadge = document.querySelector('#nav-sales-os span.ml-auto');
+  if (navSalesOsBadge) {
+    navSalesOsBadge.textContent = activePipelineCount > 0 ? `${activePipelineCount} activos` : '15%';
+  }
 
   if (!rows.length) {
-    tbody.innerHTML = '<tr><td colspan="8" class="text-center py-8 text-slate-500">No hay oportunidades en esta etapa.</td></tr>';
+    tbody.innerHTML = `<tr><td colspan="8" class="text-center py-10 text-slate-400">
+      <div class="font-bold text-white text-sm mb-1">Aún no tienes prospectos activos en el Paso 2 (Primer Contacto) o superior.</div>
+      <div class="text-xs text-slate-400 mb-3">Ve a <strong>📞 Mi Lista de Llamadas</strong> y cuando un prospecto conteste haz clic en <strong>"🟢 Sí Contestó → Mover a Paso 2"</strong>, o da de alta un prospecto nuevo aquí mismo:</div>
+      <div class="flex justify-center gap-2">
+        <button type="button" onclick="showSection('call-queue')" class="px-3.5 py-2 rounded-xl text-xs font-black bg-cyan-400 text-slate-950">📞 Ir a Mi Lista de Llamadas (Paso 1)</button>
+        <button type="button" onclick="openQuickCloserLeadDialog('Primer contacto')" class="px-3.5 py-2 rounded-xl text-xs font-black bg-emerald-400 text-slate-950">➕ Dar de Alta Nuevo Prospecto en Paso 2</button>
+      </div>
+    </td></tr>`;
     return;
   }
 
@@ -3748,14 +3884,19 @@ function renderSalesOsTable() {
       ? 'background:rgba(16,185,129,0.18); color:#34d399; border:1px solid rgba(16,185,129,0.35);'
       : stage.includes('Propuesta') || stage.includes('Demo')
       ? 'background:rgba(0,229,255,0.14); color:#00e5ff; border:1px solid rgba(0,229,255,0.3);'
-      : 'background:rgba(148,163,184,0.12); color:#cbd5e1; border:1px solid rgba(148,163,184,0.25);';
+      : 'background:rgba(16,185,129,0.14); color:#6ee7b7; border:1px solid rgba(16,185,129,0.3);';
 
-    const demoUrl = `/demo-sitio-web?lead_id=${l.id}&template=${encodeURIComponent(l.selected_template || 'clinica_dental_estetica')}&business=${encodeURIComponent(l.business_name || l.company || l.name)}&phone=${encodeURIComponent(l.phone || '')}`;
+    const rawPhone = (l.phone_e164 || l.phone || '').replace(/[^0-9+]/g, '');
+    const waDigits = rawPhone.replace(/[^0-9]/g, '');
 
     return `<tr class="table-row">
       <th scope="row" class="px-4 py-3 text-left font-normal">
         <div class="font-bold text-white">${esc(l.business_name || l.company || l.name)}</div>
         <div class="text-[11px] text-slate-400">${esc(l.full_name || l.name)} · ${esc(l.phone_e164 || l.phone || l.email)}</div>
+        <div class="flex flex-wrap items-center gap-1.5 mt-1">
+          ${waDigits ? `<a href="https://wa.me/${waDigits}" target="_blank" class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold no-underline hover:bg-emerald-500/30"><i class="fab fa-whatsapp"></i> WhatsApp</a>` : ''}
+          ${rawPhone ? `<a href="tel:${rawPhone}" class="px-2 py-0.5 rounded bg-slate-800 text-slate-200 border border-slate-700 text-[10px] font-bold no-underline"><i class="fas fa-phone"></i> Llamar</a>` : ''}
+        </div>
       </th>
       <td class="px-3 py-3 text-slate-300">
         ${l.owner_id ? `<span class="px-2 py-0.5 rounded bg-slate-800 text-cyan-300 font-semibold">${esc(l.owner_id.split('@')[0])}</span>` : '<span class="text-amber-400">Sin asignar</span>'}
@@ -4461,7 +4602,7 @@ function renderCallQueueTable() {
   const queueBadge = document.getElementById('call-queue-badge');
   const pendingCount = salesOsLeads.filter(l => {
     const st = l.pipeline_stage || 'Lead identificado';
-    return st === 'Lead identificado' || st === 'No responde';
+    return st === 'Lead identificado';
   }).length;
   if (queueBadge) queueBadge.textContent = pendingCount;
 
@@ -4473,16 +4614,17 @@ function renderCallQueueTable() {
       if (!hay.includes(searchVal)) return false;
     }
     if (filterVal === 'pending') {
-      return st === 'Lead identificado' || st === 'Primer contacto';
+      // Paso 1 puro: solo los que aún están en 'Lead identificado' (cuando contestan pasan a Paso 2 en Mi Pipeline)
+      return st === 'Lead identificado';
     }
     if (filterVal === 'answered') {
-      return st !== 'Lead identificado' && st !== 'No responde' && st !== 'No interesado' && !notes.includes('[cola: no contestó]');
+      return st !== 'Lead identificado' && st !== 'No responde' && st !== 'No interesado' && st !== 'No cumple perfil' && !notes.includes('[cola: no contestó]');
     }
     if (filterVal === 'no_answer') {
       return st === 'No responde' || notes.includes('[cola: no contestó]');
     }
     if (filterVal === 'disqualified') {
-      return st === 'No interesado';
+      return st === 'No interesado' || st === 'No cumple perfil';
     }
     return true;
   });
@@ -4528,8 +4670,8 @@ function renderCallQueueTable() {
           <button onclick="registerCallOutcome(${l.id}, 'disqualified')" class="px-2.5 py-1.5 rounded-lg text-[11px] font-semibold bg-slate-800 text-slate-400 border border-slate-700 hover:text-white" title="No califica: archivar en Dashboard sin pasar al CRM">
             ⚫ No Califica
           </button>
-          <button onclick="registerCallOutcome(${l.id}, 'answered')" class="px-3 py-1.5 rounded-lg text-[11px] font-black bg-emerald-500 text-slate-950 hover:bg-emerald-400 shadow-lg shadow-emerald-500/20" title="¡Sí contestó! Pasa limpio a CRM ProsperIA y habilita el Demostrador Web">
-            🟢 Sí Contestó → Pasar a CRM ProsperIA
+          <button onclick="registerCallOutcome(${l.id}, 'answered')" class="px-3 py-1.5 rounded-lg text-[11px] font-black bg-emerald-500 text-slate-950 hover:bg-emerald-400 shadow-lg shadow-emerald-500/20" title="¡Sí contestó! Se gradúa al Paso 2 (Primer contacto) en Mi Pipeline y CRM ProsperIA">
+            🟢 Sí Contestó → Mover a Paso 2 (Mi Pipeline)
           </button>
           ${isAlreadyInCrm ? `
             <a href="${demoUrl}" target="_blank" class="px-3 py-1.5 rounded-lg text-[11px] font-black bg-cyan-400 text-slate-950 hover:bg-cyan-300 no-underline shadow" title="Abrir Demostrador de Sitio Web con los datos de este cliente">
@@ -4564,10 +4706,10 @@ async function registerCallOutcome(leadId, outcome) {
       const subEl = document.getElementById('call-answered-box-sub');
       const btnEl = document.getElementById('call-answered-demo-btn');
       if (titleEl) {
-        titleEl.textContent = `✅ ${lead ? (lead.business_name || lead.company || lead.name) : 'Prospecto'} ya está en CRM ProsperIA (Etapa: Primer contacto)`;
+        titleEl.textContent = `✅ ${lead ? (lead.business_name || lead.company || lead.name) : 'Prospecto'} se graduó al Paso 2: Primer Contacto (En Mi Pipeline & CRM ProsperIA)`;
       }
       if (subEl) {
-        subEl.textContent = data.message || 'Prospecto sincronizado con CRM ProsperIA. Abre ahora su Demo Sitio Web o gestiónalo en Mi Pipeline.';
+        subEl.textContent = 'Ya salió de tu lista de llamadas pendientes. Ahora gestiónalo directamente en 💰 Mi Pipeline & Comisiones o ábrele su Demo Sitio Web en vivo.';
       }
       if (btnEl) {
         btnEl.href = demoUrl;
@@ -4579,6 +4721,113 @@ async function registerCallOutcome(leadId, outcome) {
     }
   } catch (err) {
     alert('Error de conexión al registrar llamada.');
+  }
+}
+
+function openQuickCloserLeadDialog(defaultStage = 'Primer contacto') {
+  const dlg = document.getElementById('closerNewLeadDialog');
+  if (!dlg) return;
+  document.getElementById('cnew-name').value = '';
+  document.getElementById('cnew-business').value = '';
+  document.getElementById('cnew-phone').value = '';
+  document.getElementById('cnew-email').value = '';
+  document.getElementById('cnew-notes').value = '';
+  const stageSel = document.getElementById('cnew-stage');
+  if (stageSel) stageSel.value = defaultStage;
+  dlg.showModal();
+}
+
+async function submitCloserNewLead() {
+  const name = document.getElementById('cnew-name').value.trim();
+  const business_name = document.getElementById('cnew-business').value.trim();
+  const phone = document.getElementById('cnew-phone').value.trim();
+  const email = document.getElementById('cnew-email').value.trim();
+  const selected_template = document.getElementById('cnew-template').value;
+  const initial_stage = document.getElementById('cnew-stage').value;
+  const notes = document.getElementById('cnew-notes').value.trim();
+
+  if (!name || !phone) {
+    alert('Por favor ingresa al menos el Nombre del Cliente y su WhatsApp / Teléfono.');
+    return;
+  }
+  const btn = document.getElementById('btn-submit-closer-lead');
+  if (btn) btn.disabled = true;
+  try {
+    const res = await fetch('/api/sales-os/closer-new-lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+      body: JSON.stringify({ name, business_name, phone, email, selected_template, initial_stage, notes })
+    });
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      alert(data.detail || data.error || 'No se pudo crear el prospecto.');
+      return;
+    }
+    document.getElementById('closerNewLeadDialog').close();
+    await loadSalesOsData();
+    await loadLeaderboardAndKpis();
+    if (initial_stage === 'Primer contacto') {
+      showSection('sales-os');
+      const toastBanner = document.getElementById('crm-sync-toast-banner');
+      if (toastBanner) {
+        toastBanner.innerHTML = `<span>🟢 <strong>${esc(data.message)}</strong> — Ya puedes gestionarlo aquí en tu Pipeline Activo.</span><button type="button" onclick="this.parentElement.classList.add('hidden')" class="text-emerald-300 hover:text-white text-xs font-black px-2">✕</button>`;
+        toastBanner.classList.remove('hidden');
+      }
+    }
+  } catch (err) {
+    alert('Error de conexión al guardar el nuevo prospecto.');
+  } finally {
+    if (btn) btn.disabled = false;
+  }
+}
+
+function openCloserBulkImportDialog() {
+  const dlg = document.getElementById('closerBulkImportDialog');
+  if (!dlg) return;
+  document.getElementById('cbulk-text').value = '';
+  const fileIn = document.getElementById('cbulk-file');
+  if (fileIn) fileIn.value = '';
+  dlg.showModal();
+}
+
+function handleCloserCsvFileSelect(event) {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const txt = document.getElementById('cbulk-text');
+    if (txt) txt.value = e.target.result || '';
+  };
+  reader.readAsText(file);
+}
+
+async function submitCloserBulkCsv() {
+  const csv_text = document.getElementById('cbulk-text').value.trim();
+  const initial_stage = document.getElementById('cbulk-stage').value;
+  if (!csv_text) {
+    alert('Pega tus filas desde Excel o selecciona un archivo .CSV primero.');
+    return;
+  }
+  const btn = document.getElementById('btn-submit-closer-bulk');
+  if (btn) btn.disabled = true;
+  try {
+    const res = await fetch('/api/sales-os/closer-import-csv', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+      body: JSON.stringify({ csv_text, initial_stage })
+    });
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      alert(data.detail || data.error || 'No se pudo importar la lista.');
+      return;
+    }
+    document.getElementById('closerBulkImportDialog').close();
+    await loadSalesOsData();
+    alert(data.message);
+  } catch (err) {
+    alert('Error de conexión al importar lista.');
+  } finally {
+    if (btn) btn.disabled = false;
   }
 }
 

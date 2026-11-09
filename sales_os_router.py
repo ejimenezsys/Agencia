@@ -1840,5 +1840,230 @@ async def api_reset_seller_test_data(
     }
 
 
+class CloserQuickLeadRequest(BaseModel):
+    name: str
+    business_name: Optional[str] = ""
+    phone: str
+    email: Optional[str] = ""
+    selected_template: Optional[str] = "clinica_dental_estetica"
+    initial_stage: Optional[str] = "Primer contacto"
+    notes: Optional[str] = ""
+
+
+@router.post("/api/sales-os/closer-new-lead")
+async def api_closer_create_new_lead(
+    req: CloserQuickLeadRequest,
+    current_user: dict = Depends(get_current_sales_user),
+    db: Session = Depends(get_db),
+):
+    """Permite al Closer dar de alta un prospecto nuevo (Nombre, Negocio, WhatsApp, Email) e inyectarlo en CRM ProsperIA."""
+    full_name = (req.name or "").strip()
+    raw_phone = (req.phone or "").strip()
+    if not full_name or not raw_phone:
+        raise HTTPException(status_code=400, detail="Nombre y WhatsApp/Teléfono son obligatorios.")
+
+    phone_e164 = normalize_phone_e164(raw_phone)
+    clean_email = normalize_email(req.email or "")
+    if not clean_email:
+        digits = "".join(ch for ch in raw_phone if ch.isdigit())[-10:] or "nuevo"
+        clean_email = f"prospecto.{digits}@agenciaprosperia.com"
+
+    dnd_reason = is_contact_excluded(db, clean_email, phone_e164)
+    if dnd_reason:
+        raise HTTPException(status_code=400, detail=f"Contacto en lista DND/Opt-out: {dnd_reason}")
+
+    existing = db.query(DbLead).filter(
+        (DbLead.email == clean_email) | ((DbLead.phone_e164 == phone_e164) & (DbLead.phone_e164 != ""))
+    ).first()
+
+    now_iso = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+    stage = req.initial_stage if req.initial_stage in ("Lead identificado", "Primer contacto") else "Primer contacto"
+    bname = (req.business_name or "").strip() or full_name
+    tpl = (req.selected_template or "clinica_dental_estetica").strip()
+
+    if existing:
+        existing.owner_id = existing.owner_id or current_user["email"]
+        existing.pipeline_stage = stage
+        existing.last_touch = now_iso
+        db.commit()
+        db.refresh(existing)
+        lead_obj = existing
+    else:
+        lead_obj = DbLead(
+            name=full_name,
+            full_name=full_name,
+            email=clean_email,
+            company=bname,
+            business_name=bname,
+            phone=raw_phone,
+            phone_e164=phone_e164,
+            status="qualified" if stage == "Primer contacto" else "new",
+            source="closer_prospeccion_propia",
+            source_channel="Iniciativa Closer",
+            source_campaign=f"Closer: {current_user['name']}",
+            score=85,
+            notes=(req.notes or f"Alta directa por Closer {current_user['name']} ({current_user['email']}).").strip(),
+            created_at=now_iso,
+            owner_id=current_user["email"],
+            setter_id=current_user["email"],
+            niche="clinica" if "clinica" in tpl else "servicios_locales",
+            country="LATAM / US",
+            pipeline_stage=stage,
+            offer_version="EXPRESS_497",
+            quoted_amount=497.0 if stage == "Primer contacto" else 0.0,
+            selected_template=tpl,
+            last_touch=now_iso,
+        )
+        db.add(lead_obj)
+        db.commit()
+        db.refresh(lead_obj)
+
+    record_audit(
+        db,
+        actor_email=current_user["email"],
+        actor_role=current_user["role"],
+        lead_id=lead_obj.id,
+        action="closer_created_lead_pushed_to_ghl",
+        field_changed="pipeline_stage",
+        old_value="new",
+        new_value=stage,
+        notes=f"Nuevo prospecto '{bname}' dado de alta por {current_user['name']} e inyectado a CRM ProsperIA.",
+    )
+    db.commit()
+
+    # Inyectar en tiempo real en CRM ProsperIA (GoHighLevel API v2)
+    sync_sales_os_event_to_ghl_async(
+        contact_id=getattr(lead_obj, "contact_id", "") or "",
+        opportunity_id=getattr(lead_obj, "ghl_opportunity_id", "") or "",
+        email=lead_obj.email,
+        phone=lead_obj.phone or "",
+        full_name=lead_obj.full_name or lead_obj.name,
+        business_name=lead_obj.business_name or lead_obj.company or lead_obj.name,
+        pipeline_stage=stage,
+        owner_email=current_user["email"],
+        offer_version="EXPRESS_497",
+        quoted_amount=497.0,
+        amount_collected=0.0,
+        invoice_id="",
+        selected_template=tpl,
+        audit_summary=f"Nuevo prospecto creado por {current_user['name']} ({current_user['email']}) en etapa '{stage}'.",
+    )
+
+    return {
+        "success": True,
+        "message": f"✅ Prospecto '{bname}' creado e inyectado en CRM ProsperIA en etapa '{stage}'.",
+        "data": serialize_lead(lead_obj),
+    }
+
+
+class CloserBulkImportRequest(BaseModel):
+    csv_text: str
+    initial_stage: Optional[str] = "Lead identificado"
+    selected_template: Optional[str] = "clinica_dental_estetica"
+
+
+@router.post("/api/sales-os/closer-import-csv")
+async def api_closer_bulk_import_csv(
+    req: CloserBulkImportRequest,
+    current_user: dict = Depends(get_current_sales_user),
+    db: Session = Depends(get_db),
+):
+    """Importa un lote de prospectos desde Excel/CSV (Nombre, Negocio, Teléfono, Email) asignados al Closer."""
+    raw_lines = [ln.strip() for ln in (req.csv_text or "").splitlines() if ln.strip()]
+    if not raw_lines:
+        raise HTTPException(status_code=400, detail="Pega al menos 1 fila o sube un archivo CSV con tus prospectos.")
+
+    stage = req.initial_stage if req.initial_stage in ("Lead identificado", "Primer contacto") else "Lead identificado"
+    tpl = (req.selected_template or "clinica_dental_estetica").strip()
+    now_iso = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+    imported = 0
+    skipped = 0
+
+    for idx, line in enumerate(raw_lines):
+        low = line.lower()
+        if idx == 0 and ("nombre" in low or "name" in low) and ("tel" in low or "whatsapp" in low or "phone" in low):
+            continue
+        sep = "\t" if "\t" in line else (";" if ";" in line and "," not in line else ",")
+        parts = [p.strip().strip('"') for p in line.split(sep)]
+        if len(parts) < 2:
+            skipped += 1
+            continue
+        name_val = parts[0]
+        if len(parts) == 2:
+            bname_val, phone_val, email_val = name_val, parts[1], ""
+        elif len(parts) == 3:
+            bname_val, phone_val, email_val = parts[1], parts[2], ""
+        else:
+            bname_val, phone_val, email_val = parts[1], parts[2], parts[3]
+
+        if not name_val or not phone_val:
+            skipped += 1
+            continue
+
+        phone_e164 = normalize_phone_e164(phone_val)
+        clean_em = normalize_email(email_val)
+        if not clean_em:
+            digits = "".join(ch for ch in phone_val if ch.isdigit())[-10:] or f"row{idx}"
+            clean_em = f"lote.{digits}@agenciaprosperia.com"
+
+        if is_contact_excluded(db, clean_em, phone_e164):
+            skipped += 1
+            continue
+
+        exists = db.query(DbLead).filter(
+            (DbLead.email == clean_em) | ((DbLead.phone_e164 == phone_e164) & (DbLead.phone_e164 != ""))
+        ).first()
+        if exists:
+            skipped += 1
+            continue
+
+        db.add(DbLead(
+            name=name_val,
+            full_name=name_val,
+            email=clean_em,
+            company=bname_val or name_val,
+            business_name=bname_val or name_val,
+            phone=phone_val,
+            phone_e164=phone_e164,
+            status="qualified" if stage == "Primer contacto" else "new",
+            source="closer_lote_excel",
+            source_channel="Lote Propio Closer",
+            source_campaign=f"Lote Excel {current_user['name']}",
+            score=80,
+            notes=f"Importado desde lista propia de {current_user['name']}.",
+            created_at=now_iso,
+            owner_id=current_user["email"],
+            setter_id=current_user["email"],
+            niche="clinica",
+            country="LATAM / US",
+            pipeline_stage=stage,
+            offer_version="EXPRESS_497",
+            quoted_amount=497.0 if stage == "Primer contacto" else 0.0,
+            selected_template=tpl,
+            last_touch=now_iso,
+        ))
+        imported += 1
+
+    if imported > 0:
+        record_audit(
+            db,
+            actor_email=current_user["email"],
+            actor_role=current_user["role"],
+            lead_id=None,
+            action="closer_bulk_csv_import",
+            field_changed="leads",
+            old_value="0",
+            new_value=str(imported),
+            notes=f"{current_user['name']} importó {imported} prospectos propios desde Excel/CSV (etapa: {stage}).",
+        )
+    db.commit()
+    return {
+        "success": True,
+        "message": f"✅ Se importaron {imported} prospectos nuevos a tu cuenta en etapa '{stage}' ({skipped} omitidos por duplicado/vacío).",
+        "data": {"imported": imported, "skipped": skipped},
+    }
+
+
+
 
 
