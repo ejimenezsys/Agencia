@@ -414,6 +414,11 @@
       <i class="fas fa-fire"></i>
       <span>Presentaciones & Armas</span>
     </button>
+    <button onclick="showSection('payment-links')" id="nav-payment-links" class="nav-item">
+      <i class="fas fa-credit-card" style="color:#34d399;"></i>
+      <span>Links de Pago</span>
+      <span class="ml-auto text-[10px] px-1.5 py-0.5 rounded font-bold" style="background:rgba(16,185,129,0.18); color:#34d399;">14 LIVE</span>
+    </button>
     <button onclick="showSection('sellers-admin')" id="nav-sellers-admin" class="nav-item">
       <i class="fas fa-user-shield"></i>
       <span>Alta Closers & Lotes (CEO)</span>
@@ -1837,6 +1842,14 @@
             <div style="font-size:10px; opacity:0.8;">Las 3 Duplas por Giro</div>
           </div>
         </button>
+
+        <button onclick="showSection('payment-links')" class="weapon-nav-btn" style="border-color:rgba(16,185,129,0.5); background:rgba(16,185,129,0.12);">
+          <span>💳</span>
+          <div>
+            <div style="color:#34d399; font-weight:900;">Links de Pago Oficiales</div>
+            <div style="font-size:10px; opacity:0.9; color:#a7f3d0;">14 Links en Vivo · Copiar en 1 Clic</div>
+          </div>
+        </button>
       </div>
 
       <!-- COLUMNA DERECHA: VISOR AMPLIO DESDE ARRIBA SIN CORTARSE -->
@@ -2561,6 +2574,608 @@
   </dialog>
 
   <!-- ════════════════════════════════════════════════════════════════════════
+       SECTION: LINKS DE PAGO OFICIALES (14 LINKS EN TIEMPO REAL CRM PROSPERIA)
+  ════════════════════════════════════════════════════════════════════════ -->
+  <div id="section-payment-links" class="p-6 hidden space-y-6">
+
+    <!-- Banner Ejecutivo + Personalizador Rápido para WhatsApp -->
+    <div class="card p-5" style="background:linear-gradient(135deg,#061c24,#0a2936); border:1px solid rgba(16,185,129,0.4);">
+      <div class="flex flex-wrap items-start justify-between gap-4">
+        <div class="space-y-1.5 max-w-3xl">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-black uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+              🟢 PASARELA OFICIAL EN TIEMPO REAL (LIVE MODE)
+            </span>
+            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">
+              Dominio Verificado: api.agenciaprosperia.com
+            </span>
+          </div>
+          <h2 class="text-xl font-black text-white">💳 Central de Links de Pago — Cierre en 1 Clic para WhatsApp o Zoom</h2>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            <strong>Regla de Oro del Cierre:</strong> Ofrece siempre primero la <strong>Reserva del 50% Hoy</strong> para iniciar la construcción de su sistema en menos de 24 horas (y el 50% restante contra entrega en el Día 5), o el <strong>Pago Único 100%</strong> si el cliente prefiere liquidar en una sola exhibición. Copia el link limpio o el <strong>Mensaje de WhatsApp + Link</strong> listo para pegar.
+          </p>
+        </div>
+
+        <!-- Personalizador opcional de Nombre del Cliente -->
+        <div class="w-full sm:w-80 p-3.5 rounded-xl bg-slate-950/85 border border-emerald-500/30 space-y-2">
+          <label for="payment-client-name-input" class="block text-[11px] font-extrabold uppercase tracking-wider text-emerald-300">
+            👤 Personalizar Mensaje WhatsApp (Opcional)
+          </label>
+          <input id="payment-client-name-input" type="text" placeholder="Ej. Dr. Roberto / Lic. Mariana..."
+                 class="w-full px-3 py-2 rounded-lg text-xs text-white bg-slate-900 border border-slate-700 focus:border-emerald-400 focus:outline-none">
+          <div class="text-[10px] text-slate-400">
+            Si escribes el nombre aquí, el botón <strong>"💬 Copiar WhatsApp + Link"</strong> saludará al cliente por su nombre automáticamente.
+          </div>
+        </div>
+      </div>
+
+      <!-- Filtros Rápidos por Categoría -->
+      <div class="mt-4 pt-3.5 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex flex-wrap items-center gap-2">
+          <button type="button" onclick="filterPaymentLinksCategory('all')" id="pl-filter-all"
+                  class="px-3.5 py-1.5 rounded-xl text-xs font-black bg-emerald-400 text-slate-950 transition">
+            🔥 Todos los Links (14)
+          </button>
+          <button type="button" onclick="filterPaymentLinksCategory('opcion2')" id="pl-filter-opcion2"
+                  class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-900 text-cyan-300 border border-cyan-500/30 hover:border-cyan-400 transition">
+            ⭐ Opción 2 Estrella ($990 / $495)
+          </button>
+          <button type="button" onclick="filterPaymentLinksCategory('opcion1')" id="pl-filter-opcion1"
+                  class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-900 text-emerald-300 border border-emerald-500/30 hover:border-emerald-400 transition">
+            🟢 Opción 1 Express PYME ($497 / $250)
+          </button>
+          <button type="button" onclick="filterPaymentLinksCategory('opcion3')" id="pl-filter-opcion3"
+                  class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-900 text-amber-300 border border-amber-500/30 hover:border-amber-400 transition">
+            🚀 Opción 3 Máquina ($1,490 / $745)
+          </button>
+          <button type="button" onclick="filterPaymentLinksCategory('rescate')" id="pl-filter-rescate"
+                  class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-900 text-rose-300 border border-rose-500/30 hover:border-rose-400 transition">
+            🛟 Rescate Express ($197)
+          </button>
+          <button type="button" onclick="filterPaymentLinksCategory('highticket')" id="pl-filter-highticket"
+                  class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-900 text-purple-300 border border-purple-500/30 hover:border-purple-400 transition">
+            💎 High-Ticket SVE-90 ($2.9K – $5K)
+          </button>
+        </div>
+        <div id="payment-copy-toast" class="hidden px-3 py-1.5 rounded-lg text-xs font-black bg-emerald-400 text-slate-950 shadow-lg">
+          ✓ Copiado al portapapeles
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════════
+         1. ⭐ OPCIÓN 2 — OFERTA ESTRELLA (LA MÁS VENDIDA — US$990)
+    ══════════════════════════════════════════════════════════════════ -->
+    <div class="card p-5 space-y-4 payment-category-group" data-pl-cat="opcion2" style="background:linear-gradient(135deg,#081d38,#0c182c); border:2px solid rgba(0,229,255,0.45);">
+      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+        <div>
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-black uppercase bg-cyan-400 text-slate-950">⭐ OFERTA ESTRELLA (RECOMENDADA AL 80% DE LOS CLIENTES)</span>
+            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Comisión Closer 10%: US$99 · Ciclo Completo 15%: US$148.50</span>
+          </div>
+          <h3 class="text-lg font-black text-white mt-1">Opción 2: Pack Anual Sitio Web + CRM ProsperIA + Chat IA 24/7 + PassportAI (US$990 USD)</h3>
+          <p class="text-xs text-slate-300">Incluye Sitio Web de 6 secciones + 12 meses de CRM ProsperIA + 12 meses de Recepcionista IA 24/7 + 12 meses en Central PassportAI. Entrega en 5 días hábiles.</p>
+        </div>
+        <div class="text-right">
+          <div class="text-xs text-slate-400 uppercase font-bold">Valor Total del Paquete</div>
+          <div class="text-2xl font-black text-cyan-300">US$990.00 <span class="text-xs font-normal text-slate-400">USD</span></div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <!-- 1A: Reserva 50% Hoy ($495) -->
+        <div class="p-4 rounded-xl bg-slate-950/90 border-2 border-emerald-400/70 flex flex-col justify-between space-y-3 relative">
+          <div class="space-y-1.5">
+            <div class="flex items-center justify-between gap-2">
+              <span class="px-2 py-0.5 rounded text-[10px] font-black uppercase bg-emerald-400 text-slate-950">🔥 1. RESERVA 50% HOY (MÁS USADO)</span>
+              <span class="text-xs font-bold text-emerald-400">Activo · Live</span>
+            </div>
+            <div class="text-base font-black text-white">Pago Reserva 50%: Opción 2 Estrella</div>
+            <div class="text-2xl font-black text-emerald-400">US$495.00 <span class="text-xs font-semibold text-slate-400">USD hoy</span></div>
+            <p class="text-[11px] text-slate-300">Para arrancar producción hoy mismo. El 50% restante ($495) se liquida en el Día 5 al entregar el sistema funcionando.</p>
+            <div class="text-[11px] font-semibold text-cyan-300 bg-cyan-500/10 border border-cyan-500/20 rounded-lg px-2.5 py-1">
+              💰 Tu comisión en este cobro: <strong>+$49.50 USD</strong> (Closer 10%) / <strong>+$74.25 USD</strong> (15%)
+            </div>
+          </div>
+          <div class="space-y-2 pt-2 border-t border-slate-800">
+            <input type="text" readonly value="https://api.agenciaprosperia.com/payment-link/6af227a4d4cfb789aef22986"
+                   class="w-full px-2.5 py-1.5 rounded-lg text-[11px] font-mono text-cyan-200 bg-slate-900 border border-slate-700 select-all">
+            <div class="grid grid-cols-1 gap-1.5">
+              <button type="button" onclick="copyPaymentLinkUrl('https://api.agenciaprosperia.com/payment-link/6af227a4d4cfb789aef22986', this)"
+                      class="w-full py-2 px-3 rounded-lg text-xs font-black bg-emerald-400 text-slate-950 hover:bg-emerald-300 transition flex items-center justify-center gap-1.5">
+                <i class="fas fa-copy"></i> Copiar Solo Link ($495 USD)
+              </button>
+              <button type="button" onclick="copyPaymentLinkWhatsApp('Opción 2 Estrella — Pack Anual Sitio Web + CRM ProsperIA + IA 24/7 + PassportAI', 'Reserva del 50% para inicio de producción (US$495.00 USD)', 'https://api.agenciaprosperia.com/payment-link/6af227a4d4cfb789aef22986', 'El 50% restante (US$495 USD) se liquida únicamente contra entrega en el Día 5 cuando tu sistema esté 100% conectado.', this)"
+                      class="w-full py-2 px-3 rounded-lg text-xs font-bold bg-cyan-500/20 text-cyan-200 border border-cyan-500/40 hover:bg-cyan-500/30 transition flex items-center justify-center gap-1.5">
+                <i class="fab fa-whatsapp"></i> Copiar Mensaje WhatsApp + Link
+              </button>
+              <a href="https://api.agenciaprosperia.com/payment-link/6af227a4d4cfb789aef22986" target="_blank" rel="noopener"
+                 class="w-full py-1.5 px-3 rounded-lg text-[11px] font-semibold text-slate-300 hover:text-white bg-slate-900 hover:bg-slate-800 border border-slate-700 transition text-center no-underline block">
+                ↗ Abrir Checkout en Pestaña Nueva
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 1B: Pago Único 100% ($990) -->
+        <div class="p-4 rounded-xl bg-slate-950/90 border border-cyan-500/50 flex flex-col justify-between space-y-3">
+          <div class="space-y-1.5">
+            <div class="flex items-center justify-between gap-2">
+              <span class="px-2 py-0.5 rounded text-[10px] font-black uppercase bg-cyan-400 text-slate-950">💳 2. PAGO ÚNICO 100% ANUAL</span>
+              <span class="text-xs font-bold text-emerald-400">Activo · Live</span>
+            </div>
+            <div class="text-base font-black text-white">Pago Único 100%: Opción 2 Estrella</div>
+            <div class="text-2xl font-black text-cyan-300">US$990.00 <span class="text-xs font-semibold text-slate-400">USD total</span></div>
+            <p class="text-[11px] text-slate-300">Liquidación total en 1 sola exhibición del Pack Anual Completo (ahorro de $291 vs mensualidades sueltas).</p>
+            <div class="text-[11px] font-semibold text-emerald-300 bg-emerald-500/10 border border-emerald-500/20 rounded-lg px-2.5 py-1">
+              💰 Tu comisión en este cobro: <strong>+$99.00 USD</strong> (Closer 10%) / <strong>+$148.50 USD</strong> (15%)
+            </div>
+          </div>
+          <div class="space-y-2 pt-2 border-t border-slate-800">
+            <input type="text" readonly value="https://api.agenciaprosperia.com/payment-link/6af227ecd4cfb789aef2298d"
+                   class="w-full px-2.5 py-1.5 rounded-lg text-[11px] font-mono text-cyan-200 bg-slate-900 border border-slate-700 select-all">
+            <div class="grid grid-cols-1 gap-1.5">
+              <button type="button" onclick="copyPaymentLinkUrl('https://api.agenciaprosperia.com/payment-link/6af227ecd4cfb789aef2298d', this)"
+                      class="w-full py-2 px-3 rounded-lg text-xs font-black bg-cyan-400 text-slate-950 hover:bg-cyan-300 transition flex items-center justify-center gap-1.5">
+                <i class="fas fa-copy"></i> Copiar Solo Link ($990 USD)
+              </button>
+              <button type="button" onclick="copyPaymentLinkWhatsApp('Opción 2 Estrella — Pack Anual Sitio Web + CRM ProsperIA + IA 24/7 + PassportAI', 'Pago Único 100% Anual Llave en Mano (US$990.00 USD)', 'https://api.agenciaprosperia.com/payment-link/6af227ecd4cfb789aef2298d', 'Incluye los 12 meses completos de CRM ProsperIA, Recepcionista IA 24/7, Dominio, Hosting y posicionamiento en Central PassportAI sin mensualidades adicionales.', this)"
+                      class="w-full py-2 px-3 rounded-lg text-xs font-bold bg-cyan-500/20 text-cyan-200 border border-cyan-500/40 hover:bg-cyan-500/30 transition flex items-center justify-center gap-1.5">
+                <i class="fab fa-whatsapp"></i> Copiar Mensaje WhatsApp + Link
+              </button>
+              <a href="https://api.agenciaprosperia.com/payment-link/6af227ecd4cfb789aef2298d" target="_blank" rel="noopener"
+                 class="w-full py-1.5 px-3 rounded-lg text-[11px] font-semibold text-slate-300 hover:text-white bg-slate-900 hover:bg-slate-800 border border-slate-700 transition text-center no-underline block">
+                ↗ Abrir Checkout en Pestaña Nueva
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 1C: Liquidación 50% Día 5 ($495) -->
+        <div class="p-4 rounded-xl bg-slate-950/90 border border-slate-700 flex flex-col justify-between space-y-3">
+          <div class="space-y-1.5">
+            <div class="flex items-center justify-between gap-2">
+              <span class="px-2 py-0.5 rounded text-[10px] font-black uppercase bg-amber-500/20 text-amber-300 border border-amber-500/40">🏁 3. LIQUIDACIÓN DÍA 5 (CONTRA ENTREGA)</span>
+              <span class="text-xs font-bold text-emerald-400">Activo · Live</span>
+            </div>
+            <div class="text-base font-black text-white">Liquidación 50% Final: Opción 2 Estrella</div>
+            <div class="text-2xl font-black text-amber-300">US$495.00 <span class="text-xs font-semibold text-slate-400">USD día 5</span></div>
+            <p class="text-[11px] text-slate-300">Envía este link en el Día 5 al entregar el Sitio Web + CRM + IA 24/7 funcionando para liberar accesos finales.</p>
+            <div class="text-[11px] font-semibold text-amber-300 bg-amber-500/10 border border-amber-500/20 rounded-lg px-2.5 py-1">
+              💰 Tu comisión en este 2do cobro: <strong>+$49.50 USD</strong> (10%) / <strong>+$74.25 USD</strong> (15%)
+            </div>
+          </div>
+          <div class="space-y-2 pt-2 border-t border-slate-800">
+            <input type="text" readonly value="https://api.agenciaprosperia.com/payment-link/6af227c7d4cfb789aef22989"
+                   class="w-full px-2.5 py-1.5 rounded-lg text-[11px] font-mono text-cyan-200 bg-slate-900 border border-slate-700 select-all">
+            <div class="grid grid-cols-1 gap-1.5">
+              <button type="button" onclick="copyPaymentLinkUrl('https://api.agenciaprosperia.com/payment-link/6af227c7d4cfb789aef22989', this)"
+                      class="w-full py-2 px-3 rounded-lg text-xs font-bold bg-amber-400 text-slate-950 hover:bg-amber-300 transition flex items-center justify-center gap-1.5">
+                <i class="fas fa-copy"></i> Copiar Solo Link ($495 USD)
+              </button>
+              <button type="button" onclick="copyPaymentLinkWhatsApp('Opción 2 Estrella — Pack Anual Sitio Web + CRM ProsperIA + IA 24/7 + PassportAI', 'Liquidación del 50% Restante Contra Entrega (US$495.00 USD)', 'https://api.agenciaprosperia.com/payment-link/6af227c7d4cfb789aef22989', 'Con este pago queda 100% liquidado tu Pack Anual y liberamos de inmediato tus credenciales administrativas y conexión a tu dominio oficial.', this)"
+                      class="w-full py-2 px-3 rounded-lg text-xs font-bold bg-cyan-500/20 text-cyan-200 border border-cyan-500/40 hover:bg-cyan-500/30 transition flex items-center justify-center gap-1.5">
+                <i class="fab fa-whatsapp"></i> Copiar Mensaje WhatsApp + Link
+              </button>
+              <a href="https://api.agenciaprosperia.com/payment-link/6af227c7d4cfb789aef22989" target="_blank" rel="noopener"
+                 class="w-full py-1.5 px-3 rounded-lg text-[11px] font-semibold text-slate-300 hover:text-white bg-slate-900 hover:bg-slate-800 border border-slate-700 transition text-center no-underline block">
+                ↗ Abrir Checkout en Pestaña Nueva
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════════
+         2. 🟢 OPCIÓN 1 — EXPRESS PYME (ENTRADA ÁGIL / DOWNSELL — US$497)
+    ══════════════════════════════════════════════════════════════════ -->
+    <div class="card p-5 space-y-4 payment-category-group" data-pl-cat="opcion1" style="background:linear-gradient(135deg,#071f1d,#0b1728); border:1px solid rgba(16,185,129,0.4);">
+      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+        <div>
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-black uppercase bg-emerald-400 text-slate-950">🟢 OPCIÓN 1 — ENTRADA ÁGIL PYME (DOWNSELL PRINCIPAL)</span>
+            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Comisión Closer 10%: US$49.70 · Ciclo Completo 15%: US$74.55</span>
+          </div>
+          <h3 class="text-lg font-black text-white mt-1">Opción 1: Sitio Web Inteligente Express PYME + 1er Mes CRM + IA Gratis (US$497 USD)</h3>
+          <p class="text-xs text-slate-300">Sitio Web de 6 secciones + Dominio y Hosting 1 Año + SSL + 1er Mes Gratis de CRM ProsperIA, Recepcionista IA 24/7 y PassportAI. Entrega en 5 días hábiles.</p>
+        </div>
+        <div class="text-right">
+          <div class="text-xs text-slate-400 uppercase font-bold">Valor Total del Paquete</div>
+          <div class="text-2xl font-black text-emerald-400">US$497.00 <span class="text-xs font-normal text-slate-400">USD</span></div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <!-- 2A: Reserva 50% Hoy ($250) -->
+        <div class="p-4 rounded-xl bg-slate-950/90 border-2 border-emerald-400/70 flex flex-col justify-between space-y-3">
+          <div class="space-y-1.5">
+            <div class="flex items-center justify-between gap-2">
+              <span class="px-2 py-0.5 rounded text-[10px] font-black uppercase bg-emerald-400 text-slate-950">🔥 1. RESERVA 50% HOY (US$250)</span>
+              <span class="text-xs font-bold text-emerald-400">Activo · Live</span>
+            </div>
+            <div class="text-base font-black text-white">Reserva 50% Hoy: Opción 1 Express PYME</div>
+            <div class="text-2xl font-black text-emerald-400">US$250.00 <span class="text-xs font-semibold text-slate-400">USD hoy</span></div>
+            <p class="text-[11px] text-slate-300">Arranca la construcción de su Sitio Web Inteligente hoy con $250 USD y liquida los $247 restantes contra entrega en el Día 5.</p>
+            <div class="text-[11px] font-semibold text-emerald-300 bg-emerald-500/10 border border-emerald-500/20 rounded-lg px-2.5 py-1">
+              💰 Tu comisión en este cobro: <strong>+$25.00 USD</strong> (Closer 10%) / <strong>+$37.50 USD</strong> (15%)
+            </div>
+          </div>
+          <div class="space-y-2 pt-2 border-t border-slate-800">
+            <input type="text" readonly value="https://api.agenciaprosperia.com/payment-link/6af2287303c375ed645fe629"
+                   class="w-full px-2.5 py-1.5 rounded-lg text-[11px] font-mono text-cyan-200 bg-slate-900 border border-slate-700 select-all">
+            <div class="grid grid-cols-1 gap-1.5">
+              <button type="button" onclick="copyPaymentLinkUrl('https://api.agenciaprosperia.com/payment-link/6af2287303c375ed645fe629', this)"
+                      class="w-full py-2 px-3 rounded-lg text-xs font-black bg-emerald-400 text-slate-950 hover:bg-emerald-300 transition flex items-center justify-center gap-1.5">
+                <i class="fas fa-copy"></i> Copiar Solo Link ($250 USD)
+              </button>
+              <button type="button" onclick="copyPaymentLinkWhatsApp('Opción 1 — Sitio Web Inteligente Express PYME', 'Reserva del 50% para inicio de producción hoy (US$250.00 USD)', 'https://api.agenciaprosperia.com/payment-link/6af2287303c375ed645fe629', 'El saldo restante (US$247 USD) se liquida únicamente contra entrega en el Día 5 cuando tu sitio web esté terminado y aprobado.', this)"
+                      class="w-full py-2 px-3 rounded-lg text-xs font-bold bg-cyan-500/20 text-cyan-200 border border-cyan-500/40 hover:bg-cyan-500/30 transition flex items-center justify-center gap-1.5">
+                <i class="fab fa-whatsapp"></i> Copiar Mensaje WhatsApp + Link
+              </button>
+              <a href="https://api.agenciaprosperia.com/payment-link/6af2287303c375ed645fe629" target="_blank" rel="noopener"
+                 class="w-full py-1.5 px-3 rounded-lg text-[11px] font-semibold text-slate-300 hover:text-white bg-slate-900 hover:bg-slate-800 border border-slate-700 transition text-center no-underline block">
+                ↗ Abrir Checkout en Pestaña Nueva
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2B: Pago Único 100% ($497) -->
+        <div class="p-4 rounded-xl bg-slate-950/90 border border-cyan-500/50 flex flex-col justify-between space-y-3">
+          <div class="space-y-1.5">
+            <div class="flex items-center justify-between gap-2">
+              <span class="px-2 py-0.5 rounded text-[10px] font-black uppercase bg-cyan-400 text-slate-950">💳 2. PAGO ÚNICO 100% (US$497)</span>
+              <span class="text-xs font-bold text-emerald-400">Activo · Live</span>
+            </div>
+            <div class="text-base font-black text-white">Pago Único 100%: Opción 1 Express PYME</div>
+            <div class="text-2xl font-black text-cyan-300">US$497.00 <span class="text-xs font-semibold text-slate-400">USD total</span></div>
+            <p class="text-[11px] text-slate-300">Liquidación total en una sola exhibición del Sitio Web Inteligente Express PYME + Bonos de 1er mes gratis.</p>
+            <div class="text-[11px] font-semibold text-emerald-300 bg-emerald-500/10 border border-emerald-500/20 rounded-lg px-2.5 py-1">
+              💰 Tu comisión en este cobro: <strong>+$49.70 USD</strong> (Closer 10%) / <strong>+$74.55 USD</strong> (15%)
+            </div>
+          </div>
+          <div class="space-y-2 pt-2 border-t border-slate-800">
+            <input type="text" readonly value="https://api.agenciaprosperia.com/payment-link/6af228ba03c375ed645fe62d"
+                   class="w-full px-2.5 py-1.5 rounded-lg text-[11px] font-mono text-cyan-200 bg-slate-900 border border-slate-700 select-all">
+            <div class="grid grid-cols-1 gap-1.5">
+              <button type="button" onclick="copyPaymentLinkUrl('https://api.agenciaprosperia.com/payment-link/6af228ba03c375ed645fe62d', this)"
+                      class="w-full py-2 px-3 rounded-lg text-xs font-black bg-cyan-400 text-slate-950 hover:bg-cyan-300 transition flex items-center justify-center gap-1.5">
+                <i class="fas fa-copy"></i> Copiar Solo Link ($497 USD)
+              </button>
+              <button type="button" onclick="copyPaymentLinkWhatsApp('Opción 1 — Sitio Web Inteligente Express PYME', 'Pago Único 100% Llave en Mano (US$497.00 USD)', 'https://api.agenciaprosperia.com/payment-link/6af228ba03c375ed645fe62d', 'Incluye tu Sitio Web de 6 secciones, Dominio + Hosting 1 Año y el 1er Mes Gratis de CRM ProsperIA + Recepcionista IA 24/7 + PassportAI.', this)"
+                      class="w-full py-2 px-3 rounded-lg text-xs font-bold bg-cyan-500/20 text-cyan-200 border border-cyan-500/40 hover:bg-cyan-500/30 transition flex items-center justify-center gap-1.5">
+                <i class="fab fa-whatsapp"></i> Copiar Mensaje WhatsApp + Link
+              </button>
+              <a href="https://api.agenciaprosperia.com/payment-link/6af228ba03c375ed645fe62d" target="_blank" rel="noopener"
+                 class="w-full py-1.5 px-3 rounded-lg text-[11px] font-semibold text-slate-300 hover:text-white bg-slate-900 hover:bg-slate-800 border border-slate-700 transition text-center no-underline block">
+                ↗ Abrir Checkout en Pestaña Nueva
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2C: Liquidación 50% Día 5 ($247) -->
+        <div class="p-4 rounded-xl bg-slate-950/90 border border-slate-700 flex flex-col justify-between space-y-3">
+          <div class="space-y-1.5">
+            <div class="flex items-center justify-between gap-2">
+              <span class="px-2 py-0.5 rounded text-[10px] font-black uppercase bg-amber-500/20 text-amber-300 border border-amber-500/40">🏁 3. LIQUIDACIÓN DÍA 5 (US$247)</span>
+              <span class="text-xs font-bold text-emerald-400">Activo · Live</span>
+            </div>
+            <div class="text-base font-black text-white">Liquidación 50% Final: Opción 1 Express PYME</div>
+            <div class="text-2xl font-black text-amber-300">US$247.00 <span class="text-xs font-semibold text-slate-400">USD día 5</span></div>
+            <p class="text-[11px] text-slate-300">Envía este link en el Día 5 cuando el cliente recibió su reserva de $250 y estamos entregando su Sitio Web terminado.</p>
+            <div class="text-[11px] font-semibold text-amber-300 bg-amber-500/10 border border-amber-500/20 rounded-lg px-2.5 py-1">
+              💰 Tu comisión en este 2do cobro: <strong>+$24.70 USD</strong> (10%) / <strong>+$37.05 USD</strong> (15%)
+            </div>
+          </div>
+          <div class="space-y-2 pt-2 border-t border-slate-800">
+            <input type="text" readonly value="https://api.agenciaprosperia.com/payment-link/6af2289003c375ed645fe62a"
+                   class="w-full px-2.5 py-1.5 rounded-lg text-[11px] font-mono text-cyan-200 bg-slate-900 border border-slate-700 select-all">
+            <div class="grid grid-cols-1 gap-1.5">
+              <button type="button" onclick="copyPaymentLinkUrl('https://api.agenciaprosperia.com/payment-link/6af2289003c375ed645fe62a', this)"
+                      class="w-full py-2 px-3 rounded-lg text-xs font-bold bg-amber-400 text-slate-950 hover:bg-amber-300 transition flex items-center justify-center gap-1.5">
+                <i class="fas fa-copy"></i> Copiar Solo Link ($247 USD)
+              </button>
+              <button type="button" onclick="copyPaymentLinkWhatsApp('Opción 1 — Sitio Web Inteligente Express PYME', 'Liquidación del 50% Restante Contra Entrega (US$247.00 USD)', 'https://api.agenciaprosperia.com/payment-link/6af2289003c375ed645fe62a', 'Con este pago queda 100% liquidado tu Sitio Web Inteligente Express y procedemos a apuntar tu dominio oficial y entregar accesos.', this)"
+                      class="w-full py-2 px-3 rounded-lg text-xs font-bold bg-cyan-500/20 text-cyan-200 border border-cyan-500/40 hover:bg-cyan-500/30 transition flex items-center justify-center gap-1.5">
+                <i class="fab fa-whatsapp"></i> Copiar Mensaje WhatsApp + Link
+              </button>
+              <a href="https://api.agenciaprosperia.com/payment-link/6af2289003c375ed645fe62a" target="_blank" rel="noopener"
+                 class="w-full py-1.5 px-3 rounded-lg text-[11px] font-semibold text-slate-300 hover:text-white bg-slate-900 hover:bg-slate-800 border border-slate-700 transition text-center no-underline block">
+                ↗ Abrir Checkout en Pestaña Nueva
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════════
+         3. 🚀 OPCIÓN 3 — MÁQUINA COMPLETA + ADS (UPSELL — US$1,490)
+    ══════════════════════════════════════════════════════════════════ -->
+    <div class="card p-5 space-y-4 payment-category-group" data-pl-cat="opcion3" style="background:linear-gradient(135deg,#211505,#0d172a); border:1px solid rgba(245,158,11,0.45);">
+      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+        <div>
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-black uppercase bg-amber-400 text-slate-950">🚀 OPCIÓN 3 — MÁQUINA COMPLETA CON TRÁFICO & VIDEOS IA (UPSELL)</span>
+            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Comisión Closer 10%: US$149 · Ciclo Completo 15%: US$223.50</span>
+          </div>
+          <h3 class="text-lg font-black text-white mt-1">Opción 3: Todo el Pack Anual (Opción 2) + 10 Videos Comerciales IA + Campaña Meta Ads (US$1,490 USD)</h3>
+          <p class="text-xs text-slate-300">Para clientes que quieren la infraestructura anual completa + producción de 10 Reels/Videos con IA + montaje técnico de su campaña de captación en Meta Ads.</p>
+        </div>
+        <div class="text-right">
+          <div class="text-xs text-slate-400 uppercase font-bold">Valor Total del Paquete</div>
+          <div class="text-2xl font-black text-amber-400">US$1,490.00 <span class="text-xs font-normal text-slate-400">USD</span></div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <!-- 3A: Reserva 50% Hoy ($745) -->
+        <div class="p-4 rounded-xl bg-slate-950/90 border-2 border-amber-400/70 flex flex-col justify-between space-y-3">
+          <div class="space-y-1.5">
+            <div class="flex items-center justify-between gap-2">
+              <span class="px-2 py-0.5 rounded text-[10px] font-black uppercase bg-amber-400 text-slate-950">🔥 1. RESERVA 50% HOY (US$745)</span>
+              <span class="text-xs font-bold text-emerald-400">Activo · Live</span>
+            </div>
+            <div class="text-base font-black text-white">Reserva 50% Hoy: Opción 3 Máquina Completa</div>
+            <div class="text-2xl font-black text-amber-400">US$745.00 <span class="text-xs font-semibold text-slate-400">USD hoy</span></div>
+            <p class="text-[11px] text-slate-300">Inicia producción de Sitio Web + CRM + 10 Videos IA hoy mismo. El 50% restante ($745) se liquida contra entrega en el Día 5.</p>
+            <div class="text-[11px] font-semibold text-emerald-300 bg-emerald-500/10 border border-emerald-500/20 rounded-lg px-2.5 py-1">
+              💰 Tu comisión en este cobro: <strong>+$74.50 USD</strong> (Closer 10%) / <strong>+$111.75 USD</strong> (15%)
+            </div>
+          </div>
+          <div class="space-y-2 pt-2 border-t border-slate-800">
+            <input type="text" readonly value="https://api.agenciaprosperia.com/payment-link/6af22915d4cfb789aef2299b"
+                   class="w-full px-2.5 py-1.5 rounded-lg text-[11px] font-mono text-cyan-200 bg-slate-900 border border-slate-700 select-all">
+            <div class="grid grid-cols-1 gap-1.5">
+              <button type="button" onclick="copyPaymentLinkUrl('https://api.agenciaprosperia.com/payment-link/6af22915d4cfb789aef2299b', this)"
+                      class="w-full py-2 px-3 rounded-lg text-xs font-black bg-amber-400 text-slate-950 hover:bg-amber-300 transition flex items-center justify-center gap-1.5">
+                <i class="fas fa-copy"></i> Copiar Solo Link ($745 USD)
+              </button>
+              <button type="button" onclick="copyPaymentLinkWhatsApp('Opción 3 — Máquina Completa (Pack Anual + 10 Videos IA + Campaña Meta Ads)', 'Reserva del 50% para inicio de producción (US$745.00 USD)', 'https://api.agenciaprosperia.com/payment-link/6af22915d4cfb789aef2299b', 'El 50% restante (US$745 USD) se liquida contra entrega al finalizar tu ecosistema web, CRM, 10 videos IA y configuración de campaña.', this)"
+                      class="w-full py-2 px-3 rounded-lg text-xs font-bold bg-cyan-500/20 text-cyan-200 border border-cyan-500/40 hover:bg-cyan-500/30 transition flex items-center justify-center gap-1.5">
+                <i class="fab fa-whatsapp"></i> Copiar Mensaje WhatsApp + Link
+              </button>
+              <a href="https://api.agenciaprosperia.com/payment-link/6af22915d4cfb789aef2299b" target="_blank" rel="noopener"
+                 class="w-full py-1.5 px-3 rounded-lg text-[11px] font-semibold text-slate-300 hover:text-white bg-slate-900 hover:bg-slate-800 border border-slate-700 transition text-center no-underline block">
+                ↗ Abrir Checkout en Pestaña Nueva
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3B: Pago Único 100% ($1,490) -->
+        <div class="p-4 rounded-xl bg-slate-950/90 border border-cyan-500/50 flex flex-col justify-between space-y-3">
+          <div class="space-y-1.5">
+            <div class="flex items-center justify-between gap-2">
+              <span class="px-2 py-0.5 rounded text-[10px] font-black uppercase bg-cyan-400 text-slate-950">💳 2. PAGO ÚNICO 100% (US$1,490)</span>
+              <span class="text-xs font-bold text-emerald-400">Activo · Live</span>
+            </div>
+            <div class="text-base font-black text-white">Pago Único 100%: Opción 3 Máquina Completa</div>
+            <div class="text-2xl font-black text-cyan-300">US$1,490.00 <span class="text-xs font-semibold text-slate-400">USD total</span></div>
+            <p class="text-[11px] text-slate-300">Liquidación 100% llave en mano de toda la Máquina Completa (Sitio Web + CRM 1 Año + IA 24/7 + 10 Videos IA + Meta Ads).</p>
+            <div class="text-[11px] font-semibold text-emerald-300 bg-emerald-500/10 border border-emerald-500/20 rounded-lg px-2.5 py-1">
+              💰 Tu comisión en este cobro: <strong>+$149.00 USD</strong> (Closer 10%) / <strong>+$223.50 USD</strong> (15%)
+            </div>
+          </div>
+          <div class="space-y-2 pt-2 border-t border-slate-800">
+            <input type="text" readonly value="https://api.agenciaprosperia.com/payment-link/6af2297ad4cfb789aef229a0"
+                   class="w-full px-2.5 py-1.5 rounded-lg text-[11px] font-mono text-cyan-200 bg-slate-900 border border-slate-700 select-all">
+            <div class="grid grid-cols-1 gap-1.5">
+              <button type="button" onclick="copyPaymentLinkUrl('https://api.agenciaprosperia.com/payment-link/6af2297ad4cfb789aef229a0', this)"
+                      class="w-full py-2 px-3 rounded-lg text-xs font-black bg-cyan-400 text-slate-950 hover:bg-cyan-300 transition flex items-center justify-center gap-1.5">
+                <i class="fas fa-copy"></i> Copiar Solo Link ($1,490 USD)
+              </button>
+              <button type="button" onclick="copyPaymentLinkWhatsApp('Opción 3 — Máquina Completa (Pack Anual + 10 Videos IA + Campaña Meta Ads)', 'Pago Único 100% Llave en Mano (US$1,490.00 USD)', 'https://api.agenciaprosperia.com/payment-link/6af2297ad4cfb789aef229a0', 'Incluye tu Sitio Web, 12 meses de CRM ProsperIA + IA 24/7 + PassportAI, 10 Videos Comerciales IA y el montaje completo de tu campaña en Meta Ads.', this)"
+                      class="w-full py-2 px-3 rounded-lg text-xs font-bold bg-cyan-500/20 text-cyan-200 border border-cyan-500/40 hover:bg-cyan-500/30 transition flex items-center justify-center gap-1.5">
+                <i class="fab fa-whatsapp"></i> Copiar Mensaje WhatsApp + Link
+              </button>
+              <a href="https://api.agenciaprosperia.com/payment-link/6af2297ad4cfb789aef229a0" target="_blank" rel="noopener"
+                 class="w-full py-1.5 px-3 rounded-lg text-[11px] font-semibold text-slate-300 hover:text-white bg-slate-900 hover:bg-slate-800 border border-slate-700 transition text-center no-underline block">
+                ↗ Abrir Checkout en Pestaña Nueva
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3C: Liquidación 50% Día 5 ($745) -->
+        <div class="p-4 rounded-xl bg-slate-950/90 border border-slate-700 flex flex-col justify-between space-y-3">
+          <div class="space-y-1.5">
+            <div class="flex items-center justify-between gap-2">
+              <span class="px-2 py-0.5 rounded text-[10px] font-black uppercase bg-amber-500/20 text-amber-300 border border-amber-500/40">🏁 3. LIQUIDACIÓN DÍA 5 (US$745)</span>
+              <span class="text-xs font-bold text-emerald-400">Activo · Live</span>
+            </div>
+            <div class="text-base font-black text-white">Liquidación 50% Final: Opción 3 Máquina Completa</div>
+            <div class="text-2xl font-black text-amber-300">US$745.00 <span class="text-xs font-semibold text-slate-400">USD día 5</span></div>
+            <p class="text-[11px] text-slate-300">Envía este link contra entrega al finalizar el Sitio Web, CRM, los 10 Videos IA y el montaje de Meta Ads.</p>
+            <div class="text-[11px] font-semibold text-amber-300 bg-amber-500/10 border border-amber-500/20 rounded-lg px-2.5 py-1">
+              💰 Tu comisión en este 2do cobro: <strong>+$74.50 USD</strong> (10%) / <strong>+$111.75 USD</strong> (15%)
+            </div>
+          </div>
+          <div class="space-y-2 pt-2 border-t border-slate-800">
+            <input type="text" readonly value="https://api.agenciaprosperia.com/payment-link/6af22943d4cfb789aef2299d"
+                   class="w-full px-2.5 py-1.5 rounded-lg text-[11px] font-mono text-cyan-200 bg-slate-900 border border-slate-700 select-all">
+            <div class="grid grid-cols-1 gap-1.5">
+              <button type="button" onclick="copyPaymentLinkUrl('https://api.agenciaprosperia.com/payment-link/6af22943d4cfb789aef2299d', this)"
+                      class="w-full py-2 px-3 rounded-lg text-xs font-bold bg-amber-400 text-slate-950 hover:bg-amber-300 transition flex items-center justify-center gap-1.5">
+                <i class="fas fa-copy"></i> Copiar Solo Link ($745 USD)
+              </button>
+              <button type="button" onclick="copyPaymentLinkWhatsApp('Opción 3 — Máquina Completa (Pack Anual + 10 Videos IA + Campaña Meta Ads)', 'Liquidación del 50% Restante Contra Entrega (US$745.00 USD)', 'https://api.agenciaprosperia.com/payment-link/6af22943d4cfb789aef2299d', 'Con este pago queda 100% liquidada tu Máquina Completa y activamos el lanzamiento oficial de tu campaña.', this)"
+                      class="w-full py-2 px-3 rounded-lg text-xs font-bold bg-cyan-500/20 text-cyan-200 border border-cyan-500/40 hover:bg-cyan-500/30 transition flex items-center justify-center gap-1.5">
+                <i class="fab fa-whatsapp"></i> Copiar Mensaje WhatsApp + Link
+              </button>
+              <a href="https://api.agenciaprosperia.com/payment-link/6af22943d4cfb789aef2299d" target="_blank" rel="noopener"
+                 class="w-full py-1.5 px-3 rounded-lg text-[11px] font-semibold text-slate-300 hover:text-white bg-slate-900 hover:bg-slate-800 border border-slate-700 transition text-center no-underline block">
+                ↗ Abrir Checkout en Pestaña Nueva
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════════
+         4. 🛟 RESCATE EXPRESS ($197 USD) + 💎 HIGH-TICKET SVE-90 ($2.9K / $5K)
+    ══════════════════════════════════════════════════════════════════ -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+
+      <!-- 4. Rescate Express ($197) -->
+      <div class="card p-5 space-y-4 payment-category-group" data-pl-cat="rescate" style="background:linear-gradient(135deg,#260b17,#0d1629); border:1px solid rgba(244,63,94,0.45);">
+        <div class="border-b border-slate-800 pb-3">
+          <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-rose-500 text-white">🛟 SALVAVIDAS DE CIERRE (ÚLTIMO RECURSO)</span>
+          <h3 class="text-base font-black text-white mt-2">Rescate Express: Tarjeta Digital Interactiva + Botón WhatsApp + QR</h3>
+          <div class="text-2xl font-black text-rose-400 mt-1">US$197.00 <span class="text-xs font-normal text-slate-400">USD / Pago Único Anual</span></div>
+          <p class="text-[11px] text-slate-300 mt-1">Úsalo <strong>únicamente</strong> cuando el prospecto realmente no puede cubrir los $250 de reserva de la Opción 1 hoy. Se entrega en 48 horas y el cliente puede abonar estos $197 para subir al Sitio Web Completo después.</p>
+          <div class="text-[11px] font-semibold text-rose-200 bg-rose-500/15 border border-rose-500/30 rounded-lg px-2.5 py-1 mt-2">
+            💰 Tu comisión: <strong>+$19.70 USD</strong> (Closer 10%) / <strong>+$29.55 USD</strong> (15%)
+          </div>
+        </div>
+        <div class="space-y-2">
+          <input type="text" readonly value="https://api.agenciaprosperia.com/payment-link/6af1f575d4cfb789aef22853"
+                 class="w-full px-2.5 py-1.5 rounded-lg text-[11px] font-mono text-cyan-200 bg-slate-900 border border-slate-700 select-all">
+          <button type="button" onclick="copyPaymentLinkUrl('https://api.agenciaprosperia.com/payment-link/6af1f575d4cfb789aef22853', this)"
+                  class="w-full py-2 px-3 rounded-lg text-xs font-black bg-rose-500 text-white hover:bg-rose-400 transition flex items-center justify-center gap-1.5">
+            <i class="fas fa-copy"></i> Copiar Solo Link ($197 USD)
+          </button>
+          <button type="button" onclick="copyPaymentLinkWhatsApp('Rescate Express — Tarjeta Digital Interactiva (Micro-Landing) + WhatsApp Directo', 'Pago Único Anual (US$197.00 USD)', 'https://api.agenciaprosperia.com/payment-link/6af1f575d4cfb789aef22853', 'Se entrega lista en 48 horas con tu subdominio, catálogo de servicios, botón directo a WhatsApp y código QR. Además, tus US$197 quedan abonados al 100% si decides escalar al Sitio Web Completo en los próximos 60 días.', this)"
+                  class="w-full py-2 px-3 rounded-lg text-xs font-bold bg-cyan-500/20 text-cyan-200 border border-cyan-500/40 hover:bg-cyan-500/30 transition flex items-center justify-center gap-1.5">
+            <i class="fab fa-whatsapp"></i> Copiar Mensaje WhatsApp + Link
+          </button>
+          <a href="https://api.agenciaprosperia.com/payment-link/6af1f575d4cfb789aef22853" target="_blank" rel="noopener"
+             class="w-full py-1.5 px-3 rounded-lg text-[11px] font-semibold text-slate-300 hover:text-white bg-slate-900 hover:bg-slate-800 border border-slate-700 transition text-center no-underline block">
+            ↗ Abrir Checkout en Pestaña Nueva
+          </a>
+        </div>
+      </div>
+
+      <!-- 5. High-Ticket Nivel 2: Pack Omnicanal ($2,900 / Reserva $1,450) -->
+      <div class="card p-5 space-y-4 payment-category-group" data-pl-cat="highticket" style="background:linear-gradient(135deg,#19102c,#0d1629); border:1px solid rgba(168,85,247,0.45);">
+        <div class="border-b border-slate-800 pb-3">
+          <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-purple-500 text-white">💎 HIGH-TICKET NIVEL 2 (CLÍNICAS & EMPRESAS)</span>
+          <h3 class="text-base font-black text-white mt-2">Pack Omnicanal + Embudos IA + Calificación Automática (US$2,900 USD)</h3>
+          <p class="text-[11px] text-slate-300 mt-1">Comisión Total: <strong>US$290 USD</strong> (Closer 10%) / <strong>US$435 USD</strong> (15% Ciclo Completo).</p>
+        </div>
+
+        <!-- 5A: Reserva 50% ($1,450) -->
+        <div class="p-3 rounded-xl bg-slate-950/90 border border-purple-500/40 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-black text-purple-300">🔥 Reserva 50% Hoy (Inicio):</span>
+            <span class="text-base font-black text-emerald-400">US$1,450.00 USD</span>
+          </div>
+          <input type="text" readonly value="https://api.agenciaprosperia.com/payment-link/6af1f540d4cfb789aef22850"
+                 class="w-full px-2 py-1 rounded text-[10px] font-mono text-cyan-200 bg-slate-900 border border-slate-700 select-all">
+          <div class="grid grid-cols-2 gap-1.5">
+            <button type="button" onclick="copyPaymentLinkUrl('https://api.agenciaprosperia.com/payment-link/6af1f540d4cfb789aef22850', this)"
+                    class="py-1.5 px-2 rounded-lg text-[11px] font-black bg-purple-400 text-slate-950 hover:bg-purple-300 transition">
+              📋 Copiar ($1,450)
+            </button>
+            <button type="button" onclick="copyPaymentLinkWhatsApp('High-Ticket — Pack Omnicanal + Embudos IA', 'Reserva del 50% para inicio de implementación (US$1,450.00 USD)', 'https://api.agenciaprosperia.com/payment-link/6af1f540d4cfb789aef22850', 'Con este 50% iniciamos la arquitectura omnicanal (WhatsApp + IG + FB + Web + Embudos IA) y el 50% restante se liquida contra entrega.', this)"
+                    class="py-1.5 px-2 rounded-lg text-[11px] font-bold bg-cyan-500/20 text-cyan-200 border border-cyan-500/40 hover:bg-cyan-500/30 transition">
+              💬 WhatsApp + Link
+            </button>
+          </div>
+        </div>
+
+        <!-- 5B: Pago Único 100% ($2,900) -->
+        <div class="p-3 rounded-xl bg-slate-950/90 border border-slate-700 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-black text-cyan-300">💳 Pago Único 100% Total:</span>
+            <span class="text-base font-black text-cyan-300">US$2,900.00 USD</span>
+          </div>
+          <input type="text" readonly value="https://api.agenciaprosperia.com/payment-link/6af1f55bd4cfb789aef22852"
+                 class="w-full px-2 py-1 rounded text-[10px] font-mono text-cyan-200 bg-slate-900 border border-slate-700 select-all">
+          <div class="grid grid-cols-2 gap-1.5">
+            <button type="button" onclick="copyPaymentLinkUrl('https://api.agenciaprosperia.com/payment-link/6af1f55bd4cfb789aef22852', this)"
+                    class="py-1.5 px-2 rounded-lg text-[11px] font-black bg-cyan-400 text-slate-950 hover:bg-cyan-300 transition">
+              📋 Copiar ($2,900)
+            </button>
+            <button type="button" onclick="copyPaymentLinkWhatsApp('High-Ticket — Pack Omnicanal + Embudos IA', 'Pago Único 100% Llave en Mano (US$2,900.00 USD)', 'https://api.agenciaprosperia.com/payment-link/6af1f55bd4cfb789aef22852', 'Incluye la implementación completa del Pack Omnicanal + Embudos IA + Calificación Automática y entrenamiento a tu equipo.', this)"
+                    class="py-1.5 px-2 rounded-lg text-[11px] font-bold bg-cyan-500/20 text-cyan-200 border border-cyan-500/40 hover:bg-cyan-500/30 transition">
+              💬 WhatsApp + Link
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. High-Ticket Nivel 3: Ecosistema SVE-90 ($5,000 / Reserva $2,500) -->
+      <div class="card p-5 space-y-4 payment-category-group" data-pl-cat="highticket" style="background:linear-gradient(135deg,#1f1707,#0d1629); border:1px solid rgba(251,191,36,0.45);">
+        <div class="border-b border-slate-800 pb-3">
+          <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-amber-400 text-slate-950">🏛️ HIGH-TICKET NIVEL 3 (CORPORATIVO SVE-90)</span>
+          <h3 class="text-base font-black text-white mt-2">Ecosistema Corporativo SVE-90 Llave en Mano (US$5,000 USD)</h3>
+          <p class="text-[11px] text-slate-300 mt-1">Comisión Total: <strong>US$500 USD</strong> (Closer 10%) / <strong>US$750 USD</strong> (15% Ciclo Completo).</p>
+        </div>
+
+        <!-- 6A: Reserva 50% ($2,500) -->
+        <div class="p-3 rounded-xl bg-slate-950/90 border border-amber-500/40 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-black text-amber-300">🔥 Reserva 50% Hoy (Inicio):</span>
+            <span class="text-base font-black text-emerald-400">US$2,500.00 USD</span>
+          </div>
+          <input type="text" readonly value="https://api.agenciaprosperia.com/payment-link/6af226e503c375ed645fe620"
+                 class="w-full px-2 py-1 rounded text-[10px] font-mono text-cyan-200 bg-slate-900 border border-slate-700 select-all">
+          <div class="grid grid-cols-2 gap-1.5">
+            <button type="button" onclick="copyPaymentLinkUrl('https://api.agenciaprosperia.com/payment-link/6af226e503c375ed645fe620', this)"
+                    class="py-1.5 px-2 rounded-lg text-[11px] font-black bg-amber-400 text-slate-950 hover:bg-amber-300 transition">
+              📋 Copiar ($2,500)
+            </button>
+            <button type="button" onclick="copyPaymentLinkWhatsApp('High-Ticket — Ecosistema Corporativo SVE-90 Llave en Mano', 'Reserva del 50% para inicio de implementación (US$2,500.00 USD)', 'https://api.agenciaprosperia.com/payment-link/6af226e503c375ed645fe620', 'Con este 50% arrancamos el despliegue del Sistema de Ventas Eficientes (SVE-90): AI SDRs, AI Setters, Integración CRM/ERP y Capacitación Ejecutiva.', this)"
+                    class="py-1.5 px-2 rounded-lg text-[11px] font-bold bg-cyan-500/20 text-cyan-200 border border-cyan-500/40 hover:bg-cyan-500/30 transition">
+              💬 WhatsApp + Link
+            </button>
+          </div>
+        </div>
+
+        <!-- 6B: Pago Único 100% ($5,000) -->
+        <div class="p-3 rounded-xl bg-slate-950/90 border border-slate-700 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-black text-cyan-300">💳 Pago Único 100% Total:</span>
+            <span class="text-base font-black text-cyan-300">US$5,000.00 USD</span>
+          </div>
+          <input type="text" readonly value="https://api.agenciaprosperia.com/payment-link/6af1f51903c375ed645fe4e4"
+                 class="w-full px-2 py-1 rounded text-[10px] font-mono text-cyan-200 bg-slate-900 border border-slate-700 select-all">
+          <div class="grid grid-cols-2 gap-1.5">
+            <button type="button" onclick="copyPaymentLinkUrl('https://api.agenciaprosperia.com/payment-link/6af1f51903c375ed645fe4e4', this)"
+                    class="py-1.5 px-2 rounded-lg text-[11px] font-black bg-cyan-400 text-slate-950 hover:bg-cyan-300 transition">
+              📋 Copiar ($5,000)
+            </button>
+            <button type="button" onclick="copyPaymentLinkWhatsApp('High-Ticket — Ecosistema Corporativo SVE-90 Llave en Mano', 'Pago Único 100% Llave en Mano (US$5,000.00 USD)', 'https://api.agenciaprosperia.com/payment-link/6af1f51903c375ed645fe4e4', 'Incluye la implementación integral en 90 días del Ecosistema SVE-90: AI SDRs, AI Setters, Integración ERP/CRM, SOPs y Capacitación Ejecutiva.', this)"
+                    class="py-1.5 px-2 rounded-lg text-[11px] font-bold bg-cyan-500/20 text-cyan-200 border border-cyan-500/40 hover:bg-cyan-500/30 transition">
+              💬 WhatsApp + Link
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Tabla Resumen Rápida de los 14 Links + Protocolo Post-Pago -->
+    <div class="card p-5 space-y-3" style="background:rgba(9,20,38,0.92); border-color:rgba(0,229,255,0.25);">
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <h3 class="text-sm font-black uppercase tracking-wider text-cyan-300">📋 Protocolo en Llamada al Enviar el Link de Pago (3 Pasos)</h3>
+        <button type="button" onclick="showSection('sales-os')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-500/30 transition">
+          Ir a Mi Pipeline & Comisiones →
+        </button>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs text-slate-300">
+        <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
+          <div class="font-black text-emerald-400 mb-1">1. Acompaña el Pago en Vivo (No cuelgues)</div>
+          Envía el link por WhatsApp o chat de Zoom/Meet y dile al cliente: <em>"Te acabo de enviar el link oficial de Agencia ProsperIA; confírmame que te abrió correctamente para asignarte tu folio de producción hoy mismo."</em>
+        </div>
+        <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
+          <div class="font-black text-cyan-300 mb-1">2. Solicita Captura del Comprobante</div>
+          En cuanto realice el pago en la pasarela, pídele captura de confirmación por WhatsApp y envíale de inmediato el cuestionario corto de Onboarding para arrancar su entrega de 5 días.
+        </div>
+        <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
+          <div class="font-black text-amber-300 mb-1">3. Registra tu Venta y Comisión (10% / 15%)</div>
+          Entra a <strong>Mi Pipeline & Comisiones</strong>, cambia el estado del prospecto a <strong>Cerrado Ganado (Con Pago)</strong> y notifica a Dirección para la validación de tu comisión semanal.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════════════
        SECTION: SALES OPERATING SYSTEM (PIPELINE CANÓNICO + COMISIONES 15%)
   ════════════════════════════════════════════════════════════════════════ -->
   <div id="section-sales-os" class="p-6 hidden space-y-6">
@@ -2577,6 +3192,9 @@
         </p>
       </div>
       <div class="flex flex-wrap gap-2">
+        <button type="button" onclick="showSection('payment-links')" class="px-4 py-2.5 rounded-xl text-xs font-black bg-cyan-400 text-slate-950 hover:bg-cyan-300 transition shadow inline-flex items-center gap-1.5">
+          💳 Abrir Links de Pago (14 Live)
+        </button>
         <button type="button" onclick="openQuickCloserLeadDialog('Primer contacto')" class="px-4 py-2.5 rounded-xl text-xs font-black bg-emerald-400 text-slate-950 hover:bg-emerald-300 transition shadow">
           ➕ Nuevo Prospecto (Inyectar a CRM)
         </button>
@@ -3984,6 +4602,7 @@ function showSection(name) {
   const titles = {
     'call-queue': ['📋 Mi Lista de Llamadas (455)', 'Filtro de prospección: solo quien contesta se inyecta a CRM ProsperIA'],
     'weapons': ['🔥 Presentaciones & Armas de Cierre', 'Slides de PassportAI.app, CRM SVE-90, Presentación V2/V1, /closers y Biblia de Roleplay'],
+    'payment-links': ['💳 Central de Links de Pago Oficiales (Live)', 'Copia y pega el enlace exacto de pago o el mensaje completo para WhatsApp en 1 clic'],
     'sales-os': ['Sales OS & Comisiones 15%', 'Flujo Comercial Canónico — Sitios Web Inteligentes ($497 / $990 / $1,490 / Rescate $197)'],
     'web-showcase': ['Demostrador de Sitios Web en Vivo', 'Muestra al cliente en 5 segundos cómo queda su página y agenda en CRM ProsperIA'],
     'sellers-admin': ['Alta de Vendedores, Lotes & Auditoría', 'Administración de los 6-20 Closers por Duplas (A, B, C) sin duplicados'],
@@ -4036,6 +4655,63 @@ function closeSidebar() {
     document.getElementById('sidebar')?.classList.remove('open');
     document.getElementById('sidebar-overlay')?.classList.add('hidden');
   }
+}
+
+// ─── Central de Links de Pago Oficiales ──────────────────────────────────────
+function showPaymentCopyToast(msg) {
+  const toast = document.getElementById('payment-copy-toast');
+  if (!toast) return;
+  toast.textContent = msg || '✓ Copiado al portapapeles';
+  toast.classList.remove('hidden');
+  clearTimeout(window.__paymentToastTimer);
+  window.__paymentToastTimer = setTimeout(() => {
+    toast.classList.add('hidden');
+  }, 3000);
+}
+
+function copyPaymentLinkUrl(url, btnEl) {
+  navigator.clipboard.writeText(url).then(() => {
+    showPaymentCopyToast('✓ Link de pago copiado: ' + url);
+    if (btnEl) {
+      const origHtml = btnEl.innerHTML;
+      btnEl.innerHTML = '<i class="fas fa-check"></i> ¡Link Copiado!';
+      setTimeout(() => { btnEl.innerHTML = origHtml; }, 2200);
+    }
+  });
+}
+
+function copyPaymentLinkWhatsApp(planName, stageLabel, url, extraNote, btnEl) {
+  const clientNameInput = document.getElementById('payment-client-name-input');
+  const clientName = clientNameInput && clientNameInput.value ? clientNameInput.value.trim() : '';
+  const greeting = clientName ? `¡Hola ${clientName}! 👋` : `¡Hola! 👋`;
+  const msg = `${greeting} Te comparto el enlace oficial y seguro de *Agencia ProsperIA* para activar tu *${planName}*:\n\n💳 *Concepto:* ${stageLabel}\n🔗 *Link de Pago Oficial:* ${url}\n\n✅ ${extraNote}\n\nEn cuanto se procese tu pago, envíame por aquí una captura del comprobante para asignarte tu folio prioritario de producción hoy mismo. 🚀`;
+  navigator.clipboard.writeText(msg).then(() => {
+    showPaymentCopyToast('✓ Mensaje de WhatsApp + Link copiado listo para pegar');
+    if (btnEl) {
+      const origHtml = btnEl.innerHTML;
+      btnEl.innerHTML = '<i class="fas fa-check"></i> ¡Mensaje WhatsApp Copiado!';
+      setTimeout(() => { btnEl.innerHTML = origHtml; }, 2200);
+    }
+  });
+}
+
+function filterPaymentLinksCategory(cat) {
+  document.querySelectorAll('.payment-category-group').forEach(el => {
+    if (cat === 'all' || el.getAttribute('data-pl-cat') === cat) {
+      el.classList.remove('hidden');
+    } else {
+      el.classList.add('hidden');
+    }
+  });
+  ['all', 'opcion2', 'opcion1', 'opcion3', 'rescate', 'highticket'].forEach(key => {
+    const btn = document.getElementById('pl-filter-' + key);
+    if (!btn) return;
+    if (key === cat) {
+      btn.className = 'px-3.5 py-1.5 rounded-xl text-xs font-black bg-emerald-400 text-slate-950 transition';
+    } else {
+      btn.className = 'px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-700 hover:border-cyan-400 transition';
+    }
+  });
 }
 
 // ─── Pagination ──────────────────────────────────────────────────────────────
