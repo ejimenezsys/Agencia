@@ -1854,12 +1854,15 @@
                 <h3 class="text-lg sm:text-xl font-black text-white mt-1.5">Video Tutorial Operativo de Edward Jiménez: Cómo Llamar, Pasar al Pipeline, Dar Demos y Cobrar tu 15%</h3>
               </div>
               <div class="flex flex-wrap gap-2">
-                <button type="button" onclick="resetToBuiltInExpressVideo()" class="px-3.5 py-2 rounded-xl text-xs font-black bg-emerald-400 text-slate-950 hover:bg-emerald-300 inline-flex items-center gap-1.5">
-                  ▶️ Ver Resumen Express Integrado (6 Min)
+                <button type="button" onclick="resetToBuiltInExpressVideo('master')" class="px-3.5 py-2 rounded-xl text-xs font-black bg-cyan-400 text-slate-950 hover:bg-cyan-300 inline-flex items-center gap-1.5">
+                  🎬 Ver Master Completo (34:27)
                 </button>
-                <button type="button" onclick="switchWeaponTab('manual-closer')" class="btn-primary px-4 py-2 rounded-xl text-xs font-black inline-flex items-center gap-1.5">
-                  📘 Ver Manual Escrito (7 Pasos)
+                <button type="button" onclick="resetToBuiltInExpressVideo('express')" class="px-3.5 py-2 rounded-xl text-xs font-black bg-emerald-400 text-slate-950 hover:bg-emerald-300 inline-flex items-center gap-1.5">
+                  ⚡ Ver Resumen Express (6:11)
                 </button>
+                <a href="/videoclosers" target="_blank" class="btn-ghost px-3.5 py-2 rounded-xl text-xs font-bold text-cyan-300 border-cyan-500/30 no-underline inline-flex items-center gap-1.5">
+                  ↗ Abrir /videoclosers
+                </a>
                 <a href="/static/armas/MANUAL_OPERATIVO_CLOSERS_PROSPER_IA.pdf" download="Manual-Operativo-Closers-ProsperIA.pdf" class="btn-ghost px-3.5 py-2 rounded-xl text-xs font-bold text-emerald-300 border-emerald-500/30 no-underline inline-flex items-center gap-1.5">
                   📥 Descargar Manual en PDF
                 </a>
@@ -1878,7 +1881,7 @@
                     width="1280"
                     height="720"
                     poster="/static/img/crm_slides/crm_command_center.jpg?v=2"
-                    src="/static/video/tutorial_closers_express_6min.mp4?v=1"
+                    src="/static/video/tutorial_master_closers_34min.mp4?v=1"
                     class="w-full h-full object-contain bg-slate-950"
                   >
                     Tu navegador no soporta reproducción de video HTML5.
@@ -1886,15 +1889,16 @@
                   <iframe id="closer-tutorial-iframe" class="hidden w-full h-full border-0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen title="Video Tutorial Oficial Closers"></iframe>
                 </div>
 
-                <!-- Botones de salto rápido dentro del Resumen Express de 6 Minutos -->
+                <!-- Botones de salto rápido dentro del Corte Maestro (34:27) -->
                 <div class="p-3 rounded-2xl bg-slate-900/95 border border-cyan-500/30 flex flex-wrap items-center gap-1.5">
-                  <span class="text-[11px] font-black uppercase text-cyan-300 mr-1">⚡ Saltar en Video Express (06:11):</span>
-                  <button type="button" onclick="seekCloserTutorialVideo(0)" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-cyan-400 hover:text-slate-950 text-[11px] font-bold text-slate-200 transition">00:00 1. Check-In &amp; KPIs</button>
-                  <button type="button" onclick="seekCloserTutorialVideo(40)" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-cyan-400 hover:text-slate-950 text-[11px] font-bold text-slate-200 transition">00:40 2. Lista Llamadas &amp; Excel</button>
-                  <button type="button" onclick="seekCloserTutorialVideo(98)" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-cyan-400 hover:text-slate-950 text-[11px] font-bold text-slate-200 transition">01:38 3. Pipeline &amp; Pago 15%</button>
-                  <button type="button" onclick="seekCloserTutorialVideo(148)" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-cyan-400 hover:text-slate-950 text-[11px] font-bold text-slate-200 transition">02:28 4. Demo Web &amp; +1,000 Plantillas</button>
-                  <button type="button" onclick="seekCloserTutorialVideo(205)" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-cyan-400 hover:text-slate-950 text-[11px] font-bold text-slate-200 transition">03:25 5. Las 3 Cajas ($990/$497/$1,490)</button>
-                  <button type="button" onclick="seekCloserTutorialVideo(265)" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-cyan-400 hover:text-slate-950 text-[11px] font-bold text-slate-200 transition">04:25 6. PassportAI &amp; CRM Kanban</button>
+                  <span class="text-[11px] font-black uppercase text-cyan-300 mr-1">🎬 Saltar en Master (34:27):</span>
+                  <button type="button" onclick="seekCloserTutorialVideo(0, 'master')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-cyan-400 hover:text-slate-950 text-[11px] font-bold text-slate-200 transition">00:00 1. Login &amp; KPIs</button>
+                  <button type="button" onclick="seekCloserTutorialVideo(198, 'master')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-cyan-400 hover:text-slate-950 text-[11px] font-bold text-slate-200 transition">03:18 2. Leads /codigos</button>
+                  <button type="button" onclick="seekCloserTutorialVideo(390, 'master')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-cyan-400 hover:text-slate-950 text-[11px] font-bold text-slate-200 transition">06:30 3. Llamadas &amp; Excel</button>
+                  <button type="button" onclick="seekCloserTutorialVideo(645, 'master')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-cyan-400 hover:text-slate-950 text-[11px] font-bold text-slate-200 transition">10:45 4. Pipeline &amp; 15%</button>
+                  <button type="button" onclick="seekCloserTutorialVideo(855, 'master')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-cyan-400 hover:text-slate-950 text-[11px] font-bold text-slate-200 transition">14:15 5. Demo Web +1,000</button>
+                  <button type="button" onclick="seekCloserTutorialVideo(1415, 'master')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-cyan-400 hover:text-slate-950 text-[11px] font-bold text-slate-200 transition">23:35 6. Las 3 Ofertas</button>
+                  <button type="button" onclick="seekCloserTutorialVideo(1764, 'master')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-cyan-400 hover:text-slate-950 text-[11px] font-bold text-slate-200 transition">29:24 7. PassportAI &amp; CRM</button>
                 </div>
 
                 <!-- Barra rápida para pegar link de Google Drive / YouTube del Corte Maestro de 34 min -->
@@ -5423,8 +5427,8 @@ function setWeaponsTheme(theme) {
   }
 }
 
-function seekCloserTutorialVideo(seconds) {
-  resetToBuiltInExpressVideo();
+function seekCloserTutorialVideo(seconds, mode) {
+  resetToBuiltInExpressVideo(mode || 'master');
   const vid = document.getElementById('closer-tutorial-native-video');
   if (vid) {
     vid.currentTime = Number(seconds) || 0;
@@ -5432,7 +5436,7 @@ function seekCloserTutorialVideo(seconds) {
   }
 }
 
-function resetToBuiltInExpressVideo() {
+function resetToBuiltInExpressVideo(mode) {
   localStorage.removeItem('prosper_closer_tutorial_video_url');
   const input = document.getElementById('closer-tutorial-url-input');
   if (input) input.value = '';
@@ -5443,7 +5447,15 @@ function resetToBuiltInExpressVideo() {
     iframe.classList.add('hidden');
   }
   if (vid) {
+    const targetSrc = mode === 'express'
+      ? '/static/video/tutorial_closers_express_6min.mp4?v=1'
+      : '/static/video/tutorial_master_closers_34min.mp4?v=1';
+    if (!vid.src.includes(targetSrc.split('?')[0])) {
+      vid.src = targetSrc;
+      vid.load();
+    }
     vid.classList.remove('hidden');
+    vid.play().catch(() => {});
   }
 }
 

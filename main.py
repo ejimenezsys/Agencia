@@ -1632,6 +1632,18 @@ async def closers_kickoff_page(request: Request):
     return templates.TemplateResponse(request=request, name="closers.html", context={"request": request})
 
 
+@app.get("/videoclosers", response_class=HTMLResponse)
+@app.head("/videoclosers")
+@app.get("/videoclosers/", response_class=HTMLResponse)
+@app.head("/videoclosers/")
+@app.get("/videoclosers.html", response_class=HTMLResponse)
+@app.head("/videoclosers.html")
+@app.get("/video-closers", response_class=HTMLResponse)
+@app.head("/video-closers")
+async def video_closers_training_page(request: Request):
+    return templates.TemplateResponse(request=request, name="videoclosers.html", context={"request": request})
+
+
 
 # ─── TECHNICAL SEO ENDPOINTS ────────────────────────────────────────────────
 from fastapi.responses import PlainTextResponse
