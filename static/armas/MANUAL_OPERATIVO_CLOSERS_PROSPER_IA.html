@@ -297,9 +297,10 @@
       </div>
       <div class="actions">
         <button type="button" class="btn btn-cyan" onclick="window.print()">🖨️ Imprimir / Guardar en PDF</button>
-        <a href="/demo-sitio-web" target="_blank" class="btn btn-emerald">🚀 Abrir Demo Sitio Web</a>
-        <a href="/dashboard" target="_top" class="btn">📊 Volver al Panel</a>
+        <a href="/demo-sitio-web" target="_blank" rel="noopener" class="btn btn-emerald">🚀 Abrir Demo Sitio Web</a>
+        <a id="manual-back-btn" href="/dashboard" target="_top" onclick="if(window.opener){window.close();return false;}" class="btn">📊 Volver al Panel</a>
       </div>
+      <script>if (window.self !== window.top) { const b = document.getElementById('manual-back-btn'); if (b) b.style.display = 'none'; }</script>
     </header>
 
     <section class="hero">
