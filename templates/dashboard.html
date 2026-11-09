@@ -1876,12 +1876,13 @@
                   <video
                     id="closer-tutorial-native-video"
                     controls
+                    playsinline
                     loading="lazy"
                     preload="metadata"
                     width="1280"
                     height="720"
                     poster="/static/img/crm_slides/crm_command_center.jpg?v=2"
-                    src="/static/video/tutorial_master_closers_34min.mp4?v=1"
+                    src="/api/video-stream/master"
                     class="w-full h-full object-contain bg-slate-950"
                   >
                     Tu navegador no soporta reproducción de video HTML5.
@@ -5448,9 +5449,9 @@ function resetToBuiltInExpressVideo(mode) {
   }
   if (vid) {
     const targetSrc = mode === 'express'
-      ? '/static/video/tutorial_closers_express_6min.mp4?v=1'
-      : '/static/video/tutorial_master_closers_34min.mp4?v=1';
-    if (!vid.src.includes(targetSrc.split('?')[0])) {
+      ? '/api/video-stream/express'
+      : '/api/video-stream/master';
+    if (!vid.src.includes(targetSrc)) {
       vid.src = targetSrc;
       vid.load();
     }

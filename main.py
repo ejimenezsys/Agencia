@@ -1644,6 +1644,74 @@ async def video_closers_training_page(request: Request):
     return templates.TemplateResponse(request=request, name="videoclosers.html", context={"request": request})
 
 
+@app.get("/api/video-stream/{video_key}")
+@app.head("/api/video-stream/{video_key}")
+async def stream_closer_training_video(video_key: str, request: Request):
+    """Streaming HTTP 206 Partial Content (Byte-Range) sin compresión proxy para reproducción inmediata en Safari/Chrome."""
+    video_map = {
+        "master": os.path.join(os.path.dirname(__file__), "static", "video", "tutorial_master_closers_34min.mp4"),
+        "express": os.path.join(os.path.dirname(__file__), "static", "video", "tutorial_closers_express_6min.mp4"),
+    }
+    file_path = video_map.get(video_key.lower().strip())
+    if not file_path or not os.path.exists(file_path):
+        raise HTTPException(status_code=404, detail="Video de entrenamiento no encontrado.")
+
+    file_size = os.path.getsize(file_path)
+    range_header = request.headers.get("range") or request.headers.get("Range")
+
+    base_headers = {
+        "Accept-Ranges": "bytes",
+        "Cache-Control": "private, max-age=3600, no-transform",
+        "Content-Encoding": "identity",
+    }
+
+    if request.method == "HEAD" and not range_header:
+        base_headers["Content-Length"] = str(file_size)
+        return Response(status_code=200, media_type="video/mp4", headers=base_headers)
+
+    start = 0
+    max_chunk = 3 * 1024 * 1024  # 3 MB por fragmento para arranque instantáneo
+    end = min(file_size - 1, max_chunk - 1)
+    status_code = 206
+
+    if range_header and range_header.strip().lower().startswith("bytes="):
+        try:
+            range_spec = range_header.strip()[6:].split(",")[0].strip()
+            start_str, end_str = range_spec.split("-", 1)
+            if start_str:
+                start = int(start_str)
+                if end_str:
+                    end = min(int(end_str), file_size - 1)
+                else:
+                    end = min(file_size - 1, start + max_chunk - 1)
+            elif end_str:
+                suffix_len = int(end_str)
+                start = max(0, file_size - suffix_len)
+                end = file_size - 1
+        except ValueError:
+            start = 0
+            end = min(file_size - 1, max_chunk - 1)
+
+    if start < 0 or start >= file_size or end < start:
+        return Response(
+            status_code=416,
+            headers={**base_headers, "Content-Range": f"bytes */{file_size}"},
+        )
+
+    chunk_length = end - start + 1
+    base_headers["Content-Range"] = f"bytes {start}-{end}/{file_size}"
+    base_headers["Content-Length"] = str(chunk_length)
+
+    if request.method == "HEAD":
+        return Response(status_code=status_code, media_type="video/mp4", headers=base_headers)
+
+    with open(file_path, "rb") as f:
+        f.seek(start)
+        data = f.read(chunk_length)
+
+    return Response(content=data, status_code=status_code, media_type="video/mp4", headers=base_headers)
+
+
 
 # ─── TECHNICAL SEO ENDPOINTS ────────────────────────────────────────────────
 from fastapi.responses import PlainTextResponse

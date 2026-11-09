@@ -125,11 +125,12 @@
             <video
               id="closers-main-video"
               controls
+              playsinline
               preload="metadata"
               width="1280"
               height="720"
               poster="/static/img/crm_slides/crm_command_center.jpg?v=2"
-              src="/static/video/tutorial_master_closers_34min.mp4?v=1"
+              src="/api/video-stream/master"
               class="w-full h-full object-contain bg-black"
             >
               Tu navegador no soporta reproducción de video HTML5.
@@ -349,7 +350,7 @@
 
       currentMode = mode;
       if (mode === 'express') {
-        video.src = '/static/video/tutorial_closers_express_6min.mp4?v=1';
+        video.src = '/api/video-stream/express';
         badge.textContent = '⚡ RESUMEN EJECUTIVO RELÁMPAGO (06:11 MIN)';
         badge.className = 'px-2.5 py-0.5 rounded-full text-[11px] font-black uppercase bg-amber-500/20 text-amber-300 border border-amber-500/40';
         if (sub) sub.textContent = 'Repaso rápido de punta a punta en 6 minutos';
@@ -357,7 +358,7 @@
         if (btnExpress) btnExpress.className = 'px-4 py-2.5 rounded-xl text-xs font-black bg-amber-400 text-slate-950 hover:bg-amber-300 transition shadow-lg';
         if (btnMaster) btnMaster.className = 'px-4 py-2.5 rounded-xl text-xs font-bold bg-slate-900 hover:bg-slate-800 text-cyan-300 border border-cyan-500/40 transition';
       } else {
-        video.src = '/static/video/tutorial_master_closers_34min.mp4?v=1';
+        video.src = '/api/video-stream/master';
         badge.textContent = '🎬 CORTE MAESTRO OFICIAL (34:27 MIN)';
         badge.className = 'px-2.5 py-0.5 rounded-full text-[11px] font-black uppercase bg-cyan-500/20 text-cyan-300 border border-cyan-500/40';
         if (sub) sub.textContent = 'Entrenamiento completo paso a paso sin cortes de prueba';
@@ -403,3 +404,4 @@
   </script>
 </body>
 </html>
+
