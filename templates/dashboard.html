@@ -1842,91 +1842,126 @@
       <!-- COLUMNA DERECHA: VISOR AMPLIO DESDE ARRIBA SIN CORTARSE -->
       <div style="min-width:0;">
 
-        <!-- SUB-VISTA 0: VIDEO TUTORIAL OFICIAL DE OPERACIONES PARA CLOSERS (ESPACIO DEDICADO PARA EL VIDEO DE EDWARD) -->
+        <!-- SUB-VISTA 0: VIDEO TUTORIAL OFICIAL DE OPERACIONES PARA CLOSERS (CON VIDEO EXPRESS 6 MIN INTEGRADO + ESPACIO MASTER 34 MIN) -->
         <div id="weapon-view-tutorial-video" class="hidden space-y-4">
           <div class="card p-6 sm:p-7 border-2 border-cyan-500/40" style="background:radial-gradient(circle at top right, rgba(0,229,255,0.14), rgba(5,13,26,0.98) 70%);">
             <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-4 mb-5">
               <div>
                 <div class="flex flex-wrap items-center gap-2">
                   <span class="px-3 py-0.5 rounded-full text-[11px] font-black uppercase bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">🎬 CAPACITACIÓN OFICIAL · CLOSERS PROSPER IA</span>
-                  <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">Entrenamiento Paso a Paso con Edward Jiménez</span>
+                  <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">✓ Video Express (06:11) Ya Integrado + Master Completo (34:27)</span>
                 </div>
-                <h3 class="text-lg sm:text-xl font-black text-white mt-1.5">Video Tutorial Operativo: Cómo Llamar, Pasar al Pipeline, Dar Demos y Cobrar tu 15%</h3>
+                <h3 class="text-lg sm:text-xl font-black text-white mt-1.5">Video Tutorial Operativo de Edward Jiménez: Cómo Llamar, Pasar al Pipeline, Dar Demos y Cobrar tu 15%</h3>
               </div>
               <div class="flex flex-wrap gap-2">
+                <button type="button" onclick="resetToBuiltInExpressVideo()" class="px-3.5 py-2 rounded-xl text-xs font-black bg-emerald-400 text-slate-950 hover:bg-emerald-300 inline-flex items-center gap-1.5">
+                  ▶️ Ver Resumen Express Integrado (6 Min)
+                </button>
                 <button type="button" onclick="switchWeaponTab('manual-closer')" class="btn-primary px-4 py-2 rounded-xl text-xs font-black inline-flex items-center gap-1.5">
                   📘 Ver Manual Escrito (7 Pasos)
                 </button>
-                <a href="/static/armas/MANUAL_OPERATIVO_CLOSERS_PROSPER_IA.html" target="_blank" class="btn-ghost px-3.5 py-2 rounded-xl text-xs font-bold text-emerald-300 border-emerald-500/30 no-underline inline-flex items-center gap-1.5">
-                  🖨️ Abrir Manual para Guardar PDF
+                <a href="/static/armas/MANUAL_OPERATIVO_CLOSERS_PROSPER_IA.pdf" download="Manual-Operativo-Closers-ProsperIA.pdf" class="btn-ghost px-3.5 py-2 rounded-xl text-xs font-bold text-emerald-300 border-emerald-500/30 no-underline inline-flex items-center gap-1.5">
+                  📥 Descargar Manual en PDF
                 </a>
               </div>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-              <!-- Reproductor 16:9 -->
+              <!-- Reproductor 16:9 con Video Nativo Integrado + Soporte Drive/YouTube/Loom -->
               <div class="lg:col-span-8 space-y-3">
                 <div id="closer-tutorial-video-box" class="relative w-full rounded-2xl overflow-hidden border-2 border-cyan-500/40 bg-slate-950 shadow-2xl flex items-center justify-center" style="aspect-ratio: 16 / 9; min-height: 380px;">
-                  <div id="closer-tutorial-placeholder" class="p-8 text-center max-w-xl mx-auto space-y-4">
-                    <div class="w-16 h-16 rounded-2xl bg-cyan-500/15 border border-cyan-500/40 text-cyan-300 flex items-center justify-center text-3xl mx-auto shadow-lg">
-                      ▶️
-                    </div>
-                    <div class="text-xs font-black uppercase tracking-widest text-amber-400">ESPACIO RESERVADO · VIDEO TUTORIAL OFICIAL</div>
-                    <h4 class="text-xl sm:text-2xl font-black text-white"> Recorrido Completo del Ecosistema Sales OS &amp; CRM ProsperIA</h4>
-                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                      En este video de entrenamiento <strong>Edward Jiménez</strong> te muestra en vivo cómo trabajar tus prospectos desde <strong>📞 Mi Lista de Llamadas (Etapa 1)</strong> hasta <strong>💰 Mi Pipeline Activo (Etapa 2+)</strong>, cómo dar de alta prospectos nuevos o listas de Excel, y cómo cerrar las <strong>3 Cajas (US$497 / US$990 / US$1,490)</strong>.
-                    </p>
-                    <div class="flex flex-wrap items-center justify-center gap-2 pt-2">
-                      <span class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-slate-300">🎥 Compatible con Loom, YouTube, Vimeo, Drive o MP4</span>
-                    </div>
-                  </div>
+                  <video
+                    id="closer-tutorial-native-video"
+                    controls
+                    loading="lazy"
+                    preload="metadata"
+                    width="1280"
+                    height="720"
+                    poster="/static/img/crm_slides/crm_command_center.jpg?v=2"
+                    src="/static/video/tutorial_closers_express_6min.mp4?v=1"
+                    class="w-full h-full object-contain bg-slate-950"
+                  >
+                    Tu navegador no soporta reproducción de video HTML5.
+                  </video>
                   <iframe id="closer-tutorial-iframe" class="hidden w-full h-full border-0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen title="Video Tutorial Oficial Closers"></iframe>
                 </div>
 
-                <!-- Barra rápida para pegar link de video y previsualizarlo al instante -->
+                <!-- Botones de salto rápido dentro del Resumen Express de 6 Minutos -->
+                <div class="p-3 rounded-2xl bg-slate-900/95 border border-cyan-500/30 flex flex-wrap items-center gap-1.5">
+                  <span class="text-[11px] font-black uppercase text-cyan-300 mr-1">⚡ Saltar en Video Express (06:11):</span>
+                  <button type="button" onclick="seekCloserTutorialVideo(0)" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-cyan-400 hover:text-slate-950 text-[11px] font-bold text-slate-200 transition">00:00 1. Check-In &amp; KPIs</button>
+                  <button type="button" onclick="seekCloserTutorialVideo(40)" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-cyan-400 hover:text-slate-950 text-[11px] font-bold text-slate-200 transition">00:40 2. Lista Llamadas &amp; Excel</button>
+                  <button type="button" onclick="seekCloserTutorialVideo(98)" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-cyan-400 hover:text-slate-950 text-[11px] font-bold text-slate-200 transition">01:38 3. Pipeline &amp; Pago 15%</button>
+                  <button type="button" onclick="seekCloserTutorialVideo(148)" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-cyan-400 hover:text-slate-950 text-[11px] font-bold text-slate-200 transition">02:28 4. Demo Web &amp; +1,000 Plantillas</button>
+                  <button type="button" onclick="seekCloserTutorialVideo(205)" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-cyan-400 hover:text-slate-950 text-[11px] font-bold text-slate-200 transition">03:25 5. Las 3 Cajas ($990/$497/$1,490)</button>
+                  <button type="button" onclick="seekCloserTutorialVideo(265)" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-cyan-400 hover:text-slate-950 text-[11px] font-bold text-slate-200 transition">04:25 6. PassportAI &amp; CRM Kanban</button>
+                </div>
+
+                <!-- Barra rápida para pegar link de Google Drive / YouTube del Corte Maestro de 34 min -->
                 <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800 flex flex-wrap items-center justify-between gap-2">
                   <div class="text-xs text-slate-300 font-semibold">
-                    🔗 <strong>Cargar / Previsualizar Link del Video Tutorial:</strong> <span class="text-slate-400">(YouTube, Loom, Drive o MP4)</span>
+                    🔗 <strong>Cargar Link del Corte Maestro Completo (34:27 min):</strong> <span class="text-slate-400">(Google Drive, YouTube, Loom o MP4)</span>
                   </div>
                   <div class="flex flex-1 min-w-[260px] gap-2">
-                    <input id="closer-tutorial-url-input" type="url" placeholder="Pega aquí el link del video grabado..." class="flex-1 px-3 py-1.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white" />
+                    <input id="closer-tutorial-url-input" type="url" placeholder="Pega aquí el link de Google Drive o YouTube del Master (34 min)..." class="flex-1 px-3 py-1.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white" />
                     <button type="button" onclick="applyCloserTutorialVideoUrl()" class="px-3.5 py-1.5 rounded-xl text-xs font-black bg-cyan-400 text-slate-950 hover:bg-cyan-300">
-                      Cargar Video
+                      Cargar Link Master
                     </button>
                   </div>
                 </div>
               </div>
 
-              <!-- Índice de los 7 Capítulos de la Grabación / Guía Rápida -->
-              <div class="lg:col-span-4 space-y-2.5">
-                <div class="text-xs font-black uppercase tracking-wider text-cyan-400 mb-1">📋 ÍNDICE DE LOS 7 PASOS DEL TUTORIAL</div>
-                <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800 text-xs space-y-1">
-                  <div class="font-black text-white">1️⃣ Acceso Dual y Reloj Inteligente</div>
-                  <p class="text-slate-400">Entrada por CRM o directo y cómo suma tu tiempo activo (pausa a los 5 min sin actividad).</p>
+              <!-- Índice de los 7 Capítulos de la Grabación (Con Timestamps del Corte Maestro 34:27) -->
+              <div class="lg:col-span-4 space-y-2">
+                <div class="text-xs font-black uppercase tracking-wider text-cyan-400 mb-1">📋 ÍNDICE DE LOS 7 PASOS (CORTE MAESTRO 34:27)</div>
+                <div class="p-2.5 rounded-xl bg-slate-900/90 border border-slate-800 text-xs space-y-0.5">
+                  <div class="flex items-center justify-between">
+                    <span class="font-black text-white">1️⃣ Login, Reloj Check-In y Podio</span>
+                    <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono text-[10px] font-bold">00:00</span>
+                  </div>
+                  <p class="text-slate-400 text-[11px]">Entrada por <code>/login</code> o CRM, reloj automático (pausa a los 5 min) y embudo <code>100 → 60 → 6 → 1</code>.</p>
                 </div>
-                <div class="p-3 rounded-xl bg-slate-900/90 border border-emerald-500/30 text-xs space-y-1">
-                  <div class="font-black text-emerald-300">2️⃣ Etapa 1 vs. Etapa 2+ (Sin Bailar de Lista)</div>
-                  <p class="text-slate-400"><em>📞 Mi Lista de Llamadas</em> es solo para fríos (Etapa 1). Al pulsar <strong>¡Sí Contestó!</strong> pasa automático a <em>💰 Mi Pipeline Activo (Etapa 2: Primer contacto)</em>.</p>
+                <div class="p-2.5 rounded-xl bg-slate-900/90 border border-emerald-500/30 text-xs space-y-0.5">
+                  <div class="flex items-center justify-between">
+                    <span class="font-black text-emerald-300">2️⃣ Origen de los 455 Leads (/codigos)</span>
+                    <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono text-[10px] font-bold">03:18</span>
+                  </div>
+                  <p class="text-slate-400 text-[11px]">Cómo llegan por Reels a <code>/codigos</code> y a la Comunidad de WhatsApp (+1,000 miembros).</p>
                 </div>
-                <div class="p-3 rounded-xl bg-slate-900/90 border border-amber-500/30 text-xs space-y-1">
-                  <div class="font-black text-amber-300">3️⃣ Alta de Prospectos y Excel Propio</div>
-                  <p class="text-slate-400">Botones <strong>➕ Nuevo Prospecto (Inyectar a CRM)</strong> y <strong>📥 Subir Mi Lista (Excel/CSV)</strong> directo a Etapa 2.</p>
+                <div class="p-2.5 rounded-xl bg-slate-900/90 border border-amber-500/30 text-xs space-y-0.5">
+                  <div class="flex items-center justify-between">
+                    <span class="font-black text-amber-300">3️⃣ Mi Lista de Llamadas y Excel</span>
+                    <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono text-[10px] font-bold">06:30</span>
+                  </div>
+                  <p class="text-slate-400 text-[11px]">WhatsApp directo, botón <strong>¡Sí Contestó!</strong>, <strong>➕ Nuevo Prospecto</strong> y <strong>📥 Subir Mi Lista Excel</strong>.</p>
                 </div>
-                <div class="p-3 rounded-xl bg-slate-900/90 border border-rose-500/30 text-xs space-y-1">
-                  <div class="font-black text-rose-300">4️⃣ WhatsApp Directo vs. Plantillas CRM</div>
-                  <p class="text-slate-400">Por qué usar el botón verde <strong>💬 WhatsApp</strong> desde tu celular para reactivar fríos (+24h) o usar plantilla oficial en el CRM.</p>
+                <div class="p-2.5 rounded-xl bg-slate-900/90 border border-rose-500/30 text-xs space-y-0.5">
+                  <div class="flex items-center justify-between">
+                    <span class="font-black text-rose-300">4️⃣ Pipeline Activo y Pago 15%</span>
+                    <span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 font-mono text-[10px] font-bold">10:45</span>
+                  </div>
+                  <p class="text-slate-400 text-[11px]">Mover etapas (Paso 2 a 8) en vivo con el CRM y botón <strong>💳 Verificar Pago</strong> (comisión 15%).</p>
                 </div>
-                <div class="p-3 rounded-xl bg-slate-900/90 border border-cyan-500/30 text-xs space-y-1">
-                  <div class="font-black text-cyan-300">5️⃣ Demo en Vivo + 1,000 Plantillas Web</div>
-                  <p class="text-slate-400">Personalizar el giro en 5 segundos, probar el Chatbot IA, cambiar entre +60 Looks y abrir la <strong>📚 Biblioteca +1,000 Plantillas CRM</strong>.</p>
+                <div class="p-2.5 rounded-xl bg-slate-900/90 border border-cyan-500/30 text-xs space-y-0.5">
+                  <div class="flex items-center justify-between">
+                    <span class="font-black text-cyan-300">5️⃣ Demo Sitio Web + 1,000 Plantillas</span>
+                    <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono text-[10px] font-bold">14:15</span>
+                  </div>
+                  <p class="text-slate-400 text-[11px]">Personalización en 5s, prueba de formulario + correo en 40s, <strong>Chatbot IA (21:04)</strong> y <strong>+1,000 Plantillas CRM (22:18)</strong>.</p>
                 </div>
-                <div class="p-3 rounded-xl bg-slate-900/90 border border-purple-500/30 text-xs space-y-1">
-                  <div class="font-black text-purple-300">6️⃣ Las 3 Presentaciones Estrella</div>
-                  <p class="text-slate-400"><strong>3 Cajas</strong> (9 Slides con tu foto y título ejecutivo), <strong>17 Láminas HD PassportAI</strong> y <strong>8 Slides Visuales del CRM</strong>.</p>
+                <div class="p-2.5 rounded-xl bg-slate-900/90 border border-purple-500/30 text-xs space-y-0.5">
+                  <div class="flex items-center justify-between">
+                    <span class="font-black text-purple-300">6️⃣ Las 3 Ofertas Separadas (11 Slides)</span>
+                    <span class="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-mono text-[10px] font-bold">23:35</span>
+                  </div>
+                  <p class="text-slate-400 text-[11px]">Slide 8 Estrella (<strong>$990</strong>), Slide 9 Downsell (<strong>$497</strong>), Slide 10 Máquina (<strong>$1,490</strong> con 10 Videos + Meta Ads) y Slide 11 Cierre.</p>
                 </div>
-                <div class="p-3 rounded-xl bg-slate-900/90 border border-emerald-500/30 text-xs space-y-1">
-                  <div class="font-black text-emerald-300">7️⃣ Etapa en CRM y Verificación de Pago 15%</div>
-                  <p class="text-slate-400">Botón <strong>📋 Etapa / Prop.</strong> (<code>🟢 Sincronizado en CRM</code>) y <strong>💳 Verificar Pago</strong> para activar tu 15% y sonar la campana 🔔.</p>
+                <div class="p-2.5 rounded-xl bg-slate-900/90 border border-emerald-500/30 text-xs space-y-0.5">
+                  <div class="flex items-center justify-between">
+                    <span class="font-black text-emerald-300">7️⃣ PassportAI (17 Slides) + Kanban CRM</span>
+                    <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono text-[10px] font-bold">29:24</span>
+                  </div>
+                  <p class="text-slate-400 text-[11px]">Ahorro de $1,680/año en IAs sueltas, Slides CRM y demostración del Kanban en vivo en CRM ProsperIA (<strong>32:46</strong>).</p>
                 </div>
               </div>
             </div>
@@ -5388,6 +5423,30 @@ function setWeaponsTheme(theme) {
   }
 }
 
+function seekCloserTutorialVideo(seconds) {
+  resetToBuiltInExpressVideo();
+  const vid = document.getElementById('closer-tutorial-native-video');
+  if (vid) {
+    vid.currentTime = Number(seconds) || 0;
+    vid.play().catch(() => {});
+  }
+}
+
+function resetToBuiltInExpressVideo() {
+  localStorage.removeItem('prosper_closer_tutorial_video_url');
+  const input = document.getElementById('closer-tutorial-url-input');
+  if (input) input.value = '';
+  const vid = document.getElementById('closer-tutorial-native-video');
+  const iframe = document.getElementById('closer-tutorial-iframe');
+  if (iframe) {
+    iframe.src = '';
+    iframe.classList.add('hidden');
+  }
+  if (vid) {
+    vid.classList.remove('hidden');
+  }
+}
+
 function applyCloserTutorialVideoUrl(rawUrl) {
   const input = document.getElementById('closer-tutorial-url-input');
   const url = (rawUrl || (input ? input.value : '') || localStorage.getItem('prosper_closer_tutorial_video_url') || '').trim();
@@ -5397,23 +5456,26 @@ function applyCloserTutorialVideoUrl(rawUrl) {
 
   let embedUrl = url;
   if (url.includes('youtube.com/watch?v=')) {
-    const vid = url.split('v=')[1]?.split('&')[0];
-    if (vid) embedUrl = `https://www.youtube.com/embed/${vid}`;
+    const vidId = url.split('v=')[1]?.split('&')[0];
+    if (vidId) embedUrl = `https://www.youtube.com/embed/${vidId}`;
   } else if (url.includes('youtu.be/')) {
-    const vid = url.split('youtu.be/')[1]?.split('?')[0];
-    if (vid) embedUrl = `https://www.youtube.com/embed/${vid}`;
+    const vidId = url.split('youtu.be/')[1]?.split('?')[0];
+    if (vidId) embedUrl = `https://www.youtube.com/embed/${vidId}`;
   } else if (url.includes('loom.com/share/')) {
     embedUrl = url.replace('loom.com/share/', 'loom.com/embed/');
   } else if (url.includes('drive.google.com/file/d/')) {
-    embedUrl = url.replace('/view', '/preview');
+    embedUrl = url.replace('/view', '/preview').split('?')[0];
   }
 
-  const placeholder = document.getElementById('closer-tutorial-placeholder');
+  const nativeVideo = document.getElementById('closer-tutorial-native-video');
   const iframe = document.getElementById('closer-tutorial-iframe');
-  if (iframe && placeholder) {
+  if (iframe) {
+    if (nativeVideo) {
+      nativeVideo.pause();
+      nativeVideo.classList.add('hidden');
+    }
     iframe.src = embedUrl;
     iframe.classList.remove('hidden');
-    placeholder.classList.add('hidden');
   }
 }
 
@@ -5466,9 +5528,9 @@ function switchWeaponTab(tabKey) {
   const weaponCatalog = {
     'manual-closer': {
       title: '📘 Manual Operativo Oficial del Closer (Versión Actualizada en 7 Pasos)',
-      sub: 'Guía estándar para operar de 1 a 20 Closers: Etapa 1 vs Etapa 2+, Alta de Prospectos, WhatsApp, Demo +1,000 Plantillas, Las 3 Cajas y Comisión 15%.',
-      html: '/static/armas/MANUAL_OPERATIVO_CLOSERS_PROSPER_IA.html?v=2',
-      pdf: '/static/armas/MANUAL_OPERATIVO_CLOSERS_PROSPER_IA.html?v=2'
+      sub: 'Guía estándar para operar de 1 a 20 Closers: Etapa 1 vs Etapa 2+, Alta de Prospectos, WhatsApp, Demo +1,000 Plantillas, Las 3 Cajas (11 Slides) y Comisión 15%.',
+      html: '/static/armas/MANUAL_OPERATIVO_CLOSERS_PROSPER_IA.html?v=3',
+      pdf: '/static/armas/MANUAL_OPERATIVO_CLOSERS_PROSPER_IA.pdf'
     },
     'deck-v1': {
       title: '📦 Presentación Comercial (11 Slides: Estrella $990 · Express $497 · Máquina $1,490)',
