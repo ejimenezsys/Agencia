@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-09",
+  "slug": "costo-oculto-electricidad-ia-soberania-empresarial",
+  "title": "El talón de Aquiles energético de la IA y su impacto en la soberanía empresarial",
+  "executive_summary": "La creciente demanda de electricidad por parte de los data centers, exacerbada por el auge de la IA, se ha convertido en un cuello de botella crítico y un riesgo operacional. Esta situación eleva los costos, compromete la escalabilidad tecnológica y desafía la soberanía financiera y estratégica de las empresas que adoptan la IA, haciendo visible un 'costo invisible' hasta ahora.",
+  "verified_sources": [
+    {
+      "title": "The backlash about data centers might really just be about electricity",
+      "url": "https://www.technologyreview.com/2026/11/09/1148194/the-backlash-about-data-centers-might-really-just-be-about-electricity/"
+    }
+  ],
+  "affected_pillars": [
+    "Aumento Tecnológico",
+    "Estratégico",
+    "Financiero"
+  ],
+  "sve90_phase": "Auditoría de Procesos y Tareas",
+  "core_takeaway": "La capacidad energética de la infraestructura de IA es un factor crítico de riesgo financiero y estratégico que las empresas deben gobernar activamente, no solo como un costo operativo sino como un pilar fundamental para asegurar su soberanía y futuro."
+}
