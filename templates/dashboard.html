@@ -1780,15 +1780,15 @@
           <span>🛂</span>
           <div>
             <div>Presentación PassportAI.app</div>
-            <div style="font-size:10px; opacity:0.8;">PDF Oficial Subido + Link Vivo</div>
+            <div style="font-size:10px; opacity:0.8;">17 Láminas Interactivas + Link Vivo</div>
           </div>
         </button>
 
         <button onclick="switchWeaponTab('crm-slides')" id="wtab-crm-slides" class="weapon-nav-btn">
           <span>⚙️</span>
           <div>
-            <div>4 Slides CRM ProsperIA</div>
-            <div style="font-size:10px; opacity:0.8;">Concepto y Ventajas (Sin Precios)</div>
+            <div>8 Slides CRM ProsperIA</div>
+            <div style="font-size:10px; opacity:0.8;">Presentación Visual Ilustrada</div>
           </div>
         </button>
 
@@ -1828,180 +1828,528 @@
       <!-- COLUMNA DERECHA: VISOR AMPLIO DESDE ARRIBA SIN CORTARSE -->
       <div style="min-width:0;">
 
-        <!-- SUB-VISTA 1: PRESENTACIÓN OFICIAL DE PASSPORTAI.APP (PDF OFICIAL SUBIDO POR EDWARD) -->
+        <!-- SUB-VISTA 1: PRESENTACIÓN INTERACTIVA DE 17 LÁMINAS DE PASSPORTAI.APP (CARGADA DIRECTO DE PassportAI-app-ligero.pdf) -->
         <div id="weapon-view-passport-slides" class="space-y-3">
-          <div class="card px-5 py-3.5 flex flex-wrap items-center justify-between gap-3 border-2 border-amber-500/40" style="background:linear-gradient(135deg,#091931,#140f05);">
-            <div>
-              <div class="flex items-center gap-2">
-                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-amber-500/20 text-amber-300 border border-amber-500/40">PRESENTACIÓN OFICIAL · PASSPORTAI.APP</span>
-                <span class="text-xs text-cyan-300 font-bold">Incluido en el Pack Anual Estrella (US$990 / 2 pagos de US$495)</span>
+          <div id="passport-deck-card" class="card p-4 sm:p-6 border-2 border-amber-500/40" style="background:radial-gradient(circle at top right, rgba(245,158,11,0.16), rgba(5,13,26,0.98) 70%); min-height: calc(100vh - 145px); display:flex; flex-direction:column; justify-content:space-between;">
+            <!-- Barra Superior de Control -->
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800/90 pb-3.5">
+              <div>
+                <div class="flex flex-wrap items-center gap-2">
+                  <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-amber-500/20 text-amber-300 border border-amber-500/40">PRESENTACIÓN OFICIAL · 17 LÁMINAS HD</span>
+                  <span id="passport-slide-counter" class="px-2.5 py-0.5 rounded-full text-xs font-black bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">Slide 1 de 17</span>
+                  <span class="text-xs text-slate-400 font-semibold hidden xl:inline">Incluido en el Pack Anual Estrella (US$990 / 2 pagos de US$495)</span>
+                </div>
+                <h3 class="text-sm sm:text-base font-black text-white mt-1">🛂 Presentación Interactiva Oficial de Central Passport AI</h3>
               </div>
-              <h3 class="text-sm sm:text-base font-black text-white mt-1">🛂 Presentación Ejecutiva Oficial de Central Passport AI</h3>
+              <div class="flex flex-wrap items-center gap-2">
+                <button type="button" onclick="changeSlideDeck('passport', -1)" class="btn-ghost px-3 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-1">
+                  <i class="fas fa-chevron-left"></i> Anterior
+                </button>
+                <button type="button" onclick="changeSlideDeck('passport', 1)" class="btn-primary px-3.5 py-2 rounded-xl text-xs font-black inline-flex items-center gap-1">
+                  Siguiente <i class="fas fa-chevron-right"></i>
+                </button>
+                <button type="button" onclick="toggleDeckFullscreen('passport-deck-card')" class="px-3.5 py-2 rounded-xl text-xs font-black bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-500/40 inline-flex items-center gap-1.5">
+                  <i class="fas fa-expand"></i> ⛶ Pantalla Completa
+                </button>
+                <a href="/static/armas/PRESENTACION_OFICIAL_PASSPORTAI.pdf" download="PassportAI-Presentacion-Oficial.pdf" class="btn-ghost px-3 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-1.5 no-underline">
+                  <i class="fas fa-download text-amber-400"></i> PDF
+                </a>
+                <a href="https://passportai.app/" target="_blank" rel="noopener" class="px-3.5 py-2 rounded-xl text-xs font-black bg-amber-400 text-slate-950 hover:bg-amber-300 inline-flex items-center gap-1.5 no-underline">
+                  <i class="fas fa-external-link-alt"></i> Ir a passportai.app
+                </a>
+              </div>
             </div>
-            <div class="flex flex-wrap items-center gap-2">
-              <a href="https://assets.cdn.filesafe.space/USoTuDcjo7ZglijIyJQG/media/6af0f3644b6e00bd1b461699.pdf" target="_blank" rel="noopener" class="btn-primary px-3.5 py-2 rounded-xl text-xs font-black inline-flex items-center gap-1.5 no-underline">
-                <i class="fas fa-expand"></i> ⛶ Abrir Presentación en Pantalla Completa
-              </a>
-              <a href="/static/armas/PRESENTACION_OFICIAL_PASSPORTAI.pdf" download="Presentacion_Oficial_PassportAI.pdf" class="btn-ghost px-3.5 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-1.5 no-underline">
-                <i class="fas fa-download text-amber-400"></i> Descargar PDF
-              </a>
-              <a href="https://passportai.app/" target="_blank" rel="noopener" class="px-3.5 py-2 rounded-xl text-xs font-black bg-amber-400 text-slate-950 hover:bg-amber-300 inline-flex items-center gap-1.5 no-underline">
-                <i class="fas fa-external-link-alt"></i> Ir a https://passportai.app/
-              </a>
-            </div>
-          </div>
 
-          <div class="card overflow-hidden border-2 border-amber-500/40" style="height: calc(100vh - 185px); min-height: 780px; background:#050d1a;">
-            <iframe
-              id="passport-official-pdf-iframe"
-              src="/static/armas/PRESENTACION_OFICIAL_PASSPORTAI.pdf#view=FitH"
-              style="width:100%; height:100%; border:none; background:#050d1a;"
-              title="Presentación Oficial PassportAI.app">
-            </iframe>
+            <!-- Visor Principal de Lámina HD 16:9 sin bordes de navegador -->
+            <div class="relative my-3 flex-1 flex items-center justify-center rounded-2xl overflow-hidden border border-slate-800 bg-slate-950/90 shadow-2xl" style="min-height: 520px;">
+              <!-- Botón Flotante Izquierdo -->
+              <button type="button" onclick="changeSlideDeck('passport', -1)" title="Lámina Anterior" class="absolute left-3 z-20 w-11 h-11 rounded-full bg-slate-950/80 hover:bg-amber-400 text-white hover:text-slate-950 border border-amber-500/40 flex items-center justify-center transition shadow-lg">
+                <i class="fas fa-chevron-left"></i>
+              </button>
+
+              <!-- 17 Láminas Oficiales Renderizadas en Alta Definición -->
+              <div class="passport-slide w-full h-full flex items-center justify-center" data-slide="0"><img src="/static/img/passportai_slides/slide_1.jpg" alt="PassportAI Slide 1" class="w-full h-auto max-h-[72vh] object-contain rounded-xl select-none" /></div>
+              <div class="passport-slide hidden w-full h-full flex items-center justify-center" data-slide="1"><img src="/static/img/passportai_slides/slide_2.jpg" alt="PassportAI Slide 2" class="w-full h-auto max-h-[72vh] object-contain rounded-xl select-none" loading="lazy" /></div>
+              <div class="passport-slide hidden w-full h-full flex items-center justify-center" data-slide="2"><img src="/static/img/passportai_slides/slide_3.jpg" alt="PassportAI Slide 3" class="w-full h-auto max-h-[72vh] object-contain rounded-xl select-none" loading="lazy" /></div>
+              <div class="passport-slide hidden w-full h-full flex items-center justify-center" data-slide="3"><img src="/static/img/passportai_slides/slide_4.jpg" alt="PassportAI Slide 4" class="w-full h-auto max-h-[72vh] object-contain rounded-xl select-none" loading="lazy" /></div>
+              <div class="passport-slide hidden w-full h-full flex items-center justify-center" data-slide="4"><img src="/static/img/passportai_slides/slide_5.jpg" alt="PassportAI Slide 5" class="w-full h-auto max-h-[72vh] object-contain rounded-xl select-none" loading="lazy" /></div>
+              <div class="passport-slide hidden w-full h-full flex items-center justify-center" data-slide="5"><img src="/static/img/passportai_slides/slide_6.jpg" alt="PassportAI Slide 6" class="w-full h-auto max-h-[72vh] object-contain rounded-xl select-none" loading="lazy" /></div>
+              <div class="passport-slide hidden w-full h-full flex items-center justify-center" data-slide="6"><img src="/static/img/passportai_slides/slide_7.jpg" alt="PassportAI Slide 7" class="w-full h-auto max-h-[72vh] object-contain rounded-xl select-none" loading="lazy" /></div>
+              <div class="passport-slide hidden w-full h-full flex items-center justify-center" data-slide="7"><img src="/static/img/passportai_slides/slide_8.jpg" alt="PassportAI Slide 8" class="w-full h-auto max-h-[72vh] object-contain rounded-xl select-none" loading="lazy" /></div>
+              <div class="passport-slide hidden w-full h-full flex items-center justify-center" data-slide="8"><img src="/static/img/passportai_slides/slide_9.jpg" alt="PassportAI Slide 9" class="w-full h-auto max-h-[72vh] object-contain rounded-xl select-none" loading="lazy" /></div>
+              <div class="passport-slide hidden w-full h-full flex items-center justify-center" data-slide="9"><img src="/static/img/passportai_slides/slide_10.jpg" alt="PassportAI Slide 10" class="w-full h-auto max-h-[72vh] object-contain rounded-xl select-none" loading="lazy" /></div>
+              <div class="passport-slide hidden w-full h-full flex items-center justify-center" data-slide="10"><img src="/static/img/passportai_slides/slide_11.jpg" alt="PassportAI Slide 11" class="w-full h-auto max-h-[72vh] object-contain rounded-xl select-none" loading="lazy" /></div>
+              <div class="passport-slide hidden w-full h-full flex items-center justify-center" data-slide="11"><img src="/static/img/passportai_slides/slide_12.jpg" alt="PassportAI Slide 12" class="w-full h-auto max-h-[72vh] object-contain rounded-xl select-none" loading="lazy" /></div>
+              <div class="passport-slide hidden w-full h-full flex items-center justify-center" data-slide="12"><img src="/static/img/passportai_slides/slide_13.jpg" alt="PassportAI Slide 13" class="w-full h-auto max-h-[72vh] object-contain rounded-xl select-none" loading="lazy" /></div>
+              <div class="passport-slide hidden w-full h-full flex items-center justify-center" data-slide="13"><img src="/static/img/passportai_slides/slide_14.jpg" alt="PassportAI Slide 14" class="w-full h-auto max-h-[72vh] object-contain rounded-xl select-none" loading="lazy" /></div>
+              <div class="passport-slide hidden w-full h-full flex items-center justify-center" data-slide="14"><img src="/static/img/passportai_slides/slide_15.jpg" alt="PassportAI Slide 15" class="w-full h-auto max-h-[72vh] object-contain rounded-xl select-none" loading="lazy" /></div>
+              <div class="passport-slide hidden w-full h-full flex items-center justify-center" data-slide="15"><img src="/static/img/passportai_slides/slide_16.jpg" alt="PassportAI Slide 16" class="w-full h-auto max-h-[72vh] object-contain rounded-xl select-none" loading="lazy" /></div>
+              <div class="passport-slide hidden w-full h-full flex items-center justify-center" data-slide="16"><img src="/static/img/passportai_slides/slide_17.jpg" alt="PassportAI Slide 17" class="w-full h-auto max-h-[72vh] object-contain rounded-xl select-none" loading="lazy" /></div>
+
+              <!-- Botón Flotante Derecho -->
+              <button type="button" onclick="changeSlideDeck('passport', 1)" title="Siguiente Lámina" class="absolute right-3 z-20 w-11 h-11 rounded-full bg-slate-950/80 hover:bg-amber-400 text-white hover:text-slate-950 border border-amber-500/40 flex items-center justify-center transition shadow-lg">
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
+
+            <!-- Barra Inferior de Salto Rápido a las 17 Láminas -->
+            <div class="flex flex-wrap items-center justify-between gap-3 border-t border-slate-800/90 pt-3">
+              <button type="button" onclick="changeSlideDeck('passport', -1)" class="btn-ghost px-4 py-2 rounded-xl text-xs font-bold">
+                <i class="fas fa-arrow-left mr-1"></i> Lámina Anterior
+              </button>
+              <div class="flex flex-wrap items-center justify-center gap-1.5">
+                <button type="button" onclick="changeSlideDeck('passport', 0, true)" id="passport-dot-0" class="w-7 h-7 rounded-lg text-[11px] font-black bg-amber-400 text-slate-950">1</button>
+                <button type="button" onclick="changeSlideDeck('passport', 1, true)" id="passport-dot-1" class="w-7 h-7 rounded-lg text-[11px] font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">2</button>
+                <button type="button" onclick="changeSlideDeck('passport', 2, true)" id="passport-dot-2" class="w-7 h-7 rounded-lg text-[11px] font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">3</button>
+                <button type="button" onclick="changeSlideDeck('passport', 3, true)" id="passport-dot-3" class="w-7 h-7 rounded-lg text-[11px] font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">4</button>
+                <button type="button" onclick="changeSlideDeck('passport', 4, true)" id="passport-dot-4" class="w-7 h-7 rounded-lg text-[11px] font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">5</button>
+                <button type="button" onclick="changeSlideDeck('passport', 5, true)" id="passport-dot-5" class="w-7 h-7 rounded-lg text-[11px] font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">6</button>
+                <button type="button" onclick="changeSlideDeck('passport', 6, true)" id="passport-dot-6" class="w-7 h-7 rounded-lg text-[11px] font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">7</button>
+                <button type="button" onclick="changeSlideDeck('passport', 7, true)" id="passport-dot-7" class="w-7 h-7 rounded-lg text-[11px] font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">8</button>
+                <button type="button" onclick="changeSlideDeck('passport', 8, true)" id="passport-dot-8" class="w-7 h-7 rounded-lg text-[11px] font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">9</button>
+                <button type="button" onclick="changeSlideDeck('passport', 9, true)" id="passport-dot-9" class="w-7 h-7 rounded-lg text-[11px] font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">10</button>
+                <button type="button" onclick="changeSlideDeck('passport', 10, true)" id="passport-dot-10" class="w-7 h-7 rounded-lg text-[11px] font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">11</button>
+                <button type="button" onclick="changeSlideDeck('passport', 11, true)" id="passport-dot-11" class="w-7 h-7 rounded-lg text-[11px] font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">12</button>
+                <button type="button" onclick="changeSlideDeck('passport', 12, true)" id="passport-dot-12" class="w-7 h-7 rounded-lg text-[11px] font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">13</button>
+                <button type="button" onclick="changeSlideDeck('passport', 13, true)" id="passport-dot-13" class="w-7 h-7 rounded-lg text-[11px] font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">14</button>
+                <button type="button" onclick="changeSlideDeck('passport', 14, true)" id="passport-dot-14" class="w-7 h-7 rounded-lg text-[11px] font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">15</button>
+                <button type="button" onclick="changeSlideDeck('passport', 15, true)" id="passport-dot-15" class="w-7 h-7 rounded-lg text-[11px] font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">16</button>
+                <button type="button" onclick="changeSlideDeck('passport', 16, true)" id="passport-dot-16" class="w-7 h-7 rounded-lg text-[11px] font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">17</button>
+              </div>
+              <button type="button" onclick="changeSlideDeck('passport', 1)" class="btn-primary px-4 py-2 rounded-xl text-xs font-black">
+                Siguiente Lámina <i class="fas fa-arrow-right ml-1"></i>
+              </button>
+            </div>
           </div>
         </div>
 
-        <!-- SUB-VISTA 2: 4 SLIDES DE CONCEPTO Y VENTAJAS DEL CRM PROSPERIA (100% LENGUAJE DE DUEÑO DE NEGOCIO, SIN PRECIOS NI TECNICISMOS) -->
+        <!-- SUB-VISTA 2: 8 SLIDES VISUALES E ILUSTRADOS DEL CRM PROSPERIA (CON CAPTURAS REALES E IMÁGENES ATRACTIVAS EN CADA SLIDE) -->
         <div id="weapon-view-crm-slides" class="hidden space-y-4">
-          <div id="crm-deck-card" class="card p-6 sm:p-8 border-2 border-cyan-500/40" style="background:radial-gradient(circle at top right, rgba(0,229,255,0.14), rgba(5,13,26,0.98) 65%); min-height: calc(100vh - 150px); display:flex; flex-direction:column; justify-content:space-between;">
+          <div id="crm-deck-card" class="card p-6 sm:p-8 border-2 border-cyan-500/40" style="background:radial-gradient(circle at top right, rgba(0,229,255,0.14), rgba(5,13,26,0.98) 65%); min-height: calc(100vh - 145px); display:flex; flex-direction:column; justify-content:space-between;">
             <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-4">
-              <div class="flex items-center gap-2">
-                <span class="px-3 py-1 rounded-full text-xs font-black uppercase bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">CRM PROSPER IA — ¿QUÉ ES Y QUÉ VENTAJAS TIENE PARA TU NEGOCIO?</span>
-                <span id="crm-slide-counter" class="text-xs font-bold text-slate-400">Slide 1 de 4</span>
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="px-3 py-1 rounded-full text-xs font-black uppercase bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">CRM PROSPER IA — PRESENTACIÓN EJECUTIVA VISUAL (8 LÁMINAS)</span>
+                <span id="crm-slide-counter" class="px-2.5 py-1 rounded-full text-xs font-black bg-amber-500/20 text-amber-300 border border-amber-500/40">Slide 1 de 8</span>
               </div>
-              <div class="flex gap-2">
-                <button onclick="showSection('automations')" class="btn-ghost px-3.5 py-2 rounded-xl text-xs font-bold text-cyan-300 border-cyan-500/30">
-                  <i class="fas fa-robot mr-1"></i> Ver Simulador de Flujos en Vivo
+              <div class="flex flex-wrap items-center gap-2">
+                <button type="button" onclick="changeSlideDeck('crm', -1)" class="btn-ghost px-3 py-2 rounded-xl text-xs font-bold">
+                  <i class="fas fa-chevron-left"></i> Anterior
+                </button>
+                <button type="button" onclick="changeSlideDeck('crm', 1)" class="btn-primary px-3.5 py-2 rounded-xl text-xs font-black">
+                  Siguiente <i class="fas fa-chevron-right"></i>
+                </button>
+                <button type="button" onclick="toggleDeckFullscreen('crm-deck-card')" class="px-3.5 py-2 rounded-xl text-xs font-black bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-cyan-500/40 inline-flex items-center gap-1.5">
+                  <i class="fas fa-expand"></i> ⛶ Pantalla Completa
+                </button>
+                <button type="button" onclick="showSection('automations')" class="btn-ghost px-3.5 py-2 rounded-xl text-xs font-bold text-cyan-300 border-cyan-500/30">
+                  <i class="fas fa-robot mr-1"></i> Simulador en Vivo
                 </button>
               </div>
             </div>
 
-            <div class="my-auto py-6">
-              <!-- SLIDE 1 / 4 -->
+            <div class="my-auto py-5">
+              <!-- SLIDE 1 / 8: ¿QUÉ ES EL CRM PROSPERIA? CENTRO DE COMANDO -->
               <div class="crm-slide" data-slide="0">
-                <div class="text-xs font-black uppercase tracking-widest text-cyan-400 mb-3">SLIDE 1 / 4 · ¿QUÉ ES EL CRM PROSPER IA EN LENGUAJE SENCILLO?</div>
-                <h3 class="text-2xl sm:text-4xl font-black text-white leading-tight mb-5">Es el Centro de Control de tu Negocio para que Ningún Cliente se Pierda en el Olvido</h3>
-                <p class="text-base text-slate-200 leading-relaxed mb-5">
-                  Hoy la mayoría de los dueños de negocio tienen sus clientes regados en libretas, hojas de Excel o enterrados en el WhatsApp personal de sus empleados. <strong>El CRM Prosper IA es una sola pantalla inteligente (en tu computadora y en tu celular)</strong> donde se guardan automáticamente todas las personas que preguntan por tus servicios, su historial de pláticas, sus citas y sus pagos.
-                </p>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
-                  <div class="p-4 rounded-2xl bg-rose-500/10 border border-rose-500/30">
-                    <div class="text-rose-400 font-black text-sm">❌ Sin CRM Prosper IA</div>
-                    <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">Los mensajes se quedan "en visto", no sabes a quién ya le dieron precio y si un vendedor se va, se lleva tus contactos en su teléfono.</p>
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                  <div class="lg:col-span-7 space-y-4">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/15 border border-cyan-500/30 text-xs font-black uppercase tracking-wider text-cyan-300">
+                      <span>🏛️ SLIDE 1 / 8</span> · EL CENTRO DE CONTROL DE TU NEGOCIO
+                    </div>
+                    <h3 class="text-2xl sm:text-4xl font-black text-white leading-tight">
+                      Deja de Perder Clientes en Libretas, Excel o el WhatsApp Personal de tus Vendedores
+                    </h3>
+                    <p class="text-sm sm:text-base text-slate-200 leading-relaxed">
+                      <strong>El CRM Prosper IA es una sola pantalla inteligente (en tu computadora y en tu celular)</strong> donde se registran automáticamente todas las personas que preguntan por tus servicios, su historial de pláticas, sus citas y sus pagos.
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div class="p-3.5 rounded-2xl bg-rose-500/10 border border-rose-500/30">
+                        <div class="text-rose-400 font-black text-xs uppercase">❌ El Caos Tradicional</div>
+                        <p class="text-xs text-slate-300 mt-1 leading-relaxed">Mensajes "en visto", cotizaciones olvidadas y si un vendedor se va de tu empresa, se lleva tus clientes en su teléfono.</p>
+                      </div>
+                      <div class="p-3.5 rounded-2xl bg-emerald-500/10 border border-emerald-500/30">
+                        <div class="text-emerald-300 font-black text-xs uppercase">✅ Con CRM Prosper IA</div>
+                        <p class="text-xs text-slate-300 mt-1 leading-relaxed">Base de datos blindada a nombre de tu negocio: sabes cuántos prospectos entraron hoy y cuánto dinero está por cerrarse.</p>
+                      </div>
+                    </div>
+                    <div class="p-3.5 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-xs sm:text-sm text-cyan-200 leading-relaxed">
+                      🎙️ <strong>Guion para el Closer:</strong> <em>"Imagina que el CRM Prosper IA es la memoria infalible de tu empresa. En lugar de tener chats revueltos en celulares personales, aquí tienes a cada cliente ordenado desde que pide informes hasta que te paga."</em>
+                    </div>
                   </div>
-                  <div class="p-4 rounded-2xl bg-cyan-500/10 border border-cyan-500/30">
-                    <div class="text-cyan-300 font-black text-sm">✅ Con CRM Prosper IA</div>
-                    <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">Cada interesado queda registrado al instante con su nombre, teléfono, qué servicio busca y en qué paso de la compra va.</p>
+                  <div class="lg:col-span-5">
+                    <div class="rounded-2xl overflow-hidden border-2 border-cyan-500/40 bg-slate-950 shadow-2xl">
+                      <div class="px-4 py-2 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
+                        <span class="text-[11px] font-black text-cyan-300 uppercase">🖥️ Vista Real · Centro de Control CRM ProsperIA</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold">En Vivo 24/7</span>
+                      </div>
+                      <img src="/static/img/crm_slides/crm_command_center.jpg" alt="Centro de Comando CRM ProsperIA" class="w-full h-72 sm:h-80 object-cover object-left-top" />
+                      <div class="p-3 bg-slate-900/95 text-xs text-slate-300 flex items-center justify-between">
+                        <span>📌 Panel unificado: Contactos, Oportunidades, Calendarios y Sitios Web</span>
+                        <span class="text-cyan-400 font-bold">100% Tuyo</span>
+                      </div>
+                    </div>
                   </div>
-                  <div class="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30">
-                    <div class="text-emerald-300 font-black text-sm">📱 Control desde tu Celular</div>
-                    <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">En 10 segundos ves cuántos clientes nuevos entraron hoy, cuántas citas hay agendadas y cuánto dinero está por cerrarse.</p>
-                  </div>
-                </div>
-                <div class="p-4 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-sm text-cyan-200 leading-relaxed">
-                  🎙️ <strong>Guion para que el Closer solo lea:</strong> <em>"Imagina que el CRM Prosper IA es la memoria infalible de tu empresa. En lugar de tener los chats revueltos en el celular personal, aquí tienes a cada cliente ordenado desde que pide informes hasta que te paga."</em>
                 </div>
               </div>
 
-              <!-- SLIDE 2 / 4 -->
+              <!-- SLIDE 2 / 8: BANDEJA ÚNICA OMNICANAL -->
               <div class="crm-slide hidden" data-slide="1">
-                <div class="text-xs font-black uppercase tracking-widest text-amber-400 mb-3">SLIDE 2 / 4 · TODOS TUS CANALES UNIDOS EN UN SOLO LUGAR</div>
-                <h3 class="text-2xl sm:text-4xl font-black text-white leading-tight mb-5">WhatsApp, Instagram, Facebook, Correo y tu Sitio Web conectados en una sola bandeja</h3>
-                <p class="text-base text-slate-200 leading-relaxed mb-5">
-                  Ya no tienes que abrir cinco aplicaciones distintas para contestarle a tus clientes. Todo mensaje que entra por tus redes sociales, tu WhatsApp o tu Sitio Web Inteligente llega directamente al <strong>CRM Prosper IA</strong> y es atendido de inmediato las 24 horas.
-                </p>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-                  <div class="p-5 rounded-2xl bg-slate-900/90 border border-slate-800">
-                    <div class="text-cyan-400 font-black text-base">💬 1. Bandeja Única de Mensajes</div>
-                    <p class="text-sm text-slate-300 mt-2 leading-relaxed">Responde WhatsApp, Instagram y Facebook desde un mismo lugar sin cambiar de teléfono ni perder conversaciones.</p>
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                  <div class="lg:col-span-7 space-y-4">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 text-xs font-black uppercase tracking-wider text-amber-300">
+                      <span>💬 SLIDE 2 / 8</span> · BANDEJA ÚNICA OMNICANAL
+                    </div>
+                    <h3 class="text-2xl sm:text-4xl font-black text-white leading-tight">
+                      WhatsApp, Instagram, Facebook, SMS y Correo Unidos en Una Sola Conversación
+                    </h3>
+                    <p class="text-sm sm:text-base text-slate-200 leading-relaxed">
+                      Ya no tienes que saltar entre 5 teléfonos o aplicaciones distintas. Todo mensaje que entra por tus redes sociales, tu WhatsApp o tu Sitio Web Inteligente llega a la <strong>Bandeja Única de Conversaciones</strong> con toda la ficha del cliente a la vista.
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                      <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800">
+                        <div class="text-emerald-400 font-black text-xs">📲 WhatsApp + Redes</div>
+                        <p class="text-xs text-slate-300 mt-1">Responde WhatsApp, Instagram DM y Messenger desde la misma ventana.</p>
+                      </div>
+                      <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800">
+                        <div class="text-cyan-400 font-black text-xs">✉️ SMS + Email</div>
+                        <p class="text-xs text-slate-300 mt-1">Envía cotizaciones por correo o recordatorios por SMS con 1 clic en el mismo hilo.</p>
+                      </div>
+                      <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800">
+                        <div class="text-amber-400 font-black text-xs">🗂️ Historial Completo</div>
+                        <p class="text-xs text-slate-300 mt-1">Mira qué cita agendó, en qué etapa va y qué notas dejó tu equipo.</p>
+                      </div>
+                    </div>
+                    <div class="p-3.5 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-xs sm:text-sm text-cyan-200 leading-relaxed">
+                      🎙️ <strong>Guion para el Closer:</strong> <em>"Mira esta pantalla real del CRM: en una sola vista tienes el expediente del cliente y abajo eliges con un clic si le contestas por WhatsApp, SMS o Correo Electrónico sin perder el hilo jamás."</em>
+                    </div>
                   </div>
-                  <div class="p-5 rounded-2xl bg-slate-900/90 border border-slate-800">
-                    <div class="text-amber-400 font-black text-base">🤖 2. Recepcionista IA 24/7</div>
-                    <p class="text-sm text-slate-300 mt-2 leading-relaxed">Si un cliente escribe el domingo a las 10:00 PM, el asistente le responde en segundos, resuelve sus dudas y le toma sus datos.</p>
+                  <div class="lg:col-span-5">
+                    <div class="rounded-2xl overflow-hidden border-2 border-amber-500/40 bg-slate-950 shadow-2xl">
+                      <div class="px-4 py-2 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
+                        <span class="text-[11px] font-black text-amber-300 uppercase">💬 Vista Real · Bandeja Omnicanal (WhatsApp / SMS / Email)</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-bold">Multicanal</span>
+                      </div>
+                      <img src="/static/img/crm_slides/crm_inbox_omnicanal.jpg" alt="Bandeja Omnicanal CRM ProsperIA" class="w-full h-72 sm:h-80 object-cover object-top" />
+                      <div class="p-3 bg-slate-900/95 text-xs text-slate-300 flex items-center justify-between">
+                        <span>📌 Citas, oportunidades y chats de WhatsApp/Email en un solo hilo</span>
+                        <span class="text-amber-400 font-bold">Cero Fugas</span>
+                      </div>
+                    </div>
                   </div>
-                  <div class="p-5 rounded-2xl bg-slate-900/90 border border-slate-800">
-                    <div class="text-emerald-400 font-black text-base">🗂️ 3. Ficha Completa del Cliente</div>
-                    <p class="text-sm text-slate-300 mt-2 leading-relaxed">Cualquier persona de tu equipo puede ver qué pidió el cliente, qué se le ofreció y qué notas importantes tiene.</p>
-                  </div>
-                </div>
-                <div class="mt-6 p-4 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-sm text-cyan-200 leading-relaxed">
-                  🎙️ <strong>Guion para que el Closer solo lea:</strong> <em>"El 78% de las personas le compra al primero que le contesta con claridad. Con el CRM Prosper IA unificas todos tus mensajes y contestas en segundos aunque estés en consulta, en obra o descansando."</em>
                 </div>
               </div>
 
-              <!-- SLIDE 3 / 4 -->
+              <!-- SLIDE 3 / 8: EMBUDO VISUAL DE VENTAS (PIPELINE KANBAN) -->
               <div class="crm-slide hidden" data-slide="2">
-                <div class="text-xs font-black uppercase tracking-widest text-emerald-400 mb-3">SLIDE 3 / 4 · ORDEN VISUAL Y AGENDA AUTOMÁTICA ANTI-PLANTONES</div>
-                <h3 class="text-2xl sm:text-4xl font-black text-white leading-tight mb-5">Sabes exactamente en qué paso está cada cliente y evitas que falten a sus citas</h3>
-                <p class="text-base text-slate-200 leading-relaxed mb-5">
-                  El <strong>CRM Prosper IA</strong> organiza a tus interesados en columnas visuales muy fáciles de usar (<em>Nuevo Interesado &rarr; Contactado &rarr; Cita Agendada &rarr; Propuesta &rarr; Cliente Pagado</em>) y se encarga de recordarles su cita automáticamente.
-                </p>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-                  <div class="p-5 rounded-2xl bg-slate-900/90 border border-slate-800">
-                    <div class="text-cyan-400 font-black text-base">📊 Tablero Visual de Ventas</div>
-                    <p class="text-sm text-slate-300 mt-2 leading-relaxed">De un vistazo ves quién pidió informes hoy, quién tiene cita mañana y quién está listo para pagar.</p>
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                  <div class="lg:col-span-7 space-y-4">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-xs font-black uppercase tracking-wider text-emerald-300">
+                      <span>📊 SLIDE 3 / 8</span> · EMBUDO VISUAL DE OPORTUNIDADES (PIPELINE)
+                    </div>
+                    <h3 class="text-2xl sm:text-4xl font-black text-white leading-tight">
+                      Radiografía Financiera en Tiempo Real: Sabes en Qué Paso Está Cada Prospecto
+                    </h3>
+                    <p class="text-sm sm:text-base text-slate-200 leading-relaxed">
+                      El <strong>CRM Prosper IA</strong> organiza tus ventas como un tablero de control por columnas (<em>Nuevo Interesado &rarr; Primer Contacto &rarr; Cita Agendada &rarr; Propuesta Enviada &rarr; Venta Cerrada</em>) mostrando el valor en dólares de cada oportunidad.
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                      <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800">
+                        <div class="text-cyan-400 font-black text-xs">🎯 Visibilidad en 5 Segundos</div>
+                        <p class="text-xs text-slate-300 mt-1">Detecta de inmediato quién pidió precio ayer y necesita llamada de cierre hoy.</p>
+                      </div>
+                      <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800">
+                        <div class="text-emerald-400 font-black text-xs">💰 Dinero en la Mesa</div>
+                        <p class="text-xs text-slate-300 mt-1">Suma automática de cuánto dinero tienes en cotizaciones activas por cerrar esta semana.</p>
+                      </div>
+                      <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800">
+                        <div class="text-amber-400 font-black text-xs">👥 Control de Vendedores</div>
+                        <p class="text-xs text-slate-300 mt-1">Asigna prospectos a cada miembro de tu equipo y mide su tasa de cierre real.</p>
+                      </div>
+                    </div>
+                    <div class="p-3.5 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-xs sm:text-sm text-cyan-200 leading-relaxed">
+                      🎙️ <strong>Guion para el Closer:</strong> <em>"El 80% de las ventas requieren seguimiento. Con este tablero visual jamás se te vuelve a enfriar un cliente que dijo 'márcame el viernes', porque lo tienes frente a tus ojos con monto y responsable."</em>
+                    </div>
                   </div>
-                  <div class="p-5 rounded-2xl bg-slate-900/90 border border-slate-800">
-                    <div class="text-emerald-400 font-black text-base">📅 Recordatorios por WhatsApp</div>
-                    <p class="text-sm text-slate-300 mt-2 leading-relaxed">El sistema le avisa al cliente 24 horas y 1 hora antes de su cita para que confirme y no te deje plantado.</p>
+                  <div class="lg:col-span-5">
+                    <div class="rounded-2xl overflow-hidden border-2 border-emerald-500/40 bg-slate-950 shadow-2xl">
+                      <div class="px-4 py-2 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
+                        <span class="text-[11px] font-black text-emerald-300 uppercase">📊 Vista Real · Embudo de Ventas y Seguimiento</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold">Pipeline Activo</span>
+                      </div>
+                      <img src="/static/img/crm_slides/crm_pipeline_kanban.jpg" alt="Pipeline de Ventas CRM ProsperIA" class="w-full h-72 sm:h-80 object-cover object-top" />
+                      <div class="p-3 bg-slate-900/95 text-xs text-slate-300 flex items-center justify-between">
+                        <span>📌 Control etapa por etapa desde el primer clic hasta el pago</span>
+                        <span class="text-emerald-400 font-bold">+40% Cierres</span>
+                      </div>
+                    </div>
                   </div>
-                  <div class="p-5 rounded-2xl bg-slate-900/90 border border-slate-800">
-                    <div class="text-amber-400 font-black text-base">🔄 Seguimiento sin Olvidos</div>
-                    <p class="text-sm text-slate-300 mt-2 leading-relaxed">Si alguien pidió precio pero no agendó, el sistema le da seguimiento amable para recuperar esa venta.</p>
-                  </div>
-                </div>
-                <div class="mt-6 p-4 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-sm text-cyan-200 leading-relaxed">
-                  🎙️ <strong>Guion para que el Closer solo lea:</strong> <em>"La mayoría de las ventas se pierden porque nadie volvió a escribirle al cliente que dijo 'luego te aviso'. El CRM Prosper IA hace ese seguimiento por ti y confirma cada cita automáticamente."</em>
                 </div>
               </div>
 
-              <!-- SLIDE 4 / 4 -->
+              <!-- SLIDE 4 / 8: AGENDA INTELIGENTE MULTI-CALENDARIO Y ANTI-PLANTONES -->
               <div class="crm-slide hidden" data-slide="3">
-                <div class="text-xs font-black uppercase tracking-widest text-amber-400 mb-3">SLIDE 4 / 4 · LAS 6 VENTAJAS CLAVE DEL CRM PROSPER IA PARA TU EMPRESA</div>
-                <h3 class="text-2xl sm:text-4xl font-black text-white leading-tight mb-5">Por qué los negocios que usan CRM Prosper IA venden más con menos estrés</h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-                  <div class="p-4 rounded-2xl bg-slate-900/90 border border-cyan-500/30">
-                    <div class="text-sm font-black text-cyan-300">1. Cero Clientes Olvidados</div>
-                    <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">Ningún mensaje se pierde entre chats personales ni se queda sin contestar en horarios nocturnos o fines de semana.</p>
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                  <div class="lg:col-span-7 space-y-4">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/15 border border-cyan-500/30 text-xs font-black uppercase tracking-wider text-cyan-300">
+                      <span>📅 SLIDE 4 / 8</span> · AGENDA AUTOMÁTICA ANTI-PLANTONES
+                    </div>
+                    <h3 class="text-2xl sm:text-4xl font-black text-white leading-tight">
+                      Tus Clientes Agendan Solos 24/7 y el Sistema Les Recuerda su Cita por WhatsApp
+                    </h3>
+                    <p class="text-sm sm:text-base text-slate-200 leading-relaxed">
+                      Olvídate de perder media hora preguntando <em>"¿a qué hora puedes?"</em>. Tu calendario inteligente muestra solo tus horarios disponibles, bloquea choques de agenda y dispara recordatorios automáticos para que el cliente sí asista.
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                      <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800">
+                        <div class="text-cyan-400 font-black text-xs">🗓️ Sincronización Google/Outlook</div>
+                        <p class="text-xs text-slate-300 mt-1">Se conecta con el celular del doctor, abogado, consultor o vendedor en tiempo real.</p>
+                      </div>
+                      <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800">
+                        <div class="text-emerald-400 font-black text-xs">🔔 Alertas 24h y 1h Antes</div>
+                        <p class="text-xs text-slate-300 mt-1">Envía confirmación automática por WhatsApp y correo para reducir plantones hasta en 80%.</p>
+                      </div>
+                      <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800">
+                        <div class="text-amber-400 font-black text-xs">🔄 Re-Agendado Inteligente</div>
+                        <p class="text-xs text-slate-300 mt-1">Si alguien no puede asistir, reprograma en 1 clic sin dejar huecos vacíos en tu día.</p>
+                      </div>
+                    </div>
+                    <div class="p-3.5 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-xs sm:text-sm text-cyan-200 leading-relaxed">
+                      🎙️ <strong>Guion para el Closer:</strong> <em>"¿Cuánto dinero pierde hoy tu negocio cada vez que un cliente agenda y no llega? El CRM Prosper IA confirma cada cita automáticamente 24 horas y 1 hora antes para proteger tu tiempo."</em>
+                    </div>
                   </div>
-                  <div class="p-4 rounded-2xl bg-slate-900/90 border border-amber-500/30">
-                    <div class="text-sm font-black text-amber-300">2. Tus Contactos son Tuyos</div>
-                    <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">La base de datos pertenece a tu negocio. Si cambias de recepcionista o vendedor, toda la información se queda en casa.</p>
-                  </div>
-                  <div class="p-4 rounded-2xl bg-slate-900/90 border border-emerald-500/30">
-                    <div class="text-sm font-black text-emerald-300">3. Más Asistencia a tus Citas</div>
-                    <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">Las confirmaciones automáticas por WhatsApp reducen drásticamente las inasistencias y cancelaciones de último minuto.</p>
-                  </div>
-                  <div class="p-4 rounded-2xl bg-slate-900/90 border border-cyan-500/30">
-                    <div class="text-sm font-black text-cyan-300">4. Reactivación de Clientes Antiguos</div>
-                    <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">Puedes enviar promociones o avisos a cientos de clientes anteriores en minutos para generar flujo de caja inmediato.</p>
-                  </div>
-                  <div class="p-4 rounded-2xl bg-slate-900/90 border border-amber-500/30">
-                    <div class="text-sm font-black text-amber-300">5. Supervisión de tu Equipo</div>
-                    <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">Sabes con exactitud en cuánto tiempo contestan tus vendedores, cuántas llamadas hacen y cuántas ventas cierran.</p>
-                  </div>
-                  <div class="p-4 rounded-2xl bg-slate-900/90 border border-emerald-500/30">
-                    <div class="text-sm font-black text-emerald-300">6. Fácil de Usar desde el Día 1</div>
-                    <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">Nosotros te lo entregamos 100% configurado y conectado a tu Sitio Web Inteligente para que solo atiendas clientes calificados.</p>
+                  <div class="lg:col-span-5">
+                    <div class="rounded-2xl overflow-hidden border-2 border-cyan-500/40 bg-slate-950 shadow-2xl">
+                      <div class="px-4 py-2 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
+                        <span class="text-[11px] font-black text-cyan-300 uppercase">📅 Vista Real · Calendarios y Agendamiento CRM</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold">Anti No-Show</span>
+                      </div>
+                      <img src="/static/img/crm_slides/crm_calendar_settings.jpg" alt="Calendarios Inteligentes CRM ProsperIA" class="w-full h-72 sm:h-80 object-cover object-top" />
+                      <div class="p-3 bg-slate-900/95 text-xs text-slate-300 flex items-center justify-between">
+                        <span>📌 Calendarios personales y de equipo con recordatorios automáticos</span>
+                        <span class="text-cyan-400 font-bold">24/7 Activo</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div class="mt-6 p-4 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-sm text-cyan-200 leading-relaxed">
-                  🎙️ <strong>Guion para que el Closer solo lea:</strong> <em>"En resumen: el CRM Prosper IA te da orden total, velocidad de respuesta 24/7 y la tranquilidad de que tu negocio sigue captando y agendando clientes todos los días."</em>
+              </div>
+
+              <!-- SLIDE 5 / 8: CONSTRUCTOR WEB Y BIBLIOTECA DE +1,000 PLANTILLAS -->
+              <div class="crm-slide hidden" data-slide="4">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                  <div class="lg:col-span-7 space-y-4">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 text-xs font-black uppercase tracking-wider text-amber-300">
+                      <span>🌐 SLIDE 5 / 8</span> · CONSTRUCTOR WEB + BIBLIOTECA DE +1,000 PLANTILLAS
+                    </div>
+                    <h3 class="text-2xl sm:text-4xl font-black text-white leading-tight">
+                      Sitios Web y Embudos de Alta Conversión Listos para Tu Giro de Negocio
+                    </h3>
+                    <p class="text-sm sm:text-base text-slate-200 leading-relaxed">
+                      Dentro del <strong>CRM Prosper IA</strong> tienes acceso a un constructor visual y a <strong>más de 1,000 plantillas profesionales por industria</strong> (Salud, Inmobiliaria, Legal, Belleza, Restaurantes, Automotriz, Servicios y más) conectadas nativamente a tu base de datos.
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                      <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800">
+                        <div class="text-amber-400 font-black text-xs">🎨 +1,000 Diseños Listos</div>
+                        <p class="text-xs text-slate-300 mt-1">Páginas modernas probadas para convertir visitantes curiosos en citas reales.</p>
+                      </div>
+                      <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800">
+                        <div class="text-cyan-400 font-black text-xs">⚡ Conectado al Instante</div>
+                        <p class="text-xs text-slate-300 mt-1">Cada formulario y botón de tu web inyecta al prospecto directo en tu CRM en 1 segundo.</p>
+                      </div>
+                      <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800">
+                        <div class="text-emerald-400 font-black text-xs">💸 Sin Pagar Hosting Extra</div>
+                        <p class="text-xs text-slate-300 mt-1">Alojamiento ultrarrápido de páginas y embudos ilimitados dentro del mismo ecosistema.</p>
+                      </div>
+                    </div>
+                    <div class="p-3.5 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-xs sm:text-sm text-cyan-200 leading-relaxed">
+                      🎙️ <strong>Guion para el Closer:</strong> <em>"Una página web bonita que no está conectada a un CRM es un folleto mudo. Aquí tu sitio web y tus más de 1,000 plantillas trabajan como un imán que captura y agenda prospectos automáticamente."</em>
+                    </div>
+                  </div>
+                  <div class="lg:col-span-5">
+                    <div class="rounded-2xl overflow-hidden border-2 border-amber-500/40 bg-slate-950 shadow-2xl">
+                      <div class="px-4 py-2 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
+                        <span class="text-[11px] font-black text-amber-300 uppercase">🌐 Vista Real · Biblioteca +1,000 Plantillas Web en CRM</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold">+1,000 Nichos</span>
+                      </div>
+                      <img src="/static/img/crm_biblioteca_plantillas.jpg" alt="Biblioteca de 1000 Plantillas CRM ProsperIA" class="w-full h-72 sm:h-80 object-cover object-top" />
+                      <div class="p-3 bg-slate-900/95 text-xs text-slate-300 flex items-center justify-between">
+                        <span>📌 Salud, Belleza, Inmobiliaria, Legal, Finanzas, Coaching y más</span>
+                        <span class="text-amber-400 font-bold">Incluido</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- SLIDE 6 / 8: MOTOR DE PLANTILLAS WHATSAPP MARKETING Y REACTIVACIÓN -->
+              <div class="crm-slide hidden" data-slide="5">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                  <div class="lg:col-span-7 space-y-4">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-xs font-black uppercase tracking-wider text-emerald-300">
+                      <span>🚀 SLIDE 6 / 8</span> · PLANTILLAS OFICIALES DE WHATSAPP & REACTIVACIÓN
+                    </div>
+                    <h3 class="text-2xl sm:text-4xl font-black text-white leading-tight">
+                      Despierta a tus Clientes Antiguos con Botones Interactivos en WhatsApp
+                    </h3>
+                    <p class="text-sm sm:text-base text-slate-200 leading-relaxed">
+                      ¿Tienes cientos de personas que pidieron informes hace meses o clientes que hace tiempo no te compran? Con el <strong>Motor Oficial de Plantillas de WhatsApp</strong> del CRM envías campañas con botones interactivos (<em>"Quiero saber más"</em>, <em>"Ver promociones"</em>, <em>"Agendar cita"</em>) sin riesgo de bloqueo.
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                      <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800">
+                        <div class="text-emerald-400 font-black text-xs">🔘 Botones de Respuesta</div>
+                        <p class="text-xs text-slate-300 mt-1">El cliente no tiene ni que escribir: toca un botón en su WhatsApp y activa al asistente.</p>
+                      </div>
+                      <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800">
+                        <div class="text-cyan-400 font-black text-xs">💎 Dinero Rápido en Caja</div>
+                        <p class="text-xs text-slate-300 mt-1">Lanza una oferta de fin de mes a tu base de datos y llena tu agenda en horas.</p>
+                      </div>
+                      <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800">
+                        <div class="text-amber-400 font-black text-xs">🛡️ API Oficial de Meta</div>
+                        <p class="text-xs text-slate-300 mt-1">Cumple 100% con las normas oficiales de WhatsApp Business para proteger tu número.</p>
+                      </div>
+                    </div>
+                    <div class="p-3.5 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-xs sm:text-sm text-cyan-200 leading-relaxed">
+                      🎙️ <strong>Guion para el Closer:</strong> <em>"Mira cómo se ve una plantilla oficial dentro de nuestro CRM: lleva botones interactivos para que tus clientes antiguos agenden o pidan tu promoción con un solo toque en su celular."</em>
+                    </div>
+                  </div>
+                  <div class="lg:col-span-5">
+                    <div class="rounded-2xl overflow-hidden border-2 border-emerald-500/40 bg-slate-950 shadow-2xl">
+                      <div class="px-4 py-2 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
+                        <span class="text-[11px] font-black text-emerald-300 uppercase">📲 Vista Real · Plantillas Interactivas de WhatsApp</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold">Con Botones</span>
+                      </div>
+                      <img src="/static/img/crm_slides/crm_whatsapp_templates.jpg" alt="Plantillas de WhatsApp Marketing CRM ProsperIA" class="w-full h-72 sm:h-80 object-cover object-center" />
+                      <div class="p-3 bg-slate-900/95 text-xs text-slate-300 flex items-center justify-between">
+                        <span>📌 Mensajes con botones de acción rápida directos al WhatsApp del cliente</span>
+                        <span class="text-emerald-400 font-bold">Alta Respuesta</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- SLIDE 7 / 8: RECEPCIONISTA IA 24/7 Y VELOCIDAD DE RESPUESTA -->
+              <div class="crm-slide hidden" data-slide="6">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                  <div class="lg:col-span-7 space-y-4">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/15 border border-cyan-500/30 text-xs font-black uppercase tracking-wider text-cyan-300">
+                      <span>🤖 SLIDE 7 / 8</span> · RECEPCIONISTA IA 24/7 + APP EN TU CELULAR
+                    </div>
+                    <h3 class="text-2xl sm:text-4xl font-black text-white leading-tight">
+                      El 78% de los Clientes le Compra al Primero que le Contesta con Claridad
+                    </h3>
+                    <p class="text-sm sm:text-base text-slate-200 leading-relaxed">
+                      Cuando un prospecto escribe un domingo a las 10:00 PM o mientras estás atendiendo a un cliente, tu <strong>Recepcionista IA 24/7</strong> dentro del CRM le responde en menos de 60 segundos, califica su necesidad y le agenda su cita.
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                      <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800">
+                        <div class="text-cyan-400 font-black text-xs">⚡ Respuesta en &lt; 1 Minuto</div>
+                        <p class="text-xs text-slate-300 mt-1">Atiende al instante cuando el interés de compra del cliente está en su punto más alto.</p>
+                      </div>
+                      <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800">
+                        <div class="text-amber-400 font-black text-xs">🌙 Noches y Fines de Semana</div>
+                        <p class="text-xs text-slate-300 mt-1">Tu negocio nunca cierra la cortina: capta datos y agenda citas los 365 días del año.</p>
+                      </div>
+                      <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800">
+                        <div class="text-emerald-400 font-black text-xs">📱 App Móvil iOS y Android</div>
+                        <p class="text-xs text-slate-300 mt-1">Recibe notificaciones en tu celular cada vez que tienes un nuevo prospecto calificado.</p>
+                      </div>
+                    </div>
+                    <div class="p-3.5 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-xs sm:text-sm text-cyan-200 leading-relaxed">
+                      🎙️ <strong>Guion para el Closer:</strong> <em>"Si tardas más de 15 minutos en contestar un mensaje de WhatsApp o Instagram, el cliente ya le escribió a otros 3 competidores. Nuestro CRM te garantiza contestar en segundos las 24 horas."</em>
+                    </div>
+                  </div>
+                  <div class="lg:col-span-5">
+                    <div class="rounded-2xl overflow-hidden border-2 border-cyan-500/40 bg-slate-950 shadow-2xl">
+                      <div class="px-4 py-2 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
+                        <span class="text-[11px] font-black text-cyan-300 uppercase">🤖 Arquitectura · Velocidad Speed-to-Lead &amp; IA 24/7</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-bold">&lt; 60 Segundos</span>
+                      </div>
+                      <img src="/static/velocidad-respuesta-speed-to-lead-ia.png" alt="Velocidad de Respuesta IA 24/7 CRM ProsperIA" class="w-full h-72 sm:h-80 object-cover object-center" />
+                      <div class="p-3 bg-slate-900/95 text-xs text-slate-300 flex items-center justify-between">
+                        <span>📌 Atención inmediata 24/7 + Traspaso en bandeja de plata a tu equipo</span>
+                        <span class="text-cyan-400 font-bold">+391% Conversión</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- SLIDE 8 / 8: REEMPLAZA +10 SOFTWARES COSTOSOS Y CONECTA TUS 3 CAJAS -->
+              <div class="crm-slide hidden" data-slide="7">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                  <div class="lg:col-span-7 space-y-4">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 text-xs font-black uppercase tracking-wider text-amber-300">
+                      <span>🏆 SLIDE 8 / 8</span> · TODO UNIFICADO EN 1 SOLO ECOSISTEMA
+                    </div>
+                    <h3 class="text-2xl sm:text-4xl font-black text-white leading-tight">
+                      Reemplaza Más de 10 Herramientas Sueltas y Recibe Todo Configurado Llave en Mano
+                    </h3>
+                    <p class="text-sm sm:text-base text-slate-200 leading-relaxed">
+                      Contratar por separado constructor web, agenda tipo Calendly, CRM tipo HubSpot, email marketing, automatizaciones y chatbots cuesta más de <strong>US$600 al mes</strong>. Con <strong>CRM Prosper IA</strong> tienes todo integrado en un solo lugar y entregado listo para vender.
+                    </p>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+                      <div class="p-3 rounded-xl bg-slate-900/90 border border-cyan-500/30 text-xs">
+                        <div class="font-black text-cyan-300">✅ 1. Cero Clientes Olvidados</div>
+                        <div class="text-slate-400 mt-0.5">Todo queda registrado 24/7.</div>
+                      </div>
+                      <div class="p-3 rounded-xl bg-slate-900/90 border-amber-500/30 border text-xs">
+                        <div class="font-black text-amber-300">✅ 2. Tus Datos son Tuyos</div>
+                        <div class="text-slate-400 mt-0.5">Ningún vendedor se los lleva.</div>
+                      </div>
+                      <div class="p-3 rounded-xl bg-slate-900/90 border-emerald-500/30 border text-xs">
+                        <div class="font-black text-emerald-300">✅ 3. Menos Inasistencias</div>
+                        <div class="text-slate-400 mt-0.5">Recordatorios por WhatsApp.</div>
+                      </div>
+                      <div class="p-3 rounded-xl bg-slate-900/90 border-cyan-500/30 border text-xs">
+                        <div class="font-black text-cyan-300">✅ 4. Campañas Rápidas</div>
+                        <div class="text-slate-400 mt-0.5">Reactiva clientes en minutos.</div>
+                      </div>
+                      <div class="p-3 rounded-xl bg-slate-900/90 border-amber-500/30 border text-xs">
+                        <div class="font-black text-amber-300">✅ 5. Métricas Claras</div>
+                        <div class="text-slate-400 mt-0.5">Supervisa a todo tu equipo.</div>
+                      </div>
+                      <div class="p-3 rounded-xl bg-slate-900/90 border-emerald-500/30 border text-xs">
+                        <div class="font-black text-emerald-300">✅ 6. Llave en Mano</div>
+                        <div class="text-slate-400 mt-0.5">Lo entregamos configurado.</div>
+                      </div>
+                    </div>
+                    <div class="p-3.5 rounded-2xl bg-amber-500/15 border border-amber-500/40 text-xs sm:text-sm text-amber-200 leading-relaxed">
+                      🎙️ <strong>Guion de Cierre para pasar a las 3 Cajas:</strong> <em>"Y lo mejor es que tú no tienes que configurar nada técnico: nuestro equipo te entrega tu Sitio Web Inteligente y tu CRM Prosper IA 100% conectados. Déjame mostrarte las 3 opciones para activarlo hoy mismo..."</em>
+                    </div>
+                  </div>
+                  <div class="lg:col-span-5">
+                    <div class="rounded-2xl overflow-hidden border-2 border-amber-500/40 bg-slate-950 shadow-2xl">
+                      <div class="px-4 py-2 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
+                        <span class="text-[11px] font-black text-amber-300 uppercase">🏆 Consolidación Total · 1 Solo Centro de Comando</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold">Todo en Uno</span>
+                      </div>
+                      <img src="/static/consolidacion-herramientas-ia-command-center.png" alt="Consolidación de Herramientas en CRM ProsperIA" class="w-full h-64 sm:h-72 object-cover object-center" />
+                      <div class="p-3.5 bg-slate-900/95 flex items-center justify-between gap-2">
+                        <span class="text-xs text-slate-300 font-semibold">👉 Siguiente paso en tu llamada:</span>
+                        <button type="button" onclick="switchWeaponTab('deck-v1')" class="px-3 py-1.5 rounded-xl text-xs font-black bg-amber-400 text-slate-950 hover:bg-amber-300">
+                          Abrir las 3 Cajas ($497 / $990 / $1,490) →
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div class="flex items-center justify-between border-t border-slate-800 pt-4">
-              <button onclick="changeSlideDeck('crm', -1)" class="btn-ghost px-4 py-2.5 rounded-xl text-xs font-bold">
+            <div class="flex flex-wrap items-center justify-between gap-3 border-t border-slate-800 pt-4">
+              <button type="button" onclick="changeSlideDeck('crm', -1)" class="btn-ghost px-4 py-2.5 rounded-xl text-xs font-bold">
                 <i class="fas fa-arrow-left mr-1"></i> Slide Anterior
               </button>
-              <div class="flex gap-2">
-                <button onclick="changeSlideDeck('crm', 0, true)" class="w-3 h-3 rounded-full bg-cyan-400" id="crm-dot-0"></button>
-                <button onclick="changeSlideDeck('crm', 1, true)" class="w-3 h-3 rounded-full bg-slate-700" id="crm-dot-1"></button>
-                <button onclick="changeSlideDeck('crm', 2, true)" class="w-3 h-3 rounded-full bg-slate-700" id="crm-dot-2"></button>
-                <button onclick="changeSlideDeck('crm', 3, true)" class="w-3 h-3 rounded-full bg-slate-700" id="crm-dot-3"></button>
+              <div class="flex flex-wrap items-center gap-2">
+                <button type="button" onclick="changeSlideDeck('crm', 0, true)" class="w-7 h-7 rounded-lg text-xs font-black bg-cyan-400 text-slate-950" id="crm-dot-0">1</button>
+                <button type="button" onclick="changeSlideDeck('crm', 1, true)" class="w-7 h-7 rounded-lg text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700" id="crm-dot-1">2</button>
+                <button type="button" onclick="changeSlideDeck('crm', 2, true)" class="w-7 h-7 rounded-lg text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700" id="crm-dot-2">3</button>
+                <button type="button" onclick="changeSlideDeck('crm', 3, true)" class="w-7 h-7 rounded-lg text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700" id="crm-dot-3">4</button>
+                <button type="button" onclick="changeSlideDeck('crm', 4, true)" class="w-7 h-7 rounded-lg text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700" id="crm-dot-4">5</button>
+                <button type="button" onclick="changeSlideDeck('crm', 5, true)" class="w-7 h-7 rounded-lg text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700" id="crm-dot-5">6</button>
+                <button type="button" onclick="changeSlideDeck('crm', 6, true)" class="w-7 h-7 rounded-lg text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700" id="crm-dot-6">7</button>
+                <button type="button" onclick="changeSlideDeck('crm', 7, true)" class="w-7 h-7 rounded-lg text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700" id="crm-dot-7">8</button>
               </div>
-              <button onclick="changeSlideDeck('crm', 1)" class="btn-primary px-4 py-2.5 rounded-xl text-xs font-black">
+              <button type="button" onclick="changeSlideDeck('crm', 1)" class="btn-primary px-4 py-2.5 rounded-xl text-xs font-black">
                 Siguiente Slide <i class="fas fa-arrow-right ml-1"></i>
               </button>
             </div>
@@ -4831,12 +5179,12 @@ async function submitCloserBulkCsv() {
   }
 }
 
-// ─── PRESENTACIONES & ARMAS DE CIERRE (8 SLIDES PASSPORTAI, 4 SLIDES CRM, 4 TEMAS DE COLOR) ─
+// ─── PRESENTACIONES & ARMAS DE CIERRE (17 LÁMINAS PASSPORTAI, 8 SLIDES CRM, 4 TEMAS DE COLOR) ─
 const slideDeckState = { passport: 0, crm: 0 };
 let currentWeaponsTheme = 'light';
 
 function changeSlideDeck(deck, deltaOrIdx, isDirect = false) {
-  const total = deck === 'passport' ? 8 : 4;
+  const total = deck === 'passport' ? 17 : 8;
   if (isDirect) {
     slideDeckState[deck] = deltaOrIdx;
   } else {
@@ -4849,14 +5197,40 @@ function changeSlideDeck(deck, deltaOrIdx, isDirect = false) {
   for (let i = 0; i < total; i++) {
     const dot = document.getElementById(`${deck}-dot-${i}`);
     if (dot) {
+      const activeColor = deck === 'passport' ? 'bg-amber-400 text-slate-950' : 'bg-cyan-400 text-slate-950';
       dot.className = i === current
-        ? `w-3 h-3 rounded-full ${deck === 'passport' ? 'bg-amber-400' : 'bg-cyan-400'}`
-        : 'w-3 h-3 rounded-full bg-slate-700';
+        ? `w-7 h-7 rounded-lg text-[11px] font-black ${activeColor}`
+        : 'w-7 h-7 rounded-lg text-[11px] font-bold bg-slate-800 text-slate-300 hover:bg-slate-700';
     }
   }
   const counter = document.getElementById(`${deck}-slide-counter`);
   if (counter) counter.textContent = `Slide ${current + 1} de ${total}`;
 }
+
+function toggleDeckFullscreen(cardId) {
+  const el = document.getElementById(cardId);
+  if (!el) return;
+  if (!document.fullscreenElement) {
+    if (el.requestFullscreen) el.requestFullscreen();
+  } else {
+    if (document.exitFullscreen) document.exitFullscreen();
+  }
+}
+
+document.addEventListener('keydown', (e) => {
+  const weaponsSec = document.getElementById('sec-weapons');
+  if (!weaponsSec || !weaponsSec.classList.contains('active')) return;
+  if (['INPUT', 'TEXTAREA', 'SELECT'].includes((e.target && e.target.tagName) || '')) return;
+  const passportVisible = !document.getElementById('weapon-view-passport-slides')?.classList.contains('hidden');
+  const crmVisible = !document.getElementById('weapon-view-crm-slides')?.classList.contains('hidden');
+  if (e.key === 'ArrowRight') {
+    if (passportVisible) changeSlideDeck('passport', 1);
+    else if (crmVisible) changeSlideDeck('crm', 1);
+  } else if (e.key === 'ArrowLeft') {
+    if (passportVisible) changeSlideDeck('passport', -1);
+    else if (crmVisible) changeSlideDeck('crm', -1);
+  }
+});
 
 function setWeaponsTheme(theme) {
   currentWeaponsTheme = theme || 'light';
