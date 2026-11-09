@@ -1790,4 +1790,55 @@ async def api_website_demo_chat(req: WebsiteDemoChatRequest):
     }
 
 
+@router.post("/api/sales-os/reset-test-data")
+async def api_reset_seller_test_data(
+    seller_email: Optional[str] = "sheille.perez@gmail.com",
+    current_user: dict = Depends(get_current_sales_user),
+    db: Session = Depends(get_db),
+):
+    """Limpia los datos de prueba tocados durante ensayos para dejar la cuenta lista para grabación."""
+    target_email = (seller_email or "sheille.perez@gmail.com").strip().lower()
+    # 1. Resetear contadores del closer (y cualquier prueba en vendedores)
+    users_to_reset = db.query(User).filter(User.role == "seller").all()
+    for u in users_to_reset:
+        u.calls_made_today = 0
+        u.calls_made_week = 0
+        u.calls_answered_week = 0
+        u.demos_done_week = 0
+        u.sales_closed_week = 0
+        u.active_minutes_today = 0
+        u.active_minutes_week = 0
+        u.checkin_at = ""
+
+    # 2. Regresar los leads de Sheilla (y leads de prueba movidos hoy) a 'Lead identificado'
+    seller_leads = db.query(DbLead).filter(
+        (DbLead.owner_id == target_email) | (DbLead.pipeline_stage != "Lead identificado")
+    ).all()
+    reset_leads_count = 0
+    for ld in seller_leads:
+        if getattr(ld, "pipeline_stage", "Lead identificado") != "Lead identificado" or float(getattr(ld, "quoted_amount", 0) or 0) > 0:
+            ld.pipeline_stage = "Lead identificado"
+            ld.status = "new"
+            ld.quoted_amount = 0.0
+            ld.contracted_amount = 0.0
+            ld.amount_collected = 0.0
+            ld.commission_amount = 0.0
+            ld.commission_status = "sin_causar"
+            ld.invoice_id = ""
+            ld.next_action_at = ""
+            ld.next_action_note = ""
+            if ld.notes and "[Cola:" in ld.notes:
+                ld.notes = ld.notes.split("[Cola:")[0].strip()
+            reset_leads_count += 1
+
+    # 3. Limpiar logs de auditoría de prueba de Sheilla
+    db.query(AuditLog).filter(AuditLog.actor_email == target_email).delete(synchronize_session=False)
+    db.commit()
+    return {
+        "success": True,
+        "message": f"Datos de prueba de {target_email} y contadores reiniciados en cero ({reset_leads_count} prospectos restaurados a Lead identificado).",
+    }
+
+
+
 

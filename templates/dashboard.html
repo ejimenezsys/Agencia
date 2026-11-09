@@ -2613,34 +2613,30 @@ let currentIntType = '';
 
 // ─── MAPA OFICIAL DE FOTOS Y CALENDARIOS DE LOS CLOSERS (PUNTOS 3 Y 5) ───────
 const CLOSER_AVATAR_MAP = {
+  'sheille.perez@gmail.com': '/static/img/closers/sheilla.jpg',
+  'cinthyapenida0@gmail.com': '/static/img/closers/cintya.jpg',
+  'claudiniosan@yahoo.com.ar': '/static/img/closers/claudio.png',
+  'loremrodriguezafb@gmail.com': '/static/img/closers/lorena.jpg',
+  'sergiotorales608@gmail.com': '/static/img/closers/sergio.jpg',
+  'diegoarriondo03@gmail.com': '/static/edward_hero_depth.jpg',
   'cintya.medina@agenciaprosperia.com': '/static/img/closers/cintya.jpg',
   'claudio.bautista@agenciaprosperia.com': '/static/img/closers/claudio.png',
   'sheilla.perez@agenciaprosperia.com': '/static/img/closers/sheilla.jpg',
   'sergio.miranda@agenciaprosperia.com': '/static/img/closers/sergio.jpg',
   'lorena.sanchez@agenciaprosperia.com': '/static/img/closers/lorena.jpg',
   'edward@agenciaprosperia.com': '/static/img/edward_ceo_avatar.jpg',
-  'closer1@agenciaprosperia.com': '/static/img/closers/cintya.jpg',
-  'closer2@agenciaprosperia.com': '/static/img/closers/claudio.png',
-  'closer3@agenciaprosperia.com': '/static/img/closers/sheilla.jpg',
-  'closer4@agenciaprosperia.com': '/static/img/closers/sergio.jpg',
-  'closer5@agenciaprosperia.com': '/static/img/closers/lorena.jpg',
-  'closer6@agenciaprosperia.com': '/static/img/edward_ceo_avatar.jpg',
+  'admin@prosperia.com': '/static/img/edward_ceo_avatar.jpg',
 };
 
 const CLOSER_CALENDAR_MAP = {
-  'cintya.medina@agenciaprosperia.com': 'https://api.agenciaprosperia.com/widget/booking/vF9kFcB2ek74sEBhV6tI',
-  'claudio.bautista@agenciaprosperia.com': 'https://api.agenciaprosperia.com/widget/booking/X9h20x080F6A8C55d5pC',
-  'sheilla.perez@agenciaprosperia.com': 'https://api.agenciaprosperia.com/widget/booking/uB7J4R61c00hV7M23N8x',
-  'sergio.miranda@agenciaprosperia.com': 'https://api.agenciaprosperia.com/widget/booking/zK2L9p4Q1w7E5r8T3y6U',
-  'lorena.sanchez@agenciaprosperia.com': 'https://api.agenciaprosperia.com/widget/booking/mN4B6v8C1x3Z5l7K9j2H',
-  'edward.rodriguez@agenciaprosperia.com': 'https://api.agenciaprosperia.com/widget/booking/pQ8W2e4R6t1Y3u5I7o9P',
-  'edward@agenciaprosperia.com': 'https://api.agenciaprosperia.com/widget/booking/W92c816f174d36e2e49a',
-  'closer1@agenciaprosperia.com': 'https://api.agenciaprosperia.com/widget/booking/vF9kFcB2ek74sEBhV6tI',
-  'closer2@agenciaprosperia.com': 'https://api.agenciaprosperia.com/widget/booking/X9h20x080F6A8C55d5pC',
-  'closer3@agenciaprosperia.com': 'https://api.agenciaprosperia.com/widget/booking/uB7J4R61c00hV7M23N8x',
-  'closer4@agenciaprosperia.com': 'https://api.agenciaprosperia.com/widget/booking/zK2L9p4Q1w7E5r8T3y6U',
-  'closer5@agenciaprosperia.com': 'https://api.agenciaprosperia.com/widget/booking/mN4B6v8C1x3Z5l7K9j2H',
-  'closer6@agenciaprosperia.com': 'https://api.agenciaprosperia.com/widget/booking/pQ8W2e4R6t1Y3u5I7o9P',
+  'sheille.perez@gmail.com': 'https://api.agenciaprosperia.com/widget/booking/GrvltSCThpWp2cEptiTF',
+  'diegoarriondo03@gmail.com': 'https://api.agenciaprosperia.com/widget/booking/qIeHTDISu0BGHx7cVhbh',
+  'cinthyapenida0@gmail.com': 'https://api.agenciaprosperia.com/widget/booking/H2N6v95axx9rqkG7Sibw',
+  'claudiniosan@yahoo.com.ar': 'https://api.agenciaprosperia.com/widget/booking/ax6fOmetoC3abxRMlCwu',
+  'loremrodriguezafb@gmail.com': 'https://api.agenciaprosperia.com/widget/booking/nxAwixR3T3PILNZxv1S4',
+  'sergiotorales608@gmail.com': 'https://api.agenciaprosperia.com/widget/booking/w2KriVI4LqhisSjIPiMV',
+  'edward@agenciaprosperia.com': 'https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8',
+  'admin@prosperia.com': 'https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8',
 };
 
 function getCloserAvatarUrl(u) {
@@ -2649,9 +2645,9 @@ function getCloserAvatarUrl(u) {
   const em = String(u.email || '').toLowerCase().trim();
   if (CLOSER_AVATAR_MAP[em]) return CLOSER_AVATAR_MAP[em];
   const nm = String(u.name || '').toLowerCase();
-  if (nm.includes('cintya')) return '/static/img/closers/cintya.jpg';
+  if (nm.includes('cintya') || nm.includes('cinthya')) return '/static/img/closers/cintya.jpg';
   if (nm.includes('claudio')) return '/static/img/closers/claudio.png';
-  if (nm.includes('sheilla') || nm.includes('sheila')) return '/static/img/closers/sheilla.jpg';
+  if (nm.includes('sheilla') || nm.includes('sheila') || nm.includes('sheille')) return '/static/img/closers/sheilla.jpg';
   if (nm.includes('sergio')) return '/static/img/closers/sergio.jpg';
   if (nm.includes('lorena')) return '/static/img/closers/lorena.jpg';
   if (nm.includes('edward')) return '/static/img/edward_ceo_avatar.jpg';
@@ -2659,18 +2655,18 @@ function getCloserAvatarUrl(u) {
 }
 
 function getCloserCalendarUrl(u) {
-  if (!u) return 'https://api.agenciaprosperia.com/widget/booking/W92c816f174d36e2e49a';
+  if (!u) return 'https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8';
   if (u.calendar_url && String(u.calendar_url).trim()) return String(u.calendar_url).trim();
   const em = String(u.email || '').toLowerCase().trim();
   if (CLOSER_CALENDAR_MAP[em]) return CLOSER_CALENDAR_MAP[em];
-  return 'https://api.agenciaprosperia.com/widget/booking/W92c816f174d36e2e49a';
+  return 'https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8';
 }
 
 function renderAvatarHtml(u, sizePx = 36) {
   const photo = getCloserAvatarUrl(u);
   const initial = ((u && u.name) || '?').charAt(0).toUpperCase();
   if (photo) {
-    return `<img src="${esc(photo)}" alt="${esc((u && u.name) || 'Closer')}" width="${sizePx}" height="${sizePx}" class="w-full h-full rounded-full object-cover" loading="lazy" decoding="async" onerror="this.outerHTML='${initial}'">`;
+    return `<img src="${esc(photo)}" alt="${esc((u && u.name) || 'Closer')}" width="${sizePx}" height="${sizePx}" style="width:${sizePx}px !important;height:${sizePx}px !important;min-width:${sizePx}px !important;max-width:${sizePx}px !important;min-height:${sizePx}px !important;max-height:${sizePx}px !important;border-radius:50% !important;object-fit:cover !important;object-position:center top !important;display:block !important;" loading="lazy" decoding="async" onerror="this.outerHTML='${initial}'">`;
   }
   return initial;
 }
@@ -4019,7 +4015,7 @@ async function loadSalesUsersAndLogs() {
           return `<tr class="table-row">
             <th scope="row" class="px-3 py-2.5 text-left font-normal">
               <div class="flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 flex items-center justify-center bg-slate-800 text-cyan-300 font-bold border border-cyan-500/30">
+                <div style="width:32px;height:32px;min-width:32px;max-width:32px;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#1e293b;border:1px solid rgba(0,229,255,0.35);color:#67e8f9;font-weight:700;">
                   ${renderAvatarHtml(u, 32)}
                 </div>
                 <div>
@@ -4372,8 +4368,8 @@ async function loadLeaderboardAndKpis() {
         return `
         <div class="p-4 rounded-xl border ${colors[idx]} flex items-center justify-between gap-3">
           <div class="flex items-center gap-3">
-            <div class="w-11 h-11 rounded-full overflow-hidden flex-shrink-0 flex items-center justify-center bg-slate-900 text-amber-300 font-black border-2 border-amber-400/50">
-              ${renderAvatarHtml(u, 44)}
+            <div style="width:42px;height:42px;min-width:42px;max-width:42px;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#0f172a;border:2px solid rgba(251,191,36,0.6);color:#fcd34d;font-weight:900;">
+              ${renderAvatarHtml(u, 42)}
             </div>
             <div>
               <div class="text-[11px] font-black uppercase text-amber-400">${medals[idx]}</div>
@@ -4403,7 +4399,7 @@ async function loadLeaderboardAndKpis() {
         return `<tr class="table-row">
           <td class="px-3 py-2.5">
             <div class="flex items-center gap-2.5">
-              <div class="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 flex items-center justify-center bg-slate-800 text-cyan-300 font-bold border border-cyan-500/30">
+              <div style="width:32px;height:32px;min-width:32px;max-width:32px;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#1e293b;border:1px solid rgba(0,229,255,0.35);color:#67e8f9;font-weight:700;">
                 ${renderAvatarHtml(u, 32)}
               </div>
               <div>
@@ -4688,7 +4684,7 @@ function switchWeaponTab(tabKey) {
   vIframe?.classList.remove('hidden');
 
   const closerParams = currentUser
-    ? `closer_name=${encodeURIComponent(currentUser.name || '')}&closer_photo=${encodeURIComponent(getCloserAvatarUrl(currentUser))}&closer_role=${encodeURIComponent(currentUser.dupla || 'Closer Oficial Prosper IA')}&closer_email=${encodeURIComponent(currentUser.email || '')}`
+    ? `closer_name=${encodeURIComponent(currentUser.name || '')}&closer_photo=${encodeURIComponent(getCloserAvatarUrl(currentUser))}&closer_role=${encodeURIComponent('Consultor Especializado en Transformación Digital & IA')}&closer_email=${encodeURIComponent(currentUser.email || '')}`
     : '';
 
   const weaponCatalog = {
