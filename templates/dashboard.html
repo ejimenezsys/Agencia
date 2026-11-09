@@ -3229,7 +3229,7 @@ const CLOSER_AVATAR_MAP = {
   'claudiniosan@yahoo.com.ar': '/static/img/closers/claudio.png',
   'loremrodriguezafb@gmail.com': '/static/img/closers/lorena.jpg',
   'sergiotorales608@gmail.com': '/static/img/closers/sergio.jpg',
-  'diegoarriondo03@gmail.com': '/static/edward_hero_depth.jpg',
+  'diegoarriondo03@gmail.com': '/static/img/closers/diego.jpg',
   'cintya.medina@agenciaprosperia.com': '/static/img/closers/cintya.jpg',
   'claudio.bautista@agenciaprosperia.com': '/static/img/closers/claudio.png',
   'sheilla.perez@agenciaprosperia.com': '/static/img/closers/sheilla.jpg',
@@ -3252,10 +3252,11 @@ const CLOSER_CALENDAR_MAP = {
 
 function getCloserAvatarUrl(u) {
   if (!u) return '';
-  if (u.avatar_url && String(u.avatar_url).trim()) return String(u.avatar_url).trim();
   const em = String(u.email || '').toLowerCase().trim();
   if (CLOSER_AVATAR_MAP[em]) return CLOSER_AVATAR_MAP[em];
+  if (u.avatar_url && String(u.avatar_url).trim()) return String(u.avatar_url).trim();
   const nm = String(u.name || '').toLowerCase();
+  if (nm.includes('diego')) return '/static/img/closers/diego.jpg';
   if (nm.includes('cintya') || nm.includes('cinthya')) return '/static/img/closers/cintya.jpg';
   if (nm.includes('claudio')) return '/static/img/closers/claudio.png';
   if (nm.includes('sheilla') || nm.includes('sheila') || nm.includes('sheille')) return '/static/img/closers/sheilla.jpg';

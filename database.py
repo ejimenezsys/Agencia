@@ -457,7 +457,7 @@ INITIAL_SALES_TEAM = [
         "plan": "SVE-90 Enterprise",
         "ghl_user_id": "OOzbqNV7cHd43h1u8C7v",
         "calendar_url": "https://api.agenciaprosperia.com/widget/booking/qIeHTDISu0BGHx7cVhbh",
-        "avatar_url": "/static/edward_hero_depth.jpg",
+        "avatar_url": "/static/img/closers/diego.jpg",
         "default_pass": "Closer2026!"
     },
     {

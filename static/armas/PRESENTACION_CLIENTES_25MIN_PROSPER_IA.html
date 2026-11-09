@@ -1190,6 +1190,7 @@
 
         const closerPhotosByEmail = {
           'sheille.perez@gmail.com': '/static/img/closers/sheilla.jpg',
+          'diegoarriondo03@gmail.com': '/static/img/closers/diego.jpg',
           'cinthyapenida0@gmail.com': '/static/img/closers/cintya.jpg',
           'claudiniosan@yahoo.com.ar': '/static/img/closers/claudio.png',
           'loremrodriguezafb@gmail.com': '/static/img/closers/lorena.jpg',
@@ -1198,7 +1199,7 @@
           'edward@agenciaprosperia.com': '/static/edward_hero_depth.jpg'
         };
 
-        if (!cPhoto && cEmail && closerPhotosByEmail[cEmail]) {
+        if (cEmail && closerPhotosByEmail[cEmail]) {
           cPhoto = closerPhotosByEmail[cEmail];
         }
 
