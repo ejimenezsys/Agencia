@@ -1853,11 +1853,27 @@
           </div>
         </button>
 
+        <button onclick="switchWeaponTab('deck-humana')" id="wtab-deck-humana" class="weapon-nav-btn" style="border-color:rgba(0,229,255,0.55); background:rgba(0,229,255,0.12);">
+          <span>✨</span>
+          <div>
+            <div style="color:#67e8f9; font-weight:900;">Presentación Visual Humana (NUEVA)</div>
+            <div style="font-size:10px; opacity:0.95; color:#fde68a;">12 Slides 100% Visuales · Reels + Ads</div>
+          </div>
+        </button>
+
+        <button onclick="switchWeaponTab('guia-orador')" id="wtab-guia-orador" class="weapon-nav-btn" style="border-color:rgba(245,158,11,0.5); background:rgba(245,158,11,0.10);">
+          <span>🎙️</span>
+          <div>
+            <div style="color:#fde68a; font-weight:900;">Guía Speech de Auditorio (Apoyo)</div>
+            <div style="font-size:10px; opacity:0.9; color:#cbd5e1;">Bullets + Quién Implementa + PDF</div>
+          </div>
+        </button>
+
         <button onclick="switchWeaponTab('deck-v1')" id="wtab-deck-v1" class="weapon-nav-btn">
           <span>📦</span>
           <div>
-            <div>Presentación Comercial (3 Cajas)</div>
-            <div style="font-size:10px; opacity:0.8;">Con tu Foto ($497/$990/$1,490)</div>
+            <div>Presentación Comercial (Clásica)</div>
+            <div style="font-size:10px; opacity:0.8;">11 Slides ($497/$990/$1,490)</div>
           </div>
         </button>
 
@@ -2587,11 +2603,17 @@
               <p id="weapon-iframe-subtitle" class="text-xs text-slate-400">Usa los 4 botones de Tema de Lectura arriba para cambiar el color en vivo.</p>
             </div>
             <div class="flex flex-wrap gap-2">
-              <a id="weapon-open-tab-btn" href="/static/armas/PRESENTACION_CLIENTES_25MIN_PROSPER_IA.html" target="_blank" class="btn-primary px-3.5 py-2 rounded-xl text-xs font-black inline-flex items-center gap-1.5 no-underline">
+              <a id="weapon-open-tab-btn" href="/static/armas/PRESENTACION_HUMANA_VISUAL_PROSPER_IA.html" target="_blank" class="btn-primary px-3.5 py-2 rounded-xl text-xs font-black inline-flex items-center gap-1.5 no-underline">
                 <i class="fas fa-expand"></i> Abrir en Pantalla Completa
               </a>
-              <a id="weapon-pdf-btn" href="/static/armas/PRESENTACION_CLIENTES_25MIN_PROSPER_IA.pdf" target="_blank" class="btn-ghost px-3.5 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-1.5 no-underline">
+              <a id="weapon-pdf-btn" href="/static/armas/PRESENTACION_HUMANA_VISUAL_PROSPER_IA.pdf" target="_blank" class="btn-ghost px-3.5 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-1.5 no-underline">
                 <i class="fas fa-file-pdf text-rose-400"></i> Descargar PDF
+              </a>
+              <a href="/static/armas/GUIA_ORADOR_PRESENTACION_HUMANA_PROSPER_IA.html" target="_blank" class="px-3.5 py-2 rounded-xl text-xs font-black inline-flex items-center gap-1.5 no-underline" style="background:rgba(245,158,11,0.18); border:1px solid #f59e0b; color:#fde68a;">
+                🎙️ Abrir Guía Speech al Lado
+              </a>
+              <a href="/static/armas/GUIA_ORADOR_PRESENTACION_HUMANA_PROSPER_IA.pdf" target="_blank" class="btn-ghost px-3 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-1.5 no-underline">
+                📥 PDF Speech
               </a>
             </div>
           </div>
@@ -6423,12 +6445,24 @@ function switchWeaponTab(tabKey) {
   const weaponCatalog = {
     'manual-closer': {
       title: '📘 Manual Operativo Oficial del Closer (Versión Actualizada en 7 Pasos)',
-      sub: 'Guía estándar para operar de 1 a 20 Closers: Etapa 1 vs Etapa 2+, Alta de Prospectos, WhatsApp, Demo +1,000 Plantillas, Las 3 Cajas (11 Slides) y Comisión 15%.',
+      sub: 'Guía estándar para operar de 1 a 20 Closers: Etapa 1 vs Etapa 2+, Alta de Prospectos, WhatsApp, Demo +1,000 Plantillas, Las 3 Cajas y Comisión 15%.',
       html: '/static/armas/MANUAL_OPERATIVO_CLOSERS_PROSPER_IA.html?v=3',
       pdf: '/static/armas/MANUAL_OPERATIVO_CLOSERS_PROSPER_IA.pdf'
     },
+    'deck-humana': {
+      title: '✨ Presentación Ejecutiva 100% Visual en Lenguaje Humano (12 Slides · Énfasis en Reels + Tráfico + Claridad Total)',
+      sub: 'Modo Auditorio con imágenes reales, poco texto, tus 2 Motores (Reels/Ads + Sucursal 24/7), quién implementa, 5 datos de onboarding y soporte incluido.',
+      html: `/static/armas/PRESENTACION_HUMANA_VISUAL_PROSPER_IA.html?v=1${closerParams ? '&' + closerParams : ''}`,
+      pdf: '/static/armas/PRESENTACION_HUMANA_VISUAL_PROSPER_IA.pdf'
+    },
+    'guia-orador': {
+      title: '🎙️ Guía de Auditorio & Speech del Closer (Documento de Apoyo Lámina por Lámina + Respuestas Oficiales)',
+      sub: 'Diccionario cero tecnicismos, bullets de memoria para cada una de las 12 láminas, checklist de 5 datos post-pago y soporte mensual.',
+      html: '/static/armas/GUIA_ORADOR_PRESENTACION_HUMANA_PROSPER_IA.html?v=1',
+      pdf: '/static/armas/GUIA_ORADOR_PRESENTACION_HUMANA_PROSPER_IA.pdf'
+    },
     'deck-v1': {
-      title: '📦 Presentación Comercial (11 Slides: Estrella $990 · Express $497 · Máquina $1,490)',
+      title: '📦 Presentación Comercial Clásica (11 Slides: Estrella $990 · Express $497 · Máquina $1,490)',
       sub: 'Personalizada con tu foto y título ejecutivo: Slide 8 ($990 Estrella), Slide 9 ($497 Express), Slide 10 ($1,490 Máquina) y Slide 11 (Cierre).',
       html: `/static/armas/PRESENTACION_CLIENTES_25MIN_PROSPER_IA.html?v=3${closerParams ? '&' + closerParams : ''}`,
       pdf: '/static/armas/PRESENTACION_CLIENTES_25MIN_PROSPER_IA.pdf'

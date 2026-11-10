@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Presentación Ejecutiva Visual (Lenguaje Humano · 12 Slides) — Agencia Prosper IA</title>
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: #030712;
+    color: #f8fafc;
+  }
+
+  /* Barra Superior Interactiva del Orador (No sale al imprimir PDF) */
+  .presenter-toolbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 56px;
+    background: rgba(3, 7, 18, 0.95);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(0, 229, 255, 0.32);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 22px;
+    gap: 10px;
+  }
+  .toolbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    font-weight: 900;
+    color: #fff;
+  }
+  .toolbar-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .t-btn {
+    background: rgba(30, 41, 59, 0.9);
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    color: #f8fafc;
+    padding: 7px 13px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.15s ease;
+  }
+  .t-btn:hover {
+    border-color: #00e5ff;
+    color: #00e5ff;
+  }
+  .t-btn.primary {
+    background: linear-gradient(135deg, #00e5ff, #3b82f6);
+    color: #020617;
+    border: none;
+    font-weight: 900;
+  }
+  .t-btn.amber {
+    background: rgba(245, 158, 11, 0.2);
+    border-color: #f59e0b;
+    color: #fde68a;
+  }
+  .t-btn.emerald {
+    background: rgba(16, 185, 129, 0.2);
+    border-color: #10b981;
+    color: #6ee7b7;
+  }
+
+  /* Barra Teleprompter Inferior (Opcional para el Closer) */
+  .seller-script-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(9, 15, 32, 0.97);
+    border-top: 2px solid #f59e0b;
+    padding: 11px 26px;
+    z-index: 100;
+    display: none;
+    color: #fef3c7;
+    font-size: 13.5px;
+    line-height: 1.42;
+  }
+  body.show-script .seller-script-bar {
+    display: block;
+  }
+
+  /* Contenedor Widescreen 16:9 Estilo Keynote Auditorio */
+  .deck-wrapper {
+    padding-top: 56px;
+  }
+  .slide {
+    width: 13.333in;
+    height: 7.5in;
+    margin: 0 auto;
+    padding: 0.38in 0.52in;
+    background:
+      radial-gradient(circle at 12% 15%, rgba(0, 229, 255, 0.14), transparent 38%),
+      radial-gradient(circle at 88% 18%, rgba(245, 158, 11, 0.12), transparent 42%),
+      radial-gradient(circle at 50% 95%, rgba(16, 185, 129, 0.1), transparent 45%),
+      #040814;
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .slide.active {
+    display: flex;
+  }
+
+  @media print {
+    .presenter-toolbar, .seller-script-bar {
+      display: none !important;
+    }
+    .deck-wrapper {
+      padding-top: 0 !important;
+    }
+    .slide {
+      display: block !important;
+      width: 100% !important;
+      height: auto !important;
+      overflow: visible !important;
+      margin: 0 0 24px 0 !important;
+      border-bottom: 2px solid #00e5ff !important;
+      page-break-inside: avoid;
+    }
+  }
+
+  /* Encabezado de Lámina */
+  .s-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+    padding-bottom: 10px;
+  }
+  .s-brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+  }
+  .s-brand img {
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+    border: 1.5px solid #00e5ff;
+  }
+  .s-brand-name {
+    font-size: 12.5pt;
+    font-weight: 900;
+    letter-spacing: 0.4px;
+    color: #fff;
+  }
+  .s-brand-name span { color: #00e5ff; }
+  .s-pill {
+    background: rgba(0, 229, 255, 0.14);
+    border: 1px solid rgba(0, 229, 255, 0.45);
+    color: #67e8f9;
+    font-size: 9pt;
+    font-weight: 900;
+    padding: 5px 14px;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+  }
+  .s-pill.pain {
+    background: rgba(239, 68, 68, 0.16);
+    border-color: rgba(239, 68, 68, 0.55);
+    color: #fca5a5;
+  }
+  .s-pill.gold {
+    background: rgba(245, 158, 11, 0.2);
+    border-color: rgba(245, 158, 11, 0.65);
+    color: #fde68a;
+  }
+  .s-pill.emerald {
+    background: rgba(16, 185, 129, 0.18);
+    border-color: rgba(16, 185, 129, 0.55);
+    color: #6ee7b7;
+  }
+
+  /* Tipografía de Auditorio (Grande, limpia, poco texto) */
+  .s-headline {
+    font-size: 28pt;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.6px;
+    color: #ffffff;
+    margin-top: 8px;
+  }
+  .s-headline .cyan { color: #00e5ff; }
+  .s-headline .red { color: #f87171; }
+  .s-headline .emerald { color: #34d399; }
+  .s-headline .amber { color: #fbbf24; }
+  .s-headline .pink { color: #f472b6; }
+
+  .s-sub {
+    font-size: 13pt;
+    color: #cbd5e1;
+    font-weight: 600;
+    margin-top: 5px;
+  }
+
+  /* Layouts Visuales */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    flex: 1;
+    margin-top: 14px;
+    align-items: stretch;
+  }
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    flex: 1;
+    margin-top: 14px;
+    align-items: stretch;
+  }
+  .grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    flex: 1;
+    margin-top: 14px;
+    align-items: stretch;
+  }
+
+  .v-card {
+    background: linear-gradient(160deg, rgba(15, 23, 42, 0.94) 0%, rgba(7, 12, 26, 0.98) 100%);
+    border: 1.5px solid rgba(148, 163, 184, 0.24);
+    border-radius: 20px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+  }
+  .v-card.cyan { border-color: rgba(0, 229, 255, 0.55); }
+  .v-card.emerald {
+    border-color: rgba(16, 185, 129, 0.6);
+    background: linear-gradient(160deg, rgba(6, 38, 30, 0.86) 0%, rgba(8, 13, 28, 0.98) 100%);
+  }
+  .v-card.gold {
+    border: 2px solid #f59e0b;
+    background: linear-gradient(160deg, rgba(45, 27, 5, 0.92) 0%, rgba(8, 13, 28, 0.98) 100%);
+  }
+  .v-card.pain {
+    border-color: rgba(239, 68, 68, 0.55);
+    background: linear-gradient(160deg, rgba(42, 12, 18, 0.88) 0%, rgba(8, 13, 28, 0.98) 100%);
+  }
+  .v-card.pink {
+    border-color: rgba(244, 114, 182, 0.6);
+    background: linear-gradient(160deg, rgba(42, 12, 35, 0.88) 0%, rgba(8, 13, 28, 0.98) 100%);
+  }
+
+  .img-frame {
+    width: 100%;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: #020617;
+    position: relative;
+  }
+  .img-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .bullet-list {
+    display: grid;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  .bullet-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(2, 6, 23, 0.72);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    padding: 10px 14px;
+    border-radius: 13px;
+    font-size: 12pt;
+    font-weight: 700;
+    color: #f1f5f9;
+  }
+  .bullet-item span.icon {
+    font-size: 16pt;
+    flex-shrink: 0;
+  }
+
+  .s-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 9px;
+    border-top: 1px solid rgba(148, 163, 184, 0.15);
+    font-size: 9.5pt;
+    color: #94a3b8;
+    font-weight: 700;
+  }
+</style>
+</head>
+<body class="show-script">
+
+  <!-- BARRA SUPERIOR INTERACTIVA -->
+  <nav class="presenter-toolbar">
+    <div class="toolbar-left">
+      <span>✨ PRESENTACIÓN VISUAL HUMANA (MODO AUDITORIO)</span>
+      <span id="slide-indicator" style="color:#00e5ff; font-family:monospace; font-size:14px;">SLIDE 01 / 12</span>
+    </div>
+    <div class="toolbar-controls">
+      <button type="button" class="t-btn" id="prev-btn">◀ Anterior</button>
+      <button type="button" class="t-btn primary" id="next-btn">Siguiente ▶</button>
+      <button type="button" class="t-btn amber" id="script-btn">🎙️ Ver/Ocultar Speech Abajo</button>
+      <a href="/static/armas/GUIA_ORADOR_PRESENTACION_HUMANA_PROSPER_IA.html" target="_blank" class="t-btn emerald">📋 Abrir Guía de Apoyo / Speech (Al Lado)</a>
+      <a href="/static/armas/GUIA_ORADOR_PRESENTACION_HUMANA_PROSPER_IA.pdf" target="_blank" class="t-btn">📥 PDF Guía Speech</a>
+      <button type="button" class="t-btn" id="fullscreen-btn">⛶ Pantalla Completa (F)</button>
+      <a href="/static/armas/PRESENTACION_HUMANA_VISUAL_PROSPER_IA.pdf" target="_blank" class="t-btn">📄 PDF Slides</a>
+    </div>
+  </nav>
+
+  <!-- TELEPROMPTER INFERIOR DEL ORADOR -->
+  <div class="seller-script-bar" id="teleprompter">
+    <strong style="color:#fbbf24;">🎙️ TU SPEECH DE AUDITORIO EN ESTA LÁMINA:</strong>
+    <span id="teleprompter-text"></span>
+  </div>
+
+  <main class="deck-wrapper">
+
+    <!-- ==================================================================
+         SLIDE 01: PORTADA VISUAL — LENGUAJE 100% HUMANO
+         ================================================================== -->
+    <section class="slide active" data-slide="0">
+      <div class="s-top">
+        <div class="s-brand">
+          <img src="/static/logo_prosper_ia_cropped.jpg" alt="Agencia Prosper IA">
+          <div class="s-brand-name">AGENCIA <span>PROSPER IA</span> · ESTADOS UNIDOS &amp; LATAM</div>
+        </div>
+        <span class="s-pill emerald">✓ CERO TECNICISMOS · NOSOTROS HACEMOS TODO POR TI</span>
+      </div>
+
+      <div class="grid-2" style="align-items:center;">
+        <div>
+          <span style="display:inline-block; background:rgba(245,158,11,0.18); border:1px solid #f59e0b; color:#fde68a; font-size:10pt; font-weight:900; padding:6px 14px; border-radius:999px; margin-bottom:14px;">
+            🎬 VIDEOS + 📈 PUBLICIDAD + 🤖 ATENCIÓN 24/7 EN WHATSAPP
+          </span>
+          <h1 class="s-headline" style="font-size:33pt;">
+            Cómo Llenar tu WhatsApp de <span class="amber">Clientes Nuevos</span> y Atenderlos en <span class="cyan">Menos de 1 Minuto, 24/7</span>
+          </h1>
+          <p class="s-sub" style="font-size:14pt; margin-top:14px;">
+            Unimos los <strong>2 motores</strong> que hacen crecer tu negocio: <strong>Videos y Anuncios que atraen clientes</strong> + <strong>Tu Sucursal Digital que les contesta y agenda citas sola</strong>.
+          </p>
+
+          <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:24px;">
+            <div style="background:rgba(15,23,42,0.92); border:2px solid rgba(0,229,255,0.45); border-radius:16px; padding:14px; text-align:center;">
+              <div style="font-size:24pt; font-weight:900; color:#00e5ff;">+740</div>
+              <div style="font-size:9.5pt; color:#e2e8f0; font-weight:800;">Negocios Activos</div>
+            </div>
+            <div style="background:rgba(15,23,42,0.92); border:2px solid rgba(244,114,182,0.5); border-radius:16px; padding:14px; text-align:center;">
+              <div style="font-size:24pt; font-weight:900; color:#f472b6;">+744K</div>
+              <div style="font-size:9.5pt; color:#e2e8f0; font-weight:800;">Vistas en Nuestros Reels</div>
+            </div>
+            <div style="background:rgba(15,23,42,0.92); border:2px solid rgba(16,185,129,0.5); border-radius:16px; padding:14px; text-align:center;">
+              <div style="font-size:24pt; font-weight:900; color:#34d399;">7-10 Días</div>
+              <div style="font-size:9.5pt; color:#e2e8f0; font-weight:800;">Entrega Llave en Mano</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="height:100%; display:flex; align-items:center; justify-content:center;">
+          <div style="width:92%; height:445px; border-radius:24px; overflow:hidden; border:2.5px solid #00e5ff; position:relative; box-shadow:0 20px 50px rgba(0,0,0,0.75);">
+            <img id="closer-presenter-photo" src="/static/edward_hero_depth.jpg" alt="Consultor Asignado — Agencia Prosper IA" style="width:100%; height:100%; object-fit:cover; object-position:center 18%;">
+            <div style="position:absolute; bottom:0; left:0; right:0; background:linear-gradient(0deg, rgba(2,6,23,0.96) 0%, rgba(2,6,23,0.8) 72%, transparent 100%); padding:22px;">
+              <div id="closer-presenter-badge" style="display:inline-block; background:rgba(0,229,255,0.22); border:1px solid #00e5ff; color:#00e5ff; font-size:8.5pt; font-weight:900; padding:4px 10px; border-radius:999px; margin-bottom:6px; text-transform:uppercase;">Director de Crecimiento Comercial &amp; IA</div>
+              <div id="closer-presenter-name" style="font-size:16pt; font-weight:900; color:#fff;">Edward Jiménez &amp; Equipo Closer ProsperIA</div>
+              <div id="closer-presenter-role" style="font-size:10.5pt; color:#67e8f9; font-weight:700;">Consultor Especializado en Crecimiento de Negocios · Agencia Prosper IA LLC</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="s-bottom">
+        <span>Agencia Prosper IA LLC · Presentación Visual en Lenguaje de Dueño de Negocio</span>
+        <span>Lámina 01 de 12</span>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         SLIDE 02: LAS 2 FUGAS VISUALES QUE DESANGRAN TUS VENTAS HOY
+         ================================================================== -->
+    <section class="slide" data-slide="1">
+      <div class="s-top">
+        <div class="s-brand">
+          <img src="/static/logo_prosper_ia_cropped.jpg" alt="Agencia Prosper IA">
+          <div class="s-brand-name">AGENCIA <span>PROSPER IA</span></div>
+        </div>
+        <span class="s-pill pain">🚨 EL PROBLEMA REAL · POR QUÉ SE ESCAPAN TUS CLIENTES</span>
+      </div>
+
+      <div>
+        <h2 class="s-headline">
+          Hoy Tu Negocio Pierde Ventas por <span class="red">2 Fugas Muy Simples</span>
+        </h2>
+        <p class="s-sub">Hoy el cliente decide con los ojos en redes sociales y no espera a nadie en WhatsApp:</p>
+      </div>
+
+      <div class="grid-2">
+        <!-- Fuga 1: Invisibilidad en Redes -->
+        <div class="v-card pain">
+          <div class="img-frame" style="height:220px;">
+            <img src="/static/reel_camera_thumb.jpg" alt="Falta de Videos y Publicidad">
+            <div style="position:absolute; top:12px; left:12px; background:#ef4444; color:#fff; font-size:9.5pt; font-weight:900; padding:5px 12px; border-radius:999px;">
+              ❌ FUGA #1 · POCA GENTE NUEVA TE VE
+            </div>
+          </div>
+          <div style="margin-top:12px;">
+            <h3 style="font-size:19pt; font-weight:900; color:#fff;">No Subes Videos Profesionales ni Haces Publicidad en tu Ciudad</h3>
+            <div class="bullet-list">
+              <div class="bullet-item"><span class="icon">📱</span> Tu competencia aparece en Reels y anuncios todos los días; tú no.</div>
+              <div class="bullet-item"><span class="icon">⏳</span> No tienes 4 horas diarias para escribir guiones ni editar videos.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fuga 2: Lentitud en WhatsApp -->
+        <div class="v-card pain">
+          <div class="img-frame" style="height:220px;">
+            <img src="/static/velocidad-respuesta-speed-to-lead-ia.png" alt="Lentitud al responder WhatsApp">
+            <div style="position:absolute; top:12px; left:12px; background:#ef4444; color:#fff; font-size:9.5pt; font-weight:900; padding:5px 12px; border-radius:999px;">
+              ❌ FUGA #2 · TARDAS EN CONTESTAR WHATSAPP
+            </div>
+          </div>
+          <div style="margin-top:12px;">
+            <h3 style="font-size:19pt; font-weight:900; color:#fff;">8 de cada 10 Compran al Primer Negocio que les Responde Claro</h3>
+            <div class="bullet-list">
+              <div class="bullet-item"><span class="icon">🌙</span> El 45% escribe de noche o fin de semana y nadie les contesta.</div>
+              <div class="bullet-item"><span class="icon">👻</span> Piden precio, te dejan en visto y nadie les vuelve a dar seguimiento.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="s-bottom">
+        <span>Pregunta clave: ¿Cuál de las 2 fugas te cuesta más dinero hoy: atraer más gente nueva o contestar rápido y dar seguimiento?</span>
+        <span>Lámina 02 de 12</span>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         SLIDE 03: LA ANALOGÍA VISUAL — LA CASA + LA GASOLINA (LOS 2 MOTORES)
+         ================================================================== -->
+    <section class="slide" data-slide="2">
+      <div class="s-top">
+        <div class="s-brand">
+          <img src="/static/logo_prosper_ia_cropped.jpg" alt="Agencia Prosper IA">
+          <div class="s-brand-name">AGENCIA <span>PROSPER IA</span></div>
+        </div>
+        <span class="s-pill gold">💡 NUESTRA FÓRMULA · LA CASA + LA GASOLINA</span>
+      </div>
+
+      <div>
+        <h2 class="s-headline">
+          Una Página Sola Es un <span class="red">Local en una Calle Vacía</span>: Necesitas <span class="amber">Los 2 Motores</span>
+        </h2>
+        <p class="s-sub">No te vendemos piezas sueltas; instalamos el sistema completo para atraer y cerrar clientes:</p>
+      </div>
+
+      <div class="grid-2">
+        <!-- MOTOR 1: LA GASOLINA (REELS + TRÁFICO) -->
+        <div class="v-card gold">
+          <div class="img-frame" style="height:215px;">
+            <img src="/static/reel_foto_campana_marketing_thumb.jpg" alt="Motor 1 Reels y Publicidad">
+            <div style="position:absolute; top:12px; left:12px; background:#f59e0b; color:#020617; font-size:9.5pt; font-weight:900; padding:5px 12px; border-radius:999px;">
+              🔥 MOTOR 1 · LA GASOLINA DE CLIENTES NUEVOS
+            </div>
+          </div>
+          <div style="margin-top:10px;">
+            <h3 style="font-size:19.5pt; font-weight:900; color:#fde68a;">Edición de Reels Virales + Publicidad en Facebook e Instagram</h3>
+            <div class="bullet-list">
+              <div class="bullet-item"><span class="icon">🎬</span> <strong>Videos que dan confianza:</strong> Nuestro equipo los edita por ti.</div>
+              <div class="bullet-item"><span class="icon">📈</span> <strong>Anuncios en tu ciudad:</strong> Llevan gente lista a tu WhatsApp.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MOTOR 2: LA CASA 24/7 (WEB + CONTESTADOR + AGENDA) -->
+        <div class="v-card cyan" style="border-width:2px;">
+          <div class="img-frame" style="height:215px;">
+            <img src="/static/soluciones_por_industria.jpg" alt="Motor 2 Sucursal Web y Contestador 24/7">
+            <div style="position:absolute; top:12px; left:12px; background:#00e5ff; color:#020617; font-size:9.5pt; font-weight:900; padding:5px 12px; border-radius:999px;">
+              🏢 MOTOR 2 · TU CASA ABIERTA LAS 24 HORAS
+            </div>
+          </div>
+          <div style="margin-top:10px;">
+            <h3 style="font-size:19.5pt; font-weight:900; color:#67e8f9;">Tu Página Web Inteligente + Contestador 24/7 + Agenda en Celular</h3>
+            <div class="bullet-list">
+              <div class="bullet-item"><span class="icon">💬</span> <strong>Responde en &lt; 1 minuto:</strong> Día, noche y domingos sin sueldo extra.</div>
+              <div class="bullet-item"><span class="icon">📲</span> <strong>Filtra y agenda solo:</strong> Tú solo recibes la cita confirmada.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="s-bottom">
+        <span>Motor 1 mete decenas de interesados a tu WhatsApp · Motor 2 los atiende al instante y los agenda en tu celular.</span>
+        <span>Lámina 03 de 12</span>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         SLIDE 04: ÉNFASIS PROTAGONISTA #1 — EDICIÓN DE REELS VIRALES
+         ================================================================== -->
+    <section class="slide" data-slide="3">
+      <div class="s-top">
+        <div class="s-brand">
+          <img src="/static/logo_prosper_ia_cropped.jpg" alt="Agencia Prosper IA">
+          <div class="s-brand-name">AGENCIA <span>PROSPER IA</span></div>
+        </div>
+        <span class="s-pill gold">🎬 MOTOR 1 (PARTE A) · EDICIÓN PROFESIONAL DE REELS VIRALES</span>
+      </div>
+
+      <div>
+        <h2 class="s-headline">
+          Tú Solo Te Grabas <span class="amber">15 Minutos con tu Celular</span>: Nuestro Equipo <span class="pink">Edita Todo por Ti</span>
+        </h2>
+        <p class="s-sub">Los mismos editores que lograron +744,000 reproducciones convierten tus videos en imanes de clientes:</p>
+      </div>
+
+      <div class="grid-3">
+        <div class="v-card cyan">
+          <div class="img-frame" style="height:210px;">
+            <img src="/static/passportai_mockup_showcase.jpg" alt="Guiones Listos en PassportAI">
+          </div>
+          <div style="margin-top:10px;">
+            <span style="font-size:9.5pt; font-weight:900; color:#00e5ff;">PASO 1 · CERO HOJA EN BLANCO</span>
+            <h3 style="font-size:16.5pt; font-weight:900; color:#fff; margin-top:4px;">Te Entregamos los Guiones Listos</h3>
+            <p style="font-size:11pt; color:#cbd5e1; margin-top:6px;">
+              Con <strong>PassportAI</strong> y nuestro equipo sabes palabra por palabra qué decir en 60 segundos para atraer compradores reales.
+            </p>
+          </div>
+        </div>
+
+        <div class="v-card pink">
+          <div class="img-frame" style="height:210px;">
+            <img src="/static/reel_director_thumb.jpg" alt="Edición Dinámica Profesional">
+          </div>
+          <div style="margin-top:10px;">
+            <span style="font-size:9.5pt; font-weight:900; color:#f472b6;">PASO 2 · MAGIA DE EDICIÓN</span>
+            <h3 style="font-size:16.5pt; font-weight:900; color:#fff; margin-top:4px;">Subtítulos, Ritmo, Música y Efectos</h3>
+            <p style="font-size:11pt; color:#cbd5e1; margin-top:6px;">
+              Nos mandas tu video crudo por WhatsApp y nuestros editores le ponen zooms, subtítulos dinámicos e imágenes de impacto.
+            </p>
+          </div>
+        </div>
+
+        <div class="v-card emerald">
+          <div class="img-frame" style="height:210px;">
+            <img src="/static/proof_reels_592k.jpg" alt="Reels Virales de Autoridad">
+          </div>
+          <div style="margin-top:10px;">
+            <span style="font-size:9.5pt; font-weight:900; color:#34d399;">PASO 3 · AUTORIDAD EN TU CIUDAD</span>
+            <h3 style="font-size:16.5pt; font-weight:900; color:#fff; margin-top:4px;">Listos para Instagram, FB y TikTok</h3>
+            <p style="font-size:11pt; color:#cbd5e1; margin-top:6px;">
+              Te ahorras más de 30 horas al mes y te posicionas como el referente #1 frente a tu competencia.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="s-bottom">
+        <span>No necesitas saber editar ni comprar cámaras caras: con tu teléfono basta; nosotros ponemos el equipo de televisión digital.</span>
+        <span>Lámina 04 de 12</span>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         SLIDE 05: ÉNFASIS PROTAGONISTA #2 — TRÁFICO DE PAGO (META ADS)
+         ================================================================== -->
+    <section class="slide" data-slide="4">
+      <div class="s-top">
+        <div class="s-brand">
+          <img src="/static/logo_prosper_ia_cropped.jpg" alt="Agencia Prosper IA">
+          <div class="s-brand-name">AGENCIA <span>PROSPER IA</span></div>
+        </div>
+        <span class="s-pill emerald">📈 MOTOR 1 (PARTE B) · CAMPAÑAS DE PUBLICIDAD PAGADA (META ADS)</span>
+      </div>
+
+      <div>
+        <h2 class="s-headline">
+          ¿Quieres Clientes <span class="emerald">Esta Misma Semana</span>? Encendemos Tus <span class="cyan">Anuncios Directo a WhatsApp</span>
+        </h2>
+        <p class="s-sub">Nuestro especialista en tráfico configura y optimiza tus campañas en Facebook e Instagram por ti:</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="v-card emerald" style="border-width:2px;">
+          <div class="img-frame" style="height:245px;">
+            <img src="/static/optimizacion-conversacion-whatsapp-roi.png" alt="Campañas Click to WhatsApp">
+          </div>
+          <div style="margin-top:12px;">
+            <h3 style="font-size:19pt; font-weight:900; color:#6ee7b7;">Anuncios Apuntando Exactamente a Tu Cliente Ideal</h3>
+            <p style="font-size:11.5pt; color:#d1fae5; margin-top:6px;">
+              No tiramos dinero al aire en "Impulsar publicación". Montamos campañas profesionales segmentadas por ciudad, edad y poder adquisitivo para que <strong>toquen el botón y entren directo a tu WhatsApp</strong>.
+            </p>
+          </div>
+        </div>
+
+        <div class="v-card cyan" style="justify-content:center; gap:14px;">
+          <div class="bullet-item" style="padding:16px;">
+            <span class="icon" style="font-size:24pt;">🎯</span>
+            <div>
+              <div style="color:#00e5ff; font-size:13pt; font-weight:900;">1. Segmentación Quirúrgica en tu Zona</div>
+              <div style="font-size:10.5pt; color:#cbd5e1; font-weight:500;">Mostramos tus videos y ofertas solo a personas de tu ciudad o sector listas para comprar.</div>
+            </div>
+          </div>
+          <div class="bullet-item" style="padding:16px;">
+            <span class="icon" style="font-size:24pt;">📲</span>
+            <div>
+              <div style="color:#34d399; font-size:13pt; font-weight:900;">2. Clic Directo a tu WhatsApp y Página Web</div>
+              <div style="font-size:10.5pt; color:#cbd5e1; font-weight:500;">Cada persona que toca el anuncio es recibida en segundos por tu Contestador 24/7.</div>
+            </div>
+          </div>
+          <div class="bullet-item" style="padding:16px;">
+            <span class="icon" style="font-size:24pt;">📊</span>
+            <div>
+              <div style="color:#fde68a; font-size:13pt; font-weight:900;">3. Tú Controlas Cuánto Ponerle a Facebook</div>
+              <div style="font-size:10.5pt; color:#cbd5e1; font-weight:500;">Puedes pautar desde US$5 al día directo en tu cuenta mientras nuestro equipo optimiza tus resultados.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="s-bottom">
+        <span>Combinación ganadora: Tus Reels editados + Campañas en Meta Ads = Flujo predecible de clientes nuevos cada semana.</span>
+        <span>Lámina 05 de 12</span>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         SLIDE 06: MOTOR 2 VISUAL — TU SUCURSAL WEB + CONTESTADOR 24/7 + AGENDA
+         ================================================================== -->
+    <section class="slide" data-slide="5">
+      <div class="s-top">
+        <div class="s-brand">
+          <img src="/static/logo_prosper_ia_cropped.jpg" alt="Agencia Prosper IA">
+          <div class="s-brand-name">AGENCIA <span>PROSPER IA</span></div>
+        </div>
+        <span class="s-pill">🏢 MOTOR 2 · TU SUCURSAL WEB + CONTESTADOR 24/7 + AGENDA (DEMO EN VIVO)</span>
+      </div>
+
+      <div>
+        <h2 class="s-headline">
+          Cuando Tocan tu Video o Anuncio, <span class="cyan">Tu Sistema Los Atiende y Agenda Solo</span>
+        </h2>
+        <p class="s-sub">Así se ve el recorrido del cliente desde que te descubre hasta que queda citado en tu celular:</p>
+      </div>
+
+      <div class="grid-3">
+        <div class="v-card cyan">
+          <div class="img-frame" style="height:205px;">
+            <img src="/static/img/crm_biblioteca_plantillas.jpg" alt="+1000 Diseños Web por Giro">
+          </div>
+          <div style="margin-top:10px;">
+            <span style="font-size:9.5pt; font-weight:900; color:#00e5ff;">1. TU PÁGINA MODERNA</span>
+            <h3 style="font-size:16.5pt; font-weight:900; color:#fff; margin-top:4px;">Imagen que Da Confianza Inmediata</h3>
+            <p style="font-size:11pt; color:#cbd5e1; margin-top:6px;">
+              Adaptada a tu giro (Clínica, Servicios, Inmobiliaria, Exportadora, Consultoría) con tus fotos, precios y botón a WhatsApp.
+            </p>
+          </div>
+        </div>
+
+        <div class="v-card emerald">
+          <div class="img-frame" style="height:205px;">
+            <img src="/static/img/crm_slides/crm_whatsapp_templates.jpg" alt="Contestador Automático WhatsApp">
+          </div>
+          <div style="margin-top:10px;">
+            <span style="font-size:9.5pt; font-weight:900; color:#34d399;">2. TU CONTESTADOR 24/7</span>
+            <h3 style="font-size:16.5pt; font-weight:900; color:#fff; margin-top:4px;">Responde y Filtra en &lt; 1 Minuto</h3>
+            <p style="font-size:11pt; color:#cbd5e1; margin-top:6px;">
+              Saluda por nombre, resuelve dudas frecuentes y hace 3 preguntas filtro para separar curiosos de clientes reales.
+            </p>
+          </div>
+        </div>
+
+        <div class="v-card gold">
+          <div class="img-frame" style="height:205px;">
+            <img src="/static/img/crm_slides/crm_command_center.jpg" alt="Agenda y Libreta Digital en tu Celular">
+          </div>
+          <div style="margin-top:10px;">
+            <span style="font-size:9.5pt; font-weight:900; color:#fde68a;">3. TU AGENDA EN EL CELULAR</span>
+            <h3 style="font-size:16.5pt; font-weight:900; color:#fff; margin-top:4px;">Citas y Seguimiento sin Olvidos</h3>
+            <p style="font-size:11pt; color:#cbd5e1; margin-top:6px;">
+              Manda recordatorios automáticos por WhatsApp para que nadie te deje plantado y guarda a todos tus clientes ordenados.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="s-bottom">
+        <span style="color:#00e5ff; font-weight:900;">👉 DEMO EN VIVO (2 MINUTOS): Mira ahora mismo en pantalla cómo se ve la página de tu giro funcionando.</span>
+        <span>Lámina 06 de 12</span>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         SLIDE 07: PRUEBA SOCIAL VERIFICADA (4 CAPTURAS GRANDES)
+         ================================================================== -->
+    <section class="slide" data-slide="6">
+      <div class="s-top">
+        <div class="s-brand">
+          <img src="/static/logo_prosper_ia_cropped.jpg" alt="Agencia Prosper IA">
+          <div class="s-brand-name">AGENCIA <span>PROSPER IA</span></div>
+        </div>
+        <span class="s-pill gold">🏆 RESULTADOS REALES · PREDICAMOS CON EL EJEMPLO</span>
+      </div>
+
+      <div>
+        <h2 class="s-headline">
+          No Te Vendemos Teoría: Mira los <span class="amber">Números Reales</span> de Nuestro Equipo
+        </h2>
+        <p class="s-sub">El mismo sistema y los mismos editores de video que trabajarán para ti ya lograron esto:</p>
+      </div>
+
+      <div class="grid-4">
+        <div class="v-card" style="padding:12px;">
+          <div class="img-frame" style="height:245px;">
+            <img src="/static/proof_fb_15k_reels_643k.jpg" alt="Facebook 640K Vistas">
+          </div>
+          <div style="margin-top:10px;">
+            <span style="font-size:8.5pt; font-weight:900; color:#34d399;">ALCANCE EN REELS</span>
+            <h3 style="font-size:14pt; font-weight:900; color:#fff; margin-top:2px;">+640,000 Vistas Reales</h3>
+            <p style="font-size:9.5pt; color:#94a3b8;">1 solo Reel con 592K vistas editado por nuestro equipo.</p>
+          </div>
+        </div>
+
+        <div class="v-card" style="padding:12px;">
+          <div class="img-frame" style="height:245px;">
+            <img src="/static/proof_ig_perfil_5428_109k.jpg" alt="Instagram 109K Reel">
+          </div>
+          <div style="margin-top:10px;">
+            <span style="font-size:8.5pt; font-weight:900; color:#f472b6;">INSTAGRAM VERIFICADO</span>
+            <h3 style="font-size:14pt; font-weight:900; color:#fff; margin-top:2px;">+109,000 Vistas en 1 Reel</h3>
+            <p style="font-size:9.5pt; color:#94a3b8;">Guiones y edición que convierten seguidores en citas.</p>
+          </div>
+        </div>
+
+        <div class="v-card" style="padding:12px;">
+          <div class="img-frame" style="height:245px;">
+            <img src="/static/proof_hotmart_passportai_ventas.jpg" alt="740 Negocios Activos">
+          </div>
+          <div style="margin-top:10px;">
+            <span style="font-size:8.5pt; font-weight:900; color:#00e5ff;">COMUNIDAD ACTIVA</span>
+            <h3 style="font-size:14pt; font-weight:900; color:#fff; margin-top:2px;">+740 Dueños de Negocio</h3>
+            <p style="font-size:9.5pt; color:#94a3b8;">Usando PassportAI y nuestro sistema en EE.UU. y LATAM.</p>
+          </div>
+        </div>
+
+        <div class="v-card" style="padding:12px;">
+          <div class="img-frame" style="height:245px;">
+            <img src="/static/proof_hotmart_logro_20k.jpg" alt="Placa Hotmart 20K">
+          </div>
+          <div style="margin-top:10px;">
+            <span style="font-size:8.5pt; font-weight:900; color:#fbbf24;">VENTAS AUDITADAS</span>
+            <h3 style="font-size:14pt; font-weight:900; color:#fff; margin-top:2px;">+US$20,000 en Hotmart</h3>
+            <p style="font-size:9.5pt; color:#94a3b8;">Reconocimiento oficial internacional por resultados.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="s-bottom">
+        <span>+744,000 visualizaciones combinadas y +740 negocios activos respaldan lo que instalaremos en tu empresa.</span>
+        <span>Lámina 07 de 12</span>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         SLIDE 08: TRANSPARENCIA TOTAL — QUIÉN IMPLEMENTA, 5 DATOS Y SOPORTE
+         ================================================================== -->
+    <section class="slide" data-slide="7">
+      <div class="s-top">
+        <div class="s-brand">
+          <img src="/static/logo_prosper_ia_cropped.jpg" alt="Agencia Prosper IA">
+          <div class="s-brand-name">AGENCIA <span>PROSPER IA</span></div>
+        </div>
+        <span class="s-pill emerald">🤝 CERO DUDAS · QUIÉN HACE TODO, QUÉ PEDIMOS Y SOPORTE MENSUAL</span>
+      </div>
+
+      <div>
+        <h2 class="s-headline">
+          Claridad Total: <span class="cyan">¿Quién Instala Todo</span>, Qué Necesitamos de Ti y <span class="emerald">Cómo Funciona tu Soporte?</span>
+        </h2>
+        <p class="s-sub">Tres respuestas directas antes de que elijas tu paquete:</p>
+      </div>
+
+      <div class="grid-3">
+        <!-- 1. Quién implementa -->
+        <div class="v-card cyan" style="border-width:2px;">
+          <div>
+            <div style="font-size:28pt; margin-bottom:6px;">🛠️</div>
+            <span style="font-size:9.5pt; font-weight:900; color:#00e5ff;">1. ¿QUIÉN HACE EL TRABAJO?</span>
+            <h3 style="font-size:18pt; font-weight:900; color:#fff; margin-top:4px;">100% Nuestro Equipo de Especialistas</h3>
+            <div class="bullet-list" style="margin-top:12px;">
+              <div class="bullet-item" style="font-size:10.5pt;">✅ Tú no programas ni configuras nada.</div>
+              <div class="bullet-item" style="font-size:10.5pt;">✅ Diseñadores, ingenieros y editores de Prosper IA lo arman todo en <strong>7 a 10 días</strong>.</div>
+              <div class="bullet-item" style="font-size:10.5pt;">✅ Te lo entregamos funcionando en tu celular.</div>
+            </div>
+          </div>
+          <div style="padding:10px; background:rgba(0,229,255,0.14); border-radius:12px; text-align:center; font-size:10pt; font-weight:900; color:#67e8f9;">
+            Llave en mano real · Cero estrés técnico
+          </div>
+        </div>
+
+        <!-- 2. Qué se pide al cerrar -->
+        <div class="v-card gold" style="border-width:2px;">
+          <div>
+            <div style="font-size:28pt; margin-bottom:6px;">📲</div>
+            <span style="font-size:9.5pt; font-weight:900; color:#fde68a;">2. ¿QUÉ TE PEDIMOS AL INICIAR?</span>
+            <h3 style="font-size:18pt; font-weight:900; color:#fff; margin-top:4px;">Solo 5 Datos Simples por WhatsApp</h3>
+            <div class="bullet-list" style="margin-top:12px; gap:7px;">
+              <div class="bullet-item" style="font-size:10pt; padding:7px 11px;">1️⃣ Nombre de tu negocio y tu logo.</div>
+              <div class="bullet-item" style="font-size:10pt; padding:7px 11px;">2️⃣ Tu WhatsApp donde recibirás las citas.</div>
+              <div class="bullet-item" style="font-size:10pt; padding:7px 11px;">3️⃣ Tus 3 a 5 servicios principales y precios.</div>
+              <div class="bullet-item" style="font-size:10pt; padding:7px 11px;">4️⃣ 5 a 10 fotos/videos con tu celular.</div>
+              <div class="bullet-item" style="font-size:10pt; padding:7px 11px;">5️⃣ Tus horarios de atención y ciudad.</div>
+            </div>
+          </div>
+          <div style="padding:10px; background:rgba(245,158,11,0.18); border-radius:12px; text-align:center; font-size:10pt; font-weight:900; color:#fde68a;">
+            Lo envías en 5 minutos por WhatsApp tras reservar
+          </div>
+        </div>
+
+        <!-- 3. Soporte y Mantenimiento -->
+        <div class="v-card emerald" style="border-width:2px;">
+          <div>
+            <div style="font-size:28pt; margin-bottom:6px;">🛡️</div>
+            <span style="font-size:9.5pt; font-weight:900; color:#34d399;">3. ¿HAY SOPORTE Y MANTENIMIENTO?</span>
+            <h3 style="font-size:18pt; font-weight:900; color:#fff; margin-top:4px;">¡Sí! Soporte por WhatsApp y Servidor</h3>
+            <div class="bullet-list" style="margin-top:12px;">
+              <div class="bullet-item" style="font-size:10.5pt;">⭐ <strong>Planes Anuales ($990 y $1,490):</strong> Incluyen <strong>12 meses completos ($0/mes)</strong> de soporte por WhatsApp, mantenimiento y servidor.</div>
+              <div class="bullet-item" style="font-size:10.5pt;">🟢 <strong>Plan Express ($497):</strong> Incluye <strong>Mes 1 gratis</strong> (desde el Mes 2: US$97/mes opcional).</div>
+            </div>
+          </div>
+          <div style="padding:10px; background:rgba(16,185,129,0.18); border-radius:12px; text-align:center; font-size:10pt; font-weight:900; color:#6ee7b7;">
+            Si necesitas cambiar un precio o foto, nos escribes
+          </div>
+        </div>
+      </div>
+
+      <div class="s-bottom">
+        <span>Nunca te quedas solo: tienes acompañamiento técnico y humano directo por WhatsApp con nuestro equipo.</span>
+        <span>Lámina 08 de 12</span>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         SLIDE 09: OFERTA RECOMENDADA #1 — PACK ANUAL ESTRELLA ($990)
+         ================================================================== -->
+    <section class="slide" data-slide="8">
+      <div class="s-top">
+        <div class="s-brand">
+          <img src="/static/logo_prosper_ia_cropped.jpg" alt="Agencia Prosper IA">
+          <div class="s-brand-name">AGENCIA <span>PROSPER IA</span></div>
+        </div>
+        <span class="s-pill gold">⭐ OPCIÓN RECOMENDADA (8 DE CADA 10 NEGOCIOS) · 12 MESES SIN MENSUALIDADES</span>
+      </div>
+
+      <div>
+        <h2 class="s-headline">
+          Recomendación Central: <span class="cyan">Pack Anual Estrella</span> (<span class="amber">Todo el Año Incluido + 2 Reels</span>)
+        </h2>
+        <p class="s-sub">Te olvidas de pagar mensualidades ni mantenimiento durante 12 meses completos con Facilidad 50 / 50:</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="v-card cyan" style="border-width:2.5px; box-shadow:0 0 32px rgba(0,229,255,0.2);">
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="background:#00e5ff; color:#020617; font-size:9.5pt; font-weight:900; padding:5px 14px; border-radius:999px;">⭐ FAVORITO · CERO MENSUALIDADES EN 1 AÑO</span>
+              <span style="color:#fde68a; font-size:9.5pt; font-weight:900;">Ahorras +US$1,180</span>
+            </div>
+            <h3 style="font-size:21pt; font-weight:900; color:#fff; margin-top:12px;">Sucursal Web + Contestador 24/7 + 1 Año de Agenda, Soporte y PassportAI</h3>
+
+            <div style="margin:14px 0; padding:16px; border-radius:16px; background:rgba(2,6,23,0.9); border:1.5px solid #00e5ff; display:flex; align-items:center; justify-content:space-between;">
+              <div>
+                <div style="text-decoration:line-through; color:#64748b; font-size:11pt; font-weight:700;">Valor Normal: US$1,990 USD</div>
+                <div style="font-size:36pt; font-weight:900; color:#00e5ff; line-height:1;">US$990 <span style="font-size:12pt; color:#e2e8f0;">/ Año</span></div>
+              </div>
+              <div style="text-align:right; background:rgba(16,185,129,0.18); border:2px solid #10b981; padding:10px 16px; border-radius:14px;">
+                <div style="font-size:8.5pt; font-weight:900; color:#34d399;">FACILIDAD 50 / 50</div>
+                <div style="font-size:18pt; font-weight:900; color:#fff;">US$495 Hoy</div>
+                <div style="font-size:8.5pt; color:#a7f3d0;">+ US$495 al entregar</div>
+              </div>
+            </div>
+
+            <div class="bullet-list" style="gap:8px;">
+              <div class="bullet-item" style="font-size:10.8pt;">✅ <strong>0 dólares de mensualidad durante 12 meses</strong> (servidor y soporte incluidos).</div>
+              <div class="bullet-item" style="font-size:10.8pt;">✅ Inicias hoy con <strong>US$495</strong> y liquidas al verlo funcionando en tu celular.</div>
+            </div>
+          </div>
+          <div style="padding:10px; background:rgba(0,229,255,0.14); border-radius:12px; text-align:center; font-size:10.5pt; font-weight:900; color:#67e8f9;">
+            🎯 Solo US$2.70 al día por tener tu negocio atendiendo y agendando 24/7 todo el año
+          </div>
+        </div>
+
+        <div class="v-card emerald">
+          <div>
+            <span style="background:#10b981; color:#022c22; font-size:9pt; font-weight:900; padding:4px 12px; border-radius:999px;">📦 QUÉ RECIBES LLAVE EN MANO</span>
+            <div class="bullet-list" style="margin-top:12px; gap:9px;">
+              <div class="bullet-item" style="font-size:10.8pt;"><span class="icon">🌐</span> <strong>1. Tu Página Web Inteligente:</strong> Diseñada para tu giro con tus fotos y WhatsApp.</div>
+              <div class="bullet-item" style="font-size:10.8pt;"><span class="icon">💬</span> <strong>2. Tu Contestador 24/7 en WhatsApp:</strong> Responde en &lt; 1 minuto y filtra interesados.</div>
+              <div class="bullet-item" style="font-size:10.8pt;"><span class="icon">📲</span> <strong>3. 12 Meses de Agenda y Libreta de Clientes:</strong> Con recordatorios anti-plantones.</div>
+              <div class="bullet-item" style="font-size:10.8pt;"><span class="icon">🛂</span> <strong>4. 12 Meses de PassportAI:</strong> Tus ofertas y guiones de video en 3 clics.</div>
+              <div class="bullet-item" style="font-size:10.8pt; border-color:#f59e0b; background:rgba(245,158,11,0.14);"><span class="icon">🎬</span> <strong>5. BONO: 2 Videos Reels Editados por Nuestro Equipo + Soporte Técnico 12 Meses.</strong></div>
+            </div>
+          </div>
+          <div style="padding:10px; background:rgba(245,158,11,0.18); border:1px solid #f59e0b; border-radius:12px; text-align:center; font-size:10pt; font-weight:900; color:#fde68a;">
+            🏆 Incluye todos los Bonos de Acción Rápida + Mantenimiento Anual Garantizado
+          </div>
+        </div>
+      </div>
+
+      <div class="s-bottom">
+        <span>Con US$495 hoy congelas tu año entero de tecnología, mantenimiento, soporte y 2 Reels profesionales.</span>
+        <span>Lámina 09 de 12</span>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         SLIDE 10: OPCIÓN ACELERADOR TOTAL — MÁQUINA COMPLETA ($1,490)
+         ================================================================== -->
+    <section class="slide" data-slide="9">
+      <div class="s-top">
+        <div class="s-brand">
+          <img src="/static/logo_prosper_ia_cropped.jpg" alt="Agencia Prosper IA">
+          <div class="s-brand-name">AGENCIA <span>PROSPER IA</span></div>
+        </div>
+        <span class="s-pill gold">🔥 EL PAQUETE MÁS POTENTE · CASA NUEVA + 10 REELS + CAMPAÑAS DE PUBLICIDAD</span>
+      </div>
+
+      <div>
+        <h2 class="s-headline">
+          ¿Quieres que También <span class="amber">Editemos 10 Videos Virales</span> y Te <span class="emerald">Traigamos Clientes con Anuncios</span>?
+        </h2>
+        <p class="s-sub">La <strong>Máquina Completa (US$1,490)</strong> une los 2 Motores hechos 100% por nuestro equipo:</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="v-card gold" style="border-width:2.5px;">
+          <div>
+            <span style="background:#f59e0b; color:#020617; font-size:9.5pt; font-weight:900; padding:5px 14px; border-radius:999px;">🔥 MÁQUINA COMPLETA 3 EN 1 · WEB + 10 REELS + META ADS</span>
+            <h3 style="font-size:20.5pt; font-weight:900; color:#fff; margin-top:10px;">Todo el Pack Anual + 10 Reels Editados + 1 Mes de Publicidad Pagada</h3>
+
+            <div style="margin:12px 0; padding:15px; border-radius:16px; background:rgba(2,6,23,0.9); border:1.5px solid #f59e0b; display:flex; align-items:center; justify-content:space-between;">
+              <div>
+                <div style="text-decoration:line-through; color:#94a3b8; font-size:11pt; font-weight:700;">Contratado Suelto: US$2,980 USD</div>
+                <div style="font-size:36pt; font-weight:900; color:#fde68a; line-height:1;">US$1,490 <span style="font-size:12pt; color:#fef3c7;">Total</span></div>
+              </div>
+              <div style="text-align:right; background:rgba(16,185,129,0.2); border:2px solid #10b981; padding:10px 16px; border-radius:14px;">
+                <div style="font-size:8.5pt; font-weight:900; color:#34d399;">FACILIDAD 50 / 50</div>
+                <div style="font-size:18pt; font-weight:900; color:#fff;">US$745 Hoy</div>
+                <div style="font-size:8.5pt; color:#a7f3d0;">+ US$745 en el día 15</div>
+              </div>
+            </div>
+
+            <div class="bullet-list" style="gap:7px;">
+              <div class="bullet-item" style="font-size:10.3pt;">✅ <strong>Todo el Pack Anual ($990) Incluido:</strong> Web + Contestador 24/7 + 12 Meses Soporte.</div>
+              <div class="bullet-item" style="font-size:10.3pt; border-color:#f472b6;">🎬 <strong>10 Videos Reels Virales Editados:</strong> Subtítulos dinámicos, ritmo y efectos (Valor: $497).</div>
+              <div class="bullet-item" style="font-size:10.3pt; border-color:#34d399;">📈 <strong>1 Mes de Campañas en FB e IG:</strong> Nuestro especialista trae clientes a tu WhatsApp (Valor: $497).</div>
+              <div class="bullet-item" style="font-size:10.3pt;">🚀 <strong>Reactivación por WhatsApp:</strong> Despertamos a tu lista de clientes antiguos.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="v-card cyan" style="justify-content:space-between;">
+          <div class="img-frame" style="height:205px;">
+            <img src="/static/proof_ig_reels_grid_109k.jpg" alt="Producción de 10 Reels y Tráfico">
+          </div>
+          <div>
+            <span style="font-size:9.5pt; font-weight:900; color:#fde68a;">💡 ¿POR QUÉ VALE ORO ESTA DIFERENCIA DE US$500?</span>
+            <h3 style="font-size:17.5pt; font-weight:900; color:#fff; margin-top:4px;">Te Ahorras Casi US$500 en Videos y Publicidad</h3>
+            <p style="font-size:11pt; color:#cbd5e1; margin-top:6px;">
+              Contratar por separado los <strong>10 Reels Editados (US$497)</strong> + <strong>1 Mes de Tráfico en Meta Ads (US$497)</strong> cuesta <strong>US$994 adicionales</strong>. Aquí te llevas ambos por solo <strong>US$250 más en tu pago inicial de hoy</strong> (US$745 vs US$495).
+            </p>
+          </div>
+          <div style="padding:10px; background:rgba(16,185,129,0.16); border:1px solid #10b981; border-radius:12px; text-align:center; font-size:10pt; font-weight:900; color:#6ee7b7;">
+            Ideal para quien quiere el WhatsApp sonando con clientes nuevos desde este mes
+          </div>
+        </div>
+      </div>
+
+      <div class="s-bottom">
+        <span>Nota transparente: El presupuesto diario de anuncios en Facebook lo defines tú directamente en tu cuenta (desde US$5/día).</span>
+        <span>Lámina 10 de 12</span>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         SLIDE 11: ENTRADA LIGERA EXPRESS ($497) + PLANES MENSUALES DE REELS/ADS
+         ================================================================== -->
+    <section class="slide" data-slide="10">
+      <div class="s-top">
+        <div class="s-brand">
+          <img src="/static/logo_prosper_ia_cropped.jpg" alt="Agencia Prosper IA">
+          <div class="s-brand-name">AGENCIA <span>PROSPER IA</span></div>
+        </div>
+        <span class="s-pill emerald">🟢 ENTRADA LIGERA (US$497) · Y PAQUETES CREATIVOS MENSUALES DE REELS / TRÁFICO</span>
+      </div>
+
+      <div>
+        <h2 class="s-headline">
+          ¿Prefieres Iniciar con <span class="emerald">US$250 Hoy</span> o Contratar <span class="pink">Solo Videos / Publicidad</span>?
+        </h2>
+        <p class="s-sub">Opciones flexibles para que ningún dueño de negocio se quede sin crecer este mes:</p>
+      </div>
+
+      <div class="grid-2">
+        <!-- Columna 1: Express PYME $497 -->
+        <div class="v-card emerald" style="border-width:2px;">
+          <div>
+            <span style="background:#10b981; color:#022c22; font-size:9pt; font-weight:900; padding:4px 12px; border-radius:999px;">🟢 OPCIÓN DE MENOR DESEMBOLSO INICIAL</span>
+            <h3 style="font-size:20pt; font-weight:900; color:#fff; margin-top:10px;">Arranque Rápido Express PYME</h3>
+            <div style="margin:12px 0; padding:14px; border-radius:14px; background:rgba(2,6,23,0.9); border:1px solid #10b981; display:flex; align-items:center; justify-content:space-between;">
+              <div>
+                <div style="font-size:32pt; font-weight:900; color:#34d399; line-height:1;">US$497 <span style="font-size:11pt; color:#cbd5e1;">Pago Único</span></div>
+              </div>
+              <div style="text-align:right; background:rgba(0,229,255,0.16); border:1.5px solid #00e5ff; padding:8px 14px; border-radius:12px;">
+                <div style="font-size:8pt; font-weight:900; color:#00e5ff;">RESERVA 50 / 50</div>
+                <div style="font-size:16pt; font-weight:900; color:#fff;">US$250 Hoy</div>
+                <div style="font-size:8pt; color:#67e8f9;">+ US$247 contra entrega</div>
+              </div>
+            </div>
+            <div class="bullet-list" style="gap:8px;">
+              <div class="bullet-item" style="font-size:10.5pt;">✓ Misma calidad de <strong>Página Web Inteligente + Contestador 24/7 + Agenda</strong>.</div>
+              <div class="bullet-item" style="font-size:10.5pt;">✓ Incluye el <strong>Mes 1 GRATIS</strong> de soporte, mantenimiento, agenda y PassportAI.</div>
+              <div class="bullet-item" style="font-size:10.5pt;">⚖️ <strong>Diferencia vs. Anual ($990):</strong> A partir del Mes 2 decides si mantienes tu sistema y soporte activo por <strong>US$97/mes</strong> (o pasas al anual).</div>
+            </div>
+          </div>
+          <div style="padding:10px; background:rgba(16,185,129,0.15); border-radius:12px; text-align:center; font-size:10pt; font-weight:900; color:#a7f3d0;">
+            Arrancas toda tu construcción web hoy mismo con solo US$250 USD
+          </div>
+        </div>
+
+        <!-- Columna 2: Paquetes Mensuales de Reels y Tráfico -->
+        <div class="v-card pink" style="border-width:2px;">
+          <div>
+            <span style="background:#f472b6; color:#020617; font-size:9pt; font-weight:900; padding:4px 12px; border-radius:999px;">🎬📈 SERVICIOS MENSUALES DE REELS Y TRÁFICO</span>
+            <h3 style="font-size:20pt; font-weight:900; color:#fff; margin-top:10px;">¿Ya Tienes Web o Quieres Más Gasolina Cada Mes?</h3>
+            <div class="bullet-list" style="margin-top:14px; gap:12px;">
+              <div style="background:rgba(2,6,23,0.88); border:1.5px solid #f472b6; border-radius:14px; padding:14px;">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <strong style="color:#f472b6; font-size:13pt;">🎬 Pack 10 Reels Virales Editados</strong>
+                  <span style="background:#f472b6; color:#020617; font-weight:900; font-size:11pt; padding:3px 10px; border-radius:8px;">US$497 (o $250 hoy)</span>
+                </div>
+                <p style="font-size:10.3pt; color:#fbcfe8; margin-top:6px;">
+                  10 guiones estratégicos + edición profesional con subtítulos dinámicos, música, efectos y portadas para IG, FB y TikTok.
+                </p>
+              </div>
+
+              <div style="background:rgba(2,6,23,0.88); border:1.5px solid #00e5ff; border-radius:14px; padding:14px;">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <strong style="color:#00e5ff; font-size:13pt;">📈 1 Mes de Campañas Meta Ads</strong>
+                  <span style="background:#00e5ff; color:#020617; font-weight:900; font-size:11pt; padding:3px 10px; border-radius:8px;">US$497 (o $250 hoy)</span>
+                </div>
+                <p style="font-size:10.3pt; color:#e0f2fe; margin-top:6px;">
+                  Segmentación en tu ciudad + montaje de anuncios hacia tu WhatsApp + optimización semanal de citas y reporte claro.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div style="padding:10px; background:rgba(244,114,182,0.16); border-radius:12px; text-align:center; font-size:10pt; font-weight:900; color:#fbcfe8;">
+            También disponibles con Reserva 50/50 (US$250 hoy y US$247 a mitad de entrega)
+          </div>
+        </div>
+      </div>
+
+      <div class="s-bottom">
+        <span>¿Presupuesto ultra ajustado? Pregunta a tu asesor por el Salvavidas Micro-PYME de US$197 (Tarjeta Web + Agenda básica).</span>
+        <span>Lámina 11 de 12</span>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         SLIDE 12: CIERRE EJECUTIVO EN 3 PASOS + BOTONES DE PAGO 1 CLIC
+         ================================================================== -->
+    <section class="slide" data-slide="11">
+      <div class="s-top">
+        <div class="s-brand">
+          <img src="/static/logo_prosper_ia_cropped.jpg" alt="Agencia Prosper IA">
+          <div class="s-brand-name">AGENCIA <span>PROSPER IA</span></div>
+        </div>
+        <span class="s-pill gold">🏁 PASO FINAL · EN 7 A 10 DÍAS ESTÁS RECIBIENDO CLIENTES</span>
+      </div>
+
+      <div>
+        <h2 class="s-headline">
+          Así de Simple <span class="emerald">Arrancamos Hoy Mismo</span> en 3 Pasos
+        </h2>
+        <p class="s-sub">Cero riesgo con nuestra Facilidad 50/50: inicias con la mitad hoy y liquidas al recibir tu sistema funcionando:</p>
+      </div>
+
+      <div class="grid-3" style="flex:0.82;">
+        <div class="v-card cyan">
+          <div>
+            <div style="font-size:26pt; font-weight:900; color:#00e5ff;">PASO 1 · HOY</div>
+            <h3 style="font-size:17pt; font-weight:900; color:#fff; margin-top:6px;">Reservas con el 50% y Nos Mandas tus 5 Datos</h3>
+            <p style="font-size:11pt; color:#cbd5e1; margin-top:8px;">
+              Apartas tu lugar en el link oficial de Stripe y nos compartes por WhatsApp tu logo, servicios, fotos y horario en 5 minutos.
+            </p>
+          </div>
+        </div>
+
+        <div class="v-card gold">
+          <div>
+            <div style="font-size:26pt; font-weight:900; color:#fde68a;">PASO 2 · DÍAS 2 AL 6</div>
+            <h3 style="font-size:17pt; font-weight:900; color:#fff; margin-top:6px;">Nuestro Equipo Construye Todo por Ti</h3>
+            <p style="font-size:11pt; color:#cbd5e1; margin-top:8px;">
+              Diseñamos tu Página Inteligente, entrenamos tu Contestador 24/7, conectamos tu Agenda y preparamos tus Reels y anuncios.
+            </p>
+          </div>
+        </div>
+
+        <div class="v-card emerald">
+          <div>
+            <div style="font-size:26pt; font-weight:900; color:#34d399;">PASO 3 · DÍA 7 AL 10</div>
+            <h3 style="font-size:17pt; font-weight:900; color:#fff; margin-top:6px;">Entrega en Vivo en tu Celular y Arranque</h3>
+            <p style="font-size:11pt; color:#cbd5e1; margin-top:8px;">
+              Lo pruebas en vivo desde tu propio teléfono, liquidas el 50% restante contra entrega y quedas con soporte incluido.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Barra Interactiva de Cierre con Links Reales de Stripe/CRM -->
+      <div style="background:linear-gradient(90deg, rgba(0,229,255,0.18), rgba(16,185,129,0.22)); border:2px solid #00e5ff; border-radius:18px; padding:16px 22px; display:flex; align-items:center; justify-content:space-between; gap:14px;">
+        <div>
+          <div style="font-size:9.5pt; font-weight:900; color:#fde68a; text-transform:uppercase;">DECISIÓN EJECUTIVA · CLIC PARA COPIAR LINK DE PAGO OFICIAL</div>
+          <div style="font-size:16pt; font-weight:900; color:#ffffff; margin-top:2px;">
+            ¿Con cuál opción dejamos activado el crecimiento de tu negocio hoy?
+          </div>
+        </div>
+        <div style="display:flex; gap:10px;">
+          <div onclick="navigator.clipboard.writeText('https://api.agenciaprosperia.com/payment-link/6af227a4d4cfb789aef22986'); this.querySelector('.copy-hint').textContent='✓ Link $495 Copiado';" style="cursor:pointer; background:#040814; border:2.5px solid #00e5ff; border-radius:12px; padding:9px 14px; text-align:center;">
+            <div style="font-size:8pt; color:#00e5ff; font-weight:900;">⭐ PACK ANUAL ($990)</div>
+            <div style="font-size:14.5pt; font-weight:900; color:#fff;">US$495 Hoy</div>
+            <div class="copy-hint" style="font-size:7.5pt; color:#34d399; font-weight:800; margin-top:3px;">📋 Copiar Reserva $495</div>
+          </div>
+          <div onclick="navigator.clipboard.writeText('https://api.agenciaprosperia.com/payment-link/6af22915d4cfb789aef2299b'); this.querySelector('.copy-hint').textContent='✓ Link $745 Copiado';" style="cursor:pointer; background:#040814; border:2px solid #f59e0b; border-radius:12px; padding:9px 14px; text-align:center;">
+            <div style="font-size:8pt; color:#fde68a; font-weight:900;">🔥 MÁQUINA ($1,490)</div>
+            <div style="font-size:14.5pt; font-weight:900; color:#fff;">US$745 Hoy</div>
+            <div class="copy-hint" style="font-size:7.5pt; color:#fde68a; font-weight:800; margin-top:3px;">📋 Copiar Reserva $745</div>
+          </div>
+          <div onclick="navigator.clipboard.writeText('https://api.agenciaprosperia.com/payment-link/6af2287303c375ed645fe629'); this.querySelector('.copy-hint').textContent='✓ Link $250 Copiado';" style="cursor:pointer; background:#040814; border:1.5px solid #10b981; border-radius:12px; padding:9px 14px; text-align:center;">
+            <div style="font-size:8pt; color:#34d399; font-weight:900;">🟢 EXPRESS ($497)</div>
+            <div style="font-size:14.5pt; font-weight:900; color:#fff;">US$250 Hoy</div>
+            <div class="copy-hint" style="font-size:7.5pt; color:#34d399; font-weight:800; margin-top:3px;">📋 Copiar Reserva $250</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="s-bottom">
+        <span>Agencia Prosper IA LLC · ¡Bienvenido a la nueva etapa de crecimiento de tu negocio!</span>
+        <span>Lámina 12 de 12</span>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    (() => {
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      const indicator = document.getElementById('slide-indicator');
+      const prevBtn = document.getElementById('prev-btn');
+      const nextBtn = document.getElementById('next-btn');
+      const scriptBtn = document.getElementById('script-btn');
+      const fullscreenBtn = document.getElementById('fullscreen-btn');
+      const teleprompterText = document.getElementById('teleprompter-text');
+
+      const notes = [
+        "SLIDE 1 (Portada Humana): 'Hola [Nombre], hoy no te voy a hablar en chino técnico. De dueño de negocio a dueño de negocio: te voy a mostrar cómo llenar tu WhatsApp de clientes nuevos todas las semanas con videos y publicidad, y cómo atenderlos en menos de 1 minuto las 24 horas.'",
+        "SLIDE 2 (Las 2 Fugas): Haz esta pregunta y escucha: '[Nombre], hoy todo negocio pierde dinero por dos fugas: 1) Poca gente nueva te descubre porque no subes videos profesionales ni haces campañas en tu ciudad, y 2) Cuando te escriben al WhatsApp, si tardas más de 5 minutos o es de noche, le compran a otro. ¿Cuál de las dos te duele más hoy?'",
+        "SLIDE 3 (La Casa + La Gasolina): 'Mira esta imagen: tener solo una página web sin videos ni publicidad es como abrir un local de lujo en una calle vacía. Por eso nosotros te instalamos LOS DOS MOTORES: el Motor 1 (la gasolina que trae gente nueva con Reels y anuncios) y el Motor 2 (la casa que contesta y agenda 24/7).'",
+        "SLIDE 4 (Énfasis en Edición de Reels): 'Empecemos por el Motor 1: los videos. Tú NO tienes que pensar qué decir ni pasar 4 horas editando. Nosotros te damos los guiones listos, tú te grabas 15 minutos con tu celular y nuestros propios editores —los mismos que lograron más de 744,000 vistas— le ponen subtítulos dinámicos, ritmo y efectos.'",
+        "SLIDE 5 (Énfasis en Tráfico Pagado Meta Ads): 'Y para que el teléfono suene desde esta misma semana, nuestro especialista en publicidad monta tus anuncios en Facebook e Instagram apuntando solo a gente de tu ciudad o sector que puede pagar tu servicio, llevándolos directo a tu WhatsApp.'",
+        "SLIDE 6 (Motor 2 + Demo 2 Min): 'Cuando esa gente toca tu video o tu anuncio, entra el Motor 2: tu Página Web Inteligente y tu Contestador 24/7 en WhatsApp, que los saluda en segundos, filtra quién sí califica y los deja agendados en tu celular. Mira 2 minutos en mi pantalla cómo se ve para tu giro...'",
+        "SLIDE 7 (Prueba Social): 'Esto no es teoría: aquí ves más de 640,000 vistas en Facebook, un solo Reel de 109,000 vistas en Instagram, más de 740 dueños de negocio usando nuestra plataforma y más de US$20,000 validados en Hotmart.'",
+        "SLIDE 8 (Transparencia Total: Quién implementa, 5 datos y Soporte): 'Antes de ver precios, tres respuestas claras: 1) ¿Quién hace todo? Nuestro equipo al 100% en 7 a 10 días, tú no tocas nada técnico. 2) ¿Qué te pedimos al iniciar? Solo 5 cosas simples por WhatsApp: tu logo, tu número, tus servicios, unas fotos con tu celular y tu horario. 3) ¿Tienes soporte y mantenimiento? ¡Sí! En los planes anuales tienes los 12 meses de soporte por WhatsApp y mantenimiento incluidos ($0 al mes).'",
+        "SLIDE 9 (Oferta Recomendada: Pack Anual Estrella $990): 'Esta es la opción que eligen 8 de cada 10 negocios: el Pack Anual Estrella por US$990 al año. Te incluye tu Página Inteligente, tu Contestador 24/7, los 12 meses de Agenda, PassportAI, soporte técnico todo el año sin pagar mensualidades y 2 Reels editados de regalo. Con la facilidad 50/50 inicias hoy con solo US$495 y pagas los otros US$495 cuando te entreguemos todo funcionando.'",
+        "SLIDE 10 (Máquina Completa $1,490: Web + 10 Reels + Tráfico): 'Ahora, si tú dices: Yo quiero que el equipo de ustedes también me edite 10 Videos Reels Virales y me corra las campañas de publicidad en Facebook e Instagram desde este mes para llenarme el WhatsApp, tienes la Máquina Completa en US$1,490 (inicias hoy con US$745 y el resto el día 15). Sueltos, los 10 Reels y el mes de publicidad cuestan casi US$1,000; aquí te llevas ambos por solo US$250 más en tu pago inicial de hoy.'",
+        "SLIDE 11 (Entrada Ligera $497 y Paquetes Mensuales): '¿Prefieres empezar con el pago inicial más bajo hoy? Tienes el Plan Express PYME de US$497 (inicias con solo US$250 hoy y tienes el Mes 1 gratis; desde el Mes 2 son US$97/mes). O si ya tienes web y solo quieres el Pack de 10 Reels o el Mes de Publicidad, cada uno cuesta US$497 (iniciando con US$250 hoy).'",
+        "SLIDE 12 (Cierre en 3 Pasos): 'Hoy reservas con el 50%, nos mandas tus 5 datos por WhatsApp, en 7 a 10 días te entregamos todo funcionando en tu celular y ahí liquidas la otra mitad. Viendo todo tan claro, [Nombre]: ¿lo dejamos activado hoy con la Máquina Completa de 10 Reels y Publicidad ($745 hoy), con el Pack Anual Estrella ($495 hoy) o con el Arranque Express ($250 hoy)?'"
+      ];
+      let idx = 0;
+
+      function show(i) {
+        if (i < 0) i = 0;
+        if (i >= slides.length) i = slides.length - 1;
+        idx = i;
+        slides.forEach((s, k) => s.classList.toggle('active', k === idx));
+        indicator.textContent = `SLIDE ${String(idx + 1).padStart(2, '0')} / ${slides.length}`;
+        teleprompterText.textContent = notes[idx] || '';
+      }
+
+      prevBtn.addEventListener('click', () => show(idx - 1));
+      nextBtn.addEventListener('click', () => show(idx + 1));
+      scriptBtn.addEventListener('click', () => document.body.classList.toggle('show-script'));
+      fullscreenBtn.addEventListener('click', () => {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen().catch(() => {});
+        } else {
+          document.exitFullscreen().catch(() => {});
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === ' ') show(idx + 1);
+        if (e.key === 'ArrowLeft') show(idx - 1);
+        if (e.key === 'f' || e.key === 'F') fullscreenBtn.click();
+      });
+
+      // Personalizar automáticamente la foto y nombre del Closer en la Portada (Slide 1)
+      try {
+        const params = new URLSearchParams(window.location.search);
+        let cName = params.get('closer_name') || '';
+        let cPhoto = params.get('closer_photo') || '';
+        let cEmail = (params.get('closer_email') || '').toLowerCase();
+
+        if (!cName || !cPhoto) {
+          const savedUser = JSON.parse(localStorage.getItem('user') || '{}');
+          if (!cName && savedUser.name) cName = savedUser.name;
+          if (!cPhoto && savedUser.avatar_url) cPhoto = savedUser.avatar_url;
+          if (!cEmail && savedUser.email) cEmail = savedUser.email.toLowerCase();
+        }
+
+        const closerPhotosByEmail = {
+          'sheille.perez@gmail.com': '/static/img/closers/sheilla.jpg',
+          'diegoarriondo03@gmail.com': '/static/img/closers/diego.jpg',
+          'cinthyapenida0@gmail.com': '/static/img/closers/cintya.jpg',
+          'claudiniosan@yahoo.com.ar': '/static/img/closers/claudio.png',
+          'loremrodriguezafb@gmail.com': '/static/img/closers/lorena.jpg',
+          'sergiotorales608@gmail.com': '/static/img/closers/sergio.jpg',
+          'laverdaderafuerza02@gmail.com': '/static/img/closers/agustin.jpg',
+          'admin@prosperia.com': '/static/edward_hero_depth.jpg',
+          'edward@agenciaprosperia.com': '/static/edward_hero_depth.jpg'
+        };
+
+        if (cEmail && closerPhotosByEmail[cEmail]) {
+          cPhoto = closerPhotosByEmail[cEmail];
+        }
+
+        const photoEl = document.getElementById('closer-presenter-photo');
+        const nameEl = document.getElementById('closer-presenter-name');
+        const roleEl = document.getElementById('closer-presenter-role');
+        const badgeEl = document.getElementById('closer-presenter-badge');
+        if (photoEl && cPhoto) photoEl.src = cPhoto;
+        if (nameEl && cName) nameEl.textContent = cName;
+        if (badgeEl) badgeEl.textContent = 'Director de Crecimiento Comercial & IA';
+        if (roleEl) {
+          roleEl.textContent = 'Consultor Especializado en Crecimiento de Negocios · Agencia Prosper IA LLC';
+        }
+      } catch (err) {}
+
+      show(0);
+    })();
+  </script>
+</body>
+</html>
