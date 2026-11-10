@@ -2653,16 +2653,26 @@
           </p>
         </div>
 
-        <!-- Personalizador opcional de Nombre del Cliente -->
-        <div class="w-full sm:w-80 p-3.5 rounded-xl bg-slate-950/85 border border-emerald-500/30 space-y-2">
-          <label for="payment-client-name-input" class="block text-[11px] font-extrabold uppercase tracking-wider text-emerald-300">
-            👤 Personalizar Mensaje WhatsApp (Opcional)
-          </label>
-          <input id="payment-client-name-input" type="text" placeholder="Ej. Dr. Roberto / Lic. Mariana..."
-                 style="background:#071426; color:#ffffff; border:1.5px solid #34d399; padding:9px 12px; border-radius:10px; font-size:13px; font-weight:600; width:100%;"
-                 class="w-full px-3 py-2 rounded-lg text-xs text-white bg-slate-900 border border-slate-700 focus:border-emerald-400 focus:outline-none">
-          <div class="text-[10px] text-slate-400">
-            Si escribes el nombre aquí, el botón <strong>"💬 Copiar WhatsApp + Link"</strong> saludará al cliente por su nombre automáticamente.
+        <!-- Personalizador opcional de Nombre + WhatsApp Directo del Cliente -->
+        <div class="w-full sm:w-96 p-3.5 rounded-xl bg-slate-950/85 border border-emerald-500/30 space-y-2.5">
+          <div class="text-[11px] font-extrabold uppercase tracking-wider text-emerald-300">
+            💬 Envío Rápido por WhatsApp (Opcional)
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div>
+              <label for="payment-client-name-input" class="block text-[10px] font-bold text-slate-300 mb-1">1. Nombre del Cliente:</label>
+              <input id="payment-client-name-input" type="text" placeholder="Ej. Dr. Roberto"
+                     style="background:#071426; color:#ffffff; border:1.5px solid #34d399; padding:8px 10px; border-radius:9px; font-size:12px; font-weight:600; width:100%;">
+            </div>
+            <div>
+              <label for="payment-client-phone-input" class="block text-[10px] font-bold text-slate-300 mb-1">2. Celular o link wa.me:</label>
+              <input id="payment-client-phone-input" type="text" placeholder="Ej. 52155... o wa.me/..."
+                     style="background:#071426; color:#67e8f9; border:1.5px solid rgba(0,229,255,0.55); padding:8px 10px; border-radius:9px; font-size:12px; font-weight:600; width:100%;">
+            </div>
+          </div>
+          <div class="text-[10px] text-slate-300 leading-snug">
+            • <strong>Si lo dejas vacío:</strong> el botón <strong>"💬 WhatsApp + Link"</strong> copia el mensaje listo para pegar (<kbd>Ctrl+V</kbd>).<br>
+            • <strong>Si pones celular o <code class="text-cyan-300">wa.me/...</code>:</strong> además de copiarlo, <strong>abre directo el WhatsApp del cliente</strong> con el mensaje y el link ya escritos.
           </div>
         </div>
       </div>
@@ -4782,17 +4792,43 @@ function copyPaymentLinkUrl(url, btnEl) {
 
 function copyPaymentLinkWhatsApp(planName, stageLabel, url, extraNote, btnEl) {
   const clientNameInput = document.getElementById('payment-client-name-input');
+  const clientPhoneInput = document.getElementById('payment-client-phone-input');
   const clientName = clientNameInput && clientNameInput.value ? clientNameInput.value.trim() : '';
+  const rawPhoneOrWa = clientPhoneInput && clientPhoneInput.value ? clientPhoneInput.value.trim() : '';
+
+  // Extrae dígitos aunque el Closer pegue "+52 55 1234 5678" o "https://wa.me/525512345678?text=..."
+  let cleanDigits = '';
+  if (rawPhoneOrWa) {
+    const waMatch = rawPhoneOrWa.match(/(?:wa\.me\/|phone=)(\d{8,15})/i);
+    if (waMatch) {
+      cleanDigits = waMatch[1];
+    } else {
+      cleanDigits = rawPhoneOrWa.replace(/\D+/g, '');
+    }
+  }
+
   const greeting = clientName ? `¡Hola ${clientName}! 👋` : `¡Hola! 👋`;
   const msg = `${greeting} Te comparto el enlace oficial y seguro de *Agencia ProsperIA* para activar tu *${planName}*:\n\n💳 *Concepto:* ${stageLabel}\n🔗 *Link de Pago Oficial:* ${url}\n\n✅ ${extraNote}\n\nEn cuanto se procese tu pago, envíame por aquí una captura del comprobante para asignarte tu folio prioritario de producción hoy mismo. 🚀`;
-  navigator.clipboard.writeText(msg).then(() => {
+
+  navigator.clipboard.writeText(msg).catch(() => {});
+
+  if (cleanDigits.length >= 8) {
+    const waUrl = `https://wa.me/${cleanDigits}?text=${encodeURIComponent(msg)}`;
+    window.open(waUrl, '_blank', 'noopener');
+    showPaymentCopyToast('✓ Abriendo WhatsApp de ' + (clientName || cleanDigits) + ' con el link listo');
+    if (btnEl) {
+      const origHtml = btnEl.innerHTML;
+      btnEl.innerHTML = '<i class="fab fa-whatsapp"></i> ¡Abriendo WhatsApp Directo!';
+      setTimeout(() => { btnEl.innerHTML = origHtml; }, 2500);
+    }
+  } else {
     showPaymentCopyToast('✓ Mensaje de WhatsApp + Link copiado listo para pegar');
     if (btnEl) {
       const origHtml = btnEl.innerHTML;
       btnEl.innerHTML = '<i class="fas fa-check"></i> ¡Mensaje WhatsApp Copiado!';
       setTimeout(() => { btnEl.innerHTML = origHtml; }, 2200);
     }
-  });
+  }
 }
 
 function filterPaymentLinksCategory(cat) {
