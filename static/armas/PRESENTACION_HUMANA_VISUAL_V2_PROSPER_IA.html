@@ -1349,8 +1349,20 @@
         }
       } catch (err) {}
 
-      show(0);
+      const initParams = new URLSearchParams(window.location.search);
+      if (initParams.get('pdf') === '1') {
+        document.body.classList.remove('show-script');
+        const tb = document.querySelector('.presenter-toolbar');
+        const sb = document.querySelector('.seller-script-bar');
+        const dw = document.querySelector('.deck-wrapper');
+        if (tb) tb.style.display = 'none';
+        if (sb) sb.style.display = 'none';
+        if (dw) dw.style.paddingTop = '0';
+      }
+      const startSlide = parseInt(initParams.get('s') || '0', 10);
+      show(isNaN(startSlide) ? 0 : startSlide);
     })();
   </script>
 </body>
 </html>
+
