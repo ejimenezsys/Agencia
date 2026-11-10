@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guía del Orador V2 (Speech de Auditorio) — Presentación Humana ProsperIA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --border: rgba(148, 163, 184, 0.2);
+      --text: #f8fafc;
+      --muted: #cbd5e1;
+      --cyan: #38bdf8;
+      --indigo: #818cf8;
+      --emerald: #34d399;
+      --amber: #fbbf24;
+      --rose: #fb7185;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      padding: 36px 24px 80px;
+    }
+    .container {
+      max-width: 1020px;
+      margin: 0 auto;
+    }
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid var(--border);
+      padding: 14px 22px;
+      border-radius: 16px;
+      margin-bottom: 28px;
+      position: sticky;
+      top: 14px;
+      z-index: 50;
+      backdrop-filter: blur(12px);
+    }
+    .top-bar h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .top-actions { display: flex; gap: 10px; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 16px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      background: rgba(56, 189, 248, 0.15);
+      color: #e0f2fe;
+    }
+    .btn.primary {
+      background: linear-gradient(135deg, #0284c7, #4f46e5);
+      border-color: transparent;
+      color: #fff;
+    }
+    .hero {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95));
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 22px;
+      padding: 28px 32px;
+      margin-bottom: 28px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      background: rgba(52, 211, 153, 0.15);
+      color: var(--emerald);
+      border: 1px solid rgba(52, 211, 153, 0.35);
+      margin-bottom: 12px;
+    }
+    .hero h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 30px;
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+    .hero p {
+      font-size: 15px;
+      color: var(--muted);
+    }
+    .rules-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 18px;
+    }
+    .rule-box {
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 16px;
+    }
+    .rule-box strong {
+      display: block;
+      font-size: 13px;
+      color: var(--cyan);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+    }
+    .rule-box span {
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .slide-guide {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px 28px;
+      margin-bottom: 20px;
+      page-break-inside: avoid;
+    }
+    .slide-guide.highlight {
+      border: 2px solid var(--emerald);
+      background: linear-gradient(160deg, rgba(16, 185, 129, 0.1), rgba(30, 41, 59, 0.95));
+    }
+    .slide-guide.pain-highlight {
+      border: 2px solid var(--rose);
+      background: linear-gradient(160deg, rgba(244, 63, 94, 0.1), rgba(30, 41, 59, 0.95));
+    }
+    .slide-guide.passport-highlight {
+      border: 2px solid var(--cyan);
+      background: linear-gradient(160deg, rgba(56, 189, 248, 0.1), rgba(30, 41, 59, 0.95));
+    }
+    .sg-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+    .sg-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 8px;
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--cyan);
+    }
+    .sg-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 21px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .sg-time {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--amber);
+    }
+    .sg-cols {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 20px;
+    }
+    .bullets-box {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px 18px;
+    }
+    .box-label {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--cyan);
+      margin-bottom: 10px;
+      display: block;
+    }
+    .bullets-box ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .bullets-box li {
+      font-size: 13.5px;
+      color: #e2e8f0;
+      padding-left: 18px;
+      position: relative;
+    }
+    .bullets-box li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: var(--emerald);
+      font-weight: 900;
+    }
+    .speech-box {
+      background: rgba(56, 189, 248, 0.07);
+      border-left: 4px solid var(--cyan);
+      border-radius: 0 14px 14px 0;
+      padding: 16px 20px;
+    }
+    .speech-box p {
+      font-size: 14.5px;
+      color: #f8fafc;
+      font-style: italic;
+      margin-bottom: 10px;
+    }
+    .speech-box p:last-child { margin-bottom: 0; }
+    .question-trigger {
+      margin-top: 12px;
+      padding: 10px 14px;
+      background: rgba(251, 191, 36, 0.12);
+      border: 1px solid rgba(251, 191, 36, 0.35);
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fde68a;
+    }
+    @media print {
+      body { background: #0f172a; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .top-bar { display: none !important; }
+      .slide-guide { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="top-bar">
+      <h1>🎙️ Guía del Orador V2 (Speech de Auditorio · 13 Slides) — Lenguaje 100% Humano</h1>
+      <div class="top-actions">
+        <a class="btn" href="/static/armas/PRESENTACION_HUMANA_VISUAL_V2_PROSPER_IA.html" target="_blank">🖥️ Abrir Slides Visuales V2</a>
+        <a class="btn" href="/static/armas/GUIA_ORADOR_PRESENTACION_HUMANA_V2_PROSPER_IA.pdf" download>📥 Descargar Guía PDF V2</a>
+        <button class="btn primary" onclick="window.print()">🖨️ Imprimir / Guardar PDF</button>
+      </div>
+    </div>
+
+    <div class="hero">
+      <span class="badge">Versión 2 · 13 Diapositivas · Especial Dentistas, Realtors, Clínicas y Dueños de Negocio</span>
+      <h2>Tu Acordeón de Cierre en Llamada (Cero Palabras Técnicas)</h2>
+      <p>Cuando compartas pantalla con las <strong>13 Diapositivas Visuales V2</strong>, el prospecto verá imágenes grandes y pocas palabras. Tú tienes esta guía abierta a un lado para saber <strong>exactamente qué preguntar, qué historia contar y cómo cerrar los paquetes de $990, $497 y $1,490</strong> sin decir ni una palabra de "prompts", "NanoBanana", "Veo 3" ni "agentes técnicos".</p>
+      <div class="rules-grid">
+        <div class="rule-box">
+          <strong>1. Toca el Bolsillo y la Familia (Slide 2)</strong>
+          <span>Habla de subir de $2K a $4K/mes, bajar $1K de nómina y usar el retorno de 3X–5X de Meta Ads para pagar la educación de sus hijos.</span>
+        </div>
+        <div class="rule-box">
+          <strong>2. Vende Guiones + Reels + Continuidad</strong>
+          <span>Enfatiza los 30 guiones (Hook, Guion y CTA), nuestros editores de Reels y siembra el paquete mensual de 16 Reels/mes (4 por semana).</span>
+        </div>
+        <div class="rule-box">
+          <strong>3. PassportAI para Dentista o Realtor</strong>
+          <span>Jamás digas "prompt". Di: "Son 6 Constructores donde llenas un formulario sencillo de 3 preguntas y descargas tu PDF de 8 a 12 páginas".</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 1 -->
+    <div class="slide-guide">
+      <div class="sg-header">
+        <span class="sg-num">SLIDE 01 / 13</span>
+        <span class="sg-title">Portada: Tu Negocio Vendiendo y Agendando 24/7</span>
+        <span class="sg-time">⏱️ 45 seg</span>
+      </div>
+      <div class="sg-cols">
+        <div class="bullets-box">
+          <span class="box-label">📌 Bullets de Memoria</span>
+          <ul>
+            <li>Romper el hielo quitando el miedo a la tecnología.</li>
+            <li>Aclarar que somos una agencia que se lo entrega TODO funcionando en 5 días.</li>
+            <li>Posicionar los 3 motores: Sitio Web con Recepcionista 24/7, Edición de Reels y Tráfico Pagado.</li>
+          </ul>
+        </div>
+        <div class="speech-box">
+          <span class="box-label">🎙️ Tu Speech Exacto</span>
+          <p>"[Nombre], hoy no te voy a hablar de tecnología complicada ni de programación. Te voy a mostrar en 10 minutos cómo vamos a instalar en tu negocio un equipo completo que atiende a tus clientes en segundos, edita tus videos para redes sociales y te trae clientes nuevos todos los días, totalmente llave en mano en 5 días hábiles."</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2 (NUEVO V2: DOLOR FINANCIERO Y FAMILIAR) -->
+    <div class="slide-guide pain-highlight">
+      <div class="sg-header">
+        <span class="sg-num">SLIDE 02 / 13 · NUEVO EN V2</span>
+        <span class="sg-title">El Dolor Financiero: La Matemática de Tu Vida y Tu Negocio</span>
+        <span class="sg-time">⏱️ 2 min (Pausa Emocional Clave)</span>
+      </div>
+      <div class="sg-cols">
+        <div class="bullets-box">
+          <span class="box-label">📌 Bullets de Memoria</span>
+          <ul>
+            <li><strong>Pregunta 1 (Ingresos):</strong> Si hoy facturas $2,000/mes, ¿no te gustaría pasar a $4,000/mes con un Sitio Web Inteligente?</li>
+            <li><strong>Pregunta 2 (Nómina):</strong> Si hoy pagas $2,000 de nómina, ¿no te aliviaría bajar $1,000 al mes y subir tus ventas al mismo tiempo?</li>
+            <li><strong>Pregunta 3 (Hijos y Familia):</strong> Invertir $500/mes en Meta Ads para traer 3X a 5X ($1,500 a $2,500 extra) para la educación de tus hijos.</li>
+          </ul>
+        </div>
+        <div class="speech-box">
+          <span class="box-label">🎙️ Tu Speech Exacto</span>
+          <p>"Antes de ver cómo funciona, quiero hacerte tres preguntas muy sinceras de dueño a dueño: Primero, ¿cuánto estás facturando hoy al mes? Imagínate que hoy facturas $2,000 dólares al mes... ¿no te gustaría subir a $4,000 al mes duplicando tu clientela con el proceso de un Sitio Web Inteligente que nunca deja ir a un interesado?"</p>
+          <p>"Segundo: ¿cuánto pagas hoy de nómina? Si hoy se te van $2,000 dólares al mes en sueldos y pudieras ahorrar $1,000 dólares cada mes mientras subes tus ventas porque el sistema atiende 24/7... ¿no te haría la vida mucho más tranquila?"</p>
+          <p>"Y tercero: si inviertes $500 dólares al mes en una campaña de anuncios en Meta Ads bien hecha que te regrese de 3X a 5X tu inversión —es decir, $1,500 a $2,500 dólares extra en tu bolsillo—, ¿no te haría inmensamente feliz poder darle ese dinero a la educación de tus hijos y a la tranquilidad de tu familia?"</p>
+          <div class="question-trigger">🎯 Pregunta de enganche: "¿En cuál de estos tres números sientes hoy más presión: en subir tu facturación, en aliviar la nómina o en traer más clientes nuevos para tu familia?"</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3 -->
+    <div class="slide-guide">
+      <div class="sg-header">
+        <span class="sg-num">SLIDE 03 / 13</span>
+        <span class="sg-title">El Problema Operativo: Por Qué Se Escapan Tus Ventas Hoy</span>
+        <span class="sg-time">⏱️ 1 min</span>
+      </div>
+      <div class="sg-cols">
+        <div class="bullets-box">
+          <span class="box-label">📌 Bullets de Memoria</span>
+          <ul>
+            <li>El cliente escribe a las 9 PM o domingo y nadie le contesta a tiempo.</li>
+            <li>No hay tiempo de escribir guiones ni editar Reels profesionales.</li>
+            <li>La base de contactos viejos en WhatsApp está olvidada sin dar dinero.</li>
+          </ul>
+        </div>
+        <div class="speech-box">
+          <span class="box-label">🎙️ Tu Speech Exacto</span>
+          <p>"¿Y por qué hoy no estás ganando ese dinero extra? Por tres fugas muy claras: primero, cuando un cliente pide informes y tardas más de 5 minutos en responderle, ya le compró a otro. Segundo, sabes que los Reels venden muchísimo, pero tú estás operando tu negocio y no tienes tiempo de sentarte a escribir guiones ni editar videos. Y tercero, tienes cientos de personas que ya te preguntaron antes en WhatsApp y hoy nadie les da seguimiento."</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4 -->
+    <div class="slide-guide">
+      <div class="sg-header">
+        <span class="sg-num">SLIDE 04 / 13</span>
+        <span class="sg-title">Pilar 1: Tu Recepcionista Estrella 24/7 (Voz + Texto + Agenda)</span>
+        <span class="sg-time">⏱️ 1.5 min</span>
+      </div>
+      <div class="sg-cols">
+        <div class="bullets-box">
+          <span class="box-label">📌 Bullets de Memoria</span>
+          <ul>
+            <li>No usar la palabra "Widget" ni "GHL". Llamarlo "Tu Recepcionista Estrella 24/7".</li>
+            <li>Responde en menos de 3 segundos con voz humana natural o por chat.</li>
+            <li>Califica al interesado y lo deja agendado en el calendario de tu celular.</li>
+          </ul>
+        </div>
+        <div class="speech-box">
+          <span class="box-label">🎙️ Tu Speech Exacto</span>
+          <p>"El primer motor que te instalamos es tu nueva Recepcionista Estrella 24/7 dentro de tu Sitio Web Inteligente. Si un paciente o un comprador entra a las 11 de la noche, ella le contesta en 3 segundos por texto o hablando con voz humana, le resuelve sus dudas, le pide sus datos y le agenda la cita directo en tu celular. Nunca pide vacaciones, nunca se enferma y te ahorra miles de dólares en nómina."</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5 (V2: ÉNFASIS EN EDICIÓN DE REELS + SEMILLA DE CONTINUIDAD 16 REELS/MES) -->
+    <div class="slide-guide highlight">
+      <div class="sg-header">
+        <span class="sg-num">SLIDE 05 / 13 · ALTO VALOR + CONTINUIDAD</span>
+        <span class="sg-title">Pilar 2: Nuestro Equipo Edita Tus Videos Reels + Plan Todo el Año</span>
+        <span class="sg-time">⏱️ 2 min (Darle Mucho Valor)</span>
+      </div>
+      <div class="sg-cols">
+        <div class="bullets-box">
+          <span class="box-label">📌 Bullets de Memoria</span>
+          <ul>
+            <li><strong>Valor de Arranque:</strong> Te entregamos los 30 guiones listos (Hook, Guion y CTA) y nuestros editores profesionales hacen tus primeros Reels (5 en el plan de $990 o 10 en el de $1,490).</li>
+            <li><strong>El cliente solo graba con su celular:</strong> Nosotros ponemos subtítulos dinámicos, ritmo, música y llamados a la acción.</li>
+            <li><strong>Semilla de Continuidad (16 Reels/mes):</strong> Cuando ya tengas ventas con tus primeros videos, activas a nuestro Community Manager + Editor con 4 Reels por semana × 4 semanas = 16 Reels al mes (con guiones incluidos).</li>
+          </ul>
+        </div>
+        <div class="speech-box">
+          <span class="box-label">🎙️ Tu Speech Exacto</span>
+          <p>"Aquí quiero que pongas mucha atención porque esto por sí solo vale toda tu inversión: no te vamos a dejar con una página bonita que nadie visita. Te vamos a entregar los <strong>30 Guiones Virales de tu giro con Gancho (Hook), Desarrollo y Llamado a la Acción (CTA)</strong> para que tú solo pongas tu celular y leas."</p>
+          <p>"Tú nos mandas esos videos crudos por WhatsApp y <strong>nuestros propios editores profesionales entran con todo</strong>: les ponen subtítulos dinámicos, cortes de retención, música y efectos para que te veas como el número uno de tu ciudad."</p>
+          <p>"Y lo mejor: una vez que ya tengas resultados y ventas con estos primeros videos, verás que es sumamente barato mantener tu presencia todo el año. Ahí nos preguntas por nuestros paquetes mensuales donde te asignamos a <strong>nuestro Community Manager y un Editor dedicados con un pack de 4 contenidos por semana durante las 4 semanas del mes —es decir, los 16 Reels al mes que necesitas para dominar tu mercado—, ¡y ya incluye todos los guiones!</strong>"</p>
+          <div class="question-trigger">🎯 Pregunta de enganche: "¿Verdad que sería un alivio olvidarte de editar y saber que primero pruebas con tus primeros Reels incluidos y luego, ya con dinero en mano, mantienes tus 16 Reels cada mes?"</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6 -->
+    <div class="slide-guide highlight">
+      <div class="sg-header">
+        <span class="sg-num">SLIDE 06 / 13 · ÉNFASIS EN TRÁFICO PAGADO</span>
+        <span class="sg-title">Pilar 3: Campañas de Tráfico Pagado y Reactivación WhatsApp</span>
+        <span class="sg-time">⏱️ 1.5 min</span>
+      </div>
+      <div class="sg-cols">
+        <div class="bullets-box">
+          <span class="box-label">📌 Bullets de Memoria</span>
+          <ul>
+            <li>Para acelerar las ventas usamos 2 motores de dinero inmediato.</li>
+            <li>Motor 1: Anuncios pagados en Facebook e Instagram dirigidos a personas con dinero en su zona (buscando ROAS de 3X a 5X).</li>
+            <li>Motor 2: Reactivación de su lista de clientes antiguos por WhatsApp para generar flujo en la primera semana.</li>
+          </ul>
+        </div>
+        <div class="speech-box">
+          <span class="box-label">🎙️ Tu Speech Exacto</span>
+          <p>"El tercer pilar es ponerle gasolina de avión a esos videos. Nuestro equipo de tráfico configura tus campañas pagadas en Facebook e Instagram apuntando exactamente a la gente de tu zona que puede pagar tu servicio, buscando ese retorno de 3 a 5 veces tu inversión. Y además, tomamos la lista de clientes y prospectos que ya tienes guardados en tu teléfono y lanzamos una campaña por WhatsApp para despertar ventas desde la primera semana."</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7 -->
+    <div class="slide-guide">
+      <div class="sg-header">
+        <span class="sg-num">SLIDE 07 / 13 · RESUELVE DUDA DE IMPLEMENTACIÓN</span>
+        <span class="sg-title">¿Quién Hace Todo el Trabajo? Nosotros el 95%, Tú el 5%</span>
+        <span class="sg-time">⏱️ 1 min</span>
+      </div>
+      <div class="sg-cols">
+        <div class="bullets-box">
+          <span class="box-label">📌 Bullets de Memoria</span>
+          <ul>
+            <li>Nosotros hacemos el 95%: diseño, textos, entrenamiento de la recepcionista, edición de Reels y campañas.</li>
+            <li>El cliente solo hace el 5%: responde unas preguntas rápidas en 15 minutos, nos pasa su logo/fotos y atiende a los clientes que ya agendan.</li>
+          </ul>
+        </div>
+        <div class="speech-box">
+          <span class="box-label">🎙️ Tu Speech Exacto</span>
+          <p>"Una pregunta que siempre me hacen es: '¿Quién va a instalar todo esto si yo no tengo tiempo?'. La respuesta es: <strong>nosotros hacemos el 95% del trabajo pesado</strong>. Nuestro equipo diseña tu página, entrena a tu recepcionista, redacta tus guiones, edita tus videos y monta tus campañas. Tú solo nos dedicas 15 minutos hoy para pasarnos tu logo, tus precios y grabar tus videos con los guiones que te damos."</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 8 (NUEVO V2: PASSPORTAI EXPLICADO PARA UN DENTISTA O UN REALTOR) -->
+    <div class="slide-guide passport-highlight">
+      <div class="sg-header">
+        <span class="sg-num">SLIDE 08 / 13 · NUEVO EN V2 (CERO PALABRAS TÉCNICAS)</span>
+        <span class="sg-title">PassportAI.app: Explicado para un Dentista o un Realtor</span>
+        <span class="sg-time">⏱️ 2 min (Diferenciador Único)</span>
+      </div>
+      <div class="sg-cols">
+        <div class="bullets-box">
+          <span class="box-label">📌 Bullets de Memoria</span>
+          <ul>
+            <li><strong>PROHIBIDO decir:</strong> "Prompt", "NanoBanana", "Veo 3", "LLM" o "Cortexia".</li>
+            <li><strong>Qué es en lenguaje humano:</strong> Una Suite de 6 Constructores de Negocios donde llenas un formulario súper sencillo de 3 preguntas y descargas un PDF de 8 a 12 páginas listo para usar.</li>
+            <li><strong>Los 6 Constructores reales en pantalla:</strong> Sprint de Contenido (12 págs), Arquitecto de Ofertas (8 págs), Embudo de Regalo y WhatsApp (8 págs), Marca Personal (8 págs), Landing Page (8 págs) y Business Constructor (9 págs).</li>
+          </ul>
+        </div>
+        <div class="speech-box">
+          <span class="box-label">🎙️ Tu Speech Exacto</span>
+          <p>"Además de que nosotros te entregamos todo hecho, al entrar a los planes de $990 o $1,490 te regalamos <strong>1 año completo de acceso a nuestra plataforma privada PassportAI.app</strong>. Y quiero explicártelo en español puro: aquí NO tienes que saber nada de computación ni hablarle a ningún robot."</p>
+          <p>"Imagínate que eres <strong>Dentista</strong> y quieres lanzar una promoción de implantes o blanqueamiento, o que eres <strong>Realtor (Asesor Inmobiliario)</strong> y acabas de captar un departamento en preventa. Entras a nuestra <strong>Suite de Constructores</strong> que ves aquí en pantalla, eliges por ejemplo el <em>Sprint de Contenido</em> o el <em>Arquitecto de Ofertas</em>, llenas un formulario súper simple con 3 datos de tu servicio y le das clic a un botón."</p>
+          <p>"Detrás de ese botón ya está programada toda nuestra metodología de agencia, y en 60 segundos <strong>descargas un documento PDF de 8 a 12 páginas</strong> con tus guiones palabra por palabra, el diseño de tu promoción irresistible y los mensajes exactos de seguimiento para WhatsApp. ¡Así puedes crear campañas nuevas todo el año cuando tú quieras!"</p>
+          <div class="question-trigger">🎯 Pregunta de enganche: "¿Te imaginas tener estos 6 constructores abiertos todo el año para que cada vez que saques una promoción o propiedad nueva tengas tu PDF de 12 páginas listo en 1 minuto?"</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 9 -->
+    <div class="slide-guide">
+      <div class="sg-header">
+        <span class="sg-num">SLIDE 09 / 13 · RESUELVE DUDA DE QUÉ RECABAR AL CERRAR</span>
+        <span class="sg-title">Hoja de Ruta de 5 Días: Qué Necesitamos de Ti al Cerrar Hoy</span>
+        <span class="sg-time">⏱️ 1 min</span>
+      </div>
+      <div class="sg-cols">
+        <div class="bullets-box">
+          <span class="box-label">📌 Bullets de Memoria</span>
+          <ul>
+            <li>Para el Closer: Al cobrar el 50% hoy, solo recabas 4 cosas simples por WhatsApp.</li>
+            <li>1) Nombre comercial y logo, 2) Lista de servicios y precios, 3) Las 5 preguntas frecuentes de sus clientes, 4) Teléfono y correo donde quiere recibir las citas.</li>
+            <li>Día 1: Onboarding · Día 3: Revisión de web y videos · Día 5: Lanzamiento en vivo.</li>
+          </ul>
+        </div>
+        <div class="speech-box">
+          <span class="box-label">🎙️ Tu Speech Exacto</span>
+          <p>"¿Cómo arrancamos hoy mismo y qué necesito de ti? Es súper simple. Hoy al dejar apartado tu lugar con el 50%, por WhatsApp solo te voy a pedir 4 cosas que ya tienes a la mano: tu logo y fotos, tus servicios con precios, las 5 preguntas que más te hacen tus clientes y el celular donde quieres recibir tus citas. En el Día 3 te mostramos tu sitio y tus primeros videos editados, y en el Día 5 estás vendiendo en vivo."</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 10 -->
+    <div class="slide-guide">
+      <div class="sg-header">
+        <span class="sg-num">SLIDE 10 / 13 · RESUELVE DUDA DE SOPORTE Y MANTENIMIENTO</span>
+        <span class="sg-title">Soporte, Mantenimiento y Garantía: Nunca Te Dejamos Solo</span>
+        <span class="sg-time">⏱️ 1 min</span>
+      </div>
+      <div class="sg-cols">
+        <div class="bullets-box">
+          <span class="box-label">📌 Bullets de Memoria</span>
+          <ul>
+            <li>En los paquetes de $990 y $1,490: 12 meses de servidor, calendario y mantenimiento técnico incluidos ($0 al mes todo el año).</li>
+            <li>En el paquete Express de $497: Primer mes incluido y a partir del Mes 2 son $49 USD/mes de mantenimiento y soporte.</li>
+            <li>Soporte directo por WhatsApp con nuestro equipo + Garantía por contrato de entrega en 5 días hábiles.</li>
+          </ul>
+        </div>
+        <div class="speech-box">
+          <span class="box-label">🎙️ Tu Speech Exacto</span>
+          <p>"¿Y quién te da soporte y mantenimiento después de entregar? Nunca te quedas solo. Tienes un grupo directo de WhatsApp con nosotros para cualquier ajuste. Además, si eliges nuestro Plan Anual de $990 o la Máquina Completa de $1,490, <strong>nosotros absorbemos el 100% de tu mantenimiento, servidor y calendario durante los 12 meses del año ($0 dólares al mes para ti)</strong>. Y todo está respaldado por contrato: en 5 días hábiles queda funcionando."</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 11 (V2: PACK ANUAL ESTRELLA $990 RECARGADO CON 30 GUIONES + 5 REELS + PASSPORTAI) -->
+    <div class="slide-guide highlight">
+      <div class="sg-header">
+        <span class="sg-num">SLIDE 11 / 13 · OFERTA CENTRAL (LA MÁS VENDIDA)</span>
+        <span class="sg-title">Recomendación Central: Pack Anual Estrella — US$990 (Arrancas con US$495)</span>
+        <span class="sg-time">⏱️ 2 min</span>
+      </div>
+      <div class="sg-cols">
+        <div class="bullets-box">
+          <span class="box-label">📌 Bullets de Memoria</span>
+          <ul>
+            <li>Empezamos siempre por el Pack Anual Estrella de $990 (12 meses sin mensualidades).</li>
+            <li>Incluye: Sitio Web Inteligente + Recepcionista 24/7 + 12 Meses de Calendario y Soporte ($0/mes) + 12 Meses de PassportAI.app (Los 6 Constructores PDF).</li>
+            <li><strong>Súper Bonos Incluidos:</strong> 30 Guiones Virales de tu Nicho (Hook, Guion y CTA) + 5 Videos Reels Profesionales Editados por Nuestro Equipo.</li>
+            <li>Se activa hoy con el 50% ($495 USD) y el otro 50% ($495 USD) contra entrega en el Día 5.</li>
+          </ul>
+        </div>
+        <div class="speech-box">
+          <span class="box-label">🎙️ Tu Speech Exacto</span>
+          <p>"Para lograr todo lo que vimos hoy sin pagar mensualidades en todo el año, esta es nuestra recomendación central: el <strong>Pack Anual Estrella por $990 dólares pago único anual</strong>."</p>
+          <p>"Te llevas tu Sitio Web Inteligente hecho por nosotros, tu Recepcionista 24/7 de voz y texto, los 12 meses de mantenimiento y calendario pagados ($0 al mes para ti), 1 año entero de los 6 Constructores de PassportAI.app, y además te incluimos <strong>30 Guiones Virales de tu nicho con Hook, Guion y CTA + 5 Videos Reels editados profesionalmente por nuestro equipo</strong> para que salgas a vender de inmediato. Y no pagas los $990 hoy: <strong>arrancas hoy mismo con el 50% ($495 dólares)</strong> y el resto hasta que te entreguemos todo funcionando en el Día 5."</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 12 (V2: COMPARATIVA 3 CAMINOS CON MÁQUINA $1,490 RECARGADA) -->
+    <div class="slide-guide">
+      <div class="sg-header">
+        <span class="sg-num">SLIDE 12 / 13 · COMPARATIVA DE LOS 3 CAMINOS</span>
+        <span class="sg-title">Tus 3 Opciones: Express ($497) · Anual Estrella ($990) · Máquina Completa ($1,490)</span>
+        <span class="sg-time">⏱️ 2 min</span>
+      </div>
+      <div class="sg-cols">
+        <div class="bullets-box">
+          <span class="box-label">📌 Bullets de Memoria</span>
+          <ul>
+            <li><strong>Opción 1 — Arranque Express ($497 · $248.50 hoy):</strong> Para probar el sistema o presupuesto ajustado. Incluye Web + Recepcionista + 1 Reel editado. Del mes 2 en adelante paga $49/mes.</li>
+            <li><strong>Opción 2 — Pack Anual Estrella ($990 · $495 hoy):</strong> El mejor valor anual ($0/mes todo el año + 12 meses Constructores PassportAI + 30 Guiones + 5 Reels editados).</li>
+            <li><strong>Opción 3 — Máquina Completa 3 en 1 ($1,490 · $745 hoy):</strong> Todo el Pack Anual + <strong>30 Días de Propuesta de Contenido (Hook, Guion y CTA) + 10 Reels Editados + 1 Mes de Campañas Meta Ads + Reactivación WhatsApp</strong>.</li>
+          </ul>
+        </div>
+        <div class="speech-box">
+          <span class="box-label">🎙️ Tu Speech Exacto</span>
+          <p>"Aquí tienes los 3 caminos lado a lado para que elijas cómo quieres empezar hoy:"</p>
+          <p>"Si quieres que nosotros nos encarguemos absolutamente de todo —incluyendo <strong>30 Días de Propuesta de Contenido para tu nicho con Hook, Guion y CTA, 10 Videos Reels editados por nuestro equipo, 1 Mes Completo de Campañas Pagadas en Meta Ads y la Reactivación de tu base de WhatsApp</strong>—, tu lugar es la <strong>Máquina Completa de $1,490</strong> (arrancas hoy con $745)."</p>
+          <p>"Si prefieres asegurar todo tu año sin mensualidades con tus <strong>30 Guiones, 5 Reels editados y 1 año de Constructores PassportAI</strong>, tienes el <strong>Pack Anual Estrella de $990</strong> (arrancas hoy con $495). Y si hoy necesitas empezar con una inversión menor para probar el sistema, tienes el <strong>Arranque Express de $497</strong>, donde inicias hoy con solo $248.50 dólares."</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 13 -->
+    <div class="slide-guide highlight">
+      <div class="sg-header">
+        <span class="sg-num">SLIDE 13 / 13 · CIERRE Y TOMA DE DECISIÓN</span>
+        <span class="sg-title">En 5 Días Tu Negocio Está Vendiendo: ¿Con Cuál Arrancamos Hoy?</span>
+        <span class="sg-time">⏱️ Cierre Directo</span>
+      </div>
+      <div class="sg-cols">
+        <div class="bullets-box">
+          <span class="box-label">📌 Bullets de Memoria</span>
+          <ul>
+            <li>Recordar los 3 pasos simples: 1) Elegir plan y abonar 50%, 2) Mandar 4 datos por WhatsApp, 3) Recibir en 5 días y liquidar el 50% restante.</li>
+            <li>Hacer la pregunta de cierre directo y guardar silencio hasta que el prospecto responda.</li>
+          </ul>
+        </div>
+        <div class="speech-box">
+          <span class="box-label">🎙️ Tu Speech Exacto (Haz la pregunta y guarda silencio)</span>
+          <p>"[Nombre], el proceso a partir de este minuto es muy sencillo: hoy solo apartamos tu lugar con el 50%, te mando por WhatsApp las 4 preguntas rápidas para que nuestro equipo empiece hoy mismo a diseñar tu sitio y tus guiones, y el otro 50% me lo pagas hasta el Día 5 cuando ya veas todo terminado y funcionando."</p>
+          <p><strong>"Viendo las tres opciones en pantalla... ¿con cuál de las tres te sientes más cómodo para que arranquemos hoy mismo: con la Máquina Completa de $1,490, el Pack Anual de $990 o el Arranque Express de $497?"</strong></p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
