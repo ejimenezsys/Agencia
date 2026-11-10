@@ -3966,6 +3966,7 @@ const CLOSER_AVATAR_MAP = {
   'loremrodriguezafb@gmail.com': '/static/img/closers/lorena.jpg',
   'sergiotorales608@gmail.com': '/static/img/closers/sergio.jpg',
   'diegoarriondo03@gmail.com': '/static/img/closers/diego.jpg',
+  'laverdaderafuerza02@gmail.com': '/static/img/closers/agustin.jpg',
   'cintya.medina@agenciaprosperia.com': '/static/img/closers/cintya.jpg',
   'claudio.bautista@agenciaprosperia.com': '/static/img/closers/claudio.png',
   'sheilla.perez@agenciaprosperia.com': '/static/img/closers/sheilla.jpg',
@@ -3982,6 +3983,7 @@ const CLOSER_CALENDAR_MAP = {
   'claudiniosan@yahoo.com.ar': 'https://api.agenciaprosperia.com/widget/booking/ax6fOmetoC3abxRMlCwu',
   'loremrodriguezafb@gmail.com': 'https://api.agenciaprosperia.com/widget/booking/nxAwixR3T3PILNZxv1S4',
   'sergiotorales608@gmail.com': 'https://api.agenciaprosperia.com/widget/booking/w2KriVI4LqhisSjIPiMV',
+  'laverdaderafuerza02@gmail.com': 'https://api.agenciaprosperia.com/widget/booking/bagwspAtTp3yUCFG5Tew',
   'edward@agenciaprosperia.com': 'https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8',
   'admin@prosperia.com': 'https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8',
 };
@@ -3993,6 +3995,7 @@ function getCloserAvatarUrl(u) {
   if (u.avatar_url && String(u.avatar_url).trim()) return String(u.avatar_url).trim();
   const nm = String(u.name || '').toLowerCase();
   if (nm.includes('diego')) return '/static/img/closers/diego.jpg';
+  if (nm.includes('agustin') || nm.includes('agustín')) return '/static/img/closers/agustin.jpg';
   if (nm.includes('cintya') || nm.includes('cinthya')) return '/static/img/closers/cintya.jpg';
   if (nm.includes('claudio')) return '/static/img/closers/claudio.png';
   if (nm.includes('sheilla') || nm.includes('sheila') || nm.includes('sheille')) return '/static/img/closers/sheilla.jpg';

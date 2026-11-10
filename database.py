@@ -509,15 +509,15 @@ INITIAL_SALES_TEAM = [
         "default_pass": "Closer2026!"
     },
     {
-        "email": "closer7@agenciaprosperia.com",
-        "name": "Closer 7 (En Contratación)",
+        "email": "laverdaderafuerza02@gmail.com",
+        "name": "Agustín García",
         "role": "seller",
         "dupla": "Dupla A — Clínicas (Dental, Estética y Capilar)",
-        "phone": "",
+        "phone": "+5491164930987",
         "plan": "SVE-90 Enterprise",
-        "ghl_user_id": "",
-        "calendar_url": "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8",
-        "avatar_url": "",
+        "ghl_user_id": "VvSOqlOsPzFQr93E1kZ6",
+        "calendar_url": "https://api.agenciaprosperia.com/widget/booking/bagwspAtTp3yUCFG5Tew",
+        "avatar_url": "/static/img/closers/agustin.jpg",
         "default_pass": "Closer2026!"
     },
     {
@@ -567,6 +567,7 @@ OBSOLETE_TEST_EMAILS = [
     "closer4@agenciaprosperia.com",
     "closer5@agenciaprosperia.com",
     "closer6@agenciaprosperia.com",
+    "closer7@agenciaprosperia.com",
     "ucumaryvisual@gmail.com",
 ]
 
@@ -968,6 +969,62 @@ def init_db():
             except Exception as sv5_err:
                 db.rollback()
                 print(f"⚠️ [SEED V5 6 CLOSERS] Error sembrando GHL_CONTACTS_SEED_516_PLUS_COMEX.json: {sv5_err}")
+
+        # Redistribución v6 Oficial: Incorporar a Agustín García (7 Closers Reales Activos) y repartir equitativamente los prospectos sin tocar los ya gestionados
+        seeded_v6_flag = db.query(IntegrationSetting).filter(IntegrationSetting.key == "ghl_516_and_comex_v6_7closers").first()
+        if not seeded_v6_flag:
+            try:
+                active_seven = get_active_real_closers()
+                if active_seven:
+                    def _dupla_niche_tpl_v6(dupla_str: str):
+                        if "Dupla A" in dupla_str:
+                            return "clinica", "clinica_dental_estetica"
+                        if "Dupla B" in dupla_str:
+                            return "servicios_locales", "servicios_locales_taller"
+                        return "profesionales", "profesionales_consultoria_legal"
+
+                    # 1. Reasignar equitativamente los leads de CRM (Inbound Reels / Códigos) que aún están en "Lead identificado"
+                    crm_pool_leads = db.query(Lead).filter(
+                        (Lead.source != "comex_outbound_b2b")
+                        & (Lead.pipeline_stage == "Lead identificado")
+                        & ((Lead.amount_collected == None) | (Lead.amount_collected == 0))
+                    ).order_by(Lead.id.asc()).all()
+
+                    for idx_c, ld in enumerate(crm_pool_leads):
+                        m = active_seven[idx_c % len(active_seven)]
+                        niche_val, tpl_val = _dupla_niche_tpl_v6(m["dupla"])
+                        ld.owner_id = m["email"]
+                        ld.setter_id = m["email"]
+                        ld.niche = niche_val
+                        ld.selected_template = tpl_val
+
+                    # 2. Reasignar equitativamente las empresas COMEX que aún están en "Lead identificado"
+                    comex_pool_leads = db.query(Lead).filter(
+                        (Lead.source == "comex_outbound_b2b")
+                        & (Lead.pipeline_stage == "Lead identificado")
+                        & ((Lead.amount_collected == None) | (Lead.amount_collected == 0))
+                    ).order_by(Lead.id.asc()).all()
+
+                    for idx_x, ld in enumerate(comex_pool_leads):
+                        m = active_seven[idx_x % len(active_seven)]
+                        ld.owner_id = m["email"]
+                        ld.setter_id = m["email"]
+
+                    # Desactivar únicamente las 3 vacantes restantes (closer8..closer10)
+                    for ph_idx in (8, 9, 10):
+                        ph_u = db.query(User).filter(User.email == f"closer{ph_idx}@agenciaprosperia.com").first()
+                        if ph_u:
+                            ph_u.is_active = 0
+
+                    db.add(IntegrationSetting(
+                        key="ghl_516_and_comex_v6_7closers",
+                        value=f"closers={len(active_seven)},crm={len(crm_pool_leads)},comex={len(comex_pool_leads)}_at_{now_iso}",
+                    ))
+                    db.commit()
+                    print(f"✅ [SEED V6 7 CLOSERS] Agustín García activo. Repartidos {len(crm_pool_leads)} CRM + {len(comex_pool_leads)} COMEX entre {len(active_seven)} Closers reales.")
+            except Exception as sv6_err:
+                db.rollback()
+                print(f"⚠️ [SEED V6 7 CLOSERS] Error redistribuyendo entre 7 Closers: {sv6_err}")
 
         # Seed Leads de respaldo si no existiera el archivo 455 y la tabla estuviera vacía
         if db.query(Lead).count() == 0:
