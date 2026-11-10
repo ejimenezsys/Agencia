@@ -356,6 +356,63 @@
       .sidebar.open { transform: translateX(0); }
       .main-content { margin-left: 0; }
     }
+
+    /* ── HIGH-CONTRAST UTILITIES & PAYMENT LINKS SECTION (INDEPENDIENTE DE TW.CSS PURGADO) ── */
+    .bg-slate-950, .bg-slate-950\/90, .bg-slate-950\/85 { background-color: #040a17 !important; }
+    .bg-slate-900, .bg-slate-900\/90 { background-color: #091528 !important; }
+    .bg-emerald-400 { background-color: #34d399 !important; color: #04101f !important; }
+    .hover\:bg-emerald-300:hover { background-color: #6ee7b7 !important; color: #04101f !important; }
+    .bg-cyan-400 { background-color: #22d3ee !important; color: #04101f !important; }
+    .hover\:bg-cyan-300:hover { background-color: #67e8f9 !important; color: #04101f !important; }
+    .bg-amber-400 { background-color: #fbbf24 !important; color: #04101f !important; }
+    .hover\:bg-amber-300:hover { background-color: #fcd34d !important; color: #04101f !important; }
+    .bg-purple-400 { background-color: #c084fc !important; color: #04101f !important; }
+    .hover\:bg-purple-300:hover { background-color: #d8b4fe !important; color: #04101f !important; }
+    .bg-purple-500 { background-color: #a855f7 !important; color: #ffffff !important; }
+    .bg-rose-500 { background-color: #f43f5e !important; color: #ffffff !important; }
+    .hover\:bg-rose-400:hover { background-color: #fb7185 !important; color: #ffffff !important; }
+    .text-slate-950 { color: #04101f !important; }
+    .text-cyan-200 { color: #a5f3fc !important; }
+    .text-cyan-300 { color: #67e8f9 !important; }
+    .text-emerald-300 { color: #6ee7b7 !important; }
+    .text-amber-300 { color: #fcd34d !important; }
+    .text-amber-400 { color: #fbbf24 !important; }
+    .text-rose-200 { color: #fecdd3 !important; }
+    .text-rose-300 { color: #fda4af !important; }
+    .text-rose-400 { color: #fb7185 !important; }
+    .text-purple-300 { color: #d8b4fe !important; }
+    .select-all { user-select: all; }
+
+    #section-payment-links input[type="text"] {
+      background-color: #030914 !important;
+      color: #67e8f9 !important;
+      border: 1.5px solid rgba(0, 229, 255, 0.45) !important;
+      border-radius: 10px !important;
+      padding: 9px 12px !important;
+      font-size: 12px !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.01em;
+      width: 100% !important;
+      box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.6);
+    }
+    #section-payment-links input#payment-client-name-input {
+      background-color: #071426 !important;
+      color: #ffffff !important;
+      border: 1.5px solid rgba(52, 211, 153, 0.65) !important;
+      font-size: 13px !important;
+      font-weight: 600 !important;
+    }
+    #section-payment-links input#payment-client-name-input::placeholder {
+      color: #94a3b8 !important;
+      opacity: 1 !important;
+    }
+    #section-payment-links input[readonly] {
+      cursor: pointer;
+    }
+    #section-payment-links input[readonly]:hover {
+      border-color: #34d399 !important;
+      background-color: #061529 !important;
+    }
   </style>
 </head>
 <body>
@@ -2602,6 +2659,7 @@
             👤 Personalizar Mensaje WhatsApp (Opcional)
           </label>
           <input id="payment-client-name-input" type="text" placeholder="Ej. Dr. Roberto / Lic. Mariana..."
+                 style="background:#071426; color:#ffffff; border:1.5px solid #34d399; padding:9px 12px; border-radius:10px; font-size:13px; font-weight:600; width:100%;"
                  class="w-full px-3 py-2 rounded-lg text-xs text-white bg-slate-900 border border-slate-700 focus:border-emerald-400 focus:outline-none">
           <div class="text-[10px] text-slate-400">
             Si escribes el nombre aquí, el botón <strong>"💬 Copiar WhatsApp + Link"</strong> saludará al cliente por su nombre automáticamente.
@@ -2678,7 +2736,10 @@
             </div>
           </div>
           <div class="space-y-2 pt-2 border-t border-slate-800">
+            <div style="font-size:10px; font-weight:800; color:#94a3b8; text-transform:uppercase; margin-bottom:3px;">🔗 Link Oficial (clic para copiar):</div>
             <input type="text" readonly value="https://api.agenciaprosperia.com/payment-link/6af227a4d4cfb789aef22986"
+                   onclick="this.select(); copyPaymentLinkUrl(this.value);"
+                   style="background:#030914; color:#67e8f9; border:1.5px solid rgba(0,229,255,0.5); border-radius:9px; padding:8px 10px; font-size:11.5px; font-weight:700; width:100%; cursor:pointer;"
                    class="w-full px-2.5 py-1.5 rounded-lg text-[11px] font-mono text-cyan-200 bg-slate-900 border border-slate-700 select-all">
             <div class="grid grid-cols-1 gap-1.5">
               <button type="button" onclick="copyPaymentLinkUrl('https://api.agenciaprosperia.com/payment-link/6af227a4d4cfb789aef22986', this)"
@@ -2712,7 +2773,10 @@
             </div>
           </div>
           <div class="space-y-2 pt-2 border-t border-slate-800">
+            <div style="font-size:10px; font-weight:800; color:#94a3b8; text-transform:uppercase; margin-bottom:3px;">🔗 Link Oficial (clic para copiar):</div>
             <input type="text" readonly value="https://api.agenciaprosperia.com/payment-link/6af227ecd4cfb789aef2298d"
+                   onclick="this.select(); copyPaymentLinkUrl(this.value);"
+                   style="background:#030914; color:#67e8f9; border:1.5px solid rgba(0,229,255,0.5); border-radius:9px; padding:8px 10px; font-size:11.5px; font-weight:700; width:100%; cursor:pointer;"
                    class="w-full px-2.5 py-1.5 rounded-lg text-[11px] font-mono text-cyan-200 bg-slate-900 border border-slate-700 select-all">
             <div class="grid grid-cols-1 gap-1.5">
               <button type="button" onclick="copyPaymentLinkUrl('https://api.agenciaprosperia.com/payment-link/6af227ecd4cfb789aef2298d', this)"
@@ -2746,7 +2810,10 @@
             </div>
           </div>
           <div class="space-y-2 pt-2 border-t border-slate-800">
+            <div style="font-size:10px; font-weight:800; color:#94a3b8; text-transform:uppercase; margin-bottom:3px;">🔗 Link Oficial (clic para copiar):</div>
             <input type="text" readonly value="https://api.agenciaprosperia.com/payment-link/6af227c7d4cfb789aef22989"
+                   onclick="this.select(); copyPaymentLinkUrl(this.value);"
+                   style="background:#030914; color:#67e8f9; border:1.5px solid rgba(0,229,255,0.5); border-radius:9px; padding:8px 10px; font-size:11.5px; font-weight:700; width:100%; cursor:pointer;"
                    class="w-full px-2.5 py-1.5 rounded-lg text-[11px] font-mono text-cyan-200 bg-slate-900 border border-slate-700 select-all">
             <div class="grid grid-cols-1 gap-1.5">
               <button type="button" onclick="copyPaymentLinkUrl('https://api.agenciaprosperia.com/payment-link/6af227c7d4cfb789aef22989', this)"
@@ -2802,7 +2869,10 @@
             </div>
           </div>
           <div class="space-y-2 pt-2 border-t border-slate-800">
+            <div style="font-size:10px; font-weight:800; color:#94a3b8; text-transform:uppercase; margin-bottom:3px;">🔗 Link Oficial (clic para copiar):</div>
             <input type="text" readonly value="https://api.agenciaprosperia.com/payment-link/6af2287303c375ed645fe629"
+                   onclick="this.select(); copyPaymentLinkUrl(this.value);"
+                   style="background:#030914; color:#67e8f9; border:1.5px solid rgba(0,229,255,0.5); border-radius:9px; padding:8px 10px; font-size:11.5px; font-weight:700; width:100%; cursor:pointer;"
                    class="w-full px-2.5 py-1.5 rounded-lg text-[11px] font-mono text-cyan-200 bg-slate-900 border border-slate-700 select-all">
             <div class="grid grid-cols-1 gap-1.5">
               <button type="button" onclick="copyPaymentLinkUrl('https://api.agenciaprosperia.com/payment-link/6af2287303c375ed645fe629', this)"
@@ -2836,7 +2906,10 @@
             </div>
           </div>
           <div class="space-y-2 pt-2 border-t border-slate-800">
+            <div style="font-size:10px; font-weight:800; color:#94a3b8; text-transform:uppercase; margin-bottom:3px;">🔗 Link Oficial (clic para copiar):</div>
             <input type="text" readonly value="https://api.agenciaprosperia.com/payment-link/6af228ba03c375ed645fe62d"
+                   onclick="this.select(); copyPaymentLinkUrl(this.value);"
+                   style="background:#030914; color:#67e8f9; border:1.5px solid rgba(0,229,255,0.5); border-radius:9px; padding:8px 10px; font-size:11.5px; font-weight:700; width:100%; cursor:pointer;"
                    class="w-full px-2.5 py-1.5 rounded-lg text-[11px] font-mono text-cyan-200 bg-slate-900 border border-slate-700 select-all">
             <div class="grid grid-cols-1 gap-1.5">
               <button type="button" onclick="copyPaymentLinkUrl('https://api.agenciaprosperia.com/payment-link/6af228ba03c375ed645fe62d', this)"
@@ -2870,7 +2943,10 @@
             </div>
           </div>
           <div class="space-y-2 pt-2 border-t border-slate-800">
+            <div style="font-size:10px; font-weight:800; color:#94a3b8; text-transform:uppercase; margin-bottom:3px;">🔗 Link Oficial (clic para copiar):</div>
             <input type="text" readonly value="https://api.agenciaprosperia.com/payment-link/6af2289003c375ed645fe62a"
+                   onclick="this.select(); copyPaymentLinkUrl(this.value);"
+                   style="background:#030914; color:#67e8f9; border:1.5px solid rgba(0,229,255,0.5); border-radius:9px; padding:8px 10px; font-size:11.5px; font-weight:700; width:100%; cursor:pointer;"
                    class="w-full px-2.5 py-1.5 rounded-lg text-[11px] font-mono text-cyan-200 bg-slate-900 border border-slate-700 select-all">
             <div class="grid grid-cols-1 gap-1.5">
               <button type="button" onclick="copyPaymentLinkUrl('https://api.agenciaprosperia.com/payment-link/6af2289003c375ed645fe62a', this)"
@@ -2926,7 +3002,10 @@
             </div>
           </div>
           <div class="space-y-2 pt-2 border-t border-slate-800">
+            <div style="font-size:10px; font-weight:800; color:#94a3b8; text-transform:uppercase; margin-bottom:3px;">🔗 Link Oficial (clic para copiar):</div>
             <input type="text" readonly value="https://api.agenciaprosperia.com/payment-link/6af22915d4cfb789aef2299b"
+                   onclick="this.select(); copyPaymentLinkUrl(this.value);"
+                   style="background:#030914; color:#67e8f9; border:1.5px solid rgba(0,229,255,0.5); border-radius:9px; padding:8px 10px; font-size:11.5px; font-weight:700; width:100%; cursor:pointer;"
                    class="w-full px-2.5 py-1.5 rounded-lg text-[11px] font-mono text-cyan-200 bg-slate-900 border border-slate-700 select-all">
             <div class="grid grid-cols-1 gap-1.5">
               <button type="button" onclick="copyPaymentLinkUrl('https://api.agenciaprosperia.com/payment-link/6af22915d4cfb789aef2299b', this)"
@@ -2960,7 +3039,10 @@
             </div>
           </div>
           <div class="space-y-2 pt-2 border-t border-slate-800">
+            <div style="font-size:10px; font-weight:800; color:#94a3b8; text-transform:uppercase; margin-bottom:3px;">🔗 Link Oficial (clic para copiar):</div>
             <input type="text" readonly value="https://api.agenciaprosperia.com/payment-link/6af2297ad4cfb789aef229a0"
+                   onclick="this.select(); copyPaymentLinkUrl(this.value);"
+                   style="background:#030914; color:#67e8f9; border:1.5px solid rgba(0,229,255,0.5); border-radius:9px; padding:8px 10px; font-size:11.5px; font-weight:700; width:100%; cursor:pointer;"
                    class="w-full px-2.5 py-1.5 rounded-lg text-[11px] font-mono text-cyan-200 bg-slate-900 border border-slate-700 select-all">
             <div class="grid grid-cols-1 gap-1.5">
               <button type="button" onclick="copyPaymentLinkUrl('https://api.agenciaprosperia.com/payment-link/6af2297ad4cfb789aef229a0', this)"
@@ -2994,7 +3076,10 @@
             </div>
           </div>
           <div class="space-y-2 pt-2 border-t border-slate-800">
+            <div style="font-size:10px; font-weight:800; color:#94a3b8; text-transform:uppercase; margin-bottom:3px;">🔗 Link Oficial (clic para copiar):</div>
             <input type="text" readonly value="https://api.agenciaprosperia.com/payment-link/6af22943d4cfb789aef2299d"
+                   onclick="this.select(); copyPaymentLinkUrl(this.value);"
+                   style="background:#030914; color:#67e8f9; border:1.5px solid rgba(0,229,255,0.5); border-radius:9px; padding:8px 10px; font-size:11.5px; font-weight:700; width:100%; cursor:pointer;"
                    class="w-full px-2.5 py-1.5 rounded-lg text-[11px] font-mono text-cyan-200 bg-slate-900 border border-slate-700 select-all">
             <div class="grid grid-cols-1 gap-1.5">
               <button type="button" onclick="copyPaymentLinkUrl('https://api.agenciaprosperia.com/payment-link/6af22943d4cfb789aef2299d', this)"
@@ -3032,7 +3117,10 @@
           </div>
         </div>
         <div class="space-y-2">
+          <div style="font-size:10px; font-weight:800; color:#94a3b8; text-transform:uppercase; margin-bottom:3px;">🔗 Link Oficial (clic para copiar):</div>
           <input type="text" readonly value="https://api.agenciaprosperia.com/payment-link/6af1f575d4cfb789aef22853"
+                 onclick="this.select(); copyPaymentLinkUrl(this.value);"
+                 style="background:#030914; color:#67e8f9; border:1.5px solid rgba(0,229,255,0.5); border-radius:9px; padding:8px 10px; font-size:11.5px; font-weight:700; width:100%; cursor:pointer;"
                  class="w-full px-2.5 py-1.5 rounded-lg text-[11px] font-mono text-cyan-200 bg-slate-900 border border-slate-700 select-all">
           <button type="button" onclick="copyPaymentLinkUrl('https://api.agenciaprosperia.com/payment-link/6af1f575d4cfb789aef22853', this)"
                   class="w-full py-2 px-3 rounded-lg text-xs font-black bg-rose-500 text-white hover:bg-rose-400 transition flex items-center justify-center gap-1.5">
@@ -3063,7 +3151,10 @@
             <span class="text-xs font-black text-purple-300">🔥 Reserva 50% Hoy (Inicio):</span>
             <span class="text-base font-black text-emerald-400">US$1,450.00 USD</span>
           </div>
+          <div style="font-size:10px; font-weight:800; color:#94a3b8; text-transform:uppercase; margin-bottom:3px;">🔗 Link Oficial (clic para copiar):</div>
           <input type="text" readonly value="https://api.agenciaprosperia.com/payment-link/6af1f540d4cfb789aef22850"
+                 onclick="this.select(); copyPaymentLinkUrl(this.value);"
+                 style="background:#030914; color:#67e8f9; border:1.5px solid rgba(0,229,255,0.5); border-radius:9px; padding:8px 10px; font-size:11.5px; font-weight:700; width:100%; cursor:pointer;"
                  class="w-full px-2 py-1 rounded text-[10px] font-mono text-cyan-200 bg-slate-900 border border-slate-700 select-all">
           <div class="grid grid-cols-2 gap-1.5">
             <button type="button" onclick="copyPaymentLinkUrl('https://api.agenciaprosperia.com/payment-link/6af1f540d4cfb789aef22850', this)"
@@ -3083,7 +3174,10 @@
             <span class="text-xs font-black text-cyan-300">💳 Pago Único 100% Total:</span>
             <span class="text-base font-black text-cyan-300">US$2,900.00 USD</span>
           </div>
+          <div style="font-size:10px; font-weight:800; color:#94a3b8; text-transform:uppercase; margin-bottom:3px;">🔗 Link Oficial (clic para copiar):</div>
           <input type="text" readonly value="https://api.agenciaprosperia.com/payment-link/6af1f55bd4cfb789aef22852"
+                 onclick="this.select(); copyPaymentLinkUrl(this.value);"
+                 style="background:#030914; color:#67e8f9; border:1.5px solid rgba(0,229,255,0.5); border-radius:9px; padding:8px 10px; font-size:11.5px; font-weight:700; width:100%; cursor:pointer;"
                  class="w-full px-2 py-1 rounded text-[10px] font-mono text-cyan-200 bg-slate-900 border border-slate-700 select-all">
           <div class="grid grid-cols-2 gap-1.5">
             <button type="button" onclick="copyPaymentLinkUrl('https://api.agenciaprosperia.com/payment-link/6af1f55bd4cfb789aef22852', this)"
@@ -3112,7 +3206,10 @@
             <span class="text-xs font-black text-amber-300">🔥 Reserva 50% Hoy (Inicio):</span>
             <span class="text-base font-black text-emerald-400">US$2,500.00 USD</span>
           </div>
+          <div style="font-size:10px; font-weight:800; color:#94a3b8; text-transform:uppercase; margin-bottom:3px;">🔗 Link Oficial (clic para copiar):</div>
           <input type="text" readonly value="https://api.agenciaprosperia.com/payment-link/6af226e503c375ed645fe620"
+                 onclick="this.select(); copyPaymentLinkUrl(this.value);"
+                 style="background:#030914; color:#67e8f9; border:1.5px solid rgba(0,229,255,0.5); border-radius:9px; padding:8px 10px; font-size:11.5px; font-weight:700; width:100%; cursor:pointer;"
                  class="w-full px-2 py-1 rounded text-[10px] font-mono text-cyan-200 bg-slate-900 border border-slate-700 select-all">
           <div class="grid grid-cols-2 gap-1.5">
             <button type="button" onclick="copyPaymentLinkUrl('https://api.agenciaprosperia.com/payment-link/6af226e503c375ed645fe620', this)"
@@ -3132,7 +3229,10 @@
             <span class="text-xs font-black text-cyan-300">💳 Pago Único 100% Total:</span>
             <span class="text-base font-black text-cyan-300">US$5,000.00 USD</span>
           </div>
+          <div style="font-size:10px; font-weight:800; color:#94a3b8; text-transform:uppercase; margin-bottom:3px;">🔗 Link Oficial (clic para copiar):</div>
           <input type="text" readonly value="https://api.agenciaprosperia.com/payment-link/6af1f51903c375ed645fe4e4"
+                 onclick="this.select(); copyPaymentLinkUrl(this.value);"
+                 style="background:#030914; color:#67e8f9; border:1.5px solid rgba(0,229,255,0.5); border-radius:9px; padding:8px 10px; font-size:11.5px; font-weight:700; width:100%; cursor:pointer;"
                  class="w-full px-2 py-1 rounded text-[10px] font-mono text-cyan-200 bg-slate-900 border border-slate-700 select-all">
           <div class="grid grid-cols-2 gap-1.5">
             <button type="button" onclick="copyPaymentLinkUrl('https://api.agenciaprosperia.com/payment-link/6af1f51903c375ed645fe4e4', this)"
