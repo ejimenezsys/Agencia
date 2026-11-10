@@ -1853,21 +1853,29 @@
           </div>
         </button>
 
-        <button onclick="switchWeaponTab('deck-humana')" id="wtab-deck-humana" class="weapon-nav-btn" style="border-color:rgba(0,229,255,0.55); background:rgba(0,229,255,0.12);">
-          <span>✨</span>
-          <div>
-            <div style="color:#67e8f9; font-weight:900;">Presentación Visual Humana (V2)</div>
-            <div style="font-size:10px; opacity:0.95; color:#fde68a;">13 Slides · Dolor + Constructores PDF + Reels</div>
+        <!-- APARTADO ESPECIAL: PRESENTACIÓN EN LENGUAJE NATURAL + SU ACORDEÓN (CON FOTO DEL CLOSER) -->
+        <div class="p-2.5 rounded-xl space-y-1.5" style="background:linear-gradient(160deg,rgba(0,229,255,0.10),rgba(245,158,11,0.08)); border:1.5px solid rgba(0,229,255,0.45);">
+          <div class="flex items-center justify-between px-1 pb-0.5">
+            <span class="text-[10px] font-black uppercase tracking-wider text-cyan-300">🗣️ LENGUAJE NATURAL + ACORDEÓN</span>
+            <span class="px-1.5 py-0.5 rounded bg-emerald-500/20 text-[9px] font-bold text-emerald-300 border border-emerald-500/30">Tu Foto</span>
           </div>
-        </button>
 
-        <button onclick="switchWeaponTab('guia-orador')" id="wtab-guia-orador" class="weapon-nav-btn" style="border-color:rgba(245,158,11,0.5); background:rgba(245,158,11,0.10);">
-          <span>🎙️</span>
-          <div>
-            <div style="color:#fde68a; font-weight:900;">Guía Speech de Auditorio (V2)</div>
-            <div style="font-size:10px; opacity:0.9; color:#cbd5e1;">13 Slides · Dentista/Realtor + 16 Reels/Mes</div>
-          </div>
-        </button>
+          <button onclick="switchWeaponTab('deck-humana')" id="wtab-deck-humana" class="weapon-nav-btn" style="border-color:rgba(0,229,255,0.6); background:rgba(0,229,255,0.14);">
+            <span>✨</span>
+            <div>
+              <div style="color:#67e8f9; font-weight:900;">Presentación en Lenguaje Natural</div>
+              <div style="font-size:10px; opacity:0.95; color:#fde68a;">13 Slides Visuales · Foto Closer + Reels</div>
+            </div>
+          </button>
+
+          <button onclick="switchWeaponTab('guia-orador')" id="wtab-guia-orador" class="weapon-nav-btn" style="border-color:rgba(245,158,11,0.55); background:rgba(245,158,11,0.12);">
+            <span>🎙️</span>
+            <div>
+              <div style="color:#fde68a; font-weight:900;">Acordeón Lenguaje Natural (Speech)</div>
+              <div style="font-size:10px; opacity:0.95; color:#cbd5e1;">Bullets + Speech 13 Láminas + PDF</div>
+            </div>
+          </button>
+        </div>
 
         <button onclick="switchWeaponTab('deck-v1')" id="wtab-deck-v1" class="weapon-nav-btn">
           <span>📦</span>
@@ -1922,14 +1930,6 @@
           <div>
             <div>Perfil Cliente Ideal</div>
             <div style="font-size:10px; opacity:0.8;">Las 3 Duplas por Giro</div>
-          </div>
-        </button>
-
-        <button onclick="showSection('payment-links')" class="weapon-nav-btn" style="border-color:rgba(16,185,129,0.5); background:rgba(16,185,129,0.12);">
-          <span>💳</span>
-          <div>
-            <div style="color:#34d399; font-weight:900;">Links de Pago Oficiales</div>
-            <div style="font-size:10px; opacity:0.9; color:#a7f3d0;">14 Links en Vivo · Copiar en 1 Clic</div>
           </div>
         </button>
       </div>
@@ -2595,25 +2595,36 @@
           </div>
         </div>
 
-        <!-- SUB-VISTA 3: VISOR EMBEBIDO A ALTURA COMPLETA CON FONDO BLANCO DE ALTO CONTRASTE POR DEFECTO -->
+        <!-- SUB-VISTA 3: VISOR EMBEBIDO A ALTURA COMPLETA CON BARRA DEL CLOSER + ACORDEÓN -->
         <div id="weapon-view-iframe-box" class="hidden space-y-3">
           <div class="card px-5 py-3 flex flex-wrap items-center justify-between gap-3">
-            <div>
-              <h3 id="weapon-iframe-title" class="text-sm font-bold text-white">Presentación Interactiva</h3>
-              <p id="weapon-iframe-subtitle" class="text-xs text-slate-400">Usa los 4 botones de Tema de Lectura arriba para cambiar el color en vivo.</p>
+            <div class="flex items-center gap-3">
+              <div id="weapon-closer-avatar-box" class="w-10 h-10 rounded-full overflow-hidden border-2 border-cyan-400 flex items-center justify-center bg-slate-900 text-xs font-black text-cyan-300 flex-shrink-0">
+                ✨
+              </div>
+              <div>
+                <div class="flex flex-wrap items-center gap-2">
+                  <h3 id="weapon-iframe-title" class="text-sm font-bold text-white">Presentación en Lenguaje Natural</h3>
+                  <span id="weapon-closer-name-pill" class="px-2 py-0.5 rounded-full text-[10px] font-black bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">Personalizada con tu foto</span>
+                </div>
+                <p id="weapon-iframe-subtitle" class="text-xs text-slate-400">Presentación visual en lenguaje natural acompañada de su acordeón de auditorio.</p>
+              </div>
             </div>
             <div class="flex flex-wrap gap-2">
-              <a id="weapon-open-tab-btn" href="/static/armas/PRESENTACION_HUMANA_VISUAL_PROSPER_IA.html" target="_blank" class="btn-primary px-3.5 py-2 rounded-xl text-xs font-black inline-flex items-center gap-1.5 no-underline">
-                <i class="fas fa-expand"></i> Abrir en Pantalla Completa
+              <button type="button" onclick="switchWeaponTab('deck-humana')" class="px-3 py-2 rounded-xl text-xs font-black inline-flex items-center gap-1.5" style="background:rgba(0,229,255,0.16); border:1px solid #00e5ff; color:#67e8f9;">
+                ✨ Ver Presentación (13 Slides)
+              </button>
+              <button type="button" onclick="switchWeaponTab('guia-orador')" class="px-3 py-2 rounded-xl text-xs font-black inline-flex items-center gap-1.5" style="background:rgba(245,158,11,0.18); border:1px solid #f59e0b; color:#fde68a;">
+                🎙️ Ver Acordeón / Speech aquí
+              </button>
+              <a id="weapon-open-tab-btn" href="/static/armas/PRESENTACION_HUMANA_VISUAL_V2_PROSPER_IA.html" target="_blank" class="btn-primary px-3.5 py-2 rounded-xl text-xs font-black inline-flex items-center gap-1.5 no-underline">
+                <i class="fas fa-expand"></i> Pantalla Completa
               </a>
-              <a id="weapon-pdf-btn" href="/static/armas/PRESENTACION_HUMANA_VISUAL_PROSPER_IA.pdf" target="_blank" class="btn-ghost px-3.5 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-1.5 no-underline">
-                <i class="fas fa-file-pdf text-rose-400"></i> Descargar PDF
+              <a id="weapon-pdf-btn" href="/static/armas/PRESENTACION_HUMANA_VISUAL_V2_PROSPER_IA.pdf" target="_blank" class="btn-ghost px-3 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-1.5 no-underline">
+                <i class="fas fa-file-pdf text-rose-400"></i> PDF
               </a>
-              <a href="/static/armas/GUIA_ORADOR_PRESENTACION_HUMANA_PROSPER_IA.html" target="_blank" class="px-3.5 py-2 rounded-xl text-xs font-black inline-flex items-center gap-1.5 no-underline" style="background:rgba(245,158,11,0.18); border:1px solid #f59e0b; color:#fde68a;">
-                🎙️ Abrir Guía Speech al Lado
-              </a>
-              <a href="/static/armas/GUIA_ORADOR_PRESENTACION_HUMANA_PROSPER_IA.pdf" target="_blank" class="btn-ghost px-3 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-1.5 no-underline">
-                📥 PDF Speech
+              <a id="weapon-guia-side-btn" href="/static/armas/GUIA_ORADOR_PRESENTACION_HUMANA_V2_PROSPER_IA.html" target="_blank" class="btn-ghost px-3 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-1.5 no-underline" style="color:#fde68a; border-color:rgba(245,158,11,0.4);">
+                ↗ Abrir Acordeón en Otra Pestaña
               </a>
             </div>
           </div>
@@ -6450,15 +6461,15 @@ function switchWeaponTab(tabKey) {
       pdf: '/static/armas/MANUAL_OPERATIVO_CLOSERS_PROSPER_IA.pdf'
     },
     'deck-humana': {
-      title: '✨ Presentación Ejecutiva 100% Visual en Lenguaje Humano V2 (13 Slides · Dolor Financiero + Constructores PDF + 30 Guiones + Reels)',
-      sub: 'Incluye Slide 2 ($2K→$4K, -$1K nómina, ROAS 3X-5X para tus hijos), Slide 5 (Reels + Plan Continuidad 16 Reels/mes), Slide 8 (6 Constructores PDF para Dentista/Realtor) y Ofertas Recargadas ($990 y $1,490).',
-      html: `/static/armas/PRESENTACION_HUMANA_VISUAL_V2_PROSPER_IA.html?v=2${closerParams ? '&' + closerParams : ''}`,
+      title: '✨ Presentación en Lenguaje Natural (13 Slides Visuales · Personalizada con Tu Foto)',
+      sub: 'Incluye Slide 2 ($2K→$4K, -$1K nómina, ROAS 3X-5X para tus hijos), Slide 5 (Reels + Plan Continuidad 16 Reels/mes), Slide 8 (6 Constructores PDF para Dentista/Realtor) y Ofertas ($990 y $1,490).',
+      html: `/static/armas/PRESENTACION_HUMANA_VISUAL_V2_PROSPER_IA.html?v=3${closerParams ? '&' + closerParams : ''}`,
       pdf: '/static/armas/PRESENTACION_HUMANA_VISUAL_V2_PROSPER_IA.pdf'
     },
     'guia-orador': {
-      title: '🎙️ Guía del Orador V2 (Speech de Auditorio · 13 Slides · Lenguaje para Dentistas, Realtors y Dueños de Negocio)',
+      title: '🎙️ Acordeón de la Presentación en Lenguaje Natural (Speech de Auditorio · 13 Slides)',
       sub: 'Bullets de memoria + Speech palabra por palabra sin tecnicismos ("cero prompts"), explicación de los 6 Constructores PDF de PassportAI y semilla de 16 Reels/mes.',
-      html: '/static/armas/GUIA_ORADOR_PRESENTACION_HUMANA_V2_PROSPER_IA.html?v=2',
+      html: `/static/armas/GUIA_ORADOR_PRESENTACION_HUMANA_V2_PROSPER_IA.html?v=3${closerParams ? '&' + closerParams : ''}`,
       pdf: '/static/armas/GUIA_ORADOR_PRESENTACION_HUMANA_V2_PROSPER_IA.pdf'
     },
     'deck-v1': {
@@ -6500,6 +6511,16 @@ function switchWeaponTab(tabKey) {
   document.getElementById('weapon-iframe-subtitle').textContent = cfg.sub;
   document.getElementById('weapon-open-tab-btn').href = themedUrl;
   document.getElementById('weapon-pdf-btn').href = cfg.pdf;
+  const guiaSideBtn = document.getElementById('weapon-guia-side-btn');
+  if (guiaSideBtn) {
+    guiaSideBtn.href = `/static/armas/GUIA_ORADOR_PRESENTACION_HUMANA_V2_PROSPER_IA.html?v=3${closerParams ? '&' + closerParams : ''}`;
+  }
+  const avatarBox = document.getElementById('weapon-closer-avatar-box');
+  const namePill = document.getElementById('weapon-closer-name-pill');
+  if (currentUser) {
+    if (avatarBox) avatarBox.innerHTML = renderAvatarHtml(currentUser, 38);
+    if (namePill) namePill.textContent = `👤 Closer: ${currentUser.name || 'ProsperIA'}`;
+  }
   const iframe = document.getElementById('weapon-embedded-iframe');
   if (iframe) {
     iframe.onload = () => setWeaponsTheme(currentWeaponsTheme);

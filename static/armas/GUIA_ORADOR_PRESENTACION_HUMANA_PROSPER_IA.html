@@ -254,9 +254,21 @@
     </div>
 
     <div class="hero">
-      <span class="badge">Versión 2 · 13 Diapositivas · Especial Dentistas, Realtors, Clínicas y Dueños de Negocio</span>
-      <h2>Tu Acordeón de Cierre en Llamada (Cero Palabras Técnicas)</h2>
-      <p>Cuando compartas pantalla con las <strong>13 Diapositivas Visuales V2</strong>, el prospecto verá imágenes grandes y pocas palabras. Tú tienes esta guía abierta a un lado para saber <strong>exactamente qué preguntar, qué historia contar y cómo cerrar los paquetes de $990, $497 y $1,490</strong> sin decir ni una palabra de "prompts", "NanoBanana", "Veo 3" ni "agentes técnicos".</p>
+      <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:16px; margin-bottom:14px;">
+        <div>
+          <span class="badge">Versión 2 · 13 Diapositivas · Especial Dentistas, Realtors, Clínicas y Dueños de Negocio</span>
+          <h2>Tu Acordeón de Cierre en Llamada (Presentación en Lenguaje Natural)</h2>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px; background:rgba(15,23,42,0.85); border:1.5px solid rgba(56,189,248,0.45); border-radius:16px; padding:10px 16px;">
+          <img id="closer-guide-photo" src="/static/edward_hero_depth.jpg" alt="Closer ProsperIA" style="width:48px; height:48px; border-radius:50%; object-fit:cover; object-position:center top; border:2px solid #38bdf8;">
+          <div>
+            <div style="font-size:10px; font-weight:800; color:#38bdf8; text-transform:uppercase; letter-spacing:0.06em;">CLOSER EN LLAMADA</div>
+            <div id="closer-guide-name" style="font-size:15px; font-weight:800; color:#fff;">Equipo Closer ProsperIA</div>
+            <div id="closer-guide-role" style="font-size:11px; color:#94a3b8;">Consultor en Transformación Digital & IA</div>
+          </div>
+        </div>
+      </div>
+      <p>Cuando compartas pantalla con las <strong>13 Diapositivas en Lenguaje Natural</strong>, el prospecto verá imágenes grandes y pocas palabras. Tú tienes este acordeón abierto a un lado para saber <strong>exactamente qué preguntar, qué historia contar y cómo cerrar los paquetes de $990, $497 y $1,490</strong> sin decir ni una palabra de "prompts", "NanoBanana", "Veo 3" ni "agentes técnicos".</p>
       <div class="rules-grid">
         <div class="rule-box">
           <strong>1. Toca el Bolsillo y la Familia (Slide 2)</strong>
@@ -585,5 +597,60 @@
     </div>
 
   </div>
+  <script>
+    (() => {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        let cName = params.get('closer_name') || '';
+        let cPhoto = params.get('closer_photo') || '';
+        let cEmail = (params.get('closer_email') || '').toLowerCase().trim();
+
+        if ((!cName || !cPhoto || !cEmail) && window.parent && window.parent !== window && window.parent.currentUser) {
+          const pu = window.parent.currentUser;
+          if (!cName && pu.name) cName = pu.name;
+          if (!cPhoto && pu.avatar_url) cPhoto = pu.avatar_url;
+          if (!cEmail && pu.email) cEmail = String(pu.email).toLowerCase().trim();
+        }
+
+        if (!cName || !cPhoto || !cEmail) {
+          const savedUser = JSON.parse(localStorage.getItem('user') || '{}');
+          if (!cName && savedUser.name) cName = savedUser.name;
+          if (!cPhoto && savedUser.avatar_url) cPhoto = savedUser.avatar_url;
+          if (!cEmail && savedUser.email) cEmail = String(savedUser.email).toLowerCase().trim();
+        }
+
+        const closerPhotosByEmail = {
+          'sheille.perez@gmail.com': '/static/img/closers/sheilla.jpg',
+          'diegoarriondo03@gmail.com': '/static/img/closers/diego.jpg',
+          'cinthyapenida0@gmail.com': '/static/img/closers/cintya.jpg',
+          'claudiniosan@yahoo.com.ar': '/static/img/closers/claudio.png',
+          'loremrodriguezafb@gmail.com': '/static/img/closers/lorena.jpg',
+          'sergiotorales608@gmail.com': '/static/img/closers/sergio.jpg',
+          'laverdaderafuerza02@gmail.com': '/static/img/closers/agustin.jpg',
+          'admin@prosperia.com': '/static/edward_hero_depth.jpg',
+          'edward@agenciaprosperia.com': '/static/edward_hero_depth.jpg'
+        };
+
+        if (cEmail && closerPhotosByEmail[cEmail]) {
+          cPhoto = closerPhotosByEmail[cEmail];
+        } else if (!cPhoto && cName) {
+          const nm = cName.toLowerCase();
+          if (nm.includes('agustin') || nm.includes('agustín')) cPhoto = '/static/img/closers/agustin.jpg';
+          else if (nm.includes('sheille') || nm.includes('sheilla')) cPhoto = '/static/img/closers/sheilla.jpg';
+          else if (nm.includes('diego')) cPhoto = '/static/img/closers/diego.jpg';
+          else if (nm.includes('cinthya') || nm.includes('cintya')) cPhoto = '/static/img/closers/cintya.jpg';
+          else if (nm.includes('claudio')) cPhoto = '/static/img/closers/claudio.png';
+          else if (nm.includes('lorena')) cPhoto = '/static/img/closers/lorena.jpg';
+          else if (nm.includes('sergio')) cPhoto = '/static/img/closers/sergio.jpg';
+        }
+
+        const photoEl = document.getElementById('closer-guide-photo');
+        const nameEl = document.getElementById('closer-guide-name');
+        if (photoEl && cPhoto) photoEl.src = cPhoto;
+        if (nameEl && cName) nameEl.textContent = cName;
+      } catch (err) {}
+    })();
+  </script>
 </body>
 </html>
+
