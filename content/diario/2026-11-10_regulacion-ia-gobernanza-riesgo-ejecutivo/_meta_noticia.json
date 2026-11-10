@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-09",
+  "slug": "regulacion-ia-gobernanza-riesgo-ejecutivo",
+  "title": "La regulación de la IA es inminente: ¿Su empresa está gobernando el riesgo o delegando su soberanía?",
+  "executive_summary": "La elección de Scott Wiener, un legislador con experiencia en regulación de IA, como reemplazo de Nancy Pelosi, señala la inminencia de una política federal sobre Inteligencia Artificial. Esto representa un impacto directo en la gobernanza corporativa, los costos de cumplimiento y la autonomía estratégica de las empresas, requiriendo una preparación proactiva para mantener la soberanía y mitigar riesgos operativos.",
+  "verified_sources": [
+    {
+      "title": "MIT Technology Review AI: Nancy Pelosi’s replacement is ready to regulate AI",
+      "url": "https://www.technologyreview.com/2026/11/09/1148182/nancy-pelosis-replacement-is-ready-to-regulate-ai/"
+    }
+  ],
+  "affected_pillars": [
+    "Aumento Tecnológico",
+    "Estratégico",
+    "Financiero"
+  ],
+  "sve90_phase": "Auditoría de Procesos y Tareas",
+  "core_takeaway": "La inminente regulación federal de la IA exige que los CEOs pasen de la adopción a la gobernanza proactiva de la IA para proteger la soberanía y el margen de su empresa, aplicando marcos como la Metodología SVE90."
+}
