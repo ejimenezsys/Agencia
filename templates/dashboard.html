@@ -357,31 +357,34 @@
       .main-content { margin-left: 0; }
     }
 
-    /* ── HIGH-CONTRAST UTILITIES & PAYMENT LINKS SECTION (INDEPENDIENTE DE TW.CSS PURGADO) ── */
-    .bg-slate-950, .bg-slate-950\/90, .bg-slate-950\/85 { background-color: #040a17 !important; }
-    .bg-slate-900, .bg-slate-900\/90 { background-color: #091528 !important; }
-    .bg-emerald-400 { background-color: #34d399 !important; color: #04101f !important; }
-    .hover\:bg-emerald-300:hover { background-color: #6ee7b7 !important; color: #04101f !important; }
-    .bg-cyan-400 { background-color: #22d3ee !important; color: #04101f !important; }
-    .hover\:bg-cyan-300:hover { background-color: #67e8f9 !important; color: #04101f !important; }
-    .bg-amber-400 { background-color: #fbbf24 !important; color: #04101f !important; }
-    .hover\:bg-amber-300:hover { background-color: #fcd34d !important; color: #04101f !important; }
-    .bg-purple-400 { background-color: #c084fc !important; color: #04101f !important; }
-    .hover\:bg-purple-300:hover { background-color: #d8b4fe !important; color: #04101f !important; }
-    .bg-purple-500 { background-color: #a855f7 !important; color: #ffffff !important; }
-    .bg-rose-500 { background-color: #f43f5e !important; color: #ffffff !important; }
-    .hover\:bg-rose-400:hover { background-color: #fb7185 !important; color: #ffffff !important; }
-    .text-slate-950 { color: #04101f !important; }
-    .text-cyan-200 { color: #a5f3fc !important; }
-    .text-cyan-300 { color: #67e8f9 !important; }
-    .text-emerald-300 { color: #6ee7b7 !important; }
-    .text-amber-300 { color: #fcd34d !important; }
-    .text-amber-400 { color: #fbbf24 !important; }
-    .text-rose-200 { color: #fecdd3 !important; }
-    .text-rose-300 { color: #fda4af !important; }
-    .text-rose-400 { color: #fb7185 !important; }
-    .text-purple-300 { color: #d8b4fe !important; }
-    .select-all { user-select: all; }
+    /* ── SCOPED EXCLUSIVELY TO #section-payment-links (NO ALTERA EL ESTILO DEL RESTO DEL DASHBOARD) ── */
+    #section-payment-links .bg-slate-950,
+    #section-payment-links .bg-slate-950\/90,
+    #section-payment-links .bg-slate-950\/85 { background-color: #040a17 !important; }
+    #section-payment-links .bg-slate-900,
+    #section-payment-links .bg-slate-900\/90 { background-color: #091528 !important; }
+    #section-payment-links .bg-emerald-400 { background-color: #34d399 !important; color: #04101f !important; }
+    #section-payment-links .hover\:bg-emerald-300:hover { background-color: #6ee7b7 !important; color: #04101f !important; }
+    #section-payment-links .bg-cyan-400 { background-color: #22d3ee !important; color: #04101f !important; }
+    #section-payment-links .hover\:bg-cyan-300:hover { background-color: #67e8f9 !important; color: #04101f !important; }
+    #section-payment-links .bg-amber-400 { background-color: #fbbf24 !important; color: #04101f !important; }
+    #section-payment-links .hover\:bg-amber-300:hover { background-color: #fcd34d !important; color: #04101f !important; }
+    #section-payment-links .bg-purple-400 { background-color: #c084fc !important; color: #04101f !important; }
+    #section-payment-links .hover\:bg-purple-300:hover { background-color: #d8b4fe !important; color: #04101f !important; }
+    #section-payment-links .bg-purple-500 { background-color: #a855f7 !important; color: #ffffff !important; }
+    #section-payment-links .bg-rose-500 { background-color: #f43f5e !important; color: #ffffff !important; }
+    #section-payment-links .hover\:bg-rose-400:hover { background-color: #fb7185 !important; color: #ffffff !important; }
+    #section-payment-links .text-slate-950 { color: #04101f !important; }
+    #section-payment-links .text-cyan-200 { color: #a5f3fc !important; }
+    #section-payment-links .text-cyan-300 { color: #67e8f9 !important; }
+    #section-payment-links .text-emerald-300 { color: #6ee7b7 !important; }
+    #section-payment-links .text-amber-300 { color: #fcd34d !important; }
+    #section-payment-links .text-amber-400 { color: #fbbf24 !important; }
+    #section-payment-links .text-rose-200 { color: #fecdd3 !important; }
+    #section-payment-links .text-rose-300 { color: #fda4af !important; }
+    #section-payment-links .text-rose-400 { color: #fb7185 !important; }
+    #section-payment-links .text-purple-300 { color: #d8b4fe !important; }
+    #section-payment-links .select-all { user-select: all; }
 
     #section-payment-links input[type="text"] {
       background-color: #030914 !important;
@@ -5976,13 +5979,19 @@ function renderCallQueueTable() {
       </td>
       <td class="px-4 py-3">
         <div class="flex flex-wrap items-center gap-1.5">
-          <button onclick="registerCallOutcome(${l.id}, 'no_answer')" class="px-2.5 py-1.5 rounded-lg text-[11px] font-bold bg-rose-500/15 text-rose-300 border border-rose-500/30 hover:bg-rose-500/25" title="No contestó: suma llamada y se queda aquí sin ensuciar el CRM">
+          <button onclick="registerCallOutcome(${l.id}, 'no_answer')"
+                  style="background:rgba(244,63,94,0.14); color:#fda4af; border:1px solid rgba(244,63,94,0.4);"
+                  class="px-2.5 py-1.5 rounded-lg text-[11px] font-bold transition" title="No contestó: suma llamada y se queda aquí sin ensuciar el CRM">
             🔴 No Contestó
           </button>
-          <button onclick="registerCallOutcome(${l.id}, 'disqualified')" class="px-2.5 py-1.5 rounded-lg text-[11px] font-semibold bg-slate-800 text-slate-400 border border-slate-700 hover:text-white" title="No califica: archivar en Dashboard sin pasar al CRM">
+          <button onclick="registerCallOutcome(${l.id}, 'disqualified')"
+                  style="background:rgba(30,41,59,0.75); color:#94a3b8; border:1px solid rgba(100,116,139,0.4);"
+                  class="px-2.5 py-1.5 rounded-lg text-[11px] font-semibold transition" title="No califica: archivar en Dashboard sin pasar al CRM">
             ⚫ No Califica
           </button>
-          <button onclick="registerCallOutcome(${l.id}, 'answered')" class="px-3 py-1.5 rounded-lg text-[11px] font-black bg-emerald-500 text-slate-950 hover:bg-emerald-400 shadow-lg shadow-emerald-500/20" title="¡Sí contestó! Se gradúa al Paso 2 (Primer contacto) en Mi Pipeline y CRM ProsperIA">
+          <button onclick="registerCallOutcome(${l.id}, 'answered')"
+                  style="background:linear-gradient(135deg,#10b981,#059669); color:#ffffff; border:1px solid #34d399; box-shadow:0 4px 14px rgba(16,185,129,0.28);"
+                  class="px-3 py-1.5 rounded-lg text-[11px] font-black transition" title="¡Sí contestó! Se gradúa al Paso 2 (Primer contacto) en Mi Pipeline y CRM ProsperIA">
             🟢 Sí Contestó → Mover a Paso 2 (Mi Pipeline)
           </button>
           ${isAlreadyInCrm ? `
