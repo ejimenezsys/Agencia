@@ -13,7 +13,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, EmailStr
 from sqlalchemy.orm import Session
-from database import init_db, SessionLocal, User, Lead as DbLead, SessionModel, BlogPost, ArsenalPrompt, sync_blog_posts, IntegrationSetting, hash_password, verify_password, normalize_phone_e164, normalize_email
+from database import init_db, SessionLocal, User, Lead as DbLead, SessionModel, BlogPost, ArsenalPrompt, sync_blog_posts, IntegrationSetting, hash_password, verify_password, normalize_phone_e164, normalize_email, get_next_round_robin_closer
 from editorial import LANES, enrich_post
 from ghl_client import sync_lead_to_ghl_async, sync_sales_os_event_to_ghl_async
 from sales_os_router import router as sales_os_router, WEBSITE_TEMPLATES_SHOWCASE, serialize_lead, record_audit, is_contact_excluded
@@ -1608,6 +1608,195 @@ async def read_codigos(request: Request):
     if not CODIGOS_DATA:
         CODIGOS_DATA = get_codigos_data()
     return templates.TemplateResponse(request=request, name="codigos.html", context={"categories": CODIGOS_DATA})
+
+
+SITIOWEB_NICHE_TEMPLATE_MAP = {
+    "clinica": "clinica_dental_estetica",
+    "inmobiliaria": "inmobiliaria_bienes_raices",
+    "profesionales": "profesionales_consultoria_legal",
+    "servicios_locales": "servicios_locales_taller",
+    "enterprise": "profesionales_consultoria_legal",
+    "academia": "academia_educacion_cursos",
+}
+
+
+@app.get("/sitioweb", response_class=HTMLResponse)
+@app.head("/sitioweb")
+@app.get("/sitioweb/", response_class=HTMLResponse)
+@app.head("/sitioweb/")
+@app.get("/sitioweb.html", response_class=HTMLResponse)
+@app.head("/sitioweb.html")
+@app.get("/mi-web", response_class=HTMLResponse)
+@app.head("/mi-web")
+async def sitioweb_funnel_page(request: Request):
+    return templates.TemplateResponse(request=request, name="sitioweb.html", context={"request": request})
+
+
+@app.post("/api/sitioweb/qualify")
+async def sitioweb_qualify_submit(request: Request, db: Session = Depends(get_db)):
+    content_type = (request.headers.get("content-type") or "").lower()
+    is_json = "application/json" in content_type
+    if is_json:
+        try:
+            body = await request.json()
+        except Exception:
+            raise HTTPException(status_code=400, detail="Payload JSON inválido.")
+    else:
+        form_data = await request.form()
+        body = dict(form_data)
+
+    # Honeypot anti-spam
+    if (body.get("website_hp") or "").strip():
+        return JSONResponse({"ok": True, "qualified": False, "business_name": "", "demo_url": "/demo-sitio-web"})
+
+    business_name = (body.get("business_name") or "").strip()[:100]
+    niche = (body.get("niche") or "clinica").strip().lower()
+    full_name = (body.get("full_name") or "").strip()[:100]
+    phone_raw = (body.get("phone") or "").strip()[:30]
+    email_raw = normalize_email(body.get("email") or "")
+    monthly_volume = (body.get("monthly_volume") or "15_50").strip()
+    utm_source = (body.get("utm_source") or "").strip()[:60]
+    utm_campaign = (body.get("utm_campaign") or "").strip()[:80]
+
+    if len(business_name) < 2 or len(full_name) < 2 or not email_raw or "@" not in email_raw:
+        raise HTTPException(status_code=422, detail="Por favor completa el nombre de tu negocio, tu nombre y un correo válido.")
+
+    phone_e164 = normalize_phone_e164(phone_raw)
+    if len(re.sub(r"\D", "", phone_e164)) < 8:
+        raise HTTPException(status_code=422, detail="Por favor ingresa un número de WhatsApp válido de al menos 8 dígitos.")
+
+    selected_tpl = SITIOWEB_NICHE_TEMPLATE_MAP.get(niche, "clinica_dental_estetica")
+    is_qualified_owner = monthly_volume != "sin_negocio"
+    now_str = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+
+    closer = get_next_round_robin_closer(db) if is_qualified_owner else None
+    owner_email = closer["email"] if closer else ""
+    closer_ghl_id = closer.get("ghl_user_id", "") if closer else ""
+
+    existing = db.query(DbLead).filter(
+        (DbLead.email == email_raw) | (DbLead.phone_e164 == phone_e164)
+    ).first()
+
+    note_summary = (
+        f"🔥 Embudo /sitioweb ({'DUEÑO CALIFICADO' if is_qualified_owner else 'Explorando sin negocio'}) | "
+        f"Giro: {niche} | Volumen mensual: {monthly_volume}"
+        + (f" | UTM: {utm_source}/{utm_campaign}" if (utm_source or utm_campaign) else "")
+    )
+
+    if existing:
+        existing.name = full_name
+        existing.full_name = full_name
+        existing.company = business_name
+        existing.business_name = business_name
+        existing.phone = phone_raw
+        existing.phone_e164 = phone_e164
+        existing.source = "sitioweb_funnel"
+        existing.source_channel = utm_source or "Instagram / Meta Ads"
+        existing.source_campaign = "🔥 Embudo /sitioweb B2B"
+        existing.niche = niche
+        existing.selected_template = selected_tpl
+        existing.notes = note_summary
+        if is_qualified_owner:
+            if not existing.owner_id:
+                existing.owner_id = owner_email
+                existing.setter_id = owner_email
+            if existing.pipeline_stage in ("Lead identificado", "No cumple perfil", "No responde", ""):
+                existing.pipeline_stage = "Primer contacto"
+            existing.score = max(existing.score or 0, 92)
+            existing.quoted_amount = existing.quoted_amount or 990.0
+            existing.offer_version = existing.offer_version or "ANUAL_990"
+        else:
+            if existing.pipeline_stage == "Lead identificado":
+                existing.pipeline_stage = "No cumple perfil"
+        db.commit()
+        lead_id = existing.id
+    else:
+        new_lead = DbLead(
+            name=full_name,
+            full_name=full_name,
+            email=email_raw,
+            company=business_name,
+            business_name=business_name,
+            phone=phone_raw,
+            phone_e164=phone_e164,
+            status="qualified" if is_qualified_owner else "new",
+            source="sitioweb_funnel",
+            source_channel=utm_source or "Instagram / Meta Ads",
+            source_campaign="🔥 Embudo /sitioweb B2B",
+            interest_primary="Sitio Web Inteligente + IA 24/7",
+            score=92 if is_qualified_owner else 30,
+            notes=note_summary,
+            created_at=now_str,
+            owner_id=owner_email,
+            setter_id=owner_email,
+            niche=niche,
+            country="LATAM / US",
+            contact_permission="Formulario /sitioweb Opt-in",
+            contact_status="contactable",
+            pipeline_stage="Primer contacto" if is_qualified_owner else "No cumple perfil",
+            offer_version="ANUAL_990",
+            quoted_amount=990.0 if is_qualified_owner else 0.0,
+            selected_template=selected_tpl,
+        )
+        db.add(new_lead)
+        db.commit()
+        db.refresh(new_lead)
+        lead_id = new_lead.id
+
+    demo_url = (
+        f"/demo-sitio-web?lead_id={lead_id}"
+        f"&template={urllib.parse.quote(selected_tpl)}"
+        f"&business={urllib.parse.quote(business_name)}"
+        f"&phone={urllib.parse.quote(phone_raw)}"
+    )
+
+    name_parts = full_name.split()
+    fn = name_parts[0] if name_parts else full_name
+    ln = " ".join(name_parts[1:]) if len(name_parts) > 1 else ""
+    extra_tags = (
+        ["embudo_sitioweb_b2b", "dueno_negocio_activo", f"vol_{monthly_volume}", f"giro_{niche}"]
+        if is_qualified_owner
+        else ["embudo_sitioweb_explorador", "curioso_sin_negocio"]
+    )
+    sync_lead_to_ghl_async(
+        first_name=fn,
+        last_name=ln,
+        email=email_raw,
+        phone=phone_raw,
+        company=business_name,
+        source="embudo_sitioweb",
+        industry=niche,
+        message=note_summary,
+        notes=note_summary,
+        sms_consent=True,
+        assigned_to=closer_ghl_id if is_qualified_owner else "",
+        extra_tags=extra_tags,
+    )
+
+    cal_url = ""
+    if is_qualified_owner and closer:
+        base_cal = closer.get("calendar_url") or "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8"
+        sep = "&" if "?" in base_cal else "?"
+        cal_url = (
+            f"{base_cal}{sep}first_name={urllib.parse.quote(fn)}"
+            f"&last_name={urllib.parse.quote(ln)}"
+            f"&email={urllib.parse.quote(email_raw)}"
+            f"&phone={urllib.parse.quote(phone_e164)}"
+        )
+
+    if not is_json:
+        return RedirectResponse(url=demo_url, status_code=303)
+
+    return JSONResponse({
+        "ok": True,
+        "qualified": is_qualified_owner,
+        "lead_id": lead_id,
+        "business_name": business_name,
+        "demo_url": demo_url,
+        "closer_name": closer["name"] if closer else "",
+        "closer_avatar": closer.get("avatar_url", "") if closer else "",
+        "calendar_url": cal_url,
+    })
 
 
 @app.get("/Cotizacion_ConsultoriaIA", response_class=HTMLResponse)

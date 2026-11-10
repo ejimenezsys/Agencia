@@ -151,6 +151,8 @@ def sync_lead_to_ghl(
     message: str = "",
     notes: str = "",
     sms_consent: bool = False,
+    assigned_to: str = "",
+    extra_tags: Optional[list] = None,
 ) -> dict:
     """Sincroniza un lead con GHL. Devuelve un resumen; nunca lanza excepciones."""
     token = _cfg("GHL_PRIVATE_TOKEN") or _cfg("GHL_ACCESS_TOKEN")
@@ -186,6 +188,8 @@ def sync_lead_to_ghl(
     clean_phone = _clean_phone(phone)
     if clean_phone:
         contact_body["phone"] = clean_phone
+    if assigned_to:
+        contact_body["assignedTo"] = assigned_to
 
     # 1. Upsert del contacto (si el teléfono es inválido, reintenta sin él).
     status, res = _request("POST", "/contacts/upsert", token, contact_body)
@@ -203,8 +207,12 @@ def sync_lead_to_ghl(
 
     # 2. Etiquetas (aditivas: no borran las existentes).
     consent_tag = "sms_opt_in" if sms_consent else "sms_sin_consentimiento"
-    _request("POST", f"/contacts/{contact_id}/tags", token,
-             {"tags": ["lead_web", _source_tag(source), consent_tag]})
+    tag_list = ["lead_web", _source_tag(source), consent_tag]
+    if extra_tags:
+        for t in extra_tags:
+            if t and t not in tag_list:
+                tag_list.append(t)
+    _request("POST", f"/contacts/{contact_id}/tags", token, {"tags": tag_list})
 
     # 3. Nota con el detalle completo del envío.
     note_lines = [f"📥 Formulario web ({source})"]
@@ -235,7 +243,7 @@ def sync_lead_to_ghl(
                 "opportunity_id": opp_id, "opportunity_new": False}
 
     opp_name = f"{company} – {full_name}" if company else (full_name or email)
-    o_status, o_res = _request("POST", "/opportunities/", token, {
+    opp_payload = {
         "locationId": location_id,
         "pipelineId": pipeline_id,
         "pipelineStageId": stage_id,
@@ -243,7 +251,10 @@ def sync_lead_to_ghl(
         "name": opp_name,
         "status": "open",
         "source": f"Web ProsperIA – {source}",
-    })
+    }
+    if assigned_to:
+        opp_payload["assignedTo"] = assigned_to
+    o_status, o_res = _request("POST", "/opportunities/", token, opp_payload)
     if o_status not in (200, 201):
         err_text = str(o_res.get("error", ""))
         if o_status == 400 and "OPPORTUNITY_NO_DUPLICATE" in err_text:

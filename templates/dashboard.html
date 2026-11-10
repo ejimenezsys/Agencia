@@ -1711,7 +1711,7 @@
     <div class="card p-5 flex flex-wrap items-center justify-between gap-4" style="background:linear-gradient(135deg,#071a16,#0d2e26); border-color:rgba(16,185,129,0.35);">
       <div>
         <div class="flex items-center gap-2 mb-1">
-          <span class="px-2.5 py-0.5 rounded-full text-xs font-black uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">PASO 1 · PROSPECCIÓN FRÍA (455)</span>
+          <span class="px-2.5 py-0.5 rounded-full text-xs font-black uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">PASO 1 · LISTA DE LLAMADAS (CRM 516 + COMEX B2B)</span>
           <span id="call-queue-owner-badge" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">Mis Prospectos Asignados</span>
         </div>
         <h2 class="text-xl font-bold text-white">📋 Mi Lista de Llamadas (Paso 1: Prospectos por Contactar)</h2>
@@ -1726,6 +1726,12 @@
         <button type="button" onclick="openCloserBulkImportDialog()" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30 transition">
           📥 Subir Mi Lista (Excel/CSV)
         </button>
+        <select id="call-queue-source-filter" class="input-dark text-xs py-2 px-3" style="width:auto;" onchange="renderCallQueueTable()">
+          <option value="all">📂 Fuente: Todas mis Listas</option>
+          <option value="sitioweb_funnel">🔥 Embudo /sitioweb (Llamar &lt; 5m)</option>
+          <option value="ghl_pool">📱 Base CRM 516 (Filtro 45s)</option>
+          <option value="comex_outbound_b2b">🏢 Exportadores COMEX (B2B Directo)</option>
+        </select>
         <select id="call-queue-filter" class="input-dark text-xs py-2 px-3" style="width:auto;" onchange="renderCallQueueTable()">
           <option value="pending">⏳ Paso 1: Pendientes de Llamar (Fríos)</option>
           <option value="no_answer">🔴 No Contestaron / Buzón</option>
@@ -5924,8 +5930,13 @@ function renderCallQueueTable() {
   const filtered = salesOsLeads.filter(l => {
     const st = l.pipeline_stage || 'Lead identificado';
     const notes = (l.notes || '').toLowerCase();
+    const srcVal = document.getElementById('call-queue-source-filter')?.value || 'all';
+    const lSrc = (l.source || '').toLowerCase();
+    if (srcVal === 'sitioweb_funnel' && lSrc !== 'sitioweb_funnel') return false;
+    if (srcVal === 'comex_outbound_b2b' && lSrc !== 'comex_outbound_b2b') return false;
+    if (srcVal === 'ghl_pool' && !lSrc.startsWith('ghl_')) return false;
     if (searchVal) {
-      const hay = `${l.name || ''} ${l.business_name || ''} ${l.company || ''} ${l.phone || ''} ${l.email || ''}`.toLowerCase();
+      const hay = `${l.name || ''} ${l.business_name || ''} ${l.company || ''} ${l.phone || ''} ${l.email || ''} ${l.notes || ''}`.toLowerCase();
       if (!hay.includes(searchVal)) return false;
     }
     if (filterVal === 'pending') {
@@ -5949,15 +5960,23 @@ function renderCallQueueTable() {
     return;
   }
 
-  tbody.innerHTML = filtered.slice(0, 120).map(l => {
+  tbody.innerHTML = filtered.slice(0, 250).map(l => {
     const rawPhone = (l.phone_e164 || l.phone || '').replace(/[^0-9+]/g, '');
     const waDigits = rawPhone.replace(/[^0-9]/g, '');
     const st = l.pipeline_stage || 'Lead identificado';
     const isAlreadyInCrm = st !== 'Lead identificado' && st !== 'No responde' && st !== 'No interesado';
     const demoUrl = `/demo-sitio-web?lead_id=${l.id}&template=${encodeURIComponent(l.selected_template || 'clinica_dental_estetica')}&business=${encodeURIComponent(l.business_name || l.company || l.name)}&phone=${encodeURIComponent(l.phone || '')}`;
+    const lSrc = (l.source || '').toLowerCase();
+    let srcBadgeHtml = '<span style="background:rgba(14,165,233,0.16); color:#7dd3fc; border:1px solid rgba(56,189,248,0.35); padding:1px 7px; border-radius:999px; font-size:10px; font-weight:700;">📱 Base CRM 516</span>';
+    if (lSrc === 'comex_outbound_b2b') {
+      srcBadgeHtml = '<span style="background:rgba(245,158,11,0.16); color:#fcd34d; border:1px solid rgba(251,191,36,0.45); padding:1px 7px; border-radius:999px; font-size:10px; font-weight:800;">🏢 COMEX Exportador</span>';
+    } else if (lSrc === 'sitioweb_funnel') {
+      srcBadgeHtml = '<span style="background:rgba(16,185,129,0.22); color:#6ee7b7; border:1px solid rgba(52,211,153,0.55); padding:1px 7px; border-radius:999px; font-size:10px; font-weight:800;">🔥 Embudo /sitioweb</span>';
+    }
 
     return `<tr class="table-row" style="${isAlreadyInCrm ? 'background:rgba(16,185,129,0.08);' : ''}">
       <td class="px-4 py-3">
+        <div class="flex flex-wrap items-center gap-1.5 mb-0.5">${srcBadgeHtml}</div>
         <div class="font-bold text-white text-sm">${esc(l.business_name || l.company || l.name)}</div>
         <div class="text-[11px] text-slate-400">${esc(l.full_name || l.name)} · ${esc(l.email || 'Sin correo')}</div>
       </td>

@@ -571,6 +571,30 @@ OBSOLETE_TEST_EMAILS = [
 ]
 
 
+def get_active_real_closers() -> list:
+    """Devuelve únicamente los Closers reales activos con cuenta en ProsperIA CRM (excluye vacantes en contratación)."""
+    return [m for m in INITIAL_SALES_TEAM if (m.get("ghl_user_id") or "").strip()]
+
+
+def get_next_round_robin_closer(db) -> dict:
+    """Rota equitativamente (Round-Robin 1 a 6) entre los Closers reales activos."""
+    active_closers = get_active_real_closers()
+    if not active_closers:
+        return INITIAL_SALES_TEAM[0]
+    rr_row = db.query(IntegrationSetting).filter(IntegrationSetting.key == "sales_rr_index").first()
+    idx = 0
+    if rr_row and (rr_row.value or "").isdigit():
+        idx = int(rr_row.value)
+    chosen = active_closers[idx % len(active_closers)]
+    next_idx = (idx + 1) % len(active_closers)
+    if rr_row:
+        rr_row.value = str(next_idx)
+    else:
+        db.add(IntegrationSetting(key="sales_rr_index", value=str(next_idx)))
+    db.commit()
+    return chosen
+
+
 def init_db():
     """Inicializa la base de datos, aplica migraciones no destructivas y siembra la fuerza comercial real."""
     Base.metadata.create_all(bind=engine)
@@ -634,7 +658,7 @@ def init_db():
                     role="seller",
                     dupla=member["dupla"],
                     ghl_user_id=member.get("ghl_user_id", ""),
-                    is_active=1,
+                    is_active=1 if member.get("ghl_user_id") else 0,
                     commission_rate=0.15,
                     created_at=now_iso,
                     calendar_url=member.get("calendar_url", "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8"),
@@ -800,6 +824,150 @@ def init_db():
             except Exception as s455_err:
                 db.rollback()
                 print(f"⚠️ [SEED CRM CLEAN] Error sembrando GHL_CONTACTS_SEED_455.json: {s455_err}")
+
+        # Sembrar v5 Oficial: Los 516 Contactos del CRM + 600 Exportadores COMEX repartidos 100% entre los 6 Closers Reales
+        seed_516_path = Path(__file__).parent / "GHL_CONTACTS_SEED_516_PLUS_COMEX.json"
+        seeded_v5_flag = db.query(IntegrationSetting).filter(IntegrationSetting.key == "ghl_516_and_comex_v5_6closers").first()
+        if seed_516_path.exists() and not seeded_v5_flag:
+            try:
+                payload_v5 = json.loads(seed_516_path.read_text(encoding="utf-8"))
+                ghl_contacts_v5 = payload_v5.get("ghl_contacts", [])
+                comex_contacts_v5 = payload_v5.get("comex_contacts", [])
+                active_six = get_active_real_closers()
+
+                # Conservar intacto cualquier prospecto que ya avanzó a Primer contacto+ o tenga pago registrado
+                db.query(Lead).filter(
+                    (Lead.pipeline_stage == "Lead identificado") & ((Lead.amount_collected == None) | (Lead.amount_collected == 0))
+                ).delete(synchronize_session=False)
+                db.commit()
+
+                dnd_emails = {r.email for r in db.query(DndExclusion).all() if r.email}
+                internal_emails = {m["email"].lower() for m in INITIAL_SALES_TEAM} | {
+                    "admin@prosperia.com", "edward@agenciaprosperia.com", "ucumaryvisual@gmail.com"
+                }
+                existing_leads = db.query(Lead).all()
+                seen_emails = {normalize_email(ld.email) for ld in existing_leads if ld.email}
+                seen_phones = {normalize_phone_e164(ld.phone_e164 or ld.phone) for ld in existing_leads if (ld.phone_e164 or ld.phone)}
+
+                def _dupla_niche_tpl(dupla_str: str):
+                    if "Dupla A" in dupla_str:
+                        return "clinica", "clinica_dental_estetica"
+                    if "Dupla B" in dupla_str:
+                        return "servicios_locales", "servicios_locales_taller"
+                    return "profesionales", "profesionales_consultoria_legal"
+
+                ghl_inserted = 0
+                for item in ghl_contacts_v5:
+                    em = normalize_email(item.get("email", ""))
+                    ph = normalize_phone_e164(item.get("phone", ""))
+                    if not em and not ph:
+                        continue
+                    if em in internal_emails or em in dnd_emails:
+                        continue
+                    if (em and em in seen_emails) or (ph and ph in seen_phones):
+                        continue
+                    if em:
+                        seen_emails.add(em)
+                    if ph:
+                        seen_phones.add(ph)
+
+                    member = active_six[ghl_inserted % len(active_six)]
+                    niche_val, tpl_val = _dupla_niche_tpl(member["dupla"])
+                    nm = (item.get("name") or "").strip() or (em.split("@")[0] if em else "Prospecto ProsperIA")
+                    comp = (item.get("company") or "").strip() or "Negocio / Profesional por Calificar"
+                    dt_added = (item.get("date_added") or now_iso)[:19].replace("T", " ")
+
+                    db.add(Lead(
+                        name=nm,
+                        full_name=nm,
+                        email=em or f"crm_{ghl_inserted + 1}@sin-correo.local",
+                        company=comp,
+                        business_name=comp,
+                        phone=item.get("phone") or ph,
+                        phone_e164=ph,
+                        status="new",
+                        source="ghl_516_pool",
+                        source_channel="Inbound Reels / Códigos",
+                        source_campaign="📱 Inbound Reels / Códigos (Filtro 45s)",
+                        interest_primary="Sitio Web Inteligente",
+                        score=75,
+                        notes="Contacto real importado de ProsperIA CRM (Base 516). Aplicar filtro rápido de 45s: ¿Tienes negocio activo?",
+                        created_at=dt_added,
+                        contact_id=(item.get("contact_id") or "").strip(),
+                        owner_id=member["email"],
+                        setter_id=member["email"],
+                        niche=niche_val,
+                        country=item.get("country") or "LATAM / US",
+                        contact_permission="Opt-in Reels / Hub ProsperIA",
+                        contact_status="contactable",
+                        pipeline_stage="Lead identificado",
+                        offer_version="ANUAL_990",
+                        selected_template=tpl_val,
+                    ))
+                    ghl_inserted += 1
+
+                comex_inserted = 0
+                for item in comex_contacts_v5:
+                    em = normalize_email(item.get("email", ""))
+                    ph = normalize_phone_e164(item.get("phone", ""))
+                    if not ph:
+                        continue
+                    if em in internal_emails or em in dnd_emails:
+                        continue
+                    if (em and em in seen_emails) or (ph and ph in seen_phones):
+                        continue
+                    if em:
+                        seen_emails.add(em)
+                    seen_phones.add(ph)
+
+                    member = active_six[comex_inserted % len(active_six)]
+                    nm = (item.get("name") or "").strip() or "Gerencia Comercial"
+                    comp = (item.get("company") or "").strip() or "Empresa Exportadora"
+
+                    db.add(Lead(
+                        name=nm,
+                        full_name=nm,
+                        email=em or f"comex_{comex_inserted + 1}@sin-correo.local",
+                        company=comp,
+                        business_name=comp,
+                        phone=item.get("phone") or ph,
+                        phone_e164=ph,
+                        status="new",
+                        source="comex_outbound_b2b",
+                        source_channel="Outbound COMEX",
+                        source_campaign="🏢 COMEX Exportador ($100K-$10M)",
+                        interest_primary="Sitio Web B2B + IA 24/7 + ProsperIA CRM",
+                        score=88,
+                        notes=item.get("notes") or "Empresa Exportadora verificada (Base COMEX).",
+                        created_at=now_iso[:19].replace("T", " "),
+                        contact_id="",
+                        owner_id=member["email"],
+                        setter_id=member["email"],
+                        niche="profesionales",
+                        country=item.get("country") or "LATAM",
+                        contact_permission="Directorio Empresarial / Aduanero B2B",
+                        contact_status="contactable",
+                        pipeline_stage="Lead identificado",
+                        offer_version="ANUAL_990",
+                        selected_template="profesionales_consultoria_legal",
+                    ))
+                    comex_inserted += 1
+
+                # Desactivar las 4 cuentas placeholder (closer7..closer10) para que solo aparezcan los 6 Closers reales
+                for ph_idx in (7, 8, 9, 10):
+                    ph_u = db.query(User).filter(User.email == f"closer{ph_idx}@agenciaprosperia.com").first()
+                    if ph_u:
+                        ph_u.is_active = 0
+
+                db.add(IntegrationSetting(
+                    key="ghl_516_and_comex_v5_6closers",
+                    value=f"ghl={ghl_inserted},comex={comex_inserted}_at_{now_iso}",
+                ))
+                db.commit()
+                print(f"✅ [SEED V5 6 CLOSERS] Repartidos {ghl_inserted} contactos CRM + {comex_inserted} empresas COMEX entre los 6 Closers activos.")
+            except Exception as sv5_err:
+                db.rollback()
+                print(f"⚠️ [SEED V5 6 CLOSERS] Error sembrando GHL_CONTACTS_SEED_516_PLUS_COMEX.json: {sv5_err}")
 
         # Seed Leads de respaldo si no existiera el archivo 455 y la tabla estuviera vacía
         if db.query(Lead).count() == 0:
