@@ -1986,58 +1986,82 @@
                 </div>
               </div>
 
-              <!-- Índice de los 7 Capítulos de la Grabación (Con Timestamps del Corte Maestro 34:27) -->
-              <div class="lg:col-span-4 space-y-2">
-                <div class="text-xs font-black uppercase tracking-wider text-cyan-400 mb-1">📋 ÍNDICE DE LOS 7 PASOS (CORTE MAESTRO 34:27)</div>
-                <div class="p-2.5 rounded-xl bg-slate-900/90 border border-slate-800 text-xs space-y-0.5">
-                  <div class="flex items-center justify-between">
+              <!-- Índice Interactivo Clicable de los 7 Capítulos de la Grabación (Con Timestamps del Corte Maestro 34:27) -->
+              <div class="lg:col-span-4 space-y-2" id="closer-tutorial-chapters-list">
+                <div class="flex items-center justify-between mb-1">
+                  <div class="text-xs font-black uppercase tracking-wider text-cyan-400">📋 ÍNDICE INTERACTIVO (CLIC PARA SALTAR)</div>
+                  <span class="text-[10px] font-bold text-emerald-300">▶ Toca un paso</span>
+                </div>
+
+                <button type="button" onclick="seekCloserTutorialVideo(0, 'master', this)"
+                        style="width:100%; text-align:left; cursor:pointer; background:#091528; border:1.5px solid #00e5ff; transition:all 0.18s;"
+                        class="closer-chapter-card p-2.5 rounded-xl text-xs space-y-0.5 block hover:border-cyan-400">
+                  <div class="flex items-center justify-between gap-2">
                     <span class="font-black text-white">1️⃣ Login, Reloj Check-In y Podio</span>
-                    <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono text-[10px] font-bold">00:00</span>
+                    <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono text-[10px] font-bold">▶ 00:00</span>
                   </div>
-                  <p class="text-slate-400 text-[11px]">Entrada por <code>/login</code> o CRM, reloj automático (pausa a los 5 min) y embudo <code>100 → 60 → 6 → 1</code>.</p>
-                </div>
-                <div class="p-2.5 rounded-xl bg-slate-900/90 border border-emerald-500/30 text-xs space-y-0.5">
-                  <div class="flex items-center justify-between">
+                  <p class="text-slate-400 text-[11px] m-0">Entrada por <code>/login</code> o CRM, reloj automático (pausa a los 5 min) y embudo <code>100 → 60 → 6 → 1</code>.</p>
+                </button>
+
+                <button type="button" onclick="seekCloserTutorialVideo(198, 'master', this)"
+                        style="width:100%; text-align:left; cursor:pointer; background:#091528; border:1px solid rgba(16,185,129,0.38); transition:all 0.18s;"
+                        class="closer-chapter-card p-2.5 rounded-xl text-xs space-y-0.5 block hover:border-cyan-400">
+                  <div class="flex items-center justify-between gap-2">
                     <span class="font-black text-emerald-300">2️⃣ Origen de los 455 Leads (/codigos)</span>
-                    <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono text-[10px] font-bold">03:18</span>
+                    <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono text-[10px] font-bold">▶ 03:18</span>
                   </div>
-                  <p class="text-slate-400 text-[11px]">Cómo llegan por Reels a <code>/codigos</code> y a la Comunidad de WhatsApp (+1,000 miembros).</p>
-                </div>
-                <div class="p-2.5 rounded-xl bg-slate-900/90 border border-amber-500/30 text-xs space-y-0.5">
-                  <div class="flex items-center justify-between">
+                  <p class="text-slate-400 text-[11px] m-0">Cómo llegan por Reels a <code>/codigos</code> y a la Comunidad de WhatsApp (+1,000 miembros).</p>
+                </button>
+
+                <button type="button" onclick="seekCloserTutorialVideo(390, 'master', this)"
+                        style="width:100%; text-align:left; cursor:pointer; background:#091528; border:1px solid rgba(245,158,11,0.38); transition:all 0.18s;"
+                        class="closer-chapter-card p-2.5 rounded-xl text-xs space-y-0.5 block hover:border-cyan-400">
+                  <div class="flex items-center justify-between gap-2">
                     <span class="font-black text-amber-300">3️⃣ Mi Lista de Llamadas y Excel</span>
-                    <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono text-[10px] font-bold">06:30</span>
+                    <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono text-[10px] font-bold">▶ 06:30</span>
                   </div>
-                  <p class="text-slate-400 text-[11px]">WhatsApp directo, botón <strong>¡Sí Contestó!</strong>, <strong>➕ Nuevo Prospecto</strong> y <strong>📥 Subir Mi Lista Excel</strong>.</p>
-                </div>
-                <div class="p-2.5 rounded-xl bg-slate-900/90 border border-rose-500/30 text-xs space-y-0.5">
-                  <div class="flex items-center justify-between">
+                  <p class="text-slate-400 text-[11px] m-0">WhatsApp directo, botón <strong>¡Sí Contestó!</strong>, <strong>➕ Nuevo Prospecto</strong> y <strong>📥 Subir Mi Lista Excel</strong>.</p>
+                </button>
+
+                <button type="button" onclick="seekCloserTutorialVideo(645, 'master', this)"
+                        style="width:100%; text-align:left; cursor:pointer; background:#091528; border:1px solid rgba(244,63,94,0.38); transition:all 0.18s;"
+                        class="closer-chapter-card p-2.5 rounded-xl text-xs space-y-0.5 block hover:border-cyan-400">
+                  <div class="flex items-center justify-between gap-2">
                     <span class="font-black text-rose-300">4️⃣ Pipeline Activo y Pago 15%</span>
-                    <span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 font-mono text-[10px] font-bold">10:45</span>
+                    <span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 font-mono text-[10px] font-bold">▶ 10:45</span>
                   </div>
-                  <p class="text-slate-400 text-[11px]">Mover etapas (Paso 2 a 8) en vivo con el CRM y botón <strong>💳 Verificar Pago</strong> (comisión 15%).</p>
-                </div>
-                <div class="p-2.5 rounded-xl bg-slate-900/90 border border-cyan-500/30 text-xs space-y-0.5">
-                  <div class="flex items-center justify-between">
+                  <p class="text-slate-400 text-[11px] m-0">Mover etapas (Paso 2 a 8) en vivo con el CRM y botón <strong>💳 Verificar Pago</strong> (comisión 15%).</p>
+                </button>
+
+                <button type="button" onclick="seekCloserTutorialVideo(855, 'master', this)"
+                        style="width:100%; text-align:left; cursor:pointer; background:#091528; border:1px solid rgba(0,229,255,0.38); transition:all 0.18s;"
+                        class="closer-chapter-card p-2.5 rounded-xl text-xs space-y-0.5 block hover:border-cyan-400">
+                  <div class="flex items-center justify-between gap-2">
                     <span class="font-black text-cyan-300">5️⃣ Demo Sitio Web + 1,000 Plantillas</span>
-                    <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono text-[10px] font-bold">14:15</span>
+                    <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono text-[10px] font-bold">▶ 14:15</span>
                   </div>
-                  <p class="text-slate-400 text-[11px]">Personalización en 5s, prueba de formulario + correo en 40s, <strong>Chatbot IA (21:04)</strong> y <strong>+1,000 Plantillas CRM (22:18)</strong>.</p>
-                </div>
-                <div class="p-2.5 rounded-xl bg-slate-900/90 border border-purple-500/30 text-xs space-y-0.5">
-                  <div class="flex items-center justify-between">
+                  <p class="text-slate-400 text-[11px] m-0">Personalización en 5s, prueba de formulario + correo en 40s, <span onclick="event.stopPropagation(); seekCloserTutorialVideo(1264, 'master');" class="underline text-cyan-300 font-bold">Chatbot IA (21:04)</span> y <span onclick="event.stopPropagation(); seekCloserTutorialVideo(1338, 'master');" class="underline text-cyan-300 font-bold">+1,000 Plantillas (22:18)</span>.</p>
+                </button>
+
+                <button type="button" onclick="seekCloserTutorialVideo(1415, 'master', this)"
+                        style="width:100%; text-align:left; cursor:pointer; background:#091528; border:1px solid rgba(168,85,247,0.4); transition:all 0.18s;"
+                        class="closer-chapter-card p-2.5 rounded-xl text-xs space-y-0.5 block hover:border-cyan-400">
+                  <div class="flex items-center justify-between gap-2">
                     <span class="font-black text-purple-300">6️⃣ Las 3 Ofertas Separadas (11 Slides)</span>
-                    <span class="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-mono text-[10px] font-bold">23:35</span>
+                    <span class="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-mono text-[10px] font-bold">▶ 23:35</span>
                   </div>
-                  <p class="text-slate-400 text-[11px]">Slide 8 Estrella (<strong>$990</strong>), Slide 9 Downsell (<strong>$497</strong>), Slide 10 Máquina (<strong>$1,490</strong> con 10 Videos + Meta Ads) y Slide 11 Cierre.</p>
-                </div>
-                <div class="p-2.5 rounded-xl bg-slate-900/90 border border-emerald-500/30 text-xs space-y-0.5">
-                  <div class="flex items-center justify-between">
+                  <p class="text-slate-400 text-[11px] m-0">Slide 8 Estrella (<strong>$990</strong>), Slide 9 Downsell (<strong>$497</strong>), Slide 10 Máquina (<strong>$1,490</strong> con 10 Videos + Meta Ads) y Slide 11 Cierre.</p>
+                </button>
+
+                <button type="button" onclick="seekCloserTutorialVideo(1764, 'master', this)"
+                        style="width:100%; text-align:left; cursor:pointer; background:#091528; border:1px solid rgba(16,185,129,0.38); transition:all 0.18s;"
+                        class="closer-chapter-card p-2.5 rounded-xl text-xs space-y-0.5 block hover:border-cyan-400">
+                  <div class="flex items-center justify-between gap-2">
                     <span class="font-black text-emerald-300">7️⃣ PassportAI (17 Slides) + Kanban CRM</span>
-                    <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono text-[10px] font-bold">29:24</span>
+                    <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono text-[10px] font-bold">▶ 29:24</span>
                   </div>
-                  <p class="text-slate-400 text-[11px]">Ahorro de $1,680/año en IAs sueltas, Slides CRM y demostración del Kanban en vivo en CRM ProsperIA (<strong>32:46</strong>).</p>
-                </div>
+                  <p class="text-slate-400 text-[11px] m-0">Ahorro de $1,680/año en IAs sueltas, Slides CRM y demostración del <span onclick="event.stopPropagation(); seekCloserTutorialVideo(1966, 'master');" class="underline text-emerald-300 font-bold">Kanban en vivo en CRM ProsperIA (32:46)</span>.</p>
+                </button>
               </div>
             </div>
           </div>
@@ -6241,12 +6265,51 @@ function setWeaponsTheme(theme) {
   }
 }
 
-function seekCloserTutorialVideo(seconds, mode) {
-  resetToBuiltInExpressVideo(mode || 'master');
+function seekCloserTutorialVideo(seconds, mode, btnEl) {
+  const targetMode = mode || 'master';
+  const targetSec = Number(seconds) || 0;
+
+  // Resaltar visualmente el capítulo activo si se hizo clic en una tarjeta del índice
+  if (btnEl && btnEl.classList && btnEl.classList.contains('closer-chapter-card')) {
+    document.querySelectorAll('.closer-chapter-card').forEach(el => {
+      el.style.border = '1px solid rgba(51,65,85,0.85)';
+      el.style.boxShadow = 'none';
+    });
+    btnEl.style.border = '1.5px solid #00e5ff';
+    btnEl.style.boxShadow = '0 0 18px rgba(0,229,255,0.22)';
+  }
+
+  localStorage.removeItem('prosper_closer_tutorial_video_url');
+  const input = document.getElementById('closer-tutorial-url-input');
+  if (input) input.value = '';
   const vid = document.getElementById('closer-tutorial-native-video');
-  if (vid) {
-    vid.currentTime = Number(seconds) || 0;
+  const iframe = document.getElementById('closer-tutorial-iframe');
+  if (iframe) {
+    iframe.src = '';
+    iframe.classList.add('hidden');
+  }
+  if (!vid) return;
+
+  const targetSrc = targetMode === 'express'
+    ? '/api/video-stream/express'
+    : '/api/video-stream/master';
+
+  vid.classList.remove('hidden');
+
+  const applySeekAndPlay = () => {
+    try { vid.currentTime = targetSec; } catch (e) {}
     vid.play().catch(() => {});
+  };
+
+  if (!vid.src.includes(targetSrc)) {
+    vid.src = targetSrc;
+    vid.addEventListener('loadedmetadata', applySeekAndPlay, { once: true });
+    vid.load();
+  } else if (vid.readyState >= 1) {
+    applySeekAndPlay();
+  } else {
+    vid.addEventListener('loadedmetadata', applySeekAndPlay, { once: true });
+    vid.load();
   }
 }
 

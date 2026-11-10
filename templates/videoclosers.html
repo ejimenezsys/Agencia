@@ -182,60 +182,60 @@
         </div>
 
         <div class="space-y-2">
-          <button type="button" onclick="jumpToSecond(0, 'master')" class="chapter-btn w-full text-left p-3 rounded-xl bg-slate-950/80 border border-slate-800 block">
+          <button type="button" onclick="jumpToSecond(0, 'master', this)" class="chapter-btn active w-full text-left p-3 rounded-xl bg-slate-950/80 border border-slate-800 block">
             <div class="flex items-center justify-between gap-2">
               <span class="text-xs font-black text-white">1️⃣ Login, Reloj Check-In y Podio</span>
-              <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono text-[11px] font-bold">00:00</span>
+              <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono text-[11px] font-bold">▶ 00:00</span>
             </div>
             <p class="text-[11px] text-slate-400 mt-1">Entrada por <code>/login</code> o CRM, reloj automático (pausa a los 5 min sin actividad) y embudo semanal <code>100 → 60 → 6 → 1</code>.</p>
           </button>
 
-          <button type="button" onclick="jumpToSecond(198, 'master')" class="chapter-btn w-full text-left p-3 rounded-xl bg-slate-950/80 border border-slate-800 block">
+          <button type="button" onclick="jumpToSecond(198, 'master', this)" class="chapter-btn w-full text-left p-3 rounded-xl bg-slate-950/80 border border-slate-800 block">
             <div class="flex items-center justify-between gap-2">
               <span class="text-xs font-black text-emerald-300">2️⃣ Origen de los 455 Leads (/codigos)</span>
-              <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono text-[11px] font-bold">03:18</span>
+              <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono text-[11px] font-bold">▶ 03:18</span>
             </div>
             <p class="text-[11px] text-slate-400 mt-1">Cómo llegan los prospectos por Reels orgánicos a <code>/codigos</code> y se unen a la Comunidad de WhatsApp (+1,000 miembros).</p>
           </button>
 
-          <button type="button" onclick="jumpToSecond(390, 'master')" class="chapter-btn w-full text-left p-3 rounded-xl bg-slate-950/80 border border-slate-800 block">
+          <button type="button" onclick="jumpToSecond(390, 'master', this)" class="chapter-btn w-full text-left p-3 rounded-xl bg-slate-950/80 border border-slate-800 block">
             <div class="flex items-center justify-between gap-2">
               <span class="text-xs font-black text-amber-300">3️⃣ Mi Lista de Llamadas y Excel</span>
-              <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono text-[11px] font-bold">06:30</span>
+              <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono text-[11px] font-bold">▶ 06:30</span>
             </div>
             <p class="text-[11px] text-slate-400 mt-1">Saludo por WhatsApp directo, botón <strong>¡Sí Contestó!</strong>, <strong>➕ Nuevo Prospecto</strong> y <strong>📥 Subir Mi Lista Excel</strong>.</p>
           </button>
 
-          <button type="button" onclick="jumpToSecond(645, 'master')" class="chapter-btn w-full text-left p-3 rounded-xl bg-slate-950/80 border border-slate-800 block">
+          <button type="button" onclick="jumpToSecond(645, 'master', this)" class="chapter-btn w-full text-left p-3 rounded-xl bg-slate-950/80 border border-slate-800 block">
             <div class="flex items-center justify-between gap-2">
               <span class="text-xs font-black text-rose-300">4️⃣ Pipeline Activo y Pago 15%</span>
-              <span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 font-mono text-[11px] font-bold">10:45</span>
+              <span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 font-mono text-[11px] font-bold">▶ 10:45</span>
             </div>
             <p class="text-[11px] text-slate-400 mt-1">Cómo avanzar etapas (Paso 2 a 8) sincronizadas con el CRM y registrar el cobro en <strong>💳 Verificar Pago</strong>.</p>
           </button>
 
-          <button type="button" onclick="jumpToSecond(855, 'master')" class="chapter-btn w-full text-left p-3 rounded-xl bg-slate-950/80 border border-slate-800 block">
+          <button type="button" onclick="jumpToSecond(855, 'master', this)" class="chapter-btn w-full text-left p-3 rounded-xl bg-slate-950/80 border border-slate-800 block">
             <div class="flex items-center justify-between gap-2">
               <span class="text-xs font-black text-cyan-300">5️⃣ Demo Sitio Web + 1,000 Plantillas</span>
-              <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono text-[11px] font-bold">14:15</span>
+              <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono text-[11px] font-bold">▶ 14:15</span>
             </div>
-            <p class="text-[11px] text-slate-400 mt-1">Personalización en 5s, formulario en vivo + correo en 40s, <strong>Chatbot IA (21:04)</strong> y <strong>+1,000 Plantillas CRM (22:18)</strong>.</p>
+            <p class="text-[11px] text-slate-400 mt-1">Personalización en 5s, formulario en vivo + correo en 40s, <span onclick="event.stopPropagation(); jumpToSecond(1264, 'master');" class="underline text-cyan-300 font-bold cursor-pointer">Chatbot IA (21:04)</span> y <span onclick="event.stopPropagation(); jumpToSecond(1338, 'master');" class="underline text-cyan-300 font-bold cursor-pointer">+1,000 Plantillas CRM (22:18)</span>.</p>
           </button>
 
-          <button type="button" onclick="jumpToSecond(1415, 'master')" class="chapter-btn w-full text-left p-3 rounded-xl bg-slate-950/80 border border-slate-800 block">
+          <button type="button" onclick="jumpToSecond(1415, 'master', this)" class="chapter-btn w-full text-left p-3 rounded-xl bg-slate-950/80 border border-slate-800 block">
             <div class="flex items-center justify-between gap-2">
               <span class="text-xs font-black text-purple-300">6️⃣ Las 3 Ofertas Separadas (11 Slides)</span>
-              <span class="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-mono text-[11px] font-bold">23:35</span>
+              <span class="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-mono text-[11px] font-bold">▶ 23:35</span>
             </div>
             <p class="text-[11px] text-slate-400 mt-1">Slide 8 Estrella (<strong>$990</strong>), Slide 9 Downsell (<strong>$497</strong>), Slide 10 Máquina (<strong>$1,490</strong> con 10 Videos + Meta Ads) y Slide 11 Cierre.</p>
           </button>
 
-          <button type="button" onclick="jumpToSecond(1764, 'master')" class="chapter-btn w-full text-left p-3 rounded-xl bg-slate-950/80 border border-slate-800 block">
+          <button type="button" onclick="jumpToSecond(1764, 'master', this)" class="chapter-btn w-full text-left p-3 rounded-xl bg-slate-950/80 border border-slate-800 block">
             <div class="flex items-center justify-between gap-2">
               <span class="text-xs font-black text-emerald-300">7️⃣ PassportAI (17 Slides) + Kanban CRM</span>
-              <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono text-[11px] font-bold">29:24</span>
+              <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono text-[11px] font-bold">▶ 29:24</span>
             </div>
-            <p class="text-[11px] text-slate-400 mt-1">Ahorro de $1,680/año en IAs sueltas, 8 Slides del CRM y demostración del Kanban en vivo en CRM ProsperIA (<strong>32:46</strong>).</p>
+            <p class="text-[11px] text-slate-400 mt-1">Ahorro de $1,680/año en IAs sueltas, 8 Slides del CRM y demostración del <span onclick="event.stopPropagation(); jumpToSecond(1966, 'master');" class="underline text-emerald-300 font-bold cursor-pointer">Kanban en vivo en CRM ProsperIA (32:46)</span>.</p>
           </button>
         </div>
       </aside>
@@ -370,20 +370,33 @@
       video.play().catch(() => {});
     }
 
-    function jumpToSecond(sec, targetMode) {
+    function jumpToSecond(sec, targetMode, btnEl) {
       const video = document.getElementById('closers-main-video');
       if (!video) return;
+      const targetSec = Number(sec) || 0;
+
+      if (btnEl && btnEl.classList && btnEl.classList.contains('chapter-btn')) {
+        document.querySelectorAll('.chapter-btn').forEach(b => b.classList.remove('active'));
+        btnEl.classList.add('active');
+      }
+
+      const applySeek = () => {
+        try { video.currentTime = targetSec; } catch (e) {}
+        video.play().catch(() => {});
+      };
+
       if (targetMode && targetMode !== currentMode) {
         switchVideoVersion(targetMode);
-        video.addEventListener('loadedmetadata', function onMeta() {
-          video.removeEventListener('loadedmetadata', onMeta);
-          video.currentTime = Number(sec) || 0;
-          video.play().catch(() => {});
-        });
+        video.addEventListener('loadedmetadata', applySeek, { once: true });
         return;
       }
-      video.currentTime = Number(sec) || 0;
-      video.play().catch(() => {});
+
+      if (video.readyState >= 1) {
+        applySeek();
+      } else {
+        video.addEventListener('loadedmetadata', applySeek, { once: true });
+        video.load();
+      }
     }
 
     function changePlaybackSpeed() {
