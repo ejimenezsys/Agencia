@@ -1875,6 +1875,14 @@
               <div style="font-size:10px; opacity:0.95; color:#cbd5e1;">Bullets + Speech 13 Láminas + PDF</div>
             </div>
           </button>
+
+          <button onclick="switchWeaponTab('folleto-1hoja')" id="wtab-folleto-1hoja" class="weapon-nav-btn" style="border-color:rgba(16,185,129,0.55); background:rgba(16,185,129,0.12);">
+            <span>📄</span>
+            <div>
+              <div style="color:#6ee7b7; font-weight:900;">Folleto 1 Hoja (Sin Precios + WhatsApp)</div>
+              <div style="font-size:10px; opacity:0.95; color:#cbd5e1;">PDF 1 Hoja + Texto Conocidos (/sitioweb)</div>
+            </div>
+          </button>
         </div>
 
         <button onclick="switchWeaponTab('deck-v1')" id="wtab-deck-v1" class="weapon-nav-btn">
@@ -2616,6 +2624,9 @@
               </button>
               <button type="button" onclick="switchWeaponTab('guia-orador')" class="px-3 py-2 rounded-xl text-xs font-black inline-flex items-center gap-1.5" style="background:rgba(245,158,11,0.18); border:1px solid #f59e0b; color:#fde68a;">
                 🎙️ Ver Acordeón / Speech aquí
+              </button>
+              <button type="button" onclick="switchWeaponTab('folleto-1hoja')" class="px-3 py-2 rounded-xl text-xs font-black inline-flex items-center gap-1.5" style="background:rgba(16,185,129,0.18); border:1px solid #10b981; color:#6ee7b7;">
+                📄 Folleto 1 Hoja (Conocidos)
               </button>
               <a id="weapon-open-tab-btn" href="/static/armas/PRESENTACION_HUMANA_VISUAL_V2_PROSPER_IA.html" target="_blank" class="btn-primary px-3.5 py-2 rounded-xl text-xs font-black inline-flex items-center gap-1.5 no-underline">
                 <i class="fas fa-expand"></i> Pantalla Completa
@@ -6408,7 +6419,7 @@ function applyCloserTutorialVideoUrl(rawUrl) {
 }
 
 function switchWeaponTab(tabKey) {
-  const allTabs = ['tutorial-video', 'manual-closer', 'deck-humana', 'guia-orador', 'passport-slides', 'crm-slides', 'deck-v1', 'acordeon', 'closers-kickoff', 'roleplay', 'cliente-ideal'];
+  const allTabs = ['tutorial-video', 'manual-closer', 'deck-humana', 'guia-orador', 'folleto-1hoja', 'passport-slides', 'crm-slides', 'deck-v1', 'acordeon', 'closers-kickoff', 'roleplay', 'cliente-ideal'];
   allTabs.forEach(k => {
     const btn = document.getElementById('wtab-' + k);
     if (btn) {
@@ -6471,6 +6482,12 @@ function switchWeaponTab(tabKey) {
       sub: 'Bullets de memoria + Speech palabra por palabra sin tecnicismos ("cero prompts"), explicación de los 6 Constructores PDF de PassportAI y semilla de 16 Reels/mes.',
       html: `/static/armas/GUIA_ORADOR_PRESENTACION_HUMANA_V2_PROSPER_IA.html?v=3${closerParams ? '&' + closerParams : ''}`,
       pdf: '/static/armas/GUIA_ORADOR_PRESENTACION_HUMANA_V2_PROSPER_IA.pdf'
+    },
+    'folleto-1hoja': {
+      title: '📄 Folleto Ejecutivo en 1 Sola Hoja (Sin Precios · CTA a /sitioweb + Texto Personalizable WhatsApp)',
+      sub: 'Diseñado con psicología Cortexia para que los Closers lo envíen a sus conocidos: muestra todo el valor del paquete estrella, opciones según su presupuesto y link directo a https://agenciaprosperia.com/sitioweb.',
+      html: `/static/armas/FOLLETO_VENTAS_1_HOJA_PROSPER_IA.html?v=1${closerParams ? '&' + closerParams : ''}`,
+      pdf: '/static/armas/FOLLETO_VENTAS_1_HOJA_PROSPER_IA.pdf'
     },
     'deck-v1': {
       title: '📦 Presentación Comercial Clásica (11 Slides: Estrella $990 · Express $497 · Máquina $1,490)',
