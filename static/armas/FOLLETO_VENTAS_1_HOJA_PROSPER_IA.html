@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Folleto Ejecutivo 1 Hoja — Agencia Prosper IA & PassportAI.app</title>
+  <title>Folleto Visual Historia por Nicho (1 Hoja) — Agencia Prosper IA & PassportAI.app</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet" />
@@ -11,17 +11,9 @@
     :root {
       --navy-950: #050d1a;
       --navy-900: #0a192f;
-      --navy-800: #112240;
       --cyan-500: #00b4d8;
-      --cyan-600: #0284c7;
-      --emerald-600: #059669;
       --emerald-500: #10b981;
       --amber-500: #f59e0b;
-      --amber-600: #d97706;
-      --slate-900: #0f172a;
-      --slate-700: #334155;
-      --slate-600: #475569;
-      --slate-500: #64748b;
     }
 
     * {
@@ -34,7 +26,7 @@
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background: #071120;
       color: #0f172a;
-      padding: 20px 16px 40px;
+      padding: 18px 14px 36px;
       -webkit-print-color-adjust: exact !important;
       print-color-adjust: exact !important;
     }
@@ -54,11 +46,11 @@
     ───────────────────────────────────────────────────────── */
     .closer-toolkit {
       max-width: 850px;
-      margin: 0 auto 22px;
+      margin: 0 auto 20px;
       background: linear-gradient(145deg, #0b1930, #071224);
-      border: 1.5px solid rgba(0, 229, 255, 0.4);
+      border: 1.5px solid rgba(0, 229, 255, 0.45);
       border-radius: 18px;
-      padding: 18px 20px;
+      padding: 16px 18px;
       color: #f8fafc;
       box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
     }
@@ -69,9 +61,9 @@
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      padding-bottom: 14px;
+      padding-bottom: 12px;
       border-bottom: 1px solid rgba(148, 163, 184, 0.2);
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     .toolkit-badge {
@@ -80,7 +72,7 @@
       gap: 6px;
       padding: 4px 10px;
       border-radius: 999px;
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.04em;
@@ -98,15 +90,15 @@
     .btn-action {
       display: inline-flex;
       align-items: center;
-      gap: 7px;
-      padding: 9px 14px;
-      border-radius: 11px;
-      font-size: 12px;
+      gap: 6px;
+      padding: 8px 13px;
+      border-radius: 10px;
+      font-size: 11.5px;
       font-weight: 800;
       text-decoration: none;
       cursor: pointer;
       border: none;
-      transition: transform 0.15s ease, opacity 0.15s ease;
+      transition: transform 0.15s ease;
     }
 
     .btn-action:hover {
@@ -116,7 +108,7 @@
     .btn-pdf {
       background: linear-gradient(135deg, #f43f5e, #e11d48);
       color: #ffffff;
-      box-shadow: 0 6px 18px rgba(244, 63, 94, 0.35);
+      box-shadow: 0 6px 16px rgba(244, 63, 94, 0.35);
     }
 
     .btn-print {
@@ -125,16 +117,56 @@
       border: 1px solid rgba(56, 189, 248, 0.4);
     }
 
+    /* SELECTOR VISUAL DE LOS 3 NICHOS (CLÍNICAS, INMOBILIARIA, NEGOCIOS) */
+    .niche-selector-bar {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .niche-btn {
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: #040b16;
+      border: 1.5px solid rgba(148, 163, 184, 0.28);
+      color: #cbd5e1;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .niche-btn.active {
+      background: linear-gradient(135deg, rgba(0, 229, 255, 0.18), rgba(16, 185, 129, 0.14));
+      border-color: #00e5ff;
+      color: #ffffff;
+      box-shadow: 0 0 18px rgba(0, 229, 255, 0.22);
+    }
+
+    .niche-btn-title {
+      font-size: 12px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .niche-btn-sub {
+      font-size: 10.5px;
+      color: #94a3b8;
+      margin-top: 2px;
+    }
+
     .toolkit-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 10px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .field-group label {
       display: block;
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 700;
       color: #94a3b8;
       text-transform: uppercase;
@@ -143,12 +175,12 @@
 
     .field-input {
       width: 100%;
-      padding: 8px 11px;
+      padding: 7px 10px;
       border-radius: 9px;
       border: 1px solid rgba(148, 163, 184, 0.3);
       background: #040b16;
       color: #f8fafc;
-      font-size: 12.5px;
+      font-size: 12px;
       font-family: inherit;
     }
 
@@ -156,13 +188,13 @@
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .angle-tab {
-      padding: 6px 11px;
+      padding: 5px 10px;
       border-radius: 8px;
-      font-size: 11.5px;
+      font-size: 11px;
       font-weight: 700;
       background: rgba(30, 41, 59, 0.8);
       color: #cbd5e1;
@@ -181,18 +213,18 @@
       background: #040b16;
       border: 1px solid rgba(16, 185, 129, 0.45);
       border-radius: 12px;
-      padding: 12px;
+      padding: 10px 12px;
     }
 
     .wa-textarea {
       width: 100%;
-      min-height: 108px;
+      min-height: 94px;
       background: transparent;
       border: none;
       color: #e2e8f0;
       font-family: 'Inter', sans-serif;
-      font-size: 12.5px;
-      line-height: 1.5;
+      font-size: 12px;
+      line-height: 1.45;
       resize: vertical;
       outline: none;
     }
@@ -203,9 +235,9 @@
       align-items: center;
       justify-content: space-between;
       gap: 10px;
-      padding-top: 10px;
+      padding-top: 8px;
       border-top: 1px solid rgba(148, 163, 184, 0.16);
-      margin-top: 6px;
+      margin-top: 4px;
     }
 
     /* Guide: copy-button */
@@ -219,17 +251,17 @@
     .copy-button {
       min-inline-size: 24px;
       min-block-size: 24px;
-      padding: 9px 15px;
+      padding: 8px 14px;
       border-radius: 10px;
       background: linear-gradient(135deg, #10b981, #059669);
       color: #022c22;
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 900;
       border: none;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 7px;
+      gap: 6px;
       box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
     }
 
@@ -246,9 +278,9 @@
     }
 
     .copy .tip {
-      font-size: 11.5px;
+      font-size: 11px;
       font-weight: 800;
-      padding: 4px 9px;
+      padding: 3px 9px;
       border-radius: 999px;
       background: rgba(16, 185, 129, 0.2);
       color: #6ee7b7;
@@ -270,12 +302,12 @@
     }
 
     .btn-wa-send {
-      padding: 9px 15px;
+      padding: 8px 13px;
       border-radius: 10px;
       background: rgba(0, 229, 255, 0.16);
       color: #67e8f9;
       border: 1px solid rgba(0, 229, 255, 0.45);
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 800;
       text-decoration: none;
       display: inline-flex;
@@ -284,14 +316,14 @@
     }
 
     /* ─────────────────────────────────────────────────────────
-       HOJA EJECUTIVA ÚNICA (1 SOLA PÁGINA LETTER / A4 EXACTA)
+       HOJA EJECUTIVA STORYBOARD (1 SOLA PÁGINA LETTER / A4 EXACTA)
     ───────────────────────────────────────────────────────── */
     .one-pager-sheet {
-      width: 850px;
+      width: 816px;
       max-width: 100%;
       margin: 0 auto;
       background: #ffffff;
-      border-radius: 18px;
+      border-radius: 16px;
       overflow: hidden;
       box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
       border: 1px solid #cbd5e1;
@@ -302,52 +334,51 @@
 
     /* 1. CABECERA HERO */
     .sheet-hero {
-      background: linear-gradient(135deg, #040d1d 0%, #0b2144 60%, #083358 100%);
+      background: linear-gradient(135deg, #040d1d 0%, #0b2144 65%, #073256 100%);
       color: #ffffff;
-      padding: 18px 24px 16px;
-      border-bottom: 4px solid #00b4d8;
-      position: relative;
+      padding: 13px 20px 12px;
+      border-bottom: 3px solid #00b4d8;
     }
 
     .hero-top-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 8px;
+      gap: 8px;
+      margin-bottom: 5px;
     }
 
     .brand-pill {
       display: inline-flex;
       align-items: center;
-      gap: 7px;
-      padding: 4px 11px;
+      gap: 6px;
+      padding: 3px 10px;
       border-radius: 999px;
-      background: rgba(0, 229, 255, 0.15);
+      background: rgba(0, 229, 255, 0.16);
       border: 1px solid rgba(0, 229, 255, 0.45);
       color: #67e8f9;
-      font-size: 10.5px;
+      font-size: 9.8px;
       font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.04em;
     }
 
     .delivery-pill {
-      padding: 4px 10px;
+      padding: 3px 10px;
       border-radius: 999px;
-      background: rgba(245, 158, 11, 0.2);
-      border: 1px solid rgba(251, 191, 36, 0.5);
+      background: rgba(245, 158, 11, 0.22);
+      border: 1px solid rgba(251, 191, 36, 0.55);
       color: #fde68a;
-      font-size: 10.5px;
+      font-size: 9.8px;
       font-weight: 800;
     }
 
     .hero-title {
-      font-size: 22px;
+      font-size: 18.5px;
       line-height: 1.18;
       font-weight: 900;
       color: #ffffff;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
     .hero-title span {
@@ -355,233 +386,257 @@
     }
 
     .hero-sub {
-      font-size: 12px;
-      line-height: 1.42;
+      font-size: 10.8px;
+      line-height: 1.35;
       color: #cbd5e1;
     }
 
-    /* 2. CUERPO DE LA HOJA */
+    /* 2. CUERPO CENTRAL CON LAS 6 VIÑETAS VISUALES (CUADRO POR CUADRO) */
     .sheet-body {
-      padding: 14px 22px 12px;
+      padding: 10px 18px 8px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 9px;
     }
 
-    .section-tag {
-      font-size: 10px;
-      font-weight: 900;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: #0284c7;
-      margin-bottom: 5px;
+    .row-banner {
       display: flex;
       align-items: center;
-      gap: 6px;
+      justify-content: space-between;
+      padding: 4px 10px;
+      border-radius: 7px;
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 5px;
     }
 
-    /* BLOQUE DOLORES FINANCIEROS ($2K -> $4K, -$1K NÓMINA, EDUCACIÓN HIJOS) */
-    .pain-grid {
+    .row-banner.before {
+      background: #fef2f2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+    }
+
+    .row-banner.after {
+      background: #ecfdf5;
+      color: #047857;
+      border: 1px solid #a7f3d0;
+    }
+
+    .comic-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
+      gap: 9px;
     }
 
-    .pain-card {
-      border-radius: 12px;
-      padding: 10px 11px;
-      background: #f8fafc;
-      border: 1.5px solid #e2e8f0;
-    }
-
-    .pain-card.highlight-emerald {
-      background: #f0fdf4;
-      border-color: #86efac;
-    }
-
-    .pain-card.highlight-cyan {
-      background: #f0f9ff;
-      border-color: #7dd3fc;
-    }
-
-    .pain-card.highlight-amber {
-      background: #fffbeb;
-      border-color: #fcd34d;
-    }
-
-    .pain-kicker {
-      font-size: 10px;
-      font-weight: 800;
-      text-transform: uppercase;
-      margin-bottom: 3px;
-    }
-
-    .pain-metric {
-      font-family: 'Outfit', sans-serif;
-      font-size: 15px;
-      font-weight: 900;
-      color: #0f172a;
-      margin-bottom: 3px;
-    }
-
-    .pain-desc {
-      font-size: 11px;
-      line-height: 1.35;
-      color: #334155;
-    }
-
-    /* BLOQUE LOS 4 MOTORES DEL SISTEMA ESTRELLA */
-    .motors-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-    }
-
-    .motor-card {
-      border-radius: 12px;
-      padding: 10px 12px;
+    .comic-panel {
+      border-radius: 11px;
+      overflow: hidden;
       background: #ffffff;
       border: 1.5px solid #cbd5e1;
       display: flex;
       flex-direction: column;
-      gap: 4px;
-      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+      box-shadow: 0 3px 8px rgba(15, 23, 42, 0.06);
     }
 
-    .motor-card.featured {
-      background: linear-gradient(180deg, #fffbeb 0%, #ffffff 100%);
+    .comic-panel.before-card {
+      border-color: #fca5a5;
+      background: #fffafa;
+    }
+
+    .comic-panel.turning-card {
+      border-color: #38bdf8;
+      background: #f0f9ff;
+    }
+
+    .comic-panel.after-card {
+      border-color: #34d399;
+      background: #f0fdf4;
+    }
+
+    .comic-panel.gold-card {
       border-color: #f59e0b;
+      background: #fffbeb;
     }
 
-    .motor-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 6px;
-    }
-
-    .motor-title {
-      font-size: 12.5px;
-      font-weight: 900;
-      color: #0f172a;
-    }
-
-    .motor-badge {
-      font-size: 9.5px;
-      font-weight: 800;
-      padding: 2px 7px;
-      border-radius: 999px;
-      background: #e0f2fe;
-      color: #0369a1;
-      white-space: nowrap;
-    }
-
-    .motor-badge.gold {
-      background: #fef3c7;
-      color: #b45309;
-    }
-
-    .motor-text {
-      font-size: 11px;
-      line-height: 1.36;
-      color: #334155;
-    }
-
-    /* BLOQUE VISTAS REALES PASSPORTAI.APP (CHATBOTS + CONSTRUCTORES PDF) */
-    .screenshots-band {
-      background: #071326;
-      border-radius: 13px;
-      padding: 10px 12px;
-      color: #f8fafc;
-      border: 1.5px solid #1e3a5f;
-    }
-
-    .screenshots-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      margin-bottom: 8px;
-    }
-
-    .screenshots-title {
-      font-size: 12px;
-      font-weight: 900;
-      color: #ffffff;
-    }
-
-    .screenshots-sub {
-      font-size: 10.5px;
-      color: #67e8f9;
-      font-weight: 700;
-    }
-
-    .screenshots-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
-    .shot-card {
-      background: #0b1d36;
-      border: 1px solid rgba(56, 189, 248, 0.35);
-      border-radius: 9px;
+    .panel-img-wrap {
+      position: relative;
+      width: 100%;
+      height: 122px;
+      background: #0f172a;
       overflow: hidden;
     }
 
-    .shot-card img {
+    .panel-img-wrap img {
       width: 100%;
-      height: 118px;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    .panel-step-badge {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      padding: 2.5px 7px;
+      border-radius: 6px;
+      font-size: 9px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #ffffff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+    }
+
+    .badge-red {
+      background: rgba(185, 28, 28, 0.92);
+      border: 1px solid #fca5a5;
+    }
+
+    .badge-cyan {
+      background: rgba(3, 105, 161, 0.92);
+      border: 1px solid #7dd3fc;
+    }
+
+    .badge-emerald {
+      background: rgba(4, 120, 87, 0.92);
+      border: 1px solid #6ee7b7;
+    }
+
+    .badge-gold {
+      background: rgba(180, 83, 9, 0.94);
+      border: 1px solid #fde68a;
+    }
+
+    .panel-caption {
+      padding: 7px 9px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      flex: 1;
+    }
+
+    .panel-title {
+      font-size: 11.5px;
+      font-weight: 900;
+      color: #0f172a;
+      line-height: 1.22;
+    }
+
+    .panel-text {
+      font-size: 10.1px;
+      line-height: 1.33;
+      color: #334155;
+    }
+
+    /* BLOQUE ENTREGABLES + PANTALLAS REALES PASSPORTAI.APP */
+    .deliverables-band {
+      background: #071326;
+      border-radius: 11px;
+      padding: 8px 11px;
+      color: #f8fafc;
+      border: 1.5px solid #1e3a5f;
+      display: grid;
+      grid-template-columns: 1.25fr 1fr;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .deliv-list-title {
+      font-size: 10.5px;
+      font-weight: 900;
+      color: #38bdf8;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+
+    .deliv-items {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5px 8px;
+    }
+
+    .deliv-item {
+      font-size: 9.8px;
+      line-height: 1.28;
+      color: #e2e8f0;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 7px;
+      padding: 5px 7px;
+    }
+
+    .deliv-item strong {
+      color: #6ee7b7;
+      display: block;
+      font-size: 10px;
+    }
+
+    .mini-shots {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+
+    .mini-shot {
+      background: #0b1d36;
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      border-radius: 7px;
+      overflow: hidden;
+    }
+
+    .mini-shot img {
+      width: 100%;
+      height: 68px;
       object-fit: cover;
       object-position: top left;
       display: block;
-      border-bottom: 1px solid rgba(148, 163, 184, 0.2);
     }
 
-    .shot-caption {
-      padding: 6px 9px;
-      font-size: 10.5px;
-      line-height: 1.3;
-      color: #e2e8f0;
+    .mini-shot-label {
+      font-size: 8.8px;
+      font-weight: 700;
+      color: #bae6fd;
+      padding: 3px 5px;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .shot-caption strong {
-      color: #38bdf8;
-    }
-
-    /* BLOQUE FLEXIBILIDAD DE PRESUPUESTO (SIN PRECIOS) */
+    /* BLOQUE PRESUPUESTO FLEXIBLE (SIN PRECIOS) */
     .budget-banner {
       background: linear-gradient(90deg, #ecfdf5 0%, #f0f9ff 100%);
       border: 1.5px solid #10b981;
-      border-radius: 12px;
-      padding: 9px 13px;
+      border-radius: 10px;
+      padding: 7px 11px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
+      gap: 10px;
     }
 
     .budget-text {
-      font-size: 11.2px;
-      line-height: 1.36;
+      font-size: 10.2px;
+      line-height: 1.32;
       color: #064e3b;
     }
 
     .budget-pills {
       display: flex;
-      flex-direction: column;
-      gap: 4px;
+      gap: 5px;
       flex-shrink: 0;
     }
 
     .budget-pill {
-      font-size: 10px;
+      font-size: 9.2px;
       font-weight: 800;
-      padding: 3px 9px;
+      padding: 3px 8px;
       border-radius: 999px;
       background: #059669;
       color: #ffffff;
-      text-align: center;
       white-space: nowrap;
     }
 
@@ -589,23 +644,23 @@
     .sheet-footer {
       background: linear-gradient(135deg, #050e1d 0%, #0c2342 100%);
       color: #ffffff;
-      padding: 13px 22px;
+      padding: 10px 20px;
       border-top: 3px solid #10b981;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 14px;
+      gap: 12px;
     }
 
     .closer-sign {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 9px;
     }
 
     .closer-avatar {
-      width: 44px;
-      height: 44px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       object-fit: cover;
       border: 2px solid #00e5ff;
@@ -614,21 +669,20 @@
     }
 
     .closer-meta-name {
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 900;
       color: #ffffff;
     }
 
     .closer-meta-role {
-      font-size: 10.5px;
+      font-size: 10px;
       color: #67e8f9;
       font-weight: 600;
     }
 
     .closer-meta-note {
-      font-size: 10px;
+      font-size: 9.5px;
       color: #cbd5e1;
-      margin-top: 1px;
     }
 
     .cta-box {
@@ -637,12 +691,12 @@
     }
 
     .cta-label {
-      font-size: 10px;
+      font-size: 9.2px;
       font-weight: 800;
       text-transform: uppercase;
       color: #fde68a;
       letter-spacing: 0.04em;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
 
     .cta-button-link {
@@ -650,19 +704,19 @@
       background: linear-gradient(135deg, #10b981 0%, #059669 100%);
       color: #022c22;
       font-family: 'Outfit', sans-serif;
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 900;
-      padding: 8px 16px;
-      border-radius: 10px;
+      padding: 6px 14px;
+      border-radius: 9px;
       text-decoration: none;
       border: 1.5px solid #6ee7b7;
-      box-shadow: 0 6px 18px rgba(16, 185, 129, 0.35);
+      box-shadow: 0 5px 15px rgba(16, 185, 129, 0.35);
     }
 
     .cta-suburl {
-      font-size: 10px;
+      font-size: 9px;
       color: #94a3b8;
-      margin-top: 3px;
+      margin-top: 2px;
     }
 
     /* MODO IMPRESIÓN / PDF 1 SOLA HOJA EXACTA */
@@ -714,47 +768,61 @@
 <body>
 
   <!-- ════════════════════════════════════════════════════════════════════════
-       HERRAMIENTA DEL CLOSER: PERSONALIZADOR DE MENSAJE DE WHATSAPP + DESCARGA PDF
+       HERRAMIENTA DEL CLOSER: SELECTOR DE HISTORIA POR NICHO + WHATSAPP + PDF
        (NO APARECE EN EL PDF IMPRESO)
   ════════════════════════════════════════════════════════════════════════ -->
-  <section class="closer-toolkit no-print" aria-label="Personalizador de mensaje para Closers">
+  <section class="closer-toolkit no-print" aria-label="Personalizador de Historia Visual por Nicho para Closers">
     <div class="toolkit-header">
       <div>
-        <span class="toolkit-badge">🔥 MOTOR DE VENTAS CORTEXIA · ENVÍO A CONOCIDOS Y PROSPECTOS</span>
-        <h2 style="font-size: 16px; font-weight: 900; color: #ffffff; margin-top: 5px;">
-          Personaliza tu Mensaje en 5 Segundos y Adjunta el Folleto de 1 Hoja (Sin Precios)
+        <span class="toolkit-badge">🎨 STORYBOARD COMERCIAL CORTEXIA · HISTORIA ANTES VS. DESPUÉS POR NICHO</span>
+        <h2 style="font-size: 15.5px; font-weight: 900; color: #ffffff; margin-top: 4px;">
+          Elige el Giro de tu Conocido (Clínica, Inmobiliaria o Negocio), Descarga su Historia en 1 Hoja PDF y Copia el Texto
         </h2>
-        <p style="font-size: 12px; color: #94a3b8; margin-top: 2px;">
-          Escribe el nombre de tu conocido o cliente, copia el texto persuasivo y mándalo junto con el PDF de 1 sola hoja.
-        </p>
       </div>
       <div class="toolkit-actions">
-        <a href="/static/armas/FOLLETO_VENTAS_1_HOJA_PROSPER_IA.pdf" download="Folleto-Ejecutivo-Agencia-ProsperIA.pdf" class="btn-action btn-pdf">
-          📥 Descargar Folleto 1 Hoja (PDF)
+        <a id="btn-download-niche-pdf" href="/static/armas/FOLLETO_VENTAS_1_HOJA_PROSPER_IA.pdf" download="Folleto-Historia-Clinicas-ProsperIA.pdf" class="btn-action btn-pdf">
+          📥 Descargar PDF de este Nicho (1 Hoja)
         </a>
         <button type="button" onclick="window.print()" class="btn-action btn-print">
-          🖨️ Imprimir / Guardar con Mi Foto
+          🖨️ Guardar PDF con Mi Foto
         </button>
       </div>
+    </div>
+
+    <!-- BOTONES DE SELECCIÓN DE LAS 3 HISTORIAS VISUALES -->
+    <div class="niche-selector-bar" role="tablist" aria-label="Seleccionar historia por nicho">
+      <button type="button" class="niche-btn active" id="niche-btn-clinica" onclick="selectStoryNiche('clinica')">
+        <div class="niche-btn-title">
+          <span>🦷 1. Historia: Clínicas &amp; Salud</span>
+          <span style="font-size:10px; color:#6ee7b7;">Dupla A</span>
+        </div>
+        <div class="niche-btn-sub">Dental, Estética, Capilar y Médicos (Dr. Alejandro)</div>
+      </button>
+
+      <button type="button" class="niche-btn" id="niche-btn-inmobiliaria" onclick="selectStoryNiche('inmobiliaria')">
+        <div class="niche-btn-title">
+          <span>🏢 2. Historia: Inmobiliaria / Realtor</span>
+          <span style="font-size:10px; color:#38bdf8;">Dupla B</span>
+        </div>
+        <div class="niche-btn-sub">Bienes Raíces, Brokers y Desarrollos (Valeria Realtor)</div>
+      </button>
+
+      <button type="button" class="niche-btn" id="niche-btn-negocios" onclick="selectStoryNiche('negocios')">
+        <div class="niche-btn-title">
+          <span>💼 3. Historia: Negocios &amp; Servicios</span>
+          <span style="font-size:10px; color:#fde68a;">Dupla C</span>
+        </div>
+        <div class="niche-btn-sub">Despachos, Abogados, Contadores y Comercios (Roberto)</div>
+      </button>
     </div>
 
     <div class="toolkit-grid">
       <div class="field-group">
         <label for="contact-name">1. Nombre de tu conocido / prospecto</label>
-        <input id="contact-name" type="text" class="field-input" placeholder="Ej. Carlos / Dra. Mariana" oninput="updateWaMessage()" />
+        <input id="contact-name" type="text" class="field-input" placeholder="Ej. Dr. Carlos / Valeria / Roberto" oninput="updateWaMessage()" />
       </div>
       <div class="field-group">
-        <label for="contact-niche">2. Giro o negocio de tu conocido</label>
-        <select id="contact-niche" class="field-input" onchange="updateWaMessage()">
-          <option value="tu negocio">Su negocio / empresa en general</option>
-          <option value="tu clínica / consultorio">Clínica Dental, Estética o Médica</option>
-          <option value="tu inmobiliaria">Inmobiliaria / Bienes Raíces (Realtor)</option>
-          <option value="tu despacho">Despacho Contable, Legal o Consultoría</option>
-          <option value="tu restaurante o comercio">Restaurante, Gimnasio o Comercio Local</option>
-        </select>
-      </div>
-      <div class="field-group">
-        <label for="contact-phone">3. WhatsApp de tu conocido (Opcional)</label>
+        <label for="contact-phone">2. WhatsApp de tu conocido (Opcional)</label>
         <input id="contact-phone" type="tel" class="field-input" placeholder="Ej. +1 786... / +52... / +54..." oninput="updateWaMessage()" />
       </div>
     </div>
@@ -764,7 +832,7 @@
         🤝 1. Conocido / Amigo de Confianza (Recomendado)
       </button>
       <button type="button" class="angle-tab" onclick="setAngle(1, this)">
-        📈 2. Dueño de Negocio ($2K → $4K y Ahorro Nómina)
+        📈 2. Enfoque Historia Visual ($2K → $4K y Ahorro Nómina)
       </button>
       <button type="button" class="angle-tab" onclick="setAngle(2, this)">
         ⚡ 3. Mensaje Corto de Curiosidad (3 Líneas)
@@ -783,7 +851,7 @@
           <span class="tip" role="status"></span>
         </div>
         <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-          <span style="font-size: 11px; color: #94a3b8;">💡 Recuerda adjuntar el archivo PDF descargado</span>
+          <span style="font-size: 11px; color: #94a3b8;">💡 Adjunta el PDF de 1 hoja de este nicho</span>
           <a id="wa-direct-link" href="https://wa.me/" target="_blank" rel="noopener" class="btn-wa-send">
             💬 Abrir en WhatsApp →
           </a>
@@ -793,131 +861,172 @@
   </section>
 
   <!-- ════════════════════════════════════════════════════════════════════════
-       FOLLETO EJECUTIVO DE 1 SOLA HOJA (SIN PRECIOS · ENFOQUE VALOR + PRESUPUESTO FLEXIBLE)
+       FOLLETO HISTORIA VISUAL CUADRO POR CUADRO (1 SOLA HOJA LETTER / A4)
   ════════════════════════════════════════════════════════════════════════ -->
   <main class="one-pager-sheet" id="one-page-brochure">
 
     <!-- 1. HERO SUPERIOR -->
     <header class="sheet-hero">
       <div class="hero-top-row">
-        <span class="brand-pill">🏛️ AGENCIA PROSPER IA · MIAMI, FL · ECOSISTEMA COMERCIAL CON IA</span>
-        <span class="delivery-pill">⚡ ENTREGA LLAVE EN MANO EN 5 DÍAS HÁBILES</span>
+        <span class="brand-pill" id="story-hero-badge">🦷 HISTORIA REAL · CLÍNICAS DENTALES, ESTÉTICAS Y MÉDICAS · AGENCIA PROSPER IA</span>
+        <span class="delivery-pill">⚡ SISTEMA ENTREGADO EN 5 DÍAS HÁBILES</span>
       </div>
-      <h1 class="hero-title">
-        ¿Listo para <span>Duplicar tus Clientes</span>, Bajar tu Carga de Nómina y Tener tu Negocio Vendiendo <span>24/7 en Automático</span>?
+      <h1 class="hero-title" id="story-hero-title">
+        De Sillones Vacíos y Mensajes <span>"En Visto"</span>... a Tener la Agenda Llena de Pacientes <span>24/7 en Automático</span>
       </h1>
-      <p class="hero-sub">
-        Instalamos el motor digital completo de tu negocio: <strong>Sitio Web Inteligente + Contestador Automático 24/7 en WhatsApp + CRM + Guiones y Videos Reels + 1 Año de PassportAI.app</strong>. Nosotros configuramos todo por ti; tú solo recibes clientes calificados en tu celular.
+      <p class="hero-sub" id="story-hero-sub">
+        Mira cuadro por cuadro cómo cambia la vida de un doctor cuando pasa de perder pacientes en WhatsApp a tener su <strong>Sitio Web Inteligente + Contestador 24/7 + CRM + 30 Guiones con Reels + PassportAI.app</strong>.
       </p>
     </header>
 
-    <!-- 2. CUERPO CENTRAL -->
+    <!-- 2. CUERPO CENTRAL CON LAS 6 VIÑETAS ILUSTRADAS -->
     <div class="sheet-body">
 
-      <!-- SECCIÓN A: LAS 3 PREGUNTAS DE REALIDAD FINANCIERA -->
+      <!-- FILA 1: ANTES (LA FRUSTRACIÓN Y EL DINERO QUE SE PIERDE) -->
       <section>
-        <div class="section-tag">📊 1. LA REALIDAD DE TODO DUEÑO DE NEGOCIO HOY: EL COSTO DE NO AUTOMATIZAR</div>
-        <div class="pain-grid">
-          <div class="pain-card highlight-emerald">
-            <div class="pain-kicker" style="color: #047857;">📈 TU FACTURACIÓN MENSUAL</div>
-            <div class="pain-metric">De $2,000 a $4,000+ USD</div>
-            <p class="pain-desc">
-              Si hoy facturas $2K al mes, ¿no te gustaría escalar a $4K+ duplicando tus citas con un <strong>Sitio Web Inteligente</strong> que capta clientes todos los días?
-            </p>
-          </div>
-          <div class="pain-card highlight-cyan">
-            <div class="pain-kicker" style="color: #0369a1;">💼 TU CARGA DE NÓMINA</div>
-            <div class="pain-metric">Ahorra $1,000 USD / mes</div>
-            <p class="pain-desc">
-              Si pagas $2K de nómina y sigues perdiendo ventas por contestar tarde en WhatsApp, ¿no te aliviaría ahorrar $1K al mes atendiendo en <strong>3 segundos 24/7</strong>?
-            </p>
-          </div>
-          <div class="pain-card highlight-amber">
-            <div class="pain-kicker" style="color: #b45309;">🎓 EL FUTURO DE TU FAMILIA</div>
-            <div class="pain-metric">Retorno de 3X a 5X</div>
-            <p class="pain-desc">
-              Multiplicar tu inversión por 3X o 5X significa tranquilidad real para pagar <strong>la mejor educación para tus hijos</strong> y darle tiempo de calidad a tu familia.
-            </p>
-          </div>
+        <div class="row-banner before">
+          <span id="story-before-label">🔴 ANTES: LA FRUSTRACIÓN DIARIA DE PERDER PACIENTES Y PAGAR NÓMINA PESADA</span>
+          <span>CUADROS 1 AL 3</span>
+        </div>
+        <div class="comic-grid">
+          <!-- CUADRO 1 -->
+          <article class="comic-panel before-card">
+            <div class="panel-img-wrap">
+              <img id="panel-img-1" src="/static/img/storyboards/clinica_1.png" alt="Cuadro 1: Frustración por clientes perdidos" />
+              <span class="panel-step-badge badge-red" id="panel-badge-1">CUADRO 1 · EL DOLOR</span>
+            </div>
+            <div class="panel-caption">
+              <h3 class="panel-title" id="panel-title-1">1. "Piden precio y desaparecen..."</h3>
+              <p class="panel-text" id="panel-text-1">
+                Son las 5:00 PM y el sillón sigue vacío. Entraron 20 mensajes por WhatsApp preguntando por tratamientos, pero como recepción tardó horas en contestar, <strong>se fueron con la clínica de enfrente</strong>.
+              </p>
+            </div>
+          </article>
+
+          <!-- CUADRO 2 -->
+          <article class="comic-panel before-card">
+            <div class="panel-img-wrap">
+              <img id="panel-img-2" src="/static/img/storyboards/clinica_2.png" alt="Cuadro 2: Nómina cara y estrés familiar en casa" />
+              <span class="panel-step-badge badge-red" id="panel-badge-2">CUADRO 2 · EL DESGASTE</span>
+            </div>
+            <div class="panel-caption">
+              <h3 class="panel-title" id="panel-title-2">2. Nómina de $2K y Estrés en Casa</h3>
+              <p class="panel-text" id="panel-text-2">
+                Pagas <strong>$2,000 USD de nómina y gastos fijos</strong>, te llevas apenas <strong>$2,000 USD libres</strong> y terminas agotado a las 9:00 PM haciendo cuentas para pagar la educación de tus hijos.
+              </p>
+            </div>
+          </article>
+
+          <!-- CUADRO 3 -->
+          <article class="comic-panel turning-card">
+            <div class="panel-img-wrap">
+              <img id="panel-img-3" src="/static/img/storyboards/clinica_3.png" alt="Cuadro 3: El descubrimiento de Agencia Prosper IA" />
+              <span class="panel-step-badge badge-cyan" id="panel-badge-3">CUADRO 3 · EL CAMBIO</span>
+            </div>
+            <div class="panel-caption">
+              <h3 class="panel-title" id="panel-title-3">3. La Decisión Inteligente (En 5 Días)</h3>
+              <p class="panel-text" id="panel-text-3">
+                Un colega le recomienda <strong>Agencia Prosper IA</strong>. Sin tocar nada técnico, en <strong>5 días hábiles</strong> le entregamos su <strong>Sitio Web Inteligente + Bot 24/7 + CRM + PassportAI.app</strong>.
+              </p>
+            </div>
+          </article>
         </div>
       </section>
 
-      <!-- SECCIÓN B: LOS 4 MOTORES DEL PAQUETE ANUAL ESTRELLA (SIN MENCIONAR PRECIO) -->
+      <!-- FILA 2: DESPUÉS (EL ÉXITO CON SU SISTEMA IA FUNCIONANDO) -->
       <section>
-        <div class="section-tag">🚀 2. ¿QUÉ INCLUYE NUESTRO SISTEMA ESTRELLA LLAVE EN MANO? (TÚ NO CONFIGURAS NADA)</div>
-        <div class="motors-grid">
-          <div class="motor-card">
-            <div class="motor-head">
-              <h3 class="motor-title">1️⃣ Sitio Web Inteligente + Agenda Automática</h3>
-              <span class="motor-badge">+1,000 Diseños</span>
+        <div class="row-banner after">
+          <span id="story-after-label">🟢 DESPUÉS: TU NEGOCIO VENDIENDO 24/7, MÁS DINERO Y TRANQUILIDAD PARA TU FAMILIA</span>
+          <span>CUADROS 4 AL 6</span>
+        </div>
+        <div class="comic-grid">
+          <!-- CUADRO 4 -->
+          <article class="comic-panel after-card">
+            <div class="panel-img-wrap">
+              <img id="panel-img-4" src="/static/img/storyboards/clinica_4.png" alt="Cuadro 4: Contestador 24/7 en WhatsApp y Sitio Web Inteligente" />
+              <span class="panel-step-badge badge-emerald" id="panel-badge-4">CUADRO 4 · BOT 24/7 + WEB</span>
             </div>
-            <p class="motor-text">
-              Adaptado a tu giro exacto (Clínicas Dentales/Estéticas, Inmobiliarias/Realtors, Abogados, Contadores, Comercios). Diseñado para convertir visitantes en citas confirmadas en tu calendario.
-            </p>
-          </div>
+            <div class="panel-caption">
+              <h3 class="panel-title" id="panel-title-4">4. Citas Agendadas en 3 Segundos</h3>
+              <p class="panel-text" id="panel-text-4">
+                Aunque sean las 11:00 PM o domingo, tu <strong>Contestador 24/7 en WhatsApp y Web</strong> atiende en 3 segundos, califica al paciente y agenda en tu CRM. <strong>Ahorras $1,000 USD/mes en nómina.</strong>
+              </p>
+            </div>
+          </article>
 
-          <div class="motor-card">
-            <div class="motor-head">
-              <h3 class="motor-title">2️⃣ Contestador WhatsApp 24/7 + 1 Año CRM Prosper IA</h3>
-              <span class="motor-badge">Respuesta &lt; 3 seg</span>
+          <!-- CUADRO 5 -->
+          <article class="comic-panel after-card">
+            <div class="panel-img-wrap">
+              <img id="panel-img-5" src="/static/img/storyboards/clinica_5.png" alt="Cuadro 5: 30 Guiones, 5 Videos Reels y Constructores PDF de PassportAI" />
+              <span class="panel-step-badge badge-emerald" id="panel-badge-5">CUADRO 5 · REELS + PDF IA</span>
             </div>
-            <p class="motor-text">
-              Un asistente inteligente que responde en WhatsApp, Instagram y Web a cualquier hora, pide los datos clave del cliente y unifica todas tus conversaciones y seguimientos en una sola pantalla.
-            </p>
-          </div>
+            <div class="panel-caption">
+              <h3 class="panel-title" id="panel-title-5">5. 30 Guiones + 5 Reels + PassportAI</h3>
+              <p class="panel-text" id="panel-text-5">
+                Recibes <strong>30 guiones listos y 5 Reels editados por expertos</strong>. Y en <strong>PassportAI.app</strong> solo llenas un formulario simple (cero tecnicismos) y descargas tus ofertas y campañas en PDF.
+              </p>
+            </div>
+          </article>
 
-          <div class="motor-card">
-            <div class="motor-head">
-              <h3 class="motor-title">3️⃣ 1 Año de PassportAI.app (6 Constructores en PDF)</h3>
-              <span class="motor-badge">Cero Tecnicismos</span>
+          <!-- CUADRO 6 -->
+          <article class="comic-panel gold-card">
+            <div class="panel-img-wrap">
+              <img id="panel-img-6" src="/static/img/storyboards/clinica_6.png" alt="Cuadro 6: Éxito financiero de $2K a $4K+ y felicidad familiar" />
+              <span class="panel-step-badge badge-gold" id="panel-badge-6">CUADRO 6 · ÉXITO $2K ➔ $4K+</span>
             </div>
-            <p class="motor-text">
-              Sin saber nada técnico ni escribir comandos: llenas un formulario sencillo y descargas al instante en PDF tu <strong>Marca Personal, Calendario de Contenido, Ofertas, Embudo y Plan de Negocio</strong>.
-            </p>
-          </div>
+            <div class="panel-caption">
+              <h3 class="panel-title" id="panel-title-6">6. De $2K a $4,000+ USD y Paz Familiar</h3>
+              <p class="panel-text" id="panel-text-6">
+                Con tu agenda llena y un retorno de <strong>3X a 5X</strong>, duplicas tus ingresos libres para pagar con tranquilidad <strong>la mejor educación para tus hijos</strong> y disfrutar tu tiempo en familia.
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
 
-          <div class="motor-card featured">
-            <div class="motor-head">
-              <h3 class="motor-title">4️⃣ Bono Viral: 30 Guiones + 5 Videos Reels Editados</h3>
-              <span class="motor-badge gold">🎁 Bono Incluido</span>
+      <!-- FILA 3: RESUMEN DE ENTREGABLES + PANTALLAS REALES DE PASSPORTAI.APP -->
+      <section class="deliverables-band">
+        <div>
+          <div class="deliv-list-title">🎁 ¿QUÉ RECIBES LLAVE EN MANO EN 5 DÍAS? (NOSOTROS CONFIGURAMOS TODO POR TI)</div>
+          <div class="deliv-items">
+            <div class="deliv-item">
+              <strong>1. Sitio Web Inteligente (+1,000 Diseños)</strong>
+              Conectado a tu calendario de citas y WhatsApp.
             </div>
-            <p class="motor-text">
-              Te entregamos <strong>30 Guiones Ganadores</strong> listos para grabar (con gancho y llamado a la acción) + <strong>5 Videos Reels editados por nuestros profesionales</strong> para encender tus redes desde el primer mes.
-            </p>
+            <div class="deliv-item">
+              <strong>2. Bot WhatsApp 24/7 + 1 Año de CRM</strong>
+              Califica y agenda clientes en menos de 3 segundos.
+            </div>
+            <div class="deliv-item">
+              <strong>3. 1 Año de PassportAI.app (6 Constructores)</strong>
+              Llenas un formulario y descargas tu estrategia en PDF.
+            </div>
+            <div class="deliv-item">
+              <strong>4. Bono: 30 Guiones + 5 Reels Editados</strong>
+              Listos para subir a redes (+ opción a 16 Reels/mes).
+            </div>
+          </div>
+        </div>
+        <div class="mini-shots">
+          <div class="mini-shot">
+            <img src="/static/img/passportai_chatbots_autonomos.jpg" alt="Pantalla real Chatbots Autónomos 24/7 en PassportAI.app" />
+            <div class="mini-shot-label">✓ Bots 24/7 Conectados al CRM</div>
+          </div>
+          <div class="mini-shot">
+            <img src="/static/img/passportai_suite_constructores.png" alt="Pantalla real Suite de 6 Constructores en PDF de PassportAI.app" />
+            <div class="mini-shot-label">✓ 6 Constructores en PDF (Sin Prompts)</div>
           </div>
         </div>
       </section>
 
-      <!-- SECCIÓN C: VISTAS REALES DE LA PLATAFORMA PASSPORTAI.APP + CRM -->
-      <section class="screenshots-band">
-        <div class="screenshots-header">
-          <div class="screenshots-title">🖥️ TECNOLOGÍA REAL EN PRODUCCIÓN: ASÍ SE VE TU SISTEMA POR DENTRO</div>
-          <div class="screenshots-sub">✓ Conectado a WhatsApp Oficial + Web + Generadores PDF</div>
-        </div>
-        <div class="screenshots-grid">
-          <div class="shot-card">
-            <img src="/static/img/passportai_chatbots_autonomos.jpg" alt="Chatbots Autónomos 24/7 en WhatsApp y Web conectados al CRM" />
-            <div class="shot-caption">
-              <strong>Chatbots Autónomos 24/7 (WhatsApp + Web):</strong> Califica prospectos en vivo (nombre, teléfono, correo y servicio) y los inyecta directo a tu CRM.
-            </div>
-          </div>
-          <div class="shot-card">
-            <img src="/static/img/passportai_suite_constructores.png" alt="Suite de 6 Constructores de Negocios en PDF dentro de PassportAI.app" />
-            <div class="shot-caption">
-              <strong>Suite de 6 Constructores de Negocios:</strong> Llenas un formulario guiado y en segundos obtienes tus documentos estratégicos y guiones en PDF.
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SECCIÓN D: OPCIONES DE ACUERDO A TU PRESUPUESTO -->
+      <!-- FILA 4: OPCIONES DE ACUERDO A TU PRESUPUESTO -->
       <section class="budget-banner">
         <div class="budget-text">
-          <strong>💡 Tenemos Opciones a la Medida de Tu Presupuesto Actual:</strong> Sabemos que cada empresa vive un momento distinto. Por eso contamos con <strong>3 niveles flexibles de implementación</strong> (desde Arranque Express, Paquete Anual Estrella o Máquina Completa con Campañas Publicitarias y Plan de 16 Reels/mes) con facilidad de iniciar con el <strong>50% hoy y 50% contra entrega funcionando</strong>.
+          <strong>💡 Tenemos Opciones a la Medida de Tu Presupuesto Actual:</strong> Contamos con <strong>3 planes flexibles según la etapa de tu negocio</strong> (Arranque Express, Paquete Anual Estrella o Máquina Completa con Campañas en Meta Ads) y facilidad de iniciar con el <strong>50% hoy y 50% contra entrega en 5 días</strong>.
         </div>
         <div class="budget-pills">
-          <span class="budget-pill">✓ Planes según tu Presupuesto</span>
-          <span class="budget-pill" style="background: #0284c7;">✓ Facilidad 50% Inicio / 50% Entrega</span>
+          <span class="budget-pill">✓ A tu Presupuesto</span>
+          <span class="budget-pill" style="background: #0284c7;">✓ 50% Inicio / 50% Entrega</span>
         </div>
       </section>
 
@@ -935,7 +1044,7 @@
       </div>
 
       <div class="cta-box">
-        <div class="cta-label">👉 CONOCE TU DEMO EN VIVO Y SOLICITA TU DIAGNÓSTICO AQUÍ:</div>
+        <div class="cta-label">👉 MIRA TU DEMO EN VIVO Y SOLICITA TU DIAGNÓSTICO GRATUITO AQUÍ:</div>
         <a href="https://agenciaprosperia.com/sitioweb" target="_blank" rel="noopener" class="cta-button-link">
           https://agenciaprosperia.com/sitioweb
         </a>
@@ -946,7 +1055,154 @@
   </main>
 
   <script>
-    // Personalización automática del Closer desde URL (?closer_name=...&closer_photo=...&closer_role=...)
+    // Catálogo de las 3 Historias Visuales Cuadro por Cuadro (Clínicas, Inmobiliaria y Negocios)
+    const STORY_CATALOG = {
+      clinica: {
+        pdfUrl: '/static/armas/FOLLETO_HISTORIA_CLINICAS_PROSPER_IA.pdf',
+        pdfDownloadName: 'Folleto-Historia-Clinicas-ProsperIA.pdf',
+        nicheLabel: 'tu clínica / consultorio',
+        heroBadge: '🦷 HISTORIA REAL · CLÍNICAS DENTALES, ESTÉTICAS Y MÉDICAS · AGENCIA PROSPER IA',
+        heroTitle: 'De Sillones Vacíos y Mensajes <span>"En Visto"</span>... a Tener la Agenda Llena de Pacientes <span>24/7 en Automático</span>',
+        heroSub: 'Mira cuadro por cuadro cómo cambia la vida de un doctor cuando pasa de perder pacientes en WhatsApp a tener su <strong>Sitio Web Médico Inteligente + Contestador 24/7 + CRM + 30 Guiones con Reels + PassportAI.app</strong>.',
+        beforeBanner: '🔴 ANTES: LA FRUSTRACIÓN DIARIA DE PERDER PACIENTES Y PAGAR NÓMINA PESADA',
+        afterBanner: '🟢 DESPUÉS: TU CLÍNICA LLENA 24/7, MÁS INGRESOS Y TRANQUILIDAD PARA TU FAMILIA',
+        panels: [
+          {
+            img: '/static/img/storyboards/clinica_1.png',
+            badge: 'CUADRO 1 · EL DOLOR',
+            title: '1. "Piden precio y desaparecen..."',
+            text: 'Son las 5:00 PM y el sillón sigue vacío. Entraron 20 mensajes por WhatsApp preguntando por tratamientos, pero como recepción tardó horas en contestar, <strong>se fueron con la clínica de enfrente</strong>.'
+          },
+          {
+            img: '/static/img/storyboards/clinica_2.png',
+            badge: 'CUADRO 2 · EL DESGASTE',
+            title: '2. Nómina de $2K y Estrés en Casa',
+            text: 'Pagas <strong>$2,000 USD de nómina y gastos fijos</strong>, te llevas apenas <strong>$2,000 USD libres</strong> y terminas agotado a las 9:00 PM haciendo cuentas para pagar la educación de tus hijos.'
+          },
+          {
+            img: '/static/img/storyboards/clinica_3.png',
+            badge: 'CUADRO 3 · EL CAMBIO',
+            title: '3. La Decisión Inteligente (En 5 Días)',
+            text: 'Un colega le recomienda <strong>Agencia Prosper IA</strong>. Sin tocar nada técnico, en <strong>5 días hábiles</strong> le entregamos su <strong>Sitio Web Médico Inteligente + Bot 24/7 + CRM + PassportAI.app</strong>.'
+          },
+          {
+            img: '/static/img/storyboards/clinica_4.png',
+            badge: 'CUADRO 4 · BOT 24/7 + WEB',
+            title: '4. Pacientes Agendados en 3 Segundos',
+            text: 'Aunque sean las 11:00 PM o domingo, tu <strong>Recepcionista IA 24/7 en WhatsApp y Web</strong> atiende en 3 segundos, resuelve dudas y agenda la cita en tu CRM. <strong>Ahorras $1,000 USD/mes.</strong>'
+          },
+          {
+            img: '/static/img/storyboards/clinica_5.png',
+            badge: 'CUADRO 5 · REELS + PDF IA',
+            title: '5. 30 Guiones + 5 Reels + PassportAI',
+            text: 'Recibes <strong>30 guiones médicos y 5 Reels editados por profesionales</strong>. Y en <strong>PassportAI.app</strong> solo llenas un formulario simple (cero tecnicismos) y descargas tus campañas en PDF.'
+          },
+          {
+            img: '/static/img/storyboards/clinica_6.png',
+            badge: 'CUADRO 6 · ÉXITO $2K ➔ $4K+',
+            title: '6. De $2K a $4,000+ USD y Paz Familiar',
+            text: 'Con tu clínica llena y un retorno de <strong>3X a 5X</strong>, duplicas tus ingresos libres para pagar con tranquilidad <strong>la mejor educación para tus hijos</strong> y disfrutar tu vida.'
+          }
+        ]
+      },
+      inmobiliaria: {
+        pdfUrl: '/static/armas/FOLLETO_HISTORIA_INMOBILIARIA_PROSPER_IA.pdf',
+        pdfDownloadName: 'Folleto-Historia-Inmobiliaria-Realtor-ProsperIA.pdf',
+        nicheLabel: 'tu inmobiliaria / negocio de bienes raíces',
+        heroBadge: '🏢 HISTORIA REAL · INMOBILIARIAS, REALTORS Y DESARROLLOS · AGENCIA PROSPER IA',
+        heroTitle: 'De Perseguir <span>"Curiosos"</span> por WhatsApp Sin Cerrar... a Tener Compradores Calificados <span>Agendando 24/7</span>',
+        heroSub: 'Mira cuadro por cuadro cómo cambia la vida de una Realtor cuando deja de perder tiempo con curiosos y activa su <strong>Sitio Web Inmobiliario + Filtro IA 24/7 en WhatsApp + CRM + 30 Guiones con Reels + PassportAI.app</strong>.',
+        beforeBanner: '🔴 ANTES: EL DESGASTE DE PERSEGUIR CURIOSOS, CHATS EN VISTO Y FINES DE SEMANA PERDIDOS',
+        afterBanner: '🟢 DESPUÉS: COMPRADORES FILTRADOS 24/7, DOBLE DE COMISIONES Y TIEMPO EN FAMILIA',
+        panels: [
+          {
+            img: '/static/img/storyboards/inmo_1.png',
+            badge: 'CUADRO 1 · EL DOLOR',
+            title: '1. "Me dejaron en visto otra vez..."',
+            text: 'Estás mostrando una propiedad, entran 25 mensajes pidiendo <em>"Precio e info"</em> y cuando les contestas 3 horas después, <strong>ya enfriaron o agendaron visita con otro asesor</strong>.'
+          },
+          {
+            img: '/static/img/storyboards/inmo_2.png',
+            badge: 'CUADRO 2 · EL DESGASTE',
+            title: '2. $2K en Gastos y Cero Tiempo Libre',
+            text: 'Gastas <strong>$2,000 USD/mes en portales y asistentes</strong>, pierdes horas con gente sin presupuesto ni crédito aprobado y sacrificas los fines de semana con tus hijos.'
+          },
+          {
+            img: '/static/img/storyboards/inmo_3.png',
+            badge: 'CUADRO 3 · EL CAMBIO',
+            title: '3. El Salto a las Grandes Ligas (5 Días)',
+            text: 'Descubre <strong>Agencia Prosper IA</strong>. En <strong>5 días hábiles</strong> recibe listo su <strong>Sitio Web Inmobiliario con Catálogo + Filtro Automático 24/7 en WhatsApp + CRM + PassportAI.app</strong>.'
+          },
+          {
+            img: '/static/img/storyboards/inmo_4.png',
+            badge: 'CUADRO 4 · FILTRO IA 24/7',
+            title: '4. Filtro Automático de Compradores',
+            text: 'Tu <strong>Bot 24/7 en WhatsApp y Web</strong> responde en 3 segundos, pregunta <strong>presupuesto, zona y crédito o contado</strong>, y solo agenda visitas con compradores reales. <strong>Ahorras $1,000 USD/mes.</strong>'
+          },
+          {
+            img: '/static/img/storyboards/inmo_5.png',
+            badge: 'CUADRO 5 · REELS + PDF IA',
+            title: '5. 30 Guiones + 5 Reels + PassportAI',
+            text: 'Te damos <strong>30 guiones inmobiliarios y 5 Reels editados</strong> para lucir tus propiedades. Y en <strong>PassportAI.app</strong> llenas un formulario sin tecnicismos y descargas tus ofertas en PDF.'
+          },
+          {
+            img: '/static/img/storyboards/inmo_6.png',
+            badge: 'CUADRO 6 · ÉXITO $2K ➔ $4K+',
+            title: '6. Duplica tus Cierres y Libertad Familiar',
+            text: 'Pasas de $2K a <strong>$4,000+ USD al mes en comisiones</strong> con retorno de <strong>3X a 5X</strong>, asegurando <strong>la mejor educación para tus hijos</strong> sin vivir pegada al celular.'
+          }
+        ]
+      },
+      negocios: {
+        pdfUrl: '/static/armas/FOLLETO_HISTORIA_NEGOCIOS_PROSPER_IA.pdf',
+        pdfDownloadName: 'Folleto-Historia-Negocios-ProsperIA.pdf',
+        nicheLabel: 'tu empresa / negocio',
+        heroBadge: '💼 HISTORIA REAL · EMPRESAS, DESPACHOS Y COMERCIOS · AGENCIA PROSPER IA',
+        heroTitle: 'De Ser Esclavo del WhatsApp y Perder Cotizaciones... a Tener un Negocio que <span>Vende y Agenda 24/7</span>',
+        heroSub: 'Mira cuadro por cuadro cómo pasa un dueño de negocio de apagar fuegos todo el día a tener su <strong>Sitio Web Inteligente + Contestador WhatsApp 24/7 + CRM + 30 Guiones con Reels + PassportAI.app</strong>.',
+        beforeBanner: '🔴 ANTES: COTIZACIONES FRÍAS, NÓMINA PESADA Y ESTRÉS FINANCIERO EN CASA',
+        afterBanner: '🟢 DESPUÉS: VENTAS AUTOMATIZADAS 24/7, MENOS NÓMINA Y FUTURO SEGURO PARA TUS HIJOS',
+        panels: [
+          {
+            img: '/static/img/storyboards/negocio_1.png',
+            badge: 'CUADRO 1 · EL DOLOR',
+            title: '1. Cotizaciones Olvidadas en WhatsApp',
+            text: 'Mientras atiendes la operación diaria, entran decenas de prospectos por WhatsApp y redes. Por contestar tarde o no dar seguimiento, <strong>le terminan comprando a tu competencia</strong>.'
+          },
+          {
+            img: '/static/img/storyboards/negocio_2.png',
+            badge: 'CUADRO 2 · EL DESGASTE',
+            title: '2. Pagas $2K de Nómina y Ganas $2K',
+            text: 'Se te van <strong>$2,000 USD al mes en nómina operativa</strong>, te quedan apenas <strong>$2,000 USD libres</strong> y llegas de noche preocupado por las colegiaturas y el futuro de tus hijos.'
+          },
+          {
+            img: '/static/img/storyboards/negocio_3.png',
+            badge: 'CUADRO 3 · EL CAMBIO',
+            title: '3. Sistema Llave en Mano en 5 Días',
+            text: 'Conoce <strong>Agencia Prosper IA</strong>. Sin saber nada técnico, en <strong>5 días hábiles</strong> recibe funcionando su <strong>Sitio Web Inteligente + Bot 24/7 + CRM + 1 Año de PassportAI.app</strong>.'
+          },
+          {
+            img: '/static/img/storyboards/negocio_4.png',
+            badge: 'CUADRO 4 · BOT 24/7 + WEB',
+            title: '4. Tu Vendedor Digital 24/7 (< 3 seg)',
+            text: 'Tu <strong>Contestador 24/7 en WhatsApp y Web</strong> atiende prospectos al instante, pide sus datos clave y agenda citas en tu CRM sin olvidos. <strong>Ahorras $1,000 USD/mes en nómina.</strong>'
+          },
+          {
+            img: '/static/img/storyboards/negocio_5.png',
+            badge: 'CUADRO 5 · REELS + PDF IA',
+            title: '5. 30 Guiones + 5 Reels + PassportAI',
+            text: 'Te entregamos <strong>30 guiones ganadores y 5 Reels editados por nuestro equipo</strong>. Y en <strong>PassportAI.app</strong> llenas un formulario simple y descargas tu estrategia en PDF.'
+          },
+          {
+            img: '/static/img/storyboards/negocio_6.png',
+            badge: 'CUADRO 6 · ÉXITO $2K ➔ $4K+',
+            title: '6. Escala de $2K a $4,000+ USD/mes',
+            text: 'Multiplicas tus ventas con un retorno de <strong>3X a 5X</strong>, dándole a tu familia la tranquilidad y <strong>la mejor educación para tus hijos</strong> con un negocio que funciona sin ti.'
+          }
+        ]
+      }
+    };
+
     const params = new URLSearchParams(window.location.search);
     if (params.get('pdf') === '1') {
       document.body.classList.add('pdf-mode');
@@ -966,8 +1222,46 @@
       document.getElementById('brochure-closer-role').textContent = closerRole;
     }
 
-    // Motor Cortexia de Mensajes Personalizables para WhatsApp
+    let currentNiche = params.get('niche') || 'clinica';
+    if (!STORY_CATALOG[currentNiche]) currentNiche = 'clinica';
     let currentAngle = 0;
+
+    function selectStoryNiche(nicheKey) {
+      if (!STORY_CATALOG[nicheKey]) return;
+      currentNiche = nicheKey;
+
+      ['clinica', 'inmobiliaria', 'negocios'].forEach(k => {
+        const btn = document.getElementById('niche-btn-' + k);
+        if (btn) btn.classList.toggle('active', k === nicheKey);
+      });
+
+      const data = STORY_CATALOG[nicheKey];
+      document.getElementById('story-hero-badge').textContent = data.heroBadge;
+      document.getElementById('story-hero-title').innerHTML = data.heroTitle;
+      document.getElementById('story-hero-sub').innerHTML = data.heroSub;
+      document.getElementById('story-before-label').textContent = data.beforeBanner;
+      document.getElementById('story-after-label').textContent = data.afterBanner;
+
+      const pdfBtn = document.getElementById('btn-download-niche-pdf');
+      if (pdfBtn) {
+        pdfBtn.href = data.pdfUrl;
+        pdfBtn.setAttribute('download', data.pdfDownloadName);
+      }
+
+      data.panels.forEach((p, idx) => {
+        const num = idx + 1;
+        const imgEl = document.getElementById('panel-img-' + num);
+        const badgeEl = document.getElementById('panel-badge-' + num);
+        const titleEl = document.getElementById('panel-title-' + num);
+        const textEl = document.getElementById('panel-text-' + num);
+        if (imgEl) imgEl.src = p.img;
+        if (badgeEl) badgeEl.textContent = p.badge;
+        if (titleEl) titleEl.textContent = p.title;
+        if (textEl) textEl.innerHTML = p.text;
+      });
+
+      updateWaMessage();
+    }
 
     function setAngle(idx, btn) {
       currentAngle = idx;
@@ -979,14 +1273,15 @@
     function updateWaMessage() {
       const rawName = (document.getElementById('contact-name')?.value || '').trim();
       const greetName = rawName ? ` ${rawName}` : '';
-      const niche = document.getElementById('contact-niche')?.value || 'tu negocio';
+      const data = STORY_CATALOG[currentNiche] || STORY_CATALOG.clinica;
+      const niche = data.nicheLabel;
       const rawPhone = (document.getElementById('contact-phone')?.value || '').replace(/[^0-9]/g, '');
       const senderSignature = closerName ? `\n\nTe mando un abrazo,\n*${closerName}* — Agencia Prosper IA` : '';
 
       const templates = [
-        `¡Hola${greetName}! ¿Cómo estás? 😊\n\nOye, me acordé mucho de ti y de ${niche} porque en la agencia estamos entregando en 5 días un sistema llave en mano que está ayudando a dueños de negocio a duplicar sus citas en automático por WhatsApp, ahorrar hasta $1,000 USD al mes en carga operativa y arrancar con *30 guiones + 5 videos Reels editados + 1 año de nuestra plataforma PassportAI.app*.\n\nTe adjunto este folleto de *1 sola hoja* para que le eches un ojo rápido (sin compromiso, manejamos varias opciones de acuerdo a tu presupuesto actual).\n\nAquí puedes ver cómo funciona en vivo 👉 https://agenciaprosperia.com/sitioweb${senderSignature}`,
-        `¡Hola${greetName}! Espero que todo vaya excelente.\n\nTe comparto en *1 sola hoja* cómo estamos ayudando a dueños de ${niche} a pasar de $2K a $4K+ USD al mes en ventas y reducir su carga de nómina con un *Sitio Web Inteligente + Contestador Automático 24/7 en WhatsApp + CRM + 30 Guiones y Videos Reels listos*.\n\nTenemos planes muy flexibles adaptados a tu presupuesto actual (incluso con facilidad de 50% para iniciar y 50% contra entrega funcionando en 5 días).\n\nTe dejo el PDF adjunto y aquí puedes ver la demostración 👉 https://agenciaprosperia.com/sitioweb${senderSignature}`,
-        `¡Hola${greetName}! Te mando esta hoja ejecutiva porque pensé en ${niche}: instalamos en 5 días tu Sitio Web Inteligente + Bot 24/7 en WhatsApp + 30 Guiones con Videos Reels + 1 Año de PassportAI.app.\n\nContamos con opciones a la medida de tu presupuesto actual. Míralo en vivo aquí 👉 https://agenciaprosperia.com/sitioweb${senderSignature}`
+        `¡Hola${greetName}! ¿Cómo estás? 😊\n\nOye, me acordé mucho de ti y de ${niche} porque armamos esta *historia visual en 1 sola hoja (Cuadro por Cuadro)* de cómo estamos ayudando a dueños de este giro a dejar de perder clientes en WhatsApp, ahorrar hasta $1,000 USD/mes en carga operativa y arrancar en 5 días con su *Sitio Web Inteligente + Bot 24/7 + 30 Guiones con Reels editados + 1 año de PassportAI.app*.\n\nTe adjunto el folleto ilustrado para que lo veas en 30 segundos (sin compromiso, tenemos opciones muy flexibles de acuerdo a tu presupuesto actual).\n\nAquí puedes ver la demostración en vivo 👉 https://agenciaprosperia.com/sitioweb${senderSignature}`,
+        `¡Hola${greetName}! Espero que todo vaya excelente.\n\nMira este resumen ilustrado de *1 sola hoja (Antes vs. Después)* para ${niche}: muestra cómo pasar de $2K a $4K+ USD al mes y bajar tu carga de nómina con tu propio *Sitio Web Inteligente + Contestador Automático 24/7 en WhatsApp + CRM + 30 Guiones y Videos Reels listos*.\n\nManejamos distintos planes adaptados a tu presupuesto actual (incluso con facilidad de 50% para iniciar y 50% contra entrega funcionando en 5 días).\n\nTe dejo el PDF adjunto y aquí puedes ver tu demo 👉 https://agenciaprosperia.com/sitioweb${senderSignature}`,
+        `¡Hola${greetName}! Te mando esta historia visual en 1 hoja porque pensé en ${niche}: mira los 6 cuadros de cómo instalamos en 5 días tu Sitio Web Inteligente + Bot 24/7 en WhatsApp + 30 Guiones con Reels + PassportAI.app.\n\nTenemos opciones a la medida de tu presupuesto actual. Míralo en vivo aquí 👉 https://agenciaprosperia.com/sitioweb${senderSignature}`
       ];
 
       const textarea = document.getElementById('wa-message-preview');
@@ -1001,7 +1296,7 @@
       }
     }
 
-    updateWaMessage();
+    selectStoryNiche(currentNiche);
 
     // Guide: copy-button implementation (Invoker Commands + Fallback + Accessible Status Bubble)
     const timers = new WeakMap();
