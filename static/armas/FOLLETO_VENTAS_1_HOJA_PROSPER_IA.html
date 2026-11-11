@@ -773,47 +773,68 @@
   ════════════════════════════════════════════════════════════════════════ -->
   <section class="closer-toolkit no-print" aria-label="Personalizador de Historia Visual por Nicho para Closers">
     <div class="toolkit-header">
-      <div>
-        <span class="toolkit-badge">🎨 STORYBOARD COMERCIAL CORTEXIA · HISTORIA ANTES VS. DESPUÉS POR NICHO</span>
-        <h2 style="font-size: 15.5px; font-weight: 900; color: #ffffff; margin-top: 4px;">
-          Elige el Giro de tu Conocido (Clínica, Inmobiliaria o Negocio), Descarga su Historia en 1 Hoja PDF y Copia el Texto
+      <div style="max-width: 560px;">
+        <span class="toolkit-badge">🎨 ARMA DE PROSPECCIÓN POR WHATSAPP · 3 HISTORIAS VISUALES (1 HOJA PDF)</span>
+        <h2 style="font-size: 16px; font-weight: 900; color: #ffffff; margin-top: 5px;">
+          Descarga el Folleto Ilustrado por Giro y Envíalo por WhatsApp con el Link de Nuestro Embudo de Ventas
         </h2>
       </div>
       <div class="toolkit-actions">
-        <a id="btn-download-niche-pdf" href="/static/armas/FOLLETO_VENTAS_1_HOJA_PROSPER_IA.pdf" download="Folleto-Historia-Clinicas-ProsperIA.pdf" class="btn-action btn-pdf">
-          📥 Descargar PDF de este Nicho (1 Hoja)
+        <a id="btn-download-niche-pdf" href="/static/armas/FOLLETO_HISTORIA_CLINICAS_PROSPER_IA.pdf" download="Folleto-Historia-Clinicas-ProsperIA.pdf" class="btn-action btn-pdf">
+          📥 Descargar PDF Seleccionado (1 Hoja)
         </a>
         <button type="button" onclick="window.print()" class="btn-action btn-print">
-          🖨️ Guardar PDF con Mi Foto
+          🖨️ Guardar con Mi Foto
         </button>
       </div>
     </div>
 
-    <!-- BOTONES DE SELECCIÓN DE LAS 3 HISTORIAS VISUALES -->
-    <div class="niche-selector-bar" role="tablist" aria-label="Seleccionar historia por nicho">
-      <button type="button" class="niche-btn active" id="niche-btn-clinica" onclick="selectStoryNiche('clinica')">
+    <!-- TEXTO INTRODUCTORIO EXPLICANDO EL EMBUDO DE VENTAS /SITIOWEB -->
+    <div style="background: rgba(0, 229, 255, 0.09); border: 1px solid rgba(0, 229, 255, 0.35); border-radius: 12px; padding: 10px 13px; margin-bottom: 12px; font-size: 11.8px; line-height: 1.45; color: #e2e8f0;">
+      🎯 <strong style="color: #67e8f9;">Instrucción para el Closer (Cómo funciona el Embudo de Ventas):</strong>
+      Descarga abajo el <strong>Folleto en PDF de 1 Sola Hoja</strong> del giro de tu contacto (sin precios) y mándaselo por WhatsApp junto con el texto del cuadro inferior. El enlace <strong style="color: #6ee7b7;">https://agenciaprosperia.com/sitioweb</strong> que va en el mensaje <strong>es nuestro Embudo de Ventas Oficial en lenguaje natural conectado al CRM</strong>: cuando tu contacto entra a esa página, ve toda la explicación del sistema (cómo duplicar ventas de $2K a $4K+, ahorrar $1K en nómina, los 6 Constructores en PDF de <em>PassportAI.app</em> y los 30 Guiones con Reels) y llena sus datos para agendar su diagnóstico contigo.
+    </div>
+
+    <!-- BOTONES DE SELECCIÓN Y DESCARGA DIRECTA DE LOS 3 FOLLETOS PDF -->
+    <div class="niche-selector-bar" role="tablist" aria-label="Seleccionar y descargar historia por nicho">
+      <div class="niche-btn active" id="niche-btn-clinica" onclick="selectStoryNiche('clinica')">
         <div class="niche-btn-title">
-          <span>🦷 1. Historia: Clínicas &amp; Salud</span>
+          <span>🦷 1. Clínicas &amp; Salud</span>
           <span style="font-size:10px; color:#6ee7b7;">Dupla A</span>
         </div>
         <div class="niche-btn-sub">Dental, Estética, Capilar y Médicos (Dr. Alejandro)</div>
-      </button>
+        <div style="margin-top: 8px; display: flex; gap: 6px;">
+          <a href="/static/armas/FOLLETO_HISTORIA_CLINICAS_PROSPER_IA.pdf" download="Folleto-Historia-Clinicas-ProsperIA.pdf" onclick="event.stopPropagation();" style="display:inline-flex; align-items:center; gap:4px; padding:5px 9px; border-radius:7px; background:#10b981; color:#022c22; font-size:10.5px; font-weight:900; text-decoration:none;">
+            📥 Descargar PDF Clínicas
+          </a>
+        </div>
+      </div>
 
-      <button type="button" class="niche-btn" id="niche-btn-inmobiliaria" onclick="selectStoryNiche('inmobiliaria')">
+      <div class="niche-btn" id="niche-btn-inmobiliaria" onclick="selectStoryNiche('inmobiliaria')">
         <div class="niche-btn-title">
-          <span>🏢 2. Historia: Inmobiliaria / Realtor</span>
+          <span>🏢 2. Inmobiliaria / Realtor</span>
           <span style="font-size:10px; color:#38bdf8;">Dupla B</span>
         </div>
         <div class="niche-btn-sub">Bienes Raíces, Brokers y Desarrollos (Valeria Realtor)</div>
-      </button>
+        <div style="margin-top: 8px; display: flex; gap: 6px;">
+          <a href="/static/armas/FOLLETO_HISTORIA_INMOBILIARIA_PROSPER_IA.pdf" download="Folleto-Historia-Inmobiliaria-Realtor-ProsperIA.pdf" onclick="event.stopPropagation();" style="display:inline-flex; align-items:center; gap:4px; padding:5px 9px; border-radius:7px; background:#0ea5e9; color:#082f49; font-size:10.5px; font-weight:900; text-decoration:none;">
+            📥 Descargar PDF Inmobiliaria
+          </a>
+        </div>
+      </div>
 
-      <button type="button" class="niche-btn" id="niche-btn-negocios" onclick="selectStoryNiche('negocios')">
+      <div class="niche-btn" id="niche-btn-negocios" onclick="selectStoryNiche('negocios')">
         <div class="niche-btn-title">
-          <span>💼 3. Historia: Negocios &amp; Servicios</span>
+          <span>💼 3. Negocios &amp; Servicios</span>
           <span style="font-size:10px; color:#fde68a;">Dupla C</span>
         </div>
         <div class="niche-btn-sub">Despachos, Abogados, Contadores y Comercios (Roberto)</div>
-      </button>
+        <div style="margin-top: 8px; display: flex; gap: 6px;">
+          <a href="/static/armas/FOLLETO_HISTORIA_NEGOCIOS_PROSPER_IA.pdf" download="Folleto-Historia-Negocios-ProsperIA.pdf" onclick="event.stopPropagation();" style="display:inline-flex; align-items:center; gap:4px; padding:5px 9px; border-radius:7px; background:#f59e0b; color:#451a03; font-size:10.5px; font-weight:900; text-decoration:none;">
+            📥 Descargar PDF Negocios
+          </a>
+        </div>
+      </div>
     </div>
 
     <div class="toolkit-grid">
@@ -1279,9 +1300,9 @@
       const senderSignature = closerName ? `\n\nTe mando un abrazo,\n*${closerName}* — Agencia Prosper IA` : '';
 
       const templates = [
-        `¡Hola${greetName}! ¿Cómo estás? 😊\n\nOye, me acordé mucho de ti y de ${niche} porque armamos esta *historia visual en 1 sola hoja (Cuadro por Cuadro)* de cómo estamos ayudando a dueños de este giro a dejar de perder clientes en WhatsApp, ahorrar hasta $1,000 USD/mes en carga operativa y arrancar en 5 días con su *Sitio Web Inteligente + Bot 24/7 + 30 Guiones con Reels editados + 1 año de PassportAI.app*.\n\nTe adjunto el folleto ilustrado para que lo veas en 30 segundos (sin compromiso, tenemos opciones muy flexibles de acuerdo a tu presupuesto actual).\n\nAquí puedes ver la demostración en vivo 👉 https://agenciaprosperia.com/sitioweb${senderSignature}`,
-        `¡Hola${greetName}! Espero que todo vaya excelente.\n\nMira este resumen ilustrado de *1 sola hoja (Antes vs. Después)* para ${niche}: muestra cómo pasar de $2K a $4K+ USD al mes y bajar tu carga de nómina con tu propio *Sitio Web Inteligente + Contestador Automático 24/7 en WhatsApp + CRM + 30 Guiones y Videos Reels listos*.\n\nManejamos distintos planes adaptados a tu presupuesto actual (incluso con facilidad de 50% para iniciar y 50% contra entrega funcionando en 5 días).\n\nTe dejo el PDF adjunto y aquí puedes ver tu demo 👉 https://agenciaprosperia.com/sitioweb${senderSignature}`,
-        `¡Hola${greetName}! Te mando esta historia visual en 1 hoja porque pensé en ${niche}: mira los 6 cuadros de cómo instalamos en 5 días tu Sitio Web Inteligente + Bot 24/7 en WhatsApp + 30 Guiones con Reels + PassportAI.app.\n\nTenemos opciones a la medida de tu presupuesto actual. Míralo en vivo aquí 👉 https://agenciaprosperia.com/sitioweb${senderSignature}`
+        `¡Hola${greetName}! ¿Cómo estás? 😊\n\nOye, me acordé mucho de ti y de ${niche} porque armamos esta *historia visual en 1 sola hoja (Cuadro por Cuadro)* de cómo estamos ayudando a dueños de este giro a dejar de perder clientes en WhatsApp, ahorrar hasta $1,000 USD/mes en carga operativa y arrancar en 5 días con su *Sitio Web Inteligente + Bot 24/7 + 30 Guiones con Reels editados + 1 año de PassportAI.app*.\n\nTe adjunto el folleto ilustrado en PDF para que lo veas en 30 segundos (sin compromiso, tenemos opciones muy flexibles de acuerdo a tu presupuesto actual).\n\nTambién te dejo nuestra página interactiva donde explicamos paso a paso cómo funciona todo el sistema y puedes pedir tu diagnóstico gratuito 👉 https://agenciaprosperia.com/sitioweb${senderSignature}`,
+        `¡Hola${greetName}! Espero que todo vaya excelente.\n\nMira este resumen ilustrado de *1 sola hoja (Antes vs. Después)* para ${niche}: muestra cómo pasar de $2K a $4K+ USD al mes y bajar tu carga de nómina con tu propio *Sitio Web Inteligente + Contestador Automático 24/7 en WhatsApp + CRM + 30 Guiones y Videos Reels listos*.\n\nManejamos distintos planes adaptados a tu presupuesto actual (incluso con facilidad de 50% para iniciar y 50% contra entrega funcionando en 5 días).\n\nTe dejo el PDF adjunto y aquí puedes entrar a nuestra página donde explicamos todos los detalles del sistema 👉 https://agenciaprosperia.com/sitioweb${senderSignature}`,
+        `¡Hola${greetName}! Te mando esta historia visual en 1 hoja porque pensé en ${niche}: mira los 6 cuadros de cómo instalamos en 5 días tu Sitio Web Inteligente + Bot 24/7 en WhatsApp + 30 Guiones con Reels + PassportAI.app.\n\nTenemos opciones a la medida de tu presupuesto actual. Entra aquí a nuestra página para ver cómo funciona paso a paso 👉 https://agenciaprosperia.com/sitioweb${senderSignature}`
       ];
 
       const textarea = document.getElementById('wa-message-preview');

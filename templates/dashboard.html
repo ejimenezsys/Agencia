@@ -1879,8 +1879,8 @@
           <button onclick="switchWeaponTab('folleto-1hoja')" id="wtab-folleto-1hoja" class="weapon-nav-btn" style="border-color:rgba(16,185,129,0.55); background:rgba(16,185,129,0.12);">
             <span>📄</span>
             <div>
-              <div style="color:#6ee7b7; font-weight:900;">Folleto 1 Hoja (Sin Precios + WhatsApp)</div>
-              <div style="font-size:10px; opacity:0.95; color:#cbd5e1;">PDF 1 Hoja + Texto Conocidos (/sitioweb)</div>
+              <div style="color:#6ee7b7; font-weight:900;">Folletos Historia 1 Hoja (3 Nichos)</div>
+              <div style="font-size:10px; opacity:0.95; color:#cbd5e1;">Clínicas · Inmob · Negocios + WhatsApp</div>
             </div>
           </button>
         </div>
@@ -2639,6 +2639,107 @@
               </a>
             </div>
           </div>
+
+          <!-- PANEL NATIVO DE DESCARGA DE LOS 3 FOLLETOS PDF + CUADRO DE TEXTO WHATSAPP + EXPLICACIÓN EMBUDO /SITIOWEB -->
+          <div id="weapon-folleto-quick-bar" class="hidden card p-5 space-y-4 border-2 border-emerald-500/40" style="background:linear-gradient(135deg,#061c24,#081529);">
+            <div class="p-3.5 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-xs text-slate-200 leading-relaxed">
+              🎯 <strong class="text-cyan-300">¿Cómo usar estos 3 Folletos de Historia Visual con tus Contactos y Conocidos?</strong>
+              Descarga abajo el <strong>PDF de 1 Sola Hoja</strong> del giro de tu contacto (<em>Clínicas, Inmobiliarias o Negocios</em> — ninguno muestra precios) y mándaselo por WhatsApp junto con el mensaje del cuadro de abajo.
+              <br />
+              🚀 <strong class="text-emerald-300">Sobre la página del mensaje (<code class="text-emerald-200">https://agenciaprosperia.com/sitioweb</code>):</strong> Esa página es nuestro <strong>Embudo de Ventas Oficial en lenguaje natural conectado al CRM</strong>. Cuando tu conocido entra ahí, ve paso a paso cómo pasar de $2K a $4K+ al mes, cómo ahorrar $1K en nómina, conoce los 6 Constructores en PDF de <em>PassportAI.app</em>, los bonos de 30 Guiones + Reels y registra sus datos para agendar su diagnóstico.
+            </div>
+
+            <!-- 3 BOTONES GRANDES PARA DESCARGAR CADA FOLLETO PDF EN 1 CLIC -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div class="p-3.5 rounded-xl bg-slate-900/90 border border-emerald-500/40 flex flex-col justify-between gap-2.5">
+                <div>
+                  <div class="flex items-center justify-between">
+                    <span class="text-xs font-black text-emerald-300">🦷 1. Folleto Clínicas &amp; Salud</span>
+                    <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-[10px] font-bold text-emerald-300">1 Hoja PDF</span>
+                  </div>
+                  <p class="text-[11px] text-slate-400 mt-1">Historia del Dr. Alejandro (Dental, Estética, Capilar y Médicos): de sillón vacío a clínica llena 24/7.</p>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                  <a href="/static/armas/FOLLETO_HISTORIA_CLINICAS_PROSPER_IA.pdf" download="Folleto-Historia-Clinicas-ProsperIA.pdf" class="flex-1 text-center px-3 py-2 rounded-xl text-xs font-black bg-emerald-400 text-slate-950 hover:bg-emerald-300 no-underline shadow">
+                    📥 Descargar PDF Clínicas
+                  </a>
+                  <button type="button" onclick="selectDashFolletoNiche('clinica')" class="px-2.5 py-2 rounded-xl text-xs font-bold bg-slate-800 text-cyan-300 hover:bg-slate-700 border border-cyan-500/30">
+                    👁️ Ver
+                  </button>
+                </div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-900/90 border border-cyan-500/40 flex flex-col justify-between gap-2.5">
+                <div>
+                  <div class="flex items-center justify-between">
+                    <span class="text-xs font-black text-cyan-300">🏢 2. Folleto Inmobiliaria / Realtor</span>
+                    <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-[10px] font-bold text-cyan-300">1 Hoja PDF</span>
+                  </div>
+                  <p class="text-[11px] text-slate-400 mt-1">Historia de Valeria Realtor (Bienes Raíces y Brokers): de perseguir curiosos a filtrar compradores 24/7.</p>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                  <a href="/static/armas/FOLLETO_HISTORIA_INMOBILIARIA_PROSPER_IA.pdf" download="Folleto-Historia-Inmobiliaria-Realtor-ProsperIA.pdf" class="flex-1 text-center px-3 py-2 rounded-xl text-xs font-black bg-cyan-400 text-slate-950 hover:bg-cyan-300 no-underline shadow">
+                    📥 Descargar PDF Inmobiliaria
+                  </a>
+                  <button type="button" onclick="selectDashFolletoNiche('inmobiliaria')" class="px-2.5 py-2 rounded-xl text-xs font-bold bg-slate-800 text-cyan-300 hover:bg-slate-700 border border-cyan-500/30">
+                    👁️ Ver
+                  </button>
+                </div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-900/90 border border-amber-500/40 flex flex-col justify-between gap-2.5">
+                <div>
+                  <div class="flex items-center justify-between">
+                    <span class="text-xs font-black text-amber-300">💼 3. Folleto Negocios &amp; Servicios</span>
+                    <span class="px-2 py-0.5 rounded bg-amber-500/20 text-[10px] font-bold text-amber-300">1 Hoja PDF</span>
+                  </div>
+                  <p class="text-[11px] text-slate-400 mt-1">Historia de Roberto (Empresas, Despachos, Contadores y Comercios): de apagar fuegos a vender 24/7.</p>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                  <a href="/static/armas/FOLLETO_HISTORIA_NEGOCIOS_PROSPER_IA.pdf" download="Folleto-Historia-Negocios-ProsperIA.pdf" class="flex-1 text-center px-3 py-2 rounded-xl text-xs font-black bg-amber-400 text-slate-950 hover:bg-amber-300 no-underline shadow">
+                    📥 Descargar PDF Negocios
+                  </a>
+                  <button type="button" onclick="selectDashFolletoNiche('negocios')" class="px-2.5 py-2 rounded-xl text-xs font-bold bg-slate-800 text-cyan-300 hover:bg-slate-700 border border-cyan-500/30">
+                    👁️ Ver
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- CUADRO DE TEXTO PERSONALIZABLE PARA ENVIAR POR WHATSAPP -->
+            <div class="p-4 rounded-xl bg-slate-950/90 border border-emerald-500/40 space-y-3">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="text-xs font-black text-emerald-300 uppercase tracking-wider">
+                  💬 Cuadro de Texto para Enviar a tus Contactos por WhatsApp (Personalízalo y Cópialo)
+                </div>
+                <div class="flex flex-wrap gap-1.5">
+                  <button type="button" onclick="selectDashFolletoNiche('clinica')" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">🦷 Texto Clínicas</button>
+                  <button type="button" onclick="selectDashFolletoNiche('inmobiliaria')" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">🏢 Texto Inmobiliaria</button>
+                  <button type="button" onclick="selectDashFolletoNiche('negocios')" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">💼 Texto Negocios</button>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <input id="dash-folleto-contact-name" type="text" class="input-dark text-xs py-2 px-3" placeholder="1. Nombre de tu conocido (Ej. Dr. Carlos / Valeria / Roberto)" oninput="updateDashFolletoWaText()" />
+                <input id="dash-folleto-contact-phone" type="tel" class="input-dark text-xs py-2 px-3" placeholder="2. WhatsApp de tu conocido opcional (Ej. +1 786... / +52... / +54...)" oninput="updateDashFolletoWaText()" />
+              </div>
+
+              <textarea id="dash-folleto-wa-textarea" rows="5" class="input-dark text-xs leading-relaxed w-full" style="font-family:inherit;"></textarea>
+
+              <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
+                <div class="flex flex-wrap items-center gap-2">
+                  <button type="button" onclick="copyDashFolletoWaText(this)" class="px-4 py-2 rounded-xl text-xs font-black bg-emerald-400 text-slate-950 hover:bg-emerald-300 transition shadow">
+                    📋 Copiar Texto para WhatsApp
+                  </button>
+                  <a id="dash-folleto-wa-send-btn" href="https://wa.me/" target="_blank" rel="noopener" class="px-3.5 py-2 rounded-xl text-xs font-black bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 hover:bg-cyan-500/30 no-underline">
+                    💬 Abrir en WhatsApp Directo →
+                  </a>
+                </div>
+                <span class="text-[11px] text-slate-400">📎 Recuerda adjuntar el PDF de 1 hoja descargado arriba</span>
+              </div>
+            </div>
+          </div>
+
           <div class="card overflow-hidden border-2 border-cyan-500/40" style="height: calc(100vh - 185px); min-height: 780px; background:#ffffff;">
             <iframe id="weapon-embedded-iframe" src="about:blank" style="width:100%; height:100%; border:none; background:#ffffff;"></iframe>
           </div>
@@ -6523,6 +6624,13 @@ function switchWeaponTab(tabKey) {
 
   const cfg = weaponCatalog[tabKey];
   if (!cfg) return;
+  const folletoQuickBar = document.getElementById('weapon-folleto-quick-bar');
+  if (folletoQuickBar) {
+    folletoQuickBar.classList.toggle('hidden', tabKey !== 'folleto-1hoja');
+    if (tabKey === 'folleto-1hoja') {
+      updateDashFolletoWaText();
+    }
+  }
   const themedUrl = cfg.html.includes('?') ? `${cfg.html}&theme=${currentWeaponsTheme}` : `${cfg.html}?theme=${currentWeaponsTheme}`;
   document.getElementById('weapon-iframe-title').textContent = cfg.title;
   document.getElementById('weapon-iframe-subtitle').textContent = cfg.sub;
@@ -6542,6 +6650,59 @@ function switchWeaponTab(tabKey) {
   if (iframe) {
     iframe.onload = () => setWeaponsTheme(currentWeaponsTheme);
     iframe.src = themedUrl;
+  }
+}
+
+let currentDashFolletoNiche = 'clinica';
+
+function selectDashFolletoNiche(nicheKey) {
+  currentDashFolletoNiche = nicheKey || 'clinica';
+  updateDashFolletoWaText();
+  const iframe = document.getElementById('weapon-embedded-iframe');
+  if (iframe && iframe.contentWindow && typeof iframe.contentWindow.selectStoryNiche === 'function') {
+    iframe.contentWindow.selectStoryNiche(currentDashFolletoNiche);
+  }
+}
+
+function updateDashFolletoWaText() {
+  const rawName = (document.getElementById('dash-folleto-contact-name')?.value || '').trim();
+  const greetName = rawName ? ` ${rawName}` : '';
+  const rawPhone = (document.getElementById('dash-folleto-contact-phone')?.value || '').replace(/[^0-9]/g, '');
+  const closerSig = currentUser?.name ? `\n\nTe mando un abrazo,\n*${currentUser.name}* — Agencia Prosper IA` : '';
+
+  const nicheLabels = {
+    clinica: 'tu clínica / consultorio',
+    inmobiliaria: 'tu inmobiliaria / negocio de bienes raíces',
+    negocios: 'tu empresa / negocio'
+  };
+  const nicheText = nicheLabels[currentDashFolletoNiche] || 'tu negocio';
+
+  const msg = `¡Hola${greetName}! ¿Cómo estás? 😊\n\nOye, me acordé mucho de ti y de ${nicheText} porque armamos esta *historia visual en 1 sola hoja (Cuadro por Cuadro)* de cómo estamos ayudando a dueños de este giro a dejar de perder clientes en WhatsApp, ahorrar hasta $1,000 USD/mes en carga operativa y arrancar en 5 días con su *Sitio Web Inteligente + Bot 24/7 + 30 Guiones con Reels editados + 1 año de PassportAI.app*.\n\nTe adjunto el folleto ilustrado en PDF para que lo veas rápido (sin compromiso, tenemos varias opciones a la medida de tu presupuesto actual).\n\nTambién te dejo nuestra página interactiva donde explicamos paso a paso cómo funciona el sistema y puedes solicitar tu diagnóstico gratuito 👉 https://agenciaprosperia.com/sitioweb${closerSig}`;
+
+  const textarea = document.getElementById('dash-folleto-wa-textarea');
+  if (textarea) textarea.value = msg;
+
+  const waBtn = document.getElementById('dash-folleto-wa-send-btn');
+  if (waBtn) {
+    const encoded = encodeURIComponent(msg);
+    waBtn.href = rawPhone ? `https://wa.me/${rawPhone}?text=${encoded}` : `https://wa.me/?text=${encoded}`;
+  }
+}
+
+async function copyDashFolletoWaText(btnEl) {
+  const textarea = document.getElementById('dash-folleto-wa-textarea');
+  const text = textarea ? textarea.value.trim() : '';
+  if (!text) return;
+  try {
+    await navigator.clipboard.writeText(text);
+  } catch {
+    textarea.select();
+    document.execCommand('copy');
+  }
+  if (btnEl) {
+    const orig = btnEl.innerHTML;
+    btnEl.innerHTML = '✅ ¡Texto Copiado para WhatsApp!';
+    setTimeout(() => { btnEl.innerHTML = orig; }, 2200);
   }
 }
 
