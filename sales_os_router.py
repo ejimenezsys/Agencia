@@ -566,7 +566,8 @@ async def api_get_sales_catalog(current_user: dict = Depends(get_current_sales_u
             "website_templates": WEBSITE_TEMPLATES_SHOWCASE,
             "ghl_config": {
                 "location_id": "CNvJBINRWBUL2EdqRh3G",
-                "pipeline_id": "SJ4xiMasQ0GZcUNYFgpa",
+                "pipeline_id": "G9nVz4GhrxAROVkPtPis",
+                "pipeline_name": "Ventas Sitios Web & Closers ProsperIA",
                 "calendar_url": "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8",
                 "website_templates_library_url": "https://crm.agenciaprosperia.com/v2/location/CNvJBINRWBUL2EdqRh3G/funnels-websites/websites",
             },

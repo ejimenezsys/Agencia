@@ -28,8 +28,12 @@ GHL_BASE_URL = "https://services.leadconnectorhq.com"
 GHL_API_VERSION = "2021-07-28"
 
 DEFAULT_LOCATION_ID = "CNvJBINRWBUL2EdqRh3G"
-DEFAULT_PIPELINE_ID = "SJ4xiMasQ0GZcUNYFgpa"        # Ventas Agencia ProsperIA
-DEFAULT_STAGE_ID = "ffd8ae02-c4c0-431c-a827-0e909a80c752"  # Nuevo Contacto
+DEFAULT_PIPELINE_ID = "G9nVz4GhrxAROVkPtPis"        # Ventas Sitios Web & Closers ProsperIA (Exclusivo B2B / Closers)
+DEFAULT_STAGE_ID = "38a46419-b420-49a6-8df6-021cb0467dd0"  # 1. Nuevo Prospecto (/sitioweb)
+
+# Pipeline separado para solicitudes de códigos gratuitos / comunidad PassportAI (/codigos)
+CODIGOS_PIPELINE_ID = "SJ4xiMasQ0GZcUNYFgpa"
+CODIGOS_STAGE_ID = "ffd8ae02-c4c0-431c-a827-0e909a80c752"
 
 # IDs de los campos personalizados de contacto creados en la subcuenta (CNvJBINRWBUL2EdqRh3G).
 CF_INDUSTRIA = "K9N5HFBIpkonykvmoqB4"
@@ -46,19 +50,19 @@ CF_PLANTILLA_WEB = "saKXYwR9f9KiM8uFvKE5"           # contact.plantilla_web_sele
 CF_ESTADO_ENTREGA = "WSy2ykDYJpLcHUthLenI"          # contact.estado_entrega_sitio_web
 CF_DUPLA_COMERCIAL = "HWashNLd4BfxzgTbhG0C"         # contact.dupla_comercial_asignada
 
-# Mapeo 1 a 1 de las Etapas del Sales OS -> Stage IDs reales del Pipeline "Ventas Agencia ProsperIA" (SJ4xiMasQ0GZcUNYFgpa) en GoHighLevel
+# Mapeo 1 a 1 de las Etapas del Sales OS -> Stage IDs reales del Pipeline "Ventas Sitios Web & Closers ProsperIA" (G9nVz4GhrxAROVkPtPis) en GoHighLevel
 GHL_STAGE_MAP = {
-    "Lead identificado": "ffd8ae02-c4c0-431c-a827-0e909a80c752",     # Nuevo Contacto
-    "Primer contacto": "da2cda3e-8c0b-4c11-b6aa-03f9549b4824",       # Contactado
-    "Conversación": "da2cda3e-8c0b-4c11-b6aa-03f9549b4824",          # Contactado
-    "Calificado": "da2cda3e-8c0b-4c11-b6aa-03f9549b4824",            # Contactado
-    "Diagnóstico agendado": "32169283-eb6a-446a-9092-67a39af8efdf",  # Llamada agendada
-    "Demo realizada": "46602de4-7daf-4624-aa44-8aabca028497",        # Demo Realizada
-    "Propuesta enviada": "21cded24-ce3b-4031-bbb1-0324723ce1f6",     # Propuesta enviada
-    "Pago pendiente": "443683ab-9200-4d93-891a-8960a668e86b",        # Pago Pendiente
-    "Pago confirmado": "f84fbfc3-06fd-48d0-a4dc-541792558815",       # Pago confirmado
-    "Implementación": "4a358f0e-0c45-40fb-8b64-2b4c75746e3d",        # En implementacion
-    "Entregado": "c05d2654-58de-48ee-bdf7-bb61cf1cefbd",             # Entregado
+    "Lead identificado": "38a46419-b420-49a6-8df6-021cb0467dd0",     # 1. Nuevo Prospecto (/sitioweb)
+    "Primer contacto": "9ece5b23-ff55-4cad-8ac7-eb94cd792af4",       # 2. Contactado por Closer
+    "Conversación": "9ece5b23-ff55-4cad-8ac7-eb94cd792af4",          # 2. Contactado por Closer
+    "Calificado": "9ece5b23-ff55-4cad-8ac7-eb94cd792af4",            # 2. Contactado por Closer
+    "Diagnóstico agendado": "fd4c0d7c-49b3-4e45-9739-69318812b07d",  # 3. Cita / Diagnóstico Agendado
+    "Demo realizada": "528d97ca-730f-4d5b-9afc-264f6f32dcca",        # 4. Demo en Vivo Realizada
+    "Propuesta enviada": "20a0b562-9e0a-4e36-a6f0-c898c65aeeec",     # 5. Propuesta Enviada ($497 / $990 / $1,490)
+    "Pago pendiente": "5c6e1081-a6a9-4499-b940-2973dd935759",        # 6. Link de Pago Enviado (50% Anticipo)
+    "Pago confirmado": "58da7d90-4736-4b46-b2cb-6827d2bb1fad",       # 7. Anticipo / Pago Confirmado
+    "Implementación": "f4974bf4-7e53-4897-a147-ccc9218829bf",        # 8. En Construcción (72 hrs)
+    "Entregado": "3792e71a-6458-49f8-bd35-70cf29547078",             # 9. Sitio Entregado & Activo
 }
 
 # Valores del <select> del formulario → opciones exactas del campo en GHL.
@@ -161,8 +165,13 @@ def sync_lead_to_ghl(
         return {"ok": False, "skipped": True}
 
     location_id = _cfg("GHL_LOCATION_ID", DEFAULT_LOCATION_ID)
-    pipeline_id = _cfg("GHL_PIPELINE_ID", DEFAULT_PIPELINE_ID)
-    stage_id = _cfg("GHL_STAGE_ID", DEFAULT_STAGE_ID)
+    src_lower = (source or "").lower()
+    if "codigos" in src_lower or "comunidad" in src_lower:
+        pipeline_id = CODIGOS_PIPELINE_ID
+        stage_id = CODIGOS_STAGE_ID
+    else:
+        pipeline_id = DEFAULT_PIPELINE_ID
+        stage_id = DEFAULT_STAGE_ID
 
     full_name = f"{first_name} {last_name}".strip()
     custom_fields = []
@@ -325,8 +334,8 @@ def sync_sales_os_event_to_ghl_async(
                 return
 
             if not opp_id:
-                loc_id = _cfg("GHL_LOCATION_ID")
-                pip_id = _cfg("GHL_PIPELINE_ID")
+                loc_id = _cfg("GHL_LOCATION_ID", DEFAULT_LOCATION_ID)
+                pip_id = DEFAULT_PIPELINE_ID
                 q = f"/opportunities/search?location_id={loc_id}&contact_id={cid}&pipeline_id={pip_id}&limit=1"
                 s_st, s_res = _request("GET", q, token)
                 if s_st == 200 and s_res.get("opportunities"):
@@ -387,6 +396,7 @@ def sync_sales_os_event_to_ghl_async(
                 }
                 mapped_stage_id = GHL_STAGE_MAP.get(pipeline_stage)
                 if mapped_stage_id:
+                    opp_update_body["pipelineId"] = DEFAULT_PIPELINE_ID
                     opp_update_body["pipelineStageId"] = mapped_stage_id
                 _request("PUT", f"/opportunities/{opp_id}", token, opp_update_body)
         except Exception as exc:

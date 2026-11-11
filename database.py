@@ -708,7 +708,7 @@ def init_db():
         default_settings = {
             "ghl_webhook_url": os.environ.get("GHL_WEBHOOK_URL", ""),
             "ghl_location_id": os.environ.get("GHL_LOCATION_ID", "CNvJBINRWBUL2EdqRh3G"),
-            "ghl_pipeline_id": os.environ.get("GHL_PIPELINE_ID", "SJ4xiMasQ0GZcUNYFgpa"),
+            "ghl_pipeline_id": os.environ.get("GHL_PIPELINE_ID", "G9nVz4GhrxAROVkPtPis"),
             "n8n_webhook_url": "",
             "whatsapp_status": "pending",
             "whatsapp_token": "",
