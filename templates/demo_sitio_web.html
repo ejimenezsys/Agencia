@@ -1088,22 +1088,25 @@
   <!-- ══ WIDGET FLOTANTE INTERACTIVO DE CHATBOT IA 24/7 ══ -->
   <div id="live-chatbot-container" style="position:fixed; bottom:22px; right:22px; z-index:95;">
     <div id="chatbot-window" class="hidden" style="margin-bottom:12px; width:360px; max-width:calc(100vw - 36px); border-radius:20px; overflow:hidden; box-shadow:0 24px 60px rgba(0,0,0,0.65); border:2px solid var(--accent); background:#071224;">
-      <div style="padding:14px 16px; display:flex; align-items:center; justify-content:space-between; color:#040b16; font-weight:800; background:linear-gradient(135deg, var(--accent), var(--secondary));">
-        <div style="display:flex; align-items:center; gap:10px;">
-          <div style="width:34px; height:34px; border-radius:50%; background:rgba(4,11,22,0.18); display:flex; align-items:center; justify-content:center; font-size:16px;">
+      <div style="padding:12px 14px; display:flex; align-items:center; justify-content:space-between; color:#040b16; font-weight:800; background:linear-gradient(135deg, var(--accent), var(--secondary));">
+        <div style="display:flex; align-items:center; gap:9px;">
+          <div style="width:32px; height:32px; border-radius:50%; background:rgba(4,11,22,0.18); display:flex; align-items:center; justify-content:center; font-size:15px;">
             <i class="fas fa-robot"></i>
           </div>
           <div>
-            <div style="font-size:13px; font-weight:900; line-height:1.2;" id="chatbot-header-biz">Asistente Digital 24/7</div>
-            <div style="font-size:10.5px; opacity:0.9;">● En línea · Responde en 3 segundos</div>
+            <div style="font-size:12.5px; font-weight:900; line-height:1.2;" id="chatbot-header-biz">Asistente IA 24/7</div>
+            <div style="font-size:10px; opacity:0.9;">● Gemini IA Activo · Conversación en vivo</div>
           </div>
         </div>
-        <button type="button" onclick="toggleChatbotWindow()" style="width:28px; height:28px; border-radius:8px; background:rgba(4,11,22,0.15); border:none; cursor:pointer; font-weight:900;">✕</button>
+        <div style="display:flex; align-items:center; gap:6px;">
+          <button type="button" onclick="resetCurrentChatbot()" title="Reiniciar conversación" style="width:28px; height:28px; border-radius:8px; background:rgba(4,11,22,0.15); border:none; cursor:pointer; font-weight:900; font-size:13px;">↺</button>
+          <button type="button" onclick="toggleChatbotWindow()" style="width:28px; height:28px; border-radius:8px; background:rgba(4,11,22,0.15); border:none; cursor:pointer; font-weight:900;">✕</button>
+        </div>
       </div>
-      <div id="chatbot-messages" style="padding:14px; max-height:280px; overflow-y:auto; font-size:12.5px; background:#050d1a; display:flex; flex-direction:column; gap:10px;"></div>
-      <div id="chatbot-quick-replies" style="padding:10px 14px; border-top:1px solid #1e293b; display:flex; flex-wrap:wrap; gap:6px; background:#081529;"></div>
+      <div id="chatbot-messages" style="padding:14px; max-height:300px; overflow-y:auto; font-size:12.5px; background:#050d1a; display:flex; flex-direction:column; gap:10px;"></div>
+      <div id="chatbot-quick-replies" style="padding:8px 12px; border-top:1px solid #1e293b; display:flex; flex-wrap:wrap; gap:6px; background:#081529;"></div>
       <form onsubmit="sendChatbotUserMessage(event)" style="padding:10px; border-top:1px solid #1e293b; display:flex; align-items:center; gap:8px; background:#09172e;">
-        <input type="text" id="chatbot-input" class="input-mini" style="font-size:12px; padding:8px 10px;" placeholder="Escribe una pregunta como cliente...">
+        <input type="text" id="chatbot-input" class="input-mini" style="font-size:12px; padding:8px 10px;" placeholder="Escribe aquí para conversar con Gemini IA...">
         <button type="submit" style="padding:8px 12px; border-radius:8px; font-weight:800; font-size:12px; color:#040b16; background:var(--accent); border:none; cursor:pointer;">
           <i class="fas fa-paper-plane"></i>
         </button>
@@ -1488,24 +1491,32 @@
       win.classList.toggle("hidden");
     }
 
+    function resetCurrentChatbot() {
+      const key = document.getElementById("ctrl-template").value || "clinica_dental_estetica";
+      const t = TEMPLATES[key] || TEMPLATES["clinica_dental_estetica"];
+      resetChatbotForTemplate(t);
+    }
+
     function resetChatbotForTemplate(t) {
       const biz = document.getElementById("ctrl-business").value || t.default_business;
       const msgBox = document.getElementById("chatbot-messages");
       const qrBox = document.getElementById("chatbot-quick-replies");
       if (!msgBox || !qrBox) return;
 
-      const greeting = t.chatbot_greeting || `¡Hola! 👋 Soy el Asistente 24/7 de ${biz}. ¿En qué puedo ayudarte hoy?`;
+      chatbotConversationHistory = [];
+      const greeting = t.chatbot_greeting || `¡Hola! 👋 ¿En qué te ayudamos hoy en ${biz}?`;
       msgBox.innerHTML = `
-        <div style="padding:10px 12px; border-radius:12px; background:#0f172a; color:#f1f5f9; border:1px solid #334155; line-height:1.5;">
-          <div style="font-weight:800; color:var(--accent); font-size:11px; margin-bottom:2px;">🤖 Asistente IA 24/7</div>
+        <div style="padding:10px 12px; border-radius:12px; background:#0f172a; color:#f1f5f9; border:1px solid #334155; line-height:1.45;">
+          <div style="font-weight:800; color:var(--accent); font-size:10.5px; margin-bottom:2px;">🤖 Recepcionista IA · ${biz}</div>
           ${greeting}
         </div>
       `;
 
-      const replies = t.chatbot_quick_replies || [
-        "📅 Quiero agendar cita esta semana",
-        "💬 Solicitar presupuesto por WhatsApp"
-      ];
+      const replies = (t.chatbot_quick_replies || [
+        "📅 Agendar cita",
+        "💰 Precios y promos"
+      ]).slice(0, 2);
+      qrBox.style.display = "flex";
       qrBox.innerHTML = replies.map(r => `
         <button type="button" onclick="triggerQuickReply('${r.replace(/'/g, "\\'")}')"
                 style="padding:5px 10px; border-radius:999px; font-size:11px; font-weight:700; background:rgba(0,229,255,0.14); color:var(--accent); border:1px solid var(--border-col); cursor:pointer;">
@@ -1515,8 +1526,11 @@
     }
 
     function triggerQuickReply(text) {
+      const qrBox = document.getElementById("chatbot-quick-replies");
+      if (qrBox) qrBox.style.display = "none";
       appendChatMessage("user", text);
       generateBotResponse(text);
+      document.getElementById("chatbot-input")?.focus();
     }
 
     function sendChatbotUserMessage(e) {
@@ -1525,6 +1539,8 @@
       const text = (inp.value || "").trim();
       if (!text) return;
       inp.value = "";
+      const qrBox = document.getElementById("chatbot-quick-replies");
+      if (qrBox) qrBox.style.display = "none";
       appendChatMessage("user", text);
       generateBotResponse(text);
     }
@@ -1533,11 +1549,11 @@
       const msgBox = document.getElementById("chatbot-messages");
       const div = document.createElement("div");
       if (sender === "user") {
-        div.style.cssText = "padding:10px 12px; border-radius:12px; background:rgba(0,229,255,0.18); color:#fff; border:1px solid var(--border-col); margin-left:24px; text-align:right;";
-        div.innerHTML = `<div style="font-weight:800; color:var(--accent); font-size:10px; margin-bottom:2px;">👤 Cliente Visitante</div>${text}`;
+        div.style.cssText = "padding:9px 12px; border-radius:12px; background:rgba(0,229,255,0.18); color:#fff; border:1px solid var(--border-col); margin-left:28px; text-align:right; line-height:1.4;";
+        div.innerHTML = `<div style="font-weight:800; color:var(--accent); font-size:10px; margin-bottom:2px;">👤 Cliente</div>${text}`;
       } else {
-        div.style.cssText = "padding:10px 12px; border-radius:12px; background:#0f172a; color:#f1f5f9; border:1px solid #334155; margin-right:16px; line-height:1.5;";
-        div.innerHTML = `<div style="font-weight:800; color:#34d399; font-size:10px; margin-bottom:2px;">🤖 Recepcionista IA 24/7</div>${text}`;
+        div.style.cssText = "padding:9px 12px; border-radius:12px; background:#0f172a; color:#f1f5f9; border:1px solid #334155; margin-right:20px; line-height:1.45;";
+        div.innerHTML = `<div style="font-weight:800; color:#34d399; font-size:10px; margin-bottom:2px;">🤖 Recepcionista IA</div>${text}`;
       }
       msgBox.appendChild(div);
       msgBox.scrollTop = msgBox.scrollHeight;
@@ -1559,8 +1575,8 @@
       const msgBox = document.getElementById("chatbot-messages");
       const typingDiv = document.createElement("div");
       typingDiv.id = "chatbot-typing-indicator";
-      typingDiv.style.cssText = "padding:8px 12px; border-radius:12px; background:#0f172a; color:#38bdf8; border:1px solid #1e293b; font-size:11px; font-weight:700;";
-      typingDiv.innerHTML = `<i class="fas fa-circle-notch fa-spin mr-1"></i> Gemini IA de ${biz} está respondiendo...`;
+      typingDiv.style.cssText = "padding:7px 11px; border-radius:12px; background:#0f172a; color:#38bdf8; border:1px solid #1e293b; font-size:11px; font-weight:700;";
+      typingDiv.innerHTML = `<i class="fas fa-circle-notch fa-spin mr-1"></i> Escribiendo...`;
       if (msgBox) {
         msgBox.appendChild(typingDiv);
         msgBox.scrollTop = msgBox.scrollHeight;
@@ -1584,14 +1600,14 @@
         document.getElementById("chatbot-typing-indicator")?.remove();
         const replyText = (data && data.reply)
           ? data.reply.replace(/\n/g, "<br>")
-          : `¡Hola! Soy el Asistente IA de <strong>${biz}</strong> en ${city}. Con gusto te brindo información sobre <em>"${userText}"</em> y nuestro beneficio activo (${offer}). ¿Me compartes tu Nombre y WhatsApp en el recuadro de Recepción Digital para confirmar tu horario?`;
+          : `¡Claro! 😊 En <strong>${biz}</strong> te ayudamos con eso. ¿Prefieres cita por la mañana o por la tarde?`;
         chatbotConversationHistory.push({ role: "assistant", text: replyText });
         appendChatMessage("bot", replyText);
       } catch (err) {
         document.getElementById("chatbot-typing-indicator")?.remove();
         appendChatMessage(
           "bot",
-          `¡Hola! Soy el Asistente IA de <strong>${biz}</strong> en ${city}. Con gusto te ayudo con <em>"${userText}"</em>. Déjanos tu Nombre y WhatsApp en el formulario de Recepción Digital para darte atención prioritaria.`
+          `¡Con gusto te ayudo en <strong>${biz}</strong>! 😊 ¿Te gustaría agendar para esta semana o consultar precios primero?`
         );
       }
     }

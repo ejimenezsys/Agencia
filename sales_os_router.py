@@ -78,11 +78,10 @@ WEBSITE_TEMPLATES_SHOWCASE = {
             "Planes de financiación propios y facilidades de pago por etapa.",
             "Recepción Digital IA 24/7 con recordatorios automáticos en tu WhatsApp.",
         ],
-        "chatbot_greeting": "¡Hola! 👋 Soy la Recepcionista Digital 24/7 de la Clínica. ¿Qué tratamiento te gustaría cotizar o agendar hoy?",
+        "chatbot_greeting": "¡Hola! 👋 ¿Qué tratamiento te gustaría consultar o agendar hoy?",
         "chatbot_quick_replies": [
-            "🦷 Agendar valoración de Diseño de Sonrisa / Implantes",
-            "✨ Consultar promoción 20% OFF de esta semana",
-            "📍 Ver ubicación, horarios y facilidades de pago",
+            "📅 Agendar cita",
+            "💰 Precios y promos",
         ],
         "services": [
             {"icon": "fa-tooth", "title": "Implantes Dentales de Carga Inmediata", "desc": "Recupera piezas dentales fijas con cirugía guiada por computadora sin dolor y rápida cicatrización.", "tag": "Garantía escrita · 1 a 2 sesiones"},
@@ -136,11 +135,10 @@ WEBSITE_TEMPLATES_SHOWCASE = {
             "Notificación automática por WhatsApp apenas tu trabajo está listo.",
             "Atención de urgencias en el día y planes de mantenimiento para empresas.",
         ],
-        "chatbot_greeting": "¡Hola! 🔧 Soy el Asistente Técnico 24/7. Nuestro equipo está en operación ahora mismo, pero yo tomo tu falla y te reservo turno en 30 segundos.",
+        "chatbot_greeting": "¡Hola! 🔧 Cuéntame qué falla o servicio necesitas cotizar hoy.",
         "chatbot_quick_replies": [
-            "⚡ Necesito presupuesto urgente para hoy",
-            "📅 Reservar turno de revisión técnica",
-            "💬 Enviar foto/detalle de la falla por WhatsApp",
+            "⚡ Cotizar urgente",
+            "📅 Reservar turno",
         ],
         "services": [
             {"icon": "fa-screwdriver-wrench", "title": "Diagnóstico Técnico Computarizado", "desc": "Detección exacta del origen de la falla con instrumental de precisión y entrega de informe.", "tag": "En 45 minutos"},
@@ -194,11 +192,10 @@ WEBSITE_TEMPLATES_SHOWCASE = {
             "Comercialización acelerada con tours virtuales y filtrado IA de compradores.",
             "Asesoría integral para inversores locales y extranjeros.",
         ],
-        "chatbot_greeting": "¡Bienvenido! 🏢 Soy el Asesor Inmobiliario Digital 24/7. ¿Buscas invertir en preventa, comprar para vivir o vender tu propiedad?",
+        "chatbot_greeting": "¡Hola! 🏢 ¿Buscas comprar para vivir, invertir o vender una propiedad?",
         "chatbot_quick_replies": [
-            "🏙️ Recibir catálogo de propiedades y precios en WhatsApp",
-            "🔑 Quiero tasar y vender mi propiedad rápido",
-            "📅 Agendar visita presencial o videollamada con un asesor",
+            "🏙️ Ver propiedades",
+            "📅 Agendar visita",
         ],
         "services": [
             {"icon": "fa-building", "title": "Desarrollos en Preventa & Pozo", "desc": "Ingresa a precios de lista cero con planes de cuotas en dólares o moneda local durante la obra.", "tag": "Plusvalía proyectada 25%+"},
@@ -252,11 +249,10 @@ WEBSITE_TEMPLATES_SHOWCASE = {
             "Reportes ejecutivos claros en lenguaje de negocios, sin tecnicismos confusos.",
             "Atención presencial y por Zoom con agenda automatizada sin esperas.",
         ],
-        "chatbot_greeting": "¡Buen día! ⚖️ Soy el Asistente Ejecutivo de la Firma. En 45 segundos clasifico tu consulta y te asigno horario con el socio especialista.",
+        "chatbot_greeting": "¡Hola! ⚖️ ¿En qué tema legal, contable o empresarial te ayudamos hoy?",
         "chatbot_quick_replies": [
-            "⚖️ Agendar sesión de diagnóstico de 20 minutos",
-            "🏢 Necesito asesoría mensual para mi empresa / PYME",
-            "📄 Tengo una urgencia legal, fiscal o laboral",
+            "⚖️ Agendar consulta",
+            "💼 Planes mensuales",
         ],
         "services": [
             {"icon": "fa-scale-balanced", "title": "Blindaje Legal, Contratos & Sociedades", "desc": "Constitución de empresas (LLC / S.A. / S.R.L.), acuerdos de socios y protección de activos.", "tag": "Prevención de litigios"},
@@ -310,11 +306,10 @@ WEBSITE_TEMPLATES_SHOWCASE = {
             "Certificado oficial con código QR verificable para LinkedIn y CV.",
             "Bolsa de empleo, networking internacional y facilidades en cuotas.",
         ],
-        "chatbot_greeting": "¡Hola! 🎓 Soy el Asistente de Admisiones 24/7. ¿Quieres recibir el plan de estudios en tu WhatsApp y postular a la Beca del 30%?",
+        "chatbot_greeting": "¡Hola! 🎓 ¿De qué programa o certificación te gustaría recibir informes?",
         "chatbot_quick_replies": [
-            "🎓 Postular a la Beca Parcial del 30% hoy",
-            "📘 Recibir programa de estudios y fechas de inicio",
-            "🎥 Ver clase demostrativa gratuita ahora",
+            "📘 Ver programas",
+            "🎓 Solicitar beca 30%",
         ],
         "services": [
             {"icon": "fa-graduation-cap", "title": "Certificación Intensiva Profesional (12 Semanas)", "desc": "Programa insignia con clases en vivo, práctica real y proyecto final supervisado por mentores.", "tag": "Cupos con Beca 30%"},
@@ -1676,7 +1671,7 @@ async def api_sales_os_leaderboard(
 
 
 def _resolve_gemini_api_key() -> str:
-    """Obtiene la API Key de Gemini únicamente desde variables de entorno o archivo .env local del servidor (nunca hardcodeada en el repositorio)."""
+    """Obtiene la API Key de Gemini desde variables de entorno, .env local o IntegrationSetting en DB."""
     key = (os.environ.get("GEMINI_API_KEY") or "").strip()
     if key:
         return key
@@ -1694,6 +1689,17 @@ def _resolve_gemini_api_key() -> str:
     env_g = os.getenv("GOOGLE_API_KEY", "").strip()
     if env_g:
         return env_g
+    try:
+        from database import IntegrationSetting
+        db = SessionLocal()
+        try:
+            row = db.query(IntegrationSetting).filter(IntegrationSetting.key == "gemini_api_key").first()
+            if row and row.value and row.value.strip():
+                return row.value.strip()
+        finally:
+            db.close()
+    except Exception:
+        pass
     return ""
 
 
@@ -1830,13 +1836,13 @@ def invoke_gemini_assistant(system_prompt: str, user_message: str, client_ip: st
     payload = {
         "contents": [{"parts": [{"text": full_prompt}]}],
         "generationConfig": {
-            "temperature": 0.55,
-            "maxOutputTokens": 300,
+            "temperature": 0.6,
+            "maxOutputTokens": 130,
             "thinkingConfig": {"thinkingBudget": 0},
         },
     }
     ctx = ssl._create_unverified_context()
-    for model_name in ("gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"):
+    for model_name in ("gemini-2.5-flash", "gemini-1.5-flash"):
         try:
             url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={api_key}"
             req = urllib.request.Request(
@@ -1874,41 +1880,43 @@ async def api_website_demo_chat(req: WebsiteDemoChatRequest, request: Request = 
     phone_disp = ((req.phone_display or "").strip() or "+1 (786) 557-3119")[:40]
     offer_hook = ((req.offer_hook or "").strip() or tpl.get("default_offer", "Valoración prioritaria con beneficio especial"))[:120]
     niche_label = tpl.get("badge") or tpl.get("name") or "Negocio Certificado"
-    services_list = ", ".join([s.get("title", "") for s in tpl.get("services", []) if s.get("title")])
+    services_list = ", ".join([s.get("title", "") for s in tpl.get("services", [])[:3] if s.get("title")])
     hours = tpl.get("contact_hours", "Atención digital 24/7")
 
     history_str = ""
+    turn_count = 0
     if req.history:
-        for h in req.history[-4:]:
+        turn_count = len(req.history)
+        for h in req.history[-6:]:
             role_lbl = "Cliente" if h.get("role") == "user" else "Recepcionista IA"
-            safe_txt = str(h.get("text", ""))[:220]
+            safe_txt = str(h.get("text", ""))[:180]
             history_str += f"{role_lbl}: {safe_txt}\n"
 
-    history_block = f"HISTORIAL RECIENTE:\n{history_str}" if history_str else ""
+    history_block = f"HISTORIAL DE LA CONVERSACIÓN:\n{history_str}" if history_str else ""
     system_prompt = (
-        f"Eres el Asistente y Recepcionista Digital con Inteligencia Artificial 24/7 de '{bname}', "
-        f"ubicado en {city} ({niche_label}).\n"
-        f"Servicios principales que ofrecemos: {services_list}.\n"
-        f"Beneficio especial vigente hoy al registrarse en la web: {offer_hook}.\n"
-        f"Horario de atención presencial: {hours}. WhatsApp directo: {phone_disp}.\n"
-        f"INSTRUCCIONES DE RESPUESTA:\n"
-        f"- Responde en español, con tono cálido, ejecutivo, natural, muy persuasivo y breve (máximo 3 a 4 oraciones).\n"
-        f"- Responde directamente la pregunta o solicitud específica que escribió el visitante sobre '{bname}', precios orientativos, ubicación, horarios, servicios o turnos.\n"
-        f"- Nunca repitas respuestas genéricas iguales; adapta cada respuesta a lo que preguntó el usuario.\n"
-        f"- Al final de tu respuesta, invítalo de forma natural a dejar su Nombre y WhatsApp en el formulario de 'Recepción Digital 24/7' o elegir horario en el calendario.\n"
-        f"- No uses asteriscos excesivos.\n"
+        f"Eres la Recepcionista por WhatsApp con IA 24/7 de '{bname}' en {city} ({niche_label}).\n"
+        f"Contexto del negocio (NO lo recites todo junto, úsalo solo si te preguntan): "
+        f"Servicios clave: {services_list}. Beneficio vigente: {offer_hook}. Horario: {hours}.\n"
+        f"REGLAS ESTRICTAS DE ESTILO (ESTILO WHATSAPP HUMANO Y LIGERO):\n"
+        f"1. SÉ ULTRA BREVE: Responde en MÁXIMO 1 a 2 oraciones cortas (20 a 32 palabras en total). Prohibido escribir párrafos largos o listar servicios como folleto.\n"
+        f"2. SIMULA UNA CONVERSACIÓN REAL DE IDA Y VUELTA: Responde con calidez lo que dijo el cliente y cierra con UNA SOLA pregunta corta y natural para avanzar paso a paso:\n"
+        f"   - Si es el primer mensaje (turnos={turn_count}): pregunta qué servicio/propiedad busca exactamente o para cuándo le gustaría.\n"
+        f"   - Si ya dijo qué busca: pregúntale si prefiere turno por la mañana o por la tarde.\n"
+        f"   - Si ya eligió horario o pide agendar: pídele su Nombre y WhatsApp para dejarle confirmada su cita.\n"
+        f"3. Cero asteriscos dobles (**), cero listas largas. Habla como una recepcionista real, ágil y amable.\n"
         f"{history_block}"
     )
 
     client_ip = extract_client_ip(request)
     reply = invoke_gemini_assistant(system_prompt, (req.message or "").strip(), client_ip=client_ip)
     if not reply:
-        safe_q = (req.message or "").strip()[:100]
-        reply = (
-            f"¡Hola! Con gusto te ayudo respecto a '{safe_q}' en {bname} ({city}). "
-            f"Nuestros especialistas atienden en {hours} para {services_list}, y hoy tienes activo el beneficio: {offer_hook}. "
-            f"¿Me compartes tu Nombre y WhatsApp en el formulario de aquí al lado para confirmarte disponibilidad inmediata?"
-        )
+        msg_l = (req.message or "").lower()
+        if "precio" in msg_l or "promo" in msg_l or "cotiz" in msg_l:
+            reply = f"¡Claro! 😊 En {bname} tenemos activo hoy: {offer_hook}. ¿Qué servicio o especialidad te interesa cotizar primero?"
+        elif "mañana" in msg_l or "tarde" in msg_l or "hoy" in msg_l or "semana" in msg_l:
+            reply = f"¡Perfecto, tenemos espacio disponible! 📅 ¿Me compartes tu Nombre y WhatsApp para dejarte reservado el turno?"
+        else:
+            reply = f"¡Con gusto te ayudo en {bname}! 😊 ¿Buscas agendar para esta semana o prefieres que te dé costos orientativos primero?"
 
     return {
         "success": True,
