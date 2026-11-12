@@ -1,0 +1,20 @@
+{
+  "date": "2026-11-09",
+  "slug": "ia-quimicos-especializados-soberania-empresarial",
+  "title": "Innovando con IA en la industria de químicos especiales",
+  "executive_summary": "La implementación de IA en la industria de químicos especializados (ej. Lubrizol, MIT Technology Review) no se trata de que la IA innove por sí misma, sino de su capacidad para acelerar los ciclos de I+D y toma de decisiones, amplificando la gobernanza directiva sobre datos fiables y experiencia científica. La implicación económica radica en la redefinición del valor del trabajo y la necesidad de una estrategia clara para gobernar la automatización y el aumento de la capacidad humana, asegurando la soberanía y el margen.",
+  "verified_sources": [
+    {
+      "title": "MIT Technology Review AI: Innovating with AI in the special chemicals industry",
+      "url": "https://www.technologyreview.com/2026/11/09/1147654/innovating-with-ai-in-the-special-chemicals-industry/"
+    }
+  ],
+  "affected_pillars": [
+    "Aumento Tecnológico",
+    "Estratégico",
+    "Financiero",
+    "Emocional"
+  ],
+  "sve90_phase": "Auditoría de Procesos y Tareas",
+  "core_takeaway": "La IA no es una herramienta que innova de forma autónoma, sino un acelerador y un amplificador de la gobernanza directiva sobre los datos y procesos. La clave para los CEOs es gobernar el criterio y la arquitectura de decisión para asegurar que la IA potencie la soberanía y el margen, en lugar de automatizar la ineficiencia o la delegación."
+}
