@@ -1,0 +1,20 @@
+{
+  "date": "2026-11-12",
+  "slug": "nvidia-chips-rastreables-soberania-empresarial",
+  "title": "Nvidia confirma rastreo de chips",
+  "executive_summary": "Nvidia ha confirmado en privado su capacidad para rastrear chips, contrariando la percepción pública de inviabilidad. Este hallazgo revela una capa oculta de control tecnológico que impacta directamente la soberanía estratégica, la gestión de riesgos y la resiliencia de la cadena de suministro para CEOs y Directores, exigiendo una reevaluación urgente de las dependencias tecnológicas y la transparencia de los proveedores clave.",
+  "verified_sources": [
+    {
+      "title": "MIT Technology Review AI: Nvidia privately confirmed it could track chips to fight smuggling, even as industry publicly questioned feasibility",
+      "url": "https://www.technologyreview.com/2026/11/12/1148483/nvidia-chip-tracking/"
+    }
+  ],
+  "affected_pillars": [
+    "Aumento Tecnológico",
+    "Estratégico",
+    "Financiero",
+    "Emocional"
+  ],
+  "sve90_phase": "Auditoría de Procesos y Tareas",
+  "core_takeaway": "La opacidad en las capacidades de los proveedores de tecnología crítica crea riesgos estratégicos y operativos incalculables; la soberanía empresarial exige auditar lo que no se declara, no solo lo que se ofrece."
+}
