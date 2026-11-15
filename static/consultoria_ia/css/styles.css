@@ -2849,9 +2849,11 @@ body {
 .cine-particulas-capa {
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: 3;
   pointer-events: none;
-  opacity: 0;
+  opacity: 0.38;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 8px rgba(0, 240, 255, 0.55));
   will-change: opacity;
 }
 
@@ -2989,11 +2991,11 @@ body {
 .journey-vignette {
   position: absolute;
   inset: 0;
-  z-index: 3;
+  z-index: 2;
   pointer-events: none;
   background:
-    linear-gradient(90deg, rgba(5, 7, 12, 0.86) 0%, rgba(5, 7, 12, 0.42) 38%, transparent 74%),
-    linear-gradient(0deg, rgba(5, 7, 12, 0.92) 0%, transparent 22%, transparent 78%, rgba(5, 7, 12, 0.72) 100%);
+    radial-gradient(circle at 50% 50%, rgba(0, 240, 255, 0.08) 0%, transparent 55%),
+    linear-gradient(0deg, rgba(5, 7, 12, 0.65) 0%, transparent 18%, transparent 82%, rgba(5, 7, 12, 0.55) 100%);
 }
 
 .cine-capa-escape {
