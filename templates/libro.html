@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Las 4 Inteligencias — Edward Jiménez | Libro Oficial &amp; Sistema Ejecutivo de IA</title>
+  <meta name="description" content="Cómo prosperar en la era de la IA combinando inteligencia artificial, financiera, emocional y estratégica. Por Edward Jiménez. Prólogo de Fernando Anzures, fundador de EXMA Global.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #02081b;
+      --bg-navy: #07122e;
+      --bg-card: rgba(11, 25, 60, 0.78);
+      --bg-card-solid: #0b1838;
+      --gold: #d2ae77;
+      --gold-bright: #efd09e;
+      --gold-dim: rgba(210, 174, 119, 0.25);
+      --cyan: #38bdf8;
+      --emerald: #34d399;
+      --text-main: #f3ede2;
+      --text-muted: #c4bba9;
+      --text-soft: #8d9bb5;
+      --max-w: 1200px;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --shadow-gold: 0 20px 55px rgba(0, 0, 0, 0.65), 0 0 35px rgba(210, 174, 119, 0.16);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--bg-deep);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at 18% 12%, rgba(210, 174, 119, 0.12) 0%, transparent 42%),
+        radial-gradient(circle at 85% 24%, rgba(56, 189, 248, 0.09) 0%, transparent 45%),
+        linear-gradient(180deg, #02081b 0%, #06102a 50%, #02081b 100%);
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, .serif {
+      font-family: 'Libre Baskerville', Georgia, serif;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(var(--max-w), 100% - 2.5rem);
+      margin-inline: auto;
+    }
+
+    /* Sticky Top Navigation */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(2, 8, 27, 0.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--gold-dim);
+    }
+
+    .nav-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-block: 0.9rem;
+      gap: 1rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid var(--gold);
+      display: grid;
+      place-items: center;
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-weight: 700;
+      color: var(--gold);
+      background: rgba(210, 174, 119, 0.1);
+      font-size: 0.95rem;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-title {
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-size: 0.95rem;
+      letter-spacing: 0.08em;
+      color: var(--text-main);
+      font-weight: 700;
+    }
+
+    .brand-sub {
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.6rem;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    .nav-links a:hover {
+      color: var(--gold-bright);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      padding: 0.82rem 1.45rem;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.92rem;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      border: none;
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, #e5c48e 0%, #c49a5c 100%);
+      color: #03091c;
+      box-shadow: 0 10px 28px rgba(210, 174, 119, 0.3);
+    }
+
+    .btn-gold:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 34px rgba(210, 174, 119, 0.45);
+    }
+
+    .btn-outline {
+      background: rgba(210, 174, 119, 0.08);
+      color: var(--gold-bright);
+      border: 1px solid rgba(210, 174, 119, 0.45);
+    }
+
+    .btn-outline:hover {
+      background: rgba(210, 174, 119, 0.16);
+      transform: translateY(-2px);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 4.5rem 0 4rem;
+      position: relative;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.18fr 0.82fr;
+      gap: 3.5rem;
+      align-items: center;
+    }
+
+    .kicker-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.4rem 0.95rem;
+      border-radius: 999px;
+      background: rgba(210, 174, 119, 0.12);
+      border: 1px solid rgba(210, 174, 119, 0.38);
+      color: var(--gold-bright);
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 4.2vw, 3.55rem);
+      line-height: 1.14;
+      color: var(--text-main);
+      margin-bottom: 1rem;
+    }
+
+    .hero h1 span {
+      color: var(--gold);
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1.06rem, 1.5vw, 1.26rem);
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      max-width: 60ch;
+    }
+
+    .prologo-highlight {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      padding: 0.9rem 1.15rem;
+      background: rgba(11, 25, 60, 0.72);
+      border-left: 3px solid var(--gold);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      margin-bottom: 1.8rem;
+      font-size: 0.93rem;
+      color: var(--text-main);
+    }
+
+    .prologo-highlight strong {
+      color: var(--gold-bright);
+    }
+
+    .hero-ctas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+      margin-bottom: 2rem;
+    }
+
+    .credentials-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.85rem;
+      padding-top: 1.4rem;
+      border-top: 1px solid rgba(210, 174, 119, 0.22);
+    }
+
+    .cred-item {
+      font-size: 0.77rem;
+      color: var(--text-soft);
+    }
+
+    .cred-item strong {
+      display: block;
+      color: var(--gold);
+      font-size: 0.82rem;
+      letter-spacing: 0.04em;
+    }
+
+    /* 3D Book Showcase */
+    .book-stage {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .book-glow {
+      position: absolute;
+      inset: -8% 5%;
+      background: radial-gradient(circle, rgba(210, 174, 119, 0.28) 0%, rgba(56, 189, 248, 0.1) 45%, transparent 72%);
+      filter: blur(28px);
+      z-index: 0;
+    }
+
+    .book-frame {
+      position: relative;
+      z-index: 1;
+      max-width: 390px;
+      width: 100%;
+      border-radius: 10px 18px 18px 10px;
+      padding: 6px;
+      background: linear-gradient(145deg, rgba(210, 174, 119, 0.55), rgba(11, 25, 60, 0.9));
+      box-shadow:
+        -18px 22px 48px rgba(0, 0, 0, 0.8),
+        0 0 40px rgba(210, 174, 119, 0.2);
+      transform: perspective(1100px) rotateY(-8deg) rotateX(2deg);
+      transition: transform 0.35s ease;
+    }
+
+    .book-frame:hover {
+      transform: perspective(1100px) rotateY(0deg) rotateX(0deg) translateY(-4px);
+    }
+
+    .book-frame img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 6px 14px 14px 6px;
+    }
+
+    .edition-badges {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.55rem;
+      margin-top: 1.25rem;
+    }
+
+    .edition-pill {
+      font-size: 0.75rem;
+      padding: 0.35rem 0.8rem;
+      border-radius: 999px;
+      background: rgba(7, 18, 46, 0.9);
+      border: 1px solid rgba(210, 174, 119, 0.32);
+      color: var(--text-muted);
+    }
+
+    /* Section Headers */
+    section {
+      padding: 4.5rem 0;
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 3rem;
+    }
+
+    .section-eyebrow {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--gold);
+      font-weight: 700;
+      margin-bottom: 0.65rem;
+    }
+
+    .section-header h2 {
+      font-size: clamp(1.75rem, 3vw, 2.55rem);
+      color: var(--text-main);
+      margin-bottom: 0.9rem;
+      line-height: 1.22;
+    }
+
+    .section-header p {
+      color: var(--text-muted);
+      font-size: 1.02rem;
+    }
+
+    /* Prosperity Formula Banner */
+    .formula-section {
+      background: linear-gradient(180deg, rgba(11, 24, 56, 0.65) 0%, rgba(4, 11, 32, 0.9) 100%);
+      border-block: 1px solid var(--gold-dim);
+    }
+
+    .formula-card {
+      background: rgba(2, 8, 27, 0.85);
+      border: 1px solid rgba(210, 174, 119, 0.42);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem 2rem;
+      text-align: center;
+      box-shadow: var(--shadow-gold);
+    }
+
+    .formula-eq {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 1.2rem;
+      margin: 1.8rem 0;
+      font-family: 'Libre Baskerville', Georgia, serif;
+    }
+
+    .formula-result {
+      font-size: clamp(1.35rem, 2.4vw, 2rem);
+      color: var(--gold-bright);
+      font-weight: 700;
+    }
+
+    .formula-fraction {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      background: rgba(11, 25, 60, 0.85);
+      padding: 1rem 1.8rem;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(210, 174, 119, 0.3);
+    }
+
+    .formula-num {
+      font-size: clamp(1.05rem, 2vw, 1.4rem);
+      color: #ffffff;
+      padding-bottom: 0.55rem;
+      border-bottom: 2px solid var(--gold);
+      margin-bottom: 0.55rem;
+    }
+
+    .formula-num span {
+      color: var(--cyan);
+    }
+
+    .formula-den {
+      font-size: clamp(0.95rem, 1.8vw, 1.25rem);
+      color: #fca5a5;
+    }
+
+    /* 4 Pillars Grid */
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.6rem;
+    }
+
+    .pillar-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(210, 174, 119, 0.26);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+
+    .pillar-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--gold);
+    }
+
+    .pillar-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .pillar-num {
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.14em;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+
+    .pillar-question {
+      padding: 0.3rem 0.75rem;
+      border-radius: 999px;
+      background: rgba(210, 174, 119, 0.14);
+      color: var(--gold-bright);
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-style: italic;
+      font-size: 0.85rem;
+    }
+
+    .pillar-card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 0.7rem;
+      color: var(--text-main);
+    }
+
+    .pillar-card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .pillar-outcome {
+      padding-top: 0.9rem;
+      border-top: 1px solid rgba(210, 174, 119, 0.18);
+      font-size: 0.84rem;
+      color: var(--gold-bright);
+    }
+
+    /* Interactive Opportunity Validator */
+    .validator-box {
+      background: linear-gradient(145deg, rgba(11, 25, 60, 0.92), rgba(4, 11, 30, 0.96));
+      border: 1px solid rgba(210, 174, 119, 0.42);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 2.5rem;
+      align-items: center;
+      box-shadow: var(--shadow-gold);
+    }
+
+    .slider-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .slider-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+
+    .slider-label span:last-child {
+      color: var(--gold-bright);
+      font-family: 'Libre Baskerville', Georgia, serif;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--gold);
+      cursor: pointer;
+    }
+
+    .score-panel {
+      background: rgba(2, 8, 27, 0.88);
+      border: 1px solid var(--gold-dim);
+      border-radius: var(--radius-md);
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .score-circle {
+      width: 128px;
+      height: 128px;
+      border-radius: 50%;
+      border: 3px solid var(--gold);
+      display: grid;
+      place-items: center;
+      margin: 0 auto 1rem;
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--gold-bright);
+      background: rgba(210, 174, 119, 0.08);
+    }
+
+    .score-verdict {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 0.5rem;
+    }
+
+    .score-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
+    }
+
+    /* Chapters & Back Cover Preview */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 2.8rem;
+      align-items: start;
+    }
+
+    .chapter-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .chapter-item {
+      background: var(--bg-card);
+      border: 1px solid rgba(210, 174, 119, 0.22);
+      border-radius: var(--radius-md);
+      padding: 1.05rem 1.3rem;
+    }
+
+    .chapter-item strong {
+      color: var(--gold);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+
+    .chapter-item h3 {
+      font-size: 1.05rem;
+      color: var(--text-main);
+      margin-bottom: 0.25rem;
+    }
+
+    .chapter-item p {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+    }
+
+    /* Author Section */
+    .author-grid {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 3rem;
+      align-items: center;
+      background: var(--bg-card);
+      border: 1px solid var(--gold-dim);
+      border-radius: var(--radius-lg);
+      padding: 2.6rem;
+    }
+
+    .author-photo-wrap img {
+      width: 100%;
+      max-width: 380px;
+      height: auto;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--gold);
+      display: block;
+      margin-inline: auto;
+    }
+
+    .author-bio h2 {
+      font-size: clamp(1.7rem, 2.8vw, 2.3rem);
+      margin-bottom: 0.8rem;
+    }
+
+    .author-bio p {
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      font-size: 0.96rem;
+    }
+
+    .author-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 1.2rem;
+    }
+
+    .author-tag {
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      background: rgba(210, 174, 119, 0.12);
+      border: 1px solid rgba(210, 174, 119, 0.3);
+      font-size: 0.78rem;
+      color: var(--gold-bright);
+    }
+
+    /* Editions Comparison Table */
+    .editions-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .edition-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(210, 174, 119, 0.26);
+      border-radius: var(--radius-lg);
+      padding: 2rem 1.75rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .edition-card.featured {
+      border: 2px solid var(--gold);
+      box-shadow: var(--shadow-gold);
+      background: linear-gradient(180deg, rgba(16, 35, 82, 0.92), rgba(7, 18, 46, 0.95));
+    }
+
+    .featured-ribbon {
+      position: absolute;
+      top: -12px;
+      right: 20px;
+      background: var(--gold);
+      color: #02081b;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .edition-card h3 {
+      font-size: 1.35rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .edition-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 1.2rem;
+    }
+
+    .edition-features {
+      list-style: none;
+      margin-bottom: 1.6rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      font-size: 0.88rem;
+      color: var(--text-main);
+    }
+
+    .edition-features li::before {
+      content: "✦ ";
+      color: var(--gold);
+    }
+
+    /* Modern Accordion (per modern-web-guidance `accordion`) */
+    .accordion {
+      max-width: 860px;
+      margin-inline: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .accordion details {
+      background: var(--bg-card);
+      border: 1px solid rgba(210, 174, 119, 0.26);
+      border-radius: var(--radius-md);
+      padding: 1.1rem 1.35rem;
+    }
+
+    .accordion summary {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 0.75ch;
+      font-weight: 700;
+      font-size: 1.02rem;
+      color: var(--text-main);
+      cursor: pointer;
+    }
+
+    .accordion summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .accordion summary::before {
+      content: "";
+      inline-size: 1em;
+      block-size: 1em;
+      flex-shrink: 0;
+      background-color: var(--gold);
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat center / contain;
+      rotate: -90deg;
+    }
+
+    .accordion summary:dir(rtl)::before {
+      rotate: 90deg;
+    }
+
+    .accordion details[open] > summary::before {
+      rotate: 0deg;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .accordion summary::before {
+        transition: rotate 0.2s;
+      }
+    }
+
+    .accordion details::details-content {
+      interpolate-size: allow-keywords;
+      overflow: clip;
+      contain: layout;
+    }
+
+    .accordion details:not([open])::details-content {
+      block-size: 0;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .accordion details::details-content {
+        transition: block-size, content-visibility, display;
+        transition-duration: 0.3s;
+        transition-timing-function: ease-in-out;
+        transition-behavior: allow-discrete;
+      }
+    }
+
+    .faq-body {
+      padding-top: 0.85rem;
+      color: var(--text-muted);
+      font-size: 0.94rem;
+    }
+
+    /* Modal Dialog for Book Excerpt (per modern-web-guidance `light-dismiss-a-dialog`) */
+    dialog#previewDialog {
+      margin: auto;
+      width: min(760px, 92vw);
+      max-height: 86vh;
+      background: #07122e;
+      color: var(--text-main);
+      border: 1px solid var(--gold);
+      border-radius: var(--radius-lg);
+      padding: 2.2rem;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.85);
+      overflow-y: auto;
+    }
+
+    dialog#previewDialog::backdrop {
+      background-color: rgba(2, 8, 27, 0.78);
+      backdrop-filter: blur(4px);
+    }
+
+    .dialog-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--gold-dim);
+      margin-bottom: 1.4rem;
+    }
+
+    .dialog-prose p {
+      margin-bottom: 1rem;
+      color: var(--text-muted);
+      font-size: 0.98rem;
+      line-height: 1.72;
+    }
+
+    .dialog-prose blockquote {
+      border-left: 3px solid var(--gold);
+      padding-left: 1rem;
+      font-style: italic;
+      color: var(--gold-bright);
+      margin: 1.25rem 0;
+    }
+
+    footer {
+      border-top: 1px solid var(--gold-dim);
+      padding: 3rem 0;
+      text-align: center;
+      font-size: 0.84rem;
+      color: var(--text-soft);
+      background: #010511;
+    }
+
+    @media (max-width: 920px) {
+      .hero-grid,
+      .pillars-grid,
+      .validator-box,
+      .chapters-grid,
+      .author-grid,
+      .editions-grid {
+        grid-template-columns: 1fr;
+      }
+      .nav-links {
+        display: none;
+      }
+      .credentials-strip {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container nav-bar">
+      <a href="#top" class="brand">
+        <div class="brand-mark">4I</div>
+        <div class="brand-text">
+          <span class="brand-title">LAS 4 INTELIGENCIAS</span>
+          <span class="brand-sub">Edward Jiménez · Agencia Prosper IA</span>
+        </div>
+      </a>
+      <nav class="nav-links" aria-label="Secciones principales">
+        <a href="#formula">La Fórmula</a>
+        <a href="#pilares">Las 4 Inteligencias</a>
+        <a href="#validador">Validador IA</a>
+        <a href="#capitulos">Capítulos</a>
+        <a href="#ediciones">Ediciones</a>
+        <a href="#faq">Preguntas</a>
+      </nav>
+      <a href="#ediciones" class="btn btn-gold">Adquirir el Libro</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="kicker-pill">Lanzamiento Oficial EXMA Miami 2026 · Sello Agencia Prosper IA LLC</div>
+          <h1>¿Qué merece tu tiempo en la era de la <span>Inteligencia Artificial</span>?</h1>
+          <p class="hero-subtitle">
+            Cómo prosperar combinando <strong>Inteligencia Financiera, Emocional, Estratégica y Artificial</strong> para dejar de operar como «Dueño-Pulpo» y construir una empresa que escale con orden y libertad.
+          </p>
+
+          <div class="prologo-highlight">
+            <div>
+              <strong>Prólogo oficial de Fernando Anzures</strong> (Fundador de EXMA Global)<br>
+              <span>Incluye el marco ejecutivo SVE90 (90 días), el Validador de Oportunidades IA y acceso de lector a <strong>PassportAI</strong>.</span>
+            </div>
+          </div>
+
+          <div class="hero-ctas">
+            <a href="#ediciones" class="btn btn-gold">Comprar en Amazon (Pasta Dura / Tapa Blanda)</a>
+            <button type="button" class="btn btn-outline" id="openPreviewBtn">Leer Prólogo y Capítulo 1 Gratis</button>
+          </div>
+
+          <div class="credentials-strip">
+            <div class="cred-item">
+              <strong>ISBN-13 OFICIAL (EE. UU.)</strong>
+              979-8-9824777-0-5 · R.R. Bowker
+            </div>
+            <div class="cred-item">
+              <strong>LIBRARY OF CONGRESS</strong>
+              LCCN: 2026970390 · Washington, DC
+            </div>
+            <div class="cred-item">
+              <strong>U.S. COPYRIGHT OFFICE</strong>
+              Reg. Case #1-15304798691
+            </div>
+          </div>
+        </div>
+
+        <div class="book-stage">
+          <div class="book-glow"></div>
+          <div class="book-frame">
+            <img
+              src="/static/libro/cover_v4_page_1.png"
+              alt="Portada oficial del libro Las 4 Inteligencias por Edward Jiménez"
+              fetchpriority="high"
+              width="780"
+              height="1196">
+          </div>
+          <div class="edition-badges">
+            <span class="edition-pill">Edición Pasta Dura VIP (6" × 9")</span>
+            <span class="edition-pill">Edición Tapa Blanda Ejecutiva</span>
+            <span class="edition-pill">Bono $25 USD en PassportAI</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LA FÓRMULA DE LA PROSPERIDAD -->
+    <section id="formula" class="formula-section">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-eyebrow">El Diagnóstico Ejecutivo</div>
+          <h2>Del «Dueño-Pulpo» a la Fórmula de la Prosperidad</h2>
+          <p>
+            El 78% de las empresas ya utilizan herramientas de IA (McKinsey), pero más del 80% de los dueños siguen trabajando las mismas horas porque confunden <em>adoptar herramientas aisladas</em> con <em>rediseñar su sistema de decisiones</em>.
+          </p>
+        </div>
+
+        <div class="formula-card">
+          <p class="section-eyebrow">Ecuación Central del Libro (Capítulo 1)</p>
+          <div class="formula-eq">
+            <div class="formula-result">Prosperidad Real =</div>
+            <div class="formula-fraction">
+              <div class="formula-num">(Valor Creado × <span>Apalancamiento IA</span>)</div>
+              <div class="formula-den">Tiempo Operativo Invertido por el Dueño</div>
+            </div>
+          </div>
+          <p style="color: var(--text-muted); max-width: 68ch; margin-inline: auto; font-size: 0.96rem;">
+            Si multiplicas el numerador desplegando sistemas y empleados digitales, pero no reduces el denominador delegando con gobierno y criterio financiero, tu negocio crece en facturación pero tú te quedas sin vida.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- LAS 4 INTELIGENCIAS -->
+    <section id="pilares">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-eyebrow">Arquitectura del Sistema</div>
+          <h2>Cuatro Preguntas que ninguna tecnología puede responder por ti</h2>
+          <p>
+            A partir de 25 años liderando despliegues de ingeniería y negocios en Estados Unidos, América Latina y Europa, Edward Jiménez integra cuatro disciplinas en un solo método operativo:
+          </p>
+        </div>
+
+        <div class="pillars-grid">
+          <article class="pillar-card">
+            <div>
+              <div class="pillar-top">
+                <span class="pillar-num">Pilar I · Criterio de Capital</span>
+                <span class="pillar-question">¿Qué vale?</span>
+              </div>
+              <h3>1. Inteligencia Financiera</h3>
+              <p>
+                Cómo distinguir flujo de caja real de métricas de vanidad, aplicar la Regla del Margen antes de automatizar y evaluar cada proyecto con mentalidad de inversor institucional.
+              </p>
+            </div>
+            <div class="pillar-outcome">✦ Resultado: Proteger la caja y asignar recursos solo a lo que multiplica retorno.</div>
+          </article>
+
+          <article class="pillar-card">
+            <div>
+              <div class="pillar-top">
+                <span class="pillar-num">Pilar II · Gobierno Interior</span>
+                <span class="pillar-question">¿Cómo me gobierno?</span>
+              </div>
+              <h3>2. Inteligencia Emocional</h3>
+              <p>
+                Cómo decidir bajo máxima presión sin caer en secuestro amigdalar, apagar la urgencia reactiva del día a día y transformar crisis operativas en templanza directiva.
+              </p>
+            </div>
+            <div class="pillar-outcome">✦ Resultado: Claridad mental para negociar, liderar equipos y sostener el rumbo.</div>
+          </article>
+
+          <article class="pillar-card">
+            <div>
+              <div class="pillar-top">
+                <span class="pillar-num">Pilar III · Dirección y Enfoque</span>
+                <span class="pillar-question">¿Hacia dónde voy?</span>
+              </div>
+              <h3>3. Inteligencia Estratégica</h3>
+              <p>
+                Cómo abandonar los planes anuales estáticos y ejecutar ciclos de 90 días (Sistema SVE90) enfocados en el 20% de las palancas comerciales que generan el 80% del crecimiento.
+              </p>
+            </div>
+            <div class="pillar-outcome">✦ Resultado: Ventaja competitiva defendible y ejecución trimestral medible.</div>
+          </article>
+
+          <article class="pillar-card">
+            <div>
+              <div class="pillar-top">
+                <span class="pillar-num">Pilar IV · Escala Exponencial</span>
+                <span class="pillar-question">¿Qué puedo aumentar?</span>
+              </div>
+              <h3>4. Inteligencia Artificial</h3>
+              <p>
+                Cómo pasar de hacer prompts manuales a desplegar una arquitectura de Empleados Digitales 24/7 y gobernanza empresarial multi-modelo con <strong>PassportAI</strong> y <strong>Agencia Prosper IA</strong>.
+              </p>
+            </div>
+            <div class="pillar-outcome">✦ Resultado: Multiplicar la capacidad de tu empresa recuperando de 10 a 15 horas semanales.</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- VALIDADOR INTERACTIVO DE OPORTUNIDADES IA -->
+    <section id="validador" class="formula-section">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-eyebrow">Herramienta Interactiva del Apéndice A</div>
+          <h2>Prueba en vivo el Validador de las 4 Inteligencias</h2>
+          <p>
+            Antes de invertir dinero o meses de tu vida en un nuevo proyecto, evalúalo del 0 al 25 en cada inteligencia para descubrir tu Índice de Prosperidad sobre 100 puntos.
+          </p>
+        </div>
+
+        <div class="validator-box">
+          <div>
+            <div class="slider-group">
+              <div class="slider-label">
+                <span>1. Inteligencia Financiera (¿Deja margen y flujo real?)</span>
+                <span id="valFinLabel">20 / 25</span>
+              </div>
+              <input type="range" id="valFin" min="0" max="25" value="20" aria-label="Puntaje de Inteligencia Financiera">
+            </div>
+
+            <div class="slider-group">
+              <div class="slider-label">
+                <span>2. Inteligencia Emocional (¿Te da paz o te drena energía?)</span>
+                <span id="valEmoLabel">18 / 25</span>
+              </div>
+              <input type="range" id="valEmo" min="0" max="25" value="18" aria-label="Puntaje de Inteligencia Emocional">
+            </div>
+
+            <div class="slider-group">
+              <div class="slider-label">
+                <span>3. Inteligencia Estratégica (¿Construye ventaja en 90 días?)</span>
+                <span id="valEstLabel">21 / 25</span>
+              </div>
+              <input type="range" id="valEst" min="0" max="25" value="21" aria-label="Puntaje de Inteligencia Estratégica">
+            </div>
+
+            <div class="slider-group">
+              <div class="slider-label">
+                <span>4. Inteligencia Artificial (¿Se puede delegar el 70% a sistemas IA?)</span>
+                <span id="valIaLabel">22 / 25</span>
+              </div>
+              <input type="range" id="valIa" min="0" max="25" value="22" aria-label="Puntaje de Inteligencia Artificial">
+            </div>
+          </div>
+
+          <div class="score-panel">
+            <div class="score-circle" id="totalScoreCircle">81</div>
+            <div class="score-verdict" id="scoreVerdict">PROYECTO DE ALTO APALANCAMIENTO</div>
+            <p class="score-desc" id="scoreDesc">
+              Supera el umbral de 80 puntos. Tiene retorno claro, alineación estratégica y alta capacidad de automatización con empleados digitales.
+            </p>
+            <a href="#ediciones" class="btn btn-gold" style="width: 100%;">Obtener las Plantillas Completas en el Libro</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MAPA DE CAPÍTULOS Y CONTRAPORTADA -->
+    <section id="capitulos">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-eyebrow">Contenido Íntegro · 165 Páginas</div>
+          <h2>Qué encontrarás dentro de <em>Las 4 Inteligencias</em></h2>
+          <p>Un recorrido directo, sin relleno teórico, diseñado para leerse con lápiz en mano y aplicarse el lunes a primera hora en tu empresa.</p>
+        </div>
+
+        <div class="chapters-grid">
+          <div>
+            <img
+              src="/static/libro/cover_v4_page_2.png"
+              alt="Contraportada oficial del libro Las 4 Inteligencias"
+              loading="lazy"
+              width="620"
+              height="950"
+              style="width: 100%; height: auto; border-radius: var(--radius-md); border: 1px solid var(--gold-dim); box-shadow: var(--shadow-gold);">
+          </div>
+
+          <div class="chapter-list">
+            <div class="chapter-item">
+              <strong>Prólogo Oficial · Fernando Anzures</strong>
+              <h3>Por qué la IA no reemplaza al líder, pero sí exhibe su falta de sistema</h3>
+              <p>La visión del fundador de EXMA Global sobre el cambio de era en el liderazgo empresarial latinoamericano y global.</p>
+            </div>
+
+            <div class="chapter-item">
+              <strong>Parte I · El Despertar y la Fórmula (Capítulos 1 – 2)</strong>
+              <h3>El síndrome del Dueño-Pulpo y la arquitectura de las 4 preguntas</h3>
+              <p>Por qué trabajar más horas ya no produce más riqueza y cómo auditar en qué se va realmente tu semana directiva.</p>
+            </div>
+
+            <div class="chapter-item">
+              <strong>Parte II · Criterio y Templanza (Capítulos 3 – 5)</strong>
+              <h3>Inteligencia Financiera («¿Qué vale?») e Inteligencia Emocional («¿Cómo me gobierno?»)</h3>
+              <p>Historias reales de decisiones multimillonarias, crisis operativas superadas y reglas financieras para blindar tu patrimonio.</p>
+            </div>
+
+            <div class="chapter-item">
+              <strong>Parte III · Rumbo y Multiplicación (Capítulos 6 – 8)</strong>
+              <h3>Inteligencia Estratégica (SVE90) e Inteligencia Artificial Aplicada</h3>
+              <p>Cómo pasar del caos comercial a ciclos trimestrales de 90 días apalancados en empleados digitales y gobernanza con PassportAI.</p>
+            </div>
+
+            <div class="chapter-item">
+              <strong>Parte IV y Apéndices · Ejecución Inmediata (Capítulos 9 – 10 + Herramientas)</strong>
+              <h3>Tu Plan de 90 Días, Validador de Oportunidades y Bono de $25 USD en PassportAI</h3>
+              <p>Incluye tablas de auditoría, el método de las 5P para delegar a sistemas de IA y acceso directo al ecosistema Prosper IA.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOBRE EL AUTOR -->
+    <section id="autor" class="formula-section">
+      <div class="container">
+        <div class="author-grid">
+          <div class="author-photo-wrap">
+            <img
+              src="/static/libro/edward_hero_depth.webp"
+              alt="Edward Jiménez — Autor de Las 4 Inteligencias y fundador de Agencia Prosper IA y PassportAI"
+              loading="lazy"
+              width="600"
+              height="680">
+          </div>
+          <div class="author-bio">
+            <div class="section-eyebrow">Sobre el Autor</div>
+            <h2>Edward Jiménez <span style="font-size: 1rem; color: var(--gold); font-weight: 400;">(Eduardo Jiménez García)</span></h2>
+            <p>
+              Ingeniero en Comunicaciones y Electrónica por el <strong>IPN</strong> y con estudios en el <strong>ITAM</strong> en México, cuenta con maestría y posgrado en telecomunicaciones en Francia (<strong>ENST Bretagne</strong>).
+            </p>
+            <p>
+              Tras más de veinticinco años dirigiendo despliegues tecnológicos, redes de misión crítica y proyectos empresariales multimillonarios en Estados Unidos, América Latina y Europa, fundó <strong>JPX</strong>, <strong>Agencia Prosper IA LLC</strong> (<a href="https://agenciaprosperia.com" style="color: var(--gold); text-decoration: underline;">agenciaprosperia.com</a>) y la plataforma unificada de gobernanza de inteligencia artificial <strong>PassportAI</strong> (<a href="https://passportai.app" style="color: var(--gold); text-decoration: underline;">passportai.app</a>).
+            </p>
+            <p>
+              Desde Miami, asesora a juntas directivas, empresarios y líderes que buscan integrar sistemas de inteligencia artificial con retorno financiero medible y libertad operativa.
+            </p>
+            <div class="author-tags">
+              <span class="author-tag">IPN · ITAM (México)</span>
+              <span class="author-tag">ENST Bretagne (Francia)</span>
+              <span class="author-tag">+25 Años en Tecnología y Negocios</span>
+              <span class="author-tag">Fundador de Agencia Prosper IA &amp; PassportAI</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EDICIONES DISPONIBLES -->
+    <section id="ediciones">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-eyebrow">Formatos Oficiales</div>
+          <h2>Elige tu edición de <em>Las 4 Inteligencias</em></h2>
+          <p>Todas las ediciones incluyen acceso al Validador de Oportunidades IA y el bono de $25 USD en créditos de la plataforma PassportAI.</p>
+        </div>
+
+        <div class="editions-grid">
+          <div class="edition-card">
+            <div>
+              <h3>Edición Tapa Blanda</h3>
+              <p class="edition-desc">Formato ejecutivo 6" × 9" (165 páginas en papel blanco de alta opacidad), ideal para lectura diaria y equipos directivos.</p>
+              <ul class="edition-features">
+                <li>165 páginas con diagramas y marcos SVE90</li>
+                <li>ISBN Oficial: 979-8-9824777-0-5</li>
+                <li>Registro Library of Congress: 2026970390</li>
+                <li>Bono de $25 USD en PassportAI incluido</li>
+              </ul>
+            </div>
+            <a href="https://www.amazon.com" target="_blank" rel="noopener" class="btn btn-outline" style="width: 100%;">Ordenar Tapa Blanda en Amazon</a>
+          </div>
+
+          <div class="edition-card featured">
+            <span class="featured-ribbon">Edición Coleccionista VIP</span>
+            <div>
+              <h3>Edición Pasta Dura (Hardcover)</h3>
+              <p class="edition-desc">Encuadernación rígida Case Laminate 6" × 9" de colección, diseñada para fundadores, bibliotecas ejecutivas y regalos VIP.</p>
+              <ul class="edition-features">
+                <li>Cubierta rígida laminada de lujo (Hardcover)</li>
+                <li>Prólogo de Fernando Anzures (EXMA Global)</li>
+                <li>Plantillas ejecutivas del Validador IA</li>
+                <li>Bono de $25 USD en PassportAI + Acceso SVE90</li>
+              </ul>
+            </div>
+            <a href="https://www.amazon.com" target="_blank" rel="noopener" class="btn btn-gold" style="width: 100%;">Ordenar Pasta Dura VIP en Amazon</a>
+          </div>
+
+          <div class="edition-card">
+            <div>
+              <h3>Paquete Corporativo &amp; Conferencias</h3>
+              <p class="edition-desc">Pedidos especiales de 25 a 500 ejemplares para convenciones, consejos de administración, universidades o eventos EXMA.</p>
+              <ul class="edition-features">
+                <li>Ejemplares autografiados para tu equipo o clientes</li>
+                <li>Sesión diagnóstica con Agencia Prosper IA</li>
+                <li>Implementación de Empleados Digitales</li>
+                <li>Contacto directo con la oficina de Miami</li>
+              </ul>
+            </div>
+            <a href="https://agenciaprosperia.com" target="_blank" rel="noopener" class="btn btn-outline" style="width: 100%;">Solicitar Lote Corporativo</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PREGUNTAS FRECUENTES (Native <details> Accordion) -->
+    <section id="faq" class="formula-section">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-eyebrow">Preguntas Frecuentes</div>
+          <h2 id="faq-heading">Todo sobre el libro y sus bonos ejecutivos</h2>
+        </div>
+
+        <section class="accordion" aria-labelledby="faq-heading">
+          <details open>
+            <summary>¿Necesito conocimientos técnicos o de programación para aprovechar el libro?</summary>
+            <div class="faq-body">
+              En absoluto. <em>Las 4 Inteligencias</em> está escrito desde la perspectiva del dueño de negocio, director o profesional que toma decisiones. Aprenderás a dirigir la tecnología desde la estrategia y las finanzas, sin escribir una sola línea de código.
+            </div>
+          </details>
+
+          <details>
+            <summary>¿Cómo reclamo el bono de $25 USD en créditos de PassportAI incluido con mi libro?</summary>
+            <div class="faq-body">
+              Dentro del Capítulo 10 y el Apéndice final encontrarás el código QR exclusivo de lector que te lleva a <strong>passportai.app</strong> para activar tus $25 USD de saldo y probar más de 10 modelos de inteligencia artificial bajo una sola plataforma con gobernanza empresarial.
+            </div>
+          </details>
+
+          <details>
+            <summary>¿Cuál es la diferencia entre la edición Tapa Blanda y la edición Pasta Dura VIP?</summary>
+            <div class="faq-body">
+              El contenido interior íntegro de 165 páginas (con el Prólogo de Fernando Anzures, los 10 capítulos y los apéndices del Validador IA y el sistema SVE90) es idéntico en ambas. La edición Pasta Dura (Hardcover Case Laminate) cuenta con cubierta rígida de colección ideal para escritorio directivo o regalo ejecutivo.
+            </div>
+          </details>
+
+          <details>
+            <summary>¿El libro cuenta con registro oficial en la Biblioteca del Congreso de Estados Unidos?</summary>
+            <div class="faq-body">
+              Sí. La obra está publicada en Miami, Florida por <strong>AGENCIA PROSPER IA LLC</strong> bajo el ISBN-13 oficial <code>979-8-9824777-0-5</code> (R.R. Bowker), número de control de la Biblioteca del Congreso de EE. UU. <code>LCCN: 2026970390</code> y registro federal ante el U.S. Copyright Office (<code>Case #1-15304798691</code>).
+            </div>
+          </details>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <!-- MODAL DE LECTURA GRATUITA (Native <dialog closedby="any">) -->
+  <dialog id="previewDialog" closedby="any" aria-labelledby="previewDialogTitle">
+    <div class="dialog-header">
+      <div>
+        <div class="section-eyebrow">Vista Previa Oficial</div>
+        <h2 id="previewDialogTitle" class="serif" style="font-size: 1.45rem;">Extracto del Capítulo 1: El Síndrome del Dueño-Pulpo</h2>
+      </div>
+      <form method="dialog">
+        <button type="submit" class="btn btn-outline" style="padding: 0.45rem 0.95rem;">Cerrar ✕</button>
+      </form>
+    </div>
+    <div class="dialog-prose">
+      <p>
+        Nunca en la historia de la humanidad habíamos tenido tanta capacidad de cómputo en el bolsillo y, al mismo tiempo, tantos directivos y empresarios sintiendo que el día no les alcanza.
+      </p>
+      <blockquote>
+        «La inteligencia artificial ya analiza mercados, redacta estrategias y automatiza procesos en segundos. Pero ninguna tecnología puede responder por ti cuánto vale realmente una oportunidad, cómo gobernar tus reacciones bajo presión ni hacia dónde dirigir tu empresa y tu vida.»
+      </blockquote>
+      <p>
+        Cuando un empresario intenta resolver el caos operativo comprando diez suscripciones distintas de inteligencia artificial sin antes ordenar sus finanzas, su templanza emocional y su estrategia de 90 días, lo único que logra es <strong>automatizar el desorden a mayor velocidad</strong>.
+      </p>
+      <p>
+        Por eso este libro no empieza enseñándote a escribir <em>prompts</em>. Empieza instalando las cuatro preguntas rectoras que separan al operador agotado del arquitecto de sistemas:
+      </p>
+      <p>
+        <strong>1. ¿Qué vale? (Inteligencia Financiera)</strong> · <strong>2. ¿Cómo me gobierno? (Inteligencia Emocional)</strong> · <strong>3. ¿Hacia dónde voy? (Inteligencia Estratégica)</strong> · <strong>4. ¿Qué puedo aumentar? (Inteligencia Artificial)</strong>.
+      </p>
+    </div>
+    <div style="margin-top: 1.5rem; display: flex; justify-content: flex-end; gap: 0.8rem;">
+      <form method="dialog">
+        <button type="submit" class="btn btn-outline">Seguir explorando</button>
+      </form>
+      <a href="#ediciones" class="btn btn-gold" onclick="document.getElementById('previewDialog').close()">Adquirir el Libro Completo</a>
+    </div>
+  </dialog>
+
+  <footer>
+    <div class="container">
+      <p style="color: var(--gold); font-weight: 700; letter-spacing: 0.08em; margin-bottom: 0.4rem;">
+        AGENCIA PROSPER IA LLC · MIAMI, FLORIDA, EE. UU.
+      </p>
+      <p style="margin-bottom: 0.4rem;">
+        7950 NW 53rd St, Suite 337, Miami, FL 33166 · <a href="https://agenciaprosperia.com" style="text-decoration: underline;">agenciaprosperia.com</a> · <a href="https://passportai.app" style="text-decoration: underline;">passportai.app</a>
+      </p>
+      <p>
+        Copyright © 2026 Eduardo Jiménez García (Edward Jiménez). Todos los derechos reservados.<br>
+        ISBN-13: 979-8-9824777-0-5 · Library of Congress LCCN: 2026970390 · U.S. Copyright Office Cases #1-15304798691, #1-15304799169 &amp; #1-15304997611.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // 1. Interactive 4 Intelligences Opportunity Validator
+    const sliders = ['valFin', 'valEmo', 'valEst', 'valIa'];
+    const updateValidator = () => {
+      const vals = sliders.map((id) => {
+        const el = document.getElementById(id);
+        const v = Number(el.value);
+        document.getElementById(id + 'Label').textContent = `${v} / 25`;
+        return v;
+      });
+      const total = vals.reduce((a, b) => a + b, 0);
+      const circle = document.getElementById('totalScoreCircle');
+      const verdict = document.getElementById('scoreVerdict');
+      const desc = document.getElementById('scoreDesc');
+
+      circle.textContent = String(total);
+      if (total >= 80) {
+        circle.style.borderColor = '#34d399';
+        verdict.textContent = 'PROYECTO DE ALTO APALANCAMIENTO (80–100)';
+        desc.textContent = 'Luz verde ejecutiva: combina flujo real, paz directiva, foco de 90 días y alta delegación en empleados digitales.';
+      } else if (total >= 60) {
+        circle.style.borderColor = '#d2ae77';
+        verdict.textContent = 'OPORTUNIDAD VIABLE CON AJUSTES (60–79)';
+        desc.textContent = 'Antes de escalar, refuerza la inteligencia más baja o delega la carga operativa con sistemas de IA para no absorber tu tiempo.';
+      } else {
+        circle.style.borderColor = '#f87171';
+        verdict.textContent = 'ALERTA: TRAMPA DE DUEÑO-PULPO (< 60)';
+        desc.textContent = 'Alto riesgo de desgaste personal o bajo margen. Rediseña el modelo financiero y operativo antes de comprometer capital.';
+      }
+    };
+    sliders.forEach((id) => document.getElementById(id).addEventListener('input', updateValidator));
+
+    // 2. Modal Dialog with mandatory light-dismiss fallback (per modern-web-guidance `light-dismiss-a-dialog`)
+    const dialog = document.getElementById('previewDialog');
+    const openBtn = document.getElementById('openPreviewBtn');
+    openBtn.addEventListener('click', () => {
+      dialog.showModal();
+    });
+
+    if (!('closedBy' in HTMLDialogElement.prototype)) {
+      dialog.addEventListener('click', (event) => {
+        if (event.target !== dialog) return;
+        const rect = dialog.getBoundingClientRect();
+        const isDialogContent = (
+          rect.top <= event.clientY &&
+          event.clientY <= rect.top + rect.height &&
+          rect.left <= event.clientX &&
+          event.clientX <= rect.left + rect.width
+        );
+        if (isDialogContent) return;
+        dialog.close();
+      });
+    }
+  </script>
+</body>
+</html>

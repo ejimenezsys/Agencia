@@ -1821,6 +1821,20 @@ async def closers_kickoff_page(request: Request):
     return templates.TemplateResponse(request=request, name="closers.html", context={"request": request})
 
 
+@app.get("/libro", response_class=HTMLResponse)
+@app.head("/libro")
+@app.get("/libro/", response_class=HTMLResponse)
+@app.head("/libro/")
+@app.get("/libro.html", response_class=HTMLResponse)
+@app.head("/libro.html")
+@app.get("/las4inteligencias", response_class=HTMLResponse)
+@app.head("/las4inteligencias")
+@app.get("/las4inteligencias/", response_class=HTMLResponse)
+@app.head("/las4inteligencias/")
+async def libro_las_4_inteligencias_page(request: Request):
+    return templates.TemplateResponse(request=request, name="libro.html", context={"request": request})
+
+
 @app.get("/videoclosers", response_class=HTMLResponse)
 @app.head("/videoclosers")
 @app.get("/videoclosers/", response_class=HTMLResponse)
@@ -1978,7 +1992,8 @@ async def get_llms_txt():
         "y Fractional Chief AI Officer. Incluye definición de consultoría en IA, comparativa y preguntas frecuentes.\n"
         "- [Diagnóstico comercial](https://agenciaprosperia.com/diagnostico): autoevaluación del pipeline comercial.\n"
         "- [Test de madurez en IA](https://agenciaprosperia.com/test-ia): diagnóstico interactivo de 10 preguntas.\n"
-        "- [PassportAI](https://passportai.app): plataforma creada por Edward Jiménez (prueba de 5 días).\n\n"
+        "- [PassportAI](https://passportai.app): plataforma creada por Edward Jiménez (prueba de 5 días).\n"
+        "- [Libro Oficial: Las 4 Inteligencias por Edward Jiménez](https://agenciaprosperia.com/libro): ISBN 979-8-9824777-0-5, Library of Congress LCCN 2026970390, prólogo de Fernando Anzures.\n\n"
         "## Recursos gratuitos\n"
         "- [El Arsenal: biblioteca de prompts de IA](https://agenciaprosperia.com/arsenal): prompts para imagen, video y agentes autónomos.\n"
         "- [200 Códigos Creativos de ChatGPT](https://agenciaprosperia.com/codigos): prompts de dirección fotográfica y video, guías PDF.\n"
@@ -2022,6 +2037,11 @@ async def get_sitemap(db: Session = Depends(get_db)):
         '  </url>\n'
         '  <url>\n'
         '    <loc>https://agenciaprosperia.com/codigos</loc>\n'
+        '    <changefreq>weekly</changefreq>\n'
+        '    <priority>0.9</priority>\n'
+        '  </url>\n'
+        '  <url>\n'
+        '    <loc>https://agenciaprosperia.com/libro</loc>\n'
         '    <changefreq>weekly</changefreq>\n'
         '    <priority>0.9</priority>\n'
         '  </url>\n'
