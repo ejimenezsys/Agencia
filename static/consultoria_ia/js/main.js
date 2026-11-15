@@ -961,7 +961,7 @@ function initCineTunnel() {
     const q = clamp01((O - 0.34) / (0.96 - 0.34));
     warpProgressRef.current = clamp01(O / 0.96);
 
-    const warpOp = mapRange(O, [0.0, 0.08, 0.16, 0.94, 0.995], [0.42, 0.78, 1.0, 1.0, 0]);
+    const warpOp = mapRange(O, [0.0, 0.10, 0.22, 0.94, 0.995], [0.18, 0.45, 0.72, 0.72, 0]);
     if (warpWrap) warpWrap.style.opacity = warpOp.toFixed(3);
 
     const escapeLayerOp = mapRange(O, [0.325, 0.345, 0.965, 0.992], [0, 1, 1, 0]);
@@ -1148,7 +1148,7 @@ function initWarpParticlesCanvas(progressRef, isMobile) {
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  const count = isMobile ? 110 : 220;
+  const count = isMobile ? 38 : 68;
 
   const rayColors = [
     { main: '0, 240, 255', tip: '224, 252, 255' },
@@ -1162,10 +1162,10 @@ function initWarpParticlesCanvas(progressRef, isMobile) {
     const colorObj = rayColors[Math.floor(Math.random() * rayColors.length)];
     return {
       a: Math.random() * Math.PI * 2,
-      r: Math.random() * 0.22 + 0.015,
-      v: 0.38 + R * 1.45,
-      b: 0.65 + R * 0.35,
-      capa: 0.4 + R * 0.85,
+      r: Math.random() * 0.25 + 0.04,
+      v: 0.32 + R * 1.15,
+      b: 0.48 + R * 0.38,
+      capa: 0.35 + R * 0.65,
       color: colorObj
     };
   };
@@ -1185,7 +1185,7 @@ function initWarpParticlesCanvas(progressRef, isMobile) {
     const dt = Math.min(0.05, (now - prev) / 1000);
     prev = now;
     const V = clamp01(progressRef.current);
-    const P = 0.12 + V * 0.38;
+    const P = 0.10 + V * 0.32;
     const A = clamp01((V - 0.75) / 0.25);
 
     const W = canvas.width;
@@ -1198,43 +1198,36 @@ function initWarpParticlesCanvas(progressRef, isMobile) {
     ctx.globalCompositeOperation = 'lighter';
     ctx.lineCap = 'round';
 
-    const coreGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, maxR * 0.45);
-    coreGrad.addColorStop(0, `rgba(0, 240, 255, ${(0.08 + V * 0.12).toFixed(3)})`);
-    coreGrad.addColorStop(0.45, `rgba(168, 85, 247, ${(0.04 + V * 0.06).toFixed(3)})`);
-    coreGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-    ctx.fillStyle = coreGrad;
-    ctx.fillRect(0, 0, W, H);
-
     for (const s of streaks) {
-      s.r += dt * P * s.v * (1 + A * 3.2);
-      if (s.r > 1.25) {
+      s.r += dt * P * s.v * (1 + A * 2.4);
+      if (s.r > 1.22) {
         Object.assign(s, spawn());
       }
-      const tailLen = (0.032 + V * 0.095 + A * 0.18) * (0.45 + s.capa);
+      const tailLen = (0.016 + V * 0.045 + A * 0.08) * (0.45 + s.capa);
       const r0 = Math.max(0, s.r - tailLen);
       const x0 = cx + Math.cos(s.a) * r0 * maxR;
-      const y0 = cy + Math.sin(s.a) * r0 * maxR;
+      const y0 = cy + Math.sin(s.a) * s.r * maxR;
       const x1 = cx + Math.cos(s.a) * s.r * maxR;
       const y1 = cy + Math.sin(s.a) * s.r * maxR;
 
-      const fade = Math.min(1, s.r * 3.8) * (1 - clamp01((s.r - 0.96) / 0.28));
-      const alpha = Math.min(1, fade * s.b * (0.78 + V * 0.22));
+      const fade = Math.min(1, s.r * 3.4) * (1 - clamp01((s.r - 0.94) / 0.28));
+      const alpha = Math.min(0.82, fade * s.b * (0.58 + V * 0.24));
 
       const lineGrad = ctx.createLinearGradient(x0, y0, x1, y1);
       lineGrad.addColorStop(0, `rgba(${s.color.main}, 0)`);
-      lineGrad.addColorStop(0.6, `rgba(${s.color.main}, ${(alpha * 0.75).toFixed(3)})`);
+      lineGrad.addColorStop(0.65, `rgba(${s.color.main}, ${(alpha * 0.65).toFixed(3)})`);
       lineGrad.addColorStop(1, `rgba(${s.color.tip}, ${alpha.toFixed(3)})`);
 
       ctx.strokeStyle = lineGrad;
-      ctx.lineWidth = (1.2 + s.capa * 2.4 + A * 1.1) * dpr;
+      ctx.lineWidth = (0.75 + s.capa * 1.15 + A * 0.5) * dpr;
       ctx.beginPath();
       ctx.moveTo(x0, y0);
       ctx.lineTo(x1, y1);
       ctx.stroke();
 
-      ctx.fillStyle = `rgba(${s.color.tip}, ${(alpha * 0.95).toFixed(3)})`;
+      ctx.fillStyle = `rgba(${s.color.tip}, ${(alpha * 0.85).toFixed(3)})`;
       ctx.beginPath();
-      ctx.arc(x1, y1, (1.1 + s.capa * 1.3) * dpr, 0, Math.PI * 2);
+      ctx.arc(x1, y1, (0.65 + s.capa * 0.65) * dpr, 0, Math.PI * 2);
       ctx.fill();
     }
     requestAnimationFrame(draw);
