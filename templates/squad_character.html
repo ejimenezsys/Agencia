@@ -6,7 +6,7 @@
   {% set color = '#00e5ff' %}
   {% set accent_bg = 'rgba(0, 229, 255, 0.14)' %}
   {% set badge = 'EMPLEADO DIGITAL 01 · FILTRO 24/7' %}
-  {% set img_url = '/static/empleados_digitales/sdr_ia_pixar.png' %}
+  {% set img_url = static_versioned('empleados_digitales/sdr_ia_pixar.png') %}
   {% set summary = 'Recibe cada mensaje de anuncios, Instagram, WhatsApp o Google en segundos. Hace las preguntas filtro y separa al curioso del comprador real.' %}
 {% elif agent_key in ('setter', 'aura', 'nova') %}
   {% set canonical = 'setter' %}
@@ -15,7 +15,7 @@
   {% set color = '#34d399' %}
   {% set accent_bg = 'rgba(52, 211, 153, 0.14)' %}
   {% set badge = 'EMPLEADO DIGITAL 02 · CALENDARIO' %}
-  {% set img_url = '/static/empleados_digitales/setter_ia_pixar.png' %}
+  {% set img_url = static_versioned('empleados_digitales/setter_ia_pixar.png') %}
   {% set summary = 'Conversa con naturalidad, despeja dudas iniciales, revisa tu calendario y deja citas calificadas listas con recordatorios automáticos.' %}
 {% elif agent_key in ('closer', 'impulso', 'orion') %}
   {% set canonical = 'closer' %}
@@ -24,7 +24,7 @@
   {% set color = '#fbbf24' %}
   {% set accent_bg = 'rgba(251, 191, 36, 0.14)' %}
   {% set badge = 'EMPLEADO DIGITAL 03 · CIERRES' %}
-  {% set img_url = '/static/empleados_digitales/closer_ia_pixar.png' %}
+  {% set img_url = static_versioned('empleados_digitales/closer_ia_pixar.png') %}
   {% set summary = 'Envía propuestas, diagnósticos a medida y enlaces de pago. Da seguimiento puntual a cada oportunidad abierta hasta que se cierra.' %}
 {% else %}
   {% set canonical = 'soporte' %}
@@ -33,7 +33,7 @@
   {% set color = '#818cf8' %}
   {% set accent_bg = 'rgba(129, 140, 248, 0.16)' %}
   {% set badge = 'EMPLEADO DIGITAL 04 · POSTVENTA 5★' %}
-  {% set img_url = '/static/empleados_digitales/soporte_ia_pixar.png' %}
+  {% set img_url = static_versioned('empleados_digitales/soporte_ia_pixar.png') %}
   {% set summary = 'Resuelve dudas operativas de tus clientes actuales, acompaña su integración inicial y cuida la reputación de tu negocio.' %}
 {% endif %}
 
