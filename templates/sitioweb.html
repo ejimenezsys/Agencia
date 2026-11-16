@@ -585,6 +585,182 @@
       border-radius: 14px;
       background: #061022;
     }
+
+    /* ── EMPLEADOS DIGITALES PIXAR + REELS + CAJAS + PORTAFOLIO (REEL FUNNEL) ── */
+    .pixar-squad-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.7rem;
+      margin-block: 1.15rem 1.25rem;
+    }
+    @media (min-width: 640px) {
+      .pixar-squad-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    }
+    .pixar-card {
+      background: rgba(10, 22, 45, 0.9);
+      border: 1px solid rgba(0, 229, 255, 0.28);
+      border-radius: 14px;
+      padding: 0.5rem;
+      text-align: center;
+    }
+    .pixar-card img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      object-position: center top;
+      border-radius: 10px;
+      display: block;
+    }
+    .pixar-card strong {
+      display: block;
+      margin-top: 0.42rem;
+      font-size: 0.78rem;
+      color: #ffffff;
+    }
+    .pixar-card span {
+      display: block;
+      font-size: 0.7rem;
+      color: #67e8f9;
+      font-weight: 700;
+    }
+
+    .reel-pair-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.85rem;
+      margin-block-end: 1.25rem;
+    }
+    @media (max-width: 520px) {
+      .reel-pair-grid { grid-template-columns: 1fr; }
+    }
+    .reel-box {
+      background: rgba(8, 18, 38, 0.92);
+      border: 1px solid rgba(52, 211, 153, 0.35);
+      border-radius: 16px;
+      padding: 0.65rem;
+    }
+    .reel-box video {
+      width: 100%;
+      aspect-ratio: 9 / 14;
+      max-height: 290px;
+      object-fit: cover;
+      border-radius: 11px;
+      background: #020612;
+      display: block;
+    }
+    .reel-box .reel-cap {
+      margin-top: 0.45rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #e2e8f0;
+    }
+    .reel-box .reel-sub {
+      font-size: 0.72rem;
+      color: #34d399;
+    }
+
+    .cajas-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.15rem;
+      margin-block-start: 1.35rem;
+    }
+    @media (min-width: 860px) {
+      .cajas-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    .caja-card {
+      position: relative;
+      background: rgba(4, 9, 23, 0.85);
+      border: 1.5px solid rgba(148, 163, 184, 0.25);
+      border-radius: 18px;
+      padding: 1.35rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .caja-card.featured {
+      border-color: #fbbf24;
+      background: linear-gradient(175deg, rgba(245, 158, 11, 0.14), rgba(4, 9, 23, 0.95));
+      box-shadow: 0 18px 40px rgba(245, 158, 11, 0.14);
+    }
+    .caja-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.25rem 0.65rem;
+      border-radius: 999px;
+      background: rgba(0, 229, 255, 0.14);
+      color: #67e8f9;
+      margin-bottom: 0.5rem;
+    }
+    .caja-card.featured .caja-badge {
+      background: #fbbf24;
+      color: #090d16;
+    }
+    .caja-list {
+      list-style: none;
+      padding: 0;
+      margin: 0.8rem 0 0;
+      display: grid;
+      gap: 0.45rem;
+      font-size: 0.84rem;
+      color: #cbd5e1;
+    }
+    .caja-btn {
+      width: 100%;
+      min-height: 44px;
+      border-radius: 11px;
+      border: 1px solid rgba(0, 229, 255, 0.45);
+      background: rgba(0, 229, 255, 0.12);
+      color: #67e8f9;
+      font: inherit;
+      font-size: 0.86rem;
+      font-weight: 800;
+      cursor: pointer;
+      padding: 0.65rem 1rem;
+    }
+    .caja-card.featured .caja-btn {
+      border: none;
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      color: #090d16;
+    }
+
+    .port-strip-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin-block-start: 1.25rem;
+    }
+    @media (min-width: 720px) {
+      .port-strip-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 1020px) {
+      .port-strip-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+    .port-mini-card {
+      background: rgba(4, 9, 23, 0.82);
+      border: 1px solid rgba(148, 163, 184, 0.24);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .port-mini-card img {
+      width: 100%;
+      height: 138px;
+      object-fit: cover;
+      display: block;
+    }
+    .port-mini-body {
+      padding: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
   </style>
 </head>
 <body>
@@ -612,59 +788,83 @@
   <main>
     <div class="container">
 
-      <!-- COLUMNA IZQUIERDA: PROPUESTA DE VALOR EN LENGUAJE 100% NATURAL DE DUEÑO DE NEGOCIO -->
+      <!-- COLUMNA IZQUIERDA: PROPUESTA DE VALOR PARA TRÁFICO DE REELS + EMPLEADOS DIGITALES + REELS EN VIVO -->
       <section aria-labelledby="hero-heading">
         <div class="pill-kicker">
-          <span>🎬 VIDEOS REELS + 📈 PUBLICIDAD + 🤖 ATENCIÓN 24/7 EN WHATSAPP</span>
+          <span>🎬 VISTE NUESTRO REEL · SISTEMA LLAVE EN MANO PARA DUEÑOS DE NEGOCIO</span>
         </div>
 
         <h1 id="hero-heading" class="hero-title">
-          Cómo Llenar tu WhatsApp de <span class="gold">Clientes Nuevos</span> y Atenderlos en <span class="accent">Menos de 1 Minuto, 24/7</span>
+          Convierte Tus Visitas de <span class="gold">Reels y Redes</span> en <span class="accent">Citas Pagadas 24/7</span> (Sin Vivir Pegado al Celular)
         </h1>
 
         <p class="hero-sub">
-          De dueño de negocio a dueño de negocio: unimos los <strong>2 motores</strong> que duplican tus ventas sin que tengas que saber nada de tecnología: <strong>Videos y Anuncios que atraen clientes nuevos</strong> + <strong>Tu Sucursal Web Inteligente</strong> que les contesta y agenda citas sola en tu celular.
+          De dueño de negocio a dueño de negocio: instalamos tu <strong>Página Web Inteligente en 7 a 10 días</strong>, tus <strong>4 Empleados Digitales IA 24/7</strong> (chat y voz), tu <strong>Tablero CRM con 23 Micro-Apps</strong> y tu <strong>Fábrica de Reels &amp; Campañas</strong>. Todo con garantía <strong>50% hoy y 50% al entregar operando</strong>.
         </p>
 
-        <!-- LAS 3 PREGUNTAS FINANCIERAS Y FAMILIARES DEL DUEÑO DE NEGOCIO -->
-        <div class="math-grid" aria-label="Impacto financiero en tu negocio y familia">
-          <div class="math-card">
-            <span class="math-tag">📈 1. Tu Facturación</span>
-            <div class="math-big">US$2K &rarr; <span>US$4K+/mes</span></div>
-            <div class="math-desc">Duplica tu clientela con un Sitio Web Inteligente que nunca deja escapar a un interesado de día ni de noche.</div>
+        <!-- LOS 4 EMPLEADOS DIGITALES ESTILO PIXAR -->
+        <div class="pixar-squad-grid" aria-label="Tus 4 Empleados Digitales 24/7">
+          <div class="pixar-card">
+            <img src="{{ static_versioned('empleados_digitales/sdr_ia_pixar.png') }}" alt="SDR IA Prospectador y Calificador" loading="eager">
+            <strong>SDR IA</strong>
+            <span>Prospecta y Filtra</span>
           </div>
-          <div class="math-card payroll">
-            <span class="math-tag">💸 2. Tu Nómina</span>
-            <div class="math-big"><span>-US$1,000/mes</span> Fijos</div>
-            <div class="math-desc">Ahorra en personal que olvida dar seguimiento: tu recepcionista digital no pide vacaciones y atiende 24/7.</div>
+          <div class="pixar-card" style="border-color:rgba(52,211,153,0.42);">
+            <img src="{{ static_versioned('empleados_digitales/setter_ia_pixar.png') }}" alt="Setter IA Agendador Inteligente" loading="eager">
+            <strong>Setter IA</strong>
+            <span style="color:#34d399;">Agenda Chat y Voz</span>
           </div>
-          <div class="math-card family">
-            <span class="math-tag">👨‍👩‍👧‍👦 3. Tu Familia e Hijos</span>
-            <div class="math-big">ROAS <span>3X a 5X</span></div>
-            <div class="math-desc">Invierte en campañas de Meta Ads buscando multiplicar de 3 a 5 veces tu inversión para la educación de tus hijos.</div>
+          <div class="pixar-card" style="border-color:rgba(251,191,36,0.45);">
+            <img src="{{ static_versioned('empleados_digitales/closer_ia_pixar.png') }}" alt="Closer IA Seguimiento Comercial" loading="eager">
+            <strong>Closer IA</strong>
+            <span style="color:#fbbf24;">Seguimiento y Cobro</span>
+          </div>
+          <div class="pixar-card" style="border-color:rgba(192,132,252,0.42);">
+            <img src="{{ static_versioned('empleados_digitales/soporte_ia_pixar.png') }}" alt="Soporte IA Atención 24/7" loading="eager">
+            <strong>Soporte IA</strong>
+            <span style="color:#c084fc;">Postventa 5★</span>
           </div>
         </div>
 
+        <!-- 2 REELS VERTICALES REALES EN VIVO -->
+        <div class="reel-pair-grid" aria-label="Reels reales producidos por Agencia Prosper IA">
+          <div class="reel-box">
+            <video controls playsinline preload="metadata" poster="/static/ecosistema/grafico_climatizacion.png">
+              <source src="/static/ecosistema/reel_climatizacion.mp4" type="video/mp4">
+            </video>
+            <div class="reel-cap">🎬 Reel #1 · Captación Directa a Cita</div>
+            <div class="reel-sub">Gancho 3 seg + Calificación automática WhatsApp</div>
+          </div>
+          <div class="reel-box">
+            <video controls playsinline preload="metadata" poster="/static/ecosistema/grafico_plomeria.png">
+              <source src="/static/ecosistema/reel_plomeria.mp4" type="video/mp4">
+            </video>
+            <div class="reel-cap">🎬 Reel #2 · Urgencias y Servicios 24/7</div>
+            <div class="reel-sub">Sistema probado de +744,000 vistas orgánicas</div>
+          </div>
+        </div>
+
+        <!-- LOS 3 PILARES DEL ECOSISTEMA -->
         <ul class="feature-list">
+          <li class="feature-item">
+            <div class="feature-icon" aria-hidden="true"><i class="fas fa-globe"></i></div>
+            <div>
+              <strong>1. Sitio Web Inteligente o Tienda Online en 7 a 10 Días</strong>
+              <span>Dominio `.com`, diseño de conversión adaptado a tu giro (entre +1,000 plantillas) y formulario calificador conectado a tu calendario sin depender de programadores.</span>
+            </div>
+          </li>
+          <li class="feature-item">
+            <div class="feature-icon" aria-hidden="true"><i class="fas fa-robot"></i></div>
+            <div>
+              <strong>2. Tus 4 Empleados Digitales 24/7 (Chat Omnicanal + Voz Telefónica)</strong>
+              <span>Atienden WhatsApp, Instagram, Facebook, Web y llamadas en segundos, filtran curiosos, agendan citas en calendario y dan seguimiento puntual a cada cotización.</span>
+            </div>
+          </li>
           <li class="feature-item">
             <div class="feature-icon" aria-hidden="true"><i class="fas fa-film"></i></div>
             <div>
-              <strong>Motor 1: 30 Guiones Virales (Hook, Guion y CTA) + Edición de Tus Reels</strong>
-              <span>Tú solo te grabas con tu celular leyendo los guiones de tu giro; nuestros editores profesionales (+744K vistas reales) les ponen subtítulos dinámicos, ritmo y música. Y cuando ya tengas resultados, puedes mantener tu presencia todo el año con nuestro paquete de Community Manager + Editor (16 Reels al mes = 4 por semana).</span>
-            </div>
-          </li>
-          <li class="feature-item">
-            <div class="feature-icon" aria-hidden="true"><i class="fas fa-comments"></i></div>
-            <div>
-              <strong>Motor 2: Tu Sitio Web Inteligente + Contestador 24/7 en WhatsApp</strong>
-              <span>Elige entre +1,000 diseños para Dentistas, Realtors, Clínicas, Despachos y Comercios. Saluda en menos de 1 minuto, filtra quién sí califica y agenda la cita directo en tu celular.</span>
-            </div>
-          </li>
-          <li class="feature-item">
-            <div class="feature-icon" aria-hidden="true"><i class="fas fa-file-pdf"></i></div>
-            <div>
-              <strong>Bono Incluido: Constructores PassportAI.app (Llenas 3 Datos y Descargas tu PDF)</strong>
-              <span>Sin escribir comandos raros: entras a nuestros 6 Constructores de Negocios, llenas un formulario simple de 3 preguntas y descargas en 60 segundos tu estrategia y guiones en un PDF de 8 a 12 páginas.</span>
+              <strong>3. Tablero CRM con 23 Micro-Apps + Campañas &amp; Fábrica de Reels</strong>
+              <span>Organiza todos tus clientes en un solo tablero, multiplica reseñas 5★ en Google y recibe Reels virales + anuncios *Click-to-WhatsApp* con facilidad <strong>50% hoy / 50% al entregar</strong>.</span>
             </div>
           </li>
         </ul>
@@ -685,22 +885,21 @@
         </div>
       </section>
 
-      <!-- COLUMNA DERECHA: FORMULARIO CALIFICADOR DE DUEÑOS + DEMO EN VIVO -->
+      <!-- COLUMNA DERECHA: FORMULARIO CALIFICADOR DE DUEÑOS + AGENDA ROUND-ROBIN EN VIVO -->
       <section class="form-card" aria-labelledby="form-heading">
 
         <div id="step1-form-wrap">
           <div class="form-header">
-            <h2 id="form-heading">⚡ Mira Cómo Se Ve el Sistema en Tu Negocio</h2>
-            <p>Llena estos 5 datos en 30 segundos para abrir la demostración en vivo de tu giro y agendar tu sesión donde te mostramos cómo instalarlo esta semana:</p>
+            <h2 id="form-heading">⚡ Activa Tu Sistema y Agenda en Vivo</h2>
+            <p>Vienes de nuestros Reels: llena estos datos en 30 segundos para asignarte con un Director Comercial y elegir día y hora en el calendario en vivo:</p>
           </div>
 
           <form id="sitioweb-form" action="/api/sitioweb/qualify" method="POST" aria-labelledby="form-heading">
-            <!-- Honeypot anti-spam oculto de tecnologías de asistencia -->
             <input type="text" name="website_hp" tabindex="-1" aria-hidden="true" class="visually-hidden" autocomplete="off">
 
             <div class="field">
-              <label for="business_name">Nombre de tu Consultorio, Inmobiliaria o Negocio <span class="req-star" aria-hidden="true">*</span></label>
-              <span id="biz-hint" class="hint">Lo colocaremos en vivo en el encabezado de tu página de demostración.</span>
+              <label for="business_name">Nombre de tu Negocio o Empresa <span class="req-star" aria-hidden="true">*</span></label>
+              <span id="biz-hint" class="hint">Preparamos tu propuesta visual y muestra interactiva con este nombre.</span>
               <input
                 type="text"
                 id="business_name"
@@ -719,8 +918,8 @@
             </div>
 
             <div class="field">
-              <label for="niche">¿A qué se dedica tu negocio? <span class="req-star" aria-hidden="true">*</span></label>
-              <span id="niche-hint" class="hint">Te mostraremos el diseño y los guiones ideales para tu sector.</span>
+              <label for="niche">¿A qué giro pertenece tu negocio? <span class="req-star" aria-hidden="true">*</span></label>
+              <span id="niche-hint" class="hint">Mostramos casos y plantillas reales de tu industria en la sesión.</span>
               <select
                 id="niche"
                 name="niche"
@@ -728,12 +927,19 @@
                 aria-describedby="niche-hint"
                 data-error="niche-error"
               >
-                <option value="" selected disabled>Selecciona el giro de tu negocio...</option>
+                <option value="" selected disabled>Selecciona el giro exacto de tu negocio...</option>
+                <option value="hvac">Aire Acondicionado / Climatización / HVAC</option>
+                <option value="plomeria">Plomería, Destapes y Fugas 24/7</option>
+                <option value="electricista">Electricistas, Paneles e Instalaciones</option>
+                <option value="roofing">Techos, Roofing, Construcción y Remodelación</option>
+                <option value="piscinas">Piscinas, Spas y Mantenimiento</option>
+                <option value="jardineria">Jardinería, Paisajismo y Riego</option>
+                <option value="home_services">Otros Servicios del Hogar / Taller / Limpieza</option>
                 <option value="clinica">Dentista, Clínica Médica, Estética o Salud</option>
-                <option value="inmobiliaria">Realtor, Inmobiliaria, Constructora o Bienes Raíces</option>
-                <option value="profesionales">Abogado, Contador, Consultor o Agencia</option>
-                <option value="servicios_locales">Restaurante, Taller, Spa, Gimnasio o Comercio Local</option>
-                <option value="enterprise">Empresa B2B, Industrial, Exportadora o Mayorista</option>
+                <option value="inmobiliaria">Inmobiliaria, Realtor o Bienes Raíces</option>
+                <option value="profesionales">Abogado, Notaría, Contador o Consultoría</option>
+                <option value="sti2q">Industria Química, Laboratorio o B2B Corporativo</option>
+                <option value="servicios_locales">Comercio, Tienda Online, Restaurante o Local</option>
                 <option value="academia">Academia, Escuela o Centro de Capacitación</option>
               </select>
               <div id="niche-error" class="error-msg">
@@ -761,7 +967,7 @@
 
             <div class="field">
               <label for="phone">Tu WhatsApp Directo (con código de país) <span class="req-star" aria-hidden="true">*</span></label>
-              <span id="phone-hint" class="hint">Ejemplo: +52 55 1234 5678, +1 786 555 0199 o +54 9 11 2345 6789.</span>
+              <span id="phone-hint" class="hint">Ejemplo: +1 786 555 0199, +52 55 1234 5678 o +54 9 11 2345 6789.</span>
               <input
                 type="tel"
                 id="phone"
@@ -804,140 +1010,209 @@
             </div>
 
             <fieldset>
-              <legend>¿Cuál es tu meta principal en los próximos 30 días? <span class="req-star" aria-hidden="true">*</span></legend>
+              <legend>¿Con qué paquete te gustaría arrancar? <span class="req-star" aria-hidden="true">*</span></legend>
               <div class="radio-stack">
                 <div class="radio-row">
-                  <input type="radio" id="vol_15_50" name="monthly_volume" value="15_50" required>
-                  <label for="vol_15_50">Duplicar mis citas y ventas con Sitio Web + Videos Reels (Tengo negocio activo)</label>
+                  <input type="radio" id="vol_pack_anual" name="monthly_volume" value="pack_anual" required>
+                  <label for="vol_pack_anual">★ Pack Estrella Anual — Cero Mensualidades todo el Año 1 (Web + 4 Empleados IA + CRM + PassportAI + 2 Reels)</label>
                 </div>
                 <div class="radio-row">
-                  <input type="radio" id="vol_50_plus" name="monthly_volume" value="50_plus">
-                  <label for="vol_50_plus">Escalar con la Máquina Completa: Web 24/7 + 10 Reels + Campañas Meta Ads</label>
+                  <input type="radio" id="vol_maquina" name="monthly_volume" value="maquina_3en1">
+                  <label for="vol_maquina">🔥 Máquina Completa 3 en 1 — Web + 4 Empleados IA + 10 Reels Virales + 1 Mes de Campañas Ads</label>
                 </div>
                 <div class="radio-row">
-                  <input type="radio" id="vol_1_15" name="monthly_volume" value="1_15">
-                  <label for="vol_1_15">Automatizar mi atención en WhatsApp 24/7 y bajar carga de nómina</label>
+                  <input type="radio" id="vol_arranque" name="monthly_volume" value="arranque_pyme">
+                  <label for="vol_arranque">🚀 Arranque Rápido PYME / Plan Rescate — Web de Alta Conversión + Asistente 24/7</label>
                 </div>
                 <div class="radio-row">
                   <input type="radio" id="vol_none" name="monthly_volume" value="sin_negocio">
-                  <label for="vol_none">Aún no tengo un negocio activo (Solo quiero explorar la página)</label>
+                  <label for="vol_none">Aún no tengo un negocio activo (Solo estoy explorando la información)</label>
                 </div>
               </div>
             </fieldset>
 
             <button type="submit" id="submit-sitioweb-btn" class="submit-btn">
-              🚀 Ver Demo de Mi Negocio y Agendar Ahora &rarr;
+              📅 Desbloquear Calendario y Ver Muestra en Vivo &rarr;
             </button>
 
             <p class="privacy-note">
-              🔒 Tus datos están protegidos por Agencia Prosper IA LLC. Nosotros instalamos todo llave en mano.
+              🔒 Garantía Agencia Prosper IA LLC: Facilidad 50% al iniciar y 50% contra entrega funcionando.
             </p>
           </form>
         </div>
 
-        <!-- PASO 2: RESULTADO EN VIVO + DEMO PERSONALIZADA + AGENDA DEL CONSULTOR ASIGNADO -->
+        <!-- PASO 2: PRIORIDAD AGENDA ROUND-ROBIN EN VIVO + PREVIEW PÚBLICO LIMPIO -->
         <div id="step2-result-wrap" class="result-panel" hidden role="status">
           <h2 id="step2-heading" tabindex="-1" style="font-size:1.35rem; color:#34d399;">
-            ✅ ¡Vista Previa Lista para <span id="res-biz-name">Tu Negocio</span>!
+            ✅ ¡Solicitud Lista para <span id="res-biz-name">Tu Negocio</span>!
           </h2>
           <p id="res-subtitle" style="font-size:0.9rem; color:#cbd5e1; margin-block:0.5rem 1rem;">
-            Ya preparamos la demostración interactiva de tu giro. Haz clic en el botón verde para probarla y elige abajo el día y hora de tu sesión de 20 minutos para mostrarte tus 30 guiones, tus constructores PDF y cómo entregarte todo funcionando:
+            Elige abajo el día y hora de tu demostración de 20 minutos para ver tu sistema funcionando y resolver todas tus dudas (con facilidad 50% hoy / 50% contra entrega):
           </p>
-
-          <a id="res-demo-link" href="/demo-sitio-web" class="btn-demo-launch">
-            <i class="fas fa-external-link-alt" aria-hidden="true"></i>
-            <span>Abrir Ahora la Demo en Vivo de Mi Negocio</span>
-          </a>
 
           <div id="res-closer-box" class="closer-badge-box">
             <img id="res-closer-avatar" src="/static/logo_prosper_ia_cropped.jpg" alt="" width="54" height="54" fetchpriority="low">
             <div>
-              <div style="font-size:0.72rem; font-weight:800; color:#34d399; text-transform:uppercase;">Director de Crecimiento Asignado</div>
+              <div style="font-size:0.72rem; font-weight:800; color:#34d399; text-transform:uppercase;">Director Comercial Asignado (Round-Robin)</div>
               <div id="res-closer-name" style="font-size:1rem; font-weight:800; color:#ffffff;">Equipo Comercial ProsperIA</div>
-              <div style="font-size:0.8rem; color:#cbd5e1;">Selecciona abajo tu horario en vivo (Facilidad 50% hoy y 50% contra entrega):</div>
+              <div style="font-size:0.8rem; color:#cbd5e1;">Selecciona tu horario disponible en el calendario aquí abajo:</div>
             </div>
           </div>
 
-          <div id="res-calendar-container">
+          <div id="res-calendar-container" style="margin-block-end:1rem;">
             <iframe id="res-calendar-iframe" title="Calendario oficial de agendamiento ProsperIA" class="calendar-embed" loading="lazy"></iframe>
           </div>
+
+          <a id="res-demo-link" href="/demo-sitio-web" class="btn-demo-launch">
+            <i class="fas fa-desktop" aria-hidden="true"></i>
+            <span>Explorar Muestra Interactiva de Mi Industria →</span>
+          </a>
         </div>
 
       </section>
 
     </div>
 
-    <!-- SECCIÓN INFERIOR 1: PASSPORTAI EXPLICADO PARA UN DENTISTA O UN REALTOR (CONSTRUCTORES -> PDF) -->
-    <section class="below-fold-section" aria-labelledby="passport-heading">
+    <!-- SECCIÓN INFERIOR 1: LAS 3 CAJAS DE CIERRE (SIN PRECIOS PÚBLICOS FIJOS, FACILIDAD 50/50) -->
+    <section class="below-fold-section" aria-labelledby="cajas-heading">
       <div class="section-box">
         <div class="pill-kicker" style="margin-block-end:0.6rem;">
-          <span>🛂 INCLUIDO EN TU SISTEMA · QUÉ ES PASSPORTAI.APP (CERO TECNICISMOS)</span>
+          <span>🚀 50% AL INICIAR HOY · 50% AL ENTREGAR OPERANDO EN 7 A 10 DÍAS</span>
         </div>
-        <h2 id="passport-heading" style="font-size:clamp(1.45rem, 2.6vw, 2rem);">
-          Imagina a un Dentista o a un Realtor: <span style="color:#00e5ff;">Llenas 3 Datos en un Formulario</span> y Descargas tu Plan Listo en <span style="color:#fbbf24;">PDF de 8 a 12 Páginas</span>
+        <h2 id="cajas-heading" style="font-size:clamp(1.45rem, 2.6vw, 2rem);">
+          Elige Tu Nivel de Sistema en <span style="color:#fbbf24;">Agencia Prosper IA</span>
         </h2>
-        <p style="color:#cbd5e1; font-size:0.96rem; margin-block:0.45rem 0;">
-          No necesitas saber qué es un comando ni hablarle a ningún robot. Nosotros ya programamos toda la estrategia detrás de cada botón para que tú solo llenes casillas simples y descargues tus documentos listos para usar todo el año:
+        <p style="color:#cbd5e1; font-size:0.95rem; margin-block:0.45rem 0;">
+          Todos nuestros sistemas se entregan llave en mano con muestra previa de tu negocio. Selecciona el paquete ideal y agenda tu cotización exacta en vivo:
         </p>
 
-        <div class="passport-grid">
-          <div>
-            <img
-              src="/static/img/passportai_suite_constructores.png"
-              alt="Suite de 6 Constructores de Negocios en PassportAI.app que generan documentos PDF de 8 a 12 páginas"
-              class="passport-shot"
-              width="960"
-              height="480"
-              loading="lazy"
-            >
-          </div>
-          <div class="constructor-list">
-            <div class="constructor-item">
-              📅 <strong>1. Sprint de Contenido (PDF 12 Páginas):</strong> Te entrega el calendario y los guiones de tus videos palabra por palabra (Gancho, Desarrollo y Llamado a la Acción).
+        <div class="cajas-grid">
+          <article class="caja-card">
+            <div>
+              <span class="caja-badge">Opción 1 · Paso Inicial</span>
+              <h3 style="font-size:1.25rem; color:#fff;">Arranque Rápido PYME</h3>
+              <p style="font-size:0.84rem; color:#94a3b8; margin:0.4rem 0 0;">Para negocios que urgen dejar de perder consultas de WhatsApp desde esta semana.</p>
+              <ul class="caja-list">
+                <li>✓ Sitio Web Inteligente de alta conversión</li>
+                <li>✓ Formulario calificador + SDR &amp; Setter IA 24/7</li>
+                <li>✓ 1er Mes de Tablero CRM y Calendario incluido</li>
+                <li>✓ Facilidad 50% hoy / 50% al entregar en 7-10 días</li>
+              </ul>
             </div>
-            <div class="constructor-item">
-              💎 <strong>2. Arquitecto de Ofertas (PDF 8 Páginas):</strong> Diseña promociones irresistibles para tus implantes, propiedades o servicios sin regalar tu trabajo.
+            <button type="button" class="caja-btn pick-box-btn" data-box="vol_arranque">Cotizar Arranque Rápido ↑</button>
+          </article>
+
+          <article class="caja-card featured">
+            <div>
+              <span class="caja-badge">★ La Más Elegida · Cero Mensualidades</span>
+              <h3 style="font-size:1.3rem; color:#fff;">Pack Estrella Anual</h3>
+              <p style="font-size:0.84rem; color:#fde68a; margin:0.4rem 0 0;">El paquete favorito: cero pagos mensuales todo el Año 1 con el sistema completo.</p>
+              <ul class="caja-list">
+                <li>✓ Web + Dominio/Hosting + <strong>4 Empleados Digitales 24/7</strong></li>
+                <li>✓ <strong>12 Meses</strong> de Tablero CRM + 23 Micro-Apps (Año 1 $0/mes)</li>
+                <li>✓ <strong>12 Meses</strong> de PassportAI Business incluido</li>
+                <li>✓ <strong>Bono Gratis:</strong> 2 Reels Virales editados + Tarjeta QR 5★</li>
+              </ul>
             </div>
-            <div class="constructor-item">
-              🧲 <strong>3. Embudo de Regalo y Seguimiento (PDF 8 Páginas):</strong> Crea el imán para captar teléfonos y te da los 5 mensajes listos para mandar por WhatsApp.
+            <button type="button" class="caja-btn pick-box-btn" data-box="vol_pack_anual">Elegir Pack Estrella Anual ↑</button>
+          </article>
+
+          <article class="caja-card" style="border-color:rgba(167,139,250,0.45);">
+            <div>
+              <span class="caja-badge" style="background:rgba(167,139,250,0.2);color:#ddd6fe;">🔥 No Tocas Nada · Llave en Mano</span>
+              <h3 style="font-size:1.25rem; color:#fff;">Máquina Completa 3 en 1</h3>
+              <p style="font-size:0.84rem; color:#94a3b8; margin:0.4rem 0 0;">Para empresas que quieren web, Empleados IA, videos virales y campañas activas.</p>
+              <ul class="caja-list">
+                <li>✓ Todo el Pack Estrella Anual completo</li>
+                <li>✓ <strong>10 Videos Cortos Reels Virales</strong> editados por nuestro equipo</li>
+                <li>✓ <strong>1 Mes Completo de Gestión Ads</strong> (Meta/IG/WhatsApp)</li>
+                <li>✓ Facilidad 50% hoy / 50% al estar todo al aire</li>
+              </ul>
             </div>
-            <div class="constructor-item">
-              🏅 <strong>4. Arquitecto de Marca Personal (PDF 8 Páginas):</strong> Te posiciona como la autoridad #1 de tu ciudad para que no te comparen por precio.
-            </div>
-            <div class="constructor-item">
-              🌐 <strong>5. Arquitecto de Página + 6. Constructor de Negocio (PDF 9 Páginas):</strong> Estructura nuevas páginas de venta y el plan financiero de tu empresa.
-            </div>
-          </div>
+            <button type="button" class="caja-btn pick-box-btn" data-box="vol_maquina" style="border-color:rgba(167,139,250,0.5);color:#ddd6fe;background:rgba(167,139,250,0.14);">Cotizar Máquina Completa ↑</button>
+          </article>
         </div>
       </div>
     </section>
 
-    <!-- SECCIÓN INFERIOR 2: TRANSPARENCIA TOTAL (QUIÉN IMPLEMENTA, 5 DATOS Y SOPORTE MENSUAL) -->
+    <!-- SECCIÓN INFERIOR 2: VITRINA EN VIVO DE PROYECTOS REALES -->
+    <section class="below-fold-section" aria-labelledby="vitrina-heading">
+      <div class="section-box">
+        <div style="display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:1rem;">
+          <div>
+            <h2 id="vitrina-heading" style="font-size:clamp(1.35rem, 2.4vw, 1.85rem);">
+              Proyectos Reales Ya Funcionando <span style="color:#00e5ff;">(Pruébalos En Vivo)</span>
+            </h2>
+            <p style="color:#cbd5e1; font-size:0.9rem; margin:0.35rem 0 0;">Haz clic en cualquiera para navegarlo en vivo desde aquí:</p>
+          </div>
+          <a href="/paginas-web" style="color:#67e8f9; font-weight:800; font-size:0.88rem; text-decoration:none;">Ver los +20 proyectos completos →</a>
+        </div>
+
+        <div class="port-strip-grid">
+          <article class="port-mini-card">
+            <img src="/portafolio-vivo/servixo/assets/img/hero.jpg" alt="Servixo 82 oficios servicios del hogar" loading="lazy">
+            <div class="port-mini-body">
+              <strong style="color:#fff;font-size:0.95rem;">Servixo · Servicios del Hogar</strong>
+              <span style="font-size:0.78rem;color:#94a3b8;">82 oficios (HVAC, plomería, electricistas, piscinas, techos).</span>
+              <a href="/portafolio-vivo/servixo/" style="color:#34d399;font-size:0.82rem;font-weight:800;text-decoration:none;">Abrir proyecto en vivo →</a>
+            </div>
+          </article>
+          <article class="port-mini-card">
+            <img src="/assets/cama-completa-duvet-almohadas-wD5rwC03.jpg" alt="Blancos Girasol catálogo mayorista" loading="lazy">
+            <div class="port-mini-body">
+              <strong style="color:#fff;font-size:0.95rem;">Blancos Girasol · B2B Textil</strong>
+              <span style="font-size:0.78rem;color:#94a3b8;">Catálogo mayorista para hoteles y hospitales + CRM.</span>
+              <a href="/portafolio-vivo/blancosgirasol/" style="color:#fbbf24;font-size:0.82rem;font-weight:800;text-decoration:none;">Abrir proyecto en vivo →</a>
+            </div>
+          </article>
+          <article class="port-mini-card">
+            <img src="/static/portfolio/sti2q_hero.jpg" alt="STI2Q Ingeniería Industrial y Química" loading="lazy">
+            <div class="port-mini-body">
+              <strong style="color:#fff;font-size:0.95rem;">STI²Q · Industria Química</strong>
+              <span style="font-size:0.78rem;color:#94a3b8;">Portal científico y laboratorio analítico en México.</span>
+              <a href="https://sti2q.com.mx/" target="_blank" rel="noopener" style="color:#67e8f9;font-size:0.82rem;font-weight:800;text-decoration:none;">Abrir sti2q.com.mx ↗</a>
+            </div>
+          </article>
+          <article class="port-mini-card">
+            <img src="/portafolio-vivo/sunotariausa/static/images/herramientas_notariales.png" alt="Su Notaría USA Miami bilingüe" loading="lazy">
+            <div class="port-mini-body">
+              <strong style="color:#fff;font-size:0.95rem;">Su Notaría USA · Legal ES/EN</strong>
+              <span style="font-size:0.78rem;color:#94a3b8;">Portal migratorio y notarial bilingüe con calificación y citas.</span>
+              <a href="/portafolio-vivo/sunotariausa/" style="color:#34d399;font-size:0.82rem;font-weight:800;text-decoration:none;">Abrir proyecto en vivo →</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN INFERIOR 3: TRANSPARENCIA TOTAL (3 PASOS) -->
     <section class="below-fold-section" aria-labelledby="clarity-heading">
       <div class="section-box">
         <h2 id="clarity-heading" style="font-size:clamp(1.35rem, 2.4vw, 1.85rem);">
-          Claridad Total: <span style="color:#34d399;">¿Quién Instala Todo</span>, Qué Te Pedimos al Iniciar y Cómo Funciona tu Soporte?
+          Claridad Total: <span style="color:#34d399;">¿Cómo Empezamos En 7 a 10 Días?</span>
         </h2>
         <div class="clarity-grid">
           <div class="clarity-card">
             <div style="font-size:1.5rem;" aria-hidden="true">🛠️</div>
-            <h3>1. ¿Quién hace todo el trabajo?</h3>
-            <p><strong>100% nuestro equipo de especialistas.</strong> Tú no configuras ni programas nada. Nuestros diseñadores, editores de video y especialistas dejan todo funcionando en tu celular.</p>
+            <h3>1. Nosotros hacemos el 100%</h3>
+            <p><strong>No configuras ni programas nada.</strong> Diseñamos tu web, entrenamos a tus 4 Empleados Digitales, conectamos tu CRM y editamos tus Reels.</p>
           </div>
           <div class="clarity-card">
             <div style="font-size:1.5rem;" aria-hidden="true">📲</div>
-            <h3>2. ¿Qué te pedimos al iniciar?</h3>
-            <p>Solo <strong>5 datos simples por WhatsApp</strong>: el nombre y logo de tu negocio, el WhatsApp donde recibirás las citas, tus servicios principales, unas fotos/videos con tu celular y tus horarios.</p>
+            <h3>2. Solo 5 datos por WhatsApp</h3>
+            <p>Al arrancar solo nos envías nombre/logo, el WhatsApp de citas, tus servicios, fotos o clips del celular y tus horarios de atención.</p>
           </div>
           <div class="clarity-card">
             <div style="font-size:1.5rem;" aria-hidden="true">🛡️</div>
-            <h3>3. ¿Hay soporte y edición todo el año?</h3>
-            <p>¡Sí! Nuestros planes anuales incluyen <strong>12 meses de soporte por WhatsApp y mantenimiento ($0/mes)</strong>. Y cuando ya tengas resultados con tus primeros Reels, puedes activar tu <strong>Community Manager + Editor con 16 Reels al mes (4 por semana)</strong>.</p>
+            <h3>3. Pagas 50% hoy y 50% al entregar</h3>
+            <p>Arrancas con la mitad y liquidas la segunda mitad hasta ver tu web, tus Empleados IA y tu calendario funcionando en tiempo real.</p>
           </div>
         </div>
       </div>
     </section>
   </main>
+
+  <script src="{{ static_versioned('prosperia_assistant.js') }}" defer></script>
 
   <script>
     (() => {
@@ -1062,6 +1337,21 @@
         }, true);
       }
 
+      document.querySelectorAll('.pick-box-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const targetId = btn.getAttribute('data-box');
+          const radio = targetId ? document.getElementById(targetId) : null;
+          if (radio) radio.checked = true;
+          step2Wrap.hidden = true;
+          step1Wrap.hidden = false;
+          const bizInput = document.getElementById('business_name');
+          if (bizInput) {
+            bizInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            setTimeout(() => bizInput.focus(), 420);
+          }
+        });
+      });
+
       // 2. Submit via AJAX with graceful server fallback
       form.addEventListener('submit', async (e) => {
         if (!form.checkValidity()) {
@@ -1070,14 +1360,14 @@
         e.preventDefault();
         submitBtn.disabled = true;
         const origText = submitBtn.textContent;
-        submitBtn.textContent = '⏳ Preparando la vista previa de tu negocio...';
+        submitBtn.textContent = '⏳ Asignando especialista y abriendo calendario...';
 
         try {
           const fd = new FormData(form);
           const payload = Object.fromEntries(fd.entries());
           const urlParams = new URLSearchParams(window.location.search);
-          payload.utm_source = urlParams.get('utm_source') || '';
-          payload.utm_campaign = urlParams.get('utm_campaign') || '';
+          payload.utm_source = urlParams.get('utm_source') || 'reel_sitiosweb';
+          payload.utm_campaign = urlParams.get('utm_campaign') || 'embudo_sitiosweb';
 
           const res = await fetch('/api/sitioweb/qualify', {
             method: 'POST',

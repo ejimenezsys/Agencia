@@ -1733,6 +1733,12 @@ async def tarjeta_digital_page(request: Request):
 @app.head("/sitioweb/")
 @app.get("/sitioweb.html", response_class=HTMLResponse)
 @app.head("/sitioweb.html")
+@app.get("/sitiosweb", response_class=HTMLResponse)
+@app.head("/sitiosweb")
+@app.get("/sitiosweb/", response_class=HTMLResponse)
+@app.head("/sitiosweb/")
+@app.get("/sitiosweb.html", response_class=HTMLResponse)
+@app.head("/sitiosweb.html")
 @app.get("/mi-web", response_class=HTMLResponse)
 @app.head("/mi-web")
 async def sitioweb_funnel_page(request: Request):
