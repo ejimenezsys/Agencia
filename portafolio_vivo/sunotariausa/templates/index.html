@@ -1,0 +1,246 @@
+{% extends "base.html" %}
+
+{% block title %}
+{% if lang == 'en' %}Su Notaria USA | Home | Premium Notary Services in Miami{% else %}Su Notaria USA | Inicio | Servicios Notariales Premium en Miami{% endif %}
+{% endblock %}
+
+{% block content %}
+<!-- Sección Hero (Fondo Oscuro con Imagen de Herramientas Notariales) -->
+<section class="hero-section" style="background-image: linear-gradient(rgba(10, 17, 31, 0.85), rgba(10, 17, 31, 0.95)), url('/static/images/herramientas_notariales.png');">
+    <div class="container hero-container animate-fade-in">
+        <h1 class="hero-title">Su Notaria USA</h1>
+        <div class="hero-desc-wrapper">
+            {% if lang == 'en' %}
+            <p class="hero-subtitle">
+                High-trust and legally binding notary structures and services across the entire United States. More than 20 years of experience and prestigious corporate backing.
+            </p>
+            <p class="hero-subtitle">
+                Our team of highly trained, state-commissioned notary publics specializes in handling complex transactions and critical documents with absolute precision. From formalizing real estate agreements to authenticating corporate documents, we guarantee maximum legal validity throughout the United States.
+            </p>
+            <p class="hero-subtitle">
+                We prioritize your convenience and security by offering flexibility and efficiency in every service, whether in person or through advanced notary solutions. Our dedication to excellence ensures your procedures are handled with the due diligence and confidentiality required to protect your interests.
+            </p>
+            {% else %}
+            <p class="hero-subtitle">
+                Estructuras y servicios notariales de alta confianza y validez legal en todo el territorio de los Estados Unidos. Más de 20 años de experiencia y respaldo corporativo de prestigio.
+            </p>
+            <p class="hero-subtitle">
+                Nuestro equipo de notarios altamente capacitados y con comisión estatal se especializa en gestionar transacciones complejas y documentos críticos con absoluta precisión. Desde la formalización de acuerdos de bienes raíces hasta la autenticación de documentos corporativos, garantizamos la máxima validez legal en todo el territorio de los Estados Unidos.
+            </p>
+            <p class="hero-subtitle">
+                Priorizamos su conveniencia y seguridad ofreciendo flexibilidad y eficiencia en cada servicio, ya sea en persona o a través de soluciones notariales avanzadas. Nuestra dedicación a la excelencia asegura que sus trámites se manejen con la debida diligencia y confidencialidad requerida para proteger sus intereses.
+            </p>
+            {% endif %}
+        </div>
+        <div class="hero-cta">
+            <a href="{{ '/en/contacto' if lang == 'en' else '/contacto' }}" class="btn btn-primary">
+                {% if lang == 'en' %}SCHEDULE YOUR APPOINTMENT{% else %}AGENDA TU CITA{% endif %}
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Franja de Confianza Local e Inmunidad Notarial (Trust Badge) -->
+<section class="trust-badge-bar">
+    <div class="container trust-badge-container">
+        <div class="trust-badge-item">
+            <svg viewBox="0 0 24 24" width="20" height="20" class="trust-badge-icon" fill="currentColor">
+                <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 15l-4-4 1.41-1.41L10 13.17l5.59-5.59L17 9l-7 7z"/>
+            </svg>
+            <span class="trust-badge-text">
+                {% if lang == 'en' %}Commissioned, Bonded & Insured in the State of Florida{% else %}Comisionado, Afianzado y Asegurado en el Estado de Florida{% endif %}
+            </span>
+        </div>
+        <div class="trust-badge-divider"></div>
+        <div class="trust-badge-item">
+            <svg viewBox="0 0 24 24" width="20" height="20" class="trust-badge-icon" fill="currentColor">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            </svg>
+            <span class="trust-badge-text">
+                {% if lang == 'en' %}Service in the Miami Metropolitan Area{% else %}Servicio en el Área Metropolitana de Miami{% endif %}
+            </span>
+        </div>
+    </div>
+</section>
+
+<!-- Sección Sobre Nosotros (Perfil de Autoridad) -->
+<section class="about-notary-section">
+    <div class="container about-notary-grid">
+        <div class="about-notary-content animate-fade-in">
+            <h2 class="about-notary-title">
+                {% if lang == 'en' %}About Us: Leadership and Legal Precision{% else %}Sobre Nosotros: Liderazgo y Precisión Legal{% endif %}
+            </h2>
+            <div class="about-notary-subtitle-wrapper">
+                <h3 class="about-notary-name">Gladys Rodriguez</h3>
+                <p class="about-notary-role">
+                    {% if lang == 'en' %}Vice President, JPX International Investments Inc. | Commissioned Notary Public in Florida{% else %}Vicepresidenta, JPX International Investments Inc. | Notario Público Comisionado en Florida{% endif %}
+                </p>
+            </div>
+            
+            {% if lang == 'en' %}
+            <p class="about-notary-desc">
+                With a career rooted in corporate excellence and business structuring as Vice President of JPX International Investments Inc., Gladys Rodríguez leads Su Notaria USA under the strictest standards of precision, confidentiality, and efficiency.
+            </p>
+            <p class="about-notary-desc">
+                We understand that in the corporate ecosystem and High-Ticket transactions, time and legal security are everything. Therefore, Gladys combines her executive vision with top-tier legal certifications to offer an impeccable notary service, specifically designed to meet the demands of law firms, real estate agencies, and international executives.
+            </p>
+            {% else %}
+            <p class="about-notary-desc">
+                Con una trayectoria arraigada en la excelencia corporativa y la estructuración de negocios como Vicepresidenta de JPX International Investments Inc., Gladys Rodríguez lidera Su Notaria USA bajo los más estrictos estándares de precisión, confidencialidad y eficiencia.
+            </p>
+            <p class="about-notary-desc">
+                Entendemos que en el ecosistema corporativo y en las transacciones High-Ticket, el tiempo y la seguridad jurídica lo son todo. Por ello, Gladys combina su visión ejecutiva con certificaciones legales de primer nivel para ofrecer un servicio notarial impecable, diseñado específicamente para satisfacer las exigencias de despachos legales, firmas inmobiliarias y ejecutivos internacionales.
+            </p>
+            {% endif %}
+            
+            <h4 class="about-notary-list-title">
+                {% if lang == 'en' %}Authoritative Credentials & Backing:{% else %}Credenciales de Autoridad y Respaldo:{% endif %}
+            </h4>
+            <ul class="about-notary-list">
+                <li class="about-notary-list-item">
+                    <span class="about-notary-list-icon">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            <polyline points="9 11 11 13 15 9"/>
+                        </svg>
+                    </span>
+                    <div class="about-notary-list-text">
+                        {% if lang == 'en' %}
+                        <strong>Official State Commission:</strong> Notary Public duly commissioned to operate with full authority in the State of Florida.
+                        {% else %}
+                        <strong>Comisión Estatal Oficial:</strong> Notario Público debidamente comisionado para operar con plena autoridad en el Estado de la Florida.
+                        {% endif %}
+                    </div>
+                </li>
+                <li class="about-notary-list-item">
+                    <span class="about-notary-list-icon">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="9 11 11 13 15 9"/>
+                        </svg>
+                    </span>
+                    <div class="about-notary-list-text">
+                        {% if lang == 'en' %}
+                        <strong>NNA Certification (RON):</strong> Officially accredited by the National Notary Association to perform Remote Online Notarizations with complete legal validity.
+                        {% else %}
+                        <strong>Certificación NNA (RON):</strong> Acreditada oficialmente por la National Notary Association para ejecutar Notarizaciones Online Remotas con total validez jurídica.
+                        {% endif %}
+                    </div>
+                </li>
+                <li class="about-notary-list-item">
+                    <span class="about-notary-list-icon">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                        </svg>
+                    </span>
+                    <div class="about-notary-list-text">
+                        {% if lang == 'en' %}
+                        <strong>Maximum Security & Bond:</strong> Shielded and protected operations with a $25,000 Errors & Omissions (E&O) policy, ensuring secure and risk-free transactions.
+                        {% else %}
+                        <strong>Máxima Seguridad y Fianza:</strong> Operaciones blindadas y protegidas por una póliza de Errores y Omisiones (E&O) de $25,000, garantizando transacciones seguras y libres de riesgo.
+                        {% endif %}
+                    </div>
+                </li>
+            </ul>
+            
+            <p class="about-notary-closing-desc">
+                {% if lang == 'en' %}
+                Whether you require the certification of complex real estate documents, international commercial agreements, affidavits, or urgent powers of attorney, Gladys Rodríguez's signature is synonymous with absolute integrity and institutional backing.
+                {% else %}
+                Ya sea que requiera la certificación de documentos inmobiliarios complejos, acuerdos comerciales internacionales, declaraciones juradas o poderes notariales urgentes, la firma de Gladys Rodríguez es sinónimo de integridad absoluta y respaldo institucional.
+                {% endif %}
+            </p>
+        </div>
+        <div class="about-notary-image-wrapper">
+            <div class="about-notary-column">
+                <div class="about-notary-image-border">
+                    <img src="/static/images/gladys_rodriguez_real.jpg" alt="Gladys Rodriguez" class="about-notary-img">
+                </div>
+                <div class="about-notary-certificate-border">
+                    <img src="/static/images/certificado_notaria.jpg" alt="Certificado Notaria Florida" class="about-notary-cert-img">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Sección Informativa (Bloque Claro - Servicios Móviles) -->
+<section class="section section-light">
+    <div class="container info-section-grid">
+        <div class="info-content">
+            <h2 class="section-title">
+                {% if lang == 'en' %}We offer mobile Notary and Apostille services{% else %}Ofrecemos servicios móviles de Notaría y apostillas{% endif %}
+            </h2>
+            <div class="section-divider"></div>
+            {% if lang == 'en' %}
+            <p class="section-desc">
+                We understand that time is a critical asset for high-level corporations and individuals. Therefore, you do not need to interrupt your schedule. Our team of authorized notary publics travels directly to your location (residence, office, or hotel) in Miami and surrounding areas.
+            </p>
+            <p class="section-desc">
+                The primary function of a notary public is to verify the identity of the signers, ensure they understand the nature and scope of the documents, and witness the signing act under public trust, thereby mitigating the risk of fraud and legal nullity.
+            </p>
+            {% else %}
+            <p class="section-desc">
+                Entendemos que el tiempo es un activo crítico para corporaciones y particulares de alto nivel. Por ello, no es necesario que interrumpa su agenda. Nuestro equipo de notarios públicos autorizados se traslada directamente a su ubicación (residencia, oficina u hotel) en Miami y áreas circundantes.
+            </p>
+            <p class="section-desc">
+                La función principal de un notario público consiste en verificar la identidad de los firmantes, asegurar que comprendan la naturaleza y el alcance de los documentos, y testificar bajo fe pública el acto de la firma, mitigando así el riesgo de fraude e inyección de nulidad.
+            </p>
+            {% endif %}
+        </div>
+        <div class="info-graphics">
+            <!-- Representación de calidad con íconos o estilo elegante -->
+            <div class="premium-feature-card">
+                <div class="feature-icon-wrapper">
+                    <svg viewBox="0 0 24 24" width="32" height="32" class="feature-svg" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+                        <line x1="12" y1="18" x2="12" y2="18.01"/>
+                    </svg>
+                </div>
+                <h3>{% if lang == 'en' %}Total Mobility{% else %}Movilidad Total{% endif %}</h3>
+                <p>
+                    {% if lang == 'en' %}Direct attention at your office, corporate headquarters, or hotel in Miami.{% else %}Atención directa en su oficina, corporativo u hotel en Miami.{% endif %}
+                </p>
+            </div>
+            <div class="premium-feature-card">
+                <div class="feature-icon-wrapper">
+                    <svg viewBox="0 0 24 24" width="32" height="32" class="feature-svg" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                        <polyline points="10 9 9 9 8 9"/>
+                    </svg>
+                </div>
+                <h3>{% if lang == 'en' %}US Validity{% else %}Validez en USA{% endif %}</h3>
+                <p>
+                    {% if lang == 'en' %}All our acts strictly comply with state regulations.{% else %}Todos nuestros actos cumplen rigurosamente las regulaciones estatales.{% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Sección de Interés (Qué hace un notario en USA) -->
+<section class="section section-dark-premium">
+    <div class="container text-center">
+        <h2 class="section-title text-light">
+            {% if lang == 'en' %}What does a notary public do in the United States?{% else %}¿Qué hace un notario público en Estados Unidos?{% endif %}
+        </h2>
+        <div class="section-divider gold-divider"></div>
+        <p class="section-desc max-width-800 text-light-muted">
+            {% if lang == 'en' %}
+            Unlike in other countries, a notary public in the United States is a state-regulated public trust officer whose primary purpose is to provide formal authenticity to signatures and declarations. They are key for real estate transactions, international powers of attorney, apostilles, trusts, and legal consent forms.
+            {% else %}
+            A diferencia de otros países, el notario en Estados Unidos es un oficial de fe pública regulado a nivel estatal cuyo fin primordial es dar autenticidad formal a firmas y declaraciones. Es clave para operaciones de compraventa inmobiliaria, poderes notariales internacionales, apostillas, fideicomisos y actas de consentimiento legal.
+            {% endif %}
+        </p>
+        <div class="cta-container">
+            <a href="{{ '/en/servicios' if lang == 'en' else '/servicios' }}" class="btn btn-primary">
+                {% if lang == 'en' %}SERVICES{% else %}SERVICIOS{% endif %}
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

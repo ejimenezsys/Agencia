@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+
+{% block title %}
+{% if lang == 'en' %}Su Notaria USA | Certified Translations - Formal Validity of Documents{% else %}Su Notaria USA | Traducciones Certificadas - Validez Formal de Documentos{% endif %}
+{% endblock %}
+
+{% block content %}
+<section class="service-detail-section">
+    <div class="service-detail-container">
+        <!-- Hero del Servicio -->
+        <div class="service-detail-hero animate-fade-in">
+            <div class="service-detail-icon-wrapper">
+                <svg viewBox="0 0 24 24" width="64" height="64" class="service-card-svg" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" opacity="0.5"/>
+                    <path d="M18 6h-6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V10z"/>
+                    <polyline points="18 6 18 10 22 10"/>
+                    <path d="M13 13h4" stroke-linecap="round"/>
+                    <path d="M15 13v4" stroke-linecap="round"/>
+                    <circle cx="7" cy="15" r="2.5"/>
+                    <path d="M6 15l1 1 2-2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <h1 class="service-detail-title">
+                {% if lang == 'en' %}Certified Translations{% else %}Traducciones Certificadas{% endif %}
+            </h1>
+            <p class="service-detail-subtitle">
+                {% if lang == 'en' %}Official Translations & Accuracy Statements for US Entities{% else %}Traducciones Oficiales y Declaración de Fidelidad para Entidades de EE.UU.{% endif %}
+            </p>
+        </div>
+
+        <!-- Cuerpo del Detalle -->
+        <div class="service-detail-content animate-fade-in">
+            <div class="service-detail-body">
+                {% if lang == 'en' %}
+                <p>
+                    A Certified Translation is an indispensable formal document to present foreign certificates, records, or instruments written in Spanish (or any other language) before official agencies of the United States. This procedure is not a simple literal or free text translation; it involves appending a Certificate of Accuracy signed by the qualified translator. In this certificate, the translator formally attests under truth that they possess full command of both languages and that the English translation performed is a true, accurate, and complete representation of the original document presented.
+                </p>
+                <p>
+                    The acceptance requirements for translations are extremely strict in the US institutional ecosystem. They are obligatorily required by the United States Citizenship and Immigration Services (USCIS) for residency and naturalization procedures; by school boards and universities for the revalidation of foreign academic credentials; and by courts of law, embassies, and state departments of motor vehicles. An inaccurate translation, lacking the corresponding certificate, or failing to meet the required technical standards can result in the immediate rejection of the procedure and the issuance of a Request for Evidence (RFE).
+                </p>
+                <p>
+                    In addition to the basic translator certification, many official entities, courts of law, real estate firms, and banks require that the translator's signature on the Certificate of Accuracy be duly Notarized by an authorized Notary Public of the state of Florida. This elevates the statement to the status of a public instrument under faith of law, giving fiduciary authenticity to the translator's identity and signature and shielding the validity of the translated document before any public or private entity in the national territory.
+                </p>
+                <p>
+                    At Su Notaria USA, we offer you a select network of highly qualified bilingual professional translators to guarantee the terminological precision of each document. We specialize in translating with technical rigor birth, marriage, and death certificates, university degrees and transcripts, corporate bank statements, and complex commercial contracts. We absolutely guarantee the official acceptance of our certified and notarized translations before USCIS and any court or university in the US, offering you the premium corporate support that characterizes JPX International operations.
+                </p>
+                {% else %}
+                <p>
+                    Una Traducción Certificada es un documento formal indispensable para presentar actas, registros o instrumentos extranjeros redactados en español (o cualquier otro idioma) ante organismos oficiales de los Estados Unidos. Este trámite no constituye una simple traducción literal o libre de texto; implica la anexión de una Declaración de Exactitud (Certificate of Accuracy) firmada por el traductor calificado. En este certificado, el traductor atestigua formalmente bajo fe de verdad que posee pleno dominio de ambos idiomas y que la traducción al inglés realizada es una representación fiel, exacta y completa del documento original presentado.
+                </p>
+                <p>
+                    Los requisitos de aceptación de las traducciones son extremadamente estrictos en el ecosistema institucional estadounidense. Son obligatoriamente requeridas por el Servicio de Ciudadanía e Inmigración de los Estados Unidos (USCIS) para procesos de residencia y naturalización; por juntas de educación y universidades para la revalidación de credenciales académicas extranjeras; y por cortes de justicia, embajadas y departamentos de licencias de conducir estatales. Una traducción inexacta, carente del certificado correspondiente o que no cumpla con los estándares técnicos exigidos puede ocasionar el rechazo inmediato del trámite y la emisión de una solicitud de pruebas adicionales (RFE).
+                </p>
+                <p>
+                    Adicionalmente a la certificación básica del traductor, muchas entidades oficiales, cortes de justicia, firmas inmobiliarias y bancos requieren que la firma del traductor en el Certificate of Accuracy esté debidamente Notarizada por un Notario Público autorizado del estado de Florida. Esto eleva la declaración a la condición de instrumento público bajo fe de ley, dando autenticidad fiduciaria a la identidad y firma del traductor y blindando la validez del documento traducido ante cualquier entidad pública o privada en el territorio nacional.
+                </p>
+                <p>
+                    En Su Notaria USA, ponemos a su disposición una selecta red de traductores profesionales bilingües altamente calificados para garantizar la precisión terminológica de cada documento. Nos especializamos en traducir con rigor técnico actas de nacimiento, matrimonio y divorcio, títulos y notas universitarias, extractos bancarios corporativos y contratos mercantiles complejos. Le garantizamos de forma absoluta la aceptación oficial de nuestras traducciones certificadas y notarizadas ante USCIS y cualquier corte o universidad en EE.UU., ofreciéndole el respaldo corporativo premium que caracteriza a las operaciones de JPX International.
+                </p>
+                {% endif %}
+
+                <h2 class="service-detail-list-title">
+                    {% if lang == 'en' %}Documents We Regularly Translate:{% else %}Documentos que Traducimos Regularmente:{% endif %}
+                </h2>
+                <ul class="service-detail-list">
+                    <li class="service-detail-list-item">
+                        <span class="service-detail-list-icon">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </span>
+                        <div class="service-detail-list-text">
+                            {% if lang == 'en' %}
+                            <strong>Immigration Procedures (USCIS):</strong> Official translation of birth, marriage, divorce certificates, adoption records, and criminal record certificates.
+                            {% else %}
+                            <strong>Trámites Migratorios (USCIS):</strong> Traducción oficial de actas de nacimiento, matrimonio, divorcio, registros de adopción y certificados de antecedentes penales.
+                            {% endif %}
+                        </div>
+                    </li>
+                    <li class="service-detail-list-item">
+                        <span class="service-detail-list-icon">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </span>
+                        <div class="service-detail-list-text">
+                            {% if lang == 'en' %}
+                            <strong>Education & Universities:</strong> School diplomas, undergraduate and postgraduate university degrees, and official grade transcripts for revalidation in the US.
+                            {% else %}
+                            <strong>Educación y Universidades:</strong> Diplomas escolares, títulos universitarios de grado y posgrado, y transcripciones oficiales de calificaciones para revalidación en EE.UU.
+                            {% endif %}
+                        </div>
+                    </li>
+                    <li class="service-detail-list-item">
+                        <span class="service-detail-list-icon">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </span>
+                        <div class="service-detail-list-text">
+                            {% if lang == 'en' %}
+                            <strong>Finance & Business:</strong> Personal and corporate bank account statements, tax returns, audits, and company balance sheets.
+                            {% else %}
+                            <strong>Finanzas y Negocios:</strong> Extractos de cuentas bancarias personales y corporativas, declaraciones de impuestos, auditorías y balances contables de empresas.
+                            {% endif %}
+                        </div>
+                    </li>
+                    <li class="service-detail-list-item">
+                        <span class="service-detail-list-icon">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </span>
+                        <div class="service-detail-list-text">
+                            {% if lang == 'en' %}
+                            <strong>Corporate Documentation:</strong> Partnership agreements (Operating Agreements), patents, business licenses, procedural minutes, and representation contracts.
+                            {% else %}
+                            <strong>Documentación Corporativa:</strong> Acuerdos de socios (Operating Agreements), patentes, licencias comerciales, actas procedimentales y contratos de representación.
+                            {% endif %}
+                        </div>
+                    </li>
+                    <li class="service-detail-list-item">
+                        <span class="service-detail-list-icon">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </span>
+                        <div class="service-detail-list-text">
+                            {% if lang == 'en' %}
+                            <strong>Judicial & Court Processes:</strong> Foreign lawsuits, witness statements under oath, appearance records, and international divorce decrees.
+                            {% else %}
+                            <strong>Procesos Judiciales:</strong> Demandas extranjeras, declaraciones de testigos bajo juramento, actas de comparecencia y sentencias de divorcio internacionales.
+                            {% endif %}
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Banner de CTA -->
+        <div class="service-detail-cta animate-fade-in">
+            <h3>
+                {% if lang == 'en' %}Do you need a Certified and Notarized Translation with official validity?{% else %}¿Necesita una Traducción Certificada y Notarizada con validez oficial?{% endif %}
+            </h3>
+            <a href="{{ '/en/contacto?servicio=Certified%20Translations' if lang == 'en' else '/contacto?servicio=Traducciones%20Certificadas' }}" class="btn btn-primary">
+                {% if lang == 'en' %}Contact Specialist{% else %}Contactar Especialista{% endif %}
+            </a>
+        </div>
+
+        <!-- Enlace de regreso -->
+        <div class="back-to-services-wrapper animate-fade-in">
+            <a href="{{ '/en/servicios' if lang == 'en' else '/servicios' }}" class="back-to-services-link">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                {% if lang == 'en' %}Back to all Services{% else %}Volver a todos los Servicios{% endif %}
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

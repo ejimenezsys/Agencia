@@ -1,0 +1,237 @@
+{% extends "base.html" %}
+
+{% block title %}Synetcom – Consultoría en Sistemas y Redes{% endblock %}
+
+{% block description %}Synetcom – Telecomunicaciones, Sistemas y Video-Vigilancia. Más de 21 años de experiencia.{% endblock %}
+
+{% block content %}
+<!-- HERO -->
+  <section class="hero">
+    <canvas id="networkCanvas"></canvas>
+    <div class="container">
+      <div class="hero-content animate-up">
+        <div class="hero-eyebrow">Synetcom 2026</div>
+        <h1>Tecnología que Conecta,<br>Protege e <span class="neon">Impulsa</span> tu Negocio</h1>
+        <p class="hero-subtitle">Conectividad Empresarial · Seguridad Electrónica · Inteligencia Artificial</p>
+        <p style="color:var(--text-mid);font-size:15px;line-height:1.8;margin-bottom:32px;max-width:540px;">Ayudamos a empresas y PyMEs mexicanas a modernizar sus operaciones mediante soluciones tecnológicas que mejoran la productividad, fortalecen la seguridad y aceleran el crecimiento.</p>
+        <div class="hero-btns">
+          <a href="acerca.html" class="btn btn-primary"><i class="fas fa-users"></i> Conócenos</a>
+          <a href="contacto.html" class="btn btn-outline"><i class="fas fa-paper-plane"></i> Contactar</a>
+        </div>
+      </div>
+      <div class="hero-contact-widget animate-up delay-2">
+        <div class="contact-widget">
+          <h3><i class="fas fa-headset" style="margin-right:8px;"></i>Datos de Contacto</h3>
+          
+          <div class="cw-item">
+            <i class="fas fa-phone"></i>
+            <span><a href="tel:+525581566136">(+52) 55 8156 6136</a></span>
+          </div>
+          <div class="cw-item">
+            <i class="fab fa-whatsapp"></i>
+            <span><a href="tel:+525615651784">(+52) 5615651784</a></span>
+          </div>
+
+          <div class="cw-item">
+            <i class="fas fa-envelope"></i>
+            <span><a href="mailto:jlopez@synetcom.mx">jlopez@synetcom.mx</a></span>
+          </div>
+
+          <div class="cw-item">
+            <i class="fas fa-shield-alt"></i>
+            <span><a href="mailto:hjimenez@synetcom.mx">hjimenez@synetcom.mx</a> <small style="color:var(--white-30); font-size:10px;">(Seguridad)</small></span>
+          </div>
+
+          <div class="cw-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <span><a href="https://maps.google.com/?q=San+Francisco+1626,+Col.+Del+Valle,+Alcaldia+Benito+Juarez,+CP+03100,+Ciudad+de+Mexico" target="_blank" rel="noopener">San Francisco 1626, Col. Del Valle, CDMX</a></span>
+          </div>
+
+          <a href="contacto.html" class="btn btn-light" style="margin-top:18px;width:100%;justify-content:center;">
+            <i class="fas fa-paper-plane"></i> Enviar Mensaje
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS BAR -->
+  <div class="stats-bar">
+    <div class="container">
+      <div class="stat-item"><div class="num">21+</div><div class="label">Años de Experiencia</div></div>
+      <div class="stat-item"><div class="num">500+</div><div class="label">Clientes Satisfechos</div></div>
+      <div class="stat-item"><div class="num">8</div><div class="label">Servicios Especializados</div></div>
+      <div class="stat-item"><div class="num">10+</div><div class="label">Ciudades en México</div></div>
+    </div>
+  </div>
+
+  <!-- SERVICES CARDS -->
+  <section class="section section-dark">
+    <div class="container">
+      <div class="section-title">
+        <span class="tag" style="display:block;text-align:center;margin-bottom:14px;">Nuestros Servicios</span>
+        <h2>Soluciones Tecnológicas para<br><span>Empresas Modernas</span></h2>
+        <div class="underline"></div>
+        <p>Diseñamos e implementamos soluciones que permiten a las organizaciones operar de forma más eficiente, segura y competitiva en un entorno cada vez más digital.</p>
+      </div>
+      <div class="grid-3">
+        <article class="card animate-up delay-1">
+          <div class="card-body">
+            <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+            <h3>Consultoría Tecnológica</h3>
+            <p>Más de 25 años acompañando a empresas en la planeación, implementación y optimización de proyectos tecnológicos. Combinamos experiencia, innovación y visión estratégica para convertir la tecnología en una ventaja competitiva.</p>
+            <a href="acerca.html" class="link-more">Más Información <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </article>
+        <article class="card animate-up delay-2">
+          <div class="card-body">
+            <div class="card-icon"><i class="fas fa-network-wired"></i></div>
+            <h3>Conectividad Empresarial</h3>
+            <p>Soluciones de voz, datos y video diseñadas para mantener tu empresa conectada, productiva y preparada para crecer. Redes empresariales, telefonía IP, conectividad inalámbrica y colaboración digital para las necesidades actuales de tu negocio.</p>
+            <a href="conectividad-empresarial.html" class="link-more">Más Información <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </article>
+        <article class="card animate-up delay-3">
+          <div class="card-body">
+            <div class="card-icon"><i class="fas fa-brain"></i></div>
+            <h3>Inteligencia Artificial para Empresas</h3>
+            <p>Automatiza procesos, mejora la atención al cliente y toma mejores decisiones con Inteligencia Artificial. Implementamos chatbots, asistentes virtuales, automatización empresarial y análisis inteligente adaptados a las necesidades de las PyMEs mexicanas.</p>
+            <a href="inteligencia-artificial.html" class="link-more">Más Información <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- WELCOME / ABOUT -->
+  <section class="section section-mid">
+    <div class="container">
+      <div class="grid-2" style="align-items:center;gap:64px;">
+        <div class="welcome-img-placeholder animate-up">
+          <img src="{{ url_for('static', path='images/welcome.jpg') }}" alt="Synetcom Operaciones" />
+          <div class="corner-deco tl"></div>
+          <div class="corner-deco tr"></div>
+          <div class="corner-deco bl"></div>
+          <div class="corner-deco br"></div>
+        </div>
+        <div class="animate-up delay-2">
+          <span class="tag">Quiénes Somos</span>
+          <h2 style="font-family:'Orbitron',sans-serif;font-size:clamp(26px,4.5vw,38px);color:#fff;margin-bottom:18px;letter-spacing:2px;text-transform:uppercase;">Más de 25 Años Impulsando la<br><span style="color:var(--neon-blue);">Transformación Tecnológica</span></h2>
+          <p style="color:var(--text-mid);font-size:15px;line-height:1.85;margin-bottom:14px;">En Synetcom ayudamos a empresas y organizaciones a aprovechar el poder de la tecnología para optimizar sus operaciones, mejorar su competitividad y prepararse para los retos del futuro.</p>
+          <p style="color:var(--text-mid);font-size:15px;line-height:1.85;margin-bottom:14px;">Nuestra experiencia integra conectividad empresarial, seguridad electrónica e inteligencia artificial, ofreciendo soluciones confiables, escalables y alineadas con los objetivos de cada cliente.</p>
+          <p style="color:var(--text-mid);font-size:15px;line-height:1.85;margin-bottom:28px;">Con presencia en México y experiencia en proyectos nacionales e internacionales, trabajamos para convertir la tecnología en una herramienta real de crecimiento empresarial.</p>
+          <a href="acerca.html" class="btn btn-primary"><i class="fas fa-info-circle"></i> Conocer Más</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIDEO VIGILANCIA -->
+  <section class="vigilancia-section">
+    <div class="container">
+      <div style="display:inline-block;margin-bottom:18px;">
+        <span class="tag">Seguridad Electrónica</span>
+      </div>
+      <h2>Protección Inteligente<br>para tu Empresa</h2>
+      <p>Implementamos soluciones avanzadas de videovigilancia, control de acceso, biometría y monitoreo para proteger personas, instalaciones y activos críticos.</p>
+      <p style="margin-top:14px;">Nuestros sistemas integran cámaras de alta definición, monitoreo remoto, grabación local y en la nube, permitiendo supervisar la seguridad de tu operación en tiempo real desde cualquier lugar.</p>
+      <a href="camaras.html" class="btn btn-light" style="margin-top:24px;"><i class="fas fa-camera"></i> Conocer Soluciones</a>
+    </div>
+  </section>
+
+  <!-- SERVICES GRID (all) -->
+  <section class="section section-dark">
+    <div class="container">
+      <div class="section-title">
+        <h2>Todas Nuestras <span>Soluciones</span></h2>
+        <div class="underline"></div>
+      </div>
+      <div class="grid-4">
+        <a href="camaras.html" class="card" style="text-decoration:none;">
+          <div class="card-body" style="text-align:center;padding:28px 16px;">
+            <div class="card-icon" style="margin:0 auto 14px;"><i class="fas fa-shield-alt"></i></div>
+            <h3 style="font-size:11px;">Seguridad Electrónica</h3>
+          </div>
+        </a>
+        <a href="conectividad-empresarial.html" class="card" style="text-decoration:none;">
+          <div class="card-body" style="text-align:center;padding:28px 16px;">
+            <div class="card-icon" style="margin:0 auto 14px;"><i class="fas fa-network-wired"></i></div>
+            <h3 style="font-size:11px;">Conectividad Empresarial</h3>
+          </div>
+        </a>
+        <a href="soporte.html" class="card" style="text-decoration:none;">
+          <div class="card-body" style="text-align:center;padding:28px 16px;">
+            <div class="card-icon" style="margin:0 auto 14px;"><i class="fas fa-headset"></i></div>
+            <h3 style="font-size:11px;">Soporte Técnico</h3>
+          </div>
+        </a>
+        <a href="inteligencia-artificial.html" class="card" style="text-decoration:none;">
+          <div class="card-body" style="text-align:center;padding:28px 16px;">
+            <div class="card-icon" style="margin:0 auto 14px;"><i class="fas fa-brain"></i></div>
+            <h3 style="font-size:11px;">Inteligencia Artificial</h3>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Animated network canvas
+  (function(){
+    const canvas = document.getElementById('networkCanvas');
+    if(!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let W, H, nodes=[], animId;
+    function resize(){
+      W = canvas.width  = canvas.offsetWidth;
+      H = canvas.height = canvas.offsetHeight;
+    }
+    function init(){
+      resize(); nodes=[];
+      const count = Math.max(40, Math.floor(W*H/11000));
+      for(let i=0;i<count;i++){
+        nodes.push({
+          x:Math.random()*W, y:Math.random()*H,
+          vx:(Math.random()-.5)*0.35, vy:(Math.random()-.5)*0.35,
+          r:Math.random()*2+1
+        });
+      }
+    }
+    function draw(){
+      ctx.clearRect(0,0,W,H);
+      const dist=150;
+      for(let i=0;i<nodes.length;i++){
+        for(let j=i+1;j<nodes.length;j++){
+          const dx=nodes[i].x-nodes[j].x, dy=nodes[i].y-nodes[j].y;
+          const d=Math.sqrt(dx*dx+dy*dy);
+          if(d<dist){
+            const a=(1-d/dist)*0.45;
+            ctx.beginPath();
+            ctx.strokeStyle=`rgba(0,212,255,${a})`;
+            ctx.lineWidth=0.6;
+            ctx.moveTo(nodes[i].x,nodes[i].y);
+            ctx.lineTo(nodes[j].x,nodes[j].y);
+            ctx.stroke();
+          }
+        }
+        ctx.beginPath();
+        ctx.arc(nodes[i].x,nodes[i].y,nodes[i].r,0,Math.PI*2);
+        ctx.fillStyle='rgba(0,212,255,0.65)';
+        ctx.shadowBlur=6; ctx.shadowColor='rgba(0,212,255,0.8)';
+        ctx.fill();
+        ctx.shadowBlur=0;
+        nodes[i].x+=nodes[i].vx; nodes[i].y+=nodes[i].vy;
+        if(nodes[i].x<0||nodes[i].x>W) nodes[i].vx*=-1;
+        if(nodes[i].y<0||nodes[i].y>H) nodes[i].vy*=-1;
+      }
+      animId=requestAnimationFrame(draw);
+    }
+    init(); draw();
+    window.addEventListener('resize',()=>{ cancelAnimationFrame(animId); init(); draw(); });
+  })();
+</script>
+{% endblock %}

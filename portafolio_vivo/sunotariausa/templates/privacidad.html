@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}
+{% if lang == 'en' %}Privacy Policy | Su Notaria USA | Trust & Legal Integrity{% else %}Aviso de Privacidad | Su Notaria USA | Confianza e Integridad Legal{% endif %}
+{% endblock %}
+
+{% block content %}
+<!-- Sección Héroe Simplificada -->
+<section class="legal-hero">
+    <div class="container">
+        <h1 class="legal-hero-title">
+            {% if lang == 'en' %}Privacy Policy{% else %}Aviso de Privacidad{% endif %}
+        </h1>
+        <div class="legal-hero-divider"></div>
+    </div>
+</section>
+
+<!-- Cuerpo Legal -->
+<section class="legal-body-section">
+    <div class="container">
+        <div class="legal-content">
+            {% if lang == 'en' %}
+            <p><strong>Last Updated: June 15, 2026</strong></p>
+            <p>At Su Notaria USA, we are committed to protecting your privacy and ensuring the security of your personal data. This Privacy Policy describes how we collect, use, store, and protect your information when you visit our website and use our notary and apostille services.</p>
+            
+            <h3>1. Identity of the Notary</h3>
+            <p>Su Notaria USA, with administrative headquarters in Miami, Florida, and backed by its parent company JPX International Investments Inc., is responsible for the collection and processing of your personal data. We operate in strict compliance with the state laws of Florida and federal regulations governing the activities of commissioned Notaries Public.</p>
+            
+            <h3>2. Personal Data Collected</h3>
+            <p>We only collect information that is strictly necessary to provide our professional services. Through our contact and appointment scheduling forms, we may collect:</p>
+            <ul>
+                <li>Full name of the client or legal representative.</li>
+                <li>Primary contact email address.</li>
+                <li>Telephone number (mobile or landline).</li>
+                <li>Type of notary service requested.</li>
+                <li>Specific messages, comments, or legal requirements related to the requested transaction.</li>
+            </ul>
+            <p>Additionally, during the execution of in-person or Remote Online Notary (RON) acts, we may inspect or record valid official identification documents to verify identity as required by Chapter 117 of the Florida Statutes.</p>
+            
+            <h3>3. Purpose of Data Processing</h3>
+            <p>Your personal data is collected and processed for the following legitimate purposes:</p>
+            <ul>
+                <li>Scheduling, coordinating, and managing appointments for mobile or remote notary services.</li>
+                <li>Responding to inquiries, quotes, and messages sent through our platform.</li>
+                <li>Ensuring compliance with statutory identity verification requirements under Florida law.</li>
+                <li>Integrating with our administrative CRM systems to track service histories and customer support.</li>
+                <li>Sending transactional notifications regarding the status of your apostille or notarization.</li>
+            </ul>
+            
+            <h3>4. Information Security</h3>
+            <p>We implement advanced technical and organizational security measures to protect your personal information against unauthorized access, loss, alteration, or disclosure. All data transmitted through our website is protected using industry-standard SSL (Secure Sockets Layer) encryption and routed through secure Cloudflare infrastructure. Access to client records in our local CRM is restricted exclusively to authorized personnel who are subject to strict confidentiality duties.</p>
+            
+            <h3>5. User Rights (Access, Rectification, Cancellation)</h3>
+            <p>You have the right to access, rectify, cancel, or object to the processing of your personal data at any time. To exercise these rights, or to request the deletion of your contact records from our database, please contact our administration by sending a formal request via email to <strong>grodriguez@jpxinternational.com</strong>. We will process your request in accordance with applicable state and federal laws.</p>
+            
+            <h3>6. Changes to this Privacy Policy</h3>
+            <p>We reserve the right to modify or update this Privacy Policy at any time to reflect changes in our practices, technology, or legal requirements. Any modifications will be posted directly on this page with the updated revision date. We encourage you to review this policy periodically to remain informed about how we protect your information.</p>
+            
+            {% else %}
+            <p><strong>Última Actualización: 15 de junio de 2026</strong></p>
+            <p>En Su Notaria USA, estamos comprometidos con la protección de su privacidad y la seguridad de sus datos personales. Este Aviso de Privacidad describe cómo recopilamos, utilizamos, almacenamos y protegemos su información cuando visita nuestro sitio web y utiliza nuestros servicios notariales y de apostilla.</p>
+            
+            <h3>1. Identidad de la Notaría</h3>
+            <p>Su Notaria USA, con sede administrativa en Miami, Florida, y respaldada por su empresa matriz JPX International Investments Inc., es responsable de la recopilación y tratamiento de sus datos personales. Operamos en estricto cumplimiento de las leyes estatales de Florida y las regulaciones federales que rigen la actividad de los Notarios Públicos comisionados.</p>
+            
+            <h3>2. Datos Personales Recopilados</h3>
+            <p>Solo recopilamos información estrictamente necesaria para la prestación de nuestros servicios profesionales. A través de nuestros formularios de contacto y solicitud de citas, podemos recopilar:</p>
+            <ul>
+                <li>Nombre completo del cliente o representante legal.</li>
+                <li>Dirección de correo electrónico de contacto.</li>
+                <li>Número de teléfono (móvil o fijo).</li>
+                <li>Tipo de servicio notarial solicitado.</li>
+                <li>Mensaje específico, comentarios o requerimientos legales relacionados con el trámite solicitado.</li>
+            </ul>
+            <p>Adicionalmente, durante la ejecución de actos notariales presenciales o remotos (RON), se podrán inspeccionar o registrar documentos de identificación oficiales vigentes para verificar la identidad según lo exige el Capítulo 117 de los Estatutos de Florida.</p>
+            
+            <h3>3. Finalidad del Tratamiento de Datos</h3>
+            <p>Sus datos personales son recopilados y tratados para las siguientes finalidades legítimas:</p>
+            <ul>
+                <li>Agendar, coordinar y gestionar citas para servicios de notaría a domicilio o remotos.</li>
+                <li>Responder a consultas, cotizaciones y mensajes enviados a través de nuestra plataforma.</li>
+                <li>Garantizar el cumplimiento de los requisitos estatutarios de verificación de identidad bajo la ley de Florida.</li>
+                <li>Integración con nuestros sistemas CRM administrativos para el seguimiento de servicios y atención al cliente.</li>
+                <li>Envío de notificaciones transaccionales relacionadas con el estado de su trámite de apostilla o notarización.</li>
+            </ul>
+            
+            <h3>4. Seguridad de la Información</h3>
+            <p>Implementamos medidas de seguridad técnicas y organizativas avanzadas para proteger su información personal contra accesos no autorizados, pérdida, alteración o divulgación. Todos los datos transmitidos a través de nuestro sitio web están protegidos mediante cifrado estándar SSL (Secure Sockets Layer) y se enrutan a través de la infraestructura segura de Cloudflare. El acceso a los registros de clientes en nuestro CRM local está restringido exclusivamente al personal autorizado sujeto a estrictos deberes de confidencialidad.</p>
+            
+            <h3>5. Derechos del Usuario (Acceso, Rectificación, Cancelación)</h3>
+            <p>Usted tiene derecho a acceder, rectificar, cancelar u oponerse al tratamiento de sus datos personales en cualquier momento. Para ejercer estos derechos, o para solicitar la eliminación de sus registros de contacto de nuestra base de datos, puede ponerse en contacto con nuestra administración enviando una solicitud formal por correo electrónico a <strong>grodriguez@jpxinternational.com</strong>. Procesaremos su solicitud de acuerdo con la legislación estatal y federal aplicable.</p>
+            
+            <h3>6. Cambios en el Aviso de Privacidad</h3>
+            <p>Nos reservamos el derecho de modificar o actualizar este Aviso de Privacidad en cualquier momento para reflejar cambios en nuestras prácticas, tecnología o requisitos legales. Cualquier modificación se publicará directamente en esta página con la fecha de revisión actualizada. Le recomendamos revisar este aviso periódicamente para mantenerse informado sobre cómo protegemos su información.</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- Sección de Interés (Qué hace un notario en USA) -->
+<section class="section section-dark-premium">
+    <div class="container text-center">
+        <h2 class="section-title text-light">
+            {% if lang == 'en' %}What does a notary public do in the United States?{% else %}¿Qué hace un notario público en Estados Unidos?{% endif %}
+        </h2>
+        <div class="section-divider gold-divider"></div>
+        <p class="section-desc max-width-800 text-light-muted text-center" style="margin: 0 auto 2.5rem auto;">
+            {% if lang == 'en' %}
+            Unlike in other countries, a notary public in the United States is a state-regulated public trust officer whose primary purpose is to provide formal authenticity to signatures and declarations. They are key for real estate transactions, international powers of attorney, apostilles, trusts, and legal consent forms.
+            {% else %}
+            A diferencia de otros países, el notario en Estados Unidos es un oficial de fe pública regulado a nivel estatal cuyo fin primordial es dar autenticidad formal a firmas y declaraciones. Es clave para operaciones de compraventa inmobiliaria, poderes notariales internacionales, apostillas, fideicomisos y actas de consentimiento legal.
+            {% endif %}
+        </p>
+        <div class="cta-container">
+            <a href="{{ '/en/servicios' if lang == 'en' else '/servicios' }}" class="btn btn-primary">
+                {% if lang == 'en' %}SERVICES{% else %}SERVICIOS{% endif %}
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

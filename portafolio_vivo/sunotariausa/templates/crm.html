@@ -1,0 +1,810 @@
+{% extends "base.html" %}
+
+{% block title %}Su Notaria USA | Panel CRM - Gestión de Prospectos{% endblock %}
+
+{% block extra_head %}
+<!-- Estilos adicionales específicos del CRM que complementan styles.css -->
+<style>
+    /* Estilos embebidos para el CRM para mantener la modularidad visual */
+    .crm-section {
+        background-color: var(--color-primary-dark);
+        padding: 4.5rem 0;
+        min-height: calc(100vh - 280px);
+        color: var(--color-text-light);
+    }
+    
+    .crm-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 3rem;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        padding-bottom: 1.5rem;
+    }
+    
+    .crm-title-area h1 {
+        color: var(--color-text-light);
+        font-size: 2.25rem;
+        margin-bottom: 0.25rem;
+    }
+    
+    .crm-welcome {
+        color: var(--color-accent);
+        font-size: 1rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .crm-logout-btn {
+        background: none;
+        border: 1px solid var(--color-accent);
+        color: var(--color-accent);
+        padding: 0.5rem 1rem;
+        border-radius: var(--border-radius);
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: var(--transition-fast);
+    }
+    
+    .crm-logout-btn:hover {
+        background-color: var(--color-accent);
+        color: var(--color-primary-dark);
+    }
+    
+    /* Grid de Estadísticas */
+    .crm-stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 3rem;
+    }
+    
+    .crm-stat-card {
+        background-color: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: var(--border-radius);
+        padding: 1.75rem;
+        display: flex;
+        flex-direction: column;
+        transition: var(--transition-normal);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .crm-stat-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 3px;
+        height: 100%;
+        background-color: var(--color-accent);
+    }
+    
+    .crm-stat-card:hover {
+        transform: translateY(-2px);
+        background-color: rgba(255, 255, 255, 0.04);
+        border-color: rgba(197, 160, 89, 0.3);
+    }
+    
+    .crm-stat-label {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--color-text-muted-light);
+        margin-bottom: 0.5rem;
+    }
+    
+    .crm-stat-number {
+        font-size: 2.25rem;
+        font-weight: 700;
+        color: var(--color-text-light);
+        line-height: 1;
+        font-family: var(--font-display);
+    }
+    
+    /* Controles de Búsqueda y Filtros */
+    .crm-controls-panel {
+        background-color: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: var(--border-radius);
+        padding: 1.75rem;
+        margin-bottom: 2rem;
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 1.5rem;
+        align-items: center;
+    }
+    
+    @media (max-width: 768px) {
+        .crm-controls-panel {
+            grid-template-columns: 1fr;
+        }
+    }
+    
+    .crm-search-wrapper {
+        position: relative;
+    }
+    
+    .crm-search-input {
+        width: 100%;
+        padding: 0.85rem 1rem 0.85rem 2.75rem;
+        background-color: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: var(--border-radius);
+        color: var(--color-text-light);
+        font-family: var(--font-body);
+        font-size: 0.95rem;
+        transition: var(--transition-fast);
+    }
+    
+    .crm-search-input:focus {
+        outline: none;
+        border-color: var(--color-accent);
+        background-color: rgba(255, 255, 255, 0.08);
+        box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.15);
+    }
+    
+    .crm-search-icon {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--color-text-muted-light);
+        pointer-events: none;
+        width: 18px;
+        height: 18px;
+    }
+    
+    .crm-filter-select {
+        width: 100%;
+        padding: 0.85rem 1rem;
+        background-color: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: var(--border-radius);
+        color: var(--color-text-light);
+        font-family: var(--font-body);
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: var(--transition-fast);
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 1rem center;
+        background-size: 1.25rem;
+        padding-right: 2.5rem;
+    }
+    
+    .crm-filter-select:focus {
+        outline: none;
+        border-color: var(--color-accent);
+        box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.15);
+    }
+    
+    .crm-filter-select option {
+        background-color: var(--color-primary-dark);
+        color: var(--color-text-light);
+    }
+    
+    /* Tabla de Prospectos */
+    .crm-table-wrapper {
+        background-color: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: var(--border-radius);
+        overflow-x: auto;
+        margin-bottom: 2rem;
+        box-shadow: var(--box-shadow-medium);
+    }
+    
+    .crm-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+        font-size: 0.92rem;
+    }
+    
+    .crm-table th {
+        background-color: rgba(255, 255, 255, 0.04);
+        padding: 1.2rem 1.5rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 0.08em;
+        color: var(--color-accent);
+        border-bottom: 1.5px solid rgba(255, 255, 255, 0.08);
+    }
+    
+    .crm-table td {
+        padding: 1.2rem 1.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        color: var(--color-text-muted-light);
+        vertical-align: middle;
+    }
+    
+    .crm-table tbody tr {
+        transition: var(--transition-fast);
+    }
+    
+    .crm-table tbody tr:hover {
+        background-color: rgba(255, 255, 255, 0.015);
+    }
+    
+    .crm-lead-name {
+        font-weight: 600;
+        color: var(--color-text-light);
+        display: block;
+    }
+    
+    .crm-lead-meta {
+        font-size: 0.8rem;
+        color: var(--color-text-muted-light);
+        display: block;
+    }
+    
+    .crm-lead-service {
+        background-color: rgba(197, 160, 89, 0.1);
+        color: var(--color-accent);
+        padding: 0.25rem 0.6rem;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        border: 1px solid rgba(197, 160, 89, 0.2);
+        display: inline-block;
+    }
+    
+    .crm-lead-msg-preview {
+        max-width: 250px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .crm-lead-actions {
+        display: flex;
+        gap: 0.75rem;
+        align-items: center;
+    }
+    
+    .crm-action-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0.4rem;
+        border-radius: 4px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition-fast);
+    }
+    
+    .crm-action-view {
+        color: var(--color-text-light);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .crm-action-view:hover {
+        background-color: rgba(255, 255, 255, 0.08);
+        border-color: var(--color-text-light);
+    }
+    
+    .crm-action-delete {
+        color: #ef4444;
+        border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+    
+    .crm-action-delete:hover {
+        background-color: rgba(239, 68, 68, 0.1);
+        border-color: #ef4444;
+    }
+    
+    .crm-empty-state {
+        padding: 4rem 2rem;
+        text-align: center;
+        color: var(--color-text-muted-light);
+    }
+    
+    .crm-empty-icon {
+        color: var(--color-accent);
+        margin-bottom: 1.5rem;
+        opacity: 0.5;
+    }
+    
+    /* Modal de Detalles del Lead */
+    .crm-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(10, 17, 31, 0.9);
+        backdrop-filter: blur(8px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity var(--transition-normal);
+    }
+    
+    .crm-modal.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    
+    .crm-modal-card {
+        background-color: #121e36;
+        border: 1.5px solid var(--color-accent);
+        border-radius: var(--border-radius);
+        width: 100%;
+        max-width: 600px;
+        padding: 2.5rem;
+        position: relative;
+        color: var(--color-text-light);
+        box-shadow: var(--box-shadow-dark);
+        transform: translateY(20px);
+        transition: transform var(--transition-normal);
+    }
+    
+    .crm-modal.active .crm-modal-card {
+        transform: translateY(0);
+    }
+    
+    .crm-modal-close {
+        position: absolute;
+        top: 1.5rem;
+        right: 1.5rem;
+        background: none;
+        border: none;
+        color: var(--color-text-muted-light);
+        font-size: 1.75rem;
+        cursor: pointer;
+        transition: var(--transition-fast);
+    }
+    
+    .crm-modal-close:hover {
+        color: var(--color-accent);
+    }
+    
+    .crm-modal-header {
+        margin-bottom: 2rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        padding-bottom: 1rem;
+    }
+    
+    .crm-modal-title {
+        font-family: var(--font-display);
+        font-size: 1.75rem;
+        color: var(--color-accent);
+    }
+    
+    .crm-modal-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+        margin-bottom: 2rem;
+    }
+    
+    @media (max-width: 480px) {
+        .crm-modal-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    
+    .crm-modal-item label {
+        display: block;
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: var(--color-accent);
+        margin-bottom: 0.25rem;
+        letter-spacing: 0.05em;
+    }
+    
+    .crm-modal-item span {
+        font-size: 0.98rem;
+        color: var(--color-text-light);
+    }
+    
+    .crm-modal-msg-box {
+        background-color: rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: var(--border-radius);
+        padding: 1.5rem;
+        max-height: 200px;
+        overflow-y: auto;
+        white-space: pre-wrap;
+        line-height: 1.6;
+        font-size: 0.95rem;
+        color: var(--color-text-light);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="crm-section">
+    <div class="container">
+        <!-- Encabezado del CRM -->
+        <div class="crm-header animate-fade-in">
+            <div class="crm-title-area">
+                <h1>Panel de Control CRM</h1>
+                <p class="crm-lead-meta">Administración y seguimiento de clientes de Su Notaria USA</p>
+            </div>
+            <div class="crm-welcome">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
+                <span>Administrador ({{ username }})</span>
+                <button onclick="window.location.reload();" class="crm-logout-btn" style="margin-left: 0.5rem;">Cargar Datos</button>
+            </div>
+        </div>
+
+        <!-- Tarjetas de Estadísticas -->
+        <div class="crm-stats-grid animate-fade-in">
+            <div class="crm-stat-card">
+                <span class="crm-stat-label">Total de Prospectos</span>
+                <span class="crm-stat-number" id="stat-total">0</span>
+            </div>
+            <div class="crm-stat-card">
+                <span class="crm-stat-label">Notarizaciones (Física/RON)</span>
+                <span class="crm-stat-number" id="stat-notary">0</span>
+            </div>
+            <div class="crm-stat-card">
+                <span class="crm-stat-label">Apostillas y Trad.</span>
+                <span class="crm-stat-number" id="stat-ap-trad">0</span>
+            </div>
+            <div class="crm-stat-card">
+                <span class="crm-stat-label">Corporativos / Otros</span>
+                <span class="crm-stat-number" id="stat-corp-other">0</span>
+            </div>
+        </div>
+
+        <!-- Panel de Filtros y Búsqueda -->
+        <div class="crm-controls-panel animate-fade-in">
+            <div class="crm-search-wrapper">
+                <svg viewBox="0 0 24 24" class="crm-search-icon" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <circle cx="11" cy="11" r="8"/>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+                <input type="text" id="crm-search" placeholder="Buscar por nombre, correo, teléfono o palabras clave..." class="crm-search-input">
+            </div>
+            <div>
+                <select id="crm-filter-service" class="crm-filter-select">
+                    <option value="">Todos los Servicios</option>
+                    <option value="Poder Notarial">Poder Notarial</option>
+                    <option value="Declaración Jurada">Declaración Jurada</option>
+                    <option value="Apostilla">Apostilla</option>
+                    <option value="Traducciones Certificadas">Traducciones Certificadas</option>
+                    <option value="Notarización Remota (RON)">Notarización Remota (RON)</option>
+                    <option value="Asesoría Corporativa (Limited)">Asesoría Corporativa (Limited)</option>
+                    <option value="Servicios Complementarios">Servicios Complementarios</option>
+                    <option value="Otros">Otros</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Tabla de Resultados -->
+        <div class="crm-table-wrapper animate-fade-in">
+            <table class="crm-table" id="crm-table">
+                <thead>
+                    <tr>
+                        <th>Cliente</th>
+                        <th>Contacto</th>
+                        <th>Servicio</th>
+                        <th>Mensaje (Resumen)</th>
+                        <th>Fecha</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="crm-tbody">
+                    <tr>
+                        <td colspan="6" class="text-center">Cargando prospectos desde la base de datos...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- Modal de Lectura Detallada -->
+<div class="crm-modal" id="crm-lead-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="crm-modal-card">
+        <button class="crm-modal-close" id="crm-modal-close-btn">&times;</button>
+        <div class="crm-modal-header">
+            <h2 class="crm-modal-title">Detalles del Prospecto</h2>
+        </div>
+        <div class="crm-modal-grid">
+            <div class="crm-modal-item">
+                <label>Nombre Completo</label>
+                <span id="modal-lead-name">-</span>
+            </div>
+            <div class="crm-modal-item">
+                <label>Tipo de Servicio</label>
+                <span id="modal-lead-service">-</span>
+            </div>
+            <div class="crm-modal-item">
+                <label>Correo Electrónico</label>
+                <span id="modal-lead-email">-</span>
+            </div>
+            <div class="crm-modal-item">
+                <label>Teléfono de Contacto</label>
+                <span id="modal-lead-phone">-</span>
+            </div>
+            <div class="crm-modal-item" style="grid-column: span 2;">
+                <label>Fecha de Registro</label>
+                <span id="modal-lead-date">-</span>
+            </div>
+        </div>
+        <div class="crm-modal-item" style="margin-bottom: 0;">
+            <label style="margin-bottom: 0.5rem;">Mensaje / Requerimientos</label>
+            <div class="crm-modal-msg-box" id="modal-lead-message"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Estado global de la aplicación CRM
+    let allLeads = [];
+    let filteredLeads = [];
+
+    // Nodos del DOM
+    const tbody = document.getElementById('crm-tbody');
+    const searchInput = document.getElementById('crm-search');
+    const filterSelect = document.getElementById('crm-filter-service');
+    const leadModal = document.getElementById('crm-lead-modal');
+    const modalCloseBtn = document.getElementById('crm-modal-close-btn');
+
+    // Métricas del DOM
+    const statTotal = document.getElementById('stat-total');
+    const statNotary = document.getElementById('stat-notary');
+    const statApTrad = document.getElementById('stat-ap-trad');
+    const statCorpOther = document.getElementById('stat-corp-other');
+
+    // Cargar leads desde la API al iniciar
+    async function loadLeads() {
+        try {
+            tbody.innerHTML = '<tr><td colspan="6" class="text-center">Cargando prospectos...</td></tr>';
+            const response = await fetch('/api/admin/leads');
+            if (!response.ok) {
+                throw new Error('No se pudo autenticar o cargar los datos.');
+            }
+            const data = await response.json();
+            if (data.status === 'success') {
+                allLeads = data.leads;
+                filteredLeads = [...allLeads];
+                renderStats();
+                renderTable();
+            } else {
+                tbody.innerHTML = '<tr><td colspan="6" class="text-center" style="color: #ef4444;">Error al cargar leads: ' + data.detail + '</td></tr>';
+            }
+        } catch (error) {
+            tbody.innerHTML = '<tr><td colspan="6" class="text-center" style="color: #ef4444;">Error de red o autenticación.</td></tr>';
+            console.error('Error al recuperar datos del CRM:', error);
+        }
+    }
+
+    // Calcular y renderizar estadísticas
+    function renderStats() {
+        statTotal.textContent = allLeads.length;
+
+        // Notarizaciones: Poder Notarial, Declaración Jurada, Notarización Remota (RON)
+        const notaryCount = allLeads.filter(l => 
+            l.tipo_servicio === 'Poder Notarial' || 
+            l.tipo_servicio === 'Declaración Jurada' || 
+            l.tipo_servicio === 'Notarización Remota (RON)'
+        ).length;
+        statNotary.textContent = notaryCount;
+
+        // Apostillas y Trad: Apostilla, Traducciones Certificadas
+        const apTradCount = allLeads.filter(l => 
+            l.tipo_servicio === 'Apostilla' || 
+            l.tipo_servicio === 'Traducciones Certificadas'
+        ).length;
+        statApTrad.textContent = apTradCount;
+
+        // Corporativos / Otros: Asesoría Corporativa (Limited), Servicios Complementarios, Otros
+        const corpOtherCount = allLeads.filter(l => 
+            l.tipo_servicio === 'Asesoría Corporativa (Limited)' || 
+            l.tipo_servicio === 'Servicios Complementarios' || 
+            l.tipo_servicio === 'Otros'
+        ).length;
+        statCorpOther.textContent = corpOtherCount;
+    }
+
+    // Renderizar la tabla de leads
+    function renderTable() {
+        if (filteredLeads.length === 0) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="6">
+                        <div class="crm-empty-state">
+                            <svg class="crm-empty-icon" viewBox="0 0 24 24" width="48" height="48" fill="currentColor" style="display:inline-block;">
+                                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10H7v-2h10v2zm0-4H7V7h10v2zm0 8H7v-2h10v2z"/>
+                            </svg>
+                            <h3>No se encontraron prospectos</h3>
+                            <p>Prueba ajustando los filtros o realizando otra búsqueda.</p>
+                        </div>
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+
+        tbody.innerHTML = '';
+        filteredLeads.forEach(lead => {
+            const tr = document.createElement('tr');
+            
+            // Columna Cliente
+            const tdCliente = document.createElement('td');
+            tdCliente.innerHTML = `
+                <span class="crm-lead-name">${escapeHTML(lead.nombre)}</span>
+                <span class="crm-lead-meta">ID: ${lead.id.substring(0, 8)}...</span>
+            `;
+            
+            // Columna Contacto
+            const tdContacto = document.createElement('td');
+            tdContacto.innerHTML = `
+                <span class="crm-lead-name">${escapeHTML(lead.telefono)}</span>
+                <span class="crm-lead-meta">${escapeHTML(lead.email)}</span>
+            `;
+            
+            // Columna Servicio
+            const tdServicio = document.createElement('td');
+            tdServicio.innerHTML = `<span class="crm-lead-service">${escapeHTML(lead.tipo_servicio)}</span>`;
+            
+            // Columna Mensaje (Resumen)
+            const tdMensaje = document.createElement('td');
+            tdMensaje.innerHTML = `<div class="crm-lead-msg-preview">${escapeHTML(lead.mensaje)}</div>`;
+            
+            // Columna Fecha
+            const tdFecha = document.createElement('td');
+            tdFecha.innerHTML = `<span class="crm-lead-name">${lead.created_at.substring(0, 10)}</span><span class="crm-lead-meta">${lead.created_at.substring(11, 19)}</span>`;
+            
+            // Columna Acciones
+            const tdAcciones = document.createElement('td');
+            const actionContainer = document.createElement('div');
+            actionContainer.className = 'crm-lead-actions';
+            
+            // Botón Ver
+            const btnView = document.createElement('button');
+            btnView.className = 'crm-action-btn crm-action-view';
+            btnView.title = 'Ver mensaje completo';
+            btnView.innerHTML = `
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                    <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                </svg>
+            `;
+            btnView.addEventListener('click', () => openLeadModal(lead));
+            
+            // Botón Eliminar
+            const btnDelete = document.createElement('button');
+            btnDelete.className = 'crm-action-btn crm-action-delete';
+            btnDelete.title = 'Eliminar prospecto';
+            btnDelete.innerHTML = `
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                </svg>
+            `;
+            btnDelete.addEventListener('click', () => confirmDeleteLead(lead.id, lead.nombre));
+            
+            actionContainer.appendChild(btnView);
+            actionContainer.appendChild(btnDelete);
+            tdAcciones.appendChild(actionContainer);
+            
+            tr.appendChild(tdCliente);
+            tr.appendChild(tdContacto);
+            tr.appendChild(tdServicio);
+            tr.appendChild(tdMensaje);
+            tr.appendChild(tdFecha);
+            tr.appendChild(tdAcciones);
+            
+            tbody.appendChild(tr);
+        });
+    }
+
+    // Filtrar y buscar leads
+    function applyFilters() {
+        const query = searchInput.value.toLowerCase().trim();
+        const serviceFilter = filterSelect.value;
+
+        filteredLeads = allLeads.filter(lead => {
+            const matchesService = !serviceFilter || lead.tipo_servicio === serviceFilter;
+            
+            const matchesQuery = !query || 
+                lead.nombre.toLowerCase().includes(query) ||
+                lead.email.toLowerCase().includes(query) ||
+                lead.telefono.toLowerCase().includes(query) ||
+                lead.mensaje.toLowerCase().includes(query);
+                
+            return matchesService && matchesQuery;
+        });
+
+        renderTable();
+    }
+
+    // Eliminar un lead
+    async function confirmDeleteLead(id, nombre) {
+        const isConfirmed = confirm(`¿Estás seguro de que deseas eliminar permanentemente el prospecto de "${nombre}"?`);
+        if (!isConfirmed) return;
+
+        try {
+            const response = await fetch(`/api/admin/leads/${id}`, {
+                method: 'DELETE'
+            });
+            const data = await response.json();
+            if (response.ok && data.status === 'success') {
+                alert('El prospecto ha sido eliminado exitosamente.');
+                // Quitar del listado local y refrescar
+                allLeads = allLeads.filter(l => l.id !== id);
+                applyFilters();
+                renderStats();
+            } else {
+                alert('No se pudo eliminar el prospecto: ' + (data.detail || 'Error del servidor.'));
+            }
+        } catch (error) {
+            console.error('Error al eliminar lead:', error);
+            alert('Error de red al intentar eliminar el registro.');
+        }
+    }
+
+    // Abrir Modal de Detalles
+    function openLeadModal(lead) {
+        document.getElementById('modal-lead-name').textContent = lead.nombre;
+        document.getElementById('modal-lead-service').textContent = lead.tipo_servicio;
+        document.getElementById('modal-lead-email').textContent = lead.email;
+        document.getElementById('modal-lead-phone').textContent = lead.telefono;
+        document.getElementById('modal-lead-date').textContent = lead.created_at;
+        document.getElementById('modal-lead-message').textContent = lead.mensaje;
+
+        leadModal.classList.add('active');
+        leadModal.setAttribute('aria-hidden', 'false');
+    }
+
+    // Cerrar Modal
+    function closeLeadModal() {
+        leadModal.classList.remove('active');
+        leadModal.setAttribute('aria-hidden', 'true');
+    }
+
+    // Utilidades
+    function escapeHTML(str) {
+        return str.replace(/[&<>'"]/g, 
+            tag => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                "'": '&#39;',
+                '"': '&quot;'
+            }[tag] || tag)
+        );
+    }
+
+    // Listeners
+    searchInput.addEventListener('input', applyFilters);
+    filterSelect.addEventListener('change', applyFilters);
+    modalCloseBtn.addEventListener('click', closeLeadModal);
+    
+    // Cerrar modal al hacer clic fuera
+    leadModal.addEventListener('click', (e) => {
+        if (e.target === leadModal) closeLeadModal();
+    });
+
+    // Cerrar con tecla Escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && leadModal.classList.contains('active')) {
+            closeLeadModal();
+        }
+    });
+
+    // Iniciar carga
+    window.addEventListener('DOMContentLoaded', loadLeads);
+</script>
+{% endblock %}

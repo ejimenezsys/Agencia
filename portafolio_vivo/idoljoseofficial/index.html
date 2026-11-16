@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="noir">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IDOL JOSE | Haute Couture, NYFW Runway & Luxury Atelier</title>
+  <meta name="description" content="Casa oficial de alta costura IDOL JOSE GROUP. Siluetas arquitectónicas, draping de autor, pasarelas en New York Fashion Week (FDLA / Art Hearts) y boutique en línea con envío global." />
+  <link rel="canonical" href="https://idoljoseofficial.com/" />
+  <link rel="icon" type="image/png" href="assets/logo-dark.png" />
+
+  <!-- Open Graph / Luxury Social Preview -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://idoljoseofficial.com/" />
+  <meta property="og:title" content="IDOL JOSE | Haute Couture & Avant-Garde Fashion House" />
+  <meta property="og:description" content="Donde la precisión anatómica se funde con la alta costura. Explora la trayectoria 2017–2026, galería editorial, calendario NYFW y boutique de autor." />
+  <meta property="og:image" content="https://idoljoseofficial.com/assets/logo-dark.png" />
+
+  <!-- Google Fonts: Cormorant Garamond (Haute Couture Serif) + Syne + Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css?v=20261112" />
+
+  <!-- Schema.org Structured Data for Luxury Brand -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "IDOL JOSE GROUP",
+    "alternateName": "IDOL JOSE",
+    "url": "https://idoljoseofficial.com/",
+    "logo": "https://idoljoseofficial.com/assets/logo-group.png",
+    "description": "Casa de alta costura y diseño vanguardista fundada por los Dres. Idolfredo Hernández y Juan Francisco Cabello, con presencia oficial en New York Fashion Week (FDLA, Art Hearts Fashion) y Los Angeles Fashion Week."
+  }
+  </script>
+</head>
+<body>
+
+  <!-- Top Runway Announcement Bar -->
+  <div class="top-runway-bar">
+    <div>
+      <span class="live-dot"></span>
+      <span>IDOL JOSE GROUP · NEW YORK · MIAMI · LOS ANGELES · HAUTE COUTURE MAISON</span>
+    </div>
+    <div style="display:flex; gap:1.5rem; align-items:center;">
+      <a href="https://www.instagram.com/doralfashionweekoficial/" target="_blank" rel="noopener">IG @doralfashionweekoficial ↗</a>
+      <a href="https://www.instagram.com/doralfwmagazine" target="_blank" rel="noopener">IG @doralfwmagazine ↗</a>
+      <a href="#contacto" style="color:var(--accent-gold);">Registro & Patrocinios →</a>
+    </div>
+  </div>
+
+  <!-- Sticky Luxury Header -->
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="#top" class="brand-logo" aria-label="IDOL JOSE Home">
+        <img id="headerBrandLogo" src="assets/logo-dark.png" alt="IDOL JOSE Official Logo" width="44" height="44" />
+        <span class="brand-logo-text">IDOL JOSE</span>
+      </a>
+
+      <nav aria-label="Navegación Principal">
+        <ul class="nav-links">
+          <li><a href="#trayectoria">La Maison & Trayectoria</a></li>
+          <li><a href="#cronologia">Línea de Tiempo (2017–2026)</a></li>
+          <li><a href="#galeria">Galería Editorial</a></li>
+          <li><a href="#eventos">Calendario Runway</a></li>
+          <li><a href="#boutique">Boutique Couture</a></li>
+          <li><a href="#ecosistema">Corporativo</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <button type="button" class="icon-pill-btn" onclick="toggleAtelierTheme()" title="Cambiar atmósfera Noir / Marfil Editorial">
+          ◐ Modo Atelier
+        </button>
+        <button type="button" class="cart-trigger-btn" onclick="openCartDialog()">
+          <span>Bolsa</span>
+          <span id="cartCountBadge" class="cart-count-badge">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- ====================================================================
+         MÓDULO 1: PORTADA EDITORIAL, PERFIL ("ABOUT") Y LÍNEA DE TIEMPO
+         ==================================================================== -->
+    <section class="container hero-editorial">
+      <div class="hero-copy-col">
+        <span class="hero-kicker">Dirección Creativa · Haute Couture & Avant-Garde</span>
+        <h1 class="hero-title">
+          La arquitectura del cuerpo elevada a <em>alta costura</em>.
+        </h1>
+        <p class="hero-lead">
+          Fundada por los Dres. <strong>Idolfredo Hernández</strong> y <strong>Juan Francisco Cabello</strong> —reconocidos internacionalmente en las pasarelas de Nueva York y Los Ángeles como <em>“The Fashion Doctors”</em>—, <strong>IDOL JOSE</strong> fusiona la exactitud anatómica con el dramatismo del draping escultural y la sastrería de autor.
+        </p>
+
+        <div class="hero-cta-group">
+          <a href="#boutique" class="btn-luxury-primary">
+            Explorar Colección & Tienda →
+          </a>
+          <a href="#cronologia" class="btn-luxury-outline">
+            Trayectoria 2017 – Presente
+          </a>
+        </div>
+
+        <div class="hero-stats-grid">
+          <div class="stat-item">
+            <div class="stat-number">2017–26</div>
+            <div class="stat-label">Presencia Internacional Continua</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">NYFW · LAFW</div>
+            <div class="stat-label">FDLA & Art Hearts Runways</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Siluetas de Autor & Talla Universal</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual-stage">
+        <div class="hero-portrait-frame">
+          <!-- LCP image prioritized per modern-web-guidance (fetchpriority="high", no loading="lazy") -->
+          <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1400&q=85"
+               alt="Dirección Creativa IDOL JOSE — Editorial de Alta Costura"
+               fetchpriority="high"
+               width="960"
+               height="1200" />
+          <div class="hero-floating-caption">
+            <div>
+              <span>Maison Oficial · New York & Miami</span>
+              <strong>IDOL JOSE GROUP — L'Ère Souveraine</strong>
+            </div>
+            <img src="assets/logo-group.png" alt="IDOL JOSE GROUP Emblem" width="64" height="52" style="background:#fff; padding:4px; height:46px; width:auto;" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Biografía Ejecutiva y Transición Multidisciplinaria -->
+    <section id="trayectoria" class="section-block">
+      <div class="container">
+        <div class="section-header-row">
+          <div>
+            <span class="section-eyebrow">Módulo 01 · La Firma & Filosofía</span>
+            <h2 class="section-title">De la Ciencia Anatómica al Arte de la Pasarela</h2>
+          </div>
+          <p class="section-subtitle">
+            Una visión multidisciplinaria única en la industria global: donde el estudio riguroso de la proporción humana se transforma en tejidos en movimiento, estructuras teatrales y piezas eternas.
+          </p>
+        </div>
+
+        <div class="bio-editorial-grid">
+          <div class="bio-card-manifesto">
+            <div>
+              <span class="tag-chip">Manifiesto de la Casa</span>
+              <blockquote>
+                “No vestimos tallas estándar; esculpimos el movimiento sobre la anatomía humana con la misma precisión con la que la medicina estudia la vida.”
+              </blockquote>
+              <p style="color:var(--text-secondary); font-size:0.95rem;">
+                La firma <strong>IDOL JOSE</strong> nació de una transición extraordinaria: dos médicos cirujanos venezolanos que llevaron su dominio de la proporción, la simetría y la estructura corporal hacia los escenarios más exigentes de la moda mundial en Manhattan, Beverly Hills y Miami.
+              </p>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:space-between; padding-top:2rem; margin-top:2rem; border-top:1px solid var(--border-subtle);">
+              <div>
+                <strong style="display:block; font-family:var(--font-serif); font-size:1.25rem;">Dirección Creativa IDOL JOSE</strong>
+                <span style="font-size:0.75rem; color:var(--text-muted); letter-spacing:0.14em; text-transform:uppercase;">Idolfredo Hernández & Juan Francisco Cabello</span>
+              </div>
+              <img src="assets/logo-group.png" alt="IDOL JOSE GROUP" width="70" height="56" style="background:#fff; padding:6px; height:48px; width:auto;" />
+            </div>
+          </div>
+
+          <div class="bio-pillars">
+            <div class="pillar-box">
+              <h3>01. Draping Anatómico</h3>
+              <p>Construcción tridimensional sobre maniquí y cuerpo real que permite que una misma pieza de autor abrace distintas siluetas con caída impecable.</p>
+            </div>
+            <div class="pillar-box">
+              <h3>02. Consagración en NYFW</h3>
+              <p>Presencia destacada año tras año junto a <strong>FDLA (Fashion Designers of Latin America)</strong> y <strong>Art Hearts Fashion</strong> en Nueva York y Los Ángeles.</p>
+            </div>
+            <div class="pillar-box">
+              <h3>03. Sastrería Quirúrgica</h3>
+              <p>Cortes limpios, hombreras arquitectónicas y textiles de alto contraste que fusionan el Ready-to-Wear de lujo con el dramatismo escénico.</p>
+            </div>
+            <div class="pillar-box">
+              <h3>04. Ecosistema Global</h3>
+              <p>Además de sus colecciones de alta gama, IDOL JOSE GROUP impulsa formación de modelos, bootcamps de pasarela y dirección artística integral.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Línea de Tiempo Interactiva (2017 – Presente) -->
+        <div id="cronologia" class="timeline-wrapper">
+          <div class="timeline-top-controls">
+            <div>
+              <span class="section-eyebrow">Archivo Histórico Interactivo (2017 – 2026)</span>
+              <h3 style="font-family:var(--font-serif); font-size:2.1rem; font-weight:400;">
+                Cronología de Colecciones, Desfiles NYFW & Prensa
+              </h3>
+            </div>
+            <button type="button" class="btn-luxury-outline" onclick="toggleFullChronology()">
+              ☷ Desplegar / Ocultar Índice Completo de Años
+            </button>
+          </div>
+
+          <!-- Navegación año por año -->
+          <div id="yearSelectorTrack" class="year-selector-track" role="tablist" aria-label="Seleccionar año de trayectoria"></div>
+
+          <!-- Escenario activo del año seleccionado -->
+          <div id="timelineActiveStage" class="timeline-stage-grid"></div>
+
+          <!-- Cajón desplegable con todos los años -->
+          <div id="fullChronologyDrawer" class="full-chronology-drawer"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         MÓDULO 2: GALERÍA EDITORIAL DINÁMICA CON LIGHTBOX
+         ==================================================================== -->
+    <section id="galeria" class="section-block">
+      <div class="container">
+        <div class="section-header-row">
+          <div>
+            <span class="section-eyebrow">Módulo 02 · Portafolio Visual de Alta Costura</span>
+            <h2 class="section-title">Galería Editorial & Archivo Runway</h2>
+          </div>
+          <div style="display:flex; gap:0.85rem; align-items:center; flex-wrap:wrap;">
+            <a href="https://www.instagram.com/doralfashionweekoficial/" target="_blank" rel="noopener" class="btn-luxury-outline">
+              Seguir Cobertura en Instagram ↗
+            </a>
+          </div>
+        </div>
+
+        <div id="galleryFilterBar" class="filter-bar">
+          <button type="button" class="filter-btn active" onclick="filterGallery('all', this)">Todo el Archivo</button>
+          <button type="button" class="filter-btn" onclick="filterGallery('runway', this)">NYFW & LAFW Runway</button>
+          <button type="button" class="filter-btn" onclick="filterGallery('editorial', this)">Campañas Editoriales</button>
+          <button type="button" class="filter-btn" onclick="filterGallery('backstage', this)">Backstage & Atelier</button>
+          <button type="button" class="filter-btn" onclick="filterGallery('press', this)">Prensa & Alfombra Roja</button>
+        </div>
+
+        <div id="editorialGalleryGrid" class="editorial-masonry-grid"></div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         MÓDULO 3: PRÓXIMOS EVENTOS & CALENDARIO RUNWAY
+         ==================================================================== -->
+    <section id="eventos" class="section-block">
+      <div class="container">
+        <div class="section-header-row">
+          <div>
+            <span class="section-eyebrow">Módulo 03 · Agenda Oficial de Pasarelas & Galas</span>
+            <h2 class="section-title">Próximos Eventos, Galas & Calendario Runway</h2>
+          </div>
+          <div style="display:flex; gap:0.85rem; flex-wrap:wrap;">
+            <a href="https://www.instagram.com/doralfashionweekoficial/" target="_blank" rel="noopener" class="btn-luxury-outline">
+              Ver Avisos Oficiales en Instagram ↗
+            </a>
+          </div>
+        </div>
+
+        <div id="runwayEventsList" class="events-list-grid"></div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         MÓDULO 4: E-COMMERCE DE ALTA GAMA + LOGÍSTICA USPS/UPS/FEDEX
+         ==================================================================== -->
+    <section id="boutique" class="section-block">
+      <div class="container">
+        <div class="section-header-row">
+          <div>
+            <span class="section-eyebrow">Módulo 04 · Boutique Digital de Autor</span>
+            <h2 class="section-title">Colección Disponible — Siluetas Draping & Sastrería</h2>
+          </div>
+          <p class="section-subtitle">
+            Prendas configuradas en <strong>Talla Única / Universal</strong> mediante patronaje envolvente de alta costura. Cotización de flete automática en tiempo real (<strong>USPS · UPS · FedEx</strong>) según el peso de cada creación y tu código postal.
+          </p>
+        </div>
+
+        <div id="coutureCatalogGrid" class="catalog-grid"></div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         ECOSISTEMA CORPORATIVO IDOL JOSE GROUP & HOJA DE REGISTRO COMERCIAL
+         ==================================================================== -->
+    <section id="ecosistema" class="section-block" style="padding: 4.5rem 0;">
+      <div class="container">
+        <div class="section-header-row" style="margin-bottom: 2.5rem;">
+          <div>
+            <span class="section-eyebrow">Ecosistema Oficial · Miami · New York · Doral</span>
+            <h2 class="section-title" style="font-size: clamp(1.85rem, 3vw, 2.75rem);">
+              IDOL JOSE GROUP CORP & Divisiones Oficiales
+            </h2>
+          </div>
+          <p class="section-subtitle">
+            Un ecosistema multidisciplinario que integra alta costura, pasarelas mensuales, prensa editorial de lujo, formación de élite y transformación digital con Inteligencia Artificial.
+          </p>
+        </div>
+
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; margin-bottom: 3.5rem;">
+          <a href="https://idoljosegroupcorp.com" target="_blank" rel="noopener" class="pillar-box" style="display:block;">
+            <span class="tag-chip" style="margin-bottom:0.65rem; display:inline-block;">Holding Corporativo</span>
+            <h3>IDOL JOSE GROUP CORP</h3>
+            <p>Dirección corporativa, alianzas estratégicas e inversión del conglomerado internacional de moda y medios.</p>
+          </a>
+          <a href="https://www.doralfashionweekmagazine.com" target="_blank" rel="noopener" class="pillar-box" style="display:block;">
+            <span class="tag-chip" style="margin-bottom:0.65rem; display:inline-block;">Prensa & Editorial</span>
+            <h3>Doral Fashion Week Magazine</h3>
+            <p>Revista impresa y digital de alta moda, estilo de vida de lujo y negocios en el sur de la Florida.</p>
+          </a>
+          <a href="https://www.idolfashiontheelitelab.com" target="_blank" rel="noopener" class="pillar-box" style="display:block;">
+            <span class="tag-chip" style="margin-bottom:0.65rem; display:inline-block;">Academia & Management</span>
+            <h3>Idol Fashion: The Elite Lab</h3>
+            <p>Entrenamiento técnico avanzado y representación para modelos, diseñadores y fotógrafos.</p>
+          </a>
+          <a href="https://doralbusinesscity.com" target="_blank" rel="noopener" class="pillar-box" style="display:block;">
+            <span class="tag-chip" style="margin-bottom:0.65rem; display:inline-block;">Negocios & IA en Doral</span>
+            <h3>Doral Business City</h3>
+            <p>Plataforma empresarial, revista corporativa y aceleración comercial impulsada junto a Agencia Prosper IA.</p>
+          </a>
+        </div>
+
+        <!-- Hoja de Registro Oficial (CRM Ready: Nombre, Teléfono/WhatsApp y Motivo) -->
+        <div id="contacto" class="timeline-wrapper">
+          <div class="timeline-stage-grid" style="align-items:start;">
+            <div>
+              <span class="section-eyebrow">Contacto Directo · Atelier, Patrocinios & Revista</span>
+              <h3 style="font-family:var(--font-serif); font-size:2.1rem; font-weight:400; margin-bottom:0.85rem;">
+                Hoja de Registro Oficial
+              </h3>
+              <p style="color:var(--text-secondary); margin-bottom:1.25rem;">
+                Regístrate para adquirir piezas de alta costura a medida, patrocinar nuestras pasarelas mensuales, anunciar tu marca en nuestras ediciones impresas con código QR o participar en nuestros castings y bootcamps.
+              </p>
+              <div style="display:flex; flex-wrap:wrap; gap:0.75rem;">
+                <a href="https://www.instagram.com/doralfashionweekoficial/" target="_blank" rel="noopener" class="btn-luxury-outline" style="padding:0.65rem 1.1rem; font-size:0.72rem;">
+                  IG @doralfashionweekoficial ↗
+                </a>
+                <a href="https://www.instagram.com/doralfwmagazine" target="_blank" rel="noopener" class="btn-luxury-outline" style="padding:0.65rem 1.1rem; font-size:0.72rem;">
+                  IG @doralfwmagazine ↗
+                </a>
+              </div>
+            </div>
+
+            <form onsubmit="submitOfficialLead(event)" style="background:var(--bg-primary); border:1px solid var(--border-strong); padding:2rem;">
+              <div style="display:grid; gap:0.9rem;">
+                <input name="fullName" type="text" class="luxury-input" placeholder="Nombre Completo y Marca / Empresa *" required />
+                <div class="form-grid-2" style="margin-bottom:0;">
+                  <input name="phone" type="tel" class="luxury-input" placeholder="Teléfono / WhatsApp *" required />
+                  <input name="email" type="email" class="luxury-input" placeholder="Correo Electrónico *" required />
+                </div>
+                <select name="reason" class="luxury-select" required>
+                  <option value="Adquisición de Alta Costura / Cita Privada Atelier IDOL JOSE">Adquisición de Alta Costura / Cita Privada Atelier IDOL JOSE</option>
+                  <option value="Patrocinador (Sponsor) en Pasarela Mensual / Doral Fashion Week">Patrocinador (Sponsor) en Pasarela Mensual / Doral Fashion Week</option>
+                  <option value="Anunciarse / Comprar Espacio en Revista (DFWM o Doral Business City)">Anunciarse / Comprar Espacio en Revista (DFWM o Doral Business City)</option>
+                  <option value="Participar como Diseñador / Modelo / Talento (The Elite Lab)">Participar como Diseñador / Modelo / Talento (The Elite Lab)</option>
+                  <option value="Consultoría de Inteligencia Artificial & Automatización (Agencia Prosper IA)">Consultoría de Inteligencia Artificial & Automatización (Agencia Prosper IA)</option>
+                </select>
+                <textarea name="notes" class="luxury-textarea" rows="2" placeholder="Detalles adicionales de tu solicitud..."></textarea>
+                <button type="submit" class="btn-luxury-primary" style="width:100%; justify-content:center;">
+                  Enviar Registro →
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ======================================================================
+       FOOTER OFICIAL
+       ====================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div style="display:flex; align-items:center; gap:0.85rem; margin-bottom:1rem;">
+            <img src="assets/logo-group.png" alt="IDOL JOSE GROUP" width="60" height="48" style="background:#fff; padding:4px; height:42px; width:auto;" />
+            <span class="brand-logo-text" style="font-size:1.05rem;">IDOL JOSE GROUP</span>
+          </div>
+          <p style="margin-bottom:1rem;">
+            Maison de Alta Costura, Sastrería Arquitectónica y Dirección Creativa. Presente en las semanas de la moda de Nueva York, Los Ángeles y Miami.
+          </p>
+          <p style="font-size:0.78rem; color:var(--accent-gold);">
+            idoljoseofficial.com · idoljosegroupcorp.com
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Ecosistema Oficial</h4>
+          <ul>
+            <li><a href="https://idoljosegroupcorp.com" target="_blank" rel="noopener">IDOL JOSE GROUP CORP</a></li>
+            <li><a href="https://www.doralfashionweekmagazine.com" target="_blank" rel="noopener">Doral Fashion Week Magazine</a></li>
+            <li><a href="https://www.idolfashiontheelitelab.com" target="_blank" rel="noopener">Idol Fashion: The Elite Lab</a></li>
+            <li><a href="https://doralfashionweek.com" target="_blank" rel="noopener">Doral Fashion Week</a></li>
+            <li><a href="https://doralbusinesscity.com" target="_blank" rel="noopener">Doral Business City</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Logística & Pagos</h4>
+          <ul>
+            <li><a href="#boutique" onclick="openCartDialog()">Cotizador en Vivo USPS / UPS / FedEx</a></li>
+            <li><a href="#boutique" onclick="openCartDialog()">Checkout Stripe · Apple Pay · Tarjetas</a></li>
+            <li><a href="#boutique">Guía de Ajuste Talla Universal Draping</a></li>
+            <li><a href="#eventos">Acreditaciones de Prensa & Buyers</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Atención Privada & Prensa VIP</h4>
+          <p style="margin-bottom:1rem;">
+            Solicita citas privadas en el Atelier, acreditaciones de prensa o información sobre próximos desfiles y bootcamps en Nueva York y Miami.
+          </p>
+          <a href="https://www.instagram.com/doralfashionweekoficial/" target="_blank" rel="noopener" class="btn-luxury-outline" style="width:100%; justify-content:center;">
+            Instagram Oficial ↗
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2017–2026 IDOL JOSE GROUP CORP. Todos los derechos reservados.</span>
+        <span>
+          Powered by <a href="https://agenciaprosperia.com" target="_blank" rel="noopener" style="color:var(--accent-gold); text-decoration:underline; text-underline-offset:3px;">Edward Jiménez · Agencia Prosper IA</a> (Miami AI & Digital Architecture)
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ======================================================================
+       MODAL 1: LIGHTBOX PANTALLA COMPLETA (MÓDULO 2)
+       ====================================================================== -->
+  <dialog id="lightboxDialog" class="luxury-dialog" closedby="any" aria-labelledby="lightboxDialogTitle">
+    <div class="dialog-header">
+      <h2 id="lightboxDialogTitle">Archivo Editorial — Vista Pantalla Completa</h2>
+      <button type="button" class="dialog-close-btn" onclick="document.getElementById('lightboxDialog').close()">
+        ✕ Cerrar
+      </button>
+    </div>
+    <div id="lightboxDialogContent" class="dialog-body"></div>
+  </dialog>
+
+  <!-- ======================================================================
+       MODAL 2: FICHA MULTIMEDIA DE PRODUCTO (FOTOS + MICRO-VIDEO CAÍDA TELA)
+       ====================================================================== -->
+  <dialog id="productDetailDialog" class="luxury-dialog" closedby="any" aria-labelledby="productDetailDialogTitle">
+    <div class="dialog-header">
+      <h2 id="productDetailDialogTitle">Ficha Técnica de Alta Costura & Movimiento del Textil</h2>
+      <button type="button" class="dialog-close-btn" onclick="document.getElementById('productDetailDialog').close()">
+        ✕ Cerrar
+      </button>
+    </div>
+    <div id="productDetailDialogBody" class="dialog-body"></div>
+  </dialog>
+
+  <!-- ======================================================================
+       MODAL 3: BOLSA DE COMPRA + COTIZADOR EN TIEMPO REAL USPS / UPS / FEDEX
+       ====================================================================== -->
+  <dialog id="cartCheckoutDialog" class="luxury-dialog" closedby="any" aria-labelledby="cartCheckoutDialogTitle">
+    <div class="dialog-header">
+      <h2 id="cartCheckoutDialogTitle">Bolsa de Alta Costura & Logística en Tiempo Real</h2>
+      <button type="button" class="dialog-close-btn" onclick="document.getElementById('cartCheckoutDialog').close()">
+        ✕ Cerrar
+      </button>
+    </div>
+    <div id="cartDialogBody" class="dialog-body"></div>
+  </dialog>
+
+  <!-- ======================================================================
+       MODAL 4: DIFUSIÓN AUTOMÁTICA EN INSTAGRAM (MÓDULO 3)
+       ====================================================================== -->
+  <dialog id="igAnnouncementDialog" class="luxury-dialog" closedby="any" aria-labelledby="igAnnouncementTitle">
+    <div class="dialog-header">
+      <h2 id="igAnnouncementTitle">Automatización de Difusión para Instagram (@idoljoseofficial)</h2>
+      <button type="button" class="dialog-close-btn" onclick="document.getElementById('igAnnouncementDialog').close()">
+        ✕ Cerrar
+      </button>
+    </div>
+    <div id="igAnnouncementDialogBody" class="dialog-body"></div>
+  </dialog>
+
+  <!-- ======================================================================
+       MODAL 5: CMS ATELIER STUDIO (GESTIÓN DE GALERÍA, EVENTOS Y WEBHOOKS)
+       ====================================================================== -->
+  <dialog id="cmsStudioDialog" class="luxury-dialog" closedby="any" aria-labelledby="cmsStudioTitle">
+    <div class="dialog-header">
+      <h2 id="cmsStudioTitle">CMS Atelier Studio — Administración Ágil IDOL JOSE</h2>
+      <button type="button" class="dialog-close-btn" onclick="document.getElementById('cmsStudioDialog').close()">
+        ✕ Cerrar
+      </button>
+    </div>
+    <div class="dialog-body">
+      <div class="modal-split-grid">
+        <!-- Formulario 1: Publicar Nueva Sesión en Galería Editorial -->
+        <form onsubmit="handleAddEditorialForm(event)" style="background:var(--bg-primary); padding:1.5rem; border:1px solid var(--border-subtle);">
+          <span class="section-eyebrow">Módulo 2 · Gestión CMS Multimedia</span>
+          <h3 style="font-family:var(--font-serif); font-size:1.5rem; margin-bottom:1rem;">Agregar Sesión a la Galería Editorial</h3>
+          <div style="display:grid; gap:0.75rem;">
+            <input name="title" class="luxury-input" placeholder="Título del Look o Campaña (ej. NYFW Finale Look)" required />
+            <select name="category" class="luxury-select" required>
+              <option value="runway">NYFW & LAFW Runway</option>
+              <option value="editorial">Campañas Editoriales</option>
+              <option value="backstage">Backstage & Atelier</option>
+              <option value="press">Prensa & Alfombra Roja</option>
+            </select>
+            <input name="season" class="luxury-input" placeholder="Temporada / Ciudad (ej. NYFW SS27 · Manhattan)" required />
+            <input name="photographer" class="luxury-input" placeholder="Crédito Fotográfico / Dirección" />
+            <input name="image" type="url" class="luxury-input" placeholder="URL de la Fotografía en Alta Resolución (https://...)" required />
+            <textarea name="description" class="luxury-textarea" rows="3" placeholder="Descripción editorial de la pieza y materiales..." required></textarea>
+            <button type="submit" class="btn-luxury-primary" style="justify-content:center;">
+              + Publicar en Galería Editorial
+            </button>
+          </div>
+        </form>
+
+        <!-- Formulario 2: Publicar Nuevo Evento + Disparo a Instagram -->
+        <form onsubmit="handleAddEventForm(event)" style="background:var(--bg-primary); padding:1.5rem; border:1px solid var(--border-subtle);">
+          <span class="section-eyebrow">Módulo 3 · Calendario Runway + Instagram</span>
+          <h3 style="font-family:var(--font-serif); font-size:1.5rem; margin-bottom:1rem;">Publicar Desfile, Gala o Bootcamp</h3>
+          <div style="display:grid; gap:0.75rem;">
+            <div class="form-grid-2" style="margin-bottom:0;">
+              <input name="day" class="luxury-input" placeholder="Día (ej. 18)" required />
+              <input name="monthYear" class="luxury-input" placeholder="Mes y Año (ej. SEP · 2027)" required />
+            </div>
+            <input name="title" class="luxury-input" placeholder="Nombre del Evento (ej. NYFW FDLA Official Showcase)" required />
+            <input name="type" class="luxury-input" placeholder="Categoría (ej. Desfile Oficial / Bootcamp / Gala)" required />
+            <input name="location" class="luxury-input" placeholder="Ubicación (ej. Midtown Manhattan, NY)" required />
+            <div class="form-grid-2" style="margin-bottom:0;">
+              <input name="time" class="luxury-input" placeholder="Hora (ej. 20:00 EST)" required />
+              <input name="ticketPrice" class="luxury-input" placeholder="Boletos (ej. VIP $250 / RSVP)" required />
+            </div>
+            <textarea name="description" class="luxury-textarea" rows="2" placeholder="Detalles del desfile y acceso..." required></textarea>
+            <button type="submit" class="btn-luxury-primary" style="justify-content:center;">
+              ⚡ Publicar Evento y Generar Aviso Instagram
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Configuración de Webhooks (Instagram Make/Zapier/n8n & Stripe) -->
+      <form onsubmit="handleSaveIntegrations(event)" style="margin-top:1.75rem; background:var(--bg-primary); padding:1.5rem; border:1px solid var(--border-subtle);">
+        <span class="section-eyebrow">Automatización & Pasarela de Pago</span>
+        <h3 style="font-family:var(--font-serif); font-size:1.4rem; margin-bottom:0.85rem;">
+          Conexión de Webhook Instagram (Make / Zapier / n8n) & Stripe Checkout
+        </h3>
+        <div class="form-grid-2">
+          <div>
+            <label style="font-size:0.72rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--text-muted); display:block; margin-bottom:0.35rem;">
+              URL Webhook Automatización Instagram (n8n / Make / Zapier)
+            </label>
+            <input id="cmsIgWebhookInput" type="url" class="luxury-input" placeholder="https://n8n.tudominio.com/webhook/idoljose-instagram" />
+          </div>
+          <div>
+            <label style="font-size:0.72rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--text-muted); display:block; margin-bottom:0.35rem;">
+              URL Pasarela Directa Stripe / Apple Pay Checkout (Opcional)
+            </label>
+            <input id="cmsStripeUrlInput" type="url" class="luxury-input" placeholder="https://buy.stripe.com/..." />
+          </div>
+        </div>
+        <button type="submit" class="btn-luxury-outline">
+          Guardar Conexiones de Automatización
+        </button>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- Botón Flotante de Lujo: WhatsApp Concierge IDOL JOSE (+1 786-647-5982) -->
+  <a href="https://wa.me/17866475982?text=Hola%20IDOL%20JOSE%2C%20vengo%20desde%20idoljoseofficial.com%20y%20deseo%20informaci%C3%B3n%20sobre%20la%20Maison%20y%20pr%C3%B3ximos%20eventos."
+     target="_blank"
+     rel="noopener noreferrer"
+     class="whatsapp-concierge-float"
+     aria-label="Contacto directo por WhatsApp con IDOL JOSE">
+    <span class="wa-pulse"></span>
+    <span>Atelier Concierge · WhatsApp</span>
+  </a>
+
+  <!-- Notificación Toast Flotante -->
+  <div id="luxuryToast" class="luxury-toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js?v=20261112"></script>
+</body>
+</html>

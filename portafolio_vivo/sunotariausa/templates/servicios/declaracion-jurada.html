@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+
+{% block title %}
+{% if lang == 'en' %}Su Notaria USA | Affidavit - Authenticity Under Oath{% else %}Su Notaria USA | Declaración Jurada - Autenticidad Bajo Juramento{% endif %}
+{% endblock %}
+
+{% block content %}
+<section class="service-detail-section">
+    <div class="service-detail-container">
+        <!-- Hero del Servicio -->
+        <div class="service-detail-hero animate-fade-in">
+            <div class="service-detail-icon-wrapper">
+                <svg viewBox="0 0 24 24" width="64" height="64" class="service-card-svg" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="8.5" cy="7" r="4"/>
+                    <line x1="20" y1="8" x2="20" y2="14"/>
+                    <line x1="23" y1="11" x2="17" y2="11"/>
+                </svg>
+            </div>
+            <h1 class="service-detail-title">
+                {% if lang == 'en' %}Affidavit{% else %}Declaración Jurada{% endif %}
+            </h1>
+            <p class="service-detail-subtitle">
+                {% if lang == 'en' %}Written Testimonies with Full Legal Validity and Force of Law{% else %}Testimonios Escritos con Plena Validez y Fuerza de Ley{% endif %}
+            </p>
+        </div>
+
+        <!-- Cuerpo del Detalle -->
+        <div class="service-detail-content animate-fade-in">
+            <div class="service-detail-body">
+                {% if lang == 'en' %}
+                <p>
+                    An Affidavit (Declaración Jurada) is a legal instrument of high formal value in which a natural person voluntarily writes down and states a series of concrete facts under solemn oath or promise to tell the truth. This document acquires the character of written legal testimony at the moment it is ratified and signed before an authorized public trust official, such as a duly commissioned notary public. The legal weight of this instrument is such that it is regularly used as documentary evidence before courts of law, consulates, and national and international government institutions.
+                </p>
+                <p>
+                    The practical uses of affidavits in the legal ecosystem are extremely diverse and cover multiple branches of law. They are fundamental for the formal verification of commercial or civil facts, the formal declaration of identity in case of discrepancy in public records, the verification of marital status (declaration of single status), the accreditation of permanent residence, and the presentation of testimonies and documentary evidence in trials or hearings. Likewise, they are indispensable in immigration processes (before USCIS or consular offices), where it is required to formally witness the truthfulness of family relationships, financial sponsorship, or affidavit of income.
+                </p>
+                <p>
+                    In the State of Florida, the formal validity of an Affidavit requires a rigorous process. The declarant must appear physically or through authorized remote notarization before the notary. The act strictly begins with the solemn oral oath administered by the notary public, where the signer declares solemnly and under penalty of perjury that the information contained in the document is true. Subsequently, the declarant signs in the presence of the notary, and the notary stamps their official state seal and signs the notary certificate (called a Jurat), providing reliable proof of the act and the verified identity of the declarant.
+                </p>
+                <p>
+                    At Su Notaria USA, we guarantee that your Affidavit is structured under the highest standards of regulatory compliance and formal validity, both state and federal. Backed by more than 20 years of corporate experience at JPX International, our team of commissioned notary publics in Florida performs a thorough verification of identities and technical drafting so that the instrument remains unbreakable before any entity in the United States. In this way, we make sure that your Affidavit is completely irrefutable and accepted before any court, educational institution, or banking and corporate entity.
+                </p>
+                {% else %}
+                <p>
+                    Una Declaración Jurada (Affidavit) es un instrumento jurídico de gran valor formal en el que una persona física redacta y afirma voluntariamente una serie de hechos concretos bajo juramento solemne o promesa de decir la verdad. Dicho documento adquiere el carácter de testimonio legal escrito en el momento en que es ratificado y firmado frente a un oficial de fe pública autorizado, como un notario público debidamente comisionado. El peso legal de este instrumento es tal que se utiliza de manera regular como prueba documental ante cortes de justicia, juzgados, consulados e instituciones gubernamentales nacionales e internacionales.
+                </p>
+                <p>
+                    Los usos prácticos de las declaraciones juradas en el ecosistema legal son sumamente diversos y abarcan múltiples ramas del derecho. Son fundamentales para la verificación formal de hechos mercantiles o civiles, la declaración formal de identidad en caso de discrepancia en registros públicos, la constatación de estado civil (declaración de soltería), la acreditación de lugar de residencia permanente y la presentación de testimonios y pruebas documentales en juicios o audiencias. Asimismo, resultan indispensables en procesos migratorios (ante USCIS u oficinas consulares), donde se requiere atestiguar formalmente la veracidad de relaciones familiares, el patrocinio económico o la declaración jurada de ingresos.
+                </p>
+                <p>
+                    En el Estado de la Florida, la validez formal de un Affidavit exige un proceso riguroso. El declarante debe comparecer físicamente o mediante notarización remota autorizada ante el notario. El acto inicia obligatoriamente con el juramento oral solemne administrado por el notario público, donde el firmante declara solemnemente y bajo pena de perjurio que la información contenida en el documento es verídica. Posteriormente, el declarante estampa su firma en presencia del notario y este estampa su sello oficial del estado y firma el certificado notarial (denominado Jurat), dando constancia fehaciente del acto y de la identidad verificada del declarante.
+                </p>
+                <p>
+                    En Su Notaria USA, entendemos que cualquier imprecisión técnica o descuido formal en una Declaración Jurada puede ocasionar su rechazo en sede administrativa o judicial, con las consecuentes pérdidas de tiempo y recursos. Por ello, Gladys Rodríguez y su equipo comisionado garantizan una revisión minuciosa y una redacción impecable de cada declaración, cuidando con celo fiduciario la concordancia del texto con las normativas aplicables de la Florida y los Estados Unidos. Así, nos aseguramos de que su Affidavit sea completamente irrefutable y aceptado ante cualquier corte, institución educativa o entidad bancaria y corporativa.
+                </p>
+                {% endif %}
+
+                <h2 class="service-detail-list-title">
+                    {% if lang == 'en' %}Common Use Cases:{% else %}Casos de Uso Frecuentes:{% endif %}
+                </h2>
+                <ul class="service-detail-list">
+                    <li class="service-detail-list-item">
+                        <span class="service-detail-list-icon">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </span>
+                        <div class="service-detail-list-text">
+                            {% if lang == 'en' %}
+                            <strong>Affidavit of Residence:</strong> Required by school districts, banks, or driver's license offices to validate current address.
+                            {% else %}
+                            <strong>Affidavit de Residencia (Affidavit of Residence):</strong> Requerido por distritos escolares, bancos u oficinas de licencias de conducir para validar el domicilio actual.
+                            {% endif %}
+                        </div>
+                    </li>
+                    <li class="service-detail-list-item">
+                        <span class="service-detail-list-icon">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </span>
+                        <div class="service-detail-list-text">
+                            {% if lang == 'en' %}
+                            <strong>Marital Status / Single Status Affidavit:</strong> Used by consulates or foreign registries to certify that a person is eligible to marry.
+                            {% else %}
+                            <strong>Declaración de Soltería o Estado Civil:</strong> Utilizada por consulados o registros extranjeros para certificar que una persona está habilitada para contraer matrimonio.
+                            {% endif %}
+                        </div>
+                    </li>
+                    <li class="service-detail-list-item">
+                        <span class="service-detail-list-icon">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </span>
+                        <div class="service-detail-list-text">
+                            {% if lang == 'en' %}
+                            <strong>Affidavit of Support:</strong> Indispensable for certifying financial sponsorship and solvency for immigration and student visas.
+                            {% else %}
+                            <strong>Affidavit de Soporte Económico (Affidavit of Support):</strong> Indispensable para certificar patrocinios financieros y solvencia en visados migratorios y estudiantiles.
+                            {% endif %}
+                        </div>
+                    </li>
+                    <li class="service-detail-list-item">
+                        <span class="service-detail-list-icon">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </span>
+                        <div class="service-detail-list-text">
+                            {% if lang == 'en' %}
+                            <strong>Loss of Documents Affidavit:</strong> Required by embassies or banking entities to report and replace property deeds or passports.
+                            {% else %}
+                            <strong>Declaración de Pérdida de Documentos:</strong> Requerida por embajadas o entidades bancarias para reportar y reponer títulos de propiedad o pasaportes.
+                            {% endif %}
+                        </div>
+                    </li>
+                    <li class="service-detail-list-item">
+                        <span class="service-detail-list-icon">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </span>
+                        <div class="service-detail-list-text">
+                            {% if lang == 'en' %}
+                            <strong>Witness Statement Affidavit:</strong> Formal written statements to support civil lawsuits, commercial claims, or defense in courts.
+                            {% else %}
+                            <strong>Declaración de Testigos:</strong> Afirmaciones formales por escrito para sustentar demandas civiles, reclamos comerciales o defensa en cortes.
+                            {% endif %}
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Banner de CTA -->
+        <div class="service-detail-cta animate-fade-in">
+            <h3>
+                {% if lang == 'en' %}Do you need to formalize an Affidavit with complete legal validity?{% else %}¿Necesita formalizar una Declaración Jurada con total validez legal?{% endif %}
+            </h3>
+            <a href="{{ '/en/contacto?servicio=Affidavit' if lang == 'en' else '/contacto?servicio=Declaración%20Jurada' }}" class="btn btn-primary">
+                {% if lang == 'en' %}Contact Specialist{% else %}Contactar Especialista{% endif %}
+            </a>
+        </div>
+
+        <!-- Enlace de regreso -->
+        <div class="back-to-services-wrapper animate-fade-in">
+            <a href="{{ '/en/servicios' if lang == 'en' else '/servicios' }}" class="back-to-services-link">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                {% if lang == 'en' %}Back to all Services{% else %}Volver a todos los Servicios{% endif %}
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

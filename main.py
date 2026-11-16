@@ -17,10 +17,12 @@ from database import init_db, SessionLocal, User, Lead as DbLead, SessionModel, 
 from editorial import LANES, enrich_post
 from ghl_client import sync_lead_to_ghl_async, sync_sales_os_event_to_ghl_async
 from sales_os_router import router as sales_os_router, WEBSITE_TEMPLATES_SHOWCASE, serialize_lead, record_audit, is_contact_excluded
+from portafolio_vivo import setup_portafolio_vivo
 import json
 
 app = FastAPI(title="Prosper IA API Stack", version="1.0.0")
 app.include_router(sales_os_router)
+setup_portafolio_vivo(app)
 
 
 def feature_enabled(name: str) -> bool:
@@ -1067,6 +1069,24 @@ class LeadCreateRequest(BaseModel):
     country: Optional[str] = None
     source_channel: Optional[str] = None
     source_campaign: Optional[str] = None
+    trade: Optional[str] = None
+    angle: Optional[str] = None
+    slug: Optional[str] = None
+    url: Optional[str] = None
+    lang: Optional[str] = "es"
+
+
+class BizBoxSqueezeLeadRequest(BaseModel):
+    name: str
+    email: EmailStr
+    trade: Optional[str] = "home-services"
+    angle: Optional[str] = ""
+    slug: Optional[str] = ""
+    source: Optional[str] = "squeeze"
+    url: Optional[str] = ""
+    lang: Optional[str] = "es"
+    phone: Optional[str] = ""
+    company: Optional[str] = ""
 
 class ContactRequest(BaseModel):
     name: Optional[str] = ""
@@ -1615,9 +1635,74 @@ SITIOWEB_NICHE_TEMPLATE_MAP = {
     "inmobiliaria": "inmobiliaria_bienes_raices",
     "profesionales": "profesionales_consultoria_legal",
     "servicios_locales": "servicios_locales_taller",
-    "enterprise": "profesionales_consultoria_legal",
+    "home_services": "servicios_locales_taller",
+    "hvac": "hvac_miami",
+    "plomeria": "plomeria_pro",
+    "roofing": "roofing_remodel",
+    "sti2q": "sti2q_industrial",
+    "enterprise": "sti2q_industrial",
     "academia": "academia_educacion_cursos",
 }
+
+
+@app.get("/paginas-web", response_class=HTMLResponse)
+@app.head("/paginas-web")
+@app.get("/paginas-web/", response_class=HTMLResponse)
+@app.head("/paginas-web/")
+@app.get("/paginas-web.html", response_class=HTMLResponse)
+@app.head("/paginas-web.html")
+async def paginas_web_page(request: Request):
+    return templates.TemplateResponse(request=request, name="paginas_web.html", context={"request": request, "active_menu": "paginas-web"})
+
+
+@app.get("/crm", response_class=HTMLResponse)
+@app.head("/crm")
+@app.get("/crm/", response_class=HTMLResponse)
+@app.head("/crm/")
+@app.get("/crm.html", response_class=HTMLResponse)
+@app.head("/crm.html")
+async def crm_verticales_page(request: Request):
+    return templates.TemplateResponse(request=request, name="crm_verticales.html", context={"request": request, "active_menu": "crm"})
+
+
+@app.get("/agentes-ia", response_class=HTMLResponse)
+@app.head("/agentes-ia")
+@app.get("/agentes-ia/", response_class=HTMLResponse)
+@app.head("/agentes-ia/")
+@app.get("/agentes-ia.html", response_class=HTMLResponse)
+@app.head("/agentes-ia.html")
+async def agentes_ia_page(request: Request):
+    return templates.TemplateResponse(request=request, name="agentes_ia.html", context={"request": request, "active_menu": "agentes-ia"})
+
+
+@app.get("/equipo", response_class=HTMLResponse)
+@app.head("/equipo")
+@app.get("/equipo/", response_class=HTMLResponse)
+@app.head("/equipo/")
+@app.get("/equipo.html", response_class=HTMLResponse)
+@app.head("/equipo.html")
+async def equipo_ia_page(request: Request):
+    return templates.TemplateResponse(request=request, name="equipo_ia.html", context={"request": request, "active_menu": "equipo"})
+
+
+@app.get("/marketing", response_class=HTMLResponse)
+@app.head("/marketing")
+@app.get("/marketing/", response_class=HTMLResponse)
+@app.head("/marketing/")
+@app.get("/marketing.html", response_class=HTMLResponse)
+@app.head("/marketing.html")
+async def marketing_ia_page(request: Request):
+    return templates.TemplateResponse(request=request, name="marketing_ia.html", context={"request": request, "active_menu": "marketing"})
+
+
+@app.get("/tarjeta", response_class=HTMLResponse)
+@app.head("/tarjeta")
+@app.get("/tarjeta/", response_class=HTMLResponse)
+@app.head("/tarjeta/")
+@app.get("/tarjeta.html", response_class=HTMLResponse)
+@app.head("/tarjeta.html")
+async def tarjeta_digital_page(request: Request):
+    return templates.TemplateResponse(request=request, name="tarjeta_digital.html", context={"request": request, "active_menu": "tarjeta"})
 
 
 @app.get("/sitioweb", response_class=HTMLResponse)
@@ -2844,6 +2929,15 @@ async def api_create_lead(
     offer_assigned = req.offer_version or "EXPRESS_497"
     quoted_assigned = float(req.quoted_amount) if req.quoted_amount is not None else 0.0
     tpl_assigned = req.selected_template or "clinica_dental_estetica"
+    extra_bib = " | ".join(
+        p for p in [
+            f"Trade: {req.trade}" if req.trade else "",
+            f"Angle: {req.angle}" if req.angle else "",
+            f"Slug: {req.slug}" if req.slug else "",
+            f"Lang: {req.lang}" if req.angle or req.trade else "",
+        ] if p
+    )
+    notes_final = " | ".join(p for p in [req.notes or "", extra_bib] if p)
 
     new_lead = DbLead(
         name=req.name.strip(),
@@ -2856,13 +2950,13 @@ async def api_create_lead(
         status=req.status or "new",
         source=req.source or "website",
         source_channel=req.source_channel or ("Outbound / Manual" if req.source == "outbound" else "Web"),
-        source_campaign=req.source_campaign or "",
+        source_campaign=req.source_campaign or (f"{req.angle}:{req.slug}".strip(":") if (req.angle or req.slug) else ""),
         score=req.score if req.score is not None else 60,
-        notes=req.notes or "",
+        notes=notes_final,
         created_at=created_at,
         owner_id=owner_assigned,
         setter_id=req.setter_id or owner_assigned,
-        niche=req.niche or "clinica",
+        niche=req.niche or (req.trade if req.trade else "clinica"),
         country=req.country or "LATAM / US",
         pipeline_stage=stage_assigned,
         offer_version=offer_assigned,
@@ -3787,3 +3881,122 @@ async def api_get_prospect_history(
     # Ordenar cronológicamente descendente (más recientes primero)
     campaigns.sort(key=lambda x: x["created_at"], reverse=True)
     return {"success": True, "data": {"campaigns": campaigns}}
+
+
+@app.options("/api/suscribir")
+@app.options("/api/leads/squeeze")
+async def squeeze_cors_preflight():
+    """Preflight CORS abierto para páginas de captura (BizBox portal-contract)."""
+    return JSONResponse(
+        content={"ok": True},
+        headers={
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "POST, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type",
+        },
+    )
+
+
+@app.post("/api/suscribir")
+@app.post("/api/leads/squeeze")
+async def api_bizbox_squeeze_lead(
+    req: BizBoxSqueezeLeadRequest,
+    background_tasks: BackgroundTasks,
+    db: Session = Depends(get_db),
+):
+    """Endpoint público compatible con el contrato JSON de 8 llaves de BIB-home-services-box-user."""
+    clean_name = (req.name or "").strip()
+    clean_em = normalize_email(req.email)
+    if not clean_name or not clean_em:
+        return JSONResponse(
+            status_code=400,
+            content={"ok": False, "error": "name y email son obligatorios."},
+            headers={"Access-Control-Allow-Origin": "*"},
+        )
+
+    clean_ph = normalize_phone_e164(req.phone or "")
+    if is_contact_excluded(db, clean_em, clean_ph):
+        return JSONResponse(
+            status_code=200,
+            content={"ok": True, "skipped": "dnd"},
+            headers={"Access-Control-Allow-Origin": "*"},
+        )
+
+    trade_val = (req.trade or "home-services").strip()[:60]
+    angle_val = (req.angle or "").strip()[:30]
+    slug_val = (req.slug or "").strip()[:120]
+    lang_val = (req.lang or "es").strip()[:10]
+    url_val = (req.url or "").strip()[:300]
+    now_iso = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+
+    campaign_tag = f"{angle_val}:{slug_val}".strip(":")
+    squeeze_note = (
+        f"[BizBox Squeeze] Oficio(trade): {trade_val} | Ángulo: {angle_val or 'N/A'} | "
+        f"Slug: {slug_val or 'N/A'} | Idioma: {lang_val}"
+        + (f" | URL: {url_val}" if url_val else "")
+    )
+
+    existing = db.query(DbLead).filter(DbLead.email == clean_em).first()
+    if existing:
+        existing.name = existing.name or clean_name
+        existing.full_name = existing.full_name or clean_name
+        existing.source_campaign = campaign_tag or existing.source_campaign
+        existing.notes = f"{existing.notes or ''}\n{squeeze_note}".strip()
+        existing.last_touch = now_iso
+        db.commit()
+        lead_id = existing.id
+    else:
+        closer = get_next_round_robin_closer(db)
+        owner_email = closer["email"] if closer else ""
+        new_lead = DbLead(
+            name=clean_name,
+            full_name=clean_name,
+            email=clean_em,
+            company=(req.company or "").strip(),
+            business_name=(req.company or "").strip(),
+            phone=(req.phone or "").strip(),
+            phone_e164=clean_ph,
+            status="new",
+            source=req.source or "squeeze",
+            source_channel="BizBox Squeeze",
+            source_campaign=campaign_tag,
+            score=75,
+            notes=squeeze_note,
+            created_at=now_iso,
+            owner_id=owner_email,
+            setter_id=owner_email,
+            niche=trade_val,
+            country="LATAM / US",
+            contact_permission="Squeeze Opt-in",
+            contact_status="contactable",
+            pipeline_stage="Lead identificado",
+            selected_template="servicios_locales_taller",
+            last_touch=now_iso,
+        )
+        db.add(new_lead)
+        db.commit()
+        db.refresh(new_lead)
+        lead_id = new_lead.id
+
+    name_parts = clean_name.split()
+    fn = name_parts[0] if name_parts else clean_name
+    ln = " ".join(name_parts[1:]) if len(name_parts) > 1 else ""
+    background_tasks.add_task(
+        sync_lead_to_ghl_async,
+        first_name=fn,
+        last_name=ln,
+        email=clean_em,
+        phone=req.phone or "",
+        company=req.company or "",
+        source=req.source or "squeeze",
+        industry=trade_val,
+        message=squeeze_note,
+        notes=squeeze_note,
+        sms_consent=False,
+        extra_tags=["bizbox_squeeze", f"trade_{trade_val}", f"angle_{angle_val or 'na'}"],
+    )
+
+    return JSONResponse(
+        content={"ok": True, "success": True, "lead_id": lead_id},
+        headers={"Access-Control-Allow-Origin": "*"},
+    )

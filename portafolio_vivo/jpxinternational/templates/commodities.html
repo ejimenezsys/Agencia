@@ -1,0 +1,363 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if lang == 'en' %}International Trade and Commodities | JPX International Investments Inc.
+    {% elif lang == 'pt' %}Comércio Internacional e Commodities | JPX International Investments Inc.
+    {% else %}Comercio Internacional y Commodities | JPX International Investments Inc.
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<!-- Banner Hero Secundario -->
+<section class="hero-section" style="padding: 4rem 0;">
+    <div class="container hero-content">
+        <h1>
+            {% if lang == 'en' %}Wholesale Logistics and Raw Materials Trade
+            {% elif lang == 'pt' %}Logística de Atacado e Comércio de Matérias-Primas
+            {% else %}Logística Mayorista y Comercio de Materias Primas
+            {% endif %}
+        </h1>
+        <p class="hero-subtitle" style="margin-bottom: 0;">
+            {% if lang == 'en' %}Strategic transoceanic supply of industrial commodities under international INCOTERMS regulations.
+            {% elif lang == 'pt' %}Fornecimento transoceânico estratégico de commodities industriais sob as regulamentações internacionais INCOTERMS.
+            {% else %}Suministro estratégico transoceánico de commodities industriales bajo normativas internacionales INCOTERMS.
+            {% endif %}
+        </p>
+    </div>
+</section>
+
+<!-- Resumen Logístico -->
+<section class="section">
+    <div class="container">
+        <h2>
+            {% if lang == 'en' %}Global Logistics Infrastructure
+            {% elif lang == 'pt' %}Infraestrutura Logística Global
+            {% else %}Infraestructura Logística Global
+            {% endif %}
+        </h2>
+        <p style="margin-top: 1rem; color: var(--color-dark); text-align: justify; line-height: 1.7;">
+            {% if lang == 'en' %}JPX manages massive supply chains through the world's most important maritime nodes and oil terminals. We operate under strict international trade regulations defined by the International Chamber of Commerce (<b>INCOTERMS</b>).
+            {% elif lang == 'pt' %}A JPX gerencia cadeias de suprimentos maciças por meio dos nós marítimos e terminais petrolíferos mais importantes do mundo. Operamos sob estritas regulamentações comerciais internacionais definidas pela Câmara de Comércio Internacional (<b>INCOTERMS</b>).
+            {% else %}JPX gestiona cadenas de suministro masivas a través de los nodos marítimos y terminales petroleras más importantes del mundo. Operamos bajo estrictas normativas comerciales internacionales definidas por la Cámara de Comercio Internacional (<b>INCOTERMS</b>).
+            {% endif %}
+        </p>
+        
+        <div style="display: flex; justify-content: center; margin: 3rem 0;">
+            <img src="{{ static_versioned('images/image3.png') }}" alt="Infraestructura logística y trading de commodities" style="max-width: 100%; height: auto; border: 1px solid var(--color-secondary); border-radius: var(--border-radius); box-shadow: var(--box-shadow-light); filter: desaturate(20%);">
+        </div>
+        
+        <div class="grid-cards" style="margin-top: 2rem;">
+            <div class="card">
+                <h3>
+                    {% if lang == 'en' %}INCOTERMS Terms
+                    {% elif lang == 'pt' %}Termos INCOTERMS
+                    {% else %}Términos INCOTERMS
+                    {% endif %}
+                </h3>
+                <p style="font-size: 0.90rem; line-height: 1.6;">
+                    {% if lang == 'en' %}We support quotes and contractual brokerage under the **Free On Board (FOB)** and **Cost, Insurance, and Freight (CIF)** schemes, adapting to the buyer's customs and logistical needs.
+                    {% elif lang == 'pt' %}Suportamos cotações e intermediação contratual sob os esquemas **Free On Board (FOB)** e **Cost, Insurance, and Freight (CIF)**, adaptando-nos às necessidades aduaneiras e logísticas do comprador.
+                    {% else %}Soportamos cotizaciones e intermediación contractual bajo los esquemas **Free On Board (FOB)** y **Cost, Insurance, y Freight (CIF)**, adaptándonos a las necesidades aduaneras y logísticas del comprador.
+                    {% endif %}
+                </p>
+            </div>
+            <div class="card">
+                <h3>
+                    {% if lang == 'en' %}Operating Terminals
+                    {% elif lang == 'pt' %}Terminais de Operação
+                    {% else %}Terminales de Operación
+                    {% endif %}
+                </h3>
+                <p style="font-size: 0.90rem; line-height: 1.6;">
+                    {% if lang == 'en' %}Our main loading and logistical clearing locations include the **Port of Rotterdam** (Netherlands), the terminals of **Houston** (USA), **Fujairah** (United Arab Emirates), **Jurong Island** (Singapore), **Ningbo-Zhoushan** (China), or any safe port in the world (**ASWP**).
+                    {% elif lang == 'pt' %}Nossas principais praças de carga e compensação logística incluem o **Porto de Roterdã** (Países Baixos), os terminais de **Houston** (EUA), **Fujairah** (Emirados Árabes Unidos), a **Ilha de Jurong** (Singapura), **Ningbo-Zhoushan** (China) ou qualquer porto seguro do mundo (**ASWP**).
+                    {% else %}Nuestras principales plazas de carga y compensación logística incluyen el **Puerto de Rotterdam** (Países Bajos), las terminales de **Houston** (EE.UU.), **Fujairah** (Emiratos Árabes Unidos), la **Isla de Jurong** (Singapur), **Ningbo-Zhoushan** (China) o cualquier puerto seguro del mundo (**ASWP**).
+                    {% endif %}
+                </p>
+            </div>
+            <div class="card">
+                <h3>
+                    {% if lang == 'en' %}Transactional Security
+                    {% elif lang == 'pt' %}Segurança Transacional
+                    {% else %}Seguridad Transaccional
+                    {% endif %}
+                </h3>
+                <p style="font-size: 0.90rem; line-height: 1.6;">
+                    {% if lang == 'en' %}Every commercial transaction is backed by Documentary Letters of Credit and bank performance guarantees, ensuring physical SGS inspections of purity and volume before shipment.
+                    {% elif lang == 'pt' %}Toda transação comercial é respaldada por Cartas de Crédito Documentárias e garantias de cumprimento bancário, garantindo inspeções físicas SGS de pureza e volume antes do embarque.
+                    {% else %}Toda transacción comercial está respaldada por Cartas de Crédito Documentarias y garantías de cumplimiento bancario, garantizando inspecciones SGS físicas de pureza y volumen antes del embarque.
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Catálogo de Materias Primas -->
+<section class="section section-grey">
+    <div class="container">
+        <h2>
+            {% if lang == 'en' %}Raw Materials Sectors and Commercial Grades
+            {% elif lang == 'pt' %}Setores de Matérias-Primas e Graus Comerciais
+            {% else %}Sectores de Materias Primas y Grados Comerciales
+            {% endif %}
+        </h2>
+        <p style="margin-top: 1rem; color: var(--color-muted); margin-bottom: 2rem;">
+            {% if lang == 'en' %}Comprehensive list of commodities traded daily by our wholesale logistics division:
+            {% elif lang == 'pt' %}Lista abrangente de commodities negociadas diariamente por nossa divisão de logística de atacado:
+            {% else %}Listado exhaustivo de los commodities transaccionados diariamente por nuestra división logística mayorista:
+            {% endif %}
+        </p>
+        
+        <div class="table-responsive">
+            <table class="table-premium">
+                <thead>
+                    <tr>
+                        <th>
+                            {% if lang == 'en' %}Commodity Sector
+                            {% elif lang == 'pt' %}Setor de Commodities
+                            {% else %}Sector de Commodities
+                            {% endif %}
+                        </th>
+                        <th>
+                            {% if lang == 'en' %}Commercial Grades and Physical Specifications
+                            {% elif lang == 'pt' %}Graus Comerciais e Especificações Físicas
+                            {% else %}Grados Comerciales y Especificaciones Físicas
+                            {% endif %}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>{% if lang == 'en' %}Mass Consumption Agricultural Goods{% elif lang == 'pt' %}Bens Agrícolas de Consumo de Massa{% else %}Bienes Agrícolas de Consumo Masivo{% endif %}</strong></td>
+                        <td>
+                            {% if lang == 'en' %}
+                            - Refined Cane Sugar under the international purity standard **ICUMSA 45** and raw sugar.<br>
+                            - Logistics of **Corn** in various food and industrial applicability grades: certified organic options, Genetically Modified Organism free (**Non-GMO**), and traceably preserved identity.
+                            {% elif lang == 'pt' %}
+                            - Açúcar de Cana Refinado sob o padrão de pureza internacional **ICUMSA 45** e açúcar bruto.<br>
+                            - Logística de **Milho** em vários graus de aplicabilidade alimentícia e industrial: opções orgânicas certificadas, livre de organismos geneticamente modificados (**Non-GMO**) e identidade preservada com rastreabilidade.
+                            {% else %}
+                            - Azúcar de Caña Refinada bajo el estándar de pureza internacional **ICUMSA 45** y azúcar cruda.<br>
+                            - Logística de **Maíz** en diversos grados de aplicabilidad alimentaria e industrial: opciones certificadas orgánicas, libre de organismos genéticamente modificados (**Non-GMO**) e identidad trazablemente preservada.
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>{% if lang == 'en' %}Agro-Chemical Substances and Fertilizers{% elif lang == 'pt' %}Substâncias Agroquímicas e Fertilizantes{% else %}Sustancias Agro-Químicas y Fertilizantes{% endif %}</strong></td>
+                        <td>
+                            {% if lang == 'en' %}
+                            - Continuous supply of **Urea 46** (solid high-purity nitrogen fertilizer).<br>
+                            - Technical grade Potassium Sulfate.<br>
+                            - Massive brokerage of complex formulated **Ammonium NPK** fertilizers for intensive agriculture at macroeconomic scale.
+                            {% elif lang == 'pt' %}
+                            - Fornecimento contínuo de **Ureia 46** (fertilizante nitrogenado sólido de alta pureza).<br>
+                            - Sulfato de Potássio de grau técnico.<br>
+                            - Intermediação maciça de fertilizantes complexos formulados **Ammonium NPK** para agricultura intensiva em escala macroeconômica.
+                            {% else %}
+                            - Suministro continuo de **Urea 46** (fertilizante nitrogenado de alta pureza sólido).<br>
+                            - Sulfato de Potasio de grado técnico.<br>
+                            - Intermediación masiva de fertilizantes complejos formulados **Ammonium NPK** para agricultura intensiva a escala macroeconómica.
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>{% if lang == 'en' %}Energy and Heavy and Refined Hydrocarbons{% elif lang == 'pt' %}Energia e Hidrocarbonetos Pesados e Refinados{% else %}Energía e Hidrocarburos Pesados y Refinados{% endif %}</strong></td>
+                        <td>
+                            {% if lang == 'en' %}
+                            - **Crude Oils**: Merey (API 16 gravity), Bocan heavy crude (API 10.5), and SHB blends (API 19.5), plus delayed green Pet-Coke solid residue.<br>
+                            - **Refined Fuels**: Fuel Oil HSFO with variations in sulfur content (1.9S, 2.2S, 3.0S), D2 Distillates, and D6 heavy marine derivatives.<br>
+                            - **Aviation Fuel**: civil grade Jet A1 and JP 54.<br>
+                            - European standard Diesel **EN590**, Gasolines, and high chemical specification industrial Naphthas.
+                            {% elif lang == 'pt' %}
+                            - **Petróleo Bruto**: variantes Merey (grau API 16), petróleo bruto pesado Bocan (API 10.5) e misturas SHB (API 19.5), além de resíduo sólido Pet-Coke verde retardado.<br>
+                            - **Combustíveis Refinados**: Fuel Oil HSFO com variações no teor de enxofre (1.9S, 2.2S, 3.0S), Destilados D2 e derivados marítimos pesados D6.<br>
+                            - **Combustível de Aviação**: grau civil Jet A1 e JP 54.<br>
+                            - Diesel europeu padrão **EN590**, Gasolinas e Naftas industriais de alta especificação química.
+                            {% else %}
+                            - **Petróleos Crudos**: variantes Merey (gravedad API 16), crudo pesado Bocan (API 10.5) y mezclas SHB (API 19.5), además de residuo sólido Pet-Coke verde retardado.<br>
+                            - **Combustibles Refinados**: Fuel Oil HSFO con variaciones en contenido de azufre (1.9S, 2.2S, 3.0S), Destilados D2 y derivados marinos pesados D6.<br>
+                            - **Combustible de Aviación**: grado civil Jet A1 y JP 54.<br>
+                            - Diesel europeo estándar **EN590**, Gasolinas y Naftas industriales de alta especificación química.
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>{% if lang == 'en' %}Extractive Minerals and Metals{% elif lang == 'pt' %}Minerais Extrativos e Metais{% else %}Minerales Extractivos y Metales{% endif %}</strong></td>
+                        <td>
+                            {% if lang == 'en' %}
+                            - Raw Thermal Coal and high-quality Type B Anthracite deposits.<br>
+                            - Industrial grade non-ferrous metals: Nickel, Lead, Zinc, Aluminum, and **Copper** (essential for electrical infrastructures).<br>
+                            - Steelmaking Iron Ore and **Lithium** reserves for energy transition.<br>
+                            - Commercial custody and injections of store of value reserves like physical **Gold** and **Silver**.
+                            {% elif lang == 'pt' %}
+                            - Carvão Térmico bruto e depósitos de Antracita de alta qualidade Tipo B.<br>
+                            - Metais não ferrosos de grau industrial: Níquel, Chumbo, Zinco, Alumínio e **Cobre** (essencial para infraestruturas elétricas).<br>
+                            - Minério de Ferro siderúrgico e reservas de **Lítio** para a transição energética.<br>
+                            - Custódia comercial e injeções de reservas de valor como **Ouro** e **Prata** física.
+                            {% else %}
+                            - Carbón Térmico bruto y depósitos de Antracita de alta calidad Tipo B.<br>
+                            - Metales no ferrosos de grado industrial: Níquel, Plomo, Zinc, Aluminio y **Cobre** (esencial para infraestructuras eléctricas).<br>
+                            - Mineral de Hierro siderúrgico y reservas de **Litio** para la transición energética.<br>
+                            - Custodia comercial e inyecciones de reservas de valor como **Oro** y **Plata** física.
+                            {% endif %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- Sectores Macroeconómicos Relacionados -->
+<section class="section">
+    <div class="container">
+        <h2>
+            {% if lang == 'en' %}Macroeconomic Investment Diversification
+            {% elif lang == 'pt' %}Diversificação Macroeconômica de Investimentos
+            {% else %}Diversificación Macroeconómica de Inversiones
+            {% endif %}
+        </h2>
+        <p style="margin-top: 1rem; margin-bottom: 3rem; color: var(--color-dark); text-align: justify; line-height: 1.7;">
+            {% if lang == 'en' %}The JPX corporate holding monitors and manages assets at macro level, maintaining control of direct and indirect investments articulated around 11 global economic sectors:
+            {% elif lang == 'pt' %}A holding corporativa da JPX monitora e gerencia ativos em nível macro, mantendo o controle de investimentos diretos e indiretos que se articulam em torno de 11 setores econômicos globais:
+            {% else %}El holding corporativo de JPX monitorea y gestiona activos a nivel macro, manteniendo control de inversiones directas e indirectas que se articulan en torno a 11 sectores económicos globales:
+            {% endif %}
+        </p>
+        
+        <div class="metrics-grid">
+            <div class="metric-card" style="border-left-color: var(--color-primary);">
+                <div class="metric-value" style="font-size: 1.5rem; color: var(--color-primary);">
+                    {% if lang == 'en' %}Materials
+                    {% elif lang == 'pt' %}Materiais
+                    {% else %}Materiales
+                    {% endif %}
+                </div>
+                <div class="metric-label" style="font-size: 0.75rem;">
+                    {% if lang == 'en' %}Construction materials and basic mining.
+                    {% elif lang == 'pt' %}Materiais de construção e mineração básica.
+                    {% else %}Materiales de construcción y minería básica.
+                    {% endif %}
+                </div>
+            </div>
+            <div class="metric-card" style="border-left-color: var(--color-primary);">
+                <div class="metric-value" style="font-size: 1.5rem; color: var(--color-primary);">
+                    Utilities
+                </div>
+                <div class="metric-label" style="font-size: 0.75rem;">
+                    {% if lang == 'en' %}Public services (water, gas, electricity).
+                    {% elif lang == 'pt' %}Serviços públicos (água, gás, eletricidade).
+                    {% else %}Servicios públicos (agua, gas, electricidad).
+                    {% endif %}
+                </div>
+            </div>
+            <div class="metric-card" style="border-left-color: var(--color-primary);">
+                <div class="metric-value" style="font-size: 1.5rem; color: var(--color-primary);">
+                    {% if lang == 'en' %}Energy
+                    {% elif lang == 'pt' %}Energia
+                    {% else %}Energía
+                    {% endif %}
+                </div>
+                <div class="metric-label" style="font-size: 0.75rem;">
+                    {% if lang == 'en' %}Clean generation and traditional hydrocarbons.
+                    {% elif lang == 'pt' %}Geração limpa e hidrocarbonetos tradicionais.
+                    {% else %}Generación limpia e hidrocarburos tradicionales.
+                    {% endif %}
+                </div>
+            </div>
+            <div class="metric-card" style="border-left-color: var(--color-primary);">
+                <div class="metric-value" style="font-size: 1.5rem; color: var(--color-primary);">
+                    {% if lang == 'en' %}Consumer
+                    {% elif lang == 'pt' %}Consumo
+                    {% else %}Consumo
+                    {% endif %}
+                </div>
+                <div class="metric-label" style="font-size: 0.75rem;">
+                    {% if lang == 'en' %}Discretionary and Staples Consumer Sectors.
+                    {% elif lang == 'pt' %}Setores de Consumo Discricionário e Básico.
+                    {% else %}Sectores de Consumo Discrecional y Básico.
+                    {% endif %}
+                </div>
+            </div>
+            <div class="metric-card" style="border-left-color: var(--color-primary);">
+                <div class="metric-value" style="font-size: 1.5rem; color: var(--color-primary);">
+                    Telecom
+                </div>
+                <div class="metric-label" style="font-size: 0.75rem;">
+                    {% if lang == 'en' %}Physical networks and global digital infrastructure.
+                    {% elif lang == 'pt' %}Redes físicas e infraestrutura digital global.
+                    {% else %}Redes físicas e infraestructura digital global.
+                    {% endif %}
+                </div>
+            </div>
+            <div class="metric-card" style="border-left-color: var(--color-primary);">
+                <div class="metric-value" style="font-size: 1.5rem; color: var(--color-primary);">
+                    Real Estate
+                </div>
+                <div class="metric-label" style="font-size: 0.75rem;">
+                    {% if lang == 'en' %}Logistics and commercial real estate development.
+                    {% elif lang == 'pt' %}Desenvolvimento imobiliário logístico e comercial.
+                    {% else %}Desarrollo inmobiliario logístico y comercial.
+                    {% endif %}
+                </div>
+            </div>
+            <div class="metric-card" style="border-left-color: var(--color-primary);">
+                <div class="metric-value" style="font-size: 1.5rem; color: var(--color-primary);">
+                    {% if lang == 'en' %}Healthcare
+                    {% elif lang == 'pt' %}Saúde
+                    {% else %}Salud
+                    {% endif %}
+                </div>
+                <div class="metric-label" style="font-size: 0.75rem;">
+                    {% if lang == 'en' %}Medical innovation and hospital infrastructure.
+                    {% elif lang == 'pt' %}Inovação médica e infraestrutura hospitalar.
+                    {% else %}Innovación médica e infraestructura hospitalaria.
+                    {% endif %}
+                </div>
+            </div>
+            <div class="metric-card" style="border-left-color: var(--color-primary);">
+                <div class="metric-value" style="font-size: 1.5rem; color: var(--color-primary);">
+                    {% if lang == 'en' %}Financials
+                    {% elif lang == 'pt' %}Finanças
+                    {% else %}Finanzas
+                    {% endif %}
+                </div>
+                <div class="metric-label" style="font-size: 0.75rem;">
+                    {% if lang == 'en' %}Investment banking and fiduciary structures.
+                    {% elif lang == 'pt' %}Banca de investimento e estruturas fiduciárias.
+                    {% else %}Banca de inversión y estructuras fiduciarias.
+                    {% endif %}
+                </div>
+            </div>
+            <div class="metric-card" style="border-left-color: var(--color-primary);">
+                <div class="metric-value" style="font-size: 1.5rem; color: var(--color-primary);">
+                    {% if lang == 'en' %}Technology
+                    {% elif lang == 'pt' %}Tecnologia
+                    {% else %}Tecnología
+                    {% endif %}
+                </div>
+                <div class="metric-label" style="font-size: 0.75rem;">
+                    {% if lang == 'en' %}Advanced computing systems and automation.
+                    {% elif lang == 'pt' %}Sistemas de informática avançados e automação.
+                    {% else %}Sistemas informáticos avanzados y automatizaciones.
+                    {% endif %}
+                </div>
+            </div>
+            <div class="metric-card" style="border-left-color: var(--color-primary);">
+                <div class="metric-value" style="font-size: 1.5rem; color: var(--color-primary);">
+                    {% if lang == 'en' %}Industrial
+                    {% elif lang == 'pt' %}Industrial
+                    {% else %}Industrial
+                    {% endif %}
+                </div>
+                <div class="metric-label" style="font-size: 0.75rem;">
+                    {% if lang == 'en' %}Capital goods and heavy metallurgy.
+                    {% elif lang == 'pt' %}Bens de capital e metalurgia pesada.
+                    {% else %}Bienes de equipo y metalurgia pesada.
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

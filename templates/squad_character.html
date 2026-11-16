@@ -1,0 +1,100 @@
+{% macro render_squad_character(agent_key, compact=false) %}
+{% if agent_key == 'atlas' %}
+  {% set name = 'Atlas' %}
+  {% set role = 'Arquitecto Web & E-Commerce IA' %}
+  {% set color = '#00e5ff' %}
+  {% set accent_bg = 'rgba(0, 229, 255, 0.14)' %}
+  {% set badge = 'DISEÑO WEB · TIENDAS · CATÁLOGOS' %}
+  {% set summary = 'Diseña y publica tu sucursal web con dominio propio, catálogo a WhatsApp, pagos Stripe y Recepcionista IA integrada en tiempo récord.' %}
+{% elif agent_key == 'nova' %}
+  {% set name = 'Nova' %}
+  {% set role = 'Recepcionista IA 24/7 · Chat y Voz' %}
+  {% set color = '#34d399' %}
+  {% set accent_bg = 'rgba(52, 211, 153, 0.14)' %}
+  {% set badge = 'WHATSAPP · INSTAGRAM · LLAMADAS VOZ' %}
+  {% set summary = 'Responde WhatsApp, Instagram, Facebook y llamadas con voz natural humana en menos de 40 segundos, califica y agenda en tu calendario.' %}
+{% elif agent_key == 'orion' %}
+  {% set name = 'Orion' %}
+  {% set role = 'Estratega de Tráfico, Ads & Reels IA' %}
+  {% set color = '#fbbf24' %}
+  {% set accent_bg = 'rgba(251, 191, 36, 0.14)' %}
+  {% set badge = 'META ADS · GOOGLE ADS · 282 ÁNGULOS REELS' %}
+  {% set summary = 'Configura campañas Click-to-WhatsApp, genera páginas de captura y produce guiones y Reels virales probados para tu sector.' %}
+{% else %}
+  {% set name = 'Nexus' %}
+  {% set role = 'Director de CRM, Back-Office & Portal 23 Apps' %}
+  {% set color = '#818cf8' %}
+  {% set accent_bg = 'rgba(129, 140, 248, 0.16)' %}
+  {% set badge = 'PROSPERIA CRM · BIZBOX 23 APPS · BACK-OFFICE' %}
+  {% set summary = 'Organiza tu pipeline comercial, lee pedidos y facturas automáticamente, reactiva clientes antiguos y enciende tus 23 micro-apps de IA.' %}
+{% endif %}
+
+<div class="squad-avatar-stage" style="border-color: {{ color }}44; width:100%; flex-direction:column; text-align:center; gap:0.85rem;">
+  <div class="squad-orbit-ring" style="border-color: {{ color }}33;" aria-hidden="true"></div>
+  <div class="squad-float" style="position:relative; z-index:2;">
+    <svg width="{{ '104' if compact else '136' }}" height="{{ '104' if compact else '136' }}" viewBox="0 0 140 140" role="img" aria-label="Personaje animado {{ name }} — {{ role }}">
+      <defs>
+        <radialGradient id="glow-{{ agent_key }}" cx="50%" cy="45%" r="55%">
+          <stop offset="0%" stop-color="{{ color }}" stop-opacity="0.45"/>
+          <stop offset="100%" stop-color="#040814" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="suit-{{ agent_key }}" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#1e293b"/>
+          <stop offset="100%" stop-color="#090f1e"/>
+        </linearGradient>
+      </defs>
+      <circle cx="70" cy="70" r="64" fill="url(#glow-{{ agent_key }})"/>
+      <!-- Torso / Traje Cyber-Executive -->
+      <path d="M36 122 C36 96, 52 88, 70 88 C88 88, 104 96, 104 122 Z" fill="url(#suit-{{ agent_key }})" stroke="{{ color }}" stroke-width="2"/>
+      <path d="M56 90 L70 106 L84 90" fill="none" stroke="{{ color }}" stroke-width="2.2" stroke-linecap="round"/>
+      <!-- Núcleo de pecho -->
+      <circle cx="70" cy="109" r="5.5" fill="{{ color }}" class="squad-pulse"/>
+      <!-- Cabeza / Casco holográfico -->
+      <rect x="44" y="32" width="52" height="50" rx="22" fill="#0f172a" stroke="{{ color }}" stroke-width="2.4"/>
+      <!-- Visor -->
+      <rect x="51" y="47" width="38" height="20" rx="10" fill="#020617" stroke="{{ color }}" stroke-width="1.5"/>
+      {% if agent_key == 'atlas' %}
+        <!-- Ojos visor código/web -->
+        <path d="M59 57 L55 54 L59 51 M81 51 L85 54 L81 57" fill="none" stroke="{{ color }}" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="70" cy="57" r="2.2" fill="#ffffff"/>
+        <!-- Antena arquitectónica -->
+        <line x1="70" y1="22" x2="70" y2="32" stroke="{{ color }}" stroke-width="2.4" stroke-linecap="round"/>
+        <circle cx="70" cy="20" r="4" fill="{{ color }}"/>
+      {% elif agent_key == 'nova' %}
+        <!-- Ojos expresivos + diadema de llamadas -->
+        <circle cx="62" cy="57" r="3.4" fill="{{ color }}"/>
+        <circle cx="78" cy="57" r="3.4" fill="{{ color }}"/>
+        <path d="M38 56 C38 40, 102 40, 102 56" fill="none" stroke="{{ color }}" stroke-width="2.5"/>
+        <rect x="36" y="52" width="8" height="14" rx="4" fill="{{ color }}"/>
+        <rect x="96" y="52" width="8" height="14" rx="4" fill="{{ color }}"/>
+        <path d="M98 64 Q94 74 80 73" fill="none" stroke="{{ color }}" stroke-width="2" stroke-linecap="round"/>
+      {% elif agent_key == 'orion' %}
+        <!-- Visor angular de radar / ads -->
+        <rect x="56" y="54" width="10" height="5" rx="2.5" fill="{{ color }}"/>
+        <rect x="74" y="54" width="10" height="5" rx="2.5" fill="{{ color }}"/>
+        <!-- Rayos de señal -->
+        <path d="M56 26 Q70 16 84 26" fill="none" stroke="{{ color }}" stroke-width="2.2" stroke-linecap="round"/>
+        <path d="M62 31 Q70 25 78 31" fill="none" stroke="{{ color }}" stroke-width="2" stroke-linecap="round"/>
+      {% else %}
+        <!-- Nodos neurales CRM -->
+        <circle cx="61" cy="57" r="3" fill="{{ color }}"/>
+        <circle cx="70" cy="54" r="2.5" fill="#ffffff"/>
+        <circle cx="79" cy="57" r="3" fill="{{ color }}"/>
+        <line x1="61" y1="57" x2="70" y2="54" stroke="{{ color }}" stroke-width="1.5"/>
+        <line x1="70" y1="54" x2="79" y2="57" stroke="{{ color }}" stroke-width="1.5"/>
+        <polygon points="70,17 77,25 70,31 63,25" fill="{{ color }}" opacity="0.9"/>
+      {% endif %}
+    </svg>
+  </div>
+  <div style="position:relative; z-index:2;">
+    <span style="display:inline-block; font-size:10px; font-weight:800; letter-spacing:0.08em; padding:4px 10px; border-radius:999px; background:{{ accent_bg }}; color:{{ color }}; border:1px solid {{ color }}55; margin-bottom:6px;">
+      {{ badge }}
+    </span>
+    <h3 style="font-size:1.25rem; font-weight:800; color:#ffffff;">{{ name }}</h3>
+    <div style="font-size:0.84rem; font-weight:700; color:{{ color }}; margin-top:2px;">{{ role }}</div>
+    {% if not compact %}
+    <p style="font-size:0.84rem; color:#cbd5e1; margin:8px auto 0; max-width:340px;">{{ summary }}</p>
+    {% endif %}
+  </div>
+</div>
+{% endmacro %}

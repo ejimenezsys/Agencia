@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<!--
+  MASTER (fuente) de la PÁGINA DE VENTA · "El día del oficio amanece ordenado".
+  No edites el HTML de las secciones aquí: cada sección vive en sections/NN-slug.html.
+  Editas una sección -> corres  python3 build.py  -> genera index.html (el publicable).
+
+  Familia visual de la squeeze "amanece": mismos tokens de brand/diseno.md (§17),
+  mismo grano, mismas letras, misma luz que amanece. Los colores y las letras viven
+  SOLO en el :root de assets/sales-page.css; ningún hex se clava en el HTML.
+
+  Para vestir esta página para OTRO oficio, el paso completo vive en
+  business-in-a-box/prompts/flow/03-pagina-de-venta.md — la estructura (etiquetas,
+  clases, orden de secciones y efectos) NO se toca; cambian tokens, texto e imágenes.
+-->
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IA para servicios del hogar en Ciudad de Panamá | Más clientes y más ventas</title>
+  <meta name="description" content="Consigue más clientes y cierra más ventas en tu negocio de servicios del hogar en Ciudad de Panamá. Un portal de IA que responde, cotiza, da seguimiento y cuida tu reseña por ti." />
+  <link rel="icon" type="image/png" href="assets/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/sales-page.css" />
+</head>
+<body data-sweep data-parallax data-humor>
+<script>document.documentElement.classList.add('js')</script>
+
+<!-- capas de ambiente (heredadas de la familia squeeze) -->
+<div class="sky" aria-hidden="true"></div>
+
+<!-- sprite de iconos · #i-motif es el MOTIVO DEL OFICIO (servicios del hogar→casa); el resto son universales -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-motif" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 11.5 12 5l8 6.5"/><path d="M6 10v9h12v-9"/><path d="M10 19v-4.5h4V19"/>
+    </symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M6 6.5 18 18M17.5 6 6.5 18"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/><path d="M9 6h11M9 12h11M9 18h7"/></symbol>
+    <symbol id="i-calc" viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h2M11 11h2M14 11h2M8 15h2M11 15h2M14 15h2"/></symbol>
+    <symbol id="i-route" viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="18" r="2"/><path d="M8 6h7a3 3 0 0 1 0 6H9a3 3 0 0 0 0 6h7"/></symbol>
+    <symbol id="i-camera" viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><circle cx="12" cy="13.5" r="3.5"/><path d="M8.5 7l1.4-2h4.2l1.4 2"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 16.9 6.8 19l1-5.8L3.6 9.1l5.8-.8z"/></symbol>
+    <symbol id="i-box" viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></symbol>
+    <symbol id="i-cal" viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M12 9v4M12 16.5v.01"/></symbol>
+    <symbol id="i-scope" viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="8" width="19" height="8" rx="1.5"/><path d="M7 8v3M11 8v4M15 8v3M19 8v4"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5v14l11-7z"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11.5a7.5 7.5 0 0 1-11 6.6L4 19.5l1.5-4.4A7.5 7.5 0 1 1 20 11.5z"/></symbol>
+    <symbol id="i-mega" viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1z"/><path d="M16 9a3 3 0 0 1 0 6"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M8.5 15.5 6 18"/></symbol>
+  </defs>
+</svg>
+
+  <!-- ===== Header / nav fija ===== -->
+  <header class="nav" id="nav">
+    <a class="nav__logo" href="#hero"><img src="assets/logo.png" alt="Servixo" /></a>
+    <button class="nav__burger" id="burger" aria-label="Abrir menú" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="nav__links" id="navlinks">
+      <a href="#dolor">El problema</a>
+      <a href="#portal">La herramienta</a>
+      <a href="#rio">El viaje</a>
+      <a href="#planes">Planes</a>
+      <a href="#cierre" class="nav__cta">Ver demo</a>
+    </nav>
+  </header>
+  <div class="nav__scrim" id="navscrim"></div>
+
+  <!-- ===== Secciones incluidas desde sections/ por build.py ===== -->
+  <main>
+<!-- 01 · HÉROE DE CINE — la promesa (deseo + IA + lugar, regla SEO del Paso 3) -->
+<section id="hero" class="hero">
+  <div class="hero-fondo">
+    <img src="assets/img/hero.jpg" alt="Contratista de servicios del hogar con su negocio en orden, revisando su portal en el teléfono bajo la luz de la mañana" />
+    <div class="velo" aria-hidden="true"></div>
+    <div class="hero-sweep" aria-hidden="true"></div>
+  </div>
+  <div class="shell">
+    <div class="hero__in">
+      <span class="kicker"><svg><use href="#i-motif"/></svg>Por fin · IA hecha solo para servicios del hogar</span>
+      <h1 id="titular">Más <span class="hl">clientes</span> y ventas en Panamá, con IA hecha para <span class="hl">tu oficio</span></h1>
+      <p class="sub">Cotiza en minutos, cobra sin discusiones, deja prueba de cada trabajo y cuida tu reseña. Diez herramientas con tu negocio en la memoria, en español, desde un solo lugar.</p>
+      <div class="btn-row">
+        <a href="#cierre" class="btn btn--brasa" data-imandata><span class="shine" aria-hidden="true"></span>Mira la demo en 1 minuto <span class="arw"><svg fill="none"><use href="#i-arrow"/></svg></span></a>
+        <a href="#portal" class="btn btn--ghost">Ver las 10 herramientas</a>
+      </div>
+      <p class="btn-note">Sin contrato · sin tarjeta para ver la demo</p>
+      <ul class="chips">
+        <li><svg fill="none"><use href="#i-check"/></svg>Hecho para servicios del hogar</li>
+        <li><svg fill="none"><use href="#i-check"/></svg>Todo en español</li>
+        <li><svg fill="none"><use href="#i-check"/></svg>Precio plano por negocio</li>
+      </ul>
+    </div>
+  </div>
+</section>
+<!-- 02 · POR FIN — el golpe de pecho (texto que se enciende con el scroll) -->
+<section id="porfin" class="sec porfin" data-r>
+  <div class="shell">
+    <p class="stmt" id="stmt">Al que instala, repara y carga herramientas bajo el sol, nadie le había hecho su propia IA <span class="rem">hasta hoy</span></p>
+    <div class="firma">
+      Servixo · hecha <span style="position:relative">solo<svg class="circulo" viewBox="0 0 70 40" aria-hidden="true"><path d="M35 5C15 5 6 14 6 21c0 8 14 14 30 14s28-6 28-14C64 13 52 6 35 5z"/></svg></span> para servicios del hogar
+    </div>
+  </div>
+</section>
+<!-- 03 · DOLOR — banda de cine + los 4 dolores como papelitos -->
+<section class="cine" id="dolor" data-r>
+  <img src="assets/img/dolor.jpg" alt="Contratista al final del día en su camioneta, con la cabeza en la mano, entre papelitos de cotizaciones" />
+  <div class="velo" aria-hidden="true"></div>
+  <div class="shell cine__frase">
+    <p>El trabajo se acaba a las cinco. El negocio te persigue hasta la cama</p>
+  </div>
+</section>
+
+<section class="sec dolor">
+  <div class="shell">
+    <div class="eyebrow" data-r><span class="num">01</span><span class="lbl">El problema</span><span class="rule"></span></div>
+    <div class="sec__head" data-r>
+      <h2>Dejas la casa impecable. Pero el desorden del negocio te cuesta clientes y plata</h2>
+      <p>Te suena alguna de estas. A casi todos los que trabajan servicios del hogar les pasa</p>
+    </div>
+    <div class="papeles" data-rs>
+      <div class="papel" data-r style="--i:0">Terminaste el trabajo, quedó bien… y <b>no dejaste prueba</b>. El cliente discute la factura</div>
+      <div class="papel" data-r style="--i:1">Diste el precio de memoria. En la noche sacaste la cuenta: <b>no te quedó nada</b></div>
+      <div class="papel" data-r style="--i:2">Un cliente quería mantenimiento cada mes. <b>Se te perdió</b> entre mil chats</div>
+      <div class="papel" data-r style="--i:3">Tu negocio vive en WhatsApp, una libreta y tu cabeza. <b>Y de ahí se escapa</b></div>
+    </div>
+    <p class="absol" data-r>Nada de esto es culpa tuya. Es que <em>nadie te había dado la herramienta</em></p>
+  </div>
+</section>
+<!-- 04 · CITA — scroll-stopper con comilla que se traza -->
+<section class="sec quote" data-r>
+  <div class="shell">
+    <div class="quote__card">
+      <svg class="quote__mark" viewBox="0 0 60 48" aria-hidden="true"><path d="M24 10C14 12 8 20 8 30c0 6 4 9 9 9s8-3 8-8-4-8-9-8M52 10c-10 2-16 10-16 20 0 6 4 9 9 9s8-3 8-8-4-8-9-8"/></svg>
+      <p>Tú haces bien tu trabajo. Lo que cansa es hacer a mano, tú solo, lo que una buena herramienta hace por ti</p>
+    </div>
+  </div>
+</section>
+<!-- 05 · EL GIRO — entra el portal, mata al fantasma "para eso uso ChatGPT", y el vivero que crece -->
+<section id="portal" class="sec portal">
+  <div class="shell">
+    <div class="portal__top">
+      <div data-r>
+        <div class="eyebrow"><span class="num">02</span><span class="lbl">La herramienta</span><span class="rule"></span></div>
+        <h2>Un portal con IA para cada parte de tu día de trabajo</h2>
+        <p class="sub" style="color:var(--text-muted);margin:.6rem 0 0">Diez herramientas, cada una con un trabajo claro. No adivinan: trabajan con tus precios, tus clientes y tus trabajos ya guardados.</p>
+        <div class="versus">
+          <div class="vs vs--no">
+            <span class="vs__tag"><svg fill="none"><use href="#i-x"/></svg>ChatGPT suelto</span>
+            <p>Una caja de texto que no guarda tus precios, no recuerda a tus clientes y no deja prueba que puedas mostrar</p>
+          </div>
+          <div class="vs vs--si">
+            <span class="vs__tag"><svg fill="none"><use href="#i-check"/></svg>Tu portal Servixo</span>
+            <p>Cada herramienta con tu negocio en la memoria: tus precios, tus rutas, tus trabajos. Y todo deja registro</p>
+          </div>
+        </div>
+      </div>
+      <div class="portal__art" data-r>
+        <svg class="portal__blob" viewBox="0 0 200 200" aria-hidden="true"><path d="M42 -60C56 -50 68 -37 72 -21C76 -5 72 13 63 27C54 41 40 51 24 58C8 65 -10 69 -27 63C-44 57 -60 41 -66 23C-72 5 -68 -15 -58 -30C-48 -45 -32 -55 -15 -61C2 -67 20 -70 42 -60Z" transform="translate(100 100)"/></svg>
+        <div class="mock" id="portalmock">
+          <div class="mock__bar"><i class="d1"></i><i class="d2"></i><i class="d3"></i><span class="cap">portal.servixo.com</span></div>
+          <img src="assets/img/solucion.jpg" alt="El portal Servixo: el día del contratista, ordenado y bajo control" />
+          <div class="mock__glare" aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- vivero: las 10 de hoy brotan; detrás, el sistema que sigue naciendo -->
+    <div class="vivero">
+      <div class="vivero__grid" data-rs>
+        <div class="tool a-verde" data-r style="--i:0"><div class="tool__head"><span class="tool__chip"><svg fill="none"><use href="#i-list"/></svg></span><div><span class="tag">M001</span><h3>Prioridad de prospectos</h3></div></div><p>A quién llamar primero hoy, en orden y con la acción lista</p></div>
+        <div class="tool a-brasa" data-r style="--i:1"><div class="tool__head"><span class="tool__chip"><svg fill="none"><use href="#i-calc"/></svg></span><div><span class="tag">M002</span><h3>Precio defendible</h3></div></div><p>Precio mínimo, recomendado y el porqué para el cliente</p></div>
+        <div class="tool a-lima" data-r style="--i:2"><div class="tool__head"><span class="tool__chip"><svg fill="none"><use href="#i-route"/></svg></span><div><span class="tag">M003</span><h3>El mejor orden de ruta</h3></div></div><p>En qué orden hacer tus visitas para manejar menos</p></div>
+        <div class="tool a-ambar" data-r style="--i:3"><div class="tool__head"><span class="tool__chip"><svg fill="none"><use href="#i-camera"/></svg></span><div><span class="tag">M004</span><h3>Bitácora verificable</h3></div></div><p>Foto de antes y después, con hora. La factura no se discute</p></div>
+        <div class="tool a-brasa" data-r style="--i:4"><div class="tool__head"><span class="tool__chip"><svg fill="none"><use href="#i-star"/></svg></span><div><span class="tag">M005</span><h3>Filtro de reseña</h3></div></div><p>El contento va a la reseña; el molesto te llega a ti en privado</p></div>
+        <div class="tool a-lima" data-r style="--i:5"><div class="tool__head"><span class="tool__chip"><svg fill="none"><use href="#i-box"/></svg></span><div><span class="tag">M006</span><h3>Calculadora de consumibles</h3></div></div><p>Materiales y gasolina contados antes de ir a comprar</p></div>
+        <div class="tool a-verde" data-r style="--i:6"><div class="tool__head"><span class="tool__chip"><svg fill="none"><use href="#i-cal"/></svg></span><div><span class="tag">M007</span><h3>Resumen del equipo</h3></div></div><p>El mensaje del lunes para tu cuadrilla, listo para enviar</p></div>
+        <div class="tool a-ambar" data-r style="--i:7"><div class="tool__head"><span class="tool__chip"><svg fill="none"><use href="#i-shield"/></svg></span><div><span class="tag">M008</span><h3>Evaluador de riesgo</h3></div></div><p>Ese trabajo raro: tomarlo o dejarlo, con base</p></div>
+        <div class="tool a-verde" data-r style="--i:8"><div class="tool__head"><span class="tool__chip"><svg fill="none"><use href="#i-scope"/></svg></span><div><span class="tag">M009</span><h3>Estimador desde fotos</h3></div></div><p>El cliente manda fotos del trabajo; tú respondes con un rango serio</p></div>
+        <div class="tool a-brasa" data-r style="--i:9"><div class="tool__head"><span class="tool__chip"><svg fill="none"><use href="#i-play"/></svg></span><div><span class="tag">M010</span><h3>De trabajo a contenido</h3></div></div><p>Ese trabajo que quedó bien se vuelve un post y un reel</p></div>
+      </div>
+      <div class="fantasmas" aria-hidden="true">
+        <div class="fantasma"></div><div class="fantasma"></div><div class="fantasma"></div><div class="fantasma"></div>
+      </div>
+      <p class="vivero__nota" data-r><svg class="spark" fill="none"><use href="#i-spark"/></svg>Y siguen naciendo herramientas para tu oficio</p>
+    </div>
+  </div>
+</section>
+<!-- 06 · TU MARTES — las herramientas en su día, hora por hora, con foto del mismo contratista.
+     Las 7 imágenes son el MISMO señor (una persona de referencia reusada por image-to-image),
+     una por momento del día. Contrato agnóstico: por oficio se genera su persona + sus 7 escenas;
+     con interruptor para oficios sobrios (cuadros sin persona). Ver venta-efectos.md. -->
+<section id="dia" class="sec dia">
+  <div class="shell">
+    <div class="eyebrow" data-r><span class="num">03</span><span class="lbl">Tu día, con IA</span><span class="rule"></span></div>
+    <div class="sec__head" data-r>
+      <h2>Así se ve un martes tuyo con el portal</h2>
+      <p>Todo lo que haces con IA en un día de trabajo, sin abrir cinco apps ni cargar nada en la cabeza</p>
+    </div>
+    <div class="tl" data-rs>
+      <div class="tl__line" aria-hidden="true"></div>
+      <div class="tl__row" data-r style="--i:0"><div class="tl__hora">6:30</div><div class="tl__card"><img class="tl__img" src="assets/img/tl-0630.webp" alt="El contratista arranca el día junto a su camioneta, café en mano, mirando su teléfono" loading="lazy"><div class="tl__txt"><span class="tag">M001</span><h3>Empiezas sabiendo a quién llamar</h3><p>El portal te ordena los prospectos del día: primero el que está más caliente</p></div></div></div>
+      <div class="tl__row" data-r style="--i:1"><div class="tl__hora">7:15</div><div class="tl__card"><img class="tl__img" src="assets/img/tl-0715.webp" alt="El contratista al volante revisa la ruta del día en su teléfono antes de arrancar" loading="lazy"><div class="tl__txt"><span class="tag">M003</span><h3>Sales con la ruta en orden</h3><p>Las visitas acomodadas para manejar menos y llegar a tiempo</p></div></div></div>
+      <div class="tl__row" data-r style="--i:2"><div class="tl__hora">8:40</div><div class="tl__card"><img class="tl__img" src="assets/img/tl-0840.webp" alt="El contratista mira en su teléfono las fotos del trabajo que le mandó un cliente" loading="lazy"><div class="tl__txt"><span class="tag">M009</span><h3>Un cliente manda fotos del trabajo</h3><p>Le respondes con un rango serio en dos minutos, sin ir a verlo</p></div></div></div>
+      <div class="tl__row" data-r style="--i:3"><div class="tl__hora">9:30</div><div class="tl__card"><img class="tl__img" src="assets/img/tl-0930.webp" alt="El contratista apoyado en su camioneta prepara una cotización en el teléfono" loading="lazy"><div class="tl__txt"><span class="tag">M002</span><h3>Cotizas con base, no de memoria</h3><p>Precio mínimo y recomendado, con el porqué listo para el cliente</p></div></div></div>
+      <div class="tl__row" data-r style="--i:4"><div class="tl__hora">14:00</div><div class="tl__card"><img class="tl__img" src="assets/img/tl-1400.webp" alt="El contratista toma una foto del trabajo recién terminado para dejar prueba" loading="lazy"><div class="tl__txt"><span class="tag">M004</span><h3>Dejas prueba del trabajo</h3><p>Foto de antes y después con la hora. Cuando pregunten, muestras</p></div></div></div>
+      <div class="tl__row" data-r style="--i:5"><div class="tl__hora">16:30</div><div class="tl__card"><img class="tl__img" src="assets/img/tl-1630.webp" alt="El contratista sonríe al ver una buena reseña de un cliente en su teléfono" loading="lazy"><div class="tl__txt"><span class="tag">M005</span><h3>Pides la reseña sin miedo</h3><p>El cliente contento va a la reseña; el molesto te llega a ti en privado</p></div></div></div>
+      <div class="tl__row" data-r style="--i:6"><div class="tl__hora">18:00</div><div class="tl__card"><img class="tl__img" src="assets/img/tl-1800.webp" alt="El contratista graba un reel de un trabajo terminado al atardecer con su teléfono" loading="lazy"><div class="tl__txt"><span class="tag">M010</span><h3>Ese trabajo bien hecho trabaja para ti</h3><p>Se vuelve un post y un reel, y sale el pedido de reseña</p></div></div></div>
+    </div>
+  </div>
+</section>
+<!-- 07 · ⭐ EL RÍO DE CLIENTES — el viaje: marketing → prospectos → cotizaciones → ventas.
+     La ESTRELLA de la página: sección alta con scroll-manivela (el visitante riega el río bajando).
+     Mecánica agnóstica; por oficio cambian los rótulos de estación y el remate del punto (motivo). -->
+<section id="rio" class="rio" style="height:300vh">
+  <div class="rio__pin">
+    <div class="rio__wrap">
+      <div class="rio__intro" data-r>
+        <span class="kicker"><svg><use href="#i-motif"/></svg>El viaje</span>
+        <h2>De un reel a una venta, sin que se te caiga nadie por el camino</h2>
+        <p>Nuestro marketing te trae gente que no te conocía. El portal la va llevando de la mano: del primer "hola" a la cotización, y de la cotización al trabajo cobrado. Baja despacio y míralo correr.</p>
+        <div class="rio-hint"><svg fill="none"><use href="#i-arrow" style="transform:rotate(90deg);transform-origin:center"/></svg>Baja para regar el río</div>
+      </div>
+
+      <div class="rio__stage" data-r>
+        <svg class="rio__svg" viewBox="0 0 120 560" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+          <defs>
+            <linearGradient id="riograd" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="var(--primary-soft)"/>
+              <stop offset="0.36" stop-color="var(--lime)"/>
+              <stop offset="0.66" stop-color="var(--amber)"/>
+              <stop offset="1" stop-color="var(--accent-soft)"/>
+            </linearGradient>
+          </defs>
+          <!-- cauce ancho y suave (se angosta con el viaje: menos gente llega al final = el embudo honesto) -->
+          <path id="riopath" d="M60 24 C 20 90, 100 150, 60 214 S 20 306, 60 360 S 100 452, 60 520"
+                fill="none" stroke="url(#riograd)" stroke-width="15" stroke-linecap="round" opacity=".16"/>
+          <path d="M60 24 C 20 90, 100 150, 60 214 S 20 306, 60 360 S 100 452, 60 520"
+                fill="none" stroke="url(#riograd)" stroke-width="2.4" stroke-linecap="round" opacity=".6"/>
+          <!-- nodos de estación -->
+          <circle class="rio-nodo n1" cx="60" cy="46"  r="7" fill="var(--bg)" stroke="var(--primary-soft)" stroke-width="2.5"/>
+          <circle class="rio-nodo n2" cx="60" cy="214" r="7" fill="var(--bg)" stroke="var(--lime)" stroke-width="2.5"/>
+          <circle class="rio-nodo n3" cx="60" cy="360" r="7" fill="var(--bg)" stroke="var(--amber)" stroke-width="2.5"/>
+          <circle class="rio-nodo n4" cx="60" cy="520" r="8" fill="var(--bg)" stroke="var(--accent-soft)" stroke-width="2.5"/>
+          <g id="riodots"></g>
+        </svg>
+
+        <div class="rio__estaciones">
+          <div class="rio-est" data-est="0" style="top:8.2%;--rc:var(--primary-soft)">
+            <span class="et">Tu marketing</span>
+            <h4>Reels, anuncios y páginas que hacemos para ti</h4>
+          </div>
+          <div class="rio-est" data-est="1" style="top:38.2%;--rc:var(--lime)">
+            <span class="et">Llegan prospectos</span>
+            <h4>Gente nueva que te empieza a escribir</h4>
+          </div>
+          <div class="rio-est" data-est="2" style="top:64.3%;--rc:var(--amber)">
+            <span class="et">Cotización enviada</span>
+            <h4>El portal cotiza y da seguimiento por ti</h4>
+          </div>
+          <div class="rio-est" data-est="3" style="top:92.8%;--rc:var(--accent-soft)">
+            <span class="et">Venta cerrada</span>
+            <h4>Trabajo cobrado, con prueba y reseña</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- 08 · ANTES / DESPUÉS arrastrable — le habla al orgullo del oficio y lo ata a la bitácora.
+     El par se generó con IA sin persona: el DESPUÉS (perfecto) primero, y el ANTES derivado por
+     image-to-image de esa misma foto (misma cámara, mismas estructuras fijas: cerca, pared, casa,
+     piso) — solo cambia el estado del espacio. Contrato agnóstico en venta-plan.md §6. -->
+<section id="antes" class="sec antes">
+  <div class="shell">
+    <div class="antes__grid">
+      <div class="ba" id="ba" data-r>
+        <img class="ba__after" src="assets/img/despues.webp" alt="El mismo espacio del hogar ya trabajado: todo ordenado, parejo y funcionando" />
+        <img class="ba__before" src="assets/img/antes.webp" alt="El espacio del hogar antes del trabajo: desordenado, con cosas gastadas o por reparar" />
+        <span class="ba__tag ba__tag--b">antes</span>
+        <span class="ba__tag ba__tag--a">después</span>
+        <div class="ba__handle" id="bahandle"><span class="ba__grip"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6 3 12l6 6M15 6l6 6-6 6"/></svg></span></div>
+      </div>
+      <div class="antes__txt" data-r>
+        <div class="eyebrow"><span class="num">04</span><span class="lbl">La prueba</span><span class="rule"></span></div>
+        <h2>Tu trabajo ya habla claro. Ahora tu negocio también</h2>
+        <p>La bitácora hace esto con cada trabajo tuyo: foto de antes, foto de después, fecha y hora. Cuando el cliente pregunta por qué costó lo que costó, tú no explicas: muestras. Arrastra la manija y velo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- 09 · PLANES — precios reales; las cifras cuentan al entrar -->
+<section id="planes" class="sec planes">
+  <div class="shell">
+    <div class="eyebrow" data-r><span class="num">05</span><span class="lbl">Planes</span><span class="rule"></span></div>
+    <div class="sec__head" data-r>
+      <h2>Un precio plano por tu negocio. No por cada técnico</h2>
+      <p>Los tres planes están listos hoy. Te recomendamos Crecimiento</p>
+    </div>
+    <div class="planes__grid" data-rs>
+      <div class="plan" data-r style="--i:0">
+        <h3>Inicial</h3>
+        <p class="precio" data-count>US$39 <span>/ mes</span></p>
+        <p class="quien">El que arranca</p>
+        <ul>
+          <li><svg fill="none"><use href="#i-check"/></svg>5 herramientas esenciales</li>
+          <li><svg fill="none"><use href="#i-check"/></svg>Reseña incluida</li>
+          <li><svg fill="none"><use href="#i-check"/></svg>Precio plano por negocio</li>
+        </ul>
+        <a href="#cierre" class="btn btn--ghost">Empezar</a>
+      </div>
+      <div class="plan plan--star" data-r style="--i:1">
+        <span class="ribbon">★ Recomendado</span>
+        <h3>Crecimiento</h3>
+        <p class="precio" data-count>US$89 <span>/ mes</span></p>
+        <p class="quien">El operador de todos los días</p>
+        <ul>
+          <li><svg fill="none"><use href="#i-check"/></svg>Las 10 herramientas, una por área</li>
+          <li><svg fill="none"><use href="#i-check"/></svg>Cubre todo el arco de tu trabajo</li>
+          <li><svg fill="none"><use href="#i-check"/></svg>Reseña incluida</li>
+        </ul>
+        <a href="#cierre" class="btn btn--brasa" data-imandata><span class="shine" aria-hidden="true"></span>Empieza con Crecimiento <span class="arw"><svg fill="none"><use href="#i-arrow"/></svg></span></a>
+      </div>
+      <div class="plan" data-r style="--i:2">
+        <h3>Pro</h3>
+        <p class="precio" data-count>US$169 <span>/ mes</span></p>
+        <p class="quien">Quien también crea contenido</p>
+        <ul>
+          <li><svg fill="none"><use href="#i-check"/></svg>15 herramientas</li>
+          <li><svg fill="none"><use href="#i-check"/></svg>Con imagen, voz y video</li>
+          <li><svg fill="none"><use href="#i-check"/></svg>Reseña incluida</li>
+        </ul>
+        <a href="#cierre" class="btn btn--ghost">Empezar</a>
+      </div>
+    </div>
+    <p class="planes__nota" data-r>Las apps de afuera te cobran por cada persona de tu cuadrilla y te esconden la reseña tras un pago aparte. Aquí pagas <b>un precio plano por plan</b> y la reseña va incluida.</p>
+  </div>
+</section>
+<!-- 10 · OBJECIONES — las dudas reales en formato de chat (rima con su mundo WhatsApp) -->
+<section id="objeciones" class="sec obj">
+  <div class="shell">
+    <div class="obj__grid">
+      <div class="obj__art" data-r>
+        <img src="assets/img/objeciones.jpg" alt="Contratista usando el portal con facilidad: si usas WhatsApp, sabes usar esto" />
+      </div>
+      <div data-r>
+        <div class="eyebrow"><span class="num">06</span><span class="lbl">Preguntas frecuentes sobre IA para servicios del hogar</span><span class="rule"></span></div>
+        <div class="obj__chat">
+          <div class="ob" data-r><div class="q">Ya tengo WhatsApp y una libreta</div><div class="a">Y se te escapan cosas todos los días. Esto no te quita el WhatsApp: le pone <b>orden, memoria y prueba</b> por detrás</div></div>
+          <div class="ob" data-r><div class="q">Está caro</div><div class="a">Un solo trabajo de mantenimiento perdido al mes cuesta más que el plan. Saca la cuenta con <b>tus números</b>, no con los míos</div></div>
+          <div class="ob" data-r><div class="q">No soy de tecnología</div><div class="a">Si mandas audios y fotos por WhatsApp, ya sabes usar esto. Le das unos datos y <b>te devuelve un resultado</b></div></div>
+          <div class="ob" data-r><div class="q">¿Y si la IA se equivoca?</div><div class="a">Te enseña sus números y su porqué, y tú tienes la última palabra. <b>La herramienta propone; tú decides</b></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- 11 · CIERRE DE CINE — cierra el arco del día: el mañana con el negocio claro (la luz llega a su máximo) -->
+<section id="cierre" class="cierre">
+  <div class="hero-fondo">
+    <img src="assets/img/cierre.jpg" alt="Trabajo terminado bajo la luz dorada del amanecer" />
+    <div class="velo" aria-hidden="true"></div>
+  </div>
+  <div class="shell">
+    <div class="cierre__in" data-r>
+      <span class="kicker"><svg><use href="#i-motif"/></svg>Empieza hoy</span>
+      <h2>Mañana puedes arrancar el día con tu negocio claro</h2>
+      <p class="sub">Mira la demo hoy, carga tus servicios esta semana, y la próxima cotización sale con base. Sin enredos, en un solo lugar.</p>
+      <div class="btn-row">
+        <a href="https://servixo.com" class="btn btn--brasa" data-imandata><span class="shine" aria-hidden="true"></span>Mira la demo en 1 minuto <span class="arw"><svg fill="none"><use href="#i-arrow"/></svg></span></a>
+        <a href="https://wa.me/50766667777" class="btn btn--ghost">Prefiero que hablemos</a>
+      </div>
+      <p class="btn-note">Sin contrato · la demo es gratis · en español</p>
+    </div>
+  </div>
+</section>
+  </main>
+
+  <footer class="foot">
+    <a class="foot__logo" href="#hero" aria-label="Servixo">
+      <img src="assets/logo.png" alt="Servixo" />
+      <svg class="foot__brote" viewBox="0 0 40 40" aria-hidden="true"><path class="tallo" d="M9 34h22" fill="none" stroke="var(--primary-deep)" stroke-width="2.4" stroke-linecap="round"/><path class="hoja hoja--i" d="M10 34V20l10-8" fill="none" stroke="var(--primary-soft)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path class="hoja hoja--d" d="M30 34V20L20 12" fill="none" stroke="var(--primary)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><circle class="brote-flor" cx="20" cy="9" r="3" fill="var(--amber)"/></svg>
+    </a>
+    <p>Servixo · Tu negocio de servicios del hogar, en orden</p>
+    <p class="foot__mini">Hecho para servicios del hogar de Ciudad de Panamá · en español</p>
+  </footer>
+
+  <script src="assets/sales-page.js"></script>
+</body>
+</html>

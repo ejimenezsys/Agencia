@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tarjeta Digital Interactiva + QR Reseñas 5 Estrellas Google Maps | Agencia ProsperIA</title>
+  <meta name="description" content="Tu Tarjeta de Presentación Digital Interactiva con botón vCard para guardar contacto, acceso directo a WhatsApp y QR exclusivo para conseguir reseñas de 5 estrellas en Google Maps.">
+  <link rel="icon" type="image/png" href="{{ static_versioned('favicon.png') }}">
+  <link rel="stylesheet" href="{{ static_versioned('fonts.css') }}">
+  <link rel="stylesheet" href="{{ static_versioned('fa.min.css') }}">
+  <link rel="stylesheet" href="{{ static_versioned('ecosistema_squad.css') }}">
+  <style>
+    .td-grid { display:grid; grid-template-columns:1fr; gap:2.25rem; align-items:start; }
+    @media (min-width:960px) { .td-grid { grid-template-columns:1.05fr 0.95fr; } }
+    .phone-card-mockup {
+      max-width: 390px;
+      margin: 0 auto;
+      border-radius: 30px;
+      padding: 1.5rem;
+      background: linear-gradient(165deg, #0b1428 0%, #040814 100%);
+      border: 2px solid rgba(0, 229, 255, 0.48);
+      box-shadow: 0 30px 70px rgba(0,0,0,0.85), 0 0 40px rgba(0,229,255,0.16);
+      text-align: center;
+    }
+    .phone-avatar {
+      width: 78px;
+      height: 78px;
+      border-radius: 22px;
+      margin: 0 auto 0.85rem;
+      background: linear-gradient(135deg, #00e5ff, #10b981);
+      color: #020617;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 900;
+      font-size: 1.65rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .qr-box {
+      width: 128px;
+      height: 128px;
+      margin: 1rem auto;
+      padding: 10px;
+      border-radius: 14px;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  {% with active_menu='tarjeta' %}{% include "navbar.html" %}{% endwith %}
+
+  <main>
+    <section class="pia-shell" style="padding-block: 2.5rem 4rem;">
+      <div style="text-align:center; max-width:780px; margin:0 auto 2.5rem;">
+        <div class="pia-eyebrow"><i class="fas fa-id-card" aria-hidden="true"></i> Tarjeta Digital + QR Reseñas Google Maps</div>
+        <h1 class="font-heading" style="font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 900; margin-bottom: 1rem;">
+          Deja de Regalar Cartones Que Terminan en la Basura: <span class="pia-gradient-text">Activa Tu Tarjeta Digital Inteligente</span>
+        </h1>
+        <p style="font-size: 1.04rem; color: #cbd5e1;">
+          Con un toque o escaneando tu QR, tu cliente guarda tu número en su agenda (vCard), te escribe por WhatsApp, explora tu catálogo y te deja una <strong style="color:#fbbf24;">reseña 5 estrellas en Google Maps</strong>.
+        </p>
+      </div>
+
+      <!-- Constructor / Previsualizador en Vivo -->
+      <div class="pia-card" style="padding: 2rem;">
+        <div class="td-grid">
+          <div>
+            <span class="pia-eyebrow"><i class="fas fa-wand-magic-sparkles" aria-hidden="true"></i> Previsualizador en Vivo</span>
+            <h2 class="font-heading" style="font-size:1.55rem; font-weight:800; margin-bottom:0.5rem;">Prueba Cómo Se Vería Tu Tarjeta Ahora Mismo</h2>
+            <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:1.25rem;">Escribe tus datos para ver la vista previa instantánea y solicitar la versión oficial conectada a tu dominio.</p>
+
+            <div class="pia-form-field">
+              <label for="td-in-name">Tu Nombre o Especialista</label>
+              <input type="text" id="td-in-name" class="pia-input" value="Carlos Méndez">
+            </div>
+            <div class="pia-form-field">
+              <label for="td-in-role">Cargo / Especialidad</label>
+              <input type="text" id="td-in-role" class="pia-input" value="Director General · Climatización & Servicios">
+            </div>
+            <div class="pia-grid-2">
+              <div class="pia-form-field">
+                <label for="td-in-biz">Nombre de tu Negocio</label>
+                <input type="text" id="td-in-biz" class="pia-input" value="Apex Air Solutions Miami">
+              </div>
+              <div class="pia-form-field">
+                <label for="td-in-city">Ciudad</label>
+                <input type="text" id="td-in-city" class="pia-input" value="Miami, Florida">
+              </div>
+            </div>
+            <div class="pia-form-field">
+              <label for="td-in-wa">WhatsApp de Contacto</label>
+              <input type="tel" id="td-in-wa" class="pia-input" value="+1 786 833 6964">
+            </div>
+
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:0.5rem;">
+              <a href="#solicitar-tarjeta" class="pia-btn-primary">Solicitar Mi Tarjeta Oficial</a>
+              <button type="button" id="td-download-vcard" class="pia-btn-ghost">
+                <i class="fas fa-address-book" aria-hidden="true"></i>
+                <span>Probar Descarga vCard</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Mockup vivo -->
+          <div>
+            <div class="phone-card-mockup">
+              <div class="phone-avatar" id="td-out-initials">CM</div>
+              <h3 id="td-out-name" class="font-heading" style="font-size:1.35rem; font-weight:800; color:#ffffff;">Carlos Méndez</h3>
+              <div id="td-out-role" style="font-size:0.84rem; color:#00e5ff; font-weight:600; margin-top:3px;">Director General · Climatización &amp; Servicios</div>
+              <div id="td-out-biz" style="font-size:0.9rem; color:#cbd5e1; font-weight:700; margin-top:6px;">Apex Air Solutions Miami</div>
+              <div id="td-out-city" style="font-size:0.78rem; color:#94a3b8; margin-top:2px;"><i class="fas fa-location-dot" aria-hidden="true"></i> Miami, Florida</div>
+
+              <div style="display:grid; gap:0.55rem; margin-top:1.15rem;">
+                <a id="td-out-wa-btn" href="https://wa.me/17868336964" target="_blank" rel="noopener" class="pia-btn-emerald" style="width:100%; min-height:42px; font-size:0.86rem;">
+                  <i class="fab fa-whatsapp" aria-hidden="true"></i> Enviar WhatsApp Directo
+                </a>
+                <a href="/paginas-web" class="pia-btn-primary" style="width:100%; min-height:42px; font-size:0.86rem;">
+                  <i class="fas fa-globe" aria-hidden="true"></i> Ver Catálogo y Servicios
+                </a>
+                <div class="pia-btn-ghost" style="width:100%; min-height:42px; font-size:0.84rem; border-color:rgba(251,191,36,0.45); color:#fde68a !important;">
+                  <i class="fas fa-star" aria-hidden="true" style="color:#fbbf24;"></i> Déjanos una Reseña 5★ en Google
+                </div>
+              </div>
+
+              <div class="qr-box" aria-label="Código QR de ejemplo para tarjeta digital y reseñas Google">
+                <svg viewBox="0 0 100 100" width="104" height="104" role="img" aria-label="Código QR de Tarjeta Digital">
+                  <rect width="100" height="100" fill="#ffffff"/>
+                  <rect x="6" y="6" width="26" height="26" fill="none" stroke="#020617" stroke-width="5"/>
+                  <rect x="13" y="13" width="12" height="12" fill="#020617"/>
+                  <rect x="68" y="6" width="26" height="26" fill="none" stroke="#020617" stroke-width="5"/>
+                  <rect x="75" y="13" width="12" height="12" fill="#020617"/>
+                  <rect x="6" y="68" width="26" height="26" fill="none" stroke="#020617" stroke-width="5"/>
+                  <rect x="13" y="75" width="12" height="12" fill="#020617"/>
+                  <path d="M40 10h8v8h-8zM52 10h8v12h-8zM40 26h12v8H40zM10 42h12v8H10zM28 42h16v8H28zM52 38h10v16H52zM70 42h20v8H70zM40 58h8v14h-8zM54 62h14v8H54zM74 58h16v12H74zM42 80h18v10H42zM68 78h10v14H68zM84 78h10v14H84z" fill="#020617"/>
+                </svg>
+              </div>
+              <div style="font-size:0.74rem; color:#94a3b8;">Escanea para guardar contacto o dejar reseña Google</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pia-section" id="solicitar-tarjeta" style="background: rgba(7, 11, 20, 0.72);">
+      <div class="pia-shell" style="max-width:700px;">
+        <div class="pia-card" style="padding:2.2rem;">
+          <h2 class="font-heading" style="font-size:1.75rem; font-weight:900; text-align:center; margin-bottom:0.5rem;">Pide Tu Tarjeta Digital + QR de Reseñas Google</h2>
+          <p style="color:#94a3b8; font-size:0.9rem; text-align:center; margin-bottom:1.5rem;">La activamos sola como puerta de entrada o incluida dentro de tus paquetes de Web y CRM.</p>
+          <form id="tarjeta-lead-form">
+            <input type="text" name="website_hp" tabindex="-1" aria-hidden="true" class="pia-visually-hidden" autocomplete="off">
+            <div class="pia-grid-2">
+              <div class="pia-form-field">
+                <label for="tar-name">Tu Nombre Completo *</label>
+                <input type="text" id="tar-name" name="name" class="pia-input" required autocomplete="name">
+              </div>
+              <div class="pia-form-field">
+                <label for="tar-company">Empresa / Marca *</label>
+                <input type="text" id="tar-company" name="company" class="pia-input" required autocomplete="organization">
+              </div>
+            </div>
+            <div class="pia-grid-2">
+              <div class="pia-form-field">
+                <label for="tar-phone">WhatsApp *</label>
+                <input type="tel" id="tar-phone" name="phone" class="pia-input" required autocomplete="tel">
+              </div>
+              <div class="pia-form-field">
+                <label for="tar-email">Correo Electrónico *</label>
+                <input type="email" id="tar-email" name="email" class="pia-input" required autocomplete="email">
+              </div>
+            </div>
+            <input type="hidden" name="industry" value="Tarjeta Digital + QR Reseñas Google">
+            <div style="display:flex; align-items:flex-start; gap:0.65rem; margin-bottom:1.1rem;">
+              <input type="checkbox" id="tar-consent" name="sms_consent" required checked style="width:18px; height:18px; margin-top:3px; accent-color:#00e5ff;">
+              <label for="tar-consent" style="font-size:0.8rem; color:#94a3b8;">Autorizo a Agencia ProsperIA LLC a contactarme por WhatsApp, SMS y correo.</label>
+            </div>
+            <div data-form-status role="status" aria-live="polite" style="display:none; padding:0.9rem; border-radius:12px; margin-bottom:1rem; font-size:0.88rem;"></div>
+            <div style="display:flex; flex-wrap:wrap; gap:0.85rem;">
+              <button type="submit" class="pia-btn-primary" style="flex:1 1 220px;">Solicitar Mi Tarjeta Digital</button>
+              <a href="https://wa.me/17868336964?text=Hola%20ProsperIA,%20quiero%20activar%20mi%20Tarjeta%20Digital%20con%20QR%20de%20Rese%C3%B1as%20Google" target="_blank" rel="noopener" class="pia-btn-emerald" style="flex:1 1 180px;">Pedir por WhatsApp</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  {% include "footer.html" %}
+  <script src="{{ static_versioned('ecosistema_forms.js') }}"></script>
+  <script>
+    initEcosystemLeadForm('tarjeta-lead-form', 'menu_tarjeta_digital');
+
+    const inName = document.getElementById('td-in-name');
+    const inRole = document.getElementById('td-in-role');
+    const inBiz = document.getElementById('td-in-biz');
+    const inCity = document.getElementById('td-in-city');
+    const inWa = document.getElementById('td-in-wa');
+
+    function syncCardPreview() {
+      const n = (inName.value || 'Tu Nombre').trim();
+      const initials = n.split(/\s+/).slice(0, 2).map(w => w[0] || '').join('').toUpperCase() || 'IA';
+      document.getElementById('td-out-initials').textContent = initials;
+      document.getElementById('td-out-name').textContent = n;
+      document.getElementById('td-out-role').textContent = inRole.value || 'Especialista';
+      document.getElementById('td-out-biz').textContent = inBiz.value || 'Tu Negocio';
+      document.getElementById('td-out-city').innerHTML = `<i class="fas fa-location-dot" aria-hidden="true"></i> ${inCity.value || 'Tu Ciudad'}`;
+      const digits = (inWa.value || '').replace(/\D/g, '') || '17868336964';
+      document.getElementById('td-out-wa-btn').href = `https://wa.me/${digits}?text=${encodeURIComponent('Hola ' + n + ', vi tu Tarjeta Digital.')}`;
+    }
+    [inName, inRole, inBiz, inCity, inWa].forEach(el => el.addEventListener('input', syncCardPreview));
+
+    document.getElementById('td-download-vcard').addEventListener('click', () => {
+      const n = inName.value.trim() || 'Contacto';
+      const biz = inBiz.value.trim() || 'Empresa';
+      const role = inRole.value.trim() || '';
+      const wa = inWa.value.trim() || '+17868336964';
+      const vcard = [
+        'BEGIN:VCARD',
+        'VERSION:3.0',
+        `FN:${n}`,
+        `ORG:${biz}`,
+        `TITLE:${role}`,
+        `TEL;TYPE=CELL:${wa}`,
+        'END:VCARD'
+      ].join('\n');
+      const blob = new Blob([vcard], { type: 'text/vcard;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${n.toLowerCase().replace(/\s+/g, '-')}.vcf`;
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+  </script>
+</body>
+</html>

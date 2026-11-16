@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if lang == 'en' %}Our Firm | JPX International Investments Inc.
+    {% elif lang == 'pt' %}Nossa Firma | JPX International Investments Inc.
+    {% else %}Nuestra Firma | JPX International Investments Inc.
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<!-- Banner Hero Secundario -->
+<section class="hero-section" style="padding: 4rem 0;">
+    <div class="container hero-content">
+        <h1>
+            {% if lang == 'en' %}Our Firm
+            {% elif lang == 'pt' %}Nossa Firma
+            {% else %}Nuestra Firma
+            {% endif %}
+        </h1>
+        <p class="hero-subtitle" style="margin-bottom: 0;">
+            {% if lang == 'en' %}A solid legacy built on private banking, infrastructure, and international structuring expertise.
+            {% elif lang == 'pt' %}Um legado sólido fundamentado na experiência de private banking, infraestrutura e estruturação internacional.
+            {% else %}Un legado sólido cimentado en la experiencia de banca privada, infraestructura y estructuración internacional.
+            {% endif %}
+        </p>
+    </div>
+</section>
+
+<!-- Trayectoria Histórica (Timeline) -->
+<section class="section">
+    <div class="container">
+        <h2 style="text-align: center; margin-bottom: 1rem;">
+            {% if lang == 'en' %}Historical Timeline (2000 - 2030)
+            {% elif lang == 'pt' %}Linha do Tempo Histórica (2000 - 2030)
+            {% else %}Línea de Tiempo Histórica (2000 - 2030)
+            {% endif %}
+        </h2>
+        <p style="text-align: center; max-width: 700px; margin: 0 auto; color: var(--color-muted);">
+            {% if lang == 'en' %}Our evolution from a local wealth advisory firm in Miami to a key player in transcontinental finance.
+            {% elif lang == 'pt' %}Nossa evolução desde uma firma de assessoria patrimonial local em Miami até nos tornarmos um player fundamental nas finanças transcontinentais.
+            {% else %}Nuestra evolución desde una firma de asesoría patrimonial local en Miami hasta convertirnos en un actor clave en las finanzas transcontinentales.
+            {% endif %}
+        </p>
+        
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-year">2000</div>
+                <div class="timeline-content">
+                    <h3>
+                        {% if lang == 'en' %}Founding of the Entity
+                        {% elif lang == 'pt' %}Fundação da Entidade
+                        {% else %}Fundación de la Entidad
+                        {% endif %}
+                    </h3>
+                    <p>
+                        {% if lang == 'en' %}On May 23, 2000, the original entity was founded in Miami, Florida, focusing on commercial real estate specialized services and corporate finance advisory.
+                        {% elif lang == 'pt' %}Em 23 de maio de 2000, a entidade original foi fundada em Miami, Flórida, focada em serviços especializados de real estate comercial e assessoria em finanças corporativas.
+                        {% else %}El 23 de mayo de 2000 se funda la entidad original en Miami, Florida, enfocada en servicios especializados de real estate comercial y asesoría de finanzas corporativas.
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-year">2010</div>
+                <div class="timeline-content">
+                    <h3>
+                        {% if lang == 'en' %}Transatlantic Expansion
+                        {% elif lang == 'pt' %}Expansão Transatlântica
+                        {% else %}Expansión Transatlántica
+                        {% endif %}
+                    </h3>
+                    <p>
+                        {% if lang == 'en' %}Consolidation of capital brokerage and systematic commercial flows between the State of Florida and key European markets.
+                        {% elif lang == 'pt' %}Consolidação da intermediação de capitais e fluxos comerciais sistemáticos entre o estado da Flórida e os principais mercados europeus.
+                        {% else %}Consolidación de la intermediación de capitales y flujos comerciales sistemáticos entre el estado de Florida y los principales mercados europeos.
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-year">2020 - 2022</div>
+                <div class="timeline-content">
+                    <h3>
+                        {% if lang == 'en' %}Latin American Consolidation Phase
+                        {% elif lang == 'pt' %}Fase de Consolidação na América Latina
+                        {% else %}Fase de Consolidación en América Latina
+                        {% endif %}
+                    </h3>
+                    <p>
+                        {% if lang == 'en' %}Development of highly complex financial engineering. Growth in the Latin American corporate market and opening of representative operational offices in Bogota, Mexico City, Madrid, and London.
+                        {% elif lang == 'pt' %}Desenvolvimento de engenharia financeira de alta complexidade. Crescimento no mercado corporativo latino-americano e abertura de sedes de representação operacional em Bogotá, Cidade do México, Madri e Londres.
+                        {% else %}Desarrollo de ingeniería financiera de alta complejidad. Crecimiento en el mercado corporativo latinoamericano y apertura de sedes de representación operativa en Bogotá, Ciudad de México, Madrid y Londres.
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-year">2025 - 2030</div>
+                <div class="timeline-content">
+                    <h3>
+                        {% if lang == 'en' %}Towards the Global Hedge Fund
+                        {% elif lang == 'pt' %}Rumo ao Hedge Fund Global
+                        {% else %}Hacia el Hedge Fund Global
+                        {% endif %}
+                    </h3>
+                    <p>
+                        {% if lang == 'en' %}Expansion strategy towards the consolidation of a global Hedge Fund. This final phase contemplates the definitive integration of investment banking and mutual fund capabilities, backed by projections to open new corporate beachheads in Puerto Rico, Qatar, Singapore, and Hong Kong.
+                        {% elif lang == 'pt' %}Estratégia de expansão rumo à consolidação de um Fundo de Cobertura (Hedge Fund) global. Esta fase final contempla a integração definitiva de capacidades de banca de investimento e fundos mútuos, respaldada por projeções para abrir novas cabeças de ponte corporativas em Porto Rico, Catar, Singapura e Hong Kong.
+                        {% else %}Estrategia de expansión hacia la consolidación de un Fondo de Cobertura (Hedge Fund) global. Esta fase final contempla la integración definitiva de capacidades de banca de inversión y fondos mutuos, respaldada por proyecciones para abrir nuevas cabezas de puente corporativas en Puerto Rico, Qatar, Singapur y Hong Kong.
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Despliegue Geográfico y Red de Oficinas -->
+<section class="section" id="oficinas">
+    <div class="container">
+        <h2 style="text-align: center; margin-bottom: 1rem;">
+            {% if lang == 'en' %}Jurisdictions and Global Office Network
+            {% elif lang == 'pt' %}Jurisdições e Rede de Escritórios Globais
+            {% else %}Jurisdicciones y Red de Oficinas Globales
+            {% endif %}
+        </h2>
+        <p style="text-align: center; max-width: 700px; margin: 0 auto 3rem auto; color: var(--color-muted);">
+            {% if lang == 'en' %}Our strategic physical presence connects the main financial centers worldwide to guarantee transactional fluidity.
+            {% elif lang == 'pt' %}Nossa presença física estratégica conecta os principais centros financeiros mundiais para garantir fluidez transacional.
+            {% else %}Nuestra presencia física estratégica conecta los principales centros financieros mundiales para garantizar fluidez transaccional.
+            {% endif %}
+        </p>
+        
+        <div style="display: flex; justify-content: center; margin-bottom: 3rem;">
+            <img src="{{ static_versioned('images/image2.png') }}" alt="Distribución geográfica de oficinas de JPX International" style="max-width: 100%; height: auto; border: 1px solid var(--color-secondary); border-radius: var(--border-radius); box-shadow: var(--box-shadow-light); filter: desaturate(30%);">
+        </div>
+        
+        <div class="grid-cards">
+            <div class="card">
+                <h3>
+                    {% if lang == 'en' %}Headquarters (Miami)
+                    {% elif lang == 'pt' %}Sede Principal (Miami)
+                    {% else %}Sede Central (Miami)
+                    {% endif %}
+                </h3>
+                <p style="font-size: 0.95rem; line-height: 1.7;">
+                    <strong>{% if lang == 'en' %}Address:{% elif lang == 'pt' %}Endereço:{% else %}Dirección:{% endif %}</strong> 7950 NW 53rd Street, Suite 337, Miami, FL 33166, EE.UU.<br>
+                    <strong>{% if lang == 'en' %}Focus:{% elif lang == 'pt' %}Foco:{% else %}Foco:{% endif %}</strong> {% if lang == 'en' %}Central coordination of corporate financial engineering operations and commodities brokerage throughout the United States.
+                    {% elif lang == 'pt' %}Coordenação central de operações de engenharia financeira corporativa e corretagem de commodities em todo o território americano.
+                    {% else %}Coordinación central de operaciones de ingeniería financiera corporativa y corretaje de commodities en todo el territorio estadounidense.
+                    {% endif %}
+                </p>
+            </div>
+            
+            <div class="card">
+                <h3>
+                    {% if lang == 'en' %}London (United Kingdom)
+                    {% elif lang == 'pt' %}Londres (Reino Unido)
+                    {% else %}Londres (Reino Unido)
+                    {% endif %}
+                </h3>
+                <p style="font-size: 0.95rem; line-height: 1.7;">
+                    <strong>{% if lang == 'en' %}Focus:{% elif lang == 'pt' %}Foco:{% else %}Foco:{% endif %}</strong> {% if lang == 'en' %}Nerve center for international private banking. We operate with tier-one banks such as Barclays Bank PLC and Lloyds Bank PLC, and manage custodies with RBC Wealth Management.
+                    {% elif lang == 'pt' %}Centro neurálgico para o private banking internacional. Operamos com bancos de primeiro nível, como Barclays Bank PLC e Lloyds Bank PLC, e gerenciamos custódias com a RBC Wealth Management.
+                    {% else %}Centro neurálgico para la banca privada internacional. Operamos con bancos de primer nivel como Barclays Bank PLC y Lloyds Bank PLC, y gestionamos custodias con RBC Wealth Management.
+                    {% endif %}
+                </p>
+            </div>
+            
+            <div class="card">
+                <h3>
+                    {% if lang == 'en' %}Presence in LATAM
+                    {% elif lang == 'pt' %}Presença na América Latina
+                    {% else %}Presencia en LATAM
+                    {% endif %}
+                </h3>
+                <p style="font-size: 0.95rem; line-height: 1.7;">
+                    <strong>{% if lang == 'en' %}Focus:{% elif lang == 'pt' %}Foco:{% else %}Foco:{% endif %}</strong> {% if lang == 'en' %}Structuring, financing, and execution of heavy critical infrastructure macroprojects in Mexico and Colombia, driving the firm's regional expansion in emerging markets.
+                    {% elif lang == 'pt' %}Estruturação, financiamento e execução de macroprojetos de infraestrutura crítica pesada no México e na Colômbia, impulsionando a expansão regional da firma em mercados emergentes.
+                    {% else %}Estructuración, financiamiento y ejecución de macroproyectos de infraestructura crítica pesada en México y Colombia, impulsando la expansión regional de la firma en mercados emergentes.
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

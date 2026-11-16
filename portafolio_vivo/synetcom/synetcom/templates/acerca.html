@@ -1,0 +1,186 @@
+{% extends "base.html" %}
+
+{% block title %}Acerca de – Synetcom{% endblock %}
+
+{% block description %}Quiénes somos – Synetcom. Consultoría en Tecnologías de Vanguardia con más de 21 años de experiencia.{% endblock %}
+
+{% block content %}
+<!-- PAGE HERO -->
+  <header class="page-hero net-bg">
+    <div class="container">
+      <h1 class="animate-up">Quiénes Somos</h1>
+      <p class="animate-up delay-1">Consultoría en Tecnologías de Vanguardia</p>
+    </div>
+  </header>
+
+  <!-- HISTORIA -->
+  <section class="historia-section">
+    <div class="container">
+      <div class="grid-2" style="align-items:flex-start;gap:64px;">
+        <!-- Image left -->
+        <div class="historia-img-box animate-up">
+          <img src="{{ url_for('static', path='images/about_history.jpg') }}" alt="Nuestra Historia" />
+          <div class="corner-deco tl"></div>
+          <div class="corner-deco tr"></div>
+          <div class="corner-deco bl"></div>
+          <div class="corner-deco br"></div>
+        </div>
+        <!-- Content right -->
+        <div class="historia-content animate-up delay-2">
+          <span class="tag">Trayectoria y Liderazgo</span>
+          <h2>Nuestra Historia</h2>
+          <div class="subtitle">Más de 25 años impulsando la transformación digital</div>
+
+          <p>Dentro de Synetcom contamos con un equipo de especialistas con más de 25 años de experiencia en áreas de Tecnologías de la Información, Conectividad Empresarial, Seguridad Electrónica, Inteligencia Artificial y Soluciones Tecnológicas para empresas.</p>
+
+          <p>Desde nuestros inicios, nuestro objetivo ha sido ayudar a organizaciones y PyMEs a aprovechar la tecnología como una herramienta real de crecimiento, innovación y transformación digital.</p>
+
+          <div class="milestones">
+            <div class="milestone">
+              <div class="milestone-year">1999</div>
+              <div class="milestone-text">SYNETCOM nace en febrero de 1999 con el objetivo de integrar soluciones de Voz, Datos y Video para empresas y organizaciones que buscaban modernizar su infraestructura tecnológica y sus sistemas de comunicación.</div>
+            </div>
+            <div class="milestone">
+              <div class="milestone-year">2002</div>
+              <div class="milestone-text">Nos consolidamos como proveedores de soluciones tecnológicas avanzadas en áreas como telecomunicaciones, domótica, telemetría, sistemas de información y proyectos especiales de automatización empresarial.</div>
+            </div>
+            <div class="milestone">
+              <div class="milestone-year">2006</div>
+              <div class="milestone-text">La evolución de las telecomunicaciones nos impulsa a desarrollar SYNPBX, una plataforma de comunicación inteligente basada en Voz sobre IP (VoIP). Gracias a esta innovación, Synetcom recibe reconocimiento dentro del programa TECNBA de la Secretaría de Economía por su enfoque tecnológico y capacidad de innovación.</div>
+            </div>
+            <div class="milestone">
+              <div class="milestone-year">2010</div>
+              <div class="milestone-text">Expandimos nuestra red de alianzas estratégicas en más de 10 ciudades de la República Mexicana, ofreciendo soluciones tecnológicas para gobierno, corporativos y empresas privadas.</div>
+            </div>
+            <div class="milestone">
+              <div class="milestone-year">2011</div>
+              <div class="milestone-text">TELMEX nos otorga la distribución autorizada como “Representantes TELMEX”, fortaleciendo nuestra capacidad de integración y soporte en proyectos de conectividad empresarial.</div>
+            </div>
+            <div class="milestone">
+              <div class="milestone-year">2017</div>
+              <div class="milestone-text">Synetcom establece operaciones en Miami, Florida, ampliando su presencia hacia Latinoamérica y participando en proyectos tecnológicos en países como Colombia, Perú, Ecuador, El Salvador, Guatemala y Brasil.</div>
+            </div>
+            <div class="milestone">
+              <div class="milestone-year">2020</div>
+              <div class="milestone-text">Iniciamos operaciones y alianzas estratégicas en Europa, fortaleciendo nuestra capacidad para participar en proyectos tecnológicos de alcance internacional y soluciones empresariales globales.</div>
+            </div>
+            <div class="milestone">
+              <div class="milestone-year">2022</div>
+              <div class="milestone-text">Incorporamos nuevas soluciones de seguridad electrónica inteligente, integrando videovigilancia IP, biometría, control de acceso y monitoreo remoto para empresas y proyectos corporativos.</div>
+            </div>
+            <div class="milestone">
+              <div class="milestone-year">2024</div>
+              <div class="milestone-text">Synetcom evoluciona hacia un modelo de transformación digital empresarial, integrando automatización de procesos, infraestructura inteligente y soluciones avanzadas de conectividad para PyMEs y corporativos.</div>
+            </div>
+            <div class="milestone">
+              <div class="milestone-year">2025</div>
+              <div class="milestone-text">Comenzamos la integración de tecnologías de Inteligencia Artificial aplicadas a negocios, desarrollando soluciones de automatización, asistentes virtuales, análisis inteligente y plataformas empresariales orientadas a mejorar la productividad y competitividad de las empresas mexicanas.</div>
+            </div>
+            <div class="milestone">
+              <div class="milestone-year">2026</div>
+              <div class="milestone-text">Hoy, Synetcom se posiciona como una empresa de consultoría tecnológica enfocada en Conectividad Empresarial, Seguridad Electrónica e Inteligencia Artificial, ayudando a empresas y organizaciones a prepararse para una nueva era de transformación digital. Nuestra visión es continuar impulsando soluciones innovadoras, escalables y de alto impacto que conecten tecnología, productividad y crecimiento empresarial para México y Latinoamérica.</div>
+            </div>
+          </div>
+
+          <a href="contacto.html" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Solicitar Asesoría</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALORES -->
+  <section class="values-section">
+    <div class="container">
+      <div class="section-title">
+        <h2 style="color:var(--text-dark);">Nuestros Valores</h2>
+        <div class="underline"></div>
+      </div>
+      <div class="grid-4">
+        <div class="value-card animate-up delay-1">
+          <i class="fas fa-shield-alt"></i>
+          <h3>Confiabilidad</h3>
+          <p>Comprometidos con la seguridad y estabilidad de los sistemas de nuestros clientes.</p>
+        </div>
+        <div class="value-card animate-up delay-2">
+          <i class="fas fa-lightbulb"></i>
+          <h3>Innovación</h3>
+          <p>Adoptamos tecnologías de vanguardia para ofrecer soluciones modernas y eficaces.</p>
+        </div>
+        <div class="value-card animate-up delay-3">
+          <i class="fas fa-handshake"></i>
+          <h3>Compromiso</h3>
+          <p>Trabajamos de la mano de cada cliente para lograr sus objetivos tecnológicos.</p>
+        </div>
+        <div class="value-card animate-up">
+          <i class="fas fa-globe-americas"></i>
+          <h3>Alcance Global</h3>
+          <p>Presencia en México, Miami y Latinoamérica con visión de expansión global.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONSULTORES EXPERTOS -->
+  <section class="team-section">
+    <div class="container">
+      <div class="section-title">
+        <h2>Consultores Expertos</h2>
+        <div class="underline"></div>
+        <p>Nuestro equipo de profesionales con amplia experiencia en tecnología y negocios.</p>
+      </div>
+      <div class="grid-3">
+        <!-- José López -->
+        <article class="team-card animate-up delay-1">
+          <div class="team-avatar-placeholder">
+            <i class="fas fa-user-tie"></i>
+          </div>
+          <h3>José López</h3>
+          <p>Director Comercial y Ventas de Gobierno</p>
+        </article>
+        <!-- Eduardo Jiménez -->
+        <article class="team-card animate-up delay-2">
+          <div class="team-avatar-placeholder">
+            <i class="fas fa-user-tie"></i>
+          </div>
+          <h3>Eduardo Jiménez</h3>
+          <p>Director General</p>
+        </article>
+        <!-- Raymundo Ruiz -->
+        <article class="team-card animate-up delay-3">
+          <div class="team-avatar-placeholder">
+            <i class="fas fa-user-tie"></i>
+          </div>
+          <h3>Raymundo Ruiz</h3>
+          <p>Director de Sistemas</p>
+        </article>
+        <!-- Santiago Jiménez -->
+        <article class="team-card animate-up delay-4">
+          <div class="team-avatar-placeholder">
+            <i class="fas fa-user-tie"></i>
+          </div>
+          <h3>Santiago Jiménez</h3>
+          <p>Gerente de Proyectos</p>
+        </article>
+        <!-- Héctor Jiménez -->
+        <article class="team-card animate-up delay-5">
+          <div class="team-avatar-placeholder">
+            <i class="fas fa-user-tie"></i>
+          </div>
+          <h3>Héctor Jiménez</h3>
+          <p>Gerente de Seguridad Electrónica</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container">
+      <h2>¿Listo para transformar tu empresa?</h2>
+      <p>Contáctanos hoy y uno de nuestros especialistas se comunicará contigo a la brevedad.</p>
+      <a href="contacto.html" class="btn btn-orange"><i class="fas fa-paper-plane"></i> Contactar Ahora</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+{% endblock %}

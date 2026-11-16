@@ -1,0 +1,383 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if lang == 'en' %}Financial Services | JPX International Investments Inc.
+    {% elif lang == 'pt' %}Serviços Financeiros | JPX International Investments Inc.
+    {% else %}Servicios Financieros | JPX International Investments Inc.
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<!-- Banner Hero Secundario -->
+<section class="hero-section" style="padding: 4rem 0;">
+    <div class="container hero-content">
+        <h1>
+            {% if lang == 'en' %}Specialized Financial Services
+            {% elif lang == 'pt' %}Serviços Financeiros Especializados
+            {% else %}Servicios Financieros Especializados
+            {% endif %}
+        </h1>
+        <p class="hero-subtitle" style="margin-bottom: 0;">
+            {% if lang == 'en' %}Sophisticated structures, transactional leverage, and fiduciary shielding for global capital and infrastructure.
+            {% elif lang == 'pt' %}Estruturas sofisticadas, alavancagem transacional e blindagem fiduciária para capitais e infraestrutura global.
+            {% else %}Estructuras sofisticadas, apalancamiento transaccional y blindaje fiduciario para capitales e infraestructura global.
+            {% endif %}
+        </p>
+    </div>
+</section>
+
+<!-- Matriz de Servicios -->
+<section class="section" id="portafolios">
+    <div class="container">
+        <h2>
+            {% if lang == 'en' %}Portfolio Management and Asset Optimization
+            {% elif lang == 'pt' %}Gestão de Portfólios e Otimização de Ativos
+            {% else %}Administración de Portafolios y Optimización de Activos
+            {% endif %}
+        </h2>
+        <p style="margin-top: 1rem; color: var(--color-dark); text-align: justify;">
+            {% if lang == 'en' %}We operate through our corporate Trading Desk in global secondary markets for the receipt, custody, and monetization of high-grade sovereign and corporate debt instruments. We structure and manage:
+            {% elif lang == 'pt' %}Operamos por meio da nossa Mesa de Operações corporativa (Trading Desk) em mercados secundários globais para a recepção, custódia e monetização de instrumentos de dívida soberana e corporativa de alto grau. Estruturamos e gerimos:
+            {% else %}Operamos a través de nuestra Mesa de Dinero corporativa (Trading Desk) en mercados secundarios globales para la recepción, custodia y monetización de instrumentos de deuda soberana y corporativa de alto grado. Estructuramos y gestionamos:
+            {% endif %}
+        </p>
+        
+        <div class="grid-cards" style="margin-top: 2rem;">
+            <div class="card">
+                <h3>
+                    {% if lang == 'en' %}Debt Instruments
+                    {% elif lang == 'pt' %}Instrumentos de Dívida
+                    {% else %}Instrumentos de Deuda
+                    {% endif %}
+                </h3>
+                <p style="font-size: 0.9rem;">
+                    {% if lang == 'en' %}Receipt and brokerage of Medium Term Notes (MTN), Treasury Bills (LTN), Corporate Bonds, Sovereign Bonds, Sukuk Bonds, and Collateralized Mortgage Obligations (CMO). Fluid settlements via Euroclear and DTC (Free Delivery).
+                    {% elif lang == 'pt' %}Recepção e corretagem de Notas de Médio Prazo (MTN), Letras do Tesouro (LTN), Títulos Corporativos, Títulos Soberanos, Títulos Sukuk e Obrigações Hipotecárias Colaterais (CMO). Liquidações fluidas via Euroclear e DTC (Free Delivery).
+                    {% else %}Recepción y corretaje de Notas de Mediano Plazo (MTN), Letras del Tesoro (LTN), Bonos Corporativos, Bonos Soberanos, Bonos Sukuk e Hipotecas Colateralizadas (CMO). Liquidaciones fluidas vía Euroclear y DTC (Free Delivery).
+                    {% endif %}
+                </p>
+            </div>
+            <div class="card">
+                <h3>
+                    {% if lang == 'en' %}Fiduciary Structures
+                    {% elif lang == 'pt' %}Estruturas Fiduciárias
+                    {% else %}Estructuras Fiduciarias
+                    {% endif %}
+                </h3>
+                <p style="font-size: 0.9rem;">
+                    {% if lang == 'en' %}Massive capital injections through Pledge Accounts, escrow accounts, Deposit Account Control Agreements (DACA), and exclusive SPV accounts for high-volume trading.
+                    {% elif lang == 'pt' %}Injeções maciças de capital por meio de Contas Penhoradas (Pledge Accounts), contas de garantia fiduciária (Escrow), acordos de controle de conta de depósito (DACA) e contas SPV exclusivas para negociação de alto volume.
+                    {% else %}Inyecciones masivas de capital mediante Cuentas Pignoradas (Pledge Accounts), fideicomisos en garantía (Escrow), contratos de control DACA (Deposit Account Control Agreement) y cuentas SPV exclusivas para trading de alto volumen.
+                    {% endif %}
+                </p>
+            </div>
+            <div class="card">
+                <h3>
+                    {% if lang == 'en' %}Credit Rating Increase
+                    {% elif lang == 'pt' %}Aumento de Credit Rating
+                    {% else %}Aumento de Credit Rating
+                    {% endif %}
+                </h3>
+                <p style="font-size: 0.9rem;">
+                    {% if lang == 'en' %}Accounting and financial optimization of liquid and illiquid assets aimed at increasing their credit risk rating before global rating agencies such as Standard & Poor's, Moody's, and Fitch Ratings through the provision of reinforcement collateral.
+                    {% elif lang == 'pt' %}Otimização contábil e financeira de ativos líquidos e ilíquidos visando o aumento da sua classificação de risco de crédito perante agências de classificação globais, como Standard & Poor's, Moody's e Fitch Ratings, através do aporte de colaterais de reforço.
+                    {% else %}Optimización contable y financiera de activos líquidos e ilíquidos orientada al aumento de su calificación de riesgo crediticio ante calificadoras globales como Standard & Poor's, Moody's y Fitch Ratings mediante el aporte de colaterales de refuerzo.
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Infraestructura Corporativa (Corporate Setup) -->
+<section class="section section-grey" id="setup">
+    <div class="container">
+        <h2>
+            {% if lang == 'en' %}International Corporate Infrastructure
+            {% elif lang == 'pt' %}Infraestrutura Corporativa Internacional
+            {% else %}Infraestructura Corporativa Internacional
+            {% endif %}
+        </h2>
+        <p style="margin-top: 1rem; color: var(--color-dark); text-align: justify;">
+            {% if lang == 'en' %}Designed to capture the attention of multinationals and high-net-worth family investment offices seeking tax optimization and cross-border regulatory security:
+            {% elif lang == 'pt' %}Projetado para captar a atenção de multinacionais e escritórios de investimento familiar de alto patrimônio líquido que buscam otimização fiscal e segurança regulatória transfronteiriça:
+            {% else %}Diseñado para captar la atención de multinacionales y oficinas de inversión familiar de alto patrimonio neto que buscan optimización fiscal y seguridad regulatoria transfronteriza:
+            {% endif %}
+        </p>
+        
+        <div class="grid-cards" style="margin-top: 2rem;">
+            <div class="card">
+                <h3>
+                    {% if lang == 'en' %}Company Incorporation
+                    {% elif lang == 'pt' %}Incorporação de Sociedades
+                    {% else %}Incorporación de Sociedades
+                    {% endif %}
+                </h3>
+                <p style="font-size: 0.9rem;">
+                    {% if lang == 'en' %}Agile setup, both in-person and remote, of INC, LLP, LTD, and PLC legal structures in over 87 global jurisdictions. Specialization in premier financial centers like Singapore, Dubai, and London.
+                    {% elif lang == 'pt' %}Constituição ágil, presencial ou remota, de estruturas jurídicas INC, LLP, LTD e PLC em mais de 87 jurisdições mundiais. Especialização em centros financeiros de primeira linha, como Singapura, Dubai e Londres.
+                    {% else %}Creación ágil, tanto presencial como remota, de estructuras jurídicas INC, LLP, LTD y PLC en más de 87 jurisdicciones mundiales. Especialización en centros financieros de primer orden como Singapur, Dubái y Londres.
+                    {% endif %}
+                </p>
+            </div>
+            <div class="card">
+                <h3>
+                    {% if lang == 'en' %}Preferred Bank Account Opening
+                    {% elif lang == 'pt' %}Abertura Bancária Preferencial
+                    {% else %}Apertura Bancaria Preferente
+                    {% endif %}
+                </h3>
+                <p style="font-size: 0.9rem;">
+                    {% if lang == 'en' %}Opening of Private, Corporate, and Merchant banking accounts with reduced initial bureaucratic demands, thanks to consolidated relationships with top-level bank executives and flexible deposit injections.
+                    {% elif lang == 'pt' %}Abertura de contas de Private Banking, Corporativo e Merchant com menor rigor de exigências burocráticas iniciais, graças a relações consolidadas com a alta administração de bancos de primeira linha e injeção de depósitos flexíveis.
+                    {% else %}Apertura de cuentas de Banca Privada, Corporativa y Merchant con menor rigor de exigencias burocráticas iniciales, gracias a relaciones consolidadas con la alta dirección de bancos de primer nivel e inyección de depósitos flexibles.
+                    {% endif %}
+                </p>
+            </div>
+            <div class="card">
+                <h3>
+                    {% if lang == 'en' %}Shelf Companies
+                    {% elif lang == 'pt' %}Sociedades de Prateleira (Shelf Companies)
+                    {% else %}Sociedades de Cartera (Shelf Companies)
+                    {% endif %}
+                </h3>
+                <p style="font-size: 0.9rem;">
+                    {% if lang == 'en' %}Immediate provision of pre-formed companies (Shelf / Ready Made) with pristine credit histories and up-to-date regulatory compliance, ready to start commercial and financial operations within 48 hours.
+                    {% elif lang == 'pt' %}Fornecimento imediato de empresas pré-constituídas (Shelf / Ready Made) com históricos de crédito impecáveis e conformidade regulatória em dia, prontas para iniciar operações comerciais e financeiras em 48 horas.
+                    {% else %}Provisión inmediata de sociedades preconstituidas (Shelf / Ready Made) con historiales crediticios intachables y cumplimiento regulatorio al día, listas para iniciar operaciones comerciales y financieras en 48 horas.
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Soluciones de Apalancamiento (Trade Finance) -->
+<section class="section" id="trade">
+    <div class="container">
+        <h2>
+            {% if lang == 'en' %}International Trade Leverage (Trade Finance)
+            {% elif lang == 'pt' %}Alavancagem de Comércio Internacional (Trade Finance)
+            {% else %}Apalancamiento de Comercio Internacional (Trade Finance)
+            {% endif %}
+        </h2>
+        <p style="margin-top: 1rem; color: var(--color-dark); text-align: justify;">
+            {% if lang == 'en' %}We deploy leverage solutions through the global financial network, mastering documentary instruments and SWIFT interbank messaging to facilitate the secure trade of goods and commodities:
+            {% elif lang == 'pt' %}Implantamos soluções de alavancagem por meio da rede financeira global, dominando os instrumentos documentários e de mensagens interbancárias SWIFT para viabilizar o comércio seguro de mercadorias e commodities:
+            {% else %}Desplegamos soluciones de apalancamiento mediante la red financiera global, dominando los instrumentos documentarios y de mensajería interbancaria SWIFT para viabilizar el comercio seguro de mercancías y commodities:
+            {% endif %}
+        </p>
+        
+        <div class="table-responsive">
+            <table class="table-premium">
+                <thead>
+                    <tr>
+                        <th>
+                            {% if lang == 'en' %}Instrument Category
+                            {% elif lang == 'pt' %}Categoria do Instrumento
+                            {% else %}Categoría de Instrumento
+                            {% endif %}
+                        </th>
+                        <th>
+                            {% if lang == 'en' %}Required SWIFT Messaging
+                            {% elif lang == 'pt' %}Mensagens SWIFT Requeridas
+                            {% else %}Mensajería SWIFT Requerida
+                            {% endif %}
+                        </th>
+                        <th>
+                            {% if lang == 'en' %}Technical and Fiduciary Purpose
+                            {% elif lang == 'pt' %}Objetivo Técnico e Fiduciário
+                            {% else %}Propósito Técnico y Fiduciario
+                            {% endif %}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>{% if lang == 'en' %}Standby Letters of Credit (SBLC){% elif lang == 'pt' %}Cartas de Crédito Contingentes (SBLC){% else %}Cartas de Crédito Contingentes (SBLC){% endif %}</strong></td>
+                        <td>MT-760 ({% if lang == 'en' %}Blocking of Funds{% elif lang == 'pt' %}Bloqueio de Fundos{% else %}Bloqueo de Fondos{% endif %}) / MT-799 ({% if lang == 'en' %}Pre-advice{% elif lang == 'pt' %}Pré-aviso{% else %}Pre-aviso{% endif %})</td>
+                        <td>{% if lang == 'en' %}Fiduciary payment performance guarantees for large-scale transactions.{% elif lang == 'pt' %}Garantias fiduciárias de adimplemento de pagamento para transações de grande escala.{% else %}Garantías de cumplimiento de pago fiduciario para transacciones de gran escala.{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>{% if lang == 'en' %}Bank Guarantees (BG){% elif lang == 'pt' %}Garantias Bancárias (BG){% else %}Garantías Bancarias (BG){% endif %}</strong></td>
+                        <td>MT-760</td>
+                        <td>{% if lang == 'en' %}Collateral issued by TOP 50 global banks to secure commercial and infrastructure contracts.{% elif lang == 'pt' %}Colaterais emitidos por bancos TOP 50 mundiais para garantir contratos comerciais e de infraestrutura.{% else %}Colaterales emitidos por bancos TOP 50 mundiales para afianzar contratos comerciales y de infraestructura.{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>{% if lang == 'en' %}Documentary Letters of Credit (LC / DLC){% elif lang == 'pt' %}Cartas de Crédito Documentárias (LC / DLC){% else %}Cartas de Crédito Documentarias (LC / DLC){% endif %}</strong></td>
+                        <td>MT-700 / MT-710 ({% if lang == 'en' %}Notification and Issuance{% elif lang == 'pt' %}Notificação e Emissão{% else %}Notificación y Emisión{% endif %})</td>
+                        <td>{% if lang == 'en' %}Mitigation of default risk in the maritime transport of commodities and goods.{% elif lang == 'pt' %}Mitigação do risco de inadimplência no transporte marítimo de commodities e mercadorias.{% else %}Mitigación del riesgo de impago en el transporte marítimo de commodities y mercancías.{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>{% if lang == 'en' %}Direct Settlement Messaging{% elif lang == 'pt' %}Mensagens de Liquidação Direta{% else %}Mensajería de Liquidación Directa{% endif %}</strong></td>
+                        <td>MT-103 ({% if lang == 'en' %}Settlement of Funds{% elif lang == 'pt' %}Liquidação de Fundos{% else %}Liquidación de Fondos{% endif %}) / MT-110</td>
+                        <td>{% if lang == 'en' %}Direct and swift transfer and injection of clearable corporate bank funds.{% elif lang == 'pt' %}Transferência e injeção direta e rápida de fundos bancários corporativos liquidáveis.{% else %}Transferencia e inyección directa y expedita de fondos bancarios corporativos liquidables.{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Safe Keeping Receipts (SKR)</strong></td>
+                        <td>{% if lang == 'en' %}Internal Clearing Codes / Safe Custody{% elif lang == 'pt' %}Códigos de Compensação Interna / Custódia Segura{% else %}Códigos de Compensación Interna / Custodia Segura{% endif %}</td>
+                        <td>{% if lang == 'en' %}Monetization and fiduciary custody of assets deposited under strict security measures.{% elif lang == 'pt' %}Monetização e custódia fiduciária de ativos depositados sob estritas medidas de segurança.{% else %}Monetización y custodia fiduciaria de activos debido a estrictas medidas de seguridad.{% endif %}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- Estructuración Financiera para Macroproyectos -->
+<section class="section section-grey" id="deuda">
+    <div class="container">
+        <h2>
+            {% if lang == 'en' %}Financial Structuring and Debt Placement for Macroprojects
+            {% elif lang == 'pt' %}Estruturação Financeira e Alocação de Dívida para Macroprojetos
+            {% else %}Estructuración Financiera y Radicación de Deuda para Macroproyectos
+            {% endif %}
+        </h2>
+        <p style="margin-top: 1rem; margin-bottom: 3rem; color: var(--color-dark); text-align: justify;">
+            {% if lang == 'en' %}JPX guides sovereign governments, corporations, and developers through a strict three-phase protocol for the successful placement of investment-grade financing destined for heavy infrastructure, energy, and healthcare development projects:
+            {% elif lang == 'pt' %}A JPX guia governos soberanos, corporações e incorporadores através de um protocolo estrito de três fases para a alocação bem-sucedida de financiamentos com grau de investimento destinados a projetos de desenvolvimento de infraestrutura pesada, energia e saúde:
+            {% else %}JPX guía a gobiernos soberanos, corporaciones y promotores a través de un protocolo estricto en tres fases para la radicación de financiamientos de grado de inversión destinados a proyectos de desarrollo de infraestructura pesada, energía y sanidad:
+            {% endif %}
+        </p>
+        
+        <div class="grid-cards">
+            <div class="card">
+                <div class="card-icon" style="color: var(--color-contrast);">01</div>
+                <h3>
+                    {% if lang == 'en' %}Phase 1: Diagnosis and Feasibility
+                    {% elif lang == 'pt' %}Fase 1: Diagnóstico e Viabilidade
+                    {% else %}Fase 1: Diagnóstico y Viabilidad
+                    {% endif %}
+                </h3>
+                <p style="font-size: 0.9rem; line-height: 1.6;">
+                    <strong>{% if lang == 'en' %}Procedure:{% elif lang == 'pt' %}Procedimento:{% else %}Procedimiento:{% endif %}</strong> {% if lang == 'en' %}Signing of the NCNDA legal agreement for mutual protection. Receipt of the official Letter of Intent (L.O.I.), Apostilled Articles of Incorporation, and the Executive Business Plan excerpt for preliminary risk analysis.
+                    {% elif lang == 'pt' %}Assinatura do acordo legal NCNDA para proteção mútua. Recebimento da Carta de Intenção oficial (L.O.I.), Estatuto Social Apostilado e o excerto do Plano de Negócios Corporativo (Executive Business Plan excerpt) para análise preliminar de riscos.
+                    {% else %}Firma del acuerdo legal NCNDA para protección mutua. Recepción de la Carta de Intención oficial (L.O.I.), Acta de Incorporación Apostillada y el Plan de Negocios Corporativo (Executive Business Plan excerpt) para análisis preliminar de riesgos.
+                    {% endif %}
+                </p>
+            </div>
+            
+            <div class="card">
+                <div class="card-icon" style="color: var(--color-contrast);">02</div>
+                <h3>
+                    {% if lang == 'en' %}Phase 2: Investment Mockup (Compliance TWO)
+                    {% elif lang == 'pt' %}Fase 2: Modelo de Investimento (Compliance TWO)
+                    {% else %}Fase 2: Maqueta de Inversión (Compliance TWO)
+                    {% endif %}
+                </h3>
+                <p style="font-size: 0.9rem; line-height: 1.6;">
+                    <strong>{% if lang == 'en' %}Procedure:{% elif lang == 'pt' %}Procedimento:{% else %}Procedimiento:{% endif %}</strong> {% if lang == 'en' %}Rigorous information gathering under the Compliance TWO protocol. Includes audited financial statements under IFRS standards, cash flows, and 5-year internal rate of return, independent risk audits, and profiling of key shareholders.
+                    {% elif lang == 'pt' %}Coleta rigorosa de informações sob o protocolo Compliance TWO. Inclui demonstrações financeiras auditadas sob as normas IFRS, fluxos de caixa e taxa interna de retorno de 5 anos, auditorias de risco independentes e perfilamento dos acionistas-chave.
+                    {% else %}Levantamiento riguroso de información bajo el protocolo Compliance TWO. Incluye estados financieros auditados bajo normas IFRS, flujos de caja y tasa interna de retorno a 5 años, auditorías de riesgo independientes y perfilado de accionistas clave.
+                    {% endif %}
+                </p>
+            </div>
+            
+            <div class="card">
+                <div class="card-icon" style="color: var(--color-contrast);">03</div>
+                <h3>
+                    {% if lang == 'en' %}Phase 3: Placement and Disbursement
+                    {% elif lang == 'pt' %}Fase 3: Alocação e Desembolso
+                    {% else %}Fase 3: Radicación y Desembolso
+                    {% endif %}
+                </h3>
+                <p style="font-size: 0.9rem; line-height: 1.6;">
+                    <strong>{% if lang == 'en' %}Procedure:{% elif lang == 'pt' %}Procedimento:{% else %}Procedimiento:{% endif %}</strong> {% if lang == 'en' %}Submission to risk committees and global investment funds. After the final Due Diligence, the transcontinental signing is scheduled, the Special Purpose Vehicle (SPV) corporate entity is established, and the capital disbursement schedule is activated.
+                    {% elif lang == 'pt' %}Submissão a comitês de risco e fundos de investimento globais. Após a Due Diligence final, programa-se a assinatura transcontinental, estabelece-se a Sociedade de Propósito Específico (SPE/SPV) corporativa e ativa-se o cronograma de desembolso de capital.
+                    {% else %}Sometimiento a comités de riesgo y fondos de inversión globales. Tras el Due Diligence final, se programa la firma transcontinental, se establece el Vehículo Corporativo de Propósito Especial (SPV) y se activa el cronograma de desembolsos de capital.
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+        
+        <div style="background-color: var(--color-base); border-left: 4px solid var(--color-contrast); padding: 1.5rem; border-radius: var(--border-radius); margin-top: 2.5rem; box-shadow: var(--box-shadow-light); font-size: 0.95rem;">
+            <strong>{% if lang == 'en' %}Compliance Advisory:{% elif lang == 'pt' %}Aviso de Conformidade:{% else %}Aviso de Cumplimiento:{% endif %}</strong> {% if lang == 'en' %}High transactional quality collaterals are admitted, such as blocked assets, pre-operative institutional treasury funds equivalent to at least 15% of the project total, or Standby Letters of Credit (SBLC) issued by banks ranked in the global TOP 50.
+            {% elif lang == 'pt' %}São admitidos colaterais de alta qualidade transacional, tais como ativos bloqueados, fundos pré-operacionais de tesouraria institucional equivalentes a pelo menos 15% do total do projeto, ou Cartas de Crédito Standby (SBLC) emitidas por bancos classificados no TOP 50 global.
+            {% else %}Se admiten colaterales de alta calidad transaccional, tales como activos inmovilizados, fondos pre-operativos de tesorería institucional equivalentes al menos al 15% del total del proyecto, o Cartas de Crédito Standby (SBLC) emitidas por bancos rankeados en el TOP 50 global.
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- Contrapartes Bancarias (Infraestructura Fiduciaria) -->
+<section class="section">
+    <div class="container">
+        <h2>
+            {% if lang == 'en' %}Fiduciary Infrastructure and Correspondent Banks
+            {% elif lang == 'pt' %}Infraestrutura Fiduciária e Bancos Correspondentes
+            {% else %}Infraestructura Fiduciaria y Bancos Corresponsales
+            {% endif %}
+        </h2>
+        <p style="margin-top: 1rem; color: var(--color-muted); text-align: justify;">
+            {% if lang == 'en' %}Our global operations are settled and custodied through leading banking institutions of the TOP global banking and institutional level, guaranteeing transactional strength and shielding against risks:
+            {% elif lang == 'pt' %}Nossas operações globais são liquidadas e custodiadas por meio de instituições bancárias líderes do setor bancário categoria TOP mundial, garantindo solidez transacional e blindagem contra riscos:
+            {% else %}Nuestras operaciones globales se liquidan y custodian a través de instituciones bancarias líderes del sector bancario categoría TOP mundial, garantizando solidez transaccional y blindaje contra riesgos:
+            {% endif %}
+        </p>
+        
+        <div class="table-responsive">
+            <table class="table-premium">
+                <thead>
+                    <tr>
+                        <th>
+                            {% if lang == 'en' %}Banking Institution
+                            {% elif lang == 'pt' %}Instituição Bancária
+                            {% else %}Institución Bancaria
+                            {% endif %}
+                        </th>
+                        <th>
+                            {% if lang == 'en' %}Fiduciary Role and Infrastructure
+                            {% elif lang == 'pt' %}Função Fiduciária e Infraestrutura
+                            {% else %}Rol Fiduciario e Infraestructura
+                            {% endif %}
+                        </th>
+                        <th>
+                            {% if lang == 'en' %}Operating Jurisdiction
+                            {% elif lang == 'pt' %}Jurisdição Operacional
+                            {% else %}Jurisdicción Operativa
+                            {% endif %}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Royal Bank of Canada Capital Markets</strong></td>
+                        <td>{% if lang == 'en' %}Securities Account Management, asset custody, and international settlements (DTC #0235, Euroclear #168XX).{% elif lang == 'pt' %}Gestão de Contas de Valores Mobiliários, custódia de ativos e liquidações internacionais (DTC #0235, Euroclear #168XX).{% else %}Gestión de Cuentas de Valores, custodia de activos y liquidaciones internacionales (DTC #0235, Euroclear #168XX).{% endif %}</td>
+                        <td>{% if lang == 'en' %}New York / Global Operations{% elif lang == 'pt' %}Nova York / Operações Globais{% else %}Nueva York / Operaciones Globales{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>TMI Trust Company</strong></td>
+                        <td>{% if lang == 'en' %}Custody of the Master Fiduciary Account. Corporate trust and clearing through BNY Mellon (Euroclear #97816).{% elif lang == 'pt' %}Custódia da Conta Fiduciária Mestra. Fideicomisso corporativo e compensação por meio do BNY Mellon (Euroclear #97816).{% else %}Custodia de la Cuenta Fiduciaria Maestro. Fideicomiso corporativo y compensación a través de BNY Mellon (Euroclear #97816).{% endif %}</td>
+                        <td>Atlanta, Georgia ({% if lang == 'en' %}USA{% elif lang == 'pt' %}EUA{% else %}EE.UU.{% endif %})</td>
+                    </tr>
+                    <tr>
+                        <td><strong>TD Bank / TD Securities</strong></td>
+                        <td>{% if lang == 'en' %}Administration of high-volume Treasury Accounts (Toronto Dominion Bank USA) for interbank capital flows.{% elif lang == 'pt' %}Administração de Contas de Tesouraria de alto volume (Toronto Dominion Bank USA) para fluxos de capital interbancário.{% else %}Administración de Cuentas de Tesorería de alto volumen (Toronto Dominion Bank USA) para flujos de capital interbancario.{% endif %}</td>
+                        <td>{% if lang == 'en' %}United States and Canada{% elif lang == 'pt' %}Estados Unidos e Canadá{% else %}Estados Unidos y Canadá{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>JPMorgan Chase Bank N.A.</strong></td>
+                        <td>{% if lang == 'en' %}Primary corporate deposit accounts for commercial flows and recurring operational settlements.{% elif lang == 'pt' %}Contas corporativas de depósito primário para fluxos comerciais e liquidações operacionais recorrentes.{% else %}Cuentas corporativas de depósito primario para flujos comerciales y liquidaciones operativas recurrentes.{% endif %}</td>
+                        <td>Miami, Florida ({% if lang == 'en' %}USA{% elif lang == 'pt' %}EUA{% else %}EE.UU.{% endif %})</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Barclays Bank PLC & Lloyds Bank PLC</strong></td>
+                        <td>{% if lang == 'en' %}Private banking, trusts for VIP individuals, and documentary compliance management of letters of credit (SBLC, LC).{% elif lang == 'pt' %}Private banking, fideicomissos para indivíduos VIP e gestão de conformidade documental de cartas de crédito (SBLC, LC).{% else %}Banca privada, fideicomisos para individuos VIP y gestión de cumplimiento documentario de cartas de crédito (SBLC, LC).{% endif %}</td>
+                        <td>{% if lang == 'en' %}London (United Kingdom){% elif lang == 'pt' %}Londres (Reino Unido){% else %}Londres (Reino Unido){% endif %}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Deutsche Bank / HSBC</strong></td>
+                        <td>{% if lang == 'en' %}Continental European private banking for complex wealth optimization and cross-border investments.{% elif lang == 'pt' %}Private banking da Europa continental para otimização de patrimônios complexos e investimentos transfronteiriços.{% else %}Banca privada continental europea para la optimización de patrimonios complejos e inversiones transfronterizas.{% endif %}</td>
+                        <td>{% if lang == 'en' %}Frankfurt / Zurich{% elif lang == 'pt' %}Frankfurt / Zurique{% else %}Frankfurt / Zúrich{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>DBS Bank Ltd. & OCBC Bank</strong></td>
+                        <td>{% if lang == 'en' %}Support for quantitative trading platforms and commodities custody accounts in the Asia-Pacific region.{% elif lang == 'pt' %}Suporte para plataformas quantitativas de negociação (trading) e contas de custódia de commodities na região da Ásia-Pacífico.{% else %}Soporte para plataformas cuantitativas de trading y cuentas de custodia de commodities en la región Asia-Pacífico.{% endif %}</td>
+                        <td>{% if lang == 'en' %}Singapore{% elif lang == 'pt' %}Singapura{% else %}Singapur{% endif %}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

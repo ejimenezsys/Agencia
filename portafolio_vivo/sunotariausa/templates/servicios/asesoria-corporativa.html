@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+
+{% block title %}
+{% if lang == 'en' %}Su Notaria USA | Corporate Guidance (Limited) - Corporate Support{% else %}Su Notaria USA | Asesoría Corporativa (Limited) - Soporte Corporativo{% endif %}
+{% endblock %}
+
+{% block content %}
+<section class="service-detail-section">
+    <div class="service-detail-container">
+        <!-- Hero del Servicio -->
+        <div class="service-detail-hero animate-fade-in">
+            <div class="service-detail-icon-wrapper">
+                <svg viewBox="0 0 24 24" width="64" height="64" class="service-card-svg" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M3 20V10a9 9 0 0 1 18 0v10"/>
+                    <line x1="2" y1="20" x2="22" y2="20"/>
+                    <rect x="4" y="11" width="2" height="9"/>
+                    <rect x="11" y="10" width="2" height="10"/>
+                    <rect x="18" y="11" width="2" height="9"/>
+                    <path d="M9 7h6v2H9z"/>
+                    <path d="M12 9v3"/>
+                    <path d="M7 16s1-1 2.5-1 2.5 1 2.5 1l3-3 2 2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <h1 class="service-detail-title">
+                {% if lang == 'en' %}Corporate Guidance (Limited){% else %}Asesoría Corporativa (Limited){% endif %}
+            </h1>
+            <p class="service-detail-subtitle">
+                {% if lang == 'en' %}Procedural Formalization & Business Legal Instrumentation{% else %}Formalización Procedimental e Instrumentación Legal de Negocios{% endif %}
+            </p>
+        </div>
+
+        <!-- Cuerpo del Detalle -->
+        <div class="service-detail-content animate-fade-in">
+            <div class="service-detail-body">
+                {% if lang == 'en' %}
+                <p>
+                    The limited Corporate Guidance service provides high-level procedural and institutional assistance designed to guide entrepreneurs and corporations in the correct formalization and structuring of their business documents in Florida. It is of utmost importance to clarify that this service focuses strictly on aspects of public trust compliance and formal filing, and under no circumstances replaces or constitutes legal advice reserved exclusively for licensed attorneys (Legal Counsel). We position ourselves as the ideal operational bridge to ensure the formal legality of your business structure.
+                </p>
+                <p>
+                    Our assistance covers the preparation, formal structuring, and notarization of essential organizational and operating documents for limited liability companies (LLCs) and traditional corporations. This includes the drafting and notarization of operating agreements (Operating Agreements) that define the ownership percentage and internal operations of the partners; company bylaws or regulations (Bylaws); formal minutes of shareholder and board of directors meetings; and the notary certification of stock registry books and share certificates of the entity.
+                </p>
+                <p>
+                    The correct instrumentation and notary certification of corporate documents is of vital importance to shield the legal security of the company against third parties. Most banking institutions in the United States require notarized and certified copies of Operating Agreements and board resolutions before authorizing the opening of high-volume commercial bank accounts. Likewise, investors, investment funds, and corporate creditors require confirmation that all the company's registry and stock certificates strictly comply with applicable state laws.
+                </p>
+                <p>
+                    At Su Notaria USA, we coordinate and supervise compliance with all your procedures before the Division of Corporations of the Florida Department of State (official Sunbiz platform), avoiding administrative delays due to formal presentation errors. Backed by the extensive business track record of JPX International in structuring businesses in Miami, Gladys Rodríguez will provide you with impeccable and customized guidance so that your corporation strictly complies with the regulations of annual reports filing, corporate amendments, and notarizations of national and international commercial agreements.
+                </p>
+                {% else %}
+                <p>
+                    El servicio de Asesoría Corporativa de carácter limitado constituye una asistencia procedimental e institucional de alto nivel diseñada para guiar a emprendedores y corporaciones en la correcta formalización y estructuración de sus documentos empresariales en la Florida. Es de suma importancia aclarar que este servicio se enfoca estrictamente en aspectos de cumplimiento de fe pública y registro formal, y bajo ninguna circunstancia reemplaza ni constituye una asesoría legal reservada en exclusiva para abogados autorizados (Legal Counsel). Nos posicionamos como el puente operativo idóneo para asegurar la legalidad formal de su estructura de negocio.
+                </p>
+                <p>
+                    Nuestra asistencia abarca la preparación, estructuración formal y notarización de documentos constitutivos y operativos esenciales para sociedades de responsabilidad limitada (LLC) y corporaciones tradicionales. Esto incluye la redacción y notarización de acuerdos operativos (Operating Agreements) que definen el porcentaje de participación y el funcionamiento interno de los socios; los reglamentos o estatutos de la empresa (Bylaws); las actas formales de asambleas de socios y juntas directivas; y la certificación notarial de los libros de registro de acciones y certificados de participación accionaria de la entidad.
+                </p>
+                <p>
+                    La correcta instrumentación y certificación notarial de los documentos corporativos es de vital trascendencia para blindar la seguridad jurídica de la empresa frente a terceras partes. La mayoría de las instituciones bancarias en los Estados Unidos exigen copias notarizadas y certificadas de los Operating Agreements y de las resoluciones de la junta directiva antes de autorizar la apertura de cuentas bancarias comerciales de alto volumen. Asimismo, los inversionistas, fondos de inversión y acreedores corporativos requieren constatar que todos los registros y certificados de acciones de la empresa cumplan de forma intachable con las leyes estatales aplicables.
+                </p>
+                <p>
+                    En Su Notaria USA, coordinamos y supervisamos el cumplimiento de todos sus trámites ante la División de Corporaciones del Departamento de Estado de Florida (plataforma oficial Sunbiz), evitando demoras administrativas por errores formales de presentación. Gracias al respaldo de la amplia trayectoria comercial de JPX International en la estructuración de negocios en Miami, Gladys Rodríguez le proporcionará un acompañamiento impecable y personalizado para que su corporación cumpla de forma estricta con los reglamentos de presentación de informes anuales, enmiendas corporativas y notarizaciones de acuerdos comerciales nacionales e internacionales.
+                </p>
+                {% endif %}
+
+                <h2 class="service-detail-list-title">
+                    {% if lang == 'en' %}What Corporate Procedures Do We Support?{% else %}¿Qué Trámites Corporativos Apoyamos?{% endif %}
+                </h2>
+                <ul class="service-detail-list">
+                    <li class="service-detail-list-item">
+                        <span class="service-detail-list-icon">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </span>
+                        <div class="service-detail-list-text">
+                            {% if lang == 'en' %}
+                            <strong>Operating Agreements & Bylaws:</strong> Formal drafting and notarization of internal agreements governing the relationship among partners or members of an LLC.
+                            {% else %}
+                            <strong>Operating Agreements y Estatutos (Bylaws):</strong> Redacción formal y notarización de los acuerdos internos que rigen la relación entre los socios o miembros de una LLC.
+                            {% endif %}
+                        </div>
+                    </li>
+                    <li class="service-detail-list-item">
+                        <span class="service-detail-list-icon">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </span>
+                        <div class="service-detail-list-text">
+                            {% if lang == 'en' %}
+                            <strong>Share & Ledger Certification:</strong> Formal issuance and notary certification of the corporate partner registry book and the distribution of stock certificates.
+                            {% else %}
+                            <strong>Certificación de Libros y Acciones:</strong> Emisión formal y certificación notarial del libro de registro corporativo de socios y la expedición de certificados de acciones.
+                            {% endif %}
+                        </div>
+                    </li>
+                    <li class="service-detail-list-item">
+                        <span class="service-detail-list-icon">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </span>
+                        <div class="service-detail-list-text">
+                            {% if lang == 'en' %}
+                            <strong>Board of Directors Resolutions:</strong> Drafting and notarization of corporate resolutions required to delegate authorized signatures or change the board of directors.
+                            {% else %}
+                            <strong>Resoluciones de Junta Directiva:</strong> Redacción y notarización de las resoluciones corporativas necesarias para delegar firmas autorizadas o cambiar la junta directiva.
+                            {% endif %}
+                        </div>
+                    </li>
+                    <li class="service-detail-list-item">
+                        <span class="service-detail-list-icon">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </span>
+                        <div class="service-detail-list-text">
+                            {% if lang == 'en' %}
+                            <strong>Sunbiz Procedures (Florida):</strong> Filing amendments to change registered agents, update corporate address, or add directors.
+                            {% else %}
+                            <strong>Trámites en Sunbiz (Florida):</strong> Presentación de enmiendas para el cambio de agente registrado, actualización de la dirección corporativa o adición de directores.
+                            {% endif %}
+                        </div>
+                    </li>
+                    <li class="service-detail-list-item">
+                        <span class="service-detail-list-icon">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </span>
+                        <div class="service-detail-list-text">
+                            {% if lang == 'en' %}
+                            <strong>Commercial Contracts & NDAs:</strong> Official notarization of executive signatures on commercial leases, distribution agreements, or NDAs.
+                            {% else %}
+                            <strong>Contratos Comerciales y Acuerdos de Confidencialidad:</strong> Notarización oficial de firmas de directivos en contratos de arrendamiento comercial, acuerdos de distribución o NDAs.
+                            {% endif %}
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Banner de CTA -->
+        <div class="service-detail-cta animate-fade-in">
+            <h3>
+                {% if lang == 'en' %}Do you need support to formalize and structure your corporate documents?{% else %}¿Necesita soporte para formalizar y estructurar sus documentos corporativos?{% endif %}
+            </h3>
+            <a href="{{ '/en/contacto?servicio=Corporate%20Guidance%20(Limited)' if lang == 'en' else '/contacto?servicio=Asesoría%20Corporativa%20(Limited)' }}" class="btn btn-primary">
+                {% if lang == 'en' %}Contact Specialist{% else %}Contactar Especialista{% endif %}
+            </a>
+        </div>
+
+        <!-- Enlace de regreso -->
+        <div class="back-to-services-wrapper animate-fade-in">
+            <a href="{{ '/en/servicios' if lang == 'en' else '/servicios' }}" class="back-to-services-link">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                {% if lang == 'en' %}Back to all Services{% else %}Volver a todos los Servicios{% endif %}
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

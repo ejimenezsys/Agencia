@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agentes de IA 24/7: Chat, Llamadas con Voz Humana y Back-Office | Agencia ProsperIA</title>
+  <meta name="description" content="Conoce a Nova (Recepcionista IA 24/7 en WhatsApp, Instagram, Facebook y Llamadas telefónicas) y a Nexus (Agentes Back-Office para pedidos, facturas y reactivación).">
+  <link rel="icon" type="image/png" href="{{ static_versioned('favicon.png') }}">
+  <link rel="stylesheet" href="{{ static_versioned('fonts.css') }}">
+  <link rel="stylesheet" href="{{ static_versioned('fa.min.css') }}">
+  <link rel="stylesheet" href="{{ static_versioned('ecosistema_squad.css') }}">
+  <style>
+    .ag-hero-grid { display:grid; grid-template-columns:1fr; gap:2.25rem; align-items:center; }
+    @media (min-width:980px) { .ag-hero-grid { grid-template-columns:1.2fr 0.8fr; } }
+    .chat-sim-box {
+      background: #040813;
+      border: 1px solid rgba(52, 211, 153, 0.35);
+      border-radius: 18px;
+      overflow: hidden;
+    }
+    .chat-sim-head {
+      background: #075e54;
+      color: #ffffff;
+      padding: 0.85rem 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+    .chat-sim-body {
+      padding: 1.15rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      min-height: 230px;
+    }
+    .bubble-user {
+      align-self: flex-end;
+      background: #0f3a36;
+      color: #ecfdf5;
+      padding: 0.7rem 0.95rem;
+      border-radius: 14px 14px 2px 14px;
+      max-width: 82%;
+      font-size: 0.88rem;
+    }
+    .bubble-ai {
+      align-self: flex-start;
+      background: #131c31;
+      border: 1px solid rgba(0, 229, 255, 0.25);
+      color: #f8fafc;
+      padding: 0.75rem 0.95rem;
+      border-radius: 14px 14px 14px 2px;
+      max-width: 86%;
+      font-size: 0.88rem;
+    }
+    elevenlabs-convai {
+      position: relative !important;
+      inset: auto !important;
+      display: inline-block !important;
+      z-index: 10 !important;
+      --el-bg-color: rgba(12, 16, 29, 0.95);
+      --el-text-color: #f8fafc;
+      --el-border-color: rgba(0, 229, 255, 0.35);
+      --el-btn-color: #00e5ff;
+      --el-btn-text-color: #05070f;
+    }
+  </style>
+</head>
+<body>
+  {% from "squad_character.html" import render_squad_character %}
+  {% with active_menu='agentes-ia' %}{% include "navbar.html" %}{% endwith %}
+
+  <main>
+    <!-- ── HERO ── -->
+    <section class="pia-shell" style="padding-block: 2.5rem 4rem;">
+      <div class="ag-hero-grid">
+        <div>
+          <div class="pia-eyebrow"><i class="fas fa-robot" aria-hidden="true"></i> Atención 24/7 + Automatización Back-Office</div>
+          <h1 class="font-heading" style="font-size: clamp(2rem, 4vw, 3.25rem); font-weight: 900; margin-bottom: 1.1rem;">
+            Tu Recepcionista IA Contesta Chats y Llamadas en Segundos, <span class="pia-gradient-text">Mientras Tus Agentes Operativos Hacen el Trabajo Pesado</span>
+          </h1>
+          <p style="font-size: 1.06rem; color: #cbd5e1; max-width: 660px; margin-bottom: 1.5rem;">
+            Conoce a <strong style="color:#34d399;">Nova</strong> (mensajes WhatsApp, Instagram, Facebook y llamadas de voz con número propio) y a <strong style="color:#818cf8;">Nexus</strong> (agentes internos que leen pedidos/facturas y reactivan clientes antiguos).
+          </p>
+          <div style="display:flex; flex-wrap:wrap; gap:0.85rem;">
+            <a href="#prueba-voz-vivo" class="pia-btn-primary">
+              <i class="fas fa-phone-volume" aria-hidden="true"></i>
+              <span>Hablar con Agente de Voz en Vivo ↓</span>
+            </a>
+            <a href="#solicitar-agente" class="pia-btn-emerald">
+              <i class="fab fa-whatsapp" aria-hidden="true"></i>
+              <span>Cotizar Agente Para Mi Negocio</span>
+            </a>
+          </div>
+        </div>
+        <div>
+          {{ render_squad_character('nova') }}
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 3 NIVELES DE AGENTES DE IA ── -->
+    <section class="pia-section" style="background: rgba(7, 11, 20, 0.72);">
+      <div class="pia-shell">
+        <div style="text-align:center; max-width:760px; margin:0 auto 2.5rem;">
+          <div class="pia-eyebrow"><i class="fas fa-layer-group" aria-hidden="true"></i> Tres Niveles de Autonomía</div>
+          <h2 class="font-heading" style="font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 900;">
+            Desde Tu Primer Contestador de WhatsApp Hasta la Operación Completa
+          </h2>
+        </div>
+
+        <div class="pia-grid-3">
+          <article class="pia-card" style="padding:1.75rem; border-color:rgba(52,211,153,0.4);">
+            <span class="pia-eyebrow" style="color:#34d399; border-color:rgba(52,211,153,0.4);">NIVEL 1 · MENSAJERÍA OMNICANAL</span>
+            <h3 class="font-heading" style="font-size:1.35rem; font-weight:800; margin-bottom:0.5rem;">Nova Mensajes 24/7</h3>
+            <p style="color:#cbd5e1; font-size:0.9rem;">Atiende al instante cada mensaje de WhatsApp, Instagram DM y Facebook con los precios, horarios, catálogo y ubicación exactos de tu negocio.</p>
+            <ul style="list-style:none; padding:0; margin:1rem 0; display:grid; gap:0.55rem; font-size:0.88rem; color:#94a3b8;">
+              <li><i class="fas fa-check text-emerald-400" aria-hidden="true"></i> Respuesta en menos de 40 segundos, 365 días.</li>
+              <li><i class="fas fa-check text-emerald-400" aria-hidden="true"></i> Califica al prospecto y agenda en tu calendario real.</li>
+              <li><i class="fas fa-check text-emerald-400" aria-hidden="true"></i> Escala al asesor humano con resumen listo en WhatsApp.</li>
+            </ul>
+            <a href="#solicitar-agente" class="pia-btn-emerald" style="width:100%;">Solicitar Nova Mensajes</a>
+          </article>
+
+          <article class="pia-card" style="padding:1.75rem; border-color:rgba(0,229,255,0.45);">
+            <span class="pia-eyebrow">NIVEL 2 · VOZ HUMANA TELEFÓNICA</span>
+            <h3 class="font-heading" style="font-size:1.35rem; font-weight:800; margin-bottom:0.5rem;">Nova Llamadas (Voz IA)</h3>
+            <p style="color:#cbd5e1; font-size:0.9rem;">Todo el poder de mensajes más atención telefónica real con número propio: contesta llamadas entrantes o confirma citas por teléfono con voz natural.</p>
+            <ul style="list-style:none; padding:0; margin:1rem 0; display:grid; gap:0.55rem; font-size:0.88rem; color:#94a3b8;">
+              <li><i class="fas fa-check text-cyan-400" aria-hidden="true"></i> Número telefónico dedicado en EE. UU. o LATAM.</li>
+              <li><i class="fas fa-check text-cyan-400" aria-hidden="true"></i> Comprende acentos en español e inglés sin menús rígidos.</li>
+              <li><i class="fas fa-check text-cyan-400" aria-hidden="true"></i> Transfiere emergencias en vivo y deja grabación/resumen en CRM.</li>
+            </ul>
+            <a href="#prueba-voz-vivo" class="pia-btn-primary" style="width:100%;">Probar Llamada en Vivo ↓</a>
+          </article>
+
+          <article class="pia-card" style="padding:1.75rem; border-color:rgba(129,140,248,0.45);">
+            <span class="pia-eyebrow" style="color:#818cf8; border-color:rgba(129,140,248,0.45);">NIVEL 3 · BACK-OFFICE EMPRESARIAL</span>
+            <h3 class="font-heading" style="font-size:1.35rem; font-weight:800; margin-bottom:0.5rem;">Agentes Operativos Back-Office</h3>
+            <p style="color:#cbd5e1; font-size:0.9rem;">Automatización interna para PyMEs y corporativos: elimina captura manual, errores de transcripción y bases de clientes olvidadas.</p>
+            <ul style="list-style:none; padding:0; margin:1rem 0; display:grid; gap:0.55rem; font-size:0.88rem; color:#94a3b8;">
+              <li><i class="fas fa-check text-indigo-400" aria-hidden="true"></i> Lectura automática de pedidos/facturas desde correos y PDFs a tu CRM/ERP.</li>
+              <li><i class="fas fa-check text-indigo-400" aria-hidden="true"></i> Campañas inteligentes de reactivación de clientes antiguos y carritos.</li>
+              <li><i class="fas fa-check text-indigo-400" aria-hidden="true"></i> Reportes directivos en tiempo real directo al WhatsApp del dueño.</li>
+            </ul>
+            <a href="#solicitar-agente" class="pia-btn-ghost" style="width:100%;">Cotizar Agentes Back-Office</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SIMULADOR DE CONVERSACIÓN + WIDGET DE VOZ ELEVENLABS EN VIVO ── -->
+    <section class="pia-section" id="prueba-voz-vivo">
+      <div class="pia-shell">
+        <div class="pia-grid-2" style="align-items:stretch;">
+          <!-- Simulador WhatsApp por giro -->
+          <div class="pia-card" style="padding:1.6rem;">
+            <div style="font-size:0.75rem; font-weight:800; color:#34d399; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:0.4rem;">Demostración Interactiva de Chat</div>
+            <h3 class="font-heading" style="font-size:1.35rem; font-weight:800; margin-bottom:0.85rem;">Mira Cómo Responde Nova en Tu Giro</h3>
+
+            <div class="pia-tablist" role="tablist" aria-label="Elegir ejemplo de conversación" style="margin-bottom:0.75rem;">
+              <button type="button" class="pia-tab sim-tab" role="tab" aria-selected="true" data-sim="clinica">Clínica / Estética</button>
+              <button type="button" class="pia-tab sim-tab" role="tab" aria-selected="false" data-sim="hogar">Plomería / HVAC</button>
+              <button type="button" class="pia-tab sim-tab" role="tab" aria-selected="false" data-sim="b2b">B2B / Mayorista</button>
+            </div>
+
+            <div class="chat-sim-box">
+              <div class="chat-sim-head">
+                <span><i class="fab fa-whatsapp" aria-hidden="true"></i> Nova · Recepción IA 24/7</span>
+                <span style="font-size:0.75rem; opacity:0.9;">En línea</span>
+              </div>
+              <div class="chat-sim-body" id="sim-chat-body">
+                <div class="bubble-user">Hola, ¿tienen disponibilidad esta semana para valoración dental?</div>
+                <div class="bubble-ai">¡Hola! Claro que sí ✨ Soy Nova, asistente de la clínica. Tenemos espacios disponibles mañana a las 10:30 AM o el jueves a las 4:00 PM. ¿Cuál prefieres para dejarte confirmada la cita y enviarte la ubicación?</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Widget Real ElevenLabs Voz -->
+          <div class="pia-card" style="padding:1.85rem; border-color:rgba(0,229,255,0.45); display:flex; flex-direction:column; justify-content:space-between; text-align:center;">
+            <div>
+              <div class="pia-eyebrow"><i class="fas fa-microphone-lines" aria-hidden="true"></i> Audio Bidireccional Real</div>
+              <h3 class="font-heading" style="font-size:1.45rem; font-weight:800; margin-bottom:0.65rem;">Prueba Ahora Nuestro Agente de Voz IA</h3>
+              <p style="color:#cbd5e1; font-size:0.92rem; max-width:440px; margin:0 auto 1.25rem;">
+                Haz clic en <strong>"Llamar"</strong> abajo para conversar por voz en tiempo real con el asistente oficial de Agencia ProsperIA y escuchar la fluidez que podemos instalar en tu línea telefónica.
+              </p>
+            </div>
+            <div style="padding:1.25rem; border-radius:16px; background:rgba(4,9,20,0.9); border:1px solid rgba(0,229,255,0.25);">
+              <elevenlabs-convai agent-id="agent_8701kzw9wrm9ecevn8ke326k6dje" action-text="¿Quieres probar la Voz IA?" start-call-text="Llamar"></elevenlabs-convai>
+            </div>
+            <p style="font-size:0.78rem; color:#94a3b8; margin:0.9rem 0 0;">Funciona desde computadora o celular permitiendo acceso al micrófono.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── FORMULARIO DE AGENTES IA ── -->
+    <section class="pia-section" id="solicitar-agente" style="background: rgba(7, 11, 20, 0.72);">
+      <div class="pia-shell" style="max-width:740px;">
+        <div class="pia-card" style="padding:2.2rem;">
+          <h2 class="font-heading" style="font-size:1.8rem; font-weight:900; text-align:center; margin-bottom:0.5rem;">Solicita Tu Agente de IA a Medida</h2>
+          <p style="color:#94a3b8; font-size:0.92rem; text-align:center; margin-bottom:1.5rem;">Cuéntanos si necesitas atención por mensajes, llamadas telefónicas o automatización interna Back-Office.</p>
+          <form id="agentes-lead-form">
+            <input type="text" name="website_hp" tabindex="-1" aria-hidden="true" class="pia-visually-hidden" autocomplete="off">
+            <div class="pia-grid-2">
+              <div class="pia-form-field">
+                <label for="ag-name">Nombre Completo *</label>
+                <input type="text" id="ag-name" name="name" class="pia-input" required autocomplete="name">
+              </div>
+              <div class="pia-form-field">
+                <label for="ag-company">Empresa / Negocio *</label>
+                <input type="text" id="ag-company" name="company" class="pia-input" required autocomplete="organization">
+              </div>
+            </div>
+            <div class="pia-grid-2">
+              <div class="pia-form-field">
+                <label for="ag-phone">WhatsApp *</label>
+                <input type="tel" id="ag-phone" name="phone" class="pia-input" required autocomplete="tel">
+              </div>
+              <div class="pia-form-field">
+                <label for="ag-email">Correo Electrónico *</label>
+                <input type="email" id="ag-email" name="email" class="pia-input" required autocomplete="email">
+              </div>
+            </div>
+            <div class="pia-form-field">
+              <label for="ag-type">Modalidad de Agente IA *</label>
+              <select id="ag-type" name="industry" class="pia-input" required>
+                <option value="Nova Mensajes 24/7 (WhatsApp/IG/FB)">Nova Mensajes 24/7 (WhatsApp, IG y FB)</option>
+                <option value="Nova Llamadas (Voz IA + Mensajes)">Nova Llamadas (Voz Telefónica + Mensajes)</option>
+                <option value="Agentes Back-Office (Pedidos/Facturas/Reportes)">Agentes Operativos Back-Office (Pedidos, Facturas, Reactivación)</option>
+                <option value="Suite Completa Agentes IA">Suite Completa (Chat + Voz + Back-Office)</option>
+              </select>
+            </div>
+            <div class="pia-form-field">
+              <label for="ag-msg">¿Qué dudas o tareas debe resolver tu agente?</label>
+              <textarea id="ag-msg" name="message" rows="3" class="pia-input" placeholder="Ej. Cotizar servicios, agendar citas, cargar pedidos desde correo..."></textarea>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:0.65rem; margin-bottom:1.1rem;">
+              <input type="checkbox" id="ag-consent" name="sms_consent" required checked style="width:18px; height:18px; margin-top:3px; accent-color:#00e5ff;">
+              <label for="ag-consent" style="font-size:0.8rem; color:#94a3b8;">Autorizo a Agencia ProsperIA LLC a enviarme demostración y seguimiento por WhatsApp, SMS y correo.</label>
+            </div>
+            <div data-form-status role="status" aria-live="polite" style="display:none; padding:0.9rem; border-radius:12px; margin-bottom:1rem; font-size:0.88rem;"></div>
+            <div style="display:flex; flex-wrap:wrap; gap:0.85rem;">
+              <button type="submit" class="pia-btn-primary" style="flex:1 1 220px;">Cotizar Mi Agente de IA</button>
+              <a href="https://wa.me/17868336964?text=Hola%20ProsperIA,%20quiero%20cotizar%20un%20Agente%20de%20IA%2024/7" target="_blank" rel="noopener" class="pia-btn-emerald" style="flex:1 1 180px;">Hablar por WhatsApp</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  {% include "footer.html" %}
+  <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
+  <script src="{{ static_versioned('ecosistema_forms.js') }}"></script>
+  <script>
+    initEcosystemLeadForm('agentes-lead-form', 'menu_agentes_ia');
+    const simScenarios = {
+      clinica: [
+        { u: 'Hola, ¿tienen disponibilidad esta semana para valoración dental?', a: '¡Hola! Claro que sí ✨ Soy Nova, asistente de la clínica. Tenemos espacios disponibles mañana a las 10:30 AM o el jueves a las 4:00 PM. ¿Cuál prefieres para dejarte confirmada la cita y enviarte la ubicación?' }
+      ],
+      hogar: [
+        { u: 'Mi aire acondicionado dejó de enfriar y bota agua en la sala, ¿pueden venir hoy?', a: '¡Hola! Entendido 🔧 En emergencias de aire acondicionado enviamos técnico el mismo día. ¿En qué ciudad o código postal estás ubicado y a qué nombre registramos la orden para enviarte el rango estimado y confirmar llegada?' }
+      ],
+      b2b: [
+        { u: 'Necesito cotización mayorista de 200 juegos de sábanas hoteleras con envío a Cancún.', a: '¡Con gusto! 📦 He registrado tu solicitud mayorista en nuestro CRM. ¿Podrías compartirme el tamaño (Queen o King) y tu correo corporativo? En 2 minutos te enviamos la ficha técnica y te conectamos con un ejecutivo.' }
+      ]
+    };
+    const simTabs = document.querySelectorAll('.sim-tab');
+    const simBody = document.getElementById('sim-chat-body');
+    simTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        simTabs.forEach(t => t.setAttribute('aria-selected', String(t === tab)));
+        const list = simScenarios[tab.getAttribute('data-sim')] || simScenarios.clinica;
+        simBody.innerHTML = list.map(m => `
+          <div class="bubble-user">${m.u}</div>
+          <div class="bubble-ai">${m.a}</div>
+        `).join('');
+      });
+    });
+  </script>
+</body>
+</html>

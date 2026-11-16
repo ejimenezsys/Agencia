@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+
+{% block title %}
+{% if lang == 'en' %}Su Notaria USA | Power of Attorney - Authority & Legal Delegation{% else %}Su Notaria USA | Poder Notarial - Autoridad y Delegación Legal{% endif %}
+{% endblock %}
+
+{% block content %}
+<section class="service-detail-section">
+    <div class="service-detail-container">
+        <!-- Hero del Servicio -->
+        <div class="service-detail-hero animate-fade-in">
+            <div class="service-detail-icon-wrapper">
+                <svg viewBox="0 0 24 24" width="64" height="64" class="service-card-svg" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <path d="M16 13H8"/>
+                    <path d="M16 17H8"/>
+                    <path d="M10 9H8"/>
+                </svg>
+            </div>
+            <h1 class="service-detail-title">
+                {% if lang == 'en' %}Power of Attorney{% else %}Poder Notarial{% endif %}
+            </h1>
+            <p class="service-detail-subtitle">
+                {% if lang == 'en' %}Legal Authority & Delegation of Decisions throughout the US{% else %}Autoridad Legal y Delegación de Decisiones en todo EE.UU.{% endif %}
+            </p>
+        </div>
+
+        <!-- Cuerpo del Detalle -->
+        <div class="service-detail-content animate-fade-in">
+            <div class="service-detail-body">
+                {% if lang == 'en' %}
+                <p>
+                    A Power of Attorney (POA) is a highly significant legal instrument through which a natural or legal person (referred to as the "Principal") formally confers powers on another person of their absolute trust (referred to as the "Agent" or "Apoderado") to act, sign, and make decisions on their behalf. This document constitutes a fundamental pillar in estate, family, and business planning, ensuring the continuity of critical procedures even when the Principal is physically unable, traveling, or prefers to delegate the administration of their affairs.
+                </p>
+                <p>
+                    The nature and scope of a power of attorney can be configured according to the specific needs of the transaction. There are different modalities: from a General Power of Attorney, which grants broad financial, commercial, and administrative powers to the agent; to a Special or Limited Power of Attorney, carefully restricted to specific tasks such as the sale or purchase of real estate in Florida, the management of corporate bank accounts, or representation in court. Likewise, the power can be designed as "Durable" (Durable POA), meaning it maintains its full legal validity even in the eventual event that the Principal becomes mentally incapacitated.
+                </p>
+                <p>
+                    The legal validity of a Power of Attorney in the State of Florida is strictly subject to compliance with rigorous state requirements. The Principal must possess full mental capacity at the time of signing. The legal instrument must be drafted with absolute technical precision and must be signed in the presence of two independent witnesses and a duly commissioned Notary Public, who will certify the identity of the parties and witness the act under formal oath. A poorly structured power of attorney, lacking appropriate durability clauses, or one that has not been properly notarized will be categorically rejected by banks, insurance companies, real estate offices, and government institutions.
+                </p>
+                <p>
+                    At Su Notaria USA, we guarantee that your Power of Attorney is structured under the highest standards of regulatory compliance and formal validity, both state and federal. Backed by more than 20 years of corporate experience at JPX International, our team of commissioned notary publics in Florida performs a thorough verification of identities and technical drafting so that the instrument remains unbreakable before any entity in the United States. If you require the power of attorney to be used abroad, we also manage its respective Apostille to ensure its full international validity under the Hague Convention.
+                </p>
+                {% else %}
+                <p>
+                    Un Poder Notarial (Power of Attorney o POA) es un instrumento legal de alta trascendencia mediante el cual una persona física o jurídica (denominada "Principal") confiere formalmente facultades a otra persona de su absoluta confianza (denominada "Agente" o "Apoderado") para que actúe, firme y tome decisiones en su representación. Este documento constituye un pilar fundamental en la planificación patrimonial, familiar y comercial, permitiendo asegurar la continuidad de gestiones críticas aun cuando el Principal se encuentre imposibilitado físicamente, de viaje o prefiera delegar la administración de sus asuntos.
+                </p>
+                <p>
+                    La naturaleza y alcance de un poder pueden configurarse según las necesidades específicas de la transacción. Existen diferentes modalidades: desde el Poder Notarial General, que otorga amplias facultades financieras, comerciales y administrativas al agente; hasta el Poder Notarial Especial o Limitado, restringido minuciosamente a tareas específicas como la venta o adquisición de un inmueble en Florida, la gestión de cuentas bancarias corporativas o la representación ante juzgados. Asimismo, el poder puede diseñarse como "Duradero" (Durable POA), lo que significa que mantiene su validez jurídica plena incluso en el caso eventual de que el Principal quede mentalmente incapacitado.
+                </p>
+                <p>
+                    La validez jurídica de un Poder Notarial en el Estado de la Florida está estrictamente supeditada al cumplimiento de rigurosos requisitos estatales. El Principal debe poseer plena capacidad mental al momento de la firma. El instrumento legal debe redactarse con absoluta precisión técnica y firmarse obligatoriamente en presencia de dos testigos independientes y un Notario Público debidamente comisionado, quien certificará la identidad de las partes y dará fe pública del acto bajo juramento formal. Un poder mal estructurado, carente de cláusulas de durabilidad adecuadas o que no haya sido debidamente notarizado será rechazado categóricamente por bancos, aseguradoras, oficinas inmobiliarias e instituciones gubernamentales.
+                </p>
+                <p>
+                    En Su Notaria USA, garantizamos que su Poder Notarial sea estructurado bajo los más altos estándares de cumplimiento regulatorio y validez formal, tanto estatal como federal. Con el respaldo de más de 20 años de experiencia corporativa en JPX International, nuestro equipo de notarios públicos comisionados en Florida realiza una revisión exhaustiva de las identidades y de la redacción técnica para que el instrumento resulte inquebrantable ante cualquier entidad en los Estados Unidos. Si requiere que el poder sea utilizado en el extranjero, gestionamos adicionalmente su respectiva Apostilla para asegurar su total validez internacional según el Convenio de La Haya.
+                </p>
+                {% endif %}
+
+                <h2 class="service-detail-list-title">
+                    {% if lang == 'en' %}What is a Power of Attorney used for?{% else %}¿Para qué sirve un Poder Notarial?{% endif %}
+                </h2>
+                <ul class="service-detail-list">
+                    <li class="service-detail-list-item">
+                        <span class="service-detail-list-icon">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </span>
+                        <div class="service-detail-list-text">
+                            {% if lang == 'en' %}
+                            <strong>Real Estate Transactions:</strong> Purchase, sale, mortgage, or lease of real estate without requiring physical presence.
+                            {% else %}
+                            <strong>Transacciones Inmobiliarias:</strong> Compra, venta, hipoteca o arrendamiento de bienes raíces sin requerir presencia física.
+                            {% endif %}
+                        </div>
+                    </li>
+                    <li class="service-detail-list-item">
+                        <span class="service-detail-list-icon">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </span>
+                        <div class="service-detail-list-text">
+                            {% if lang == 'en' %}
+                            <strong>Banking Administration:</strong> Opening accounts, withdrawing funds, signing financial contracts, and collecting pensions or rents.
+                            {% else %}
+                            <strong>Administración Bancaria:</strong> Apertura de cuentas, retiro de fondos, firmas de contratos financieros y cobro de pensiones o rentas.
+                            {% endif %}
+                        </div>
+                    </li>
+                    <li class="service-detail-list-item">
+                        <span class="service-detail-list-icon">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </span>
+                        <div class="service-detail-list-text">
+                            {% if lang == 'en' %}
+                            <strong>Business Representation:</strong> Corporate decision-making, signing agreements, and legal representation at shareholder meetings.
+                            {% else %}
+                            <strong>Representación de Negocios:</strong> Toma de decisiones corporativas, firma de acuerdos y representación legal en juntas de accionistas.
+                            {% endif %}
+                        </div>
+                    </li>
+                    <li class="service-detail-list-item">
+                        <span class="service-detail-list-icon">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </span>
+                        <div class="service-detail-list-text">
+                            {% if lang == 'en' %}
+                            <strong>Healthcare Decisions (Health Care Surrogate):</strong> Designation of an agent to make emergency health decisions if you become incapacitated.
+                            {% else %}
+                            <strong>Atención Médica (Health Care Surrogate):</strong> Designación de un apoderado para tomar decisiones de salud de urgencia si queda incapacitado.
+                            {% endif %}
+                        </div>
+                    </li>
+                    <li class="service-detail-list-item">
+                        <span class="service-detail-list-icon">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </span>
+                        <div class="service-detail-list-text">
+                            {% if lang == 'en' %}
+                            <strong>Government & Public Procedures:</strong> Formal representation for the payment of state taxes, claim of benefits, and immigration procedures.
+                            {% else %}
+                            <strong>Gestión de Trámites Públicos:</strong> Representación formal para el pago de impuestos estatales, reclamo de beneficios y trámites migratorios.
+                            {% endif %}
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Banner de CTA -->
+        <div class="service-detail-cta animate-fade-in">
+            <h3>
+                {% if lang == 'en' %}Do you need to formalize a Power of Attorney with complete legal validity?{% else %}¿Necesita formalizar un Poder Notarial con total validez legal?{% endif %}
+            </h3>
+            <a href="{{ '/en/contacto?servicio=Power%20of%20Attorney' if lang == 'en' else '/contacto?servicio=Poder%20Notarial' }}" class="btn btn-primary">
+                {% if lang == 'en' %}Contact Specialist{% else %}Contactar Especialista{% endif %}
+            </a>
+        </div>
+
+        <!-- Enlace de regreso -->
+        <div class="back-to-services-wrapper animate-fade-in">
+            <a href="{{ '/en/servicios' if lang == 'en' else '/servicios' }}" class="back-to-services-link">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                {% if lang == 'en' %}Back to all Services{% else %}Volver a todos los Servicios{% endif %}
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

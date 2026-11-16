@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ProsperIA CRM por Industria + Portal BizBox (23 Micro-Apps IA) | Agencia ProsperIA</title>
+  <meta name="description" content="CRMs especializados para Clínicas, Servicios del Hogar (82 oficios con Portal BizBox de 23 Micro-Apps IA), Automotriz, Inmobiliarias y Empresas B2B. Todo en un solo lugar.">
+  <link rel="icon" type="image/png" href="{{ static_versioned('favicon.png') }}">
+  <link rel="stylesheet" href="{{ static_versioned('fonts.css') }}">
+  <link rel="stylesheet" href="{{ static_versioned('fa.min.css') }}">
+  <link rel="stylesheet" href="{{ static_versioned('ecosistema_squad.css') }}">
+  <style>
+    .crm-hero-grid { display:grid; grid-template-columns:1fr; gap:2.25rem; align-items:center; }
+    @media (min-width:980px) { .crm-hero-grid { grid-template-columns:1.2fr 0.8fr; } }
+    .crm-pill-list { list-style:none; padding:0; margin:1rem 0; display:grid; gap:0.55rem; }
+    .crm-pill-list li { display:flex; align-items:flex-start; gap:0.55rem; font-size:0.9rem; color:#cbd5e1; }
+    .crm-pill-list i { color:#818cf8; margin-top:4px; flex-shrink:0; }
+    .app-chip {
+      padding:0.45rem 0.75rem;
+      border-radius:10px;
+      background:rgba(129,140,248,0.1);
+      border:1px solid rgba(129,140,248,0.28);
+      font-size:0.8rem;
+      font-weight:600;
+      color:#e0e7ff;
+    }
+  </style>
+</head>
+<body>
+  {% from "squad_character.html" import render_squad_character %}
+  {% with active_menu='crm' %}{% include "navbar.html" %}{% endwith %}
+
+  <main>
+    <!-- ── HERO ── -->
+    <section class="pia-shell" style="padding-block: 2.5rem 4rem;">
+      <div class="crm-hero-grid">
+        <div>
+          <div class="pia-eyebrow"><i class="fas fa-diagram-project" aria-hidden="true"></i> ProsperIA CRM + Portal BizBox &amp; PassportAI</div>
+          <h1 class="font-heading" style="font-size: clamp(2rem, 4vw, 3.25rem); font-weight: 900; margin-bottom: 1.1rem;">
+            Un CRM Hecho Para Tu Industria, Con <span class="pia-gradient-text">Cerebro de Negocio y 23 Micro-Apps de IA</span>
+          </h1>
+          <p style="font-size: 1.06rem; color: #cbd5e1; max-width: 660px; margin-bottom: 1.5rem;">
+            Deja de perder prospectos en libretas y chats de WhatsApp desordenados. Te entregamos tu CRM vertical listo para operar, conectado con nuestro <strong style="color:#fff;">Portal BizBox</strong> (Cerebro del Negocio en 13 regiones + 23 herramientas de IA) y <strong style="color:#fff;">+1,000 plantillas</strong>.
+          </p>
+          <div style="display:flex; flex-wrap:wrap; gap:0.85rem;">
+            <a href="#solicitar-crm" class="pia-btn-primary">
+              <i class="fab fa-whatsapp" aria-hidden="true"></i>
+              <span>Pedir Demo en Vivo de Mi CRM</span>
+            </a>
+            <a href="#verticales-crm" class="pia-btn-ghost">
+              <span>Ver CRMs por Industria ↓</span>
+            </a>
+            <a href="/demo-sitio-web" class="pia-btn-emerald">
+              <i class="fas fa-layer-group" aria-hidden="true"></i>
+              <span>Ver Biblioteca +1,000 Plantillas</span>
+            </a>
+          </div>
+        </div>
+        <div>
+          {{ render_squad_character('nexus') }}
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 5 CRMs ESPECIALIZADOS POR INDUSTRIA ── -->
+    <section class="pia-section" id="verticales-crm" style="background: rgba(7, 11, 20, 0.72);">
+      <div class="pia-shell">
+        <div style="text-align:center; max-width:760px; margin:0 auto 2.5rem;">
+          <div class="pia-eyebrow"><i class="fas fa-building-user" aria-hidden="true"></i> Verticales Pre-Armadas</div>
+          <h2 class="font-heading" style="font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 900; margin-bottom:0.65rem;">
+            CRMs Especializados Para Cada Tipo de Negocio
+          </h2>
+          <p style="color:#94a3b8; font-size:0.95rem;">
+            Cada vertical viene con etapas de embudo, etiquetas, recordatorios y automatizaciones probadas para cerrar más ventas sin curva de aprendizaje.
+          </p>
+        </div>
+
+        <div class="pia-grid-3">
+          <article class="pia-card" style="padding:1.6rem;">
+            <div style="font-size:1.4rem; color:#00e5ff; margin-bottom:0.65rem;"><i class="fas fa-tooth" aria-hidden="true"></i></div>
+            <h3 class="font-heading" style="font-size:1.25rem; font-weight:800;">SaludCRM · Clínicas &amp; Estética</h3>
+            <p style="color:#94a3b8; font-size:0.88rem; margin:0.45rem 0;">Pensado para odontología, medicina estética, clínicas capilares y consultorios privados.</p>
+            <ul class="crm-pill-list">
+              <li><i class="fas fa-check" aria-hidden="true"></i><span>Agenda médica sincronizada y confirmación anti No-Show por WhatsApp.</span></li>
+              <li><i class="fas fa-check" aria-hidden="true"></i><span>Historial de tratamientos, presupuestos y seguimiento post-cita.</span></li>
+              <li><i class="fas fa-check" aria-hidden="true"></i><span>Incluye opción de página web clínica conectada.</span></li>
+            </ul>
+            <a href="#solicitar-crm" class="pia-btn-ghost crm-pick" data-crm="SaludCRM Clínicas" style="width:100%; min-height:42px;">Solicitar Demo SaludCRM</a>
+          </article>
+
+          <article class="pia-card" style="padding:1.6rem; border-color:rgba(52,211,153,0.45);">
+            <div style="font-size:1.4rem; color:#34d399; margin-bottom:0.65rem;"><i class="fas fa-house-chimney-crack" aria-hidden="true"></i></div>
+            <h3 class="font-heading" style="font-size:1.25rem; font-weight:800;">HomeServices CRM + Portal BizBox</h3>
+            <p style="color:#94a3b8; font-size:0.88rem; margin:0.45rem 0;">Para los 82 oficios del hogar: plomería, HVAC, techos, remodelación, electricidad y jardinería.</p>
+            <ul class="crm-pill-list">
+              <li><i class="fas fa-check" aria-hidden="true"></i><span>Prioridad de prospectos del día y calculadora de precio defendible.</span></li>
+              <li><i class="fas fa-check" aria-hidden="true"></i><span>Bitácora fotográfica de obra + solicitud automática de reseña 5★ Google.</span></li>
+              <li><i class="fas fa-check" aria-hidden="true"></i><span>Acceso directo a las 23 Micro-Apps de IA de BizBox en español.</span></li>
+            </ul>
+            <a href="#solicitar-crm" class="pia-btn-emerald crm-pick" data-crm="HomeServices CRM + Portal BizBox" style="width:100%; min-height:42px;">Activar HomeServices CRM</a>
+          </article>
+
+          <article class="pia-card" style="padding:1.6rem;">
+            <div style="font-size:1.4rem; color:#fbbf24; margin-bottom:0.65rem;"><i class="fas fa-car" aria-hidden="true"></i></div>
+            <h3 class="font-heading" style="font-size:1.25rem; font-weight:800;">AutoCRM · Concesionarios &amp; Talleres</h3>
+            <p style="color:#94a3b8; font-size:0.88rem; margin:0.45rem 0;">Para venta de vehículos seminuevos/nuevos, rentadoras, flotas y talleres mecánicos.</p>
+            <ul class="crm-pill-list">
+              <li><i class="fas fa-check" aria-hidden="true"></i><span>Fichas de inventario, agendamiento de pruebas de manejo y citas de taller.</span></li>
+              <li><i class="fas fa-check" aria-hidden="true"></i><span>Seguimiento automático por WhatsApp cuando un vehículo ingresa o sale de servicio.</span></li>
+              <li><i class="fas fa-check" aria-hidden="true"></i><span>Control de asesores y comisiones en tiempo real.</span></li>
+            </ul>
+            <a href="#solicitar-crm" class="pia-btn-ghost crm-pick" data-crm="AutoCRM Concesionarios y Talleres" style="width:100%; min-height:42px;">Solicitar Demo AutoCRM</a>
+          </article>
+
+          <article class="pia-card" style="padding:1.6rem;">
+            <div style="font-size:1.4rem; color:#818cf8; margin-bottom:0.65rem;"><i class="fas fa-building" aria-hidden="true"></i></div>
+            <h3 class="font-heading" style="font-size:1.25rem; font-weight:800;">InmoCRM · Bienes Raíces &amp; Brokers</h3>
+            <p style="color:#94a3b8; font-size:0.88rem; margin:0.45rem 0;">Para inmobiliarias, desarrolladoras y agentes en Florida y Latinoamérica.</p>
+            <ul class="crm-pill-list">
+              <li><i class="fas fa-check" aria-hidden="true"></i><span>Pre-calificación automática de presupuesto, zona e intención de compra/renta.</span></li>
+              <li><i class="fas fa-check" aria-hidden="true"></i><span>Embudo visual de propiedades, recorridos y cierres notariales.</span></li>
+              <li><i class="fas fa-check" aria-hidden="true"></i><span>Integración directa con anuncios de Meta y portales inmobiliarios.</span></li>
+            </ul>
+            <a href="#solicitar-crm" class="pia-btn-ghost crm-pick" data-crm="InmoCRM Bienes Raíces" style="width:100%; min-height:42px;">Solicitar Demo InmoCRM</a>
+          </article>
+
+          <article class="pia-card" style="padding:1.6rem;">
+            <div style="font-size:1.4rem; color:#f472b6; margin-bottom:0.65rem;"><i class="fas fa-scale-balanced" aria-hidden="true"></i></div>
+            <h3 class="font-heading" style="font-size:1.25rem; font-weight:800;">Legal &amp; B2B CRM · Despachos y Mayoristas</h3>
+            <p style="color:#94a3b8; font-size:0.88rem; margin:0.45rem 0;">Inspirado en casos reales como Su Notaría USA, JPX International y Blancos Girasol.</p>
+            <ul class="crm-pill-list">
+              <li><i class="fas fa-check" aria-hidden="true"></i><span>Gestión de expedientes, apostillas, cotizaciones mayoristas y seguimiento RFQ.</span></li>
+              <li><i class="fas fa-check" aria-hidden="true"></i><span>Deduplicación inteligente de prospectos y auditoría completa por vendedor.</span></li>
+              <li><i class="fas fa-check" aria-hidden="true"></i><span>Alertas de seguimiento para que ninguna cotización se enfríe.</span></li>
+            </ul>
+            <a href="#solicitar-crm" class="pia-btn-ghost crm-pick" data-crm="Legal & B2B CRM" style="width:100%; min-height:42px;">Solicitar Demo Legal/B2B CRM</a>
+          </article>
+
+          <article class="pia-card" style="padding:1.6rem; display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <img src="/static/img/crm_biblioteca_plantillas.jpg" alt="Biblioteca de más de 1,000 plantillas CRM ProsperIA" style="width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:14px; margin-bottom:1rem;" loading="lazy">
+              <h3 class="font-heading" style="font-size:1.2rem; font-weight:800;">+1,000 Plantillas Listas en ProsperIA</h3>
+              <p style="color:#94a3b8; font-size:0.86rem; margin-top:0.4rem;">¿Tu giro es distinto? Activamos en minutos la plantilla exacta de tu industria dentro de nuestro catálogo.</p>
+            </div>
+            <a href="/demo-sitio-web" class="pia-btn-primary" style="width:100%; min-height:42px; margin-top:0.85rem;">Explorar Demostrador CRM</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── DIFERENCIADOR ÚNICO: PORTAL BIZBOX (23 MICRO-APPS + 13 REGIONES DEL CEREBRO) ── -->
+    <section class="pia-section">
+      <div class="pia-shell">
+        <div class="pia-card" style="padding:2rem; border-color:rgba(129,140,248,0.45);">
+          <div class="pia-grid-2" style="align-items:center;">
+            <div>
+              <div class="pia-eyebrow"><i class="fas fa-brain" aria-hidden="true"></i> Diferenciador Exclusivo · Portal BizBox + PassportAI</div>
+              <h2 class="font-heading" style="font-size: clamp(1.6rem, 2.8vw, 2.3rem); font-weight: 900; margin-bottom:0.85rem;">
+                Más Allá de un CRM: El Cerebro del Negocio y 23 Micro-Apps de IA Activas
+              </h2>
+              <p style="color:#cbd5e1; font-size:0.95rem; margin-bottom:1rem;">
+                A diferencia de los CRMs tradicionales que solo guardan contactos, nuestro Portal integra el <strong style="color:#fff;">Cerebro del Negocio en 13 regiones</strong> (identidad, lista de precios, zonas, voz de marca, audiencias, ofertas, ángulos y plan a 90 días) y <strong style="color:#fff;">23 herramientas diarias</strong> que trabajan con la memoria real de tu empresa:
+              </p>
+              <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:1.25rem;">
+                <span class="app-chip">Prioridad de Leads del Día</span>
+                <span class="app-chip">Calculadora de Precio Defendible</span>
+                <span class="app-chip">Estimador de Alcance y Obra</span>
+                <span class="app-chip">Detector de Riesgos</span>
+                <span class="app-chip">Lector de Fotos Técnico</span>
+                <span class="app-chip">Bitácora de Trabajo</span>
+                <span class="app-chip">Escudo de Reseñas Google</span>
+                <span class="app-chip">Generador de Ofertas y Ángulos</span>
+              </div>
+              <a href="#solicitar-crm" class="pia-btn-primary">Solicitar Acceso al CRM + Portal IA</a>
+            </div>
+            <div>
+              <img src="/static/img/passportai_suite_constructores.png" alt="Suite de Constructores PassportAI y Micro-Apps" style="width:100%; border-radius:16px; border:1px solid rgba(255,255,255,0.12);" loading="lazy">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── DOS MODALIDADES (SIN PRECIOS FIJOS PÚBLICOS) ── -->
+    <section class="pia-section" style="background: rgba(7, 11, 20, 0.72);">
+      <div class="pia-shell">
+        <div style="text-align:center; max-width:720px; margin:0 auto 2.25rem;">
+          <div class="pia-eyebrow"><i class="fas fa-handshake" aria-hidden="true"></i> Modalidades de Implementación</div>
+          <h2 class="font-heading" style="font-size: clamp(1.65rem, 3vw, 2.35rem); font-weight: 900;">Elige Cómo Deseas Operar Tu CRM</h2>
+          <p style="color:#94a3b8; font-size:0.94rem;">Adaptamos la modalidad comercial según el tamaño de tu equipo, canales conectados y volumen de prospectos.</p>
+        </div>
+
+        <div class="pia-grid-2">
+          <div class="pia-card" style="padding:2rem;">
+            <span class="pia-eyebrow">OPCIÓN A · IMPLEMENTACIÓN LANZAMIENTO</span>
+            <h3 class="font-heading" style="font-size:1.55rem; font-weight:800; margin-bottom:0.5rem;">CRM Llave en Mano (Pago de Instalación)</h3>
+            <p style="color:#94a3b8; font-size:0.92rem;">Ideal si prefieres instalar tu sistema propio con servidor incluido el primer año y mantenimiento anual simple sin cuotas mensuales pesadas.</p>
+            <ul class="crm-pill-list">
+              <li><i class="fas fa-check-circle" aria-hidden="true"></i><span>Configuración de pipeline, etiquetas, fichas y formularios.</span></li>
+              <li><i class="fas fa-check-circle" aria-hidden="true"></i><span>Primer año de alojamiento, respaldos y soporte de arranque incluido.</span></li>
+              <li><i class="fas fa-check-circle" aria-hidden="true"></i><span>Posibilidad de incluir tu página web conectada en verticales seleccionadas.</span></li>
+            </ul>
+            <a href="#solicitar-crm" class="pia-btn-primary crm-pick" data-crm="CRM Modalidad Lanzamiento">Cotizar Modalidad Lanzamiento</a>
+          </div>
+
+          <div class="pia-card" style="padding:2rem; border-color:rgba(52,211,153,0.4);">
+            <span class="pia-eyebrow" style="color:#34d399; border-color:rgba(52,211,153,0.4);">OPCIÓN B · SUSCRIPCIÓN EVOLUTIVA</span>
+            <h3 class="font-heading" style="font-size:1.55rem; font-weight:800; margin-bottom:0.5rem;">CRM Mensual + Agentes IA &amp; API WhatsApp</h3>
+            <p style="color:#94a3b8; font-size:0.92rem;">Sin cláusulas de permanencia forzosa. Incluye infraestructura omnicanal continua, automatizaciones de WhatsApp/Meta y Portal de Micro-Apps IA.</p>
+            <ul class="crm-pill-list">
+              <li><i class="fas fa-check-circle" aria-hidden="true"></i><span>Conexión directa WhatsApp Business API, Instagram DM, Facebook y correo.</span></li>
+              <li><i class="fas fa-check-circle" aria-hidden="true"></i><span>Acceso completo a ProsperIA CRM + Portal BizBox + PassportAI.</span></li>
+              <li><i class="fas fa-check-circle" aria-hidden="true"></i><span>Actualizaciones continuas y soporte prioritario de nuestro equipo técnico.</span></li>
+            </ul>
+            <a href="#solicitar-crm" class="pia-btn-emerald crm-pick" data-crm="CRM Suscripción Mensual Omnicanal">Cotizar Plan Mensual Sin Permanencia</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── FORMULARIO SOLICITUD CRM ── -->
+    <section class="pia-section" id="solicitar-crm">
+      <div class="pia-shell" style="max-width:740px;">
+        <div class="pia-card" style="padding:2.2rem; border-color:rgba(129,140,248,0.45);">
+          <h2 class="font-heading" style="font-size:1.8rem; font-weight:900; text-align:center; margin-bottom:0.5rem;">Agenda Tu Demo de ProsperIA CRM</h2>
+          <p style="color:#94a3b8; font-size:0.92rem; text-align:center; margin-bottom:1.5rem;">Te mostramos en vivo cómo quedaría ordenado tu negocio y preparamos tu propuesta personalizada.</p>
+
+          <form id="crm-lead-form" aria-label="Solicitar demo de CRM">
+            <input type="text" name="website_hp" tabindex="-1" aria-hidden="true" class="pia-visually-hidden" autocomplete="off">
+            <div class="pia-grid-2">
+              <div class="pia-form-field">
+                <label for="crm-name">Tu Nombre Completo *</label>
+                <input type="text" id="crm-name" name="name" class="pia-input" required autocomplete="name">
+              </div>
+              <div class="pia-form-field">
+                <label for="crm-company">Nombre de tu Negocio *</label>
+                <input type="text" id="crm-company" name="company" class="pia-input" required autocomplete="organization">
+              </div>
+            </div>
+            <div class="pia-grid-2">
+              <div class="pia-form-field">
+                <label for="crm-phone">WhatsApp *</label>
+                <input type="tel" id="crm-phone" name="phone" class="pia-input" required autocomplete="tel" inputmode="tel">
+              </div>
+              <div class="pia-form-field">
+                <label for="crm-email">Correo Electrónico *</label>
+                <input type="email" id="crm-email" name="email" class="pia-input" required autocomplete="email">
+              </div>
+            </div>
+            <div class="pia-form-field">
+              <label for="crm-industry">Vertical / CRM de Interés *</label>
+              <select id="crm-industry" name="industry" class="pia-input" required>
+                <option value="SaludCRM Clínicas">SaludCRM · Clínicas &amp; Estética</option>
+                <option value="HomeServices CRM + Portal BizBox">HomeServices CRM + Portal BizBox (82 Oficios)</option>
+                <option value="AutoCRM Concesionarios y Talleres">AutoCRM · Concesionarios &amp; Talleres</option>
+                <option value="InmoCRM Bienes Raíces">InmoCRM · Bienes Raíces &amp; Brokers</option>
+                <option value="Legal & B2B CRM">Legal, Notarías &amp; Empresas B2B</option>
+              </select>
+            </div>
+            <div class="pia-form-field">
+              <label for="crm-msg">¿Qué proceso deseas ordenar primero?</label>
+              <textarea id="crm-msg" name="message" rows="3" class="pia-input" placeholder="Ej. Seguimiento de leads de WhatsApp, agenda de citas, cotizaciones..."></textarea>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:0.65rem; margin-bottom:1.1rem;">
+              <input type="checkbox" id="crm-consent" name="sms_consent" required checked style="width:18px; height:18px; margin-top:3px; accent-color:#00e5ff;">
+              <label for="crm-consent" style="font-size:0.8rem; color:#94a3b8;">Autorizo a Agencia ProsperIA LLC a contactarme por WhatsApp, SMS y correo sobre mi solicitud de CRM.</label>
+            </div>
+            <div data-form-status role="status" aria-live="polite" style="display:none; padding:0.9rem; border-radius:12px; margin-bottom:1rem; font-size:0.88rem;"></div>
+            <div style="display:flex; flex-wrap:wrap; gap:0.85rem;">
+              <button type="submit" class="pia-btn-primary" style="flex:1 1 220px;">Solicitar Demo y Cotización CRM</button>
+              <a href="https://wa.me/17868336964?text=Hola%20ProsperIA,%20quiero%20una%20demo%20de%20ProsperIA%20CRM" target="_blank" rel="noopener" class="pia-btn-emerald" style="flex:1 1 180px;">Hablar por WhatsApp</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  {% include "footer.html" %}
+  <script src="{{ static_versioned('ecosistema_forms.js') }}"></script>
+  <script>
+    initEcosystemLeadForm('crm-lead-form', 'menu_crm_verticales');
+    document.querySelectorAll('.crm-pick').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const val = btn.getAttribute('data-crm');
+        const sel = document.getElementById('crm-industry');
+        if (sel && val) {
+          for (const opt of sel.options) {
+            if (opt.value.includes(val.split(' ')[0])) {
+              sel.value = opt.value;
+              break;
+            }
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>

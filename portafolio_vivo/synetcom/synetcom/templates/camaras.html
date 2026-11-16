@@ -1,0 +1,243 @@
+{% extends "base.html" %}
+
+{% block title %}Seguridad Electrónica Inteligente – Synetcom{% endblock %}
+
+{% block description %}Soluciones corporativas de seguridad electrónica inteligente. Sistemas avanzados de videovigilancia y control de acceso para empresas en México – Synetcom.{% endblock %}
+
+{% block content %}
+  <!-- PAGE HERO -->
+  <header class="page-hero net-bg">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-text animate-up">
+          <span class="tag">Soluciones Enterprise</span>
+          <h1>Seguridad Electrónica<br><span class="neon">Inteligente</span></h1>
+          <p class="hero-subtitle">Soluciones avanzadas de videovigilancia, monitoreo y control de acceso para empresas modernas.</p>
+          <div class="hero-btns">
+            <a href="#cotizacion" class="btn btn-orange"><i class="fas fa-user-shield"></i> Solicitar Asesoría</a>
+            <a href="#soluciones" class="btn btn-outline"><i class="fas fa-shield-alt"></i> Conocer Soluciones</a>
+          </div>
+        </div>
+        <div class="hero-visual animate-up delay-2">
+          <div class="visual-container">
+            <img src="{{ url_for('static', path='images/security_hero.png') }}" alt="Seguridad Electrónica Inteligente" />
+            <div class="corner-deco tl"></div>
+            <div class="corner-deco tr"></div>
+            <div class="corner-deco bl"></div>
+            <div class="corner-deco br"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- SOLUTIONS SECTION -->
+  <section class="install-section" id="soluciones">
+    <div class="container">
+      <div class="grid-2" style="align-items:center;gap:64px;">
+        <!-- Visual -->
+        <div class="camera-visual animate-up">
+          <div class="cam-icons">
+            <div class="cam-icon-item"><i class="fas fa-shield-halved"></i><span>Seguridad</span></div>
+            <div class="cam-icon-item"><i class="fas fa-id-card"></i><span>Acceso</span></div>
+            <div class="cam-icon-item"><i class="fas fa-server"></i><span>Grabación</span></div>
+            <div class="cam-icon-item"><i class="fas fa-desktop"></i><span>Monitoreo</span></div>
+            <div class="cam-icon-item"><i class="fas fa-cloud"></i><span>Almacenamiento</span></div>
+            <div class="cam-icon-item"><i class="fas fa-brain"></i><span>Analítica IA</span></div>
+          </div>
+          <div class="cam-badge">
+            <strong>Tecnología Inteligente...</strong><br>
+            que garantiza la tranquilidad de tu operación.
+          </div>
+          <i class="fas fa-shield-alt" style="font-size:80px;color:rgba(100,180,255,0.06);position:absolute;bottom:-5px;right:-5px;"></i>
+        </div>
+        <!-- Content -->
+        <div class="install-content animate-up delay-2">
+          <span class="tag">Synetcom Security</span>
+          <h2>Soluciones de Seguridad Adaptadas a tu Empresa</h2>
+          <p>En Synetcom implementamos soluciones integrales de seguridad electrónica diseñadas para proteger instalaciones, colaboradores y activos críticos mediante tecnologías modernas de videovigilancia y monitoreo inteligente.</p>
+          <p>Desarrollamos proyectos personalizados para empresas, oficinas, comercios e industrias, integrando cámaras IP, almacenamiento seguro, monitoreo remoto y herramientas inteligentes de supervisión en tiempo real.</p>
+          <ul class="benefits-checklist">
+            <li><i class="fas fa-check-circle"></i>Monitoreo remoto en tiempo real</li>
+            <li><i class="fas fa-check-circle"></i>Acceso seguro desde cualquier dispositivo</li>
+            <li><i class="fas fa-check-circle"></i>Grabación local y almacenamiento en la nube</li>
+            <li><i class="fas fa-check-circle"></i>Analítica inteligente y detección de eventos</li>
+            <li><i class="fas fa-check-circle"></i>Integración con control de acceso y biometría</li>
+            <li><i class="fas fa-check-circle"></i>Instalación profesional y soporte especializado</li>
+          </ul>
+          <a href="#cotizacion" class="btn btn-primary"><i class="fas fa-file-signature"></i> Solicitar una Asesoría</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BENEFITS SECTION -->
+  <section class="benefits-section">
+    <div class="container">
+      <div class="section-title">
+        <h2>¿Por Qué Elegirnos?</h2>
+        <div class="underline"></div>
+        <p>Implementamos soluciones de seguridad electrónica confiables, escalables y diseñadas para las necesidades actuales de las empresas mexicanas.</p>
+      </div>
+      <div class="grid-3">
+        <!-- Card 1 -->
+        <article class="benefit-card animate-up delay-1">
+          <div class="bc-icon"><i class="fas fa-microchip"></i></div>
+          <h3>Experiencia y Tecnología</h3>
+          <ul>
+            <li>Más de 25 años de experiencia tecnológica</li>
+            <li>Soluciones adaptadas a cada empresa</li>
+            <li>Equipos profesionales de alta confiabilidad</li>
+            <li>Implementación y soporte especializado</li>
+            <li>Tecnología escalable para crecimiento futuro</li>
+          </ul>
+        </article>
+        <!-- Card 2 -->
+        <article class="benefit-card animate-up delay-2">
+          <div class="bc-icon"><i class="fas fa-network-wired"></i></div>
+          <h3>Infraestructura Inteligente</h3>
+          <ul>
+            <li>Cámaras IP de alta definición y 4K</li>
+            <li>Supervisión remota desde móvil y escritorio</li>
+            <li>Alertas inteligentes y detección de eventos</li>
+            <li>Integración con biometría y control de acceso</li>
+            <li>Grabación segura y administración centralizada</li>
+          </ul>
+        </article>
+        <!-- Card 3 -->
+        <article class="benefit-card animate-up delay-3">
+          <div class="bc-icon"><i class="fas fa-user-shield"></i></div>
+          <h3>Soporte Especializado</h3>
+          <ul>
+            <li>Infraestructura segura y conectividad confiable</li>
+            <li>Mantenimiento preventivo y correctivo</li>
+            <li>Soporte técnico remoto y presencial</li>
+            <li>Soluciones escalables para expansión futura</li>
+            <li>Garantía profesional en instalación y operación</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROMO SECTION -->
+  <section class="promo-section">
+    <div class="container">
+      <div class="promo-card">
+        <div class="promo-left">
+          <span class="tag">Oferta Especial Corporativa</span>
+          <h3>Protege tu Empresa con Tecnología Inteligente</h3>
+          <p class="tagline">Soluciones modernas de seguridad electrónica diseñadas para brindar mayor control, supervisión y tranquilidad a tu operación.</p>
+          <div class="phone-badge" style="margin-top:auto;">
+            <i class="fas fa-envelope" style="margin-right:8px;color:var(--blue-bright);"></i>
+            <a href="mailto:hjimenez@synetcom.mx" style="color:#ffffff;">hjimenez@synetcom.mx</a>
+          </div>
+          <i class="fas fa-shield-alt promo-cam-icon"></i>
+        </div>
+        <div class="promo-right">
+          <div class="pct">15% <span style="font-size:24px;font-family:'Rajdhani';">Desc.</span></div>
+          <h2>En Instalación y Puesta en Marcha</h2>
+          <p><strong style="color:#fff;">Beneficios exclusivos de nuestra oferta:</strong></p>
+          <ul>
+            <li><i class="fas fa-check"></i> Asesoría técnica especializada sin costo</li>
+            <li><i class="fas fa-check"></i> Instalación profesional homologada</li>
+            <li><i class="fas fa-check"></i> Configuración de accesos móviles y alertas</li>
+            <li><i class="fas fa-check"></i> Garantía de equipo y soporte técnico preventivo</li>
+          </ul>
+          <div class="contact-detail" style="border-top:1px solid rgba(0, 198, 255, 0.15);padding-top:16px;">
+            <a href="mailto:hjimenez@synetcom.mx"><i class="fas fa-envelope" style="margin-right:6px;"></i>hjimenez@synetcom.mx</a>
+            &nbsp;|&nbsp;
+            <a href="https://wa.me/525615651784" style="color:#25d366;"><i class="fab fa-whatsapp" style="margin-right:4px;"></i>WhatsApp Directo</a>
+          </div>
+          <a href="#cotizacion" class="btn btn-orange" style="margin-top:20px;width:fit-content;"><i class="fas fa-tag"></i> Solicitar Oferta Especial</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT FORM SIMPLE -->
+  <section class="contact-simple-section" id="cotizacion">
+    <div class="container">
+      <div class="section-title">
+        <h2>Solicita una Asesoría</h2>
+        <div class="underline"></div>
+        <p>Nuestro equipo de especialistas en seguridad electrónica se pondrá en contacto contigo para ayudarte a encontrar la solución ideal para tu empresa.</p>
+      </div>
+      <div class="contact-simple-box animate-up">
+        <h2><i class="fas fa-shield-alt" style="margin-right:8px;color:var(--blue-bright);"></i>Solicitud de Asesoría</h2>
+        <div id="camFormMsg" class="form-msg" style="display:none;"></div>
+        <form id="camForm" novalidate>
+          <div class="form-group">
+            <input type="text" id="camNombre" class="form-control" placeholder="Nombre completo" required />
+          </div>
+          <div class="form-group">
+            <input type="email" id="camEmail" class="form-control" placeholder="Correo corporativo" required />
+          </div>
+          <div class="form-group">
+            <input type="tel" id="camTelefono" class="form-control" placeholder="Teléfono / WhatsApp de contacto" />
+          </div>
+          <div class="form-group">
+            <textarea id="camMensaje" class="form-control" placeholder="Describe brevemente las necesidades de seguridad de tu empresa..." rows="4" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">
+            <i class="fas fa-paper-plane"></i> Enviar Solicitud
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // FastAPI Ajax submit
+    document.getElementById('camForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const msg = document.getElementById('camFormMsg');
+      msg.style.display = 'none';
+      const nombre = document.getElementById('camNombre').value.trim();
+      const email  = document.getElementById('camEmail').value.trim();
+      const telefono = document.getElementById('camTelefono').value.trim();
+      const mensaje= document.getElementById('camMensaje').value.trim();
+      if (!nombre || !email || !mensaje) {
+        msg.className = 'form-msg error';
+        msg.textContent = 'Por favor completa todos los campos obligatorios (Nombre, Correo y Mensaje).';
+        msg.style.display = 'block';
+        return;
+      }
+
+      fetch('/api/contacto', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: nombre,
+          email: email,
+          phone: telefono,
+          method: "Teléfono/WhatsApp",
+          message: mensaje,
+          source: 'seguridad_electronica'
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          msg.className = 'form-msg success';
+          msg.textContent = '¡Solicitud recibida! Un especialista en seguridad electrónica se pondrá en contacto contigo pronto.';
+          msg.style.display = 'block';
+          document.getElementById('camForm').reset();
+        } else {
+          msg.className = 'form-msg error';
+          msg.textContent = data.error || 'Hubo un error al enviar el formulario.';
+          msg.style.display = 'block';
+        }
+      })
+      .catch(err => {
+        msg.className = 'form-msg error';
+        msg.textContent = 'Error de conexión. Por favor intenta más tarde.';
+        msg.style.display = 'block';
+      });
+    });
+</script>
+{% endblock %}

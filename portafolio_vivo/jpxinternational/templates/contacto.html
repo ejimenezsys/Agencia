@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if lang == 'en' %}Institutional Contact | JPX International Investments Inc.
+    {% elif lang == 'pt' %}Contato Institucional | JPX International Investments Inc.
+    {% else %}Contacto Institucional | JPX International Investments Inc.
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<!-- Banner Hero Secundario -->
+<section class="hero-section" style="padding: 4rem 0;">
+    <div class="container hero-content">
+        <h1>
+            {% if lang == 'en' %}Institutional Contact Center
+            {% elif lang == 'pt' %}Centro de Contato Institucional
+            {% else %}Centro de Contacto Institucional
+            {% endif %}
+        </h1>
+        <p class="hero-subtitle" style="margin-bottom: 0;">
+            {% if lang == 'en' %}Formal submission of commercial and financing requests for evaluation and compliance.
+            {% elif lang == 'pt' %}Submissão formal de solicitações comerciais e de financiamento para avaliação e conformidade.
+            {% else %}Sometimiento formal de solicitudes comerciales y de financiamiento para evaluación y cumplimiento.
+            {% endif %}
+        </p>
+    </div>
+</section>
+
+<!-- Formulario de Contacto (CRM) -->
+<section class="section">
+    <div class="container">
+        <div class="form-container">
+            <h2 style="text-align: center; margin-bottom: 1.5rem; font-size: 1.75rem;" class="no-line">
+                {% if lang == 'en' %}Qualification Request (CRM)
+                {% elif lang == 'pt' %}Solicitação de Qualificação (CRM)
+                {% else %}Solicitud de Calificación (CRM)
+                {% endif %}
+            </h2>
+            <p style="text-align: center; font-size: 0.85rem; color: var(--color-muted); margin-bottom: 2rem;">
+                {% if lang == 'en' %}Please provide your corporation and operational area details. The system only accepts corporate/institutional email addresses.
+                {% elif lang == 'pt' %}Por favor, forneça os dados da sua corporação e área operacional. O sistema aceita apenas endereços de e-mail corporativos/institucionais.
+                {% else %}Por favor, proporcione los datos de su corporación y área operativa. El sistema solo acepta direcciones de correo electrónico corporativas/institucionales.
+                {% endif %}
+            </p>
+            
+            <!-- Alertas dinámicas -->
+            <div class="alert alert-success" id="alert-success">
+                {% if lang == 'en' %}The request has been successfully registered in the CRM system. An executive from the compliance department will contact you shortly.
+                {% elif lang == 'pt' %}A solicitação foi registrada com sucesso no sistema CRM. Um executivo do departamento de conformidade entrará em contato em breve.
+                {% else %}La solicitud ha sido registrada con éxito en el sistema CRM. Un ejecutivo del departamento de cumplimiento se pondrá en contacto a la brevedad.
+                {% endif %}
+            </div>
+            <div class="alert alert-error" id="alert-error">
+                {% if lang == 'en' %}An error occurred while processing your request. Please check the marked fields.
+                {% elif lang == 'pt' %}Ocorreu um erro ao processar sua solicitação. Por favor, verifique os campos marcados.
+                {% else %}Ocurrió un error al procesar su solicitud. Por favor verifique los campos marcados.
+                {% endif %}
+            </div>
+            
+            <form id="contact-form" novalidate>
+                <div class="form-group">
+                    <label for="nombre_corporacion" class="form-label">
+                        {% if lang == 'en' %}Corporation Name
+                        {% elif lang == 'pt' %}Nome da Corporação
+                        {% else %}Nombre de la Corporación
+                        {% endif %}
+                    </label>
+                    <input type="text" id="nombre_corporacion" name="nombre_corporacion" class="form-control" placeholder="{% if lang == 'en' %}e.g., Global Logistics Ltd.{% elif lang == 'pt' %}Ex. Global Logistics Ltd.{% else %}Ej. Global Logistics Ltd.{% endif %}" required>
+                    <span class="error-message" id="error-nombre_corporacion">
+                        {% if lang == 'en' %}This field is required and must be a valid alphanumeric string.
+                        {% elif lang == 'pt' %}Este campo é obrigatório e deve ser alfanumérico válido.
+                        {% else %}Este campo es obligatorio y debe ser alfanumérico válido.
+                        {% endif %}
+                    </span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="nombre_ejecutivo" class="form-label">
+                        {% if lang == 'en' %}Contact Executive Name (P.O.C.)
+                        {% elif lang == 'pt' %}Nome do Executivo de Contato (P.O.C.)
+                        {% else %}Nombre del Ejecutivo de Contacto (P.O.C.)
+                        {% endif %}
+                    </label>
+                    <input type="text" id="nombre_ejecutivo" name="nombre_ejecutivo" class="form-control" placeholder="{% if lang == 'en' %}e.g., Edward Garcia{% elif lang == 'pt' %}Ex. Ing. Eduardo García{% else %}Ej. Ing. Eduardo García{% endif %}" required>
+                    <span class="error-message" id="error-nombre_ejecutivo">
+                        {% if lang == 'en' %}This field is required.
+                        {% elif lang == 'pt' %}Este campo é obrigatório.
+                        {% else %}Este campo es obligatorio.
+                        {% endif %}
+                    </span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email_institucional" class="form-label">
+                        {% if lang == 'en' %}Institutional Email Address
+                        {% elif lang == 'pt' %}E-mail Institucional
+                        {% else %}Correo Electrónico Institucional
+                        {% endif %}
+                    </label>
+                    <input type="email" id="email_institucional" name="email_institucional" class="form-control" placeholder="{% if lang == 'en' %}e.g., e.garcia@corporation.com{% elif lang == 'pt' %}Ex. e.garcia@corporacao.com{% else %}Ej. e.garcia@corporacion.com{% endif %}" required>
+                    <span class="error-message" id="error-email_institucional">
+                        {% if lang == 'en' %}Invalid email address or generic domain not allowed (@gmail, @yahoo, etc.).
+                        {% elif lang == 'pt' %}Endereço de e-mail inválido ou domínio genérico não permitido (@gmail, @yahoo, etc.).
+                        {% else %}Dirección de correo inválida o dominio genérico no permitido (@gmail, @yahoo, etc.).
+                        {% endif %}
+                    </span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="area_operativa_interes" class="form-label">
+                        {% if lang == 'en' %}Operational Area of Interest
+                        {% elif lang == 'pt' %}Área Operacional de Interesse
+                        {% else %}Área Operativa de Interés
+                        {% endif %}
+                    </label>
+                    <select id="area_operativa_interes" name="area_operativa_interes" class="form-control" required>
+                        <option value="" disabled selected>
+                            {% if lang == 'en' %}Select an option...
+                            {% elif lang == 'pt' %}Selecione uma opção...
+                            {% else %}Seleccione una opción...
+                            {% endif %}
+                        </option>
+                        <option value="Gestión Global de Activos">
+                            {% if lang == 'en' %}Global Asset Management
+                            {% elif lang == 'pt' %}Gestão Global de Ativos
+                            {% else %}Gestión Global de Activos
+                            {% endif %}
+                        </option>
+                        <option value="Estructuración Compleja de Deuda">
+                            {% if lang == 'en' %}Complex Debt Structuring
+                            {% elif lang == 'pt' %}Estruturação Complexa de Dívida
+                            {% else %}Estructuración Compleja de Deuda
+                            {% endif %}
+                        </option>
+                        <option value="Comercio Mayorista de Commodities">
+                            {% if lang == 'en' %}Wholesale Commodities Trading
+                            {% elif lang == 'pt' %}Comércio de Commodities no Atacado
+                            {% else %}Comercio Mayorista de Commodities
+                            {% endif %}
+                        </option>
+                        <option value="Emancipación y Creación de Bancos Offshore">
+                            {% if lang == 'en' %}Emancipation and Offshore Bank Setup
+                            {% elif lang == 'pt' %}Emancipação e Criação de Bancos Offshore
+                            {% else %}Emancipación y Creación de Bancos Offshore
+                            {% endif %}
+                        </option>
+                    </select>
+                    <span class="error-message" id="error-area_operativa_interes">
+                        {% if lang == 'en' %}You must select an operational area of interest.
+                        {% elif lang == 'pt' %}Você deve selecionar uma área operacional de interesse.
+                        {% else %}Debe seleccionar una área operativa de interés.
+                        {% endif %}
+                    </span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="rango_capital_usd" class="form-label">
+                        {% if lang == 'en' %}Available Investment Capital (U.S.D.)
+                        {% elif lang == 'pt' %}Capital de Investimento Disponível (U.S.D.)
+                        {% else %}Capital de Inversión Disponible (U.S.D.)
+                        {% endif %}
+                    </label>
+                    <select id="rango_capital_usd" name="rango_capital_usd" class="form-control" required>
+                        <option value="" disabled selected>
+                            {% if lang == 'en' %}Select funding range...
+                            {% elif lang == 'pt' %}Selecione a faixa de fundos...
+                            {% else %}Seleccione el rango de fondos...
+                            {% endif %}
+                        </option>
+                        <option value="1000000">U.S.D. $1,000,000 &mdash; $5,000,000</option>
+                        <option value="5000000">U.S.D. $5,000,000 &mdash; $10,000,000</option>
+                        <option value="10000000">U.S.D. $10,000,000 &mdash; $50,000,000</option>
+                        <option value="50000000">
+                            {% if lang == 'en' %}U.S.D. $50,000,000 or Higher
+                            {% elif lang == 'pt' %}U.S.D. $50,000,000 ou Superior
+                            {% else %}U.S.D. $50,000,000 o Superior
+                            {% endif %}
+                        </option>
+                    </select>
+                    <span class="error-message" id="error-rango_capital_usd">
+                        {% if lang == 'en' %}You must select an available capital range.
+                        {% elif lang == 'pt' %}Você deve selecionar uma faixa de capital disponível.
+                        {% else %}Debe seleccionar un rango de capital disponible.
+                        {% endif %}
+                    </span>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;" id="submit-btn">
+                    {% if lang == 'en' %}Submit Fiduciary Form
+                    {% elif lang == 'pt' %}Enviar Formulário Fiduciário
+                    {% else %}Enviar Formulario Fiduciario
+                    {% endif %}
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

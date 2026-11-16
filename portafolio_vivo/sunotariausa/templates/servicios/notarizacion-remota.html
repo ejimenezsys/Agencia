@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block title %}
+{% if lang == 'en' %}Su Notaria USA | Remote Online Notarization (RON) - Online & Digital Notary{% else %}Su Notaria USA | Notarización Remota (RON) - Notaría Online y Digital{% endif %}
+{% endblock %}
+
+{% block content %}
+<section class="service-detail-section">
+    <div class="service-detail-container">
+        <!-- Hero del Servicio -->
+        <div class="service-detail-hero animate-fade-in">
+            <div class="service-detail-icon-wrapper">
+                <svg viewBox="0 0 24 24" width="64" height="64" class="service-card-svg" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <rect x="2" y="3" width="14" height="12" rx="1.5"/>
+                    <path d="M5 15v3"/>
+                    <path d="M13 15v3"/>
+                    <path d="M3 18h12"/>
+                    <circle cx="9" cy="8" r="2"/>
+                    <path d="M5 13a4 4 0 0 1 8 0"/>
+                    <path d="M17 10h5v11a1 1 0 0 1-1 1h-6a1 1 0 0 1-1-1v-5"/>
+                    <path d="M22 6l-3 3-1-1 3-3z"/>
+                    <path d="M17 17l1.5 1.5 2.5-2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <h1 class="service-detail-title">
+                {% if lang == 'en' %}Remote Online Notarization (RON){% else %}Notarización Remota (RON){% endif %}
+            </h1>
+            <p class="service-detail-subtitle">
+                {% if lang == 'en' %}100% Online Notarizations via Secure Videoconference{% else %}Notarizaciones 100% Online por Videoconferencia Segura{% endif %}
+            </p>
+        </div>
+
+        <!-- Cuerpo del Detalle -->
+        <div class="service-detail-content animate-fade-in">
+            <div class="service-detail-body">
+                {% if lang == 'en' %}
+                <p>
+                    Remote Online Notarization (RON) represents the technological evolution of public trust in the United States, officially authorized by the State of Florida. This procedure allows individuals and businesses to perform the formal notarization of their documents in electronic format, through a real-time interactive videoconference with an authorized notary public. Instead of stamping physical signatures on paper and traditional ink seals, the parties sign digitally using secure encrypted electronic signatures and verified digital certificates, ensuring the legal immutability of the final document.
+                </p>
+                <p>
+                    The primary benefit of RON notarization is its extraordinary convenience and global reach, completely eliminating geographical limitations and physical travel. A client who is traveling, at their office, or abroad (for example, in Latin America or Europe) can quickly and legally notarize their civil or commercial documents without needing to visit a U.S. consulate. This is especially valuable for international executives, real estate firms, and foreign home buyers participating in Florida transactions who do not physically reside in the United States.
+                </p>
+                <p>
+                    The security of remote online notarization is heavily regulated by strict state protocols. The system requires a two-step identity verification before beginning the videoconference session: forensic credential analysis (a high-resolution intelligent scan of your passport or driver's license) and knowledge-based authentication (KBA), consisting of dynamic security biographical questions based on public U.S. credit records. In addition, by express mandate of Florida law, the entire live videoconference session of the notarization is recorded in high-definition audio and video, and securely stored in an electronic notary journal for at least 10 years for auditing purposes.
+                </p>
+                <p>
+                    At Su Notaria USA, we feature a remote online notarization platform certified by the State of Florida that complies with the highest standards of cybersecurity and data encryption. Gladys Rodríguez, duly accredited and registered to operate under the RON modality, will guide you step by step through the digital environment in an intuitive and friction-free manner. We guarantee that documents digitally notarized under our platform possess exactly the same formal legal validity and recognition as those signed in person, backed by the fiduciary and liability protection of JPX International.
+                </p>
+                {% else %}
+                <p>
+                    La Notarización Remota en Línea (Remote Online Notarization o RON) representa la evolución tecnológica de la fe pública en los Estados Unidos, autorizada oficialmente por el Estado de la Florida. Este procedimiento permite a particulares y empresas realizar la notarización formal de sus documentos en formato electrónico, mediante una videoconferencia interactiva en tiempo real con un notario público autorizado. En lugar de estampar firmas físicas sobre papel y sellos de tinta tradicionales, las partes firman digitalmente utilizando firmas electrónicas encriptadas seguras y certificados digitales verificados, garantizando la inmutabilidad jurídica del documento final.
+                </p>
+                <p>
+                    El principal beneficio de la notarización RON es su extraordinaria conveniencia y alcance global, eliminando por completo las limitaciones geográficas y los desplazamientos físicos. Un cliente que se encuentre de viaje, en su oficina o en el extranjero (por ejemplo, en América Latina o Europa) puede notarizar sus documentos civiles o comerciales de forma rápida y legal sin necesidad de acudir a un consulado estadounidense. Esto resulta especialmente valioso para ejecutivos internacionales, firmas inmobiliarias y compradores de bienes raíces extranjeros que participan en transacciones en Florida pero no residen físicamente en los Estados Unidos.
+                </p>
+                <p>
+                    La seguridad de la notarización remota está fuertemente regulada por estrictos protocolos estatales. El sistema exige una verificación de identidad en dos pasos antes de iniciar la sesión de videoconferencia: el análisis de credenciales forense (un escaneo inteligente de alta resolución de su pasaporte o licencia de conducir) y la autenticación basada en conocimiento (KBA), consistente en preguntas biográficas de seguridad dinámicas basadas en registros de crédito públicos estadounidenses. Además, por mandato expreso de la ley de Florida, toda la sesión de videoconferencia de notarización en vivo se graba en audio y video en alta definición, y se almacena de forma segura en un diario notarial electrónico durante al menos 10 años para fines de auditoría.
+                </p>
+                <p>
+                    En Su Notaria USA, contamos con una plataforma de notarización remota certificada por el Estado de la Florida que cumple con los máximos estándares de ciberseguridad y encriptación de datos. Gladys Rodríguez, debidamente acreditada y registrada para operar bajo la modalidad RON, le guiará paso a paso en el entorno digital de forma intuitiva y sin fricciones. Le garantizamos que los documentos notarizados digitalmente bajo nuestra plataforma poseen exactamente la misma validez jurídica formal y reconocimiento legal que aquellos firmados en persona, con el respaldo fiduciario y blindaje de responsabilidad de JPX International.
+                </p>
+                {% endif %}
+
+                <h2 class="service-detail-list-title">
+                    {% if lang == 'en' %}What Documents Do We Notarize via RON?{% else %}¿Qué Documentos Notarizamos vía RON?{% endif %}
+                </h2>
+                <ul class="service-detail-list">
+                    <li class="service-detail-list-item">
+                        <span class="service-detail-list-icon">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </span>
+                        <div class="service-detail-list-text">
+                            {% if lang == 'en' %}
+                            <strong>Powers of Attorney:</strong> Signing of general or special powers of attorney by directors or clients who are located outside the US.
+                            {% else %}
+                            <strong>Poderes de Representación:</strong> Firma de poderes notariales generales o especiales por parte de directores o clientes que se encuentran fuera de EE.UU.
+                            {% endif %}
+                        </div>
+                    </li>
+                    <li class="service-detail-list-item">
+                        <span class="service-detail-list-icon">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </span>
+                        <div class="service-detail-list-text">
+                            {% if lang == 'en' %}
+                            <strong>Real Estate Transactions:</strong> Closing of purchase and sale agreements, property deeds, and mortgage authorizations for international investors.
+                            {% else %}
+                            <strong>Transacciones de Bienes Raíces:</strong> Cierre de contratos de compraventa, escrituras de propiedad (Deeds) y autorizaciones hipotecarias para inversionistas internacionales.
+                            {% endif %}
+                        </div>
+                    </li>
+                    <li class="service-detail-list-item">
+                        <span class="service-detail-list-icon">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </span>
+                        <div class="service-detail-list-text">
+                            {% if lang == 'en' %}
+                            <strong>Affidavits:</strong> Declaration of official testimonies or oaths under public trust requested by judicial courts or public entities in Florida.
+                            {% else %}
+                            <strong>Declaraciones Juradas (Affidavits):</strong> Declaración de testimonios oficiales o juramentos bajo fe pública solicitados por cortes judiciales o entidades públicas en Florida.
+                            {% endif %}
+                        </div>
+                    </li>
+                    <li class="service-detail-list-item">
+                        <span class="service-detail-list-icon">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </span>
+                        <div class="service-detail-list-text">
+                            {% if lang == 'en' %}
+                            <strong>Minor Travel Consent Forms:</strong> Formal authorization signed remotely by separated or absent parents for minors to travel outside the US.
+                            {% else %}
+                            <strong>Consentimientos de Viaje para Menores:</strong> Autorización formal firmada a distancia por padres separados o ausentes para que menores puedan viajar fuera de EE.UU.
+                            {% endif %}
+                        </div>
+                    </li>
+                    <li class="service-detail-list-item">
+                        <span class="service-detail-list-icon">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </span>
+                        <div class="service-detail-list-text">
+                            {% if lang == 'en' %}
+                            <strong>Corporate Contracts & Agreements:</strong> Digital signing and authentication of partnership agreements, intellectual property licenses, and international distribution contracts.
+                            {% else %}
+                            <strong>Contratos y Acuerdos Corporativos:</strong> Firma digital y autenticación de acuerdos de socios, licencias de propiedad intelectual y contratos de distribución internacional.
+                            {% endif %}
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Banner de CTA -->
+        <div class="service-detail-cta animate-fade-in">
+            <h3>
+                {% if lang == 'en' %}Do you need to notarize your documents online immediately?{% else %}¿Necesita notarizar sus documentos en línea de forma inmediata?{% endif %}
+            </h3>
+            <a href="{{ '/en/contacto?servicio=Remote%20Online%20Notarization%20(RON)' if lang == 'en' else '/contacto?servicio=Notarización%20Remota%20(RON)' }}" class="btn btn-primary">
+                {% if lang == 'en' %}Contact Specialist{% else %}Contactar Especialista{% endif %}
+            </a>
+        </div>
+
+        <!-- Enlace de regreso -->
+        <div class="back-to-services-wrapper animate-fade-in">
+            <a href="{{ '/en/servicios' if lang == 'en' else '/servicios' }}" class="back-to-services-link">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                {% if lang == 'en' %}Back to all Services{% else %}Volver a todos los Servicios{% endif %}
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

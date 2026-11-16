@@ -1,0 +1,543 @@
+<!-- ════════════════════════════════════════════════════
+     NAVBAR MULTI-MENÚ UNIFICADA — AGENCIA PROSPERIA LLC
+     ════════════════════════════════════════════════════ -->
+<style>
+  .pia-top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 34px;
+    z-index: 135;
+    background: #020308;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    display: flex;
+    align-items: center;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  .pia-top-bar-inner {
+    max-width: 1340px;
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 11px;
+    color: #94a3b8;
+  }
+  .pia-top-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: #cbd5e1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .pia-top-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 8px #10b981;
+    flex-shrink: 0;
+  }
+  .pia-top-socials {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    flex-shrink: 0;
+  }
+  .pia-top-socials a {
+    color: #94a3b8;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .pia-top-socials a:hover {
+    color: #00e5ff;
+  }
+
+  .pia-site-header {
+    position: fixed;
+    top: 40px;
+    left: 0;
+    right: 0;
+    z-index: 130;
+    padding-inline: 12px;
+    pointer-events: none;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  .pia-floating-nav {
+    max-width: 1340px;
+    margin-inline: auto;
+    pointer-events: auto;
+    background: rgba(10, 12, 20, 0.88);
+    backdrop-filter: blur(22px) saturate(185%);
+    -webkit-backdrop-filter: blur(22px) saturate(185%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 18px;
+    padding: 0.55rem 0.95rem;
+    box-shadow: 0 20px 45px -12px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+  .pia-floating-nav.scrolled {
+    background: rgba(6, 8, 15, 0.96);
+    border-color: rgba(0, 229, 255, 0.28);
+    box-shadow: 0 24px 50px -10px rgba(0, 0, 0, 0.95), 0 0 28px rgba(0, 229, 255, 0.12);
+  }
+  .pia-nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+  .pia-brand-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+    flex-shrink: 0;
+    border-radius: 10px;
+  }
+  .pia-brand-link img {
+    height: 42px;
+    width: auto;
+    max-height: 42px;
+    border-radius: 9px;
+    object-fit: contain;
+    border: 1px solid rgba(0, 229, 255, 0.3);
+  }
+  .pia-site-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    flex: 1 1 auto;
+    justify-content: flex-end;
+  }
+
+  .pia-menu-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-height: 40px;
+    padding: 0.45rem 0.85rem;
+    border-radius: 11px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.06);
+    color: #f8fafc;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .pia-site-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: none;
+  }
+  .pia-site-menu.is-open {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    position: fixed;
+    top: 102px;
+    right: 12px;
+    left: 12px;
+    max-width: 420px;
+    margin-inline-start: auto;
+    max-height: calc(100dvh - 120px);
+    overflow-y: auto;
+    padding: 0.85rem;
+    background: #070b14;
+    border: 1px solid rgba(0, 229, 255, 0.35);
+    border-radius: 18px;
+    box-shadow: 0 28px 65px rgba(0, 0, 0, 0.95);
+    z-index: 200;
+  }
+
+  .pia-nav-link,
+  .pia-dropdown-trigger {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.38rem;
+    padding: 0.48rem 0.68rem;
+    border-radius: 10px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #cbd5e1;
+    text-decoration: none;
+    background: transparent;
+    border: 1px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 0.18s ease, background-color 0.18s ease, border-color 0.18s ease;
+    width: 100%;
+    text-align: left;
+  }
+  .pia-nav-link:hover,
+  .pia-dropdown-trigger:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.07);
+  }
+  .pia-nav-link[aria-current="page"] {
+    color: #00e5ff;
+    background: rgba(0, 229, 255, 0.1);
+    border-color: rgba(0, 229, 255, 0.35);
+    font-weight: 700;
+  }
+  .pia-nav-link[aria-current="page"]::after {
+    content: "";
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    bottom: 2px;
+    height: 2px;
+    border-radius: 2px;
+    background: #00e5ff;
+  }
+
+  .pia-dropdown-item {
+    position: relative;
+  }
+  .pia-dropdown-list {
+    list-style: none;
+    margin: 0.25rem 0 0.25rem 0.75rem;
+    padding: 0.35rem;
+    border-left: 1px solid rgba(0, 229, 255, 0.25);
+    display: grid;
+    gap: 0.2rem;
+  }
+  .pia-dropdown-list[hidden] {
+    display: none;
+  }
+  .pia-dropdown-sublink {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0.65rem;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #cbd5e1;
+    font-size: 12px;
+    transition: background-color 0.18s ease, color 0.18s ease;
+  }
+  .pia-dropdown-sublink:hover {
+    background: rgba(255, 255, 255, 0.07);
+    color: #ffffff;
+  }
+  .pia-dropdown-sublink strong {
+    display: block;
+    color: #ffffff;
+    font-size: 12px;
+  }
+  .pia-dropdown-sublink span {
+    display: block;
+    color: #94a3b8;
+    font-size: 11px;
+  }
+
+  .pia-nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+  .pia-cta-wa {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-height: 38px;
+    padding: 0.48rem 0.9rem;
+    border-radius: 11px;
+    background: linear-gradient(135deg, #00e5ff 0%, #0ea5e9 100%);
+    color: #020617 !important;
+    font-size: 12px;
+    font-weight: 800;
+    text-decoration: none;
+    white-space: nowrap;
+    box-shadow: 0 0 22px rgba(0, 229, 255, 0.28);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .pia-cta-wa:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0 30px rgba(0, 229, 255, 0.48);
+  }
+  .pia-cta-diag {
+    display: none;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 38px;
+    padding: 0.48rem 0.85rem;
+    border-radius: 11px;
+    background: rgba(16, 185, 129, 0.14);
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    color: #6ee7b7 !important;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color 0.2s ease;
+  }
+  .pia-cta-diag:hover {
+    background: rgba(16, 185, 129, 0.24);
+  }
+
+  :where(.pia-brand-link, .pia-nav-link, .pia-dropdown-trigger, .pia-dropdown-sublink, .pia-menu-btn, .pia-cta-wa, .pia-cta-diag):focus-visible {
+    outline: 2.5px solid #00e5ff;
+    outline-offset: 2px;
+  }
+
+  @media (min-width: 1120px) {
+    .pia-menu-btn {
+      display: none;
+    }
+    .pia-site-menu {
+      display: flex !important;
+      flex-direction: row;
+      align-items: center;
+      gap: 0.15rem;
+      position: static;
+      background: transparent;
+      border: 0;
+      padding: 0;
+      box-shadow: none;
+      max-height: none;
+      overflow: visible;
+    }
+    .pia-nav-link,
+    .pia-dropdown-trigger {
+      width: auto;
+      font-size: 12px;
+      padding: 0.45rem 0.58rem;
+    }
+    .pia-dropdown-list {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      margin: 0;
+      width: 285px;
+      background: #080c16;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 16px;
+      padding: 0.5rem;
+      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.92), 0 0 24px rgba(0, 229, 255, 0.12);
+      z-index: 210;
+    }
+    .pia-dropdown-list::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 100%;
+      height: 12px;
+    }
+    .pia-cta-diag {
+      display: inline-flex;
+    }
+  }
+</style>
+
+{% set _cur = active_menu | default('inicio') %}
+<div class="pia-top-bar">
+  <div class="pia-top-bar-inner">
+    <div class="pia-top-badge">
+      <span class="pia-top-dot" aria-hidden="true"></span>
+      <span>AGENCIA PROSPERIA LLC · MIAMI, FL · EE. UU. &amp; LATAM · ES / EN</span>
+    </div>
+    <div class="pia-top-socials">
+      <a href="/closers" style="color:#67e8f9; font-weight:700;"><i class="fas fa-bolt" aria-hidden="true"></i> Acceso Closers</a>
+      <a href="https://www.instagram.com/edwardjimenezia/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+      <a href="https://www.facebook.com/AgenciaProsperarIA/" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+      <a href="https://www.youtube.com/@AgenciaProsper_IA" target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube" aria-hidden="true"></i></a>
+      <a href="https://www.linkedin.com/in/edwardjimenezia/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a>
+    </div>
+  </div>
+</div>
+
+<header class="pia-site-header">
+  <div class="pia-floating-nav" id="site-navbar">
+    <div class="pia-nav-inner">
+      <a href="/" class="pia-brand-link" aria-label="Agencia ProsperIA Inicio">
+        <img src="{{ static_versioned('logo_prosper_ia_cropped.jpg') }}" alt="Agencia ProsperIA" width="42" height="42">
+      </a>
+
+      <nav class="pia-site-nav" aria-label="Navegación principal">
+        <ul id="pia-site-menu" class="pia-site-menu">
+          <li><a href="/" class="pia-nav-link" {% if _cur == 'inicio' %}aria-current="page"{% endif %}>Inicio</a></li>
+          <li><a href="/paginas-web" class="pia-nav-link" {% if _cur == 'paginas-web' %}aria-current="page"{% endif %}>Páginas Web</a></li>
+          <li><a href="/crm" class="pia-nav-link" {% if _cur == 'crm' %}aria-current="page"{% endif %}>CRM</a></li>
+          <li><a href="/agentes-ia" class="pia-nav-link" {% if _cur == 'agentes-ia' %}aria-current="page"{% endif %}>Agentes de IA</a></li>
+          <li><a href="/equipo" class="pia-nav-link" {% if _cur == 'equipo' %}aria-current="page"{% endif %}>Equipo IA</a></li>
+          <li><a href="/marketing" class="pia-nav-link" {% if _cur == 'marketing' %}aria-current="page"{% endif %}>Marketing</a></li>
+          <li><a href="/tarjeta" class="pia-nav-link" {% if _cur == 'tarjeta' %}aria-current="page"{% endif %}>Tarjeta</a></li>
+          <li class="pia-dropdown-item" id="pia-recursos-li">
+            <button type="button" class="pia-dropdown-trigger" id="pia-recursos-btn" aria-expanded="false" aria-controls="pia-recursos-menu">
+              <span>Recursos</span>
+              <i class="fas fa-chevron-down" style="font-size:10px;" aria-hidden="true"></i>
+            </button>
+            <ul id="pia-recursos-menu" class="pia-dropdown-list" hidden>
+              <li>
+                <a href="/demo-sitio-web" class="pia-dropdown-sublink">
+                  <i class="fas fa-wand-magic-sparkles" style="color:#00e5ff;" aria-hidden="true"></i>
+                  <div><strong>Demostrador Web en Vivo</strong><span>Personaliza la web del cliente en 5 seg</span></div>
+                </a>
+              </li>
+              <li>
+                <a href="/consultoriadeinteligenciaartificial" class="pia-dropdown-sublink">
+                  <i class="fas fa-chess-knight" style="color:#818cf8;" aria-hidden="true"></i>
+                  <div><strong>Consultoría IA &amp; SVE90</strong><span>Arquitectura B2B y RAG privado</span></div>
+                </a>
+              </li>
+              <li>
+                <a href="/arsenal" class="pia-dropdown-sublink">
+                  <i class="fas fa-bolt" style="color:#22d3ee;" aria-hidden="true"></i>
+                  <div><strong>El Arsenal (+5,000 Prompts)</strong><span>Biblioteca de video, fotos y agentes</span></div>
+                </a>
+              </li>
+              <li>
+                <a href="/codigos" class="pia-dropdown-sublink">
+                  <i class="fas fa-terminal" style="color:#fbbf24;" aria-hidden="true"></i>
+                  <div><strong>200 Códigos Creativos</strong><span>Guías y prompts descargables</span></div>
+                </a>
+              </li>
+              <li>
+                <a href="/test-ia" class="pia-dropdown-sublink">
+                  <i class="fas fa-brain" style="color:#c084fc;" aria-hidden="true"></i>
+                  <div><strong>Test de Madurez IA</strong><span>Evalúa tu negocio en 90 segundos</span></div>
+                </a>
+              </li>
+              <li>
+                <a href="/libro" class="pia-dropdown-sublink">
+                  <i class="fas fa-book-open" style="color:#34d399;" aria-hidden="true"></i>
+                  <div><strong>Libro: Las 4 Inteligencias</strong><span>Autor: Edward Jiménez</span></div>
+                </a>
+              </li>
+              <li>
+                <a href="/intelligence" class="pia-dropdown-sublink">
+                  <i class="fas fa-newspaper" style="color:#38bdf8;" aria-hidden="true"></i>
+                  <div><strong>PROSPERIA Intelligence</strong><span>Artículos y Podcast Hub</span></div>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li><a href="/#nosotros" class="pia-nav-link">Nosotros</a></li>
+        </ul>
+
+        <div class="pia-nav-actions">
+          <a href="/diagnostico" class="pia-cta-diag">
+            <i class="fas fa-calculator" aria-hidden="true"></i>
+            <span>Diagnóstico</span>
+          </a>
+          <a href="https://wa.me/17868336964?text=Hola%20Agencia%20ProsperIA,%20quiero%20informaci%C3%B3n%20sobre%20sus%20soluciones%20digitales%20con%20IA" target="_blank" rel="noopener" class="pia-cta-wa">
+            <i class="fab fa-whatsapp" aria-hidden="true"></i>
+            <span>WhatsApp</span>
+          </a>
+          <button type="button" class="pia-menu-btn" id="pia-mobile-btn" aria-expanded="false" aria-controls="pia-site-menu" aria-label="Abrir menú de navegación">
+            <i class="fas fa-bars" id="pia-mobile-icon" aria-hidden="true"></i>
+            <span>Menú</span>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<script>
+(function() {
+  const nav = document.getElementById('site-navbar');
+  const menuBtn = document.getElementById('pia-mobile-btn');
+  const menuIcon = document.getElementById('pia-mobile-icon');
+  const siteMenu = document.getElementById('pia-site-menu');
+  const recLi = document.getElementById('pia-recursos-li');
+  const recBtn = document.getElementById('pia-recursos-btn');
+  const recMenu = document.getElementById('pia-recursos-menu');
+
+  window.addEventListener('scroll', () => {
+    if (!nav) return;
+    nav.classList.toggle('scrolled', window.scrollY > 36);
+  }, { passive: true });
+
+  if (menuBtn && siteMenu) {
+    menuBtn.addEventListener('click', () => {
+      const open = siteMenu.classList.toggle('is-open');
+      menuBtn.setAttribute('aria-expanded', String(open));
+      if (menuIcon) menuIcon.className = open ? 'fas fa-xmark' : 'fas fa-bars';
+    });
+    siteMenu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        siteMenu.classList.remove('is-open');
+        menuBtn.setAttribute('aria-expanded', 'false');
+        if (menuIcon) menuIcon.className = 'fas fa-bars';
+      });
+    });
+  }
+
+  if (recBtn && recMenu && recLi) {
+    let hoverOpen = false;
+    const setRecOpen = (open) => {
+      recMenu.hidden = !open;
+      recBtn.setAttribute('aria-expanded', String(open));
+    };
+
+    recBtn.addEventListener('click', (e) => {
+      if (hoverOpen) {
+        hoverOpen = false;
+        e.preventDefault();
+        setRecOpen(true);
+        return;
+      }
+      setRecOpen(recMenu.hidden);
+    });
+
+    if (window.matchMedia('(hover: hover)').matches) {
+      recLi.addEventListener('pointerenter', (e) => {
+        if (e.pointerType === 'touch' || window.innerWidth < 1120) return;
+        hoverOpen = true;
+        setRecOpen(true);
+      });
+      recLi.addEventListener('pointerleave', () => {
+        if (window.innerWidth < 1120) return;
+        if (hoverOpen) {
+          hoverOpen = false;
+          setRecOpen(false);
+        }
+      });
+    }
+
+    recLi.addEventListener('focusout', (e) => {
+      if (!recLi.contains(e.relatedTarget)) {
+        hoverOpen = false;
+        setRecOpen(false);
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (!recMenu.hidden) {
+          hoverOpen = false;
+          setRecOpen(false);
+          recBtn.focus();
+        }
+        if (siteMenu && siteMenu.classList.contains('is-open')) {
+          siteMenu.classList.remove('is-open');
+          menuBtn.setAttribute('aria-expanded', 'false');
+          if (menuIcon) menuIcon.className = 'fas fa-bars';
+          menuBtn.focus();
+        }
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!recLi.contains(e.target) && !recMenu.hidden) {
+        hoverOpen = false;
+        setRecOpen(false);
+      }
+    });
+  }
+})();
+</script>

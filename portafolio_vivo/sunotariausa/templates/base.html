@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% if lang == 'en' %}Su Notaria USA | Trusted Notary Services in Miami{% else %}Su Notaria USA | Servicios Notariales de Confianza en Miami{% endif %}{% endblock %}</title>
+    <meta name="description" content="{% block description %}{% if lang == 'en' %}Mobile notary, apostille, and power of attorney services in Miami, Florida. Valid nationwide, backed by JPX International.{% else %}Servicios móviles de notaría, apostillas y poderes notariales en Miami, Florida. Validez en todo el territorio de Estados Unidos y respaldo de JPX International.{% endif %}{% endblock %}">
+    
+    <!-- Enlace de fuentes desde Google Fonts (Playfair Display e Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Hoja de Estilo Principal con Versión (Buster de Caché) -->
+    <link rel="stylesheet" href="{{ static_versioned('css/styles.css') }}">
+    
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <!-- Cabecera Principal / Barra de Navegación -->
+    <header class="header">
+        <div class="container nav-container">
+            <a href="{{ '/en' if lang == 'en' else '/' }}" class="logo-link">
+                <!-- Logotipo corporativo de Joint Partners Xchange -->
+                <img src="/static/images/logo.png" alt="Logotipo de Joint Partners Xchange" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <span class="logo-fallback" style="display:none; font-family: var(--font-display); font-weight: bold; color: var(--color-primary); font-size: 1.25rem; text-transform: uppercase; letter-spacing: 1px;">Joint Partners Xchange</span>
+            </a>
+            
+            <!-- Botón de menú responsive móvil -->
+            <button class="nav-toggle" id="nav-toggle" aria-label="{% if lang == 'en' %}Open mobile navigation menu{% else %}Abrir menú de navegación móvil{% endif %}" aria-expanded="false">
+                <span class="nav-toggle-bar"></span>
+                <span class="nav-toggle-bar"></span>
+                <span class="nav-toggle-bar"></span>
+            </button>
+            
+            <!-- Enlaces de Navegación y Búsqueda -->
+            <nav class="nav-menu" id="nav-menu">
+                <a href="{{ '/en' if lang == 'en' else '/' }}" class="nav-link {% if active_page == 'index' %}active{% endif %}">{% if lang == 'en' %}Home{% else %}Inicio{% endif %}</a>
+                <a href="{{ '/en/servicios' if lang == 'en' else '/servicios' }}" class="nav-link {% if active_page == 'servicios' %}active{% endif %}">{% if lang == 'en' %}Services{% else %}Servicios{% endif %}</a>
+                <a href="{{ '/en/contacto' if lang == 'en' else '/contacto' }}" class="nav-link {% if active_page == 'contacto' %}active{% endif %}">{% if lang == 'en' %}Contact{% else %}Contacto{% endif %}</a>
+                <a href="/admin/crm" class="nav-link {% if active_page == 'admin_crm' %}active{% endif %}">CRM</a>
+                
+                <!-- Botón de Búsqueda -->
+                <button class="search-btn" id="search-btn" aria-label="{% if lang == 'en' %}Open search modal{% else %}Abrir modal de búsqueda{% endif %}">
+                    <svg viewBox="0 0 24 24" class="search-icon" aria-hidden="true" width="20" height="20">
+                        <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2.5" fill="none"/>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                    </svg>
+                </button>
+
+                <!-- Selector de Idiomas -->
+                <div class="lang-selector">
+                    <a href="{{ traducir_url(request.url.path + ('?' + request.url.query if request.url.query else ''), 'es') }}" class="lang-flag {% if lang == 'es' %}active{% endif %}" title="Español" aria-label="Cambiar a Español">
+                        <svg class="lang-flag-svg" viewBox="0 0 24 24" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+                            <clipPath id="circle-clip-es"><circle cx="12" cy="12" r="10"/></clipPath>
+                            <g clip-path="url(#circle-clip-es)">
+                                <rect x="0" y="0" width="24" height="6" fill="#AD1519"/>
+                                <rect x="0" y="6" width="24" height="12" fill="#FABD00"/>
+                                <rect x="0" y="18" width="24" height="6" fill="#AD1519"/>
+                                <rect x="6" y="9" width="3" height="6" fill="#AD1519" rx="0.5"/>
+                                <circle cx="7.5" cy="8" r="1" fill="#FABD00"/>
+                            </g>
+                            <circle cx="12" cy="12" r="10" fill="none" stroke="rgba(0,0,0,0.15)" stroke-width="1"/>
+                        </svg>
+                    </a>
+                    <a href="{{ traducir_url(request.url.path + ('?' + request.url.query if request.url.query else ''), 'en') }}" class="lang-flag {% if lang == 'en' %}active{% endif %}" title="English" aria-label="Change to English">
+                        <svg class="lang-flag-svg" viewBox="0 0 24 24" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+                            <clipPath id="circle-clip-us"><circle cx="12" cy="12" r="10"/></clipPath>
+                            <g clip-path="url(#circle-clip-us)">
+                                <rect x="0" y="0" width="24" height="24" fill="#B22234"/>
+                                <rect x="0" y="1.8" width="24" height="1.8" fill="#FFFFFF"/>
+                                <rect x="0" y="5.4" width="24" height="1.8" fill="#FFFFFF"/>
+                                <rect x="0" y="9.0" width="24" height="1.8" fill="#FFFFFF"/>
+                                <rect x="0" y="12.6" width="24" height="1.8" fill="#FFFFFF"/>
+                                <rect x="0" y="16.2" width="24" height="1.8" fill="#FFFFFF"/>
+                                <rect x="0" y="19.8" width="24" height="1.8" fill="#FFFFFF"/>
+                                <rect x="0" y="23.4" width="24" height="1.8" fill="#FFFFFF"/>
+                                <rect x="0" y="0" width="11" height="11" fill="#3C3B6E"/>
+                                <circle cx="3" cy="3" r="0.6" fill="#FFFFFF"/>
+                                <circle cx="6" cy="3" r="0.6" fill="#FFFFFF"/>
+                                <circle cx="9" cy="3" r="0.6" fill="#FFFFFF"/>
+                                <circle cx="4.5" cy="5.5" r="0.6" fill="#FFFFFF"/>
+                                <circle cx="7.5" cy="5.5" r="0.6" fill="#FFFFFF"/>
+                                <circle cx="3" cy="8" r="0.6" fill="#FFFFFF"/>
+                                <circle cx="6" cy="8" r="0.6" fill="#FFFFFF"/>
+                                <circle cx="9" cy="8" r="0.6" fill="#FFFFFF"/>
+                            </g>
+                            <circle cx="12" cy="12" r="10" fill="none" stroke="rgba(0,0,0,0.15)" stroke-width="1"/>
+                        </svg>
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Contenido Principal Dinámico -->
+    <main id="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Modal de Búsqueda de Servicios -->
+    <div class="search-modal" id="search-modal" role="dialog" aria-modal="true" aria-hidden="true" tabindex="-1">
+        <div class="search-modal-content">
+            <button class="search-modal-close" id="search-modal-close" aria-label="{% if lang == 'en' %}Close search window{% else %}Cerrar ventana de búsqueda{% endif %}">&times;</button>
+            <h2 class="search-modal-title">{% if lang == 'en' %}What notary service do you need today?{% else %}¿Qué servicio notarial necesita hoy?{% endif %}</h2>
+            <form action="{{ '/en/servicios' if lang == 'en' else '/servicios' }}" method="get" class="search-form">
+                <input type="search" name="q" placeholder="{% if lang == 'en' %}e.g., Power, Apostille, Declaration...{% else %}Ej: Poder, Apostilla, Declaración...{% endif %}" required class="search-input" id="search-input">
+                <button type="submit" class="btn btn-primary">{% if lang == 'en' %}Search{% else %}Buscar{% endif %}</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Pie de Página Corporativo Oscuro -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Información de la Empresa -->
+                <div class="footer-col">
+                    <img src="/static/images/logo.png" alt="Joint Partners Xchange Logo" class="footer-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <span class="logo-fallback" style="display:none; font-family: var(--font-display); font-weight: bold; color: var(--color-accent); font-size: 1.2rem; margin-bottom: 1rem;">Joint Partners Xchange</span>
+                    <p class="footer-desc">
+                        {% if lang == 'en' %}
+                        Premium notary services platform with mobile support and apostille procedures with national validity. Backed by JPX International Investments Inc.
+                        {% else %}
+                        Plataforma de servicios notariales premium con soporte móvil y trámites de apostillas con validez nacional. Respaldado por JPX International Investments Inc.
+                        {% endif %}
+                    </p>
+                </div>
+                
+                <!-- Enlaces Rápidos -->
+                <div class="footer-col">
+                    <h3>{% if lang == 'en' %}Notary Services{% else %}Servicios Notariales{% endif %}</h3>
+                    <ul class="footer-links">
+                        <li><a href="{{ '/en/servicios#poder' if lang == 'en' else '/servicios#poder' }}">{% if lang == 'en' %}Power of Attorney{% else %}Poder Notarial{% endif %}</a></li>
+                        <li><a href="{{ '/en/servicios#declaracion' if lang == 'en' else '/servicios#declaracion' }}">{% if lang == 'en' %}Affidavit{% else %}Declaración Jurada{% endif %}</a></li>
+                        <li><a href="{{ '/en/servicios#apostilla' if lang == 'en' else '/servicios#apostilla' }}">{% if lang == 'en' %}Apostilles in Florida{% else %}Apostillas en Florida{% endif %}</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contacto e Información Legal -->
+                <div class="footer-col">
+                    <h3>{% if lang == 'en' %}Contact & Support{% else %}Contacto y Soporte{% endif %}</h3>
+                    <p class="footer-contact-info">
+                        <strong>{% if lang == 'en' %}Location:{% else %}Ubicación:{% endif %}</strong> Miami, Florida, EE.UU.<br>
+                        <strong>{% if lang == 'en' %}Management:{% else %}Gestión:{% endif %}</strong> Gladys Rodriguez / {% if lang == 'en' %}Administration{% else %}Administración{% endif %}<br>
+                        <strong>Email:</strong> grodriguez@jpxinternational.com
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Derechos Reservados Obligatorios -->
+            <div class="footer-bottom">
+                <p>{% if lang == 'en' %}All Rights Reserved by Jpx International &copy; 2026. All rights reserved.{% else %}Derechos Reservados por Jpx International &copy; 2026. Todos los derechos reservados.{% endif %}</p>
+                <p class="footer-subtext">{% if lang == 'en' %}Fiduciary & Notarial Compliance and Systems Integration.{% else %}Cumplimiento Fiduciario y Notarial e Integración de Sistemas.{% endif %}</p>
+                <div class="footer-legal-links">
+                    <a href="{{ '/en/privacidad' if lang == 'en' else '/privacidad' }}">{% if lang == 'en' %}Privacy Policy{% else %}Aviso de Privacidad{% endif %}</a>
+                    <span class="divider">|</span>
+                    <a href="{{ '/en/terminos' if lang == 'en' else '/terminos' }}">{% if lang == 'en' %}Terms & Conditions{% else %}Términos y Condiciones{% endif %}</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Globo de WhatsApp Flotante Premium -->
+    <a href="https://wa.me/17864195719?text={% if lang == 'en' %}Hello,%20I%20request%20information%20about%20your%20notary%20services{% else %}Hola,%20solicito%20informaci%C3%B3n%20sobre%20sus%20servicios%20notariales{% endif %}" class="whatsapp-bubble" target="_blank" rel="noopener noreferrer" aria-label="{% if lang == 'en' %}Chat on WhatsApp{% else %}Chatear por WhatsApp{% endif %}">
+        <svg viewBox="0 0 24 24" class="whatsapp-icon" fill="currentColor">
+            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.262 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.504-5.713-1.464L0 24zm6.59-4.846c1.6.95 3.498 1.45 5.419 1.451 5.428 0 9.845-4.417 9.849-9.848.002-2.63-1.018-5.1-2.871-6.956-1.854-1.855-4.321-2.877-6.953-2.879-5.432 0-9.849 4.416-9.854 9.848-.002 1.815.473 3.59 1.378 5.161l-.973 3.553 3.632-.953zm11.233-5.267c-.29-.145-1.72-.848-1.986-.944-.266-.097-.46-.145-.653.145-.193.29-.748.944-.917 1.139-.17.194-.339.218-.63.072-1.777-.887-2.92-1.547-4.086-3.552-.309-.53.309-.492.885-1.644.097-.194.048-.363-.024-.51-.072-.145-.653-1.573-.895-2.155-.236-.569-.472-.49-.653-.499-.17-.008-.363-.008-.556-.008-.193 0-.507.072-.773.363-.266.29-1.015.992-1.015 2.42 0 1.428 1.04 2.81 1.185 3.002.146.194 2.046 3.125 4.957 4.381 2.873 1.236 2.873.824 3.39.776.516-.048 1.72-.702 1.962-1.38.242-.678.242-1.26.17-1.38-.073-.12-.266-.194-.556-.34z"/>
+        </svg>
+    </a>
+
+    <!-- Script de Comportamiento del Cliente -->
+    <script src="{{ static_versioned('js/main.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

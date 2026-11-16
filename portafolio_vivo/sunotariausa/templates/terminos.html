@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}
+{% if lang == 'en' %}Terms & Conditions | Su Notaria USA | Legal Disclaimers{% else %}Términos y Condiciones | Su Notaria USA | Avisos Legales{% endif %}
+{% endblock %}
+
+{% block content %}
+<!-- Sección Héroe Simplificada -->
+<section class="legal-hero">
+    <div class="container">
+        <h1 class="legal-hero-title">
+            {% if lang == 'en' %}Terms & Conditions{% else %}Términos y Condiciones{% endif %}
+        </h1>
+        <div class="legal-hero-divider"></div>
+    </div>
+</section>
+
+<!-- Cuerpo Legal -->
+<section class="legal-body-section">
+    <div class="container">
+        <div class="legal-content">
+            {% if lang == 'en' %}
+            <p><strong>Last Updated: June 15, 2026</strong></p>
+            <p>Welcome to Su Notaria USA. Please read these Terms & Conditions carefully before using our website or acquiring our notary, apostille, and translation services. By accessing or using this website, you agree to be bound by these terms.</p>
+            
+            <h3>1. Acceptance of Terms</h3>
+            <p>By browsing, accessing, or using this platform, you acknowledge that you have read, understood, and agreed to comply with all rules, guidelines, and terms set forth herein. If you do not agree to these terms, please refrain from using our website and contacting us for services.</p>
+            
+            <h3>2. Permitted Use & Restrictions</h3>
+            <p>You agree to use this website solely for lawful purposes and in accordance with these Terms. You are strictly prohibited from:</p>
+            <ul>
+                <li>Using the website to engage in fraud, misrepresentation, or any illegal notary acts.</li>
+                <li>Attempting to interfere with the proper working of the site, including submitting malicious payloads, injection attacks, or spamming forms.</li>
+                <li>Scraping, copying, or duplicating the design, layout, images, and content of this site without our express written consent.</li>
+                <li>Providing false, inaccurate, or misleading information through our contact or scheduling forms.</li>
+            </ul>
+            
+            <h3>3. No Notary-Client Relationship & Legal Disclaimer</h3>
+            <p>The information provided on this website is for general informational and educational purposes only. <strong>A Notary Public is not an attorney licensed to practice law and may not give legal advice or accept fees for legal advice.</strong> Accessing our website, reading its articles, or submitting a contact form does not create an attorney-client relationship, a fiduciary relationship, or a formal notary-client contract until we officially verify your documents and execute the notary block under public trust.</p>
+            
+            <h3>4. Limitation of Liability</h3>
+            <p>Su Notaria USA and its parent company JPX International Investments Inc. make no guarantees regarding the suitability, completeness, or accuracy of the information provided herein for your specific legal situations. Under no circumstances shall we be held liable for any direct, indirect, incidental, or consequential damages resulting from errors in client documents, delay in state apostille processing times, or misuse of notarized documents by third parties.</p>
+            
+            <h3>5. Intellectual Property Rights</h3>
+            <p>All content displayed on this website, including but not limited to text, graphics, logos, icons, brand names ("Su Notaria USA", "Joint Partners Xchange"), and custom layout design, is the exclusive property of JPX International Investments Inc. or its licensors. You may not distribute, reproduce, or modify any part of this website without written permission.</p>
+            
+            <h3>6. Governing Law & Jurisdiction</h3>
+            <p>These Terms & Conditions are governed by and construed in accordance with the laws of the State of Florida, without regard to its conflict of law provisions. Any legal action, suit, or proceeding arising out of or related to these terms or our services shall be instituted exclusively in the state or federal courts located in Miami-Dade County, Florida.</p>
+            
+            {% else %}
+            <p><strong>Última Actualización: 15 de junio de 2026</strong></p>
+            <p>Bienvenido a Su Notaria USA. Lea detenidamente estos Términos y Condiciones antes de utilizar nuestro sitio web o adquirir nuestros servicios de notaría, apostillas y traducciones. Al acceder o utilizar este sitio web, usted acepta estar sujeto a estos términos.</p>
+            
+            <h3>1. Aceptación de los Términos</h3>
+            <p>Al navegar, acceder o utilizar esta plataforma, usted reconoce que ha leído, comprendido y aceptado cumplir con todas las reglas, pautas y términos establecidos en el presente documento. Si no está de acuerdo con estos términos, absténgase de utilizar nuestro sitio web y de solicitar nuestros servicios.</p>
+            
+            <h3>2. Uso Permitido y Restricciones</h3>
+            <p>Usted acepta utilizar este sitio web únicamente para fines lícitos y de conformidad con estos Términos. Queda estrictamente prohibido:</p>
+            <ul>
+                <li>Utilizar el sitio web para cometer actos fraudulentos, falsificación de identidad o cualquier acto notarial ilegal.</li>
+                <li>Intentar interferir con el correcto funcionamiento del sitio, lo que incluye enviar cargas maliciosas, ataques de inyección de código o saturar los formularios con spam.</li>
+                <li>Extraer, copiar o duplicar el diseño, maquetación, imágenes y contenido de este sitio sin nuestro consentimiento expreso por escrito.</li>
+                <li>Proporcionar información falsa, inexacta o engañosa a través de nuestros formularios de contacto o agenda.</li>
+            </ul>
+            
+            <h3>3. Exención de Relación Notario-Cliente y Descargo Legal</h3>
+            <p>La información provista en este sitio web tiene únicamente fines informativos y educativos generales. <strong>Un Notario Público no es un abogado con licencia para ejercer la abogacía y no puede brindar asesoría legal ni aceptar honorarios por asesoramiento legal.</strong> El acceso a nuestro sitio web, la lectura de sus artículos o el envío de un formulario de contacto no crea una relación abogado-cliente, una relación fiduciaria ni un contrato notarial formal hasta que verifiquemos oficialmente sus documentos y ejecutemos la firma y sello notarial bajo fe pública.</p>
+            
+            <h3>4. Limitación de Responsabilidad</h3>
+            <p>Su Notaria USA y su empresa matriz JPX International Investments Inc. no garantizan la idoneidad, integridad o exactitud de la información proporcionada en este sitio para sus situaciones legales específicas. Bajo ninguna circunstancia seremos responsables de ningún daño directo, indirecto, incidental o consecuente que resulte de errores en los documentos proporcionados por el cliente, demoras en los tiempos de procesamiento de apostillas estatales o el mal uso de documentos notarizados por parte de terceros.</p>
+            
+            <h3>5. Propiedad Intelectual</h3>
+            <p>Todo el contenido que se muestra en este sitio web, incluidos, entre otros, textos, gráficos, logotipos, iconos, nombres comerciales ("Su Notaria USA", "Joint Partners Xchange") y el diseño de la maquetación personalizada, es propiedad exclusiva de JPX International Investments Inc. o sus licenciantes. No puede distribuir, reproducir o modificar ninguna parte de este sitio web sin previa autorización por escrito.</p>
+            
+            <h3>6. Ley Aplicable y Jurisdicción</h3>
+            <p>Estos Términos y Condiciones se rigen e interpretan de conformidad con las leyes del Estado de Florida, sin dar efecto a ninguna disposición sobre conflictos de leyes. Cualquier acción legal, demanda o procedimiento que surja de estos términos o de nuestros servicios se iniciará exclusivamente en los tribunales estatales o federales ubicados en el Condado de Miami-Dade, Florida.</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- Sección de Interés (Qué hace un notario en USA) -->
+<section class="section section-dark-premium">
+    <div class="container text-center">
+        <h2 class="section-title text-light">
+            {% if lang == 'en' %}What does a notary public do in the United States?{% else %}¿Qué hace un notario público en Estados Unidos?{% endif %}
+        </h2>
+        <div class="section-divider gold-divider"></div>
+        <p class="section-desc max-width-800 text-light-muted text-center" style="margin: 0 auto 2.5rem auto;">
+            {% if lang == 'en' %}
+            Unlike in other countries, a notary public in the United States is a state-regulated public trust officer whose primary purpose is to provide formal authenticity to signatures and declarations. They are key for real estate transactions, international powers of attorney, apostilles, trusts, and legal consent forms.
+            {% else %}
+            A diferencia de otros países, el notario en Estados Unidos es un oficial de fe pública regulado a nivel estatal cuyo fin primordial es dar autenticidad formal a firmas y declaraciones. Es clave para operaciones de compraventa inmobiliaria, poderes notariales internacionales, apostillas, fideicomisos y actas de consentimiento legal.
+            {% endif %}
+        </p>
+        <div class="cta-container">
+            <a href="{{ '/en/servicios' if lang == 'en' else '/servicios' }}" class="btn btn-primary">
+                {% if lang == 'en' %}SERVICES{% else %}SERVICIOS{% endif %}
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

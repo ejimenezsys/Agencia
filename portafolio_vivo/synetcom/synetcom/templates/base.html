@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Synetcom – Consultoría en Sistemas y Redes{% endblock %}</title>
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', path='images/favicon.svg') }}" />
+  <meta name="description"
+    content="{% block description %}Synetcom – Telecomunicaciones, Sistemas y Seguridad Electrónica. Más de 25 años de experiencia.{% endblock %}">
+  <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
+  {% block extra_head %}{% endblock %}
+</head>
+
+<body>
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="container">
+      <div class="top-bar-left">
+        <a href="tel:+525581566136"><i class="fas fa-phone"></i> +52 55 8156 – 6136</a>
+        <a href="mailto:jlopez@synetcom.mx"><i class="fas fa-envelope"></i> jlopez@synetcom.mx</a>
+      </div>
+      <div class="top-bar-right">
+        <a href="contacto.html"><i class="fas fa-paper-plane"></i> Solicitar Cotización</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="navbar-logo">
+        <img src="{{ url_for('static', path='images/logo.png') }}" alt="Synetcom Logo"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='block'" />
+        <span class="logo-text-fallback neon-flicker" style="display:none;">SYNETCOM</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="index.html" class="{% if page_name == 'inicio' %}active{% endif %}">Inicio</a></li>
+        <li class="nav-dropdown">
+          <a href="#"
+            class="{% if page_name in ['camaras', 'conectividad', 'soporte'] %}active{% endif %}">Servicios</a>
+          <ul class="dropdown-menu">
+            <li><a href="camaras.html"><i class="fas fa-shield-alt"></i>Seguridad Electrónica</a></li>
+            <li><a href="conectividad-empresarial.html"><i class="fas fa-network-wired"></i>Conectividad Empresarial</a>
+            </li>
+            <li><a href="soporte.html"><i class="fas fa-headset"></i>Soporte Tecnológico</a></li>
+            <li><a href="inteligencia-artificial.html"><i class="fas fa-brain"></i>Inteligencia Artificial</a></li>
+          </ul>
+        </li>
+        <li><a href="inteligencia-artificial.html" class="{% if page_name == 'ia' %}active{% endif %}">IA PyMEs</a></li>
+        <li><a href="acerca.html" class="{% if page_name == 'acerca' %}active{% endif %}">Acerca de</a></li>
+        <li><a href="contacto.html" class="{% if page_name == 'contacto' %}active{% endif %}">Contacto</a></li>
+        <li><button class="nav-search" aria-label="Buscar"><i class="fas fa-search"></i></button></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- CONTENT BLOCK -->
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4>Enlaces</h4>
+          <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="acerca.html">Acerca de</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Soluciones</h4>
+          <ul>
+            <li><a href="camaras.html">Seguridad Electrónica</a></li>
+            <li><a href="conectividad-empresarial.html">Conectividad Empresarial</a></li>
+            <li><a href="soporte.html">Soporte Tecnológico</a></li>
+            <li><a href="inteligencia-artificial.html">Inteligencia Artificial</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Nuestras Políticas</h4>
+          <ul>
+            <li><a href="aviso-privacidad.html">Aviso de Privacidad</a></li>
+            <li><a href="politica-cookies.html">Política de Cookies</a></li>
+            <li><a href="terminos-condiciones.html">Términos y Condiciones</a></li>
+          </ul>
+          <div class="footer-social">
+            <a href="https://www.facebook.com/GrupoSynetcom" class="social-fb" aria-label="Facebook" target="_blank"
+              rel="noopener"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/synetcom.mx/" class="social-ig" aria-label="Instagram" target="_blank"
+              rel="noopener"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/edwardjimenezia/" class="social-li" aria-label="LinkedIn"
+              target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://wa.me/525615651784" class="social-wa" aria-label="WhatsApp" target="_blank"
+              rel="noopener"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">© 2026-27 Synetcom · Todos los derechos reservados · Conectamos Tecnología, Impulsamos el
+        Futuro.</div>
+    </div>
+  </footer>
+
+  <!-- WhatsApp Float -->
+  <a href="https://wa.me/525615651784" class="wa-float" aria-label="WhatsApp" target="_blank" rel="noopener">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <!-- Scripts -->
+  <script src="{{ url_for('static', path='js/main.js') }}"></script>
+  {% block extra_js %}{% endblock %}
+</body>
+
+</html>

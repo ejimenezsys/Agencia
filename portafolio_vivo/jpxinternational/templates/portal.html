@@ -1,0 +1,889 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if lang == 'en' %}Confidential Portal | JPX International Investments Inc.
+    {% elif lang == 'pt' %}Portal Confidencial | JPX International Investments Inc.
+    {% else %}Portal Confidencial | JPX International Investments Inc.
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+{% if not logged_in %}
+<!-- Login Wall -->
+<section class="login-section">
+    <div class="login-card">
+        <div class="login-header">
+            <h1>
+                {% if lang == 'en' %}Fiduciary Access
+                {% elif lang == 'pt' %}Acesso Fiduciário
+                {% else %}Acceso Fiduciario
+                {% endif %}
+            </h1>
+            <p>
+                {% if lang == 'en' %}Confidential Portal of Bank Coordinates and Contracts
+                {% elif lang == 'pt' %}Portal Confidencial de Coordenadas Bancárias e Contratos
+                {% else %}Portal Confidencial de Coordenadas Bancarias y Contratos
+                {% endif %}
+            </p>
+        </div>
+        
+        {% if error %}
+        <div class="alert alert-error" style="display: block; margin-bottom: 1.5rem;">
+            {% if lang == 'en' %}Invalid credentials. Access restricted by the compliance department.
+            {% elif lang == 'pt' %}Credenciais inválidas. Acesso restrito pelo departamento de conformidade.
+            {% else %}{{ error }}
+            {% endif %}
+        </div>
+        {% endif %}
+        
+        <form action="/portal/login" method="POST" autocomplete="on">
+            <div class="form-group">
+                <label for="username" class="form-label">
+                    {% if lang == 'en' %}Username or Email
+                    {% elif lang == 'pt' %}Nome de Usuário ou E-mail
+                    {% else %}Nombre de Usuario o Email
+                    {% endif %}
+                </label>
+                <input type="text" id="username" name="username" class="form-control" autocomplete="username" placeholder="{% if lang == 'en' %}e.g., admin{% elif lang == 'pt' %}Ex. admin{% else %}Ej. administrador{% endif %}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password" class="form-label">
+                    {% if lang == 'en' %}Compliance Password
+                    {% elif lang == 'pt' %}Senha de Conformidade
+                    {% else %}Contraseña de Cumplimiento
+                    {% endif %}
+                </label>
+                <input type="password" id="password" name="password" class="form-control" autocomplete="current-password" placeholder="••••••••••••" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+                {% if lang == 'en' %}Authenticate Credentials
+                {% elif lang == 'pt' %}Autenticar Credenciais
+                {% else %}Autenticar Credenciales
+                {% endif %}
+            </button>
+        </form>
+    </div>
+</section>
+
+{% else %}
+<!-- Dashboard Privado Confidencial -->
+<section class="section">
+    <div class="container">
+        <h2>
+            {% if lang == 'en' %}Confidential Fiduciary Dashboard
+            {% elif lang == 'pt' %}Painel Fiduciário Confidencial
+            {% else %}Panel Fiduciario Confidencial
+            {% endif %}
+        </h2>
+        <p style="margin-top: 0.5rem; color: var(--color-muted); margin-bottom: 3rem;">
+            {% if lang == 'en' %}Welcome to the protected area for qualified institutional clients and NCNDA agreement signatories.
+            {% elif lang == 'pt' %}Bem-vindo à área protegida para clientes institucionais qualificados e signatários de acordos NCNDA.
+            {% else %}Bienvenido al área protegida para clientes institucionales calificados y firmantes de acuerdos NCNDA.
+            {% endif %}
+        </p>
+        
+        <div class="dashboard-grid">
+            <!-- Barra Lateral del Dashboard -->
+            <aside class="dashboard-sidebar">
+                <nav>
+                    <ul class="dashboard-nav">
+                        <li><a href="#coordenadas" class="dashboard-nav-link active">
+                            {% if lang == 'en' %}Bank Coordinates
+                            {% elif lang == 'pt' %}Coordenadas Bancárias
+                            {% else %}Coordenadas Bancarias
+                            {% endif %}
+                        </a></li>
+                        <li><a href="#ncnda" class="dashboard-nav-link">
+                            {% if lang == 'en' %}NCNDA Upload
+                            {% elif lang == 'pt' %}Carregamento de NCNDA
+                            {% else %}Carga de NCNDA
+                            {% endif %}
+                        </a></li>
+                        <li><a href="#leads" class="dashboard-nav-link">
+                            {% if lang == 'en' %}Leads Management (CRM)
+                            {% elif lang == 'pt' %}Gestão de Leads (CRM)
+                            {% else %}Gestión de Leads (CRM)
+                            {% endif %}
+                        </a></li>
+                        <li><a href="/portal/logout" class="dashboard-nav-link" style="color: #EF4444; margin-top: 2rem;">
+                            {% if lang == 'en' %}Secure Logout
+                            {% elif lang == 'pt' %}Fechar Sessão Segura
+                            {% else %}Cerrar Sesión Segura
+                            {% endif %}
+                        </a></li>
+                    </ul>
+                </nav>
+            </aside>
+            
+            <!-- Contenido del Dashboard -->
+            <div class="dashboard-content-panel">
+                <!-- PANEL: COORDENADAS -->
+                <div id="coordenadas">
+                    <h3 style="border-bottom: 2px solid var(--color-contrast); padding-bottom: 0.5rem; margin-bottom: 1.5rem;">
+                        {% if lang == 'en' %}Fiduciary Coordinates and Custody Accounts
+                        {% elif lang == 'pt' %}Coordenadas Fiduciárias e Contas de Custódia
+                        {% else %}Coordenadas Fiduciarias y Cuentas de Custodia
+                        {% endif %}
+                    </h3>
+                    <p style="font-size: 0.9rem; text-align: justify; margin-bottom: 2rem;">
+                        {% if lang == 'en' %}The following elite banking coordinates constitute highly sensitive, strictly confidential, and proprietary corporate information. Copying or unauthorized disclosure is prohibited.
+                        {% elif lang == 'pt' %}As seguintes coordenadas bancárias de elite constituem informações corporativas altamente sensíveis, estritamente confidenciais e de natureza proprietária. É proibida sua cópia ou divulgação não autorizada.
+                        {% else %}Las siguientes coordenadas bancarias de élite constituyen información corporativa altamente sensible, estrictamente confidencial y de naturaleza propietaria. Se prohibe su copia o divulgación no autorizada.
+                        {% endif %}
+                    </p>
+                    
+                    <div class="bank-detail-grid">
+                        <div class="bank-label">
+                            {% if lang == 'en' %}Institution:
+                            {% elif lang == 'pt' %}Instituição:
+                            {% else %}Institución:
+                            {% endif %}
+                        </div>
+                        <div class="bank-value"><strong>JPMorgan Chase Bank N.A.</strong></div>
+                        
+                        <div class="bank-label">
+                            {% if lang == 'en' %}Location:
+                            {% elif lang == 'pt' %}Localização:
+                            {% else %}Ubicación:
+                            {% endif %}
+                        </div>
+                        <div class="bank-value">Miami, Florida ({% if lang == 'en' %}USA{% elif lang == 'pt' %}EUA{% else %}EE.UU.{% endif %})</div>
+                        
+                        <div class="bank-label">
+                            {% if lang == 'en' %}Account Number:
+                            {% elif lang == 'pt' %}Número da Conta:
+                            {% else %}Número de Cuenta:
+                            {% endif %}
+                        </div>
+                        <div class="bank-value">
+                            {% if ncnda_verified %}
+                            <code>987265432189 ({% if lang == 'en' %}Master Trust{% elif lang == 'pt' %}Fideicomisso Mestre{% else %}Fideicomiso Maestro{% endif %})</code>
+                            {% else %}
+                            <code>9872******89 ({% if lang == 'en' %}Master Trust{% elif lang == 'pt' %}Fideicomisso Mestre{% else %}Fideicomiso Maestro{% endif %})</code>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="bank-label">
+                            {% if lang == 'en' %}ABA Routing (Transit):
+                            {% elif lang == 'pt' %}Código ABA (Transit):
+                            {% else %}Código ABA (Transit):
+                            {% endif %}
+                        </div>
+                        <div class="bank-value">
+                            {% if ncnda_verified %}
+                            <code>063112345 (Wire Transfers Only)</code>
+                            {% else %}
+                            <code>0631***** (Wire Transfers Only)</code>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="bank-label">SWIFT / BIC:</div>
+                        <div class="bank-value">
+                            {% if ncnda_verified %}
+                            <code>CHASUS33MIA</code>
+                            {% else %}
+                            <code>CHASUS33***</code>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="bank-label">
+                            {% if lang == 'en' %}Bank Officer (BO):
+                            {% elif lang == 'pt' %}Oficial Bancário (BO):
+                            {% else %}Oficial Bancario (BO):
+                            {% endif %}
+                        </div>
+                        <div class="bank-value">
+                            {% if ncnda_verified %}
+                            <a href="mailto:j.officer@jpmorgan.com" style="color: var(--color-contrast); text-decoration: underline;">j.officer@jpmorgan.com</a> ({% if lang == 'en' %}Direct Secure Link{% elif lang == 'pt' %}Canal Seguro Direto{% else %}Canal Seguro Directo{% endif %})
+                            {% else %}
+                            j.officer@jpmorgan.com ({% if lang == 'en' %}Requires secure token{% elif lang == 'pt' %}Requer token seguro{% else %}Requiere token seguro{% endif %})
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="bank-detail-grid" style="margin-top: 2.5rem;">
+                        <div class="bank-label">
+                            {% if lang == 'en' %}Institution:
+                            {% elif lang == 'pt' %}Instituição:
+                            {% else %}Institución:
+                            {% endif %}
+                        </div>
+                        <div class="bank-value"><strong>Barclays Bank PLC (London Branch)</strong></div>
+                        
+                        <div class="bank-label">
+                            {% if lang == 'en' %}Location:
+                            {% elif lang == 'pt' %}Localização:
+                            {% else %}Ubicación:
+                            {% endif %}
+                        </div>
+                        <div class="bank-value">Londres, {% if lang == 'en' %}United Kingdom{% elif lang == 'pt' %}Reino Unido{% else %}Reino Unido{% endif %}</div>
+                        
+                        <div class="bank-label">
+                            {% if lang == 'en' %}Account Number:
+                            {% elif lang == 'pt' %}Número da Conta:
+                            {% else %}Número de Cuenta:
+                            {% endif %}
+                        </div>
+                        <div class="bank-value">
+                            {% if ncnda_verified %}
+                            <code>104898765474 (Private Banking Custody)</code>
+                            {% else %}
+                            <code>1048******74 (Private Banking Custody)</code>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="bank-label">SWIFT / BIC:</div>
+                        <div class="bank-value">
+                            {% if ncnda_verified %}
+                            <code>BARCGB22LON</code>
+                            {% else %}
+                            <code>BARCGB22***</code>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="bank-label">
+                            {% if lang == 'en' %}Bank Officer (BO):
+                            {% elif lang == 'pt' %}Oficial Bancário (BO):
+                            {% else %}Oficial Bancario (BO):
+                            {% endif %}
+                        </div>
+                        <div class="bank-value">
+                            {% if ncnda_verified %}
+                            <a href="mailto:p.banker@barclays.co.uk" style="color: var(--color-contrast); text-decoration: underline;">p.banker@barclays.co.uk</a> ({% if lang == 'en' %}Direct Secure Link{% elif lang == 'pt' %}Canal Seguro Direto{% else %}Canal Seguro Directo{% endif %})
+                            {% else %}
+                            p.banker@barclays.co.uk
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- PANEL: NCNDA UPLOAD -->
+                <div id="ncnda" style="display: none;">
+                    <h3 style="border-bottom: 2px solid var(--color-contrast); padding-bottom: 0.5rem; margin-bottom: 1.5rem;">
+                        {% if lang == 'en' %}Upload Non-Disclosure and Non-Circumvention Agreement (NCNDA)
+                        {% elif lang == 'pt' %}Carregamento de Acordo de Não Divulgação e Não Violação (NCNDA)
+                        {% else %}Carga de Acuerdo de No Divulgación y No Elusión (NCNDA)
+                        {% endif %}
+                    </h3>
+                    
+                    {% if upload_error %}
+                    <div class="alert alert-error" style="display: block; margin-bottom: 1.5rem;">
+                        {{ upload_error }}
+                    </div>
+                    {% endif %}
+                    
+                    {% if ncnda_verified %}
+                    <div class="alert alert-success" style="display: block; margin-bottom: 1.5rem;">
+                        {% if lang == 'en' %}NCNDA Agreement successfully verified. Confidential banking coordinates have been decrypted and the compliance audit record has been stored.
+                        {% elif lang == 'pt' %}Contrato NCNDA verificado com sucesso. As coordenadas bancárias confidenciais foram descriptografadas e o registro de auditoria foi armazenado.
+                        {% else %}Contrato NCNDA verificado con éxito. Las coordenadas bancarias confidenciales han sido desencriptadas y el registro de cumplimiento ha sido guardado.
+                        {% endif %}
+                    </div>
+                    
+                    <div style="background-color: var(--color-grey); border: 1px solid var(--color-secondary); padding: 1.5rem; border-radius: var(--border-radius); display: flex; align-items: center; gap: 1rem;">
+                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#10B981" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" stroke-linecap="round" stroke-linejoin="round"/>
+                            <polyline points="22 4 12 14.01 9 11.01" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <div>
+                            <strong style="color: var(--color-dark);">{% if lang == 'en' %}Status: CLEARED{% elif lang == 'pt' %}Status: APROVADO{% else %}Estado: AUTORIZADO{% endif %}</strong>
+                            <p style="font-size: 0.85rem; color: var(--color-muted); margin-top: 0.25rem;">
+                                {% if lang == 'en' %}The compliance requirements for this session have been met. Global transactions are active.
+                                {% elif lang == 'pt' %}Os requisitos de conformidade para esta sessão foram atendidos. As transações globais estão ativas.
+                                {% else %}Los requisitos de cumplimiento para esta sesión han sido satisfechos. Las transacciones globales se encuentran activas.
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                    {% else %}
+                    <p style="font-size: 0.9rem; text-align: justify; margin-bottom: 2rem;">
+                        {% if lang == 'en' %}To enable visualization of the fiduciary account ABA routing and transcontinental funds settlement, the client is required to upload the signed and duly apostilled copy of the NCNDA contract.
+                        {% elif lang == 'pt' %}Para habilitar a visualização do roteamento ABA da conta fiduciária e a liquidação transcontinental de fundos, é obrigatório que o cliente envie a cópia assinada e devidamente apostilada do contrato NCNDA.
+                        {% else %}Para habilitar la visualización del enrutamiento ABA de cuenta fiduciaria y la liquidación transcontinental de fondos, es obligatorio que el cliente suba la copia rubricada y debidamente apostillada del contrato NCNDA.
+                        {% endif %}
+                    </p>
+                    
+                    <form action="/portal/upload-ncnda" method="POST" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="ncnda_file" class="form-label">
+                                {% if lang == 'en' %}Upload NCNDA Document (Digitally Signed PDF)
+                                {% elif lang == 'pt' %}Carregar Documento NCNDA (PDF Assinado Digitalmente)
+                                {% else %}Cargar Documento NCNDA (PDF Firmado Digitalmente)
+                                {% endif %}
+                            </label>
+                            <input type="file" id="ncnda_file" name="ncnda_file" class="form-control" accept=".pdf" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+                            {% if lang == 'en' %}Upload Signed Document
+                            {% elif lang == 'pt' %}Subir Documento Assinado
+                            {% else %}Subir Documento Firmado
+                            {% endif %}
+                        </button>
+                    </form>
+                    {% endif %}
+                </div>
+
+                <!-- PANEL: LEADS MANAGEMENT (CRM) -->
+                <div id="leads" style="display: none;">
+                    <h3 style="border-bottom: 2px solid var(--color-contrast); padding-bottom: 0.5rem; margin-bottom: 1.5rem;">
+                        {% if lang == 'en' %}Captured Leads (CRM)
+                        {% elif lang == 'pt' %}Gestão de Leads (CRM)
+                        {% else %}Gestión de Leads (CRM)
+                        {% endif %}
+                    </h3>
+                    <p style="font-size: 0.9rem; text-align: justify; margin-bottom: 1.5rem;">
+                        {% if lang == 'en' %}The following list displays the corporate prospects qualified through the institutional contact form.
+                        {% elif lang == 'pt' %}A lista a seguir exibe os prospectos corporativos qualificados através do formulário de contato institucional.
+                        {% else %}La siguiente lista muestra los prospectos corporativos calificados a través del formulario de contacto institucional.
+                        {% endif %}
+                    </p>
+
+                    {% if leads %}
+                    <!-- Botón de Exportar a Excel -->
+                    <div style="display: flex; justify-content: flex-end; margin-bottom: 1.5rem;">
+                        <a href="/portal/leads/export" class="btn btn-primary" style="padding: 0.5rem 1.25rem; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 0.5rem;">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="7 10 12 15 17 10"/>
+                                <line x1="12" y1="15" x2="12" y2="3"/>
+                            </svg>
+                            {% if lang == 'en' %}Export to Excel (CSV)
+                            {% elif lang == 'pt' %}Exportar para Excel (CSV)
+                            {% else %}Exportar a Excel (CSV)
+                            {% endif %}
+                        </a>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table-premium" style="font-size: 0.85rem;">
+                            <thead>
+                                <tr>
+                                    <th>{% if lang == 'en' %}Corporation{% elif lang == 'pt' %}Corporação{% else %}Corporación{% endif %}</th>
+                                    <th>{% if lang == 'en' %}Executive (P.O.C.){% elif lang == 'pt' %}Executivo (P.O.C.){% else %}Ejecutivo (P.O.C.){% endif %}</th>
+                                    <th>{% if lang == 'en' %}Corporate Email{% elif lang == 'pt' %}E-mail Corporativo{% else %}Correo Institucional{% endif %}</th>
+                                    <th>{% if lang == 'en' %}Area of Interest{% elif lang == 'pt' %}Área de Interesse{% else %}Area Operativa{% endif %}</th>
+                                    <th>{% if lang == 'en' %}Capital (USD){% elif lang == 'pt' %}Capital (USD){% else %}Capital (USD){% endif %}</th>
+                                    <th>{% if lang == 'en' %}Date (UTC){% elif lang == 'pt' %}Data (UTC){% else %}Fecha (UTC){% endif %}</th>
+                                    <th style="width: 70px; text-align: center;">{% if lang == 'en' %}Actions{% elif lang == 'pt' %}Ações{% else %}Acciones{% endif %}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for lead in leads %}
+                                <tr id="lead-row-{{ lead.id_prospecto }}"
+                                    data-corp="{{ lead.nombre_corporacion|escape }}"
+                                    data-exec="{{ lead.nombre_ejecutivo|escape }}"
+                                    data-email="{{ lead.email_institucional|escape }}"
+                                    data-area="{{ lead.area_operativa_interes|escape }}"
+                                    data-capital="{{ lead.rango_capital_usd }}">
+                                    <td class="col-corp"><strong>{{ lead.nombre_corporacion }}</strong></td>
+                                    <td class="col-exec">{{ lead.nombre_ejecutivo }}</td>
+                                    <td class="col-email"><a href="mailto:{{ lead.email_institucional }}" style="color: var(--color-contrast); text-decoration: underline;">{{ lead.email_institucional }}</a></td>
+                                    <td class="col-area">
+                                        {% if lead.area_operativa_interes == 'Gestión Global de Activos' %}
+                                            {% if lang == 'en' %}Global Asset Management{% elif lang == 'pt' %}Gestão Global de Ativos{% else %}Gestión Global de Activos{% endif %}
+                                        {% elif lead.area_operativa_interes == 'Estructuración Compleja de Deuda' %}
+                                            {% if lang == 'en' %}Complex Debt Structuring{% elif lang == 'pt' %}Estruturação Complexa de Dívida{% else %}Estructuración Compleja de Deuda{% endif %}
+                                        {% elif lead.area_operativa_interes == 'Comercio Mayorista de Commodities' %}
+                                            {% if lang == 'en' %}Wholesale Commodities Trading{% elif lang == 'pt' %}Comércio de Commodities no Atacado{% else %}Comercio Mayorista de Commodities{% endif %}
+                                        {% elif lead.area_operativa_interes == 'Emancipación y Creación de Bancos Offshore' %}
+                                            {% if lang == 'en' %}Emancipation and Offshore Bank Setup{% elif lang == 'pt' %}Emancipação e Criação de Bancos Offshore{% else %}Emancipación y Creación de Bancos Offshore{% endif %}
+                                        {% else %}
+                                            {{ lead.area_operativa_interes }}
+                                        {% endif %}
+                                    </td>
+                                    <td class="col-capital" data-raw-val="{{ lead.rango_capital_usd }}">
+                                        {% if lead.rango_capital_usd >= 50000000 %}
+                                            $50M+
+                                        {% elif lead.rango_capital_usd >= 10000000 %}
+                                            $10M - $50M
+                                        {% elif lead.rango_capital_usd >= 5000000 %}
+                                            $5M - $10M
+                                        {% else %}
+                                            $1M - $5M
+                                        {% endif %}
+                                    </td>
+                                    <td><span style="font-family: monospace; font-size: 0.75rem;">{{ lead.marca_tiempo_automatica.strftime('%Y-%m-%d %H:%M') if lead.marca_tiempo_automatica else '' }}</span></td>
+                                    <td style="text-align: center; white-space: nowrap;">
+                                        <button onclick="openEditRecordModal('{{ lead.id_prospecto }}')" class="btn" style="background-color: transparent; border: none; padding: 0.25rem; cursor: pointer; color: var(--color-contrast); display: inline-flex; align-items: center; justify-content: center; margin-right: 0.5rem;" title="{% if lang == 'en' %}Edit Lead{% elif lang == 'pt' %}Editar Prospecto{% else %}Editar Prospecto{% endif %}">
+                                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                                <path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                                            </svg>
+                                        </button>
+                                        <button onclick="deleteLead('{{ lead.id_prospecto }}', '{{ lead.nombre_corporacion|escape }}')" class="btn" style="background-color: transparent; border: none; padding: 0.25rem; cursor: pointer; color: #EF4444; display: inline-flex; align-items: center; justify-content: center;" title="{% if lang == 'en' %}Delete Lead{% elif lang == 'pt' %}Excluir Prospecto{% else %}Eliminar Prospecto{% endif %}">
+                                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="3 6 5 6 21 6"/>
+                                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                                                <line x1="10" y1="11" x2="10" y2="17"/>
+                                                <line x1="14" y1="11" x2="14" y2="17"/>
+                                            </svg>
+                                        </button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div style="background-color: var(--color-grey); border: 1px dashed var(--color-secondary); padding: 2.5rem; text-align: center; border-radius: var(--border-radius); color: var(--color-muted);">
+                        <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" style="margin: 0 auto 1rem auto; opacity: 0.5;">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                        <p style="font-size: 0.95rem;">
+                            {% if lang == 'en' %}No qualified leads registered in the database yet.
+                            {% elif lang == 'pt' %}Ainda não há prospectos qualificados registrados no banco de dados.
+                            {% else %}Aún no hay prospectos calificados registrados en la base de datos.
+                            {% endif %}
+                        </p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Modal de Edición de Leads (Renombrado a record para evitar AdBlockers) -->
+<div id="edit-record-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-content">
+        <button onclick="closeEditRecordModal()" class="modal-close-btn" aria-label="{% if lang == 'en' %}Close{% elif lang == 'pt' %}Fechar{% else %}Cerrar{% endif %}">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+        </button>
+        
+        <div class="modal-header-section">
+            <h3 id="modal-title">
+                {% if lang == 'en' %}Edit Corporate Lead
+                {% elif lang == 'pt' %}Editar Lead Corporativo
+                {% else %}Editar Lead Corporativo
+                {% endif %}
+            </h3>
+        </div>
+        
+        <form id="edit-record-form" onsubmit="submitEditRecordForm(event)">
+            <input type="hidden" id="edit-record-id">
+            
+            <div class="form-group">
+                <label for="edit-corp-name" class="form-label">
+                    {% if lang == 'en' %}Corporation Name
+                    {% elif lang == 'pt' %}Nome da Corporação
+                    {% else %}Nombre de la Corporación
+                    {% endif %}
+                </label>
+                <input type="text" id="edit-corp-name" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="edit-exec-name" class="form-label">
+                    {% if lang == 'en' %}Executive Name (P.O.C.)
+                    {% elif lang == 'pt' %}Nome do Executivo (P.O.C.)
+                    {% else %}Nombre del Ejecutivo (P.O.C.)
+                    {% endif %}
+                </label>
+                <input type="text" id="edit-exec-name" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="edit-email" class="form-label">
+                    {% if lang == 'en' %}Corporate Email
+                    {% elif lang == 'pt' %}E-mail Corporativo
+                    {% else %}Correo Institucional
+                    {% endif %}
+                </label>
+                <input type="email" id="edit-email" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="edit-area" class="form-label">
+                    {% if lang == 'en' %}Area of Interest
+                    {% elif lang == 'pt' %}Área de Interesse
+                    {% else %}Área Operativa de Interés
+                    {% endif %}
+                </label>
+                <select id="edit-area" class="form-control" required>
+                    <option value="Gestión Global de Activos">
+                        {% if lang == 'en' %}Global Asset Management
+                        {% elif lang == 'pt' %}Gestão Global de Ativos
+                        {% else %}Gestión Global de Activos
+                        {% endif %}
+                    </option>
+                    <option value="Estructuración Compleja de Deuda">
+                        {% if lang == 'en' %}Complex Debt Structuring
+                        {% elif lang == 'pt' %}Estruturação Complexa de Dívida
+                        {% else %}Estructuración Compleja de Deuda
+                        {% endif %}
+                    </option>
+                    <option value="Comercio Mayorista de Commodities">
+                        {% if lang == 'en' %}Wholesale Commodities Trading
+                        {% elif lang == 'pt' %}Comércio de Commodities no Atacado
+                        {% else %}Comercio Mayorista de Commodities
+                        {% endif %}
+                    </option>
+                    <option value="Emancipación y Creación de Bancos Offshore">
+                        {% if lang == 'en' %}Emancipation and Offshore Bank Setup
+                        {% elif lang == 'pt' %}Emancipação e Criação de Bancos Offshore
+                        {% else %}Emancipación y Creación de Bancos Offshore
+                        {% endif %}
+                    </option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="edit-capital" class="form-label">
+                    {% if lang == 'en' %}Available Capital (USD)
+                    {% elif lang == 'pt' %}Capital Disponível (USD)
+                    {% else %}Capital de Inversión Disponible (USD)
+                    {% endif %}
+                </label>
+                <select id="edit-capital" class="form-control" required>
+                    <option value="1000000.0">U.S.D. $1M - $5M</option>
+                    <option value="5000000.0">U.S.D. $5M - $10M</option>
+                    <option value="10000000.0">U.S.D. $10M - $50M</option>
+                    <option value="50000000.0">U.S.D. $50M+</option>
+                </select>
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" onclick="closeEditRecordModal()" class="btn btn-secondary" style="background-color: transparent; border: 1px solid var(--color-muted); color: var(--color-dark);">
+                    {% if lang == 'en' %}Cancel
+                    {% elif lang == 'pt' %}Cancelar
+                    {% else %}Cancelar
+                    {% endif %}
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    {% if lang == 'en' %}Save Changes
+                    {% elif lang == 'pt' %}Salvar Alterações
+                    {% else %}Guardar Cambios
+                    {% endif %}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+{% if logged_in %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const navLinks = document.querySelectorAll('.dashboard-nav-link');
+        const panels = {
+            '#coordenadas': document.getElementById('coordenadas'),
+            '#ncnda': document.getElementById('ncnda'),
+            '#leads': document.getElementById('leads')
+        };
+
+        function switchTab(hash) {
+            const targetHash = panels[hash] ? hash : '#coordenadas';
+            
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === targetHash) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+
+            Object.keys(panels).forEach(key => {
+                if (panels[key]) {
+                    if (key === targetHash) {
+                        panels[key].style.display = 'block';
+                    } else {
+                        panels[key].style.display = 'none';
+                    }
+                }
+            });
+        }
+
+        navLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            if (href && href.startsWith('#')) {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    history.pushState(null, null, href);
+                    switchTab(href);
+                });
+            }
+        });
+
+        switchTab(window.location.hash);
+
+        window.addEventListener('popstate', () => {
+            switchTab(window.location.hash);
+        });
+
+        // Función interactiva asíncrona para eliminar leads
+        window.deleteLead = async function(id, name) {
+            const currentLang = document.cookie.split('; ').find(row => row.startsWith('lang='))?.split('=')[1] || 'es';
+            const prompts = {
+                es: {
+                    confirm: `¿Está seguro de que desea eliminar permanentemente el prospecto "${name}" del CRM?`,
+                    deleting: 'Eliminando...',
+                    success: 'Prospecto eliminado correctamente del CRM.'
+                },
+                en: {
+                    confirm: `Are you sure you want to permanently delete the prospect "${name}" from the CRM?`,
+                    deleting: 'Deleting...',
+                    success: 'Prospect deleted successfully from the CRM.'
+                },
+                pt: {
+                    confirm: `Tem certeza de que deseja excluir permanentemente o prospecto "${name}" do CRM?`,
+                    deleting: 'Excluindo...',
+                    success: 'Prospecto excluído com sucesso do CRM.'
+                }
+            };
+            const p = prompts[currentLang] || prompts.es;
+
+            if (!confirm(p.confirm)) return;
+
+            try {
+                const response = await fetch(`/portal/leads/delete/${id}`, {
+                    method: 'POST'
+                });
+                
+                const data = await response.json();
+                if (response.ok) {
+                    const row = document.getElementById(`lead-row-${id}`);
+                    if (row) {
+                        row.style.transition = 'all 0.5s ease';
+                        row.style.opacity = '0';
+                        row.style.transform = 'translateX(20px)';
+                        setTimeout(() => {
+                            row.remove();
+                            const tbody = document.querySelector('#leads tbody');
+                            if (tbody && tbody.children.length === 0) {
+                                window.location.reload();
+                            }
+                        }, 500);
+                    }
+                    alert(p.success);
+                } else {
+                    alert(data.detail || 'Error.');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Connection error.');
+            }
+        };
+
+        // Lógica de Edición de Leads
+        const genericDomains = new Set([
+            "gmail.com", "yahoo.com", "hotmail.com", "live.com", 
+            "outlook.com", "aol.com", "zoho.com", "proton.me", 
+            "protonmail.com", "yandex.com", "mail.com", "icloud.com"
+        ]);
+
+        const areasTranslations = {
+            es: {
+                "Gestión Global de Activos": "Gestión Global de Activos",
+                "Estructuración Compleja de Deuda": "Estructuración Compleja de Deuda",
+                "Comercio Mayorista de Commodities": "Comercio Mayorista de Commodities",
+                "Emancipación y Creación de Bancos Offshore": "Emancipación y Creación de Bancos Offshore"
+            },
+            en: {
+                "Gestión Global de Activos": "Global Asset Management",
+                "Estructuración Compleja de Deuda": "Complex Debt Structuring",
+                "Comercio Mayorista de Commodities": "Wholesale Commodities Trading",
+                "Emancipación y Creación de Bancos Offshore": "Emancipation and Offshore Bank Setup"
+            },
+            pt: {
+                "Gestión Global de Activos": "Gestão Global de Ativos",
+                "Estructuración Compleja de Deuda": "Estruturação Complexa de Dívida",
+                "Comercio Mayorista de Commodities": "Comércio de Commodities no Atacado",
+                "Emancipación y Creación de Bancos Offshore": "Emancipação e Criação de Bancos Offshore"
+            }
+        };
+
+        const editPrompts = {
+            es: {
+                success: "Prospecto actualizado correctamente en el CRM.",
+                xssError: "Caracteres especiales no alfanuméricos detectados (posible inyección de código).",
+                b2bError: "Solo se permiten direcciones de correo corporativas o institucionales.",
+                error: "Ocurrió un error al intentar guardar los cambios del prospecto."
+            },
+            en: {
+                success: "Lead updated successfully in the CRM.",
+                xssError: "Non-alphanumeric special characters detected (possible code injection).",
+                b2bError: "Only corporate or institutional email addresses are allowed.",
+                error: "An error occurred while trying to save the lead changes."
+            },
+            pt: {
+                success: "Prospecto atualizado com sucesso no CRM.",
+                xssError: "Caracteres especiais não alfanuméricos detectados (possível injeção de código).",
+                b2bError: "Somente são permitidos endereços de e-mail corporativos ou institucionais.",
+                error: "Ocorreu um erro ao tentar salvar as alterações do prospecto."
+            }
+        };
+
+        window.openEditRecordModal = function(id) {
+            try {
+                const row = document.getElementById(`lead-row-${id}`);
+                if (!row) {
+                    console.error(`No se encontró la fila lead-row-${id}`);
+                    return;
+                }
+
+                const corp = row.getAttribute('data-corp') || '';
+                const exec = row.getAttribute('data-exec') || '';
+                const email = row.getAttribute('data-email') || '';
+                const area = row.getAttribute('data-area') || '';
+                const capital = row.getAttribute('data-capital') || '';
+
+                const inputId = document.getElementById('edit-record-id');
+                const inputCorp = document.getElementById('edit-corp-name');
+                const inputExec = document.getElementById('edit-exec-name');
+                const inputEmail = document.getElementById('edit-email');
+                const inputArea = document.getElementById('edit-area');
+                const selectCapital = document.getElementById('edit-capital');
+                const modal = document.getElementById('edit-record-modal');
+
+                if (inputId) inputId.value = id;
+                if (inputCorp) inputCorp.value = corp;
+                if (inputExec) inputExec.value = exec;
+                if (inputEmail) inputEmail.value = email;
+                if (inputArea) inputArea.value = area;
+                
+                if (selectCapital) {
+                    const capVal = parseFloat(capital);
+                    if (!isNaN(capVal)) {
+                        selectCapital.value = capVal.toFixed(1);
+                    } else {
+                        selectCapital.selectedIndex = 0;
+                    }
+                }
+
+                if (modal) {
+                    modal.classList.add('active');
+                } else {
+                    console.error("No se encontró el elemento edit-record-modal");
+                }
+            } catch (err) {
+                console.error("Error al abrir el modal:", err);
+                alert("Error al abrir el modal: " + err.message);
+            }
+        };
+
+        window.closeEditRecordModal = function() {
+            try {
+                const modal = document.getElementById('edit-record-modal');
+                if (modal) {
+                    modal.classList.remove('active');
+                }
+            } catch (err) {
+                console.error("Error al cerrar el modal:", err);
+            }
+        };
+
+        window.submitEditRecordForm = async function(event) {
+            event.preventDefault();
+            try {
+                const currentLang = document.cookie.split('; ').find(row => row.startsWith('lang='))?.split('=')[1] || 'es';
+                const prompts = editPrompts[currentLang] || editPrompts.es;
+
+                const inputId = document.getElementById('edit-record-id');
+                const inputCorp = document.getElementById('edit-corp-name');
+                const inputExec = document.getElementById('edit-exec-name');
+                const inputEmail = document.getElementById('edit-email');
+                const inputArea = document.getElementById('edit-area');
+                const selectCapital = document.getElementById('edit-capital');
+
+                if (!inputId || !inputCorp || !inputExec || !inputEmail || !inputArea || !selectCapital) {
+                    alert("Error: Form elements missing.");
+                    return;
+                }
+
+                const id = inputId.value;
+                const corpName = inputCorp.value.trim();
+                const execName = inputExec.value.trim();
+                const email = inputEmail.value.trim();
+                const area = inputArea.value;
+                const capitalVal = selectCapital.value;
+
+                // 1. Validar inyección de código (XSS)
+                if (/[<>]/.test(corpName) || /[<>]/.test(execName)) {
+                    alert(prompts.xssError);
+                    return;
+                }
+
+                // 2. Validar correo corporativo B2B
+                const domain = email.split('@')[1]?.toLowerCase();
+                if (genericDomains.has(domain)) {
+                    alert(prompts.b2bError);
+                    return;
+                }
+
+                const response = await fetch(`/portal/leads/edit/${id}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        nombre_corporacion: corpName,
+                        nombre_ejecutivo: execName,
+                        email_institucional: email,
+                        area_operativa_interes: area,
+                        rango_capital_usd: parseFloat(capitalVal)
+                    })
+                });
+
+                const data = await response.json();
+                if (response.ok && data.status === 'success') {
+                    const row = document.getElementById(`lead-row-${id}`);
+                    if (row) {
+                        row.setAttribute('data-corp', data.lead.nombre_corporacion);
+                        row.setAttribute('data-exec', data.lead.nombre_ejecutivo);
+                        row.setAttribute('data-email', data.lead.email_institucional);
+                        row.setAttribute('data-area', data.lead.area_operativa_interes);
+                        row.setAttribute('data-capital', data.lead.rango_capital_usd);
+
+                        const corpCol = row.querySelector('.col-corp');
+                        if (corpCol) corpCol.innerHTML = `<strong>${data.lead.nombre_corporacion}</strong>`;
+
+                        const execCol = row.querySelector('.col-exec');
+                        if (execCol) execCol.textContent = data.lead.nombre_ejecutivo;
+
+                        const emailCol = row.querySelector('.col-email');
+                        if (emailCol) {
+                            emailCol.innerHTML = `<a href="mailto:${data.lead.email_institucional}" style="color: var(--color-contrast); text-decoration: underline;">${data.lead.email_institucional}</a>`;
+                        }
+
+                        const areaCol = row.querySelector('.col-area');
+                        if (areaCol) {
+                            const trArea = (areasTranslations[currentLang] || areasTranslations.es)[data.lead.area_operativa_interes] || data.lead.area_operativa_interes;
+                            areaCol.textContent = trArea;
+                        }
+
+                        const capitalCol = row.querySelector('.col-capital');
+                        if (capitalCol) {
+                            capitalCol.setAttribute('data-raw-val', data.lead.rango_capital_usd);
+                            let capFormatted = "$1M - $5M";
+                            const val = data.lead.rango_capital_usd;
+                            if (val >= 50000000) capFormatted = "$50M+";
+                            else if (val >= 10000000) capFormatted = "$10M - $50M";
+                            else if (val >= 5000000) capFormatted = "$5M - $10M";
+                            capitalCol.textContent = capFormatted;
+                        }
+                    }
+
+                    closeEditRecordModal();
+                    alert(prompts.success);
+                } else {
+                    alert(data.detail || prompts.error);
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Error al guardar cambios: " + err.message);
+            }
+        };
+    });
+</script>
+{% endif %}
+{% endblock %}

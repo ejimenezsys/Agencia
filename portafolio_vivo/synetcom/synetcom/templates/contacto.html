@@ -1,0 +1,203 @@
+{% extends "base.html" %}
+
+{% block title %}Contacto – Synetcom{% endblock %}
+
+{% block description %}Contáctanos – Synetcom. Nuestros especialistas se comunicarán contigo.{% endblock %}
+
+{% block content %}
+<!-- PAGE HERO -->
+  <header class="page-hero net-bg">
+    <div class="container">
+      <h1 class="animate-up">Contacto</h1>
+      <p class="animate-up delay-1">Nuestros especialistas se comunicarán contigo</p>
+    </div>
+  </header>
+
+  <!-- CONTACT BLOCK -->
+  <section class="section-sm">
+    <div class="container">
+      <div class="contact-block animate-up">
+        <!-- Form Pane -->
+        <div class="contact-form-pane">
+          <h2>Contacto</h2>
+          <div id="formMsg" class="form-msg"></div>
+          <form id="contactForm" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre" required />
+              </div>
+              <div class="form-group">
+                <input type="email" id="email" name="email" class="form-control" placeholder="Email" required />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <input type="tel" id="telefono" name="telefono" class="form-control" placeholder="Teléfono" />
+              </div>
+              <div class="form-group">
+                <select id="metodo" name="metodo" class="form-control">
+                  <option value="" disabled selected>Método de Contacto Preferido</option>
+                  <option value="telefono">Teléfono</option>
+                  <option value="email">Email</option>
+                  <option value="whatsapp">WhatsApp</option>
+                  <option value="skype">Skype</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <textarea id="mensaje" name="mensaje" class="form-control" placeholder="Mensaje" rows="5" required></textarea>
+            </div>
+            <div class="captcha-row">
+              <span class="captcha-question" id="captchaQuestion">10 + 7 =</span>
+              <input type="number" id="captchaAnswer" class="form-control" placeholder="Respuesta" />
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-paper-plane"></i> ENVIAR
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Offices Pane -->
+        <div class="contact-offices-pane">
+          <h3>Oficinas</h3>
+
+          <div class="office-item">
+            <p><i class="fas fa-phone" style="margin-right:8px;"></i><a href="tel:+525581566136">(+52) 55 8156 6136</a></p>
+            <p><i class="fas fa-phone" style="margin-right:8px;"></i><a href="tel:+525573539829">(+52) 55 7353 9829</a></p>
+          </div>
+
+          <div class="office-label">Dirección</div>
+          <div class="office-item">
+            <p><i class="fas fa-map-marker-alt" style="margin-right:8px; color:var(--blue-bright);"></i>San Francisco 1626</p>
+            <p style="padding-left: 20px; margin-bottom: 2px;">Col. Del Valle</p>
+            <p style="padding-left: 20px; margin-bottom: 2px;">Alcaldía Benito Juárez</p>
+            <p style="padding-left: 20px; margin-bottom: 2px;">CP 03100, Ciudad de México</p>
+          </div>
+
+          <div class="office-label">Skype</div>
+          <div class="office-item">
+            <p><i class="fab fa-skype" style="margin-right:8px;"></i>ejimenezsys</p>
+          </div>
+
+          <div class="office-label">Emails</div>
+          <div class="office-item">
+            <a href="mailto:jlopez@synetcom.mx"><i class="fas fa-envelope" style="margin-right:8px;"></i>jlopez@synetcom.mx</a>
+            <a href="mailto:ejimenez@synetcom.mx"><i class="fas fa-envelope" style="margin-right:8px;"></i>ejimenez@synetcom.mx</a>
+          </div>
+
+          <div class="office-label">Seguridad Electrónica</div>
+          <div class="office-item">
+            <a href="mailto:hjimenez@synetcom.mx"><i class="fas fa-shield-alt" style="margin-right:8px;"></i>hjimenez@synetcom.mx</a>
+          </div>
+
+          <div class="office-label">Teléfono y WhatsApp</div>
+          <div class="office-item">
+            <p><i class="fas fa-mobile-alt" style="margin-right:8px;"></i><a href="tel:+525615651784">(+52) 5615651784</a></p>
+          </div>
+
+          <a href="https://wa.me/525615651784" class="wa-btn-office" target="_blank" rel="noopener">
+            <i class="fab fa-whatsapp" style="font-size:18px;"></i> Escribir por WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAP SECTION -->
+  <section class="section-sm" style="padding-bottom:70px;">
+    <div class="container animate-up">
+      <div style="border: 1px solid var(--border-blue); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-card); background: var(--blue-deep); height: 400px; position: relative;">
+        <iframe 
+          src="https://maps.google.com/maps?q=San%20Francisco%201626%2C%20Col%20Del%20Valle%2C%20Alcald%C3%ADa%20Benito%20Ju%C3%A1rez%2C%20CP%2003100%2C%20Ciudad%20de%20M%C3%A9xico&t=&z=16&ie=UTF8&iwloc=&output=embed" 
+          width="100%" 
+          height="100%" 
+          style="border:0; filter: grayscale(1) invert(0.9) contrast(1.1) brightness(0.95); opacity: 0.85;" 
+          allowfullscreen="" 
+          loading="lazy" 
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Captcha math validation and FastAPI Ajax submit
+    (function(){
+      let num1, num2, answer;
+      function generateNewCaptcha() {
+        num1 = Math.floor(Math.random()*15) + 1;
+        num2 = Math.floor(Math.random()*10) + 1;
+        answer = num1 + num2;
+        document.getElementById('captchaQuestion').textContent = `${num1} + ${num2} =`;
+      }
+      generateNewCaptcha();
+
+      document.getElementById('contactForm').addEventListener('submit', function(e){
+        e.preventDefault();
+        const msg = document.getElementById('formMsg');
+        msg.style.display = 'none';
+        const userAnswer = parseInt(document.getElementById('captchaAnswer').value);
+
+        // Basic field validation
+        const nombre = document.getElementById('nombre').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const telefono = document.getElementById('telefono').value.trim();
+        const metodo = document.getElementById('metodo').value;
+        const mensaje = document.getElementById('mensaje').value.trim();
+
+        if (!nombre || !email || !mensaje) {
+          msg.className = 'form-msg error';
+          msg.textContent = 'Por favor completa todos los campos requeridos.';
+          msg.style.display = 'block';
+          return;
+        }
+        if (isNaN(userAnswer) || userAnswer !== answer) {
+          msg.className = 'form-msg error';
+          msg.textContent = 'La respuesta al captcha es incorrecta. Intenta de nuevo.';
+          msg.style.display = 'block';
+          return;
+        }
+
+        // Post to FastAPI API
+        fetch('/api/contacto', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            name: nombre,
+            email: email,
+            phone: telefono,
+            method: metodo || "",
+            message: mensaje,
+            source: 'contacto'
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            msg.className = 'form-msg success';
+            msg.textContent = '¡Mensaje enviado exitosamente! Nos pondremos en contacto contigo pronto.';
+            msg.style.display = 'block';
+            document.getElementById('contactForm').reset();
+            document.getElementById('captchaAnswer').value = '';
+            generateNewCaptcha();
+          } else {
+            msg.className = 'form-msg error';
+            msg.textContent = data.error || 'Hubo un error al enviar el formulario.';
+            msg.style.display = 'block';
+          }
+        })
+        .catch(err => {
+          msg.className = 'form-msg error';
+          msg.textContent = 'Error de conexión. Por favor intenta más tarde.';
+          msg.style.display = 'block';
+        });
+      });
+    })();
+</script>
+{% endblock %}

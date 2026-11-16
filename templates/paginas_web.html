@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Páginas Web Inteligentes y Tiendas Online para Negocios | Agencia ProsperIA</title>
+  <meta name="description" content="Diseñamos y publicamos tu página web o tienda online conectada a WhatsApp, Google Maps y Recepcionista IA 24/7. Explora +17 proyectos reales de EE. UU. y LATAM y prueba nuestro demostrador en vivo.">
+  <link rel="icon" type="image/png" href="{{ static_versioned('favicon.png') }}">
+  <link rel="stylesheet" href="{{ static_versioned('fonts.css') }}">
+  <link rel="stylesheet" href="{{ static_versioned('fa.min.css') }}">
+  <link rel="stylesheet" href="{{ static_versioned('ecosistema_squad.css') }}">
+  <style>
+    .pw-hero-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2.25rem;
+      align-items: center;
+    }
+    @media (min-width: 980px) {
+      .pw-hero-grid { grid-template-columns: 1.25fr 0.75fr; }
+    }
+    .pw-portfolio-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.4rem;
+    }
+    @media (min-width: 720px) {
+      .pw-portfolio-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (min-width: 1120px) {
+      .pw-portfolio-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    .pw-project-card[hidden] {
+      display: none !important;
+    }
+    .pw-vip-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      align-items: center;
+    }
+    @media (min-width: 960px) {
+      .pw-vip-grid { grid-template-columns: 1.15fr 0.85fr; }
+    }
+    .pw-vip-thumbs {
+      display: flex;
+      gap: 0.6rem;
+      overflow-x: auto;
+      padding-block: 0.4rem;
+    }
+    .pw-vip-thumb {
+      flex: none;
+      padding: 0.55rem 0.9rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(15, 23, 42, 0.8);
+      color: #cbd5e1;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .pw-vip-thumb[aria-pressed="true"] {
+      background: rgba(0, 229, 255, 0.16);
+      border-color: #00e5ff;
+      color: #ffffff;
+    }
+    .pw-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.22rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #cbd5e1;
+    }
+    .pw-checklist {
+      list-style: none;
+      padding: 0;
+      margin: 1.25rem 0;
+      display: grid;
+      gap: 0.65rem;
+    }
+    .pw-checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      font-size: 0.92rem;
+      color: #cbd5e1;
+    }
+    .pw-checklist i {
+      color: #34d399;
+      margin-top: 4px;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+  {% from "squad_character.html" import render_squad_character %}
+  {% with active_menu='paginas-web' %}{% include "navbar.html" %}{% endwith %}
+
+  <main>
+    <!-- ── HERO ── -->
+    <section class="pia-shell" style="padding-block: 2.5rem 4rem;">
+      <div class="pw-hero-grid">
+        <div>
+          <div class="pia-eyebrow"><i class="fas fa-globe" aria-hidden="true"></i> Lanzamiento · Presencia Web + Recepcionista IA</div>
+          <h1 class="font-heading" style="font-size: clamp(2rem, 4.2vw, 3.35rem); font-weight: 900; margin-bottom: 1.15rem;">
+            Páginas Web Inteligentes para Negocios que Quieren <span class="pia-gradient-text">Vender y Agendar 24/7</span>
+          </h1>
+          <p style="font-size: 1.08rem; color: #cbd5e1; max-width: 660px; margin-bottom: 1.5rem;">
+            Tu página lista con dominio <strong style="color:#fff;">.com</strong>, alojamiento, botón directo a WhatsApp y nuestra Recepcionista IA integrada para atender clientes en español e inglés. Ves primero la muestra adaptada a tu negocio antes de aprobar.
+          </p>
+          <div style="display:flex; flex-wrap:wrap; gap:0.85rem; margin-bottom: 1.4rem;">
+            <a href="#propuesta-web" class="pia-btn-primary">
+              <i class="fab fa-whatsapp" aria-hidden="true"></i>
+              <span>Pedir Muestra Gratis de Mi Web</span>
+            </a>
+            <a href="#vitrina-real" class="pia-btn-ghost">
+              <i class="fas fa-layer-group" aria-hidden="true"></i>
+              <span>Ver los +17 Proyectos Reales ↓</span>
+            </a>
+            <a href="/demo-sitio-web" class="pia-btn-emerald">
+              <i class="fas fa-wand-magic-sparkles" aria-hidden="true"></i>
+              <span>Abrir Demostrador en Vivo (Closers)</span>
+            </a>
+          </div>
+          <div style="display:flex; flex-wrap:wrap; gap:0.65rem; font-size:0.82rem; color:#94a3b8;">
+            <span class="pw-tag"><i class="fas fa-check text-emerald-400" aria-hidden="true"></i> Dominio .com y Hosting</span>
+            <span class="pw-tag"><i class="fas fa-check text-emerald-400" aria-hidden="true"></i> Recepcionista IA 24/7</span>
+            <span class="pw-tag"><i class="fas fa-check text-emerald-400" aria-hidden="true"></i> Tienda WhatsApp &amp; Stripe</span>
+            <span class="pw-tag"><i class="fas fa-check text-emerald-400" aria-hidden="true"></i> Bilingüe ES / EN</span>
+          </div>
+        </div>
+        <div id="atlas-stage-box">
+          {{ render_squad_character('atlas') }}
+          <div style="display:flex; justify-content:center; margin-top:0.65rem;">
+            <button type="button" id="toggle-atlas-motion" class="pia-btn-ghost" style="min-height:36px; padding:0.35rem 0.8rem; font-size:0.75rem;">
+              <i class="fas fa-pause" aria-hidden="true"></i> Pausar animación
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── VITRINA VIP INTERACTIVA ── -->
+    <section class="pia-section" style="background: rgba(7, 11, 20, 0.72);">
+      <div class="pia-shell">
+        <div style="text-align:center; max-width:740px; margin:0 auto 2.25rem;">
+          <div class="pia-eyebrow"><i class="fas fa-star" aria-hidden="true"></i> Muestras Premium &amp; Portafolio Destacado</div>
+          <h2 class="font-heading" style="font-size: clamp(1.7rem, 3vw, 2.5rem); font-weight: 800; margin-bottom:0.75rem;">
+            Cada Proyecto Es un Sistema de Conversión En Vivo
+          </h2>
+          <p style="color:#94a3b8; font-size:0.96rem;">
+            Alterna entre proyectos reales construidos por nuestro equipo y pruébalos en vivo antes de pedir el tuyo.
+          </p>
+        </div>
+
+        <div class="pia-card" style="padding: 1.5rem;">
+          <div class="pw-vip-thumbs" role="group" aria-label="Selector de proyectos destacados">
+            <button type="button" class="pw-vip-thumb" aria-pressed="true" data-vip="blancos">Blancos Girasol · B2B Textil + CRM</button>
+            <button type="button" class="pw-vip-thumb" aria-pressed="false" data-vip="servixo">Servixo · Home Services (BizBox)</button>
+            <button type="button" class="pw-vip-thumb" aria-pressed="false" data-vip="jpx">JPX International · Finanzas Globales</button>
+            <button type="button" class="pw-vip-thumb" aria-pressed="false" data-vip="sunotaria">Su Notaría USA · Miami Bilingüe</button>
+            <button type="button" class="pw-vip-thumb" aria-pressed="false" data-vip="aurea">Clínica Estética &amp; Dental VIP</button>
+          </div>
+
+          <div class="pw-vip-grid" style="margin-top:1.25rem;">
+            <div class="web-preview-frame" style="aspect-ratio:16/9;">
+              <div class="web-preview-chrome">
+                <div class="web-preview-dots"><span></span><span></span><span></span></div>
+                <span class="web-preview-badge" id="vip-badge">Proyecto Real · En Vivo</span>
+              </div>
+              <img id="vip-img" src="/assets/cama-completa-duvet-almohadas-wD5rwC03.jpg" alt="Vista previa proyecto destacado" class="web-preview-img" loading="eager">
+            </div>
+            <div>
+              <span class="pw-tag" id="vip-category" style="color:#00e5ff; border-color:rgba(0,229,255,0.35); margin-bottom:0.75rem;">E-COMMERCE B2B · MÉXICO · ESPAÑOL</span>
+              <h3 id="vip-title" class="font-heading" style="font-size:1.75rem; font-weight:800; margin-bottom:0.75rem;">Blancos Girasol · Catálogo Hotelero + CRM</h3>
+              <p id="vip-desc" style="color:#cbd5e1; font-size:0.95rem; margin-bottom:1.25rem;">
+                Plataforma textil B2B para hoteles, hospitales y spas con catálogo completo, cotizador mayorista, chatbot inteligente integrado y panel CRM interno.
+              </p>
+              <div style="display:flex; flex-wrap:wrap; gap:0.75rem;">
+                <a id="vip-live-link" href="/portafolio-vivo/blancosgirasol/" target="_blank" rel="noopener" class="pia-btn-primary">
+                  <span>Ver la página en vivo</span>
+                  <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                </a>
+                <button type="button" id="vip-want-btn" class="pia-btn-ghost" data-ref-name="Blancos Girasol">
+                  <i class="fab fa-whatsapp" aria-hidden="true"></i>
+                  <span>Quiero una así</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── VITRINA COMPLETA +17 SITIOS REALES Y VERTICALES ── -->
+    <section class="pia-section" id="vitrina-real">
+      <div class="pia-shell">
+        <div style="display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:1rem; margin-bottom:1.75rem;">
+          <div>
+            <div class="pia-eyebrow"><i class="fas fa-laptop-code" aria-hidden="true"></i> Trabajos Reales · Webs Que Ya Hicimos</div>
+            <h2 class="font-heading" style="font-size: clamp(1.75rem, 3.2vw, 2.65rem); font-weight: 900;">
+              Explora Nuestro Portafolio Multi-Industria En Vivo
+            </h2>
+            <p style="color:#94a3b8; font-size:0.95rem; margin-top:0.4rem;">
+              Pasa el mouse sobre cada tarjeta para recorrer la vista, abre el sitio real en vivo o pídele a tu closer una versión adaptada a tu negocio.
+            </p>
+          </div>
+          <a href="/demo-sitio-web" class="pia-btn-ghost">
+            <i class="fas fa-sliders" aria-hidden="true"></i>
+            <span>Personalizar en Vivo Ahora</span>
+          </a>
+        </div>
+
+        <!-- Tabs de filtro -->
+        <div class="pia-tablist" role="tablist" aria-label="Filtrar proyectos web por industria">
+          <button type="button" class="pia-tab" role="tab" aria-selected="true" data-filter="all">Todos (+17)</button>
+          <button type="button" class="pia-tab" role="tab" aria-selected="false" data-filter="home-services">Servicios del Hogar (BizBox)</button>
+          <button type="button" class="pia-tab" role="tab" aria-selected="false" data-filter="ecommerce-industria">E-Commerce &amp; Industria</button>
+          <button type="button" class="pia-tab" role="tab" aria-selected="false" data-filter="clinicas">Clínicas &amp; Estética</button>
+          <button type="button" class="pia-tab" role="tab" aria-selected="false" data-filter="finanzas-legal">Finanzas, Legal &amp; B2B</button>
+          <button type="button" class="pia-tab" role="tab" aria-selected="false" data-filter="marcas-eventos">Marcas, Medios &amp; Eventos</button>
+        </div>
+
+        {% set projects = [
+          {
+            "name": "Blancos Girasol (blancosgirasol.com)",
+            "cat": "ecommerce-industria",
+            "badge": "Real · En Vivo",
+            "tags": ["Textil B2B", "Catálogo", "CRM + Chatbot"],
+            "desc": "Fabricante de blancos para hoteles, hospitales y spas. Catálogo por categoría, PDF descargable, blog SEO y panel CRM propio.",
+            "img": "/assets/cama-completa-duvet-almohadas-wD5rwC03.jpg",
+            "live": "/portafolio-vivo/blancosgirasol/"
+          },
+          {
+            "name": "STI2Q Ingeniería Industrial",
+            "cat": "ecommerce-industria",
+            "badge": "Demostrador Sectorial",
+            "tags": ["Industrial B2B", "Automatización", "ES / EN"],
+            "desc": "Portal corporativo para ingeniería industrial, telemetría, tableros eléctricos y pólizas SLA con captura de RFQ.",
+            "img": "/portafolio-vivo/synetcom/static/images/security_hero.png",
+            "live": "/demo-sitio-web?template=sti2q_industrial"
+          },
+          {
+            "name": "JPX International Investments",
+            "cat": "finanzas-legal",
+            "badge": "Real · En Vivo",
+            "tags": ["Finanzas Globales", "Multi-Página", "ES / EN / PT"],
+            "desc": "Multi-Family Office e ingeniería financiera global con 6 páginas corporativas, commodities y portal privado de clientes.",
+            "img": "/portafolio-vivo/jpxinternational/static/images/hero-bg.jpg",
+            "live": "/portafolio-vivo/jpxinternational/"
+          },
+          {
+            "name": "Su Notaría USA (Miami, FL)",
+            "cat": "finanzas-legal",
+            "badge": "Real · En Vivo",
+            "tags": ["Legal & Notarial", "Miami FL", "Bilingüe ES/EN"],
+            "desc": "Servicios notariales, apostillas en Florida y poderes notariales con módulo bilingüe completo, WhatsApp y CRM integrado.",
+            "img": "/portafolio-vivo/sunotariausa/static/images/herramientas_notariales.png",
+            "live": "/portafolio-vivo/sunotariausa/"
+          },
+          {
+            "name": "Synetcom Telecom & Seguridad IA",
+            "cat": "ecommerce-industria",
+            "badge": "Real · En Vivo",
+            "tags": ["Telecomunicaciones", "7 Páginas", "Animación Canvas"],
+            "desc": "Sitio corporativo de 7 páginas: conectividad empresarial, cámaras de seguridad e IA para PyMEs con red neuronal animada.",
+            "img": "/portafolio-vivo/synetcom/static/images/ai_operations.png",
+            "live": "/portafolio-vivo/synetcom/"
+          },
+          {
+            "name": "Servixo · Home Services Master (BizBox)",
+            "cat": "home-services",
+            "badge": "BizBox Oficial",
+            "tags": ["82 Oficios del Hogar", "11 Secciones", "Slider Antes/Después"],
+            "desc": "Página de alta conversión construida con BizBox para contratistas de servicios del hogar: timeline diario, comparador y portal.",
+            "img": "/portafolio-vivo/servixo/assets/img/hero.jpg",
+            "live": "/portafolio-vivo/servixo/"
+          },
+          {
+            "name": "Apex Air & HVAC Miami (BizBox)",
+            "cat": "home-services",
+            "badge": "BizBox Home Services",
+            "tags": ["Aire Acondicionado", "Miami FL", "Urgencias 24/7"],
+            "desc": "Muestra en vivo para climatización y HVAC residencial/comercial con formulario de emergencias y cálculo de ahorro.",
+            "img": "/portafolio-vivo/servixo/assets/img/solucion.jpg",
+            "live": "/demo-sitio-web?template=hvac_miami"
+          },
+          {
+            "name": "Master Plumbers & Drain Pro (BizBox)",
+            "cat": "home-services",
+            "badge": "BizBox Home Services",
+            "tags": ["Plomería & Fugas", "Destapes 24/7", "Cotizador IA"],
+            "desc": "Web inteligente para empresas de plomería: detección de fugas, destapes hidráulicos y recepción IA en WhatsApp.",
+            "img": "/portafolio-vivo/servixo/assets/img/tl-0930.webp",
+            "live": "/demo-sitio-web?template=plomeria_pro"
+          },
+          {
+            "name": "Titan Roofing & Remodeling (BizBox)",
+            "cat": "home-services",
+            "badge": "BizBox Home Services",
+            "tags": ["Techos / Roofing", "Remodelación", "Florida"],
+            "desc": "Portal para techos, impermeabilización y remodelación de cocinas con inspección con dron y bitácora fotográfica.",
+            "img": "/portafolio-vivo/servixo/assets/img/despues.webp",
+            "live": "/demo-sitio-web?template=roofing_remodel"
+          },
+          {
+            "name": "Doral Business City (Miami, FL)",
+            "cat": "marcas-eventos",
+            "badge": "Real · En Vivo",
+            "tags": ["Revista & Medios", "Doral FL", "Editorial VIP"],
+            "desc": "Medio empresarial de liderazgo, moda e IA en el Sur de Florida con visor editorial, directorio y pauta de patrocinadores.",
+            "img": "/portafolio-vivo/doralbusinesscity/assets/portada-doral-business-city.jpg",
+            "live": "/portafolio-vivo/doralbusinesscity/"
+          },
+          {
+            "name": "Idol Jose Official (NYFW / Miami)",
+            "cat": "marcas-eventos",
+            "badge": "Real · En Vivo",
+            "tags": ["Alta Costura", "Luxury Atelier", "NYFW Runway"],
+            "desc": "Experiencia de lujo para casa de alta costura internacional con galería de pasarela, citas de atelier y diseño editorial.",
+            "img": "/portafolio-vivo/idoljoseofficial/assets/dfwm-portada-sthefany.jpg",
+            "live": "/portafolio-vivo/idoljoseofficial/"
+          },
+          {
+            "name": "Idol Jose Group Corp",
+            "cat": "marcas-eventos",
+            "badge": "Real · En Vivo",
+            "tags": ["Holding USA", "Moda & Medios", "Corporativo"],
+            "desc": "Portal corporativo del grupo empresarial de lujo, medios y producción de eventos de moda en Estados Unidos.",
+            "img": "/portafolio-vivo/idoljosegroupcorp/assets/dfwm-edicion-14.jpg",
+            "live": "/portafolio-vivo/idoljosegroupcorp/"
+          },
+          {
+            "name": "Tu Esencia Astral (E-Commerce PDF)",
+            "cat": "ecommerce-industria",
+            "badge": "Real · En Vivo",
+            "tags": ["E-Commerce Digital", "Entrega PDF", "Automatizado"],
+            "desc": "Tienda de estudios personalizados con cálculo automatizado y entrega directa en PDF sin intervención manual.",
+            "img": "/portafolio-vivo/suesenciaastral/assets/muestras/ca-p1.webp",
+            "live": "/portafolio-vivo/suesenciaastral/"
+          },
+          {
+            "name": "Harmony Payments Systems",
+            "cat": "finanzas-legal",
+            "badge": "Real · En Vivo",
+            "tags": ["Fintech USA", "Merchant Services", "Pre-Aplicación"],
+            "desc": "Portal Fintech en Estados Unidos para procesamiento de tarjetas con formulario digital inteligente de pre-calificación.",
+            "img": "/static/harmonypayments/extracted_0.jpg",
+            "live": "/harmonypayments"
+          },
+          {
+            "name": "EXMA Miami 2026 · VIP Experience",
+            "cat": "marcas-eventos",
+            "badge": "Real · En Vivo",
+            "tags": ["Eventos VIP", "Patrocinios", "Stands & Tickets"],
+            "desc": "Landing de alta conversión para patrocinios corporativos, stands y experiencias VIP en Miami.",
+            "img": "/static/exmamiami/vip/page_01.webp",
+            "live": "/exmamiami"
+          },
+          {
+            "name": "Aurea · Clínica Dental & Estética VIP",
+            "cat": "clinicas",
+            "badge": "Demostrador Sectorial",
+            "tags": ["Clínica Dental", "Medicina Estética", "Agenda Anti No-Show"],
+            "desc": "Embudo clínico con valoración 3D, catálogo de tratamientos, galería interactiva y agendamiento directo 24/7.",
+            "img": "/static/clinica_odontologia_estetica.jpg",
+            "live": "/demo-sitio-web?template=clinica_dental_estetica"
+          },
+          {
+            "name": "Edward Jiménez IA · Túnel 3D",
+            "cat": "marcas-eventos",
+            "badge": "Real · En Vivo",
+            "tags": ["Marca Personal", "Experiencia 3D", "Laboratorio IA"],
+            "desc": "Hub inmersivo con túnel 3D en Eje Z, simulador PassportAI, calculadora de ROI y lanzamiento editorial.",
+            "img": "/portafolio-vivo/edwardjimenezia/assets/edward_hero_depth.webp",
+            "live": "/portafolio-vivo/edwardjimenezia/"
+          }
+        ] %}
+
+        <div class="pw-portfolio-grid" id="pw-projects-grid" style="margin-top: 1.5rem;">
+          {% for p in projects %}
+          <article class="pia-card pw-project-card" data-category="{{ p.cat }}" style="padding:1.1rem; display:flex; flex-direction:column; justify-content:space-between; gap:1rem;">
+            <div>
+              <div class="web-preview-frame" style="margin-bottom:0.95rem;">
+                <div class="web-preview-chrome">
+                  <div class="web-preview-dots"><span></span><span></span><span></span></div>
+                  <span class="web-preview-badge">{{ p.badge }}</span>
+                </div>
+                <img src="{{ p.img }}" alt="Vista previa de {{ p.name }}" class="web-preview-img" loading="lazy">
+              </div>
+              <div style="display:flex; flex-wrap:wrap; gap:0.35rem; margin-bottom:0.6rem;">
+                {% for t in p.tags %}
+                <span class="pw-tag">{{ t }}</span>
+                {% endfor %}
+              </div>
+              <h3 class="font-heading" style="font-size:1.12rem; font-weight:800; color:#ffffff; margin-bottom:0.4rem;">{{ p.name }}</h3>
+              <p style="font-size:0.86rem; color:#94a3b8; margin:0;">{{ p.desc }}</p>
+            </div>
+
+            <div style="display:flex; flex-wrap:wrap; gap:0.55rem; padding-top:0.5rem; border-top:1px solid rgba(255,255,255,0.07);">
+              <a href="{{ p.live }}" target="_blank" rel="noopener" class="pia-btn-primary" style="flex:1 1 auto; min-height:40px; padding:0.5rem 0.85rem; font-size:0.82rem;">
+                <span>Ver en vivo</span>
+                <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
+              </a>
+              <button type="button" class="pia-btn-ghost pw-want-btn" data-project="{{ p.name }}" style="min-height:40px; padding:0.5rem 0.85rem; font-size:0.82rem;">
+                <i class="fab fa-whatsapp" aria-hidden="true"></i>
+                <span>Quiero una así</span>
+              </button>
+            </div>
+          </article>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <!-- ── DOS MODALIDADES (SIN PRECIOS PÚBLICOS) ── -->
+    <section class="pia-section" style="background: rgba(7, 11, 20, 0.72);">
+      <div class="pia-shell">
+        <div style="text-align:center; max-width:740px; margin:0 auto 2.5rem;">
+          <div class="pia-eyebrow"><i class="fas fa-sliders" aria-hidden="true"></i> Modalidades de Implementación</div>
+          <h2 class="font-heading" style="font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 900; margin-bottom:0.65rem;">
+            Dos Opciones Claras Adaptadas al Momento de Tu Negocio
+          </h2>
+          <p style="color:#94a3b8; font-size:0.95rem;">
+            Primero ves la muestra funcional de tu página y aprobamos el alcance juntos. Nuestro equipo comercial prepara tu cotización a la medida según tu país y requerimientos.
+          </p>
+        </div>
+
+        <div class="pia-grid-2">
+          <!-- Opción 1 -->
+          <div class="pia-card" style="padding:2rem; display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <span class="pw-tag" style="color:#00e5ff; border-color:rgba(0,229,255,0.35); margin-bottom:0.85rem;">MODALIDAD 1 · LANZAMIENTO RÁPIDO</span>
+              <h3 class="font-heading" style="font-size:1.7rem; font-weight:800; color:#fff; margin-bottom:0.5rem;">Web Presencia IA</h3>
+              <p style="font-size:0.94rem; color:#94a3b8;">
+                Ideal para negocios locales, profesionales y contratistas que necesitan presencia profesional inmediata y capturar clientes directo en WhatsApp.
+              </p>
+              <ul class="pw-checklist">
+                <li><i class="fas fa-check-circle" aria-hidden="true"></i><span>Una página de alto impacto con hasta 5 secciones estratégicas.</span></li>
+                <li><i class="fas fa-check-circle" aria-hidden="true"></i><span>Dominio propio <strong>.com</strong> y alojamiento administrado incluidos en el arranque.</span></li>
+                <li><i class="fas fa-check-circle" aria-hidden="true"></i><span>Adaptación total a teléfonos celulares y computadoras.</span></li>
+                <li><i class="fas fa-check-circle" aria-hidden="true"></i><span>Selección de idioma: español o inglés.</span></li>
+                <li><i class="fas fa-check-circle" aria-hidden="true"></i><span>Botón directo a WhatsApp, Google Maps, llamada y correo.</span></li>
+                <li><i class="fas fa-check-circle" aria-hidden="true"></i><span>Asistente IA básico en la esquina (contesta preguntas, precios y horarios 24/7).</span></li>
+                <li><i class="fas fa-check-circle" aria-hidden="true"></i><span>Entrega rápida en 3 a 5 días hábiles tras recibir tus datos.</span></li>
+              </ul>
+            </div>
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem;">
+              <a href="#propuesta-web" class="pia-btn-primary pw-select-plan" data-plan="Web Presencia IA" style="flex:1 1 auto;">
+                <span>Solicitar Muestra Web Presencia</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Opción 2 -->
+          <div class="pia-card" style="padding:2rem; border-color:rgba(52, 211, 153, 0.42); display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <span class="pw-tag" style="color:#34d399; border-color:rgba(52,211,153,0.4); margin-bottom:0.85rem;">MODALIDAD 2 · MULTI-PÁGINA &amp; TIENDA</span>
+              <h3 class="font-heading" style="font-size:1.7rem; font-weight:800; color:#fff; margin-bottom:0.5rem;">Web Catálogo &amp; E-Commerce</h3>
+              <p style="font-size:0.94rem; color:#94a3b8;">
+                Diseñada para empresas, clínicas y marcas con múltiples servicios o inventario que quieren vender en línea, cobrar con Stripe o conectar su CRM.
+              </p>
+              <ul class="pw-checklist">
+                <li><i class="fas fa-check-circle" aria-hidden="true"></i><span>Hasta 6 páginas conectadas por menú (Inicio, Nosotros, Catálogo, Galería, Reseñas, Contacto).</span></li>
+                <li><i class="fas fa-check-circle" aria-hidden="true"></i><span>Hasta 30–50 productos o servicios cargados con carrito a WhatsApp o cobro con tarjeta vía Stripe.</span></li>
+                <li><i class="fas fa-check-circle" aria-hidden="true"></i><span>Versión bilingüe Español e Inglés disponible.</span></li>
+                <li><i class="fas fa-check-circle" aria-hidden="true"></i><span>Propuesta de logotipo / identidad visual + dos rondas de ajustes antes de publicar.</span></li>
+                <li><i class="fas fa-check-circle" aria-hidden="true"></i><span>Conexión directa con ProsperIA CRM, agenda de citas y Portal BizBox.</span></li>
+                <li><i class="fas fa-check-circle" aria-hidden="true"></i><span>Entrega estimada de 5 a 7 días hábiles desde la aprobación inicial.</span></li>
+              </ul>
+            </div>
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem;">
+              <a href="#propuesta-web" class="pia-btn-emerald pw-select-plan" data-plan="Web Catálogo & E-Commerce" style="flex:1 1 auto;">
+                <span>Cotizar Web Catálogo / Tienda</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabla comparativa -->
+        <div class="pia-table-wrap" style="margin-top:2.25rem;">
+          <table class="pia-table">
+            <thead>
+              <tr>
+                <th>Característica</th>
+                <th>Web Presencia IA</th>
+                <th>Web Catálogo &amp; E-Commerce</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Estructura del sitio</td>
+                <td>1 página profesional con hasta 5 secciones</td>
+                <td>Hasta 6 páginas conectadas con menú superior</td>
+              </tr>
+              <tr>
+                <td>Productos o servicios</td>
+                <td>Hasta 3 servicios destacados</td>
+                <td>Hasta 30–50 productos/servicios con carrito</td>
+              </tr>
+              <tr>
+                <td>Tienda WhatsApp y Cobro Stripe</td>
+                <td>Botón directo a WhatsApp y agenda</td>
+                <td>Incluida (pedidos por WhatsApp o tarjeta Stripe)</td>
+              </tr>
+              <tr>
+                <td>Idiomas</td>
+                <td>Español o Inglés</td>
+                <td>Español, Inglés o Bilingüe completo</td>
+              </tr>
+              <tr>
+                <td>Asistente IA &amp; CRM</td>
+                <td>Asistente IA de bienvenida en esquina</td>
+                <td>Agente IA entrenado + conexión a ProsperIA CRM</td>
+              </tr>
+              <tr>
+                <td>Tiempo de entrega estimado</td>
+                <td>3 a 5 días hábiles</td>
+                <td>5 a 7 días hábiles</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Banner Tienda incluida -->
+        <div class="pia-card" style="margin-top:1.75rem; padding:1.5rem 1.75rem; border-color:rgba(251,191,36,0.35); display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1rem;">
+          <div>
+            <div style="font-size:0.76rem; font-weight:800; color:#fbbf24; text-transform:uppercase; letter-spacing:0.08em;">Tu Tienda Online Lista Para Cobrar</div>
+            <h3 class="font-heading" style="font-size:1.3rem; font-weight:800; margin-top:4px;">Recibe pedidos listos en tu WhatsApp o cobra con tarjeta desde el día uno</h3>
+            <p style="font-size:0.9rem; color:#cbd5e1; margin:4px 0 0;">Tu cliente arma su pedido en la web y llega desglosado a tu WhatsApp, o paga directo con tu cuenta conectada de Stripe.</p>
+          </div>
+          <a href="#propuesta-web" class="pia-btn-primary">Solicitar Mi Tienda Web</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── TRES PASOS PARA COMENZAR ── -->
+    <section class="pia-section">
+      <div class="pia-shell">
+        <div style="text-align:center; max-width:680px; margin:0 auto 2.5rem;">
+          <div class="pia-eyebrow"><i class="fas fa-route" aria-hidden="true"></i> Cómo Contratar</div>
+          <h2 class="font-heading" style="font-size: clamp(1.7rem, 3vw, 2.4rem); font-weight: 900;">Tres Pasos Para Tener Tu Web Activa</h2>
+        </div>
+        <div class="pia-grid-3">
+          <div class="pia-card" style="padding:1.75rem;">
+            <div style="font-family:'Space Grotesk',sans-serif; font-size:2rem; font-weight:900; color:#00e5ff; margin-bottom:0.5rem;">01</div>
+            <h3 class="font-heading" style="font-size:1.2rem; font-weight:800; margin-bottom:0.5rem;">Escríbenos y ves tu muestra</h3>
+            <p style="color:#94a3b8; font-size:0.9rem; margin:0;">Nos cuentas tu giro por WhatsApp o en el formulario de abajo y armamos una muestra personalizada en vivo sin compromiso.</p>
+          </div>
+          <div class="pia-card" style="padding:1.75rem;">
+            <div style="font-family:'Space Grotesk',sans-serif; font-size:2rem; font-weight:900; color:#34d399; margin-bottom:0.5rem;">02</div>
+            <h3 class="font-heading" style="font-size:1.2rem; font-weight:800; margin-bottom:0.5rem;">Apruebas y publicamos</h3>
+            <p style="color:#94a3b8; font-size:0.9rem; margin:0;">Si te gusta, definimos tu modalidad con tu closer, hacemos la ronda de ajustes y la publicamos en tu propio dominio.</p>
+          </div>
+          <div class="pia-card" style="padding:1.75rem;">
+            <div style="font-family:'Space Grotesk',sans-serif; font-size:2rem; font-weight:900; color:#fbbf24; margin-bottom:0.5rem;">03</div>
+            <h3 class="font-heading" style="font-size:1.2rem; font-weight:800; margin-bottom:0.5rem;">Empiezas a recibir citas y ventas</h3>
+            <p style="color:#94a3b8; font-size:0.9rem; margin:0;">Conectamos tu Google Maps, botón de WhatsApp y Recepcionista IA para convertir visitas en citas y pedidos reales.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 12 PREGUNTAS FRECUENTES ── -->
+    <section class="pia-section" style="background: rgba(7, 11, 20, 0.72);">
+      <div class="pia-shell" style="max-width:920px;">
+        <div style="text-align:center; margin-bottom:2rem;">
+          <div class="pia-eyebrow"><i class="fas fa-circle-question" aria-hidden="true"></i> Antes de Escribirnos</div>
+          <h2 class="font-heading" style="font-size: clamp(1.65rem, 3vw, 2.35rem); font-weight: 900;">Preguntas Frecuentes sobre Páginas Web</h2>
+        </div>
+
+        <div class="pia-faq-list">
+          <details class="pia-faq-item">
+            <summary>¿Cómo funciona el diseño de mi página web y la muestra previa?</summary>
+            <div class="pia-faq-body">Nos envías el nombre de tu negocio, giro y ciudad. Preparamos una vista previa real (incluso puedes probarla en vivo en el Demostrador) para que veas exactamente cómo se proyecta tu marca antes de avanzar.</div>
+          </details>
+          <details class="pia-faq-item">
+            <summary>¿Qué incluye el diseño completo de una página web en ProsperIA?</summary>
+            <div class="pia-faq-body">Incluye el diseño profesional adaptado a computadora y celular en español o inglés, tus secciones clave de servicios, fotografías profesionales, enlace a WhatsApp, ficha de contacto y la configuración de tu dominio y servidor.</div>
+          </details>
+          <details class="pia-faq-item">
+            <summary>¿Necesito una página web si ya tengo Instagram o WhatsApp Business?</summary>
+            <div class="pia-faq-body">Sí. Las redes sociales te ayudan a descubrir clientes, pero la página web ordena toda tu oferta en un solo lugar profesional, aparece en Google cuando te buscan y evita que pierdas clientes si una red social restringe tu cuenta.</div>
+          </details>
+          <details class="pia-faq-item">
+            <summary>¿Cómo hago para que mi negocio aparezca en Google y Google Maps?</summary>
+            <div class="pia-faq-body">Dejamos tu sitio estructurado para indexación SEO local con tu ciudad y servicios, conectamos tu enlace directo de Google Maps y te entregamos un código QR listo para captar reseñas de 5 estrellas.</div>
+          </details>
+          <details class="pia-faq-item">
+            <summary>¿Hacen páginas para servicios del hogar (plomería, aire acondicionado, techos) o clínicas?</summary>
+            <div class="pia-faq-body">Sí, contamos con plantillas especializadas para los 82 oficios de servicios del hogar (mediante el motor BizBox) y para clínicas dentales, estéticas, inmobiliarias, estudios legales y empresas B2B.</div>
+          </details>
+          <details class="pia-faq-item">
+            <summary>¿Cuál es la diferencia entre Web Presencia IA y Web Catálogo &amp; E-Commerce?</summary>
+            <div class="pia-faq-body">Web Presencia IA es una sola página directa de hasta 5 secciones para presentar tu negocio y recibir contactos rápido. Web Catálogo incluye hasta 6 páginas internas con menú, catálogo de productos/servicios y carrito a WhatsApp o Stripe.</div>
+          </details>
+          <details class="pia-faq-item">
+            <summary>¿Puedo vender productos en línea y cobrar con tarjeta desde mi web?</summary>
+            <div class="pia-faq-body">Sí. En Web Catálogo podemos dejar el carrito enviando pedidos detallados directo a tu WhatsApp o conectado con tu cuenta propia de Stripe para cobrar con tarjeta de crédito/débito.</div>
+          </details>
+          <details class="pia-faq-item">
+            <summary>¿El dominio .com queda a mi nombre y bajo mi control?</summary>
+            <div class="pia-faq-body">Siempre. El dominio y tus datos corporativos te pertenecen al 100%. Nunca secuestramos la propiedad digital de nuestros clientes.</div>
+          </details>
+          <details class="pia-faq-item">
+            <summary>¿Incluye logotipo o puedo subir el que ya tengo?</summary>
+            <div class="pia-faq-body">Si ya tienes logo, lo adaptamos y limpiamos para tu sitio web. Si estás arrancando o quieres renovarlo, en la modalidad Catálogo incluimos una propuesta de logo y también podemos mejorarlo en alta resolución.</div>
+          </details>
+          <details class="pia-faq-item">
+            <summary>¿Puedo pedir cambios después de que publiquen la página?</summary>
+            <div class="pia-faq-body">Sí. Antes de publicar realizamos rondas de ajuste contigo, y después de entregada podemos actualizar textos, fotos, precios o secciones nuevas en cualquier momento.</div>
+          </details>
+          <details class="pia-faq-item">
+            <summary>¿Necesito contratar un CRM para poder tener mi página web?</summary>
+            <div class="pia-faq-body">No es obligatorio. Puedes iniciar solo con tu página web recibiendo prospectos directo en tu WhatsApp, y cuando quieras escalar la conectamos a ProsperIA CRM y a los Agentes de IA 24/7.</div>
+          </details>
+          <details class="pia-faq-item">
+            <summary>¿Cómo puedo conocer la inversión exacta para mi negocio?</summary>
+            <div class="pia-faq-body">Completa el formulario de propuesta aquí abajo o escríbenos por WhatsApp. Uno de nuestros closers revisará tu giro y te entregará la cotización exacta según el alcance que elijas.</div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── FORMULARIO PIDE TU PROPUESTA ── -->
+    <section class="pia-section" id="propuesta-web">
+      <div class="pia-shell" style="max-width:760px;">
+        <div class="pia-card" style="padding: 2.25rem; border-color: rgba(0,229,255,0.4);">
+          <div style="text-align:center; margin-bottom:1.75rem;">
+            <div class="pia-eyebrow"><i class="fas fa-paper-plane" aria-hidden="true"></i> Sin Compromiso</div>
+            <h2 class="font-heading" style="font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight:900;">Pide Tu Muestra y Propuesta Personalizada</h2>
+            <p style="color:#94a3b8; font-size:0.93rem; margin-top:0.5rem;">
+              Dinos cómo se llama tu negocio y qué referencia te gustó. Te asignamos un especialista para mostrarte tu web en vivo y darte tu cotización exacta.
+            </p>
+          </div>
+
+          <form id="pw-proposal-form" action="/api/sitioweb/qualify" method="POST" aria-labelledby="pw-form-title">
+            <span id="pw-form-title" class="pia-visually-hidden">Formulario de solicitud de propuesta web</span>
+            <input type="text" name="website_hp" tabindex="-1" aria-hidden="true" class="pia-visually-hidden" autocomplete="off">
+
+            <div class="pia-grid-2">
+              <div class="pia-form-field">
+                <label for="pw-name">Tu Nombre y Apellido *</label>
+                <input type="text" id="pw-name" name="full_name" class="pia-input" required minlength="2" maxlength="100" autocomplete="name" enterkeyhint="next" placeholder="Ej. Carlos Mendoza">
+              </div>
+              <div class="pia-form-field">
+                <label for="pw-biz">Nombre de tu Negocio o Empresa *</label>
+                <input type="text" id="pw-biz" name="business_name" class="pia-input" required minlength="2" maxlength="100" autocomplete="organization" enterkeyhint="next" placeholder="Ej. Clínica Dental Sonrisa">
+              </div>
+            </div>
+
+            <div class="pia-grid-2">
+              <div class="pia-form-field">
+                <label for="pw-phone">Tu WhatsApp Directo *</label>
+                <input type="tel" id="pw-phone" name="phone" class="pia-input" required minlength="8" maxlength="24" autocomplete="tel" inputmode="tel" enterkeyhint="next" placeholder="Ej. +1 786 555 0199">
+              </div>
+              <div class="pia-form-field">
+                <label for="pw-email">Tu Correo Electrónico *</label>
+                <input type="email" id="pw-email" name="email" class="pia-input" required autocomplete="email" inputmode="email" enterkeyhint="next" placeholder="nombre@tunegocio.com">
+              </div>
+            </div>
+
+            <div class="pia-grid-2">
+              <div class="pia-form-field">
+                <label for="pw-niche">Giro / Industria de tu Negocio *</label>
+                <select id="pw-niche" name="niche" class="pia-input" required>
+                  <option value="servicios_locales">Servicios del Hogar / Plomería / HVAC / Techos</option>
+                  <option value="clinica">Clínica Dental, Estética o Salud</option>
+                  <option value="inmobiliaria">Inmobiliaria / Bienes Raíces</option>
+                  <option value="profesionales">Abogado, Notaría, Contador o Consultoría</option>
+                  <option value="enterprise">Industria, Mayorista, E-Commerce o B2B</option>
+                  <option value="academia">Academia, Marca Personal o Eventos</option>
+                </select>
+              </div>
+              <div class="pia-form-field">
+                <label for="pw-ref">Referencia o Modalidad de Interés</label>
+                <input type="text" id="pw-ref" name="reference_model" class="pia-input" placeholder="Ej. Web Catálogo o Blancos Girasol">
+              </div>
+            </div>
+
+            <div style="display:flex; align-items:flex-start; gap:0.65rem; margin-bottom:1.25rem;">
+              <input type="checkbox" id="pw-consent" name="sms_consent" required checked style="width:18px; height:18px; margin-top:3px; accent-color:#00e5ff;">
+              <label for="pw-consent" style="font-size:0.8rem; color:#94a3b8; line-height:1.45;">
+                Acepto recibir mi muestra web y seguimiento por WhatsApp, SMS o correo de <strong style="color:#e2e8f0;">Agencia ProsperIA LLC</strong>. Ver <a href="/politica-privacidad" style="color:#00e5ff;">Política de Privacidad</a>.
+              </label>
+            </div>
+
+            <div id="pw-form-status" role="status" aria-live="polite" style="display:none; padding:0.9rem 1rem; border-radius:12px; font-size:0.88rem; font-weight:600; margin-bottom:1rem;"></div>
+
+            <div style="display:flex; flex-wrap:wrap; gap:0.85rem;">
+              <button type="submit" id="pw-submit-btn" class="pia-btn-primary" style="flex:1 1 240px;">
+                <i class="fas fa-bolt" aria-hidden="true"></i>
+                <span>Ver Mi Demo y Solicitar Propuesta</span>
+              </button>
+              <a id="pw-wa-direct" href="https://wa.me/17868336964?text=Hola%20ProsperIA,%20quiero%20una%20muestra%20y%20propuesta%20de%20P%C3%A1gina%20Web%20Inteligente" target="_blank" rel="noopener" class="pia-btn-emerald" style="flex:1 1 200px;">
+                <i class="fab fa-whatsapp" aria-hidden="true"></i>
+                <span>Escribir por WhatsApp</span>
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  {% include "footer.html" %}
+
+  <script>
+  (function() {
+    // Pause / play Atlas animation (WCAG 2.2.2)
+    const stageBox = document.getElementById('atlas-stage-box');
+    const toggleAnimBtn = document.getElementById('toggle-atlas-motion');
+    if (stageBox && toggleAnimBtn) {
+      toggleAnimBtn.addEventListener('click', () => {
+        const paused = stageBox.classList.toggle('squad-paused');
+        toggleAnimBtn.innerHTML = paused
+          ? '<i class="fas fa-play" aria-hidden="true"></i> Reanudar animación'
+          : '<i class="fas fa-pause" aria-hidden="true"></i> Pausar animación';
+      });
+    }
+
+    // VIP showcase switcher
+    const vipData = {
+      blancos: {
+        cat: 'E-COMMERCE B2B · MÉXICO · ESPAÑOL',
+        title: 'Blancos Girasol · Catálogo Hotelero + CRM',
+        desc: 'Plataforma textil B2B para hoteles, hospitales y spas con catálogo completo, cotizador mayorista, chatbot inteligente integrado y panel CRM interno.',
+        img: '/assets/cama-completa-duvet-almohadas-wD5rwC03.jpg',
+        live: '/portafolio-vivo/blancosgirasol/',
+        ref: 'Blancos Girasol'
+      },
+      servixo: {
+        cat: 'SERVICIOS DEL HOGAR · MOTOR BIZBOX · 82 OFICIOS',
+        title: 'Servixo · Sistema Maestro Home Services',
+        desc: 'Embudo cinematográfico de 11 secciones para plomería, HVAC, techos, remodelación y electricidad conectado al Portal de 23 Micro-Apps de IA.',
+        img: '/portafolio-vivo/servixo/assets/img/hero.jpg',
+        live: '/portafolio-vivo/servixo/',
+        ref: 'Servixo Home Services (BizBox)'
+      },
+      jpx: {
+        cat: 'FINANZAS GLOBALES · MULTI-PÁGINA · ES / EN / PT',
+        title: 'JPX International Investments Inc.',
+        desc: 'Sitio corporativo institucional de ingeniería financiera global, división de commodities y portal privado de clientes en 3 idiomas.',
+        img: '/portafolio-vivo/jpxinternational/static/images/hero-bg.jpg',
+        live: '/portafolio-vivo/jpxinternational/',
+        ref: 'JPX International'
+      },
+      sunotaria: {
+        cat: 'LEGAL & NOTARIAL · MIAMI, FL · BILINGÜE ES/EN',
+        title: 'Su Notaría USA · Servicios Notariales en Florida',
+        desc: 'Portal bilingüe con arquitectura legal, apostillas, poderes notariales, enlace directo a WhatsApp y CRM de seguimiento.',
+        img: '/portafolio-vivo/sunotariausa/static/images/herramientas_notariales.png',
+        live: '/portafolio-vivo/sunotariausa/',
+        ref: 'Su Notaría USA'
+      },
+      aurea: {
+        cat: 'CLÍNICAS & SALUD · DEMOSTRADOR EN VIVO',
+        title: 'Aurea · Clínica Dental & Estética VIP',
+        desc: 'Embudo médico con valoración 3D, catálogo de tratamientos, galería interactiva y agenda conectada anti No-Show 24/7.',
+        img: '/static/clinica_odontologia_estetica.jpg',
+        live: '/demo-sitio-web?template=clinica_dental_estetica',
+        ref: 'Clínica Estética & Dental VIP'
+      }
+    };
+
+    const vipBtns = document.querySelectorAll('.pw-vip-thumb');
+    vipBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.getAttribute('data-vip');
+        const item = vipData[key];
+        if (!item) return;
+        vipBtns.forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+        document.getElementById('vip-category').textContent = item.cat;
+        document.getElementById('vip-title').textContent = item.title;
+        document.getElementById('vip-desc').textContent = item.desc;
+        document.getElementById('vip-img').src = item.img;
+        document.getElementById('vip-live-link').href = item.live;
+        document.getElementById('vip-want-btn').setAttribute('data-ref-name', item.ref);
+      });
+    });
+
+    // Category filter tabs
+    const filterTabs = document.querySelectorAll('.pia-tab[data-filter]');
+    const projectCards = document.querySelectorAll('.pw-project-card');
+    filterTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const filter = tab.getAttribute('data-filter');
+        filterTabs.forEach(t => t.setAttribute('aria-selected', String(t === tab)));
+        projectCards.forEach(card => {
+          const cat = card.getAttribute('data-category');
+          card.hidden = !(filter === 'all' || cat === filter);
+        });
+      });
+    });
+
+    // Prefill proposal form when user clicks "Quiero una así" or plan button
+    function prefillReference(refName) {
+      const refInput = document.getElementById('pw-ref');
+      const formSec = document.getElementById('propuesta-web');
+      const waLink = document.getElementById('pw-wa-direct');
+      if (refInput) refInput.value = refName;
+      if (waLink) {
+        const msg = encodeURIComponent(`Hola Agencia ProsperIA, quiero solicitar muestra y propuesta web inspirada en: ${refName}`);
+        waLink.href = `https://wa.me/17868336964?text=${msg}`;
+      }
+      if (formSec) formSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const nameField = document.getElementById('pw-name');
+      if (nameField) setTimeout(() => nameField.focus(), 450);
+    }
+
+    document.querySelectorAll('.pw-want-btn').forEach(btn => {
+      btn.addEventListener('click', () => prefillReference(btn.getAttribute('data-project') || 'Sitio Web Inteligente'));
+    });
+    const vipWantBtn = document.getElementById('vip-want-btn');
+    if (vipWantBtn) {
+      vipWantBtn.addEventListener('click', () => prefillReference(vipWantBtn.getAttribute('data-ref-name') || 'Proyecto VIP'));
+    }
+    document.querySelectorAll('.pw-select-plan').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        prefillReference(btn.getAttribute('data-plan') || 'Web Presencia IA');
+      });
+    });
+
+    // Form submit to /api/sitioweb/qualify
+    const form = document.getElementById('pw-proposal-form');
+    const statusBox = document.getElementById('pw-form-status');
+    const submitBtn = document.getElementById('pw-submit-btn');
+
+    if (form && statusBox) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!form.reportValidity()) return;
+
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i><span>Preparando tu demo en vivo...</span>';
+        statusBox.style.display = 'none';
+
+        const fd = new FormData(form);
+        const payload = {
+          full_name: fd.get('full_name'),
+          business_name: fd.get('business_name'),
+          phone: fd.get('phone'),
+          email: fd.get('email'),
+          niche: fd.get('niche'),
+          monthly_volume: '15_50',
+          utm_source: 'paginas_web_vitrina',
+          utm_campaign: String(fd.get('reference_model') || 'paginas-web'),
+          website_hp: fd.get('website_hp') || ''
+        };
+
+        try {
+          const res = await fetch('/api/sitioweb/qualify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          const data = await res.json();
+          if (!res.ok || !data.ok) {
+            throw new Error(data.error || data.detail || 'Verifica los campos e inténtalo de nuevo.');
+          }
+          statusBox.style.display = 'block';
+          statusBox.style.background = 'rgba(16, 185, 129, 0.14)';
+          statusBox.style.border = '1px solid rgba(16, 185, 129, 0.45)';
+          statusBox.style.color = '#6ee7b7';
+          statusBox.innerHTML = `✅ ¡Listo! Registramos tu solicitud para <strong>${payload.business_name}</strong>. Abriendo tu demostrador personalizado...`;
+          setTimeout(() => {
+            window.location.href = data.demo_url || '/demo-sitio-web';
+          }, 800);
+        } catch (err) {
+          statusBox.style.display = 'block';
+          statusBox.style.background = 'rgba(244, 63, 94, 0.14)';
+          statusBox.style.border = '1px solid rgba(244, 63, 94, 0.45)';
+          statusBox.style.color = '#fda4af';
+          statusBox.textContent = err.message || 'No pudimos enviar el formulario. Escríbenos por WhatsApp.';
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<i class="fas fa-bolt" aria-hidden="true"></i><span>Ver Mi Demo y Solicitar Propuesta</span>';
+        }
+      });
+    }
+  })();
+  </script>
+</body>
+</html>

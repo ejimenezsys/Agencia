@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio | JPX International Investments Inc.{% endblock %}
+
+{% block content %}
+<!-- Banner Hero C-Level -->
+<section class="hero-section">
+    <div class="container hero-content">
+        <h1>
+            {% if lang == 'en' %}
+            International Financial Consulting and Structuring of Macroprojects
+            {% elif lang == 'pt' %}
+            Consultoria Financeira Internacional e Estruturação de Macroprojetos
+            {% else %}
+            Consultoría Financiera Internacional y Estructuración de Macroproyectos
+            {% endif %}
+        </h1>
+        <p class="hero-subtitle">
+            {% if lang == 'en' %}
+            JPX International Investments Inc. emerges as your specialized consulting firm in global financial processes. We offer you advanced financial tools, strategic advice, and proven economic recovery models to ensure your project achieves sustainable, high-impact growth.
+            {% elif lang == 'pt' %}
+            A JPX International Investments Inc. surge como sua firma de consultoria especializada em processos financeiros globais. Colocamos à sua disposição ferramentas financeiras avançadas, consultoria estratégica e modelos comprovados de recuperação econômica para garantir que seu projeto alcance um crescimento sustentável e de alto impacto.
+            {% else %}
+            JPX International Investments Inc. surge como su firma asesora especializada en procesos financieros globales. Ponemos a su disposición herramientas financieras avanzadas, asesoría estratégica y modelos comprobados de reactivación económica para asegurar que su proyecto logre un crecimiento sostenible y de alto impacto.
+            {% endif %}
+        </p>
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <a href="/contacto" class="btn btn-primary" id="hero-cta">
+                {% if lang == 'en' %}Start Institutional Inquiry{% elif lang == 'pt' %}Iniciar Consulta Institucional{% else %}Iniciar Consulta Institucional{% endif %}
+            </a>
+            <a href="/firma" class="btn btn-secondary" style="border-color: var(--color-contrast); color: var(--color-base);">
+                {% if lang == 'en' %}Our Story{% elif lang == 'pt' %}Nossa História{% else %}Nuestra Historia{% endif %}
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Métricas de Rendimiento Operativo (Hero Metrics) -->
+<section class="section section-light-metrics">
+    <div class="container">
+        <h2 style="text-align: center; margin-bottom: 3rem;">
+            {% if lang == 'en' %}Operational History and Institutional Distribution{% elif lang == 'pt' %}Histórico Operacional e Distribuição Institucional{% else %}Historial Operativo y Distribución Institucional{% endif %}
+        </h2>
+        
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-value">70%</div>
+                <div class="metric-label">
+                    {% if lang == 'en' %}Multinational Corporations{% elif lang == 'pt' %}Corporações Multinacionais{% else %}Corporaciones Multinacionales{% endif %}
+                </div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">20%</div>
+                <div class="metric-label">
+                    {% if lang == 'en' %}High-Growth SMEs{% elif lang == 'pt' %}PMEs de Alto Crescimento{% else %}PYMES de Alto Crecimiento{% endif %}
+                </div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">10%</div>
+                <div class="metric-label">
+                    {% if lang == 'en' %}VIP Clients (High Net Worth){% elif lang == 'pt' %}Clientes VIP (Alto Patrimônio){% else %}Clientes VIP (Alto Patrimonio{% endif %})
+                </div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">7,684+</div>
+                <div class="metric-label">
+                    {% if lang == 'en' %}Strategic Consulting Clients{% elif lang == 'pt' %}Clientes de Consultoria Estratégica{% else %}Clientes de Consultoría Estratégica{% endif %}
+                </div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">6,237</div>
+                <div class="metric-label">
+                    {% if lang == 'en' %}Capital Markets Transactions{% elif lang == 'pt' %}Transações em Mercados de Capitais{% else %}Transacciones en Mercados de Capitales{% endif %}
+                </div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">5,832</div>
+                <div class="metric-label">
+                    {% if lang == 'en' %}Institutional Trade Sales{% elif lang == 'pt' %}Vendas em Comércio Institucional{% else %}Ventas en Comercio Institucional{% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Divisiones Estratégicas Breve Resumen -->
+<section class="section section-grey">
+    <div class="container">
+        <p style="text-align: center; max-width: 700px; margin: 0 auto 2rem auto; color: var(--color-muted);">
+            {% if lang == 'en' %}We provide custom solutions that integrate private banking, international trade, and strategic consulting.{% elif lang == 'pt' %}Oferecemos soluções personalizadas que integram private banking, comércio internacional e consultoria estratégica.{% else %}Proporcionamos soluciones personalizadas que integram la banca privada, el comercio internacional y la consultoría estratégica.{% endif %}
+        </p>
+        
+        <div style="display: flex; justify-content: center; width: 100%; margin-top: 1rem;">
+            <img src="{{ static_versioned('images/business_divisions.jpg') }}" alt="Nuestras Divisiones de Negocio" style="max-width: 100%; height: auto; border-radius: var(--border-radius); box-shadow: var(--box-shadow-medium); border: 1px solid rgba(0, 0, 0, 0.05);">
+        </div>
+    </div>
+</section>
+
+
+<!-- Sección de Testimonios y Autoridad Externa -->
+<section class="section testimonials-section">
+    <div class="container">
+        <h2 style="text-align: center; margin-bottom: 2rem;">
+            {% if lang == 'en' %}Institutional Validation{% elif lang == 'pt' %}Validação Institucional{% else %}Validación Institucional{% endif %}
+        </h2>
+        
+        <div class="testimonial-container">
+            <div class="testimonial-slide active" data-slide="0">
+                <p class="testimonial-quote">
+                    {% if lang == 'en' %}
+                    "JPX's capability to transform technical information into tangible, fiduciary investment strategies has been fundamental for the expansion of our logistical infrastructure."
+                    {% elif lang == 'pt' %}
+                    "A capacidade da JPX de transformar informações técnicas em estratégias de investimento tangíveis e fiduciárias tem sido fundamental para a expansão de nossas infraestruturas logísticas."
+                    {% else %}
+                    "La capacidad de JPX para transformar información técnica en estrategias de inversión tangibles y fiduciarias ha sido fundamental para la expansión de nuestras infraestructuras logísticas."
+                    {% endif %}
+                </p>
+                <div class="testimonial-author">
+                    {% if lang == 'en' %}Chief Operating Officer &mdash; Latin American Mining Holding{% elif lang == 'pt' %}Diretor Executivo de Operações &mdash; Holding de Mineração Latino-Americana{% else %}Director Ejecutivo de Operaciones &mdash; Holding Minero Latinoamericano{% endif %}
+                </div>
+            </div>
+            <div class="testimonial-slide" data-slide="1">
+                <p class="testimonial-quote">
+                    {% if lang == 'en' %}
+                    "Clarity, speed, and strict regulatory compliance. The firm's executive consulting provided impeccable clarity in a high market volatility scenario."
+                    {% elif lang == 'pt' %}
+                    "Clareza, velocidade e estrito cumprimento regulatório. A consultoria executiva da firma proporcionou uma clareza impecável em um cenário de alta volatilidade dos mercados."
+                    {% else %}
+                    "Encontrabilidad, velocidad y cumplimiento regulatorio estricto. La consultoría ejecutiva de la firma proporcionó una claridad impecable en un escenario de alta volatilidad de mercados."
+                    {% endif %}
+                </p>
+                <div class="testimonial-author">
+                    {% if lang == 'en' %}VP of Finance &mdash; International Pharmaceutical Trust{% elif lang == 'pt' %}Vice-Presidente de Finanças &mdash; Fideicomisso Farmacêutico Internacional{% else %}Vicepresidente de Finanzas &mdash; Fideicomiso Farmacéutico Internacional{% endif %}
+                </div>
+            </div>
+            <div class="testimonial-slide" data-slide="2">
+                <p class="testimonial-quote">
+                    {% if lang == 'en' %}
+                    "Their expertise in SWIFT interbank messaging and SBLC structuring enabled a transoceanic project closing in record time, securing our supply chain."
+                    {% elif lang == 'pt' %}
+                    "Sua expertise em mensagens interbancárias SWIFT e estruturação de SBLC facilitou o fechamento de um projeto transoceânico em tempo recorde, garantindo nossa cadeia de suprimentos."
+                    {% else %}
+                    "Su pericia en la mensajería interbancaria SWIFT y la estructuración de SBLC facilitó un cierre de proyecto transoceánico en tiempo récord, asegurando nuestra cadena de suministro."
+                    {% endif %}
+                </p>
+                <div class="testimonial-author">
+                    {% if lang == 'en' %}Lead Treasurer &mdash; Global Fertilizer Distributor{% elif lang == 'pt' %}Tesoureiro Principal &mdash; Distribuidora Global de Fertilizantes{% else %}Tesorero Principal &mdash; Distribuidora Global de Fertilizantes{% endif %}
+                </div>
+            </div>
+            
+            <div class="testimonial-controls">
+                <button class="testimonial-dot active" data-slide-to="0" aria-label="Testimonio 1"></button>
+                <button class="testimonial-dot" data-slide-to="1" aria-label="Testimonio 2"></button>
+                <button class="testimonial-dot" data-slide-to="2" aria-label="Testimonio 3"></button>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

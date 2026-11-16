@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if lang == 'en' %}Business Consulting and Financial Advisory (Executive Level) | JPX International Investments Inc.
+    {% elif lang == 'pt' %}Consultoria de Negócios e Assessoria Financeira (Nível Executivo) | JPX International Investments Inc.
+    {% else %}Consultoría de Negocios y Asesoría Financiera (Nivel Ejecutivo) | JPX International Investments Inc.
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<!-- Banner Hero Secundario -->
+<section class="hero-section" style="padding: 4rem 0;">
+    <div class="container hero-content">
+        <h1>
+            {% if lang == 'en' %}Business Consulting and Financial Advisory (Executive Level)
+            {% elif lang == 'pt' %}Consultoria de Negócios e Assessoria Financeira (Nível Executivo)
+            {% else %}Consultoría de Negocios y Asesoría Financiera (Nivel Ejecutivo)
+            {% endif %}
+        </h1>
+        <p class="hero-subtitle" style="margin-bottom: 0;">
+            {% if lang == 'en' %}We transform complex data and cross-border regulations into high-performance corporate strategies.
+            {% elif lang == 'pt' %}Transformamos dados complexos e regulamentações transfronteiriças em estratégias corporativas de alto rendimento.
+            {% else %}Transformamos datos complejos y regulaciones transfronterizas en estrategias corporativas de alto rendimiento.
+            {% endif %}
+        </p>
+    </div>
+</section>
+
+<!-- Introducción Asesoría -->
+<section class="section">
+    <div class="container">
+        <h2>
+            {% if lang == 'en' %}Strategic Pillars of Consulting
+            {% elif lang == 'pt' %}Pilares Estratégicos de Consultoria
+            {% else %}Pilares Estratégicos de Consultoría
+            {% endif %}
+        </h2>
+        <p style="margin-top: 1rem; color: var(--color-dark); text-align: justify; line-height: 1.7;">
+            {% if lang == 'en' %}Our Business Consulting division assists boards of directors, family offices, and sovereign investors in navigating the most complex transactions in today's market. We focus our expertise on three strategic pillars:
+            {% elif lang == 'pt' %}A nossa divisão de Consultoria de Negócios auxilia conselhos de administração, family offices e investidores soberanos a navegar nas transações mais complexas do mercado atual. Focamos nossa experiência em três pilares estratégicos:
+            {% else %}Nuestra división de Consultoría de Negocios asiste a juntas directivas, family offices e inversionistas soberanos a navegar en las transacciones más complejas del mercado actual. Centramos nuestra pericia en tres pilares estratégicos:
+            {% endif %}
+        </p>
+        
+        <div class="grid-cards" style="margin-top: 2rem;">
+            <div class="card">
+                <h3>
+                    {% if lang == 'en' %}Corporate Finance
+                    {% elif lang == 'pt' %}Finanças Corporativas
+                    {% else %}Finanzas Corporativas
+                    {% endif %}
+                </h3>
+                <p style="font-size: 0.9rem; line-height: 1.6;">
+                    {% if lang == 'en' %}Predictive financial modeling, capital structure analysis, and economic feasibility for industrial reactivation in developed economies and emerging markets.
+                    {% elif lang == 'pt' %}Modelagem financeira preditiva, análise da estrutura de capital e viabilidade econômica para reativação industrial em economias desenvolvidas e mercados emergentes.
+                    {% else %}Modelados financieros predictivos, análisis de estructuras de capital y viabilidad económica para la reactivación industrial en economías desarrolladas y de mercados emergentes.
+                    {% endif %}
+                </p>
+            </div>
+            
+            <div class="card">
+                <h3>
+                    {% if lang == 'en' %}Executive Level Financial Advisory
+                    {% elif lang == 'pt' %}Assessoria Financeira de Nível Executivo
+                    {% else %}Asesoría Financiera en Nivel Ejecutivo
+                    {% endif %}
+                </h3>
+                <p style="font-size: 0.9rem; line-height: 1.6;">
+                    {% if lang == 'en' %}C-Level consulting designed specifically for entrepreneurs and executives in Latin America, providing comprehensive support for corporate expansion, cross-border regulatory navigation, and tailored solution structuring.
+                    {% elif lang == 'pt' %}Consultoria C-Level projetada especificamente para empresários e diretores na América Latina, oferecendo suporte integral para expansão corporativa, navegação regulatória transfronteiriça e estruturação de soluções personalizadas.
+                    {% else %}Consultoría C-Level diseñada específicamente para empresarios y directivos en Latinoamérica, brindando acompañamiento integral para la expansión corporativa, la navegación regulatoria transfronteriza y la estructuración de soluciones a la medida de sus necesidades.
+                    {% endif %}
+                </p>
+            </div>
+            
+            <div class="card">
+                <h3>
+                    {% if lang == 'en' %}Private Investment
+                    {% elif lang == 'pt' %}Investimento Privado (Private Investment)
+                    {% else %}Inversión Privada (Private Investment)
+                    {% endif %}
+                </h3>
+                <p style="font-size: 0.9rem; line-height: 1.6;">
+                    {% if lang == 'en' %}Discretionary capital allocation in specific investment vehicles, structuring diversified portfolios designed to mitigate inflationary and geopolitical risk vectors.
+                    {% elif lang == 'pt' %}Alocação discricionária de capital em veículos de investimento específicos, estruturando carteiras diversificadas projetadas para mitigar vetores de risco inflacionário e geopolítico.
+                    {% else %}Colocación discrecional de capital en vehículos de inversión específicos, estructurando carteras diversificadas diseñadas para mitigar vectores de riesgo inflacionario y geopolítico.
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Estrategias Tangibles -->
+<section class="section section-grey">
+    <div class="container" style="max-width: 800px; text-align: center;">
+        <h2>
+            {% if lang == 'en' %}From Technical Information to Fiduciary Execution
+            {% elif lang == 'pt' %}Da Informação Técnica à Execução Fiduciária
+            {% else %}De la Información Técnica a la Ejecución Fiduciaria
+            {% endif %}
+        </h2>
+        <p style="margin-top: 1.5rem; font-size: 1.1rem; font-style: italic; line-height: 1.8; color: var(--color-primary);">
+            {% if lang == 'en' %}"JPX's expertise lies in transforming mathematical data matrices, commodities, and international regulatory compliance into immediate and legally protected action plans that increase the fiduciary value of assets."
+            {% elif lang == 'pt' %}"A experiência da JPX reside em transformar matrizes de dados matemáticos, de commodities e de conformidade regulatória internacional em planos de ação imediatos e juridicamente protegidos que aumentem o valor fiduciário dos ativos."
+            {% else %}"La pericia de JPX radica en transformar matrices de datos matemáticos, de commodities y de cumplimiento regulatorio internacional en planes de acción inmediatos y jurídicamente blindados que incrementen el valor fiduciario de los activos."
+            {% endif %}
+        </p>
+        <div style="margin-top: 2.5rem;">
+            <a href="/contacto" class="btn btn-primary">
+                {% if lang == 'en' %}Schedule Advisory Session
+                {% elif lang == 'pt' %}Agendar Sessão de Assessoria
+                {% else %}Agendar Sesión de Asesoría
+                {% endif %}
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

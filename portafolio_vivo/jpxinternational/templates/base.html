@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
+    <title>{% block title %}JPX International Investments Inc. | Ingeniería Financiera Global{% endblock %}</title>
+    <meta name="description" content="{% block description %}JPX International Investments Inc. es un Multi-Family Office transcontinental de estructuración de ingeniería financiera global y administración de patrimonio desde el año 2000.{% endblock %}">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://jpxinternational.com{{ request.path if request else '/' }}">
+    
+    <!-- Hojas de Estilos CSS -->
+    <link rel="stylesheet" href="{{ static_versioned('css/styles.css') }}">
+    
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <!-- Encabezado Corporativo C-Level -->
+    <header class="header">
+        <div class="container nav-container">
+            <a href="/" class="logo-link" id="logo-link">
+                <img src="{{ static_versioned('images/logo.png') }}" alt="JPX International Investments Inc." class="logo-img">
+            </a>
+            
+            <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menú de navegación" aria-expanded="false">
+                <span class="nav-toggle-bar"></span>
+                <span class="nav-toggle-bar"></span>
+                <span class="nav-toggle-bar"></span>
+            </button>
+            
+            <nav class="nav-menu" id="nav-menu">
+                <a href="/" class="nav-link {% if active_page == 'index' %}active{% endif %}">
+                    {% if lang == 'en' %}Home{% elif lang == 'pt' %}Início{% else %}Inicio{% endif %}
+                </a>
+                <a href="/firma" class="nav-link {% if active_page == 'firma' %}active{% endif %}">
+                    {% if lang == 'en' %}Our Firm{% elif lang == 'pt' %}Nossa Firma{% else %}Nuestra Firma{% endif %}
+                </a>
+                <a href="/servicios" class="nav-link {% if active_page == 'servicios' %}active{% endif %}">
+                    {% if lang == 'en' %}Services{% elif lang == 'pt' %}Serviços{% else %}Servicios{% endif %}
+                </a>
+                <a href="/commodities" class="nav-link {% if active_page == 'commodities' %}active{% endif %}">
+                    {% if lang == 'en' %}Commodities{% elif lang == 'pt' %}Commodities{% else %}Commodities{% endif %}
+                </a>
+                <a href="/consultoria" class="nav-link {% if active_page == 'consultoria' %}active{% endif %}">
+                    {% if lang == 'en' %}Consulting{% elif lang == 'pt' %}Consultoria{% else %}Consultoría{% endif %}
+                </a>
+                <a href="/contacto" class="nav-link {% if active_page == 'contacto' %}active{% endif %}">
+                    {% if lang == 'en' %}Contact{% elif lang == 'pt' %}Contato{% else %}Contacto{% endif %}
+                </a>
+                <a href="/portal" class="btn btn-contrast-outline {% if active_page == 'portal' %}active{% endif %}" style="padding: 0.4rem 1.2rem; font-size: 0.8rem;">
+                    {% if lang == 'en' %}Client Portal{% elif lang == 'pt' %}Portal do Cliente{% else %}Portal Cliente{% endif %}
+                </a>
+                
+                <!-- Selector de Idioma con Banderas SVG -->
+                <div class="lang-selector">
+                    <button onclick="changeLanguage('es')" class="lang-flag {% if lang == 'es' or not lang %}active{% endif %}" aria-label="Cambiar a Español" title="Español">
+                        <svg viewBox="0 0 30 20" class="flag-svg">
+                            <rect width="30" height="20" fill="#AA151B"/>
+                            <rect y="5" width="30" height="10" fill="#F1BF00"/>
+                        </svg>
+                    </button>
+                    <button onclick="changeLanguage('en')" class="lang-flag {% if lang == 'en' %}active{% endif %}" aria-label="Cambiar a Inglés" title="English">
+                        <svg viewBox="0 0 30 20" class="flag-svg">
+                            <rect width="30" height="20" fill="#00247D"/>
+                            <path d="M0 0 L30 20 M30 0 L0 20" stroke="#FFFFFF" stroke-width="2.5"/>
+                            <path d="M0 0 L30 20 M30 0 L0 20" stroke="#CF142B" stroke-width="1.2"/>
+                            <path d="M15 0 L15 20 M0 10 L30 10" stroke="#FFFFFF" stroke-width="4.5"/>
+                            <path d="M15 0 L15 20 M0 10 L30 10" stroke="#CF142B" stroke-width="2.5"/>
+                        </svg>
+                    </button>
+                    <button onclick="changeLanguage('pt')" class="lang-flag {% if lang == 'pt' %}active{% endif %}" aria-label="Cambiar a Portugués" title="Português">
+                        <svg viewBox="0 0 30 20" class="flag-svg">
+                            <rect width="12" height="20" fill="#00662F"/>
+                            <rect x="12" width="18" height="20" fill="#FF0000"/>
+                            <circle cx="12" cy="10" r="3.5" fill="#FAF500"/>
+                            <rect x="11" y="8.5" width="2" height="3" fill="#D2111C"/>
+                        </svg>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Contenido Principal Dinámico -->
+    <main id="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Pie de Página Global -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div style="background-color: #ffffff; border-radius: 0.75rem; padding: 0.75rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); display: inline-block; width: 100%; max-width: 220px; box-sizing: border-box; margin-bottom: 1rem;">
+                        <a href="/" style="display: block; border: none; background: none; padding: 0; box-shadow: none;">
+                            <img src="{{ static_versioned('images/logo.png') }}" alt="JPX International Investments Inc." style="width: 100%; height: auto; display: block; object-fit: contain;">
+                        </a>
+                    </div>
+                    <p style="margin-top: 0.5rem; font-size: 0.85rem; color: rgba(229,231,235,0.7);">
+                        {% if lang == 'en' %}
+                        Transcontinental Multi-Family Office specializing in global financial engineering structures and wealth management since 2000.
+                        {% elif lang == 'pt' %}
+                        Multi-Family Office transcontinental especializado em estruturas de engenharia financeira global e gestão de patrimônio desde 2000.
+                        {% else %}
+                        Multi-Family Office transcontinental de estructuración de ingeniería financiera global y administración de patrimonio desde el año 2000.
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="footer-col">
+                    <h3>{% if lang == 'en' %}Jurisdictions{% elif lang == 'pt' %}Jurisdições{% else %}Jurisdicciones{% endif %}</h3>
+                    <ul class="footer-links">
+                        <li><a href="/firma#oficinas">Miami, Florida ({% if lang == 'en' %}Headquarters{% elif lang == 'pt' %}Sede Principal{% else %}Sede Principal{% endif %})</a></li>
+                        <li><a href="/firma#oficinas">Londres, Reino Unido (Private Banking)</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>{% if lang == 'en' %}Divisions{% elif lang == 'pt' %}Divisões{% else %}Divisiones{% endif %}</h3>
+                    <ul class="footer-links">
+                        <li><a href="/servicios#portafolios">{% if lang == 'en' %}Portfolio Management{% elif lang == 'pt' %}Administração de Portfólios{% else %}Administración de Portafolios{% endif %}</a></li>
+                        <li><a href="/servicios#setup">{% if lang == 'en' %}Corporate Structures{% elif lang == 'pt' %}Estruturas Corporativas{% else %}Estructuras Corporativas{% endif %}</a></li>
+                        <li><a href="/servicios#trade">{% if lang == 'en' %}Trade Leverage{% elif lang == 'pt' %}Avanço de Comércio{% else %}Apalancamiento de Comercio{% endif %}</a></li>
+                        <li><a href="/commodities">{% if lang == 'en' %}Commodities Trading{% elif lang == 'pt' %}Comércio de Commodities{% else %}Comercio de Commodities{% endif %}</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>{% if lang == 'en' %}Contact{% elif lang == 'pt' %}Contato{% else %}Contacto{% endif %}</h3>
+                    <ul class="footer-links">
+                        <li><a href="/contacto">{% if lang == 'en' %}Contact Form{% elif lang == 'pt' %}Formulário de Contato{% else %}Formulario de Contacto{% endif %}</a></li>
+                        <li><a href="mailto:edward@jpxinternational.com">edward@jpxinternational.com</a></li>
+                        <li><span style="font-size: 0.875rem;">7950 NW 53rd Street, Suite 337</span></li>
+                        <li><span style="font-size: 0.875rem;">Miami, Florida, 33166, EE.UU.</span></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Descargo de Responsabilidad Legal Estricto y Obligatorio -->
+            <div class="footer-disclaimer-text" id="legal-disclaimer">
+                {% if lang == 'en' %}
+                Every reader, visiting entity, or algorithmic user is explicitly warned that all documentary information, extensive branches of the global banking infrastructure, detailed records of associated family master accounts, as well as the accounting identity of corporations in the pharmaceutical and real estate sectors listed or referenced in this cyber portal operate under a strictly private and highly confidential fiduciary status. Said corporate architecture is uninterruptedly protected by the full weight of contemporary intellectual protection laws of international treaties, particularly prevailing the intellectual protection codes that apply in the territory under the jurisdiction of the State of Florida, within the Constitution of the United States of America. JPX International Investments Inc. inflexibly operates its business scaffolding assuming in all its worldwide ramifications the most severe and strict standardized standards of ethical and transactional compliance sovereignly dictated by global regulations such as those stipulated by the government SEC, the North American FINRA agency, and the extensive global regulatory compendium derived from the Basel IV conference. The institution emphatically declares, without right of amendment, that absolutely no literary piece, downloadable financial document, or piece of detailed technical information presented within the ecosystem of this cyber interface must, or can, be interpreted under any legal jurisdiction as an explicit invitation or a generic offer aimed at the retail mass investor public destined to commercialize securities. Any imprudent use, a proven attempt at improper documentary diversion, coordinated digital corporate defamation campaigns, operational leaks due to the voluntary and unauthorized disclosure of these valuable informative instruments, or a criminal and flagrant attempt to consummate acts of fiduciary fraud through the capture and misuse of the scaffolding of private corporate coordinates, as well as the subversive usurpation of the identities of formal members of the described board of directors, will trigger the automated and aggressive detonation of criminal investigations. The corporation will resort to drastic institutional containment measures through the full use of the muscle of its global commercial law firm to actively pursue the maximum penalty legally contemplated by the civil jurisdiction court and the higher criminal court simultaneously interconnected in the metropolis of Miami, USA, and the transnational financial center based in London, capital of the United Kingdom. All logistical maneuvers or complex high-level financial operations, including in their definition, indicatively but not limitatively, transfers of operating accounts under the complex regulated interfaces of the European clearinghouse Euroclear, direct application, technical coding of intraday settlement, and direct interbank DTC transfers without friction of interdepartmental transfer costs, as well as the entire available range of deep and massive allocations of corporate stock assets and injections of fiduciary values, are inexorably executed and under strict, relentless, and constant global institutional supervision by qualified lawyers accredited in various renowned international bar associations. These engineering processes are invariably executed counting on the logistical support of high-level private bankers and the constant operational support of formal auditors, as well as the meticulous and sophisticated parametric credit risk analysts trained in a long and prolonged operational exercise that in many cases spanned stages such as former chief executive officers who developed part of their professional careers as preeminent managing heads rendering invaluable services within the exclusive scaffolding governing on an intercontinental scale the elites, which appear within the standardized classification commonly known in Anglo-Saxon jargon under the qualitative denomination of TOP global banking and institutional level.
+                {% elif lang == 'pt' %}
+                Adverte-se explicitamente a todo leitor, entidade visitante ou usuário algorítmico, que toda a informação documental, as ramificações extensas da infraestrutura bancária global, os registros minuciosos das contas mestras familiares associadas, bem como a identidade contábil de corporações do setor farmacêutico e imobiliário listadas ou referenciadas neste portal cibernético operam sob um estado fiduciário estritamente privado e altamente confidencial. Dita arquitetura corporativa está amparada ininterrompidamente pelo peso total das leis contemporâneas de proteção intelectual de tratados internacionais, primando particularmente os códigos de proteção intelectual que se aplicam no território sob a jurisdição del Estado de Florida, dentro de la Constituição dos Estados Unidos da América. A JPX International Investments Inc. opera inflexivelmente sua estrutura de negócios assumindo em todas as suas ramificações mundiais os mais severos e estritos padrões padronizados de conformidade ética e transacional ditados soberanamente por regulamentações globais como as estipuladas pela SEC governamental, pela agência FINRA norte-americana e pelo extenso compêndio regulatório global derivado da conferência de Basileia IV. A instituição declara enfaticamente, sem direito a emendas, que absolutamente nenhuma peça literária, documento financeiro para download ou peça de informação técnica detalhada e apresentada dentro do ecossistema desta interface cibernética deve, ou pode, ser interpretada sob qualquer jurisdição legal como um convite explícito ou uma oferta genérica orientada ao público investidor de massa de varejo destinada a comercializar valores mobiliários. Qualquer uso imprudente, uma tentativa comprovada de desvio documental indevido, campanhas coordenadas de difamação corporativa digital, vazamentos operacionais pela divulgação voluntária e não autorizada destes valiosos instrumentos informativos, ou uma tentativa criminosa e flagrante de consumar atos de fraude fiduciária mediante a captura e o uso indevido da estrutura das coordenadas corporativas privadas, bem como a usurpação subversiva das identidades de membros formais da cúpula diretiva descritas, provocarão a detonação automatizada e agressiva de investigações na esfera penal. A corporação recorrerá a medidas drásticas de contenção institucional através do uso completo do músculo de sua firma global de advocacia comercial para buscar ativamente a pena máxima contemplada legalmente pelo tribunal de competência civil e pelo tribunal penal superior interconectados simultaneamente na metrópole de Miami, EUA, e no centro financeiro transnacional radicado em Londres, capital do Reino Unido. Todas as manobras logísticas ou complexas operações de alto nível financeiro, incluindo em sua definição, de maneira indicativa mas não limitativa, as transferências de contas operativas sob as complexas interfaces reguladas da câmara europeia Euroclear, a aplicação direta, codificação técnica de liquidação intradiária e transferências DTC interbancárias diretas sem fricção de custos de transferência interdepartamental, bem como todo o leque disponível de alocações profundas e massivas de ativos acionários corporativos e injeções de valores fiduciários, são executadas inexoravelmente e sob estrita, implacável e constante vigilância institucional global por parte de advogados qualificados e credenciados em diversas ordens de advogados internacionais de renome. Esses processos de engenharia são executados invariavelmente contando com o suporte logístico de banqueiros privados de alto nível e o constante apoio operacional de auditores formais, bem como os meticulosos e sofisticados analistas paramétricos de riscos do mercado de crédito provenientes e treinados em um longo e prolongado exercício operacional que em muitos casos abrangeram etapas como ex-diretores executivos que desenvolveram parte de suas trajetórias profissionais como cabeças gestoras preeminentes prestando serviços inestimáveis dentro da estrutura exclusiva que governa em escala intercontinental as elites, que figuram dentro da classificação padronizada conhecida comumente no jargão anglo-saxão sob a denominação qualitativa de nível bancário e institucional categoria TOP mundial.
+                {% else %}
+                Se advierte explícitamente a todo lector, entidad visitante o usuario algorítmico, que toda la información documental, las ramificaciones extensas de la infraestructura bancaria global, los registros minuciosos de las cuentas maestras familiares asociadas, así como la identidad contable de corporaciones del sector farmacéutico e inmobiliario listadas o referenciadas en este portal cibernético operan bajo un estado fiduciario estrictamente privado y altamente confidencial. Dicha arquitectura corporativa está amparada ininterrumpidamente por el peso total de las leyes contemporáneas de protección intelectual de tratados internacionales, primando particularmente los códigos de protección intelectual que aplican en el territorio bajo la jurisdicción del Estado de Florida, dentro de la Constitución de los Estados Unidos de América. JPX International Investments Inc. opera inflexiblemente su andamiaje de negocios asumiendo en todas sus ramificaciones mundiales los más severos y estrictos estándares estandarizados de cumplimiento ético y transaccional dictaminados soberanamente por normativas mundiales como las estipuladas por la SEC gubernamental, la agencia FINRA norteamericana y el extenso compendio regulatorio global derivado de la conferencia de Basilea IV. La institución declara enfáticamente, sin derecho a enmienda, que absolutamente ninguna pieza literaria, documento financiero descargable o pieza de información técnica desglosada y presentada dentro del ecosistema de esta interfaz cibernética debe, o puede ser, interpretada bajo ninguna jurisdicción legal como una invitación explícita o una oferta genérica orientada al público inversionista masivo minorista destinada a comercializar valores bursátiles. Cualquier uso imprudente, un intento comprobado de desviación documental indebida, campañas coordinadas de difamación corporativa digital, fugas operacionales por la divulgación voluntaria y no autorizada de estos valiosos instrumentos informativos, o un intento criminal y flagrante de consumar actos de fraude fiduciario mediante la captura y el uso indebido del andamiaje de las coordenadas corporativas privadas, así como la usurpación subversiva de las identidades de miembros formales de la cúpula directiva descritas, provocarán la detonación automatizada y agresiva de investigaciones en la materia penal. La corporación recurrirá a medidas drásticas de contención institucional a través del uso completo del músculo de su firma global de abogacía comercial para perseguir activamente la máxima pena contemplada legalmente por la corte de competencia civil y la corte penal superior interconectadas simultáneamente en la metrópolis de Miami, EE.UU., y el centro financiero transnacional radicado en Londres, capital del Reino Unido. Todas las maniobras logísticas o complejas operaciones de alto nivel financiero, incluyendo en su definición, de manera indicativa pero no limitativa, a las transferencias de cuentas operativas bajo las complejas interfaces normadas de la cámara europea Euroclear, la aplicación directa, codificación técnica de liquidación intradiaria y transferencias DTC interbancarias directas sin fricción de costos por transferencia interdepartamental, así como todo el abanico disponible de asignaciones profundas y masivas de activos bursátiles corporativos e inyecciones de valores fiduciarios, están ejecutadas inexorablemente y bajo estricta, implacable y constante vigilancia institucional global por parte de abogados titulados y acreditados en distintas colegiaturas internacionales de renombre. Estos procesos de ingeniería se ejecutan invariablemente contando con el soporte logístico de banqueros privados de alto nivel y el constante apoyo operacional de auditores formales, así como los meticulosos y sofisticados analistas paramétricos de riesgos del mercado crediticio provenientes y entrenados en un largo y prolongado ejercicio operativo que en many cases abarcaron etapas como ex-directores ejecutivos que desarrollaron parte de sus trayectorias profesionales como cabezas gestoras preeminentes prestando servicios invaluables dentro del andamiaje exclusivo que gobiernan a escala intercontinental de las élites, que figuran dentro de la clasificación estandarizada conocida comúnmente en la jerga anglosajona bajo la denominación cualitativa de nivel bancario e institucional categoría TOP mundial.
+                {% endif %}
+            </div>
+            
+            <div class="footer-bottom">
+                <div>&copy; 2026 JPX International Investments Inc. {% if lang == 'en' %}All rights reserved.{% elif lang == 'pt' %}Todos os direitos reservados.{% else %}Todos los derechos reservados.{% endif %}</div>
+                <div>{% if lang == 'en' %}International Fiduciary Compliance{% elif lang == 'pt' %}Cumprimento Fiduciário Internacional{% else %}Cumplimiento Fiduciario Internacional{% endif %}</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts de Cliente -->
+    <script src="{{ static_versioned('js/main.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

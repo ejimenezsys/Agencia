@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Escuadrón IA de ProsperIA · Pack Integral Web + IA + CRM + Ads | Agencia ProsperIA</title>
+  <meta name="description" content="Conoce a Atlas, Nova, Orion y Nexus: el Escuadrón IA de ProsperIA respaldado por Edward Jiménez y 10 ingenieros reales. Tu sistema comercial completo en una sola implementación.">
+  <link rel="icon" type="image/png" href="{{ static_versioned('favicon.png') }}">
+  <link rel="stylesheet" href="{{ static_versioned('fonts.css') }}">
+  <link rel="stylesheet" href="{{ static_versioned('fa.min.css') }}">
+  <link rel="stylesheet" href="{{ static_versioned('ecosistema_squad.css') }}">
+</head>
+<body>
+  {% from "squad_character.html" import render_squad_character %}
+  {% with active_menu='equipo' %}{% include "navbar.html" %}{% endwith %}
+
+  <main>
+    <!-- ── HERO ESCUADRÓN ── -->
+    <section class="pia-shell" style="padding-block: 2.5rem 3.5rem; text-align:center;">
+      <div class="pia-eyebrow"><i class="fas fa-users-gear" aria-hidden="true"></i> Pack Integral · Todo Trabajando Conectado</div>
+      <h1 class="font-heading" style="font-size: clamp(2rem, 4.2vw, 3.35rem); font-weight: 900; max-width:920px; margin:0 auto 1.1rem;">
+        El <span class="pia-gradient-text">Escuadrón IA de ProsperIA</span>: 4 Especialistas Digitales + 10 Ingenieros Reales Trabajando Para Ti
+      </h1>
+      <p style="font-size: 1.06rem; color: #cbd5e1; max-width: 740px; margin: 0 auto 1.75rem;">
+        No compres herramientas aisladas que no se hablan entre sí. Activa en un solo paquete tu <strong style="color:#fff;">Página Web</strong>, tu <strong style="color:#fff;">Recepcionista IA 24/7</strong>, tu <strong style="color:#fff;">CRM Vertical + Portal BizBox</strong> y tu <strong style="color:#fff;">Primera Campaña de Anuncios</strong>, bajo la arquitectura de Edward Jiménez.
+      </p>
+      <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:0.85rem;">
+        <a href="#pack-escuadron" class="pia-btn-primary">
+          <i class="fas fa-rocket" aria-hidden="true"></i>
+          <span>Solicitar Pack Escuadrón Completo</span>
+        </a>
+        <a href="#matriz-semana1" class="pia-btn-ghost">
+          <span>Ver Matriz Semana 1 ↓</span>
+        </a>
+        <button type="button" id="toggle-squad-anim" class="pia-btn-ghost" style="min-height:48px;">
+          <i class="fas fa-pause" aria-hidden="true"></i>
+          <span>Pausar animaciones</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ── LOS 4 PERSONAJES ANIMADOS DEL ESCUADRÓN ── -->
+    <section class="pia-section" id="squad-showcase" style="background: rgba(7, 11, 20, 0.72);">
+      <div class="pia-shell">
+        <div class="pia-grid-4">
+          <div style="display:flex; flex-direction:column; gap:0.75rem;">
+            {{ render_squad_character('atlas') }}
+            <a href="/paginas-web" class="pia-btn-ghost" style="width:100%; min-height:42px; font-size:0.84rem;">Ver Páginas Web →</a>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:0.75rem;">
+            {{ render_squad_character('nova') }}
+            <a href="/agentes-ia" class="pia-btn-ghost" style="width:100%; min-height:42px; font-size:0.84rem;">Probar Agentes IA →</a>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:0.75rem;">
+            {{ render_squad_character('orion') }}
+            <a href="/marketing" class="pia-btn-ghost" style="width:100%; min-height:42px; font-size:0.84rem;">Ver Marketing &amp; Reels →</a>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:0.75rem;">
+            {{ render_squad_character('nexus') }}
+            <a href="/crm" class="pia-btn-ghost" style="width:100%; min-height:42px; font-size:0.84rem;">Explorar CRM &amp; BizBox →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── MATRIZ SEMANA 1 + TRANSFERENCIA DE CAPACIDAD + RESPALDO HUMANO ── -->
+    <section class="pia-section" id="matriz-semana1">
+      <div class="pia-shell">
+        <div class="pia-grid-3">
+          <article class="pia-card" style="padding:1.75rem;">
+            <span class="pia-eyebrow">SEMANA 1 · DIAGNÓSTICO EXPRESS</span>
+            <h2 class="font-heading" style="font-size:1.35rem; font-weight:800; margin-bottom:0.6rem;">Matriz de Esfuerzo vs. Impacto</h2>
+            <p style="color:#94a3b8; font-size:0.9rem;">Auditamos tus 4 áreas críticas (Ventas, Operaciones, Administración y Marketing) para lanzar primero los <strong>Quick Wins</strong> que generan citas y caja inmediata.</p>
+          </article>
+
+          <article class="pia-card" style="padding:1.75rem; border-color:rgba(52,211,153,0.4);">
+            <span class="pia-eyebrow" style="color:#34d399; border-color:rgba(52,211,153,0.4);">SOBERANÍA &amp; ACADEMIA</span>
+            <h2 class="font-heading" style="font-size:1.35rem; font-weight:800; margin-bottom:0.6rem;">Transferencia de Capacidad</h2>
+            <p style="color:#94a3b8; font-size:0.9rem;">Tu equipo no queda dependiente de nadie: entregamos accesos, dominio a tu nombre, capacitación y acceso a <strong>El Arsenal (+5,000 prompts)</strong> y <strong>PassportAI</strong>.</p>
+          </article>
+
+          <article class="pia-card" style="padding:1.75rem; border-color:rgba(251,191,36,0.35);">
+            <span class="pia-eyebrow" style="color:#fbbf24; border-color:rgba(251,191,36,0.35);">RESPALDO DIRECTIVO REAL</span>
+            <h2 class="font-heading" style="font-size:1.35rem; font-weight:800; margin-bottom:0.6rem;">Edward Jiménez + 10 Ingenieros</h2>
+            <p style="color:#94a3b8; font-size:0.9rem;">25+ años en tecnología y finanzas (ex-arquitecto core bancario en +1,500 sucursales de Grupo Elektra y Banco Azteca) supervisando tu sistema desde Miami, FL.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── FORMULARIO PACK ESCUADRÓN COMPLETO ── -->
+    <section class="pia-section" id="pack-escuadron" style="background: rgba(7, 11, 20, 0.72);">
+      <div class="pia-shell" style="max-width:760px;">
+        <div class="pia-card" style="padding:2.2rem; border-color:rgba(0,229,255,0.4);">
+          <div style="text-align:center; margin-bottom:1.5rem;">
+            <div class="pia-eyebrow"><i class="fas fa-crown" aria-hidden="true"></i> Pack Escuadrón Completo</div>
+            <h2 class="font-heading" style="font-size:1.85rem; font-weight:900;">Activa a Los 4 Especialistas en Tu Empresa</h2>
+            <p style="color:#94a3b8; font-size:0.92rem; margin-top:0.4rem;">Web + Nova IA 24/7 + ProsperIA CRM &amp; Portal BizBox + 1ª Campaña con Orion en un solo plan integral.</p>
+          </div>
+
+          <form id="equipo-lead-form">
+            <input type="text" name="website_hp" tabindex="-1" aria-hidden="true" class="pia-visually-hidden" autocomplete="off">
+            <div class="pia-grid-2">
+              <div class="pia-form-field">
+                <label for="eq-name">Tu Nombre Completo *</label>
+                <input type="text" id="eq-name" name="name" class="pia-input" required autocomplete="name">
+              </div>
+              <div class="pia-form-field">
+                <label for="eq-company">Empresa / Marca *</label>
+                <input type="text" id="eq-company" name="company" class="pia-input" required autocomplete="organization">
+              </div>
+            </div>
+            <div class="pia-grid-2">
+              <div class="pia-form-field">
+                <label for="eq-phone">WhatsApp *</label>
+                <input type="tel" id="eq-phone" name="phone" class="pia-input" required autocomplete="tel">
+              </div>
+              <div class="pia-form-field">
+                <label for="eq-email">Correo Electrónico *</label>
+                <input type="email" id="eq-email" name="email" class="pia-input" required autocomplete="email">
+              </div>
+            </div>
+            <div class="pia-form-field">
+              <label for="eq-msg">Cuéntanos qué vende tu empresa y tu meta para estos 90 días</label>
+              <textarea id="eq-msg" name="message" rows="3" class="pia-input" placeholder="Ej. Queremos renovar web, responder WhatsApp en automático y activar campañas..."></textarea>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:0.65rem; margin-bottom:1.1rem;">
+              <input type="checkbox" id="eq-consent" name="sms_consent" required checked style="width:18px; height:18px; margin-top:3px; accent-color:#00e5ff;">
+              <label for="eq-consent" style="font-size:0.8rem; color:#94a3b8;">Autorizo a Agencia ProsperIA LLC a contactarme por WhatsApp, SMS y correo sobre el Pack Escuadrón IA.</label>
+            </div>
+            <div data-form-status role="status" aria-live="polite" style="display:none; padding:0.9rem; border-radius:12px; margin-bottom:1rem; font-size:0.88rem;"></div>
+            <div style="display:flex; flex-wrap:wrap; gap:0.85rem;">
+              <button type="submit" class="pia-btn-primary" style="flex:1 1 220px;">Solicitar Propuesta Pack Completo</button>
+              <a href="https://wa.me/17868336964?text=Hola%20ProsperIA,%20quiero%20cotizar%20el%20Pack%20Escuadr%C3%B3n%20IA%20Completo" target="_blank" rel="noopener" class="pia-btn-emerald" style="flex:1 1 180px;">Hablar por WhatsApp</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  {% include "footer.html" %}
+  <script src="{{ static_versioned('ecosistema_forms.js') }}"></script>
+  <script>
+    initEcosystemLeadForm('equipo-lead-form', 'menu_equipo_escuadron', true);
+    const squadBox = document.getElementById('squad-showcase');
+    const toggleBtn = document.getElementById('toggle-squad-anim');
+    if (squadBox && toggleBtn) {
+      toggleBtn.addEventListener('click', () => {
+        const paused = squadBox.classList.toggle('squad-paused');
+        toggleBtn.innerHTML = paused
+          ? '<i class="fas fa-play" aria-hidden="true"></i><span>Reanudar animaciones</span>'
+          : '<i class="fas fa-pause" aria-hidden="true"></i><span>Pausar animaciones</span>';
+      });
+    }
+  </script>
+</body>
+</html>

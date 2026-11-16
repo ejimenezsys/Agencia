@@ -1,0 +1,200 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 130" width="560" height="130">
+  <defs>
+    <!-- White-to-light gradient for letters (chrome white) -->
+    <linearGradient id="white-chrome" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="25%"  stop-color="#e0f4ff" stop-opacity="1"/>
+      <stop offset="55%"  stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="80%"  stop-color="#b0d8f5" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#7ab8e0" stop-opacity="1"/>
+    </linearGradient>
+
+    <!-- Globe gradient (white/cyan tones) -->
+    <radialGradient id="globe-wh" cx="38%" cy="32%" r="62%">
+      <stop offset="0%"   stop-color="#ffffff"/>
+      <stop offset="25%"  stop-color="#c8f0ff"/>
+      <stop offset="60%"  stop-color="#7fd4f8"/>
+      <stop offset="100%" stop-color="#2a9cd4"/>
+    </radialGradient>
+
+    <!-- Outer ring for globe -->
+    <linearGradient id="ring-wh" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#ffffff"/>
+      <stop offset="50%"  stop-color="#c8eeff"/>
+      <stop offset="100%" stop-color="#8ad4f8"/>
+    </linearGradient>
+
+    <!-- Glow/blur filters -->
+    <filter id="glow-wh" x="-15%" y="-15%" width="130%" height="130%">
+      <feGaussianBlur stdDeviation="2.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="glow-globe" x="-25%" y="-25%" width="150%" height="150%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="text-shadow" x="-5%" y="-5%" width="110%" height="120%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="rgba(0,180,255,0.35)"/>
+    </filter>
+
+    <!-- Circuit trace color -->
+    <!-- white neon circuit lines -->
+  </defs>
+
+  <!-- ===================== LETTERS ===================== -->
+  <!-- Using bold blocky paths for futuristic look -->
+  <!-- Font rendered as bold Orbitron-style shapes via text with SVG font-weight -->
+
+  <!-- S -->
+  <text x="8" y="96"
+    font-family="'Arial Black','Impact','Franklin Gothic Heavy',sans-serif"
+    font-weight="900"
+    font-size="86"
+    fill="url(#white-chrome)"
+    filter="url(#text-shadow)"
+    letter-spacing="-1"
+  >SYNET</text>
+
+  <!-- C (after globe) -->
+  <text x="410" y="96"
+    font-family="'Arial Black','Impact','Franklin Gothic Heavy',sans-serif"
+    font-weight="900"
+    font-size="86"
+    fill="url(#white-chrome)"
+    filter="url(#text-shadow)"
+    letter-spacing="-1"
+  >M</text>
+
+  <!-- ===================== CIRCUIT LINES ===================== -->
+  <!-- Left side: S-Y-N-E-T to globe connector -->
+  <g stroke="rgba(255,255,255,0.75)" stroke-width="1.2" fill="none" filter="url(#glow-wh)">
+    <!-- Horizontal circuit trace from letters to globe -->
+    <line x1="340" y1="54" x2="375" y2="54"/>
+    <line x1="340" y1="64" x2="375" y2="64"/>
+    <!-- Small node dots on trace -->
+    <circle cx="346" cy="54" r="2.2" fill="rgba(255,255,255,0.9)" stroke="none"/>
+    <circle cx="357" cy="54" r="1.8" fill="rgba(255,255,255,0.8)" stroke="none"/>
+    <circle cx="368" cy="54" r="2.2" fill="rgba(255,255,255,0.9)" stroke="none"/>
+    <circle cx="346" cy="64" r="1.6" fill="rgba(255,255,255,0.7)" stroke="none"/>
+    <circle cx="360" cy="64" r="2.0" fill="rgba(255,255,255,0.85)" stroke="none"/>
+
+    <!-- Right side: globe to M connector -->
+    <line x1="441" y1="54" x2="476" y2="54"/>
+    <line x1="441" y1="64" x2="476" y2="64"/>
+    <circle cx="447" cy="54" r="2.2" fill="rgba(255,255,255,0.9)" stroke="none"/>
+    <circle cx="459" cy="54" r="1.8" fill="rgba(255,255,255,0.8)" stroke="none"/>
+    <circle cx="470" cy="54" r="2.2" fill="rgba(255,255,255,0.9)" stroke="none"/>
+    <circle cx="450" cy="64" r="1.6" fill="rgba(255,255,255,0.7)" stroke="none"/>
+    <circle cx="464" cy="64" r="2.0" fill="rgba(255,255,255,0.85)" stroke="none"/>
+
+    <!-- Letter connectors between S-Y -->
+    <line x1="62"  y1="58" x2="84"  y2="58"/>
+    <circle cx="68"  cy="58" r="1.8" fill="rgba(255,255,255,0.8)" stroke="none"/>
+    <circle cx="79"  cy="58" r="1.4" fill="rgba(255,255,255,0.7)" stroke="none"/>
+    <!-- Y-N -->
+    <line x1="120" y1="58" x2="142" y2="58"/>
+    <circle cx="126" cy="58" r="1.8" fill="rgba(255,255,255,0.8)" stroke="none"/>
+    <circle cx="137" cy="58" r="1.4" fill="rgba(255,255,255,0.7)" stroke="none"/>
+    <!-- N-E -->
+    <line x1="200" y1="58" x2="220" y2="58"/>
+    <circle cx="206" cy="58" r="1.8" fill="rgba(255,255,255,0.8)" stroke="none"/>
+    <circle cx="215" cy="58" r="1.4" fill="rgba(255,255,255,0.7)" stroke="none"/>
+  </g>
+
+  <!-- ===================== GLOBE (O) ===================== -->
+  <!-- Outer glow ring -->
+  <circle cx="408" cy="59" r="40" fill="rgba(200,240,255,0.08)" filter="url(#glow-globe)"/>
+
+  <!-- Metallic bezel outer ring -->
+  <circle cx="408" cy="59" r="38"
+    fill="none"
+    stroke="url(#ring-wh)"
+    stroke-width="3"
+    filter="url(#glow-wh)"
+  />
+
+  <!-- Globe sphere -->
+  <circle cx="408" cy="59" r="34" fill="url(#globe-wh)" filter="url(#glow-globe)"/>
+
+  <!-- Globe grid lines: equator & meridians -->
+  <g fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="0.8">
+    <ellipse cx="408" cy="59" rx="34" ry="12"/>  <!-- equator -->
+    <ellipse cx="408" cy="59" rx="34" ry="22"/>  <!-- latitude 1 -->
+    <ellipse cx="408" cy="59" rx="20" ry="34"/>  <!-- meridian 1 -->
+    <ellipse cx="408" cy="59" rx="10" ry="34"/>  <!-- meridian 2 -->
+    <line x1="374" y1="59" x2="442" y2="59"/>    <!-- equator line -->
+    <line x1="408" y1="25" x2="408" y2="93"/>    <!-- prime meridian -->
+  </g>
+
+  <!-- Continents suggestion (dot-matrix style) -->
+  <g fill="rgba(255,255,255,0.5)">
+    <!-- North America -->
+    <circle cx="393" cy="45" r="3.5"/>
+    <circle cx="399" cy="42" r="2.5"/>
+    <circle cx="387" cy="48" r="2.8"/>
+    <circle cx="394" cy="52" r="2"/>
+    <!-- South America -->
+    <circle cx="397" cy="62" r="3"/>
+    <circle cx="401" cy="68" r="2.5"/>
+    <circle cx="395" cy="73" r="2"/>
+    <!-- Europe/Africa -->
+    <circle cx="415" cy="43" r="2"/>
+    <circle cx="418" cy="50" r="2.5"/>
+    <circle cx="420" cy="59" r="2"/>
+    <circle cx="417" cy="67" r="2.2"/>
+  </g>
+
+  <!-- Network node dots on globe surface -->
+  <g fill="rgba(255,255,255,0.85)" filter="url(#glow-wh)">
+    <circle cx="390" cy="46" r="2"/>
+    <circle cx="402" cy="40" r="1.8"/>
+    <circle cx="418" cy="44" r="2"/>
+    <circle cx="425" cy="56" r="1.8"/>
+    <circle cx="415" cy="70" r="2"/>
+    <circle cx="396" cy="64" r="1.8"/>
+  </g>
+
+  <!-- Constellation connection lines on globe -->
+  <g stroke="rgba(255,255,255,0.4)" stroke-width="0.6">
+    <line x1="390" y1="46" x2="402" y2="40"/>
+    <line x1="402" y1="40" x2="418" y2="44"/>
+    <line x1="418" y1="44" x2="425" y2="56"/>
+    <line x1="390" y1="46" x2="396" y2="64"/>
+    <line x1="415" y1="70" x2="396" y2="64"/>
+    <line x1="415" y1="70" x2="425" y2="56"/>
+  </g>
+
+  <!-- Globe highlight (specular) -->
+  <ellipse cx="395" cy="41" rx="10" ry="7"
+    fill="rgba(255,255,255,0.28)"
+    transform="rotate(-15,395,41)"
+  />
+
+  <!-- Inner neon ring -->
+  <circle cx="408" cy="59" r="34"
+    fill="none"
+    stroke="rgba(255,255,255,0.7)"
+    stroke-width="1"
+    filter="url(#glow-wh)"
+  />
+
+  <!-- ===================== TAGLINE ===================== -->
+  <text x="280" y="120"
+    font-family="'Arial','Helvetica',sans-serif"
+    font-size="9.5"
+    fill="rgba(255,255,255,0.55)"
+    text-anchor="middle"
+    letter-spacing="3.5"
+    font-weight="400"
+  >CONECTAMOS TECNOLOGÍA · IMPULSAMOS EL FUTURO</text>
+
+</svg>
