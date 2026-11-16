@@ -738,7 +738,7 @@ def init_db():
                 is_active=1,
                 commission_rate=0.35,
                 created_at=now_iso,
-                calendar_url="https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8",
+                calendar_url="https://api.agenciaprosperia.com/widget/booking/cjMUGPVYG0Z1ABRiUf6j",
                 avatar_url="",
             ))
         else:
@@ -752,8 +752,8 @@ def init_db():
                 partner_u.ghl_user_id = "584u95aJ9e8PLDYOASXm"
             partner_u.is_active = 1
             partner_u.commission_rate = 0.35
-            if not getattr(partner_u, "calendar_url", ""):
-                partner_u.calendar_url = "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8"
+            if not getattr(partner_u, "calendar_url", "") or "gqoqyrr112bvjTJYqOi8" in (getattr(partner_u, "calendar_url", "") or ""):
+                partner_u.calendar_url = "https://api.agenciaprosperia.com/widget/booking/cjMUGPVYG0Z1ABRiUf6j"
             if not getattr(partner_u, "api_key", ""):
                 partner_u.api_key = "bg_partner_admin_key_777_prosperia"
 

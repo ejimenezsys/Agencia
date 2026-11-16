@@ -2679,6 +2679,7 @@ def trigger_lead_sync(
     assigned_to: str = "",
     owner_email: str = "",
     offer_version: str = "",
+    lead_db_id: Optional[int] = None,
 ):
     # Fetch webhook settings
     settings = db.query(IntegrationSetting).all()
@@ -2803,8 +2804,8 @@ def trigger_lead_sync(
         }
     }
     
-    # 1. GHL Webhook
-    ghl_url = settings_dict.get("ghl_webhook_url")
+    # 1. GHL Webhook (solo usar webhook específico de Beauty Growth para evitar mezclar con otra subcuenta)
+    ghl_url = settings_dict.get("ghl_beauty_webhook_url") if is_beauty_lead else settings_dict.get("ghl_webhook_url")
     if ghl_url and ghl_url.strip():
         t = threading.Thread(target=send_webhook_background, args=(ghl_url, ghl_payload))
         t.start()
@@ -2831,6 +2832,7 @@ def trigger_lead_sync(
         assigned_to=assigned_to,
         owner_email=owner_email,
         offer_version=offer_version,
+        lead_db_id=lead_db_id,
     )
 
 @app.post("/api/auth/contact")
@@ -2868,25 +2870,36 @@ async def api_contact(req: ContactRequest, background_tasks: BackgroundTasks, db
     combined_notes = " ".join(formatted_notes_parts) if formatted_notes_parts else (req.message or "")
 
     is_beauty_growth = "beautygrowth" in lead_source.lower() or "beauty" in lead_source.lower() or "beauty" in industry_label.lower()
+    beauty_quoted_val = 0.0
     if is_beauty_growth:
-        # Detectar paquete solicitado o usar Beauty Elevate por defecto
+        # Detectar paquete solicitado (priorizando "Paquete: BEAUTY_..." para no confundir montos de facturación como "$15,000")
+        import re as _re
         msg_low = (req.message or "").lower()
-        if "boost" in msg_low or "1,499" in msg_low or "1499" in msg_low:
+        pkg_match = _re.search(r"paquete\s*:\s*([^|\n]+)", msg_low)
+        pkg_text = pkg_match.group(1).strip() if pkg_match else msg_low
+        if "boost" in pkg_text or "1,499" in pkg_text or "1499" in pkg_text:
             offer_version_val = "BEAUTY_BOOST_1499"
-        elif "empire" in msg_low or "3,499" in msg_low or "3499" in msg_low or "academia" in industry_label.lower():
+            beauty_quoted_val = 1499.0
+        elif "elevate" in pkg_text or "2,499" in pkg_text or "2499" in pkg_text:
+            offer_version_val = "BEAUTY_ELEVATE_2499"
+            beauty_quoted_val = 2499.0
+        elif "empire" in pkg_text or "3,499" in pkg_text or "3499" in pkg_text or (not pkg_match and "academia" in industry_label.lower()):
             offer_version_val = "BEAUTY_EMPIRE_3499"
-        elif "5,000" in msg_low or "5000" in msg_low or "high-ticket" in msg_low:
+            beauty_quoted_val = 3499.0
+        elif "high-ticket" in pkg_text or "highticket" in pkg_text or bool(_re.search(r"(?<!\d)5[,]?000\b", pkg_text)):
             offer_version_val = "BEAUTY_HIGHTICKET_5000"
+            beauty_quoted_val = 5000.0
         else:
             offer_version_val = "BEAUTY_ELEVATE_2499"
+            beauty_quoted_val = 2499.0
 
-        import re as _re
         has_booked_slot = (
             any(tok in msg_low for tok in ("fecha:", "horario:", "cita agendada", "reunión agendada"))
             or bool(_re.search(r"\b\d{1,2}:\d{2}\s*(am|pm)\b", msg_low))
         )
         initial_beauty_stage = "8. Reunión agendada" if has_booked_slot else "5. Respondió / Interesado"
 
+        beauty_default_cal = "https://api.agenciaprosperia.com/widget/booking/cjMUGPVYG0Z1ABRiUf6j"
         beauty_sellers = (
             db.query(User)
             .filter(User.role == "seller", User.is_active == 1, User.dupla.like("%Beauty Growth%"))
@@ -2903,15 +2916,17 @@ async def api_contact(req: ContactRequest, background_tasks: BackgroundTasks, db
             else:
                 db.add(IntegrationSetting(key="beauty_rr_index", value=str(next_bg)))
             owner_email = chosen_bg.email
-            closer_ghl_id = getattr(chosen_bg, "ghl_user_id", "") or ""
+            closer_ghl_id = getattr(chosen_bg, "ghl_user_id", "") or "584u95aJ9e8PLDYOASXm"
             closer_name = f"{chosen_bg.name} · Equipo Beauty Growth"
-            base_cal = getattr(chosen_bg, "calendar_url", "") or "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8"
+            raw_bg_cal = getattr(chosen_bg, "calendar_url", "") or ""
+            base_cal = beauty_default_cal if (not raw_bg_cal or "gqoqyrr112bvjTJYqOi8" in raw_bg_cal) else raw_bg_cal
         else:
             partner_u = db.query(User).filter(User.email == "dbecerra@agenciaprosperia.com").first()
             owner_email = "dbecerra@agenciaprosperia.com"
-            closer_ghl_id = (getattr(partner_u, "ghl_user_id", "") if partner_u else "") or ""
+            closer_ghl_id = (getattr(partner_u, "ghl_user_id", "") if partner_u else "") or "584u95aJ9e8PLDYOASXm"
             closer_name = "Jhonkelwins David Becerra Cañas · Equipo Beauty Growth"
-            base_cal = (getattr(partner_u, "calendar_url", "") if partner_u else "") or "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8"
+            raw_bg_cal = (getattr(partner_u, "calendar_url", "") if partner_u else "") or ""
+            base_cal = beauty_default_cal if (not raw_bg_cal or "gqoqyrr112bvjTJYqOi8" in raw_bg_cal) else raw_bg_cal
     else:
         offer_version_val = "EXPRESS_497"
         initial_beauty_stage = "Primer contacto"
@@ -2945,6 +2960,7 @@ async def api_contact(req: ContactRequest, background_tasks: BackgroundTasks, db
                 existing.niche = "beauty_growth"
                 existing.selected_template = "beauty_growth_salon_spa"
                 existing.offer_version = offer_version_val
+                existing.quoted_amount = beauty_quoted_val
                 existing.source_campaign = "✨ Beauty Growth & Business System"
             if not getattr(existing, "owner_id", ""):
                 existing.owner_id = owner_email
@@ -2955,7 +2971,7 @@ async def api_contact(req: ContactRequest, background_tasks: BackgroundTasks, db
                     closer_name = assigned_owner.name or closer_name
                     owner_email = assigned_owner.email
                     closer_ghl_id = getattr(assigned_owner, "ghl_user_id", "") or closer_ghl_id
-                    if getattr(assigned_owner, "calendar_url", ""):
+                    if getattr(assigned_owner, "calendar_url", "") and not (is_beauty_growth and "gqoqyrr112bvjTJYqOi8" in assigned_owner.calendar_url):
                         base_cal = assigned_owner.calendar_url
             if getattr(existing, "pipeline_stage", "") in ("", "Lead identificado", "1. Prospecto identificado"):
                 existing.pipeline_stage = initial_beauty_stage
@@ -2984,6 +3000,7 @@ async def api_contact(req: ContactRequest, background_tasks: BackgroundTasks, db
                 niche="beauty_growth" if is_beauty_growth else "clinica",
                 selected_template="beauty_growth_salon_spa" if is_beauty_growth else "clinica_dental_estetica",
                 offer_version=offer_version_val,
+                quoted_amount=beauty_quoted_val if is_beauty_growth else 0.0,
                 contact_permission="Formulario Web + SMS Opt-in" if req.sms_consent else "Formulario Web",
                 contact_status="contactable",
                 pipeline_stage=initial_beauty_stage,
@@ -3056,6 +3073,7 @@ async def api_contact(req: ContactRequest, background_tasks: BackgroundTasks, db
         assigned_to=closer_ghl_id,
         owner_email=owner_email,
         offer_version=offer_version_val,
+        lead_db_id=lead_id,
     )
 
     return {

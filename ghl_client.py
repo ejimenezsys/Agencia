@@ -70,6 +70,24 @@ BEAUTY_STAGE_MAP = {
 }
 _BEAUTY_PIPELINE_CACHE = {}
 
+# Usuario Admin y Calendario oficial de la subcuenta Beauty Growth (V8tM5xk6xl15wKhbQS0p)
+BEAUTY_DEFAULT_USER_ID = "584u95aJ9e8PLDYOASXm"  # David Becerra (dbecerra@agenciaprosperia.com)
+BEAUTY_CALENDAR_URL = "https://api.agenciaprosperia.com/widget/booking/cjMUGPVYG0Z1ABRiUf6j"
+BEAUTY_OFFER_PRICES = {
+    "BEAUTY_BOOST_1499": 1499.0,
+    "BEAUTY_ELEVATE_2499": 2499.0,
+    "BEAUTY_EMPIRE_3499": 3499.0,
+    "BEAUTY_HIGHTICKET_5000": 5000.0,
+}
+
+# IDs reales de los 6 campos personalizados creados en la subcuenta Beauty Growth (V8tM5xk6xl15wKhbQS0p)
+CF_BG_PAQUETE = "W0e01iiGbg1PHe2ENXT6"       # contact.paquete_beauty_growth
+CF_BG_FACTURACION = "Zr2yg2YzfrMxT378fnal"   # contact.facturacion_mensual_belleza
+CF_BG_CIUDAD = "mxnMlljhF4gibbxvWM8E"        # contact.ciudad_o_mercado_beauty
+CF_BG_INSTAGRAM = "tNX54s024yqpM7SnEBHK"     # contact.instagram_negocio_belleza
+CF_BG_PRESUPUESTO = "KEm6yOpDaHPZkcsjd4nX"   # contact.presupuesto_meta_ads_usd
+CF_BG_NOTAS = "B85Jk2JfCpdPD5TebLoB"         # contact.notas_diagnostico_closer
+
 # Pipeline separado para solicitudes de códigos gratuitos / comunidad PassportAI (/codigos)
 CODIGOS_PIPELINE_ID = "SJ4xiMasQ0GZcUNYFgpa"
 CODIGOS_STAGE_ID = "ffd8ae02-c4c0-431c-a827-0e909a80c752"
@@ -433,6 +451,62 @@ def _resolve_beauty_connection() -> tuple:
     return beauty_tok, beauty_loc, disc
 
 
+def _extract_beauty_custom_fields(raw_text: str, offer_version: str = "", industry: str = "") -> list:
+    """Extrae Ciudad, Facturación, Paquete e Instagram del mensaje de /beautygrowth hacia los 6 campos de V8tM5xk6xl15wKhbQS0p."""
+    text = (raw_text or "").strip()
+
+    def _grab(label_pat: str) -> str:
+        m = re.search(rf"{label_pat}\s*:\s*([^|\n]+)", text, re.IGNORECASE)
+        return m.group(1).strip() if m else ""
+
+    paquete = _grab(r"Paquete") or (offer_version or "BEAUTY_ELEVATE_2499")
+    ciudad = _grab(r"Ciudad/Mercado") or _grab(r"Ciudad")
+    facturacion = _grab(r"Facturaci[oó]n(?:\s+actual)?")
+    notas_ig = _grab(r"Notas/IG") or _grab(r"Instagram")
+    ig_match = re.search(r"(@[A-Za-z0-9._]+|https?://(?:www\.)?instagram\.com/[^\s|,]+)", text, re.IGNORECASE)
+    instagram = ig_match.group(1) if ig_match else notas_ig
+
+    fields = []
+    if paquete:
+        fields.append({"id": CF_BG_PAQUETE, "field_value": paquete})
+    if facturacion:
+        fields.append({"id": CF_BG_FACTURACION, "field_value": facturacion})
+    if ciudad:
+        fields.append({"id": CF_BG_CIUDAD, "field_value": ciudad})
+    if instagram:
+        fields.append({"id": CF_BG_INSTAGRAM, "field_value": instagram})
+    if "miami" in ciudad.lower() or "houston" in ciudad.lower() or "florida" in ciudad.lower() or "tx" in ciudad.lower():
+        fields.append({"id": CF_BG_PRESUPUESTO, "field_value": "$800 - $1,500 USD/mes"})
+    elif ciudad:
+        fields.append({"id": CF_BG_PRESUPUESTO, "field_value": "$500 - $1,000 USD/mes"})
+    note_val = text or industry
+    if note_val:
+        fields.append({"id": CF_BG_NOTAS, "field_value": note_val[:900]})
+    return fields
+
+
+def _persist_lead_ghl_ids(lead_db_id: Optional[int], contact_id: str, opp_id: Optional[str]) -> None:
+    """Guarda contact_id y ghl_opportunity_id en SQLite cuando el lead se sincroniza con GHL."""
+    if not lead_db_id or (not contact_id and not opp_id):
+        return
+    try:
+        from database import Lead as DbLead, SessionLocal
+
+        db = SessionLocal()
+        try:
+            row = db.query(DbLead).filter(DbLead.id == lead_db_id).first()
+            if row:
+                if contact_id:
+                    row.contact_id = contact_id
+                if opp_id:
+                    row.ghl_opportunity_id = opp_id
+                db.commit()
+        finally:
+            db.close()
+    except Exception as exc:
+        print(f"⚠️ [GHL DB SYNC] No se pudieron actualizar IDs en Lead {lead_db_id}: {exc}", flush=True)
+
+
 def sync_lead_to_ghl(
     first_name: str,
     last_name: str,
@@ -450,6 +524,7 @@ def sync_lead_to_ghl(
     owner_email: str = "",
     offer_version: str = "",
     initial_stage: str = "",
+    lead_db_id: Optional[int] = None,
 ) -> dict:
     """Sincroniza un lead con GHL. Devuelve un resumen; nunca lanza excepciones."""
     is_beauty = _is_beauty_growth(
@@ -467,6 +542,8 @@ def sync_lead_to_ghl(
                 flush=True,
             )
             return {"ok": False, "skipped": True, "location_id": location_id}
+        if not assigned_to:
+            assigned_to = BEAUTY_DEFAULT_USER_ID
         pipeline_id = disc.get("pipeline_id") or _cfg_db("GHL_BEAUTY_PIPELINE_ID") or BEAUTY_PIPELINE_ID
         stages_map = disc.get("stages") or _build_beauty_stage_lookup(BEAUTY_STAGE_MAP)
         inferred_stage = initial_stage
@@ -500,7 +577,10 @@ def sync_lead_to_ghl(
     full_name = f"{first_name} {last_name}".strip()
     custom_fields = []
     industry_label = INDUSTRY_LABELS.get((industry or "").strip().lower())
-    if location_id == DEFAULT_LOCATION_ID:
+    if is_beauty and location_id == BEAUTY_LOCATION_ID:
+        team_label = TEAM_LABELS.get((team_size or "").strip())
+        custom_fields = _extract_beauty_custom_fields(message or notes, offer_version=offer_version, industry=industry)
+    elif location_id == DEFAULT_LOCATION_ID:
         if industry_label:
             custom_fields.append({"id": CF_INDUSTRIA, "field_value": industry_label})
         team_label = TEAM_LABELS.get((team_size or "").strip())
@@ -583,9 +663,11 @@ def sync_lead_to_ghl(
     s_status, s_res = _request("GET", q, token)
     if s_status == 200 and s_res.get("opportunities"):
         opp_id = s_res["opportunities"][0].get("id")
+        _persist_lead_ghl_ids(lead_db_id, contact_id, opp_id)
         print(f"ℹ️ [GHL] {email} ya tiene oportunidad abierta ({opp_id}); no se duplica.", flush=True)
         return {"ok": True, "contact_id": contact_id, "contact_new": is_new,
-                "opportunity_id": opp_id, "opportunity_new": False}
+                "opportunity_id": opp_id, "opportunity_new": False,
+                "location_id": location_id, "pipeline_id": pipeline_id, "stage_id": stage_id}
 
     opp_name = f"{company} – {full_name}" if company else (full_name or email)
     opp_payload = {
@@ -597,6 +679,9 @@ def sync_lead_to_ghl(
         "status": "open",
         "source": f"Beauty Growth – {source}" if is_beauty else f"Web ProsperIA – {source}",
     }
+    if is_beauty:
+        opp_val = BEAUTY_OFFER_PRICES.get((offer_version or "").strip().upper(), 2499.0)
+        opp_payload["monetaryValue"] = float(opp_val)
     if assigned_to:
         opp_payload["assignedTo"] = assigned_to
     o_status, o_res = _request("POST", "/opportunities/", token, opp_payload)
@@ -605,13 +690,16 @@ def sync_lead_to_ghl(
         if o_status == 400 and "OPPORTUNITY_NO_DUPLICATE" in err_text:
             m = re.search(r'"existingId"\s*:\s*"([^"]+)"', err_text)
             existing_id = m.group(1) if m else None
+            _persist_lead_ghl_ids(lead_db_id, contact_id, existing_id)
             print(f"ℹ️ [GHL] {email} ya tiene oportunidad ({existing_id}); no se duplica.", flush=True)
             return {"ok": True, "contact_id": contact_id, "contact_new": is_new,
-                    "opportunity_id": existing_id, "opportunity_new": False}
+                    "opportunity_id": existing_id, "opportunity_new": False,
+                    "location_id": location_id, "pipeline_id": pipeline_id, "stage_id": stage_id}
         print(f"❌ [GHL] Contacto {contact_id} creado, pero falló la oportunidad: {o_status} {o_res}", flush=True)
         return {"ok": False, "step": "opportunity", "contact_id": contact_id, "status": o_status}
 
     opp_id = o_res.get("opportunity", {}).get("id")
+    _persist_lead_ghl_ids(lead_db_id, contact_id, opp_id)
     print(f"✅ [GHL] Lead {email} → contacto {contact_id} (nuevo={is_new}), oportunidad {opp_id} en loc={location_id} (pipeline={pipeline_id})", flush=True)
     return {"ok": True, "contact_id": contact_id, "contact_new": is_new,
             "opportunity_id": opp_id, "opportunity_new": True,
