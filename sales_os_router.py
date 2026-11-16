@@ -30,16 +30,59 @@ from database import (
     Lead as DbLead,
     AuditLog,
     DndExclusion,
+    IntegrationSetting,
     SessionModel,
     OFFER_CATALOG,
     CANONICAL_PIPELINE_STAGES,
+    BEAUTY_GROWTH_PIPELINE_STAGES,
     ALTERNATIVE_PIPELINE_STAGES,
     ALL_PIPELINE_STAGES,
     hash_password,
     normalize_phone_e164,
     normalize_email,
 )
-from ghl_client import sync_sales_os_event_to_ghl_async, sync_lead_to_ghl_async
+from ghl_client import (
+    BEAUTY_LOCATION_ID,
+    BEAUTY_PIPELINE_NAME,
+    BEAUTY_STAGE_MAP,
+    _BEAUTY_PIPELINE_CACHE,
+    _cfg_db,
+    sync_lead_to_ghl,
+    sync_sales_os_event_to_ghl_async,
+    sync_lead_to_ghl_async,
+)
+
+# Definición oficial de las 14 etapas del Pipeline Beauty Growth (Sección 7.3 del Plan Estratégico)
+BEAUTY_GROWTH_STAGE_METADATA = [
+    {"number": 1, "name": "1. Prospecto identificado", "owner": "Setter", "description": "El negocio encaja con el nicho de belleza y el mercado objetivo."},
+    {"number": 2, "name": "2. Primer contacto", "owner": "Setter", "description": "Se ejecutó el primer intento de contacto y quedó registrado en CRM."},
+    {"number": 3, "name": "3. Segundo contacto", "owner": "Setter", "description": "Segundo intento outbound para prospectos que no respondieron al primero."},
+    {"number": 4, "name": "4. Tercer contacto", "owner": "Setter", "description": "Tercer intento outbound para prospectos que continúan sin responder."},
+    {"number": 5, "name": "5. Respondió / Interesado", "owner": "Setter / Automático", "description": "Existe respuesta del propietario o administrador y apertura a conversar."},
+    {"number": 6, "name": "6. Seguimiento", "owner": "Setter / Automático", "description": "Solicita información, tiempo o nuevo toque; exige próxima acción y fecha definidas."},
+    {"number": 7, "name": "7. Lead calificado", "owner": "Setter", "description": "Necesidad, capacidad operativa, decisor y presupuesto explorados."},
+    {"number": 8, "name": "8. Reunión agendada", "owner": "Setter / Automático", "description": "Fecha y hora confirmadas en calendario."},
+    {"number": 9, "name": "9. Reunión confirmada", "owner": "Setter / Automático", "description": "Asistencia reconfirmada previamente con el prospecto."},
+    {"number": 10, "name": "10. Reunión realizada", "owner": "Closer", "description": "Diagnóstico documentado. El Closer debe registrar nota obligatoria con lo conversado, necesidad manifestada y siguiente paso."},
+    {"number": 11, "name": "11. Propuesta enviada", "owner": "Closer", "description": "Alcance y precio presentados; dudas y observaciones del prospecto documentadas."},
+    {"number": 12, "name": "12. Negociación activa", "owner": "Closer", "description": "Próxima acción y fecha programadas para concretar el cierre."},
+    {"number": 13, "name": "13. Ganado / Cierre", "owner": "Closer -> Operaciones", "description": "Contrato firmado y pago inicial completado."},
+    {"number": 14, "name": "14. Perdido / No calificado", "owner": "Re-nurturing futuro", "description": "Oportunidad descartada con motivo documentado en el sistema."},
+]
+
+BEAUTY_DEMO_OR_LATER_STAGES = (
+    "8. Reunión agendada",
+    "9. Reunión confirmada",
+    "10. Reunión realizada",
+    "11. Propuesta enviada",
+    "12. Negociación activa",
+    "13. Ganado / Cierre",
+)
+BEAUTY_PROPOSAL_OR_LATER_STAGES = (
+    "11. Propuesta enviada",
+    "12. Negociación activa",
+    "13. Ganado / Cierre",
+)
 
 router = APIRouter()
 
@@ -729,6 +772,60 @@ WEBSITE_TEMPLATES_SHOWCASE = {
             "¿Aproximadamente cuántos m² o tamaño tiene tu jardín?",
         ],
     },
+    "beauty_growth_salon_spa": {
+        "id": "beauty_growth_salon_spa",
+        "name": "✨ Beauty Growth · Salones, Spas, Clínicas Estéticas & Academias (Florida, Houston & PR)",
+        "dupla": "Vertical Beauty Growth",
+        "niche": "beauty_growth",
+        "accent": "#6D28D9",
+        "secondary": "#C4B5FD",
+        "badge": "BEAUTY GROWTH & BUSINESS SYSTEM · ESCALAMIENTO $30K–$50K+",
+        "default_business": "All in Beauty · Salón, Spa & Academia",
+        "default_city": "Miami, FL / Houston, TX / Puerto Rico",
+        "default_offer": "Sistema Integral de Adquisición, Autoridad, CRM + IA y Setters/Closers",
+        "hero_title": "Escala tu Negocio de Belleza a $30K–$50K+ Mensuales con Sistema Comercial Predecible",
+        "hero_subtitle": "Conectamos Meta Ads, contenido de autoridad en Reels, infraestructura CRM GoHighLevel con IA y seguimiento humano con Setters & Closers.",
+        "gallery_images": [
+            {"label": "Salones de Cabello, Colorimetría & Uñas", "url": "https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1200&q=85"},
+            {"label": "Spas & Clínicas Estéticas Premium", "url": "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=1200&q=85"},
+            {"label": "Academias & Certificaciones de Belleza", "url": "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1200&q=85"},
+        ],
+        "about_image": "https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?auto=format&fit=crop&w=1000&q=85",
+        "about_title": "Firma de Crecimiento Comercial Especializada en Belleza y Bienestar",
+        "about_story": "No vendemos anuncios ni herramientas sueltas: instalamos una máquina completa de captación, seguimiento en 14 etapas, recuperación de bases de datos y cierre por Zoom.",
+        "about_mission": "Llevar salones, spas, clínicas estéticas y academias activas en Florida, Houston y Puerto Rico al siguiente nivel de facturación y recompra.",
+        "about_stats": [
+            {"value": "$30K–$50K+", "label": "Proyección Mensual Estructurada"},
+            {"value": "4 Pilares", "label": "Adquisición, Autoridad, CRM e Ingresos"},
+            {"value": "Miami & Houston", "label": "Casos Reales Verificados"},
+        ],
+        "about_pillars": [
+            "Meta Ads por servicio, promoción o formación con métricas B2B reales.",
+            "Estrategia editorial, guiones y edición de 12 a 24 Reels mensuales.",
+            "CRM GoHighLevel con pipeline de 14 etapas, WhatsApp e IA 24/7.",
+            "Equipo de Setters, recuperación de bases y Closers por Zoom.",
+        ],
+        "chatbot_greeting": "¡Hola! ✨ ¿Tienes salón, spa, clínica estética o academia y buscas escalar a $30K–$50K+/mes?",
+        "chatbot_quick_replies": [
+            "📈 Escalar mi salón/spa",
+            "🎓 Vender cursos/academias",
+        ],
+        "services": [
+            {"icon": "fa-bullhorn", "title": "Beauty Boost (US$1,499/mes)", "desc": "Meta Ads + landing + CRM GoHighLevel con IA y apoyo de Setter.", "tag": "Captación activa"},
+            {"icon": "fa-film", "title": "Beauty Elevate (US$2,499/mes)", "desc": "Todo Boost + 12 piezas/Reels mensuales, WhatsApp y recuperación telefónica de bases.", "tag": "Más elegido"},
+            {"icon": "fa-crown", "title": "Beauty Empire (US$3,499/mes)", "desc": "24 piezas mensuales + embudo de cursos/formaciones + Setter + Closer humano por Zoom.", "tag": "Academias & High-Ticket"},
+        ],
+        "testimonials": [
+            {"author": "Nubia Delgado", "role": "All in Beauty · Miami & Houston", "text": "Caso de éxito real verificado con sedes activas en Miami y Houston."},
+            {"author": "María R.", "role": "Dueña de Spa · Miami, FL", "text": "Pasé de facturar $8K irregulares a cerrar 3 meses consecutivos por encima de $27K."},
+            {"author": "Laura P.", "role": "Clínica Estética · Houston, TX", "text": "En 10 semanas reestructuré precios, mejoré retención y crucé los $30K por primera vez."},
+        ],
+        "contact_hours": "Atención Comercial Miami, Houston & Puerto Rico · Agenda Estratégica 24/7",
+        "form_questions": [
+            "¿Tu negocio es salón, spa, clínica estética o academia?",
+            "¿Cuál es tu facturación mensual actual y ciudad?",
+        ],
+    },
 }
 
 
@@ -944,17 +1041,49 @@ class DeliveryStatusUpdateRequest(BaseModel):
     notes: Optional[str] = ""
 
 
+class BeautyGhlProvisionRequest(BaseModel):
+    token: Optional[str] = ""
+    location_id: Optional[str] = BEAUTY_LOCATION_ID
+
+
 # ─── ENDPOINTS DEL SALES OPERATING SYSTEM ───────────────────────────────────
 
 @router.get("/api/sales-os/catalog")
-async def api_get_sales_catalog(current_user: dict = Depends(get_current_sales_user)):
-    """Devuelve el catálogo oficial versionado, las 11 etapas canónicas y las plantillas de demostración."""
+async def api_get_sales_catalog(
+    current_user: dict = Depends(get_current_sales_user),
+    db: Session = Depends(get_db),
+):
+    """Devuelve el catálogo oficial versionado, las 11 etapas canónicas, el pipeline Beauty Growth (14 etapas) y las plantillas."""
+    pip_row = db.query(IntegrationSetting).filter(IntegrationSetting.key == "ghl_beauty_pipeline_id").first()
+    loc_row = db.query(IntegrationSetting).filter(IntegrationSetting.key == "ghl_beauty_location_active").first()
+    stages_row = db.query(IntegrationSetting).filter(IntegrationSetting.key == "ghl_beauty_stages_json").first()
+
+    is_beauty_loc = (loc_row.value == BEAUTY_LOCATION_ID) if (loc_row and loc_row.value) else False
+    active_pip_id = (pip_row.value if (pip_row and pip_row.value and is_beauty_loc) else "") or os.environ.get("GHL_BEAUTY_PIPELINE_ID", "").strip()
+    stage_id_lookup = {}
+    if is_beauty_loc and stages_row and stages_row.value:
+        try:
+            for item in json.loads(stages_row.value):
+                nm = (item.get("name") or "").strip()
+                sid = (item.get("id") or "").strip()
+                if nm and sid:
+                    stage_id_lookup[nm] = sid
+        except Exception:
+            pass
+
+    token_configured = bool(_cfg_db("GHL_BEAUTY_PRIVATE_TOKEN"))
+    beauty_stages_detailed = [
+        {**meta, "ghl_stage_id": stage_id_lookup.get(meta["name"], "")}
+        for meta in BEAUTY_GROWTH_STAGE_METADATA
+    ]
+
     return {
         "success": True,
         "data": {
             "current_user": current_user,
             "offers": OFFER_CATALOG,
             "canonical_stages": CANONICAL_PIPELINE_STAGES,
+            "beauty_growth_stages": BEAUTY_GROWTH_PIPELINE_STAGES,
             "alternative_stages": ALTERNATIVE_PIPELINE_STAGES,
             "all_stages": ALL_PIPELINE_STAGES,
             "website_templates": WEBSITE_TEMPLATES_SHOWCASE,
@@ -965,7 +1094,147 @@ async def api_get_sales_catalog(current_user: dict = Depends(get_current_sales_u
                 "calendar_url": "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8",
                 "website_templates_library_url": "https://crm.agenciaprosperia.com/v2/location/CNvJBINRWBUL2EdqRh3G/funnels-websites/websites",
             },
+            "beauty_growth_ghl_config": {
+                "location_id": BEAUTY_LOCATION_ID,
+                "active_location_id": BEAUTY_LOCATION_ID,
+                "pipeline_id": active_pip_id,
+                "pipeline_name": BEAUTY_PIPELINE_NAME,
+                "token_configured": token_configured,
+                "admin_email": "dbecerra@agenciaprosperia.com",
+                "partner_name": "Jhonkelwins David Becerra Cañas",
+                "crm_url": f"https://crm.agenciaprosperia.com/v2/location/{BEAUTY_LOCATION_ID}/opportunities/list",
+            },
+            "beauty_pipeline": {
+                "name": BEAUTY_PIPELINE_NAME,
+                "pipeline_id": active_pip_id,
+                "active_location_id": BEAUTY_LOCATION_ID,
+                "subaccount_id": BEAUTY_LOCATION_ID,
+                "token_configured": token_configured,
+                "admin_email": "dbecerra@agenciaprosperia.com",
+                "partner_name": "Jhonkelwins David Becerra Cañas",
+                "crm_url": f"https://crm.agenciaprosperia.com/v2/location/{BEAUTY_LOCATION_ID}/opportunities/list",
+                "stages": beauty_stages_detailed,
+            },
         },
+    }
+
+
+def _persist_env_beauty_token(token_val: str) -> None:
+    """Guarda GHL_BEAUTY_PRIVATE_TOKEN en .env local si existe el archivo (sin fallar en contenedor solo lectura)."""
+    if not token_val:
+        return
+    env_path = os.path.join(os.path.dirname(__file__), ".env")
+    try:
+        if not os.path.exists(env_path):
+            return
+        with open(env_path, "r", encoding="utf-8") as f:
+            lines = f.read().splitlines()
+        updated = False
+        new_lines = []
+        for ln in lines:
+            if ln.strip().startswith("GHL_BEAUTY_PRIVATE_TOKEN="):
+                new_lines.append(f"GHL_BEAUTY_PRIVATE_TOKEN={token_val}")
+                updated = True
+            else:
+                new_lines.append(ln)
+        if not updated:
+            new_lines.append(f"GHL_BEAUTY_PRIVATE_TOKEN={token_val}")
+        with open(env_path, "w", encoding="utf-8") as f:
+            f.write("\n".join(new_lines) + "\n")
+    except Exception:
+        pass
+
+
+@router.post("/api/sales-os/beauty-growth/provision-ghl")
+async def api_provision_beauty_growth_ghl(
+    req: BeautyGhlProvisionRequest,
+    current_user: dict = Depends(get_current_sales_user),
+    db: Session = Depends(get_db),
+):
+    """Conecta exclusivamente la subcuenta V8tM5xk6xl15wKhbQS0p, crea las 14 etapas y sincroniza leads pendientes."""
+    if current_user["role"] not in ("admin", "supervisor"):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Solo Dirección o Supervisión pueden aprovisionar pipelines en GoHighLevel.",
+        )
+
+    from provision_beauty_growth_ghl import load_local_env, provision_beauty_growth
+
+    load_local_env()
+    token_val = (req.token or "").strip() or _cfg_db("GHL_BEAUTY_PRIVATE_TOKEN")
+    if not token_val:
+        raise HTTPException(
+            status_code=400,
+            detail=(
+                "Pega el Private Integration Token (pit-...) de la nueva subcuenta Beauty Growth "
+                "(V8tM5xk6xl15wKhbQS0p) -> Configuración -> Integraciones Privadas."
+            ),
+        )
+
+    res = provision_beauty_growth(token_val, BEAUTY_LOCATION_ID)
+    if not res.get("ok"):
+        raise HTTPException(status_code=400, detail=res.get("message") or "No se pudo sincronizar la subcuenta V8tM5xk6xl15wKhbQS0p.")
+
+    os.environ["GHL_BEAUTY_PRIVATE_TOKEN"] = token_val
+    _persist_env_beauty_token(token_val)
+    _BEAUTY_PIPELINE_CACHE.clear()
+
+    # Sincronizar leads Beauty Growth ya guardados en SQLite que no tengan ghl_opportunity_id
+    synced_leads = 0
+    all_leads = db.query(DbLead).all()
+    for ld in all_leads:
+        is_bg = (
+            "beauty" in (getattr(ld, "source", "") or "").lower()
+            or "beauty" in (getattr(ld, "niche", "") or "").lower()
+            or (getattr(ld, "offer_version", "") or "").upper().startswith("BEAUTY_")
+            or (getattr(ld, "owner_id", "") or "").lower() == "dbecerra@agenciaprosperia.com"
+            or (getattr(ld, "pipeline_stage", "") or "") in BEAUTY_GROWTH_PIPELINE_STAGES
+        )
+        if not is_bg or (getattr(ld, "ghl_opportunity_id", "") or "").strip():
+            continue
+        parts = (getattr(ld, "full_name", None) or ld.name or "").split()
+        fn = parts[0] if parts else (ld.name or "Lead")
+        ln = " ".join(parts[1:]) if len(parts) > 1 else ""
+        sync_res = sync_lead_to_ghl(
+            first_name=fn,
+            last_name=ln,
+            email=ld.email,
+            phone=ld.phone or "",
+            company=getattr(ld, "business_name", None) or ld.company or "",
+            source=ld.source or "beautygrowth_funnel",
+            industry=getattr(ld, "interest_primary", "") or "Belleza",
+            message=ld.notes or "",
+            owner_email=getattr(ld, "owner_id", "") or "dbecerra@agenciaprosperia.com",
+            offer_version=getattr(ld, "offer_version", "") or "BEAUTY_ELEVATE_2499",
+            initial_stage=getattr(ld, "pipeline_stage", "") or "5. Respondió / Interesado",
+        )
+        if sync_res.get("ok"):
+            if sync_res.get("contact_id"):
+                ld.contact_id = sync_res["contact_id"]
+            if sync_res.get("opportunity_id"):
+                ld.ghl_opportunity_id = sync_res["opportunity_id"]
+            synced_leads += 1
+
+    record_audit(
+        db,
+        actor_email=current_user["email"],
+        actor_role=current_user["role"],
+        lead_id=None,
+        action="beauty_pipeline_ghl_provisioned",
+        field_changed="ghl_beauty_pipeline_id",
+        old_value="",
+        new_value=f"{res.get('pipeline_id')} @ {BEAUTY_LOCATION_ID} ({len(res.get('stages') or [])} etapas, {synced_leads} leads sync)",
+        notes="Sincronización exclusiva en subcuenta Beauty Growth V8tM5xk6xl15wKhbQS0p",
+    )
+    db.commit()
+    res["synced_leads"] = synced_leads
+    return {
+        "success": True,
+        "message": (
+            f"✅ Pipeline '{res.get('pipeline_name')}' activo en subcuenta Beauty Growth ({BEAUTY_LOCATION_ID}) "
+            f"con {len(res.get('stages') or [])} etapas. Leads sincronizados: {synced_leads}."
+        ),
+        "data": res,
     }
 
 
@@ -985,7 +1254,10 @@ async def api_list_sales_users(
         my_leads = [l for l in all_leads if (getattr(l, "owner_id", "") or "") == u.email]
         proposals = [
             l for l in my_leads
-            if (getattr(l, "pipeline_stage", "") or "") in ("Propuesta enviada", "Pago pendiente", "Pago confirmado", "Implementación", "Entregado")
+            if (getattr(l, "pipeline_stage", "") or "") in (
+                "Propuesta enviada", "Pago pendiente", "Pago confirmado", "Implementación", "Entregado",
+                *BEAUTY_PROPOSAL_OR_LATER_STAGES,
+            )
         ]
         paid_leads = [
             l for l in my_leads
@@ -999,11 +1271,17 @@ async def api_list_sales_users(
         )
         demos_done = sum(
             1 for l in my_leads
-            if (getattr(l, "pipeline_stage", "") or "") in ("Demo realizada", "Propuesta enviada", "Pago pendiente", "Pago confirmado", "Implementación", "Entregado")
+            if (getattr(l, "pipeline_stage", "") or "") in (
+                "Demo realizada", "Propuesta enviada", "Pago pendiente", "Pago confirmado", "Implementación", "Entregado",
+                *BEAUTY_DEMO_OR_LATER_STAGES,
+            )
         )
         diag_booked = sum(
             1 for l in my_leads
-            if (getattr(l, "pipeline_stage", "") or "") in ("Diagnóstico agendado", "Demo realizada", "Propuesta enviada", "Pago pendiente", "Pago confirmado", "Implementación", "Entregado")
+            if (getattr(l, "pipeline_stage", "") or "") in (
+                "Diagnóstico agendado", "Demo realizada", "Propuesta enviada", "Pago pendiente", "Pago confirmado", "Implementación", "Entregado",
+                *BEAUTY_DEMO_OR_LATER_STAGES,
+            )
         )
 
         result.append({
@@ -1248,6 +1526,11 @@ async def api_update_lead_stage_and_proposal(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Regla P0: No puedes marcar 'Pago confirmado' o 'Implementación' sin registrar primero el Comprobante/Factura (invoice_id) y el Monto Cobrado Verificado (> US$0)."
         )
+    if req.pipeline_stage == "13. Ganado / Cierre" and (current_collected <= 0 or not current_invoice) and not ((req.next_action_note or req.notes or "").strip()):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Para cerrar en '13. Ganado / Cierre' registra primero el pago verificado o documenta el contrato/cierre en la nota."
+        )
 
     now_iso = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
     old_stage = getattr(lead, "pipeline_stage", "Lead identificado") or "Lead identificado"
@@ -1257,14 +1540,34 @@ async def api_update_lead_stage_and_proposal(
     lead.pipeline_stage = req.pipeline_stage
     lead.last_touch = now_iso
 
-    # Sincronizar el campo legacy 'status' para retrocompatibilidad
-    if req.pipeline_stage in ("Lead identificado",):
+    # Sincronizar el campo legacy 'status' para retrocompatibilidad (incluye 14 etapas Beauty Growth)
+    if req.pipeline_stage in ("Lead identificado", "1. Prospecto identificado"):
         lead.status = "new"
-    elif req.pipeline_stage in ("Primer contacto", "Conversación"):
+    elif req.pipeline_stage in (
+        "Primer contacto",
+        "Conversación",
+        "2. Primer contacto",
+        "3. Segundo contacto",
+        "4. Tercer contacto",
+        "5. Respondió / Interesado",
+        "6. Seguimiento",
+    ):
         lead.status = "contacted"
-    elif req.pipeline_stage in ("Calificado", "Diagnóstico agendado", "Demo realizada", "Propuesta enviada", "Pago pendiente"):
+    elif req.pipeline_stage in (
+        "Calificado",
+        "Diagnóstico agendado",
+        "Demo realizada",
+        "Propuesta enviada",
+        "Pago pendiente",
+        "7. Lead calificado",
+        "8. Reunión agendada",
+        "9. Reunión confirmada",
+        "10. Reunión realizada",
+        "11. Propuesta enviada",
+        "12. Negociación activa",
+    ):
         lead.status = "qualified"
-    elif req.pipeline_stage in ("Pago confirmado", "Implementación", "Entregado"):
+    elif req.pipeline_stage in ("Pago confirmado", "Implementación", "Entregado", "13. Ganado / Cierre"):
         lead.status = "converted"
     else:
         lead.status = "lost"
@@ -1286,7 +1589,7 @@ async def api_update_lead_stage_and_proposal(
         lead.offer_version = req.offer_version
         catalog_item = OFFER_CATALOG[req.offer_version]
         lead.delivery_cost_estimate = catalog_item["delivery_cost_estimate"]
-        if req.quoted_amount is None and req.pipeline_stage in ("Propuesta enviada", "Pago pendiente"):
+        if req.quoted_amount is None and req.pipeline_stage in ("Propuesta enviada", "Pago pendiente", "11. Propuesta enviada", "12. Negociación activa"):
             lead.quoted_amount = catalog_item["price"]
 
     if req.quoted_amount is not None:
@@ -1570,7 +1873,7 @@ async def api_get_sales_os_metrics(
         stage_counts[st] = stage_counts.get(st, 0) + 1
 
         # Si está en una etapa activa de seguimiento y no tiene next_action_at
-        if st in CANONICAL_PIPELINE_STAGES[:-1] and not (getattr(l, "next_action_at", "") or "").strip():
+        if st in (CANONICAL_PIPELINE_STAGES[:-1] + BEAUTY_GROWTH_PIPELINE_STAGES[:-2]) and not (getattr(l, "next_action_at", "") or "").strip():
             without_next_step += 1
 
         q_amt = float(getattr(l, "quoted_amount", 0.0) or 0.0)
@@ -1977,15 +2280,25 @@ async def api_sales_os_leaderboard(
 
         demos_count = sum(
             1 for l in my_leads
-            if (getattr(l, "pipeline_stage", "") or "") in ("Demo realizada", "Propuesta enviada", "Pago pendiente", "Pago confirmado", "Implementación", "Entregado")
+            if (getattr(l, "pipeline_stage", "") or "") in (
+                "Demo realizada", "Propuesta enviada", "Pago pendiente", "Pago confirmado", "Implementación", "Entregado",
+                *BEAUTY_DEMO_OR_LATER_STAGES,
+            )
         )
         answered_leads_count = sum(
             1 for l in my_leads
-            if (getattr(l, "pipeline_stage", "") or "") in ("Primer contacto", "Conversación", "Calificado", "Diagnóstico agendado", "Demo realizada", "Propuesta enviada", "Pago pendiente", "Pago confirmado", "Implementación", "Entregado")
+            if (getattr(l, "pipeline_stage", "") or "") in (
+                "Primer contacto", "Conversación", "Calificado", "Diagnóstico agendado", "Demo realizada",
+                "Propuesta enviada", "Pago pendiente", "Pago confirmado", "Implementación", "Entregado",
+                *BEAUTY_GROWTH_PIPELINE_STAGES[4:13],
+            )
         )
         pending_queue_count = sum(
             1 for l in my_leads
-            if (getattr(l, "pipeline_stage", "") or "") in ("Lead identificado", "No responde")
+            if (getattr(l, "pipeline_stage", "") or "") in (
+                "Lead identificado", "No responde",
+                "1. Prospecto identificado", "2. Primer contacto", "3. Segundo contacto", "4. Tercer contacto",
+            )
             and (getattr(l, "contact_status", "contactable") or "contactable") == "contactable"
         )
 
@@ -2412,14 +2725,26 @@ async def api_closer_create_new_lead(
     ).first()
 
     now_iso = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
-    stage = req.initial_stage if req.initial_stage in ("Lead identificado", "Primer contacto") else "Primer contacto"
+    allowed_stages = ("Lead identificado", "Primer contacto") + tuple(BEAUTY_GROWTH_PIPELINE_STAGES)
+    stage = req.initial_stage if req.initial_stage in allowed_stages else "Primer contacto"
     bname = (req.business_name or "").strip() or full_name
     tpl = (req.selected_template or "clinica_dental_estetica").strip()
+    is_beauty_req = (
+        stage in BEAUTY_GROWTH_PIPELINE_STAGES
+        or "beauty" in tpl.lower()
+        or current_user["email"] == "dbecerra@agenciaprosperia.com"
+        or "Beauty Growth" in (current_user.get("dupla") or "")
+    )
+    offer_default = "BEAUTY_ELEVATE_2499" if is_beauty_req else "EXPRESS_497"
+    quoted_default = 2499.0 if is_beauty_req else (497.0 if stage == "Primer contacto" else 0.0)
 
     if existing:
         existing.owner_id = existing.owner_id or current_user["email"]
         existing.pipeline_stage = stage
         existing.last_touch = now_iso
+        if is_beauty_req:
+            existing.niche = "beauty_growth"
+            existing.offer_version = existing.offer_version if str(existing.offer_version or "").startswith("BEAUTY_") else offer_default
         db.commit()
         db.refresh(existing)
         lead_obj = existing
@@ -2432,21 +2757,21 @@ async def api_closer_create_new_lead(
             business_name=bname,
             phone=raw_phone,
             phone_e164=phone_e164,
-            status="qualified" if stage == "Primer contacto" else "new",
-            source="closer_prospeccion_propia",
-            source_channel="Iniciativa Closer",
-            source_campaign=f"Closer: {current_user['name']}",
+            status="new" if stage in ("Lead identificado", "1. Prospecto identificado") else "qualified",
+            source="beautygrowth_closer_alta" if is_beauty_req else "closer_prospeccion_propia",
+            source_channel="Vertical Beauty Growth" if is_beauty_req else "Iniciativa Closer",
+            source_campaign="✨ Beauty Growth & Business System" if is_beauty_req else f"Closer: {current_user['name']}",
             score=85,
             notes=(req.notes or f"Alta directa por Closer {current_user['name']} ({current_user['email']}).").strip(),
             created_at=now_iso,
             owner_id=current_user["email"],
             setter_id=current_user["email"],
-            niche="clinica" if "clinica" in tpl else "servicios_locales",
-            country="LATAM / US",
+            niche="beauty_growth" if is_beauty_req else ("clinica" if "clinica" in tpl else "servicios_locales"),
+            country="Miami / Houston / PR / LATAM" if is_beauty_req else "LATAM / US",
             pipeline_stage=stage,
-            offer_version="EXPRESS_497",
-            quoted_amount=497.0 if stage == "Primer contacto" else 0.0,
-            selected_template=tpl,
+            offer_version=offer_default,
+            quoted_amount=quoted_default,
+            selected_template="beauty_growth_salon_spa" if is_beauty_req else tpl,
             last_touch=now_iso,
         )
         db.add(lead_obj)
@@ -2476,11 +2801,11 @@ async def api_closer_create_new_lead(
         business_name=lead_obj.business_name or lead_obj.company or lead_obj.name,
         pipeline_stage=stage,
         owner_email=current_user["email"],
-        offer_version="EXPRESS_497",
-        quoted_amount=497.0,
+        offer_version=lead_obj.offer_version,
+        quoted_amount=float(lead_obj.quoted_amount or quoted_default),
         amount_collected=0.0,
         invoice_id="",
-        selected_template=tpl,
+        selected_template=lead_obj.selected_template,
         audit_summary=f"Nuevo prospecto creado por {current_user['name']} ({current_user['email']}) en etapa '{stage}'.",
     )
 

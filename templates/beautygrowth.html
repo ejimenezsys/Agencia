@@ -1,0 +1,1773 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beauty Growth &amp; Business System | Escalamiento Comercial para Negocios de Belleza · Agencia ProsperIA</title>
+  <meta name="description" content="Firma especializada en escalar salones de belleza, spas, clínicas estéticas y academias a $30,000–$50,000+ USD mensuales. Caso real All in Beauty (Miami y Houston).">
+  <link rel="icon" type="image/png" href="{{ static_versioned('favicon.png') }}">
+  <link rel="stylesheet" href="{{ static_versioned('fonts.css') }}">
+  <link rel="stylesheet" href="{{ static_versioned('fa.min.css') }}">
+  <style>
+    :root {
+      --bg-primary: #6D28D9;
+      --bg-primary-hover: #7C3AED;
+      --bg-dark: #111827;
+      --bg-void: #070A12;
+      --bg-card: #151C2F;
+      --bg-input: #0B101E;
+      --bg-accent: #C4B5FD;
+      --text-main: #F8FAFC;
+      --text-muted: #CBD5E1;
+      --text-dim: #94A3B8;
+      --emerald: #34D399;
+      --amber: #FBBF24;
+      --danger: #F87171;
+      --border-purple: rgba(196, 181, 253, 0.24);
+      --border-subtle: rgba(148, 163, 184, 0.22);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background:
+        radial-gradient(circle at 82% 8%, rgba(109, 40, 217, 0.28), transparent 44%),
+        radial-gradient(circle at 12% 45%, rgba(196, 181, 253, 0.10), transparent 42%),
+        radial-gradient(circle at 80% 85%, rgba(109, 40, 217, 0.20), transparent 48%),
+        var(--bg-void);
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+      line-height: 1.15;
+      margin: 0;
+    }
+
+    .visually-hidden:where(:not(:focus-within, :active)) {
+      position: absolute !important;
+      clip-path: inset(50%) !important;
+      overflow: hidden !important;
+      width: 1px !important;
+      height: 1px !important;
+      margin: -1px !important;
+      padding: 0 !important;
+      border: 0 !important;
+      white-space: nowrap !important;
+    }
+
+    .bg-shell {
+      max-width: 1180px;
+      margin-inline: auto;
+      padding-inline: 1.25rem;
+    }
+
+    /* ── TOPBAR ── */
+    .bg-topbar {
+      background: #05070E;
+      border-bottom: 1px solid rgba(196, 181, 253, 0.16);
+      font-size: 0.76rem;
+      color: var(--bg-accent);
+      padding: 0.45rem 1.25rem;
+    }
+    .bg-topbar-inner {
+      max-width: 1180px;
+      margin-inline: auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem 1rem;
+    }
+    .bg-topbar-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+    .bg-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--emerald);
+      box-shadow: 0 0 10px var(--emerald);
+      flex-shrink: 0;
+    }
+    .bg-topbar-links {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.9rem;
+    }
+    .bg-topbar-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.18s ease;
+    }
+    .bg-topbar-links a:hover { color: var(--bg-accent); }
+
+    /* ── STICKY NAV ── */
+    .bg-nav-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(17, 24, 39, 0.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border-purple);
+    }
+    .bg-nav {
+      max-width: 1180px;
+      margin-inline: auto;
+      padding: 0.85rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .bg-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: #fff;
+    }
+    .bg-brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--bg-primary), #4C1D95);
+      border: 1px solid rgba(196, 181, 253, 0.45);
+      display: grid;
+      place-items: center;
+      font-size: 1.15rem;
+      color: var(--bg-accent);
+      box-shadow: 0 8px 20px rgba(109, 40, 217, 0.4);
+      flex-shrink: 0;
+    }
+    .bg-brand-text strong {
+      display: block;
+      font-size: 0.98rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+    .bg-brand-text span {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--bg-accent);
+      font-weight: 600;
+    }
+    .bg-nav-links {
+      display: none;
+      align-items: center;
+      gap: 1.15rem;
+    }
+    @media (min-width: 960px) {
+      .bg-nav-links { display: flex; }
+    }
+    .bg-nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    .bg-nav-links a:hover { color: #fff; }
+    .bg-nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+    }
+
+    /* ── BUTTONS ── */
+    .btn-purple {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.85rem 1.45rem;
+      border-radius: 12px;
+      border: 1px solid rgba(196, 181, 253, 0.4);
+      background: linear-gradient(135deg, #7C3AED 0%, var(--bg-primary) 100%);
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 0.92rem;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 12px 30px rgba(109, 40, 217, 0.42);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+    .btn-purple:hover {
+      transform: translateY(-2px);
+      background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%);
+      box-shadow: 0 16px 36px rgba(109, 40, 217, 0.58);
+    }
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      padding: 0.82rem 1.3rem;
+      border-radius: 12px;
+      border: 1px solid rgba(196, 181, 253, 0.35);
+      background: rgba(17, 24, 39, 0.72);
+      color: var(--bg-accent);
+      font-weight: 700;
+      font-size: 0.88rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+    }
+    .btn-ghost:hover {
+      background: rgba(109, 40, 217, 0.22);
+      color: #fff;
+      border-color: var(--bg-accent);
+    }
+    .btn-sm { padding: 0.58rem 1rem; font-size: 0.82rem; border-radius: 10px; }
+
+    :where(a, button, summary, input, select, textarea):focus-visible {
+      outline: 2.5px solid var(--bg-accent);
+      outline-offset: 2px;
+    }
+
+    /* ── EYEBROW & TITLES ── */
+    .bg-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.38rem 0.95rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--bg-accent);
+      background: rgba(109, 40, 217, 0.22);
+      border: 1px solid rgba(196, 181, 253, 0.42);
+      margin-bottom: 1rem;
+    }
+    .bg-section {
+      padding-block: 4.5rem;
+    }
+    .bg-section-alt {
+      background: rgba(17, 24, 39, 0.72);
+      border-block: 1px solid rgba(196, 181, 253, 0.12);
+    }
+    .bg-section-head {
+      text-align: center;
+      max-width: 780px;
+      margin: 0 auto 2.75rem;
+    }
+    .bg-section-head h2 {
+      font-size: clamp(1.8rem, 3.3vw, 2.65rem);
+      font-weight: 900;
+      margin-bottom: 0.75rem;
+    }
+    .bg-section-head p {
+      color: var(--text-muted);
+      font-size: 1rem;
+      margin: 0;
+    }
+    .bg-grad {
+      background: linear-gradient(95deg, #FFFFFF 0%, #C4B5FD 55%, #A78BFA 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    /* ── HERO & VSL ── */
+    .bg-hero {
+      padding-block: 3.5rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .bg-hero-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+      align-items: center;
+    }
+    @media (min-width: 980px) {
+      .bg-hero-grid { grid-template-columns: 1.05fr 0.95fr; }
+    }
+    .bg-hero h1 {
+      font-size: clamp(2.05rem, 3.9vw, 3.2rem);
+      font-weight: 900;
+      letter-spacing: -0.025em;
+      margin-bottom: 1rem;
+    }
+    .bg-hero-sub {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      margin-bottom: 1.65rem;
+      max-width: 640px;
+    }
+    .bg-hero-ctas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      margin-bottom: 1.85rem;
+    }
+    .bg-stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.85rem;
+    }
+    .bg-stat-card {
+      background: rgba(17, 24, 39, 0.88);
+      border: 1px solid var(--border-purple);
+      border-radius: 16px;
+      padding: 0.95rem 0.85rem;
+    }
+    .bg-stat-num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1.15rem, 2.2vw, 1.5rem);
+      font-weight: 800;
+      color: var(--bg-accent);
+    }
+    .bg-stat-lbl {
+      font-size: 0.74rem;
+      color: var(--text-dim);
+      margin-top: 0.2rem;
+    }
+
+    .bg-vsl-card {
+      background: linear-gradient(160deg, rgba(21, 28, 47, 0.96), rgba(10, 14, 26, 0.98));
+      border: 1.5px solid rgba(196, 181, 253, 0.4);
+      border-radius: 22px;
+      padding: 1.1rem;
+      box-shadow: 0 28px 65px rgba(0, 0, 0, 0.65), 0 0 42px rgba(109, 40, 217, 0.28);
+    }
+    .bg-vsl-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--bg-accent);
+    }
+    .bg-vsl-frame {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #03050a;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .bg-vsl-frame iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+
+    /* ── CARDS & GRIDS ── */
+    .bg-grid-3 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.35rem;
+    }
+    @media (min-width: 760px) {
+      .bg-grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    .bg-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    @media (min-width: 820px) {
+      .bg-grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    .bg-grid-4 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.15rem;
+    }
+    @media (min-width: 680px) {
+      .bg-grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (min-width: 1040px) {
+      .bg-grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    }
+    .bg-card {
+      background: linear-gradient(165deg, rgba(21, 28, 47, 0.92), rgba(11, 16, 30, 0.96));
+      border: 1px solid var(--border-purple);
+      border-radius: 20px;
+      padding: 1.6rem;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+    }
+
+    /* ── NUBIA DELGADO CASE STUDY + VERTICAL VIDEO ── */
+    .nubia-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2.25rem;
+      align-items: center;
+    }
+    @media (min-width: 920px) {
+      .nubia-layout { grid-template-columns: 380px 1fr; }
+    }
+    .video-9-16-shell {
+      position: relative;
+      width: 100%;
+      max-width: 360px;
+      margin-inline: auto;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 2px solid rgba(196, 181, 253, 0.55);
+      background: #04060D;
+      box-shadow: 0 28px 65px rgba(0, 0, 0, 0.75), 0 0 44px rgba(109, 40, 217, 0.35);
+    }
+    .video-9-16-shell video {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 9 / 16;
+      display: block;
+      object-fit: cover;
+      background: #04060D;
+    }
+    .video-play-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      background: linear-gradient(to top, rgba(7, 10, 18, 0.85), rgba(7, 10, 18, 0.25));
+      border: 0;
+      color: #fff;
+      cursor: pointer;
+      padding: 1.25rem;
+      text-align: center;
+      transition: opacity 0.25s ease;
+    }
+    .video-play-overlay[hidden] { display: none; }
+    .video-play-circle {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #8B5CF6, var(--bg-primary));
+      border: 2px solid var(--bg-accent);
+      display: grid;
+      place-items: center;
+      font-size: 1.4rem;
+      box-shadow: 0 0 32px rgba(109, 40, 217, 0.75);
+    }
+
+    .city-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.38rem;
+      padding: 0.32rem 0.8rem;
+      border-radius: 999px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      background: rgba(52, 211, 153, 0.14);
+      border: 1px solid rgba(52, 211, 153, 0.4);
+      color: #6EE7B7;
+    }
+
+    /* ── IG PORTFOLIO ── */
+    .ig-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1.35rem;
+      border-radius: 18px;
+      background: linear-gradient(160deg, rgba(21, 28, 47, 0.94), rgba(10, 14, 26, 0.98));
+      border: 1px solid rgba(196, 181, 253, 0.24);
+      text-decoration: none;
+      color: #fff;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .ig-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--bg-accent);
+      box-shadow: 0 18px 38px rgba(109, 40, 217, 0.28);
+    }
+    .ig-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #833AB4, #C13584, #6D28D9);
+      display: grid;
+      place-items: center;
+      font-size: 1.25rem;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    /* ── PACKAGES ── */
+    .pkg-featured {
+      border: 2px solid #A78BFA;
+      background: linear-gradient(170deg, rgba(109, 40, 217, 0.25), rgba(17, 24, 39, 0.96));
+      box-shadow: 0 24px 60px rgba(109, 40, 217, 0.34);
+      position: relative;
+    }
+    .pkg-price {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.15rem;
+      font-weight: 900;
+      color: #fff;
+      margin: 0.65rem 0;
+    }
+    .pkg-price span {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--bg-accent);
+    }
+    .bg-check-list {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0 1.4rem;
+      display: grid;
+      gap: 0.55rem;
+      font-size: 0.87rem;
+      color: var(--text-muted);
+    }
+    .bg-check-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.55rem;
+    }
+    .bg-check-list i {
+      color: var(--emerald);
+      margin-top: 0.24rem;
+      flex-shrink: 0;
+    }
+
+    /* ── 14-STAGE PIPELINE GRID ── */
+    .pipeline-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 0.85rem;
+    }
+    .stage-pill-card {
+      padding: 1rem;
+      border-radius: 14px;
+      background: rgba(11, 16, 30, 0.9);
+      border: 1px solid rgba(196, 181, 253, 0.2);
+    }
+    .stage-pill-card.outbound {
+      border-color: rgba(251, 191, 36, 0.38);
+      background: rgba(40, 27, 10, 0.28);
+    }
+    .stage-pill-card.won {
+      border-color: rgba(52, 211, 153, 0.45);
+      background: rgba(6, 78, 59, 0.28);
+    }
+    .stage-num {
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--bg-accent);
+      margin-bottom: 0.25rem;
+    }
+
+    /* ── ACCORDION (modern-web-guidance: accordion) ── */
+    .accordion {
+      max-width: 840px;
+      margin-inline: auto;
+      display: grid;
+      gap: 0.85rem;
+    }
+    .accordion details {
+      border-radius: 16px;
+      background: rgba(21, 28, 47, 0.9);
+      border: 1px solid var(--border-purple);
+      overflow: hidden;
+    }
+    .accordion summary {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 1.15rem 1.35rem;
+      font-weight: 700;
+      font-size: 0.98rem;
+      color: #fff;
+      cursor: pointer;
+    }
+    .accordion summary::-webkit-details-marker { display: none; }
+    .accordion summary::before {
+      content: "";
+      inline-size: 1.05em;
+      block-size: 1.05em;
+      flex-shrink: 0;
+      background-color: var(--bg-accent);
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat center / contain;
+      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat center / contain;
+      rotate: -90deg;
+    }
+    .accordion details[open] > summary::before {
+      rotate: 0deg;
+    }
+    .accordion summary:hover {
+      background: rgba(109, 40, 217, 0.16);
+    }
+    .accordion details::details-content {
+      interpolate-size: allow-keywords;
+      overflow: clip;
+      contain: layout;
+    }
+    .accordion details:not([open])::details-content {
+      block-size: 0;
+    }
+    .accordion .faq-body {
+      padding: 0 1.35rem 1.2rem 3rem;
+      color: var(--text-muted);
+      font-size: 0.92rem;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .accordion summary::before { transition: rotate 0.2s ease; }
+      .accordion details::details-content {
+        transition: block-size, content-visibility, display;
+        transition-duration: 0.28s;
+        transition-timing-function: ease-in-out;
+        transition-behavior: allow-discrete;
+      }
+    }
+
+    /* ── FORMS & VALIDATION AFTER INTERACTION (modern-web-guidance) ── */
+    .field {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 1rem;
+    }
+    .field label {
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: #F1F5F9;
+      margin-bottom: 0.2rem;
+    }
+    .hint {
+      display: block;
+      color: var(--text-dim);
+      font-size: 0.76rem;
+      margin-bottom: 0.35rem;
+    }
+    .bg-input {
+      width: 100%;
+      padding: 0.78rem 0.95rem;
+      border-radius: 11px;
+      border: 1.5px solid rgba(196, 181, 253, 0.28);
+      background: var(--bg-input);
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 0.92rem;
+      transition: border-color 0.16s ease, background-color 0.16s ease;
+    }
+    .bg-input:focus {
+      border-color: var(--bg-accent);
+      outline: none;
+    }
+    .error-msg {
+      display: none;
+      color: #FCA5A5;
+      font-size: 0.78rem;
+      font-weight: 600;
+      margin-top: 0.32rem;
+    }
+    .bg-input:is(:user-invalid, .user-invalid-fallback) {
+      border-color: #EF4444;
+      background-color: rgba(239, 68, 68, 0.10);
+    }
+    .bg-input:is(:user-invalid, .user-invalid-fallback) + .error-msg {
+      display: block;
+    }
+    .bg-input:is(:user-valid, .user-valid-fallback) {
+      border-color: var(--emerald);
+    }
+
+    /* ── NATIVE DIALOG MODAL (modern-web-guidance: dialog, light-dismiss, scroll containment) ── */
+    dialog.bg-dialog {
+      margin: auto;
+      width: min(94vw, 680px);
+      max-height: 90vh;
+      border: 1.5px solid rgba(196, 181, 253, 0.45);
+      border-radius: 22px;
+      background: #0D1322;
+      color: var(--text-main);
+      padding: 0;
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.9), 0 0 50px rgba(109, 40, 217, 0.35);
+    }
+    dialog.bg-dialog:modal {
+      overscroll-behavior: contain;
+    }
+    dialog.bg-dialog::backdrop {
+      overflow: hidden;
+      overscroll-behavior: contain;
+      background: rgba(5, 7, 15, 0.82);
+      backdrop-filter: blur(5px);
+    }
+    .bg-dialog-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1.2rem 1.45rem;
+      background: linear-gradient(135deg, #1E1B4B, #111827);
+      border-bottom: 1px solid rgba(196, 181, 253, 0.22);
+    }
+    .bg-dialog-close {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      border: 1px solid rgba(196, 181, 253, 0.3);
+      background: rgba(255, 255, 255, 0.06);
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .bg-dialog-body {
+      padding: 1.4rem 1.45rem;
+    }
+
+    .bg-table-wrap {
+      overflow-x: auto;
+      border-radius: 16px;
+      border: 1px solid var(--border-purple);
+      background: rgba(17, 24, 39, 0.9);
+    }
+    table.bg-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      text-align: left;
+    }
+    table.bg-table th, table.bg-table td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+    }
+    table.bg-table th {
+      background: rgba(109, 40, 217, 0.24);
+      color: var(--bg-accent);
+      font-weight: 800;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOPBAR -->
+  <div class="bg-topbar">
+    <div class="bg-topbar-inner">
+      <div class="bg-topbar-badge">
+        <span class="bg-dot" aria-hidden="true"></span>
+        <span>FIRMA DE CRECIMIENTO B2B SECTOR BELLEZA · FLORIDA (MIAMI) · HOUSTON · PUERTO RICO</span>
+      </div>
+      <div class="bg-topbar-links">
+        <a href="/">← Volver a AgenciaProsperIA.com</a>
+        <a href="/dashboard"><i class="fas fa-lock" aria-hidden="true"></i> CRM Beauty Growth</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- HEADER NAV -->
+  <header class="bg-nav-wrap">
+    <div class="bg-nav">
+      <a href="/beautygrowth" class="bg-brand">
+        <div class="bg-brand-mark" aria-hidden="true"><i class="fas fa-sparkles"></i></div>
+        <div class="bg-brand-text">
+          <strong>Beauty Growth &amp; Business System</strong>
+          <span>Vertical Oficial · Agencia Prosper IA LLC</span>
+        </div>
+      </a>
+
+      <nav class="bg-nav-links" aria-label="Secciones de Beauty Growth">
+        <a href="#vsl">Método (VSL)</a>
+        <a href="#caso-nubia">Caso All in Beauty</a>
+        <a href="#portafolio-ig">Portafolio IG</a>
+        <a href="#paquetes">Paquetes</a>
+        <a href="#pipeline-14">Pipeline 14 Etapas</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+
+      <div class="bg-nav-actions">
+        <button type="button" class="btn-purple btn-sm" command="show-modal" commandfor="beautyBookingDialog" data-open-booking>
+          Agendar Diagnóstico →
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ── HERO + VSL PRINCIPAL (4:31 MIN) ── -->
+    <section class="bg-hero" id="vsl">
+      <div class="bg-shell">
+        <div class="bg-hero-grid">
+          <div>
+            <div class="bg-eyebrow">
+              <i class="fas fa-crown" aria-hidden="true"></i>
+              <span>Firma Especializada en Negocios de Belleza · $30K–$50K+/mes</span>
+            </div>
+            <h1>
+              Escalamos Negocios de Belleza de <span class="bg-grad">$30,000 a $50,000+ USD Mensuales</span> Instalando un Sistema Comercial Completo
+            </h1>
+            <p class="bg-hero-sub">
+              No somos una agencia tradicional que vende anuncios, publicaciones o herramientas aisladas. Somos una <strong>firma</strong> especializada en salones, spas, clínicas estéticas y academias: conectamos <strong>Adquisición en Meta Ads</strong>, <strong>Autoridad en Reels</strong>, <strong>Infraestructura CRM + IA</strong> y un <strong>Equipo de Setters &amp; Closers</strong>.
+            </p>
+
+            <div class="bg-hero-ctas">
+              <button type="button" class="btn-purple" command="show-modal" commandfor="beautyBookingDialog" data-open-booking>
+                <span>Quiero Agendar Mi Sesión de Diagnóstico</span>
+                <i class="fas fa-arrow-right" aria-hidden="true"></i>
+              </button>
+              <a href="#caso-nubia" class="btn-ghost">
+                <i class="fas fa-play-circle" aria-hidden="true"></i>
+                <span>Ver Caso All in Beauty (Miami &amp; Houston)</span>
+              </a>
+            </div>
+
+            <div class="bg-stats-row">
+              <div class="bg-stat-card">
+                <div class="bg-stat-num">+180</div>
+                <div class="bg-stat-lbl">Negocios del sector belleza evaluados</div>
+              </div>
+              <div class="bg-stat-card">
+                <div class="bg-stat-num">$30K–$50K+</div>
+                <div class="bg-stat-lbl">Meta de escalamiento mensual estructurado</div>
+              </div>
+              <div class="bg-stat-card">
+                <div class="bg-stat-num">14 Etapas</div>
+                <div class="bg-stat-lbl">Pipeline comercial automatizado en CRM</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- VSL 4:31 MIN -->
+          <div class="bg-vsl-card">
+            <div class="bg-vsl-head">
+              <span><i class="fas fa-video" aria-hidden="true"></i> VIDEO PRINCIPAL (VSL · 4:31 MIN)</span>
+              <span>Sistema Integral B2B</span>
+            </div>
+            <div class="bg-vsl-frame">
+              <iframe
+                src="https://www.youtube.com/embed/dSNLpT0sq1U?rel=0"
+                title="Video explicativo Beauty Growth & Business System (4:31 minutos)"
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+              </iframe>
+            </div>
+            <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:0.75rem; margin-top:0.9rem;">
+              <p style="margin:0; font-size:0.8rem; color:var(--text-muted);">
+                Descubre cómo pasamos negocios de facturación inestable a flujo predecible de citas y recompra.
+              </p>
+              <button type="button" class="btn-purple btn-sm" command="show-modal" commandfor="beautyBookingDialog" data-open-booking>
+                Evaluar Mi Negocio Gratis →
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── TESTIMONIO PRINCIPAL REAL: NUBIA DELGADO · ALL IN BEAUTY (MIAMI Y HOUSTON) ── -->
+    <section class="bg-section bg-section-alt" id="caso-nubia">
+      <div class="bg-shell">
+        <div class="bg-section-head">
+          <div class="bg-eyebrow"><i class="fas fa-circle-check" aria-hidden="true"></i> Prueba Social Real Verificada</div>
+          <h2>Testimonio Real: Nubia Delgado — <span class="bg-grad">All in Beauty (Miami &amp; Houston)</span></h2>
+          <p>Resultados comprobables con sedes activas en Estados Unidos implementando estructura comercial, captación y seguimiento profesional.</p>
+        </div>
+
+        <div class="nubia-layout">
+          <div class="video-9-16-shell">
+            <video
+              id="nubia-testimonial-video"
+              controls
+              playsinline
+              loading="lazy"
+              preload="metadata"
+              width="360"
+              height="640"
+              poster="/static/video/testimonio_nubia_poster.jpg"
+              aria-label="Testimonio en video de Nubia Delgado, All in Beauty Miami y Houston">
+              <source src="/api/video-stream/nubia" type="video/mp4">
+              <source src="/static/video/testimonio_nubia_allinbeauty.mp4" type="video/mp4">
+              Tu navegador no soporta video HTML5.
+            </video>
+            <button type="button" class="video-play-overlay" id="nubia-play-overlay" aria-label="Reproducir testimonio con sonido de Nubia Delgado">
+              <span class="video-play-circle"><i class="fas fa-play" aria-hidden="true"></i></span>
+              <strong style="font-size:0.95rem;">Ver Testimonio con Sonido</strong>
+              <span style="font-size:0.78rem; color:var(--bg-accent);">Nubia Delgado · All in Beauty</span>
+            </button>
+          </div>
+
+          <div class="bg-card" style="padding:2rem;">
+            <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:1rem;">
+              <span class="city-pill"><i class="fas fa-location-dot" aria-hidden="true"></i> Sede Miami, FL</span>
+              <span class="city-pill"><i class="fas fa-location-dot" aria-hidden="true"></i> Sede Houston, TX</span>
+              <span class="bg-eyebrow" style="margin:0;">Caso Verificado</span>
+            </div>
+
+            <h3 style="font-size:1.65rem; font-weight:800; margin-bottom:0.65rem;">
+              Nubia Delgado — Representante de All in Beauty
+            </h3>
+            <p style="color:var(--text-muted); font-size:0.98rem; margin-bottom:1.15rem;">
+              Con sedes activas en <strong>Miami</strong> y <strong>Houston</strong>, All in Beauty respalda nuestro método de crecimiento comercial diseñado específicamente para salones, spas, clínicas estéticas y academias que buscan estabilidad, agenda llena y recompra sin depender únicamente del boca a boca.
+            </p>
+
+            <blockquote style="margin:0 0 1.35rem; padding:1rem 1.2rem; border-left:3.5px solid var(--bg-primary); background:rgba(109,40,217,0.14); border-radius:0 12px 12px 0; color:#F1F5F9; font-style:italic;">
+              "Trabajar con una estructura comercial dedicada al sector belleza marca la diferencia entre publicar sin rumbo y convertir prospectos diarios en citas efectivas en Miami y Houston."
+            </blockquote>
+
+            <div style="display:flex; flex-wrap:wrap; align-items:center; gap:0.85rem;">
+              <a href="https://www.instagram.com/allinbeauty_official?cplk=dTBzMHV3cXBvbnE2" target="_blank" rel="noopener noreferrer" class="btn-purple btn-sm">
+                <i class="fab fa-instagram" aria-hidden="true"></i>
+                <span>Ver @allinbeauty_official en Instagram</span>
+              </a>
+              <button type="button" class="btn-ghost btn-sm" command="show-modal" commandfor="beautyBookingDialog" data-open-booking>
+                Quiero Escalar Mi Negocio →
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 Testimonios Complementarios -->
+        <div class="bg-grid-3" style="margin-top:2.25rem;">
+          <article class="bg-card">
+            <div style="color:var(--amber); font-size:0.9rem; margin-bottom:0.6rem;">★★★★★</div>
+            <p style="color:var(--text-muted); font-size:0.9rem; margin:0 0 1rem;">
+              "Pasé de facturar $8K irregulares a cerrar 3 meses consecutivos por encima de los $27K. La diferencia fue dejar de operar de oídas y construir un sistema real."
+            </p>
+            <strong style="display:block; font-size:0.92rem;">María R.</strong>
+            <span style="font-size:0.78rem; color:var(--bg-accent);">Dueña de Spa · Miami, FL · ↑ +237% en 4 meses</span>
+          </article>
+
+          <article class="bg-card">
+            <div style="color:var(--amber); font-size:0.9rem; margin-bottom:0.6rem;">★★★★★</div>
+            <p style="color:var(--text-muted); font-size:0.9rem; margin:0 0 1rem;">
+              "Llevaba 3 años en el mismo nivel. En 10 semanas con este sistema reestructuré precios, mejoré retención y crucé los $30K por primera vez en Houston."
+            </p>
+            <strong style="display:block; font-size:0.92rem;">Laura P.</strong>
+            <span style="font-size:0.78rem; color:var(--bg-accent);">Clínica Estética · Houston, TX · ↑ $30K+ por primera vez</span>
+          </article>
+
+          <article class="bg-card">
+            <div style="color:var(--amber); font-size:0.9rem; margin-bottom:0.6rem;">★★★★★</div>
+            <p style="color:var(--text-muted); font-size:0.9rem; margin:0 0 1rem;">
+              "Tenía miedo de subir precios y perder clientes. Hice exactamente lo contrario: aumenté tarifas un 40% y mi agenda lleva 6 semanas al 100%."
+            </p>
+            <strong style="display:block; font-size:0.92rem;">Carlos G.</strong>
+            <span style="font-size:0.78rem; color:var(--bg-accent);">Centro Estético · ↑ Agenda llena en 6 semanas</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── PORTAFOLIO DE RESPALDO: 6 PERFILES IG DE REFERENCIA (SECCIÓN 13.3) ── -->
+    <section class="bg-section" id="portafolio-ig">
+      <div class="bg-shell">
+        <div class="bg-section-head">
+          <div class="bg-eyebrow"><i class="fab fa-instagram" aria-hidden="true"></i> Portafolio Verificado</div>
+          <h2>Marcas de Belleza que Respaldan Nuestra Trayectoria</h2>
+          <p>Experiencia comprobable trabajando con salones, spas, clínicas estéticas y estudios especializados. Explora cada perfil oficial en Instagram:</p>
+        </div>
+
+        <div class="bg-grid-3">
+          <a class="ig-card" href="https://www.instagram.com/innovationbeautyspa?rpxt=MW9ndGh1dTR2OThhNQ==" target="_blank" rel="noopener noreferrer">
+            <div style="display:flex; align-items:center; gap:0.85rem;">
+              <div class="ig-icon" aria-hidden="true"><i class="fab fa-instagram"></i></div>
+              <div>
+                <strong style="display:block; font-size:1rem;">Innovation Beauty Spa</strong>
+                <span style="font-size:0.78rem; color:var(--bg-accent);">@innovationbeautyspa</span>
+              </div>
+            </div>
+            <span style="font-size:0.82rem; color:var(--emerald); font-weight:700;">Ver perfil oficial en Instagram ↗</span>
+          </a>
+
+          <a class="ig-card" href="https://www.instagram.com/allinbeauty_official?cplk=dTBzMHV3cXBvbnE2" target="_blank" rel="noopener noreferrer" style="border-color:rgba(52,211,153,0.45);">
+            <div style="display:flex; align-items:center; gap:0.85rem;">
+              <div class="ig-icon" aria-hidden="true"><i class="fab fa-instagram"></i></div>
+              <div>
+                <strong style="display:block; font-size:1rem;">All in Beauty Official</strong>
+                <span style="font-size:0.78rem; color:var(--emerald);">@allinbeauty_official · Miami &amp; Houston</span>
+              </div>
+            </div>
+            <span style="font-size:0.82rem; color:var(--emerald); font-weight:700;">Ver perfil oficial en Instagram ↗</span>
+          </a>
+
+          <a class="ig-card" href="https://www.instagram.com/elisbeautyspa?rpxt=MXVzZXdiOGs5cnVleA==" target="_blank" rel="noopener noreferrer">
+            <div style="display:flex; align-items:center; gap:0.85rem;">
+              <div class="ig-icon" aria-hidden="true"><i class="fab fa-instagram"></i></div>
+              <div>
+                <strong style="display:block; font-size:1rem;">Eli's Beauty Spa</strong>
+                <span style="font-size:0.78rem; color:var(--bg-accent);">@elisbeautyspa</span>
+              </div>
+            </div>
+            <span style="font-size:0.82rem; color:var(--emerald); font-weight:700;">Ver perfil oficial en Instagram ↗</span>
+          </a>
+
+          <a class="ig-card" href="https://www.instagram.com/kysalonspa_?cplk=MXZhdTA2YzQwMWgyaw==" target="_blank" rel="noopener noreferrer">
+            <div style="display:flex; align-items:center; gap:0.85rem;">
+              <div class="ig-icon" aria-hidden="true"><i class="fab fa-instagram"></i></div>
+              <div>
+                <strong style="display:block; font-size:1rem;">KY Salon &amp; Spa</strong>
+                <span style="font-size:0.78rem; color:var(--bg-accent);">@kysalonspa_</span>
+              </div>
+            </div>
+            <span style="font-size:0.82rem; color:var(--emerald); font-weight:700;">Ver perfil oficial en Instagram ↗</span>
+          </a>
+
+          <a class="ig-card" href="https://www.instagram.com/daenys_lashesbrows_spa?xtok=OWEyb2FhaGk0MjVl" target="_blank" rel="noopener noreferrer">
+            <div style="display:flex; align-items:center; gap:0.85rem;">
+              <div class="ig-icon" aria-hidden="true"><i class="fab fa-instagram"></i></div>
+              <div>
+                <strong style="display:block; font-size:1rem;">Daenys Lashes &amp; Brows Spa</strong>
+                <span style="font-size:0.78rem; color:var(--bg-accent);">@daenys_lashesbrows_spa</span>
+              </div>
+            </div>
+            <span style="font-size:0.82rem; color:var(--emerald); font-weight:700;">Ver perfil oficial en Instagram ↗</span>
+          </a>
+
+          <a class="ig-card" href="https://www.instagram.com/nywax.fl?cplk=Y21maXA3cWNnZm82" target="_blank" rel="noopener noreferrer">
+            <div style="display:flex; align-items:center; gap:0.85rem;">
+              <div class="ig-icon" aria-hidden="true"><i class="fab fa-instagram"></i></div>
+              <div>
+                <strong style="display:block; font-size:1rem;">NY Wax Florida</strong>
+                <span style="font-size:0.78rem; color:var(--bg-accent);">@nywax.fl</span>
+              </div>
+            </div>
+            <span style="font-size:0.82rem; color:var(--emerald); font-weight:700;">Ver perfil oficial en Instagram ↗</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── ESPECIALIZACIÓN + PROBLEMAS + FILTRO DE CALIFICACIÓN ── -->
+    <section class="bg-section bg-section-alt">
+      <div class="bg-shell">
+        <div class="bg-section-head">
+          <div class="bg-eyebrow"><i class="fas fa-spa" aria-hidden="true"></i> Nicho Especializado &amp; Calificación</div>
+          <h2>Tres Segmentos del Sector Belleza, Un Solo Sistema Comercial</h2>
+          <p>Enfoque inicial en Florida (EE. UU.), Houston y despliegue escalonado en Puerto Rico (San Juan, Guaynabo, Bayamón, Carolina, Caguas, Ponce).</p>
+        </div>
+
+        <div class="bg-grid-3" style="margin-bottom:2.5rem;">
+          <div class="bg-card">
+            <h3 style="font-size:1.2rem; color:var(--bg-accent); margin-bottom:0.5rem;">1. Salones de Belleza</h3>
+            <p style="font-size:0.9rem; color:var(--text-muted); margin:0;">Cabello, uñas, extensiones, colorimetría, tratamientos capilares y micropigmentación.</p>
+          </div>
+          <div class="bg-card">
+            <h3 style="font-size:1.2rem; color:var(--bg-accent); margin-bottom:0.5rem;">2. Spas y Centros Estéticos</h3>
+            <p style="font-size:0.9rem; color:var(--text-muted); margin:0;">Faciales, masajes, depilación láser, aparatología y tratamientos corporales.</p>
+          </div>
+          <div class="bg-card">
+            <h3 style="font-size:1.2rem; color:var(--bg-accent); margin-bottom:0.5rem;">3. Academias y Educadoras</h3>
+            <p style="font-size:0.9rem; color:var(--text-muted); margin:0;">Pestañas, cejas, uñas, micropigmentación, peluquería, cursos especializados y mentorías.</p>
+          </div>
+        </div>
+
+        <div class="bg-grid-2">
+          <div class="bg-card" style="border-color:rgba(52,211,153,0.38);">
+            <h3 style="font-size:1.3rem; color:var(--emerald); margin-bottom:0.9rem;">✓ Solo trabajamos contigo si…</h3>
+            <ul class="bg-check-list" style="margin-bottom:0;">
+              <li><i class="fas fa-check" aria-hidden="true"></i><span><strong>Ya tienes un negocio funcionando</strong> — salón, spa, clínica estética o academia con clientes y servicios validados.</span></li>
+              <li><i class="fas fa-check" aria-hidden="true"></i><span><strong>Tu facturación es irregular</strong> — buenos meses y meses lentos sin métricas claras ni seguimiento oportuno.</span></li>
+              <li><i class="fas fa-check" aria-hidden="true"></i><span><strong>Tienes capacidad instalada</strong> para atender mayor demanda y base de datos histórica sin reactivar.</span></li>
+              <li><i class="fas fa-check" aria-hidden="true"></i><span><strong>Buscas estructura empresarial</strong> y disposición real para invertir en pauta y sistema comercial.</span></li>
+            </ul>
+          </div>
+
+          <div class="bg-card" style="border-color:rgba(248,113,113,0.35);">
+            <h3 style="font-size:1.3rem; color:var(--danger); margin-bottom:0.9rem;">✗ Esto NO es para ti si…</h3>
+            <ul class="bg-check-list" style="margin-bottom:0;">
+              <li><i class="fas fa-xmark" style="color:var(--danger);" aria-hidden="true"></i><span>Buscas resultados mágicos de la noche a la mañana sin implementar procesos ni responder leads.</span></li>
+              <li><i class="fas fa-xmark" style="color:var(--danger);" aria-hidden="true"></i><span>Aún no tienes negocio activo, local/cabina o validación previa de servicios en el mercado.</span></li>
+              <li><i class="fas fa-xmark" style="color:var(--danger);" aria-hidden="true"></i><span>No estás dispuesto a invertir en pauta en Meta Ads (Florida $800–$1,500/mes · PR $500–$1,000/mes).</span></li>
+              <li><i class="fas fa-xmark" style="color:var(--danger);" aria-hidden="true"></i><span>Solo quieres publicaciones sueltas o "trucos gratis" sin medir costo por cita ni cierre.</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── MODELO 4 PILARES + PAQUETES COMERCIALES OFICIALES ── -->
+    <section class="bg-section" id="paquetes">
+      <div class="bg-shell">
+        <div class="bg-section-head">
+          <div class="bg-eyebrow"><i class="fas fa-layer-group" aria-hidden="true"></i> Cuatro Pilares &amp; Planes Mensuales</div>
+          <h2>Estructura Comercial y Paquetes Oficiales</h2>
+          <p>Contrato inicial recomendado de 3 meses bajo pago mensual anticipado en USD. La pauta publicitaria se abona directamente en Meta por el cliente.</p>
+        </div>
+
+        <!-- 4 Pilares -->
+        <div class="bg-grid-4" style="margin-bottom:3rem;">
+          <div class="bg-card">
+            <span style="font-size:0.75rem; font-weight:800; color:var(--bg-accent);">PILAR 01</span>
+            <h3 style="font-size:1.15rem; margin:0.3rem 0 0.45rem;">Adquisición</h3>
+            <p style="font-size:0.84rem; color:var(--text-muted); margin:0;">Meta Ads, estrategia de captación y campañas por servicio, promoción o formación.</p>
+          </div>
+          <div class="bg-card">
+            <span style="font-size:0.75rem; font-weight:800; color:var(--bg-accent);">PILAR 02</span>
+            <h3 style="font-size:1.15rem; margin:0.3rem 0 0.45rem;">Autoridad</h3>
+            <p style="font-size:0.84rem; color:var(--text-muted); margin:0;">Estrategia editorial, guiones, Reels, edición, publicaciones y consistencia de marca.</p>
+          </div>
+          <div class="bg-card">
+            <span style="font-size:0.75rem; font-weight:800; color:var(--bg-accent);">PILAR 03</span>
+            <h3 style="font-size:1.15rem; margin:0.3rem 0 0.45rem;">Infraestructura</h3>
+            <p style="font-size:0.84rem; color:var(--text-muted); margin:0;">GoHighLevel (CRM), landing pages, formularios, pipelines, WhatsApp, IA y automatizaciones.</p>
+          </div>
+          <div class="bg-card">
+            <span style="font-size:0.75rem; font-weight:800; color:var(--bg-accent);">PILAR 04</span>
+            <h3 style="font-size:1.15rem; margin:0.3rem 0 0.45rem;">Cierre y Crecimiento</h3>
+            <p style="font-size:0.84rem; color:var(--text-muted); margin:0;">Setter/Lead Manager, guiones, recuperación de bases, closer por Zoom y recompra.</p>
+          </div>
+        </div>
+
+        <!-- 3 Paquetes -->
+        <div class="bg-grid-3">
+          <article class="bg-card" style="display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <span class="bg-eyebrow" style="margin-bottom:0.5rem;">Captación Activa</span>
+              <h3 style="font-size:1.35rem; font-weight:800;">BEAUTY BOOST</h3>
+              <div class="pkg-price">USD $1,499<span>/mes</span></div>
+              <p style="font-size:0.85rem; color:var(--text-muted);">Generar oportunidades comerciales y estructurar el seguimiento de prospectos.</p>
+              <ul class="bg-check-list">
+                <li><i class="fas fa-check" aria-hidden="true"></i><span>Gestión y lanzamiento de campañas en Meta Ads.</span></li>
+                <li><i class="fas fa-check" aria-hidden="true"></i><span>Landing page o página de captación según alcance.</span></li>
+                <li><i class="fas fa-check" aria-hidden="true"></i><span>CRM GoHighLevel con seguimiento automatizado e IA inicial.</span></li>
+                <li><i class="fas fa-check" aria-hidden="true"></i><span>Apoyo de Setter/Lead Manager y reporte mensual.</span></li>
+              </ul>
+            </div>
+            <button type="button" class="btn-ghost pick-package" data-package="BEAUTY_BOOST_1499" command="show-modal" commandfor="beautyBookingDialog">
+              Postular a Beauty Boost →
+            </button>
+          </article>
+
+          <article class="bg-card pkg-featured" style="display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <span class="bg-eyebrow" style="background:rgba(52,211,153,0.18); border-color:rgba(52,211,153,0.45); color:#6EE7B7; margin-bottom:0.5rem;">Más Elegido · Salones &amp; Spas</span>
+              <h3 style="font-size:1.4rem; font-weight:900;">BEAUTY ELEVATE</h3>
+              <div class="pkg-price">USD $2,499<span>/mes</span></div>
+              <p style="font-size:0.85rem; color:var(--text-muted);">Atraer, convertir, recuperar prospectos inactivos y aumentar la frecuencia de recompra.</p>
+              <ul class="bg-check-list">
+                <li><i class="fas fa-check" aria-hidden="true"></i><span>Todo el alcance de <strong>Beauty Boost</strong> incluido.</span></li>
+                <li><i class="fas fa-check" aria-hidden="true"></i><span>Gestión estratégica de redes + calendario, guiones y edición para <strong>12 piezas/Reels al mes</strong>.</span></li>
+                <li><i class="fas fa-check" aria-hidden="true"></i><span>Automatizaciones de WhatsApp y recuperación telefónica de bases de datos.</span></li>
+                <li><i class="fas fa-check" aria-hidden="true"></i><span>Estrategia de membresías, recompra y reactivación.</span></li>
+              </ul>
+            </div>
+            <button type="button" class="btn-purple pick-package" data-package="BEAUTY_ELEVATE_2499" command="show-modal" commandfor="beautyBookingDialog">
+              Postular a Beauty Elevate →
+            </button>
+          </article>
+
+          <article class="bg-card" style="display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <span class="bg-eyebrow" style="margin-bottom:0.5rem;">Academias &amp; High-Ticket</span>
+              <h3 style="font-size:1.35rem; font-weight:800;">BEAUTY EMPIRE</h3>
+              <div class="pkg-price">USD $3,499<span>/mes</span></div>
+              <p style="font-size:0.85rem; color:var(--text-muted);">Captar alumnas o compradores y cerrar oportunidades de alto valor en cursos y programas.</p>
+              <ul class="bg-check-list">
+                <li><i class="fas fa-check" aria-hidden="true"></i><span>Todo <strong>Beauty Elevate</strong> ampliado a <strong>24 piezas mensuales</strong>.</span></li>
+                <li><i class="fas fa-check" aria-hidden="true"></i><span>Embudo especializado para cursos, formaciones o servicio premium.</span></li>
+                <li><i class="fas fa-check" aria-hidden="true"></i><span>Setter dedicado para calificar y agendar oportunidades.</span></li>
+                <li><i class="fas fa-check" aria-hidden="true"></i><span>Closer humano para cierres por Zoom (+ comisión variable pactada).</span></li>
+              </ul>
+            </div>
+            <button type="button" class="btn-ghost pick-package" data-package="BEAUTY_EMPIRE_3499" command="show-modal" commandfor="beautyBookingDialog">
+              Postular a Beauty Empire →
+            </button>
+          </article>
+        </div>
+
+        <!-- Banda High-Ticket + Inversión Publicitaria -->
+        <div class="bg-card" style="margin-top:1.75rem;">
+          <div class="bg-grid-2" style="align-items:center;">
+            <div>
+              <span class="bg-eyebrow" style="margin-bottom:0.5rem;">Proyección Expansión Florida</span>
+              <h3 style="font-size:1.3rem; font-weight:800; margin-bottom:0.45rem;">Plan High-Ticket (USD $5,000/mes) con Producción Presencial</h3>
+              <p style="font-size:0.86rem; color:var(--text-muted); margin:0;">
+                Para expansión en Florida incorporando grabación audiovisual presencial (referencia preliminar de productora en Miami: 1 video $180 · 3 videos en un día $400 · 10 videos en hasta 2 visitas/mes $1,300, sujeto a alcance final).
+              </p>
+            </div>
+            <div class="bg-table-wrap">
+              <table class="bg-table">
+                <thead>
+                  <tr>
+                    <th>Mercado Objetivo</th>
+                    <th>Inversión Meta Ads Recomendada</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Florida (Referencia Miami / EE. UU.)</strong></td>
+                    <td>USD $800 – $1,500 / mes</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Puerto Rico (Etapa Inicial)</strong></td>
+                    <td>USD $500 – $1,000 / mes</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── PIPELINE DE 14 ETAPAS + SOCIOS DIRECTORES ── -->
+    <section class="bg-section bg-section-alt" id="pipeline-14">
+      <div class="bg-shell">
+        <div class="bg-section-head">
+          <div class="bg-eyebrow"><i class="fas fa-diagram-project" aria-hidden="true"></i> Operación &amp; Subcuenta CRM V8tM5xk6xl15wKhbQS0p</div>
+          <h2>Pipeline Comercial Oficial de 14 Etapas + Equipo de Setters &amp; Closers</h2>
+          <p>Separamos los intentos outbound sin respuesta (etapas 2 a 4) de los prospectos que ya respondieron y avanzan con seguimiento activo hacia cierre por Zoom.</p>
+        </div>
+
+        <div class="pipeline-grid" style="margin-bottom:2.75rem;">
+          <div class="stage-pill-card"><div class="stage-num">Etapa 01</div><strong>Prospecto identificado</strong></div>
+          <div class="stage-pill-card outbound"><div class="stage-num">Etapa 02 · Outbound</div><strong>Primer contacto</strong></div>
+          <div class="stage-pill-card outbound"><div class="stage-num">Etapa 03 · Outbound</div><strong>Segundo contacto</strong></div>
+          <div class="stage-pill-card outbound"><div class="stage-num">Etapa 04 · Outbound</div><strong>Tercer contacto</strong></div>
+          <div class="stage-pill-card"><div class="stage-num">Etapa 05</div><strong>Respondió / Interesado</strong></div>
+          <div class="stage-pill-card"><div class="stage-num">Etapa 06</div><strong>Seguimiento</strong></div>
+          <div class="stage-pill-card"><div class="stage-num">Etapa 07</div><strong>Lead calificado</strong></div>
+          <div class="stage-pill-card"><div class="stage-num">Etapa 08</div><strong>Reunión agendada</strong></div>
+          <div class="stage-pill-card"><div class="stage-num">Etapa 09</div><strong>Reunión confirmada</strong></div>
+          <div class="stage-pill-card"><div class="stage-num">Etapa 10</div><strong>Reunión realizada</strong></div>
+          <div class="stage-pill-card"><div class="stage-num">Etapa 11</div><strong>Propuesta enviada</strong></div>
+          <div class="stage-pill-card"><div class="stage-num">Etapa 12</div><strong>Negociación activa</strong></div>
+          <div class="stage-pill-card won"><div class="stage-num">Etapa 13 · Cierre</div><strong>Ganado / Cierre</strong></div>
+          <div class="stage-pill-card"><div class="stage-num">Etapa 14 · Salida</div><strong>Perdido / No calificado</strong></div>
+        </div>
+
+        <!-- Dirección y Socio Operativo -->
+        <div class="bg-grid-2">
+          <div class="bg-card">
+            <span class="bg-eyebrow" style="margin-bottom:0.5rem;">Dirección Ejecutiva (CEO)</span>
+            <h3 style="font-size:1.3rem; font-weight:800;">Edward Jiménez</h3>
+            <p style="font-size:0.86rem; color:var(--bg-accent); margin:0.2rem 0 0.65rem;">CEO &amp; Socio Director · edward@agenciaprosperia.com</p>
+            <p style="font-size:0.88rem; color:var(--text-muted); margin:0;">Liderazgo ejecutivo general, respaldo financiero, infraestructura tecnológica de Agencia Prosper IA LLC y dirección estratégica de expansión.</p>
+          </div>
+          <div class="bg-card" style="border-color:rgba(167,139,250,0.5);">
+            <span class="bg-eyebrow" style="margin-bottom:0.5rem;">Socio de Desarrollo Comercial y Operación</span>
+            <h3 style="font-size:1.3rem; font-weight:800;">Jhonkelwins David Becerra Cañas</h3>
+            <p style="font-size:0.86rem; color:var(--bg-accent); margin:0.2rem 0 0.65rem;">Administrador Vertical Beauty Growth · dbecerra@agenciaprosperia.com</p>
+            <p style="font-size:0.88rem; color:var(--text-muted); margin:0;">Al frente de la ejecución comercial diaria en Florida, Houston y Puerto Rico, dirigiendo directamente al equipo de Setters, Lead Managers y Closers en CRM.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── FAQ ACCORDEÓN ACCESIBLE (modern-web-guidance: accordion) ── -->
+    <section class="bg-section" id="faq">
+      <div class="bg-shell">
+        <div class="bg-section-head">
+          <div class="bg-eyebrow"><i class="fas fa-circle-question" aria-hidden="true"></i> Preguntas Frecuentes</div>
+          <h2 id="faq-heading">Resolvemos Tus Dudas</h2>
+        </div>
+
+        <section class="accordion" aria-labelledby="faq-heading">
+          <details>
+            <summary>¿Por qué Beauty Growth opera como firma y no como agencia tradicional?</summary>
+            <div class="faq-body">
+              <p>Las agencias convencionales venden anuncios o publicaciones sueltas que no garantizan citas ni cierres. Nosotros instalamos una estructura comercial completa: adquisición en Meta Ads, contenido de autoridad, CRM GoHighLevel configurado con IA y seguimiento humano con Setters y Closers.</p>
+            </div>
+          </details>
+          <details>
+            <summary>¿Cuál es la inversión mensual de los planes y del presupuesto en Meta Ads?</summary>
+            <div class="faq-body">
+              <p>Contamos con tres planes base (Beauty Boost $1,499/mes, Beauty Elevate $2,499/mes y Beauty Empire $3,499/mes), con contrato inicial recomendado de 3 meses. La pauta publicitaria se paga aparte directo en Meta: recomendamos $800–$1,500/mes en Florida/EE. UU. y $500–$1,000/mes en Puerto Rico.</p>
+            </div>
+          </details>
+          <details>
+            <summary>¿Incluyen grabaciones presenciales para los Reels?</summary>
+            <div class="faq-body">
+              <p>En Beauty Elevate (12 piezas/mes) y Beauty Empire (24 piezas/mes), el cliente graba el material en bruto con nuestras guías y guiones, y nuestro equipo ejecuta toda la estrategia editorial, edición y diseño. Para el Plan High-Ticket ($5,000/mes) en Florida se contempla producción presencial.</p>
+            </div>
+          </details>
+          <details>
+            <summary>¿Cuánto tarda el despliegue y cómo funcionan las 14 etapas del CRM?</summary>
+            <div class="faq-body">
+              <p>En los primeros 15 días dejamos configurado el CRM, las campañas, guiones y seguimiento comercial activo. El pipeline de 14 etapas distingue claramente los contactos sin respuesta de quienes ya mostraron interés, permitiendo auditoría diaria y conversión medible.</p>
+            </div>
+          </details>
+          <details>
+            <summary>¿Tiene costo la sesión de diagnóstico estratégico?</summary>
+            <div class="faq-body">
+              <p>No. La sesión de diagnóstico de 30 minutos por Zoom es gratuita: evaluamos tu facturación actual, capacidad de atención, márgenes y mercado para recomendarte el paquete exacto (Boost, Elevate o Empire).</p>
+            </div>
+          </details>
+        </section>
+      </div>
+    </section>
+
+    <!-- ── EMBUDO INICIAL EN PÁGINA (#aplicar) ── -->
+    <section class="bg-section bg-section-alt" id="aplicar">
+      <div class="bg-shell" style="max-width:780px;">
+        <div class="bg-card" style="padding:2.2rem; border-color:rgba(167,139,250,0.48);">
+          <div style="text-align:center; margin-bottom:1.6rem;">
+            <div class="bg-eyebrow"><i class="fas fa-calendar-check" aria-hidden="true"></i> Embudo Oficial Beauty Growth</div>
+            <h2 style="font-size:clamp(1.65rem, 3vw, 2.25rem); font-weight:900; margin-bottom:0.45rem;">Agenda Tu Diagnóstico Comercial</h2>
+            <p style="color:var(--text-muted); font-size:0.94rem; margin:0;">Completa tus datos para pre-calificar tu salón, spa, clínica estética o academia y abrir en vivo el calendario con nuestro equipo.</p>
+          </div>
+
+          <form id="beauty-funnel-form" novalidate aria-label="Formulario de diagnóstico Beauty Growth">
+            <input type="text" name="website_hp" tabindex="-1" aria-hidden="true" class="visually-hidden" autocomplete="off">
+
+            <div class="bg-grid-2" style="gap:1rem;">
+              <div class="field">
+                <label for="bg-name">Nombre y Apellido *</label>
+                <span id="bg-name-hint" class="hint">Ej. Nubia Delgado</span>
+                <input type="text" id="bg-name" name="name" class="bg-input" required minlength="2" autocomplete="name" aria-describedby="bg-name-hint" data-error="bg-name-error">
+                <div id="bg-name-error" class="error-msg"><span role="img" aria-label="Error">❌</span> Ingresa tu nombre completo.</div>
+              </div>
+              <div class="field">
+                <label for="bg-company">Nombre de tu Negocio *</label>
+                <span id="bg-company-hint" class="hint">Salón, spa, clínica o academia</span>
+                <input type="text" id="bg-company" name="company" class="bg-input" required minlength="2" autocomplete="organization" aria-describedby="bg-company-hint" data-error="bg-company-error">
+                <div id="bg-company-error" class="error-msg"><span role="img" aria-label="Error">❌</span> Ingresa el nombre de tu negocio.</div>
+              </div>
+            </div>
+
+            <div class="bg-grid-2" style="gap:1rem;">
+              <div class="field">
+                <label for="bg-email">Correo Electrónico *</label>
+                <span id="bg-email-hint" class="hint">Formato: tu@negocio.com</span>
+                <input type="email" id="bg-email" name="email" class="bg-input" required autocomplete="email" aria-describedby="bg-email-hint" data-error="bg-email-error">
+                <div id="bg-email-error" class="error-msg"><span role="img" aria-label="Error">❌</span> Ingresa un correo electrónico válido (ejemplo@dominio.com).</div>
+              </div>
+              <div class="field">
+                <label for="bg-phone">WhatsApp / Teléfono *</label>
+                <span id="bg-phone-hint" class="hint">Incluye código de país (ej. +1 786...)</span>
+                <input type="tel" id="bg-phone" name="phone" class="bg-input" required minlength="7" autocomplete="tel" inputmode="tel" aria-describedby="bg-phone-hint" data-error="bg-phone-error">
+                <div id="bg-phone-error" class="error-msg"><span role="img" aria-label="Error">❌</span> Ingresa un número de WhatsApp válido.</div>
+              </div>
+            </div>
+
+            <div class="bg-grid-2" style="gap:1rem;">
+              <div class="field">
+                <label for="bg-segment">Segmento de Belleza *</label>
+                <select id="bg-segment" name="segment" class="bg-input" required data-error="bg-segment-error">
+                  <option value="">Selecciona tu segmento...</option>
+                  <option value="Salón de belleza (Cabello / Uñas / Color)">Salón de belleza (Cabello / Uñas / Color)</option>
+                  <option value="Spa o Centro Estético">Spa o Centro Estético</option>
+                  <option value="Academia o Educadora (Cursos / Mentorías)">Academia o Educadora (Cursos / Mentorías)</option>
+                </select>
+                <div id="bg-segment-error" class="error-msg"><span role="img" aria-label="Error">❌</span> Selecciona tu segmento de negocio.</div>
+              </div>
+              <div class="field">
+                <label for="bg-city">Ciudad / Mercado *</label>
+                <input type="text" id="bg-city" name="city" class="bg-input" required placeholder="Ej. Miami, FL / Houston, TX / San Juan, PR" data-error="bg-city-error">
+                <div id="bg-city-error" class="error-msg"><span role="img" aria-label="Error">❌</span> Indica tu ciudad o mercado principal.</div>
+              </div>
+            </div>
+
+            <div class="bg-grid-2" style="gap:1rem;">
+              <div class="field">
+                <label for="bg-revenue">Facturación Mensual Actual *</label>
+                <select id="bg-revenue" name="revenue" class="bg-input" required data-error="bg-revenue-error">
+                  <option value="">Selecciona un rango...</option>
+                  <option value="Menos de $5,000 USD/mes">Menos de $5,000 USD/mes</option>
+                  <option value="$5,000 – $15,000 USD/mes">$5,000 – $15,000 USD/mes</option>
+                  <option value="$15,000 – $30,000 USD/mes">$15,000 – $30,000 USD/mes</option>
+                  <option value="Más de $30,000 USD/mes">Más de $30,000 USD/mes</option>
+                </select>
+                <div id="bg-revenue-error" class="error-msg"><span role="img" aria-label="Error">❌</span> Selecciona tu rango de facturación actual.</div>
+              </div>
+              <div class="field">
+                <label for="bg-package">Paquete de Interés</label>
+                <select id="bg-package" name="package" class="bg-input">
+                  <option value="BEAUTY_ELEVATE_2499">Beauty Elevate — USD $2,499/mes (Recomendado)</option>
+                  <option value="BEAUTY_BOOST_1499">Beauty Boost — USD $1,499/mes</option>
+                  <option value="BEAUTY_EMPIRE_3499">Beauty Empire — USD $3,499/mes (Academias)</option>
+                  <option value="BEAUTY_HIGHTICKET_5000">Plan High-Ticket FL — USD $5,000/mes</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="bg-instagram">Instagram del Negocio y Reto Principal</label>
+              <textarea id="bg-instagram" name="notes" rows="2" class="bg-input" placeholder="@tunegocio · Ej. Queremos llenar agenda de tratamientos de alto margen y reactivar nuestra base de datos."></textarea>
+            </div>
+
+            <div style="display:flex; align-items:flex-start; gap:0.65rem; margin-bottom:1.15rem;">
+              <input type="checkbox" id="bg-consent" name="sms_consent" required checked style="width:18px; height:18px; margin-top:3px; accent-color:#6D28D9;">
+              <label for="bg-consent" style="font-size:0.8rem; color:var(--text-muted); font-weight:500;">Autorizo a Beauty Growth &amp; Business System (Agencia ProsperIA LLC) a contactarme por WhatsApp, llamada y correo sobre mi sesión estratégica.</label>
+            </div>
+
+            <div data-form-status role="status" aria-live="polite" style="display:none; padding:0.95rem; border-radius:12px; margin-bottom:1rem; font-size:0.9rem;"></div>
+
+            <button type="submit" class="btn-purple" style="width:100%;">
+              <span>Registrar Solicitud y Abrir Calendario en Vivo</span>
+              <i class="fas fa-arrow-right" aria-hidden="true"></i>
+            </button>
+          </form>
+          <div id="beauty-funnel-calendar-host" style="margin-top:1.35rem;"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer style="background:#05070E; border-top:1px solid rgba(196,181,253,0.16); padding:2.5rem 1.25rem;">
+    <div class="bg-shell" style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1rem; font-size:0.82rem; color:var(--text-dim);">
+      <div>
+        <strong style="color:#fff;">Beauty Growth &amp; Business System</strong> · Vertical Oficial de Agencia ProsperIA LLC<br>
+        Dirección Comercial Beauty Growth: <strong style="color:var(--bg-accent);">dbecerra@agenciaprosperia.com</strong> · CEO: <strong style="color:var(--bg-accent);">edward@agenciaprosperia.com</strong>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:1rem;">
+        <a href="/politica-privacidad" style="color:var(--text-muted); text-decoration:none;">Privacidad</a>
+        <a href="/terminos-servicio" style="color:var(--text-muted); text-decoration:none;">Términos</a>
+        <a href="https://wa.me/19292788261" target="_blank" rel="noopener noreferrer" style="color:var(--emerald); text-decoration:none; font-weight:700;">WhatsApp +1 (929) 278-8261</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ── MODAL NATIVO <dialog> (modern-web-guidance: dialog, light-dismiss-a-dialog, prevent-page-scroll-under-modal-dialog) ── -->
+  <dialog id="beautyBookingDialog" closedby="any" aria-labelledby="beautyModalTitle" class="bg-dialog">
+    <div class="bg-dialog-head">
+      <div>
+        <span style="font-size:0.72rem; font-weight:800; color:var(--bg-accent); text-transform:uppercase;">Sesión Estratégica · 30 Min · Gratuita</span>
+        <h2 id="beautyModalTitle" style="font-size:1.25rem; font-weight:800; margin-top:0.15rem;">Agenda Tu Diagnóstico Beauty Growth</h2>
+      </div>
+      <button type="button" class="bg-dialog-close" command="close" commandfor="beautyBookingDialog" data-close-booking aria-label="Cerrar ventana">✕</button>
+    </div>
+
+    <div class="bg-dialog-body">
+      <form id="beauty-modal-form" novalidate>
+        <input type="text" name="website_hp" tabindex="-1" aria-hidden="true" class="visually-hidden" autocomplete="off">
+        <div class="bg-grid-2" style="gap:0.85rem;">
+          <div class="field">
+            <label for="bg-modal-name">Nombre Completo *</label>
+            <input type="text" id="bg-modal-name" name="name" class="bg-input" required minlength="2" autofocus autocomplete="name" data-error="bg-modal-name-error">
+            <div id="bg-modal-name-error" class="error-msg"><span role="img" aria-label="Error">❌</span> Ingresa tu nombre completo.</div>
+          </div>
+          <div class="field">
+            <label for="bg-modal-company">Nombre del Salón / Spa / Academia *</label>
+            <input type="text" id="bg-modal-company" name="company" class="bg-input" required minlength="2" autocomplete="organization" data-error="bg-modal-company-error">
+            <div id="bg-modal-company-error" class="error-msg"><span role="img" aria-label="Error">❌</span> Ingresa el nombre de tu negocio.</div>
+          </div>
+        </div>
+        <div class="bg-grid-2" style="gap:0.85rem;">
+          <div class="field">
+            <label for="bg-modal-email">Correo Electrónico *</label>
+            <input type="email" id="bg-modal-email" name="email" class="bg-input" required autocomplete="email" data-error="bg-modal-email-error">
+            <div id="bg-modal-email-error" class="error-msg"><span role="img" aria-label="Error">❌</span> Ingresa un correo electrónico válido.</div>
+          </div>
+          <div class="field">
+            <label for="bg-modal-phone">WhatsApp *</label>
+            <input type="tel" id="bg-modal-phone" name="phone" class="bg-input" required minlength="7" autocomplete="tel" inputmode="tel" data-error="bg-modal-phone-error">
+            <div id="bg-modal-phone-error" class="error-msg"><span role="img" aria-label="Error">❌</span> Ingresa tu número de WhatsApp.</div>
+          </div>
+        </div>
+        <div class="bg-grid-2" style="gap:0.85rem;">
+          <div class="field">
+            <label for="bg-modal-package">Plan de Interés</label>
+            <select id="bg-modal-package" name="package" class="bg-input">
+              <option value="BEAUTY_ELEVATE_2499">Beauty Elevate — USD $2,499/mes</option>
+              <option value="BEAUTY_BOOST_1499">Beauty Boost — USD $1,499/mes</option>
+              <option value="BEAUTY_EMPIRE_3499">Beauty Empire — USD $3,499/mes</option>
+              <option value="BEAUTY_HIGHTICKET_5000">Plan High-Ticket FL — USD $5,000/mes</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="bg-modal-city">Ciudad (Miami, Houston, PR…)</label>
+            <input type="text" id="bg-modal-city" name="city" class="bg-input" placeholder="Ej. Miami, FL">
+          </div>
+        </div>
+        <div data-form-status role="status" aria-live="polite" style="display:none; padding:0.85rem; border-radius:10px; margin-bottom:0.85rem; font-size:0.86rem;"></div>
+        <div style="display:flex; flex-wrap:wrap; gap:0.75rem;">
+          <button type="submit" class="btn-purple" style="flex:1 1 220px;">Confirmar y Ver Agenda →</button>
+          <a href="https://wa.me/19292788261?text=Hola%20Beauty%20Growth%2C%20quiero%20agendar%20mi%20sesi%C3%B3n%20estrat%C3%A9gica" target="_blank" rel="noopener noreferrer" class="btn-ghost" style="flex:1 1 160px;">WhatsApp Directo</a>
+        </div>
+      </form>
+      <div id="beauty-modal-calendar-host" style="margin-top:1rem;"></div>
+    </div>
+  </dialog>
+
+  <script>
+    (function () {
+      // 1. Invoker Commands polyfill/fallback & light-dismiss fallback (modern-web-guidance: dialog & light-dismiss-a-dialog)
+      const dialog = document.getElementById('beautyBookingDialog');
+      if (dialog) {
+        if (!('commandForElement' in HTMLButtonElement.prototype)) {
+          document.querySelectorAll('[command="show-modal"][commandfor="beautyBookingDialog"]').forEach((btn) => {
+            btn.addEventListener('click', () => dialog.showModal());
+          });
+          document.querySelectorAll('[command="close"][commandfor="beautyBookingDialog"]').forEach((btn) => {
+            btn.addEventListener('click', () => dialog.close());
+          });
+        }
+        if (!('closedBy' in HTMLDialogElement.prototype)) {
+          const outside = (e, d) => {
+            const r = d.getBoundingClientRect();
+            return e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom;
+          };
+          let pressedOutside = false;
+          dialog.addEventListener('pointerdown', (e) => { pressedOutside = outside(e, dialog); });
+          dialog.addEventListener('pointerup', (e) => { if (pressedOutside && outside(e, dialog)) dialog.close(); });
+        }
+      }
+
+      // Preselect package when clicking plan cards
+      document.querySelectorAll('.pick-package').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const pkg = btn.getAttribute('data-package');
+          const selModal = document.getElementById('bg-modal-package');
+          const selInline = document.getElementById('bg-package');
+          if (selModal && pkg) selModal.value = pkg;
+          if (selInline && pkg) selInline.value = pkg;
+        });
+      });
+
+      // 2. Testimonial video 1-click play overlay + lazy-load fallback (modern-web-guidance: lazy-load-video-and-audio)
+      const nubiaVideo = document.getElementById('nubia-testimonial-video');
+      const nubiaOverlay = document.getElementById('nubia-play-overlay');
+      if (nubiaVideo && nubiaOverlay) {
+        nubiaOverlay.addEventListener('click', () => {
+          nubiaOverlay.hidden = true;
+          nubiaVideo.muted = false;
+          nubiaVideo.play().catch(() => {});
+        });
+        nubiaVideo.addEventListener('play', () => { nubiaOverlay.hidden = true; });
+      }
+      if (!Object.hasOwn(HTMLMediaElement.prototype, 'loading') && nubiaVideo) {
+        const mediaObserver = new IntersectionObserver((entries, observer) => {
+          for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            const media = entry.target;
+            if (media.dataset.poster) {
+              media.poster = media.dataset.poster;
+              delete media.dataset.poster;
+            }
+            if (media.dataset.preload) {
+              media.preload = media.dataset.preload;
+              delete media.dataset.preload;
+            }
+            media.load();
+            observer.unobserve(media);
+          }
+        }, { rootMargin: '200px 0px' });
+        if (nubiaVideo.hasAttribute('poster')) {
+          nubiaVideo.dataset.poster = nubiaVideo.getAttribute('poster');
+          nubiaVideo.removeAttribute('poster');
+        }
+        nubiaVideo.dataset.preload = 'metadata';
+        nubiaVideo.preload = 'none';
+        mediaObserver.observe(nubiaVideo);
+      }
+
+      // 3. Validate Input After Interaction + Consistent ARIA (modern-web-guidance: validate-input-after-interaction)
+      const linkError = (el, shown) => {
+        const errorId = el.dataset.error;
+        if (!errorId) return;
+        const ids = (el.getAttribute('aria-describedby') || '').split(/\s+/).filter((id) => id && id !== errorId);
+        if (shown) ids.push(errorId);
+        if (ids.length) el.setAttribute('aria-describedby', ids.join(' '));
+        else el.removeAttribute('aria-describedby');
+      };
+
+      const announcer = document.createElement('div');
+      announcer.setAttribute('aria-live', 'polite');
+      announcer.classList.add('visually-hidden');
+      document.body.append(announcer);
+      let announceTimer;
+      let announcedField;
+
+      const spokenText = (node) => {
+        const copy = node.cloneNode(true);
+        copy.querySelectorAll('[aria-hidden="true"]').forEach((n) => n.remove());
+        copy.querySelectorAll('[role="img"][aria-label]').forEach((n) => n.replaceWith(`${n.getAttribute('aria-label')}: `));
+        return copy.textContent.replace(/\s+/g, ' ').trim();
+      };
+
+      const announceError = (el) => {
+        const error = document.getElementById(el.dataset.error);
+        if (!error) return;
+        const label = el.labels?.[0] ? `${spokenText(el.labels[0])}: ` : '';
+        clearTimeout(announceTimer);
+        announcer.textContent = '';
+        announcedField = el;
+        announceTimer = setTimeout(() => { announcer.textContent = label + spokenText(error); }, 500);
+      };
+
+      const supportsUserInvalid = CSS.supports('selector(:user-invalid)');
+      const dirtyState = new WeakMap();
+      const flagged = new WeakSet();
+      const announced = new WeakSet();
+
+      const syncAria = (el, announce = false) => {
+        if (!el.matches?.('input, select, textarea')) return;
+        const invalid = supportsUserInvalid
+          ? el.matches(':user-invalid')
+          : Boolean(dirtyState.get(el)?.hasBlurred && !el.validity.valid);
+        if (!supportsUserInvalid && dirtyState.get(el)?.hasBlurred) {
+          el.classList.toggle('user-invalid-fallback', !el.validity.valid);
+          el.classList.toggle('user-valid-fallback', el.validity.valid);
+        }
+        if (invalid) {
+          if (announce && !announced.has(el)) {
+            announceError(el);
+            announced.add(el);
+          }
+          el.setAttribute('aria-invalid', 'true');
+          linkError(el, true);
+          flagged.add(el);
+        } else if (flagged.has(el) || el.getAttribute('aria-invalid') !== 'true') {
+          el.setAttribute('aria-invalid', 'false');
+          linkError(el, false);
+          flagged.delete(el);
+          announced.delete(el);
+          if (announcedField === el) {
+            clearTimeout(announceTimer);
+            announcer.textContent = '';
+          }
+        }
+      };
+
+      document.querySelectorAll('#beauty-funnel-form input, #beauty-funnel-form select, #beauty-funnel-form textarea, #beauty-modal-form input, #beauty-modal-form select').forEach((el) => syncAria(el));
+      document.addEventListener('blur', (e) => {
+        if (!supportsUserInvalid && e.target.matches?.('input, select, textarea')) {
+          const st = dirtyState.get(e.target) || { hasInteracted: false, hasBlurred: false };
+          st.hasBlurred = true;
+          dirtyState.set(e.target, st);
+        }
+        syncAria(e.target, true);
+      }, true);
+      document.addEventListener('input', (e) => {
+        if (!supportsUserInvalid && e.target.matches?.('input, select, textarea')) {
+          const st = dirtyState.get(e.target) || { hasInteracted: false, hasBlurred: false };
+          st.hasInteracted = true;
+          dirtyState.set(e.target, st);
+        }
+        if (e.target.hasAttribute?.('aria-invalid')) syncAria(e.target);
+      });
+      document.addEventListener('change', (e) => syncAria(e.target, true), true);
+
+      // 4. Submit handler for both funnel forms -> POST /api/auth/contact
+      function wireBeautyForm(formId, calHostId) {
+        const form = document.getElementById(formId);
+        if (!form) return;
+        const statusEl = form.querySelector('[data-form-status]');
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalHtml = submitBtn ? submitBtn.innerHTML : '';
+
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const controls = [...form.querySelectorAll('input, select, textarea')];
+          controls.forEach((ctrl) => {
+            if (!ctrl.checkValidity()) {
+              dirtyState.set(ctrl, { hasInteracted: true, hasBlurred: true });
+              ctrl.classList.add('user-invalid-fallback');
+              announced.add(ctrl);
+              syncAria(ctrl);
+            }
+          });
+          if (!form.checkValidity()) {
+            const firstInvalid = controls.find((c) => !c.validity.valid);
+            if (firstInvalid) firstInvalid.focus();
+            return;
+          }
+
+          const hp = form.querySelector('[name="website_hp"]');
+          if (hp && hp.value.trim()) return;
+
+          const fd = new FormData(form);
+          const name = String(fd.get('name') || '').trim();
+          const company = String(fd.get('company') || '').trim();
+          const email = String(fd.get('email') || '').trim();
+          const phone = String(fd.get('phone') || '').trim();
+          const segment = String(fd.get('segment') || 'Negocio de Belleza').trim();
+          const city = String(fd.get('city') || '').trim();
+          const revenue = String(fd.get('revenue') || '').trim();
+          const pkg = String(fd.get('package') || 'BEAUTY_ELEVATE_2499').trim();
+          const notes = String(fd.get('notes') || '').trim();
+          const smsConsent = fd.get('sms_consent') !== null ? Boolean(fd.get('sms_consent')) : true;
+
+          const msgParts = [
+            `Vertical Beauty Growth · Paquete: ${pkg}`,
+            segment ? `Segmento: ${segment}` : '',
+            city ? `Ciudad/Mercado: ${city}` : '',
+            revenue ? `Facturación actual: ${revenue}` : '',
+            notes ? `Notas/IG: ${notes}` : '',
+          ].filter(Boolean).join(' | ');
+
+          if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i><span>Conectando con CRM Beauty Growth...</span>';
+          }
+          if (statusEl) statusEl.style.display = 'none';
+
+          try {
+            const res = await fetch('/api/auth/contact', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                name,
+                email,
+                phone,
+                company,
+                industry: `beauty_growth - ${segment}`,
+                message: msgParts,
+                source: 'beautygrowth_funnel',
+                sms_consent: smsConsent,
+              }),
+            });
+            const data = await res.json();
+            if (!res.ok || !data.success) throw new Error(data.error || 'No se pudo procesar tu registro.');
+
+            const calUrl = data.calendar_url || 'https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8';
+            if (statusEl) {
+              statusEl.style.display = 'block';
+              statusEl.style.background = 'rgba(52, 211, 153, 0.14)';
+              statusEl.style.border = '1px solid rgba(52, 211, 153, 0.45)';
+              statusEl.style.color = '#D1FAE5';
+              statusEl.innerHTML = `✅ <strong>¡Solicitud registrada, ${name}!</strong> Tu oportunidad ya quedó en el pipeline de <strong>Beauty Growth</strong> con <strong>${data.closer_name || 'Jhonkelwins David Becerra Cañas'}</strong>. Elige tu horario aquí abajo:`;
+            }
+
+            const waMsg = encodeURIComponent(`Hola equipo Beauty Growth! Acabo de solicitar mi diagnóstico para ${company} (${city || 'EE. UU. / PR'}). Nombre: ${name}, Plan: ${pkg}.`);
+            const calHost = document.getElementById(calHostId);
+            if (calHost) {
+              calHost.innerHTML = `
+                <div style="border-radius:16px; overflow:hidden; border:1px solid rgba(196,181,253,0.4); background:#070A12;">
+                  <div style="padding:0.85rem 1.1rem; background:#151C2F; border-bottom:1px solid rgba(196,181,253,0.2); display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:0.5rem;">
+                    <strong style="font-size:0.84rem; color:#C4B5FD;"><i class="fas fa-calendar-check" aria-hidden="true"></i> Agenda Estratégica Beauty Growth</strong>
+                    <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+                      <a href="https://wa.me/19292788261?text=${waMsg}" target="_blank" rel="noopener noreferrer" style="font-size:0.78rem; font-weight:700; color:#34D399; text-decoration:underline;">Confirmar por WhatsApp ↗</a>
+                      <a href="${calUrl}" target="_blank" rel="noopener noreferrer" style="font-size:0.78rem; font-weight:700; color:#C4B5FD; text-decoration:underline;">Abrir calendario ↗</a>
+                    </div>
+                  </div>
+                  <iframe src="${calUrl}" title="Calendario Beauty Growth" style="width:100%; min-height:660px; border:0; background:#fff;" loading="lazy" allow="camera; microphone; autoplay"></iframe>
+                </div>`;
+              calHost.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+          } catch (err) {
+            if (statusEl) {
+              statusEl.style.display = 'block';
+              statusEl.style.background = 'rgba(239, 68, 68, 0.14)';
+              statusEl.style.border = '1px solid rgba(239, 68, 68, 0.45)';
+              statusEl.style.color = '#FCA5A5';
+              statusEl.textContent = err.message || 'Error de conexión. Intenta nuevamente o contáctanos por WhatsApp.';
+            }
+          } finally {
+            if (submitBtn) {
+              submitBtn.disabled = false;
+              submitBtn.innerHTML = originalHtml;
+            }
+          }
+        });
+      }
+
+      wireBeautyForm('beauty-funnel-form', 'beauty-funnel-calendar-host');
+      wireBeautyForm('beauty-modal-form', 'beauty-modal-calendar-host');
+    })();
+  </script>
+</body>
+</html>

@@ -3630,6 +3630,70 @@
       </div>
     </div>
 
+    <!-- Conmutador de Secuencia / Pipeline Activo -->
+    <div class="card p-4 flex flex-wrap items-center justify-between gap-3" style="background:linear-gradient(135deg,#091229,#150d2c); border:1px solid rgba(109,40,217,0.45);">
+      <div>
+        <div class="text-[11px] font-extrabold uppercase tracking-wider text-purple-300">🔀 Selector de Secuencia / Pipeline en CRM</div>
+        <div class="text-xs text-slate-300">Cambia entre el flujo estándar de Sitios Web y la nueva secuencia oficial de <strong>14 etapas Beauty Growth</strong> conectada a GoHighLevel.</div>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <button type="button" id="btn-pipeline-mode-standard" onclick="switchActivePipelineMode('standard')"
+                class="px-3.5 py-2 rounded-xl text-xs font-black bg-cyan-400 text-slate-950 transition shadow">
+          ⚡ Pipeline Sitios Web &amp; Closers (11 Etapas)
+        </button>
+        <button type="button" id="btn-pipeline-mode-beauty" onclick="switchActivePipelineMode('beauty_growth')"
+                class="px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-900 text-purple-200 border border-purple-500/45 hover:border-purple-400 transition">
+          ✨ Secuencia Beauty Growth &amp; Business System (14 Etapas)
+        </button>
+      </div>
+    </div>
+
+    <!-- Tablero Visual Interactivo de la Nueva Secuencia Beauty Growth (14 Etapas — Subcuenta V8tM5xk6xl15wKhbQS0p) -->
+    <div id="beauty-pipeline-board" class="hidden card p-5 space-y-4" style="background:linear-gradient(135deg,#0f0a1f,#17102f); border:1px solid rgba(196,181,253,0.35);">
+      <div class="flex flex-wrap items-start justify-between gap-3 border-b border-purple-500/20 pb-3">
+        <div>
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase" style="background:#6D28D9; color:#ffffff;">SECUENCIA BEAUTY GROWTH (14 ETAPAS)</span>
+            <span id="bg-pipeline-id-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">Pendiente conectar token V8tM5xk6xl15wKhbQS0p</span>
+            <span id="bg-location-id-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-slate-900 text-purple-200 border border-purple-500/30">Subcuenta Oficial: V8tM5xk6xl15wKhbQS0p (Beauty Growth · Miami, FL)</span>
+          </div>
+          <h3 class="text-base font-black text-white">✨ Pipeline Beauty Growth &amp; Business System (Sección 7.3 del Plan)</h3>
+          <p class="text-xs text-slate-300">Socio &amp; Admin: <strong class="text-purple-200">Jhonkelwins David Becerra Cañas</strong> (<code class="text-purple-300">dbecerra@agenciaprosperia.com</code>). Todos los leads de <code class="text-purple-300">/beautygrowth</code> y esta secuencia sincronizan exclusivamente con la subcuenta <code class="text-emerald-300">V8tM5xk6xl15wKhbQS0p</code>.</p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <a id="bg-ghl-open-link" href="https://crm.agenciaprosperia.com/v2/location/V8tM5xk6xl15wKhbQS0p/opportunities/list" target="_blank" rel="noopener"
+             class="px-3 py-2 rounded-xl text-xs font-bold bg-purple-600/30 text-purple-100 border border-purple-400/50 hover:bg-purple-600/50 transition no-underline">
+            ↗ Abrir Subcuenta V8tM5xk6xl15wKhbQS0p en CRM
+          </a>
+          <a href="/beautygrowth" target="_blank" rel="noopener"
+             class="px-3 py-2 rounded-xl text-xs font-bold bg-slate-900 text-purple-200 border border-purple-500/35 hover:border-purple-300 no-underline">
+            🌐 Ver Embudo /beautygrowth
+          </a>
+        </div>
+      </div>
+
+      <!-- Barra de Conexión Directa a la Nueva Subcuenta V8tM5xk6xl15wKhbQS0p -->
+      <div id="bg-token-connect-bar" class="p-3.5 rounded-xl bg-slate-950/80 border border-purple-500/35 flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+        <div class="text-xs text-slate-300 leading-relaxed">
+          <strong class="text-purple-200">🔑 Conexión Directa a Subcuenta <code>V8tM5xk6xl15wKhbQS0p</code> (Beauty Growth):</strong>
+          En GoHighLevel entra a la subcuenta <strong>Beauty Growth</strong> &rarr; <strong>Configuración</strong> &rarr; <strong>Integraciones Privadas</strong> &rarr; <strong>Crear nueva integración</strong> (permisos: Oportunidades, Contactos, Usuarios, Subcuenta), pega el token <code>pit-...</code> aquí y crea las 14 etapas en 1 clic:
+        </div>
+        <div class="flex flex-wrap sm:flex-nowrap items-center gap-2 flex-shrink-0">
+          <input id="bg-private-token-input" type="password" autocomplete="off"
+                 placeholder="pit-... (Token Private Integration de V8tM5xk6xl15wKhbQS0p)"
+                 class="input-dark text-xs py-2 px-3 min-w-[280px]" />
+          <button type="button" onclick="provisionBeautyPipelineFromDashboard(this)"
+                  class="px-3.5 py-2 rounded-xl text-xs font-black bg-emerald-400 text-slate-950 hover:bg-emerald-300 transition shadow whitespace-nowrap">
+            ⚡ Conectar Subcuenta V8tM5xk6xl15wKhbQS0p y Crear 14 Etapas
+          </button>
+        </div>
+      </div>
+
+      <div id="bg-stages-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-2.5">
+        <div class="text-xs text-slate-400 col-span-full py-4 text-center">Cargando las 14 etapas oficiales de Beauty Growth...</div>
+      </div>
+    </div>
+
     <!-- Filtros del Flujo Comercial Canónico -->
     <div class="card p-5 space-y-4">
       <div class="flex flex-wrap items-center justify-between gap-3">
@@ -3655,6 +3719,22 @@
             <option value="No interesado">Salida: No interesado</option>
             <option value="No responde">Salida: No responde</option>
             <option value="Opt-out">Salida: Opt-out / DND</option>
+            <optgroup label="✨ Pipeline Beauty Growth (14 Etapas — Subcuenta V8tM5xk6xl15wKhbQS0p)">
+              <option value="1. Prospecto identificado">1. Prospecto identificado</option>
+              <option value="2. Primer contacto">2. Primer contacto</option>
+              <option value="3. Segundo contacto">3. Segundo contacto</option>
+              <option value="4. Tercer contacto">4. Tercer contacto</option>
+              <option value="5. Respondió / Interesado">5. Respondió / Interesado</option>
+              <option value="6. Seguimiento">6. Seguimiento</option>
+              <option value="7. Lead calificado">7. Lead calificado</option>
+              <option value="8. Reunión agendada">8. Reunión agendada</option>
+              <option value="9. Reunión confirmada">9. Reunión confirmada</option>
+              <option value="10. Reunión realizada">10. Reunión realizada</option>
+              <option value="11. Propuesta enviada">11. Propuesta enviada</option>
+              <option value="12. Negociación activa">12. Negociación activa</option>
+              <option value="13. Ganado / Cierre">13. Ganado / Cierre</option>
+              <option value="14. Perdido / No calificado">14. Perdido / No calificado</option>
+            </optgroup>
           </select>
           <button onclick="loadSalesOsData()" class="btn-ghost px-3 py-2 rounded-xl text-xs font-semibold">
             <i class="fas fa-sync-alt mr-1"></i> Actualizar
@@ -3773,6 +3853,7 @@
                 <option value="Dupla A — Clínicas (Dental, Estética y Capilar)">🦷 Dupla A — Clínicas (Dental, Estética, Capilar)</option>
                 <option value="Dupla B — Servicios Locales & Agenda">🔧 Dupla B — Servicios Locales & Agenda</option>
                 <option value="Dupla C — Profesionales, Consultores & Academias">🎓 Dupla C — Profesionales, Consultores & Academias</option>
+                <option value="Vertical Beauty Growth — Setters & Closers (Jhonkelwins Becerra)">✨ Vertical Beauty Growth — Setters & Closers (Jhonkelwins Becerra)</option>
                 <option value="Supervisión General">🛡️ Supervisión General</option>
                 <option value="Operaciones & QA (10 Ingenieros)">⚙️ Operaciones & QA (10 Ingenieros)</option>
               </select>
@@ -3799,6 +3880,7 @@
                 <option value="Dupla A">Solo Dupla A (Clínicas)</option>
                 <option value="Dupla B">Solo Dupla B (Servicios Locales)</option>
                 <option value="Dupla C">Solo Dupla C (Profesionales)</option>
+                <option value="Beauty Growth">Solo Vertical Beauty Growth (Setters & Closers)</option>
               </select>
             </div>
             <div>
@@ -3883,6 +3965,22 @@
             <option value="No cumple perfil">Salida: No cumple perfil</option>
             <option value="Opt-out">Salida: Opt-out / Baja DND</option>
             <option value="Venta perdida">Salida: Venta perdida</option>
+            <optgroup label="✨ Pipeline Beauty Growth (14 Etapas — Subcuenta V8tM5xk6xl15wKhbQS0p)">
+              <option value="1. Prospecto identificado">1. Prospecto identificado</option>
+              <option value="2. Primer contacto">2. Primer contacto</option>
+              <option value="3. Segundo contacto">3. Segundo contacto</option>
+              <option value="4. Tercer contacto">4. Tercer contacto</option>
+              <option value="5. Respondió / Interesado">5. Respondió / Interesado</option>
+              <option value="6. Seguimiento">6. Seguimiento</option>
+              <option value="7. Lead calificado">7. Lead calificado</option>
+              <option value="8. Reunión agendada">8. Reunión agendada</option>
+              <option value="9. Reunión confirmada">9. Reunión confirmada</option>
+              <option value="10. Reunión realizada">10. Reunión realizada</option>
+              <option value="11. Propuesta enviada">11. Propuesta enviada</option>
+              <option value="12. Negociación activa">12. Negociación activa</option>
+              <option value="13. Ganado / Cierre">13. Ganado / Cierre</option>
+              <option value="14. Perdido / No calificado">14. Perdido / No calificado</option>
+            </optgroup>
           </select>
         </div>
         <div>
@@ -3893,6 +3991,12 @@
             <option value="MAQUINA_1490">🔥 Caja 3: Máquina 3 en 1 — US$1,490 ($745 hoy + $745 día 15)</option>
             <option value="RESCATE_197">🛟 Plan Rescate Micro-PYME — US$197 ($100 hoy + $97 entrega)</option>
             <option value="SVE90_CORP">🏛️ Escalamiento Corporativo SVE90 (Con Dirección)</option>
+            <optgroup label="✨ Paquetes Beauty Growth">
+              <option value="BEAUTY_BOOST_1499">✨ Beauty Boost — US$1,499/mes</option>
+              <option value="BEAUTY_ELEVATE_2499">✨ Beauty Elevate — US$2,499/mes (12 Piezas + Recuperación)</option>
+              <option value="BEAUTY_EMPIRE_3499">✨ Beauty Empire — US$3,499/mes (24 Piezas + Academias + Closer)</option>
+              <option value="BEAUTY_HIGHTICKET_5000">✨ Beauty High-Ticket FL — US$5,000/mes</option>
+            </optgroup>
           </select>
         </div>
       </div>
@@ -3909,6 +4013,7 @@
             <option value="inmobiliaria_bienes_raices">🏢 Inmobiliaria / Bienes Raíces</option>
             <option value="profesionales_consultoria_legal">⚖️ Profesionales / Consultoría / Legal</option>
             <option value="academia_educacion_cursos">🎓 Academia / Cursos / Educación</option>
+            <option value="beauty_growth_salon_spa">✨ Beauty Growth · Salones, Spas &amp; Academias</option>
           </select>
         </div>
       </div>
@@ -3974,6 +4079,12 @@
             <option value="ANUAL_990">⭐ Caja 2: Pack Estrella Anual (Total US$990)</option>
             <option value="MAQUINA_1490">🔥 Caja 3: Máquina Completa 3 en 1 (Total US$1,490)</option>
             <option value="RESCATE_197">🛟 Plan Rescate Micro-PYME (Total US$197)</option>
+            <optgroup label="✨ Paquetes Beauty Growth">
+              <option value="BEAUTY_BOOST_1499">✨ Beauty Boost (US$1,499/mes)</option>
+              <option value="BEAUTY_ELEVATE_2499">✨ Beauty Elevate (US$2,499/mes)</option>
+              <option value="BEAUTY_EMPIRE_3499">✨ Beauty Empire (US$3,499/mes)</option>
+              <option value="BEAUTY_HIGHTICKET_5000">✨ Beauty High-Ticket FL (US$5,000/mes)</option>
+            </optgroup>
           </select>
         </div>
         <div>
@@ -4041,6 +4152,7 @@
             <option value="inmobiliaria_bienes_raices">🏢 Inmobiliaria / Bienes Raíces</option>
             <option value="profesionales_consultoria_legal">⚖️ Abogados / Contadores / Consultoría</option>
             <option value="academia_educacion_cursos">🎓 Academia / Cursos / Educación</option>
+            <option value="beauty_growth_salon_spa">✨ Beauty Growth · Salones, Spas &amp; Academias</option>
           </select>
         </div>
         <div>
@@ -4048,6 +4160,22 @@
           <select id="cnew-stage" class="input-dark text-xs py-2">
             <option value="Primer contacto" selected>🟢 Paso 2: Primer Contacto (Ya hablé con él → Directo a Mi Pipeline &amp; CRM)</option>
             <option value="Lead identificado">⏳ Paso 1: En Mi Lista de Llamadas (Aún por llamar)</option>
+            <optgroup label="✨ Secuencia Beauty Growth (14 Etapas Oficiales)">
+              <option value="1. Prospecto identificado">1. Prospecto identificado (Setter)</option>
+              <option value="2. Primer contacto">2. Primer contacto (Setter)</option>
+              <option value="3. Segundo contacto">3. Segundo contacto (Setter)</option>
+              <option value="4. Tercer contacto">4. Tercer contacto (Setter)</option>
+              <option value="5. Respondió / Interesado">5. Respondió / Interesado (Setter / Automático)</option>
+              <option value="6. Seguimiento">6. Seguimiento (Setter / Automático)</option>
+              <option value="7. Lead calificado">7. Lead calificado (Setter)</option>
+              <option value="8. Reunión agendada">8. Reunión agendada (Setter / Automático)</option>
+              <option value="9. Reunión confirmada">9. Reunión confirmada (Setter / Automático)</option>
+              <option value="10. Reunión realizada">10. Reunión realizada (Closer)</option>
+              <option value="11. Propuesta enviada">11. Propuesta enviada (Closer)</option>
+              <option value="12. Negociación activa">12. Negociación activa (Closer)</option>
+              <option value="13. Ganado / Cierre">13. Ganado / Cierre (Closer -&gt; Operaciones)</option>
+              <option value="14. Perdido / No calificado">14. Perdido / No calificado (Re-nurturing futuro)</option>
+            </optgroup>
           </select>
         </div>
       </div>
@@ -4335,6 +4463,8 @@ function renderAvatarHtml(u, sizePx = 36) {
       const ceoPanel = document.getElementById('ceo-antipato-panel');
       if (ceoPanel) ceoPanel.style.display = 'none';
       showSection('call-queue');
+    } else if (currentUser && ((currentUser.email || '').toLowerCase() === 'dbecerra@agenciaprosperia.com' || (currentUser.dupla || '').includes('Beauty Growth'))) {
+      showSection('sales-os');
     }
   } catch {
     localStorage.removeItem('prosper_token');
@@ -4359,9 +4489,14 @@ function populateUserUI(u) {
     if (el) el.textContent = u.name || 'Usuario';
   });
   const planBadge = document.getElementById('user-plan-badge');
-  if (planBadge) planBadge.textContent = (u.role === 'admin' ? 'CEO / ADMIN' : (u.dupla || 'CLOSER ACTIVO'));
+  if (planBadge) planBadge.textContent = (u.role === 'admin' ? ((u.dupla || '').includes('Beauty Growth') ? 'ADMIN BEAUTY GROWTH' : 'CEO / ADMIN') : (u.dupla || 'CLOSER ACTIVO'));
   const settingsEmail = document.getElementById('settings-email');
   if (settingsEmail) settingsEmail.textContent = u.email || '';
+  if ((u.email || '').toLowerCase() === 'dbecerra@agenciaprosperia.com' || (u.dupla || '').includes('Beauty Growth')) {
+    if (typeof switchActivePipelineMode === 'function') {
+      switchActivePipelineMode('beauty_growth', true);
+    }
+  }
 
   const resolvedCalUrl = getCloserCalendarUrl(u);
   ['s-calendar-url', 'my-ghl-calendar-url'].forEach(id => {
@@ -5422,12 +5557,206 @@ document.querySelectorAll('dialog.sales-dialog').forEach((dialog) => {
   }
 });
 
+let salesOsCatalog = null;
+let activePipelineMode = 'standard';
+
+const CANONICAL_STAGE_ORDER = [
+  'Lead identificado',
+  'Primer contacto',
+  'Conversación',
+  'Calificado',
+  'Diagnóstico agendado',
+  'Demo realizada',
+  'Propuesta enviada',
+  'Pago pendiente',
+  'Pago confirmado',
+  'Implementación',
+  'Entregado'
+];
+
+const BEAUTY_STAGE_ORDER = [
+  '1. Prospecto identificado',
+  '2. Primer contacto',
+  '3. Segundo contacto',
+  '4. Tercer contacto',
+  '5. Respondió / Interesado',
+  '6. Seguimiento',
+  '7. Lead calificado',
+  '8. Reunión agendada',
+  '9. Reunión confirmada',
+  '10. Reunión realizada',
+  '11. Propuesta enviada',
+  '12. Negociación activa',
+  '13. Ganado / Cierre',
+  '14. Perdido / No calificado'
+];
+
+function isBeautyLead(l) {
+  if (!l) return false;
+  const st = l.pipeline_stage || '';
+  const src = (l.source || '').toLowerCase();
+  const niche = (l.niche || '').toLowerCase();
+  const offer = (l.offer_version || '').toUpperCase();
+  const tpl = (l.selected_template || '').toLowerCase();
+  const owner = (l.owner_id || '').toLowerCase();
+  return (
+    BEAUTY_STAGE_ORDER.includes(st) ||
+    src.includes('beauty') ||
+    niche.includes('beauty') ||
+    offer.startsWith('BEAUTY_') ||
+    tpl.includes('beauty') ||
+    owner === 'dbecerra@agenciaprosperia.com'
+  );
+}
+
+function switchActivePipelineMode(mode, silent = false) {
+  activePipelineMode = mode === 'beauty_growth' ? 'beauty_growth' : 'standard';
+  const btnStd = document.getElementById('btn-pipeline-mode-standard');
+  const btnBg = document.getElementById('btn-pipeline-mode-beauty');
+  const board = document.getElementById('beauty-pipeline-board');
+  if (btnStd && btnBg) {
+    if (activePipelineMode === 'beauty_growth') {
+      btnStd.className = 'px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-900 text-cyan-200 border border-cyan-500/35 hover:border-cyan-400 transition';
+      btnBg.className = 'px-3.5 py-2 rounded-xl text-xs font-black text-white transition shadow';
+      btnBg.style.background = 'linear-gradient(135deg,#6D28D9,#7C3AED)';
+      btnBg.style.border = '1px solid #C4B5FD';
+    } else {
+      btnStd.className = 'px-3.5 py-2 rounded-xl text-xs font-black bg-cyan-400 text-slate-950 transition shadow';
+      btnBg.className = 'px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-900 text-purple-200 border border-purple-500/45 hover:border-purple-400 transition';
+      btnBg.style.background = '';
+    }
+  }
+  if (board) {
+    board.classList.toggle('hidden', activePipelineMode !== 'beauty_growth');
+  }
+  if (!silent) {
+    const sel = document.getElementById('sos-stage-filter');
+    if (sel) sel.value = 'active_pipeline';
+    renderBeautyPipelineBoard();
+    renderSalesOsTable();
+  }
+}
+
+function filterByBeautyStage(stageName) {
+  const sel = document.getElementById('sos-stage-filter');
+  if (sel && stageName) {
+    sel.value = stageName;
+  }
+  renderBeautyPipelineBoard();
+  renderSalesOsTable();
+}
+
+function renderBeautyPipelineBoard() {
+  const grid = document.getElementById('bg-stages-grid');
+  if (!grid) return;
+
+  const pipInfo = salesOsCatalog?.beauty_pipeline || {};
+  const pipBadge = document.getElementById('bg-pipeline-id-badge');
+  const locBadge = document.getElementById('bg-location-id-badge');
+  const openLink = document.getElementById('bg-ghl-open-link');
+  if (pipBadge) {
+    if (pipInfo.pipeline_id) {
+      pipBadge.textContent = `ID GHL: ${pipInfo.pipeline_id} (14 etapas activas)`;
+      pipBadge.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40';
+    } else {
+      pipBadge.textContent = 'Pendiente conectar token V8tM5xk6xl15wKhbQS0p';
+      pipBadge.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40';
+    }
+  }
+  if (locBadge) {
+    locBadge.textContent = `Subcuenta Oficial: ${pipInfo.subaccount_id || 'V8tM5xk6xl15wKhbQS0p'} (Beauty Growth · Miami, FL)`;
+  }
+  if (openLink && pipInfo.crm_url) {
+    openLink.href = pipInfo.crm_url;
+  }
+
+  const fallbackMeta = BEAUTY_STAGE_ORDER.map((nm, i) => ({
+    number: i + 1,
+    name: nm,
+    owner: i < 4 || i === 6 ? 'Setter' : i < 9 ? 'Setter / Automático' : i < 12 ? 'Closer' : i === 12 ? 'Closer -> Operaciones' : 'Re-nurturing futuro',
+    description: '',
+    ghl_stage_id: ''
+  }));
+  const stages = (pipInfo.stages && pipInfo.stages.length) ? pipInfo.stages : fallbackMeta;
+  const activeFilter = document.getElementById('sos-stage-filter')?.value || '';
+
+  grid.innerHTML = stages.map(st => {
+    const count = salesOsLeads.filter(l => (l.pipeline_stage || '') === st.name).length;
+    const isSelected = activeFilter === st.name;
+    const isWon = st.number === 13;
+    const isLost = st.number === 14;
+    const borderCss = isSelected
+      ? 'border:2px solid #00e5ff; background:rgba(0,229,255,0.12);'
+      : isWon
+      ? 'border:1px solid rgba(16,185,129,0.45); background:rgba(6,78,59,0.28);'
+      : isLost
+      ? 'border:1px solid rgba(244,63,94,0.35); background:rgba(76,5,25,0.22);'
+      : 'border:1px solid rgba(196,181,253,0.25); background:rgba(17,24,39,0.78);';
+    const shortId = st.ghl_stage_id ? st.ghl_stage_id.slice(0, 8) + '…' : 'Sync pendiente';
+    return `<div class="p-3 rounded-xl flex flex-col justify-between gap-2 transition" style="${borderCss}">
+      <div>
+        <div class="flex items-center justify-between gap-1 mb-1">
+          <span class="px-2 py-0.5 rounded-full text-[10px] font-black" style="background:rgba(109,40,217,0.45); color:#ddd6fe;">${esc(st.owner)}</span>
+          <span class="text-xs font-black ${count > 0 ? 'text-emerald-400' : 'text-slate-400'}">${count}</span>
+        </div>
+        <div class="text-xs font-black text-white leading-snug">${esc(st.name)}</div>
+        ${st.description ? `<div class="text-[10px] text-slate-400 mt-1 leading-snug">${esc(st.description)}</div>` : ''}
+      </div>
+      <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between gap-1">
+        <span class="text-[9px] font-mono text-slate-500" title="${esc(st.ghl_stage_id || '')}">${esc(shortId)}</span>
+        <div class="flex items-center gap-1">
+          <button type="button" onclick="filterByBeautyStage('${esc(st.name)}')" class="px-2 py-1 rounded-md text-[10px] font-bold bg-slate-800 text-cyan-300 hover:bg-slate-700" title="Ver prospectos en esta etapa">
+            Filtrar
+          </button>
+          <button type="button" onclick="openQuickCloserLeadDialog('${esc(st.name)}')" class="px-2 py-1 rounded-md text-[10px] font-black bg-purple-600 text-white hover:bg-purple-500" title="Crear prospecto directo en esta etapa">
+            + Alta
+          </button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function provisionBeautyPipelineFromDashboard(btnEl) {
+  if (btnEl) btnEl.disabled = true;
+  const tokInput = document.getElementById('bg-private-token-input');
+  const pastedToken = tokInput ? tokInput.value.trim() : '';
+  try {
+    const res = await fetch('/api/sales-os/beauty-growth/provision-ghl', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+      body: JSON.stringify({ token: pastedToken, location_id: 'V8tM5xk6xl15wKhbQS0p' })
+    });
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      alert(data.detail || data.error || 'No se pudo conectar con la subcuenta V8tM5xk6xl15wKhbQS0p.');
+      return;
+    }
+    if (tokInput) tokInput.value = '';
+    const toastBanner = document.getElementById('crm-sync-toast-banner');
+    if (toastBanner) {
+      toastBanner.innerHTML = `<span>🟢 <strong>${esc(data.message)}</strong> (ID: ${esc(data.data?.pipeline_id || '')})</span><button type="button" onclick="this.parentElement.classList.add('hidden')" class="text-emerald-300 hover:text-white text-xs font-black px-2">✕</button>`;
+      toastBanner.classList.remove('hidden');
+    }
+    await loadSalesOsData();
+  } catch (err) {
+    alert('Error de conexión al sincronizar la subcuenta V8tM5xk6xl15wKhbQS0p con GoHighLevel.');
+  } finally {
+    if (btnEl) btnEl.disabled = false;
+  }
+}
+
 async function loadSalesOsData() {
   try {
-    const [mRes, lRes] = await Promise.all([
+    const [mRes, lRes, cRes] = await Promise.all([
       fetch('/api/sales-os/metrics', { headers: { Authorization: 'Bearer ' + token } }),
-      fetch('/api/leads?limit=600', { headers: { Authorization: 'Bearer ' + token } })
+      fetch('/api/leads?limit=600', { headers: { Authorization: 'Bearer ' + token } }),
+      fetch('/api/sales-os/catalog', { headers: { Authorization: 'Bearer ' + token } })
     ]);
+    if (cRes.ok) {
+      const cData = await cRes.json();
+      salesOsCatalog = cData.data || null;
+    }
     if (mRes.ok) {
       const mData = await mRes.json();
       salesOsMetrics = mData.data || {};
@@ -5449,6 +5778,7 @@ async function loadSalesOsData() {
     if (lRes.ok) {
       const lData = await lRes.json();
       salesOsLeads = lData.data?.leads || [];
+      renderBeautyPipelineBoard();
       renderSalesOsTable();
       renderCallQueueTable();
     }
@@ -5461,31 +5791,37 @@ function renderSalesOsTable() {
   const tbody = document.getElementById('sos-leads-tbody');
   if (!tbody) return;
   const stageFilter = document.getElementById('sos-stage-filter')?.value ?? 'active_pipeline';
-  const inactiveStages = ['Lead identificado', 'No responde', 'No interesado', 'No cumple perfil', 'Opt-out', 'Venta perdida'];
+  const inactiveStages = ['Lead identificado', 'No responde', 'No interesado', 'No cumple perfil', 'Opt-out', 'Venta perdida', '14. Perdido / No calificado'];
 
   const rows = salesOsLeads.filter(l => {
     const st = l.pipeline_stage || 'Lead identificado';
     if (stageFilter === 'active_pipeline') {
-      return !inactiveStages.includes(st);
+      if (activePipelineMode === 'beauty_growth') {
+        return isBeautyLead(l) && st !== '14. Perdido / No calificado' && st !== 'Opt-out' && st !== 'Venta perdida';
+      }
+      return !inactiveStages.includes(st) && st !== '1. Prospecto identificado';
     }
-    if (!stageFilter) return true;
+    if (!stageFilter) {
+      return activePipelineMode === 'beauty_growth' ? isBeautyLead(l) : true;
+    }
     return st === stageFilter;
   });
 
   // Actualizar el badge del menú lateral con la cantidad real de prospectos activos en el Pipeline (Paso 2+)
-  const activePipelineCount = salesOsLeads.filter(l => !inactiveStages.includes(l.pipeline_stage || 'Lead identificado')).length;
+  const activePipelineCount = salesOsLeads.filter(l => !inactiveStages.includes(l.pipeline_stage || 'Lead identificado') && l.pipeline_stage !== '1. Prospecto identificado').length;
   const navSalesOsBadge = document.querySelector('#nav-sales-os span.ml-auto');
   if (navSalesOsBadge) {
     navSalesOsBadge.textContent = activePipelineCount > 0 ? `${activePipelineCount} activos` : '15%';
   }
 
   if (!rows.length) {
+    const defaultCreateStage = activePipelineMode === 'beauty_growth' ? '5. Respondió / Interesado' : 'Primer contacto';
     tbody.innerHTML = `<tr><td colspan="8" class="text-center py-10 text-slate-400">
-      <div class="font-bold text-white text-sm mb-1">Aún no tienes prospectos activos en el Paso 2 (Primer Contacto) o superior.</div>
-      <div class="text-xs text-slate-400 mb-3">Ve a <strong>📞 Mi Lista de Llamadas</strong> y cuando un prospecto conteste haz clic en <strong>"🟢 Sí Contestó → Mover a Paso 2"</strong>, o da de alta un prospecto nuevo aquí mismo:</div>
+      <div class="font-bold text-white text-sm mb-1">${activePipelineMode === 'beauty_growth' ? 'Aún no hay prospectos en este filtro de la Secuencia Beauty Growth (14 Etapas).' : 'Aún no tienes prospectos activos en el Paso 2 (Primer Contacto) o superior.'}</div>
+      <div class="text-xs text-slate-400 mb-3">${activePipelineMode === 'beauty_growth' ? 'Registra un salón, spa o academia para probar y sincronizar en tiempo real con el nuevo Pipeline Beauty Growth en GoHighLevel:' : 'Ve a <strong>📞 Mi Lista de Llamadas</strong> y cuando un prospecto conteste haz clic en <strong>"🟢 Sí Contestó → Mover a Paso 2"</strong>, o da de alta un prospecto nuevo aquí mismo:'}</div>
       <div class="flex justify-center gap-2">
         <button type="button" onclick="showSection('call-queue')" class="px-3.5 py-2 rounded-xl text-xs font-black bg-cyan-400 text-slate-950">📞 Ir a Mi Lista de Llamadas (Paso 1)</button>
-        <button type="button" onclick="openQuickCloserLeadDialog('Primer contacto')" class="px-3.5 py-2 rounded-xl text-xs font-black bg-emerald-400 text-slate-950">➕ Dar de Alta Nuevo Prospecto en Paso 2</button>
+        <button type="button" onclick="openQuickCloserLeadDialog('${defaultCreateStage}')" class="px-3.5 py-2 rounded-xl text-xs font-black bg-emerald-400 text-slate-950">➕ Dar de Alta Nuevo Prospecto</button>
       </div>
     </td></tr>`;
     return;
@@ -5496,6 +5832,8 @@ function renderSalesOsTable() {
     const isPaid = Number(l.amount_collected || 0) > 0 && (l.invoice_id || '').trim() !== '';
     const stageBadgeColor = isPaid
       ? 'background:rgba(16,185,129,0.18); color:#34d399; border:1px solid rgba(16,185,129,0.35);'
+      : BEAUTY_STAGE_ORDER.includes(stage)
+      ? 'background:rgba(109,40,217,0.28); color:#e9d5ff; border:1px solid rgba(196,181,253,0.45);'
       : stage.includes('Propuesta') || stage.includes('Demo')
       ? 'background:rgba(0,229,255,0.14); color:#00e5ff; border:1px solid rgba(0,229,255,0.3);'
       : 'background:rgba(16,185,129,0.14); color:#6ee7b7; border:1px solid rgba(16,185,129,0.3);';
@@ -5537,10 +5875,13 @@ function renderSalesOsTable() {
       </td>
       <td class="px-4 py-3">
         <div class="flex flex-wrap gap-1.5">
-          <button onclick="openStageDialog(${l.id})" class="px-2.5 py-1.5 rounded-lg text-[11px] font-semibold bg-slate-800 text-slate-200 border border-slate-700 hover:border-cyan-400" title="Cambiar etapa y propuesta en CRM ProsperIA">
+          <button type="button" onclick="advanceLeadStageOneClick(${l.id})" class="px-2.5 py-1.5 rounded-lg text-[11px] font-bold bg-cyan-500/15 text-cyan-300 border border-cyan-500/35 hover:bg-cyan-500/25" title="Avanzar a la siguiente etapa en GHL">
+            ⏭️ Avanzar
+          </button>
+          <button type="button" onclick="openStageDialog(${l.id})" class="px-2.5 py-1.5 rounded-lg text-[11px] font-semibold bg-slate-800 text-slate-200 border border-slate-700 hover:border-cyan-400" title="Cambiar etapa y propuesta en CRM ProsperIA">
             📋 Etapa / Prop.
           </button>
-          <button onclick="openPaymentDialog(${l.id})" class="px-2.5 py-1.5 rounded-lg text-[11px] font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/25">
+          <button type="button" onclick="openPaymentDialog(${l.id})" class="px-2.5 py-1.5 rounded-lg text-[11px] font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/25">
             💳 Verificar Pago
           </button>
         </div>
@@ -5549,30 +5890,18 @@ function renderSalesOsTable() {
   }).join('');
 }
 
-const CANONICAL_STAGE_ORDER = [
-  'Lead identificado',
-  'Primer contacto',
-  'Conversación',
-  'Calificado',
-  'Diagnóstico agendado',
-  'Demo realizada',
-  'Propuesta enviada',
-  'Pago pendiente',
-  'Pago confirmado',
-  'Implementación',
-  'Entregado'
-];
-
 async function advanceLeadStageOneClick(leadId) {
   const lead = salesOsLeads.find(x => x.id === leadId);
   if (!lead) return;
   const currentStage = lead.pipeline_stage || 'Lead identificado';
-  const idx = CANONICAL_STAGE_ORDER.indexOf(currentStage);
-  const nextStage = (idx >= 0 && idx < CANONICAL_STAGE_ORDER.length - 1)
-    ? CANONICAL_STAGE_ORDER[idx + 1]
-    : 'Propuesta enviada';
+  const useBeautyOrder = isBeautyLead(lead) || activePipelineMode === 'beauty_growth';
+  const stageList = useBeautyOrder ? BEAUTY_STAGE_ORDER.slice(0, 13) : CANONICAL_STAGE_ORDER;
+  const idx = stageList.indexOf(currentStage);
+  const nextStage = (idx >= 0 && idx < stageList.length - 1)
+    ? stageList[idx + 1]
+    : (useBeautyOrder ? '5. Respondió / Interesado' : 'Propuesta enviada');
 
-  if (nextStage === 'Pago confirmado') {
+  if (nextStage === 'Pago confirmado' || nextStage === '13. Ganado / Cierre') {
     openPaymentDialog(leadId);
     return;
   }
@@ -5583,9 +5912,9 @@ async function advanceLeadStageOneClick(leadId) {
       headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
       body: JSON.stringify({
         pipeline_stage: nextStage,
-        offer_version: lead.offer_version || 'EXPRESS_497',
-        quoted_amount: lead.quoted_amount && lead.quoted_amount > 0 ? lead.quoted_amount : 497,
-        selected_template: lead.selected_template || 'clinica_dental_estetica',
+        offer_version: lead.offer_version || (useBeautyOrder ? 'BEAUTY_ELEVATE_2499' : 'EXPRESS_497'),
+        quoted_amount: lead.quoted_amount && lead.quoted_amount > 0 ? lead.quoted_amount : (useBeautyOrder ? 2499 : 497),
+        selected_template: lead.selected_template || (useBeautyOrder ? 'beauty_growth_salon_spa' : 'clinica_dental_estetica'),
         next_action_at: lead.next_action_at || new Date(Date.now() + 86400000).toISOString().slice(0, 16),
         next_action_note: lead.next_action_note || `Avance rápido a ${nextStage} (Sincronizado con CRM ProsperIA)`
       })
@@ -5594,6 +5923,11 @@ async function advanceLeadStageOneClick(leadId) {
     if (!res.ok || !data.success) {
       alert(data.detail || data.error || 'No se pudo avanzar la etapa en CRM ProsperIA.');
       return;
+    }
+    const toastBanner = document.getElementById('crm-sync-toast-banner');
+    if (toastBanner) {
+      toastBanner.innerHTML = `<span>🟢 <strong>Avanzado a ${esc(nextStage)}</strong> y sincronizado en GoHighLevel.</span><button type="button" onclick="this.parentElement.classList.add('hidden')" class="text-emerald-300 hover:text-white text-xs font-black px-2">✕</button>`;
+      toastBanner.classList.remove('hidden');
     }
     await loadSalesOsData();
     await loadLeaderboardAndKpis();
@@ -5605,7 +5939,16 @@ async function advanceLeadStageOneClick(leadId) {
 async function markPaymentPendingInCrm() {
   const leadId = document.getElementById('pay-lead-id').value;
   const offerCode = document.getElementById('pay-offer-version').value || 'EXPRESS_497';
-  const mapPrice = { EXPRESS_497: 497, ANUAL_990: 990, MAQUINA_1490: 1490, RESCATE_197: 197 };
+  const mapPrice = {
+    EXPRESS_497: 497,
+    ANUAL_990: 990,
+    MAQUINA_1490: 1490,
+    RESCATE_197: 197,
+    BEAUTY_BOOST_1499: 1499,
+    BEAUTY_ELEVATE_2499: 2499,
+    BEAUTY_EMPIRE_3499: 3499,
+    BEAUTY_HIGHTICKET_5000: 5000,
+  };
   try {
     const res = await fetch(`/api/sales-os/leads/${leadId}/stage`, {
       method: 'PUT',
@@ -5646,7 +5989,17 @@ function openStageDialog(leadId) {
 }
 
 function syncOfferDefaultPrice() {
-  const map = { EXPRESS_497: 497, ANUAL_990: 990, MAQUINA_1490: 1490, RESCATE_197: 197, SVE90_CORP: 5000 };
+  const map = {
+    EXPRESS_497: 497,
+    ANUAL_990: 990,
+    MAQUINA_1490: 1490,
+    RESCATE_197: 197,
+    SVE90_CORP: 5000,
+    BEAUTY_BOOST_1499: 1499,
+    BEAUTY_ELEVATE_2499: 2499,
+    BEAUTY_EMPIRE_3499: 3499,
+    BEAUTY_HIGHTICKET_5000: 5000,
+  };
   const code = document.getElementById('stage-offer-val').value;
   if (map[code]) document.getElementById('stage-quoted-val').value = map[code];
 }
@@ -5696,7 +6049,14 @@ function openPaymentDialog(leadId) {
   document.getElementById('pay-dialog-lead-label').textContent = `Cliente: ${lead.business_name || lead.company || lead.name} · Vendedor: ${lead.owner_id || currentUser?.email}`;
   document.getElementById('pay-invoice-id').value = lead.invoice_id || '';
   document.getElementById('pay-offer-version').value = lead.offer_version || 'EXPRESS_497';
-  const defaultCollect = lead.offer_version === 'ANUAL_990' ? 495 : lead.offer_version === 'MAQUINA_1490' ? 745 : lead.offer_version === 'RESCATE_197' ? 100 : 250;
+  const defaultCollect = lead.offer_version === 'ANUAL_990' ? 495
+    : lead.offer_version === 'MAQUINA_1490' ? 745
+    : lead.offer_version === 'RESCATE_197' ? 100
+    : lead.offer_version === 'BEAUTY_BOOST_1499' ? 1499
+    : lead.offer_version === 'BEAUTY_ELEVATE_2499' ? 2499
+    : lead.offer_version === 'BEAUTY_EMPIRE_3499' ? 3499
+    : lead.offer_version === 'BEAUTY_HIGHTICKET_5000' ? 5000
+    : 250;
   document.getElementById('pay-amount-collected').value = lead.amount_collected > 0 ? lead.amount_collected : defaultCollect;
   previewCommissionMath();
   document.getElementById('paymentVerifyDialog').showModal();
@@ -6267,6 +6627,8 @@ function renderCallQueueTable() {
       srcBadgeHtml = '<span style="background:rgba(245,158,11,0.16); color:#fcd34d; border:1px solid rgba(251,191,36,0.45); padding:1px 7px; border-radius:999px; font-size:10px; font-weight:800;">🏢 COMEX Exportador</span>';
     } else if (lSrc === 'sitioweb_funnel') {
       srcBadgeHtml = '<span style="background:rgba(16,185,129,0.22); color:#6ee7b7; border:1px solid rgba(52,211,153,0.55); padding:1px 7px; border-radius:999px; font-size:10px; font-weight:800;">🔥 Embudo /sitioweb</span>';
+    } else if (lSrc.includes('beautygrowth')) {
+      srcBadgeHtml = '<span style="background:rgba(109,40,217,0.28); color:#c4b5fd; border:1px solid rgba(196,181,253,0.55); padding:1px 7px; border-radius:999px; font-size:10px; font-weight:800;">✨ Beauty Growth</span>';
     }
 
     return `<tr class="table-row" style="${isAlreadyInCrm ? 'background:rgba(16,185,129,0.08);' : ''}">
@@ -6368,8 +6730,18 @@ function openQuickCloserLeadDialog(defaultStage = 'Primer contacto') {
   document.getElementById('cnew-phone').value = '';
   document.getElementById('cnew-email').value = '';
   document.getElementById('cnew-notes').value = '';
+  const tplSel = document.getElementById('cnew-template');
+  if (tplSel && (BEAUTY_STAGE_ORDER.includes(defaultStage) || activePipelineMode === 'beauty_growth')) {
+    tplSel.value = 'beauty_growth_salon_spa';
+  }
   const stageSel = document.getElementById('cnew-stage');
-  if (stageSel) stageSel.value = defaultStage;
+  if (stageSel) {
+    if (defaultStage === 'Primer contacto' && activePipelineMode === 'beauty_growth') {
+      stageSel.value = '5. Respondió / Interesado';
+    } else {
+      stageSel.value = defaultStage;
+    }
+  }
   dlg.showModal();
 }
 
@@ -6400,9 +6772,12 @@ async function submitCloserNewLead() {
       return;
     }
     document.getElementById('closerNewLeadDialog').close();
+    if (BEAUTY_STAGE_ORDER.includes(initial_stage)) {
+      switchActivePipelineMode('beauty_growth', true);
+    }
     await loadSalesOsData();
     await loadLeaderboardAndKpis();
-    if (initial_stage === 'Primer contacto') {
+    if (initial_stage === 'Primer contacto' || BEAUTY_STAGE_ORDER.includes(initial_stage)) {
       showSection('sales-os');
       const toastBanner = document.getElementById('crm-sync-toast-banner');
       if (toastBanner) {

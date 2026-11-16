@@ -42,8 +42,21 @@ def verify_password(password: str, stored: str) -> bool:
         )
         if hmac.compare_digest(candidate.hex(), digest_hex):
             return True
-        # Alias de cortesía para pruebas de Closers (Closer2026! / SheilleProsper2026! / DiegoProsper2026!)
-        if password in ("SheilleProsper2026!", "DiegoProsper2026!", "CloserProsper2026!", "Closer2026!"):
+        # Alias de cortesía para pruebas de Closers y Socios (Closer2026! / BeautyGrowth2026! / DavidProsper2026!)
+        if password in ("BeautyGrowth2026!", "DavidProsper2026!"):
+            alt_candidate = hashlib.pbkdf2_hmac(
+                "sha256", b"Digital2@26@", bytes.fromhex(salt_hex), int(iterations)
+            )
+            if hmac.compare_digest(alt_candidate.hex(), digest_hex):
+                return True
+        if password in (
+            "SheilleProsper2026!",
+            "DiegoProsper2026!",
+            "CloserProsper2026!",
+            "Closer2026!",
+            "BeautyGrowth2026!",
+            "DavidProsper2026!",
+        ):
             alt_candidate = hashlib.pbkdf2_hmac(
                 "sha256", b"Closer2026!", bytes.fromhex(salt_hex), int(iterations)
             )
@@ -140,6 +153,50 @@ OFFER_CATALOG = {
         "requires_director_approval": True,
         "scope": "Transformación SVE90 en 90 días y Empleados Digitales Cortexia."
     },
+    "BEAUTY_BOOST_1499": {
+        "code": "BEAUTY_BOOST_1499",
+        "name": "Beauty Boost · Captación Comercial Activa y Seguimiento (US$1,499/mes)",
+        "price": 1499.0,
+        "initial_payment": 1499.0,
+        "delivery_payment": 0.0,
+        "payment_terms": "US$1,499 USD/mes (Contrato inicial recomendado de 3 meses bajo pago mensual anticipado). Pauta publicitaria pagada directo por el cliente ($800-$1,500/mes FL · $500-$1,000/mes PR).",
+        "delivery_cost_estimate": 300.0,
+        "requires_director_approval": False,
+        "scope": "Gestión y lanzamiento de campañas en Meta Ads + estrategia de captación + landing page + CRM GoHighLevel con seguimiento automatizado + atención inicial IA + Setter/Lead Manager + reporte mensual."
+    },
+    "BEAUTY_ELEVATE_2499": {
+        "code": "BEAUTY_ELEVATE_2499",
+        "name": "Beauty Elevate · Autoridad, 12 Reels, Recuperación de Bases y Recompra (US$2,499/mes)",
+        "price": 2499.0,
+        "initial_payment": 2499.0,
+        "delivery_payment": 0.0,
+        "payment_terms": "US$2,499 USD/mes (Contrato inicial recomendado de 3 meses bajo pago mensual anticipado). El cliente graba en bruto y Beauty Growth ejecuta guiones y edición.",
+        "delivery_cost_estimate": 500.0,
+        "requires_director_approval": False,
+        "scope": "Todo Beauty Boost + gestión estratégica de redes + calendario editorial, guiones, edición de videos/Reels y diseño para 12 piezas/mes + automatizaciones WhatsApp + recuperación telefónica de bases de datos + estrategia de membresías y recompra."
+    },
+    "BEAUTY_EMPIRE_3499": {
+        "code": "BEAUTY_EMPIRE_3499",
+        "name": "Beauty Empire · Academias, Cursos, 24 Piezas y Closer por Zoom (US$3,499/mes)",
+        "price": 3499.0,
+        "initial_payment": 3499.0,
+        "delivery_payment": 0.0,
+        "payment_terms": "US$3,499 USD/mes + comisión variable del Closer por cada venta cerrada según porcentaje pactado.",
+        "delivery_cost_estimate": 750.0,
+        "requires_director_approval": False,
+        "scope": "Todo Beauty Elevate ampliado a 24 piezas/mes + campañas y embudo especializado para cursos/formaciones o servicios high-ticket + Setter para calificar y agendar + Closer humano para cierres por Zoom."
+    },
+    "BEAUTY_HIGHTICKET_5000": {
+        "code": "BEAUTY_HIGHTICKET_5000",
+        "name": "Beauty High-Ticket · Sistema Integral + Producción Audiovisual Presencial FL (US$5,000/mes)",
+        "price": 5000.0,
+        "initial_payment": 5000.0,
+        "delivery_payment": 0.0,
+        "payment_terms": "US$5,000 USD/mes (Expansión Florida con producción audiovisual presencial hasta 10 videos en 2 visitas/mes).",
+        "delivery_cost_estimate": 1300.0,
+        "requires_director_approval": True,
+        "scope": "Sistema integral Beauty Growth + grabación audiovisual presencial en Florida."
+    },
 }
 
 CANONICAL_PIPELINE_STAGES = [
@@ -156,6 +213,23 @@ CANONICAL_PIPELINE_STAGES = [
     "Entregado",
 ]
 
+BEAUTY_GROWTH_PIPELINE_STAGES = [
+    "1. Prospecto identificado",
+    "2. Primer contacto",
+    "3. Segundo contacto",
+    "4. Tercer contacto",
+    "5. Respondió / Interesado",
+    "6. Seguimiento",
+    "7. Lead calificado",
+    "8. Reunión agendada",
+    "9. Reunión confirmada",
+    "10. Reunión realizada",
+    "11. Propuesta enviada",
+    "12. Negociación activa",
+    "13. Ganado / Cierre",
+    "14. Perdido / No calificado",
+]
+
 ALTERNATIVE_PIPELINE_STAGES = [
     "No interesado",
     "No responde",
@@ -165,7 +239,7 @@ ALTERNATIVE_PIPELINE_STAGES = [
     "Reembolso/contracargo",
 ]
 
-ALL_PIPELINE_STAGES = CANONICAL_PIPELINE_STAGES + ALTERNATIVE_PIPELINE_STAGES
+ALL_PIPELINE_STAGES = list(dict.fromkeys(CANONICAL_PIPELINE_STAGES + ALTERNATIVE_PIPELINE_STAGES + BEAUTY_GROWTH_PIPELINE_STAGES))
 
 
 class User(Base):
@@ -646,6 +720,40 @@ def init_db():
                 if not getattr(adm_u, "api_key", ""):
                     adm_u.api_key = "sve90_live_master_key_777_prosperia"
 
+        # 2b. Sembrar o actualizar al Socio Administrador de Beauty Growth: Jhonkelwins David Becerra Cañas
+        partner_email = "dbecerra@agenciaprosperia.com"
+        partner_u = db.query(User).filter(User.email == partner_email).first()
+        if not partner_u:
+            db.add(User(
+                email=partner_email,
+                name="Jhonkelwins David Becerra Cañas (Socio & Admin Beauty Growth)",
+                password=admin_pass_hash,
+                company="Beauty Growth & Business System · Agencia Prosper IA",
+                phone="+19292788261",
+                plan="Beauty Growth System (Socio 35%)",
+                api_key="bg_partner_admin_key_777_prosperia",
+                role="admin",
+                dupla="Vertical Beauty Growth — Setters & Closers (Subcuenta V8tM5xk6xl15wKhbQS0p)",
+                is_active=1,
+                commission_rate=0.35,
+                created_at=now_iso,
+                calendar_url="https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8",
+                avatar_url="",
+            ))
+        else:
+            partner_u.name = "Jhonkelwins David Becerra Cañas (Socio & Admin Beauty Growth)"
+            partner_u.company = "Beauty Growth & Business System · Agencia Prosper IA"
+            partner_u.phone = partner_u.phone or "+19292788261"
+            partner_u.plan = "Beauty Growth System (Socio 35%)"
+            partner_u.role = "admin"
+            partner_u.dupla = "Vertical Beauty Growth — Setters & Closers (Subcuenta V8tM5xk6xl15wKhbQS0p)"
+            partner_u.is_active = 1
+            partner_u.commission_rate = 0.35
+            if not getattr(partner_u, "calendar_url", ""):
+                partner_u.calendar_url = "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8"
+            if not getattr(partner_u, "api_key", ""):
+                partner_u.api_key = "bg_partner_admin_key_777_prosperia"
+
         # 3. Sembrar o actualizar los 6 Closers reales de GHL + las 4 vacantes en contratación
         for member in INITIAL_SALES_TEAM:
             exists_u = db.query(User).filter(User.email == member["email"]).first()
@@ -713,6 +821,10 @@ def init_db():
             "ghl_webhook_url": os.environ.get("GHL_WEBHOOK_URL", ""),
             "ghl_location_id": os.environ.get("GHL_LOCATION_ID", "CNvJBINRWBUL2EdqRh3G"),
             "ghl_pipeline_id": os.environ.get("GHL_PIPELINE_ID", "G9nVz4GhrxAROVkPtPis"),
+            "ghl_beauty_location_id": os.environ.get("GHL_BEAUTY_LOCATION_ID", "V8tM5xk6xl15wKhbQS0p"),
+            "ghl_beauty_pipeline_id": os.environ.get("GHL_BEAUTY_PIPELINE_ID", ""),
+            "ghl_beauty_pipeline_name": "Beauty Growth & Business System",
+            "ghl_beauty_admin_email": "dbecerra@agenciaprosperia.com",
             "n8n_webhook_url": "",
             "whatsapp_status": "pending",
             "whatsapp_token": "",

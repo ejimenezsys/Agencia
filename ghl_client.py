@@ -31,6 +31,29 @@ DEFAULT_LOCATION_ID = "CNvJBINRWBUL2EdqRh3G"
 DEFAULT_PIPELINE_ID = "G9nVz4GhrxAROVkPtPis"        # Ventas Sitios Web & Closers ProsperIA (Exclusivo B2B / Closers)
 DEFAULT_STAGE_ID = "38a46419-b420-49a6-8df6-021cb0467dd0"  # 1. Nuevo Prospecto (/sitioweb)
 
+# Subcuenta y Pipeline dedicados EXCLUSIVAMENTE a la vertical Beauty Growth & Business System
+BEAUTY_LOCATION_ID = "V8tM5xk6xl15wKhbQS0p"
+BEAUTY_PIPELINE_ID = ""   # Se descubre / crea dinámicamente en la subcuenta V8tM5xk6xl15wKhbQS0p
+BEAUTY_PIPELINE_NAME = "Beauty Growth & Business System"
+BEAUTY_PIPELINE_STAGES = [
+    "1. Prospecto identificado",
+    "2. Primer contacto",
+    "3. Segundo contacto",
+    "4. Tercer contacto",
+    "5. Respondió / Interesado",
+    "6. Seguimiento",
+    "7. Lead calificado",
+    "8. Reunión agendada",
+    "9. Reunión confirmada",
+    "10. Reunión realizada",
+    "11. Propuesta enviada",
+    "12. Negociación activa",
+    "13. Ganado / Cierre",
+    "14. Perdido / No calificado",
+]
+BEAUTY_STAGE_MAP = {}
+_BEAUTY_PIPELINE_CACHE = {}
+
 # Pipeline separado para solicitudes de códigos gratuitos / comunidad PassportAI (/codigos)
 CODIGOS_PIPELINE_ID = "SJ4xiMasQ0GZcUNYFgpa"
 CODIGOS_STAGE_ID = "ffd8ae02-c4c0-431c-a827-0e909a80c752"
@@ -88,7 +111,22 @@ TEAM_LABELS = {
 
 
 def _cfg(name: str, default: str = "") -> str:
-    return (os.environ.get(name) or default).strip()
+    val = (os.environ.get(name) or "").strip()
+    if val:
+        return val
+    env_file = os.path.join(os.path.dirname(__file__), ".env")
+    if os.path.exists(env_file):
+        try:
+            with open(env_file, "r", encoding="utf-8") as f:
+                for line in f:
+                    line = line.strip()
+                    if line.startswith(f"{name}="):
+                        parsed = line.split("=", 1)[1].strip().strip("'\"")
+                        if parsed:
+                            return parsed
+        except Exception:
+            pass
+    return default.strip()
 
 
 def _request(method: str, path: str, token: str, body: Optional[dict] = None, retries: int = 2):
@@ -143,6 +181,242 @@ def _slug_tag(prefix: str, value: str) -> str:
     return f"{prefix}_{slug}" if slug else prefix
 
 
+def _is_beauty_growth(
+    source: str = "",
+    industry: str = "",
+    owner_email: str = "",
+    offer_version: str = "",
+) -> bool:
+    src = (source or "").lower()
+    ind = (industry or "").lower()
+    own = (owner_email or "").strip().lower()
+    off = (offer_version or "").strip().upper()
+    return (
+        "beauty" in src
+        or "beauty" in ind
+        or own == "dbecerra@agenciaprosperia.com"
+        or off.startswith("BEAUTY_")
+    )
+
+
+def _build_beauty_stage_lookup(raw_pairs: dict) -> dict:
+    """Normaliza un diccionario {nombre_etapa: stage_id} para aceptar con/sin prefijo numérico."""
+    stages_map = {}
+    for raw_name, st_id in raw_pairs.items():
+        st_name = (raw_name or "").strip()
+        clean_id = (st_id or "").strip()
+        if not st_name or not clean_id:
+            continue
+        stages_map[st_name] = clean_id
+        stages_map[st_name.lower()] = clean_id
+        stripped = re.sub(r"^\d+\.\s*", "", st_name).strip().lower()
+        if stripped:
+            stages_map[stripped] = clean_id
+    return stages_map
+
+
+def _cfg_db(key: str, default: str = "") -> str:
+    """Lee configuración desde env/.env o tabla integration_settings de SQLite sin requerir reiniciar contenedor."""
+    val = _cfg(key)
+    if val:
+        return val
+    try:
+        from database import IntegrationSetting, SessionLocal
+
+        db = SessionLocal()
+        try:
+            row = db.query(IntegrationSetting).filter(IntegrationSetting.key == key.lower()).first()
+            if row and (row.value or "").strip():
+                return row.value.strip()
+        finally:
+            db.close()
+    except Exception:
+        pass
+    return default.strip()
+
+
+def _save_beauty_db_settings(location_id: str, pipeline_id: str, stages_list: list) -> None:
+    """Persiste en SQLite los IDs descubiertos/creados para la subcuenta Beauty Growth."""
+    try:
+        from database import IntegrationSetting, SessionLocal
+
+        db = SessionLocal()
+        try:
+            pairs = {
+                "ghl_beauty_location_active": location_id,
+                "ghl_beauty_pipeline_id": pipeline_id,
+                "ghl_beauty_stages_json": json.dumps(stages_list or [], ensure_ascii=False),
+            }
+            for k, v in pairs.items():
+                if not v:
+                    continue
+                row = db.query(IntegrationSetting).filter(IntegrationSetting.key == k).first()
+                if row:
+                    row.value = v
+                else:
+                    db.add(IntegrationSetting(key=k, value=v))
+            db.commit()
+        finally:
+            db.close()
+    except Exception as exc:
+        print(f"⚠️ [GHL BEAUTY DB] No se pudieron guardar IDs locales: {exc}", flush=True)
+
+
+def _cached_beauty_pipeline_from_db() -> dict:
+    """Recupera mapa de etapas guardado para V8tM5xk6xl15wKhbQS0p (nunca de otra subcuenta)."""
+    loc_active = _cfg_db("ghl_beauty_location_active", BEAUTY_LOCATION_ID)
+    if loc_active != BEAUTY_LOCATION_ID:
+        return {"pipeline_id": "", "pipeline_name": BEAUTY_PIPELINE_NAME, "stages": {}, "default_stage_id": "", "location_id": BEAUTY_LOCATION_ID}
+
+    pip_id = _cfg_db("ghl_beauty_pipeline_id")
+    raw_json = _cfg_db("ghl_beauty_stages_json")
+    raw_pairs = {}
+    first_id = ""
+    if raw_json:
+        try:
+            for item in json.loads(raw_json):
+                nm = (item.get("name") or "").strip()
+                sid = (item.get("id") or "").strip()
+                if sid and not first_id:
+                    first_id = sid
+                if nm and sid:
+                    raw_pairs[nm] = sid
+        except Exception:
+            pass
+    stages_map = _build_beauty_stage_lookup(raw_pairs)
+    return {
+        "pipeline_id": pip_id,
+        "pipeline_name": BEAUTY_PIPELINE_NAME,
+        "stages": stages_map,
+        "default_stage_id": stages_map.get("5. Respondió / Interesado") or _cfg_db("GHL_BEAUTY_STAGE_ID") or first_id,
+        "location_id": BEAUTY_LOCATION_ID,
+    }
+
+
+def _resolve_beauty_stage_id(stages_map: dict, stage_name: str, default_id: str = "") -> str:
+    """Resuelve una etapa Beauty Growth (con o sin número) o mapea equivalencias canónicas."""
+    if not stage_name:
+        return default_id
+    s = stage_name.strip()
+    if s in stages_map:
+        return stages_map[s]
+    s_low = s.lower()
+    if s_low in stages_map:
+        return stages_map[s_low]
+    stripped = re.sub(r"^\d+\.\s*", "", s).strip().lower()
+    if stripped in stages_map:
+        return stages_map[stripped]
+    canonical_to_beauty = {
+        "lead identificado": "1. Prospecto identificado",
+        "primer contacto": "2. Primer contacto",
+        "conversación": "5. Respondió / Interesado",
+        "calificado": "7. Lead calificado",
+        "diagnóstico agendado": "8. Reunión agendada",
+        "demo realizada": "10. Reunión realizada",
+        "propuesta enviada": "11. Propuesta enviada",
+        "pago pendiente": "12. Negociación activa",
+        "pago confirmado": "13. Ganado / Cierre",
+        "implementación": "13. Ganado / Cierre",
+        "entregado": "13. Ganado / Cierre",
+        "no interesado": "14. Perdido / No calificado",
+        "no cumple perfil": "14. Perdido / No calificado",
+        "venta perdida": "14. Perdido / No calificado",
+    }
+    target = canonical_to_beauty.get(s_low)
+    if target and target in stages_map:
+        return stages_map[target]
+    return default_id
+
+
+def discover_beauty_pipeline_and_stages(token: str, location_id: str = "") -> dict:
+    """Consulta o crea automáticamente el Pipeline de 14 etapas EXCLUSIVAMENTE en la subcuenta Beauty Growth (V8tM5xk6xl15wKhbQS0p)."""
+    loc = location_id or _cfg_db("GHL_BEAUTY_LOCATION_ID", BEAUTY_LOCATION_ID) or BEAUTY_LOCATION_ID
+    if not token:
+        return {"pipeline_id": "", "pipeline_name": BEAUTY_PIPELINE_NAME, "stages": {}, "default_stage_id": "", "location_id": loc, "needs_token": True}
+    if loc in _BEAUTY_PIPELINE_CACHE and _BEAUTY_PIPELINE_CACHE[loc].get("stages"):
+        return _BEAUTY_PIPELINE_CACHE[loc]
+
+    status, res = _request("GET", f"/opportunities/pipelines?locationId={loc}", token)
+    if status != 200:
+        print(f"⚠️ [GHL BEAUTY] Token sin acceso a subcuenta Beauty Growth ({loc}): HTTP {status} {res}", flush=True)
+        return {"pipeline_id": "", "pipeline_name": BEAUTY_PIPELINE_NAME, "stages": {}, "default_stage_id": "", "location_id": loc, "error": res}
+
+    pipelines = res.get("pipelines") or []
+    env_pip_id = _cfg_db("GHL_BEAUTY_PIPELINE_ID")
+    chosen = None
+    if env_pip_id:
+        for p in pipelines:
+            if p.get("id") == env_pip_id:
+                chosen = p
+                break
+    if not chosen:
+        for p in pipelines:
+            if "beauty growth" in (p.get("name") or "").lower():
+                chosen = p
+                break
+
+    # Si no existe aún el pipeline de 14 etapas en V8tM5xk6xl15wKhbQS0p, lo creamos automáticamente aquí
+    if not chosen:
+        create_payload = {
+            "locationId": loc,
+            "name": BEAUTY_PIPELINE_NAME,
+            "showInFunnel": True,
+            "showInPieChart": True,
+            "stages": [
+                {"name": name, "position": idx, "showInFunnel": True, "showInPieChart": True}
+                for idx, name in enumerate(BEAUTY_PIPELINE_STAGES)
+            ],
+        }
+        st_cp, cp_res = _request("POST", "/opportunities/pipelines", token, create_payload)
+        if st_cp in (200, 201):
+            chosen = cp_res.get("pipeline") or cp_res
+            print(f"✅ [GHL BEAUTY] Pipeline '{BEAUTY_PIPELINE_NAME}' creado automáticamente en subcuenta {loc} ({chosen.get('id')}).", flush=True)
+        else:
+            print(f"❌ [GHL BEAUTY] No se pudo crear el pipeline en {loc}: HTTP {st_cp} {cp_res}", flush=True)
+            if pipelines:
+                chosen = pipelines[0]
+
+    if not chosen:
+        return {"pipeline_id": "", "pipeline_name": BEAUTY_PIPELINE_NAME, "stages": {}, "default_stage_id": "", "location_id": loc}
+
+    stages_list = chosen.get("stages") or []
+    raw_pairs = {}
+    first_stage_id = ""
+    for st in stages_list:
+        st_name = (st.get("name") or "").strip()
+        st_id = (st.get("id") or "").strip()
+        if not st_id:
+            continue
+        if not first_stage_id:
+            first_stage_id = st_id
+        if st_name:
+            raw_pairs[st_name] = st_id
+
+    stages_map = _build_beauty_stage_lookup(raw_pairs)
+    pip_id = chosen.get("id") or ""
+    _save_beauty_db_settings(loc, pip_id, stages_list)
+    data = {
+        "pipeline_id": pip_id,
+        "pipeline_name": chosen.get("name") or BEAUTY_PIPELINE_NAME,
+        "stages": stages_map,
+        "stages_raw": stages_list,
+        "default_stage_id": stages_map.get("5. Respondió / Interesado") or _cfg_db("GHL_BEAUTY_STAGE_ID") or first_stage_id,
+        "location_id": loc,
+    }
+    _BEAUTY_PIPELINE_CACHE[loc] = data
+    return data
+
+
+def _resolve_beauty_connection() -> tuple:
+    """Resuelve (token, location_id, pipeline_discovery) EXCLUSIVAMENTE para V8tM5xk6xl15wKhbQS0p (sin fallback a CNvJBINRWBUL2EdqRh3G)."""
+    beauty_tok = _cfg_db("GHL_BEAUTY_PRIVATE_TOKEN")
+    beauty_loc = _cfg_db("GHL_BEAUTY_LOCATION_ID", BEAUTY_LOCATION_ID) or BEAUTY_LOCATION_ID
+    if not beauty_tok:
+        return "", beauty_loc, _cached_beauty_pipeline_from_db()
+    disc = discover_beauty_pipeline_and_stages(beauty_tok, beauty_loc)
+    return beauty_tok, beauty_loc, disc
+
+
 def sync_lead_to_ghl(
     first_name: str,
     last_name: str,
@@ -157,32 +431,69 @@ def sync_lead_to_ghl(
     sms_consent: bool = False,
     assigned_to: str = "",
     extra_tags: Optional[list] = None,
+    owner_email: str = "",
+    offer_version: str = "",
+    initial_stage: str = "",
 ) -> dict:
     """Sincroniza un lead con GHL. Devuelve un resumen; nunca lanza excepciones."""
-    token = _cfg("GHL_PRIVATE_TOKEN") or _cfg("GHL_ACCESS_TOKEN")
-    if not token:
-        print("ℹ️ [GHL] GHL_PRIVATE_TOKEN no configurado; sincronización omitida.", flush=True)
-        return {"ok": False, "skipped": True}
-
-    location_id = _cfg("GHL_LOCATION_ID", DEFAULT_LOCATION_ID)
-    src_lower = (source or "").lower()
-    if "codigos" in src_lower or "comunidad" in src_lower:
-        pipeline_id = CODIGOS_PIPELINE_ID
-        stage_id = CODIGOS_STAGE_ID
+    is_beauty = _is_beauty_growth(
+        source=source,
+        industry=industry,
+        owner_email=owner_email,
+        offer_version=offer_version,
+    )
+    if is_beauty:
+        token, location_id, disc = _resolve_beauty_connection()
+        if not token:
+            print(
+                f"ℹ️ [GHL BEAUTY GROWTH] Token GHL_BEAUTY_PRIVATE_TOKEN no configurado aún para la subcuenta {location_id}; "
+                "lead guardado en SQLite pendiente de sincronizar cuando se conecte la subcuenta.",
+                flush=True,
+            )
+            return {"ok": False, "skipped": True, "location_id": location_id}
+        pipeline_id = disc.get("pipeline_id") or _cfg_db("GHL_BEAUTY_PIPELINE_ID")
+        stages_map = disc.get("stages") or {}
+        inferred_stage = initial_stage
+        if not inferred_stage:
+            msg_low = (message or notes or "").lower()
+            has_slot = (
+                any(tok in msg_low for tok in ("fecha:", "horario:", "cita agendada", "reunión agendada"))
+                or bool(re.search(r"\b\d{1,2}:\d{2}\s*(am|pm)\b", msg_low))
+            )
+            inferred_stage = "8. Reunión agendada" if has_slot else "5. Respondió / Interesado"
+        default_st = (
+            stages_map.get("5. Respondió / Interesado")
+            or _cfg_db("GHL_BEAUTY_STAGE_ID")
+            or disc.get("default_stage_id", "")
+        )
+        stage_id = _resolve_beauty_stage_id(stages_map, inferred_stage, default_st)
     else:
-        pipeline_id = DEFAULT_PIPELINE_ID
-        stage_id = DEFAULT_STAGE_ID
+        token = _cfg("GHL_PRIVATE_TOKEN") or _cfg("GHL_ACCESS_TOKEN")
+        if not token:
+            print("ℹ️ [GHL] GHL_PRIVATE_TOKEN no configurado; sincronización omitida.", flush=True)
+            return {"ok": False, "skipped": True}
+        location_id = _cfg("GHL_LOCATION_ID", DEFAULT_LOCATION_ID)
+        src_lower = (source or "").lower()
+        if "codigos" in src_lower or "comunidad" in src_lower:
+            pipeline_id = CODIGOS_PIPELINE_ID
+            stage_id = CODIGOS_STAGE_ID
+        else:
+            pipeline_id = DEFAULT_PIPELINE_ID
+            stage_id = DEFAULT_STAGE_ID
 
     full_name = f"{first_name} {last_name}".strip()
     custom_fields = []
     industry_label = INDUSTRY_LABELS.get((industry or "").strip().lower())
-    if industry_label:
-        custom_fields.append({"id": CF_INDUSTRIA, "field_value": industry_label})
-    team_label = TEAM_LABELS.get((team_size or "").strip())
-    if team_label:
-        custom_fields.append({"id": CF_TAMANO_EQUIPO, "field_value": team_label})
-    if message:
-        custom_fields.append({"id": CF_CUELLO_BOTELLA, "field_value": message})
+    if location_id == DEFAULT_LOCATION_ID:
+        if industry_label:
+            custom_fields.append({"id": CF_INDUSTRIA, "field_value": industry_label})
+        team_label = TEAM_LABELS.get((team_size or "").strip())
+        if team_label:
+            custom_fields.append({"id": CF_TAMANO_EQUIPO, "field_value": team_label})
+        if message:
+            custom_fields.append({"id": CF_CUELLO_BOTELLA, "field_value": message})
+    else:
+        team_label = TEAM_LABELS.get((team_size or "").strip())
 
     contact_body = {
         "locationId": location_id,
@@ -191,9 +502,10 @@ def sync_lead_to_ghl(
         "name": full_name,
         "email": email,
         "companyName": company,
-        "source": f"Web ProsperIA – {source}",
-        "customFields": custom_fields,
+        "source": f"Beauty Growth – {source}" if is_beauty else f"Web ProsperIA – {source}",
     }
+    if custom_fields:
+        contact_body["customFields"] = custom_fields
     clean_phone = _clean_phone(phone)
     if clean_phone:
         contact_body["phone"] = clean_phone
@@ -207,8 +519,8 @@ def sync_lead_to_ghl(
         contact_body.pop("phone")
         status, res = _request("POST", "/contacts/upsert", token, contact_body)
     if status not in (200, 201):
-        print(f"❌ [GHL] No se pudo crear/actualizar el contacto {email}: {status} {res}", flush=True)
-        return {"ok": False, "step": "contact", "status": status}
+        print(f"❌ [GHL] No se pudo crear/actualizar el contacto {email} (loc={location_id}): {status} {res}", flush=True)
+        return {"ok": False, "step": "contact", "status": status, "location_id": location_id}
 
     contact = res.get("contact", {})
     contact_id = contact.get("id")
@@ -217,6 +529,10 @@ def sync_lead_to_ghl(
     # 2. Etiquetas (aditivas: no borran las existentes).
     consent_tag = "sms_opt_in" if sms_consent else "sms_sin_consentimiento"
     tag_list = ["lead_web", _source_tag(source), consent_tag]
+    if is_beauty:
+        for bt in ("beauty_growth", "vertical_belleza", "socio_jhonkelwins_becerra"):
+            if bt not in tag_list:
+                tag_list.append(bt)
     if extra_tags:
         for t in extra_tags:
             if t and t not in tag_list:
@@ -241,7 +557,11 @@ def sync_lead_to_ghl(
         note_lines.append(notes or message)
     _request("POST", f"/contacts/{contact_id}/notes", token, {"body": "\n".join(note_lines)})
 
-    # 4. Oportunidad en "Nuevo Contacto" solo si no existe una abierta en el pipeline.
+    if not pipeline_id or not stage_id:
+        print(f"ℹ️ [GHL] Contacto {contact_id} creado en {location_id}, pendiente pipeline_id/stage_id de Beauty Growth.", flush=True)
+        return {"ok": True, "contact_id": contact_id, "contact_new": is_new, "opportunity_id": None, "opportunity_new": False}
+
+    # 4. Oportunidad solo si no existe una abierta en el pipeline.
     q = (f"/opportunities/search?location_id={location_id}&contact_id={contact_id}"
          f"&pipeline_id={pipeline_id}&status=open&limit=1")
     s_status, s_res = _request("GET", q, token)
@@ -259,7 +579,7 @@ def sync_lead_to_ghl(
         "contactId": contact_id,
         "name": opp_name,
         "status": "open",
-        "source": f"Web ProsperIA – {source}",
+        "source": f"Beauty Growth – {source}" if is_beauty else f"Web ProsperIA – {source}",
     }
     if assigned_to:
         opp_payload["assignedTo"] = assigned_to
@@ -276,9 +596,10 @@ def sync_lead_to_ghl(
         return {"ok": False, "step": "opportunity", "contact_id": contact_id, "status": o_status}
 
     opp_id = o_res.get("opportunity", {}).get("id")
-    print(f"✅ [GHL] Lead {email} → contacto {contact_id} (nuevo={is_new}), oportunidad {opp_id} en Nuevo Contacto", flush=True)
+    print(f"✅ [GHL] Lead {email} → contacto {contact_id} (nuevo={is_new}), oportunidad {opp_id} en loc={location_id} (pipeline={pipeline_id})", flush=True)
     return {"ok": True, "contact_id": contact_id, "contact_new": is_new,
-            "opportunity_id": opp_id, "opportunity_new": True}
+            "opportunity_id": opp_id, "opportunity_new": True,
+            "location_id": location_id, "pipeline_id": pipeline_id, "stage_id": stage_id}
 
 
 def sync_lead_to_ghl_async(**kwargs) -> None:
@@ -310,9 +631,22 @@ def sync_sales_os_event_to_ghl_async(
     """Sincroniza en segundo plano cualquier avance comercial del vendedor hacia GoHighLevel."""
     def _run():
         try:
-            token = _cfg("GHL_PRIVATE_TOKEN") or _cfg("GHL_ACCESS_TOKEN")
+            is_beauty = (
+                _is_beauty_growth(owner_email=owner_email, offer_version=offer_version)
+                or pipeline_stage in BEAUTY_PIPELINE_STAGES
+                or "beauty" in (selected_template or "").lower()
+            )
+            if is_beauty:
+                token, loc_id, beauty_disc = _resolve_beauty_connection()
+                pip_id = beauty_disc.get("pipeline_id") or _cfg_db("GHL_BEAUTY_PIPELINE_ID")
+            else:
+                token = _cfg("GHL_PRIVATE_TOKEN") or _cfg("GHL_ACCESS_TOKEN")
+                loc_id = _cfg("GHL_LOCATION_ID", DEFAULT_LOCATION_ID)
+                beauty_disc = {}
+                pip_id = DEFAULT_PIPELINE_ID
             if not token:
                 return
+
             cid = (contact_id or "").strip()
             opp_id = (opportunity_id or "").strip()
             if (not cid or not opp_id) and (email or phone):
@@ -325,7 +659,10 @@ def sync_sales_os_event_to_ghl_async(
                     email=email,
                     phone=phone,
                     company=business_name,
-                    source="sales_os_closer",
+                    source="beautygrowth_sales_os" if is_beauty else "sales_os_closer",
+                    owner_email=owner_email,
+                    offer_version=offer_version,
+                    initial_stage=pipeline_stage if is_beauty else "",
                 )
                 cid = cid or (up_res.get("contact_id") or "")
                 opp_id = opp_id or (up_res.get("opportunity_id") or "")
@@ -333,9 +670,7 @@ def sync_sales_os_event_to_ghl_async(
             if not cid:
                 return
 
-            if not opp_id:
-                loc_id = _cfg("GHL_LOCATION_ID", DEFAULT_LOCATION_ID)
-                pip_id = DEFAULT_PIPELINE_ID
+            if not opp_id and pip_id:
                 q = f"/opportunities/search?location_id={loc_id}&contact_id={cid}&pipeline_id={pip_id}&limit=1"
                 s_st, s_res = _request("GET", q, token)
                 if s_st == 200 and s_res.get("opportunities"):
@@ -344,22 +679,25 @@ def sync_sales_os_event_to_ghl_async(
             # Actualizar los 8 Campos Personalizados del Sales OS directamente en la ficha del contacto en GoHighLevel
             commission_15 = round(float(amount_collected or 0.0) * 0.15, 2) if (amount_collected and amount_collected > 0 and invoice_id) else 0.0
             delivery_status = "onboarding" if (amount_collected and amount_collected > 0 and invoice_id) else "pendiente_pago"
-            custom_fields_payload = [
-                {"id": CF_OFERTA_VERSIONADA, "field_value": str(offer_version or "EXPRESS_497")},
-                {"id": CF_MONTO_COTIZADO, "field_value": float(quoted_amount or 0.0)},
-                {"id": CF_MONTO_COBRADO, "field_value": float(amount_collected or 0.0)},
-                {"id": CF_ID_FACTURA, "field_value": str(invoice_id or "")},
-                {"id": CF_COMISION_15, "field_value": float(commission_15)},
-                {"id": CF_PLANTILLA_WEB, "field_value": str(selected_template or "")},
-                {"id": CF_ESTADO_ENTREGA, "field_value": delivery_status},
-                {"id": CF_DUPLA_COMERCIAL, "field_value": str(owner_email or "")},
-            ]
-            _request("PUT", f"/contacts/{cid}", token, {"customFields": custom_fields_payload})
+            if loc_id == DEFAULT_LOCATION_ID:
+                custom_fields_payload = [
+                    {"id": CF_OFERTA_VERSIONADA, "field_value": str(offer_version or "EXPRESS_497")},
+                    {"id": CF_MONTO_COTIZADO, "field_value": float(quoted_amount or 0.0)},
+                    {"id": CF_MONTO_COBRADO, "field_value": float(amount_collected or 0.0)},
+                    {"id": CF_ID_FACTURA, "field_value": str(invoice_id or "")},
+                    {"id": CF_COMISION_15, "field_value": float(commission_15)},
+                    {"id": CF_PLANTILLA_WEB, "field_value": str(selected_template or "")},
+                    {"id": CF_ESTADO_ENTREGA, "field_value": delivery_status},
+                    {"id": CF_DUPLA_COMERCIAL, "field_value": str(owner_email or "")},
+                ]
+                _request("PUT", f"/contacts/{cid}", token, {"customFields": custom_fields_payload})
 
             tags = [
                 _slug_tag("etapa", pipeline_stage),
                 _slug_tag("oferta", offer_version),
             ]
+            if is_beauty:
+                tags.extend(["beauty_growth", "vertical_belleza", "socio_jhonkelwins_becerra"])
             if owner_email:
                 tags.append(_slug_tag("closer", owner_email.split("@")[0]))
             if selected_template:
@@ -370,7 +708,7 @@ def sync_sales_os_event_to_ghl_async(
 
             stamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
             note_body = (
-                f"📊 [SALES OS PROSPER IA — {stamp}]\n"
+                f"📊 [SALES OS {'BEAUTY GROWTH' if is_beauty else 'PROSPER IA'} — {stamp}]\n"
                 f"• Etapa Comercial: {pipeline_stage}\n"
                 f"• Vendedor Responsable: {owner_email or 'Sin asignar'}\n"
                 f"• Oferta Versionada: {offer_version} | Propuesta: US${quoted_amount:,.2f}\n"
@@ -383,9 +721,9 @@ def sync_sales_os_event_to_ghl_async(
 
             if opp_id:
                 opp_status = "open"
-                if pipeline_stage in ("Pago confirmado", "Implementación", "Entregado"):
+                if pipeline_stage in ("Pago confirmado", "Implementación", "Entregado", "13. Ganado / Cierre"):
                     opp_status = "won"
-                elif pipeline_stage in ("No interesado", "No cumple perfil", "Opt-out", "Venta perdida", "Reembolso/contracargo"):
+                elif pipeline_stage in ("No interesado", "No cumple perfil", "Opt-out", "Venta perdida", "Reembolso/contracargo", "14. Perdido / No calificado"):
                     opp_status = "lost"
                 elif pipeline_stage == "No responde":
                     opp_status = "abandoned"
@@ -394,10 +732,17 @@ def sync_sales_os_event_to_ghl_async(
                     "status": opp_status,
                     "monetaryValue": float(monetary_val or 0.0),
                 }
-                mapped_stage_id = GHL_STAGE_MAP.get(pipeline_stage)
-                if mapped_stage_id:
-                    opp_update_body["pipelineId"] = DEFAULT_PIPELINE_ID
-                    opp_update_body["pipelineStageId"] = mapped_stage_id
+                if is_beauty:
+                    st_map = beauty_disc.get("stages") or {}
+                    mapped_stage_id = _resolve_beauty_stage_id(st_map, pipeline_stage, beauty_disc.get("default_stage_id", ""))
+                    if pip_id and mapped_stage_id:
+                        opp_update_body["pipelineId"] = pip_id
+                        opp_update_body["pipelineStageId"] = mapped_stage_id
+                else:
+                    mapped_stage_id = GHL_STAGE_MAP.get(pipeline_stage)
+                    if mapped_stage_id:
+                        opp_update_body["pipelineId"] = DEFAULT_PIPELINE_ID
+                        opp_update_body["pipelineStageId"] = mapped_stage_id
                 _request("PUT", f"/opportunities/{opp_id}", token, opp_update_body)
         except Exception as exc:
             print(f"⚠️ [GHL SALES OS SYNC] Error no bloqueante: {exc}", flush=True)

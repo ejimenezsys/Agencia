@@ -1664,6 +1664,7 @@ SITIOWEB_NICHE_TEMPLATE_MAP = {
     "sti2q": "sti2q_industrial",
     "enterprise": "sti2q_industrial",
     "academia": "academia_educacion_cursos",
+    "beauty_growth": "beauty_growth_salon_spa",
 }
 
 
@@ -1964,6 +1965,30 @@ async def nosotros_team_page(request: Request):
     return templates.TemplateResponse(request=request, name="nosotros.html", context={"request": request})
 
 
+@app.get("/beautygrowth", response_class=HTMLResponse)
+@app.head("/beautygrowth")
+@app.get("/beautygrowth/", response_class=HTMLResponse)
+@app.head("/beautygrowth/")
+@app.get("/beautygrowth.html", response_class=HTMLResponse)
+@app.head("/beautygrowth.html")
+@app.get("/beauty-growth", response_class=HTMLResponse)
+@app.head("/beauty-growth")
+@app.get("/beauty-growth/", response_class=HTMLResponse)
+@app.head("/beauty-growth/")
+async def beauty_growth_page(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="beautygrowth.html",
+        context={
+            "request": request,
+            "active_menu": "beautygrowth",
+            "beauty_location_id": "V8tM5xk6xl15wKhbQS0p",
+            "partner_email": "dbecerra@agenciaprosperia.com",
+            "partner_name": "Jhonkelwins David Becerra Cañas",
+        },
+    )
+
+
 @app.get("/libro", response_class=HTMLResponse)
 @app.head("/libro")
 @app.get("/libro/", response_class=HTMLResponse)
@@ -1997,6 +2022,8 @@ async def stream_closer_training_video(video_key: str, request: Request):
     video_map = {
         "master": os.path.join(os.path.dirname(__file__), "static", "video", "tutorial_master_closers_34min.mp4"),
         "express": os.path.join(os.path.dirname(__file__), "static", "video", "tutorial_closers_express_6min.mp4"),
+        "nubia": os.path.join(os.path.dirname(__file__), "static", "video", "testimonio_nubia_allinbeauty.mp4"),
+        "beautygrowth": os.path.join(os.path.dirname(__file__), "static", "video", "testimonio_nubia_allinbeauty.mp4"),
     }
     file_path = video_map.get(video_key.lower().strip())
     if not file_path or not os.path.exists(file_path):
@@ -2401,12 +2428,16 @@ async def api_logout(request: Request, response: Response, db: Session = Depends
     response.delete_cookie("auth_token")
     return {"success": True}
 
-def send_email_notification(name: str, email: str, company: str, phone: str, message: str):
+def send_email_notification(name: str, email: str, company: str, phone: str, message: str, extra_recipients: Optional[List[str]] = None):
     primary_recipient = "edward@agenciaprosperia.com"
     env_recipient = os.environ.get("NOTIFICATION_EMAIL")
     recipients_list = [primary_recipient]
     if env_recipient and env_recipient not in recipients_list:
         recipients_list.append(env_recipient)
+    if extra_recipients:
+        for r in extra_recipients:
+            if r and r not in recipients_list:
+                recipients_list.append(r)
         
     smtp_host = _resolve_env_secret("SMTP_HOST", "smtp.hostinger.com")
     smtp_port = int(_resolve_env_secret("SMTP_PORT", "465"))
@@ -2646,10 +2677,19 @@ def trigger_lead_sync(
     raw_message: str = "",
     sms_consent: bool = False,
     assigned_to: str = "",
+    owner_email: str = "",
+    offer_version: str = "",
 ):
     # Fetch webhook settings
     settings = db.query(IntegrationSetting).all()
     settings_dict = {s.key: s.value for s in settings}
+    is_beauty_lead = (
+        "beauty" in (lead_source or "").lower()
+        or "beauty" in (industry or "").lower()
+        or (owner_email or "").strip().lower() == "dbecerra@agenciaprosperia.com"
+        or (offer_version or "").strip().upper().startswith("BEAUTY_")
+    )
+    target_location_id = "V8tM5xk6xl15wKhbQS0p" if is_beauty_lead else "CNvJBINRWBUL2EdqRh3G"
     
     # Payload for GHL and n8n
     leads_volume = 100
@@ -2694,8 +2734,8 @@ def trigger_lead_sync(
         last_name = " ".join(name_parts[1:]) if len(name_parts) > 1 else ""
 
     ghl_payload = {
-        "locationId": "CNvJBINRWBUL2EdqRh3G",
-        "location_id": "CNvJBINRWBUL2EdqRh3G",
+        "locationId": target_location_id,
+        "location_id": target_location_id,
         "name": lead_name,
         "fullName": lead_name,
         "first_name": first_name,
@@ -2710,11 +2750,15 @@ def trigger_lead_sync(
         "industry": industry,
         "team_size": team_size,
         "source": lead_source,
-        "tags": ["agenciaprosperia", "llamada_estrategica", "lead_web", "contactosdeinstagram"],
-        "tag": "agenciaprosperia",
+        "tags": (
+            ["beautygrowth", "vertical_belleza", "socio_jhonkelwins_becerra", "lead_web"]
+            if is_beauty_lead
+            else ["agenciaprosperia", "llamada_estrategica", "lead_web", "contactosdeinstagram"]
+        ),
+        "tag": "beautygrowth" if is_beauty_lead else "agenciaprosperia",
         "notes": lead_notes,
-        "sender_email": "edward@agenciaprosperia.com",
-        "sender_name": "Edward Jiménez",
+        "sender_email": "dbecerra@agenciaprosperia.com" if is_beauty_lead else "edward@agenciaprosperia.com",
+        "sender_name": "Jhonkelwins David Becerra Cañas" if is_beauty_lead else "Edward Jiménez",
         "score_eficiencia": score_eficiencia,
         "fuga_leads": fuga_leads,
         "fuga_ingresos": fuga_ingresos,
@@ -2726,7 +2770,7 @@ def trigger_lead_sync(
         "calculated_report": lead_notes,
         "reporte_diagnostico": lead_notes,
         "customFields": {
-            "location_id": "CNvJBINRWBUL2EdqRh3G",
+            "location_id": target_location_id,
             "industria": industry,
             "tamano_equipo": team_size,
             "objetivo_negocio": raw_message or lead_notes,
@@ -2742,7 +2786,7 @@ def trigger_lead_sync(
             "reporte_diagnostico": lead_notes
         },
         "customData": {
-            "location_id": "CNvJBINRWBUL2EdqRh3G",
+            "location_id": target_location_id,
             "industria": industry,
             "tamano_equipo": team_size,
             "objetivo_negocio": raw_message or lead_notes,
@@ -2771,7 +2815,7 @@ def trigger_lead_sync(
         t = threading.Thread(target=send_webhook_background, args=(n8n_url, ghl_payload))
         t.start()
 
-    # 3. GoHighLevel API v2: contacto + oportunidad en "Nuevo Contacto"
+    # 3. GoHighLevel API v2: contacto + oportunidad en el pipeline correspondiente
     sync_lead_to_ghl_async(
         first_name=first_name,
         last_name=last_name,
@@ -2785,6 +2829,8 @@ def trigger_lead_sync(
         notes=lead_notes,
         sms_consent=sms_consent,
         assigned_to=assigned_to,
+        owner_email=owner_email,
+        offer_version=offer_version,
     )
 
 @app.post("/api/auth/contact")
@@ -2821,12 +2867,60 @@ async def api_contact(req: ContactRequest, background_tasks: BackgroundTasks, db
 
     combined_notes = " ".join(formatted_notes_parts) if formatted_notes_parts else (req.message or "")
 
-    # Asignación automática Round-Robin al Closer activo en CRM
-    closer = get_next_round_robin_closer(db)
-    owner_email = closer.get("email", "") if closer else ""
-    closer_ghl_id = closer.get("ghl_user_id", "") if closer else ""
-    closer_name = closer.get("name", "Especialista Agencia Prosper IA") if closer else "Especialista Agencia Prosper IA"
-    base_cal = (closer.get("calendar_url") if closer else "") or "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8"
+    is_beauty_growth = "beautygrowth" in lead_source.lower() or "beauty" in lead_source.lower() or "beauty" in industry_label.lower()
+    if is_beauty_growth:
+        # Detectar paquete solicitado o usar Beauty Elevate por defecto
+        msg_low = (req.message or "").lower()
+        if "boost" in msg_low or "1,499" in msg_low or "1499" in msg_low:
+            offer_version_val = "BEAUTY_BOOST_1499"
+        elif "empire" in msg_low or "3,499" in msg_low or "3499" in msg_low or "academia" in industry_label.lower():
+            offer_version_val = "BEAUTY_EMPIRE_3499"
+        elif "5,000" in msg_low or "5000" in msg_low or "high-ticket" in msg_low:
+            offer_version_val = "BEAUTY_HIGHTICKET_5000"
+        else:
+            offer_version_val = "BEAUTY_ELEVATE_2499"
+
+        import re as _re
+        has_booked_slot = (
+            any(tok in msg_low for tok in ("fecha:", "horario:", "cita agendada", "reunión agendada"))
+            or bool(_re.search(r"\b\d{1,2}:\d{2}\s*(am|pm)\b", msg_low))
+        )
+        initial_beauty_stage = "8. Reunión agendada" if has_booked_slot else "5. Respondió / Interesado"
+
+        beauty_sellers = (
+            db.query(User)
+            .filter(User.role == "seller", User.is_active == 1, User.dupla.like("%Beauty Growth%"))
+            .order_by(User.email.asc())
+            .all()
+        )
+        if beauty_sellers:
+            rr_row = db.query(IntegrationSetting).filter(IntegrationSetting.key == "beauty_rr_index").first()
+            idx_bg = int(rr_row.value) if (rr_row and (rr_row.value or "").isdigit()) else 0
+            chosen_bg = beauty_sellers[idx_bg % len(beauty_sellers)]
+            next_bg = (idx_bg + 1) % len(beauty_sellers)
+            if rr_row:
+                rr_row.value = str(next_bg)
+            else:
+                db.add(IntegrationSetting(key="beauty_rr_index", value=str(next_bg)))
+            owner_email = chosen_bg.email
+            closer_ghl_id = getattr(chosen_bg, "ghl_user_id", "") or ""
+            closer_name = f"{chosen_bg.name} · Equipo Beauty Growth"
+            base_cal = getattr(chosen_bg, "calendar_url", "") or "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8"
+        else:
+            partner_u = db.query(User).filter(User.email == "dbecerra@agenciaprosperia.com").first()
+            owner_email = "dbecerra@agenciaprosperia.com"
+            closer_ghl_id = (getattr(partner_u, "ghl_user_id", "") if partner_u else "") or ""
+            closer_name = "Jhonkelwins David Becerra Cañas · Equipo Beauty Growth"
+            base_cal = (getattr(partner_u, "calendar_url", "") if partner_u else "") or "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8"
+    else:
+        offer_version_val = "EXPRESS_497"
+        initial_beauty_stage = "Primer contacto"
+        # Asignación automática Round-Robin al Closer activo en CRM
+        closer = get_next_round_robin_closer(db)
+        owner_email = closer.get("email", "") if closer else ""
+        closer_ghl_id = closer.get("ghl_user_id", "") if closer else ""
+        closer_name = closer.get("name", "Especialista Agencia Prosper IA") if closer else "Especialista Agencia Prosper IA"
+        base_cal = (closer.get("calendar_url") if closer else "") or "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8"
 
     lead_id = None
     try:
@@ -2847,6 +2941,11 @@ async def api_contact(req: ContactRequest, background_tasks: BackgroundTasks, db
             existing.interest_primary = industry_label
             existing.notes = combined_notes
             existing.score = max(existing.score or 0, score)
+            if is_beauty_growth:
+                existing.niche = "beauty_growth"
+                existing.selected_template = "beauty_growth_salon_spa"
+                existing.offer_version = offer_version_val
+                existing.source_campaign = "✨ Beauty Growth & Business System"
             if not getattr(existing, "owner_id", ""):
                 existing.owner_id = owner_email
                 existing.setter_id = owner_email
@@ -2858,8 +2957,8 @@ async def api_contact(req: ContactRequest, background_tasks: BackgroundTasks, db
                     closer_ghl_id = getattr(assigned_owner, "ghl_user_id", "") or closer_ghl_id
                     if getattr(assigned_owner, "calendar_url", ""):
                         base_cal = assigned_owner.calendar_url
-            if getattr(existing, "pipeline_stage", "") in ("", "Lead identificado"):
-                existing.pipeline_stage = "Primer contacto"
+            if getattr(existing, "pipeline_stage", "") in ("", "Lead identificado", "1. Prospecto identificado"):
+                existing.pipeline_stage = initial_beauty_stage
             existing.status = "qualified"
             db.commit()
             lead_id = existing.id
@@ -2875,16 +2974,19 @@ async def api_contact(req: ContactRequest, background_tasks: BackgroundTasks, db
                 status="qualified",
                 source=lead_source,
                 source_channel=lead_source,
-                source_campaign="🚀 Embudo Soluciones + Round-Robin",
+                source_campaign="✨ Beauty Growth & Business System" if is_beauty_growth else "🚀 Embudo Soluciones + Round-Robin",
                 interest_primary=industry_label,
                 score=score,
                 notes=combined_notes,
                 created_at=created_at,
                 owner_id=owner_email,
                 setter_id=owner_email,
+                niche="beauty_growth" if is_beauty_growth else "clinica",
+                selected_template="beauty_growth_salon_spa" if is_beauty_growth else "clinica_dental_estetica",
+                offer_version=offer_version_val,
                 contact_permission="Formulario Web + SMS Opt-in" if req.sms_consent else "Formulario Web",
                 contact_status="contactable",
-                pipeline_stage="Primer contacto",
+                pipeline_stage=initial_beauty_stage,
             )
             db.add(new_lead)
             db.commit()
@@ -2915,14 +3017,15 @@ async def api_contact(req: ContactRequest, background_tasks: BackgroundTasks, db
     sep = "&" if "?" in base_cal else "?"
     calendar_url = f"{base_cal}{sep}{urllib.parse.urlencode(cal_params)}" if cal_params else base_cal
 
-    # Enviar notificación automática por correo electrónico a edward@agenciaprosperia.com
+    # Enviar notificación automática por correo electrónico a Edward (y a David Becerra si es Beauty Growth)
     background_tasks.add_task(
         send_email_notification,
         name=full_name,
         email=req.email,
         company=company_name,
         phone=phone_raw,
-        message=f"[Closer Round-Robin: {closer_name}] {combined_notes}"
+        message=f"[{'Beauty Growth · ' if is_beauty_growth else ''}Responsable: {closer_name}] {combined_notes}",
+        extra_recipients=["dbecerra@agenciaprosperia.com"] if is_beauty_growth else None,
     )
 
     # Envío automático de la radiografía de diagnóstico comercial al cliente desde edward@agenciaprosperia.com
@@ -2935,7 +3038,7 @@ async def api_contact(req: ContactRequest, background_tasks: BackgroundTasks, db
             message=combined_notes
         )
 
-    # Sincronizar automáticamente con GoHighLevel y n8n asignando al Closer Round-Robin
+    # Sincronizar automáticamente con GoHighLevel y n8n asignando al responsable / subcuenta correspondiente
     trigger_lead_sync(
         lead_name=full_name,
         lead_email=req.email,
@@ -2951,6 +3054,8 @@ async def api_contact(req: ContactRequest, background_tasks: BackgroundTasks, db
         raw_message=req.message or "",
         sms_consent=bool(req.sms_consent),
         assigned_to=closer_ghl_id,
+        owner_email=owner_email,
+        offer_version=offer_version_val,
     )
 
     return {
