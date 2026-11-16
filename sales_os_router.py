@@ -43,6 +43,7 @@ from database import (
 )
 from ghl_client import (
     BEAUTY_LOCATION_ID,
+    BEAUTY_PIPELINE_ID,
     BEAUTY_PIPELINE_NAME,
     BEAUTY_STAGE_MAP,
     _BEAUTY_PIPELINE_CACHE,
@@ -1059,8 +1060,8 @@ async def api_get_sales_catalog(
     stages_row = db.query(IntegrationSetting).filter(IntegrationSetting.key == "ghl_beauty_stages_json").first()
 
     is_beauty_loc = (loc_row.value == BEAUTY_LOCATION_ID) if (loc_row and loc_row.value) else False
-    active_pip_id = (pip_row.value if (pip_row and pip_row.value and is_beauty_loc) else "") or os.environ.get("GHL_BEAUTY_PIPELINE_ID", "").strip()
-    stage_id_lookup = {}
+    active_pip_id = (pip_row.value if (pip_row and pip_row.value and is_beauty_loc) else "") or os.environ.get("GHL_BEAUTY_PIPELINE_ID", "").strip() or BEAUTY_PIPELINE_ID
+    stage_id_lookup = dict(BEAUTY_STAGE_MAP)
     if is_beauty_loc and stages_row and stages_row.value:
         try:
             for item in json.loads(stages_row.value):

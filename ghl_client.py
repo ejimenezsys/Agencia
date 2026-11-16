@@ -33,7 +33,7 @@ DEFAULT_STAGE_ID = "38a46419-b420-49a6-8df6-021cb0467dd0"  # 1. Nuevo Prospecto 
 
 # Subcuenta y Pipeline dedicados EXCLUSIVAMENTE a la vertical Beauty Growth & Business System
 BEAUTY_LOCATION_ID = "V8tM5xk6xl15wKhbQS0p"
-BEAUTY_PIPELINE_ID = ""   # Se descubre / crea dinámicamente en la subcuenta V8tM5xk6xl15wKhbQS0p
+BEAUTY_PIPELINE_ID = "BBQlDFhNVE0NRmKNTMS2"   # Creado vía API v2 en subcuenta Beauty Growth (V8tM5xk6xl15wKhbQS0p)
 BEAUTY_PIPELINE_NAME = "Beauty Growth & Business System"
 BEAUTY_PIPELINE_STAGES = [
     "1. Prospecto identificado",
@@ -51,7 +51,23 @@ BEAUTY_PIPELINE_STAGES = [
     "13. Ganado / Cierre",
     "14. Perdido / No calificado",
 ]
-BEAUTY_STAGE_MAP = {}
+# Mapeo 1 a 1 de las 14 etapas de la Sección 7.3 -> Stage IDs reales en Beauty Growth (V8tM5xk6xl15wKhbQS0p)
+BEAUTY_STAGE_MAP = {
+    "1. Prospecto identificado": "76e19c7f-76bd-47dd-9c8e-01ad42834759",
+    "2. Primer contacto": "f84baaa2-9440-4391-ac91-d1e70dddfbb5",
+    "3. Segundo contacto": "8af5f803-ce16-4acf-a2cc-b6b569e8e5be",
+    "4. Tercer contacto": "3f1f56d9-6cf5-4d38-904b-918ade84da47",
+    "5. Respondió / Interesado": "cc2b04de-8d38-4c73-89d9-e01983a369c8",
+    "6. Seguimiento": "1e08061a-e60a-4783-ba25-9a40589e44cd",
+    "7. Lead calificado": "1725e066-8608-4b2c-9b72-3635d70529ae",
+    "8. Reunión agendada": "c0133849-1267-4404-84b3-ecb41439845c",
+    "9. Reunión confirmada": "0bdcf4ae-993b-4479-95ce-9b99b60b55be",
+    "10. Reunión realizada": "3b6377b4-3636-4cda-bf5f-8658d5bf8e26",
+    "11. Propuesta enviada": "eb27f27a-d321-4c58-bb08-4b1903761109",
+    "12. Negociación activa": "acb9428c-6987-4aa4-b0d1-6b3865d84cfc",
+    "13. Ganado / Cierre": "b45372f5-eb73-4189-b673-a746b9da85ec",
+    "14. Perdido / No calificado": "b3e57e5e-8822-4774-99eb-0bb07f3798e4",
+}
 _BEAUTY_PIPELINE_CACHE = {}
 
 # Pipeline separado para solicitudes de códigos gratuitos / comunidad PassportAI (/codigos)
@@ -268,10 +284,10 @@ def _cached_beauty_pipeline_from_db() -> dict:
     if loc_active != BEAUTY_LOCATION_ID:
         return {"pipeline_id": "", "pipeline_name": BEAUTY_PIPELINE_NAME, "stages": {}, "default_stage_id": "", "location_id": BEAUTY_LOCATION_ID}
 
-    pip_id = _cfg_db("ghl_beauty_pipeline_id")
+    pip_id = _cfg_db("ghl_beauty_pipeline_id") or BEAUTY_PIPELINE_ID
     raw_json = _cfg_db("ghl_beauty_stages_json")
-    raw_pairs = {}
-    first_id = ""
+    raw_pairs = dict(BEAUTY_STAGE_MAP)
+    first_id = BEAUTY_STAGE_MAP.get("1. Prospecto identificado", "")
     if raw_json:
         try:
             for item in json.loads(raw_json):
@@ -451,8 +467,8 @@ def sync_lead_to_ghl(
                 flush=True,
             )
             return {"ok": False, "skipped": True, "location_id": location_id}
-        pipeline_id = disc.get("pipeline_id") or _cfg_db("GHL_BEAUTY_PIPELINE_ID")
-        stages_map = disc.get("stages") or {}
+        pipeline_id = disc.get("pipeline_id") or _cfg_db("GHL_BEAUTY_PIPELINE_ID") or BEAUTY_PIPELINE_ID
+        stages_map = disc.get("stages") or _build_beauty_stage_lookup(BEAUTY_STAGE_MAP)
         inferred_stage = initial_stage
         if not inferred_stage:
             msg_low = (message or notes or "").lower()

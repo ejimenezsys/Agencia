@@ -734,6 +734,7 @@ def init_db():
                 api_key="bg_partner_admin_key_777_prosperia",
                 role="admin",
                 dupla="Vertical Beauty Growth — Setters & Closers (Subcuenta V8tM5xk6xl15wKhbQS0p)",
+                ghl_user_id="584u95aJ9e8PLDYOASXm",
                 is_active=1,
                 commission_rate=0.35,
                 created_at=now_iso,
@@ -747,6 +748,8 @@ def init_db():
             partner_u.plan = "Beauty Growth System (Socio 35%)"
             partner_u.role = "admin"
             partner_u.dupla = "Vertical Beauty Growth — Setters & Closers (Subcuenta V8tM5xk6xl15wKhbQS0p)"
+            if not getattr(partner_u, "ghl_user_id", ""):
+                partner_u.ghl_user_id = "584u95aJ9e8PLDYOASXm"
             partner_u.is_active = 1
             partner_u.commission_rate = 0.35
             if not getattr(partner_u, "calendar_url", ""):
@@ -822,7 +825,9 @@ def init_db():
             "ghl_location_id": os.environ.get("GHL_LOCATION_ID", "CNvJBINRWBUL2EdqRh3G"),
             "ghl_pipeline_id": os.environ.get("GHL_PIPELINE_ID", "G9nVz4GhrxAROVkPtPis"),
             "ghl_beauty_location_id": os.environ.get("GHL_BEAUTY_LOCATION_ID", "V8tM5xk6xl15wKhbQS0p"),
-            "ghl_beauty_pipeline_id": os.environ.get("GHL_BEAUTY_PIPELINE_ID", ""),
+            "ghl_beauty_location_active": "V8tM5xk6xl15wKhbQS0p",
+            "ghl_beauty_pipeline_id": os.environ.get("GHL_BEAUTY_PIPELINE_ID", "BBQlDFhNVE0NRmKNTMS2"),
+            "ghl_beauty_stage_id": os.environ.get("GHL_BEAUTY_STAGE_ID", "cc2b04de-8d38-4c73-89d9-e01983a369c8"),
             "ghl_beauty_pipeline_name": "Beauty Growth & Business System",
             "ghl_beauty_admin_email": "dbecerra@agenciaprosperia.com",
             "n8n_webhook_url": "",
@@ -836,6 +841,8 @@ def init_db():
             if not exists:
                 setting = IntegrationSetting(key=key, value=val)
                 db.add(setting)
+            elif key in ("ghl_beauty_pipeline_id", "ghl_beauty_location_active", "ghl_beauty_stage_id") and not (exists.value or "").strip() and val:
+                exists.value = val
 
         # Confirmar usuarios del Sales OS, lista DND y configuraciones de inmediato
         db.commit()
