@@ -521,15 +521,16 @@ INITIAL_SALES_TEAM = [
         "default_pass": "Closer2026!"
     },
     {
-        "email": "closer8@agenciaprosperia.com",
-        "name": "Closer 8 (En Contratación)",
+        "email": "wendyleiva59@gmail.com",
+        "name": "Wendy Leiva",
         "role": "seller",
         "dupla": "Dupla B — Servicios Locales & Agenda",
         "phone": "",
         "plan": "SVE-90 Enterprise",
         "ghl_user_id": "",
+        "is_active": 1,
         "calendar_url": "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8",
-        "avatar_url": "",
+        "avatar_url": "/static/img/closers/wendy.jpg",
         "default_pass": "Closer2026!"
     },
     {
@@ -568,13 +569,14 @@ OBSOLETE_TEST_EMAILS = [
     "closer5@agenciaprosperia.com",
     "closer6@agenciaprosperia.com",
     "closer7@agenciaprosperia.com",
+    "closer8@agenciaprosperia.com",
     "ucumaryvisual@gmail.com",
 ]
 
 
 def get_active_real_closers() -> list:
     """Devuelve únicamente los Closers reales activos con cuenta en ProsperIA CRM (excluye vacantes en contratación)."""
-    return [m for m in INITIAL_SALES_TEAM if (m.get("ghl_user_id") or "").strip()]
+    return [m for m in INITIAL_SALES_TEAM if (m.get("ghl_user_id") or "").strip() or m.get("is_active")]
 
 
 def get_next_round_robin_closer(db) -> dict:
@@ -659,7 +661,7 @@ def init_db():
                     role="seller",
                     dupla=member["dupla"],
                     ghl_user_id=member.get("ghl_user_id", ""),
-                    is_active=1 if member.get("ghl_user_id") else 0,
+                    is_active=1 if (member.get("ghl_user_id") or member.get("is_active")) else 0,
                     commission_rate=0.15,
                     created_at=now_iso,
                     calendar_url=member.get("calendar_url", "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8"),
@@ -668,6 +670,8 @@ def init_db():
             else:
                 exists_u.role = "seller"
                 exists_u.plan = "SVE-90 Enterprise"
+                if member.get("ghl_user_id") or member.get("is_active"):
+                    exists_u.is_active = 1
                 if member.get("ghl_user_id"):
                     exists_u.ghl_user_id = member["ghl_user_id"]
                 if member.get("calendar_url"):
