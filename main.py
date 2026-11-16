@@ -1954,6 +1954,16 @@ async def closers_kickoff_page(request: Request, token_q: Optional[str] = Query(
     return templates.TemplateResponse(request=request, name="closers.html", context={"request": request})
 
 
+@app.get("/nosotros", response_class=HTMLResponse)
+@app.head("/nosotros")
+@app.get("/nosotros/", response_class=HTMLResponse)
+@app.head("/nosotros/")
+@app.get("/nosotros.html", response_class=HTMLResponse)
+@app.head("/nosotros.html")
+async def nosotros_team_page(request: Request):
+    return templates.TemplateResponse(request=request, name="nosotros.html", context={"request": request})
+
+
 @app.get("/libro", response_class=HTMLResponse)
 @app.head("/libro")
 @app.get("/libro/", response_class=HTMLResponse)
