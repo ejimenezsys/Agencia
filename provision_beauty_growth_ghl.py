@@ -181,10 +181,8 @@ def provision_beauty_growth(token: str, location_id: str = BEAUTY_LOCATION_ID) -
             print(f"💾 Guardado ghl_beauty_pipeline_id={pip_id} y {len(stages_list)} etapas en prosper_ia.db")
 
         if partner_ghl_id:
-            u = db.query(User).filter(User.email == "dbecerra@agenciaprosperia.com").first()
-            if u:
-                u.ghl_user_id = partner_ghl_id
-                print(f"💾 Guardado ghl_user_id={partner_ghl_id} para dbecerra@agenciaprosperia.com")
+            _upsert_setting(db, "ghl_beauty_admin_user_id", partner_ghl_id)
+            print(f"💾 Guardado ghl_beauty_admin_user_id={partner_ghl_id} en IntegrationSetting")
         db.commit()
     finally:
         db.close()

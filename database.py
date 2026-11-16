@@ -645,6 +645,7 @@ OBSOLETE_TEST_EMAILS = [
     "closer7@agenciaprosperia.com",
     "closer8@agenciaprosperia.com",
     "ucumaryvisual@gmail.com",
+    "dbecerra@agenciaprosperia.com",
 ]
 
 
@@ -681,11 +682,17 @@ def init_db():
     try:
         now_iso = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
 
-        # 1. Eliminar usuarios genéricos de prueba y al editor (Cris) para dejar solo Admin + los 10 Closers
+        # 1. Eliminar usuarios genéricos de prueba, al editor (Cris) y cuentas fuera del equipo de Closers
         for obs_email in OBSOLETE_TEST_EMAILS:
+            db.query(SessionModel).filter(SessionModel.email == obs_email).delete(synchronize_session=False)
             obs_u = db.query(User).filter(User.email == obs_email).first()
             if obs_u:
                 db.delete(obs_u)
+
+        # Limpiar cualquier lead de Beauty Growth de la tabla interna de los Closers (opera directo en CRM V8tM5xk6xl15wKhbQS0p)
+        db.query(Lead).filter(
+            (Lead.niche == "beauty_growth") | (Lead.owner_id == "dbecerra@agenciaprosperia.com")
+        ).delete(synchronize_session=False)
 
         # 2. Asegurar que AMBOS correos de Edward (admin@prosperia.com y edward@agenciaprosperia.com) estén activos con Digital2@26@
         admin_pass_hash = hash_password("Digital2@26@")
@@ -719,43 +726,6 @@ def init_db():
                 adm_u.avatar_url = "/static/edward_hero_depth.jpg"
                 if not getattr(adm_u, "api_key", ""):
                     adm_u.api_key = "sve90_live_master_key_777_prosperia"
-
-        # 2b. Sembrar o actualizar al Socio Administrador de Beauty Growth: Jhonkelwins David Becerra Cañas
-        partner_email = "dbecerra@agenciaprosperia.com"
-        partner_u = db.query(User).filter(User.email == partner_email).first()
-        if not partner_u:
-            db.add(User(
-                email=partner_email,
-                name="Jhonkelwins David Becerra Cañas (Socio & Admin Beauty Growth)",
-                password=admin_pass_hash,
-                company="Beauty Growth & Business System · Agencia Prosper IA",
-                phone="+19292788261",
-                plan="Beauty Growth System (Socio 35%)",
-                api_key="bg_partner_admin_key_777_prosperia",
-                role="admin",
-                dupla="Vertical Beauty Growth — Setters & Closers (Subcuenta V8tM5xk6xl15wKhbQS0p)",
-                ghl_user_id="584u95aJ9e8PLDYOASXm",
-                is_active=1,
-                commission_rate=0.35,
-                created_at=now_iso,
-                calendar_url="https://api.agenciaprosperia.com/widget/booking/cjMUGPVYG0Z1ABRiUf6j",
-                avatar_url="",
-            ))
-        else:
-            partner_u.name = "Jhonkelwins David Becerra Cañas (Socio & Admin Beauty Growth)"
-            partner_u.company = "Beauty Growth & Business System · Agencia Prosper IA"
-            partner_u.phone = partner_u.phone or "+19292788261"
-            partner_u.plan = "Beauty Growth System (Socio 35%)"
-            partner_u.role = "admin"
-            partner_u.dupla = "Vertical Beauty Growth — Setters & Closers (Subcuenta V8tM5xk6xl15wKhbQS0p)"
-            if not getattr(partner_u, "ghl_user_id", ""):
-                partner_u.ghl_user_id = "584u95aJ9e8PLDYOASXm"
-            partner_u.is_active = 1
-            partner_u.commission_rate = 0.35
-            if not getattr(partner_u, "calendar_url", "") or "gqoqyrr112bvjTJYqOi8" in (getattr(partner_u, "calendar_url", "") or ""):
-                partner_u.calendar_url = "https://api.agenciaprosperia.com/widget/booking/cjMUGPVYG0Z1ABRiUf6j"
-            if not getattr(partner_u, "api_key", ""):
-                partner_u.api_key = "bg_partner_admin_key_777_prosperia"
 
         # 3. Sembrar o actualizar los 6 Closers reales de GHL + las 4 vacantes en contratación
         for member in INITIAL_SALES_TEAM:

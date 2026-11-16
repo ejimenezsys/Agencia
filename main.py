@@ -2899,34 +2899,10 @@ async def api_contact(req: ContactRequest, background_tasks: BackgroundTasks, db
         )
         initial_beauty_stage = "8. Reunión agendada" if has_booked_slot else "5. Respondió / Interesado"
 
-        beauty_default_cal = "https://api.agenciaprosperia.com/widget/booking/cjMUGPVYG0Z1ABRiUf6j"
-        beauty_sellers = (
-            db.query(User)
-            .filter(User.role == "seller", User.is_active == 1, User.dupla.like("%Beauty Growth%"))
-            .order_by(User.email.asc())
-            .all()
-        )
-        if beauty_sellers:
-            rr_row = db.query(IntegrationSetting).filter(IntegrationSetting.key == "beauty_rr_index").first()
-            idx_bg = int(rr_row.value) if (rr_row and (rr_row.value or "").isdigit()) else 0
-            chosen_bg = beauty_sellers[idx_bg % len(beauty_sellers)]
-            next_bg = (idx_bg + 1) % len(beauty_sellers)
-            if rr_row:
-                rr_row.value = str(next_bg)
-            else:
-                db.add(IntegrationSetting(key="beauty_rr_index", value=str(next_bg)))
-            owner_email = chosen_bg.email
-            closer_ghl_id = getattr(chosen_bg, "ghl_user_id", "") or "584u95aJ9e8PLDYOASXm"
-            closer_name = f"{chosen_bg.name} · Equipo Beauty Growth"
-            raw_bg_cal = getattr(chosen_bg, "calendar_url", "") or ""
-            base_cal = beauty_default_cal if (not raw_bg_cal or "gqoqyrr112bvjTJYqOi8" in raw_bg_cal) else raw_bg_cal
-        else:
-            partner_u = db.query(User).filter(User.email == "dbecerra@agenciaprosperia.com").first()
-            owner_email = "dbecerra@agenciaprosperia.com"
-            closer_ghl_id = (getattr(partner_u, "ghl_user_id", "") if partner_u else "") or "584u95aJ9e8PLDYOASXm"
-            closer_name = "Jhonkelwins David Becerra Cañas · Equipo Beauty Growth"
-            raw_bg_cal = (getattr(partner_u, "calendar_url", "") if partner_u else "") or ""
-            base_cal = beauty_default_cal if (not raw_bg_cal or "gqoqyrr112bvjTJYqOi8" in raw_bg_cal) else raw_bg_cal
+        owner_email = "dbecerra@agenciaprosperia.com"
+        closer_ghl_id = "584u95aJ9e8PLDYOASXm"
+        closer_name = "Jhonkelwins David Becerra Cañas · Beauty Growth"
+        base_cal = "https://api.agenciaprosperia.com/widget/booking/cjMUGPVYG0Z1ABRiUf6j"
     else:
         offer_version_val = "EXPRESS_497"
         initial_beauty_stage = "Primer contacto"
@@ -2938,80 +2914,75 @@ async def api_contact(req: ContactRequest, background_tasks: BackgroundTasks, db
         base_cal = (closer.get("calendar_url") if closer else "") or "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8"
 
     lead_id = None
-    try:
-        existing = None
-        if email_raw or phone_e164:
-            existing = db.query(DbLead).filter(
-                (DbLead.email == email_raw) | ((DbLead.phone_e164 == phone_e164) if phone_e164 else False)
-            ).first()
-        if existing:
-            existing.name = full_name or existing.name
-            existing.full_name = full_name or existing.full_name
-            existing.company = company_name or existing.company
-            existing.business_name = company_name or existing.business_name
-            existing.phone = phone_raw or existing.phone
-            existing.phone_e164 = phone_e164 or existing.phone_e164
-            existing.source = lead_source
-            existing.source_channel = lead_source
-            existing.interest_primary = industry_label
-            existing.notes = combined_notes
-            existing.score = max(existing.score or 0, score)
-            if is_beauty_growth:
-                existing.niche = "beauty_growth"
-                existing.selected_template = "beauty_growth_salon_spa"
-                existing.offer_version = offer_version_val
-                existing.quoted_amount = beauty_quoted_val
-                existing.source_campaign = "✨ Beauty Growth & Business System"
-            if not getattr(existing, "owner_id", ""):
-                existing.owner_id = owner_email
-                existing.setter_id = owner_email
+    if not is_beauty_growth:
+        try:
+            existing = None
+            if email_raw or phone_e164:
+                existing = db.query(DbLead).filter(
+                    (DbLead.email == email_raw) | ((DbLead.phone_e164 == phone_e164) if phone_e164 else False)
+                ).first()
+            if existing:
+                existing.name = full_name or existing.name
+                existing.full_name = full_name or existing.full_name
+                existing.company = company_name or existing.company
+                existing.business_name = company_name or existing.business_name
+                existing.phone = phone_raw or existing.phone
+                existing.phone_e164 = phone_e164 or existing.phone_e164
+                existing.source = lead_source
+                existing.source_channel = lead_source
+                existing.interest_primary = industry_label
+                existing.notes = combined_notes
+                existing.score = max(existing.score or 0, score)
+                if not getattr(existing, "owner_id", ""):
+                    existing.owner_id = owner_email
+                    existing.setter_id = owner_email
+                else:
+                    assigned_owner = db.query(User).filter(User.email == existing.owner_id).first()
+                    if assigned_owner:
+                        closer_name = assigned_owner.name or closer_name
+                        owner_email = assigned_owner.email
+                        closer_ghl_id = getattr(assigned_owner, "ghl_user_id", "") or closer_ghl_id
+                        if getattr(assigned_owner, "calendar_url", ""):
+                            base_cal = assigned_owner.calendar_url
+                if getattr(existing, "pipeline_stage", "") in ("", "Lead identificado", "1. Prospecto identificado"):
+                    existing.pipeline_stage = initial_beauty_stage
+                existing.status = "qualified"
+                db.commit()
+                lead_id = existing.id
             else:
-                assigned_owner = db.query(User).filter(User.email == existing.owner_id).first()
-                if assigned_owner:
-                    closer_name = assigned_owner.name or closer_name
-                    owner_email = assigned_owner.email
-                    closer_ghl_id = getattr(assigned_owner, "ghl_user_id", "") or closer_ghl_id
-                    if getattr(assigned_owner, "calendar_url", "") and not (is_beauty_growth and "gqoqyrr112bvjTJYqOi8" in assigned_owner.calendar_url):
-                        base_cal = assigned_owner.calendar_url
-            if getattr(existing, "pipeline_stage", "") in ("", "Lead identificado", "1. Prospecto identificado"):
-                existing.pipeline_stage = initial_beauty_stage
-            existing.status = "qualified"
-            db.commit()
-            lead_id = existing.id
-        else:
-            new_lead = DbLead(
-                name=full_name,
-                full_name=full_name,
-                email=email_raw or req.email,
-                company=company_name,
-                business_name=company_name,
-                phone=phone_raw,
-                phone_e164=phone_e164,
-                status="qualified",
-                source=lead_source,
-                source_channel=lead_source,
-                source_campaign="✨ Beauty Growth & Business System" if is_beauty_growth else "🚀 Embudo Soluciones + Round-Robin",
-                interest_primary=industry_label,
-                score=score,
-                notes=combined_notes,
-                created_at=created_at,
-                owner_id=owner_email,
-                setter_id=owner_email,
-                niche="beauty_growth" if is_beauty_growth else "clinica",
-                selected_template="beauty_growth_salon_spa" if is_beauty_growth else "clinica_dental_estetica",
-                offer_version=offer_version_val,
-                quoted_amount=beauty_quoted_val if is_beauty_growth else 0.0,
-                contact_permission="Formulario Web + SMS Opt-in" if req.sms_consent else "Formulario Web",
-                contact_status="contactable",
-                pipeline_stage=initial_beauty_stage,
-            )
-            db.add(new_lead)
-            db.commit()
-            db.refresh(new_lead)
-            lead_id = new_lead.id
-    except Exception as db_err:
-        print(f"⚠️ [DB LEAD WARNING] Could not persist lead to SQLite: {db_err}", flush=True)
-        db.rollback()
+                new_lead = DbLead(
+                    name=full_name,
+                    full_name=full_name,
+                    email=email_raw or req.email,
+                    company=company_name,
+                    business_name=company_name,
+                    phone=phone_raw,
+                    phone_e164=phone_e164,
+                    status="qualified",
+                    source=lead_source,
+                    source_channel=lead_source,
+                    source_campaign="🚀 Embudo Soluciones + Round-Robin",
+                    interest_primary=industry_label,
+                    score=score,
+                    notes=combined_notes,
+                    created_at=created_at,
+                    owner_id=owner_email,
+                    setter_id=owner_email,
+                    niche="clinica",
+                    selected_template="clinica_dental_estetica",
+                    offer_version=offer_version_val,
+                    quoted_amount=0.0,
+                    contact_permission="Formulario Web + SMS Opt-in" if req.sms_consent else "Formulario Web",
+                    contact_status="contactable",
+                    pipeline_stage=initial_beauty_stage,
+                )
+                db.add(new_lead)
+                db.commit()
+                db.refresh(new_lead)
+                lead_id = new_lead.id
+        except Exception as db_err:
+            print(f"⚠️ [DB LEAD WARNING] Could not persist lead to SQLite: {db_err}", flush=True)
+            db.rollback()
 
     # Construir URL personalizada del Calendario Round-Robin para incrustar en vivo
     cal_params = {}
