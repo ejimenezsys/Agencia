@@ -1,0 +1,33 @@
+# Base de Conocimientos Oficial — Agencia Prosper IA LLC
+*(Lista para uso de Aura IA 24/7 en Chat/Voz y exportación a PassportAI `https://passportai.app`)*
+
+## 1. Identidad de la Marca
+- **Nombre legal:** Agencia Prosper IA LLC
+- **Sede corporativa:** 7950 NW 53rd Street, Suite 337, Miami, FL 33166, EE. UU.
+- **Fundador:** Edward Jiménez (+25 años creando sistemas empresariales y financieros en Miami y Latinoamérica; autor del libro *Las 4 Inteligencias*).
+- **WhatsApp oficial:** +1 (786) 833-6964 (`https://wa.me/17868336964`)
+- **Correo oficial:** `edward@agenciaprosperia.com`
+- **Facebook oficial:** `https://www.facebook.com/ProsperarIAs/`
+- **Sitio principal:** `https://agenciaprosperia.com/`
+- **Plataforma SaaS propia:** PassportAI (`https://passportai.app`)
+
+## 2. A Quién Ayudamos (Nuestro Cliente Ideal)
+Dueños y dueñas de negocios en funcionamiento (clínicas dentales y estéticas, inmobiliarias, abogados, notarías, talleres, empresas de aire acondicionado, plomería, electricidad, piscinas, jardinería, techos y comercios PYME) en Estados Unidos y Latinoamérica que ya tienen clientes y consultas, pero pierden ventas o viven pegados al celular por responder tarde o no hacer seguimiento.
+
+## 3. Las 4 Inteligencias de Prosper IA
+1. **PROSPER (Web & Presencia Digital):** Páginas web y tiendas online conectadas a WhatsApp, pagos y agenda en `/paginas-web`. Incluye proyectos reales en vivo como PassportAI (`passportai.app`), Blancos Girasol, STI²Q (`sti2q.com.mx`), Servixo, Su Notaría USA, JPX International y Tarjeta Digital + QR de reseñas Google (`/tarjeta`).
+2. **AURA (Atención 24/7 por Chat y Voz):** Responde mensajes en WhatsApp, Instagram, Facebook y llamadas con voz natural en segundos (`/agentes-ia`), filtra curiosos y confirma citas en el calendario.
+3. **CORTEX (CRM por Industria & 23 Micro-Apps IA):** Tablero comercial por industria (`/crm`), asignación automática Round-Robin de calendarios para Closers, +1,000 plantillas y 23 herramientas diarias en español (Priorizador de prospectos del día, calculadora de precio defendible, bitácora y escudo de reseñas Google).
+4. **IMPULSO (Marketing, Anuncios & Fábrica de Reels):** Campañas en Facebook, Instagram y Google directo a WhatsApp (`/marketing`), banco de 282 ángulos comerciales probados, páginas de captura rápidas y edición profesional de Reels (+744,000 vistas reales orgánicas) más acceso a PassportAI.
+
+## 4. Las 3 Opciones Comerciales (Cajas) + Plan Rescate Micro-PYME
+*Política comercial oficial: No se publican precios fijos cerrados en la web pública. Todo inicia con demostración en vivo y cotización personalizada con uno de nuestros Closers.*
+*Condición de facilidad universal: **50% al iniciar hoy y 50% cuando entregamos todo funcionando en 7 a 10 días**.*
+1. **Caja 1 · Arranque Rápido PYME:** Página Web Profesional + Formulario calificador + Asistente 24/7 Aura + 1er mes de Tablero de Clientes y Agenda incluido.
+2. **Caja 2 · Pack Estrella Anual (La Más Elegida):** Web + Asistente 24/7 Aura + **12 meses completos** de Tablero de Clientes y Agenda (cero mensualidades todo el año) + **12 meses** de PassportAI Business + **Bono de 2 Videos Cortos Reels** editados por nuestro equipo.
+3. **Caja 3 · Máquina Completa 3 en 1 (No Tocas Nada):** Web + Asistente 24/7 + Tablero + PassportAI + **10 Videos Cortos Reels** editados por nuestro equipo + **1 Mes Completo de Campañas de Anuncios** operadas por nuestro especialista trayendo citas reales.
+4. **Carta de Apoyo · Plan Rescate Micro-PYME:** Versión express en 5 días con Landing directa de tu giro + formulario y conexión inmediata a WhatsApp para pequeños negocios que necesitan dejar de perder clientes esta misma semana.
+
+## 5. Proceso de Agendamiento y Entrega
+- El prospecto elige su solución en el formulario único de la página principal (`/#contacto`), el sistema le asigna un Closer en **Round-Robin** dentro del CRM Prosper IA y despliega al instante el calendario en vivo para escoger día y hora.
+- Tiempo de implementación: **7 a 10 días calendario** (5 días en Plan Rescate).

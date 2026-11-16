@@ -1550,7 +1550,7 @@ async def read_consultoria_ia(request: Request):
 @app.head("/gracias/")
 @app.get("/gracias.html", response_class=HTMLResponse)
 @app.head("/gracias.html")
-async def read_gracias(request: Request):
+async def read_gracias(request: Request, db: Session = Depends(get_db)):
     import urllib.parse
     first_name = request.query_params.get("first_name", "").strip()
     last_name = request.query_params.get("last_name", "").strip()
@@ -1558,6 +1558,7 @@ async def read_gracias(request: Request):
     email = request.query_params.get("email", "").strip()
     phone = request.query_params.get("phone", "").strip()
     company = request.query_params.get("company", "").strip() or request.query_params.get("organization", "").strip()
+    cal_base_param = request.query_params.get("cal_base", "").strip()
 
     if not first_name and name:
         parts = name.split()
@@ -1565,6 +1566,24 @@ async def read_gracias(request: Request):
         last_name = " ".join(parts[1:]) if len(parts) > 1 else ""
 
     full_name = f"{first_name} {last_name}".strip() if (first_name or last_name) else name
+
+    # Resolver calendario Round-Robin asignado en el CRM
+    base_cal = cal_base_param if cal_base_param.startswith("https://api.agenciaprosperia.com/") else ""
+    if not base_cal and (email or phone):
+        norm_em = normalize_email(email) if email else ""
+        norm_ph = normalize_phone_e164(phone) if phone else ""
+        matched_lead = None
+        if norm_em:
+            matched_lead = db.query(DbLead).filter(DbLead.email == norm_em).order_by(DbLead.id.desc()).first()
+        if not matched_lead and norm_ph:
+            matched_lead = db.query(DbLead).filter(DbLead.phone_e164 == norm_ph).order_by(DbLead.id.desc()).first()
+        if matched_lead and getattr(matched_lead, "owner_id", ""):
+            owner_row = db.query(User).filter(User.email == matched_lead.owner_id).first()
+            if owner_row and getattr(owner_row, "calendar_url", ""):
+                base_cal = owner_row.calendar_url
+    if not base_cal:
+        rr_closer = get_next_round_robin_closer(db)
+        base_cal = rr_closer.get("calendar_url") or "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8"
 
     # GHL Nuxt widget oficial usa exactamente estas claves:
     # Gv = ["full_name","first_name","last_name","phone","email","organization",...]
@@ -1585,9 +1604,9 @@ async def read_gracias(request: Request):
         cal_params["company_name"] = company
         cal_params["company"] = company
 
-    base_cal = "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8"
     if cal_params:
-        calendar_url = f"{base_cal}?{urllib.parse.urlencode(cal_params)}"
+        sep = "&" if "?" in base_cal else "?"
+        calendar_url = f"{base_cal}{sep}{urllib.parse.urlencode(cal_params)}"
     else:
         calendar_url = base_cal
 
@@ -1639,6 +1658,9 @@ SITIOWEB_NICHE_TEMPLATE_MAP = {
     "hvac": "hvac_miami",
     "plomeria": "plomeria_pro",
     "roofing": "roofing_remodel",
+    "electricista": "electricista_pro",
+    "piscinas": "piscinas_spas",
+    "jardineria": "jardineria_paisajismo",
     "sti2q": "sti2q_industrial",
     "enterprise": "sti2q_industrial",
     "academia": "academia_educacion_cursos",
@@ -2092,7 +2114,7 @@ async def get_llms_txt():
         "- Instagram: https://www.instagram.com/edwardjimenezia/\n"
         "- LinkedIn: https://www.linkedin.com/in/edwardjimenezia/\n"
         "- YouTube: https://www.youtube.com/@AgenciaProsper_IA\n"
-        "- Facebook: https://www.facebook.com/AgenciaProsperarIA/\n\n"
+        "- Facebook: https://www.facebook.com/ProsperarIAs/\n\n"
         "## Contacto\n"
         "- Email: edward@agenciaprosperia.com\n"
         "- Sitio: https://agenciaprosperia.com\n"
@@ -2586,7 +2608,8 @@ def trigger_lead_sync(
     industry: str = "",
     team_size: str = "",
     raw_message: str = "",
-    sms_consent: bool = False
+    sms_consent: bool = False,
+    assigned_to: str = "",
 ):
     # Fetch webhook settings
     settings = db.query(IntegrationSetting).all()
@@ -2725,17 +2748,19 @@ def trigger_lead_sync(
         message=raw_message,
         notes=lead_notes,
         sms_consent=sms_consent,
+        assigned_to=assigned_to,
     )
 
 @app.post("/api/auth/contact")
 async def api_contact(req: ContactRequest, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
+    import urllib.parse
     created_at = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
-    score = 80
-    
+    score = 88
+
     full_name = req.name.strip() if req.name else ""
     first_name = req.first_name.strip() if req.first_name else ""
     last_name = req.last_name.strip() if req.last_name else ""
-    
+
     if not full_name and (first_name or last_name):
         full_name = f"{first_name} {last_name}".strip()
     elif full_name and not first_name:
@@ -2743,42 +2768,125 @@ async def api_contact(req: ContactRequest, background_tasks: BackgroundTasks, db
         first_name = parts[0] if parts else ""
         last_name = " ".join(parts[1:]) if len(parts) > 1 else ""
 
+    email_raw = normalize_email(req.email or "")
+    phone_raw = (req.phone or "").strip()
+    phone_e164 = normalize_phone_e164(phone_raw)
+    company_name = (req.company or "").strip()
+    industry_label = (req.industry or "Soluciones Agencia Prosper IA").strip()
+    lead_source = (req.source or "portal_corporativo").strip()
+
     formatted_notes_parts = []
-    if req.industry:
-        formatted_notes_parts.append(f"[Industria: {req.industry}]")
+    if industry_label:
+        formatted_notes_parts.append(f"[Solución: {industry_label}]")
     if req.team_size:
         formatted_notes_parts.append(f"[Equipo: {req.team_size}]")
     if req.message:
         formatted_notes_parts.append(f"Objetivo / Mensaje: {req.message}")
-    
+
     combined_notes = " ".join(formatted_notes_parts) if formatted_notes_parts else (req.message or "")
 
+    # Asignación automática Round-Robin al Closer activo en CRM
+    closer = get_next_round_robin_closer(db)
+    owner_email = closer.get("email", "") if closer else ""
+    closer_ghl_id = closer.get("ghl_user_id", "") if closer else ""
+    closer_name = closer.get("name", "Especialista Agencia Prosper IA") if closer else "Especialista Agencia Prosper IA"
+    base_cal = (closer.get("calendar_url") if closer else "") or "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8"
+
+    lead_id = None
     try:
-        new_lead = DbLead(
-            name=full_name,
-            email=req.email,
-            company=req.company or "",
-            phone=req.phone or "",
-            status="new",
-            source=req.source or "portal_corporativo",
-            score=score,
-            notes=combined_notes,
-            created_at=created_at
-        )
-        db.add(new_lead)
-        db.commit()
+        existing = None
+        if email_raw or phone_e164:
+            existing = db.query(DbLead).filter(
+                (DbLead.email == email_raw) | ((DbLead.phone_e164 == phone_e164) if phone_e164 else False)
+            ).first()
+        if existing:
+            existing.name = full_name or existing.name
+            existing.full_name = full_name or existing.full_name
+            existing.company = company_name or existing.company
+            existing.business_name = company_name or existing.business_name
+            existing.phone = phone_raw or existing.phone
+            existing.phone_e164 = phone_e164 or existing.phone_e164
+            existing.source = lead_source
+            existing.source_channel = lead_source
+            existing.interest_primary = industry_label
+            existing.notes = combined_notes
+            existing.score = max(existing.score or 0, score)
+            if not getattr(existing, "owner_id", ""):
+                existing.owner_id = owner_email
+                existing.setter_id = owner_email
+            else:
+                assigned_owner = db.query(User).filter(User.email == existing.owner_id).first()
+                if assigned_owner:
+                    closer_name = assigned_owner.name or closer_name
+                    owner_email = assigned_owner.email
+                    closer_ghl_id = getattr(assigned_owner, "ghl_user_id", "") or closer_ghl_id
+                    if getattr(assigned_owner, "calendar_url", ""):
+                        base_cal = assigned_owner.calendar_url
+            if getattr(existing, "pipeline_stage", "") in ("", "Lead identificado"):
+                existing.pipeline_stage = "Primer contacto"
+            existing.status = "qualified"
+            db.commit()
+            lead_id = existing.id
+        else:
+            new_lead = DbLead(
+                name=full_name,
+                full_name=full_name,
+                email=email_raw or req.email,
+                company=company_name,
+                business_name=company_name,
+                phone=phone_raw,
+                phone_e164=phone_e164,
+                status="qualified",
+                source=lead_source,
+                source_channel=lead_source,
+                source_campaign="🚀 Embudo Soluciones + Round-Robin",
+                interest_primary=industry_label,
+                score=score,
+                notes=combined_notes,
+                created_at=created_at,
+                owner_id=owner_email,
+                setter_id=owner_email,
+                contact_permission="Formulario Web + SMS Opt-in" if req.sms_consent else "Formulario Web",
+                contact_status="contactable",
+                pipeline_stage="Primer contacto",
+            )
+            db.add(new_lead)
+            db.commit()
+            db.refresh(new_lead)
+            lead_id = new_lead.id
     except Exception as db_err:
         print(f"⚠️ [DB LEAD WARNING] Could not persist lead to SQLite: {db_err}", flush=True)
         db.rollback()
-    
+
+    # Construir URL personalizada del Calendario Round-Robin para incrustar en vivo
+    cal_params = {}
+    if first_name:
+        cal_params["first_name"] = first_name
+    if last_name:
+        cal_params["last_name"] = last_name
+    if full_name:
+        cal_params["full_name"] = full_name
+        cal_params["name"] = full_name
+    if email_raw or req.email:
+        cal_params["email"] = email_raw or req.email
+    if phone_e164 or phone_raw:
+        cal_params["phone"] = phone_e164 or phone_raw
+    if company_name:
+        cal_params["organization"] = company_name
+        cal_params["company_name"] = company_name
+        cal_params["company"] = company_name
+
+    sep = "&" if "?" in base_cal else "?"
+    calendar_url = f"{base_cal}{sep}{urllib.parse.urlencode(cal_params)}" if cal_params else base_cal
+
     # Enviar notificación automática por correo electrónico a edward@agenciaprosperia.com
     background_tasks.add_task(
         send_email_notification,
         name=full_name,
         email=req.email,
-        company=req.company or "",
-        phone=req.phone or "",
-        message=combined_notes
+        company=company_name,
+        phone=phone_raw,
+        message=f"[Closer Round-Robin: {closer_name}] {combined_notes}"
     )
 
     # Envío automático de la radiografía de diagnóstico comercial al cliente desde edward@agenciaprosperia.com
@@ -2787,28 +2895,35 @@ async def api_contact(req: ContactRequest, background_tasks: BackgroundTasks, db
             send_client_diagnostic_email,
             name=full_name,
             email=req.email,
-            phone=req.phone or "",
+            phone=phone_raw,
             message=combined_notes
         )
-    
-    # Sincronizar automáticamente con GoHighLevel y n8n con payload adaptado 1:1
+
+    # Sincronizar automáticamente con GoHighLevel y n8n asignando al Closer Round-Robin
     trigger_lead_sync(
         lead_name=full_name,
         lead_email=req.email,
-        lead_phone=req.phone or "",
-        lead_company=req.company or "",
+        lead_phone=phone_raw,
+        lead_company=company_name,
         lead_notes=combined_notes,
-        lead_source=req.source or "portal_corporativo",
+        lead_source=lead_source,
         db=db,
         first_name_param=first_name,
         last_name_param=last_name,
-        industry=req.industry or "",
+        industry=industry_label,
         team_size=req.team_size or "",
         raw_message=req.message or "",
-        sms_consent=bool(req.sms_consent)
+        sms_consent=bool(req.sms_consent),
+        assigned_to=closer_ghl_id,
     )
-    
-    return {"success": True}
+
+    return {
+        "success": True,
+        "lead_id": lead_id,
+        "closer_name": closer_name,
+        "closer_email": owner_email,
+        "calendar_url": calendar_url,
+    }
 
 
 @app.get("/api/users/me")
@@ -3259,6 +3374,114 @@ async def api_agent_chat(req: AgentChatRequest, request: Request = None):
             reply = "Entendido. Toda la infraestructura del SVE90 está blindada y estructurada para garantizar tiempos de respuesta rápidos y consistentes. ¿Tienes alguna pregunta específica?"
             
     return {"success": True, "reply": reply}
+
+
+def _load_prosperia_kb_text() -> str:
+    kb_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static", "knowledge_base_prosperia.md")
+    try:
+        with open(kb_path, "r", encoding="utf-8") as f:
+            return f.read()[:5000]
+    except Exception:
+        return (
+            "Agencia Prosper IA LLC (Miami, FL) instala Página Web, Asistente 24/7 Aura en WhatsApp/Voz, "
+            "Tablero CRM Cortex con 23 Micro-Apps IA y Campañas/Reels con Impulso en 7 a 10 días con 50% al iniciar y 50% al entregar."
+        )
+
+
+class ProsperiaAssistantRequest(BaseModel):
+    message: str
+    mode: Optional[str] = "chat"  # chat | voice
+    history: Optional[List[Dict[str, str]]] = None
+
+
+@app.post("/api/prosperia/assistant")
+async def api_prosperia_assistant(req: ProsperiaAssistantRequest, request: Request = None):
+    """Asistente oficial Chat & Voz en Vivo conectado a la Base de Conocimientos completa de Agencia Prosper IA."""
+    from sales_os_router import invoke_gemini_assistant, extract_client_ip
+
+    raw_msg = (req.message or "").strip()
+    if not raw_msg:
+        return {
+            "success": True,
+            "reply": "¡Hola! Soy Aura, la asistente de Agencia Prosper IA. ¿En qué te ayudo hoy sobre páginas web, atención en WhatsApp, tablero de clientes o videos y anuncios?",
+            "engine": "prosperia-kb-ready",
+        }
+
+    client_ip = extract_client_ip(request)
+    kb_text = _load_prosperia_kb_text()
+    mode = (req.mode or "chat").lower()
+
+    hist_lines = []
+    if req.history:
+        for h in req.history[-6:]:
+            role = "Cliente" if h.get("role") == "user" else "Aura"
+            txt = str(h.get("text", "")).strip()[:220]
+            if txt:
+                hist_lines.append(f"{role}: {txt}")
+    hist_block = ("\nCONVERSACIÓN RECIENTE:\n" + "\n".join(hist_lines)) if hist_lines else ""
+
+    voice_rule = (
+        "Como estás hablando EN VOZ ALTA, responde de forma cálida, natural y sin asteriscos ni emojis, en 2 a 3 oraciones claras."
+        if mode == "voice"
+        else "Responde en español claro y amable en máximo 3 oraciones cortas, sin tecnicismos ni listas largas."
+    )
+
+    sys_prompt = (
+        "Eres AURA, la Asistente Oficial de Agencia Prosper IA LLC.\n"
+        f"REGLAS OBLIGATORIAS:\n1. {voice_rule}\n"
+        "2. CERO jerga técnica (nunca digas RAG, LLM, tokens, webhooks, prompts o pipelines).\n"
+        "3. NO inventes precios fijos en dólares; explica nuestras 3 opciones (Arranque Rápido PYME, Pack Estrella Anual sin mensualidades, Máquina Completa 3 en 1) y el Plan Rescate Micro-PYME con 50% al iniciar y 50% contra entrega en 7 a 10 días, e invita a elegir su solución en el calendario del formulario o escribir por WhatsApp al +1 786 833 6964.\n"
+        f"\nBASE DE CONOCIMIENTOS OFICIAL:\n{kb_text}\n{hist_block}"
+    )
+
+    reply = invoke_gemini_assistant(sys_prompt, raw_msg, client_ip=client_ip, max_tokens=220)
+    engine = "gemini-2.5-flash"
+
+    if not reply:
+        engine = "prosperia-kb-fallback"
+        m = raw_msg.lower()
+        if any(w in m for w in ["precio", "costo", "cuanto", "cuesta", "valor", "presupuesto", "vale"]):
+            reply = (
+                "Cada negocio recibe una propuesta a medida según su rubro y tamaño, sin precios enlatados. "
+                "Contamos con 3 opciones —Arranque Rápido PYME, Pack Estrella Anual sin mensualidades y Máquina Completa 3 en 1— todas con 50% al iniciar y 50% al entregar en 7 a 10 días. "
+                "¿Quieres agendar 15 minutos en nuestro calendario para mostrarte cómo quedaría tu negocio y darte el valor exacto?"
+            )
+        elif any(w in m for w in ["web", "pagina", "sitio", "tienda", "portafolio", "ejemplo"]):
+            reply = (
+                "Con Prosper diseñamos páginas web y tiendas conectadas directo a tu WhatsApp y calendario en 7 a 10 días, como PassportAI, Blancos Girasol, STI2Q y negocios de servicios del hogar. "
+                "¿De qué giro es tu empresa para enseñarte una muestra parecida?"
+            )
+        elif any(w in m for w in ["whatsapp", "atender", "voz", "llamada", "aura", "contestar", "mensaje"]):
+            reply = (
+                "Aura atiende tus mensajes de WhatsApp, Instagram y llamadas en segundos las 24 horas con el tono natural de tu negocio, filtra curiosos y deja las citas listas en tu agenda. "
+                "¿Cuántos mensajes aproximados recibes a la semana?"
+            )
+        elif any(w in m for w in ["marketing", "anuncio", "reel", "video", "facebook", "instagram", "publicidad"]):
+            reply = (
+                "Impulso combina campañas en Facebook, Instagram y Google directo a WhatsApp con guiones probados y edición profesional de hasta 10 Reels al mes, más acceso a PassportAI para crear ofertas en 3 clics. "
+                "¿Te gustaría ver las opciones para llenar tu agenda este mismo mes?"
+            )
+        elif any(w in m for w in ["crm", "agenda", "calendario", "cita", "orden", "seguimiento", "closer"]):
+            reply = (
+                "Cortex ordena a todos tus clientes en un tablero visual según tu industria, envía recordatorios automáticos para que nadie te deje en visto y asigna citas automáticamente en calendario. "
+                "Si llenas el formulario aquí abajo te abre de inmediato el calendario con un especialista."
+            )
+        else:
+            reply = (
+                "En Agencia Prosper IA te instalamos en 7 a 10 días tu página web, asistente 24/7 en WhatsApp, tablero de clientes y campañas o Reels para que vendas sin vivir pegado al celular, pagando 50% al iniciar y 50% al entregar. "
+                "¿Qué parte te urge resolver primero en tu negocio?"
+            )
+
+    if mode == "voice":
+        reply = reply.replace("**", "").replace("*", "")
+
+    return {
+        "success": True,
+        "reply": reply,
+        "engine": engine,
+        "calendar_anchor": "/#contacto",
+        "whatsapp_url": "https://wa.me/17868336964",
+    }
 
 # --- ENDPOINT DE PROSPECCIÓN INTELIGENTE ---
 import urllib.request

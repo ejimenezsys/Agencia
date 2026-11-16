@@ -93,8 +93,10 @@ def _serve_static_site_file(base_dir: str, prefix: str, subpath: str = ""):
     if not os.path.exists(safe_target):
         raise HTTPException(status_code=404, detail="Archivo no encontrado en portafolio.")
     if safe_target.endswith(".html"):
+        rel_dir = os.path.relpath(os.path.dirname(safe_target), base_abs).replace(os.sep, "/")
+        dir_prefix = prefix if rel_dir in ("", ".") else f"{prefix}{rel_dir.strip('/')}/"
         with open(safe_target, "r", encoding="utf-8", errors="replace") as f:
-            content = _inject_base_href(f.read(), prefix)
+            content = _inject_base_href(f.read(), dir_prefix)
         return HTMLResponse(content=content)
     return FileResponse(safe_target)
 

@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Marketing Digital, Meta Ads Click-to-WhatsApp &amp; Fábrica de Reels IA | Agencia ProsperIA</title>
-  <meta name="description" content="Llena tu WhatsApp de clientes calificados con campañas en Meta Ads y Google Ads, 282 ángulos probados de BizBox, fábrica de Reels IA y páginas de captura.">
+  <title>Marketing Comercial, Anuncios Click-to-WhatsApp &amp; Fábrica de Reels | Agencia ProsperIA</title>
+  <meta name="description" content="Llena tu WhatsApp y calendario Round-Robin de clientes calificados con campañas Meta y Google Ads, 282 ángulos probados por rubro, páginas de captura, PassportAI y edición de Reels (+744K vistas reales).">
   <link rel="icon" type="image/png" href="{{ static_versioned('favicon.png') }}">
   <link rel="stylesheet" href="{{ static_versioned('fonts.css') }}">
   <link rel="stylesheet" href="{{ static_versioned('fa.min.css') }}">
@@ -12,6 +12,71 @@
   <style>
     .mk-hero-grid { display:grid; grid-template-columns:1fr; gap:2.25rem; align-items:center; }
     @media (min-width:980px) { .mk-hero-grid { grid-template-columns:1.2fr 0.8fr; } }
+
+    .mk-stats-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    .mk-stat-box {
+      padding: 1.15rem 1.25rem;
+      border-radius: 16px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(251, 191, 36, 0.28);
+    }
+    .mk-engines-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    @media (min-width:740px) { .mk-engines-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (min-width:1100px) { .mk-engines-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+    .mk-engine-img {
+      width: 100%;
+      height: 195px;
+      object-fit: cover;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 1rem;
+    }
+    .mk-ads-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.15rem;
+    }
+    .mk-reels-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 1.25rem;
+    }
+    .mk-reel-video {
+      width: 100%;
+      aspect-ratio: 9 / 16;
+      max-height: 410px;
+      background: #020617;
+      border-radius: 14px;
+      border: 1px solid rgba(251, 191, 36, 0.35);
+      object-fit: cover;
+    }
+    .mk-compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+    }
+    .mk-compare-table th, .mk-compare-table td {
+      padding: 1rem 1.1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      text-align: left;
+      vertical-align: top;
+    }
+    .mk-compare-table th {
+      font-weight: 800;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
   </style>
 </head>
 <body>
@@ -19,67 +84,262 @@
   {% with active_menu='marketing' %}{% include "navbar.html" %}{% endwith %}
 
   <main>
-    <section class="pia-shell" style="padding-block: 2.5rem 4rem;">
+    <!-- ── 1. HERO COMERCIAL IMPULSO ── -->
+    <section class="pia-shell" style="padding-block: 2.5rem 3.5rem;">
       <div class="mk-hero-grid">
         <div>
-          <div class="pia-eyebrow"><i class="fas fa-bullhorn" aria-hidden="true"></i> Tráfico, Reels &amp; Embudos Click-to-WhatsApp</div>
-          <h1 class="font-heading" style="font-size: clamp(2rem, 4vw, 3.25rem); font-weight: 900; margin-bottom: 1.1rem;">
-            Llena Tu WhatsApp de Prospectos Listos Para Comprar Con <span class="pia-gradient-text">Anuncios + Fábrica de Reels IA</span>
+          <div class="pia-eyebrow"><i class="fas fa-bullhorn" aria-hidden="true"></i> Tráfico, Fábrica de Reels &amp; Embudos Click-to-WhatsApp</div>
+          <h1 class="font-heading" style="font-size: clamp(2rem, 4.1vw, 3.35rem); font-weight: 900; margin-bottom: 1.1rem;">
+            Deja de Publicar a Ciegas: Llena Tu WhatsApp y Agenda de Clientes Listos Para Comprar Con <span class="pia-gradient-text">Anuncios + Reels Reales</span>
           </h1>
-          <p style="font-size: 1.06rem; color: #cbd5e1; max-width: 660px; margin-bottom: 1.5rem;">
-            De nada sirve tener la mejor página web si nadie la visita. <strong style="color:#fbbf24;">Orion</strong> combina pauta optimizada en Meta Ads y Google Ads con nuestro banco de <strong style="color:#fff;">282 ángulos probados de BizBox</strong>, páginas de captura y edición profesional de Reels (+744K vistas reales).
+          <p style="font-size: 1.06rem; color: #cbd5e1; max-width: 680px; margin-bottom: 1.5rem;">
+            Tener una buena página no basta si nadie llega a verla. <strong style="color:#fbbf24;">IMPULSO</strong> une campañas en Facebook, Instagram y Google directo a tu WhatsApp con nuestro banco de <strong style="color:#fff;">282 ángulos comerciales probados</strong>, edición profesional de Reels (<strong style="color:#34d399;">+744K vistas reales</strong>) y el estudio creativo de <strong style="color:#00e5ff;">PassportAI</strong>.
           </p>
           <div style="display:flex; flex-wrap:wrap; gap:0.85rem;">
             <a href="#solicitar-marketing" class="pia-btn-primary">
-              <i class="fas fa-bolt" aria-hidden="true"></i>
-              <span>Activar Mi Campaña Click-to-WhatsApp</span>
+              <i class="fas fa-calendar-check" aria-hidden="true"></i>
+              <span>Cotizar y Agendar Mi Plan de Marketing</span>
             </a>
-            <a href="/arsenal" class="pia-btn-ghost">Explorar El Arsenal (+5,000 Prompts)</a>
-            <a href="/codigos" class="pia-btn-ghost">200 Códigos Creativos</a>
+            <a href="#vitrina-creativos" class="pia-btn-emerald">
+              <i class="fas fa-play-circle" aria-hidden="true"></i>
+              <span>Ver Reels y Anuncios Reales ↓</span>
+            </a>
+            <a href="https://passportai.app" target="_blank" rel="noopener" class="pia-btn-ghost">
+              <span>Probar PassportAI ↗</span>
+            </a>
           </div>
         </div>
         <div>
-          {{ render_squad_character('orion') }}
+          {{ render_squad_character('impulso') }}
+        </div>
+      </div>
+
+      <!-- Barra de Resultados -->
+      <div class="mk-stats-strip">
+        <div class="mk-stat-box">
+          <div style="font-size:1.75rem; font-weight:900; color:#fbbf24;">+744,000</div>
+          <div style="font-size:0.85rem; color:#cbd5e1;">Vistas orgánicas reales en campañas y Reels de Agencia Prosper IA</div>
+        </div>
+        <div class="mk-stat-box" style="border-color:rgba(0,229,255,0.3);">
+          <div style="font-size:1.75rem; font-weight:900; color:#00e5ff;">282 Ángulos</div>
+          <div style="font-size:0.85rem; color:#cbd5e1;">Guiones de anuncios y ofertas listos para 82 oficios y servicios</div>
+        </div>
+        <div class="mk-stat-box" style="border-color:rgba(52,211,153,0.3);">
+          <div style="font-size:1.75rem; font-weight:900; color:#34d399;">7 a 10 Días</div>
+          <div style="font-size:0.85rem; color:#cbd5e1;">Sistema instalado completo con 50% al iniciar y 50% contra entrega</div>
+        </div>
+        <div class="mk-stat-box" style="border-color:rgba(129,140,248,0.3);">
+          <div style="font-size:1.75rem; font-weight:900; color:#a5b4fc;">100% Medido</div>
+          <div style="font-size:0.85rem; color:#cbd5e1;">Cada clic entra al Tablero CRM y se atiende en segundos con Aura 24/7</div>
         </div>
       </div>
     </section>
 
-    <section class="pia-section" style="background: rgba(7, 11, 20, 0.72);">
+    <!-- ── 2. LOS 6 MOTORES DE ADQUISICIÓN PROSPER IA ── -->
+    <section class="pia-section" style="background: rgba(7, 11, 20, 0.78);">
       <div class="pia-shell">
-        <div style="text-align:center; max-width:740px; margin:0 auto 2.5rem;">
-          <div class="pia-eyebrow"><i class="fas fa-fire" aria-hidden="true"></i> Los 3 Motores de Tráfico ProsperIA</div>
-          <h2 class="font-heading" style="font-size: clamp(1.7rem, 3vw, 2.45rem); font-weight: 900;">
-            Atracción Constante Sin Depender de Suerte ni de Publicar a Ciegas
+        <div style="text-align:center; max-width:780px; margin:0 auto 2.5rem;">
+          <div class="pia-eyebrow"><i class="fas fa-fire" aria-hidden="true"></i> Sistema Completo de Atracción de Clientes</div>
+          <h2 class="font-heading" style="font-size: clamp(1.75rem, 3.2vw, 2.55rem); font-weight: 900;">
+            6 Motores Integrados Para Traer Prospectos Calificados Todos los Días
           </h2>
+          <p style="color:#94a3b8; font-size:0.96rem; margin-top:0.45rem;">
+            No vendemos «likes» ni publicaciones de relleno. Cada pieza tiene un objetivo concreto: que el dueño de casa o empresa te escriba por WhatsApp y agende cita.
+          </p>
         </div>
 
-        <div class="pia-grid-3">
-          <article class="pia-card" style="padding:1.75rem;">
-            <div style="font-size:1.45rem; color:#fbbf24; margin-bottom:0.6rem;"><i class="fas fa-bullseye" aria-hidden="true"></i></div>
-            <h3 class="font-heading" style="font-size:1.28rem; font-weight:800; margin-bottom:0.5rem;">1. Campañas Meta &amp; Google Ads Directo a WhatsApp</h3>
-            <p style="color:#94a3b8; font-size:0.9rem;">Segmentación geográfica por ciudad/código postal, creativos de alto contraste y anuncios que aterrizan directo en tu Recepcionista IA Nova o en tu página de captura.</p>
+        <div class="mk-engines-grid">
+          <article class="pia-card" style="padding:1.5rem;">
+            <img class="mk-engine-img" src="/static/ecosistema/reels_hero.png" alt="Fábrica de Reels y videos cortos de Agencia Prosper IA" loading="lazy">
+            <span style="font-size:0.74rem; font-weight:800; color:#fbbf24; text-transform:uppercase;">Motor 1 · Autoridad Visual</span>
+            <h3 class="font-heading" style="font-size:1.22rem; font-weight:800; margin:0.35rem 0 0.5rem;">Fábrica de Videos Cortos y Reels</h3>
+            <p style="color:#cbd5e1; font-size:0.88rem; margin:0;">
+              Tú grabas clips sencillos siguiendo nuestros guiones de 30 segundos y nuestro equipo edita 2 o 10 Reels al mes con subtítulos dinámicos, ritmo de retención y llamado directo a tu WhatsApp.
+            </p>
           </article>
 
-          <article class="pia-card" style="padding:1.75rem; border-color:rgba(0,229,255,0.4);">
-            <div style="font-size:1.45rem; color:#00e5ff; margin-bottom:0.6rem;"><i class="fas fa-film" aria-hidden="true"></i></div>
-            <h3 class="font-heading" style="font-size:1.28rem; font-weight:800; margin-bottom:0.5rem;">2. Fábrica de Reels &amp; 282 Ángulos (BizBox)</h3>
-            <p style="color:#94a3b8; font-size:0.9rem;">Guiones listos con Hook, Desarrollo y CTA para tu oficio o industria, edición con subtítulos dinámicos y producción semanal constante en Instagram, TikTok y Reels.</p>
+          <article class="pia-card" style="padding:1.5rem; border-color:rgba(0,229,255,0.35);">
+            <img class="mk-engine-img" src="/static/ecosistema/anuncios_hero.png" alt="Campañas Meta Ads y Google Ads directo a WhatsApp" loading="lazy">
+            <span style="font-size:0.74rem; font-weight:800; color:#00e5ff; text-transform:uppercase;">Motor 2 · Pauta Local Rentable</span>
+            <h3 class="font-heading" style="font-size:1.22rem; font-weight:800; margin:0.35rem 0 0.5rem;">Meta Ads &amp; Google Directo a WhatsApp</h3>
+            <p style="color:#cbd5e1; font-size:0.88rem; margin:0;">
+              Segmentación por ciudad, código postal e intención real de compra. Cada anuncio aterriza directo en nuestra Asistente 24/7 Aura para filtrar curiosos y entregar la cita lista.
+            </p>
           </article>
 
-          <article class="pia-card" style="padding:1.75rem; border-color:rgba(52,211,153,0.4);">
-            <div style="font-size:1.45rem; color:#34d399; margin-bottom:0.6rem;"><i class="fas fa-magnet" aria-hidden="true"></i></div>
-            <h3 class="font-heading" style="font-size:1.28rem; font-weight:800; margin-bottom:0.5rem;">3. Páginas de Captura (Squeeze) + CRM</h3>
-            <p style="color:#94a3b8; font-size:0.9rem;">Calculadoras de precio, diagnósticos y guías descargables conectadas a tu CRM para capturar el contacto antes de que se vaya con la competencia.</p>
+          <article class="pia-card" style="padding:1.5rem; border-color:rgba(52,211,153,0.35);">
+            <img class="mk-engine-img" src="/static/ecosistema/pagina_captura_hero.png" alt="Páginas de captura y micro-herramientas gratuitas" loading="lazy">
+            <span style="font-size:0.74rem; font-weight:800; color:#34d399; text-transform:uppercase;">Motor 3 · Conversión Sin Fricción</span>
+            <h3 class="font-heading" style="font-size:1.22rem; font-weight:800; margin:0.35rem 0 0.5rem;">Páginas de Captura y Calculadoras</h3>
+            <p style="color:#cbd5e1; font-size:0.88rem; margin:0 0 0.75rem;">
+              Mini-páginas donde el prospecto calcula su presupuesto o evalúa su caso en 1 minuto antes de dejarte su WhatsApp.
+            </p>
+            <a href="/portafolio-vivo/servixo/free-trial/a000-servixo-demo/" target="_blank" rel="noopener" style="color:#34d399; font-weight:800; font-size:0.84rem; text-decoration:none;">Probar página de captura en vivo ↗</a>
+          </article>
+
+          <article class="pia-card" style="padding:1.5rem;">
+            <img class="mk-engine-img" src="/static/ecosistema/laboratorio_demanda.png" alt="Laboratorio de demanda y 282 ángulos probados" loading="lazy">
+            <span style="font-size:0.74rem; font-weight:800; color:#fbbf24; text-transform:uppercase;">Motor 4 · 282 Ángulos Probados</span>
+            <h3 class="font-heading" style="font-size:1.22rem; font-weight:800; margin:0.35rem 0 0.5rem;">Laboratorio de Ofertas Irresistibles</h3>
+            <p style="color:#cbd5e1; font-size:0.88rem; margin:0;">
+              Eliminamos el típico «¿cuánto vale?» vacío. Redactamos ofertas claras con urgencia sana para que tus clientes elijan tu servicio sin regatear cada dólar.
+            </p>
+          </article>
+
+          <article class="pia-card" style="padding:1.5rem; border-color:rgba(129,140,248,0.35);">
+            <img class="mk-engine-img" src="/static/ecosistema/emails_whatsapp_hero.png" alt="Seguimiento por WhatsApp y correo para reactivar clientes" loading="lazy">
+            <span style="font-size:0.74rem; font-weight:800; color:#a5b4fc; text-transform:uppercase;">Motor 5 · Dinero en Tu Base Actual</span>
+            <h3 class="font-heading" style="font-size:1.22rem; font-weight:800; margin:0.35rem 0 0.5rem;">Secuencias WhatsApp &amp; Reactivación</h3>
+            <p style="color:#cbd5e1; font-size:0.88rem; margin:0;">
+              Campañas amables de seguimiento para quienes pidieron precio y dejaron en visto, más reactivación mensual de clientes pasados desde el CRM Prosper IA.
+            </p>
+          </article>
+
+          <article class="pia-card" style="padding:1.5rem; border-color:rgba(0,229,255,0.4);">
+            <img class="mk-engine-img" src="/static/passportai_mockup_showcase.jpg" alt="PassportAI suite de marketing y ofertas en 3 clics" loading="lazy">
+            <span style="font-size:0.74rem; font-weight:800; color:#00e5ff; text-transform:uppercase;">Motor 6 · Plataforma Propia</span>
+            <h3 class="font-heading" style="font-size:1.22rem; font-weight:800; margin:0.35rem 0 0.5rem;">PassportAI Business (passportai.app)</h3>
+            <p style="color:#cbd5e1; font-size:0.88rem; margin:0 0 0.75rem;">
+              Tu propia consola de inteligencia creativa para sacar campañas de temporada, textos, guiones e imágenes de producto en 3 clics.
+            </p>
+            <a href="https://passportai.app" target="_blank" rel="noopener" style="color:#00e5ff; font-weight:800; font-size:0.84rem; text-decoration:none;">Visitar passportai.app ↗</a>
           </article>
         </div>
       </div>
     </section>
 
+    <!-- ── 3. VITRINA REAL: ANUNCIOS Y REELS PRODUCIDOS POR PROSPER IA ── -->
+    <section class="pia-section" id="vitrina-creativos">
+      <div class="pia-shell">
+        <div style="text-align:center; max-width:780px; margin:0 auto 2.5rem;">
+          <div class="pia-eyebrow"><i class="fas fa-film" aria-hidden="true"></i> Piezas Reales Listas Para Tu Negocio</div>
+          <h2 class="font-heading" style="font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 900;">
+            Anuncios Gráficos y Reels en Video Que Capturan Atención en 3 Segundos
+          </h2>
+          <p style="color:#94a3b8; font-size:0.95rem;">
+            Explora muestras reales de nuestras campañas para servicios locales y del hogar: artes visuales de alto contraste y videos verticales 9:16 listos para pautar.
+          </p>
+        </div>
+
+        <h3 class="font-heading" style="font-size:1.25rem; font-weight:800; color:#fbbf24; margin-bottom:1rem;">
+          <i class="fas fa-rectangle-ad" aria-hidden="true"></i> Creativos Gráficos de Alto Contraste (Meta Ads &amp; Instagram)
+        </h3>
+        <div class="mk-ads-grid" style="margin-bottom:3rem;">
+          <article class="pia-card" style="padding:0.9rem;">
+            <img src="/static/ecosistema/anuncio_climatizacion.png" alt="Anuncio de climatización y aire acondicionado Prosper IA" style="width:100%; border-radius:12px; aspect-ratio:1/1; object-fit:cover;" loading="lazy">
+            <div style="font-weight:800; font-size:0.92rem; margin-top:0.75rem; color:#fff;">Climatización &amp; Aire Acondicionado</div>
+            <div style="font-size:0.8rem; color:#94a3b8;">Ángulo de urgencia térmica + respuesta en menos de 1 minuto</div>
+          </article>
+          <article class="pia-card" style="padding:0.9rem;">
+            <img src="/static/ecosistema/anuncio_plomeria.png" alt="Anuncio de plomería y detección de fugas Prosper IA" style="width:100%; border-radius:12px; aspect-ratio:1/1; object-fit:cover;" loading="lazy">
+            <div style="font-weight:800; font-size:0.92rem; margin-top:0.75rem; color:#fff;">Plomería, Fugas &amp; Destapes 24/7</div>
+            <div style="font-size:0.8rem; color:#94a3b8;">Captura directa a WhatsApp con diagnóstico previo por foto</div>
+          </article>
+          <article class="pia-card" style="padding:0.9rem;">
+            <img src="/static/ecosistema/anuncio_electricista.png" alt="Anuncio de electricistas y cargadores EV Prosper IA" style="width:100%; border-radius:12px; aspect-ratio:1/1; object-fit:cover;" loading="lazy">
+            <div style="font-weight:800; font-size:0.92rem; margin-top:0.75rem; color:#fff;">Electricistas, Tableros &amp; Cargadores EV</div>
+            <div style="font-size:0.8rem; color:#94a3b8;">Seguridad eléctrica bajo norma y presupuesto claro</div>
+          </article>
+          <article class="pia-card" style="padding:0.9rem;">
+            <img src="/static/ecosistema/anuncio_piscinas.png" alt="Anuncio de piscinas y bombas de calor Prosper IA" style="width:100%; border-radius:12px; aspect-ratio:1/1; object-fit:cover;" loading="lazy">
+            <div style="font-weight:800; font-size:0.92rem; margin-top:0.75rem; color:#fff;">Piscinas, Spas &amp; Rescate de Agua</div>
+            <div style="font-size:0.8rem; color:#94a3b8;">Planes mensuales recurrentes con reporte fotográfico</div>
+          </article>
+          <article class="pia-card" style="padding:0.9rem;">
+            <img src="/static/ecosistema/anuncio_jardineria.png" alt="Anuncio de jardinería, paisajismo y riego Prosper IA" style="width:100%; border-radius:12px; aspect-ratio:1/1; object-fit:cover;" loading="lazy">
+            <div style="font-weight:800; font-size:0.92rem; margin-top:0.75rem; color:#fff;">Jardinería, Paisajismo &amp; Riego Smart</div>
+            <div style="font-size:0.8rem; color:#94a3b8;">Renovación visual y mantenimiento quincenal garantizado</div>
+          </article>
+        </div>
+
+        <h3 class="font-heading" style="font-size:1.25rem; font-weight:800; color:#34d399; margin-bottom:1rem;">
+          <i class="fas fa-clapperboard" aria-hidden="true"></i> Reels Verticales 9:16 En Vivo (Reproduce los Ejemplos Reales)
+        </h3>
+        <div class="mk-reels-grid">
+          <article class="pia-card" style="padding:1rem;">
+            <video class="mk-reel-video" controls preload="metadata" poster="/static/ecosistema/grafico_climatizacion.png">
+              <source src="/static/ecosistema/reel_climatizacion.mp4" type="video/mp4">
+            </video>
+            <div style="font-weight:800; font-size:0.92rem; margin-top:0.75rem; color:#fff;">Reel #1 · Climatización / HVAC</div>
+            <div style="font-size:0.8rem; color:#94a3b8;">Hook rápido de dolor + llamado directo a agenda</div>
+          </article>
+          <article class="pia-card" style="padding:1rem;">
+            <video class="mk-reel-video" controls preload="metadata" poster="/static/ecosistema/grafico_plomeria.png">
+              <source src="/static/ecosistema/reel_plomeria.mp4" type="video/mp4">
+            </video>
+            <div style="font-weight:800; font-size:0.92rem; margin-top:0.75rem; color:#fff;">Reel #2 · Plomería &amp; Emergencias</div>
+            <div style="font-size:0.8rem; color:#94a3b8;">Edición dinámica con texto seguro y oferta clara</div>
+          </article>
+          <article class="pia-card" style="padding:1rem;">
+            <video class="mk-reel-video" controls preload="metadata" poster="/static/ecosistema/grafico_electricista.png">
+              <source src="/static/ecosistema/reel_electricista.mp4" type="video/mp4">
+            </video>
+            <div style="font-weight:800; font-size:0.92rem; margin-top:0.75rem; color:#fff;">Reel #3 · Electricistas Certificados</div>
+            <div style="font-size:0.8rem; color:#94a3b8;">Diseñado para Instagram Reels, TikTok y Shorts</div>
+          </article>
+          <article class="pia-card" style="padding:1rem;">
+            <video class="mk-reel-video" controls preload="metadata" poster="/static/ecosistema/grafico_piscinas.png">
+              <source src="/static/ecosistema/reel_piscinas.mp4" type="video/mp4">
+            </video>
+            <div style="font-weight:800; font-size:0.92rem; margin-top:0.75rem; color:#fff;">Reel #4 · Piscinas &amp; Mantenimiento</div>
+            <div style="font-size:0.8rem; color:#94a3b8;">Captación de contratos mensuales recurrentes</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 4. COMPARATIVA AGENCIA TRADICIONAL VS PROSPER IA ── -->
+    <section class="pia-section" style="background: rgba(7, 11, 20, 0.78);">
+      <div class="pia-shell" style="max-width:980px;">
+        <div class="pia-card" style="padding:2rem; overflow-x:auto;">
+          <h2 class="font-heading" style="font-size:1.65rem; font-weight:900; margin-bottom:1.25rem; text-align:center;">
+            ¿Por Qué Nuestras Campañas Sí Traen Ventas y No Solo «Likes»?
+          </h2>
+          <table class="mk-compare-table">
+            <thead>
+              <tr>
+                <th style="color:#94a3b8;">Criterio Comercial</th>
+                <th style="color:#fda4af;">Agencia Tradicional</th>
+                <th style="color:#34d399;">Sistema Impulso · Agencia Prosper IA</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>¿A dónde van los anuncios?</strong></td>
+                <td style="color:#cbd5e1;">A tu WhatsApp personal desordenado para que contestes tarde en la noche.</td>
+                <td style="color:#ecfdf5;">A tu Asistente 24/7 Aura + Tablero CRM con calificación automática y cita agendada.</td>
+              </tr>
+              <tr>
+                <td><strong>¿Quién edita los videos?</strong></td>
+                <td style="color:#cbd5e1;">Te piden todo editado o tardan 3 semanas por cada video sencillo.</td>
+                <td style="color:#ecfdf5;">Guiones listos + edición profesional de 2 a 10 Reels/mes por nuestro equipo (+744K vistas).</td>
+              </tr>
+              <tr>
+                <td><strong>Propiedad y herramientas</strong></td>
+                <td style="color:#cbd5e1;">Si dejas de pagarles, te quedas sin página ni historial de prospectos.</td>
+                <td style="color:#ecfdf5;">Todo es tuyo: tu web, tu CRM, tu base de datos y acceso directo a PassportAI.</td>
+              </tr>
+              <tr>
+                <td><strong>Condición de arranque</strong></td>
+                <td style="color:#cbd5e1;">Contratos largos y cobros fijos antes de mostrarte algo funcionando.</td>
+                <td style="color:#ecfdf5;">Implementación en 7 a 10 días con facilidad 50% al iniciar y 50% al entregar andando.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 5. SOLICITUD + ASIGNACIÓN INMEDIATA CALENDARIO ROUND-ROBIN ── -->
     <section class="pia-section" id="solicitar-marketing">
-      <div class="pia-shell" style="max-width:740px;">
-        <div class="pia-card" style="padding:2.2rem;">
-          <h2 class="font-heading" style="font-size:1.8rem; font-weight:900; text-align:center; margin-bottom:0.5rem;">Solicita Tu Plan de Marketing y Tráfico</h2>
-          <p style="color:#94a3b8; font-size:0.92rem; text-align:center; margin-bottom:1.5rem;">Evaluamos tu ciudad, ticket promedio y capacidad de agenda para armar tu campaña ganadora.</p>
+      <div class="pia-shell" style="max-width:780px;">
+        <div class="pia-card" style="padding:2.2rem; border-color:rgba(251, 191, 36, 0.45);">
+          <h2 class="font-heading" style="font-size:1.85rem; font-weight:900; text-align:center; margin-bottom:0.5rem;">
+            Solicita Tu Plan de Marketing y Agenda Tu Sesión En Vivo
+          </h2>
+          <p style="color:#94a3b8; font-size:0.93rem; text-align:center; margin-bottom:1.5rem;">
+            Al enviar tus datos se registra tu negocio en nuestro CRM y se te asigna automáticamente un especialista en <strong>Round-Robin</strong> para elegir día y hora en el calendario.
+          </p>
 
           <form id="marketing-lead-form">
             <input type="text" name="website_hp" tabindex="-1" aria-hidden="true" class="pia-visually-hidden" autocomplete="off">
@@ -104,12 +364,12 @@
               </div>
             </div>
             <div class="pia-form-field">
-              <label for="mk-goal">Objetivo Principal *</label>
+              <label for="mk-goal">Solución de Marketing Principal *</label>
               <select id="mk-goal" name="industry" class="pia-input" required>
-                <option value="Campaña Click-to-WhatsApp Meta Ads">Campaña Meta Ads (Instagram/Facebook) directo a WhatsApp</option>
-                <option value="Fábrica de Reels + Edición Mensual">Fábrica de Reels + Guiones + Edición Profesional</option>
-                <option value="Google Ads + Búsqueda Local">Google Ads &amp; Posicionamiento Local</option>
-                <option value="Sistema Completo Ads + Reels + CRM">Sistema Completo (Ads + Reels + Web + CRM)</option>
+                <option value="Máquina Completa 3 en 1 (Web + Aura 24/7 + 10 Reels + 1 Mes Ads)">Máquina Completa 3 en 1 (Web + Asistente + 10 Reels + 1 Mes de Anuncios)</option>
+                <option value="Pack Estrella Anual + Bono 2 Reels + PassportAI">Pack Estrella Anual + Bono 2 Videos Reels + PassportAI</option>
+                <option value="Campaña Meta Ads & Google Directo a WhatsApp">Solo Gestión Mensual de Anuncios Meta Ads / Google Click-to-WhatsApp</option>
+                <option value="Fábrica de 10 Reels Mensuales Editados">Solo Fábrica y Edición Mensual de 10 Reels Virales</option>
               </select>
             </div>
             <div class="pia-form-field">
@@ -122,8 +382,8 @@
             </div>
             <div data-form-status role="status" aria-live="polite" style="display:none; padding:0.9rem; border-radius:12px; margin-bottom:1rem; font-size:0.88rem;"></div>
             <div style="display:flex; flex-wrap:wrap; gap:0.85rem;">
-              <button type="submit" class="pia-btn-primary" style="flex:1 1 220px;">Cotizar Campaña &amp; Reels</button>
-              <a href="https://wa.me/17868336964?text=Hola%20ProsperIA,%20quiero%20cotizar%20campa%C3%B1as%20de%20Marketing%20y%20Reels%20IA" target="_blank" rel="noopener" class="pia-btn-emerald" style="flex:1 1 180px;">Hablar por WhatsApp</a>
+              <button type="submit" class="pia-btn-primary" style="flex:1 1 240px;">Asignar Especialista y Abrir Calendario</button>
+              <a href="https://wa.me/17868336964?text=Hola%20ProsperIA,%20quiero%20cotizar%20campa%C3%B1as%20de%20Marketing,%20Anuncios%20y%20Reels" target="_blank" rel="noopener" class="pia-btn-emerald" style="flex:1 1 180px;">Hablar por WhatsApp</a>
             </div>
           </form>
         </div>

@@ -133,10 +133,10 @@
             <span class="pw-tag"><i class="fas fa-check text-emerald-400" aria-hidden="true"></i> Bilingüe ES / EN</span>
           </div>
         </div>
-        <div id="atlas-stage-box">
-          {{ render_squad_character('atlas') }}
+        <div id="prosper-stage-box">
+          {{ render_squad_character('prosper') }}
           <div style="display:flex; justify-content:center; margin-top:0.65rem;">
-            <button type="button" id="toggle-atlas-motion" class="pia-btn-ghost" style="min-height:36px; padding:0.35rem 0.8rem; font-size:0.75rem;">
+            <button type="button" id="toggle-prosper-motion" class="pia-btn-ghost" style="min-height:36px; padding:0.35rem 0.8rem; font-size:0.75rem;">
               <i class="fas fa-pause" aria-hidden="true"></i> Pausar animación
             </button>
           </div>
@@ -160,7 +160,9 @@
         <div class="pia-card" style="padding: 1.5rem;">
           <div class="pw-vip-thumbs" role="group" aria-label="Selector de proyectos destacados">
             <button type="button" class="pw-vip-thumb" aria-pressed="true" data-vip="blancos">Blancos Girasol · B2B Textil + CRM</button>
-            <button type="button" class="pw-vip-thumb" aria-pressed="false" data-vip="servixo">Servixo · Home Services (BizBox)</button>
+            <button type="button" class="pw-vip-thumb" aria-pressed="false" data-vip="passportai">PassportAI · Plataforma SaaS IA</button>
+            <button type="button" class="pw-vip-thumb" aria-pressed="false" data-vip="servixo">Servixo · Servicios del Hogar</button>
+            <button type="button" class="pw-vip-thumb" aria-pressed="false" data-vip="sti2q">STI²Q · Industria Química (sti2q.com.mx)</button>
             <button type="button" class="pw-vip-thumb" aria-pressed="false" data-vip="jpx">JPX International · Finanzas Globales</button>
             <button type="button" class="pw-vip-thumb" aria-pressed="false" data-vip="sunotaria">Su Notaría USA · Miami Bilingüe</button>
             <button type="button" class="pw-vip-thumb" aria-pressed="false" data-vip="aurea">Clínica Estética &amp; Dental VIP</button>
@@ -217,9 +219,9 @@
 
         <!-- Tabs de filtro -->
         <div class="pia-tablist" role="tablist" aria-label="Filtrar proyectos web por industria">
-          <button type="button" class="pia-tab" role="tab" aria-selected="true" data-filter="all">Todos (+17)</button>
-          <button type="button" class="pia-tab" role="tab" aria-selected="false" data-filter="home-services">Servicios del Hogar (BizBox)</button>
-          <button type="button" class="pia-tab" role="tab" aria-selected="false" data-filter="ecommerce-industria">E-Commerce &amp; Industria</button>
+          <button type="button" class="pia-tab" role="tab" aria-selected="true" data-filter="all">Todos (+20)</button>
+          <button type="button" class="pia-tab" role="tab" aria-selected="false" data-filter="home-services">Servicios del Hogar (Prosper IA)</button>
+          <button type="button" class="pia-tab" role="tab" aria-selected="false" data-filter="ecommerce-industria">E-Commerce, SaaS &amp; Industria</button>
           <button type="button" class="pia-tab" role="tab" aria-selected="false" data-filter="clinicas">Clínicas &amp; Estética</button>
           <button type="button" class="pia-tab" role="tab" aria-selected="false" data-filter="finanzas-legal">Finanzas, Legal &amp; B2B</button>
           <button type="button" class="pia-tab" role="tab" aria-selected="false" data-filter="marcas-eventos">Marcas, Medios &amp; Eventos</button>
@@ -227,22 +229,31 @@
 
         {% set projects = [
           {
+            "name": "PassportAI (passportai.app)",
+            "cat": "ecommerce-industria",
+            "badge": "Plataforma Propia · En Vivo",
+            "tags": ["Suite IA SaaS", "+15 Modelos", "Estudio Creativo"],
+            "desc": "Plataforma comercial de Agencia Prosper IA: asistentes inteligentes, generador de campañas, estudio de imágenes y base de conocimientos centralizada.",
+            "img": "/static/passportai_mockup_showcase.jpg",
+            "live": "https://passportai.app"
+          },
+          {
             "name": "Blancos Girasol (blancosgirasol.com)",
             "cat": "ecommerce-industria",
             "badge": "Real · En Vivo",
-            "tags": ["Textil B2B", "Catálogo", "CRM + Chatbot"],
+            "tags": ["Textil B2B", "Catálogo", "CRM + Asistente"],
             "desc": "Fabricante de blancos para hoteles, hospitales y spas. Catálogo por categoría, PDF descargable, blog SEO y panel CRM propio.",
             "img": "/assets/cama-completa-duvet-almohadas-wD5rwC03.jpg",
             "live": "/portafolio-vivo/blancosgirasol/"
           },
           {
-            "name": "STI2Q Ingeniería Industrial",
+            "name": "STI²Q Ingeniería Industrial y Química (sti2q.com.mx)",
             "cat": "ecommerce-industria",
-            "badge": "Demostrador Sectorial",
-            "tags": ["Industrial B2B", "Automatización", "ES / EN"],
-            "desc": "Portal corporativo para ingeniería industrial, telemetría, tableros eléctricos y pólizas SLA con captura de RFQ.",
-            "img": "/portafolio-vivo/synetcom/static/images/security_hero.png",
-            "live": "/demo-sitio-web?template=sti2q_industrial"
+            "badge": "Real · En Vivo",
+            "tags": ["Industria Química", "Laboratorio Analítico", "México"],
+            "desc": "Servicio Técnico Integral para la Industria Química: pruebas de desempeño estandarizadas en cuidado personal, textiles y hogar.",
+            "img": "/static/portfolio/sti2q_hero.jpg",
+            "live": "https://sti2q.com.mx/"
           },
           {
             "name": "JPX International Investments",
@@ -272,38 +283,74 @@
             "live": "/portafolio-vivo/synetcom/"
           },
           {
-            "name": "Servixo · Home Services Master (BizBox)",
+            "name": "Servixo · Sistema Maestro Servicios del Hogar",
             "cat": "home-services",
-            "badge": "BizBox Oficial",
+            "badge": "Sistema Prosper IA",
             "tags": ["82 Oficios del Hogar", "11 Secciones", "Slider Antes/Después"],
-            "desc": "Página de alta conversión construida con BizBox para contratistas de servicios del hogar: timeline diario, comparador y portal.",
+            "desc": "Página de alta conversión desarrollada por Agencia Prosper IA para empresas de hogar y oficios: línea del día, calculadora y captura.",
             "img": "/portafolio-vivo/servixo/assets/img/hero.jpg",
             "live": "/portafolio-vivo/servixo/"
           },
           {
-            "name": "Apex Air & HVAC Miami (BizBox)",
+            "name": "Priorizador de Prospectos del Día · Captura en Vivo",
             "cat": "home-services",
-            "badge": "BizBox Home Services",
+            "badge": "Micro-App en Vivo",
+            "tags": ["Página de Captura", "Filtro Inteligente", "Conecta a WhatsApp"],
+            "desc": "Embudo interactivo de prueba gratuita de Agencia Prosper IA: el visitante pega sus mensajes del día y descubre a quién responder primero.",
+            "img": "/static/ecosistema/pagina_captura_hero.png",
+            "live": "/portafolio-vivo/servixo/free-trial/a000-servixo-demo/"
+          },
+          {
+            "name": "Apex Air & HVAC Miami (Climatización)",
+            "cat": "home-services",
+            "badge": "Demostrador Sectorial",
             "tags": ["Aire Acondicionado", "Miami FL", "Urgencias 24/7"],
-            "desc": "Muestra en vivo para climatización y HVAC residencial/comercial con formulario de emergencias y cálculo de ahorro.",
-            "img": "/portafolio-vivo/servixo/assets/img/solucion.jpg",
+            "desc": "Web de alto impacto para empresas de climatización y HVAC residencial/comercial con formulario de emergencias y cálculo de ahorro.",
+            "img": "/static/ecosistema/anuncio_climatizacion.png",
             "live": "/demo-sitio-web?template=hvac_miami"
           },
           {
-            "name": "Master Plumbers & Drain Pro (BizBox)",
+            "name": "Master Plumbers & Drain Pro (Plomería)",
             "cat": "home-services",
-            "badge": "BizBox Home Services",
+            "badge": "Demostrador Sectorial",
             "tags": ["Plomería & Fugas", "Destapes 24/7", "Cotizador IA"],
-            "desc": "Web inteligente para empresas de plomería: detección de fugas, destapes hidráulicos y recepción IA en WhatsApp.",
-            "img": "/portafolio-vivo/servixo/assets/img/tl-0930.webp",
+            "desc": "Web inteligente para empresas de plomería: detección de fugas, destapes hidráulicos y recepción 24/7 por WhatsApp.",
+            "img": "/static/ecosistema/anuncio_plomeria.png",
             "live": "/demo-sitio-web?template=plomeria_pro"
           },
           {
-            "name": "Titan Roofing & Remodeling (BizBox)",
+            "name": "VoltMaster · Electricistas Certificados 24/7",
             "cat": "home-services",
-            "badge": "BizBox Home Services",
+            "badge": "Demostrador Sectorial",
+            "tags": ["Electricistas", "Tableros & Cargadores EV", "Urgencias"],
+            "desc": "Portada diseñada para contratistas eléctricos: atención de cortos 24/7, actualización de tableros y cargadores para vehículos eléctricos.",
+            "img": "/static/ecosistema/anuncio_electricista.png",
+            "live": "/demo-sitio-web?template=electricista_pro"
+          },
+          {
+            "name": "AquaBlue · Piscinas, Spas & Bombas de Calor",
+            "cat": "home-services",
+            "badge": "Demostrador Sectorial",
+            "tags": ["Albercas & Spas", "Planes Semanales", "Rescate 48h"],
+            "desc": "Landing enfocada en mantenimiento semanal, recuperación de agua verde en 48 horas y climatización de piscinas.",
+            "img": "/static/ecosistema/anuncio_piscinas.png",
+            "live": "/demo-sitio-web?template=piscinas_spas"
+          },
+          {
+            "name": "VerdeVivo · Jardinería, Paisajismo & Riego",
+            "cat": "home-services",
+            "badge": "Demostrador Sectorial",
+            "tags": ["Jardinería", "Paisajismo", "Riego Inteligente"],
+            "desc": "Muestra enfocada en diseño de patios, poda profesional, pasto sintético y sistemas de riego automatizado con cotización por foto.",
+            "img": "/static/ecosistema/anuncio_jardineria.png",
+            "live": "/demo-sitio-web?template=jardineria_paisajismo"
+          },
+          {
+            "name": "Titan Roofing & Remodeling (Techos y Obra)",
+            "cat": "home-services",
+            "badge": "Demostrador Sectorial",
             "tags": ["Techos / Roofing", "Remodelación", "Florida"],
-            "desc": "Portal para techos, impermeabilización y remodelación de cocinas con inspección con dron y bitácora fotográfica.",
+            "desc": "Portal para techos, impermeabilización y remodelación de cocinas con inspección aérea y bitácora fotográfica.",
             "img": "/portafolio-vivo/servixo/assets/img/despues.webp",
             "live": "/demo-sitio-web?template=roofing_remodel"
           },
@@ -344,15 +391,6 @@
             "live": "/portafolio-vivo/suesenciaastral/"
           },
           {
-            "name": "Harmony Payments Systems",
-            "cat": "finanzas-legal",
-            "badge": "Real · En Vivo",
-            "tags": ["Fintech USA", "Merchant Services", "Pre-Aplicación"],
-            "desc": "Portal Fintech en Estados Unidos para procesamiento de tarjetas con formulario digital inteligente de pre-calificación.",
-            "img": "/static/harmonypayments/extracted_0.jpg",
-            "live": "/harmonypayments"
-          },
-          {
             "name": "EXMA Miami 2026 · VIP Experience",
             "cat": "marcas-eventos",
             "badge": "Real · En Vivo",
@@ -375,7 +413,7 @@
             "cat": "marcas-eventos",
             "badge": "Real · En Vivo",
             "tags": ["Marca Personal", "Experiencia 3D", "Laboratorio IA"],
-            "desc": "Hub inmersivo con túnel 3D en Eje Z, simulador PassportAI, calculadora de ROI y lanzamiento editorial.",
+            "desc": "Hub inmersivo con túnel 3D en Eje Z, simulador PassportAI, calculadora de retorno y lanzamiento editorial.",
             "img": "/portafolio-vivo/edwardjimenezia/assets/edward_hero_depth.webp",
             "live": "/portafolio-vivo/edwardjimenezia/"
           }
@@ -469,7 +507,7 @@
                 <li><i class="fas fa-check-circle" aria-hidden="true"></i><span>Hasta 30–50 productos o servicios cargados con carrito a WhatsApp o cobro con tarjeta vía Stripe.</span></li>
                 <li><i class="fas fa-check-circle" aria-hidden="true"></i><span>Versión bilingüe Español e Inglés disponible.</span></li>
                 <li><i class="fas fa-check-circle" aria-hidden="true"></i><span>Propuesta de logotipo / identidad visual + dos rondas de ajustes antes de publicar.</span></li>
-                <li><i class="fas fa-check-circle" aria-hidden="true"></i><span>Conexión directa con ProsperIA CRM, agenda de citas y Portal BizBox.</span></li>
+                <li><i class="fas fa-check-circle" aria-hidden="true"></i><span>Conexión directa con ProsperIA CRM, agenda Round-Robin y 23 Micro-Apps IA.</span></li>
                 <li><i class="fas fa-check-circle" aria-hidden="true"></i><span>Entrega estimada de 5 a 7 días hábiles desde la aprobación inicial.</span></li>
               </ul>
             </div>
@@ -592,7 +630,7 @@
           </details>
           <details class="pia-faq-item">
             <summary>¿Hacen páginas para servicios del hogar (plomería, aire acondicionado, techos) o clínicas?</summary>
-            <div class="pia-faq-body">Sí, contamos con plantillas especializadas para los 82 oficios de servicios del hogar (mediante el motor BizBox) y para clínicas dentales, estéticas, inmobiliarias, estudios legales y empresas B2B.</div>
+            <div class="pia-faq-body">Sí, contamos con plantillas especializadas para los 82 oficios de servicios del hogar desarrolladas por Agencia Prosper IA (climatización, plomería, electricidad, piscinas, jardinería, techos) y para clínicas dentales, estéticas, inmobiliarias, estudios legales y empresas B2B.</div>
           </details>
           <details class="pia-faq-item">
             <summary>¿Cuál es la diferencia entre Web Presencia IA y Web Catálogo &amp; E-Commerce?</summary>
@@ -669,10 +707,13 @@
                 <label for="pw-niche">Giro / Industria de tu Negocio *</label>
                 <select id="pw-niche" name="niche" class="pia-input" required>
                   <option value="servicios_locales">Servicios del Hogar / Plomería / HVAC / Techos</option>
+                  <option value="electricista">Electricistas, Tableros &amp; Urgencias 24/7</option>
+                  <option value="piscinas">Piscinas, Spas &amp; Mantenimiento Semanal</option>
+                  <option value="jardineria">Jardinería, Paisajismo &amp; Riego Automático</option>
                   <option value="clinica">Clínica Dental, Estética o Salud</option>
                   <option value="inmobiliaria">Inmobiliaria / Bienes Raíces</option>
                   <option value="profesionales">Abogado, Notaría, Contador o Consultoría</option>
-                  <option value="enterprise">Industria, Mayorista, E-Commerce o B2B</option>
+                  <option value="enterprise">Industria, Química (STI²Q), Mayorista o B2B</option>
                   <option value="academia">Academia, Marca Personal o Eventos</option>
                 </select>
               </div>
@@ -711,9 +752,9 @@
 
   <script>
   (function() {
-    // Pause / play Atlas animation (WCAG 2.2.2)
-    const stageBox = document.getElementById('atlas-stage-box');
-    const toggleAnimBtn = document.getElementById('toggle-atlas-motion');
+    // Pause / play Prosper animation (WCAG 2.2.2)
+    const stageBox = document.getElementById('prosper-stage-box');
+    const toggleAnimBtn = document.getElementById('toggle-prosper-motion');
     if (stageBox && toggleAnimBtn) {
       toggleAnimBtn.addEventListener('click', () => {
         const paused = stageBox.classList.toggle('squad-paused');
@@ -733,13 +774,29 @@
         live: '/portafolio-vivo/blancosgirasol/',
         ref: 'Blancos Girasol'
       },
+      passportai: {
+        cat: 'PLATAFORMA SAAS PROPIA · AGENCIA PROSPER IA',
+        title: 'PassportAI (passportai.app) · Cerebro y Estudio IA',
+        desc: 'Nuestra propia aplicación en vivo con asistentes inteligentes, constructores de ofertas, creación de imágenes y automatización comercial en 3 clics.',
+        img: '/static/passportai_mockup_showcase.jpg',
+        live: 'https://passportai.app',
+        ref: 'PassportAI Plataforma'
+      },
       servixo: {
-        cat: 'SERVICIOS DEL HOGAR · MOTOR BIZBOX · 82 OFICIOS',
-        title: 'Servixo · Sistema Maestro Home Services',
-        desc: 'Embudo cinematográfico de 11 secciones para plomería, HVAC, techos, remodelación y electricidad conectado al Portal de 23 Micro-Apps de IA.',
+        cat: 'SERVICIOS DEL HOGAR · SISTEMA PROSPER IA · 82 OFICIOS',
+        title: 'Servixo · Sistema Maestro Servicios del Hogar',
+        desc: 'Embudo cinematográfico de 11 secciones para plomería, climatización, electricidad, piscinas y jardinería conectado a nuestras 23 Micro-Apps de IA.',
         img: '/portafolio-vivo/servixo/assets/img/hero.jpg',
         live: '/portafolio-vivo/servixo/',
-        ref: 'Servixo Home Services (BizBox)'
+        ref: 'Servixo Home Services'
+      },
+      sti2q: {
+        cat: 'INDUSTRIA QUÍMICA & LABORATORIO · MÉXICO · STI2Q.COM.MX',
+        title: 'STI²Q · Servicio Técnico Integral Química Industrial',
+        desc: 'Portal oficial de ingeniería química y laboratorio analítico para pruebas de desempeño estandarizadas en cuidado personal, textiles y hogar.',
+        img: '/static/portfolio/sti2q_hero.jpg',
+        live: 'https://sti2q.com.mx/',
+        ref: 'STI2Q Industria Química'
       },
       jpx: {
         cat: 'FINANZAS GLOBALES · MULTI-PÁGINA · ES / EN / PT',
