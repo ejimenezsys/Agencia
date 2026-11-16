@@ -700,10 +700,10 @@
             <img src="/static/passportai_mockup_showcase.jpg" alt="Sistema comercial completo de Agencia Prosper IA funcionando" style="width:100%; height:215px; object-fit:cover; border-radius:14px; border:1px solid rgba(255,255,255,0.12);">
 
             <div style="display:grid; gap:0.55rem; font-size:0.89rem; color:#e2e8f0;">
-              <div><i class="fas fa-circle-check text-cyan-400" aria-hidden="true"></i> <strong>Página Web Profesional</strong> que filtra curiosos y da autoridad</div>
-              <div><i class="fas fa-circle-check text-emerald-400" aria-hidden="true"></i> <strong>Asistente 24/7 (Aura)</strong> contestando en WhatsApp, redes y voz</div>
-              <div><i class="fas fa-circle-check text-amber-400" aria-hidden="true"></i> <strong>Tablero de Clientes y Agenda</strong> listo en tu teléfono</div>
-              <div><i class="fas fa-circle-check text-purple-400" aria-hidden="true"></i> <strong>Videos Cortos + Anuncios</strong> para atraer clientes todas las semanas</div>
+              <div><i class="fas fa-circle-check text-cyan-400" aria-hidden="true"></i> <strong>Página Web + SDR IA</strong> que recibe mensajes y filtra curiosos en segundos</div>
+              <div><i class="fas fa-circle-check text-emerald-400" aria-hidden="true"></i> <strong>Setter IA 24/7</strong> atendiendo WhatsApp, redes y voz para dejar citas confirmadas</div>
+              <div><i class="fas fa-circle-check text-amber-400" aria-hidden="true"></i> <strong>Closer IA + Tablero de Clientes</strong> enviando propuestas y seguimiento puntual</div>
+              <div><i class="fas fa-circle-check text-purple-400" aria-hidden="true"></i> <strong>Soporte IA + Reels y Anuncios</strong> cuidando clientes y trayendo citas nuevas</div>
             </div>
 
             <div style="display:grid; gap:0.65rem; margin-top:0.35rem;">
@@ -1035,14 +1035,14 @@
     </section>
 
     <!-- ══════════════════════════════════════════════════════════════ -->
-    <!-- SECCIÓN 7: TU EQUIPO DIGITAL + PRUEBA DE VOZ EN VIVO           -->
+    <!-- SECCIÓN 7: TUS 4 EMPLEADOS DIGITALES + PRUEBA DE VOZ EN VIVO   -->
     <!-- ══════════════════════════════════════════════════════════════ -->
     <section class="hm-section" id="equipo-digital">
       <div class="hm-shell">
         <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-end; gap:1rem; margin-bottom:2rem;">
-          <div style="max-width:740px;">
-            <span class="hm-badge hm-badge-cyan">Las 4 Inteligencias de Prosper IA</span>
-            <h2 class="hm-h2">Las 4 inteligencias que trabajan para tu negocio día y noche (explicado sin enredos)</h2>
+          <div style="max-width:780px;">
+            <span class="hm-badge hm-badge-cyan">El Empresario Aumentado · Tus 4 Empleados Digitales</span>
+            <h2 class="hm-h2">Los 4 Empleados Digitales que atienden, agendan, dan seguimiento y cuidan a tus clientes 24/7</h2>
           </div>
           <button type="button" id="toggle-squad-motion" class="hm-btn-outline" aria-pressed="false" style="padding:0.65rem 1rem; font-size:0.84rem;">
             <i class="fas fa-pause" aria-hidden="true"></i>
@@ -1051,46 +1051,50 @@
         </div>
 
         <div class="hm-squad-grid" id="hm-squad-container">
-          <article class="hm-card" style="padding:1.25rem; text-align:center;">
-            {{ render_squad_character('prosper', compact=true) }}
-            <h3 style="margin:0.85rem 0 0.35rem; font-size:1.1rem; font-weight:900; color:#ffffff;">Tu Vitrina que Vende</h3>
-            <p style="margin:0 0 0.85rem; font-size:0.87rem; color:#cbd5e1; line-height:1.55;">Tu página web profesional que muestra tus trabajos, inspira confianza inmediata y evita que te regateen.</p>
-            <a href="/paginas-web" style="color:#67e8f9; font-weight:700; font-size:0.84rem; text-decoration:none;">Ver ejemplos reales →</a>
+          <article class="hm-card" style="padding:1.15rem; text-align:center; display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              {{ render_squad_character('sdr', compact=true) }}
+              <p style="margin:0.85rem 0; font-size:0.87rem; color:#cbd5e1; line-height:1.55;">Recibe cada mensaje de anuncios, Instagram, WhatsApp o Google en segundos. Hace las preguntas filtro y separa al curioso del comprador real.</p>
+            </div>
+            <a href="/agentes-ia" style="color:#67e8f9; font-weight:800; font-size:0.84rem; text-decoration:none;">Ver cómo filtra →</a>
           </article>
 
-          <article class="hm-card" style="padding:1.25rem; text-align:center;">
-            {{ render_squad_character('aura', compact=true) }}
-            <h3 style="margin:0.85rem 0 0.35rem; font-size:1.1rem; font-weight:900; color:#ffffff;">Tu Recepcionista 24/7</h3>
-            <p style="margin:0 0 0.85rem; font-size:0.87rem; color:#cbd5e1; line-height:1.55;">Responde en WhatsApp, redes y llamadas en segundos a cualquier hora, filtra curiosos y agenda directo en tu calendario.</p>
-            <a href="/agentes-ia" style="color:#34d399; font-weight:700; font-size:0.84rem; text-decoration:none;">Ver cómo atiende →</a>
+          <article class="hm-card" style="padding:1.15rem; text-align:center; display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              {{ render_squad_character('setter', compact=true) }}
+              <p style="margin:0.85rem 0; font-size:0.87rem; color:#cbd5e1; line-height:1.55;">Conversa con naturalidad, despeja dudas iniciales, revisa tu calendario y deja citas calificadas listas con recordatorios automáticos.</p>
+            </div>
+            <a href="/agentes-ia#prueba-voz-vivo" style="color:#34d399; font-weight:800; font-size:0.84rem; text-decoration:none;">Ver agenda 24/7 →</a>
           </article>
 
-          <article class="hm-card" style="padding:1.25rem; text-align:center;">
-            {{ render_squad_character('cortex', compact=true) }}
-            <h3 style="margin:0.85rem 0 0.35rem; font-size:1.1rem; font-weight:900; color:#ffffff;">Tu Tablero de Clientes</h3>
-            <p style="margin:0 0 0.85rem; font-size:0.87rem; color:#cbd5e1; line-height:1.55;">Organiza cada cliente con su cita, estado y seguimiento automático para que ninguna venta dependa de tu memoria.</p>
-            <a href="/crm" style="color:#fbbf24; font-weight:700; font-size:0.84rem; text-decoration:none;">Ver tablero por rubro →</a>
+          <article class="hm-card" style="padding:1.15rem; text-align:center; display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              {{ render_squad_character('closer', compact=true) }}
+              <p style="margin:0.85rem 0; font-size:0.87rem; color:#cbd5e1; line-height:1.55;">Envía propuestas, diagnósticos a medida y enlaces de pago. Da seguimiento puntual a cada oportunidad abierta hasta que se cierra.</p>
+            </div>
+            <a href="/crm" style="color:#fbbf24; font-weight:800; font-size:0.84rem; text-decoration:none;">Ver tablero CRM →</a>
           </article>
 
-          <article class="hm-card" style="padding:1.25rem; text-align:center;">
-            {{ render_squad_character('impulso', compact=true) }}
-            <h3 style="margin:0.85rem 0 0.35rem; font-size:1.1rem; font-weight:900; color:#ffffff;">Tus Videos y Campañas</h3>
-            <p style="margin:0 0 0.85rem; font-size:0.87rem; color:#cbd5e1; line-height:1.55;">Nuestro equipo edita tus videos cortos, crea tus anuncios ganadores y te da ofertas listas en 3 clics para atraer clientes nuevos.</p>
-            <a href="/marketing" style="color:#c4b5fd; font-weight:700; font-size:0.84rem; text-decoration:none;">Ver campañas reales →</a>
+          <article class="hm-card" style="padding:1.15rem; text-align:center; display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              {{ render_squad_character('soporte', compact=true) }}
+              <p style="margin:0.85rem 0; font-size:0.87rem; color:#cbd5e1; line-height:1.55;">Resuelve dudas operativas de tus clientes actuales, acompaña su integración inicial y cuida la reputación de tu negocio.</p>
+            </div>
+            <a href="/equipo" style="color:#c4b5fd; font-weight:800; font-size:0.84rem; text-decoration:none;">Conocer el equipo completo →</a>
           </article>
         </div>
 
-        <!-- Caja Interactiva de Voz en Vivo AURA -->
+        <!-- Caja Interactiva de Voz en Vivo Setter IA -->
         <div class="hm-card" style="margin-top:2rem; padding:1.75rem; border-color:rgba(16, 185, 129, 0.42); display:grid; grid-template-columns:1fr; gap:1.25rem;">
-          <div style="max-width:740px;">
+          <div style="max-width:760px;">
             <div style="font-size:0.78rem; font-weight:800; color:#34d399; text-transform:uppercase; margin-bottom:0.35rem;">
               <i class="fas fa-microphone" aria-hidden="true"></i> Pruébalo ahora mismo con tu propia voz
             </div>
             <h3 style="margin:0 0 0.45rem; font-size:1.35rem; font-weight:900; color:#ffffff;">
-              ¿Quieres escuchar cómo atiende Aura? Háblale o pregúntale en vivo aquí
+              ¿Quieres escuchar cómo responde tu Empleado Digital? Háblale o pregúntale en vivo aquí
             </h3>
             <p style="margin:0; font-size:0.9rem; color:#cbd5e1;">
-              Toca el micrófono, elige una pregunta rápida o escribe tu duda abajo y Aura te responderá al instante por voz y texto.
+              Toca el micrófono, elige una pregunta rápida o escribe tu duda abajo y nuestro asistente de voz te responderá al instante.
             </p>
           </div>
           <div id="aura-voice-stage"></div>
@@ -1434,9 +1438,9 @@
                 <option value="Caja 1: Arranque Rápido PYME (50% al iniciar / 50% contra entrega)">Caja 1 · Arranque Rápido PYME (50% al iniciar / 50% al entregar)</option>
                 <option value="Caja 3: Máquina Completa 3 en 1 — Web + 10 Videos + 1 Mes de Anuncios (50% hoy / 50% día 15)">Caja 3 · Máquina Completa 3 en 1 (No Tocas Nada)</option>
                 <option value="Plan Rescate Micro-PYME (Versión Express 5 días)">Plan Rescate Micro-PYME (Versión Express 5 días)</option>
-                <option value="Solución Web: Página Web Inteligente + Asistente 24/7 (Prosper)">Solución Web · Página Web Profesional + Asistente WhatsApp</option>
-                <option value="Solución Tablero: Tablero de Clientes y Agenda + 23 Micro-Apps IA (Cortex)">Solución Tablero · Tablero de Clientes y Agenda por Rubro</option>
-                <option value="Solución Tráfico: Campañas Click-to-WhatsApp + Fábrica de Reels (Impulso)">Solución Marketing · Campañas de Anuncios y Reels Virales</option>
+                <option value="Solución Web: Página Web Inteligente + Empleados Digitales (SDR y Setter IA)">Solución Web · Página Web Profesional + Empleados Digitales WhatsApp</option>
+                <option value="Solución Tablero: Tablero de Clientes, Closer IA y 23 Micro-Apps">Solución Tablero · Tablero de Clientes, Seguimiento Closer IA y Agenda</option>
+                <option value="Solución Tráfico: Campañas Click-to-WhatsApp + Fábrica de Reels">Solución Marketing · Campañas de Anuncios y Reels Virales</option>
                 <option value="Quiero que un asesor me recomiende según mi negocio">Aún no estoy seguro — quiero que un especialista me recomiende</option>
               </select>
             </div>
@@ -1535,7 +1539,7 @@
       });
     }
 
-    // 3. Control accesible de animaciones de Las 4 Inteligencias
+    // 3. Control accesible de animaciones de Empleados Digitales
     const motionBtn = document.getElementById('toggle-squad-motion');
     const squadBox = document.getElementById('hm-squad-container');
     if (motionBtn && squadBox) {

@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Las 4 Inteligencias de Prosper IA · Pack Integral Web + IA + CRM + Ads | Agencia ProsperIA</title>
-  <meta name="description" content="Conoce a Prosper, Aura, Impulso y Cortex: Las 4 Inteligencias de Agencia Prosper IA respaldadas por Edward Jiménez y 10 ingenieros reales. Tu sistema comercial completo en una sola implementación.">
+  <title>Tus 4 Empleados Digitales (SDR IA, Setter IA, Closer IA, Soporte IA) | Agencia ProsperIA</title>
+  <meta name="description" content="Conoce a tus 4 Empleados Digitales del libro El Empresario Aumentado: SDR IA, Setter IA, Closer IA y Soporte IA trabajando 24/7 junto a 10 ingenieros reales de Agencia Prosper IA.">
   <link rel="icon" type="image/png" href="{{ static_versioned('favicon.png') }}">
   <link rel="stylesheet" href="{{ static_versioned('fonts.css') }}">
   <link rel="stylesheet" href="{{ static_versioned('fa.min.css') }}">
@@ -15,50 +15,66 @@
   {% with active_menu='equipo' %}{% include "navbar.html" %}{% endwith %}
 
   <main>
-    <!-- ── HERO ESCUADRÓN ── -->
+    <!-- ── HERO EMPLEADOS DIGITALES ── -->
     <section class="pia-shell" style="padding-block: 2.5rem 3.5rem; text-align:center;">
-      <div class="pia-eyebrow"><i class="fas fa-users-gear" aria-hidden="true"></i> Pack Integral · Todo Trabajando Conectado</div>
-      <h1 class="font-heading" style="font-size: clamp(2rem, 4.2vw, 3.35rem); font-weight: 900; max-width:920px; margin:0 auto 1.1rem;">
-        <span class="pia-gradient-text">Las 4 Inteligencias de Prosper IA</span>: 4 Especialistas Digitales + 10 Ingenieros Reales Trabajando Para Ti
+      <div class="pia-eyebrow"><i class="fas fa-users-gear" aria-hidden="true"></i> El Empresario Aumentado y La Ley del Multiplicador</div>
+      <h1 class="font-heading" style="font-size: clamp(2rem, 4.2vw, 3.35rem); font-weight: 900; max-width:940px; margin:0 auto 1.1rem;">
+        Tus <span class="pia-gradient-text">4 Empleados Digitales</span> Trabajando Contigo 24/7 + 10 Ingenieros Reales Detrás
       </h1>
-      <p style="font-size: 1.06rem; color: #cbd5e1; max-width: 740px; margin: 0 auto 1.75rem;">
-        No compres herramientas aisladas que no se hablan entre sí. Activa en un solo paquete tu <strong style="color:#fff;">Página Web (Prosper)</strong>, tu <strong style="color:#fff;">Recepcionista 24/7 (Aura)</strong>, tu <strong style="color:#fff;">CRM + Portal Cortex (23 Micro-Apps IA)</strong> y tus <strong style="color:#fff;">Anuncios + Reels (Impulso)</strong>, bajo la arquitectura de Edward Jiménez.
+      <p style="font-size: 1.06rem; color: #cbd5e1; max-width: 760px; margin: 0 auto 1.75rem;">
+        No contrates software frío ni dejes a tus clientes en visto. Instala en una sola implementación a <strong style="color:#00e5ff;">SDR IA</strong>, <strong style="color:#34d399;">Setter IA</strong>, <strong style="color:#fbbf24;">Closer IA</strong> y <strong style="color:#a5b4fc;">Soporte IA</strong> conectados a tu página web, WhatsApp y calendario.
       </p>
       <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:0.85rem;">
         <a href="#pack-escuadron" class="pia-btn-primary">
           <i class="fas fa-rocket" aria-hidden="true"></i>
-          <span>Solicitar Pack Completo + Agendar</span>
+          <span>Contratar a Mis 4 Empleados Digitales + Agendar</span>
         </a>
-        <a href="#matriz-semana1" class="pia-btn-ghost">
-          <span>Ver Matriz Semana 1 ↓</span>
+        <a href="#flujo-libro" class="pia-btn-ghost">
+          <span>Ver Cómo Trabajan en Cadena ↓</span>
         </a>
         <button type="button" id="toggle-squad-anim" class="pia-btn-ghost" style="min-height:48px;">
           <i class="fas fa-pause" aria-hidden="true"></i>
-          <span>Pausar animaciones</span>
+          <span>Pausar movimiento</span>
         </button>
       </div>
     </section>
 
-    <!-- ── LAS 4 INTELIGENCIAS ANIMADAS DE PROSPER IA ── -->
+    <!-- ── LOS 4 EMPLEADOS DIGITALES EN ESTILO PIXAR 3D ── -->
     <section class="pia-section" id="squad-showcase" style="background: rgba(7, 11, 20, 0.72);">
       <div class="pia-shell">
         <div class="pia-grid-4">
           <div style="display:flex; flex-direction:column; gap:0.75rem;">
-            {{ render_squad_character('prosper') }}
-            <a href="/paginas-web" class="pia-btn-ghost" style="width:100%; min-height:42px; font-size:0.84rem;">Ver Páginas Web →</a>
+            {{ render_squad_character('sdr') }}
+            <a href="/agentes-ia" class="pia-btn-ghost" style="width:100%; min-height:42px; font-size:0.84rem;">Ver Filtro Omnicanal →</a>
           </div>
           <div style="display:flex; flex-direction:column; gap:0.75rem;">
-            {{ render_squad_character('aura') }}
-            <a href="/agentes-ia" class="pia-btn-ghost" style="width:100%; min-height:42px; font-size:0.84rem;">Probar Aura Voz &amp; Chat →</a>
+            {{ render_squad_character('setter') }}
+            <a href="/agentes-ia#prueba-voz-vivo" class="pia-btn-ghost" style="width:100%; min-height:42px; font-size:0.84rem;">Probar Atención en Vivo →</a>
           </div>
           <div style="display:flex; flex-direction:column; gap:0.75rem;">
-            {{ render_squad_character('impulso') }}
-            <a href="/marketing" class="pia-btn-ghost" style="width:100%; min-height:42px; font-size:0.84rem;">Ver Marketing &amp; Reels →</a>
+            {{ render_squad_character('closer') }}
+            <a href="/crm" class="pia-btn-ghost" style="width:100%; min-height:42px; font-size:0.84rem;">Ver Propuestas &amp; CRM →</a>
           </div>
           <div style="display:flex; flex-direction:column; gap:0.75rem;">
-            {{ render_squad_character('cortex') }}
-            <a href="/crm" class="pia-btn-ghost" style="width:100%; min-height:42px; font-size:0.84rem;">Explorar CRM &amp; 23 Apps →</a>
+            {{ render_squad_character('soporte') }}
+            <a href="/tarjeta" class="pia-btn-ghost" style="width:100%; min-height:42px; font-size:0.84rem;">Escudo de Reputación 5★ →</a>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── DIAGRAMA OFICIAL DEL LIBRO ── -->
+    <section class="pia-section" id="flujo-libro">
+      <div class="pia-shell">
+        <div class="pia-card" style="padding:1.75rem; border-color:rgba(0,229,255,0.32);">
+          <div style="text-align:center; max-width:740px; margin:0 auto 1.4rem;">
+            <span class="pia-eyebrow">Arquitectura del Libro · Pág. 30</span>
+            <h2 class="font-heading" style="font-size:clamp(1.5rem, 2.8vw, 2.2rem); font-weight:900; margin-bottom:0.45rem;">
+              Del Primer Clic a Cliente Fiel en Cadena Automática
+            </h2>
+            <p style="color:#94a3b8; font-size:0.93rem;">Cada empleado digital domina una etapa exacta del embudo comercial para que tú solo atiendas cierres y supervisión estratégica.</p>
+          </div>
+          <img src="/static/libro/diagrama_empleados_digitales.jpg" alt="Diagrama oficial de Empleados Digitales Agencia Prosper IA: SDR IA, Setter IA, Closer IA y Soporte IA" style="width:100%; border-radius:16px; border:1px solid rgba(255,255,255,0.12);" loading="lazy">
         </div>
       </div>
     </section>
@@ -93,9 +109,9 @@
       <div class="pia-shell" style="max-width:760px;">
         <div class="pia-card" style="padding:2.2rem; border-color:rgba(0,229,255,0.4);">
           <div style="text-align:center; margin-bottom:1.5rem;">
-            <div class="pia-eyebrow"><i class="fas fa-crown" aria-hidden="true"></i> Pack 4 Inteligencias</div>
-            <h2 class="font-heading" style="font-size:1.85rem; font-weight:900;">Activa Las 4 Inteligencias en Tu Empresa</h2>
-            <p style="color:#94a3b8; font-size:0.92rem; margin-top:0.4rem;">Web con Prosper + Atención 24/7 con Aura + ProsperIA CRM &amp; Portal Cortex (23 Apps) + Impulso Ads y Reels en un solo plan integral.</p>
+            <div class="pia-eyebrow"><i class="fas fa-crown" aria-hidden="true"></i> Pack Completo Empleados Digitales</div>
+            <h2 class="font-heading" style="font-size:1.85rem; font-weight:900;">Contrata a Los 4 Empleados Digitales en Tu Empresa</h2>
+            <p style="color:#94a3b8; font-size:0.92rem; margin-top:0.4rem;">SDR IA + Setter IA + Closer IA + Soporte IA + Web + CRM + Campañas en un solo sistema llave en mano.</p>
           </div>
 
           <form id="equipo-lead-form">

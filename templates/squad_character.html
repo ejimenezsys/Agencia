@@ -1,93 +1,57 @@
 {% macro render_squad_character(agent_key, compact=false) %}
-{% if agent_key in ('prosper', 'atlas') %}
-  {% set canonical = 'prosper' %}
-  {% set name = 'PROSPER' %}
-  {% set role = 'Inteligencia Web & Presencia Digital' %}
+{% if agent_key in ('sdr', 'prosper', 'atlas') %}
+  {% set canonical = 'sdr' %}
+  {% set name = 'SDR IA' %}
+  {% set role = 'Prospectador y Calificador' %}
   {% set color = '#00e5ff' %}
   {% set accent_bg = 'rgba(0, 229, 255, 0.14)' %}
-  {% set badge = 'DISEÑO WEB · TIENDAS · CATÁLOGOS' %}
-  {% set summary = 'Construye tu página web o tienda online conectada a WhatsApp, pagos y agenda para convertir visitas en clientes reales.' %}
-{% elif agent_key in ('aura', 'nova') %}
-  {% set canonical = 'aura' %}
-  {% set name = 'AURA' %}
-  {% set role = 'Inteligencia Emocional & Atención 24/7' %}
+  {% set badge = 'EMPLEADO DIGITAL 01 · FILTRO 24/7' %}
+  {% set img_url = '/static/empleados_digitales/sdr_ia_pixar.png' %}
+  {% set summary = 'Recibe cada mensaje de anuncios, Instagram, WhatsApp o Google en segundos. Hace las preguntas filtro y separa al curioso del comprador real.' %}
+{% elif agent_key in ('setter', 'aura', 'nova') %}
+  {% set canonical = 'setter' %}
+  {% set name = 'Setter IA' %}
+  {% set role = 'Agendador Inteligente' %}
   {% set color = '#34d399' %}
   {% set accent_bg = 'rgba(52, 211, 153, 0.14)' %}
-  {% set badge = 'WHATSAPP · REDES · VOZ EN VIVO' %}
-  {% set summary = 'Atiende con calidez humana por WhatsApp, redes y voz en segundos las 24 horas, filtra curiosos y confirma citas.' %}
-{% elif agent_key in ('impulso', 'orion') %}
-  {% set canonical = 'impulso' %}
-  {% set name = 'IMPULSO' %}
-  {% set role = 'Inteligencia Estratégica, Marketing & Reels' %}
+  {% set badge = 'EMPLEADO DIGITAL 02 · CALENDARIO' %}
+  {% set img_url = '/static/empleados_digitales/setter_ia_pixar.png' %}
+  {% set summary = 'Conversa con naturalidad, despeja dudas iniciales, revisa tu calendario y deja citas calificadas listas con recordatorios automáticos.' %}
+{% elif agent_key in ('closer', 'impulso', 'orion') %}
+  {% set canonical = 'closer' %}
+  {% set name = 'Closer IA' %}
+  {% set role = 'Seguimiento Comercial' %}
   {% set color = '#fbbf24' %}
   {% set accent_bg = 'rgba(251, 191, 36, 0.14)' %}
-  {% set badge = 'META ADS · GOOGLE ADS · FÁBRICA DE REELS' %}
-  {% set summary = 'Activa campañas directo a WhatsApp, ofertas en 3 clics con PassportAI y edición de videos cortos virales (+744K vistas).' %}
+  {% set badge = 'EMPLEADO DIGITAL 03 · CIERRES' %}
+  {% set img_url = '/static/empleados_digitales/closer_ia_pixar.png' %}
+  {% set summary = 'Envía propuestas, diagnósticos a medida y enlaces de pago. Da seguimiento puntual a cada oportunidad abierta hasta que se cierra.' %}
 {% else %}
-  {% set canonical = 'cortex' %}
-  {% set name = 'CORTEX' %}
-  {% set role = 'Inteligencia Financiera & Orden Comercial (CRM)' %}
+  {% set canonical = 'soporte' %}
+  {% set name = 'Soporte IA' %}
+  {% set role = 'Atención y Postventa 24/7' %}
   {% set color = '#818cf8' %}
   {% set accent_bg = 'rgba(129, 140, 248, 0.16)' %}
-  {% set badge = 'PROSPERIA CRM · 23 MICRO-APPS IA · AGENDA' %}
-  {% set summary = 'Organiza tu tablero de clientes, agenda Round-Robin, cotizaciones y las 23 Micro-Apps de IA para que no se escape ninguna venta.' %}
+  {% set badge = 'EMPLEADO DIGITAL 04 · POSTVENTA 5★' %}
+  {% set img_url = '/static/empleados_digitales/soporte_ia_pixar.png' %}
+  {% set summary = 'Resuelve dudas operativas de tus clientes actuales, acompaña su integración inicial y cuida la reputación de tu negocio.' %}
 {% endif %}
 
-<div class="squad-avatar-stage" style="border-color: {{ color }}44; width:100%; flex-direction:column; text-align:center; gap:0.85rem;">
+<div class="squad-avatar-stage" style="border-color: {{ color }}44; width:100%; flex-direction:column; text-align:center; gap:0.85rem; padding:1.15rem 0.9rem;">
   <div class="squad-orbit-ring" style="border-color: {{ color }}33;" aria-hidden="true"></div>
-  <div class="squad-float" style="position:relative; z-index:2;">
-    <svg width="{{ '104' if compact else '136' }}" height="{{ '104' if compact else '136' }}" viewBox="0 0 140 140" role="img" aria-label="Personaje animado {{ name }} — {{ role }}">
-      <defs>
-        <radialGradient id="glow-{{ canonical }}" cx="50%" cy="45%" r="55%">
-          <stop offset="0%" stop-color="{{ color }}" stop-opacity="0.45"/>
-          <stop offset="100%" stop-color="#040814" stop-opacity="0"/>
-        </radialGradient>
-        <linearGradient id="suit-{{ canonical }}" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#1e293b"/>
-          <stop offset="100%" stop-color="#090f1e"/>
-        </linearGradient>
-      </defs>
-      <circle cx="70" cy="70" r="64" fill="url(#glow-{{ canonical }})"/>
-      <path d="M36 122 C36 96, 52 88, 70 88 C88 88, 104 96, 104 122 Z" fill="url(#suit-{{ canonical }})" stroke="{{ color }}" stroke-width="2"/>
-      <path d="M56 90 L70 106 L84 90" fill="none" stroke="{{ color }}" stroke-width="2.2" stroke-linecap="round"/>
-      <circle cx="70" cy="109" r="5.5" fill="{{ color }}" class="squad-pulse"/>
-      <rect x="44" y="32" width="52" height="50" rx="22" fill="#0f172a" stroke="{{ color }}" stroke-width="2.4"/>
-      <rect x="51" y="47" width="38" height="20" rx="10" fill="#020617" stroke="{{ color }}" stroke-width="1.5"/>
-      {% if canonical == 'prosper' %}
-        <path d="M59 57 L55 54 L59 51 M81 51 L85 54 L81 57" fill="none" stroke="{{ color }}" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="70" cy="57" r="2.2" fill="#ffffff"/>
-        <line x1="70" y1="22" x2="70" y2="32" stroke="{{ color }}" stroke-width="2.4" stroke-linecap="round"/>
-        <circle cx="70" cy="20" r="4" fill="{{ color }}"/>
-      {% elif canonical == 'aura' %}
-        <circle cx="62" cy="57" r="3.4" fill="{{ color }}"/>
-        <circle cx="78" cy="57" r="3.4" fill="{{ color }}"/>
-        <path d="M38 56 C38 40, 102 40, 102 56" fill="none" stroke="{{ color }}" stroke-width="2.5"/>
-        <rect x="36" y="52" width="8" height="14" rx="4" fill="{{ color }}"/>
-        <rect x="96" y="52" width="8" height="14" rx="4" fill="{{ color }}"/>
-        <path d="M98 64 Q94 74 80 73" fill="none" stroke="{{ color }}" stroke-width="2" stroke-linecap="round"/>
-      {% elif canonical == 'impulso' %}
-        <rect x="56" y="54" width="10" height="5" rx="2.5" fill="{{ color }}"/>
-        <rect x="74" y="54" width="10" height="5" rx="2.5" fill="{{ color }}"/>
-        <path d="M56 26 Q70 16 84 26" fill="none" stroke="{{ color }}" stroke-width="2.2" stroke-linecap="round"/>
-        <path d="M62 31 Q70 25 78 31" fill="none" stroke="{{ color }}" stroke-width="2" stroke-linecap="round"/>
-      {% else %}
-        <circle cx="61" cy="57" r="3" fill="{{ color }}"/>
-        <circle cx="70" cy="54" r="2.5" fill="#ffffff"/>
-        <circle cx="79" cy="57" r="3" fill="{{ color }}"/>
-        <line x1="61" y1="57" x2="70" y2="54" stroke="{{ color }}" stroke-width="1.5"/>
-        <line x1="70" y1="54" x2="79" y2="57" stroke="{{ color }}" stroke-width="1.5"/>
-        <polygon points="70,17 77,25 70,31 63,25" fill="{{ color }}" opacity="0.9"/>
-      {% endif %}
-    </svg>
+  <div class="squad-float" style="position:relative; z-index:2; display:inline-block;">
+    <div style="width:{{ '132px' if compact else '168px' }}; height:{{ '132px' if compact else '168px' }}; border-radius:26px; overflow:hidden; border:2.5px solid {{ color }}; box-shadow:0 16px 36px rgba(0,0,0,0.6), 0 0 28px {{ color }}35; margin:0 auto; background:#060c1a;">
+      <img src="{{ img_url }}" alt="{{ name }} — {{ role }} estilo Pixar 3D" width="{{ '132' if compact else '168' }}" height="{{ '132' if compact else '168' }}" style="width:100%; height:100%; object-fit:cover; display:block;" loading="lazy">
+    </div>
   </div>
   <div style="position:relative; z-index:2;">
     <span style="display:inline-block; font-size:10px; font-weight:800; letter-spacing:0.08em; padding:4px 10px; border-radius:999px; background:{{ accent_bg }}; color:{{ color }}; border:1px solid {{ color }}55; margin-bottom:6px;">
       {{ badge }}
     </span>
-    <h3 style="font-size:1.25rem; font-weight:800; color:#ffffff;">{{ name }}</h3>
-    <div style="font-size:0.84rem; font-weight:700; color:{{ color }}; margin-top:2px;">{{ role }}</div>
+    <h3 style="font-size:1.25rem; font-weight:900; color:#ffffff; margin:0;">{{ name }}</h3>
+    <div style="font-size:0.85rem; font-weight:800; color:{{ color }}; margin-top:2px;">{{ role }}</div>
     {% if not compact %}
-    <p style="font-size:0.84rem; color:#cbd5e1; margin:8px auto 0; max-width:340px;">{{ summary }}</p>
+    <p style="font-size:0.86rem; color:#cbd5e1; margin:8px auto 0; max-width:340px; line-height:1.55;">{{ summary }}</p>
     {% endif %}
   </div>
 </div>

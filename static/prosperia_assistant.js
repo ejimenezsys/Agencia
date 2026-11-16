@@ -254,14 +254,14 @@
           <div style="display:flex; align-items:center; gap:0.65rem;">
             <div class="aura-wave-bars" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
             <div>
-              <div style="font-size:0.88rem; font-weight:800; color:#ffffff;">AURA · Asistente de Voz en Vivo</div>
-              <div id="aura-stage-status" style="font-size:0.76rem; color:#34d399;">Lista para escucharte y responder al instante</div>
+              <div style="font-size:0.88rem; font-weight:800; color:#ffffff;">Setter IA · Asistente de Voz en Vivo</div>
+              <div id="aura-stage-status" style="font-size:0.76rem; color:#34d399;">Listo para escucharte y responder al instante</div>
             </div>
           </div>
           <div style="display:flex; gap:0.5rem;">
             <button type="button" id="aura-mic-btn" class="hm-btn-emerald pia-btn-emerald" style="padding:0.65rem 1.1rem; font-size:0.86rem; border-radius:12px;">
               <i class="fas fa-microphone" aria-hidden="true"></i>
-              <span>${SpeechRec ? 'Hablar con AURA' : 'Escuchar Saludo de AURA'}</span>
+              <span>${SpeechRec ? 'Hablar por Voz Ahora' : 'Escuchar Saludo en Vivo'}</span>
             </button>
             <button type="button" id="aura-stop-btn" class="hm-btn-outline pia-btn-ghost" style="padding:0.65rem 0.9rem; font-size:0.82rem; border-radius:12px;" hidden>
               <i class="fas fa-stop" aria-hidden="true"></i>
@@ -271,19 +271,19 @@
         </div>
 
         <div id="aura-stage-transcript" aria-live="polite" style="padding:0.85rem 1rem; border-radius:12px; background:rgba(15,23,42,0.85); border:1px solid rgba(255,255,255,0.08); font-size:0.88rem; color:#e2e8f0; min-height:66px; margin-bottom:0.85rem;">
-          💬 «Hola, soy <strong>Aura</strong> de Agencia Prosper IA. Toca el micrófono para preguntarme con tu voz cómo instalamos tu página, tu WhatsApp 24/7 y tu calendario en 7 a 10 días, o elige una pregunta rápida abajo.»
+          💬 «Hola, soy tu <strong>Setter IA</strong> de Agencia Prosper IA. Toca el micrófono para preguntarme con tu voz cómo trabajan SDR IA, Setter IA, Closer IA y Soporte IA por tu negocio, o elige una pregunta rápida abajo.»
         </div>
 
         <div style="display:flex; flex-wrap:wrap; gap:0.45rem; margin-bottom:0.85rem;">
-          <button type="button" class="pia-qbtn aura-voice-pill" data-q="¿Cómo ayudan a que mi negocio no pierda clientes por WhatsApp?">¿Cómo funciona?</button>
+          <button type="button" class="pia-qbtn aura-voice-pill" data-q="¿Qué hacen los 4 Empleados Digitales (SDR IA, Setter IA, Closer IA y Soporte IA)?">Los 4 Empleados Digitales</button>
           <button type="button" class="pia-qbtn aura-voice-pill" data-q="¿Cuáles son las 3 opciones o paquetes para iniciar hoy?">Ver las 3 Opciones</button>
           <button type="button" class="pia-qbtn aura-voice-pill" data-q="¿En cuántos días me entregan todo funcionando?">Tiempo de entrega</button>
           <button type="button" class="pia-qbtn aura-voice-pill" data-q="¿Cómo funciona el pago 50% hoy y 50% al entregar?">Pago 50/50</button>
         </div>
 
         <form id="aura-voice-text-form" style="display:flex; gap:0.5rem;">
-          <label for="aura-voice-text-in" class="pia-visually-hidden">Escribe tu pregunta para que Aura responda por voz</label>
-          <input type="text" id="aura-voice-text-in" placeholder="O escribe aquí tu duda para que Aura te responda hablando..." style="flex:1 1 auto; padding:0.7rem 0.9rem; border-radius:10px; background:#020617; border:1px solid rgba(148,163,184,0.35); color:#fff; font-size:0.88rem;">
+          <label for="aura-voice-text-in" class="pia-visually-hidden">Escribe tu pregunta para que el Empleado Digital responda por voz</label>
+          <input type="text" id="aura-voice-text-in" placeholder="O escribe aquí tu duda para escucharlo en vivo..." style="flex:1 1 auto; padding:0.7rem 0.9rem; border-radius:10px; background:#020617; border:1px solid rgba(148,163,184,0.35); color:#fff; font-size:0.88rem;">
           <button type="submit" class="hm-btn-gold pia-btn-primary" style="padding:0.65rem 1rem; font-size:0.86rem; border-radius:10px;">
             <i class="fas fa-volume-high" aria-hidden="true"></i> <span>Preguntar</span>
           </button>
@@ -307,8 +307,8 @@
       transcript.innerHTML = `<div style="color:#93c5fd; margin-bottom:4px;"><strong>Tú:</strong> ${questionText}</div><div><em>Consultando a Aura...</em></div>`;
 
       const reply = await askAssistant(questionText, 'voice');
-      transcript.innerHTML = `<div style="color:#93c5fd; margin-bottom:4px;"><strong>Tú:</strong> ${questionText}</div><div style="color:#ecfdf5;"><strong>Aura:</strong> ${reply}</div>`;
-      statusTxt.textContent = 'Aura está respondiendo...';
+      transcript.innerHTML = `<div style="color:#93c5fd; margin-bottom:4px;"><strong>Tú:</strong> ${questionText}</div><div style="color:#ecfdf5;"><strong>Asistente IA:</strong> ${reply}</div>`;
+      statusTxt.textContent = 'Respondiendo en vivo...';
       stopBtn.hidden = false;
       card.classList.add('is-speaking');
 
@@ -387,22 +387,22 @@
     btn.type = 'button';
     btn.setAttribute('aria-expanded', 'false');
     btn.setAttribute('aria-controls', 'pia-chat-panel');
-    btn.innerHTML = '<span id="pia-chat-dot" aria-hidden="true"></span><i class="fas fa-comments" aria-hidden="true"></i><span>Asistente AURA 24/7</span>';
+    btn.innerHTML = '<span id="pia-chat-dot" aria-hidden="true"></span><i class="fas fa-comments" aria-hidden="true"></i><span>Asistente Digital 24/7</span>';
 
     const panel = document.createElement('section');
     panel.id = 'pia-chat-panel';
     panel.setAttribute('role', 'dialog');
-    panel.setAttribute('aria-label', 'Chat y Voz con Asistente Agencia Prosper IA');
+    panel.setAttribute('aria-label', 'Chat y Voz con Empleado Digital Agencia Prosper IA');
     panel.innerHTML = `
       <div class="pia-cp-head">
         <div>
-          <div style="font-weight:800; font-size:14px; color:#fff;">AURA · Agencia Prosper IA</div>
+          <div style="font-weight:800; font-size:14px; color:#fff;">Setter IA · Agencia Prosper IA</div>
           <div style="font-size:11px; color:#6ee7b7;">Respuestas al instante · Base Oficial</div>
         </div>
         <button type="button" id="pia-cp-close" aria-label="Cerrar asistente" style="background:rgba(255,255,255,0.1); border:0; color:#fff; width:30px; height:30px; border-radius:8px; cursor:pointer;">✕</button>
       </div>
       <div class="pia-cp-messages" id="pia-cp-messages">
-        <div class="pia-msg-bot">¡Hola! 👋 Soy <strong>Aura</strong> de Agencia Prosper IA. Te respondo al momento sobre páginas web, atención en WhatsApp, tablero CRM, anuncios/Reels o cómo agendar en nuestro calendario. ¿Qué necesitas hoy?</div>
+        <div class="pia-msg-bot">¡Hola! 👋 Soy tu <strong>Setter IA</strong> de Agencia Prosper IA. Te ayudo al momento sobre nuestros 4 Empleados Digitales (SDR IA, Setter IA, Closer IA y Soporte IA), páginas web, tablero CRM, anuncios/Reels o agenda en vivo. ¿Qué necesitas hoy?</div>
       </div>
       <div class="pia-cp-quick">
         <button type="button" class="pia-qbtn pia-cp-q" data-q="¿Qué incluyen las 3 opciones de inicio?">3 Opciones</button>

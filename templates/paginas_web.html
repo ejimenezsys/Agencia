@@ -133,10 +133,10 @@
             <span class="pw-tag"><i class="fas fa-check text-emerald-400" aria-hidden="true"></i> Bilingüe ES / EN</span>
           </div>
         </div>
-        <div id="prosper-stage-box">
-          {{ render_squad_character('prosper') }}
+        <div id="sdr-stage-box">
+          {{ render_squad_character('sdr') }}
           <div style="display:flex; justify-content:center; margin-top:0.65rem;">
-            <button type="button" id="toggle-prosper-motion" class="pia-btn-ghost" style="min-height:36px; padding:0.35rem 0.8rem; font-size:0.75rem;">
+            <button type="button" id="toggle-sdr-motion" class="pia-btn-ghost" style="min-height:36px; padding:0.35rem 0.8rem; font-size:0.75rem;">
               <i class="fas fa-pause" aria-hidden="true"></i> Pausar animación
             </button>
           </div>
@@ -752,9 +752,9 @@
 
   <script>
   (function() {
-    // Pause / play Prosper animation (WCAG 2.2.2)
-    const stageBox = document.getElementById('prosper-stage-box');
-    const toggleAnimBtn = document.getElementById('toggle-prosper-motion');
+    // Pause / play SDR animation (WCAG 2.2.2)
+    const stageBox = document.getElementById('sdr-stage-box');
+    const toggleAnimBtn = document.getElementById('toggle-sdr-motion');
     if (stageBox && toggleAnimBtn) {
       toggleAnimBtn.addEventListener('click', () => {
         const paused = stageBox.classList.toggle('squad-paused');

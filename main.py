@@ -3383,8 +3383,8 @@ def _load_prosperia_kb_text() -> str:
             return f.read()[:5000]
     except Exception:
         return (
-            "Agencia Prosper IA LLC (Miami, FL) instala Página Web, Asistente 24/7 Aura en WhatsApp/Voz, "
-            "Tablero CRM Cortex con 23 Micro-Apps IA y Campañas/Reels con Impulso en 7 a 10 días con 50% al iniciar y 50% al entregar."
+            "Agencia Prosper IA LLC (Miami, FL) instala Página Web, tus 4 Empleados Digitales (SDR IA, Setter IA, Closer IA y Soporte IA), "
+            "Tablero CRM y Campañas/Reels en 7 a 10 días con 50% al iniciar y 50% al entregar."
         )
 
 
@@ -3403,7 +3403,7 @@ async def api_prosperia_assistant(req: ProsperiaAssistantRequest, request: Reque
     if not raw_msg:
         return {
             "success": True,
-            "reply": "¡Hola! Soy Aura, la asistente de Agencia Prosper IA. ¿En qué te ayudo hoy sobre páginas web, atención en WhatsApp, tablero de clientes o videos y anuncios?",
+            "reply": "¡Hola! Soy tu Setter IA de Agencia Prosper IA. ¿En qué te ayudo hoy sobre páginas web, Empleados Digitales en WhatsApp, tablero de clientes o videos y anuncios?",
             "engine": "prosperia-kb-ready",
         }
 
@@ -3414,27 +3414,28 @@ async def api_prosperia_assistant(req: ProsperiaAssistantRequest, request: Reque
     hist_lines = []
     if req.history:
         for h in req.history[-6:]:
-            role = "Cliente" if h.get("role") == "user" else "Aura"
+            role = "Cliente" if h.get("role") == "user" else "Setter IA"
             txt = str(h.get("text", "")).strip()[:220]
             if txt:
                 hist_lines.append(f"{role}: {txt}")
     hist_block = ("\nCONVERSACIÓN RECIENTE:\n" + "\n".join(hist_lines)) if hist_lines else ""
 
     voice_rule = (
-        "Como estás hablando EN VOZ ALTA, responde de forma cálida, natural y sin asteriscos ni emojis, en 2 a 3 oraciones claras."
+        "Como estás hablando EN VOZ ALTA, responde de forma cálida, natural y sin asteriscos ni emojis, en máximo 2 o 3 oraciones completas."
         if mode == "voice"
-        else "Responde en español claro y amable en máximo 3 oraciones cortas, sin tecnicismos ni listas largas."
+        else "Responde en español claro y amable en máximo 3 oraciones cortas completas, sin tecnicismos ni listas largas."
     )
 
     sys_prompt = (
-        "Eres AURA, la Asistente Oficial de Agencia Prosper IA LLC.\n"
+        "Eres el Empleado Digital Oficial (Setter IA) de Agencia Prosper IA LLC.\n"
         f"REGLAS OBLIGATORIAS:\n1. {voice_rule}\n"
-        "2. CERO jerga técnica (nunca digas RAG, LLM, tokens, webhooks, prompts o pipelines).\n"
-        "3. NO inventes precios fijos en dólares; explica nuestras 3 opciones (Arranque Rápido PYME, Pack Estrella Anual sin mensualidades, Máquina Completa 3 en 1) y el Plan Rescate Micro-PYME con 50% al iniciar y 50% contra entrega en 7 a 10 días, e invita a elegir su solución en el calendario del formulario o escribir por WhatsApp al +1 786 833 6964.\n"
+        "2. CERO jerga técnica innecesaria (nunca digas RAG, LLM, tokens, webhooks o pipelines).\n"
+        "3. Presenta cuando corresponda nuestros 4 Empleados Digitales: SDR IA (prospectador y calificador), Setter IA (agendador inteligente), Closer IA (seguimiento comercial) y Soporte IA (atención y postventa 24/7).\n"
+        "4. NO inventes precios fijos en dólares; menciona nuestras 3 opciones (Arranque Rápido PYME, Pack Estrella Anual sin mensualidades, Máquina Completa 3 en 1) y el Plan Rescate Micro-PYME con 50% al iniciar y 50% contra entrega en 7 a 10 días, e invita a elegir su solución en el calendario del formulario o escribir por WhatsApp al +1 786 833 6964.\n"
         f"\nBASE DE CONOCIMIENTOS OFICIAL:\n{kb_text}\n{hist_block}"
     )
 
-    reply = invoke_gemini_assistant(sys_prompt, raw_msg, client_ip=client_ip, max_tokens=220)
+    reply = invoke_gemini_assistant(sys_prompt, raw_msg, client_ip=client_ip, max_tokens=340)
     engine = "gemini-2.5-flash"
 
     if not reply:
@@ -3446,29 +3447,29 @@ async def api_prosperia_assistant(req: ProsperiaAssistantRequest, request: Reque
                 "Contamos con 3 opciones —Arranque Rápido PYME, Pack Estrella Anual sin mensualidades y Máquina Completa 3 en 1— todas con 50% al iniciar y 50% al entregar en 7 a 10 días. "
                 "¿Quieres agendar 15 minutos en nuestro calendario para mostrarte cómo quedaría tu negocio y darte el valor exacto?"
             )
+        elif any(w in m for w in ["empleado", "sdr", "setter", "closer", "soporte", "whatsapp", "atender", "voz"]):
+            reply = (
+                "Instalamos tus 4 Empleados Digitales 24/7: SDR IA filtra cada mensaje en segundos, Setter IA conversa y agenda en tu calendario, "
+                "Closer IA envía propuestas y da seguimiento comercial, y Soporte IA atiende postventa y cuida la reputación de tu negocio."
+            )
         elif any(w in m for w in ["web", "pagina", "sitio", "tienda", "portafolio", "ejemplo"]):
             reply = (
-                "Con Prosper diseñamos páginas web y tiendas conectadas directo a tu WhatsApp y calendario en 7 a 10 días, como PassportAI, Blancos Girasol, STI2Q y negocios de servicios del hogar. "
+                "Diseñamos páginas web y tiendas conectadas directo a tu WhatsApp y calendario en 7 a 10 días, con proyectos reales como PassportAI, Blancos Girasol, STI2Q y servicios del hogar. "
                 "¿De qué giro es tu empresa para enseñarte una muestra parecida?"
-            )
-        elif any(w in m for w in ["whatsapp", "atender", "voz", "llamada", "aura", "contestar", "mensaje"]):
-            reply = (
-                "Aura atiende tus mensajes de WhatsApp, Instagram y llamadas en segundos las 24 horas con el tono natural de tu negocio, filtra curiosos y deja las citas listas en tu agenda. "
-                "¿Cuántos mensajes aproximados recibes a la semana?"
             )
         elif any(w in m for w in ["marketing", "anuncio", "reel", "video", "facebook", "instagram", "publicidad"]):
             reply = (
-                "Impulso combina campañas en Facebook, Instagram y Google directo a WhatsApp con guiones probados y edición profesional de hasta 10 Reels al mes, más acceso a PassportAI para crear ofertas en 3 clics. "
+                "Unimos campañas en Facebook, Instagram y Google directo a WhatsApp atendidas al instante por tu SDR IA y Setter IA, más edición profesional de hasta 10 Reels al mes y acceso a PassportAI. "
                 "¿Te gustaría ver las opciones para llenar tu agenda este mismo mes?"
             )
-        elif any(w in m for w in ["crm", "agenda", "calendario", "cita", "orden", "seguimiento", "closer"]):
+        elif any(w in m for w in ["crm", "agenda", "calendario", "cita", "orden", "seguimiento"]):
             reply = (
-                "Cortex ordena a todos tus clientes en un tablero visual según tu industria, envía recordatorios automáticos para que nadie te deje en visto y asigna citas automáticamente en calendario. "
-                "Si llenas el formulario aquí abajo te abre de inmediato el calendario con un especialista."
+                "Tu Tablero CRM y tu Closer IA dan seguimiento puntual a cada oportunidad abierta y asignan citas automáticamente en calendario. "
+                "Si llenas el formulario aquí abajo se abre de inmediato el calendario con un especialista."
             )
         else:
             reply = (
-                "En Agencia Prosper IA te instalamos en 7 a 10 días tu página web, asistente 24/7 en WhatsApp, tablero de clientes y campañas o Reels para que vendas sin vivir pegado al celular, pagando 50% al iniciar y 50% al entregar. "
+                "En Agencia Prosper IA te instalamos en 7 a 10 días tu página web, tus 4 Empleados Digitales (SDR IA, Setter IA, Closer IA y Soporte IA), tablero de clientes y campañas o Reels, pagando 50% al iniciar y 50% al entregar. "
                 "¿Qué parte te urge resolver primero en tu negocio?"
             )
 
