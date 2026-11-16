@@ -512,6 +512,10 @@
       <i class="fas fa-graduation-cap" style="color:#fbbf24;"></i>
       <span>Material de Estudio Closer</span>
     </button>
+    <button onclick="showSection('closer-resources')" id="nav-closer-resources" class="nav-item">
+      <i class="fas fa-file-signature" style="color:#a78bfa;"></i>
+      <span>Recursos &amp; Contrato</span>
+    </button>
     <button onclick="showSection('payment-links')" id="nav-payment-links" class="nav-item">
       <i class="fas fa-credit-card" style="color:#34d399;"></i>
       <span>Links de Pago</span>
@@ -2001,14 +2005,6 @@
             </div>
           </button>
 
-          <button onclick="switchWeaponTab('closers-kickoff')" id="wtab-closers-kickoff" class="weapon-nav-btn">
-            <span>🏆</span>
-            <div>
-              <div>Portal /closers</div>
-              <div style="font-size:10px; opacity:0.8;">Hotmart + IG 5,428 + 15%</div>
-            </div>
-          </button>
-
           <div class="pt-2 mt-2 border-t border-slate-800/90">
             <button type="button" onclick="showSection('weapons')" class="w-full py-2 px-3 rounded-xl text-[11px] font-bold text-cyan-300 bg-cyan-500/10 border border-cyan-500/30 hover:bg-cyan-500/20 transition text-left flex items-center justify-between">
               <span>🖥️ Ir a Presentaciones Clientes</span>
@@ -2881,6 +2877,42 @@
       <button onclick="document.getElementById('sve90FlowDialog').close(); showSection('analytics');" class="btn-primary px-4 py-2 rounded-xl text-xs font-black">Ver Calculadora ROI de este Flujo →</button>
     </div>
   </dialog>
+
+  <!-- ════════════════════════════════════════════════════════════════════════
+       SECTION: RECURSOS, KICKOFF & CONTRATO OFICIAL DEL CLOSER (/CLOSERS INTEGRADO)
+  ════════════════════════════════════════════════════════════════════════ -->
+  <div id="section-closer-resources" class="p-4 sm:p-6 hidden space-y-4">
+    <div id="closer-resources-card" class="card p-4 sm:p-5 border border-cyan-500/35" style="background:linear-gradient(135deg,#071426,#040b16);">
+      <div class="flex flex-wrap items-center justify-between gap-3 pb-3 mb-3 border-b border-slate-800">
+        <div>
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-purple-500/20 text-purple-300 border border-purple-500/40">🏆 RECURSOS OFICIALES &amp; CONTRATO CLOSER</span>
+            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">15% Comisión Full-Cycle</span>
+          </div>
+          <h3 class="text-sm sm:text-base font-black text-white mt-1">Portal de Recursos, Simulador de Comisiones, Prueba Social y Contrato Oficial en PDF</h3>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <a href="/static/CONTRATO_Y_PROTOCOLO_VENTAS_PROSPER_IA.pdf" target="_blank" rel="noopener" class="px-3.5 py-2 rounded-xl text-xs font-black bg-amber-400 text-slate-950 hover:bg-amber-300 no-underline inline-flex items-center gap-1.5 shadow">
+            <i class="fas fa-file-signature"></i> Abrir Contrato Oficial (PDF)
+          </a>
+          <a href="/static/armas/MANUAL_OPERATIVO_CLOSERS_PROSPER_IA.pdf" download="Manual-Operativo-Closers-ProsperIA.pdf" class="btn-ghost px-3 py-2 rounded-xl text-xs font-bold text-emerald-300 border-emerald-500/30 no-underline inline-flex items-center gap-1.5">
+            <i class="fas fa-book-open"></i> Descargar Manual PDF
+          </a>
+          <button type="button" onclick="toggleDeckFullscreen('closer-resources-card')" class="px-3.5 py-2 rounded-xl text-xs font-black bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-cyan-500/40 inline-flex items-center gap-1.5">
+            <i class="fas fa-expand"></i> ⛶ Pantalla Completa
+          </button>
+        </div>
+      </div>
+      <iframe
+        id="closer-resources-iframe"
+        src="/closers"
+        class="w-full rounded-2xl border border-slate-800 shadow-2xl bg-slate-950"
+        style="height: calc(100vh - 185px); min-height: 760px;"
+        loading="lazy"
+        title="Portal de Recursos y Contrato Oficial Closer"
+      ></iframe>
+    </div>
+  </div>
 
   <!-- ════════════════════════════════════════════════════════════════════════
        SECTION: LINKS DE PAGO OFICIALES (14 LINKS EN TIEMPO REAL CRM PROSPERIA)
@@ -4971,6 +5003,7 @@ function showSection(name) {
     'call-queue': ['📋 Mi Lista de Llamadas (455)', 'Filtro de prospección: solo quien contesta se inyecta a CRM ProsperIA'],
     'weapons': ['🖥️ Presentaciones Clientes (Cara al Cliente)', 'Ruta oficial en vivo: 1. Presentación Lenguaje Natural → 2. Presentación Comercial e interacción con PassportAI y CRM'],
     'closer-study': ['🎓 Material de Estudio & Preparación del Closer', 'Video Tutorial (7 Pasos), Manual Operativo, Acordeones de Speech, Roleplay de Objeciones y Perfil del Cliente Ideal'],
+    'closer-resources': ['🏆 Recursos, Kickoff & Contrato Oficial del Closer', 'Contrato oficial en PDF, Simulador de Comisiones 15%, Prueba Social y 10 Láminas de Recursos'],
     'payment-links': ['💳 Central de Links de Pago Oficiales (Live)', 'Copia y pega el enlace exacto de pago o el mensaje completo para WhatsApp en 1 clic'],
     'sales-os': ['Sales OS & Comisiones 15%', 'Flujo Comercial Canónico — Sitios Web Inteligentes ($497 / $990 / $1,490 / Rescate $197)'],
     'web-showcase': ['Demostrador de Sitios Web en Vivo', 'Muestra al cliente en 5 segundos cómo queda su página y agenda en CRM ProsperIA'],

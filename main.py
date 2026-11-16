@@ -1930,7 +1930,27 @@ async def cotizacion_consultoria_ia_page(request: Request):
 @app.head("/closers/")
 @app.get("/closers.html", response_class=HTMLResponse)
 @app.head("/closers.html")
-async def closers_kickoff_page(request: Request):
+async def closers_kickoff_page(request: Request, token_q: Optional[str] = Query(default=None, alias="token")):
+    auth_header = request.headers.get("Authorization")
+    token = None
+    if auth_header and auth_header.startswith("Bearer "):
+        token = auth_header.split(" ")[1]
+    if not token and token_q:
+        token = token_q
+    if not token:
+        token = request.cookies.get("auth_token")
+    if not token:
+        return RedirectResponse(url="/login", status_code=303)
+    db = SessionLocal()
+    try:
+        session_row = db.query(SessionModel).filter(SessionModel.token == token).first()
+        if not session_row:
+            return RedirectResponse(url="/login", status_code=303)
+        user_row = db.query(User).filter(User.email == session_row.email).first()
+        if not user_row:
+            return RedirectResponse(url="/login", status_code=303)
+    finally:
+        db.close()
     return templates.TemplateResponse(request=request, name="closers.html", context={"request": request})
 
 
