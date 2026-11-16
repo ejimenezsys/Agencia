@@ -79,6 +79,22 @@ def _inject_base_href(html_text: str, base_href: str) -> str:
     )
 
 
+def _inject_prosperia_return_bar(html_text: str) -> str:
+    """Inyecta una barra flotante única para regresar en la misma pestaña al Home o Portafolio de Agencia Prosper IA."""
+    if "prosperia-portfolio-return-bar" in html_text:
+        return html_text
+    bar_html = """
+<div id="prosperia-portfolio-return-bar" style="position:fixed;left:14px;bottom:14px;z-index:2147483000;display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:6px 8px;border-radius:999px;background:rgba(4,10,24,0.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(0,229,255,0.42);box-shadow:0 12px 32px rgba(0,0,0,0.55);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
+  <a href="/" target="_top" style="display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:999px;background:#0f172a;color:#f8fafc;border:1px solid rgba(255,255,255,0.18);font-size:12px;font-weight:700;text-decoration:none;white-space:nowrap;">← Volver al Home</a>
+  <a href="/paginas-web" target="_top" style="display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;background:rgba(0,229,255,0.14);color:#67e8f9;border:1px solid rgba(0,229,255,0.35);font-size:12px;font-weight:700;text-decoration:none;white-space:nowrap;">Portafolio Web</a>
+  <a href="/#contacto" target="_top" style="display:inline-flex;align-items:center;padding:6px 12px;border-radius:999px;background:linear-gradient(135deg,#34d399,#10b981);color:#04101d;font-size:12px;font-weight:800;text-decoration:none;white-space:nowrap;">Cotizar Uno Así</a>
+</div>
+"""
+    if "</body>" in html_text.lower():
+        return re.sub(r"</body>", f"{bar_html}</body>", html_text, count=1, flags=re.IGNORECASE)
+    return html_text + bar_html
+
+
 def _serve_static_site_file(base_dir: str, prefix: str, subpath: str = ""):
     """Sirve index.html o un archivo estático seguro dentro de base_dir."""
     clean_sub = (subpath or "").lstrip("/")
@@ -97,6 +113,7 @@ def _serve_static_site_file(base_dir: str, prefix: str, subpath: str = ""):
         dir_prefix = prefix if rel_dir in ("", ".") else f"{prefix}{rel_dir.strip('/')}/"
         with open(safe_target, "r", encoding="utf-8", errors="replace") as f:
             content = _inject_base_href(f.read(), dir_prefix)
+            content = _inject_prosperia_return_bar(content)
         return HTMLResponse(content=content)
     return FileResponse(safe_target)
 
@@ -169,6 +186,7 @@ async def serve_blancos_girasol(rest: str = ""):
     # Asegurar que BrowserRouter resuelva '/' al abrir la vista previa
     spa_shim = "<script>if(window.location.pathname.indexOf('/portafolio-vivo/blancosgirasol')===0){try{window.history.replaceState(null,'','/');}catch(e){}}</script>"
     html = re.sub(r"(<head[^>]*>)", rf"\1\n  {spa_shim}", html, count=1, flags=re.IGNORECASE)
+    html = _inject_prosperia_return_bar(html)
     return HTMLResponse(content=html)
 
 
@@ -192,6 +210,7 @@ def _render_jpx(request: Request, template_name: str, active_page: str):
         context={"lang": lang, "active_page": active_page},
     ).body.decode("utf-8", errors="replace")
     rendered = _rewrite_jinja_html(rendered, "jpxinternational", ["firma", "servicios", "commodities", "consultoria", "contacto"])
+    rendered = _inject_prosperia_return_bar(rendered)
     return HTMLResponse(content=rendered)
 
 
@@ -232,6 +251,7 @@ def _render_sunotaria(request: Request, template_name: str, active_page: str, la
         context={"lang": lang, "active_page": active_page},
     ).body.decode("utf-8", errors="replace")
     rendered = _rewrite_jinja_html(rendered, "sunotariausa", ["en", "servicios", "contacto", "privacidad", "terminos"])
+    rendered = _inject_prosperia_return_bar(rendered)
     return HTMLResponse(content=rendered)
 
 
@@ -286,6 +306,7 @@ def _render_synetcom(request: Request, page_file: str = "index.html"):
         context={"page_name": allowed[page_file]},
     ).body.decode("utf-8", errors="replace")
     rendered = _inject_base_href(rendered, "/portafolio-vivo/synetcom/")
+    rendered = _inject_prosperia_return_bar(rendered)
     return HTMLResponse(content=rendered)
 
 

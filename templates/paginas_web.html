@@ -123,7 +123,7 @@
             </a>
             <a href="/demo-sitio-web" class="pia-btn-emerald">
               <i class="fas fa-wand-magic-sparkles" aria-hidden="true"></i>
-              <span>Abrir Demostrador en Vivo (Closers)</span>
+              <span>Explorar Plantillas en Vivo por Giro</span>
             </a>
           </div>
           <div style="display:flex; flex-wrap:wrap; gap:0.65rem; font-size:0.82rem; color:#94a3b8;">
@@ -183,9 +183,9 @@
                 Plataforma textil B2B para hoteles, hospitales y spas con catálogo completo, cotizador mayorista, chatbot inteligente integrado y panel CRM interno.
               </p>
               <div style="display:flex; flex-wrap:wrap; gap:0.75rem;">
-                <a id="vip-live-link" href="/portafolio-vivo/blancosgirasol/" target="_blank" rel="noopener" class="pia-btn-primary">
+                <a id="vip-live-link" href="/portafolio-vivo/blancosgirasol/" class="pia-btn-primary">
                   <span>Ver la página en vivo</span>
-                  <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                  <i class="fas fa-arrow-right" aria-hidden="true"></i>
                 </a>
                 <button type="button" id="vip-want-btn" class="pia-btn-ghost" data-ref-name="Blancos Girasol">
                   <i class="fab fa-whatsapp" aria-hidden="true"></i>
@@ -440,9 +440,9 @@
             </div>
 
             <div style="display:flex; flex-wrap:wrap; gap:0.55rem; padding-top:0.5rem; border-top:1px solid rgba(255,255,255,0.07);">
-              <a href="{{ p.live }}" target="_blank" rel="noopener" class="pia-btn-primary" style="flex:1 1 auto; min-height:40px; padding:0.5rem 0.85rem; font-size:0.82rem;">
+              <a href="{{ p.live }}" {% if p.live.startswith('http') %}target="_blank" rel="noopener"{% endif %} class="pia-btn-primary" style="flex:1 1 auto; min-height:40px; padding:0.5rem 0.85rem; font-size:0.82rem;">
                 <span>Ver en vivo</span>
-                <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                <i class="fas {% if p.live.startswith('http') %}fa-arrow-up-right-from-square{% else %}fa-arrow-right{% endif %}" aria-hidden="true"></i>
               </a>
               <button type="button" class="pia-btn-ghost pw-want-btn" data-project="{{ p.name }}" style="min-height:40px; padding:0.5rem 0.85rem; font-size:0.82rem;">
                 <i class="fab fa-whatsapp" aria-hidden="true"></i>
@@ -835,7 +835,15 @@
         document.getElementById('vip-title').textContent = item.title;
         document.getElementById('vip-desc').textContent = item.desc;
         document.getElementById('vip-img').src = item.img;
-        document.getElementById('vip-live-link').href = item.live;
+        const vipLink = document.getElementById('vip-live-link');
+        vipLink.href = item.live;
+        if (item.live && item.live.startsWith('http')) {
+          vipLink.setAttribute('target', '_blank');
+          vipLink.setAttribute('rel', 'noopener');
+        } else {
+          vipLink.removeAttribute('target');
+          vipLink.removeAttribute('rel');
+        }
         document.getElementById('vip-want-btn').setAttribute('data-ref-name', item.ref);
       });
     });
