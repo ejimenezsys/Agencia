@@ -229,6 +229,22 @@ def _slug_tag(prefix: str, value: str) -> str:
     return f"{prefix}_{slug}" if slug else prefix
 
 
+def _infer_country_routing_tags(phone: str, country: str = "") -> list:
+    """Devuelve etiquetas de enrutamiento comercial por país para workflows GHL y candado anti-tarifas."""
+    raw = (phone or "").strip()
+    c_low = (country or "").strip().lower()
+    cleaned = _clean_phone(raw)
+    latam_hint = any(k in c_low for k in ("argent", "mex", "méx", "colomb", "chile", "per", "espa", "latam", "ecuad", "urug"))
+
+    if cleaned.startswith("+54") or "argent" in c_low:
+        return ["pais_argentina_54", "pais_latam_wa"]
+    if (cleaned.startswith("+1") and len(cleaned) == 12 and not latam_hint) or (
+        not raw and any(k in c_low for k in ("estados unidos", "usa", "puerto rico", "us")) and c_low != "latam / us"
+    ):
+        return ["pais_usa_1", "ruta_sip_miami"]
+    return ["pais_latam_wa"]
+
+
 def _is_beauty_growth(
     source: str = "",
     industry: str = "",
@@ -661,6 +677,10 @@ def sync_lead_to_ghl(
         for bt in ("beauty_growth", "vertical_belleza", "socio_jhonkelwins_becerra"):
             if bt not in tag_list:
                 tag_list.append(bt)
+    else:
+        for rt in _infer_country_routing_tags(phone):
+            if rt not in tag_list:
+                tag_list.append(rt)
     if extra_tags:
         for t in extra_tags:
             if t and t not in tag_list:
@@ -841,6 +861,7 @@ def sync_sales_os_event_to_ghl_async(
                 tags.extend(["beauty_growth", "vertical_belleza", "socio_jhonkelwins_becerra"])
             else:
                 tags.extend(list(CLOSER_AUTOMATION_TAGS))
+                tags.extend(_infer_country_routing_tags(phone))
             if owner_email:
                 tags.append(_slug_tag("closer", owner_email.split("@")[0]))
             if selected_template:
@@ -1163,4 +1184,87 @@ def sync_beauty_growth_ig_lead_to_ghl(lead: dict) -> dict:
         "contact_id": cid,
         "contact_new": is_new,
         "opportunity_id": opp_id,
+    }
+
+
+def send_ghl_direct_message(
+    contact_id: str,
+    phone: str,
+    email: str,
+    full_name: str,
+    company: str,
+    channel: str,
+    message_body: str,
+    subject: str = "",
+    owner_email: str = "",
+    lead_db_id: Optional[int] = None,
+) -> dict:
+    """Envía SMS (+1 solamente), WhatsApp o Email vía GoHighLevel Conversations API v2 con candado anti-tarifas."""
+    ch = (channel or "").strip().upper()
+    if ch not in ("SMS", "WHATSAPP", "EMAIL"):
+        return {"ok": False, "error": f"Canal GHL no soportado: {channel}"}
+
+    clean_phone = _clean_phone(phone)
+    if ch == "SMS" and (not clean_phone.startswith("+1") or len(clean_phone) != 12):
+        return {
+            "ok": False,
+            "blocked_by_cost_guard": True,
+            "error": (
+                "Candado Anti-Tarifas Caras: el envío de SMS desde la línea de Miami (+1 786) está "
+                "bloqueado para teléfonos fuera de EE. UU./PR (+1). Usa WhatsApp ($0) o Correo Institucional (@agenciaprosperia.com)."
+            ),
+        }
+
+    token = _cfg("GHL_PRIVATE_TOKEN") or _cfg("GHL_ACCESS_TOKEN")
+    if not token:
+        return {"ok": False, "error": "GHL_PRIVATE_TOKEN no configurado."}
+
+    cid = (contact_id or "").strip()
+    if not cid:
+        parts = (full_name or company or "Prospecto").split()
+        fn = parts[0] if parts else "Prospecto"
+        ln = " ".join(parts[1:]) if len(parts) > 1 else ""
+        up_res = sync_lead_to_ghl(
+            first_name=fn,
+            last_name=ln,
+            email=email or f"contacto.{lead_db_id or 'crm'}@agenciaprosperia.com",
+            phone=clean_phone or phone,
+            company=company or full_name or "Negocio",
+            source="sales_os_closer",
+            owner_email=owner_email,
+            sms_consent=True,
+            lead_db_id=lead_db_id,
+        )
+        cid = up_res.get("contact_id") or ""
+        if not cid:
+            return {"ok": False, "error": "No se pudo resolver o crear el contacto en GoHighLevel."}
+
+    type_map = {"SMS": "SMS", "WHATSAPP": "WhatsApp", "EMAIL": "Email"}
+    payload = {
+        "type": type_map[ch],
+        "contactId": cid,
+        "message": (message_body or "").strip(),
+    }
+    if ch == "SMS":
+        payload["fromNumber"] = "+17868336964"
+    elif ch == "EMAIL":
+        clean_em = (email or "").strip().lower()
+        if not clean_em or "@sin-correo.local" in clean_em:
+            return {"ok": False, "error": "El contacto no tiene un correo electrónico válido."}
+        payload["subject"] = (subject or f"Propuesta Digital para {company or full_name}").strip()
+        payload["emailTo"] = clean_em
+        payload["html"] = (message_body or "").replace("\n", "<br>")
+
+    st, res = _request("POST", "/conversations/messages", token, payload)
+    if st not in (200, 201):
+        err_msg = str(res.get("message") or res.get("error") or res)
+        return {"ok": False, "status": st, "contact_id": cid, "error": f"Error GHL ({st}): {err_msg}"}
+
+    msg_id = res.get("messageId") or res.get("id") or (res.get("message") or {}).get("id") or ""
+    return {
+        "ok": True,
+        "status": st,
+        "channel": type_map[ch],
+        "contact_id": cid,
+        "message_id": msg_id,
     }

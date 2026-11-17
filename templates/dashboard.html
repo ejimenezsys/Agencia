@@ -2233,6 +2233,46 @@
         </div>
       </div>
 
+      <!-- Panel colapsable Mi Extensión SIP Miami & Bifurcación Inteligente Anti-Tarifas -->
+      <details class="rounded-xl bg-slate-950/75 border border-cyan-500/30 p-3 text-xs">
+        <summary class="cursor-pointer font-bold text-cyan-300 flex flex-wrap items-center justify-between gap-2">
+          <span>🎧 Mi Teléfono SIP Miami (<span class="text-white">+1 786 833-6964</span>) · Extensión Asignada: <strong id="my-sip-ext-summary" class="text-emerald-300">Cargando...</strong> · Regla Anti-Cobros Activa</span>
+          <span class="text-[11px] font-semibold text-slate-400">Ver credenciales MicroSIP / Zoiper ▼</span>
+        </summary>
+        <div class="mt-3 pt-3 border-t border-slate-800 grid grid-cols-1 lg:grid-cols-3 gap-3">
+          <div class="rounded-lg bg-slate-900/90 border border-slate-800 p-3 space-y-1.5">
+            <div class="text-[11px] font-black uppercase text-emerald-300">🔑 Tu Credencial SIP en GHL</div>
+            <div>Usuario: <strong id="my-sip-user-label" class="text-white">Equipo</strong></div>
+            <div>Extensión SIP: <strong id="my-sip-ext" class="text-cyan-300 text-sm">201</strong></div>
+            <div class="flex flex-wrap items-center gap-1.5">
+              <span>Dominio SIP: <code class="text-amber-300 font-bold">passportaibusiness.sip.ashburn.twilio.com</code></span>
+              <button type="button" onclick="navigator.clipboard?.writeText('passportaibusiness.sip.ashburn.twilio.com'); this.textContent='✓ Copiado';" class="px-2 py-0.5 rounded bg-slate-800 text-cyan-300 border border-slate-700 text-[10px] font-bold">Copiar</button>
+            </div>
+            <div class="flex flex-wrap gap-1.5 pt-1">
+              <a href="https://www.microsip.org/downloads" target="_blank" rel="noopener" class="px-2 py-1 rounded bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 text-[10px] font-bold no-underline">⬇ MicroSIP (Windows)</a>
+              <a href="https://www.zoiper.com/en/voip-softphone/download/current" target="_blank" rel="noopener" class="px-2 py-1 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold no-underline">⬇ Zoiper (Mac/Móvil)</a>
+            </div>
+          </div>
+          <div class="lg:col-span-2 rounded-lg bg-slate-900/90 border border-slate-800 p-3 space-y-1.5">
+            <div class="text-[11px] font-black uppercase text-amber-300">🚦 Bifurcación Automática de Llamadas (Cero Tarifas Caras)</div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[11px]">
+              <div class="p-2 rounded bg-cyan-500/10 border border-cyan-500/25">
+                <strong class="text-cyan-300">🇺🇸 EE. UU. / PR (+1)</strong>
+                <div class="text-slate-300 mt-0.5">El botón <strong>📞 Llamar</strong> marca directo por <strong>SIP GHL (+1 786 833-6964)</strong> y habilita SMS Miami.</div>
+              </div>
+              <div class="p-2 rounded bg-emerald-500/10 border border-emerald-500/25">
+                <strong class="text-emerald-300">🇦🇷 Argentina (+54)</strong>
+                <div class="text-slate-300 mt-0.5">El botón <strong>📞 Llamar</strong> usa tu línea local <strong>($0)</strong> + WhatsApp y bloquea SIP Miami para evitar cobros internacionales.</div>
+              </div>
+              <div class="p-2 rounded bg-amber-500/10 border border-amber-500/25">
+                <strong class="text-amber-300">🌎 LATAM / España (+52/+57/+56/+34)</strong>
+                <div class="text-slate-300 mt-0.5">El botón <strong>📞 Llamar</strong> abre llamada/chat por <strong>WhatsApp ($0)</strong> + botón directo de <strong>Correo Institucional</strong>.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </details>
+
       <!-- Barra de Filtros Inteligentes (País, Nicho, Diagnóstico, Etapa Setter, Fuente y Búsqueda) -->
       <div class="flex flex-wrap gap-2 items-center pt-2 border-t border-emerald-500/20">
         <select id="call-queue-filter" class="input-dark text-xs py-2 px-3" style="width:auto;" onchange="callQueuePage=1; renderCallQueueTable()">
@@ -4349,6 +4389,7 @@
         <div class="flex flex-wrap items-center gap-2 mb-1">
           <span class="px-2 py-0.5 rounded-full text-[10px] font-black uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/35">🧢 TRABAJO DE CONTACTO (SETTER → CLOSER)</span>
           <span id="setter-work-stage-badge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-cyan-300 border border-slate-700">Lead identificado</span>
+          <span id="setter-work-route-badge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">🇺🇸 Ruta SIP Miami</span>
           <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/15 text-amber-300 border border-amber-500/30">🏷️ CRM: semana18nov</span>
         </div>
         <h3 id="setterWorkTitle" class="text-lg font-black text-white">Trabajar Prospecto</h3>
@@ -4356,16 +4397,19 @@
       </div>
       <div class="flex flex-wrap items-center gap-1.5">
         <button type="button" id="setter-work-call-btn" class="px-3 py-1.5 rounded-lg text-xs font-black bg-emerald-400 text-slate-950 hover:bg-emerald-300 transition shadow">
-          📞 Llamar (Zadarma)
+          📞 Llamar
         </button>
         <a id="setter-work-wa-btn" href="#" target="_blank" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/35 hover:bg-emerald-500/30 no-underline">
           <i class="fab fa-whatsapp"></i> WhatsApp
         </a>
-        <a id="setter-work-sms-btn" href="#" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/35 hover:bg-indigo-500/30 no-underline">
-          💬 SMS
-        </a>
-        <a id="setter-work-mail-btn" href="#" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-sky-500/20 text-sky-300 border border-sky-500/35 hover:bg-sky-500/30 no-underline hidden">
-          ✉️ Correo
+        <button type="button" id="setter-work-sms-btn" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/35 hover:bg-indigo-500/30">
+          🇺🇸 SMS Miami (+1)
+        </button>
+        <button type="button" id="setter-work-inst-mail-btn" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-sky-500/25 text-sky-200 border border-sky-400/45 hover:bg-sky-500/35 transition">
+          📨 Correo @agenciaprosperia
+        </button>
+        <a id="setter-work-mail-btn" href="#" class="px-2.5 py-1.5 rounded-lg text-[11px] font-bold bg-slate-800 text-slate-300 border border-slate-700 hover:text-white no-underline hidden" title="Abrir cliente de correo externo">
+          ✉️
         </a>
         <a id="setter-work-demo-btn" href="#" class="px-3 py-1.5 rounded-lg text-xs font-black bg-cyan-400 text-slate-950 hover:bg-cyan-300 no-underline">
           🚀 Demo Web
@@ -4373,6 +4417,7 @@
         <button type="button" onclick="document.getElementById('setterLeadWorkDialog').close()" aria-label="Cerrar ventana" class="px-2.5 py-1.5 rounded-lg text-slate-400 hover:text-white border border-slate-700 text-xs font-bold">✕</button>
       </div>
     </div>
+    <div id="setter-work-quick-feedback" class="hidden mb-3 px-3 py-2 rounded-lg text-xs font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30"></div>
 
     <input type="hidden" id="setter-work-lead-id">
     <div class="space-y-4 text-xs">
@@ -6248,7 +6293,8 @@ function renderSalesOsTable() {
     const rawPhone = (l.phone_e164 || l.phone || '').replace(/[^0-9+]/g, '');
     const waDigits = rawPhone.replace(/[^0-9]/g, '');
     const intel = typeof parseLeadIntelligence === 'function' ? parseLeadIntelligence(l) : { waScript: 'Hola, te comparto tu muestra digital de Agencia Prosper IA.' };
-    const hasEmail = l.email && !l.email.includes('@sin-correo.local') && !l.email.includes('@prosperia.local');
+    const route = typeof getLeadCallRouting === 'function' ? getLeadCallRouting(l, intel.waScript) : { btnLabel: '📞 Llamar', allowMiamiSms: false };
+    const hasEmail = hasRealLeadEmail(l);
     const setterRows = parseBitacoraEntries(l.notes || '');
     const latestSetterNote = setterRows.length ? setterRows[setterRows.length - 1] : '';
     const demoUrl = `/demo-sitio-web?closer=1&lead_id=${l.id}&template=${encodeURIComponent(l.selected_template || 'clinica_dental_estetica')}&business=${encodeURIComponent(l.business_name || l.company || l.name)}&phone=${encodeURIComponent(l.phone || '')}`;
@@ -6259,10 +6305,10 @@ function renderSalesOsTable() {
         <div class="text-[11px] text-slate-400">${esc(l.full_name || l.name)} · ${esc(l.phone_e164 || l.phone || l.email)}</div>
         ${latestSetterNote ? `<div class="mt-1 text-[10px] text-amber-200/90 bg-amber-500/10 border border-amber-500/20 rounded px-2 py-1 max-w-xs truncate" title="${esc(latestSetterNote)}">📒 Bitácora (${setterRows.length}): ${esc(latestSetterNote)}</div>` : ''}
         <div class="flex flex-wrap items-center gap-1.5 mt-1">
+          ${rawPhone ? `<button type="button" onclick="initiateCloserCall('${esc(rawPhone)}', ${l.id})" class="px-2 py-0.5 rounded bg-slate-800 text-cyan-200 border border-cyan-500/35 text-[10px] font-bold hover:bg-slate-700">${esc(route.btnLabel)}</button>` : ''}
           ${waDigits ? `<a href="https://wa.me/${waDigits}?text=${encodeURIComponent(intel.waScript)}" target="_blank" class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold no-underline hover:bg-emerald-500/30"><i class="fab fa-whatsapp"></i> WhatsApp</a>` : ''}
-          ${rawPhone ? `<a href="sms:${esc(rawPhone)}?&body=${encodeURIComponent(intel.waScript)}" class="px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-[10px] font-bold no-underline hover:bg-indigo-500/30">💬 SMS</a>` : ''}
-          ${hasEmail ? `<a href="mailto:${encodeURIComponent(l.email)}?subject=${encodeURIComponent('Propuesta Digital para ' + (l.business_name || l.name))}&body=${encodeURIComponent(intel.waScript)}" class="px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30 text-[10px] font-bold no-underline hover:bg-sky-500/30">✉️ Correo</a>` : ''}
-          ${rawPhone ? `<button type="button" onclick="initiateCloserCall('${esc(rawPhone)}', ${l.id})" class="px-2 py-0.5 rounded bg-slate-800 text-slate-200 border border-slate-700 text-[10px] font-bold"><i class="fas fa-phone"></i> Llamar</button>` : ''}
+          ${route.allowMiamiSms ? `<button type="button" onclick="sendGhlDirectMsgFromUi(${l.id}, 'SMS', this)" class="px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-[10px] font-bold hover:bg-indigo-500/30">🇺🇸 SMS Miami</button>` : ''}
+          ${hasEmail ? `<button type="button" onclick="sendInstitutionalEmailToLead(${l.id}, this)" class="px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30 text-[10px] font-bold hover:bg-sky-500/30">📨 @agenciaprosperia</button>` : ''}
         </div>
       </th>
       <td class="px-3 py-3 text-slate-300">
@@ -7152,27 +7198,213 @@ const TEMPLATE_LABELS_MAP = {
   sti2q_industrial: '⚙️ STI²Q Industrial'
 };
 
+const SIP_DOMAIN_PROSPERIA = 'passportaibusiness.sip.ashburn.twilio.com';
+const SIP_EXTENSIONS_BY_EMAIL = {
+  'sheille.perez@gmail.com': '201',
+  'diegoarriondo03@gmail.com': '202',
+  'cinthyapenida0@gmail.com': '203',
+  'claudiniosan@yahoo.com.ar': '204',
+  'loremrodriguezafb@gmail.com': '205',
+  'laverdaderafuerza02@gmail.com': '206',
+  'bruno.hernan.espinosa1694@gmail.com': '207',
+  'sergiotorales608@gmail.com': '208',
+  'tanyah.unity@gmail.com': '209',
+  'wendyleiva59@gmail.com': '210',
+  'digitalblups@gmail.com': '211',
+  'ucumaryvisual@gmail.com': '212'
+};
+
+function renderMySipCard() {
+  const email = ((window.currentUser && currentUser.email) || '').toLowerCase().trim();
+  const ext = SIP_EXTENSIONS_BY_EMAIL[email] || 'Admin / Global';
+  const sumEl = document.getElementById('my-sip-ext-summary');
+  const extEl = document.getElementById('my-sip-ext');
+  const usrEl = document.getElementById('my-sip-user-label');
+  if (sumEl) sumEl.textContent = SIP_EXTENSIONS_BY_EMAIL[email] ? `Extensión ${ext}` : '201–212 (Equipo)';
+  if (extEl) extEl.textContent = ext;
+  if (usrEl && window.currentUser) usrEl.textContent = `${currentUser.name || email} (${email})`;
+}
+
+function hasRealLeadEmail(lead) {
+  const em = ((lead && lead.email) || '').trim().toLowerCase();
+  if (!em || !em.includes('@') || em.includes('@sin-correo.local') || em.includes('@prosperia.local')) return false;
+  if ((em.startsWith('prospecto.') || em.startsWith('lote.')) && em.endsWith('@agenciaprosperia.com')) return false;
+  return true;
+}
+
+function getLeadCallRouting(leadOrPhone, waScriptText = '') {
+  const raw = typeof leadOrPhone === 'string'
+    ? leadOrPhone
+    : ((leadOrPhone && (leadOrPhone.phone_e164 || leadOrPhone.phone)) || '');
+  const cleanPhone = String(raw || '').replace(/[^0-9+]/g, '');
+  const digits = cleanPhone.replace(/[^0-9]/g, '');
+  const country = typeof leadOrPhone === 'object' && leadOrPhone ? String(leadOrPhone.country || '').toLowerCase() : '';
+  const latamHint = /(argent|mex|méx|colomb|chile|per|espa|latam|urug|ecuad)/.test(country);
+  const waUrl = digits
+    ? `https://wa.me/${digits}?text=${encodeURIComponent(waScriptText || 'Hola, te comparto la demostración de Agencia Prosper IA.')}`
+    : '';
+
+  if (cleanPhone.startsWith('+54') || country.includes('argent')) {
+    return {
+      mode: 'AR_LOCAL',
+      badge: '🇦🇷 Local AR ($0)',
+      btnLabel: '🇦🇷 Local ($0)',
+      modalBtnLabel: '🇦🇷 Llamar Local ($0)',
+      dialHref: cleanPhone ? `tel:${cleanPhone}` : '',
+      allowMiamiSms: false,
+      cleanPhone,
+      digits,
+      waUrl
+    };
+  }
+  const isUsPlusOne = ((cleanPhone.startsWith('+1') && digits.length === 11) || (digits.length === 10 && !latamHint && cleanPhone === digits));
+  if (isUsPlusOne && !latamHint) {
+    const e164Us = cleanPhone.startsWith('+1') ? cleanPhone : `+1${digits}`;
+    return {
+      mode: 'US_SIP',
+      badge: '🇺🇸 SIP Miami (+1)',
+      btnLabel: '🇺🇸 SIP (+1)',
+      modalBtnLabel: '🇺🇸 Llamar SIP Miami',
+      dialHref: `sip:${e164Us}@${SIP_DOMAIN_PROSPERIA}`,
+      allowMiamiSms: true,
+      cleanPhone: e164Us,
+      digits: e164Us.replace(/[^0-9]/g, ''),
+      waUrl
+    };
+  }
+  return {
+    mode: 'LATAM_WA',
+    badge: '🟢 WhatsApp ($0)',
+    btnLabel: '🟢 WA Call ($0)',
+    modalBtnLabel: '🟢 Llamar por WhatsApp ($0)',
+    dialHref: waUrl || (cleanPhone ? `tel:${cleanPhone}` : ''),
+    allowMiamiSms: false,
+    cleanPhone,
+    digits,
+    waUrl
+  };
+}
+
 function initiateCloserCall(rawPhone, leadId, alreadyInModal = false) {
-  const cleanPhone = String(rawPhone || '').replace(/[^0-9+]/g, '');
-  if (cleanPhone) {
+  const lead = (typeof salesOsLeads !== 'undefined' && leadId) ? salesOsLeads.find(x => x.id === leadId) : null;
+  const intel = lead ? parseLeadIntelligence(lead) : { waScript: '' };
+  const route = getLeadCallRouting(lead || String(rawPhone || ''), intel.waScript);
+  if (route.cleanPhone) {
     try {
       if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(cleanPhone).catch(() => {});
+        navigator.clipboard.writeText(route.cleanPhone).catch(() => {});
       }
     } catch (e) {}
-    if (typeof window.ZADARMA_CLICK2CALL_HANDLER === 'function') {
-      try { window.ZADARMA_CLICK2CALL_HANDLER(cleanPhone, leadId); } catch (e) {}
-    } else {
-      window.location.href = `tel:${cleanPhone}`;
+    if (route.mode === 'LATAM_WA' && route.waUrl) {
+      window.open(route.waUrl, '_blank', 'noopener');
+    } else if (route.dialHref) {
+      window.location.href = route.dialHref;
     }
   }
   if (!alreadyInModal && leadId) {
-    openSetterWorkDialog(leadId, 'Llamada');
+    openSetterWorkDialog(leadId, route.mode === 'US_SIP' ? 'Llamada SIP Miami' : (route.mode === 'LATAM_WA' ? 'WhatsApp' : 'Llamada'));
+  }
+}
+
+async function sendInstitutionalEmailToLead(leadId, triggerBtn = null) {
+  const lead = salesOsLeads.find(x => x.id === leadId);
+  if (!lead) return;
+  if (!hasRealLeadEmail(lead)) {
+    alert('Este prospecto no tiene un correo electrónico válido registrado.');
+    return;
+  }
+  const origHtml = triggerBtn ? triggerBtn.innerHTML : '';
+  if (triggerBtn) {
+    triggerBtn.disabled = true;
+    triggerBtn.textContent = '⏳ Enviando...';
+  }
+  const fb = document.getElementById('setter-work-quick-feedback');
+  try {
+    const res = await fetch(`/api/sales-os/leads/${leadId}/send-institutional-email`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+      body: JSON.stringify({})
+    });
+    const out = await res.json();
+    if (!res.ok || !out.success) {
+      throw new Error(out.detail || out.message || 'No se pudo enviar el correo.');
+    }
+    const idx = salesOsLeads.findIndex(x => x.id === leadId);
+    if (idx >= 0 && out.data) salesOsLeads[idx] = out.data;
+    if (fb) {
+      fb.textContent = out.message;
+      fb.classList.remove('hidden');
+    }
+    renderCallQueueTable();
+    renderSalesOsTable();
+    if (document.getElementById('setterLeadWorkDialog')?.open && Number(document.getElementById('setter-work-lead-id')?.value) === leadId) {
+      openSetterWorkDialog(leadId, 'Correo Institucional', true);
+    }
+    if (!document.getElementById('setterLeadWorkDialog')?.open) {
+      alert(out.message);
+    }
+  } catch (err) {
+    alert(err.message || 'Error enviando correo institucional.');
+  } finally {
+    if (triggerBtn) {
+      triggerBtn.disabled = false;
+      triggerBtn.innerHTML = origHtml;
+    }
+  }
+}
+
+async function sendGhlDirectMsgFromUi(leadId, channel, triggerBtn = null) {
+  const lead = salesOsLeads.find(x => x.id === leadId);
+  if (!lead) return;
+  const intel = parseLeadIntelligence(lead);
+  const route = getLeadCallRouting(lead, intel.waScript);
+  if (channel === 'SMS' && !route.allowMiamiSms) {
+    alert('Candado Anti-Tarifas: el envío de SMS desde +1 786 solo está habilitado para números de EE. UU./PR (+1).');
+    return;
+  }
+  const defaultTxt = intel.waScript || `Hola ${lead.business_name || lead.name || ''}, te compartimos tu muestra de Sitio Web Inteligente de Agencia Prosper IA.`;
+  const msgTxt = prompt(`Enviar ${channel} oficial desde GHL (+1 786 833-6964) a ${lead.business_name || lead.name}:`, defaultTxt);
+  if (!msgTxt || !msgTxt.trim()) return;
+
+  const origHtml = triggerBtn ? triggerBtn.innerHTML : '';
+  if (triggerBtn) {
+    triggerBtn.disabled = true;
+    triggerBtn.textContent = '⏳...';
+  }
+  const fb = document.getElementById('setter-work-quick-feedback');
+  try {
+    const res = await fetch(`/api/sales-os/leads/${leadId}/send-ghl-message`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+      body: JSON.stringify({ channel, message: msgTxt.trim() })
+    });
+    const out = await res.json();
+    if (!res.ok || !out.success) {
+      throw new Error(out.detail || out.message || 'No se pudo enviar.');
+    }
+    const idx = salesOsLeads.findIndex(x => x.id === leadId);
+    if (idx >= 0 && out.data) salesOsLeads[idx] = out.data;
+    if (fb) {
+      fb.textContent = out.message;
+      fb.classList.remove('hidden');
+    }
+    renderSalesOsTable();
+    if (document.getElementById('setterLeadWorkDialog')?.open && Number(document.getElementById('setter-work-lead-id')?.value) === leadId) {
+      openSetterWorkDialog(leadId, channel, true);
+    }
+  } catch (err) {
+    alert(err.message || 'Error enviando mensaje CRM.');
+  } finally {
+    if (triggerBtn) {
+      triggerBtn.disabled = false;
+      triggerBtn.innerHTML = origHtml;
+    }
   }
 }
 
 // ─── BANDEJA LIMPIA SETTER (1,000 CONTACTOS · TRABAJO EN POPUP CON BITÁCORA POR RENGLONES) ──
 function renderCallQueueTable() {
+  renderMySipCard();
   const tbody = document.getElementById('call-queue-tbody');
   if (!tbody) return;
   const filterVal = document.getElementById('call-queue-filter')?.value || 'pending';
@@ -7251,9 +7483,10 @@ function renderCallQueueTable() {
 
   tbody.innerHTML = pageItems.map(l => {
     const intel = parseLeadIntelligence(l);
-    const rawPhone = (l.phone_e164 || l.phone || '').replace(/[^0-9+]/g, '');
-    const waDigits = rawPhone.replace(/[^0-9]/g, '');
-    const waUrl = waDigits ? `https://wa.me/${waDigits}?text=${encodeURIComponent(intel.waScript)}` : '';
+    const route = getLeadCallRouting(l, intel.waScript);
+    const rawPhone = route.cleanPhone;
+    const waUrl = route.waUrl;
+    const hasEmail = hasRealLeadEmail(l);
     const st = l.pipeline_stage || 'Lead identificado';
     const hasCrmHistory = ((l.contact_id || '').trim() !== '' || Number(l.quoted_amount || 0) > 0 || Number(l.amount_collected || 0) > 0);
     const isAlreadyInCrm = (st !== 'Lead identificado' && st !== 'En seguimiento local' && st !== 'No responde' && st !== 'No interesado' && st !== 'No cumple perfil') && (st === 'Calificado' || hasCrmHistory || !['Primer contacto', 'Contacto'].includes(st));
@@ -7261,21 +7494,21 @@ function renderCallQueueTable() {
     const bitacoraRows = parseBitacoraEntries(l.notes || '');
     const lastEntry = bitacoraRows.length ? bitacoraRows[bitacoraRows.length - 1] : '';
     const tplLabel = TEMPLATE_LABELS_MAP[l.selected_template || 'clinica_dental_estetica'] || (l.selected_template || '🦷 Clínica Dental');
-    const cleanEmail = l.email && !l.email.includes('@sin-correo.local') ? l.email : 'Sin correo';
+    const cleanEmail = hasEmail ? l.email : 'Sin correo';
 
     return `<tr class="table-row border-b border-slate-800/70 hover:bg-slate-900/50 transition" style="${isAlreadyInCrm ? 'background:rgba(16,185,129,0.08);' : (st === 'Contacto' || st === 'Primer contacto' || st === 'En seguimiento local') ? 'background:rgba(245,158,11,0.05);' : ''}">
       <td data-label="Prospecto y Diagnóstico" class="px-4 py-3.5 align-top max-w-xs">
-        <div class="flex flex-wrap items-center gap-1.5 mb-1">${intel.diagBadge}</div>
+        <div class="flex flex-wrap items-center gap-1.5 mb-1">${intel.diagBadge} <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-cyan-300 border border-slate-700">${esc(route.badge)}</span></div>
         <div class="font-bold text-white text-sm leading-snug">${esc(l.business_name || l.company || l.name)}</div>
         <div class="text-[11px] text-slate-400 mt-0.5">${esc(l.city || '')} · ${esc(cleanEmail)} ${intel.googleVal ? `· ⭐ ${esc(intel.googleVal)}` : ''}</div>
       </td>
       <td data-label="Llamar / WA / Correo" class="px-3 py-3.5 align-top">
         <div class="font-mono font-bold text-cyan-300 mb-1.5">${esc(l.phone || 'Sin teléfono')}</div>
         <div class="flex flex-wrap items-center gap-1.5">
-          ${rawPhone ? `<button type="button" onclick="initiateCloserCall('${esc(rawPhone)}', ${l.id})" class="px-2.5 py-1 rounded-lg bg-emerald-400 text-slate-950 hover:bg-emerald-300 text-[11px] font-black shadow-sm"><i class="fas fa-phone mr-1"></i>Llamar</button>` : ''}
+          ${rawPhone ? `<button type="button" onclick="initiateCloserCall('${esc(rawPhone)}', ${l.id})" class="px-2.5 py-1 rounded-lg bg-emerald-400 text-slate-950 hover:bg-emerald-300 text-[11px] font-black shadow-sm">${esc(route.btnLabel)}</button>` : ''}
           ${waUrl ? `<a href="${waUrl}" target="_blank" class="px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/35 text-[11px] font-bold no-underline hover:bg-emerald-500/30"><i class="fab fa-whatsapp"></i> WA</a>` : ''}
-          ${rawPhone ? `<a href="sms:${esc(rawPhone)}?&body=${encodeURIComponent(intel.waScript)}" class="px-2.5 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 border border-indigo-500/35 text-[11px] font-bold no-underline hover:bg-indigo-500/30">💬 SMS</a>` : ''}
-          ${l.email && !l.email.includes('@sin-correo.local') ? `<a href="mailto:${encodeURIComponent(l.email)}?subject=${encodeURIComponent('Propuesta Digital para ' + (l.business_name || l.name))}&body=${encodeURIComponent(intel.waScript)}" class="px-2.5 py-1 rounded-lg bg-sky-500/20 text-sky-300 border border-sky-500/35 text-[11px] font-bold no-underline">✉️ Mail</a>` : ''}
+          ${route.allowMiamiSms ? `<button type="button" onclick="sendGhlDirectMsgFromUi(${l.id}, 'SMS', this)" class="px-2.5 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 border border-indigo-500/35 text-[11px] font-bold hover:bg-indigo-500/30">🇺🇸 SMS</button>` : ''}
+          ${hasEmail ? `<button type="button" onclick="sendInstitutionalEmailToLead(${l.id}, this)" class="px-2.5 py-1 rounded-lg bg-sky-500/20 text-sky-200 border border-sky-400/40 text-[11px] font-bold hover:bg-sky-500/30" title="Enviar correo oficial desde @agenciaprosperia.com">📨 @agenciaprosperia</button>` : ''}
         </div>
       </td>
       <td data-label="País / Rubro / Plantilla" class="px-3 py-3.5 align-top">
@@ -7315,7 +7548,7 @@ function renderCallQueueTable() {
   }).join('');
 }
 
-function openSetterWorkDialog(leadId, defaultChannel = 'Llamada') {
+function openSetterWorkDialog(leadId, defaultChannel = 'Llamada', preserveFeedback = false) {
   const lead = salesOsLeads.find(x => x.id === leadId);
   if (!lead) return;
   const dlg = document.getElementById('setterLeadWorkDialog');
@@ -7375,8 +7608,15 @@ function openSetterWorkDialog(leadId, defaultChannel = 'Llamada') {
       : '🔥 Calificado → Enviar a CRM y Pasar a Mi Pipeline (Closer)';
   }
 
+  const route = getLeadCallRouting(lead, intel.waScript);
+  const routeBadge = document.getElementById('setter-work-route-badge');
+  if (routeBadge) routeBadge.textContent = route.badge;
+  const fbEl = document.getElementById('setter-work-quick-feedback');
+  if (fbEl && !preserveFeedback) { fbEl.classList.add('hidden'); fbEl.textContent = ''; }
+
   const callBtn = document.getElementById('setter-work-call-btn');
   if (callBtn) {
+    callBtn.textContent = route.modalBtnLabel;
     callBtn.onclick = () => initiateCloserCall(rawPhone, lead.id, true);
     callBtn.style.display = rawPhone ? '' : 'none';
   }
@@ -7387,12 +7627,18 @@ function openSetterWorkDialog(leadId, defaultChannel = 'Llamada') {
   }
   const smsBtn = document.getElementById('setter-work-sms-btn');
   if (smsBtn) {
-    smsBtn.href = rawPhone ? `sms:${rawPhone}?&body=${encodeURIComponent(intel.waScript)}` : '#';
-    smsBtn.style.display = rawPhone ? '' : 'none';
+    smsBtn.onclick = () => sendGhlDirectMsgFromUi(lead.id, 'SMS', smsBtn);
+    smsBtn.style.display = route.allowMiamiSms ? '' : 'none';
+  }
+  const instMailBtn = document.getElementById('setter-work-inst-mail-btn');
+  const validMail = hasRealLeadEmail(lead);
+  if (instMailBtn) {
+    instMailBtn.onclick = () => sendInstitutionalEmailToLead(lead.id, instMailBtn);
+    instMailBtn.style.display = validMail ? '' : 'none';
   }
   const mailBtn = document.getElementById('setter-work-mail-btn');
   if (mailBtn) {
-    if (lead.email && !lead.email.includes('@sin-correo.local')) {
+    if (validMail) {
       mailBtn.href = `mailto:${encodeURIComponent(lead.email)}?subject=${encodeURIComponent('Propuesta Digital para ' + (lead.business_name || lead.name))}&body=${encodeURIComponent(intel.waScript)}`;
       mailBtn.classList.remove('hidden');
     } else {

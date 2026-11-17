@@ -48,7 +48,9 @@ from ghl_client import (
     BEAUTY_PIPELINE_NAME,
     BEAUTY_STAGE_MAP,
     _BEAUTY_PIPELINE_CACHE,
+    _cfg as _ghl_cfg,
     _cfg_db,
+    send_ghl_direct_message,
     sync_lead_to_ghl,
     sync_sales_os_event_to_ghl_async,
     sync_lead_to_ghl_async,
@@ -3340,6 +3342,247 @@ async def api_closer_bulk_import_csv(
         "success": True,
         "message": f"✅ Se importaron {imported} prospectos nuevos a tu cuenta en etapa '{stage}' ({skipped} omitidos por duplicado/vacío).",
         "data": {"imported": imported, "skipped": skipped},
+    }
+
+
+class InstitutionalEmailSendRequest(BaseModel):
+    subject: Optional[str] = ""
+    custom_message: Optional[str] = ""
+
+
+@router.post("/api/sales-os/leads/{lead_id}/send-institutional-email")
+async def api_send_institutional_email_to_lead(
+    lead_id: int,
+    req: InstitutionalEmailSendRequest,
+    current_user: dict = Depends(get_current_sales_user),
+    db: Session = Depends(get_db),
+):
+    """Envía un correo corporativo HTML desde @agenciaprosperia.com directo al prospecto en 1 clic
+    desde la Cachucha de Setter o Closer sin ensuciar GoHighLevel y anota el toque en Bitácora.
+    """
+    import asyncio
+    import html
+    import smtplib
+    from email.mime.multipart import MIMEMultipart
+    from email.mime.text import MIMEText
+
+    lead = db.query(DbLead).filter(DbLead.id == lead_id).first()
+    if not lead:
+        raise HTTPException(status_code=404, detail="Prospecto no encontrado.")
+    if current_user["role"] == "seller" and (getattr(lead, "owner_id", "") or "") != current_user["email"]:
+        raise HTTPException(status_code=403, detail="Este contacto está asignado a otro closer.")
+
+    to_email = normalize_email(getattr(lead, "email", "") or "")
+    if (
+        not to_email
+        or "@" not in to_email
+        or "@sin-correo.local" in to_email
+        or to_email.startswith(("prospecto.", "lote.")) and to_email.endswith("@agenciaprosperia.com")
+    ):
+        raise HTTPException(status_code=400, detail="Este prospecto no tiene un correo electrónico real registrado.")
+
+    if is_contact_excluded(db, to_email, getattr(lead, "phone_e164", "") or ""):
+        raise HTTPException(status_code=400, detail="Contacto en lista DND / Opt-out; envío bloqueado.")
+
+    smtp_host = _ghl_cfg("SMTP_HOST", "smtp.hostinger.com")
+    smtp_port = int(_ghl_cfg("SMTP_PORT", "465") or "465")
+    smtp_user = _ghl_cfg("SMTP_USER", "edward@agenciaprosperia.com")
+    smtp_pass = _ghl_cfg("SMTP_PASSWORD", "")
+    smtp_sender = _ghl_cfg("SMTP_SENDER", "edward@agenciaprosperia.com")
+    if not smtp_pass:
+        raise HTTPException(status_code=503, detail="Servidor SMTP institucional aún no configurado en el servidor.")
+
+    biz_name = (getattr(lead, "business_name", None) or lead.company or lead.name or "tu negocio").strip()
+    contact_first = (getattr(lead, "full_name", None) or lead.name or "").strip().split()[0] if (getattr(lead, "full_name", None) or lead.name or "").strip() else biz_name
+    tpl = getattr(lead, "selected_template", "clinica_dental_estetica") or "clinica_dental_estetica"
+    phone_val = (getattr(lead, "phone_e164", None) or lead.phone or "").strip()
+    closer_name = current_user.get("name") or "Asesor Prosper IA"
+    closer_email = current_user.get("email") or smtp_sender
+    cal_url = (current_user.get("calendar_url") or "https://agenciaprosperia.com/#contacto").strip()
+
+    demo_url = (
+        f"https://agenciaprosperia.com/demo-sitio-web?template={urllib.parse.quote(tpl)}"
+        f"&business={urllib.parse.quote(biz_name)}&phone={urllib.parse.quote(phone_val)}"
+    )
+    wa_official = (
+        "https://wa.me/17868336964?text="
+        + urllib.parse.quote(f"Hola Agencia Prosper IA, vi la muestra digital para {biz_name} y quiero agendar mi demostración.")
+    )
+
+    subject = (req.subject or f"Muestra Digital Lista para {biz_name} — Agencia Prosper IA").strip()
+    default_msg = (
+        f"Hola {contact_first}, soy {closer_name} de Agencia Prosper IA.\n\n"
+        f"Preparamos una demostración interactiva de cómo {biz_name} puede capturar más clientes "
+        f"con un Sitio Web Inteligente conectado a WhatsApp y Recepcionista IA 24/7 que agenda citas en automático.\n\n"
+        f"Puedes abrir tu muestra en vivo o apartar 15 minutos en nuestro calendario abajo."
+    )
+    body_text = (req.custom_message or "").strip() or default_msg
+    body_html = html.escape(body_text).replace("\n", "<br>")
+    safe_biz = html.escape(biz_name)
+    safe_closer = html.escape(closer_name)
+
+    html_content = f"""
+    <html>
+      <body style="font-family: 'Segoe UI', Arial, sans-serif; background-color: #020710; color: #f8fafc; margin: 0; padding: 24px;">
+        <table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="background-color: #071326; border: 1px solid #0e7490; border-radius: 14px; overflow: hidden;">
+          <tr style="background: linear-gradient(135deg, #082f49 0%, #020710 100%);">
+            <td style="padding: 26px 28px; text-align: center; border-bottom: 1px solid rgba(56,189,248,0.25);">
+              <div style="color: #00e5ff; font-size: 22px; font-weight: 900; letter-spacing: 1.5px;">AGENCIA PROSPER IA</div>
+              <div style="color: #94a3b8; font-size: 12px; margin-top: 4px;">Sitios Web Inteligentes · Empleados Digitales 24/7 · Miami, FL</div>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 30px 28px; font-size: 14px; line-height: 1.65; color: #e2e8f0;">
+              <div style="margin-bottom: 22px;">{body_html}</div>
+              <div style="text-align: center; margin: 26px 0;">
+                <a href="{demo_url}" style="display: inline-block; background: #00e5ff; color: #020710; text-decoration: none; font-weight: 800; font-size: 13px; padding: 12px 22px; border-radius: 10px; margin: 5px;">
+                  🌐 Ver Demo en Vivo de {safe_biz}
+                </a>
+                <a href="{html.escape(cal_url)}" style="display: inline-block; background: #10b981; color: #020710; text-decoration: none; font-weight: 800; font-size: 13px; padding: 12px 22px; border-radius: 10px; margin: 5px;">
+                  📅 Agendar 15 Min
+                </a>
+              </div>
+              <div style="text-align: center; margin-top: 8px;">
+                <a href="{wa_official}" style="color: #34d399; font-weight: 700; font-size: 12px; text-decoration: underline;">
+                  💬 También puedes responder directo por WhatsApp (+1 786 833-6964)
+                </a>
+              </div>
+            </td>
+          </tr>
+          <tr style="background-color: #030a17;">
+            <td style="padding: 18px 28px; border-top: 1px solid rgba(148,163,184,0.2); font-size: 11px; color: #94a3b8; text-align: center;">
+              Enviado por <strong>{safe_closer}</strong> ({html.escape(closer_email)}) · Agencia Prosper IA LLC, Miami FL.
+            </td>
+          </tr>
+        </table>
+      </body>
+    </html>
+    """
+
+    def _send_smtp():
+        msg = MIMEMultipart("alternative")
+        msg["Subject"] = subject
+        msg["From"] = f"Agencia Prosper IA <{smtp_sender}>"
+        msg["To"] = to_email
+        msg["Reply-To"] = closer_email if "@" in closer_email else smtp_sender
+        msg.attach(MIMEText(f"{body_text}\n\nVer Demo en Vivo: {demo_url}\nAgendar 15 min: {cal_url}\nWhatsApp: +1 786 833-6964", "plain", "utf-8"))
+        msg.attach(MIMEText(html_content, "html", "utf-8"))
+        if smtp_port == 465:
+            srv = smtplib.SMTP_SSL(smtp_host, smtp_port, timeout=15)
+        else:
+            srv = smtplib.SMTP(smtp_host, smtp_port, timeout=15)
+            srv.starttls()
+        srv.login(smtp_user, smtp_pass)
+        srv.sendmail(smtp_sender, [to_email], msg.as_string())
+        srv.quit()
+
+    try:
+        await asyncio.to_thread(_send_smtp)
+    except Exception as exc:
+        raise HTTPException(status_code=502, detail=f"No se pudo enviar el correo institucional: {exc}")
+
+    now_iso = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+    stamp_human = f"{now_iso[:10]} {now_iso[11:16]}"
+    old_stage = getattr(lead, "pipeline_stage", "Lead identificado") or "Lead identificado"
+    new_stage = "Primer contacto" if old_stage in ("Lead identificado", "No responde") else old_stage
+    lead.pipeline_stage = new_stage
+    if getattr(lead, "status", "new") == "new":
+        lead.status = "contacted"
+    lead.last_touch = now_iso
+    lead.notes = ((lead.notes or "") + f"\n[{stamp_human} · Correo @agenciaprosperia.com · {new_stage}] 📧 CORREO INSTITUCIONAL ENVIADO a {to_email} ({subject})").strip()
+
+    u = db.query(User).filter(User.email == current_user["email"]).first()
+    if u:
+        u.calls_made_today = int(getattr(u, "calls_made_today", 0) or 0) + 1
+        u.calls_made_week = int(getattr(u, "calls_made_week", 0) or 0) + 1
+        u.last_seen_at = now_iso[:19].replace("T", " ")
+
+    record_audit(
+        db,
+        actor_email=current_user["email"],
+        actor_role=current_user["role"],
+        lead_id=lead.id,
+        action="touch_wa_email_local_only",
+        field_changed="pipeline_stage",
+        old_value=old_stage,
+        new_value=new_stage,
+        notes=f"Correo institucional @agenciaprosperia.com enviado a {to_email} por {closer_name}.",
+    )
+    db.commit()
+    db.refresh(lead)
+    return {
+        "success": True,
+        "message": f"📨 Correo institucional @agenciaprosperia.com enviado a {to_email} y anotado en bitácora (+1 toque).",
+        "data": serialize_lead(lead),
+    }
+
+
+class GhlDirectMessageRequest(BaseModel):
+    channel: str  # SMS (+1 only) | WhatsApp | Email
+    message: str
+    subject: Optional[str] = ""
+
+
+@router.post("/api/sales-os/leads/{lead_id}/send-ghl-message")
+async def api_send_ghl_direct_message(
+    lead_id: int,
+    req: GhlDirectMessageRequest,
+    current_user: dict = Depends(get_current_sales_user),
+    db: Session = Depends(get_db),
+):
+    """Envía SMS (solo +1 EE.UU.), WhatsApp o Email directo vía GoHighLevel API v2 para leads del Closer."""
+    import asyncio
+
+    lead = db.query(DbLead).filter(DbLead.id == lead_id).first()
+    if not lead:
+        raise HTTPException(status_code=404, detail="Prospecto no encontrado.")
+    if current_user["role"] == "seller" and (getattr(lead, "owner_id", "") or "") != current_user["email"]:
+        raise HTTPException(status_code=403, detail="Este contacto está asignado a otro closer.")
+
+    msg_body = (req.message or "").strip()
+    if not msg_body:
+        raise HTTPException(status_code=400, detail="El mensaje no puede estar vacío.")
+
+    res = await asyncio.to_thread(
+        send_ghl_direct_message,
+        contact_id=getattr(lead, "contact_id", "") or "",
+        phone=getattr(lead, "phone_e164", None) or (lead.phone or ""),
+        email=lead.email or "",
+        full_name=getattr(lead, "full_name", None) or lead.name,
+        company=getattr(lead, "business_name", None) or (lead.company or ""),
+        channel=req.channel,
+        message_body=msg_body,
+        subject=req.subject or "",
+        owner_email=getattr(lead, "owner_id", "") or current_user["email"],
+        lead_db_id=lead.id,
+    )
+    if not res.get("ok"):
+        status_code = 403 if res.get("blocked_by_cost_guard") else 400
+        raise HTTPException(status_code=status_code, detail=res.get("error") or "No se pudo enviar mensaje vía CRM.")
+
+    now_iso = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+    stamp_human = f"{now_iso[:10]} {now_iso[11:16]}"
+    ch_label = res.get("channel") or req.channel
+    lead.contact_id = lead.contact_id or (res.get("contact_id") or "")
+    lead.last_touch = now_iso
+    lead.notes = ((lead.notes or "") + f"\n[{stamp_human} · CRM {ch_label} +1 786] 📲 ENVIADO DESDE CRM GHL: {msg_body[:140]}").strip()
+    record_audit(
+        db,
+        actor_email=current_user["email"],
+        actor_role=current_user["role"],
+        lead_id=lead.id,
+        action="ghl_direct_message_sent",
+        field_changed="last_touch",
+        old_value="",
+        new_value=ch_label,
+        notes=f"Mensaje {ch_label} enviado por API GHL por {current_user['name']}.",
+    )
+    db.commit()
+    db.refresh(lead)
+    return {
+        "success": True,
+        "message": f"📲 {ch_label} enviado desde el número oficial de la agencia en GHL y registrado en bitácora.",
+        "data": serialize_lead(lead),
     }
 
 
