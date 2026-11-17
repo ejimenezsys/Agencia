@@ -2076,6 +2076,9 @@ async def stream_closer_training_video(video_key: str, request: Request):
         "express": os.path.join(os.path.dirname(__file__), "static", "video", "tutorial_closers_express_6min.mp4"),
         "nubia": os.path.join(os.path.dirname(__file__), "static", "video", "testimonio_nubia_allinbeauty.mp4"),
         "beautygrowth": os.path.join(os.path.dirname(__file__), "static", "video", "testimonio_nubia_allinbeauty.mp4"),
+        "exma-reel-1": os.path.join(os.path.dirname(__file__), "static", "exmaboletos", "reels", "reel1.mp4"),
+        "exma-reel-2": os.path.join(os.path.dirname(__file__), "static", "exmaboletos", "reels", "reel2.mp4"),
+        "exma-reel-3": os.path.join(os.path.dirname(__file__), "static", "exmaboletos", "reels", "reel3.mp4"),
     }
     file_path = video_map.get(video_key.lower().strip())
     if not file_path or not os.path.exists(file_path):
