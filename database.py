@@ -599,36 +599,38 @@ INITIAL_SALES_TEAM = [
         "name": "Wendy Leiva",
         "role": "seller",
         "dupla": "Dupla B — Servicios Locales & Agenda",
+        "phone": "+5491158275847",
+        "plan": "SVE-90 Enterprise",
+        "ghl_user_id": "v4Ur0IqZbJVg8CG6bOLr",
+        "is_active": 1,
+        "calendar_url": "https://api.agenciaprosperia.com/widget/booking/ldXXTonwojfnAOorWDoX",
+        "avatar_url": "/static/img/closers/wendy.jpg",
+        "default_pass": "Closer2026!"
+    },
+    {
+        "email": "digitalblups@gmail.com",
+        "name": "Jhonatan Rivero",
+        "role": "seller",
+        "dupla": "Dupla C — Profesionales, Consultores & Academias",
         "phone": "",
         "plan": "SVE-90 Enterprise",
         "ghl_user_id": "",
         "is_active": 1,
         "calendar_url": "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8",
-        "avatar_url": "/static/img/closers/wendy.jpg",
+        "avatar_url": "/static/img/closers/jhonatan.jpg",
         "default_pass": "Closer2026!"
     },
     {
-        "email": "closer9@agenciaprosperia.com",
-        "name": "Closer 9 (En Contratación)",
+        "email": "bruno.hernan.espinosa1694@gmail.com",
+        "name": "Bruno Espinoza",
         "role": "seller",
         "dupla": "Dupla C — Profesionales, Consultores & Academias",
         "phone": "",
         "plan": "SVE-90 Enterprise",
         "ghl_user_id": "",
+        "is_active": 1,
         "calendar_url": "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8",
-        "avatar_url": "",
-        "default_pass": "Closer2026!"
-    },
-    {
-        "email": "closer10@agenciaprosperia.com",
-        "name": "Closer 10 (En Contratación)",
-        "role": "seller",
-        "dupla": "Dupla C — Profesionales, Consultores & Academias",
-        "phone": "",
-        "plan": "SVE-90 Enterprise",
-        "ghl_user_id": "",
-        "calendar_url": "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8",
-        "avatar_url": "",
+        "avatar_url": "/static/img/closers/bruno.jpg",
         "default_pass": "Closer2026!"
     },
 ]
@@ -644,6 +646,8 @@ OBSOLETE_TEST_EMAILS = [
     "closer6@agenciaprosperia.com",
     "closer7@agenciaprosperia.com",
     "closer8@agenciaprosperia.com",
+    "closer9@agenciaprosperia.com",
+    "closer10@agenciaprosperia.com",
     "ucumaryvisual@gmail.com",
     "dbecerra@agenciaprosperia.com",
 ]
@@ -749,8 +753,12 @@ def init_db():
                     avatar_url=member.get("avatar_url", ""),
                 ))
             else:
+                exists_u.name = member["name"]
+                exists_u.dupla = member["dupla"]
                 exists_u.role = "seller"
                 exists_u.plan = "SVE-90 Enterprise"
+                if member.get("phone"):
+                    exists_u.phone = member["phone"]
                 if member.get("ghl_user_id") or member.get("is_active"):
                     exists_u.is_active = 1
                 if member.get("ghl_user_id"):
@@ -1103,11 +1111,11 @@ def init_db():
                         ld.owner_id = m["email"]
                         ld.setter_id = m["email"]
 
-                    # Desactivar únicamente las 3 vacantes restantes (closer8..closer10)
-                    for ph_idx in (8, 9, 10):
+                    # Asegurar 0 vacantes placeholder activas (closer1..closer10 fueron migrados/eliminados)
+                    for ph_idx in (9, 10):
                         ph_u = db.query(User).filter(User.email == f"closer{ph_idx}@agenciaprosperia.com").first()
                         if ph_u:
-                            ph_u.is_active = 0
+                            db.delete(ph_u)
 
                     db.add(IntegrationSetting(
                         key="ghl_516_and_comex_v6_7closers",

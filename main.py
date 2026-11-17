@@ -12,6 +12,7 @@ from email.mime.multipart import MIMEMultipart
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, EmailStr
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 from database import init_db, SessionLocal, User, Lead as DbLead, SessionModel, BlogPost, ArsenalPrompt, sync_blog_posts, IntegrationSetting, hash_password, verify_password, normalize_phone_e164, normalize_email, get_next_round_robin_closer
 from editorial import LANES, enrich_post
@@ -2374,7 +2375,8 @@ async def api_login(req: LoginRequest, request: Request, response: Response, db:
             content={"success": False, "error": "Demasiados intentos fallidos desde tu IP. Por seguridad, espera 15 minutos."}
         )
 
-    user = db.query(User).filter(User.email == req.email).first()
+    email_clean = normalize_email(req.email)
+    user = db.query(User).filter(func.lower(User.email) == email_clean).first()
     if not user:
         fails.append(now_ts)
         _LOGIN_FAIL_BUCKETS[client_ip] = fails
@@ -2405,7 +2407,7 @@ async def api_login(req: LoginRequest, request: Request, response: Response, db:
     
     # Guardar sesión en base de datos
     created_at = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
-    new_session = SessionModel(token=token, email=req.email, created_at=created_at)
+    new_session = SessionModel(token=token, email=user.email, created_at=created_at)
     db.add(new_session)
     db.commit()
     
