@@ -3311,7 +3311,7 @@ async def api_get_leads(
     pipeline_stage: Optional[str] = None,
     owner_id: Optional[str] = None,
     include_dnd: Optional[bool] = False,
-    limit: Optional[int] = 600,
+    limit: Optional[int] = 1500,
     current_user: dict = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):

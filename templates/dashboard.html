@@ -674,57 +674,257 @@
   <!-- ════════════════════════════════════════════
        SECTION: OVERVIEW (EMBUDO SEMANAL 100->60->6->1 + PODIO + CONTROL CEO ANTI-PATO)
   ════════════════════════════════════════════ -->
+  <style>
+    .table-wrapper {
+      container-type: inline-size;
+      overflow-x: auto;
+      position: relative;
+      outline-offset: 2px;
+    }
+    .table-wrapper:focus-visible {
+      outline: 2px solid #22d3ee;
+    }
+    .prosperia-rtable {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .prosperia-rtable thead th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      background: #0f172a;
+    }
+    @container (width < 600px) {
+      .prosperia-rtable thead {
+        display: none;
+      }
+      .prosperia-rtable tbody tr,
+      .prosperia-rtable tbody td {
+        display: block;
+        width: 100%;
+      }
+      .prosperia-rtable tbody tr {
+        border-bottom: 1px solid rgba(51, 65, 85, 0.75);
+        padding: 0.65rem 0.5rem;
+      }
+      .prosperia-rtable tbody td[data-label]::before {
+        content: attr(data-label) ": ";
+        font-weight: 700;
+        color: #94a3b8;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        margin-right: 0.35rem;
+      }
+    }
+    details.prosperia-script-acc > summary {
+      cursor: pointer;
+      list-style: none;
+      user-select: none;
+    }
+    details.prosperia-script-acc > summary::-webkit-details-marker {
+      display: none;
+    }
+    details.prosperia-script-acc[open] > summary .acc-chevron {
+      transform: rotate(90deg);
+    }
+    .acc-chevron {
+      display: inline-block;
+      transition: transform 0.15s ease;
+    }
+  </style>
   <div id="section-overview" class="p-6 space-y-6">
 
-    <!-- EMBUDO SEMANAL DE RENDIMIENTO KPI (100 -> 60 -> 6 -> 1) -->
+    <!-- EMBUDO SEMANAL DE RENDIMIENTO KPI (SPRINT 18–25 NOV: 500 -> 60 -> 10 -> 2+) -->
     <div class="card p-5" style="background:linear-gradient(135deg,#071529,#0b1e3b); border-color:rgba(0,229,255,0.28);">
       <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
         <div>
-          <span class="text-xs font-extrabold uppercase tracking-wider text-cyan-400">🎯 EMBUDO SEMANAL DE RENDIMIENTO (100 &rarr; 60 &rarr; 6 &rarr; 1)</span>
-          <h3 class="text-lg font-bold text-white mt-0.5">Tu Progreso Semanal hacia las Comisiones</h3>
+          <span class="text-xs font-extrabold uppercase tracking-wider text-cyan-400">🎯 SPRINT COMERCIAL 18 AL 25 NOV · EVALUACIÓN EN VIVO 26 NOV (500 &rarr; 60 &rarr; 10 &rarr; 2+)</span>
+          <h3 class="text-lg font-bold text-white mt-0.5">Tu Progreso Semanal hacia los 500 Toques y Comisiones</h3>
         </div>
         <div class="flex items-center gap-2">
           <button type="button" onclick="loadLeaderboardAndKpis()" class="btn-ghost px-3 py-1.5 rounded-lg text-xs">
-            <i class="fas fa-sync-alt mr-1"></i> Actualizar Ranking
+            <i class="fas fa-sync-alt mr-1"></i> Actualizar Ranking y Reporte
           </button>
         </div>
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800">
           <div class="flex items-center justify-between text-xs text-slate-400 mb-1">
-            <span>📞 1. Llamadas Realizadas</span>
-            <span class="font-bold text-cyan-300">Meta: 100/sem</span>
+            <span>📞 1. Toques (Llamadas + WA/Email)</span>
+            <span class="font-bold text-cyan-300">Meta: 500/sem</span>
           </div>
-          <div class="text-2xl font-black text-white"><span id="kpi-wk-calls">0</span> <span class="text-xs font-normal text-slate-400">/ 100</span></div>
+          <div class="text-2xl font-black text-white"><span id="kpi-wk-calls">0</span> <span class="text-xs font-normal text-slate-400">/ 500</span></div>
           <div class="progress-track mt-2"><div id="bar-wk-calls" class="progress-fill" style="width:0%"></div></div>
-          <div class="text-[11px] text-slate-400 mt-1.5">Hoy: <strong id="kpi-today-calls" class="text-white">0</strong> llamadas registradas</div>
+          <div class="text-[11px] text-slate-400 mt-1.5">Hoy: <strong id="kpi-today-calls" class="text-white">0</strong> toques registrados</div>
         </div>
         <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800">
           <div class="flex items-center justify-between text-xs text-slate-400 mb-1">
-            <span>🟢 2. Llamadas Contestadas</span>
+            <span>🔥 2. Posibles Cierres → CRM</span>
             <span class="font-bold text-emerald-300">Meta: 60/sem</span>
           </div>
           <div class="text-2xl font-black text-emerald-400"><span id="kpi-wk-answered">0</span> <span class="text-xs font-normal text-slate-400">/ 60</span></div>
           <div class="progress-track mt-2"><div id="bar-wk-answered" class="progress-fill" style="width:0%; background:linear-gradient(90deg,#10b981,#34d399);"></div></div>
-          <div class="text-[11px] text-slate-400 mt-1.5">Pasan al Pipeline de CRM ProsperIA</div>
+          <div class="text-[11px] text-slate-400 mt-1.5">Solo calificados pasan a CRM ProsperIA</div>
         </div>
         <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800">
           <div class="flex items-center justify-between text-xs text-slate-400 mb-1">
             <span>💻 3. Demos / Citas Agendadas</span>
-            <span class="font-bold text-amber-300">Meta: 6/sem</span>
+            <span class="font-bold text-amber-300">Meta: 10/sem</span>
           </div>
-          <div class="text-2xl font-black text-amber-400"><span id="kpi-wk-demos">0</span> <span class="text-xs font-normal text-slate-400">/ 6</span></div>
+          <div class="text-2xl font-black text-amber-400"><span id="kpi-wk-demos">0</span> <span class="text-xs font-normal text-slate-400">/ 10</span></div>
           <div class="progress-track mt-2"><div id="bar-wk-demos" class="progress-fill" style="width:0%; background:linear-gradient(90deg,#f59e0b,#fbbf24);"></div></div>
           <div class="text-[11px] text-slate-400 mt-1.5">Efecto WOW en Vivo + Propuesta</div>
         </div>
         <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800">
           <div class="flex items-center justify-between text-xs text-slate-400 mb-1">
             <span>💰 4. Ventas Cobradas</span>
-            <span class="font-bold text-purple-300">Meta: 1+ /sem</span>
+            <span class="font-bold text-purple-300">Meta: 2+ /sem</span>
           </div>
-          <div class="text-2xl font-black text-purple-400"><span id="kpi-wk-sales">0</span> <span class="text-xs font-normal text-slate-400">/ 1+</span></div>
+          <div class="text-2xl font-black text-purple-400"><span id="kpi-wk-sales">0</span> <span class="text-xs font-normal text-slate-400">/ 2+</span></div>
           <div class="progress-track mt-2"><div id="bar-wk-sales" class="progress-fill" style="width:0%; background:linear-gradient(90deg,#a855f7,#ec4899);"></div></div>
           <div class="text-[11px] text-slate-400 mt-1.5">Cobrado: <strong id="kpi-wk-usd" class="text-emerald-300">US$0.00</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 📊 REPORTE BRUTAL CEO: EVALUACIÓN SPRINT 18–25 NOV (PRODUCTO, NICHOS, PAÍSES Y OBJECIONES) -->
+    <div id="ceo-intelligence-panel" class="card p-6 space-y-5" style="background:linear-gradient(135deg,#0d111d,#111827); border-color:rgba(16,185,129,0.38);">
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <span class="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+            📊 REPORTE BRUTAL CEO · EVALUACIÓN EN VIVO 26 NOV
+          </span>
+          <h3 class="text-lg font-bold text-white mt-1">Radiografía Comercial: Meta 500 Toques/Closer, Qué Nicho/País Convierte y Objeciones Reales</h3>
+          <p id="ceo-brutal-verdict" class="text-xs text-emerald-300/90 mt-1 font-medium">
+            Cargando diagnóstico ejecutivo en tiempo real...
+          </p>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+          <div class="px-3 py-2 rounded-xl bg-slate-900 border border-slate-800">
+            <div class="text-[10px] text-slate-400 uppercase">Meta Equipo</div>
+            <div id="ceo-brutal-team-goal" class="text-sm font-black text-white">5,500</div>
+          </div>
+          <div class="px-3 py-2 rounded-xl bg-slate-900 border border-slate-800">
+            <div class="text-[10px] text-slate-400 uppercase">Toques Sprint</div>
+            <div id="ceo-brutal-team-touches" class="text-sm font-black text-cyan-300">0</div>
+          </div>
+          <div class="px-3 py-2 rounded-xl bg-slate-900 border border-slate-800">
+            <div class="text-[10px] text-slate-400 uppercase">Posibles Cierres</div>
+            <div id="ceo-brutal-team-hot" class="text-sm font-black text-emerald-300">0</div>
+          </div>
+          <div class="px-3 py-2 rounded-xl bg-slate-900 border border-slate-800">
+            <div class="text-[10px] text-slate-400 uppercase">Cobrado Sprint</div>
+            <div id="ceo-brutal-team-usd" class="text-sm font-black text-amber-300">US$0</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 1. Avance 500 Toques por Closer -->
+      <div>
+        <div class="text-xs font-extrabold uppercase tracking-wider text-cyan-300 mb-2">1. Evaluación Individual (Meta: 500 Toques / Base 1,000 Leads)</div>
+        <div tabindex="0" role="region" aria-label="Evaluación individual de 500 toques por closer" class="table-wrapper rounded-xl border border-slate-800">
+          <table class="prosperia-rtable text-xs">
+            <thead>
+              <tr class="text-left text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800">
+                <th class="px-3 py-2.5">Closer</th>
+                <th class="px-3 py-2.5">Base / Pend.</th>
+                <th class="px-3 py-2.5">Toques Sem / 500</th>
+                <th class="px-3 py-2.5">% Meta</th>
+                <th class="px-3 py-2.5">WA / Email</th>
+                <th class="px-3 py-2.5">Seg. Local</th>
+                <th class="px-3 py-2.5">Posibles Cierres CRM</th>
+                <th class="px-3 py-2.5">Demos / Ventas</th>
+                <th class="px-3 py-2.5">Veredicto</th>
+              </tr>
+            </thead>
+            <tbody id="ceo-brutal-closers-tbody">
+              <tr><td colspan="9" class="text-center py-5 text-slate-500">Cargando avance de closers...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 2. Rubros + Países + Diagnóstico Digital -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div>
+          <div class="text-xs font-extrabold uppercase tracking-wider text-emerald-300 mb-2">2. Termómetro de Producto por Rubro / Nicho</div>
+          <div tabindex="0" role="region" aria-label="Conversión por rubro o nicho comercial" class="table-wrapper rounded-xl border border-slate-800 max-h-72">
+            <table class="prosperia-rtable text-xs">
+              <thead>
+                <tr class="text-left text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800">
+                  <th class="px-3 py-2">Rubro / Nicho</th>
+                  <th class="px-3 py-2">Base</th>
+                  <th class="px-3 py-2">Tocados</th>
+                  <th class="px-3 py-2">CRM Hot</th>
+                  <th class="px-3 py-2">Conv %</th>
+                  <th class="px-3 py-2">USD</th>
+                </tr>
+              </thead>
+              <tbody id="ceo-brutal-niche-tbody">
+                <tr><td colspan="6" class="text-center py-4 text-slate-500">Cargando nichos...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div>
+          <div class="text-xs font-extrabold uppercase tracking-wider text-amber-300 mb-2">3. Rendimiento por País / Mercado</div>
+          <div tabindex="0" role="region" aria-label="Rendimiento comercial por país" class="table-wrapper rounded-xl border border-slate-800 max-h-72">
+            <table class="prosperia-rtable text-xs">
+              <thead>
+                <tr class="text-left text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800">
+                  <th class="px-3 py-2">País</th>
+                  <th class="px-3 py-2">Base</th>
+                  <th class="px-3 py-2">Tocados</th>
+                  <th class="px-3 py-2">Seg. Local</th>
+                  <th class="px-3 py-2">CRM Hot</th>
+                  <th class="px-3 py-2">USD</th>
+                </tr>
+              </thead>
+              <tbody id="ceo-brutal-country-tbody">
+                <tr><td colspan="6" class="text-center py-4 text-slate-500">Cargando países...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Diagnóstico Digital vs Objeciones -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div>
+          <div class="text-xs font-extrabold uppercase tracking-wider text-indigo-300 mb-2">4. Conversión por Diagnóstico Digital (Sin Web vs Con Web)</div>
+          <div tabindex="0" role="region" aria-label="Conversión por diagnóstico digital" class="table-wrapper rounded-xl border border-slate-800">
+            <table class="prosperia-rtable text-xs">
+              <thead>
+                <tr class="text-left text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800">
+                  <th class="px-3 py-2">Diagnóstico Digital</th>
+                  <th class="px-3 py-2">Base</th>
+                  <th class="px-3 py-2">Tocados</th>
+                  <th class="px-3 py-2">CRM Hot</th>
+                  <th class="px-3 py-2">Conv %</th>
+                </tr>
+              </thead>
+              <tbody id="ceo-brutal-diag-tbody">
+                <tr><td colspan="5" class="text-center py-4 text-slate-500">Cargando diagnósticos...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div>
+          <div class="text-xs font-extrabold uppercase tracking-wider text-rose-300 mb-2">5. Ranking de Objeciones y Fricciones Reales</div>
+          <div tabindex="0" role="region" aria-label="Ranking de objeciones registradas por los closers" class="table-wrapper rounded-xl border border-slate-800 max-h-60">
+            <table class="prosperia-rtable text-xs">
+              <thead>
+                <tr class="text-left text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800">
+                  <th class="px-3 py-2">Objeción / Motivo</th>
+                  <th class="px-3 py-2 text-right">Frecuencia</th>
+                </tr>
+              </thead>
+              <tbody id="ceo-brutal-objections-tbody">
+                <tr><td colspan="2" class="text-center py-4 text-slate-500">Sin objeciones registradas aún.</td></tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -734,7 +934,7 @@
       <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
         <div>
           <span class="text-xs font-bold uppercase tracking-wider text-amber-400">🥇 CONCURSO COMERCIAL PROSPER IA</span>
-          <h3 class="text-base font-bold text-white">Podio en Vivo — Ranking de Closers (Ventas Cobradas + Demos + Llamadas)</h3>
+          <h3 class="text-base font-bold text-white">Podio en Vivo — Ranking de Closers (Ventas Cobradas + Demos + Toques)</h3>
         </div>
         <span class="text-xs text-slate-400">Actualizado en tiempo real</span>
       </div>
@@ -750,9 +950,9 @@
           <span class="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold uppercase bg-amber-500/20 text-amber-300 border border-amber-500/40">
             👁️ AUDITORÍA DIARIA DE PRODUCTIVIDAD (CEO EDWARD & EQUIPO)
           </span>
-          <h3 class="text-lg font-bold text-white mt-1">Rendimiento por Vendedor: Horas Conectado, Llamadas Hoy, Demos y Ventas USD</h3>
+          <h3 class="text-lg font-bold text-white mt-1">Rendimiento por Vendedor: Horas Conectado, Toques Hoy, Demos y Ventas USD</h3>
           <p class="text-xs text-slate-400">
-            Verifica quién hizo Check-In hoy, cuántas horas lleva activo en el sistema, cuántas llamadas sacó de la cola de 455 y cuánto facturó.
+            Verifica quién hizo Check-In hoy, cuántas horas lleva activo en el sistema, cuántos toques sacó de su base de 1,000 y cuánto facturó.
           </p>
         </div>
         <button type="button" onclick="showSection('sellers-admin')" class="btn-ghost px-3.5 py-2 rounded-xl text-xs font-semibold">
@@ -767,14 +967,14 @@
 
       <!-- Tabla de Asistencia, Horas Conectado y Llamadas por Closer -->
       <div tabindex="0" role="region" aria-label="Tabla de productividad diaria por closer" class="table-wrapper rounded-xl border border-slate-800">
-        <table>
+        <table class="prosperia-rtable">
           <thead>
             <tr class="text-left text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800">
               <th class="px-3 py-2.5"># Ranking</th>
               <th class="px-3 py-2.5">Closer / Dupla</th>
               <th class="px-3 py-2.5">Check-In Hoy</th>
               <th class="px-3 py-2.5">Horas Activo Hoy</th>
-              <th class="px-3 py-2.5">Llamadas Hoy / Sem</th>
+              <th class="px-3 py-2.5">Toques Hoy / Sem</th>
               <th class="px-3 py-2.5">Contestaron</th>
               <th class="px-3 py-2.5">Demos</th>
               <th class="px-3 py-2.5">Cola Pendiente</th>
@@ -1750,60 +1950,91 @@
        SECTION: MI LISTA DE LLAMADAS (FILTRO DE LOS 455 ANTES DE CRM PROSPERIA)
   ════════════════════════════════════════════════════════════════════════ -->
   <div id="section-call-queue" class="p-6 hidden space-y-5">
-    <div class="card p-5 flex flex-wrap items-center justify-between gap-4" style="background:linear-gradient(135deg,#071a16,#0d2e26); border-color:rgba(16,185,129,0.35);">
-      <div>
-        <div class="flex items-center gap-2 mb-1">
-          <span class="px-2.5 py-0.5 rounded-full text-xs font-black uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">PASO 1 · LISTA DE LLAMADAS (CRM 516 + COMEX B2B)</span>
-          <span id="call-queue-owner-badge" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">Mis Prospectos Asignados</span>
+    <div class="card p-5 space-y-3" style="background:linear-gradient(135deg,#071a16,#0d2e26); border-color:rgba(16,185,129,0.35);">
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-black uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">CABINA TODO-EN-UNO · SPRINT 18–25 NOV (META: 500 TOQUES/SEM)</span>
+            <span id="call-queue-owner-badge" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">Mis 1,000 Prospectos Calificados</span>
+          </div>
+          <h2 class="text-xl font-bold text-white">📋 Cabina de Prospección Diaria (Llamadas + WhatsApp + Correo sin Salir)</h2>
+          <p class="text-xs text-slate-300 mt-0.5">
+            <strong>Cero brincos entre sistemas:</strong> Llama, manda WhatsApp o correo y anota notas y objeciones aquí mismo. <strong>SOLO</strong> cuando detectes un interesado real pulsa <strong>🔥 Posible Cierre → Enviar a CRM</strong> para enviarlo a CRM ProsperIA (<code class="text-cyan-300">💰 Mi Pipeline</code>).
+          </p>
         </div>
-        <h2 class="text-xl font-bold text-white">📋 Mi Lista de Llamadas (Paso 1: Prospectos por Contactar)</h2>
-        <p class="text-xs text-slate-300 mt-0.5">
-          <strong>Flujo Lineal Sin Confusión:</strong> Aquí solo están los prospectos con los que <strong>aún no has hablado</strong>. En cuanto el cliente <strong>¡SÍ CONTESTA!</strong>, se gradúa automáticamente al <strong>Paso 2 (Primer Contacto) en <code class="text-cyan-300">💰 Mi Pipeline &amp; Comisiones</code></strong> y nunca más tienes que buscarlo aquí.
-        </p>
+        <div class="flex flex-wrap gap-2 items-center">
+          <button type="button" onclick="openQuickCloserLeadDialog('Primer contacto')" class="px-3.5 py-2 rounded-xl text-xs font-black bg-emerald-400 text-slate-950 hover:bg-emerald-300 transition shadow">
+            ➕ Nuevo Prospecto (Inyectar a CRM)
+          </button>
+          <button type="button" onclick="openCloserBulkImportDialog()" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30 transition">
+            📥 Subir Mi Lista (Excel/CSV)
+          </button>
+          <button onclick="loadSalesOsData()" class="btn-ghost px-3 py-2 rounded-xl text-xs font-semibold">
+            <i class="fas fa-sync-alt mr-1"></i> Actualizar
+          </button>
+        </div>
       </div>
-      <div class="flex flex-wrap gap-2 items-center">
-        <button type="button" onclick="openQuickCloserLeadDialog('Primer contacto')" class="px-3.5 py-2 rounded-xl text-xs font-black bg-emerald-400 text-slate-950 hover:bg-emerald-300 transition shadow">
-          ➕ Nuevo Prospecto (Inyectar a CRM)
-        </button>
-        <button type="button" onclick="openCloserBulkImportDialog()" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30 transition">
-          📥 Subir Mi Lista (Excel/CSV)
-        </button>
-        <select id="call-queue-source-filter" class="input-dark text-xs py-2 px-3" style="width:auto;" onchange="renderCallQueueTable()">
-          <option value="all">📂 Fuente: Todas mis Listas</option>
-          <option value="sitioweb_funnel">🔥 Embudo /sitioweb (Llamar &lt; 5m)</option>
-          <option value="ghl_pool">📱 Base CRM 516 (Filtro 45s)</option>
-          <option value="comex_outbound_b2b">🏢 Exportadores COMEX (B2B Directo)</option>
-        </select>
-        <select id="call-queue-filter" class="input-dark text-xs py-2 px-3" style="width:auto;" onchange="renderCallQueueTable()">
-          <option value="pending">⏳ Paso 1: Pendientes de Llamar (Fríos)</option>
+
+      <!-- Barra de Filtros Inteligentes (País, Nicho, Diagnóstico, Estado, Fuente y Búsqueda) -->
+      <div class="flex flex-wrap gap-2 items-center pt-2 border-t border-emerald-500/20">
+        <select id="call-queue-filter" class="input-dark text-xs py-2 px-3" style="width:auto;" onchange="callQueuePage=1; renderCallQueueTable()">
+          <option value="pending">⏳ Pendientes por Tocar (Fríos)</option>
+          <option value="callback">🟡 En Seguimiento Local (Sin CRM)</option>
           <option value="no_answer">🔴 No Contestaron / Buzón</option>
-          <option value="answered">🟢 Ya Graduados a Mi Pipeline (Paso 2+)</option>
+          <option value="answered">🔥 Enviados a CRM (Posibles Cierres)</option>
           <option value="disqualified">⚫ No Califican</option>
-          <option value="all">Todos mis asignados</option>
+          <option value="all">📋 Todos mis Asignados</option>
         </select>
-        <input id="call-queue-search" type="text" class="input-dark text-xs py-2 px-3" style="width:200px;" placeholder="Buscar nombre, negocio o tel..." oninput="renderCallQueueTable()">
-        <button onclick="loadSalesOsData()" class="btn-ghost px-3 py-2 rounded-xl text-xs font-semibold">
-          <i class="fas fa-sync-alt mr-1"></i> Actualizar
-        </button>
+        <select id="call-queue-country-filter" class="input-dark text-xs py-2 px-3" style="width:auto;" onchange="callQueuePage=1; renderCallQueueTable()">
+          <option value="all">🌎 País: Todos</option>
+          <option value="México">🇲🇽 México</option>
+          <option value="Perú">🇵🇪 Perú</option>
+          <option value="Colombia">🇨🇴 Colombia</option>
+          <option value="Argentina">🇦🇷 Argentina</option>
+          <option value="España">🇪🇸 España</option>
+          <option value="Estados Unidos">🇺🇸 Estados Unidos</option>
+        </select>
+        <select id="call-queue-niche-filter" class="input-dark text-xs py-2 px-3" style="width:auto;" onchange="callQueuePage=1; renderCallQueueTable()">
+          <option value="all">🏷️ Rubro: Todos</option>
+          <option value="clinica">🏥 Salud / Dental / Belleza</option>
+          <option value="inmobiliaria">🏢 Inmobiliaria / Bienes Raíces</option>
+          <option value="academias">🎓 Academias / Coaching / Legal</option>
+          <option value="oficios">❄️ HVAC / Plomería / Servicios</option>
+          <option value="otros">✨ Otros / Web</option>
+        </select>
+        <select id="call-queue-diag-filter" class="input-dark text-xs py-2 px-3" style="width:auto;" onchange="callQueuePage=1; renderCallQueueTable()">
+          <option value="all">🔍 Diagnóstico: Todos</option>
+          <option value="no_web">🔴 SIN Sitio Web Propio</option>
+          <option value="leader_web">🟢 Líder +50★ sin IA</option>
+          <option value="has_web">🟡 Con Web Tradicional</option>
+        </select>
+        <select id="call-queue-source-filter" class="input-dark text-xs py-2 px-3" style="width:auto;" onchange="callQueuePage=1; renderCallQueueTable()">
+          <option value="all">📂 Fuente: Todas</option>
+          <option value="apify_sprint_nov18">🎯 Lote Calificado 1,000 (Sprint Nov 18)</option>
+          <option value="sitioweb_funnel">🔥 Embudo /sitioweb (&lt; 5m)</option>
+          <option value="ghl_pool">📱 Base CRM Anterior</option>
+          <option value="comex_outbound_b2b">🏢 Exportadores COMEX</option>
+        </select>
+        <input id="call-queue-search" type="text" class="input-dark text-xs py-2 px-3 flex-1 min-w-[200px]" placeholder="Buscar negocio, ciudad, tel o speech..." oninput="callQueuePage=1; renderCallQueueTable()">
       </div>
     </div>
 
-    <!-- CUADRO DE ACCIÓN PERSISTENTE CUANDO EL CLIENTE SÍ CONTESTA (PASAR A CRM PROSPERIA + ABRIR DEMO WEB) -->
+    <!-- CUADRO DE ACCIÓN PERSISTENTE SOLO CUANDO ES POSIBLE CIERRE (ENVIADO A CRM + DEMO) -->
     <div id="call-answered-action-box" class="hidden card p-5 border-2 border-emerald-400" style="background:linear-gradient(135deg, rgba(16,185,129,0.22), rgba(6,78,59,0.65)); box-shadow:0 12px 32px rgba(16,185,129,0.25);">
       <div class="flex flex-wrap items-center justify-between gap-4">
         <div class="flex items-start gap-3">
           <div class="w-12 h-12 rounded-2xl bg-emerald-400 text-slate-950 flex items-center justify-center text-xl font-black flex-shrink-0">
-            ✅
+            🔥
           </div>
           <div>
             <div class="text-xs font-black uppercase tracking-wider text-emerald-300">
-              🟢 ¡LLAMADA CONTESTADA! · PROSPECTO PASADO A CRM PROSPERIA
+              🔥 ¡POSIBLE CIERRE DETECTADO! · SINCRONIZADO EN CRM PROSPERIA (GHL)
             </div>
             <h3 id="call-answered-box-title" class="text-lg font-black text-white mt-0.5">
-              Prospecto sincronizado en CRM ProsperIA (Etapa: Primer contacto)
+              Prospecto enviado al CRM ProsperIA (Etapa: Primer contacto)
             </h3>
             <p id="call-answered-box-sub" class="text-xs text-slate-200 mt-0.5">
-              Haz clic abajo para abrir el Demostrador de Sitio Web con los datos de este cliente o avanzar su etapa en el Pipeline del CRM.
+              Ya salió de tu cola fría hacia el CRM. Ábrele su Demo Sitio Web en vivo o sigue la negociación en 💰 Mi Pipeline.
             </p>
           </div>
         </div>
@@ -1821,24 +2052,28 @@
       </div>
     </div>
 
-    <div class="card p-5">
+    <div class="card p-5 space-y-3">
+      <div id="call-queue-pagination-bar" class="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-300">
+        <!-- Paginación 100 por página -->
+      </div>
       <div tabindex="0" role="region" aria-labelledby="call-queue-caption" class="table-wrapper rounded-xl border border-slate-800">
-        <table>
-          <caption id="call-queue-caption" class="sr-only">Lista de llamadas asignadas al closer</caption>
+        <table class="prosperia-rtable">
+          <caption id="call-queue-caption" class="sr-only">Lista de prospección todo-en-uno con guiones y botones de toque local o envío a CRM</caption>
           <thead>
             <tr class="text-left text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800">
-              <th class="px-4 py-3">Prospecto / Negocio</th>
-              <th class="px-3 py-3">Teléfono / WhatsApp Directo</th>
-              <th class="px-3 py-3">Closer Asignado</th>
-              <th class="px-3 py-3">Estado en Cola / CRM</th>
-              <th class="px-4 py-3">Acción de Llamada (Pasar a CRM ProsperIA & Demo)</th>
+              <th class="px-4 py-3">Prospecto / Diagnóstico / Speech</th>
+              <th class="px-3 py-3">Contacto 1-Clic (Tel / WA)</th>
+              <th class="px-3 py-3">País / Rubro / Closer</th>
+              <th class="px-3 py-3">Estado</th>
+              <th class="px-4 py-3">Nota + Objeción + Acción (Local o CRM)</th>
             </tr>
           </thead>
           <tbody id="call-queue-tbody" class="text-xs">
-            <tr><td colspan="5" class="text-center py-8 text-slate-500">Cargando tu lista de llamadas...</td></tr>
+            <tr><td colspan="5" class="text-center py-8 text-slate-500">Cargando tu base de 1,000 prospectos...</td></tr>
           </tbody>
         </table>
       </div>
+      <div id="call-queue-pagination-bottom" class="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-300"></div>
     </div>
   </div>
 
@@ -5435,7 +5670,7 @@ async function loadSalesOsData() {
   try {
     const [mRes, lRes] = await Promise.all([
       fetch('/api/sales-os/metrics', { headers: { Authorization: 'Bearer ' + token } }),
-      fetch('/api/leads?limit=600', { headers: { Authorization: 'Bearer ' + token } })
+      fetch('/api/leads?limit=1500', { headers: { Authorization: 'Bearer ' + token } })
     ]);
     if (mRes.ok) {
       const mData = await mRes.json();
@@ -5470,7 +5705,7 @@ function renderSalesOsTable() {
   const tbody = document.getElementById('sos-leads-tbody');
   if (!tbody) return;
   const stageFilter = document.getElementById('sos-stage-filter')?.value ?? 'active_pipeline';
-  const inactiveStages = ['Lead identificado', 'No responde', 'No interesado', 'No cumple perfil', 'Opt-out', 'Venta perdida'];
+  const inactiveStages = ['Lead identificado', 'En seguimiento local', 'No responde', 'No interesado', 'No cumple perfil', 'Opt-out', 'Venta perdida'];
 
   const rows = salesOsLeads.filter(l => {
     const st = l.pipeline_stage || 'Lead identificado';
@@ -6075,6 +6310,7 @@ async function loadLeaderboardAndKpis() {
     const payload = await res.json();
     const d = payload.data || {};
     const podium = d.leaderboard || [];
+    const targets = d.targets || { weekly_calls: 500, weekly_answered: 60, weekly_demos: 10, weekly_sales: 2 };
     const celebration = d.latest_sale_celebration;
 
     // 1. Mostrar Alerta Dorada de Venta Cerrada si existe
@@ -6085,42 +6321,52 @@ async function loadLeaderboardAndKpis() {
       banner.classList.remove('hidden');
     }
 
-    // 2. Actualizar Embudo KPI Semanal (100 -> 60 -> 6 -> 1)
+    // 2. Actualizar Embudo KPI Semanal (500 -> 60 -> 10 -> 2+)
     let myStats = podium.find(p => currentUser && p.email === currentUser.email);
-    if (!myStats && podium.length) {
+    if (!myStats && d.my_kpi) {
+      myStats = d.my_kpi;
+    } else if (!myStats && podium.length) {
       myStats = {
+        calls_made_today: podium.reduce((a, b) => a + (b.calls_made_today || 0), 0),
         calls_made_week: podium.reduce((a, b) => a + (b.calls_made_week || 0), 0),
         calls_answered_week: podium.reduce((a, b) => a + (b.calls_answered_week || 0), 0),
         demos_done_week: podium.reduce((a, b) => a + (b.demos_done_week || 0), 0),
         sales_closed_week: podium.reduce((a, b) => a + (b.sales_closed_week || 0), 0),
+        amount_collected: podium.reduce((a, b) => a + Number(b.amount_collected ?? 0), 0),
       };
     }
     if (myStats) {
+      const cToday = Number(myStats.calls_made_today || 0);
       const cMade = Number(myStats.calls_made_week || 0);
       const cAns = Number(myStats.calls_answered_week || 0);
       const cDemos = Number(myStats.demos_done_week || 0);
       const cSales = Number(myStats.sales_closed_week || 0);
+      const cUsd = Number(myStats.amount_collected || 0);
 
+      const elToday = document.getElementById('kpi-today-calls');
       const elCalls = document.getElementById('kpi-wk-calls');
       const elAns = document.getElementById('kpi-wk-answered');
       const elDemos = document.getElementById('kpi-wk-demos');
       const elSales = document.getElementById('kpi-wk-sales');
+      const elUsd = document.getElementById('kpi-wk-usd');
+      if (elToday) elToday.textContent = cToday;
       if (elCalls) elCalls.textContent = cMade;
       if (elAns) elAns.textContent = cAns;
       if (elDemos) elDemos.textContent = cDemos;
       if (elSales) elSales.textContent = cSales;
+      if (elUsd) elUsd.textContent = 'US$' + cUsd.toFixed(2);
 
       const bCalls = document.getElementById('bar-wk-calls');
       const bAns = document.getElementById('bar-wk-answered');
       const bDemos = document.getElementById('bar-wk-demos');
       const bSales = document.getElementById('bar-wk-sales');
-      if (bCalls) bCalls.style.width = Math.min(100, Math.round((cMade / 100) * 100)) + '%';
-      if (bAns) bAns.style.width = Math.min(100, Math.round((cAns / 60) * 100)) + '%';
-      if (bDemos) bDemos.style.width = Math.min(100, Math.round((cDemos / 6) * 100)) + '%';
-      if (bSales) bSales.style.width = Math.min(100, Math.round((cSales / 1) * 100)) + '%';
+      if (bCalls) bCalls.style.width = Math.min(100, Math.round((cMade / (targets.weekly_calls || 500)) * 100)) + '%';
+      if (bAns) bAns.style.width = Math.min(100, Math.round((cAns / (targets.weekly_answered || 60)) * 100)) + '%';
+      if (bDemos) bDemos.style.width = Math.min(100, Math.round((cDemos / (targets.weekly_demos || 10)) * 100)) + '%';
+      if (bSales) bSales.style.width = Math.min(100, Math.round((cSales / (targets.weekly_sales || 2)) * 100)) + '%';
     }
 
-    // 3. Renderizar Podio Top 3 con Fotos Oficiales (Punto 3)
+    // 3. Renderizar Podio Top 3 con Fotos Oficiales
     const podiumGrid = document.getElementById('podium-top3-grid');
     if (podiumGrid && podium.length) {
       const medals = ['🥇 1° LUGAR', '🥈 2° LUGAR', '🥉 3° LUGAR'];
@@ -6140,7 +6386,7 @@ async function loadLeaderboardAndKpis() {
             <div>
               <div class="text-[11px] font-black uppercase text-amber-400">${medals[idx]}</div>
               <div class="text-sm font-black text-white mt-0.5">${esc(u.name)}</div>
-              <div class="text-[11px] text-slate-400">${u.calls_made_week || 0} llamadas · ${u.demos_done_week || 0} demos</div>
+              <div class="text-[11px] text-slate-400">${u.calls_made_week || 0}/500 toques · ${u.demos_done_week || 0} demos</div>
             </div>
           </div>
           <div class="text-right">
@@ -6151,41 +6397,44 @@ async function loadLeaderboardAndKpis() {
       `}).join('');
     }
 
-    // 4. Tabla y Gráfica Comparativa del CEO Edward con Fotos Oficiales y Horas Activas
+    // 4. Tabla de Productividad (9 columnas alineadas al <th>)
     const ceoTbody = document.getElementById('ceo-sellers-productivity-tbody');
     if (ceoTbody && podium.length) {
-      ceoTbody.innerHTML = podium.map(u => {
-        const hrsToday = Number(u.active_hours_today ?? 0).toFixed(1) + 'h hoy';
+      ceoTbody.innerHTML = podium.map((u, idx) => {
+        const hrsToday = Number(u.active_hours_today ?? 0).toFixed(1) + 'h';
         const collected = Number(u.amount_collected ?? u.amount_collected_total ?? 0);
         const statusPill = u.is_online
-          ? `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">🟢 En Línea (${hrsToday})</span>`
+          ? `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">🟢 En Línea</span>`
           : u.checkin_at && u.checkin_at !== 'Sin Check-In'
-          ? `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">🟡 Activo hoy (${hrsToday})</span>`
-          : `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-slate-400 border border-slate-700">⚪ Sin actividad hoy</span>`;
+          ? `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">🟡 ${esc(u.checkin_at)}</span>`
+          : `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-slate-400 border border-slate-700">⚪ Sin Check-In</span>`;
         return `<tr class="table-row">
-          <td class="px-3 py-2.5">
+          <td data-label="# Ranking" class="px-3 py-2.5 font-black text-amber-300">#${u.rank || (idx + 1)}</td>
+          <td data-label="Closer / Dupla" class="px-3 py-2.5">
             <div class="flex items-center gap-2.5">
               <div style="width:32px;height:32px;min-width:32px;max-width:32px;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#1e293b;border:1px solid rgba(0,229,255,0.35);color:#67e8f9;font-weight:700;">
                 ${renderAvatarHtml(u, 32)}
               </div>
               <div>
                 <div class="font-bold text-white">${esc(u.name)}</div>
-                <div class="text-[10px] text-slate-400">${esc(u.email)}</div>
+                <div class="text-[10px] text-slate-400">${esc(u.dupla || u.email)}</div>
               </div>
             </div>
           </td>
-          <td class="px-3 py-2.5">${statusPill}</td>
-          <td class="px-3 py-2.5 font-bold text-cyan-300">${u.calls_made_today || 0} hoy / ${u.calls_made_week || 0} sem</td>
-          <td class="px-3 py-2.5 font-bold text-amber-300">${u.calls_answered_week || 0} / 60</td>
-          <td class="px-3 py-2.5 font-bold text-indigo-300">${u.demos_done_week || 0} / 6</td>
-          <td class="px-3 py-2.5 font-black text-emerald-400">US$${collected.toFixed(0)} (${u.sales_closed_week || 0})</td>
+          <td data-label="Check-In Hoy" class="px-3 py-2.5">${statusPill}</td>
+          <td data-label="Horas Activo Hoy" class="px-3 py-2.5 font-semibold text-slate-200">${hrsToday}</td>
+          <td data-label="Toques Hoy / Sem" class="px-3 py-2.5 font-bold text-cyan-300">${u.calls_made_today || 0} hoy / ${u.calls_made_week || 0} <span class="text-slate-500">/500</span></td>
+          <td data-label="Contestaron" class="px-3 py-2.5 font-bold text-amber-300">${u.calls_answered_week || 0} / 60</td>
+          <td data-label="Demos" class="px-3 py-2.5 font-bold text-indigo-300">${u.demos_done_week || 0} / 10</td>
+          <td data-label="Cola Pendiente" class="px-3 py-2.5 font-semibold text-slate-300">${u.pending_call_queue ?? 0}</td>
+          <td data-label="Cobrado USD" class="px-3 py-2.5 font-black text-emerald-400">US$${collected.toFixed(0)} (${u.sales_closed_week || 0})</td>
         </tr>`;
       }).join('');
     }
 
     const ctxComp = document.getElementById('sellerComparisonChart');
     if (ctxComp && typeof Chart !== 'undefined' && podium.length) {
-      const topSellers = podium.slice(0, 10);
+      const topSellers = podium.slice(0, 11);
       const labels = topSellers.map(u => u.name.split(' ')[0]);
       const callsData = topSellers.map(u => u.calls_made_week || 0);
       const ansData = topSellers.map(u => u.calls_answered_week || 0);
@@ -6197,8 +6446,8 @@ async function loadLeaderboardAndKpis() {
         data: {
           labels,
           datasets: [
-            { label: 'Llamadas Sem.', data: callsData, backgroundColor: 'rgba(0,229,255,0.65)', borderRadius: 6 },
-            { label: 'Contestadas', data: ansData, backgroundColor: 'rgba(245,158,11,0.75)', borderRadius: 6 },
+            { label: 'Toques Sem. (Meta 500)', data: callsData, backgroundColor: 'rgba(0,229,255,0.65)', borderRadius: 6 },
+            { label: 'Posibles Cierres CRM', data: ansData, backgroundColor: 'rgba(245,158,11,0.75)', borderRadius: 6 },
             { label: 'Demos / Citas', data: demosData, backgroundColor: 'rgba(16,185,129,0.85)', borderRadius: 6 }
           ]
         },
@@ -6212,137 +6461,341 @@ async function loadLeaderboardAndKpis() {
         }
       });
     }
+
+    // 5. Cargar Reporte Brutal CEO en paralelo
+    loadCeoIntelligenceReport();
   } catch (err) {
     console.warn('Error cargando Leaderboard:', err);
   }
 }
 
-// ─── COLA DE LLAMADAS DE LOS 455 PROSPECTOS (FILTRO ANTES DE CRM PROSPERIA) ──
+async function loadCeoIntelligenceReport() {
+  try {
+    const res = await fetch('/api/sales-os/ceo-intelligence-report', {
+      headers: { Authorization: 'Bearer ' + token }
+    });
+    if (!res.ok) return;
+    const payload = await res.json();
+    const d = payload.data || {};
+    const sp = d.sprint || {};
+
+    const vEl = document.getElementById('ceo-brutal-verdict');
+    const goalEl = document.getElementById('ceo-brutal-team-goal');
+    const tEl = document.getElementById('ceo-brutal-team-touches');
+    const hEl = document.getElementById('ceo-brutal-team-hot');
+    const uEl = document.getElementById('ceo-brutal-team-usd');
+    if (vEl && sp.executive_verdict) vEl.textContent = sp.executive_verdict;
+    if (goalEl) goalEl.textContent = Number(sp.team_weekly_goal || 5500).toLocaleString();
+    if (tEl) tEl.textContent = Number(sp.team_total_touches || 0).toLocaleString();
+    if (hEl) hEl.textContent = Number(sp.team_total_crm_hot || 0).toLocaleString();
+    if (uEl) uEl.textContent = 'US$' + Number(sp.team_total_usd || 0).toLocaleString();
+
+    const closersTbody = document.getElementById('ceo-brutal-closers-tbody');
+    if (closersTbody) {
+      const list = d.by_closer || [];
+      closersTbody.innerHTML = list.length ? list.map(c => `
+        <tr class="table-row border-b border-slate-800/60">
+          <td data-label="Closer" class="px-3 py-2 font-bold text-white">${esc(c.name)} <div class="text-[10px] text-slate-400 font-normal">${esc(c.dupla || c.email)}</div></td>
+          <td data-label="Base / Pend." class="px-3 py-2 text-slate-300">${c.assigned_leads} / <strong class="text-cyan-300">${c.pending_leads}</strong></td>
+          <td data-label="Toques Sem / 500" class="px-3 py-2 font-bold text-white">${c.touches_week} <span class="text-slate-400 font-normal">/ 500 (${c.touches_today} hoy)</span></td>
+          <td data-label="% Meta" class="px-3 py-2 font-bold ${c.target_pct >= 80 ? 'text-emerald-300' : c.target_pct >= 35 ? 'text-amber-300' : 'text-rose-300'}">${c.target_pct}%</td>
+          <td data-label="WA / Email" class="px-3 py-2 text-sky-300">${c.wa_email_touches || 0}</td>
+          <td data-label="Seg. Local" class="px-3 py-2 text-amber-300">${c.callbacks_local || 0}</td>
+          <td data-label="Posibles Cierres CRM" class="px-3 py-2 font-black text-emerald-400">${c.crm_hot_closes || 0}</td>
+          <td data-label="Demos / Ventas" class="px-3 py-2 text-slate-200">${c.demos || 0} / <strong class="text-emerald-300">${c.sales || 0} (US$${Number(c.collected_usd || 0).toFixed(0)})</strong></td>
+          <td data-label="Veredicto" class="px-3 py-2 text-[11px] font-bold">${esc(c.verdict)}</td>
+        </tr>
+      `).join('') : '<tr><td colspan="9" class="text-center py-4 text-slate-500">Sin closers activos.</td></tr>';
+    }
+
+    const renderBucket = (tbodyId, rows, includeRate) => {
+      const tb = document.getElementById(tbodyId);
+      if (!tb) return;
+      tb.innerHTML = (rows && rows.length) ? rows.slice(0, 15).map(r => `
+        <tr class="table-row border-b border-slate-800/60">
+          <td data-label="Segmento" class="px-3 py-2 font-semibold text-white">${esc(r.label)}</td>
+          <td data-label="Base" class="px-3 py-2 text-slate-300">${r.assigned}</td>
+          <td data-label="Tocados" class="px-3 py-2 text-cyan-300 font-bold">${r.touched}</td>
+          ${!includeRate ? `<td data-label="Seg. Local" class="px-3 py-2 text-amber-300">${r.callbacks || 0}</td>` : ''}
+          <td data-label="CRM Hot" class="px-3 py-2 text-emerald-400 font-black">${r.crm_hot_closes}</td>
+          ${includeRate ? `<td data-label="Conv %" class="px-3 py-2 font-bold text-indigo-300">${r.hot_rate_pct}%</td>` : ''}
+          <td data-label="USD" class="px-3 py-2 font-bold text-amber-300">US$${Number(r.collected_usd || 0).toFixed(0)}</td>
+        </tr>
+      `).join('') : '<tr><td colspan="6" class="text-center py-4 text-slate-500">Sin datos suficientes.</td></tr>';
+    };
+
+    renderBucket('ceo-brutal-niche-tbody', d.by_niche || [], true);
+    renderBucket('ceo-brutal-country-tbody', d.by_country || [], false);
+
+    const diagTb = document.getElementById('ceo-brutal-diag-tbody');
+    if (diagTb) {
+      const diagRows = d.by_diagnosis || [];
+      diagTb.innerHTML = diagRows.length ? diagRows.map(r => `
+        <tr class="table-row border-b border-slate-800/60">
+          <td data-label="Diagnóstico Digital" class="px-3 py-2 font-semibold text-white">${esc(r.label)}</td>
+          <td data-label="Base" class="px-3 py-2 text-slate-300">${r.assigned}</td>
+          <td data-label="Tocados" class="px-3 py-2 text-cyan-300 font-bold">${r.touched}</td>
+          <td data-label="CRM Hot" class="px-3 py-2 text-emerald-400 font-black">${r.crm_hot_closes}</td>
+          <td data-label="Conv %" class="px-3 py-2 font-bold text-indigo-300">${r.hot_rate_pct}%</td>
+        </tr>
+      `).join('') : '<tr><td colspan="5" class="text-center py-4 text-slate-500">Sin diagnósticos.</td></tr>';
+    }
+
+    const objTb = document.getElementById('ceo-brutal-objections-tbody');
+    if (objTb) {
+      const objs = d.objections || [];
+      objTb.innerHTML = objs.length ? objs.slice(0, 12).map(o => `
+        <tr class="table-row border-b border-slate-800/60">
+          <td data-label="Objeción" class="px-3 py-2 font-semibold text-rose-200">${esc(o.tag)}</td>
+          <td data-label="Frecuencia" class="px-3 py-2 text-right font-black text-rose-400">${o.count}</td>
+        </tr>
+      `).join('') : '<tr><td colspan="2" class="text-center py-4 text-slate-500">Sin objeciones registradas aún.</td></tr>';
+    }
+  } catch (err) {
+    console.warn('Error cargando Reporte Brutal CEO:', err);
+  }
+}
+
+let callQueuePage = 1;
+const CALL_QUEUE_PAGE_SIZE = 100;
+
+function changeCallQueuePage(delta) {
+  callQueuePage = Math.max(1, callQueuePage + delta);
+  renderCallQueueTable();
+}
+
+function parseLeadIntelligence(l) {
+  const notes = l.notes || '';
+  const sc = l.source_campaign || '';
+  const ip = l.interest_primary || '';
+  const webMatch = notes.match(/🌐 WEB ACTUAL:\s*([^|\n]+)/);
+  const webVal = webMatch ? webMatch[1].trim() : (l.website || '');
+  const googleMatch = notes.match(/⭐ GOOGLE:\s*([^\n]+)/);
+  const googleVal = googleMatch ? googleMatch[1].trim() : '';
+  const speechMatch = notes.match(/🎙️ SPEECH TELEFÓNICO[^\n]*:\n([\s\S]*?)(?=\n\n💬 GUION WHATSAPP|$)/);
+  const speech = speechMatch ? speechMatch[1].trim() : '';
+  const waMatch = notes.match(/💬 GUION WHATSAPP[^\n]*:\n([\s\S]*)$/);
+  const waScript = waMatch ? waMatch[1].trim() : `Hola ${l.business_name || l.name || ''}, te saluda ProsperIA.`;
+
+  let diagKind = 'has_web';
+  let diagBadge = '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/15 text-amber-300 border border-amber-500/35">🟡 Web Tradicional sin IA</span>';
+  const combinedDiag = `${ip} ${sc}`.toUpperCase();
+  if (combinedDiag.includes('SIN SITIO WEB') || webVal.toUpperCase().includes('NO TIENE')) {
+    diagKind = 'no_web';
+    diagBadge = '<span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-rose-500/20 text-rose-300 border border-rose-500/45">🔴 SIN SITIO WEB</span>';
+  } else if (combinedDiag.includes('LÍDER') || combinedDiag.includes('LIDER')) {
+    diagKind = 'leader_web';
+    diagBadge = '<span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/45">🟢 Líder +50★ sin IA</span>';
+  }
+
+  let nicheBucket = 'otros';
+  const nl = `${l.niche || ''} ${ip} ${sc}`.toLowerCase();
+  if (nl.includes('dental') || nl.includes('clinic') || nl.includes('estét') || nl.includes('estet') || nl.includes('belleza') || nl.includes('salud')) nicheBucket = 'clinica';
+  else if (nl.includes('inmob') || nl.includes('bienes') || nl.includes('real estate')) nicheBucket = 'inmobiliaria';
+  else if (nl.includes('academia') || nl.includes('coach') || nl.includes('legal') || nl.includes('abogad') || nl.includes('profesional')) nicheBucket = 'academias';
+  else if (nl.includes('hvac') || nl.includes('plom') || nl.includes('electr') || nl.includes('oficio') || nl.includes('servicios_locales')) nicheBucket = 'oficios';
+
+  return { webVal, googleVal, speech, waScript, diagKind, diagBadge, nicheBucket };
+}
+
+// ─── CABINA TODO-EN-UNO DE 1,000 PROSPECTOS (LOCAL PRIMERO · CRM SOLO POSIBLE CIERRE) ──
 function renderCallQueueTable() {
   const tbody = document.getElementById('call-queue-tbody');
   if (!tbody) return;
   const filterVal = document.getElementById('call-queue-filter')?.value || 'pending';
+  const countryVal = document.getElementById('call-queue-country-filter')?.value || 'all';
+  const nicheVal = document.getElementById('call-queue-niche-filter')?.value || 'all';
+  const diagVal = document.getElementById('call-queue-diag-filter')?.value || 'all';
+  const srcVal = document.getElementById('call-queue-source-filter')?.value || 'all';
   const searchVal = (document.getElementById('call-queue-search')?.value || '').toLowerCase().trim();
 
   const queueBadge = document.getElementById('call-queue-badge');
   const pendingCount = salesOsLeads.filter(l => {
     const st = l.pipeline_stage || 'Lead identificado';
-    return st === 'Lead identificado';
+    return st === 'Lead identificado' || st === 'En seguimiento local';
   }).length;
   if (queueBadge) queueBadge.textContent = pendingCount;
 
   const filtered = salesOsLeads.filter(l => {
     const st = l.pipeline_stage || 'Lead identificado';
     const notes = (l.notes || '').toLowerCase();
-    const srcVal = document.getElementById('call-queue-source-filter')?.value || 'all';
     const lSrc = (l.source || '').toLowerCase();
+    if (srcVal === 'apify_sprint_nov18' && !lSrc.includes('apify') && !lSrc.includes('sprint')) return false;
     if (srcVal === 'sitioweb_funnel' && lSrc !== 'sitioweb_funnel') return false;
     if (srcVal === 'comex_outbound_b2b' && lSrc !== 'comex_outbound_b2b') return false;
     if (srcVal === 'ghl_pool' && !lSrc.startsWith('ghl_')) return false;
+
+    if (countryVal !== 'all' && (l.country || '').toLowerCase() !== countryVal.toLowerCase()) return false;
+
+    const intel = parseLeadIntelligence(l);
+    if (nicheVal !== 'all' && intel.nicheBucket !== nicheVal) return false;
+    if (diagVal !== 'all' && intel.diagKind !== diagVal) return false;
+
     if (searchVal) {
-      const hay = `${l.name || ''} ${l.business_name || ''} ${l.company || ''} ${l.phone || ''} ${l.email || ''} ${l.notes || ''}`.toLowerCase();
+      const hay = `${l.name || ''} ${l.business_name || ''} ${l.company || ''} ${l.city || ''} ${l.country || ''} ${l.phone || ''} ${l.email || ''} ${l.source_campaign || ''} ${l.notes || ''}`.toLowerCase();
       if (!hay.includes(searchVal)) return false;
     }
-    if (filterVal === 'pending') {
-      // Paso 1 puro: solo los que aún están en 'Lead identificado' (cuando contestan pasan a Paso 2 en Mi Pipeline)
-      return st === 'Lead identificado';
-    }
+    if (filterVal === 'pending') return st === 'Lead identificado';
+    if (filterVal === 'callback') return st === 'En seguimiento local';
     if (filterVal === 'answered') {
-      return st !== 'Lead identificado' && st !== 'No responde' && st !== 'No interesado' && st !== 'No cumple perfil' && !notes.includes('[cola: no contestó]');
+      return st !== 'Lead identificado' && st !== 'En seguimiento local' && st !== 'No responde' && st !== 'No interesado' && st !== 'No cumple perfil';
     }
-    if (filterVal === 'no_answer') {
-      return st === 'No responde' || notes.includes('[cola: no contestó]');
-    }
-    if (filterVal === 'disqualified') {
-      return st === 'No interesado' || st === 'No cumple perfil';
-    }
+    if (filterVal === 'no_answer') return st === 'No responde' || notes.includes('[cola: no contestó]');
+    if (filterVal === 'disqualified') return st === 'No interesado' || st === 'No cumple perfil';
     return true;
   });
 
-  if (!filtered.length) {
-    tbody.innerHTML = '<tr><td colspan="5" class="text-center py-8 text-slate-500">No hay prospectos en este filtro de tu cola de llamadas.</td></tr>';
+  const totalMatches = filtered.length;
+  const totalPages = Math.max(1, Math.ceil(totalMatches / CALL_QUEUE_PAGE_SIZE));
+  if (callQueuePage > totalPages) callQueuePage = totalPages;
+  const startIdx = (callQueuePage - 1) * CALL_QUEUE_PAGE_SIZE;
+  const pageItems = filtered.slice(startIdx, startIdx + CALL_QUEUE_PAGE_SIZE);
+
+  const pagHtml = `
+    <div>Mostrando <strong>${totalMatches ? startIdx + 1 : 0}–${Math.min(startIdx + CALL_QUEUE_PAGE_SIZE, totalMatches)}</strong> de <strong class="text-cyan-300">${totalMatches}</strong> prospectos filtrados (Total en base: ${salesOsLeads.length})</div>
+    <div class="flex items-center gap-2">
+      <button type="button" onclick="changeCallQueuePage(-1)" ${callQueuePage <= 1 ? 'disabled' : ''} class="px-2.5 py-1 rounded bg-slate-800 border border-slate-700 disabled:opacity-40">← Anterior</button>
+      <span>Página <strong>${callQueuePage}</strong> / ${totalPages}</span>
+      <button type="button" onclick="changeCallQueuePage(1)" ${callQueuePage >= totalPages ? 'disabled' : ''} class="px-2.5 py-1 rounded bg-slate-800 border border-slate-700 disabled:opacity-40">Siguiente →</button>
+    </div>
+  `;
+  const pagTop = document.getElementById('call-queue-pagination-bar');
+  const pagBot = document.getElementById('call-queue-pagination-bottom');
+  if (pagTop) pagTop.innerHTML = pagHtml;
+  if (pagBot) pagBot.innerHTML = pagHtml;
+
+  if (!pageItems.length) {
+    tbody.innerHTML = '<tr><td colspan="5" class="text-center py-8 text-slate-500">No hay prospectos en este filtro de tu cabina de prospección.</td></tr>';
     return;
   }
 
-  tbody.innerHTML = filtered.slice(0, 250).map(l => {
+  tbody.innerHTML = pageItems.map(l => {
+    const intel = parseLeadIntelligence(l);
     const rawPhone = (l.phone_e164 || l.phone || '').replace(/[^0-9+]/g, '');
     const waDigits = rawPhone.replace(/[^0-9]/g, '');
+    const waUrl = waDigits ? `https://wa.me/${waDigits}?text=${encodeURIComponent(intel.waScript)}` : '';
     const st = l.pipeline_stage || 'Lead identificado';
-    const isAlreadyInCrm = st !== 'Lead identificado' && st !== 'No responde' && st !== 'No interesado';
+    const isAlreadyInCrm = st !== 'Lead identificado' && st !== 'En seguimiento local' && st !== 'No responde' && st !== 'No interesado' && st !== 'No cumple perfil';
     const demoUrl = `/demo-sitio-web?closer=1&lead_id=${l.id}&template=${encodeURIComponent(l.selected_template || 'clinica_dental_estetica')}&business=${encodeURIComponent(l.business_name || l.company || l.name)}&phone=${encodeURIComponent(l.phone || '')}`;
     const lSrc = (l.source || '').toLowerCase();
-    let srcBadgeHtml = '<span style="background:rgba(14,165,233,0.16); color:#7dd3fc; border:1px solid rgba(56,189,248,0.35); padding:1px 7px; border-radius:999px; font-size:10px; font-weight:700;">📱 Base CRM 516</span>';
+    let srcBadgeHtml = '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-sky-500/15 text-sky-300 border border-sky-500/35">🎯 Base Calificada</span>';
     if (lSrc === 'comex_outbound_b2b') {
-      srcBadgeHtml = '<span style="background:rgba(245,158,11,0.16); color:#fcd34d; border:1px solid rgba(251,191,36,0.45); padding:1px 7px; border-radius:999px; font-size:10px; font-weight:800;">🏢 COMEX Exportador</span>';
+      srcBadgeHtml = '<span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-500/15 text-amber-300 border border-amber-500/45">🏢 COMEX</span>';
     } else if (lSrc === 'sitioweb_funnel') {
-      srcBadgeHtml = '<span style="background:rgba(16,185,129,0.22); color:#6ee7b7; border:1px solid rgba(52,211,153,0.55); padding:1px 7px; border-radius:999px; font-size:10px; font-weight:800;">🔥 Embudo /sitioweb</span>';
+      srcBadgeHtml = '<span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/50">🔥 /sitioweb</span>';
     }
 
-    return `<tr class="table-row" style="${isAlreadyInCrm ? 'background:rgba(16,185,129,0.08);' : ''}">
-      <td class="px-4 py-3">
-        <div class="flex flex-wrap items-center gap-1.5 mb-0.5">${srcBadgeHtml}</div>
+    const speechHtml = intel.speech || esc(l.notes || 'Sin guion adicional.');
+
+    return `<tr class="table-row border-b border-slate-800/70" style="${isAlreadyInCrm ? 'background:rgba(16,185,129,0.08);' : st === 'En seguimiento local' ? 'background:rgba(245,158,11,0.06);' : ''}">
+      <td data-label="Prospecto y Speech" class="px-4 py-3 align-top max-w-sm">
+        <div class="flex flex-wrap items-center gap-1.5 mb-1">${srcBadgeHtml} ${intel.diagBadge}</div>
         <div class="font-bold text-white text-sm">${esc(l.business_name || l.company || l.name)}</div>
-        <div class="text-[11px] text-slate-400">${esc(l.full_name || l.name)} · ${esc(l.email || 'Sin correo')}</div>
+        <div class="text-[11px] text-slate-400">${esc(l.city || '')} · ${esc(l.email || 'Sin correo')} ${intel.googleVal ? `· ⭐ ${esc(intel.googleVal)}` : ''}</div>
+        <details class="prosperia-script-acc mt-2 rounded-lg bg-slate-900/90 border border-slate-800 p-2">
+          <summary class="text-[11px] font-bold text-cyan-300 flex items-center justify-between gap-2">
+            <span><span class="acc-chevron mr-1">▶</span> 🎙️ Ver Speech Telefónico + Guion WA + Web</span>
+          </summary>
+          <div class="mt-2 pt-2 border-t border-slate-800 space-y-2 text-[11px] text-slate-200 leading-relaxed">
+            ${intel.webVal ? `<div><strong class="text-slate-400">Web:</strong> <span class="text-cyan-300 break-all">${esc(intel.webVal)}</span></div>` : ''}
+            <div><strong class="text-emerald-300">Speech Llamada:</strong><div class="mt-0.5 text-slate-100 whitespace-pre-line">${esc(speechHtml)}</div></div>
+            <div><strong class="text-sky-300">Guion WhatsApp:</strong><div class="mt-0.5 text-slate-300 whitespace-pre-line">${esc(intel.waScript)}</div></div>
+          </div>
+        </details>
       </td>
-      <td class="px-3 py-3">
-        <div class="flex flex-wrap items-center gap-2">
-          <span class="font-mono font-bold text-cyan-300">${esc(l.phone || 'Sin teléfono')}</span>
-          ${waDigits ? `<a href="https://wa.me/${waDigits}" target="_blank" class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold no-underline hover:bg-emerald-500/30"><i class="fab fa-whatsapp"></i> WhatsApp</a>` : ''}
-          ${rawPhone ? `<a href="tel:${rawPhone}" class="px-2 py-0.5 rounded bg-slate-800 text-slate-200 border border-slate-700 text-[10px] font-bold no-underline"><i class="fas fa-phone"></i> Llamar</a>` : ''}
+      <td data-label="Contacto 1-Clic" class="px-3 py-3 align-top">
+        <div class="font-mono font-bold text-cyan-300 mb-1.5">${esc(l.phone || 'Sin teléfono')}</div>
+        <div class="flex flex-wrap items-center gap-1.5">
+          ${waUrl ? `<a href="${waUrl}" target="_blank" class="px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/35 text-[10px] font-bold no-underline hover:bg-emerald-500/30"><i class="fab fa-whatsapp"></i> WhatsApp 1-Clic</a>` : ''}
+          ${rawPhone ? `<a href="tel:${rawPhone}" class="px-2.5 py-1 rounded bg-slate-800 text-slate-200 border border-slate-700 text-[10px] font-bold no-underline"><i class="fas fa-phone"></i> Llamar</a>` : ''}
+          ${l.email && l.email.includes('@') ? `<a href="mailto:${encodeURIComponent(l.email)}?subject=${encodeURIComponent('Propuesta Digital para ' + (l.business_name || l.name))}&body=${encodeURIComponent(intel.waScript)}" class="px-2.5 py-1 rounded bg-sky-500/20 text-sky-300 border border-sky-500/35 text-[10px] font-bold no-underline">✉️ Correo</a>` : ''}
         </div>
       </td>
-      <td class="px-3 py-3">
-        <span class="px-2 py-0.5 rounded bg-slate-800 text-cyan-300 text-[11px] font-semibold">${esc((l.owner_id || 'Sin asignar').split('@')[0])}</span>
+      <td data-label="País / Rubro" class="px-3 py-3 align-top">
+        <div class="font-semibold text-white">${esc(l.country || 'Internacional')}</div>
+        <div class="text-[11px] text-amber-300">${esc((l.interest_primary || l.niche || '').split('·')[0].trim())}</div>
+        <span class="inline-block mt-1 px-2 py-0.5 rounded bg-slate-800 text-cyan-300 text-[10px] font-semibold">${esc((l.owner_id || 'Sin asignar').split('@')[0])}</span>
       </td>
-      <td class="px-3 py-3">
+      <td data-label="Estado" class="px-3 py-3 align-top">
         ${isAlreadyInCrm
-          ? `<span class="px-2.5 py-1 rounded-full text-[11px] font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">✅ En CRM ProsperIA (${esc(st)})</span>`
+          ? `<span class="px-2.5 py-1 rounded-full text-[11px] font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">🔥 En CRM (${esc(st)})</span>`
+          : st === 'En seguimiento local'
+          ? `<span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">🟡 Seguimiento Local</span>`
           : `<span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-slate-800 text-slate-200 border border-slate-700">${esc(st)}</span>`
         }
       </td>
-      <td class="px-4 py-3">
-        <div class="flex flex-wrap items-center gap-1.5">
-          <button onclick="registerCallOutcome(${l.id}, 'no_answer')"
-                  style="background:rgba(244,63,94,0.14); color:#fda4af; border:1px solid rgba(244,63,94,0.4);"
-                  class="px-2.5 py-1.5 rounded-lg text-[11px] font-bold transition" title="No contestó: suma llamada y se queda aquí sin ensuciar el CRM">
-            🔴 No Contestó
-          </button>
-          <button onclick="registerCallOutcome(${l.id}, 'disqualified')"
-                  style="background:rgba(30,41,59,0.75); color:#94a3b8; border:1px solid rgba(100,116,139,0.4);"
-                  class="px-2.5 py-1.5 rounded-lg text-[11px] font-semibold transition" title="No califica: archivar en Dashboard sin pasar al CRM">
-            ⚫ No Califica
-          </button>
-          <button onclick="registerCallOutcome(${l.id}, 'answered')"
-                  style="background:linear-gradient(135deg,#10b981,#059669); color:#ffffff; border:1px solid #34d399; box-shadow:0 4px 14px rgba(16,185,129,0.28);"
-                  class="px-3 py-1.5 rounded-lg text-[11px] font-black transition" title="¡Sí contestó! Se gradúa al Paso 2 (Primer contacto) en Mi Pipeline y CRM ProsperIA">
-            🟢 Sí Contestó → Mover a Paso 2 (Mi Pipeline)
-          </button>
-          ${isAlreadyInCrm ? `
-            <a href="${demoUrl}" class="px-3 py-1.5 rounded-lg text-[11px] font-black bg-cyan-400 text-slate-950 hover:bg-cyan-300 no-underline shadow" title="Abrir Demostrador de Sitio Web con los datos de este cliente">
-              🚀 Abrir Demo Web
-            </a>
-          ` : ''}
+      <td data-label="Acciones Locales o CRM" class="px-4 py-3 align-top min-w-[290px]">
+        <div class="space-y-1.5">
+          <div class="flex gap-1.5">
+            <input id="cq-note-${l.id}" type="text" class="input-dark text-[11px] py-1 px-2 flex-1" placeholder="Nota rápida (ej: pidió info viernes)..." />
+            <select id="cq-obj-${l.id}" class="input-dark text-[11px] py-1 px-2" style="max-width:145px;" aria-label="Objeción del prospecto">
+              <option value="">Objeción (opcional)</option>
+              <option value="Precio / Presupuesto">Precio / Presupuesto</option>
+              <option value="Ya tiene agencia / web">Ya tiene agencia / web</option>
+              <option value="No tiene tiempo / Manda info">No tiene tiempo / Manda info</option>
+              <option value="Hablar con socio / decisor">Hablar con socio / decisor</option>
+              <option value="No confía / Ya lo estafaron">No confía / Ya lo estafaron</option>
+              <option value="Sin interés actual">Sin interés actual</option>
+            </select>
+          </div>
+          <div class="flex flex-wrap items-center gap-1.5">
+            <button type="button" onclick="registerCallOutcome(${l.id}, 'touch_wa_email', 'wa_email')"
+                    class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-sky-500/20 text-sky-300 border border-sky-500/40 hover:bg-sky-500/30"
+                    title="Registra toque de WhatsApp o Email localmente (+1 toque meta 500, sin enviar a CRM)">
+              💬/✉️ Toque WA/Correo
+            </button>
+            <button type="button" onclick="registerCallOutcome(${l.id}, 'callback', 'call')"
+                    class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30"
+                    title="Contestó y pidió seguimiento luego: queda local sin ensuciar el CRM">
+              🟡 Seguimiento Local
+            </button>
+            <button type="button" onclick="registerCallOutcome(${l.id}, 'no_answer', 'call')"
+                    style="background:rgba(244,63,94,0.14); color:#fda4af; border:1px solid rgba(244,63,94,0.4);"
+                    class="px-2.5 py-1 rounded-lg text-[11px] font-bold" title="No contestó: suma toque y se queda local">
+              🔴 No Contestó
+            </button>
+            <button type="button" onclick="registerCallOutcome(${l.id}, 'disqualified', 'call')"
+                    style="background:rgba(30,41,59,0.75); color:#94a3b8; border:1px solid rgba(100,116,139,0.4);"
+                    class="px-2.5 py-1 rounded-lg text-[11px] font-semibold" title="No califica: archivar localmente sin pasar al CRM">
+              ⚫ No Califica
+            </button>
+            <button type="button" onclick="registerCallOutcome(${l.id}, 'answered', 'call')"
+                    style="background:linear-gradient(135deg,#10b981,#059669); color:#ffffff; border:1px solid #34d399; box-shadow:0 4px 14px rgba(16,185,129,0.28);"
+                    class="px-3 py-1.5 rounded-lg text-[11px] font-black" title="Posible Cierre real: envía el contacto a GoHighLevel CRM y Mi Pipeline">
+              🔥 Posible Cierre → Enviar a CRM
+            </button>
+            ${isAlreadyInCrm ? `
+              <a href="${demoUrl}" class="px-3 py-1 rounded-lg text-[11px] font-black bg-cyan-400 text-slate-950 hover:bg-cyan-300 no-underline shadow">
+                🚀 Demo Web
+              </a>
+            ` : ''}
+          </div>
         </div>
       </td>
     </tr>`;
   }).join('');
 }
 
-async function registerCallOutcome(leadId, outcome) {
+async function registerCallOutcome(leadId, outcome, channel = 'call') {
   try {
+    const notesInput = document.getElementById(`cq-note-${leadId}`);
+    const objSelect = document.getElementById(`cq-obj-${leadId}`);
+    const notes = notesInput ? notesInput.value.trim() : '';
+    const objection_tag = objSelect ? objSelect.value.trim() : '';
+
     const res = await fetch(`/api/sales-os/leads/${leadId}/call-outcome`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
-      body: JSON.stringify({ outcome })
+      body: JSON.stringify({ outcome, notes, objection_tag, channel })
     });
     const data = await res.json();
     if (!res.ok || !data.success) {
-      alert(data.detail || data.error || 'No se pudo registrar el resultado de la llamada.');
+      alert(data.detail || data.error || 'No se pudo registrar el toque.');
       return;
     }
     await loadSalesOsData();
     await loadLeaderboardAndKpis();
-    if (outcome === 'answered') {
+    if (outcome === 'answered' || outcome === 'hot_close') {
       const lead = salesOsLeads.find(x => x.id === leadId);
       const rawDemoUrl = data.data?.demo_url || `/demo-sitio-web?lead_id=${leadId}`;
       const demoUrl = rawDemoUrl + (rawDemoUrl.includes('?') ? '&' : '?') + 'closer=1';
@@ -6351,10 +6804,10 @@ async function registerCallOutcome(leadId, outcome) {
       const subEl = document.getElementById('call-answered-box-sub');
       const btnEl = document.getElementById('call-answered-demo-btn');
       if (titleEl) {
-        titleEl.textContent = `✅ ${lead ? (lead.business_name || lead.company || lead.name) : 'Prospecto'} se graduó al Paso 2: Primer Contacto (En Mi Pipeline & CRM ProsperIA)`;
+        titleEl.textContent = `🔥 ${lead ? (lead.business_name || lead.company || lead.name) : 'Prospecto'} enviado al CRM ProsperIA (Posible Cierre)`;
       }
       if (subEl) {
-        subEl.textContent = 'Ya salió de tu lista de llamadas pendientes. Ahora gestiónalo directamente en 💰 Mi Pipeline & Comisiones o ábrele su Demo Sitio Web en vivo.';
+        subEl.textContent = 'Sincronizado en GoHighLevel y Mi Pipeline. Ábrele su Demo Sitio Web en vivo para cerrar la cita.';
       }
       if (btnEl) {
         btnEl.href = demoUrl;
@@ -6365,7 +6818,7 @@ async function registerCallOutcome(leadId, outcome) {
       }
     }
   } catch (err) {
-    alert('Error de conexión al registrar llamada.');
+    alert('Error de conexión al registrar toque.');
   }
 }
 

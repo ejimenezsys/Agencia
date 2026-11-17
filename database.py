@@ -5,6 +5,7 @@ import hashlib
 import hmac
 import secrets
 import json
+import gzip
 from pathlib import Path
 from datetime import datetime
 from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey
@@ -1139,6 +1140,148 @@ def init_db():
             except Exception as sv6_err:
                 db.rollback()
                 print(f"⚠️ [SEED V6 7 CLOSERS] Error redistribuyendo entre 7 Closers: {sv6_err}")
+
+        # Seed v7 Sprint 18–25 Nov: Conservar intacta la cartera actual de Claudio (top-up a 1,000)
+        # y reemplazar la cartera de los otros 10 Closers con 1,000 leads calificados, etiquetados y con Speech.
+        seed_11k_path = Path(__file__).parent / "seeds" / "closers_11k_master_seed.json.gz"
+        seeded_v7_flag = db.query(IntegrationSetting).filter(IntegrationSetting.key == "closers_11k_sprint_nov18_v1").first()
+        if seed_11k_path.exists() and not seeded_v7_flag:
+            try:
+                keep_owner = "claudiniosan@yahoo.com.ar"
+                other_sellers = [m["email"] for m in INITIAL_SALES_TEAM if m["email"].lower() != keep_owner]
+
+                # 1. Borrar leads previos de los 10 Closers (nunca borrar Claudio, /exmaboletos ni cobros verificados)
+                db.query(Lead).filter(
+                    (Lead.owner_id.in_(other_sellers))
+                    & (Lead.source != "exmaboletos_20off")
+                    & ((Lead.amount_collected == None) | (Lead.amount_collected == 0))
+                ).delete(synchronize_session=False)
+
+                # Limpiar también pools viejos que no pertenezcan a Claudio ni a cobros reales
+                db.query(Lead).filter(
+                    (Lead.source.in_(["ghl_455_pool", "ghl_516_pool", "comex_outbound_b2b"]))
+                    & (Lead.owner_id != keep_owner)
+                    & ((Lead.amount_collected == None) | (Lead.amount_collected == 0))
+                ).delete(synchronize_session=False)
+
+                # Resetear contadores del Sprint semanal (18-25 Nov) para los 10 Closers renovados
+                for em in other_sellers:
+                    u_row = db.query(User).filter(User.email == em).first()
+                    if u_row:
+                        u_row.calls_made_today = 0
+                        u_row.calls_made_week = 0
+                        u_row.calls_answered_week = 0
+                        u_row.demos_done_week = 0
+                        u_row.sales_closed_week = 0
+                db.commit()
+
+                dnd_emails = {r.email for r in db.query(DndExclusion).all() if r.email}
+                internal_emails = {m["email"].lower() for m in INITIAL_SALES_TEAM} | {
+                    "admin@prosperia.com", "edward@agenciaprosperia.com", "ucumaryvisual@gmail.com"
+                }
+                existing_rows = db.query(Lead).all()
+                seen_phones = {normalize_phone_e164(r.phone_e164 or r.phone or "") for r in existing_rows if (r.phone_e164 or r.phone)}
+                seen_phones.discard("")
+                seen_emails = {normalize_email(r.email or "") for r in existing_rows if r.email and "@sin-correo.local" not in r.email}
+
+                per_closer_counts = {}
+                for r in existing_rows:
+                    ow = (getattr(r, "owner_id", "") or "").lower()
+                    if ow:
+                        per_closer_counts[ow] = per_closer_counts.get(ow, 0) + 1
+
+                with gzip.open(seed_11k_path, "rt", encoding="utf-8") as gz_f:
+                    payload_11k = json.load(gz_f)
+
+                junk_email_markers = ("sentry", "wixpress", "tu@email", "usuario@dominio", "email@dominio", "ejemplo@", "example.com", "noreply@")
+                created_str = now_iso[:19].replace("T", " ")
+                bulk_objs = []
+                total_11k_inserted = 0
+                overflow_items = []
+
+                def build_lead_obj(item_dict: dict, target_owner: str, seq_idx: int):
+                    ph_e164 = normalize_phone_e164(item_dict.get("phone_e164") or item_dict.get("phone") or "")
+                    if not ph_e164 or ph_e164 in seen_phones:
+                        return None
+                    em_raw = normalize_email(item_dict.get("email") or "")
+                    if em_raw in internal_emails or em_raw in dnd_emails:
+                        return None
+                    # Si el correo es genérico de plantilla o lo comparten varias sucursales, generamos alias único sin perder el teléfono
+                    if not em_raw or "@sin-correo.local" in em_raw or em_raw in seen_emails or any(jk in em_raw for jk in junk_email_markers):
+                        em_clean = f"prospecto_{seq_idx + 1}_{re.sub(r'[^0-9]', '', ph_e164)[-6:]}@sin-correo.local"
+                    else:
+                        em_clean = em_raw
+                        seen_emails.add(em_clean)
+                    seen_phones.add(ph_e164)
+                    return Lead(
+                        name=item_dict.get("name") or "Negocio Calificado",
+                        full_name=item_dict.get("full_name") or item_dict.get("name") or "Negocio Calificado",
+                        email=em_clean,
+                        company=item_dict.get("business_name") or item_dict.get("name") or "",
+                        business_name=item_dict.get("business_name") or item_dict.get("name") or "",
+                        phone=item_dict.get("phone") or ph_e164,
+                        phone_e164=ph_e164,
+                        status="new",
+                        source=item_dict.get("source") or "apify_sprint_nov18",
+                        source_channel=item_dict.get("source_channel") or "Prospección Calificada Google Maps",
+                        source_campaign=item_dict.get("source_campaign") or "",
+                        interest_primary=item_dict.get("interest_primary") or "Sitio Web Inteligente",
+                        score=int(item_dict.get("score") or 90),
+                        notes=item_dict.get("notes") or "",
+                        created_at=created_str,
+                        contact_id="",
+                        owner_id=target_owner,
+                        setter_id=target_owner,
+                        niche=item_dict.get("niche") or "clinica",
+                        country=item_dict.get("country") or "LATAM / US",
+                        timezone=item_dict.get("timezone") or "America/New_York",
+                        contact_permission="Directorio Público Comercial (Google Maps Verificado)",
+                        contact_status="contactable",
+                        pipeline_stage="Lead identificado",
+                        offer_version="EXPRESS_497",
+                        selected_template=item_dict.get("selected_template") or "clinica_dental_estetica",
+                    )
+
+                for item in payload_11k.get("leads", []):
+                    owner_em = (item.get("owner_id") or "").lower().strip()
+                    if not owner_em:
+                        continue
+                    cur_cnt = per_closer_counts.get(owner_em, 0)
+                    if cur_cnt >= 1000:
+                        overflow_items.append(item)
+                        continue
+                    lead_obj = build_lead_obj(item, owner_em, total_11k_inserted)
+                    if not lead_obj:
+                        continue
+                    per_closer_counts[owner_em] = cur_cnt + 1
+                    bulk_objs.append(lead_obj)
+                    total_11k_inserted += 1
+
+                # Si algún Closer quedó debajo de 1,000 por colisión con teléfonos previos conservados, rellenar con overflow (p.ej. sobrantes de Claudio)
+                if overflow_items:
+                    for m in INITIAL_SALES_TEAM:
+                        em = m["email"].lower()
+                        while per_closer_counts.get(em, 0) < 1000 and overflow_items:
+                            extra_item = overflow_items.pop(0)
+                            lead_obj = build_lead_obj(extra_item, em, total_11k_inserted)
+                            if lead_obj:
+                                per_closer_counts[em] = per_closer_counts.get(em, 0) + 1
+                                bulk_objs.append(lead_obj)
+                                total_11k_inserted += 1
+
+                for chunk_start in range(0, len(bulk_objs), 1000):
+                    db.bulk_save_objects(bulk_objs[chunk_start:chunk_start + 1000])
+                    db.commit()
+
+                db.add(IntegrationSetting(
+                    key="closers_11k_sprint_nov18_v1",
+                    value=f"inserted={total_11k_inserted},claudio_kept={per_closer_counts.get(keep_owner, 0)}_at_{now_iso}",
+                ))
+                db.commit()
+                print(f"✅ [SEED 11K SPRINT] Cargados {total_11k_inserted} leads calificados (Claudio conservado intacto y top-up a 1,000).", flush=True)
+            except Exception as sv7_err:
+                db.rollback()
+                print(f"⚠️ [SEED 11K SPRINT] Error sembrando closers_11k_master_seed.json.gz: {sv7_err}", flush=True)
 
         # Seed Leads de respaldo si no existiera el archivo 455 y la tabla estuviera vacía
         if db.query(Lead).count() == 0:
