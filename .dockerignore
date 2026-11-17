@@ -11,3 +11,11 @@ prosper_ia.db
 README.md
 Dockerfile
 docker-compose.yml
+content/
+exmamiami_assets/
+DOCS/
+.agents/
+scratch/
+transcripts/
+GHL_CONTACTS_*.json
+*.xlsx
