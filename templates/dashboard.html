@@ -7258,7 +7258,7 @@ async function submitSetterWork(mode) {
   const alreadyInCrm = ['Calificado', 'Diagnóstico agendado', 'Demo realizada', 'Propuesta enviada', 'Pago pendiente', 'Pago confirmado', 'Implementación', 'Entregado'].includes(curSt) || ((lead?.contact_id || '').trim() !== '');
 
   if (mode === 'send_to_crm') {
-    outcome = alreadyInCrm ? 'closer_update' : 'qualified_crm';
+    outcome = 'qualified_crm';
     if (!alreadyInCrm) setter_stage = 'Calificado';
   } else if (setter_stage === 'Calificado' && outcome !== 'disqualified' && outcome !== 'no_answer') {
     setter_stage = 'Contacto';
@@ -7285,6 +7285,25 @@ async function submitSetterWork(mode) {
     if (!res.ok || !data.success) {
       alert(data.detail || data.error || 'No se pudo guardar el renglón.');
       return;
+    }
+
+    // Sincronizar oferta, monto cotizado y preservar etapa Pago pendiente/confirmado vía /stage
+    const finalStage = ['Pago pendiente', 'Pago confirmado'].includes(curSt)
+      ? curSt
+      : (mode === 'send_to_crm' ? (['Primer contacto', 'Contacto', 'Calificado'].includes(setter_stage) ? setter_stage : 'Calificado') : null);
+    if (mode === 'send_to_crm' || finalStage) {
+      await fetch(`/api/sales-os/leads/${leadId}/stage`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+        body: JSON.stringify({
+          pipeline_stage: finalStage || setter_stage || 'Calificado',
+          offer_version,
+          quoted_amount: quoted_amount || 497,
+          selected_template,
+          next_action_at: next_action_at || '',
+          next_action_note: notes || lead?.next_action_note || ''
+        })
+      }).catch(() => {});
     }
 
     const dlg = document.getElementById('setterLeadWorkDialog');
