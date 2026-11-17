@@ -17,11 +17,13 @@ from database import init_db, SessionLocal, User, Lead as DbLead, SessionModel, 
 from editorial import LANES, enrich_post
 from ghl_client import sync_lead_to_ghl_async, sync_sales_os_event_to_ghl_async
 from sales_os_router import router as sales_os_router, WEBSITE_TEMPLATES_SHOWCASE, serialize_lead, record_audit, is_contact_excluded
+from beauty_growth_os import router as beauty_growth_router, init_beauty_growth_os
 from portafolio_vivo import setup_portafolio_vivo
 import json
 
 app = FastAPI(title="Prosper IA API Stack", version="1.0.0")
 app.include_router(sales_os_router)
+app.include_router(beauty_growth_router)
 setup_portafolio_vivo(app)
 
 
@@ -1023,6 +1025,7 @@ def get_db():
 @app.on_event("startup")
 async def startup_event():
     init_db()
+    init_beauty_growth_os()
     # Auto-seed El Arsenal si la tabla está vacía en producción
     try:
         from database import SessionLocal, ArsenalPrompt
@@ -1989,6 +1992,33 @@ async def beauty_growth_page(request: Request):
     )
 
 
+@app.get("/beautygrowth/login", response_class=HTMLResponse)
+@app.head("/beautygrowth/login")
+@app.get("/beauty-growth/login", response_class=HTMLResponse)
+@app.head("/beauty-growth/login")
+async def beauty_growth_login_page(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="beautygrowth_login.html",
+        context={"request": request},
+    )
+
+
+@app.get("/beautygrowth/crm", response_class=HTMLResponse)
+@app.head("/beautygrowth/crm")
+@app.get("/beauty-growth/crm", response_class=HTMLResponse)
+@app.head("/beauty-growth/crm")
+@app.get("/beautygrowth/os", response_class=HTMLResponse)
+@app.get("/beautygrowth/admin", response_class=HTMLResponse)
+@app.get("/beautygrowth/workspace", response_class=HTMLResponse)
+async def beauty_growth_crm_page(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="beautygrowth_crm.html",
+        context={"request": request},
+    )
+
+
 @app.get("/libro", response_class=HTMLResponse)
 @app.head("/libro")
 @app.get("/libro/", response_class=HTMLResponse)
@@ -2096,7 +2126,9 @@ async def get_robots():
         "Allow: /\n"
         "Disallow: /api/\n"
         "Disallow: /dashboard\n"
-        "Disallow: /login\n\n"
+        "Disallow: /login\n"
+        "Disallow: /beautygrowth/crm\n"
+        "Disallow: /beautygrowth/login\n\n"
         
         "# Permitir indexación explícita para agentes de búsqueda de Inteligencia Artificial (LLMs)\n"
         "User-agent: GPTBot\n"

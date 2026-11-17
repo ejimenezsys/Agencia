@@ -80,13 +80,18 @@ BEAUTY_OFFER_PRICES = {
     "BEAUTY_HIGHTICKET_5000": 5000.0,
 }
 
-# IDs reales de los 6 campos personalizados creados en la subcuenta Beauty Growth (V8tM5xk6xl15wKhbQS0p)
-CF_BG_PAQUETE = "W0e01iiGbg1PHe2ENXT6"       # contact.paquete_beauty_growth
-CF_BG_FACTURACION = "Zr2yg2YzfrMxT378fnal"   # contact.facturacion_mensual_belleza
-CF_BG_CIUDAD = "mxnMlljhF4gibbxvWM8E"        # contact.ciudad_o_mercado_beauty
-CF_BG_INSTAGRAM = "tNX54s024yqpM7SnEBHK"     # contact.instagram_negocio_belleza
-CF_BG_PRESUPUESTO = "KEm6yOpDaHPZkcsjd4nX"   # contact.presupuesto_meta_ads_usd
-CF_BG_NOTAS = "B85Jk2JfCpdPD5TebLoB"         # contact.notas_diagnostico_closer
+# IDs reales de los 11 campos personalizados creados en la subcuenta Beauty Growth (V8tM5xk6xl15wKhbQS0p)
+CF_BG_PAQUETE = "W0e01iiGbg1PHe2ENXT6"        # contact.paquete_beauty_growth
+CF_BG_FACTURACION = "Zr2yg2YzfrMxT378fnal"    # contact.facturacion_mensual_belleza
+CF_BG_CIUDAD = "mxnMlljhF4gibbxvWM8E"         # contact.ciudad_o_mercado_beauty
+CF_BG_INSTAGRAM = "tNX54s024yqpM7SnEBHK"      # contact.instagram_negocio_belleza
+CF_BG_PRESUPUESTO = "KEm6yOpDaHPZkcsjd4nX"    # contact.presupuesto_meta_ads_usd
+CF_BG_NOTAS = "B85Jk2JfCpdPD5TebLoB"          # contact.notas_diagnostico_closer
+CF_BG_BIOGRAFIA = "Cfdeptn05kCEd1Eox7jX"      # contact.biografia_instagram_beauty
+CF_BG_SEGUIDORES = "uEuOsWPRiNgb6K8M7S8S"     # contact.seguidores_instagram
+CF_BG_SEGUIDOS = "Sljm6KsI6j8ZTPLBTtF1"       # contact.seguidos_instagram
+CF_BG_WEB_AGENDA = "6I4LCDTQj1RHuSVMOxKm"     # contact.sitio_web_o_agenda_beauty
+CF_BG_SETTER = "TzYpA5qTTBJfYjVcb9Ds"         # contact.setter_asignado_beauty
 
 # Pipeline separado para solicitudes de códigos gratuitos / comunidad PassportAI (/codigos)
 CODIGOS_PIPELINE_ID = "SJ4xiMasQ0GZcUNYFgpa"
@@ -852,3 +857,276 @@ def sync_sales_os_event_to_ghl_async(
             print(f"⚠️ [GHL SALES OS SYNC] Error no bloqueante: {exc}", flush=True)
 
     threading.Thread(target=_run, daemon=True).start()
+
+
+def check_beauty_ghl_connection() -> dict:
+    """Verifica el estado de conexión con la subcuenta Beauty Growth (V8tM5xk6xl15wKhbQS0p)."""
+    token, loc_id, disc = _resolve_beauty_connection()
+    pip_id = disc.get("pipeline_id") or _cfg_db("GHL_BEAUTY_PIPELINE_ID") or BEAUTY_PIPELINE_ID
+    return {
+        "connected": bool(token and pip_id),
+        "has_token": bool(token),
+        "location_id": loc_id or BEAUTY_LOCATION_ID,
+        "pipeline_id": pip_id,
+        "pipeline_name": disc.get("pipeline_name") or BEAUTY_PIPELINE_NAME,
+        "stages_count": len(BEAUTY_PIPELINE_STAGES),
+    }
+
+
+def _normalize_web_url(raw_url: str) -> str:
+    val = (raw_url or "").strip()
+    if not val or val.lower() in ("<<not-applicable>>", "#error!", "none", "null", "n/a"):
+        return ""
+    if not re.match(r"^https?://", val, re.IGNORECASE):
+        return f"https://{val}"
+    return val
+
+
+def sync_beauty_growth_ig_lead_to_ghl(lead: dict) -> dict:
+    """Sincroniza un prospecto del Mini-Sistema Web Beauty Growth hacia V8tM5xk6xl15wKhbQS0p (Opción A).
+
+    Crea/actualiza el contacto con sus Custom Fields de Instagram, anexa una nota enriquecida con
+    la biografía/seguidores/diagnóstico y coloca o mueve su oportunidad en el pipeline de 14 etapas.
+    """
+    token, location_id, disc = _resolve_beauty_connection()
+    if not token:
+        return {
+            "ok": False,
+            "skipped": True,
+            "location_id": location_id or BEAUTY_LOCATION_ID,
+            "error": "Falta GHL_BEAUTY_PRIVATE_TOKEN configurado para la subcuenta Beauty Growth (V8tM5xk6xl15wKhbQS0p).",
+        }
+
+    pipeline_id = disc.get("pipeline_id") or _cfg_db("GHL_BEAUTY_PIPELINE_ID") or BEAUTY_PIPELINE_ID
+    stages_map = disc.get("stages") or _build_beauty_stage_lookup(BEAUTY_STAGE_MAP)
+    stage_name = (lead.get("pipeline_stage") or "1. Prospecto identificado").strip()
+    default_st = stages_map.get("1. Prospecto identificado") or disc.get("default_stage_id", "")
+    stage_id = _resolve_beauty_stage_id(stages_map, stage_name, default_st)
+
+    ig_user = (lead.get("ig_username") or "").strip().lstrip("@")
+    ig_url = (lead.get("ig_profile_url") or (f"https://instagram.com/{ig_user}" if ig_user else "")).strip()
+    full_name = (lead.get("full_name") or ig_user or "Prospecto Beauty Growth").strip()
+    first_name = (lead.get("first_name") or "").strip()
+    last_name = (lead.get("last_name") or "").strip()
+    if not first_name:
+        parts = full_name.split()
+        first_name = parts[0] if parts else (ig_user or "Prospecto")
+        last_name = " ".join(parts[1:]) if len(parts) > 1 else ""
+
+    email = (lead.get("email_primary") or "").strip().lower()
+    if email and "@" not in email:
+        email = ""
+    phone = (lead.get("phone_e164") or _clean_phone(lead.get("phone_raw") or "")).strip()
+    if not email and not phone:
+        return {
+            "ok": False,
+            "error": f"El prospecto @{ig_user or full_name} no tiene ni correo ni teléfono válido para crear contacto en GoHighLevel.",
+        }
+
+    followers = int(lead.get("followers_count") or 0)
+    following = int(lead.get("following_count") or 0)
+    biography = (lead.get("biography") or "").strip()
+    website_url = _normalize_web_url(lead.get("website_url") or "")
+    booking_platform = (lead.get("booking_platform") or "Sin Web").strip()
+    location_raw = (lead.get("location_raw") or lead.get("city") or lead.get("country_region") or "").strip()
+    setter_slot = int(lead.get("assigned_setter_slot") or 0)
+    setter_name = (lead.get("assigned_setter_name") or (f"Setter {setter_slot}" if setter_slot else "David Becerra")).strip()
+    setter_email = (lead.get("assigned_setter_email") or "dbecerra@agenciaprosperia.com").strip()
+    offer_pkg = (lead.get("offer_package") or "BEAUTY_ELEVATE_2499").strip().upper()
+    quoted_amt = float(lead.get("quoted_amount") or 0.0)
+    ai_diag = (lead.get("ai_diagnostic_note") or "").strip()
+    setter_notes = (lead.get("setter_notes") or "").strip()
+    niche_cat = (lead.get("niche_category") or "Belleza / Estética / Salón").strip()
+    country_reg = (lead.get("country_region") or "").strip()
+
+    combined_notes_cf = "\n".join(x for x in [ai_diag, f"Notas Setter: {setter_notes}" if setter_notes else ""] if x).strip()
+    custom_fields = [
+        {"id": CF_BG_PAQUETE, "field_value": offer_pkg},
+        {"id": CF_BG_INSTAGRAM, "field_value": ig_url or f"@{ig_user}"},
+        {"id": CF_BG_CIUDAD, "field_value": location_raw or country_reg or "Por confirmar"},
+        {"id": CF_BG_BIOGRAFIA, "field_value": biography[:4000] if biography else "Sin biografía registrada"},
+        {"id": CF_BG_SEGUIDORES, "field_value": str(followers)},
+        {"id": CF_BG_SEGUIDOS, "field_value": str(following)},
+        {"id": CF_BG_WEB_AGENDA, "field_value": f"{booking_platform} | {website_url}" if website_url else booking_platform},
+        {"id": CF_BG_SETTER, "field_value": f"{setter_name} ({setter_email})"},
+    ]
+    if combined_notes_cf:
+        custom_fields.append({"id": CF_BG_NOTAS, "field_value": combined_notes_cf[:1800]})
+    loc_low = f"{location_raw} {country_reg}".lower()
+    if any(k in loc_low for k in ("miami", "florida", "houston", "texas", "usa", "dallas", "orlando", "new york")):
+        custom_fields.append({"id": CF_BG_PRESUPUESTO, "field_value": "$800 - $1,500 USD/mes"})
+    elif location_raw:
+        custom_fields.append({"id": CF_BG_PRESUPUESTO, "field_value": "$500 - $1,000 USD/mes"})
+
+    contact_body = {
+        "locationId": location_id,
+        "firstName": first_name,
+        "lastName": last_name,
+        "name": full_name,
+        "companyName": full_name if full_name != ig_user else f"@{ig_user}",
+        "source": "Beauty Growth IG Workspace",
+        "assignedTo": BEAUTY_DEFAULT_USER_ID,
+        "customFields": custom_fields,
+    }
+    if email:
+        contact_body["email"] = email
+    if phone:
+        contact_body["phone"] = phone
+    if website_url:
+        contact_body["website"] = website_url
+    if lead.get("city") or location_raw:
+        contact_body["city"] = (lead.get("city") or location_raw)[:120]
+
+    # 1. Upsert Contacto en V8tM5xk6xl15wKhbQS0p
+    cid = (lead.get("ghl_contact_id") or "").strip()
+    is_new = False
+    if cid:
+        put_body = dict(contact_body)
+        put_body.pop("locationId", None)
+        st_u, res_u = _request("PUT", f"/contacts/{cid}", token, put_body)
+        if st_u not in (200, 201):
+            cid = ""
+
+    if not cid:
+        st_u, res_u = _request("POST", "/contacts/upsert", token, contact_body)
+        if st_u not in (200, 201) and "phone" in contact_body and "email" in contact_body:
+            fallback_body = dict(contact_body)
+            fallback_body.pop("phone", None)
+            st_u, res_u = _request("POST", "/contacts/upsert", token, fallback_body)
+        if st_u not in (200, 201):
+            return {
+                "ok": False,
+                "step": "contact",
+                "status": st_u,
+                "error": f"Error GoHighLevel ({st_u}): {res_u}",
+            }
+        contact = res_u.get("contact") or {}
+        cid = contact.get("id") or ""
+        is_new = bool(res_u.get("new"))
+
+    if not cid:
+        return {"ok": False, "step": "contact", "error": "GoHighLevel no devolvió contact_id."}
+
+    # 2. Etiquetas aditivas
+    tag_list = [
+        "beauty_growth",
+        "vertical_belleza",
+        "ig_workspace",
+        _slug_tag("etapa", stage_name),
+        _slug_tag("niche", niche_cat),
+    ]
+    if setter_slot in (1, 2, 3):
+        tag_list.append(f"setter_slot_{setter_slot}")
+    if country_reg:
+        tag_list.append(_slug_tag("region", country_reg))
+    if booking_platform and booking_platform != "Sin Web":
+        tag_list.append(_slug_tag("agenda", booking_platform))
+    _request("POST", f"/contacts/{cid}/tags", token, {"tags": tag_list})
+
+    # 3. Nota rica con 100% de la Biografía, Seguidores, Links y Diagnóstico
+    stamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    note_lines = [
+        f"📸 [BEAUTY GROWTH IG WORKSPACE — {stamp}]",
+        f"• Instagram: @{ig_user} ({ig_url or 'N/A'})",
+        f"• Negocio / Titular: {full_name}",
+        f"• Seguidores: {followers:,} | Seguidos: {following:,}",
+        f"• Ubicación / Región: {location_raw or 'N/A'} ({country_reg or 'N/A'}) | Nicho: {niche_cat}",
+        f"• Plataforma / Web: {booking_platform}" + (f" — {website_url}" if website_url else ""),
+        f"• Teléfono: {phone or 'N/A'} | Email: {email or 'N/A'}",
+        f"• Etapa Actual: {stage_name}",
+        f"• Setter Asignado: {setter_name} ({setter_email})",
+    ]
+    if biography:
+        note_lines.append("")
+        note_lines.append("📝 Biografía / Descripción de Instagram:")
+        note_lines.append(biography)
+    if ai_diag:
+        note_lines.append("")
+        note_lines.append("🧠 Diagnóstico / Contexto Comercial:")
+        note_lines.append(ai_diag)
+    if setter_notes:
+        note_lines.append("")
+        note_lines.append(f"💬 Notas del Equipo ({setter_name}):")
+        note_lines.append(setter_notes)
+
+    _request("POST", f"/contacts/{cid}/notes", token, {"body": "\n".join(note_lines)})
+
+    # 4. Oportunidad en Pipeline oficial de 14 etapas (BBQlDFhNVE0NRmKNTMS2)
+    opp_id = (lead.get("ghl_opportunity_id") or "").strip()
+    if not opp_id and pipeline_id:
+        q = f"/opportunities/search?location_id={location_id}&contact_id={cid}&pipeline_id={pipeline_id}&limit=1"
+        s_st, s_res = _request("GET", q, token)
+        if s_st == 200 and s_res.get("opportunities"):
+            opp_id = s_res["opportunities"][0].get("id") or ""
+
+    opp_status = "open"
+    if "13." in stage_name or "ganado" in stage_name.lower():
+        opp_status = "won"
+    elif "14." in stage_name or "perdido" in stage_name.lower():
+        opp_status = "lost"
+
+    opp_val = quoted_amt if quoted_amt > 0 else BEAUTY_OFFER_PRICES.get(offer_pkg, 2499.0)
+    opp_name = f"{full_name} (@{ig_user})" if ig_user and ig_user.lower() not in full_name.lower() else full_name
+
+    if opp_id:
+        upd_payload = {
+            "pipelineId": pipeline_id,
+            "pipelineStageId": stage_id,
+            "status": opp_status,
+            "monetaryValue": float(opp_val),
+            "name": opp_name[:120],
+        }
+        o_st, o_res = _request("PUT", f"/opportunities/{opp_id}", token, upd_payload)
+        if o_st not in (200, 201):
+            return {
+                "ok": False,
+                "step": "opportunity_update",
+                "contact_id": cid,
+                "opportunity_id": opp_id,
+                "error": f"Error actualizando oportunidad ({o_st}): {o_res}",
+            }
+    else:
+        opp_payload = {
+            "locationId": location_id,
+            "pipelineId": pipeline_id,
+            "pipelineStageId": stage_id,
+            "contactId": cid,
+            "name": opp_name[:120],
+            "status": opp_status,
+            "monetaryValue": float(opp_val),
+            "source": "Beauty Growth IG Workspace",
+            "assignedTo": BEAUTY_DEFAULT_USER_ID,
+        }
+        o_st, o_res = _request("POST", "/opportunities/", token, opp_payload)
+        if o_st in (200, 201):
+            opp_id = (o_res.get("opportunity") or o_res).get("id") or ""
+        else:
+            err_text = str(o_res.get("error", ""))
+            if o_st == 400 and "OPPORTUNITY_NO_DUPLICATE" in err_text:
+                m = re.search(r'"existingId"\s*:\s*"([^"]+)"', err_text)
+                if m:
+                    opp_id = m.group(1)
+                    _request("PUT", f"/opportunities/{opp_id}", token, {
+                        "pipelineId": pipeline_id,
+                        "pipelineStageId": stage_id,
+                        "status": opp_status,
+                        "monetaryValue": float(opp_val),
+                    })
+            if not opp_id:
+                return {
+                    "ok": False,
+                    "step": "opportunity_create",
+                    "contact_id": cid,
+                    "error": f"Error creando oportunidad ({o_st}): {o_res}",
+                }
+
+    return {
+        "ok": True,
+        "location_id": location_id,
+        "pipeline_id": pipeline_id,
+        "stage_id": stage_id,
+        "stage_name": stage_name,
+        "contact_id": cid,
+        "contact_new": is_new,
+        "opportunity_id": opp_id,
+    }

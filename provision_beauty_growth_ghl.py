@@ -142,6 +142,11 @@ def provision_beauty_growth(token: str, location_id: str = BEAUTY_LOCATION_ID) -
         ("Instagram Negocio Belleza", "TEXT"),
         ("Presupuesto Meta Ads USD", "TEXT"),
         ("Notas Diagnostico Closer", "LARGE_TEXT"),
+        ("Biografia Instagram Beauty", "LARGE_TEXT"),
+        ("Seguidores Instagram", "TEXT"),
+        ("Seguidos Instagram", "TEXT"),
+        ("Sitio Web o Agenda Beauty", "TEXT"),
+        ("Setter Asignado Beauty", "TEXT"),
     ]
     st_cf, cf_res = _request("GET", f"/locations/{active_location}/customFields", active_token)
     existing_cf_names = set()

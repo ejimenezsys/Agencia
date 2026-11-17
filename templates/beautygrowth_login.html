@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso CRM Privado · Beauty Growth & Business System</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/jpeg" href="{{ static_versioned('/static/logo_prosper_ia_cropped.jpg') }}">
+    <style>
+        :root {
+            --bg: #070a0f;
+            --surface: #0e131d;
+            --surface-2: #141b29;
+            --border: rgba(226, 182, 109, 0.22);
+            --gold: #e2b66d;
+            --gold-bright: #f5d494;
+            --emerald: #10b981;
+            --rose: #f472b6;
+            --text: #f8fafc;
+            --muted: #94a3b8;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: radial-gradient(circle at 18% 15%, rgba(226, 182, 109, 0.14), transparent 45%),
+                        radial-gradient(circle at 85% 85%, rgba(244, 114, 182, 0.10), transparent 45%),
+                        var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+        .login-shell {
+            width: 100%;
+            max-width: 460px;
+            background: linear-gradient(180deg, rgba(20, 27, 41, 0.96), rgba(11, 15, 24, 0.98));
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            padding: 36px 32px;
+            box-shadow: 0 28px 70px rgba(0, 0, 0, 0.65);
+        }
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(226, 182, 109, 0.12);
+            border: 1px solid rgba(226, 182, 109, 0.32);
+            color: var(--gold-bright);
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+        h1 {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+        }
+        h1 span { color: var(--gold); }
+        .subtitle {
+            color: var(--muted);
+            font-size: 13.5px;
+            line-height: 1.55;
+            margin-bottom: 24px;
+        }
+        .field { margin-bottom: 16px; }
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: #cbd5e1;
+            margin-bottom: 7px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        input {
+            width: 100%;
+            background: rgba(7, 10, 15, 0.85);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            border-radius: 12px;
+            color: var(--text);
+            padding: 13px 14px;
+            font-size: 14.5px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(226, 182, 109, 0.16);
+        }
+        .btn-submit {
+            width: 100%;
+            border: none;
+            border-radius: 12px;
+            padding: 14px 18px;
+            font-size: 14.5px;
+            font-weight: 800;
+            cursor: pointer;
+            color: #090d14;
+            background: linear-gradient(135deg, var(--gold), var(--gold-bright));
+            box-shadow: 0 10px 26px rgba(226, 182, 109, 0.25);
+            margin-top: 6px;
+            transition: transform 0.15s, opacity 0.2s;
+        }
+        .btn-submit:hover { transform: translateY(-1px); }
+        .btn-submit:disabled { opacity: 0.6; cursor: wait; }
+        .error-box {
+            display: none;
+            background: rgba(239, 68, 68, 0.12);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #fecaca;
+            font-size: 13px;
+            padding: 11px 13px;
+            border-radius: 10px;
+            margin-bottom: 16px;
+        }
+        .info-strip {
+            margin-top: 22px;
+            padding-top: 18px;
+            border-top: 1px solid rgba(148, 163, 184, 0.14);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 12px;
+            color: var(--muted);
+        }
+        .pill-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .mini-pill {
+            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: rgba(16, 185, 129, 0.10);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            color: #6ee7b7;
+        }
+        .back-link {
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 700;
+        }
+        .back-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="login-shell">
+        <div class="badge">✨ Workspace Privado Beauty Growth</div>
+        <h1>CRM Instagram &amp; <span>Setters OS</span></h1>
+        <p class="subtitle">
+            Sistema exclusivo de la vertical <strong>Beauty Growth &amp; Business System</strong> para administración de base IG unificada (3,638 prospectos), reparto entre 3 Setters y sincronización con GoHighLevel (<code>V8tM5xk6xl15wKhbQS0p</code>).
+        </p>
+
+        <div id="errorBox" class="error-box"></div>
+
+        <form id="bgLoginForm">
+            <div class="field">
+                <label for="emailInput">Correo de Acceso (Admin o Setter 1–3)</label>
+                <input id="emailInput" type="email" required autocomplete="email" placeholder="dbecerra@agenciaprosperia.com">
+            </div>
+            <div class="field">
+                <label for="passwordInput">Contraseña</label>
+                <input id="passwordInput" type="password" required autocomplete="current-password" placeholder="••••••••••••">
+            </div>
+            <button id="submitBtn" type="submit" class="btn-submit">Entrar a Beauty Growth OS →</button>
+        </form>
+
+        <div class="info-strip">
+            <div class="pill-row">
+                <span class="mini-pill">🛡 Admin Total: Jhonkelwins Becerra</span>
+                <span class="mini-pill">👥 3 Setters Repartidos 1/3</span>
+                <span class="mini-pill">⚡ Opción A · Sync GHL</span>
+            </div>
+            <div>
+                ¿Buscas el embudo público de captación? <a class="back-link" href="/beautygrowth">Volver a /beautygrowth</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            const existingToken = localStorage.getItem('bg_auth_token');
+            if (existingToken) {
+                fetch('/api/beautygrowth/auth/me', {
+                    headers: { 'Authorization': 'Bearer ' + existingToken }
+                }).then(r => {
+                    if (r.ok) window.location.href = '/beautygrowth/crm';
+                }).catch(() => {});
+            }
+
+            const form = document.getElementById('bgLoginForm');
+            const errBox = document.getElementById('errorBox');
+            const btn = document.getElementById('submitBtn');
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                errBox.style.display = 'none';
+                btn.disabled = true;
+                btn.textContent = 'Verificando acceso...';
+
+                try {
+                    const res = await fetch('/api/beautygrowth/auth/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            email: document.getElementById('emailInput').value.trim(),
+                            password: document.getElementById('passwordInput').value
+                        })
+                    });
+                    const data = await res.json();
+                    if (!res.ok || !data.success) {
+                        throw new Error(data.error || 'No se pudo iniciar sesión.');
+                    }
+                    localStorage.setItem('bg_auth_token', data.data.token);
+                    localStorage.setItem('bg_user', JSON.stringify(data.data.user));
+                    window.location.href = '/beautygrowth/crm';
+                } catch (err) {
+                    errBox.textContent = err.message;
+                    errBox.style.display = 'block';
+                    btn.disabled = false;
+                    btn.textContent = 'Entrar a Beauty Growth OS →';
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

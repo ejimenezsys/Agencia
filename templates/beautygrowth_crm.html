@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beauty Growth OS · CRM Unificado Instagram &amp; 3 Setters</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/jpeg" href="{{ static_versioned('/static/logo_prosper_ia_cropped.jpg') }}">
+    <style>
+        :root {
+            --bg: #070a0f;
+            --surface: #0d121c;
+            --surface-2: #131a28;
+            --surface-3: #192234;
+            --border: rgba(226, 182, 109, 0.20);
+            --border-soft: rgba(148, 163, 184, 0.14);
+            --gold: #e2b66d;
+            --gold-bright: #f5d494;
+            --emerald: #10b981;
+            --rose: #f472b6;
+            --cyan: #38bdf8;
+            --amber: #f59e0b;
+            --danger: #ef4444;
+            --text: #f8fafc;
+            --muted: #94a3b8;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            font-size: 13px;
+            line-height: 1.45;
+            min-height: 100vh;
+        }
+        button, input, select, textarea { font-family: inherit; }
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            background: rgba(9, 13, 21, 0.94);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 20px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+        .brand-left { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .logo-pill {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 6px 12px; border-radius: 999px;
+            background: rgba(226, 182, 109, 0.13);
+            border: 1px solid rgba(226, 182, 109, 0.35);
+            color: var(--gold-bright); font-weight: 800; font-size: 12px;
+        }
+        .user-chip {
+            padding: 5px 12px; border-radius: 999px;
+            background: var(--surface-2); border: 1px solid var(--border-soft);
+            color: #e2e8f0; font-size: 12px; font-weight: 600;
+        }
+        .ghl-chip {
+            padding: 5px 11px; border-radius: 999px; font-size: 11.5px; font-weight: 700;
+            background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.35); color: #6ee7b7;
+        }
+        .ghl-chip.warn {
+            background: rgba(245, 158, 11, 0.12); border-color: rgba(245, 158, 11, 0.35); color: #fcd34d;
+        }
+        .top-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .btn {
+            border: 1px solid var(--border-soft);
+            background: var(--surface-2);
+            color: var(--text);
+            padding: 7px 12px;
+            border-radius: 9px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            transition: background 0.15s, border-color 0.15s, transform 0.1s;
+        }
+        .btn:hover { background: var(--surface-3); border-color: rgba(226, 182, 109, 0.45); }
+        .btn-gold {
+            background: linear-gradient(135deg, var(--gold), var(--gold-bright));
+            color: #090d14; border: none;
+        }
+        .btn-gold:hover { opacity: 0.92; background: linear-gradient(135deg, var(--gold), var(--gold-bright)); }
+        .btn-emerald {
+            background: rgba(16, 185, 129, 0.16);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            color: #6ee7b7;
+        }
+        .btn-cyan {
+            background: rgba(56, 189, 248, 0.14);
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            color: #7dd3fc;
+        }
+        .btn-sm { padding: 5px 9px; font-size: 11px; border-radius: 7px; }
+        .container { max-width: 1620px; margin: 0 auto; padding: 16px 20px 60px; }
+
+        /* KPI Grid */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        .kpi-card {
+            background: var(--surface);
+            border: 1px solid var(--border-soft);
+            border-radius: 13px;
+            padding: 12px 14px;
+            cursor: pointer;
+            transition: border-color 0.15s, transform 0.1s;
+        }
+        .kpi-card:hover { border-color: var(--gold); transform: translateY(-1px); }
+        .kpi-card.active { border-color: var(--gold); background: rgba(226, 182, 109, 0.08); }
+        .kpi-label { font-size: 11px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+        .kpi-value { font-size: 22px; font-weight: 800; color: var(--text); margin-top: 3px; }
+        .kpi-sub { font-size: 11px; color: var(--gold); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+        /* 14-Stage Ribbon */
+        .stages-wrap {
+            background: var(--surface);
+            border: 1px solid var(--border-soft);
+            border-radius: 13px;
+            padding: 10px 12px;
+            margin-bottom: 12px;
+        }
+        .stages-title { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gold); margin-bottom: 8px; }
+        .stages-ribbon {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .stage-pill {
+            padding: 5px 10px;
+            border-radius: 999px;
+            background: var(--surface-2);
+            border: 1px solid var(--border-soft);
+            color: #cbd5e1;
+            font-size: 11.5px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .stage-pill:hover { border-color: var(--gold); color: #fff; }
+        .stage-pill.active { background: var(--gold); color: #090d14; border-color: var(--gold); font-weight: 800; }
+        .stage-pill .cnt {
+            background: rgba(0, 0, 0, 0.28);
+            padding: 1px 6px;
+            border-radius: 999px;
+            font-size: 10.5px;
+            font-weight: 800;
+        }
+
+        /* Filter Panel */
+        .filters-panel {
+            background: var(--surface);
+            border: 1px solid var(--border-soft);
+            border-radius: 13px;
+            padding: 12px;
+            margin-bottom: 12px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+            gap: 9px;
+            align-items: end;
+        }
+        .f-group label {
+            display: block;
+            font-size: 10.5px;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+        .f-control {
+            width: 100%;
+            background: var(--surface-2);
+            border: 1px solid var(--border-soft);
+            color: var(--text);
+            padding: 8px 10px;
+            border-radius: 8px;
+            font-size: 12.5px;
+            outline: none;
+        }
+        .f-control:focus { border-color: var(--gold); }
+        .f-search { grid-column: span 2; }
+        @media (max-width: 720px) { .f-search { grid-column: span 1; } }
+
+        /* Admin Bulk Bar */
+        .bulk-bar {
+            background: linear-gradient(90deg, rgba(226, 182, 109, 0.10), rgba(16, 185, 129, 0.08));
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 10px 14px;
+            margin-bottom: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        .bulk-left, .bulk-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+        /* Table */
+        .table-card {
+            background: var(--surface);
+            border: 1px solid var(--border-soft);
+            border-radius: 14px;
+            overflow: hidden;
+        }
+        .table-scroll { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; min-width: 1280px; }
+        thead th {
+            background: var(--surface-2);
+            color: var(--gold-bright);
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            text-align: left;
+            padding: 11px 10px;
+            border-bottom: 1px solid var(--border-soft);
+            white-space: nowrap;
+        }
+        tbody td {
+            padding: 11px 10px;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.09);
+            vertical-align: top;
+        }
+        tbody tr:hover { background: rgba(255, 255, 255, 0.02); }
+        .ig-head { display: flex; align-items: flex-start; gap: 9px; }
+        .avatar-circle {
+            width: 34px; height: 34px; border-radius: 50%; object-fit: cover; flex-shrink: 0;
+            background: rgba(226, 182, 109, 0.16); color: var(--gold-bright);
+            display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px;
+            border: 1px solid rgba(226, 182, 109, 0.35);
+        }
+        .ig-link { color: var(--gold-bright); font-weight: 800; text-decoration: none; font-size: 13px; }
+        .ig-link:hover { text-decoration: underline; }
+        .biz-name { font-weight: 700; color: #f1f5f9; font-size: 12.5px; margin-top: 2px; max-width: 220px; }
+        .metrics-row { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 4px; }
+        .tag {
+            display: inline-block;
+            padding: 2px 7px;
+            border-radius: 6px;
+            font-size: 10.5px;
+            font-weight: 700;
+            background: var(--surface-3);
+            color: #cbd5e1;
+            border: 1px solid rgba(148, 163, 184, 0.15);
+        }
+        .tag-beauty { background: rgba(244, 114, 182, 0.14); color: #f9a8d4; border-color: rgba(244, 114, 182, 0.3); }
+        .tag-usa { background: rgba(56, 189, 248, 0.13); color: #7dd3fc; border-color: rgba(56, 189, 248, 0.3); }
+        .tag-agenda { background: rgba(16, 185, 129, 0.14); color: #6ee7b7; border-color: rgba(16, 185, 129, 0.3); }
+        .tag-diag { background: rgba(226, 182, 109, 0.16); color: var(--gold-bright); border-color: rgba(226, 182, 109, 0.35); }
+        .bio-box {
+            max-width: 340px;
+            white-space: pre-wrap;
+            word-break: break-word;
+            font-size: 12px;
+            color: #cbd5e1;
+            max-height: 78px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .bio-box.expanded { max-height: none; }
+        .diag-snippet {
+            margin-top: 5px;
+            padding: 5px 8px;
+            border-radius: 7px;
+            background: rgba(226, 182, 109, 0.08);
+            border-left: 3px solid var(--gold);
+            font-size: 11px;
+            color: #fde68a;
+            max-width: 340px;
+            white-space: pre-wrap;
+        }
+        .inline-select {
+            background: var(--surface-2);
+            border: 1px solid var(--border-soft);
+            color: var(--text);
+            border-radius: 7px;
+            padding: 5px 7px;
+            font-size: 11.5px;
+            max-width: 175px;
+            cursor: pointer;
+        }
+        .inline-note-preview {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-top: 5px;
+            max-width: 185px;
+            white-space: pre-wrap;
+        }
+        .contact-stack { display: flex; flex-direction: column; gap: 5px; min-width: 155px; }
+        .copy-btn {
+            background: none; border: none; color: #cbd5e1; text-align: left;
+            cursor: pointer; font-size: 11.5px; padding: 0; word-break: break-all;
+        }
+        .copy-btn:hover { color: var(--gold-bright); }
+
+        /* Pagination */
+        .pager {
+            display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+            gap: 10px; padding: 12px 16px; background: var(--surface-2);
+            border-top: 1px solid var(--border-soft);
+        }
+
+        /* Drawer & Modals */
+        .backdrop {
+            position: fixed; inset: 0; background: rgba(2, 6, 12, 0.72);
+            z-index: 80; display: none; justify-content: flex-end;
+        }
+        .backdrop.open { display: flex; }
+        .drawer {
+            width: 100%; max-width: 540px; height: 100%; overflow-y: auto;
+            background: var(--surface); border-left: 1px solid var(--border);
+            padding: 22px; display: flex; flex-direction: column; gap: 14px;
+        }
+        .modal-backdrop {
+            position: fixed; inset: 0; background: rgba(2, 6, 12, 0.78);
+            z-index: 90; display: none; align-items: center; justify-content: center; padding: 18px;
+        }
+        .modal-backdrop.open { display: flex; }
+        .modal-card {
+            width: 100%; max-width: 680px; max-height: 92vh; overflow-y: auto;
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 18px; padding: 24px;
+        }
+        .modal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+        .modal-head h2 { font-size: 18px; font-weight: 800; color: var(--gold-bright); }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .form-full { grid-column: 1 / -1; }
+        textarea.f-control { min-height: 82px; resize: vertical; line-height: 1.45; }
+        .setter-box {
+            background: var(--surface-2); border: 1px solid var(--border-soft);
+            border-radius: 12px; padding: 14px; margin-bottom: 12px;
+        }
+        .toast {
+            position: fixed; bottom: 20px; right: 20px; z-index: 120;
+            background: #0f172a; border: 1px solid var(--gold); color: #fff;
+            padding: 11px 16px; border-radius: 11px; font-size: 12.5px; font-weight: 700;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55); display: none;
+        }
+        .toast.show { display: block; }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <div class="brand-left">
+            <span class="logo-pill">✨ BEAUTY GROWTH OS</span>
+            <span id="userBadge" class="user-chip">Cargando sesión...</span>
+            <span id="ghlStatusChip" class="ghl-chip">⚡ GoHighLevel V8tM5xk6xl15wKhbQS0p</span>
+        </div>
+        <div class="top-actions">
+            <button id="btnNewLead" class="btn btn-gold">+ Nuevo Lead IG</button>
+            <button id="btnTeamModal" class="btn admin-only" style="display:none;">👥 3 Setters &amp; Correos</button>
+            <button id="btnImportModal" class="btn admin-only" style="display:none;">📤 Subir Excel / CSV</button>
+            <button id="btnExportCsv" class="btn">📥 Exportar CSV</button>
+            <a href="/beautygrowth" class="btn" target="_blank">🌐 Ver Embudo</a>
+            <button id="btnLogout" class="btn">Salir</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- KPI Cards -->
+        <section id="kpiGrid" class="kpi-grid"></section>
+
+        <!-- 14-Stage Interactive Ribbon -->
+        <section class="stages-wrap">
+            <div class="stages-title">Pipeline Comercial Oficial de 14 Etapas (Opción A: al avanzar etapa 2+ sincroniza automáticamente con GHL)</div>
+            <div id="stagesRibbon" class="stages-ribbon"></div>
+        </section>
+
+        <!-- Advanced Filters -->
+        <section class="filters-panel">
+            <div class="f-group f-search">
+                <label for="fSearch">Buscar en @usuario, nombre, biografía, diagnóstico, ciudad, web o teléfono</label>
+                <input id="fSearch" class="f-control" type="text" placeholder="Ej: miami, booksy, lash, balayage, medspa, @salon...">
+            </div>
+            <div id="fSetterWrap" class="f-group">
+                <label for="fSetter">Setter Asignado</label>
+                <select id="fSetter" class="f-control">
+                    <option value="all">Todos (Equipo Completo)</option>
+                    <option value="1">Setter 1 (1/3)</option>
+                    <option value="2">Setter 2 (1/3)</option>
+                    <option value="3">Setter 3 (1/3)</option>
+                </select>
+            </div>
+            <div class="f-group">
+                <label for="fNiche">Nicho / Segmento</label>
+                <select id="fNiche" class="f-control">
+                    <option value="all">Todos los Giros</option>
+                    <option value="Belleza / Estética / Salón">✨ Belleza / Estética / Salón</option>
+                    <option value="Otros Giros Comerciales">Otros Giros Comerciales</option>
+                    <option value="Proveedor B2B / Insumos">Proveedor B2B / Insumos</option>
+                </select>
+            </div>
+            <div class="f-group">
+                <label for="fRegion">País / Región</label>
+                <select id="fRegion" class="f-control">
+                    <option value="all">Todas las Regiones</option>
+                </select>
+            </div>
+            <div class="f-group">
+                <label for="fPlatform">Plataforma Web / Agenda</label>
+                <select id="fPlatform" class="f-control">
+                    <option value="all">Todas las Plataformas</option>
+                </select>
+            </div>
+            <div class="f-group">
+                <label for="fFollowers">Seguidores Mínimos</label>
+                <select id="fFollowers" class="f-control">
+                    <option value="0">Cualquier tamaño</option>
+                    <option value="500">+500 seguidores</option>
+                    <option value="1000">+1,000 seguidores</option>
+                    <option value="5000">+5,000 seguidores</option>
+                    <option value="10000">+10,000 seguidores</option>
+                </select>
+            </div>
+            <div class="f-group">
+                <label for="fPhone">Teléfono</label>
+                <select id="fPhone" class="f-control">
+                    <option value="all">Todos</option>
+                    <option value="yes">Con Teléfono E.164</option>
+                    <option value="no">Sin Teléfono</option>
+                </select>
+            </div>
+            <div class="f-group">
+                <label for="fGhl">Estado GoHighLevel</label>
+                <select id="fGhl" class="f-control">
+                    <option value="all">Todos</option>
+                    <option value="1">✅ Ya en GHL</option>
+                    <option value="0">⏳ Solo en Mini-Sistema</option>
+                </select>
+            </div>
+            <div class="f-group">
+                <label for="fSort">Ordenar Por</label>
+                <select id="fSort" class="f-control">
+                    <option value="followers_desc">Más Seguidores primero</option>
+                    <option value="recent_touch">Actividad Reciente</option>
+                    <option value="stage_asc">Etapa del Pipeline</option>
+                    <option value="name_asc">Nombre A → Z</option>
+                    <option value="newest">Recién Agregados</option>
+                </select>
+            </div>
+            <div class="f-group">
+                <button id="btnResetFilters" class="btn" style="width:100%; justify-content:center;">↺ Limpiar Filtros</button>
+            </div>
+        </section>
+
+        <!-- Admin Bulk Actions -->
+        <section id="adminBulkBar" class="bulk-bar admin-only" style="display:none;">
+            <div class="bulk-left">
+                <strong style="color:var(--gold-bright);">⚡ Acciones Admin:</strong>
+                <label style="display:inline-flex; align-items:center; gap:6px; font-size:12px; cursor:pointer;">
+                    <input type="checkbox" id="chkAllPage"> Seleccionar página (<span id="selectedCountBadge">0</span> sel.)
+                </label>
+                <select id="bulkScope" class="inline-select">
+                    <option value="selected">Aplicar a seleccionados</option>
+                    <option value="filtered">Aplicar a TODO el filtro (<span id="filteredScopeCount">0</span>)</option>
+                </select>
+            </div>
+            <div class="bulk-right">
+                <select id="bulkSetterTarget" class="inline-select">
+                    <option value="1">Reasignar → Setter 1</option>
+                    <option value="2">Reasignar → Setter 2</option>
+                    <option value="3">Reasignar → Setter 3</option>
+                </select>
+                <button id="btnBulkAssign" class="btn btn-sm">Asignar</button>
+                <button id="btnBulkEquitable" class="btn btn-sm btn-gold">⚖️ Repartir Equitativamente 1/3</button>
+                <select id="bulkStageTarget" class="inline-select"></select>
+                <button id="btnBulkStage" class="btn btn-sm">Mover Etapa</button>
+                <button id="btnBulkSyncGhl" class="btn btn-sm btn-emerald">⚡ Enviar Lote a GHL</button>
+            </div>
+        </section>
+
+        <!-- Data Table -->
+        <section class="table-card">
+            <div class="table-scroll">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="admin-only" style="width:32px; display:none;"></th>
+                            <th>Cuenta Instagram &amp; Negocio</th>
+                            <th>Biografía / Descripción Completa &amp; Diagnóstico</th>
+                            <th>Ubicación &amp; Plataforma Web</th>
+                            <th>WhatsApp, Teléfono &amp; Correo</th>
+                            <th>Setter Asignado</th>
+                            <th>Etapa (14 Etapas) &amp; Notas</th>
+                            <th>Acciones / GHL</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leadsTbody">
+                        <tr><td colspan="8" style="padding:30px; text-align:center; color:var(--muted);">Cargando base unificada...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pager">
+                <div id="pagerInfo" style="color:var(--muted); font-size:12px;">Mostrando 0 de 0</div>
+                <div style="display:flex; gap:8px; align-items:center;">
+                    <select id="fPerPage" class="inline-select">
+                        <option value="50">50 / página</option>
+                        <option value="100">100 / página</option>
+                        <option value="200">200 / página</option>
+                    </select>
+                    <button id="btnPrevPage" class="btn btn-sm">← Anterior</button>
+                    <span id="pageIndicator" style="font-weight:700; font-size:12px;">Pág. 1 / 1</span>
+                    <button id="btnNextPage" class="btn btn-sm">Siguiente →</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Slide-Over Detail / Edit Drawer -->
+    <div id="drawerBackdrop" class="backdrop">
+        <div class="drawer">
+            <div class="modal-head">
+                <h2 id="drawerTitle">Ficha de Prospecto IG</h2>
+                <button id="btnCloseDrawer" class="btn btn-sm">✕ Cerrar</button>
+            </div>
+            <div id="drawerMeta" style="font-size:12px; color:var(--muted);"></div>
+            <div class="form-grid">
+                <div class="f-group form-full">
+                    <label>Nombre del Negocio / Titular</label>
+                    <input id="dFullName" class="f-control" type="text">
+                </div>
+                <div class="f-group">
+                    <label>Teléfono / WhatsApp</label>
+                    <input id="dPhone" class="f-control" type="text">
+                </div>
+                <div class="f-group">
+                    <label>Correo Principal</label>
+                    <input id="dEmail" class="f-control" type="email">
+                </div>
+                <div class="f-group">
+                    <label>Ciudad / Ubicación</label>
+                    <input id="dLocation" class="f-control" type="text">
+                </div>
+                <div class="f-group">
+                    <label>Sitio Web o Link de Agenda</label>
+                    <input id="dWebsite" class="f-control" type="text">
+                </div>
+                <div class="f-group">
+                    <label>Etapa Comercial (14 Etapas)</label>
+                    <select id="dStage" class="f-control"></select>
+                </div>
+                <div class="f-group">
+                    <label>Setter Asignado</label>
+                    <select id="dSetterSlot" class="f-control">
+                        <option value="1">Setter 1</option>
+                        <option value="2">Setter 2</option>
+                        <option value="3">Setter 3</option>
+                    </select>
+                </div>
+                <div class="f-group">
+                    <label>Paquete Beauty Growth</label>
+                    <select id="dPackage" class="f-control">
+                        <option value="BEAUTY_BOOST_1499">Beauty Boost ($1,499/mes)</option>
+                        <option value="BEAUTY_ELEVATE_2499">Beauty Elevate ($2,499/mes)</option>
+                        <option value="BEAUTY_EMPIRE_3499">Beauty Empire ($3,499/mes)</option>
+                        <option value="BEAUTY_HIGHTICKET_5000">Beauty High-Ticket ($5,000/mes)</option>
+                    </select>
+                </div>
+                <div class="f-group">
+                    <label>Monto Cotizado (USD)</label>
+                    <input id="dQuoted" class="f-control" type="number" step="1">
+                </div>
+                <div class="f-group form-full">
+                    <label>Biografía / Descripción Completa de Instagram</label>
+                    <textarea id="dBiography" class="f-control"></textarea>
+                </div>
+                <div class="f-group form-full">
+                    <label>Diagnóstico Estratégico / Contexto IA</label>
+                    <textarea id="dAiNote" class="f-control"></textarea>
+                </div>
+                <div class="f-group form-full">
+                    <label>Notas de Seguimiento (Setter / Jhon)</label>
+                    <textarea id="dSetterNotes" class="f-control" placeholder="Resultado de llamada/DM, interés, objeción o próximo seguimiento..."></textarea>
+                </div>
+            </div>
+            <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:6px;">
+                <button id="btnDrawerSave" class="btn btn-gold" style="flex:1; justify-content:center;">💾 Guardar Cambios</button>
+                <button id="btnDrawerSyncGhl" class="btn btn-emerald" style="flex:1; justify-content:center;">⚡ Guardar y Sincronizar GHL</button>
+            </div>
+            <div id="drawerGhlInfo" style="font-size:11.5px; color:var(--muted); margin-top:4px;"></div>
+        </div>
+    </div>
+
+    <!-- Team Management Modal (3 Setters) -->
+    <div id="teamModal" class="modal-backdrop">
+        <div class="modal-card">
+            <div class="modal-head">
+                <h2>👥 Administración del Equipo de 3 Setters</h2>
+                <button onclick="closeModal('teamModal')" class="btn btn-sm">✕</button>
+            </div>
+            <p style="font-size:12.5px; color:var(--muted); margin-bottom:14px;">
+                Actualiza aquí los nombres y correos reales de tus 3 Setters cuando los tengas listos. Su cartera asignada (1/3 de la base cada uno) se actualiza automáticamente sin perder seguimiento.
+            </p>
+            <div id="teamModalBody"></div>
+        </div>
+    </div>
+
+    <!-- Import Excel Modal -->
+    <div id="importModal" class="modal-backdrop">
+        <div class="modal-card">
+            <div class="modal-head">
+                <h2>📤 Importar Nuevo Excel (.xlsx) o CSV de Instagram</h2>
+                <button onclick="closeModal('importModal')" class="btn btn-sm">✕</button>
+            </div>
+            <p style="font-size:12.5px; color:var(--muted); margin-bottom:14px;">
+                Compatible automáticamente con ambos formatos de Excel (15 columnas con followers/foto ó 9–10 columnas con diagnósticos y biografías). Se unifican duplicados sin borrar notas existentes.
+            </p>
+            <div class="form-grid">
+                <div class="f-group form-full">
+                    <label>Archivo (.xlsx o .csv)</label>
+                    <input id="importFileInput" type="file" accept=".xlsx,.csv" class="f-control">
+                </div>
+                <div class="f-group form-full">
+                    <label>Regla de Reparto para Nuevos Prospectos</label>
+                    <select id="importAssignMode" class="f-control">
+                        <option value="equitable">⚖️ Repartir Equitativamente (1/3 Setter 1, 1/3 Setter 2, 1/3 Setter 3)</option>
+                        <option value="1">Asignar todos al Setter 1</option>
+                        <option value="2">Asignar todos al Setter 2</option>
+                        <option value="3">Asignar todos al Setter 3</option>
+                    </select>
+                </div>
+            </div>
+            <div style="margin-top:16px; display:flex; gap:10px; align-items:center;">
+                <button id="btnRunImport" class="btn btn-gold">🚀 Subir y Unificar Base de Datos</button>
+                <span id="importResultMsg" style="font-size:12px; color:#6ee7b7;"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Lead Modal -->
+    <div id="newLeadModal" class="modal-backdrop">
+        <div class="modal-card">
+            <div class="modal-head">
+                <h2>➕ Agregar Nuevo Prospecto de Instagram</h2>
+                <button onclick="closeModal('newLeadModal')" class="btn btn-sm">✕</button>
+            </div>
+            <div class="form-grid">
+                <div class="f-group">
+                    <label>@Usuario Instagram *</label>
+                    <input id="nlUser" class="f-control" type="text" placeholder="ej: glowbeautymiami">
+                </div>
+                <div class="f-group">
+                    <label>Nombre del Salón / Dueña</label>
+                    <input id="nlName" class="f-control" type="text" placeholder="Glow Beauty Studio">
+                </div>
+                <div class="f-group">
+                    <label>Teléfono / WhatsApp</label>
+                    <input id="nlPhone" class="f-control" type="text" placeholder="+1 786 555 0199">
+                </div>
+                <div class="f-group">
+                    <label>Correo</label>
+                    <input id="nlEmail" class="f-control" type="email" placeholder="hola@salon.com">
+                </div>
+                <div class="f-group">
+                    <label>Ciudad / Ubicación</label>
+                    <input id="nlLocation" class="f-control" type="text" placeholder="Miami, Florida">
+                </div>
+                <div class="f-group">
+                    <label>Sitio Web o Agenda</label>
+                    <input id="nlWebsite" class="f-control" type="text" placeholder="booksy.com/...">
+                </div>
+                <div class="f-group">
+                    <label>Seguidores IG</label>
+                    <input id="nlFollowers" class="f-control" type="number" value="0">
+                </div>
+                <div class="f-group">
+                    <label>Asignar Setter</label>
+                    <select id="nlSetter" class="f-control">
+                        <option value="0">⚖️ Automático (menor carga)</option>
+                        <option value="1">Setter 1</option>
+                        <option value="2">Setter 2</option>
+                        <option value="3">Setter 3</option>
+                    </select>
+                </div>
+                <div class="f-group form-full">
+                    <label>Biografía / Descripción</label>
+                    <textarea id="nlBio" class="f-control" placeholder="Servicios, horarios, bio de Instagram..."></textarea>
+                </div>
+                <div class="f-group form-full">
+                    <label>Notas / Diagnóstico Inicial</label>
+                    <textarea id="nlDiag" class="f-control"></textarea>
+                </div>
+            </div>
+            <div style="margin-top:16px; display:flex; gap:10px;">
+                <button id="btnCreateLeadSubmit" class="btn btn-gold">Guardar Prospecto</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script>
+        let currentUser = null;
+        let teamList = [];
+        let stagesList = [];
+        let leadsCache = [];
+        let selectedIds = new Set();
+        let activeDrawerLeadId = null;
+        let lastStats = {};
+        let state = {
+            q: '',
+            setter_slot: 'all',
+            pipeline_stage: 'all',
+            niche_category: 'all',
+            country_region: 'all',
+            booking_platform: 'all',
+            min_followers: 0,
+            has_phone: 'all',
+            ghl_synced: 'all',
+            sort_by: 'followers_desc',
+            page: 1,
+            per_page: 50,
+            total: 0,
+            total_pages: 1,
+        };
+
+        function escHtml(str) {
+            return String(str || '').replace(/[&<>"']/g, s => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            }[s]));
+        }
+
+        function safeUrl(u) {
+            const val = String(u || '').trim();
+            if (/^https?:\/\//i.test(val)) return val;
+            return '';
+        }
+
+        function showToast(msg, duration = 3200) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), duration);
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('open');
+        }
+
+        async function apiFetch(url, opts = {}) {
+            const tok = localStorage.getItem('bg_auth_token') || '';
+            const headers = Object.assign({}, opts.headers || {});
+            if (tok) headers['Authorization'] = 'Bearer ' + tok;
+            const res = await fetch(url, Object.assign({}, opts, { headers }));
+            if (res.status === 401 || res.status === 403) {
+                if (url.includes('/auth/me')) {
+                    localStorage.removeItem('bg_auth_token');
+                    window.location.href = '/beautygrowth/login';
+                }
+            }
+            return res;
+        }
+
+        function setterLabel(slot) {
+            const match = teamList.find(t => Number(t.setter_slot) === Number(slot));
+            if (match) return `${match.name.split('·')[0].trim()} (Slot ${slot})`;
+            return `Setter ${slot}`;
+        }
+
+        function populateFilterOptions(meta) {
+            stagesList = meta.stages || [];
+            teamList = meta.team || [];
+
+            const selRegion = document.getElementById('fRegion');
+            selRegion.innerHTML = '<option value="all">Todas las Regiones</option>' +
+                (meta.regions || []).map(r => `<option value="${escHtml(r)}">${escHtml(r)}</option>`).join('');
+
+            const selPlat = document.getElementById('fPlatform');
+            selPlat.innerHTML = '<option value="all">Todas las Plataformas</option>' +
+                (meta.platforms || []).map(p => `<option value="${escHtml(p)}">${escHtml(p)}</option>`).join('');
+
+            const selSetter = document.getElementById('fSetter');
+            if ((currentUser.role || '').toLowerCase() === 'admin') {
+                selSetter.innerHTML = '<option value="all">Todos (Equipo Completo)</option>' +
+                    [1, 2, 3].map(s => `<option value="${s}">${escHtml(setterLabel(s))}</option>`).join('');
+            } else {
+                selSetter.innerHTML = `<option value="${currentUser.setter_slot}">${escHtml(currentUser.name)} (Mi Cartera 1/3)</option>`;
+                selSetter.disabled = true;
+            }
+
+            const stageOpts = stagesList.map(s => `<option value="${escHtml(s)}">${escHtml(s)}</option>`).join('');
+            document.getElementById('bulkStageTarget').innerHTML = stageOpts;
+            document.getElementById('dStage').innerHTML = stageOpts;
+            const setterOpts = [1, 2, 3].map(s => `<option value="${s}">${escHtml(setterLabel(s))}</option>`).join('');
+            document.getElementById('dSetterSlot').innerHTML = setterOpts;
+            document.getElementById('bulkSetterTarget').innerHTML = [1, 2, 3].map(s => `<option value="${s}">Reasignar → ${escHtml(setterLabel(s))}</option>`).join('');
+        }
+
+        function renderKpis(stats) {
+            lastStats = stats || {};
+            const sc = stats.setter_counts || {};
+            const isAdmin = (currentUser.role || '').toLowerCase() === 'admin';
+            const cards = [
+                {
+                    label: isAdmin ? 'Base Unificada IG' : 'Mi Cartera Asignada',
+                    value: (stats.total || 0).toLocaleString(),
+                    sub: `${(stats.with_bio || 0).toLocaleString()} con biografía completa`,
+                    click: () => { state.setter_slot = 'all'; state.niche_category = 'all'; state.country_region = 'all'; state.ghl_synced = 'all'; state.page = 1; syncFilterControls(); loadLeads(); },
+                    active: state.setter_slot === 'all' && state.niche_category === 'all' && state.country_region === 'all' && state.ghl_synced === 'all'
+                },
+                {
+                    label: 'Nicho Belleza / Estética',
+                    value: (stats.beauty_count || 0).toLocaleString(),
+                    sub: 'Salones, Uñas, Lashes, MedSpa',
+                    click: () => { state.niche_category = state.niche_category === 'Belleza / Estética / Salón' ? 'all' : 'Belleza / Estética / Salón'; state.page = 1; syncFilterControls(); loadLeads(); },
+                    active: state.niche_category === 'Belleza / Estética / Salón'
+                },
+                {
+                    label: 'Mercado USA / Puerto Rico',
+                    value: (stats.usa_count || 0).toLocaleString(),
+                    sub: `${(stats.with_phone || 0).toLocaleString()} con WhatsApp/Tel E.164`,
+                    click: () => { state.country_region = state.country_region === 'USA / PR' ? 'all' : 'USA / PR'; state.page = 1; syncFilterControls(); loadLeads(); },
+                    active: state.country_region === 'USA / PR'
+                },
+            ];
+
+            if (isAdmin) {
+                [1, 2, 3].forEach(slot => {
+                    const u = teamList.find(x => Number(x.setter_slot) === slot);
+                    cards.push({
+                        label: u ? u.name.split('·')[0].trim() : `Setter ${slot}`,
+                        value: (sc[String(slot)] || 0).toLocaleString(),
+                        sub: u ? u.email : `setter${slot}@agenciaprosperia.com`,
+                        click: () => { state.setter_slot = String(state.setter_slot) === String(slot) ? 'all' : String(slot); state.page = 1; syncFilterControls(); loadLeads(); },
+                        active: String(state.setter_slot) === String(slot)
+                    });
+                });
+            }
+
+            cards.push({
+                label: 'Enviados a GHL (Opción A)',
+                value: (stats.ghl_synced || 0).toLocaleString(),
+                sub: 'Subcuenta V8tM5xk6xl15wKhbQS0p',
+                click: () => { state.ghl_synced = state.ghl_synced === '1' ? 'all' : '1'; state.page = 1; syncFilterControls(); loadLeads(); },
+                active: state.ghl_synced === '1'
+            });
+
+            const grid = document.getElementById('kpiGrid');
+            grid.innerHTML = cards.map((c, idx) => `
+                <div class="kpi-card ${c.active ? 'active' : ''}" data-kpi-idx="${idx}">
+                    <div class="kpi-label">${escHtml(c.label)}</div>
+                    <div class="kpi-value">${escHtml(c.value)}</div>
+                    <div class="kpi-sub">${escHtml(c.sub)}</div>
+                </div>
+            `).join('');
+            grid.querySelectorAll('.kpi-card').forEach(el => {
+                const i = Number(el.getAttribute('data-kpi-idx'));
+                el.addEventListener('click', cards[i].click);
+            });
+        }
+
+        function renderStagesRibbon(stageCounts) {
+            const totalAll = Object.values(stageCounts || {}).reduce((a, b) => a + b, 0);
+            const pills = [
+                `<button class="stage-pill ${state.pipeline_stage === 'all' ? 'active' : ''}" data-stage="all">Todas <span class="cnt">${totalAll.toLocaleString()}</span></button>`
+            ];
+            stagesList.forEach(st => {
+                const cnt = (stageCounts && stageCounts[st]) ? stageCounts[st] : 0;
+                pills.push(`<button class="stage-pill ${state.pipeline_stage === st ? 'active' : ''}" data-stage="${escHtml(st)}">${escHtml(st)} <span class="cnt">${cnt.toLocaleString()}</span></button>`);
+            });
+            const ribbon = document.getElementById('stagesRibbon');
+            ribbon.innerHTML = pills.join('');
+            ribbon.querySelectorAll('.stage-pill').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    state.pipeline_stage = btn.getAttribute('data-stage');
+                    state.page = 1;
+                    loadLeads();
+                });
+            });
+        }
+
+        function syncFilterControls() {
+            document.getElementById('fSearch').value = state.q;
+            document.getElementById('fSetter').value = state.setter_slot;
+            document.getElementById('fNiche').value = state.niche_category;
+            document.getElementById('fRegion').value = state.country_region;
+            document.getElementById('fPlatform').value = state.booking_platform;
+            document.getElementById('fFollowers').value = String(state.min_followers);
+            document.getElementById('fPhone').value = state.has_phone;
+            document.getElementById('fGhl').value = state.ghl_synced;
+            document.getElementById('fSort').value = state.sort_by;
+        }
+
+        function buildQueryParams() {
+            const p = new URLSearchParams();
+            if (state.q) p.set('q', state.q);
+            p.set('setter_slot', state.setter_slot);
+            p.set('pipeline_stage', state.pipeline_stage);
+            p.set('niche_category', state.niche_category);
+            p.set('country_region', state.country_region);
+            p.set('booking_platform', state.booking_platform);
+            p.set('min_followers', String(state.min_followers || 0));
+            p.set('has_phone', state.has_phone);
+            p.set('ghl_synced', state.ghl_synced);
+            p.set('sort_by', state.sort_by);
+            p.set('page', String(state.page));
+            p.set('per_page', String(state.per_page));
+            return p;
+        }
+
+        async function loadLeads() {
+            const p = buildQueryParams();
+            const res = await apiFetch('/api/beautygrowth/leads?' + p.toString());
+            const json = await res.json();
+            if (!res.ok || !json.success) {
+                showToast('Error cargando leads: ' + (json.detail || json.error || res.status));
+                return;
+            }
+            const d = json.data;
+            leadsCache = d.leads || [];
+            selectedIds.clear();
+            document.getElementById('chkAllPage').checked = false;
+            document.getElementById('selectedCountBadge').textContent = '0';
+
+            state.total = d.pagination.total;
+            state.total_pages = d.pagination.total_pages;
+            document.getElementById('filteredScopeCount').textContent = state.total.toLocaleString();
+
+            renderKpis(d.stats);
+            renderStagesRibbon(d.stage_counts);
+            renderTable();
+            renderPager(d.pagination);
+        }
+
+        function renderPager(pg) {
+            const start = pg.total === 0 ? 0 : ((pg.page - 1) * pg.per_page) + 1;
+            const end = Math.min(pg.total, pg.page * pg.per_page);
+            document.getElementById('pagerInfo').textContent = `Mostrando ${start.toLocaleString()}–${end.toLocaleString()} de ${pg.total.toLocaleString()} prospectos`;
+            document.getElementById('pageIndicator').textContent = `Pág. ${pg.page} / ${pg.total_pages}`;
+            document.getElementById('btnPrevPage').disabled = pg.page <= 1;
+            document.getElementById('btnNextPage').disabled = pg.page >= pg.total_pages;
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('leadsTbody');
+            const isAdmin = (currentUser.role || '').toLowerCase() === 'admin';
+            if (!leadsCache.length) {
+                tbody.innerHTML = `<tr><td colspan="8" style="padding:32px; text-align:center; color:var(--muted);">No hay prospectos que coincidan con los filtros actuales.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = leadsCache.map(ld => {
+                const igHref = safeUrl(ld.ig_profile_url) || `https://instagram.com/${encodeURIComponent(ld.ig_username)}`;
+                const picUrl = safeUrl(ld.ig_profile_pic_url);
+                const initial = (ld.full_name || ld.ig_username || 'B').charAt(0).toUpperCase();
+                const avatarHtml = picUrl
+                    ? `<img class="avatar-circle" src="${escHtml(picUrl)}" alt="" loading="lazy" onerror="this.style.display='none'">`
+                    : `<div class="avatar-circle">${escHtml(initial)}</div>`;
+
+                const webHref = safeUrl(ld.website_url);
+                const waDigits = (ld.phone_e164 || '').replace(/\D/g, '');
+                const waMsg = encodeURIComponent(`Hola ${ld.first_name || ld.full_name || ''}, vimos tu perfil @${ld.ig_username} en Instagram y te escribo de Beauty Growth sobre cómo están agendando clientas.`);
+                const waBtn = waDigits
+                    ? `<a href="https://wa.me/${waDigits}?text=${waMsg}" target="_blank" class="btn btn-sm btn-emerald">💬 WhatsApp ${escHtml(ld.phone_e164)}</a>`
+                    : `<span style="color:var(--muted); font-size:11px;">Sin teléfono</span>`;
+
+                const stageOpts = stagesList.map(st =>
+                    `<option value="${escHtml(st)}" ${st === ld.pipeline_stage ? 'selected' : ''}>${escHtml(st)}</option>`
+                ).join('');
+
+                const setterCell = isAdmin
+                    ? `<select class="inline-select" onchange="quickUpdateLead(${ld.id}, {assigned_setter_slot: Number(this.value)})">
+                        ${[1,2,3].map(s => `<option value="${s}" ${Number(ld.assigned_setter_slot)===s ? 'selected' : ''}>${escHtml(setterLabel(s))}</option>`).join('')}
+                       </select>`
+                    : `<span class="tag">${escHtml(ld.assigned_setter_name || ('Setter ' + ld.assigned_setter_slot))}</span>`;
+
+                const nicheClass = ld.niche_category === 'Belleza / Estética / Salón' ? 'tag-beauty' : '';
+                const regClass = ld.country_region === 'USA / PR' ? 'tag-usa' : '';
+
+                const bioHtml = ld.biography
+                    ? `<div class="bio-box" title="Clic para expandir/contraer" onclick="this.classList.toggle('expanded')">${escHtml(ld.biography)}</div>`
+                    : `<span style="color:var(--muted); font-size:11.5px;">Sin biografía</span>`;
+
+                const diagHtml = ld.ai_diagnostic_note
+                    ? `<div class="diag-snippet"><strong>🧠 Diagnóstico:</strong> ${escHtml(ld.ai_diagnostic_note.slice(0, 240))}${ld.ai_diagnostic_note.length > 240 ? '…' : ''}</div>`
+                    : '';
+
+                const ghlBtn = ld.ghl_synced
+                    ? `<button class="btn btn-sm btn-emerald" onclick="syncSingleGhl(${ld.id}, this)" title="Ya sincronizado. Clic para actualizar oportunidad en GHL">✅ En GHL</button>`
+                    : `<button class="btn btn-sm btn-cyan" onclick="syncSingleGhl(${ld.id}, this)" title="Enviar ahora a subcuenta GHL V8tM5xk6xl15wKhbQS0p">⚡ Sync GHL</button>`;
+
+                return `<tr>
+                    ${isAdmin ? `<td><input type="checkbox" class="row-chk" data-id="${ld.id}" onchange="toggleRowCheck(${ld.id}, this.checked)"></td>` : ''}
+                    <td>
+                        <div class="ig-head">
+                            ${avatarHtml}
+                            <div>
+                                <a class="ig-link" href="${escHtml(igHref)}" target="_blank">@${escHtml(ld.ig_username)}</a>
+                                <div class="biz-name">${escHtml(ld.full_name || ld.ig_username)}</div>
+                                <div class="metrics-row">
+                                    <span class="tag">${Number(ld.followers_count || 0).toLocaleString()} seg.</span>
+                                    ${ld.following_count ? `<span class="tag">${Number(ld.following_count).toLocaleString()} seguidos</span>` : ''}
+                                    ${ld.is_business ? `<span class="tag tag-diag">Business</span>` : ''}
+                                </div>
+                                <div class="metrics-row">
+                                    <span class="tag ${nicheClass}">${escHtml(ld.niche_category)}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        ${bioHtml}
+                        ${diagHtml}
+                    </td>
+                    <td>
+                        <div style="font-weight:700; color:#e2e8f0; margin-bottom:4px;">${escHtml(ld.location_raw || 'Sin ubicación')}</div>
+                        <div class="metrics-row" style="margin-bottom:5px;">
+                            <span class="tag ${regClass}">${escHtml(ld.country_region)}</span>
+                            <span class="tag tag-agenda">${escHtml(ld.booking_platform)}</span>
+                        </div>
+                        ${webHref ? `<a href="${escHtml(webHref)}" target="_blank" style="color:var(--cyan); font-size:11.5px; word-break:break-all;">${escHtml(ld.website_url.slice(0, 48))}</a>` : ''}
+                    </td>
+                    <td>
+                        <div class="contact-stack">
+                            ${waBtn}
+                            ${ld.email_primary ? `<button class="copy-btn" onclick="copyText('${escHtml(ld.email_primary)}')" title="Copiar correo">✉️ ${escHtml(ld.email_primary)}</button>` : ''}
+                            ${ld.email_secondary ? `<span style="font-size:10.5px; color:var(--muted);">+${escHtml(ld.email_secondary)}</span>` : ''}
+                        </div>
+                    </td>
+                    <td>${setterCell}</td>
+                    <td>
+                        <select class="inline-select" onchange="quickUpdateLead(${ld.id}, {pipeline_stage: this.value})">
+                            ${stageOpts}
+                        </select>
+                        ${ld.setter_notes ? `<div class="inline-note-preview">📝 ${escHtml(ld.setter_notes.slice(0, 120))}</div>` : ''}
+                    </td>
+                    <td>
+                        <div style="display:flex; flex-direction:column; gap:6px;">
+                            <button class="btn btn-sm btn-gold" onclick="openDrawer(${ld.id})">📝 Ficha / Editar</button>
+                            ${ghlBtn}
+                        </div>
+                    </td>
+                </tr>`;
+            }).join('');
+        }
+
+        function toggleRowCheck(id, checked) {
+            if (checked) selectedIds.add(id);
+            else selectedIds.delete(id);
+            document.getElementById('selectedCountBadge').textContent = String(selectedIds.size);
+        }
+
+        function copyText(txt) {
+            navigator.clipboard.writeText(txt).then(() => showToast('Copiado: ' + txt));
+        }
+
+        async function quickUpdateLead(leadId, patch) {
+            const res = await apiFetch(`/api/beautygrowth/leads/${leadId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(patch),
+            });
+            const json = await res.json();
+            if (!res.ok || !json.success) {
+                showToast('Error actualizando: ' + (json.detail || json.error || res.status));
+                loadLeads();
+                return;
+            }
+            const idx = leadsCache.findIndex(x => x.id === leadId);
+            if (idx >= 0) leadsCache[idx] = json.data;
+            let msg = '✅ Prospecto actualizado';
+            if (json.ghl_sync && json.ghl_sync.ok) {
+                msg += ` · ⚡ Sincronizado en GHL (${json.ghl_sync.stage_name})`;
+            } else if (json.ghl_sync && !json.ghl_sync.ok && json.ghl_sync.error) {
+                msg += ` · ⚠️ GHL: ${json.ghl_sync.error}`;
+            }
+            showToast(msg, 3800);
+            loadLeads();
+        }
+
+        async function syncSingleGhl(leadId, btnEl) {
+            if (btnEl) { btnEl.disabled = true; btnEl.textContent = 'Sincronizando...'; }
+            const res = await apiFetch(`/api/beautygrowth/leads/${leadId}/sync-ghl`, { method: 'POST' });
+            const json = await res.json();
+            if (!res.ok || !json.success) {
+                showToast('❌ Error GHL: ' + (json.error || json.detail || 'Revisa teléfono/correo'), 4500);
+                if (btnEl) { btnEl.disabled = false; btnEl.textContent = '⚡ Sync GHL'; }
+                return;
+            }
+            showToast(`✅ Enviado a GHL V8tM5xk6xl15wKhbQS0p (Opp: ${json.ghl.opportunity_id})`, 4000);
+            loadLeads();
+        }
+
+        function openDrawer(leadId) {
+            const ld = leadsCache.find(x => x.id === leadId);
+            if (!ld) return;
+            activeDrawerLeadId = ld.id;
+            document.getElementById('drawerTitle').textContent = `@${ld.ig_username}`;
+            document.getElementById('drawerMeta').innerHTML =
+                `ID #${ld.id} · ${Number(ld.followers_count||0).toLocaleString()} seguidores · ${Number(ld.following_count||0).toLocaleString()} seguidos · Fuente: ${escHtml(ld.source_file)}`;
+            document.getElementById('dFullName').value = ld.full_name || '';
+            document.getElementById('dPhone').value = ld.phone_e164 || ld.phone_raw || '';
+            document.getElementById('dEmail').value = ld.email_primary || '';
+            document.getElementById('dLocation').value = ld.location_raw || '';
+            document.getElementById('dWebsite').value = ld.website_url || '';
+            document.getElementById('dStage').value = ld.pipeline_stage || stagesList[0];
+            document.getElementById('dSetterSlot').value = String(ld.assigned_setter_slot || 1);
+            document.getElementById('dSetterSlot').disabled = (currentUser.role || '').toLowerCase() !== 'admin';
+            document.getElementById('dPackage').value = ld.offer_package || 'BEAUTY_ELEVATE_2499';
+            document.getElementById('dQuoted').value = ld.quoted_amount || 0;
+            document.getElementById('dBiography').value = ld.biography || '';
+            document.getElementById('dAiNote').value = ld.ai_diagnostic_note || '';
+            document.getElementById('dSetterNotes').value = ld.setter_notes || '';
+            document.getElementById('drawerGhlInfo').textContent = ld.ghl_synced
+                ? `✅ En GHL | Contact ID: ${ld.ghl_contact_id} | Opportunity ID: ${ld.ghl_opportunity_id}`
+                : '⏳ Todavía no enviado a GoHighLevel (Opción A: se enviará al avanzar etapa 2+ o pulsando Guardar y Sincronizar).';
+            document.getElementById('drawerBackdrop').classList.add('open');
+        }
+
+        async function saveDrawer(syncNow) {
+            if (!activeDrawerLeadId) return;
+            const payload = {
+                full_name: document.getElementById('dFullName').value,
+                phone_raw: document.getElementById('dPhone').value,
+                email_primary: document.getElementById('dEmail').value,
+                location_raw: document.getElementById('dLocation').value,
+                website_url: document.getElementById('dWebsite').value,
+                pipeline_stage: document.getElementById('dStage').value,
+                offer_package: document.getElementById('dPackage').value,
+                quoted_amount: Number(document.getElementById('dQuoted').value || 0),
+                biography: document.getElementById('dBiography').value,
+                ai_diagnostic_note: document.getElementById('dAiNote').value,
+                setter_notes: document.getElementById('dSetterNotes').value,
+                sync_to_ghl: Boolean(syncNow),
+            };
+            if ((currentUser.role || '').toLowerCase() === 'admin') {
+                payload.assigned_setter_slot = Number(document.getElementById('dSetterSlot').value);
+            }
+            const res = await apiFetch(`/api/beautygrowth/leads/${activeDrawerLeadId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload),
+            });
+            const json = await res.json();
+            if (!res.ok || !json.success) {
+                showToast('❌ Error: ' + (json.detail || json.error || res.status));
+                return;
+            }
+            document.getElementById('drawerBackdrop').classList.remove('open');
+            let msg = '✅ Ficha guardada correctamente';
+            if (json.ghl_sync && json.ghl_sync.ok) msg += ' · ⚡ Sincronizado con GHL';
+            else if (syncNow && json.ghl_sync && json.ghl_sync.error) msg += ' · ⚠️ ' + json.ghl_sync.error;
+            showToast(msg, 4200);
+            loadLeads();
+        }
+
+        async function openTeamModal() {
+            const res = await apiFetch('/api/beautygrowth/team');
+            const json = await res.json();
+            if (!res.ok || !json.success) return;
+            const setters = (json.data.team || []).filter(u => Number(u.setter_slot) >= 1 && Number(u.setter_slot) <= 3);
+            const body = document.getElementById('teamModalBody');
+            body.innerHTML = setters.map(s => {
+                const m = s.metrics || {};
+                return `<div class="setter-box">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
+                        <strong style="color:var(--gold-bright);">Setter Slot ${s.setter_slot}</strong>
+                        <span style="font-size:11.5px; color:#6ee7b7;">
+                            Asignados: <strong>${(m.total_assigned||0).toLocaleString()}</strong> ·
+                            Contactados: <strong>${(m.contacted||0).toLocaleString()}</strong> ·
+                            Citas/Cierre: <strong>${(m.meetings||0).toLocaleString()}</strong> ·
+                            En GHL: <strong>${(m.ghl_synced||0).toLocaleString()}</strong>
+                        </span>
+                    </div>
+                    <div class="form-grid">
+                        <div class="f-group">
+                            <label>Nombre Completo</label>
+                            <input id="stName_${s.setter_slot}" class="f-control" value="${escHtml(s.name)}">
+                        </div>
+                        <div class="f-group">
+                            <label>Correo Electrónico de Acceso</label>
+                            <input id="stEmail_${s.setter_slot}" class="f-control" value="${escHtml(s.email)}">
+                        </div>
+                        <div class="f-group">
+                            <label>Teléfono / WhatsApp</label>
+                            <input id="stPhone_${s.setter_slot}" class="f-control" value="${escHtml(s.phone)}">
+                        </div>
+                        <div class="f-group">
+                            <label>Nueva Contraseña (dejar vacío para conservar)</label>
+                            <input id="stPass_${s.setter_slot}" class="f-control" type="password" placeholder="Ej: Setter2026!">
+                        </div>
+                    </div>
+                    <div style="margin-top:10px;">
+                        <button class="btn btn-sm btn-gold" onclick="saveSetterSlot(${s.setter_slot})">💾 Actualizar Setter ${s.setter_slot} y Sus Leads</button>
+                    </div>
+                </div>`;
+            }).join('');
+            document.getElementById('teamModal').classList.add('open');
+        }
+
+        async function saveSetterSlot(slot) {
+            const payload = {
+                name: document.getElementById(`stName_${slot}`).value.trim(),
+                email: document.getElementById(`stEmail_${slot}`).value.trim(),
+                phone: document.getElementById(`stPhone_${slot}`).value.trim(),
+                new_password: document.getElementById(`stPass_${slot}`).value.trim(),
+                is_active: 1,
+            };
+            const res = await apiFetch(`/api/beautygrowth/team/${slot}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload),
+            });
+            const json = await res.json();
+            if (!res.ok || !json.success) {
+                showToast('❌ Error: ' + (json.detail || json.error || res.status));
+                return;
+            }
+            showToast(`✅ Setter ${slot} actualizado (${json.data.email}) y propagado a toda su cartera`, 4000);
+            const meRes = await apiFetch('/api/beautygrowth/auth/me');
+            const meJson = await meRes.json();
+            if (meJson.success) populateFilterOptions(meJson.data);
+            openTeamModal();
+            loadLeads();
+        }
+
+        async function runBulkAction(action, extra = {}) {
+            const scope = document.getElementById('bulkScope').value;
+            const payload = Object.assign({
+                action,
+                apply_to_filter: scope === 'filtered',
+                lead_ids: scope === 'selected' ? Array.from(selectedIds) : [],
+                filters: {
+                    q: state.q,
+                    setter_slot: state.setter_slot,
+                    pipeline_stage: state.pipeline_stage,
+                    niche_category: state.niche_category,
+                    country_region: state.country_region,
+                    booking_platform: state.booking_platform,
+                    min_followers: state.min_followers,
+                    has_phone: state.has_phone,
+                    ghl_synced: state.ghl_synced,
+                }
+            }, extra);
+
+            if (scope === 'selected' && (!payload.lead_ids || !payload.lead_ids.length)) {
+                showToast('⚠️ Marca al menos un prospecto o cambia el selector a "Aplicar a TODO el filtro".');
+                return;
+            }
+
+            const res = await apiFetch('/api/beautygrowth/leads/bulk-action', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload),
+            });
+            const json = await res.json();
+            if (!res.ok || !json.success) {
+                showToast('❌ Error en lote: ' + (json.detail || json.error || res.status));
+                return;
+            }
+            if (action === 'sync_ghl_batch') {
+                showToast(`⚡ Lote GHL: ${json.synced_ok} sincronizados, ${json.failed} fallidos`, 5000);
+            } else {
+                showToast(`✅ Acción aplicada sobre ${json.affected || 0} prospectos`, 3800);
+            }
+            loadLeads();
+        }
+
+        async function bootstrap() {
+            const meRes = await apiFetch('/api/beautygrowth/auth/me');
+            if (!meRes.ok) {
+                window.location.href = '/beautygrowth/login';
+                return;
+            }
+            const meJson = await meRes.json();
+            const meta = meJson.data;
+            currentUser = meta.user;
+
+            const isAdmin = (currentUser.role || '').toLowerCase() === 'admin';
+            document.getElementById('userBadge').textContent = isAdmin
+                ? `🛡 Admin Total · ${currentUser.name}`
+                : `🎧 Setter Slot ${currentUser.setter_slot} · ${currentUser.name}`;
+
+            const ghlChip = document.getElementById('ghlStatusChip');
+            if (meta.ghl && meta.ghl.connected) {
+                ghlChip.textContent = `⚡ GHL Conectado · ${meta.ghl.location_id} (14 Etapas)`;
+            } else {
+                ghlChip.classList.add('warn');
+                ghlChip.textContent = '⚠️ GHL Sin Token Configurado';
+            }
+
+            if (isAdmin) {
+                document.querySelectorAll('.admin-only').forEach(el => {
+                    el.style.display = el.tagName === 'TH' ? 'table-cell' : (el.tagName === 'SECTION' ? 'flex' : 'inline-flex');
+                });
+            }
+
+            populateFilterOptions(meta);
+            bindEvents();
+            await loadLeads();
+        }
+
+        function bindEvents() {
+            let searchTimer = null;
+            document.getElementById('fSearch').addEventListener('input', e => {
+                clearTimeout(searchTimer);
+                searchTimer = setTimeout(() => {
+                    state.q = e.target.value.trim();
+                    state.page = 1;
+                    loadLeads();
+                }, 260);
+            });
+
+            ['fSetter', 'fNiche', 'fRegion', 'fPlatform', 'fFollowers', 'fPhone', 'fGhl', 'fSort', 'fPerPage'].forEach(id => {
+                document.getElementById(id).addEventListener('change', e => {
+                    if (id === 'fSetter') state.setter_slot = e.target.value;
+                    if (id === 'fNiche') state.niche_category = e.target.value;
+                    if (id === 'fRegion') state.country_region = e.target.value;
+                    if (id === 'fPlatform') state.booking_platform = e.target.value;
+                    if (id === 'fFollowers') state.min_followers = Number(e.target.value || 0);
+                    if (id === 'fPhone') state.has_phone = e.target.value;
+                    if (id === 'fGhl') state.ghl_synced = e.target.value;
+                    if (id === 'fSort') state.sort_by = e.target.value;
+                    if (id === 'fPerPage') state.per_page = Number(e.target.value || 50);
+                    state.page = 1;
+                    loadLeads();
+                });
+            });
+
+            document.getElementById('btnResetFilters').addEventListener('click', () => {
+                state = Object.assign(state, {
+                    q: '', setter_slot: 'all', pipeline_stage: 'all', niche_category: 'all',
+                    country_region: 'all', booking_platform: 'all', min_followers: 0,
+                    has_phone: 'all', ghl_synced: 'all', sort_by: 'followers_desc', page: 1
+                });
+                syncFilterControls();
+                loadLeads();
+            });
+
+            document.getElementById('btnPrevPage').addEventListener('click', () => {
+                if (state.page > 1) { state.page--; loadLeads(); }
+            });
+            document.getElementById('btnNextPage').addEventListener('click', () => {
+                if (state.page < state.total_pages) { state.page++; loadLeads(); }
+            });
+
+            document.getElementById('chkAllPage').addEventListener('change', e => {
+                const checked = e.target.checked;
+                document.querySelectorAll('.row-chk').forEach(chk => {
+                    chk.checked = checked;
+                    const id = Number(chk.getAttribute('data-id'));
+                    if (checked) selectedIds.add(id);
+                    else selectedIds.delete(id);
+                });
+                document.getElementById('selectedCountBadge').textContent = String(selectedIds.size);
+            });
+
+            document.getElementById('btnBulkAssign').addEventListener('click', () =>
+                runBulkAction('assign_setter', { target_setter_slot: Number(document.getElementById('bulkSetterTarget').value) })
+            );
+            document.getElementById('btnBulkEquitable').addEventListener('click', () =>
+                runBulkAction('redistribute_equally')
+            );
+            document.getElementById('btnBulkStage').addEventListener('click', () =>
+                runBulkAction('change_stage', { target_stage: document.getElementById('bulkStageTarget').value })
+            );
+            document.getElementById('btnBulkSyncGhl').addEventListener('click', () =>
+                runBulkAction('sync_ghl_batch')
+            );
+
+            document.getElementById('btnCloseDrawer').addEventListener('click', () =>
+                document.getElementById('drawerBackdrop').classList.remove('open')
+            );
+            document.getElementById('btnDrawerSave').addEventListener('click', () => saveDrawer(false));
+            document.getElementById('btnDrawerSyncGhl').addEventListener('click', () => saveDrawer(true));
+
+            document.getElementById('btnTeamModal').addEventListener('click', openTeamModal);
+            document.getElementById('btnImportModal').addEventListener('click', () => {
+                document.getElementById('importResultMsg').textContent = '';
+                document.getElementById('importModal').classList.add('open');
+            });
+            document.getElementById('btnNewLead').addEventListener('click', () => {
+                document.getElementById('newLeadModal').classList.add('open');
+            });
+
+            document.getElementById('btnRunImport').addEventListener('click', async () => {
+                const f = document.getElementById('importFileInput').files[0];
+                if (!f) { showToast('Selecciona un archivo .xlsx o .csv'); return; }
+                const fd = new FormData();
+                fd.append('file', f);
+                fd.append('assign_mode', document.getElementById('importAssignMode').value);
+                const btn = document.getElementById('btnRunImport');
+                btn.disabled = true; btn.textContent = 'Procesando...';
+                const res = await apiFetch('/api/beautygrowth/leads/import-excel', { method: 'POST', body: fd });
+                const json = await res.json();
+                btn.disabled = false; btn.textContent = '🚀 Subir y Unificar Base de Datos';
+                if (!res.ok || !json.success) {
+                    showToast('❌ Error importando: ' + (json.detail || res.status));
+                    return;
+                }
+                const d = json.data;
+                document.getElementById('importResultMsg').textContent =
+                    `✅ Leídas: ${d.rows_read} | Nuevos insertados: ${d.inserted} | Fusionados: ${d.updated_merged}`;
+                loadLeads();
+            });
+
+            document.getElementById('btnCreateLeadSubmit').addEventListener('click', async () => {
+                const igUser = document.getElementById('nlUser').value.trim();
+                if (!igUser) { showToast('Ingresa el @usuario de Instagram'); return; }
+                const res = await apiFetch('/api/beautygrowth/leads', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        ig_username: igUser,
+                        full_name: document.getElementById('nlName').value.trim(),
+                        phone_raw: document.getElementById('nlPhone').value.trim(),
+                        email_primary: document.getElementById('nlEmail').value.trim(),
+                        location_raw: document.getElementById('nlLocation').value.trim(),
+                        website_url: document.getElementById('nlWebsite').value.trim(),
+                        followers_count: Number(document.getElementById('nlFollowers').value || 0),
+                        assigned_setter_slot: Number(document.getElementById('nlSetter').value || 0),
+                        biography: document.getElementById('nlBio').value.trim(),
+                        ai_diagnostic_note: document.getElementById('nlDiag').value.trim(),
+                    })
+                });
+                const json = await res.json();
+                if (!res.ok || !json.success) {
+                    showToast('❌ Error: ' + (json.error || json.detail || res.status));
+                    return;
+                }
+                closeModal('newLeadModal');
+                showToast(`✅ Prospecto @${json.data.ig_username} agregado al Mini-Sistema`);
+                loadLeads();
+            });
+
+            document.getElementById('btnExportCsv').addEventListener('click', async () => {
+                const p = buildQueryParams();
+                showToast('Preparando descarga CSV...', 2000);
+                const res = await apiFetch('/api/beautygrowth/leads/export.csv?' + p.toString());
+                if (!res.ok) { showToast('❌ No se pudo exportar CSV'); return; }
+                const blob = await res.blob();
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'beauty_growth_leads_filtrados.csv';
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                URL.revokeObjectURL(url);
+            });
+
+            document.getElementById('btnLogout').addEventListener('click', async () => {
+                await apiFetch('/api/beautygrowth/auth/logout', { method: 'POST' });
+                localStorage.removeItem('bg_auth_token');
+                localStorage.removeItem('bg_user');
+                window.location.href = '/beautygrowth/login';
+            });
+        }
+
+        bootstrap();
+    </script>
+</body>
+</html>
