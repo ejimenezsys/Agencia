@@ -614,9 +614,9 @@ INITIAL_SALES_TEAM = [
         "dupla": "Dupla C — Profesionales, Consultores & Academias",
         "phone": "",
         "plan": "SVE-90 Enterprise",
-        "ghl_user_id": "",
+        "ghl_user_id": "KEo98brNaYD9ReQb6yWv",
         "is_active": 1,
-        "calendar_url": "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8",
+        "calendar_url": "https://api.agenciaprosperia.com/widget/booking/I4X8M0MTxCFBRZ1y5cfZ",
         "avatar_url": "/static/img/closers/jhonatan.jpg",
         "default_pass": "Closer2026!"
     },
@@ -627,10 +627,23 @@ INITIAL_SALES_TEAM = [
         "dupla": "Dupla C — Profesionales, Consultores & Academias",
         "phone": "",
         "plan": "SVE-90 Enterprise",
-        "ghl_user_id": "",
+        "ghl_user_id": "ZjuoAK127hMnciLryiF4",
         "is_active": 1,
-        "calendar_url": "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8",
+        "calendar_url": "https://api.agenciaprosperia.com/widget/booking/6Sfg6oz7rX29XazBifWc",
         "avatar_url": "/static/img/closers/bruno.jpg",
+        "default_pass": "Closer2026!"
+    },
+    {
+        "email": "tanyah.unity@gmail.com",
+        "name": "Tanya Headley Mullings",
+        "role": "seller",
+        "dupla": "Dupla A — Clínicas (Dental, Estética y Capilar)",
+        "phone": "",
+        "plan": "SVE-90 Enterprise",
+        "ghl_user_id": "IdhjqKwA1bOZYYMJLVqR",
+        "is_active": 1,
+        "calendar_url": "https://api.agenciaprosperia.com/widget/booking/oB0o3wbRwlsoItbE4adZ",
+        "avatar_url": "/static/img/closers/tanya.jpg",
         "default_pass": "Closer2026!"
     },
 ]
