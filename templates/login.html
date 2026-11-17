@@ -16,16 +16,31 @@
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <script>
+    (function () {
+      var t = 'blue';
+      try {
+        var saved = localStorage.getItem('prosperia_theme');
+        if (saved === 'light' || saved === 'dark' || saved === 'blue') t = saved;
+      } catch (e) {}
+      document.documentElement.dataset.theme = t;
+      var meta = document.querySelector('meta[name="color-scheme"]');
+      if (meta) meta.content = (t === 'light') ? 'light' : 'dark';
+    })();
+  </script>
   <title>Acceder — PROSPER IA</title>
   <link rel="icon" type="image/png" href="{{ static_versioned('favicon.png') }}">
   <link rel="stylesheet" href="{{ static_versioned('tw.css') }}">
   <link rel="stylesheet" href="{{ static_versioned('fonts.css') }}">
   <link rel="stylesheet" href="{{ static_versioned('fa.min.css') }}">
   <style>
-    :root { --navy:#020710; --navy-mid:#050d1a; --navy-card:#081224; --navy-border:rgba(0,229,255,0.15); --cyan:#00e5ff; }
+    :root { color-scheme: light dark; --navy:#020710; --navy-mid:#050d1a; --navy-card:#081224; --navy-border:rgba(0,229,255,0.15); --cyan:#00e5ff; }
+    :root:has(> head > meta[name="color-scheme"][content="dark"]) { color-scheme: dark; }
+    :root:has(> head > meta[name="color-scheme"][content="light"]) { color-scheme: light; }
     * { font-family:'Inter',sans-serif; }
     h1,h2 { font-family:'Space Grotesk',sans-serif; }
-    body { background:var(--navy); color:white; min-height:100vh; display: flex !important; flex-direction: row !important; }
+    body { background:var(--navy); color:white; min-height:100vh; display: flex !important; flex-direction: row !important; transition: background-color 0.2s ease, color 0.2s ease; }
     .flex-row { flex-direction: row !important; }
     .w-1\/2 { width: 50% !important; min-width: 50% !important; max-width: 50% !important; flex: 0 0 50% !important; box-sizing: border-box !important; }
     .left-panel { background: linear-gradient(160deg, #020710 0%, #050d1a 50%, #081224 100%); }
@@ -45,8 +60,48 @@
     .input-dark::placeholder { color: #334155; }
     .card-feature { background: rgba(0,229,255,0.03); border: 1px solid rgba(0,229,255,0.1); border-radius:12px; }
     .orb { border-radius:50%; filter:blur(80px); pointer-events:none; position:absolute; }
+
+    /* Selector 3 modos en Login */
+    .login-theme-switcher {
+      position: fixed; top: 16px; right: 16px; z-index: 60;
+      display: inline-flex; align-items: center; gap: 2px; padding: 3px;
+      border-radius: 11px; background: rgba(8,18,36,0.92); border: 1px solid rgba(0,229,255,0.22);
+      backdrop-filter: blur(10px);
+    }
+    .login-theme-pill {
+      padding: 4px 8px; border-radius: 8px; font-size: 11px; font-weight: 700;
+      color: #94a3b8; background: transparent; border: 0; cursor: pointer;
+    }
+    .login-theme-pill.is-active[data-theme-opt="blue"] { background: #00e5ff; color: #020710; font-weight: 900; }
+    .login-theme-pill.is-active[data-theme-opt="light"] { background: #ffffff; color: #0f172a; font-weight: 900; box-shadow: 0 1px 4px rgba(15,23,42,0.22); }
+    .login-theme-pill.is-active[data-theme-opt="dark"] { background: #27272a; color: #fafafa; font-weight: 900; box-shadow: inset 0 0 0 1px #52525b; }
+
+    html[data-theme="dark"] { --navy: #09090b; --navy-mid: #121215; --navy-card: #18181b; }
+    html[data-theme="dark"] .left-panel { background: linear-gradient(160deg, #09090b 0%, #121215 50%, #18181b 100%); }
+    html[data-theme="dark"] .input-dark { background: #18181b; border-color: #27272a; }
+    html[data-theme="dark"] [style*="background:#020710"] { background: #09090b !important; }
+
+    html[data-theme="light"] body { background: #f8fafc; color: #0f172a; }
+    html[data-theme="light"] .left-panel { background: linear-gradient(160deg, #e0f2fe 0%, #f8fafc 55%, #ffffff 100%); }
+    html[data-theme="light"] .card-feature { background: #ffffff; border-color: #cbd5e1; }
+    html[data-theme="light"] .text-white { color: #0f172a !important; }
+    html[data-theme="light"] .text-slate-400,
+    html[data-theme="light"] .text-slate-500,
+    html[data-theme="light"] .text-slate-600 { color: #475569 !important; }
+    html[data-theme="light"] .input-dark { background: #ffffff !important; border-color: #94a3b8 !important; color: #0f172a !important; }
+    html[data-theme="light"] .input-dark::placeholder { color: #64748b; }
+    html[data-theme="light"] .btn-cyan { background: linear-gradient(135deg, #0284c7, #0369a1); color: #ffffff; border-color: #0284c7; }
+    html[data-theme="light"] [style*="background:#020710"] { background: #f8fafc !important; }
+    html[data-theme="light"] .login-theme-switcher { background: #e2e8f0; border-color: #cbd5e1; }
+    html[data-theme="light"] .login-theme-pill { color: #334155; }
   </style>
 </head><body class="flex flex-row min-h-screen w-full overflow-x-hidden">
+
+<div class="login-theme-switcher" role="group" aria-label="Modo de color">
+  <button type="button" class="login-theme-pill is-active" data-theme-opt="blue" onclick="setLoginTheme('blue')" aria-pressed="true">🟦 Azul</button>
+  <button type="button" class="login-theme-pill" data-theme-opt="light" onclick="setLoginTheme('light')" aria-pressed="false">☀️ Blanco</button>
+  <button type="button" class="login-theme-pill" data-theme-opt="dark" onclick="setLoginTheme('dark')" aria-pressed="false">🌑 Oscuro</button>
+</div>
 
 <!-- ─── LEFT PANEL (50%) ─────────────────── -->
 <div class="w-1/2 left-panel grid-bg flex flex-col justify-between p-8 sm:p-16 relative overflow-hidden">
@@ -255,6 +310,34 @@
       if (icon) icon.classList.remove('hidden');
     }
   }
+
+  function syncLoginThemeUI(theme) {
+    const valid = (theme === 'light' || theme === 'dark' || theme === 'blue') ? theme : 'blue';
+    document.documentElement.dataset.theme = valid;
+    const meta = document.querySelector('meta[name="color-scheme"]');
+    if (meta) meta.content = (valid === 'light') ? 'light' : 'dark';
+    document.querySelectorAll('.login-theme-pill[data-theme-opt]').forEach(btn => {
+      const act = btn.getAttribute('data-theme-opt') === valid;
+      btn.classList.toggle('is-active', act);
+      btn.setAttribute('aria-pressed', String(act));
+    });
+  }
+  function setLoginTheme(theme) {
+    const valid = (theme === 'light' || theme === 'dark' || theme === 'blue') ? theme : 'blue';
+    try { localStorage.setItem('prosperia_theme', valid); } catch (e) {}
+    syncLoginThemeUI(valid);
+  }
+  (function () {
+    let init = 'blue';
+    try {
+      const s = localStorage.getItem('prosperia_theme');
+      if (s === 'light' || s === 'dark' || s === 'blue') init = s;
+    } catch (e) {}
+    syncLoginThemeUI(init);
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'prosperia_theme') syncLoginThemeUI(e.newValue || 'blue');
+    });
+  })();
 </script>
 </body>
 </html>

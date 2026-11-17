@@ -1,7 +1,114 @@
 <!-- ════════════════════════════════════════════════════
      NAVBAR MULTI-MENÚ UNIFICADA — AGENCIA PROSPERIA LLC
      ════════════════════════════════════════════════════ -->
+<script>
+  (function () {
+    var t = 'blue';
+    try {
+      var saved = localStorage.getItem('prosperia_theme');
+      if (saved === 'light' || saved === 'dark' || saved === 'blue') t = saved;
+    } catch (e) {}
+    document.documentElement.dataset.theme = t;
+    var meta = document.querySelector('meta[name="color-scheme"]');
+    if (!meta && document.head) {
+      meta = document.createElement('meta');
+      meta.name = 'color-scheme';
+      document.head.appendChild(meta);
+    }
+    if (meta) meta.content = (t === 'light') ? 'light' : 'dark';
+  })();
+</script>
 <style>
+  .pia-theme-switcher {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    padding: 2px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    margin-right: 4px;
+  }
+  .pia-theme-pill {
+    border: 0;
+    background: transparent;
+    color: #cbd5e1;
+    font-size: 10.5px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 999px;
+    cursor: pointer;
+    white-space: nowrap;
+    line-height: 1.4;
+    transition: all 0.18s ease;
+  }
+  .pia-theme-pill:hover { color: #ffffff; }
+  .pia-theme-pill.is-active[data-theme-opt="blue"] {
+    background: #00e5ff;
+    color: #020617;
+    font-weight: 800;
+  }
+  .pia-theme-pill.is-active[data-theme-opt="light"] {
+    background: #ffffff;
+    color: #0f172a;
+    font-weight: 800;
+  }
+  .pia-theme-pill.is-active[data-theme-opt="dark"] {
+    background: #27272a;
+    color: #fafafa;
+    font-weight: 800;
+    box-shadow: inset 0 0 0 1px #52525b;
+  }
+  @media (max-width: 640px) {
+    .pia-theme-label { display: none; }
+    .pia-theme-pill { padding: 2px 5px; font-size: 11px; }
+  }
+  html[data-theme="dark"] .pia-top-bar { background: #09090b; border-bottom-color: rgba(255, 255, 255, 0.1); }
+  html[data-theme="dark"] .pia-floating-nav { background: rgba(16, 16, 20, 0.92); border-color: rgba(255, 255, 255, 0.12); }
+  html[data-theme="dark"] .pia-dropdown-list { background: #141418; border-color: #27272a; }
+
+  html[data-theme="light"] .pia-top-bar {
+    background: #f1f5f9;
+    border-bottom-color: #cbd5e1;
+  }
+  html[data-theme="light"] .pia-top-bar-inner,
+  html[data-theme="light"] .pia-top-badge,
+  html[data-theme="light"] .pia-top-socials a { color: #334155 !important; }
+  html[data-theme="light"] .pia-top-socials a:hover { color: #0284c7 !important; }
+  html[data-theme="light"] .pia-theme-switcher {
+    background: #e2e8f0;
+    border-color: #cbd5e1;
+  }
+  html[data-theme="light"] .pia-theme-pill { color: #334155; }
+  html[data-theme="light"] .pia-theme-pill:hover { color: #0f172a; }
+  html[data-theme="light"] .pia-floating-nav {
+    background: rgba(255, 255, 255, 0.94);
+    border-color: #cbd5e1;
+    box-shadow: 0 14px 34px -10px rgba(15, 23, 42, 0.14);
+  }
+  html[data-theme="light"] .pia-nav-link,
+  html[data-theme="light"] .pia-dropdown-trigger { color: #1e293b !important; }
+  html[data-theme="light"] .pia-nav-link:hover,
+  html[data-theme="light"] .pia-nav-link[aria-current="page"],
+  html[data-theme="light"] .pia-dropdown-trigger:hover {
+    color: #0369a1 !important;
+    background: #e0f2fe !important;
+  }
+  html[data-theme="light"] .pia-menu-btn {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+    color: #0f172a;
+  }
+  html[data-theme="light"] .pia-dropdown-list,
+  html[data-theme="light"] .pia-site-menu.is-open {
+    background: #ffffff !important;
+    border-color: #cbd5e1 !important;
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.16) !important;
+  }
+  html[data-theme="light"] .pia-dropdown-sublink strong { color: #0f172a !important; }
+  html[data-theme="light"] .pia-dropdown-sublink span { color: #475569 !important; }
+  html[data-theme="light"] .pia-dropdown-sublink:hover { background: #f1f5f9 !important; }
+
   .pia-top-bar {
     position: fixed;
     top: 0;
@@ -350,6 +457,11 @@
       <span>AGENCIA PROSPERIA LLC · MIAMI, FL · EE. UU. &amp; LATAM · ES / EN</span>
     </div>
     <div class="pia-top-socials">
+      <div class="pia-theme-switcher" role="group" aria-label="Modo de color del sitio">
+        <button type="button" class="pia-theme-pill is-active" data-theme-opt="blue" onclick="window.setProsperiaTheme && window.setProsperiaTheme('blue')" aria-pressed="true" title="Modo Azul">🟦<span class="pia-theme-label"> Azul</span></button>
+        <button type="button" class="pia-theme-pill" data-theme-opt="light" onclick="window.setProsperiaTheme && window.setProsperiaTheme('light')" aria-pressed="false" title="Modo Blanco">☀️<span class="pia-theme-label"> Blanco</span></button>
+        <button type="button" class="pia-theme-pill" data-theme-opt="dark" onclick="window.setProsperiaTheme && window.setProsperiaTheme('dark')" aria-pressed="false" title="Modo Oscuro">🌑<span class="pia-theme-label"> Oscuro</span></button>
+      </div>
       <a href="/dashboard" style="color:#67e8f9; font-weight:700;"><i class="fas fa-lock" aria-hidden="true"></i> Acceso Closers</a>
       <a href="https://www.instagram.com/edwardjimenezia/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
       <a href="https://www.facebook.com/ProsperarIAs/" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
@@ -545,5 +657,38 @@
       }
     });
   }
+
+  function syncNavbarTheme(theme) {
+    const valid = (theme === 'light' || theme === 'dark' || theme === 'blue') ? theme : 'blue';
+    document.documentElement.dataset.theme = valid;
+    let meta = document.querySelector('meta[name="color-scheme"]');
+    if (!meta && document.head) {
+      meta = document.createElement('meta');
+      meta.name = 'color-scheme';
+      document.head.appendChild(meta);
+    }
+    if (meta) meta.content = (valid === 'light') ? 'light' : 'dark';
+    document.querySelectorAll('.pia-theme-pill[data-theme-opt]').forEach(btn => {
+      const act = btn.getAttribute('data-theme-opt') === valid;
+      btn.classList.toggle('is-active', act);
+      btn.setAttribute('aria-pressed', String(act));
+    });
+  }
+
+  window.setProsperiaTheme = function (theme) {
+    const valid = (theme === 'light' || theme === 'dark' || theme === 'blue') ? theme : 'blue';
+    try { localStorage.setItem('prosperia_theme', valid); } catch (e) {}
+    syncNavbarTheme(valid);
+  };
+
+  let initTheme = 'blue';
+  try {
+    const saved = localStorage.getItem('prosperia_theme');
+    if (saved === 'light' || saved === 'dark' || saved === 'blue') initTheme = saved;
+  } catch (e) {}
+  syncNavbarTheme(initTheme);
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'prosperia_theme') syncNavbarTheme(e.newValue || 'blue');
+  });
 })();
 </script>

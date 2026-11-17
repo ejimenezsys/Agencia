@@ -476,3 +476,203 @@ h1, h2, h3, h4, .font-heading {
   .pia-grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .pia-grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SISTEMA GLOBAL DE 3 MODOS DE COLOR: AZUL (DEFAULT) / BLANCO / OSCURO
+   ═══════════════════════════════════════════════════════════════════════════ */
+:root {
+  color-scheme: light dark;
+  scrollbar-color: var(--sb-thumb, #1e3a5f) var(--sb-track, #070b14);
+}
+:root:has(> head > meta[name="color-scheme"][content="dark"]) {
+  color-scheme: dark;
+}
+:root:has(> head > meta[name="color-scheme"][content="light"]) {
+  color-scheme: light;
+}
+@supports not (scrollbar-color: auto) {
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: var(--bg-surface); }
+  ::-webkit-scrollbar-thumb { background: var(--border-cyan); border-radius: 999px; }
+}
+
+/* ── MODO OSCURO (NEUTRO OLED / CARBONO SIN TINTE AZUL) ── */
+html[data-theme="dark"] {
+  --bg-dark: #09090b;
+  --bg-surface: #111114;
+  --bg-panel: rgba(18, 18, 22, 0.92);
+  --bg-card: rgba(24, 24, 29, 0.88);
+  --border-subtle: rgba(255, 255, 255, 0.11);
+  --sb-track: #111114;
+  --sb-thumb: #3f3f46;
+}
+html[data-theme="dark"] body {
+  background-color: #09090b;
+  background-image:
+    radial-gradient(circle at 20% 10%, rgba(255, 255, 255, 0.04) 0%, transparent 45%),
+    radial-gradient(circle at 80% 80%, rgba(0, 229, 255, 0.05) 0%, transparent 48%);
+}
+html[data-theme="dark"] .pia-section[style*="rgba(7, 11, 20"] {
+  background: rgba(14, 14, 18, 0.9) !important;
+}
+html[data-theme="dark"] .pia-table-wrap,
+html[data-theme="dark"] .pia-faq-item,
+html[data-theme="dark"] .hm-card {
+  background: rgba(24, 24, 29, 0.92) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* ── MODO BLANCO (CLARO EJECUTIVO DE ALTO CONTRASTE) ── */
+html[data-theme="light"] {
+  --bg-dark: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-panel: rgba(255, 255, 255, 0.96);
+  --bg-card: #ffffff;
+  --border-subtle: rgba(15, 23, 42, 0.12);
+  --border-cyan: rgba(2, 132, 199, 0.35);
+  --cyan: #0284c7;
+  --text-main: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #475569;
+  --sb-track: #e2e8f0;
+  --sb-thumb: #64748b;
+}
+html[data-theme="light"] body {
+  background-color: #f8fafc;
+  background-image:
+    radial-gradient(circle at 18% 8%, rgba(14, 165, 233, 0.07) 0%, transparent 42%),
+    radial-gradient(circle at 84% 16%, rgba(99, 102, 241, 0.06) 0%, transparent 44%);
+  color: #0f172a;
+}
+html[data-theme="light"] .pia-section {
+  border-top-color: rgba(15, 23, 42, 0.08);
+}
+html[data-theme="light"] .pia-section[style*="rgba(7, 11, 20"],
+html[data-theme="light"] section[style*="rgba(7, 11, 20"] {
+  background: #f1f5f9 !important;
+}
+html[data-theme="light"] .pia-eyebrow {
+  background: #e0f2fe;
+  border-color: #7dd3fc;
+  color: #0369a1;
+}
+html[data-theme="light"] .pia-gradient-text {
+  background: linear-gradient(95deg, #0f172a 0%, #0284c7 52%, #059669 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+html[data-theme="light"] .pia-card,
+html[data-theme="light"] .hm-card,
+html[data-theme="light"] .port-mini-card {
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+  box-shadow: 0 10px 28px -12px rgba(15, 23, 42, 0.14) !important;
+}
+html[data-theme="light"] .pia-btn-ghost {
+  background: #ffffff;
+  color: #0f172a !important;
+  border-color: #cbd5e1;
+}
+html[data-theme="light"] .pia-btn-ghost:hover {
+  background: #e0f2fe;
+  border-color: #0284c7;
+  color: #0369a1 !important;
+}
+html[data-theme="light"] .pia-tab {
+  background: #ffffff;
+  color: #334155;
+  border-color: #cbd5e1;
+}
+html[data-theme="light"] .pia-tab[aria-selected="true"] {
+  background: #0284c7;
+  color: #ffffff;
+  border-color: #0284c7;
+}
+html[data-theme="light"] .pw-vip-thumb {
+  background: #ffffff;
+  color: #334155;
+  border-color: #cbd5e1;
+}
+html[data-theme="light"] .pw-vip-thumb[aria-pressed="true"] {
+  background: #e0f2fe;
+  border-color: #0284c7;
+  color: #0369a1;
+}
+html[data-theme="light"] .pw-tag {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #334155;
+}
+html[data-theme="light"] .pia-table-wrap {
+  background: #ffffff;
+  border-color: #cbd5e1;
+}
+html[data-theme="light"] .pia-table th {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+html[data-theme="light"] .pia-table th,
+html[data-theme="light"] .pia-table td {
+  border-bottom-color: #e2e8f0;
+  color: #1e293b;
+}
+html[data-theme="light"] .pia-table td:first-child {
+  color: #0f172a;
+}
+html[data-theme="light"] .pia-faq-item {
+  background: #ffffff;
+  border-color: #cbd5e1;
+}
+html[data-theme="light"] .pia-faq-item summary {
+  color: #0f172a;
+}
+html[data-theme="light"] .pia-faq-body {
+  color: #334155;
+}
+html[data-theme="light"] .pia-input,
+html[data-theme="light"] input.pia-input,
+html[data-theme="light"] select.pia-input,
+html[data-theme="light"] textarea.pia-input {
+  background: #f8fafc !important;
+  color: #0f172a !important;
+  border-color: #94a3b8 !important;
+}
+html[data-theme="light"] main [style*="color:#fff"],
+html[data-theme="light"] main [style*="color: #fff"],
+html[data-theme="light"] main [style*="color:#ffffff"],
+html[data-theme="light"] main [style*="color: #ffffff"],
+html[data-theme="light"] main [style*="color:#f8fafc"],
+html[data-theme="light"] main [style*="color:#cbd5e1"],
+html[data-theme="light"] main [style*="color: #cbd5e1"],
+html[data-theme="light"] main [style*="color:#e2e8f0"] {
+  color: #0f172a !important;
+}
+html[data-theme="light"] main .pia-btn-primary,
+html[data-theme="light"] main .pia-btn-primary *,
+html[data-theme="light"] main .pia-btn-emerald,
+html[data-theme="light"] main .pia-btn-emerald * {
+  color: #04101d !important;
+}
+html[data-theme="light"] main [style*="color:#94a3b8"],
+html[data-theme="light"] main [style*="color: #94a3b8"] {
+  color: #475569 !important;
+}
+html[data-theme="light"] .web-preview-frame {
+  border-color: #cbd5e1;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
+}
+html[data-theme="light"] footer {
+  background: #f1f5f9 !important;
+  border-top: 1px solid #cbd5e1 !important;
+  color: #334155 !important;
+}
+html[data-theme="light"] footer h3,
+html[data-theme="light"] footer h4,
+html[data-theme="light"] footer strong {
+  color: #0f172a !important;
+}
+html[data-theme="light"] footer a {
+  color: #0369a1 !important;
+}
