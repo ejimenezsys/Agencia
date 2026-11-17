@@ -503,10 +503,6 @@
       <span>Links de Pago &amp; Cobros</span>
       <span class="ml-auto text-[10px] px-1.5 py-0.5 rounded font-bold" style="background:rgba(16,185,129,0.18); color:#34d399;">14 LIVE</span>
     </button>
-    <button onclick="showSection('closer-numbers')" id="nav-closer-numbers" class="nav-item">
-      <i class="fas fa-chart-pie" style="color:#fbbf24;"></i>
-      <span>Mis Números &amp; Comisiones</span>
-    </button>
 
     <div class="nav-section-label" style="margin-top:10px;">📊 Metas &amp; Academia</div>
     <button onclick="showSection('overview')" id="nav-overview" class="nav-item">
@@ -808,6 +804,46 @@
       </div>
     </div>
 
+    <!-- 💵 MIS NÚMEROS FINANCIEROS: DINERO COBRADO Y COMISIONES 15% (EN EL PODIO) -->
+    <div class="card p-5 space-y-3" style="background:linear-gradient(135deg,#071626,#0b2239); border-color:rgba(52,211,153,0.32);">
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <div>
+          <span class="text-xs font-extrabold uppercase tracking-wider text-emerald-400">💵 DINERO COBRADO &amp; COMISIONES 15% EN VIVO</span>
+          <h3 class="text-base font-bold text-white mt-0.5">Tus Cierres Reales, Propuestas Cotizadas y Bolsillo Acumulado</h3>
+        </div>
+        <button type="button" onclick="loadSalesOsData()" class="btn-ghost px-3 py-1.5 rounded-lg text-xs">
+          <i class="fas fa-sync-alt mr-1"></i> Actualizar Cobros
+        </button>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+        <div class="kpi-card">
+          <div class="text-xs text-slate-400 font-semibold uppercase">💵 Dinero Cobrado (Verificado)</div>
+          <div id="sos-kpi-collected" class="text-2xl font-black text-emerald-400 mt-1">US$0.00</div>
+          <div class="text-[11px] text-slate-500 mt-1">Con factura/comprobante verificado</div>
+        </div>
+        <div class="kpi-card">
+          <div class="text-xs text-slate-400 font-semibold uppercase">📄 Propuestas Abiertas (Cotizado)</div>
+          <div id="sos-kpi-quoted" class="text-2xl font-black text-cyan-400 mt-1">US$0.00</div>
+          <div class="text-[11px] text-slate-500 mt-1">No genera comisión hasta cobro</div>
+        </div>
+        <div class="kpi-card">
+          <div class="text-xs text-slate-400 font-semibold uppercase">🏆 Comisiones 15% Causadas</div>
+          <div id="sos-kpi-commissions" class="text-2xl font-black text-amber-400 mt-1">US$0.00</div>
+          <div class="text-[11px] text-slate-500 mt-1">5% Setter + 10% Closer sobre cobro</div>
+        </div>
+        <div class="kpi-card">
+          <div class="text-xs text-slate-400 font-semibold uppercase">📊 Contribución Neta Agencia</div>
+          <div id="sos-kpi-contribution" class="text-2xl font-black text-white mt-1">US$0.00</div>
+          <div class="text-[11px] text-slate-500 mt-1">Cobros − 15% com. − costo entrega</div>
+        </div>
+        <div class="kpi-card">
+          <div class="text-xs text-slate-400 font-semibold uppercase">🎯 Meta Punto de Equilibrio ($6K)</div>
+          <div id="sos-kpi-breakeven" class="text-2xl font-black text-rose-400 mt-1">19 ventas</div>
+          <div id="sos-kpi-breakeven-sub" class="text-[11px] text-slate-500 mt-1">Brecha actual: US$6,000.00</div>
+        </div>
+      </div>
+    </div>
+
     <!-- 📊 REPORTE BRUTAL CEO: EVALUACIÓN SPRINT 18–25 NOV (PRODUCTO, NICHOS, PAÍSES Y OBJECIONES) -->
     <div id="ceo-intelligence-panel" class="card p-6 space-y-5" style="background:linear-gradient(135deg,#0d111d,#111827); border-color:rgba(16,185,129,0.38);">
       <div class="flex flex-wrap items-center justify-between gap-3">
@@ -975,7 +1011,7 @@
             Verifica quién hizo Check-In hoy, cuántas horas lleva activo en el sistema, cuántos toques sacó de su base de 1,000 y cuánto facturó.
           </p>
         </div>
-        <button type="button" onclick="showSection('sellers-admin')" class="btn-ghost px-3.5 py-2 rounded-xl text-xs font-semibold">
+        <button type="button" id="btn-ceo-manage-sellers" onclick="showSection('sellers-admin')" class="btn-ghost px-3.5 py-2 rounded-xl text-xs font-semibold">
           <i class="fas fa-users-cog mr-1"></i> Gestionar Closers / Repartir Lotes
         </button>
       </div>
@@ -3849,39 +3885,10 @@
   </div>
 
   <!-- ════════════════════════════════════════════════════════════════════════
-       SECTION: SALES OPERATING SYSTEM (CABINA DE CIERRE CLOSER — ESPACIO DE TRABAJO LIMPIO)
+       SECTION: SALES OPERATING SYSTEM (CABINA DE CIERRE CLOSER — PIPELINE ARRIBA + SALES OS ABAJO)
   ════════════════════════════════════════════════════════════════════════ -->
-  <div id="section-sales-os" class="p-6 hidden space-y-4">
-    <!-- Cabecera Compacta e Inspiradora del Workspace Closer -->
-    <div class="card px-5 py-3.5 flex flex-wrap items-center justify-between gap-3" style="background:linear-gradient(135deg,#07162c,#0d2244); border-color:rgba(0,229,255,0.32);">
-      <div>
-        <div class="flex flex-wrap items-center gap-2">
-          <span class="px-2.5 py-0.5 rounded-full text-[11px] font-black uppercase bg-emerald-400/20 text-emerald-300 border border-emerald-400/35">⚡ Automatización en Vivo · Agencia Prosper IA</span>
-          <span id="sos-role-badge" class="px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">ROL: VENDEDOR</span>
-          <span id="sos-dupla-badge" class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-500/15 text-amber-300 border border-amber-500/30">Dupla A — Clínicas</span>
-        </div>
-        <h2 class="text-lg font-black text-white mt-1">Cabina de Cierre (Closer) — Tus Prospectos Calificados Listos para Demo &amp; Venta</h2>
-      </div>
-      <div class="flex flex-wrap items-center gap-2">
-        <button type="button" onclick="openQuickCloserLeadDialog('Calificado')" class="px-3.5 py-2 rounded-xl text-xs font-black bg-emerald-400 text-slate-950 hover:bg-emerald-300 transition shadow">
-          ➕ Nuevo Prospecto CRM
-        </button>
-        <button type="button" onclick="openCloserBulkImportDialog()" class="px-3 py-2 rounded-xl text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30 transition">
-          📥 Subir Excel/CSV
-        </button>
-        <a href="/demo-sitio-web?closer=1" class="btn-primary px-3.5 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-1.5 no-underline">
-          <i class="fas fa-bolt"></i> Demostrador en Vivo
-        </a>
-        <button type="button" onclick="showSection('payment-links')" class="px-3.5 py-2 rounded-xl text-xs font-black bg-cyan-400 text-slate-950 hover:bg-cyan-300 transition shadow inline-flex items-center gap-1.5">
-          💳 Links &amp; Verificar Pago
-        </button>
-        <button type="button" onclick="showSection('closer-numbers')" class="px-3 py-2 rounded-xl text-xs font-bold bg-slate-800 text-amber-300 border border-amber-500/35 hover:bg-slate-700 transition">
-          📊 Mis Números
-        </button>
-      </div>
-    </div>
-
-    <!-- Filtros del Flujo Comercial Canónico -->
+  <div id="section-sales-os" class="p-6 hidden space-y-5">
+    <!-- 1. PIPELINE CLOSER ARRIBA DEL TODO (ESPACIO DE TRABAJO INMEDIATO) -->
     <div class="card p-5 space-y-4">
       <div class="flex flex-wrap items-center justify-between gap-3">
         <div>
@@ -3930,58 +3937,35 @@
         </table>
       </div>
     </div>
-  </div>
 
-  <!-- ════════════════════════════════════════════════════════════════════════
-       SECTION: MIS NÚMEROS & COMISIONES (MÉTRICAS DEL CLOSER)
-  ════════════════════════════════════════════════════════════════════════ -->
-  <div id="section-closer-numbers" class="p-6 hidden space-y-6">
-    <!-- KPIs Financieros Reales (Sin confundir propuestas con cobros) -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-      <div class="kpi-card">
-        <div class="text-xs text-slate-400 font-semibold uppercase">💵 Dinero Cobrado (Verificado)</div>
-        <div id="sos-kpi-collected" class="text-2xl font-black text-emerald-400 mt-1">US$0.00</div>
-        <div class="text-[11px] text-slate-500 mt-1">Con factura/comprobante verificado</div>
-      </div>
-      <div class="kpi-card">
-        <div class="text-xs text-slate-400 font-semibold uppercase">📄 Propuestas Abiertas (Cotizado)</div>
-        <div id="sos-kpi-quoted" class="text-2xl font-black text-cyan-400 mt-1">US$0.00</div>
-        <div class="text-[11px] text-slate-500 mt-1">No genera comisión hasta cobro</div>
-      </div>
-      <div class="kpi-card">
-        <div class="text-xs text-slate-400 font-semibold uppercase">🏆 Comisiones 15% Causadas</div>
-        <div id="sos-kpi-commissions" class="text-2xl font-black text-amber-400 mt-1">US$0.00</div>
-        <div class="text-[11px] text-slate-500 mt-1">5% Setter + 10% Closer sobre cobro</div>
-      </div>
-      <div class="kpi-card">
-        <div class="text-xs text-slate-400 font-semibold uppercase">📊 Contribución Neta Agencia</div>
-        <div id="sos-kpi-contribution" class="text-2xl font-black text-white mt-1">US$0.00</div>
-        <div class="text-[11px] text-slate-500 mt-1">Cobros − 15% com. − costo entrega</div>
-      </div>
-      <div class="kpi-card">
-        <div class="text-xs text-slate-400 font-semibold uppercase">🎯 Meta Punto de Equilibrio ($6K)</div>
-        <div id="sos-kpi-breakeven" class="text-2xl font-black text-rose-400 mt-1">19 ventas</div>
-        <div id="sos-kpi-breakeven-sub" class="text-[11px] text-slate-500 mt-1">Brecha actual: US$6,000.00</div>
-      </div>
-    </div>
-
-    <!-- Banner de Rol, Automatización en Vivo y Oferta Principal -->
+    <!-- 2. BLOQUE SALES OPERATING SYSTEM ABAJO DEL PIPELINE -->
     <div class="card p-5 flex flex-wrap items-center justify-between gap-4" style="background:linear-gradient(135deg,#07162c,#0d2244); border-color:rgba(0,229,255,0.3);">
       <div>
-        <div class="flex items-center gap-2 mb-1">
+        <div class="flex flex-wrap items-center gap-2 mb-1">
           <span class="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">⚡ AUTOMATIZACIÓN EN VIVO · AGENCIA PROSPER IA</span>
+          <span id="sos-role-badge" class="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">ROL: VENDEDOR</span>
+          <span id="sos-dupla-badge" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-500/15 text-amber-300 border border-amber-500/30">Dupla A — Clínicas</span>
         </div>
-        <h2 class="text-xl font-bold text-white">Sales Operating System — Sitios Web Inteligentes</h2>
+        <h2 class="text-lg font-bold text-white">Sales Operating System — Sitios Web Inteligentes</h2>
         <p class="text-xs text-slate-300 mt-0.5">
           <strong>Oferta Principal Estandarizada:</strong> <code class="text-cyan-300">Sitio Web Inteligente Express — US$497</code> (Facilidad 50/50: <strong>US$250 hoy + US$247 contra entrega = US$497 USD</strong>). Comisión 15% (5% Setter + 10% Closer) sobre dinero <strong>realmente cobrado</strong>.
         </p>
       </div>
       <div class="flex flex-wrap gap-2">
-        <button type="button" onclick="showSection('sales-os')" class="px-4 py-2.5 rounded-xl text-xs font-black bg-emerald-400 text-slate-950 hover:bg-emerald-300 transition shadow">
-          🎩 Volver a Mi Pipeline Closer
-        </button>
         <button type="button" onclick="showSection('payment-links')" class="px-4 py-2.5 rounded-xl text-xs font-black bg-cyan-400 text-slate-950 hover:bg-cyan-300 transition shadow inline-flex items-center gap-1.5">
           💳 Abrir Links de Pago (14 Live)
+        </button>
+        <button type="button" onclick="openQuickCloserLeadDialog('Calificado')" class="px-4 py-2.5 rounded-xl text-xs font-black bg-emerald-400 text-slate-950 hover:bg-emerald-300 transition shadow">
+          ➕ Nuevo Prospecto (Inyectar a CRM)
+        </button>
+        <button type="button" onclick="openCloserBulkImportDialog()" class="px-4 py-2.5 rounded-xl text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30 transition">
+          📥 Subir Lista Excel/CSV
+        </button>
+        <a href="/demo-sitio-web?closer=1" class="btn-primary px-4 py-2.5 rounded-xl text-xs font-bold inline-flex items-center gap-2 no-underline">
+          <i class="fas fa-bolt"></i> Abrir Demostrador en Vivo
+        </a>
+        <button type="button" onclick="showSection('overview')" class="px-4 py-2.5 rounded-xl text-xs font-bold bg-slate-800 text-amber-300 border border-amber-500/35 hover:bg-slate-700 transition">
+          🏆 Ver Mi Dinero &amp; Podio
         </button>
       </div>
     </div>
@@ -4815,10 +4799,10 @@ function renderAvatarHtml(u, sizePx = 36) {
     buildCharts();
     setInterval(sendPresenceHeartbeat, 60000);
     if (currentUser && currentUser.role !== 'admin') {
-      const ceoPanel = document.getElementById('ceo-anti-pato-panel');
-      if (ceoPanel) ceoPanel.style.display = 'none';
       const ceoIntel = document.getElementById('ceo-intelligence-panel');
       if (ceoIntel) ceoIntel.style.display = 'none';
+      const ceoManageBtn = document.getElementById('btn-ceo-manage-sellers');
+      if (ceoManageBtn) ceoManageBtn.style.display = 'none';
     }
     if (currentUser && currentUser.role === 'seller') {
       const adminBtn = document.getElementById('nav-sellers-admin');
@@ -5514,7 +5498,6 @@ function showSection(name) {
     'closer-study': ['🎓 Material de Estudio & Preparación del Closer', 'Video Tutorial (7 Pasos), Manual Operativo, Acordeones de Speech, Roleplay de Objeciones y Perfil del Cliente Ideal'],
     'closer-resources': ['🏆 Recursos, Kickoff & Contrato Oficial del Closer', 'Contrato oficial en PDF, Simulador de Comisiones 15%, Prueba Social y 10 Láminas de Recursos'],
     'payment-links': ['💳 Central de Links de Pago & Verificador (Live)', 'Copia el enlace oficial en 1 clic, marca Pago Pendiente o verifica comprobante y activa comisión 15%'],
-    'closer-numbers': ['📊 Mis Números & Comisiones (Closer)', 'Cobros verificados, propuestas abiertas, comisiones 15% (5% Setter + 10% Closer) y meta de equilibrio'],
     'sales-os': ['🎩 Gorra de Closer · Mi Pipeline & Cierre en Vivo', 'Espacio de trabajo limpio: aquí llegan los Calificados por Setter con su bitácora completa listos para Demo y Venta'],
     'web-showcase': ['Demostrador de Sitios Web en Vivo (16 Plantillas)', 'Muestra al cliente en 5 segundos cómo queda su página y agenda en CRM ProsperIA'],
     'sellers-admin': ['Alta de Vendedores, Lotes & Auditoría', 'Administración de los Closers por Duplas sin duplicados'],
@@ -5558,12 +5541,13 @@ function showSection(name) {
   
   if (name === 'agents') {
     selectAgent(currentAgent);
-  } else if (name === 'sales-os' || name === 'call-queue' || name === 'closer-numbers' || name === 'payment-links') {
+  } else if (name === 'sales-os' || name === 'call-queue' || name === 'payment-links') {
     loadSalesOsData();
   } else if (name === 'sellers-admin') {
     loadSalesUsersAndLogs();
   } else if (name === 'overview') {
     loadLeaderboardAndKpis();
+    loadSalesOsData();
   } else if (name === 'analytics') {
     recalcSve90Roi();
   }
@@ -6790,12 +6774,12 @@ async function loadLeaderboardAndKpis() {
       });
     }
 
-    // 5. Reporte Brutal CEO y Auditoría Anti-Pato: EXCLUSIVOS para Dirección CEO (admin)
+    // 5. Reporte Brutal CEO: EXCLUSIVO para Dirección CEO (admin); Tabla de compañeros (#ceo-anti-pato-panel) visible para todo el equipo
     const isAdminCeo = Boolean(currentUser && currentUser.role === 'admin');
     const ceoIntelEl = document.getElementById('ceo-intelligence-panel');
-    const ceoAntiPatoEl = document.getElementById('ceo-anti-pato-panel');
     if (ceoIntelEl) ceoIntelEl.style.display = isAdminCeo ? '' : 'none';
-    if (ceoAntiPatoEl) ceoAntiPatoEl.style.display = isAdminCeo ? '' : 'none';
+    const ceoManageBtn = document.getElementById('btn-ceo-manage-sellers');
+    if (ceoManageBtn) ceoManageBtn.style.display = isAdminCeo ? '' : 'none';
     if (isAdminCeo) {
       loadCeoIntelligenceReport();
     }
