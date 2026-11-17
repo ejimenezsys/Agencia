@@ -2943,9 +2943,13 @@ async def api_reset_seller_test_data(
 ):
     """Limpia los datos de prueba tocados durante ensayos para dejar la cuenta lista para grabación."""
     target_email = (seller_email or "sheille.perez@gmail.com").strip().lower()
-    # 1. Resetear contadores del closer (y cualquier prueba en vendedores)
-    users_to_reset = db.query(User).filter(User.role == "seller").all()
-    for u in users_to_reset:
+    is_admin = current_user.get("role") == "admin"
+    if not is_admin and (current_user.get("email") or "").strip().lower() != target_email:
+        raise HTTPException(status_code=403, detail="Solo el administrador o la dueña de la cuenta pueden reiniciar este perfil.")
+
+    # 1. Resetear contadores únicamente del closer indicado
+    u = db.query(User).filter(func.lower(User.email) == target_email).first()
+    if u:
         u.calls_made_today = 0
         u.calls_made_week = 0
         u.calls_answered_week = 0
@@ -2955,15 +2959,26 @@ async def api_reset_seller_test_data(
         u.active_minutes_week = 0
         u.checkin_at = ""
 
-    # 2. Regresar los leads de Sheilla (y leads de prueba movidos hoy) a 'Lead identificado'
-    seller_leads = db.query(DbLead).filter(
-        (DbLead.owner_id == target_email) | (DbLead.pipeline_stage != "Lead identificado")
-    ).all()
+    # 2. Regresar únicamente los leads de target_email a 'Lead identificado' limpio
+    seller_leads = db.query(DbLead).filter(func.lower(DbLead.owner_id) == target_email).all()
     reset_leads_count = 0
+    lead_ids = []
     for ld in seller_leads:
-        if getattr(ld, "pipeline_stage", "Lead identificado") != "Lead identificado" or float(getattr(ld, "quoted_amount", 0) or 0) > 0:
+        notes_raw = getattr(ld, "notes", "") or ""
+        cleaned_notes = re.sub(r"\n\[20\d{2}-\d{2}-\d{2}T[^\n]*", "", notes_raw).split("[Cola:")[0].strip()
+        was_modified = (
+            (getattr(ld, "pipeline_stage", "Lead identificado") or "Lead identificado") != "Lead identificado"
+            or (getattr(ld, "status", "new") or "new") != "new"
+            or bool(getattr(ld, "last_touch", "") or "")
+            or float(getattr(ld, "quoted_amount", 0) or 0) > 0
+            or float(getattr(ld, "contracted_amount", 0) or 0) > 0
+            or float(getattr(ld, "amount_collected", 0) or 0) > 0
+            or cleaned_notes != notes_raw.strip()
+        )
+        if was_modified:
             ld.pipeline_stage = "Lead identificado"
             ld.status = "new"
+            ld.last_touch = ""
             ld.quoted_amount = 0.0
             ld.contracted_amount = 0.0
             ld.amount_collected = 0.0
@@ -2972,16 +2987,18 @@ async def api_reset_seller_test_data(
             ld.invoice_id = ""
             ld.next_action_at = ""
             ld.next_action_note = ""
-            if ld.notes and "[Cola:" in ld.notes:
-                ld.notes = ld.notes.split("[Cola:")[0].strip()
+            ld.notes = cleaned_notes
             reset_leads_count += 1
+            lead_ids.append(ld.id)
 
-    # 3. Limpiar logs de auditoría de prueba de Sheilla
-    db.query(AuditLog).filter(AuditLog.actor_email == target_email).delete(synchronize_session=False)
+    # 3. Limpiar logs de auditoría únicamente de target_email y sus leads reiniciados
+    db.query(AuditLog).filter(func.lower(AuditLog.actor_email) == target_email).delete(synchronize_session=False)
+    if lead_ids:
+        db.query(AuditLog).filter(AuditLog.lead_id.in_(lead_ids)).delete(synchronize_session=False)
     db.commit()
     return {
         "success": True,
-        "message": f"Datos de prueba de {target_email} y contadores reiniciados en cero ({reset_leads_count} prospectos restaurados a Lead identificado).",
+        "message": f"Perfil de {target_email} restaurado desde cero ({reset_leads_count} prospectos y métricas reiniciados; demás closers intactos).",
     }
 
 
