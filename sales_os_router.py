@@ -2040,11 +2040,13 @@ class CalendarUpdateRequest(BaseModel):
 
 
 class CallOutcomeRequest(BaseModel):
-    outcome: str  # "no_answer", "disqualified", "touch_wa_email", "callback", "setter_touch", "answered", "hot_close", "qualified_crm"
+    outcome: str  # "no_answer", "disqualified", "touch_wa_email", "callback", "setter_touch", "answered", "hot_close", "qualified_crm", "closer_update"
     notes: Optional[str] = ""
     objection_tag: Optional[str] = ""
     channel: Optional[str] = ""
     selected_template: Optional[str] = ""
+    offer_version: Optional[str] = ""
+    quoted_amount: Optional[float] = None
     next_action_at: Optional[str] = ""
     next_action_note: Optional[str] = ""
     setter_stage: Optional[str] = ""
@@ -2196,6 +2198,15 @@ async def api_register_call_outcome(
 
     if (req.selected_template or "").strip():
         lead.selected_template = req.selected_template.strip()
+    if (req.offer_version or "").strip() and req.offer_version.strip() in OFFER_CATALOG:
+        ov_code = req.offer_version.strip()
+        lead.offer_version = ov_code
+        lead.delivery_cost_estimate = OFFER_CATALOG[ov_code]["delivery_cost_estimate"]
+        if req.quoted_amount is None or float(req.quoted_amount or 0) <= 0:
+            if not getattr(lead, "quoted_amount", None):
+                lead.quoted_amount = OFFER_CATALOG[ov_code]["price"]
+    if req.quoted_amount is not None and float(req.quoted_amount) >= 0:
+        lead.quoted_amount = float(req.quoted_amount)
     if (req.next_action_at or "").strip():
         lead.next_action_at = req.next_action_at.strip()
     if (req.next_action_note or "").strip():
@@ -2207,37 +2218,44 @@ async def api_register_call_outcome(
     lead.last_touch = now_iso
 
     is_qualify_to_crm = (
-        outcome in ("answered", "hot_close", "qualified_crm")
+        outcome in ("answered", "hot_close", "qualified_crm", "closer_update")
         or (req_stage == "Calificado" and outcome not in ("disqualified", "no_answer"))
     )
 
     if is_qualify_to_crm:
-        if u:
+        if outcome != "closer_update" and u:
             u.calls_answered_week = int(getattr(u, "calls_answered_week", 0) or 0) + 1
-        lead.pipeline_stage = "Calificado"
-        lead.status = "qualified"
-        note_msg = (req.notes or "").strip() or "¡Contacto Calificado por Setter! Pasa con sus notas al Pipeline Closer y CRM ProsperIA."
-        chan_prefix = f"[{stamp_human} · {channel_tag} · Calificado{obj_suffix}{next_suffix}]"
-        lead.notes = ((lead.notes or "") + f"\n{chan_prefix} 🔥 CALIFICADO → CLOSER CRM: {note_msg}").strip()
+        target_stage = old_stage if (outcome == "closer_update" and old_stage in ("Pago pendiente", "Pago confirmado")) else (req_stage if req_stage in ("Primer contacto", "Contacto", "Calificado") and outcome == "closer_update" else "Calificado")
+        lead.pipeline_stage = target_stage
+        if lead.status not in ("won", "paid"):
+            lead.status = "qualified"
+        note_msg = (req.notes or "").strip() or (
+            f"Actualización Closer · Oferta {lead.offer_version or 'EXPRESS_497'} (US${float(lead.quoted_amount or 0):.0f})"
+            if outcome == "closer_update"
+            else "¡Contacto Calificado por Setter! Pasa con sus notas al Pipeline Closer y CRM ProsperIA."
+        )
+        chan_prefix = f"[{stamp_human} · {channel_tag} · {target_stage}{obj_suffix}{next_suffix}]"
+        prefix_emoji = "🎩 CLOSER CRM:" if outcome == "closer_update" else "🔥 CALIFICADO → CLOSER CRM:"
+        lead.notes = ((lead.notes or "") + f"\n{chan_prefix} {prefix_emoji} {note_msg}").strip()
         record_audit(
             db,
             actor_email=current_user["email"],
             actor_role=current_user["role"],
             lead_id=lead.id,
-            action="call_answered_pushed_to_ghl",
+            action="closer_bitacora_updated" if outcome == "closer_update" else "call_answered_pushed_to_ghl",
             field_changed="pipeline_stage",
             old_value=old_stage,
-            new_value="Calificado",
-            notes=f"{channel_tag}{obj_suffix} | {note_msg}",
+            new_value=target_stage,
+            notes=f"{channel_tag}{obj_suffix} | {lead.offer_version or 'EXPRESS_497'} US${float(lead.quoted_amount or 0):.0f} | {note_msg}",
         )
         db.commit()
         db.refresh(lead)
 
         # Extraer historial de notas del Setter para entregarlo completo al Closer en GHL
         bitacora_tail = "\n".join([ln for ln in (lead.notes or "").splitlines() if ln.strip().startswith("[20")][-8:])
-        audit_summary_txt = f"Calificado por {current_user['name']} ({current_user['email']}): {note_msg}"
+        audit_summary_txt = f"{'Closer' if outcome == 'closer_update' else 'Calificado por'} {current_user['name']} ({current_user['email']}): {note_msg}"
         if bitacora_tail:
-            audit_summary_txt += f"\n--- Bitácora Setter ---\n{bitacora_tail}"
+            audit_summary_txt += f"\n--- Bitácora ---\n{bitacora_tail}"
 
         sync_sales_os_event_to_ghl_async(
             contact_id=getattr(lead, "contact_id", "") or "",
@@ -2246,7 +2264,7 @@ async def api_register_call_outcome(
             phone=lead.phone or "",
             full_name=getattr(lead, "full_name", None) or lead.name,
             business_name=getattr(lead, "business_name", None) or (lead.company or ""),
-            pipeline_stage="Calificado",
+            pipeline_stage=target_stage,
             owner_email=getattr(lead, "owner_id", "") or current_user["email"],
             offer_version=getattr(lead, "offer_version", "EXPRESS_497") or "EXPRESS_497",
             quoted_amount=float(getattr(lead, "quoted_amount", 497.0) or 497.0),
