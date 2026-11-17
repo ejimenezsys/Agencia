@@ -1105,6 +1105,13 @@ class ContactRequest(BaseModel):
     source: Optional[str] = "portal_corporativo"
     sms_consent: Optional[bool] = False
 
+
+class ExmaBoletosOrderRequest(BaseModel):
+    name: str
+    email: EmailStr
+    phone: str
+    ticket_tier: Optional[str] = "Oro — $399 USD (20% OFF · Regular $499)"
+
 # Auth helper
 def get_current_user(request: Request):
     auth_header = request.headers.get("Authorization")
@@ -1517,6 +1524,20 @@ async def read_chat(request: Request):
 @app.head("/exmamiami.html")
 async def read_exmamiami(request: Request):
     return templates.TemplateResponse(request=request, name="exmamiami.html")
+
+
+@app.get("/exmaboletos", response_class=HTMLResponse)
+@app.head("/exmaboletos")
+@app.get("/exmaboletos/", response_class=HTMLResponse)
+@app.head("/exmaboletos/")
+@app.get("/exmaboletos.html", response_class=HTMLResponse)
+@app.head("/exmaboletos.html")
+@app.get("/exma-boletos", response_class=HTMLResponse)
+@app.head("/exma-boletos")
+@app.get("/boletos-exma", response_class=HTMLResponse)
+@app.head("/boletos-exma")
+async def read_exmaboletos(request: Request):
+    return templates.TemplateResponse(request=request, name="exmaboletos.html", context={"request": request})
 
 @app.get("/harmonypayments", response_class=HTMLResponse)
 @app.head("/harmonypayments")
@@ -2462,7 +2483,16 @@ async def api_logout(request: Request, response: Response, db: Session = Depends
     response.delete_cookie("auth_token")
     return {"success": True}
 
-def send_email_notification(name: str, email: str, company: str, phone: str, message: str, extra_recipients: Optional[List[str]] = None):
+def send_email_notification(
+    name: str,
+    email: str,
+    company: str,
+    phone: str,
+    message: str,
+    extra_recipients: Optional[List[str]] = None,
+    custom_subject: Optional[str] = None,
+    custom_subtitle: Optional[str] = None,
+):
     primary_recipient = "edward@agenciaprosperia.com"
     env_recipient = os.environ.get("NOTIFICATION_EMAIL")
     recipients_list = [primary_recipient]
@@ -2484,10 +2514,10 @@ def send_email_notification(name: str, email: str, company: str, phone: str, mes
     phone_clean = (phone or "").replace('+', '').replace(' ', '').replace('-', '')
     
     is_quote = "COTIZACIÓN" in (message or "").upper()
-    header_subtitle = "NUEVA SOLICITUD DE COTIZACIÓN DE SERVICIO" if is_quote else "NUEVA APLICACIÓN EJECUTIVA SVE90"
+    header_subtitle = custom_subtitle or ("NUEVA SOLICITUD DE COTIZACIÓN DE SERVICIO" if is_quote else "NUEVA APLICACIÓN EJECUTIVA SVE90")
     
     # Compose email subject and content (Premium style HTML)
-    subject = f"🔔 Nueva Cotización de Servicio: {name} ({phone})" if is_quote else f"🔔 Nueva Aplicación SVE90: {name} ({company})"
+    subject = custom_subject or (f"🔔 Nueva Cotización de Servicio: {name} ({phone})" if is_quote else f"🔔 Nueva Aplicación SVE90: {name} ({company})")
     
     html_content = f"""
     <html>
@@ -3087,6 +3117,154 @@ async def api_contact(req: ContactRequest, background_tasks: BackgroundTasks, db
         "closer_name": closer_name,
         "closer_email": owner_email,
         "calendar_url": calendar_url,
+    }
+
+
+@app.post("/api/exmaboletos/order")
+async def api_exmaboletos_order(
+    req: ExmaBoletosOrderRequest,
+    background_tasks: BackgroundTasks,
+    db: Session = Depends(get_db),
+):
+    """Recibe solicitud de boleto EXMA Miami 2026 con 20% OFF (Solo Nombre, Mail y WhatsApp) y notifica a edward@agenciaprosperia.com para enviar el enlace de pago."""
+    full_name = (req.name or "").strip()
+    phone_raw = (req.phone or "").strip()
+    if len(full_name) < 2:
+        raise HTTPException(status_code=400, detail="Por favor ingresa tu nombre completo.")
+    if len(re.sub(r"\D", "", phone_raw)) < 7:
+        raise HTTPException(status_code=400, detail="Por favor ingresa un número de WhatsApp válido (con código de país).")
+
+    parts = full_name.split()
+    first_name = parts[0]
+    last_name = " ".join(parts[1:]) if len(parts) > 1 else ""
+    tier_val = (req.ticket_tier or "Oro — $399 USD (20% OFF · Regular $499)").strip()
+
+    tier_low = tier_val.lower()
+    if "vip" in tier_low:
+        quoted_amount = 2799.0
+    elif "basica" in tier_low or "básica" in tier_low:
+        quoted_amount = 159.0
+    else:
+        quoted_amount = 399.0
+
+    email_clean = normalize_email(req.email) or str(req.email).strip().lower()
+    phone_e164 = normalize_phone_e164(phone_raw)
+    created_at = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+    owner_email = "edward@agenciaprosperia.com"
+
+    order_note = (
+        f"🎟️ SOLICITUD DE ENLACE DE PAGO — EXMA MIAMI 2026 (20% OFF)\n"
+        f"Membresía elegida: {tier_val}\n"
+        f"Nombre: {full_name}\n"
+        f"Email: {email_clean}\n"
+        f"WhatsApp: {phone_raw}\n"
+        f"Fecha UTC: {created_at}\n"
+        f"Acción requerida: Enviar enlace de pago oficial al cliente por correo o WhatsApp."
+    )
+
+    lead_id = None
+    edward_ghl_id = ""
+    try:
+        edward_user = db.query(User).filter(User.email == owner_email).first()
+        if edward_user:
+            edward_ghl_id = getattr(edward_user, "ghl_user_id", "") or ""
+
+        existing = db.query(DbLead).filter(DbLead.email == email_clean).first()
+        if not existing and phone_e164:
+            existing = db.query(DbLead).filter(DbLead.phone_e164 == phone_e164).first()
+
+        if existing:
+            prev_notes = (existing.notes or "").strip()
+            existing.notes = f"{order_note}\n\n--- Historial previo ---\n{prev_notes}" if prev_notes else order_note
+            existing.name = full_name or existing.name
+            existing.full_name = full_name or existing.full_name
+            existing.phone = phone_raw or existing.phone
+            existing.phone_e164 = phone_e164 or existing.phone_e164
+            existing.source = "exmaboletos_20off"
+            existing.source_channel = "exmaboletos_20off"
+            existing.source_campaign = "EXMA Miami 2026 — 20% OFF"
+            existing.interest_primary = tier_val
+            existing.quoted_amount = max(existing.quoted_amount or 0.0, quoted_amount)
+            existing.score = max(existing.score or 0, 95)
+            existing.status = "qualified"
+            if getattr(existing, "pipeline_stage", "") in ("", "Lead identificado", "1. Prospecto identificado"):
+                existing.pipeline_stage = "Primer contacto"
+            if not getattr(existing, "owner_id", ""):
+                existing.owner_id = owner_email
+                existing.setter_id = owner_email
+            db.commit()
+            lead_id = existing.id
+        else:
+            new_lead = DbLead(
+                name=full_name,
+                full_name=full_name,
+                email=email_clean,
+                company="EXMA Miami 2026 (20% OFF)",
+                business_name=tier_val,
+                phone=phone_raw,
+                phone_e164=phone_e164,
+                status="qualified",
+                source="exmaboletos_20off",
+                source_channel="exmaboletos_20off",
+                source_campaign="EXMA Miami 2026 — 20% OFF",
+                interest_primary=tier_val,
+                score=95,
+                notes=order_note,
+                created_at=created_at,
+                owner_id=owner_email,
+                setter_id=owner_email,
+                niche="exma",
+                selected_template="exmaboletos",
+                offer_version="exma_20off",
+                quoted_amount=quoted_amount,
+                contact_permission="Formulario EXMA Boletos 20% OFF",
+                contact_status="contactable",
+                pipeline_stage="Primer contacto",
+            )
+            db.add(new_lead)
+            db.commit()
+            db.refresh(new_lead)
+            lead_id = new_lead.id
+    except Exception as db_err:
+        print(f"⚠️ [EXMABOLETOS DB WARNING] Could not persist lead: {db_err}", flush=True)
+        db.rollback()
+
+    background_tasks.add_task(
+        send_email_notification,
+        name=full_name,
+        email=email_clean,
+        company=f"EXMA Miami 2026 · {tier_val}",
+        phone=phone_raw,
+        message=order_note,
+        custom_subject=f"🎟️ Solicitud Enlace de Pago EXMA 20% OFF: {tier_val} — {full_name} ({phone_raw})",
+        custom_subtitle="SOLICITUD DE BOLETO EXMA MIAMI 2026 (20% OFF)",
+    )
+
+    sync_lead_to_ghl_async(
+        first_name=first_name,
+        last_name=last_name,
+        email=email_clean,
+        phone=phone_raw,
+        company=f"EXMA Miami 2026 · {tier_val}",
+        source="exmaboletos_20off",
+        industry="EXMA Miami 2026",
+        team_size="",
+        message=order_note,
+        notes=order_note,
+        sms_consent=False,
+        assigned_to=edward_ghl_id,
+        extra_tags=["exma-miami-2026", "exmaboletos-20off", "enlace-de-pago-manual"],
+        owner_email=owner_email,
+        offer_version="exma_20off",
+        initial_stage="Primer contacto",
+        lead_db_id=lead_id,
+    )
+
+    return {
+        "success": True,
+        "lead_id": lead_id,
+        "ticket_tier": tier_val,
+        "recipient": owner_email,
     }
 
 
