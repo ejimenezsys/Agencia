@@ -4349,6 +4349,7 @@
         <div class="flex flex-wrap items-center gap-2 mb-1">
           <span class="px-2 py-0.5 rounded-full text-[10px] font-black uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/35">🧢 TRABAJO DE CONTACTO (SETTER → CLOSER)</span>
           <span id="setter-work-stage-badge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-cyan-300 border border-slate-700">Lead identificado</span>
+          <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/15 text-amber-300 border border-amber-500/30">🏷️ CRM: semana18nov</span>
         </div>
         <h3 id="setterWorkTitle" class="text-lg font-black text-white">Trabajar Prospecto</h3>
         <p id="setter-work-sub" class="text-xs text-slate-400 mt-0.5"></p>
@@ -4359,6 +4360,9 @@
         </button>
         <a id="setter-work-wa-btn" href="#" target="_blank" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/35 hover:bg-emerald-500/30 no-underline">
           <i class="fab fa-whatsapp"></i> WhatsApp
+        </a>
+        <a id="setter-work-sms-btn" href="#" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/35 hover:bg-indigo-500/30 no-underline">
+          💬 SMS
         </a>
         <a id="setter-work-mail-btn" href="#" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-sky-500/20 text-sky-300 border border-sky-500/35 hover:bg-sky-500/30 no-underline hidden">
           ✉️ Correo
@@ -6243,6 +6247,8 @@ function renderSalesOsTable() {
 
     const rawPhone = (l.phone_e164 || l.phone || '').replace(/[^0-9+]/g, '');
     const waDigits = rawPhone.replace(/[^0-9]/g, '');
+    const intel = typeof parseLeadIntelligence === 'function' ? parseLeadIntelligence(l) : { waScript: 'Hola, te comparto tu muestra digital de Agencia Prosper IA.' };
+    const hasEmail = l.email && !l.email.includes('@sin-correo.local') && !l.email.includes('@prosperia.local');
     const setterRows = parseBitacoraEntries(l.notes || '');
     const latestSetterNote = setterRows.length ? setterRows[setterRows.length - 1] : '';
     const demoUrl = `/demo-sitio-web?closer=1&lead_id=${l.id}&template=${encodeURIComponent(l.selected_template || 'clinica_dental_estetica')}&business=${encodeURIComponent(l.business_name || l.company || l.name)}&phone=${encodeURIComponent(l.phone || '')}`;
@@ -6253,7 +6259,9 @@ function renderSalesOsTable() {
         <div class="text-[11px] text-slate-400">${esc(l.full_name || l.name)} · ${esc(l.phone_e164 || l.phone || l.email)}</div>
         ${latestSetterNote ? `<div class="mt-1 text-[10px] text-amber-200/90 bg-amber-500/10 border border-amber-500/20 rounded px-2 py-1 max-w-xs truncate" title="${esc(latestSetterNote)}">📒 Bitácora (${setterRows.length}): ${esc(latestSetterNote)}</div>` : ''}
         <div class="flex flex-wrap items-center gap-1.5 mt-1">
-          ${waDigits ? `<a href="https://wa.me/${waDigits}" target="_blank" class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold no-underline hover:bg-emerald-500/30"><i class="fab fa-whatsapp"></i> WhatsApp</a>` : ''}
+          ${waDigits ? `<a href="https://wa.me/${waDigits}?text=${encodeURIComponent(intel.waScript)}" target="_blank" class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold no-underline hover:bg-emerald-500/30"><i class="fab fa-whatsapp"></i> WhatsApp</a>` : ''}
+          ${rawPhone ? `<a href="sms:${esc(rawPhone)}?&body=${encodeURIComponent(intel.waScript)}" class="px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-[10px] font-bold no-underline hover:bg-indigo-500/30">💬 SMS</a>` : ''}
+          ${hasEmail ? `<a href="mailto:${encodeURIComponent(l.email)}?subject=${encodeURIComponent('Propuesta Digital para ' + (l.business_name || l.name))}&body=${encodeURIComponent(intel.waScript)}" class="px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30 text-[10px] font-bold no-underline hover:bg-sky-500/30">✉️ Correo</a>` : ''}
           ${rawPhone ? `<button type="button" onclick="initiateCloserCall('${esc(rawPhone)}', ${l.id})" class="px-2 py-0.5 rounded bg-slate-800 text-slate-200 border border-slate-700 text-[10px] font-bold"><i class="fas fa-phone"></i> Llamar</button>` : ''}
         </div>
       </th>
@@ -6262,8 +6270,8 @@ function renderSalesOsTable() {
       </td>
       <td class="px-3 py-3">
         <span class="px-2.5 py-1 rounded-full text-[11px] font-bold inline-block" style="${stageBadgeColor}">${esc(stage)}</span>
-        <div class="mt-1 flex items-center gap-1 text-[10px] font-bold text-emerald-400">
-          <span>🟢 En CRM ProsperIA</span>
+        <div class="mt-1 flex flex-wrap items-center gap-1 text-[10px] font-bold text-emerald-400">
+          <span>🟢 CRM · 🏷️ semana18nov</span>
         </div>
       </td>
       <td class="px-3 py-3 text-slate-300 font-semibold">${esc(l.offer_version || 'EXPRESS_497')}</td>
@@ -7266,6 +7274,7 @@ function renderCallQueueTable() {
         <div class="flex flex-wrap items-center gap-1.5">
           ${rawPhone ? `<button type="button" onclick="initiateCloserCall('${esc(rawPhone)}', ${l.id})" class="px-2.5 py-1 rounded-lg bg-emerald-400 text-slate-950 hover:bg-emerald-300 text-[11px] font-black shadow-sm"><i class="fas fa-phone mr-1"></i>Llamar</button>` : ''}
           ${waUrl ? `<a href="${waUrl}" target="_blank" class="px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/35 text-[11px] font-bold no-underline hover:bg-emerald-500/30"><i class="fab fa-whatsapp"></i> WA</a>` : ''}
+          ${rawPhone ? `<a href="sms:${esc(rawPhone)}?&body=${encodeURIComponent(intel.waScript)}" class="px-2.5 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 border border-indigo-500/35 text-[11px] font-bold no-underline hover:bg-indigo-500/30">💬 SMS</a>` : ''}
           ${l.email && !l.email.includes('@sin-correo.local') ? `<a href="mailto:${encodeURIComponent(l.email)}?subject=${encodeURIComponent('Propuesta Digital para ' + (l.business_name || l.name))}&body=${encodeURIComponent(intel.waScript)}" class="px-2.5 py-1 rounded-lg bg-sky-500/20 text-sky-300 border border-sky-500/35 text-[11px] font-bold no-underline">✉️ Mail</a>` : ''}
         </div>
       </td>
@@ -7375,6 +7384,11 @@ function openSetterWorkDialog(leadId, defaultChannel = 'Llamada') {
   if (waBtn) {
     waBtn.href = waDigits ? `https://wa.me/${waDigits}?text=${encodeURIComponent(intel.waScript)}` : '#';
     waBtn.style.display = waDigits ? '' : 'none';
+  }
+  const smsBtn = document.getElementById('setter-work-sms-btn');
+  if (smsBtn) {
+    smsBtn.href = rawPhone ? `sms:${rawPhone}?&body=${encodeURIComponent(intel.waScript)}` : '#';
+    smsBtn.style.display = rawPhone ? '' : 'none';
   }
   const mailBtn = document.getElementById('setter-work-mail-btn');
   if (mailBtn) {

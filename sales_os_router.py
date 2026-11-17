@@ -123,10 +123,10 @@ WEBSITE_TEMPLATES_SHOWCASE = {
             "Planes de financiación propios y facilidades de pago por etapa.",
             "Recepción Digital IA 24/7 con recordatorios automáticos en tu WhatsApp.",
         ],
-        "chatbot_greeting": "¡Hola! 👋 ¿Qué tratamiento te gustaría consultar o agendar hoy?",
+        "chatbot_greeting": "¡Hola! 👋 ¿Qué tratamiento o valoración te gustaría consultar o agendar hoy?",
         "chatbot_quick_replies": [
             "📅 Agendar cita",
-            "💰 Precios y promos",
+            "📋 Pedir informes",
         ],
         "services": [
             {"icon": "fa-tooth", "title": "Implantes Dentales de Carga Inmediata", "desc": "Recupera piezas dentales fijas con cirugía guiada por computadora sin dolor y rápida cicatrización.", "tag": "Garantía escrita · 1 a 2 sesiones"},
@@ -1714,6 +1714,7 @@ async def api_update_lead_stage_and_proposal(
         invoice_id=getattr(lead, "invoice_id", "") or "",
         selected_template=getattr(lead, "selected_template", "") or "",
         audit_summary=req.next_action_note or f"Actualizado por {current_user['name']}",
+        lead_db_id=lead.id,
     )
 
     return {
@@ -1822,6 +1823,7 @@ async def api_verify_payment_and_accrue_commission(
         invoice_id=lead.invoice_id,
         selected_template=lead.selected_template,
         audit_summary=f"PAGO VERIFICADO ({clean_invoice}): US${lead.amount_collected:.2f}. Comisión 15% causada: US${lead.commission_amount:.2f}. Enviado a Operaciones (Onboarding).",
+        lead_db_id=lead.id,
     )
 
     return {
@@ -2272,6 +2274,7 @@ async def api_register_call_outcome(
             invoice_id=getattr(lead, "invoice_id", "") or "",
             selected_template=getattr(lead, "selected_template", "clinica_dental_estetica") or "clinica_dental_estetica",
             audit_summary=audit_summary_txt[:1500],
+            lead_db_id=lead.id,
         )
 
         tpl = getattr(lead, "selected_template", "clinica_dental_estetica") or "clinica_dental_estetica"
@@ -2885,7 +2888,7 @@ def check_ai_chat_security_guard(client_ip: str, user_message: str) -> Optional[
     if any(pat in msg_lower for pat in _AI_ABUSE_PATTERNS):
         return (
             "Soy el asistente comercial exclusivo de este portal. Solo puedo ayudarte con información "
-            "sobre nuestros servicios, precios, horarios y agendamiento de citas."
+            "sobre nuestros servicios, cobertura, horarios y agendamiento de citas."
         )
     if re.search(r"[ACGTUacgtu]{18,}", msg):
         return "Consulta fuera del alcance comercial del asistente."
@@ -2991,24 +2994,27 @@ async def api_website_demo_chat(req: WebsiteDemoChatRequest, request: Request = 
         f"Servicios clave: {services_list}. Beneficio vigente: {offer_hook}. Horario: {hours}.\n"
         f"REGLAS ESTRICTAS DE ESTILO (ESTILO WHATSAPP HUMANO Y LIGERO):\n"
         f"1. SÉ ULTRA BREVE: Responde en MÁXIMO 1 a 2 oraciones cortas (20 a 32 palabras en total). Prohibido escribir párrafos largos o listar servicios como folleto.\n"
-        f"2. SIMULA UNA CONVERSACIÓN REAL DE IDA Y VUELTA: Responde con calidez lo que dijo el cliente y cierra con UNA SOLA pregunta corta y natural para avanzar paso a paso:\n"
-        f"   - Si es el primer mensaje (turnos={turn_count}): pregunta qué servicio/propiedad busca exactamente o para cuándo le gustaría.\n"
+        f"2. PROHIBIDO DAR PRECIOS O CIFRAS EN DÓLARES: Si preguntan costos o precios, explica que depende de la valoración personalizada y pídeles su Nombre y WhatsApp para enviarles el informe y agendar su cita.\n"
+        f"3. SIMULA UNA CONVERSACIÓN REAL DE IDA Y VUELTA: Responde con calidez lo que dijo el cliente y cierra con UNA SOLA pregunta corta y natural para avanzar paso a paso:\n"
+        f"   - Si es el primer mensaje (turnos={turn_count}): pregunta qué servicio o atención busca exactamente o para cuándo le gustaría.\n"
         f"   - Si ya dijo qué busca: pregúntale si prefiere turno por la mañana o por la tarde.\n"
         f"   - Si ya eligió horario o pide agendar: pídele su Nombre y WhatsApp para dejarle confirmada su cita.\n"
-        f"3. Cero asteriscos dobles (**), cero listas largas. Habla como una recepcionista real, ágil y amable.\n"
+        f"4. Cero asteriscos dobles (**), cero listas largas. Habla como una recepcionista real, ágil y amable.\n"
         f"{history_block}"
     )
 
     client_ip = extract_client_ip(request)
     reply = invoke_gemini_assistant(system_prompt, (req.message or "").strip(), client_ip=client_ip)
+    msg_l = (req.message or "").lower()
+    if reply and re.search(r"(us\s*\$|\$\s*\d[\d,\.]*|\b\d{2,5}\s*(usd|dólares|dolares)\b)", reply, re.IGNORECASE):
+        reply = ""
     if not reply:
-        msg_l = (req.message or "").lower()
-        if "precio" in msg_l or "promo" in msg_l or "cotiz" in msg_l:
-            reply = f"¡Claro! 😊 En {bname} tenemos activo hoy: {offer_hook}. ¿Qué servicio o especialidad te interesa cotizar primero?"
+        if any(w in msg_l for w in ("precio", "costo", "cuanto", "tarifa", "promo", "cotiz", "presupuesto", "informe")):
+            reply = f"En {bname} preparamos cada valoración y propuesta a tu medida ({offer_hook}). ¿Me compartes tu Nombre y WhatsApp para enviarte el informe y agendar tu cita?"
         elif "mañana" in msg_l or "tarde" in msg_l or "hoy" in msg_l or "semana" in msg_l:
             reply = f"¡Perfecto, tenemos espacio disponible! 📅 ¿Me compartes tu Nombre y WhatsApp para dejarte reservado el turno?"
         else:
-            reply = f"¡Con gusto te ayudo en {bname}! 😊 ¿Buscas agendar para esta semana o prefieres que te dé costos orientativos primero?"
+            reply = f"¡Con gusto te ayudo en {bname}! 😊 ¿Buscas agendar una valoración esta semana o te comparto informes primero?"
 
     return {
         "success": True,
@@ -3024,8 +3030,10 @@ async def api_reset_seller_test_data(
     current_user: dict = Depends(get_current_sales_user),
     db: Session = Depends(get_db),
 ):
-    """Limpia los datos de prueba tocados durante ensayos para dejar la cuenta lista para grabación."""
+    """Limpia los datos de prueba tocados durante ensayos para dejar la cuenta lista para producción."""
     target_email = (seller_email or "sheille.perez@gmail.com").strip().lower()
+    if target_email == "claudiniosan@yahoo.com.ar":
+        raise HTTPException(status_code=403, detail="La cuenta de Claudio A. Sánchez está protegida y no puede reiniciarse por esta ruta.")
     is_admin = current_user.get("role") == "admin"
     if not is_admin and (current_user.get("email") or "").strip().lower() != target_email:
         raise HTTPException(status_code=403, detail="Solo el administrador o la dueña de la cuenta pueden reiniciar este perfil.")
@@ -3078,6 +3086,9 @@ async def api_reset_seller_test_data(
             ld.commission_amount = 0.0
             ld.commission_status = "sin_causar"
             ld.invoice_id = ""
+            ld.contact_id = ""
+            ld.ghl_opportunity_id = ""
+            ld.site_delivery_status = "pendiente_pago"
             ld.next_action_at = ""
             ld.next_action_note = ""
             ld.notes = cleaned_notes
@@ -3214,6 +3225,7 @@ async def api_closer_create_new_lead(
         invoice_id="",
         selected_template=lead_obj.selected_template,
         audit_summary=f"Nuevo prospecto creado por {current_user['name']} ({current_user['email']}) en etapa '{stage}'.",
+        lead_db_id=lead_obj.id,
     )
 
     return {

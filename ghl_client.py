@@ -93,9 +93,18 @@ CF_BG_SEGUIDOS = "Sljm6KsI6j8ZTPLBTtF1"       # contact.seguidos_instagram
 CF_BG_WEB_AGENDA = "6I4LCDTQj1RHuSVMOxKm"     # contact.sitio_web_o_agenda_beauty
 CF_BG_SETTER = "TzYpA5qTTBJfYjVcb9Ds"         # contact.setter_asignado_beauty
 
-# Pipeline separado para solicitudes de códigos gratuitos / comunidad PassportAI (/codigos)
+# Pipeline separado para solicitudes web generales / códigos gratuitos / comunidad ("Ventas Agencia ProsperIA")
 CODIGOS_PIPELINE_ID = "SJ4xiMasQ0GZcUNYFgpa"
 CODIGOS_STAGE_ID = "ffd8ae02-c4c0-431c-a827-0e909a80c752"
+
+# Etiqueta oficial del Sprint Comercial de Closers (11,000 leads -> resultados CRM con WhatsApp/SMS/Correo)
+CLOSER_SPRINT_TAG = "semana18nov"
+CLOSER_AUTOMATION_TAGS = (
+    CLOSER_SPRINT_TAG,
+    "sprint_18nov_closers",
+    "closer_calificado_crm",
+    "sms_opt_in",
+)
 
 # IDs de los campos personalizados de contacto creados en la subcuenta (CNvJBINRWBUL2EdqRh3G).
 CF_INDUSTRIA = "K9N5HFBIpkonykvmoqB4"
@@ -572,12 +581,18 @@ def sync_lead_to_ghl(
             return {"ok": False, "skipped": True}
         location_id = _cfg("GHL_LOCATION_ID", DEFAULT_LOCATION_ID)
         src_lower = (source or "").lower()
-        if "codigos" in src_lower or "comunidad" in src_lower:
+        is_closer_origin = (
+            any(k in src_lower for k in ("sales_os_closer", "closer_prospeccion_propia", "closer_lote_excel"))
+            or bool((owner_email or "").strip())
+        )
+        if is_closer_origin:
+            # Excluye formularios web generales; este pipeline recibe SOLO resultados provocados por Closers
+            pipeline_id = DEFAULT_PIPELINE_ID
+            stage_id = GHL_STAGE_MAP.get(initial_stage) or DEFAULT_STAGE_ID
+        else:
+            # Formularios generales de la web y comunidad van a "Ventas Agencia ProsperIA"
             pipeline_id = CODIGOS_PIPELINE_ID
             stage_id = CODIGOS_STAGE_ID
-        else:
-            pipeline_id = DEFAULT_PIPELINE_ID
-            stage_id = DEFAULT_STAGE_ID
 
     full_name = f"{first_name} {last_name}".strip()
     custom_fields = []
@@ -628,8 +643,20 @@ def sync_lead_to_ghl(
     is_new = res.get("new")
 
     # 2. Etiquetas (aditivas: no borran las existentes).
-    consent_tag = "sms_opt_in" if sms_consent else "sms_sin_consentimiento"
-    tag_list = ["lead_web", _source_tag(source), consent_tag]
+    is_closer_origin = (not is_beauty) and (
+        any(k in (source or "").lower() for k in ("sales_os_closer", "closer_prospeccion_propia", "closer_lote_excel"))
+        or bool((owner_email or "").strip())
+    )
+    consent_tag = "sms_opt_in" if (sms_consent or is_closer_origin) else "sms_sin_consentimiento"
+    tag_list = ["lead_web" if not is_closer_origin else "closer_sprint_11k", _source_tag(source), consent_tag]
+    if is_closer_origin:
+        for ct in CLOSER_AUTOMATION_TAGS:
+            if ct not in tag_list:
+                tag_list.append(ct)
+        if owner_email:
+            ct_closer = _slug_tag("closer", owner_email.split("@")[0])
+            if ct_closer not in tag_list:
+                tag_list.append(ct_closer)
     if is_beauty:
         for bt in ("beauty_growth", "vertical_belleza", "socio_jhonkelwins_becerra"):
             if bt not in tag_list:
@@ -736,6 +763,7 @@ def sync_sales_os_event_to_ghl_async(
     invoice_id: str,
     selected_template: str,
     audit_summary: str,
+    lead_db_id: Optional[int] = None,
 ) -> None:
     """Sincroniza en segundo plano cualquier avance comercial del vendedor hacia GoHighLevel."""
     def _run():
@@ -771,7 +799,9 @@ def sync_sales_os_event_to_ghl_async(
                     source="beautygrowth_sales_os" if is_beauty else "sales_os_closer",
                     owner_email=owner_email,
                     offer_version=offer_version,
-                    initial_stage=pipeline_stage if is_beauty else "",
+                    initial_stage=pipeline_stage,
+                    sms_consent=True,
+                    lead_db_id=lead_db_id,
                 )
                 cid = cid or (up_res.get("contact_id") or "")
                 opp_id = opp_id or (up_res.get("opportunity_id") or "")
@@ -784,6 +814,8 @@ def sync_sales_os_event_to_ghl_async(
                 s_st, s_res = _request("GET", q, token)
                 if s_st == 200 and s_res.get("opportunities"):
                     opp_id = s_res["opportunities"][0].get("id") or ""
+                    if lead_db_id:
+                        _persist_lead_ghl_ids(lead_db_id, cid, opp_id)
 
             # Actualizar los 8 Campos Personalizados del Sales OS directamente en la ficha del contacto en GoHighLevel
             commission_15 = round(float(amount_collected or 0.0) * 0.15, 2) if (amount_collected and amount_collected > 0 and invoice_id) else 0.0
@@ -807,13 +839,15 @@ def sync_sales_os_event_to_ghl_async(
             ]
             if is_beauty:
                 tags.extend(["beauty_growth", "vertical_belleza", "socio_jhonkelwins_becerra"])
+            else:
+                tags.extend(list(CLOSER_AUTOMATION_TAGS))
             if owner_email:
                 tags.append(_slug_tag("closer", owner_email.split("@")[0]))
             if selected_template:
                 tags.append(_slug_tag("plantilla", selected_template))
             if amount_collected and amount_collected > 0 and invoice_id:
                 tags.append("pago_verificado_crm")
-            _request("POST", f"/contacts/{cid}/tags", token, {"tags": tags})
+            _request("POST", f"/contacts/{cid}/tags", token, {"tags": list(dict.fromkeys(tags))})
 
             stamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
             note_body = (

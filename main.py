@@ -3651,6 +3651,27 @@ class AgentChatRequest(BaseModel):
     message: str
     agent: str
 
+def _enforce_no_price_chatbot_policy(reply: str, user_msg: str = "") -> str:
+    """Política estricta: ningún chatbot público entrega precios en cifras; solicita datos de contacto o agenda cita."""
+    import re
+    txt = str(reply or "").strip()
+    msg_l = (user_msg or "").lower()
+    asks_price = any(
+        w in msg_l
+        for w in ("precio", "precios", "costo", "costos", "cuanto cuesta", "cuánto cuesta", "cuanto vale", "cuánto vale", "tarifa", "tarifas", "presupuesto", "cotiz", "mensualidad", "mensualidades", "cuanto cobran", "cuánto cobran", "valor", "inversion", "inversión")
+    )
+    has_currency_leak = bool(
+        re.search(r"(us\s*\$|\$\s*\d[\d,\.]*|\b\d{2,5}\s*(usd|dólares|dolares|dlls)\b|/mes|/año)", txt, re.IGNORECASE)
+    )
+    if asks_price or has_currency_leak:
+        return (
+            "En Agencia Prosper IA no manejamos precios estándar en chat porque adaptamos la solución a tu industria, canales y metas. "
+            "Incluimos muestra previa en vivo de tu Sitio Web Inteligente y facilidad 50% al iniciar y 50% al entregar funcionando en 7 a 10 días. "
+            "¿Me compartes tu Nombre, giro de negocio y WhatsApp (o correo) para enviarte el informe completo y agendar tu diagnóstico de 15 minutos sin costo?"
+        )
+    return txt
+
+
 @app.post("/api/agents/chat")
 async def api_agent_chat(req: AgentChatRequest, request: Request = None):
     from sales_os_router import invoke_gemini_assistant, extract_client_ip
@@ -3663,32 +3684,36 @@ async def api_agent_chat(req: AgentChatRequest, request: Request = None):
         "sdr": (
             "Eres el Agente 'AI SDR' de Agencia ProsperIA (Sistema SVE-90 y Sitios Web Inteligentes). "
             "Tu misión es calificar prospectos en menos de 15 segundos, explicar cómo evitamos que pierdan ventas "
-            "por tardar en responder WhatsApp, y presentar nuestras 3 opciones: Sitio Web Inteligente Express (US$497 con facilidad 50/50), "
-            "Plan Crecimiento Anual con Central Passport AI (US$990/año) y Máquina Comercial con CRM ProsperIA (US$1,490) o SVE-90 Corporativo (US$5,000 a US$10,000). "
-            "Responde en español, con tono ejecutivo, directo y persuasivo en máximo 3 a 4 oraciones, cerrando con una pregunta de calificación o invitación a agendar."
+            "por tardar en responder WhatsApp, y presentar nuestras soluciones (Sitio Web Inteligente + 4 Empleados Digitales, CRM ProsperIA y Consultoría SVE-90). "
+            "REGLA INQUEBRANTABLE: NUNCA des precios, tarifas ni cifras en dólares. Si preguntan precios, explica que cada proyecto se cotiza a la medida con muestra previa en vivo y facilidad 50/50 contra entrega en 7 a 10 días, "
+            "y pide su Nombre, giro de negocio y WhatsApp o invítalo a agendar una llamada diagnóstica de 15 minutos. "
+            "Responde en español, con tono ejecutivo, directo y persuasivo en máximo 3 a 4 oraciones."
         ),
         "setter": (
             "Eres el Agente 'AI Setter' (Agendador Autónomo Anti-Faltazos) de Agencia ProsperIA. "
             "Tu misión es coordinar citas en vivo en el calendario del CRM ProsperIA, resolver objeciones de tiempo "
             "y explicar cómo nuestros recordatorios automáticos por WhatsApp (24h y 1h antes) reducen el ausentismo en un 65%. "
+            "REGLA INQUEBRANTABLE: NUNCA des precios ni cifras en dólares; enfócate en pedir datos de contacto y agendar su sesión diagnóstica. "
             "Responde en español, cálido y directo en máximo 3 a 4 oraciones."
         ),
         "support": (
             "Eres el Agente 'AI Soporte & Arquitectura SVE-90' de Agencia ProsperIA y Central Passport AI (https://passportai.app). "
             "Explicas de forma sencilla y con autoridad cómo conectamos el Sitio Web Inteligente, WhatsApp Cloud API (0% bloqueos), "
             "el CRM ProsperIA (9 etapas) y el ecosistema Central Passport AI (+15 modelos de IA, Constructores de Negocio y Estudio 4K). "
+            "REGLA INQUEBRANTABLE: NUNCA des precios ni tarifas en el chat; invita siempre a solicitar un informe personalizado o agendar diagnóstico. "
             "Responde en español en máximo 3 a 4 oraciones claras."
         ),
     }
     sys_prompt = role_prompts.get(agent_type, role_prompts["sdr"])
     gemini_reply = invoke_gemini_assistant(sys_prompt, raw_msg, client_ip=client_ip)
     if gemini_reply:
-        return {"success": True, "reply": gemini_reply, "model": "gemini-2.5-flash"}
+        safe_gemini = _enforce_no_price_chatbot_policy(gemini_reply, raw_msg)
+        return {"success": True, "reply": safe_gemini, "model": "gemini-2.5-flash"}
     
     # Respuestas personalizadas del Agente SDR
     if agent_type == "sdr":
-        if any(w in message for w in ["precio", "costo", "cuanto", "tarifa"]):
-            reply = "El presupuesto de SVE90 es variable según el tamaño de tu equipo y canales. En el Diagnóstico de Madurez auditamos tus fugas y te damos una propuesta exacta. ¿Cuántas personas integran tu equipo?"
+        if any(w in message for w in ["precio", "costo", "cuanto", "tarifa", "cotiz", "presupuesto"]):
+            reply = _enforce_no_price_chatbot_policy("", raw_msg)
         elif any(w in message for w in ["equipo", "persona", "colaborador", "empleado"]):
             reply = "Un equipo con esa estructura se beneficia enormemente del SVE90. Automatizamos tareas repetitivas y liberamos a tus vendedores humanos. ¿Qué canales de contacto usas (WhatsApp, FB, Web)?"
         elif any(w in message for w in ["hola", "buenas", "que tal"]):
@@ -3712,13 +3737,13 @@ async def api_agent_chat(req: AgentChatRequest, request: Request = None):
         if any(w in message for w in ["n8n", "automatizacion", "flujo", "orquestador"]):
             reply = "El Orquestador Central SVE90 utiliza servidores dedicados de n8n para enlazar de manera segura tu web, WhatsApp e Instagram con el CRM y la capa de inteligencia PassportAI."
         elif any(w in message for w in ["passportai", "cerebro", "inteligencia"]):
-            reply = "PassportAI es nuestra tecnología de procesamiento semántico. Permite que entrenes a los agentes virtuales con tus precios, servicios e historial para que respondan con tu tono de marca."
+            reply = "PassportAI es nuestra tecnología de procesamiento semántico. Permite que entrenes a los agentes virtuales con tus servicios, horarios, FAQ e historial para que respondan con tu tono de marca y agenden citas."
         elif any(w in message for w in ["hola", "buenas", "que tal"]):
             reply = "¡Hola! Soy tu AI Soporte. Puedo guiarte a través de los aspectos técnicos del SVE90: n8n, SQLite y PassportAI. ¿Qué duda técnica tienes sobre el stack?"
         else:
             reply = "Entendido. Toda la infraestructura del SVE90 está blindada y estructurada para garantizar tiempos de respuesta rápidos y consistentes. ¿Tienes alguna pregunta específica?"
             
-    return {"success": True, "reply": reply}
+    return {"success": True, "reply": _enforce_no_price_chatbot_policy(reply, raw_msg)}
 
 
 def _load_prosperia_kb_text() -> str:
@@ -3882,7 +3907,7 @@ async def api_prosperia_assistant(req: ProsperiaAssistantRequest, request: Reque
             f"REGLAS OBLIGATORIAS:\n1. {voice_rule}\n"
             "2. CERO jerga técnica innecesaria (nunca digas RAG, LLM, tokens, webhooks o pipelines).\n"
             "3. Presenta cuando corresponda nuestros 4 Empleados Digitales: SDR IA, Setter IA, Closer IA y Soporte IA.\n"
-            "4. NO sueltes precios fijos de entrada en frío; primero diagnostica el giro y ofrece nuestras opciones con 50% al iniciar y 50% contra entrega en 7 a 10 días e invita a agendar en /sitiosweb o /#contacto.\n"
+            "4. PROHIBIDO DAR PRECIOS O CIFRAS EN DÓLARES EN EL CHAT: NUNCA menciones montos en USD aunque insistan. Explica que cada proyecto se cotiza a la medida tras mostrarle su demo en vivo (con facilidad 50% al iniciar y 50% contra entrega en 7 a 10 días), pide Nombre, Giro de negocio y WhatsApp e invita a agendar en /#contacto.\n"
             f"\nBASE DE CONOCIMIENTOS OFICIAL:\n{kb_text}\n{hist_block}"
         )
 
@@ -3892,11 +3917,11 @@ async def api_prosperia_assistant(req: ProsperiaAssistantRequest, request: Reque
         if not reply:
             engine = "prosperia-kb-fallback"
             m = raw_msg.lower()
-            if any(w in m for w in ["precio", "costo", "cuanto", "cuesta", "valor", "presupuesto", "vale"]):
+            if any(w in m for w in ["precio", "costo", "cuanto", "cuesta", "valor", "presupuesto", "vale", "tarifa"]):
                 reply = (
-                    "Cada negocio recibe una propuesta a medida según su rubro y tamaño, sin precios enlatados. "
-                    "Contamos con Arranque Rápido PYME, Pack Estrella Anual sin mensualidades y Máquina Completa 3 en 1 — todas con 50% al iniciar y 50% al entregar en 7 a 10 días. "
-                    "¿De qué giro es tu negocio para darte la opción exacta?"
+                    "Cada negocio recibe una propuesta a medida según su rubro y alcance, sin precios fijos en chat. "
+                    "Preparamos una muestra en vivo sin costo y trabajamos con facilidad 50% al iniciar y 50% al entregar funcionando en 7 a 10 días. "
+                    "¿Me compartes tu Nombre, giro de negocio y WhatsApp para enviarte el informe y agendar tu cita diagnóstica de 15 minutos?"
                 )
             elif any(w in m for w in ["empleado", "sdr", "setter", "closer", "soporte", "whatsapp", "atender", "voz"]):
                 reply = (
@@ -3906,7 +3931,7 @@ async def api_prosperia_assistant(req: ProsperiaAssistantRequest, request: Reque
             elif any(w in m for w in ["web", "pagina", "sitio", "tienda", "portafolio", "ejemplo"]):
                 reply = (
                     "Diseñamos páginas web y tiendas conectadas directo a tu WhatsApp y calendario en 7 a 10 días, con proyectos reales como PassportAI, Blancos Girasol, STI2Q y servicios del hogar. "
-                    "¿De qué giro es tu empresa para enseñarte una muestra parecida?"
+                    "¿De qué giro es tu empresa para enseñarte una muestra parecida y agendar tu sesión?"
                 )
             elif any(w in m for w in ["marketing", "anuncio", "reel", "video", "facebook", "instagram", "publicidad"]):
                 reply = (
@@ -3914,14 +3939,15 @@ async def api_prosperia_assistant(req: ProsperiaAssistantRequest, request: Reque
                 )
             elif any(w in m for w in ["crm", "agenda", "calendario", "cita", "orden", "seguimiento"]):
                 reply = (
-                    "Tu Tablero CRM y tu Closer IA dan seguimiento puntual a cada oportunidad abierta y asignan citas automáticamente en calendario Round-Robin."
+                    "Tu Tablero CRM y tu Closer IA dan seguimiento puntual a cada oportunidad abierta y asignan citas automáticamente en calendario Round-Robin. ¿Qué día y hora prefieres para tu cita diagnóstica?"
                 )
             else:
                 reply = (
                     "En Agencia Prosper IA te instalamos en 7 a 10 días tu página web, tus 4 Empleados Digitales (SDR IA, Setter IA, Closer IA y Soporte IA), tablero de clientes y campañas o Reels, pagando 50% al iniciar y 50% al entregar. "
-                    "¿A qué se dedica tu negocio?"
+                    "¿A qué se dedica tu negocio y cuál es tu WhatsApp para enviarte informes o agendar?"
                 )
 
+    reply = _enforce_no_price_chatbot_policy(reply, raw_msg)
     reply_speech = _clean_reply_for_speech(reply)
 
     return {

@@ -503,6 +503,44 @@ def _run_safe_migrations():
             WHERE pipeline_stage IS NULL OR pipeline_stage = ''
         """)
 
+        # Limpieza única pre-sprint 18 Nov: vaciar pruebas de Closer Pipeline sin tocar a Claudio (claudiniosan@yahoo.com.ar)
+        has_clean_flag = False
+        try:
+            cur.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='integration_settings'")
+            if cur.fetchone():
+                cur.execute("SELECT value FROM integration_settings WHERE key='closer_pipeline_clean_nov18_v1'")
+                has_clean_flag = cur.fetchone() is not None
+        except Exception:
+            has_clean_flag = False
+
+        if not has_clean_flag:
+            cur.execute("""
+                UPDATE leads
+                SET pipeline_stage = 'Lead identificado',
+                    status = 'new',
+                    quoted_amount = 0.0,
+                    contracted_amount = 0.0,
+                    contact_id = '',
+                    ghl_opportunity_id = '',
+                    site_delivery_status = 'pendiente_pago',
+                    next_action_at = '',
+                    next_action_note = ''
+                WHERE LOWER(COALESCE(owner_id, '')) != 'claudiniosan@yahoo.com.ar'
+                  AND COALESCE(amount_collected, 0.0) <= 0.0
+                  AND (
+                      COALESCE(quoted_amount, 0.0) > 0.0
+                      OR COALESCE(contact_id, '') != ''
+                      OR COALESCE(ghl_opportunity_id, '') != ''
+                      OR pipeline_stage IN ('Calificado', 'Diagnóstico agendado', 'Demo realizada', 'Propuesta enviada', 'Pago pendiente')
+                  )
+            """)
+            cur.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='integration_settings'")
+            if cur.fetchone():
+                cur.execute(
+                    "INSERT OR REPLACE INTO integration_settings (key, value) VALUES ('closer_pipeline_clean_nov18_v1', ?)",
+                    (datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),),
+                )
+
         conn.commit()
     except Exception as e:
         conn.rollback()

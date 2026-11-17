@@ -1690,7 +1690,7 @@
 
       const replies = (t.chatbot_quick_replies || [
         "📅 Agendar cita",
-        "💰 Precios y promos"
+        "📋 Pedir informes"
       ]).slice(0, 2);
       qrBox.style.display = "flex";
       qrBox.innerHTML = replies.map(r => `
@@ -1783,7 +1783,7 @@
         document.getElementById("chatbot-typing-indicator")?.remove();
         appendChatMessage(
           "bot",
-          `¡Con gusto te ayudo en <strong>${biz}</strong>! 😊 ¿Te gustaría agendar para esta semana o consultar precios primero?`
+          `¡Con gusto te ayudo en <strong>${biz}</strong>! 😊 ¿Me compartes tu Nombre y WhatsApp para enviarte el informe y agendar una breve valoración esta semana?`
         );
       }
     }
