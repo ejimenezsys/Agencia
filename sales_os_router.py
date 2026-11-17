@@ -831,6 +831,56 @@ WEBSITE_TEMPLATES_SHOWCASE = {
 }
 
 
+def _register_template_variant(base_key: str, new_key: str, updates: dict) -> None:
+    """Crea una variante especializada reutilizando la estructura completa de una plantilla base."""
+    base = WEBSITE_TEMPLATES_SHOWCASE.get(base_key)
+    if not base:
+        return
+    copy_tpl = dict(base)
+    copy_tpl.update(updates)
+    copy_tpl["id"] = new_key
+    WEBSITE_TEMPLATES_SHOWCASE[new_key] = copy_tpl
+
+
+_register_template_variant(
+    "clinica_dental_estetica",
+    "clinica_estetica_avanzada",
+    {
+        "name": "✨ Clínica Estética / Medicina Estética & Spa · Prosper IA (Dupla A)",
+        "badge": "MEDICINA ESTÉTICA, ARMONIZACIÓN & REJUVENECIMIENTO",
+        "default_business": "Lumina Medicina Estética & Laser",
+        "default_offer": "Evaluación Facial 3D + Diseño de Protocolo Personalizado con 20% de Descuento Hoy",
+        "hero_title": "Agenda Pacientes Premium de Medicina Estética las 24 Horas sin Perder Consultas en WhatsApp",
+        "chatbot_greeting": "¡Hola! ✨ ¿Qué tratamiento estético te interesa (bótox, bioestimuladores, láser o faciales)?",
+    },
+)
+_register_template_variant(
+    "clinica_dental_estetica",
+    "clinica_capilar_pro",
+    {
+        "name": "💇 Clínica Capilar / Tricología & Trasplante Capilar · Prosper IA (Dupla A)",
+        "badge": "TRICOLOGÍA MÉDICA & RECUPERACIÓN CAPILAR",
+        "default_business": "Instituto Capilar VitaHair",
+        "default_offer": "Diagnóstico Capilar Digital con Tricoscopía + Plan Médico Sin Costo de Valoración",
+        "hero_title": "Capta y Pre-Califica Pacientes para Trasplante y Tratamientos Capilares 24/7 en Automático",
+        "chatbot_greeting": "¡Hola! 👋 ¿Buscas valoración por caída capilar, mesoterapia o microinjerto FUE?",
+    },
+)
+_register_template_variant(
+    "academia_educacion_cursos",
+    "coaching_consultoria_pro",
+    {
+        "name": "🚀 Coaching, Mentorías High-Ticket & Consultores · Prosper IA (Dupla C)",
+        "dupla": "Dupla C — Academias, Coaching & B2B",
+        "badge": "MENTORÍAS, COACHING & PROGRAMAS DE ALTO VALOR",
+        "default_business": "Cumbre Consulting & Executive Coaching",
+        "default_offer": "Sesión Estratégica de Diagnóstico 1 a 1 (20 min) para Escalar tu Negocio",
+        "hero_title": "Convierte Visitas en Sesiones Estratégicas Calificadas y Llena tus Mentorías Todo el Mes",
+        "chatbot_greeting": "¡Hola! 🚀 ¿Buscas escalar tu empresa con mentoría 1 a 1 o capacitar a tu equipo comercial?",
+    },
+)
+
+
 def get_db():
     db = SessionLocal()
     try:
@@ -1990,10 +2040,14 @@ class CalendarUpdateRequest(BaseModel):
 
 
 class CallOutcomeRequest(BaseModel):
-    outcome: str  # "no_answer", "disqualified", "answered", "touch_wa_email", "callback", "hot_close"
+    outcome: str  # "no_answer", "disqualified", "touch_wa_email", "callback", "setter_touch", "answered", "hot_close", "qualified_crm"
     notes: Optional[str] = ""
     objection_tag: Optional[str] = ""
     channel: Optional[str] = ""
+    selected_template: Optional[str] = ""
+    next_action_at: Optional[str] = ""
+    next_action_note: Optional[str] = ""
+    setter_stage: Optional[str] = ""
 
 
 @router.post("/api/sales-os/checkin")
@@ -2138,14 +2192,88 @@ async def api_register_call_outcome(
     outcome = (req.outcome or "").strip().lower()
     obj_tag = (req.objection_tag or "").strip()
     channel_tag = (req.channel or "").strip() or ("WhatsApp / Correo" if outcome == "touch_wa_email" else "Llamada")
+    req_stage = (req.setter_stage or "").strip()
+
+    if (req.selected_template or "").strip():
+        lead.selected_template = req.selected_template.strip()
+    if (req.next_action_at or "").strip():
+        lead.next_action_at = req.next_action_at.strip()
+    if (req.next_action_note or "").strip():
+        lead.next_action_note = req.next_action_note.strip()
+
     obj_suffix = f" [OBJ:{obj_tag}]" if obj_tag else ""
-    chan_prefix = f"[{now_iso[:16]} · {channel_tag}{obj_suffix}]"
+    next_suffix = f" [Sig: {req.next_action_at.strip()}]" if (req.next_action_at or "").strip() else ""
+    stamp_human = f"{now_iso[:10]} {now_iso[11:16]}"
     lead.last_touch = now_iso
 
-    if outcome == "no_answer":
-        lead.pipeline_stage = "No responde"
+    is_qualify_to_crm = (
+        outcome in ("answered", "hot_close", "qualified_crm")
+        or (req_stage == "Calificado" and outcome not in ("disqualified", "no_answer"))
+    )
+
+    if is_qualify_to_crm:
+        if u:
+            u.calls_answered_week = int(getattr(u, "calls_answered_week", 0) or 0) + 1
+        lead.pipeline_stage = "Calificado"
+        lead.status = "qualified"
+        note_msg = (req.notes or "").strip() or "¡Contacto Calificado por Setter! Pasa con sus notas al Pipeline Closer y CRM ProsperIA."
+        chan_prefix = f"[{stamp_human} · {channel_tag} · Calificado{obj_suffix}{next_suffix}]"
+        lead.notes = ((lead.notes or "") + f"\n{chan_prefix} 🔥 CALIFICADO → CLOSER CRM: {note_msg}").strip()
+        record_audit(
+            db,
+            actor_email=current_user["email"],
+            actor_role=current_user["role"],
+            lead_id=lead.id,
+            action="call_answered_pushed_to_ghl",
+            field_changed="pipeline_stage",
+            old_value=old_stage,
+            new_value="Calificado",
+            notes=f"{channel_tag}{obj_suffix} | {note_msg}",
+        )
+        db.commit()
+        db.refresh(lead)
+
+        # Extraer historial de notas del Setter para entregarlo completo al Closer en GHL
+        bitacora_tail = "\n".join([ln for ln in (lead.notes or "").splitlines() if ln.strip().startswith("[20")][-8:])
+        audit_summary_txt = f"Calificado por {current_user['name']} ({current_user['email']}): {note_msg}"
+        if bitacora_tail:
+            audit_summary_txt += f"\n--- Bitácora Setter ---\n{bitacora_tail}"
+
+        sync_sales_os_event_to_ghl_async(
+            contact_id=getattr(lead, "contact_id", "") or "",
+            opportunity_id=getattr(lead, "ghl_opportunity_id", "") or "",
+            email=lead.email,
+            phone=lead.phone or "",
+            full_name=getattr(lead, "full_name", None) or lead.name,
+            business_name=getattr(lead, "business_name", None) or (lead.company or ""),
+            pipeline_stage="Calificado",
+            owner_email=getattr(lead, "owner_id", "") or current_user["email"],
+            offer_version=getattr(lead, "offer_version", "EXPRESS_497") or "EXPRESS_497",
+            quoted_amount=float(getattr(lead, "quoted_amount", 497.0) or 497.0),
+            amount_collected=float(getattr(lead, "amount_collected", 0.0) or 0.0),
+            invoice_id=getattr(lead, "invoice_id", "") or "",
+            selected_template=getattr(lead, "selected_template", "clinica_dental_estetica") or "clinica_dental_estetica",
+            audit_summary=audit_summary_txt[:1500],
+        )
+
+        tpl = getattr(lead, "selected_template", "clinica_dental_estetica") or "clinica_dental_estetica"
+        bname = urllib.parse.quote(getattr(lead, "business_name", None) or (lead.company or lead.name or ""))
+        phone_q = urllib.parse.quote(lead.phone or "")
+        demo_url = f"/demo-sitio-web?lead_id={lead.id}&template={tpl}&business={bname}&phone={phone_q}&closer_email={current_user['email']}"
+        return {
+            "success": True,
+            "pushed_to_ghl": True,
+            "demo_url": demo_url,
+            "message": "🔥 ¡Contacto Calificado! Enviado en vivo al CRM ProsperIA y pasado a Mi Pipeline (Closer) con toda su bitácora.",
+            "data": serialize_lead(lead),
+        }
+
+    elif outcome == "no_answer":
+        local_stage = req_stage if req_stage in ("Primer contacto", "Contacto") else "No responde"
+        lead.pipeline_stage = local_stage
         lead.status = "contacted"
-        note_msg = (req.notes or "").strip() or "No contestó / Buzón (permanece en tu cabina local sin enviar a GHL)."
+        note_msg = (req.notes or "").strip() or "No contestó / Buzón (permanece en bandeja Setter sin enviar a GHL)."
+        chan_prefix = f"[{stamp_human} · {channel_tag} · {local_stage}{obj_suffix}{next_suffix}]"
         lead.notes = ((lead.notes or "") + f"\n{chan_prefix} 🔴 NO CONTESTÓ: {note_msg}").strip()
         record_audit(
             db,
@@ -2155,64 +2283,49 @@ async def api_register_call_outcome(
             action="call_no_answer_local_only",
             field_changed="pipeline_stage",
             old_value=old_stage,
-            new_value="No responde",
+            new_value=local_stage,
             notes=f"{channel_tag}{obj_suffix} | {note_msg}",
         )
         db.commit()
         return {
             "success": True,
             "pushed_to_ghl": False,
-            "message": "🔴 Registrado como 'No Contestó' (+1 toque). Guardado en sistema local sin ensuciar el CRM.",
+            "message": f"🔴 Renglón guardado ({local_stage} · +1 toque). Sigue en tu lista de Setter sin ensuciar el CRM.",
             "data": serialize_lead(lead),
         }
 
-    elif outcome == "touch_wa_email":
-        lead.pipeline_stage = "En seguimiento local"
-        lead.status = "contacted"
-        note_msg = (req.notes or "").strip() or f"Toque enviado por {channel_tag} (guardado en cabina local)."
-        lead.notes = ((lead.notes or "") + f"\n{chan_prefix} 💬 TOQUE {channel_tag.upper()}: {note_msg}").strip()
-        record_audit(
-            db,
-            actor_email=current_user["email"],
-            actor_role=current_user["role"],
-            lead_id=lead.id,
-            action="touch_wa_email_local_only",
-            field_changed="pipeline_stage",
-            old_value=old_stage,
-            new_value="En seguimiento local",
-            notes=f"{channel_tag}{obj_suffix} | {note_msg}",
-        )
-        db.commit()
-        return {
-            "success": True,
-            "pushed_to_ghl": False,
-            "message": f"💬 Toque por {channel_tag} registrado (+1 toque semanal). Seguimiento guardado en tu cabina sin enviarlo al CRM.",
-            "data": serialize_lead(lead),
-        }
-
-    elif outcome == "callback":
-        if u:
+    elif outcome in ("touch_wa_email", "callback", "setter_touch"):
+        if outcome == "callback" and u:
             u.calls_answered_week = int(getattr(u, "calls_answered_week", 0) or 0) + 1
-        lead.pipeline_stage = "En seguimiento local"
+        local_stage = req_stage if req_stage in ("Primer contacto", "Contacto") else "Contacto"
+        lead.pipeline_stage = local_stage
         lead.status = "contacted"
-        note_msg = (req.notes or "").strip() or "Hubo conversación / pidió seguimiento (aún en cabina local antes de enviar a CRM)."
-        lead.notes = ((lead.notes or "") + f"\n{chan_prefix} 🟡 EN SEGUIMIENTO LOCAL: {note_msg}").strip()
+        if outcome == "touch_wa_email":
+            note_msg = (req.notes or "").strip() or f"Toque enviado por {channel_tag} (anotado en bitácora Setter)."
+            tag_ico = "💬"
+            audit_act = "touch_wa_email_local_only"
+        else:
+            note_msg = (req.notes or "").strip() or "Hubo conversación / seguimiento activo en bitácora Setter."
+            tag_ico = "🟡"
+            audit_act = "call_callback_local_only"
+        chan_prefix = f"[{stamp_human} · {channel_tag} · {local_stage}{obj_suffix}{next_suffix}]"
+        lead.notes = ((lead.notes or "") + f"\n{chan_prefix} {tag_ico} {local_stage.upper()}: {note_msg}").strip()
         record_audit(
             db,
             actor_email=current_user["email"],
             actor_role=current_user["role"],
             lead_id=lead.id,
-            action="call_callback_local_only",
+            action=audit_act,
             field_changed="pipeline_stage",
             old_value=old_stage,
-            new_value="En seguimiento local",
+            new_value=local_stage,
             notes=f"{channel_tag}{obj_suffix} | {note_msg}",
         )
         db.commit()
         return {
             "success": True,
             "pushed_to_ghl": False,
-            "message": "🟡 Conversación / Seguimiento anotado (+1 toque +1 contacto). Cuando sea posible cierre, presiona 🔥 Posible Cierre → CRM.",
+            "message": f"{tag_ico} Renglón guardado en bitácora ({local_stage}). Sigue en tu bandeja Setter hasta calificar.",
             "data": serialize_lead(lead),
         }
 
@@ -2220,6 +2333,7 @@ async def api_register_call_outcome(
         lead.pipeline_stage = "No cumple perfil"
         lead.status = "lost"
         note_msg = (req.notes or "").strip() or "No califica / Sin interés (archivado localmente sin enviar a GHL)."
+        chan_prefix = f"[{stamp_human} · {channel_tag} · Descartado{obj_suffix}]"
         lead.notes = ((lead.notes or "") + f"\n{chan_prefix} ⚫ DESCARTADO: {note_msg}").strip()
         record_audit(
             db,
@@ -2240,58 +2354,7 @@ async def api_register_call_outcome(
             "data": serialize_lead(lead),
         }
 
-    elif outcome in ("answered", "hot_close"):
-        if u:
-            u.calls_answered_week = int(getattr(u, "calls_answered_week", 0) or 0) + 1
-        lead.pipeline_stage = "Primer contacto"
-        lead.status = "qualified"
-        note_msg = (req.notes or "").strip() or "¡Posible Cierre calificado! Enviado en vivo al Pipeline del CRM ProsperIA y listo para Demostrador."
-        lead.notes = ((lead.notes or "") + f"\n{chan_prefix} 🔥 POSIBLE CIERRE → CRM: {note_msg}").strip()
-        record_audit(
-            db,
-            actor_email=current_user["email"],
-            actor_role=current_user["role"],
-            lead_id=lead.id,
-            action="call_answered_pushed_to_ghl",
-            field_changed="pipeline_stage",
-            old_value=old_stage,
-            new_value="Primer contacto",
-            notes=f"{channel_tag}{obj_suffix} | {note_msg}",
-        )
-        db.commit()
-        db.refresh(lead)
-
-        # ¡Ahora SÍ lo inyectamos en vivo al Pipeline de CRM ProsperIA!
-        sync_sales_os_event_to_ghl_async(
-            contact_id=getattr(lead, "contact_id", "") or "",
-            opportunity_id=getattr(lead, "ghl_opportunity_id", "") or "",
-            email=lead.email,
-            phone=lead.phone or "",
-            full_name=getattr(lead, "full_name", None) or lead.name,
-            business_name=getattr(lead, "business_name", None) or (lead.company or ""),
-            pipeline_stage="Primer contacto",
-            owner_email=getattr(lead, "owner_id", "") or current_user["email"],
-            offer_version=getattr(lead, "offer_version", "EXPRESS_497") or "EXPRESS_497",
-            quoted_amount=float(getattr(lead, "quoted_amount", 497.0) or 497.0),
-            amount_collected=float(getattr(lead, "amount_collected", 0.0) or 0.0),
-            invoice_id=getattr(lead, "invoice_id", "") or "",
-            selected_template=getattr(lead, "selected_template", "clinica_dental_estetica") or "clinica_dental_estetica",
-            audit_summary=f"¡POSIBLE CIERRE! Atendido por {current_user['name']} ({current_user['email']}): {note_msg}",
-        )
-
-        tpl = getattr(lead, "selected_template", "clinica_dental_estetica") or "clinica_dental_estetica"
-        bname = urllib.parse.quote(getattr(lead, "business_name", None) or (lead.company or lead.name or ""))
-        phone_q = urllib.parse.quote(lead.phone or "")
-        demo_url = f"/demo-sitio-web?lead_id={lead.id}&template={tpl}&business={bname}&phone={phone_q}&closer_email={current_user['email']}"
-        return {
-            "success": True,
-            "pushed_to_ghl": True,
-            "demo_url": demo_url,
-            "message": "🔥 ¡Excelente! Posible Cierre enviado en vivo al CRM ProsperIA ('Primer contacto') y +1 toque registrado.",
-            "data": serialize_lead(lead),
-        }
-
-    raise HTTPException(status_code=400, detail="Outcome inválido. Usa 'no_answer', 'touch_wa_email', 'callback', 'disqualified' o 'answered'.")
+    raise HTTPException(status_code=400, detail="Outcome inválido.")
 
 
 @router.get("/api/sales-os/leaderboard")
@@ -2350,17 +2413,19 @@ async def api_sales_os_leaderboard(
         answered_leads_count = sum(
             1 for l in my_leads
             if (getattr(l, "pipeline_stage", "") or "") in (
-                "Primer contacto", "Conversación", "Calificado", "Diagnóstico agendado", "Demo realizada",
+                "Calificado", "Diagnóstico agendado", "Demo realizada",
                 "Propuesta enviada", "Pago pendiente", "Pago confirmado", "Implementación", "Entregado",
-                *BEAUTY_GROWTH_PIPELINE_STAGES[4:13],
+                *BEAUTY_GROWTH_PIPELINE_STAGES[6:13],
             )
+            or ((getattr(l, "pipeline_stage", "") or "") in ("Primer contacto", "Contacto") and bool((getattr(l, "contact_id", "") or "").strip()))
         )
         pending_queue_count = sum(
             1 for l in my_leads
             if (getattr(l, "pipeline_stage", "") or "") in (
-                "Lead identificado", "No responde", "En seguimiento local",
+                "Lead identificado", "Primer contacto", "Contacto", "No responde", "En seguimiento local",
                 "1. Prospecto identificado", "2. Primer contacto", "3. Segundo contacto", "4. Tercer contacto",
             )
+            and not bool((getattr(l, "contact_id", "") or "").strip())
             and (getattr(l, "contact_status", "contactable") or "contactable") == "contactable"
         )
 
@@ -2432,10 +2497,10 @@ async def api_sales_os_leaderboard(
         "data": {
             "my_kpi": my_entry,
             "targets": {
-                "weekly_calls": 500,
-                "weekly_answered": 60,
-                "weekly_demos": 10,
-                "weekly_sales": 2,
+                "weekly_calls": 1000,
+                "weekly_answered": 150,
+                "weekly_demos": 30,
+                "weekly_sales": 5,
             },
             "leaderboard": sellers_board,
             "podium_top3": sellers_board[:3],
@@ -2490,9 +2555,9 @@ async def api_ceo_intelligence_report(
     audits = db.query(AuditLog).order_by(AuditLog.id.desc()).limit(5000).all()
 
     crm_stages = {
-        "Primer contacto", "Conversación", "Calificado", "Diagnóstico agendado",
+        "Calificado", "Diagnóstico agendado",
         "Demo realizada", "Propuesta enviada", "Pago pendiente", "Pago confirmado",
-        "Implementación", "Entregado", *BEAUTY_GROWTH_PIPELINE_STAGES[4:13],
+        "Implementación", "Entregado", *BEAUTY_GROWTH_PIPELINE_STAGES[6:13],
     }
     demo_stages = {"Demo realizada", "Propuesta enviada", "Pago pendiente", "Pago confirmado", "Implementación", "Entregado"}
 
@@ -2539,8 +2604,8 @@ async def api_ceo_intelligence_report(
 
         st = getattr(l, "pipeline_stage", "") or "Lead identificado"
         is_touched = st != "Lead identificado"
-        is_local_followup = st == "En seguimiento local"
-        is_crm_hot = st in crm_stages
+        is_local_followup = st in ("En seguimiento local", "Primer contacto", "Contacto")
+        is_crm_hot = (st in crm_stages) or (st in ("Primer contacto", "Contacto") and bool((getattr(l, "contact_id", "") or "").strip()))
         is_demo = st in demo_stages
         col_amt = float(getattr(l, "amount_collected", 0.0) or 0.0)
         is_paid = col_amt > 0 and bool((getattr(l, "invoice_id", "") or "").strip())
@@ -2584,16 +2649,16 @@ async def api_ceo_intelligence_report(
         t_stats = touch_actions_by_actor.get(em, {})
         touches_week = int(getattr(u, "calls_made_week", 0) or 0)
         touches_today = int(getattr(u, "calls_made_today", 0) or 0)
-        crm_hot = sum(1 for l in u_leads if (getattr(l, "pipeline_stage", "") or "") in crm_stages)
-        local_followups = sum(1 for l in u_leads if (getattr(l, "pipeline_stage", "") or "") == "En seguimiento local")
+        crm_hot = sum(1 for l in u_leads if ((getattr(l, "pipeline_stage", "") or "") in crm_stages) or ((getattr(l, "pipeline_stage", "") or "") in ("Primer contacto", "Contacto") and bool((getattr(l, "contact_id", "") or "").strip())))
+        local_followups = sum(1 for l in u_leads if (getattr(l, "pipeline_stage", "") or "") in ("En seguimiento local", "Primer contacto", "Contacto"))
         no_ans_cnt = sum(1 for l in u_leads if (getattr(l, "pipeline_stage", "") or "") == "No responde")
         pending_cnt = sum(1 for l in u_leads if (getattr(l, "pipeline_stage", "") or "") == "Lead identificado")
         demos_cnt = sum(1 for l in u_leads if (getattr(l, "pipeline_stage", "") or "") in demo_stages)
         paid_leads = [l for l in u_leads if float(getattr(l, "amount_collected", 0.0) or 0.0) > 0 and (getattr(l, "invoice_id", "") or "").strip()]
         collected = sum(float(getattr(l, "amount_collected", 0.0) or 0.0) for l in paid_leads)
-        target_pct = round(min(999.0, (touches_week / 500.0) * 100.0), 1)
+        target_pct = round(min(999.0, (touches_week / 1000.0) * 100.0), 1)
         if target_pct >= 80:
-            verdict = "🟢 Al ritmo (Meta 500)"
+            verdict = "🟢 Al ritmo (Meta 1,000)"
         elif target_pct >= 35:
             verdict = "🟡 En progreso"
         else:
@@ -2650,20 +2715,20 @@ async def api_ceo_intelligence_report(
     best_country = next((c for c in by_country if c["touched"] >= 10), by_country[0] if by_country else None)
 
     if team_touches == 0:
-        verdict_msg = "Sprint listo para arrancar mañana 18 de Noviembre (Meta: 500 toques por Closer al 25 Nov · Evaluación en vivo 26 Nov). Conforme anoten toques y objeciones en la Cabina, aquí verás qué nicho y país convierte mejor."
+        verdict_msg = "Sprint estándar Setter → Closer activo (Meta: 1,000 contactos/toques por perfil). Conforme anoten renglones y califiquen al CRM, aquí verás qué nicho y país convierte mejor."
     else:
-        n_txt = f"{best_niche['label']} ({best_niche['hot_rate_pct']}% Posibles Cierres)" if best_niche else "Por determinar"
-        c_txt = f"{best_country['label']} ({best_country['crm_hot_closes']} Posibles Cierres)" if best_country else "Por determinar"
+        n_txt = f"{best_niche['label']} ({best_niche['hot_rate_pct']}% Calificados)" if best_niche else "Por determinar"
+        c_txt = f"{best_country['label']} ({best_country['crm_hot_closes']} Calificados)" if best_country else "Por determinar"
         top_obj = objections_ranked[0]["tag"] if objections_ranked else "Ninguna"
-        verdict_msg = f"Equipo suma {team_touches:,} toques ({team_hot} Posibles Cierres en CRM · US${team_usd:,.0f} cobrados). Nicho líder: {n_txt}. País líder: {c_txt}. Principal fricción del mercado: '{top_obj}'."
+        verdict_msg = f"Equipo suma {team_touches:,} toques ({team_hot} Calificados en CRM · US${team_usd:,.0f} cobrados). Nicho líder: {n_txt}. País líder: {c_txt}. Principal fricción del mercado: '{top_obj}'."
 
     return {
         "success": True,
         "data": {
             "sprint": {
-                "window": "18 al 25 de Noviembre 2026 · Evaluación en vivo: 26 de Noviembre",
-                "weekly_touch_target": 500,
-                "team_weekly_goal": len(by_closer) * 500,
+                "window": "Sprint Comercial Setter → Closer · Meta 1,000 Contactos · Evaluación en Vivo 26 Nov",
+                "weekly_touch_target": 1000,
+                "team_weekly_goal": len(by_closer) * 1000,
                 "team_total_touches": team_touches,
                 "team_total_crm_hot": team_hot,
                 "team_total_sales": team_sales,
@@ -2965,7 +3030,7 @@ async def api_reset_seller_test_data(
     lead_ids = []
     for ld in seller_leads:
         notes_raw = getattr(ld, "notes", "") or ""
-        cleaned_notes = re.sub(r"\n\[20\d{2}-\d{2}-\d{2}T[^\n]*", "", notes_raw).split("[Cola:")[0].strip()
+        cleaned_notes = re.sub(r"\n\[20\d{2}-\d{2}-\d{2}[T ][^\n]*", "", notes_raw).split("[Cola:")[0].strip()
         was_modified = (
             (getattr(ld, "pipeline_stage", "Lead identificado") or "Lead identificado") != "Lead identificado"
             or (getattr(ld, "status", "new") or "new") != "new"

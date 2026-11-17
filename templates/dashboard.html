@@ -265,6 +265,17 @@
       max-width: 580px;
       width: 94%;
     }
+    dialog:modal {
+      overscroll-behavior: contain;
+    }
+    dialog.sales-dialog[open] {
+      max-height: 92vh;
+      overflow-y: auto;
+    }
+    dialog::backdrop {
+      overflow: hidden;
+      overscroll-behavior: contain;
+    }
     dialog.sales-dialog::backdrop {
       background-color: rgba(2, 6, 23, 0.78);
       backdrop-filter: blur(4px);
@@ -451,62 +462,52 @@
 
   <!-- Navigation -->
   <div class="sidebar-nav">
-    <div class="nav-section-label">Fuerza Comercial · Sitios Web</div>
-    <button onclick="showSection('overview')" id="nav-overview" class="nav-item active">
-      <i class="fas fa-trophy"></i>
-      <span>Podio, KPI & Check-In</span>
-    </button>
-    <button onclick="showSection('call-queue')" id="nav-call-queue" class="nav-item">
+    <!-- Selector Visual Gorra Setter vs Gorra Closer -->
+    <div class="p-2 mb-3 rounded-xl bg-slate-900/90 border border-slate-800 space-y-1.5">
+      <div class="text-[10px] font-black uppercase tracking-wider text-slate-400 px-1">Tu Gorra Activa Hoy:</div>
+      <div class="grid grid-cols-2 gap-1.5">
+        <button type="button" id="hat-btn-setter" onclick="showSection('call-queue')"
+                class="px-2 py-1.5 rounded-lg text-[11px] font-black bg-emerald-400 text-slate-950 transition">
+          🧢 Setter
+        </button>
+        <button type="button" id="hat-btn-closer" onclick="showSection('sales-os')"
+                class="px-2 py-1.5 rounded-lg text-[11px] font-bold bg-slate-800 text-slate-300 border border-slate-700 hover:border-cyan-400 transition">
+          🎩 Closer
+        </button>
+      </div>
+    </div>
+
+    <div class="nav-section-label">🧢 1. Función Setter (Prospección)</div>
+    <button onclick="showSection('call-queue')" id="nav-call-queue" class="nav-item active">
       <i class="fas fa-phone-volume"></i>
-      <span>Mi Lista de Llamadas</span>
-      <span id="call-queue-badge" class="ml-auto text-[10px] px-1.5 py-0.5 rounded font-bold" style="background:rgba(0,229,255,0.18); color:#00e5ff;">455</span>
+      <span>Lista de Llamadas (Setter)</span>
+      <span id="call-queue-badge" class="ml-auto text-[10px] px-1.5 py-0.5 rounded font-bold" style="background:rgba(0,229,255,0.18); color:#00e5ff;">1000</span>
     </button>
+
+    <div class="nav-section-label" style="margin-top:10px;">🎩 2. Función Closer (CRM &amp; Cierres)</div>
     <button onclick="showSection('sales-os')" id="nav-sales-os" class="nav-item">
       <i class="fas fa-funnel-dollar"></i>
-      <span>Mi Pipeline & Comisiones</span>
+      <span>Mi Pipeline (Closer CRM)</span>
       <span class="ml-auto text-[10px] px-1.5 py-0.5 rounded font-bold" style="background:rgba(16,185,129,0.18); color:#34d399;">15%</span>
     </button>
     <button onclick="showSection('web-showcase')" id="nav-web-showcase" class="nav-item">
       <i class="fas fa-laptop-code"></i>
-      <span>Demo Sitio Web (En Vivo)</span>
+      <span>Demo Sitio Web (16 Demos)</span>
     </button>
-
-    <details id="sidebar-multimenu-details" class="mt-2 mb-2 rounded-xl border border-cyan-500/30 bg-cyan-950/20 overflow-hidden" open>
-      <summary class="px-3 py-2 text-[11px] font-extrabold uppercase tracking-wider text-cyan-300 hover:text-white cursor-pointer flex items-center justify-between select-none list-none">
-        <span>🌐 Abanico Multi-Menú (En Vivo)</span>
-        <i class="fas fa-chevron-down text-[10px]"></i>
-      </summary>
-      <div class="px-2 pb-2 pt-1 space-y-1 border-t border-cyan-500/20 text-xs">
-        <a href="/paginas-web" class="nav-item" style="padding:7px 10px; font-size:12px;">
-          <i class="fas fa-globe" style="color:#00e5ff;"></i>
-          <span>Vitrina +17 Webs Reales</span>
-        </a>
-        <a href="/crm" class="nav-item" style="padding:7px 10px; font-size:12px;">
-          <i class="fas fa-diagram-project" style="color:#818cf8;"></i>
-          <span>CRM + Portal Prosper IA</span>
-        </a>
-        <a href="/agentes-ia" class="nav-item" style="padding:7px 10px; font-size:12px;">
-          <i class="fas fa-robot" style="color:#34d399;"></i>
-          <span>Agentes IA (Chat &amp; Voz)</span>
-        </a>
-        <a href="/equipo" class="nav-item" style="padding:7px 10px; font-size:12px;">
-          <i class="fas fa-users-gear" style="color:#fbbf24;"></i>
-          <span>Escuadrón IA (Pack)</span>
-        </a>
-        <a href="/marketing" class="nav-item" style="padding:7px 10px; font-size:12px;">
-          <i class="fas fa-bullhorn" style="color:#38bdf8;"></i>
-          <span>Marketing &amp; Reels</span>
-        </a>
-        <a href="/tarjeta" class="nav-item" style="padding:7px 10px; font-size:12px;">
-          <i class="fas fa-id-card" style="color:#f472b6;"></i>
-          <span>Tarjeta Digital + QR</span>
-        </a>
-      </div>
-    </details>
-
     <button onclick="showSection('weapons')" id="nav-weapons" class="nav-item">
       <i class="fas fa-tv" style="color:#38bdf8;"></i>
       <span>Presentaciones Clientes</span>
+    </button>
+    <button onclick="showSection('payment-links')" id="nav-payment-links" class="nav-item">
+      <i class="fas fa-credit-card" style="color:#34d399;"></i>
+      <span>Links de Pago</span>
+      <span class="ml-auto text-[10px] px-1.5 py-0.5 rounded font-bold" style="background:rgba(16,185,129,0.18); color:#34d399;">14 LIVE</span>
+    </button>
+
+    <div class="nav-section-label" style="margin-top:10px;">📊 Metas &amp; Academia</div>
+    <button onclick="showSection('overview')" id="nav-overview" class="nav-item">
+      <i class="fas fa-trophy"></i>
+      <span>Embudo 1,000 &amp; Podio</span>
     </button>
     <button onclick="showSection('closer-study')" id="nav-closer-study" class="nav-item">
       <i class="fas fa-graduation-cap" style="color:#fbbf24;"></i>
@@ -516,17 +517,13 @@
       <i class="fas fa-file-signature" style="color:#a78bfa;"></i>
       <span>Recursos &amp; Contrato</span>
     </button>
-    <button onclick="showSection('payment-links')" id="nav-payment-links" class="nav-item">
-      <i class="fas fa-credit-card" style="color:#34d399;"></i>
-      <span>Links de Pago</span>
-      <span class="ml-auto text-[10px] px-1.5 py-0.5 rounded font-bold" style="background:rgba(16,185,129,0.18); color:#34d399;">14 LIVE</span>
-    </button>
     <button onclick="showSection('sellers-admin')" id="nav-sellers-admin" class="nav-item">
       <i class="fas fa-user-shield"></i>
-      <span>Alta Closers & Lotes (CEO)</span>
+      <span>Alta Closers &amp; Lotes (CEO)</span>
     </button>
 
-    <details id="sidebar-highticket-details" class="mt-3 rounded-xl border border-slate-800/80 bg-slate-900/30 overflow-hidden">
+    <!-- Opción Avanzada High-Ticket oculta por directriz operativa -->
+    <details id="sidebar-highticket-details" hidden style="display:none;" class="mt-3 rounded-xl border border-slate-800/80 bg-slate-900/30 overflow-hidden">
       <summary class="px-3 py-2.5 text-[11px] font-extrabold uppercase tracking-wider text-slate-400 hover:text-cyan-300 cursor-pointer flex items-center justify-between select-none list-none">
         <span>💎 Opción Avanzada High-Ticket</span>
         <i class="fas fa-chevron-down text-[10px] transition-transform duration-200"></i>
@@ -547,7 +544,7 @@
         </button>
         <button onclick="showSection('analytics')" id="nav-analytics" class="nav-item">
           <i class="fas fa-chart-bar"></i>
-          <span>Analytics & ROI SVE-90</span>
+          <span>Analytics &amp; ROI SVE-90</span>
         </button>
         <button onclick="showSection('agents')" id="nav-agents" class="nav-item">
           <i class="fas fa-comments"></i>
@@ -612,6 +609,18 @@
       </div>
     </div>
     <div class="flex flex-wrap items-center gap-2">
+      <!-- Conmutador Rápido Gorra Setter vs Closer -->
+      <div class="hidden sm:inline-flex items-center p-0.5 rounded-xl bg-slate-900 border border-slate-700">
+        <button type="button" id="top-hat-setter" onclick="showSection('call-queue')"
+                class="px-2.5 py-1 rounded-lg text-[11px] font-black bg-emerald-400 text-slate-950 transition">
+          🧢 Gorra Setter (1,000)
+        </button>
+        <button type="button" id="top-hat-closer" onclick="showSection('sales-os')"
+                class="px-2.5 py-1 rounded-lg text-[11px] font-bold text-slate-300 hover:text-white transition">
+          🎩 Gorra Closer (CRM)
+        </button>
+      </div>
+
       <!-- Botón de Check-In Matutino & Contador de Horas Conectado -->
       <button type="button" onclick="triggerMorningCheckin()" id="btn-morning-checkin"
               class="px-3 py-1.5 rounded-xl text-xs font-extrabold flex items-center gap-1.5 transition"
@@ -735,12 +744,15 @@
   </style>
   <div id="section-overview" class="p-6 space-y-6">
 
-    <!-- EMBUDO SEMANAL DE RENDIMIENTO KPI (SPRINT 18–25 NOV: 500 -> 60 -> 10 -> 2+) -->
+    <!-- EMBUDO ESTÁNDAR SETTER -> CLOSER (1,000 CONTACTOS -> 150 CONTACTADOS -> 30 CALIFICADOS -> 5+ CIERRES = US$372-$745+/SEM) -->
     <div class="card p-5" style="background:linear-gradient(135deg,#071529,#0b1e3b); border-color:rgba(0,229,255,0.28);">
       <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
         <div>
-          <span class="text-xs font-extrabold uppercase tracking-wider text-cyan-400">🎯 SPRINT COMERCIAL 18 AL 25 NOV · EVALUACIÓN EN VIVO 26 NOV (500 &rarr; 60 &rarr; 10 &rarr; 2+)</span>
-          <h3 class="text-lg font-bold text-white mt-0.5">Tu Progreso Semanal hacia los 500 Toques y Comisiones</h3>
+          <span class="text-xs font-extrabold uppercase tracking-wider text-cyan-400">🎯 ESTÁNDAR SETTER → CLOSER · META MOTIVACIONAL (1,000 &rarr; 150 &rarr; 30 &rarr; 5+ CIERRES)</span>
+          <h3 class="text-lg font-bold text-white mt-0.5">Ruta Clara al Bolsillo: Tu Meta de 1,000 Contactos y Comisiones del 15%</h3>
+          <p class="text-[11px] text-emerald-300/90 mt-0.5">
+            Con <strong>1,000 toques</strong> (100–150 diarios) logras ~<strong>150 conversaciones</strong>, <strong>30 calificados al CRM</strong> y <strong>5+ cierres = US$372.75 a US$745.50+ USD directos a tu bolsillo</strong>.
+          </p>
         </div>
         <div class="flex items-center gap-2">
           <button type="button" onclick="loadLeaderboardAndKpis()" class="btn-ghost px-3 py-1.5 rounded-lg text-xs">
@@ -751,39 +763,39 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800">
           <div class="flex items-center justify-between text-xs text-slate-400 mb-1">
-            <span>📞 1. Toques (Llamadas + WA/Email)</span>
-            <span class="font-bold text-cyan-300">Meta: 500/sem</span>
+            <span>🧢 1. Llamadas / Toques Setter</span>
+            <span class="font-bold text-cyan-300">Meta: 1,000</span>
           </div>
-          <div class="text-2xl font-black text-white"><span id="kpi-wk-calls">0</span> <span class="text-xs font-normal text-slate-400">/ 500</span></div>
+          <div class="text-2xl font-black text-white"><span id="kpi-wk-calls">0</span> <span class="text-xs font-normal text-slate-400">/ 1,000</span></div>
           <div class="progress-track mt-2"><div id="bar-wk-calls" class="progress-fill" style="width:0%"></div></div>
-          <div class="text-[11px] text-slate-400 mt-1.5">Hoy: <strong id="kpi-today-calls" class="text-white">0</strong> toques registrados</div>
+          <div class="text-[11px] text-slate-400 mt-1.5">Hoy: <strong id="kpi-today-calls" class="text-white">0</strong> toques · Ritmo ideal: 100–150/día</div>
         </div>
         <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800">
           <div class="flex items-center justify-between text-xs text-slate-400 mb-1">
-            <span>🔥 2. Posibles Cierres → CRM</span>
-            <span class="font-bold text-emerald-300">Meta: 60/sem</span>
+            <span>💬 2. Contactados (Bitácora)</span>
+            <span class="font-bold text-amber-300">Meta: 150 (15%)</span>
           </div>
-          <div class="text-2xl font-black text-emerald-400"><span id="kpi-wk-answered">0</span> <span class="text-xs font-normal text-slate-400">/ 60</span></div>
-          <div class="progress-track mt-2"><div id="bar-wk-answered" class="progress-fill" style="width:0%; background:linear-gradient(90deg,#10b981,#34d399);"></div></div>
-          <div class="text-[11px] text-slate-400 mt-1.5">Solo calificados pasan a CRM ProsperIA</div>
+          <div class="text-2xl font-black text-amber-400"><span id="kpi-wk-answered">0</span> <span class="text-xs font-normal text-slate-400">/ 150</span></div>
+          <div class="progress-track mt-2"><div id="bar-wk-answered" class="progress-fill" style="width:0%; background:linear-gradient(90deg,#f59e0b,#fbbf24);"></div></div>
+          <div class="text-[11px] text-slate-400 mt-1.5">Seguimiento en cabina antes de enviar a CRM</div>
         </div>
         <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800">
           <div class="flex items-center justify-between text-xs text-slate-400 mb-1">
-            <span>💻 3. Demos / Citas Agendadas</span>
-            <span class="font-bold text-amber-300">Meta: 10/sem</span>
+            <span>🔥 3. Calificados → Closer CRM</span>
+            <span class="font-bold text-emerald-300">Meta: 30</span>
           </div>
-          <div class="text-2xl font-black text-amber-400"><span id="kpi-wk-demos">0</span> <span class="text-xs font-normal text-slate-400">/ 10</span></div>
-          <div class="progress-track mt-2"><div id="bar-wk-demos" class="progress-fill" style="width:0%; background:linear-gradient(90deg,#f59e0b,#fbbf24);"></div></div>
-          <div class="text-[11px] text-slate-400 mt-1.5">Efecto WOW en Vivo + Propuesta</div>
+          <div class="text-2xl font-black text-emerald-400"><span id="kpi-wk-demos">0</span> <span class="text-xs font-normal text-slate-400">/ 30</span></div>
+          <div class="progress-track mt-2"><div id="bar-wk-demos" class="progress-fill" style="width:0%; background:linear-gradient(90deg,#10b981,#34d399);"></div></div>
+          <div class="text-[11px] text-slate-400 mt-1.5">Llegan al Pipeline con tus renglones y plantilla</div>
         </div>
         <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800">
           <div class="flex items-center justify-between text-xs text-slate-400 mb-1">
-            <span>💰 4. Ventas Cobradas</span>
-            <span class="font-bold text-purple-300">Meta: 2+ /sem</span>
+            <span>💰 4. Cierres &amp; Tu Comisión 15%</span>
+            <span class="font-bold text-purple-300">Meta: 5+ Cierres</span>
           </div>
-          <div class="text-2xl font-black text-purple-400"><span id="kpi-wk-sales">0</span> <span class="text-xs font-normal text-slate-400">/ 2+</span></div>
+          <div class="text-2xl font-black text-purple-400"><span id="kpi-wk-sales">0</span> <span class="text-xs font-normal text-slate-400">/ 5+</span></div>
           <div class="progress-track mt-2"><div id="bar-wk-sales" class="progress-fill" style="width:0%; background:linear-gradient(90deg,#a855f7,#ec4899);"></div></div>
-          <div class="text-[11px] text-slate-400 mt-1.5">Cobrado: <strong id="kpi-wk-usd" class="text-emerald-300">US$0.00</strong></div>
+          <div class="text-[11px] text-slate-400 mt-1.5">Cobrado: <strong id="kpi-wk-usd" class="text-emerald-300">US$0.00</strong> (Meta bolsillo: US$372+)</div>
         </div>
       </div>
     </div>
@@ -795,7 +807,7 @@
           <span class="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
             📊 REPORTE BRUTAL CEO · EVALUACIÓN EN VIVO 26 NOV
           </span>
-          <h3 class="text-lg font-bold text-white mt-1">Radiografía Comercial: Meta 500 Toques/Closer, Qué Nicho/País Convierte y Objeciones Reales</h3>
+          <h3 class="text-lg font-bold text-white mt-1">Radiografía Comercial: Meta 1,000 Contactos/Toques, Qué Nicho/País Convierte y Objeciones Reales</h3>
           <p id="ceo-brutal-verdict" class="text-xs text-emerald-300/90 mt-1 font-medium">
             Cargando diagnóstico ejecutivo en tiempo real...
           </p>
@@ -803,14 +815,14 @@
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
           <div class="px-3 py-2 rounded-xl bg-slate-900 border border-slate-800">
             <div class="text-[10px] text-slate-400 uppercase">Meta Equipo</div>
-            <div id="ceo-brutal-team-goal" class="text-sm font-black text-white">5,500</div>
+            <div id="ceo-brutal-team-goal" class="text-sm font-black text-white">11,000</div>
           </div>
           <div class="px-3 py-2 rounded-xl bg-slate-900 border border-slate-800">
             <div class="text-[10px] text-slate-400 uppercase">Toques Sprint</div>
             <div id="ceo-brutal-team-touches" class="text-sm font-black text-cyan-300">0</div>
           </div>
           <div class="px-3 py-2 rounded-xl bg-slate-900 border border-slate-800">
-            <div class="text-[10px] text-slate-400 uppercase">Posibles Cierres</div>
+            <div class="text-[10px] text-slate-400 uppercase">Calificados CRM</div>
             <div id="ceo-brutal-team-hot" class="text-sm font-black text-emerald-300">0</div>
           </div>
           <div class="px-3 py-2 rounded-xl bg-slate-900 border border-slate-800">
@@ -820,20 +832,20 @@
         </div>
       </div>
 
-      <!-- 1. Avance 500 Toques por Closer -->
+      <!-- 1. Avance 1,000 Contactos por Closer -->
       <div>
-        <div class="text-xs font-extrabold uppercase tracking-wider text-cyan-300 mb-2">1. Evaluación Individual (Meta: 500 Toques / Base 1,000 Leads)</div>
-        <div tabindex="0" role="region" aria-label="Evaluación individual de 500 toques por closer" class="table-wrapper rounded-xl border border-slate-800">
+        <div class="text-xs font-extrabold uppercase tracking-wider text-cyan-300 mb-2">1. Evaluación Individual (Meta: 1,000 Toques / Base 1,000 Leads)</div>
+        <div tabindex="0" role="region" aria-label="Evaluación individual de 1,000 toques por closer" class="table-wrapper rounded-xl border border-slate-800">
           <table class="prosperia-rtable text-xs">
             <thead>
               <tr class="text-left text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800">
                 <th class="px-3 py-2.5">Closer</th>
                 <th class="px-3 py-2.5">Base / Pend.</th>
-                <th class="px-3 py-2.5">Toques Sem / 500</th>
+                <th class="px-3 py-2.5">Toques / 1,000</th>
                 <th class="px-3 py-2.5">% Meta</th>
                 <th class="px-3 py-2.5">WA / Email</th>
-                <th class="px-3 py-2.5">Seg. Local</th>
-                <th class="px-3 py-2.5">Posibles Cierres CRM</th>
+                <th class="px-3 py-2.5">Seg. Setter</th>
+                <th class="px-3 py-2.5">Calificados CRM</th>
                 <th class="px-3 py-2.5">Demos / Ventas</th>
                 <th class="px-3 py-2.5">Veredicto</th>
               </tr>
@@ -1954,20 +1966,23 @@
       <div class="flex flex-wrap items-center justify-between gap-4">
         <div>
           <div class="flex flex-wrap items-center gap-2 mb-1">
-            <span class="px-2.5 py-0.5 rounded-full text-xs font-black uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">CABINA TODO-EN-UNO · SPRINT 18–25 NOV (META: 500 TOQUES/SEM)</span>
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-black uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">🧢 FUNCIÓN 1 · GORRA DE SETTER (META: 1,000 CONTACTOS)</span>
             <span id="call-queue-owner-badge" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">Mis 1,000 Prospectos Calificados</span>
           </div>
-          <h2 class="text-xl font-bold text-white">📋 Cabina de Prospección Diaria (Llamadas + WhatsApp + Correo sin Salir)</h2>
+          <h2 class="text-xl font-bold text-white">📞 Mi Lista de Llamadas y Bitácora Diaria (Setter)</h2>
           <p class="text-xs text-slate-300 mt-0.5">
-            <strong>Cero brincos entre sistemas:</strong> Llama, manda WhatsApp o correo y anota notas y objeciones aquí mismo. <strong>SOLO</strong> cuando detectes un interesado real pulsa <strong>🔥 Posible Cierre → Enviar a CRM</strong> para enviarlo a CRM ProsperIA (<code class="text-cyan-300">💰 Mi Pipeline</code>).
+            <strong>Flujo Limpio en 1 Popup:</strong> Haz clic en <strong>📞 Llamar</strong> (listo para Zadarma) o en <strong>🛠️ Trabajar Contacto</strong> para abrir su tarjeta, anotar renglón tras renglón (9am no contestó, 11am habló, correo/SMS) y <strong>SOLO cuando califique</strong> enviarlo al CRM y a tu <strong>🎩 Pipeline Closer</strong>.
           </p>
         </div>
         <div class="flex flex-wrap gap-2 items-center">
           <button type="button" onclick="openQuickCloserLeadDialog('Primer contacto')" class="px-3.5 py-2 rounded-xl text-xs font-black bg-emerald-400 text-slate-950 hover:bg-emerald-300 transition shadow">
-            ➕ Nuevo Prospecto (Inyectar a CRM)
+            ➕ Nuevo Prospecto
           </button>
           <button type="button" onclick="openCloserBulkImportDialog()" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30 transition">
-            📥 Subir Mi Lista (Excel/CSV)
+            📥 Subir Excel/CSV
+          </button>
+          <button type="button" onclick="showSection('sales-os')" class="px-3.5 py-2 rounded-xl text-xs font-black bg-cyan-400/20 text-cyan-300 border border-cyan-400/40 hover:bg-cyan-400/30 transition">
+            🎩 Ir a Mi Pipeline Closer →
           </button>
           <button onclick="loadSalesOsData()" class="btn-ghost px-3 py-2 rounded-xl text-xs font-semibold">
             <i class="fas fa-sync-alt mr-1"></i> Actualizar
@@ -1975,15 +1990,16 @@
         </div>
       </div>
 
-      <!-- Barra de Filtros Inteligentes (País, Nicho, Diagnóstico, Estado, Fuente y Búsqueda) -->
+      <!-- Barra de Filtros Inteligentes (País, Nicho, Diagnóstico, Etapa Setter, Fuente y Búsqueda) -->
       <div class="flex flex-wrap gap-2 items-center pt-2 border-t border-emerald-500/20">
         <select id="call-queue-filter" class="input-dark text-xs py-2 px-3" style="width:auto;" onchange="callQueuePage=1; renderCallQueueTable()">
-          <option value="pending">⏳ Pendientes por Tocar (Fríos)</option>
-          <option value="callback">🟡 En Seguimiento Local (Sin CRM)</option>
+          <option value="pending">⏳ Sin Tocar + En Seguimiento Setter</option>
+          <option value="untouched">🆕 Solo Nuevos (0 Toques)</option>
+          <option value="callback">🟡 En Seguimiento (Primer contacto / Contacto)</option>
           <option value="no_answer">🔴 No Contestaron / Buzón</option>
-          <option value="answered">🔥 Enviados a CRM (Posibles Cierres)</option>
+          <option value="answered">🔥 Calificados (Ya en CRM Closer)</option>
           <option value="disqualified">⚫ No Califican</option>
-          <option value="all">📋 Todos mis Asignados</option>
+          <option value="all">📋 Todos mis 1,000 Asignados</option>
         </select>
         <select id="call-queue-country-filter" class="input-dark text-xs py-2 px-3" style="width:auto;" onchange="callQueuePage=1; renderCallQueueTable()">
           <option value="all">🌎 País: Todos</option>
@@ -1991,12 +2007,13 @@
           <option value="Perú">🇵🇪 Perú</option>
           <option value="Colombia">🇨🇴 Colombia</option>
           <option value="Argentina">🇦🇷 Argentina</option>
+          <option value="Chile">🇨🇱 Chile</option>
           <option value="España">🇪🇸 España</option>
           <option value="Estados Unidos">🇺🇸 Estados Unidos</option>
         </select>
         <select id="call-queue-niche-filter" class="input-dark text-xs py-2 px-3" style="width:auto;" onchange="callQueuePage=1; renderCallQueueTable()">
           <option value="all">🏷️ Rubro: Todos</option>
-          <option value="clinica">🏥 Salud / Dental / Belleza</option>
+          <option value="clinica">🏥 Salud / Dental / Belleza / Capilar</option>
           <option value="inmobiliaria">🏢 Inmobiliaria / Bienes Raíces</option>
           <option value="academias">🎓 Academias / Coaching / Legal</option>
           <option value="oficios">❄️ HVAC / Plomería / Servicios</option>
@@ -2010,16 +2027,16 @@
         </select>
         <select id="call-queue-source-filter" class="input-dark text-xs py-2 px-3" style="width:auto;" onchange="callQueuePage=1; renderCallQueueTable()">
           <option value="all">📂 Fuente: Todas</option>
-          <option value="apify_sprint_nov18">🎯 Lote Calificado 1,000 (Sprint Nov 18)</option>
-          <option value="sitioweb_funnel">🔥 Embudo /sitioweb (&lt; 5m)</option>
-          <option value="ghl_pool">📱 Base CRM Anterior</option>
+          <option value="apify_sprint_nov18">🎯 Lote Calificado 1,000</option>
+          <option value="sitioweb_funnel">🔥 Embudo /sitioweb</option>
+          <option value="ghl_pool">📱 Base Anterior</option>
           <option value="comex_outbound_b2b">🏢 Exportadores COMEX</option>
         </select>
-        <input id="call-queue-search" type="text" class="input-dark text-xs py-2 px-3 flex-1 min-w-[200px]" placeholder="Buscar negocio, ciudad, tel o speech..." oninput="callQueuePage=1; renderCallQueueTable()">
+        <input id="call-queue-search" type="text" class="input-dark text-xs py-2 px-3 flex-1 min-w-[200px]" placeholder="Buscar negocio, ciudad, tel o nota..." oninput="callQueuePage=1; renderCallQueueTable()">
       </div>
     </div>
 
-    <!-- CUADRO DE ACCIÓN PERSISTENTE SOLO CUANDO ES POSIBLE CIERRE (ENVIADO A CRM + DEMO) -->
+    <!-- CUADRO DE ACCIÓN PERSISTENTE SOLO CUANDO SE CALIFICA Y PASA AL CLOSER -->
     <div id="call-answered-action-box" class="hidden card p-5 border-2 border-emerald-400" style="background:linear-gradient(135deg, rgba(16,185,129,0.22), rgba(6,78,59,0.65)); box-shadow:0 12px 32px rgba(16,185,129,0.25);">
       <div class="flex flex-wrap items-center justify-between gap-4">
         <div class="flex items-start gap-3">
@@ -2028,22 +2045,22 @@
           </div>
           <div>
             <div class="text-xs font-black uppercase tracking-wider text-emerald-300">
-              🔥 ¡POSIBLE CIERRE DETECTADO! · SINCRONIZADO EN CRM PROSPERIA (GHL)
+              🔥 ¡CALIFICADO POR SETTER! · ENVIADO AL CRM Y PASADO A TU PIPELINE CLOSER
             </div>
             <h3 id="call-answered-box-title" class="text-lg font-black text-white mt-0.5">
-              Prospecto enviado al CRM ProsperIA (Etapa: Primer contacto)
+              Prospecto en CRM ProsperIA (Etapa: Calificado)
             </h3>
             <p id="call-answered-box-sub" class="text-xs text-slate-200 mt-0.5">
-              Ya salió de tu cola fría hacia el CRM. Ábrele su Demo Sitio Web en vivo o sigue la negociación en 💰 Mi Pipeline.
+              Toda la bitácora de renglones viajó con el prospecto al Pipeline del Closer. Ábrele su Demo Sitio Web o pasa a cerrar.
             </p>
           </div>
         </div>
         <div class="flex flex-wrap items-center gap-2.5">
           <a id="call-answered-demo-btn" href="/demo-sitio-web?closer=1" class="px-4 py-2.5 rounded-xl text-xs font-black bg-emerald-400 text-slate-950 hover:bg-emerald-300 transition no-underline shadow-lg">
-            🚀 Abrir Demo Sitio Web del Cliente →
+            🚀 Abrir Demo Sitio Web →
           </a>
           <button type="button" onclick="showSection('sales-os')" class="px-4 py-2.5 rounded-xl text-xs font-black bg-cyan-400 text-slate-950 hover:bg-cyan-300 transition">
-            📊 Ver en Mi Pipeline CRM ProsperIA
+            🎩 Ponerse Gorra Closer (Ir a Pipeline)
           </button>
           <button type="button" onclick="document.getElementById('call-answered-action-box').classList.add('hidden')" class="px-3 py-2 rounded-xl text-xs font-bold text-slate-300 hover:text-white border border-slate-700">
             ✕
@@ -2053,19 +2070,17 @@
     </div>
 
     <div class="card p-5 space-y-3">
-      <div id="call-queue-pagination-bar" class="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-300">
-        <!-- Paginación 100 por página -->
-      </div>
+      <div id="call-queue-pagination-bar" class="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-300"></div>
       <div tabindex="0" role="region" aria-labelledby="call-queue-caption" class="table-wrapper rounded-xl border border-slate-800">
         <table class="prosperia-rtable">
-          <caption id="call-queue-caption" class="sr-only">Lista de prospección todo-en-uno con guiones y botones de toque local o envío a CRM</caption>
+          <caption id="call-queue-caption" class="sr-only">Lista limpia de contactos Setter con bitácora en popup</caption>
           <thead>
             <tr class="text-left text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800">
-              <th class="px-4 py-3">Prospecto / Diagnóstico / Speech</th>
-              <th class="px-3 py-3">Contacto 1-Clic (Tel / WA)</th>
-              <th class="px-3 py-3">País / Rubro / Closer</th>
-              <th class="px-3 py-3">Estado</th>
-              <th class="px-4 py-3">Nota + Objeción + Acción (Local o CRM)</th>
+              <th class="px-4 py-3">Prospecto &amp; Diagnóstico</th>
+              <th class="px-3 py-3">Llamar (Zadarma) / WA / Correo</th>
+              <th class="px-3 py-3">País · Rubro · Plantilla</th>
+              <th class="px-3 py-3">Etapa Setter &amp; Última Anotación</th>
+              <th class="px-4 py-3 text-right">Trabajar Contacto</th>
             </tr>
           </thead>
           <tbody id="call-queue-tbody" class="text-xs">
@@ -3869,27 +3884,19 @@
     <div class="card p-5 space-y-4">
       <div class="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h3 class="text-base font-bold text-white">💰 Mi Pipeline Activo (Desde Paso 2: Primer Contacto hasta Pago Confirmado)</h3>
-          <p class="text-xs text-slate-400">Aquí viven únicamente los clientes que <strong>ya te contestaron</strong> (o que diste de alta directos). Gestiona aquí su WhatsApp, <strong>"📋 Etapa / Prop."</strong> y <strong>"💳 Verificar Pago"</strong> sin regresar a la lista de llamadas.</p>
+          <h3 class="text-base font-bold text-white">🎩 Mi Pipeline Closer (Calificados desde Setter → Cierre &amp; Pago en CRM)</h3>
+          <p class="text-xs text-slate-400">Aquí llegan únicamente los clientes <strong>Calificados</strong> con toda la bitácora que dejó el Setter. Usa <strong>📋 Etapa / Prop.</strong>, <strong>📒 Bitácora</strong> y <strong>💳 Verificar Pago</strong>.</p>
         </div>
         <div class="flex flex-wrap gap-2">
           <select id="sos-stage-filter" class="input-dark text-xs py-2 px-3" style="width:auto;" onchange="renderSalesOsTable()">
-            <option value="active_pipeline" selected>🔥 Mi Pipeline Activo (Paso 2: Primer Contacto al Paso 11)</option>
-            <option value="Primer contacto">2. Primer contacto (Recién contestaron)</option>
-            <option value="Conversación">3. Conversación</option>
-            <option value="Calificado">4. Calificado</option>
-            <option value="Diagnóstico agendado">5. Diagnóstico agendado</option>
-            <option value="Demo realizada">6. Demo realizada</option>
-            <option value="Propuesta enviada">7. Propuesta enviada</option>
-            <option value="Pago pendiente">8. Pago pendiente</option>
-            <option value="Pago confirmado">9. Pago confirmado ✅</option>
-            <option value="Implementación">10. Implementación 🛠️</option>
-            <option value="Entregado">11. Entregado 🚀</option>
-            <option value="">Ver absolutamente todos (incluyendo Paso 1 Fríos)</option>
-            <option value="Lead identificado">1. Lead identificado (En Lista de Llamadas)</option>
+            <option value="active_pipeline" selected>🔥 Mi Pipeline Activo (Calificados → Cierre)</option>
+            <option value="Calificado">3. Calificado (Recién pasados por Setter)</option>
+            <option value="Contacto">2. Contacto</option>
+            <option value="Primer contacto">1. Primer contacto</option>
+            <option value="Pago pendiente">💳 Pago pendiente</option>
+            <option value="Pago confirmado">✅ Pago confirmado</option>
+            <option value="">Ver absolutamente todos (incluyendo Lista Setter)</option>
             <option value="No interesado">Salida: No interesado</option>
-            <option value="No responde">Salida: No responde</option>
-            <option value="Opt-out">Salida: Opt-out / DND</option>
           </select>
           <button onclick="loadSalesOsData()" class="btn-ghost px-3 py-2 rounded-xl text-xs font-semibold">
             <i class="fas fa-sync-alt mr-1"></i> Actualizar
@@ -3931,22 +3938,28 @@
     <!-- Barra Compacta de 1 sola línea para dar máxima amplitud al Demostrador -->
     <div class="card px-4 py-3 flex flex-wrap items-center justify-between gap-3">
       <div class="flex flex-wrap items-center gap-2">
-        <span class="text-xs font-black uppercase tracking-wider text-cyan-400 mr-1"><i class="fas fa-globe mr-1"></i> Giro del Cliente:</span>
-        <button onclick="loadEmbeddedShowcase('clinica_dental_estetica')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/25 transition">
-          🦷 Clínicas & Estética
-        </button>
-        <button onclick="loadEmbeddedShowcase('servicios_locales_taller')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-amber-500/15 text-amber-300 border border-amber-500/30 hover:bg-amber-500/25 transition">
-          🔧 Talleres & Servicios
-        </button>
-        <button onclick="loadEmbeddedShowcase('inmobiliaria_bienes_raices')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/25 transition">
-          🏢 Inmobiliaria
-        </button>
-        <button onclick="loadEmbeddedShowcase('profesionales_consultoria_legal')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-indigo-500/15 text-indigo-300 border border-indigo-500/30 hover:bg-indigo-500/25 transition">
-          ⚖️ Contadores & Abogados
-        </button>
-        <button onclick="loadEmbeddedShowcase('academia_educacion_cursos')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-pink-500/15 text-pink-300 border border-pink-500/30 hover:bg-pink-500/25 transition">
-          🎓 Academias & Cursos
-        </button>
+        <span class="text-xs font-black uppercase tracking-wider text-cyan-400 mr-1"><i class="fas fa-globe mr-1"></i> Plantilla (16 Giros):</span>
+        <select id="showcase-template-picker" class="input-dark text-xs py-1.5 px-3" style="width:auto; min-width:260px;" onchange="loadEmbeddedShowcase(this.value)">
+          <option value="clinica_dental_estetica">🦷 Clínica Dental / Odontología</option>
+          <option value="clinica_estetica_avanzada">✨ Clínica Estética / Spa Médico</option>
+          <option value="clinica_capilar_pro">💇 Clínica Capilar / Tricología</option>
+          <option value="beauty_growth_salon_spa">💅 Salones de Belleza, Peluquería &amp; Spas</option>
+          <option value="servicios_locales_taller">🔧 Talleres &amp; Servicios Locales</option>
+          <option value="hvac_miami">❄️ Aire Acondicionado / Climatización / HVAC</option>
+          <option value="plomeria_pro">🚰 Plomería, Fugas &amp; Destapes 24/7</option>
+          <option value="roofing_remodel">🏠 Techos, Roofing &amp; Remodelación</option>
+          <option value="electricista_pro">⚡ Electricistas &amp; Urgencias 24/7</option>
+          <option value="piscinas_spas">🏊 Piscinas, Spas &amp; Bombas</option>
+          <option value="jardineria_paisajismo">🌿 Jardinería, Paisajismo &amp; Riego</option>
+          <option value="inmobiliaria_bienes_raices">🏢 Inmobiliaria / Bienes Raíces</option>
+          <option value="profesionales_consultoria_legal">⚖️ Abogados / Contadores / Legal</option>
+          <option value="academia_educacion_cursos">🎓 Academias, Institutos &amp; Cursos</option>
+          <option value="coaching_consultoria_pro">🚀 Coaching, Mentorías &amp; Consultoría</option>
+          <option value="sti2q_industrial">⚙️ STI²Q · Industria Química</option>
+        </select>
+        <button onclick="loadEmbeddedShowcase('clinica_dental_estetica')" class="px-2.5 py-1.5 rounded-xl text-xs font-bold bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/25 transition">🦷 Clínicas</button>
+        <button onclick="loadEmbeddedShowcase('inmobiliaria_bienes_raices')" class="px-2.5 py-1.5 rounded-xl text-xs font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/25 transition">🏢 Inmobiliaria</button>
+        <button onclick="loadEmbeddedShowcase('academia_educacion_cursos')" class="px-2.5 py-1.5 rounded-xl text-xs font-bold bg-pink-500/15 text-pink-300 border border-pink-500/30 hover:bg-pink-500/25 transition">🎓 Academias</button>
       </div>
       <div class="flex flex-wrap items-center gap-2">
         <button type="button" onclick="toggleDeckFullscreen('embedded-showcase-card')" class="px-3.5 py-2 rounded-xl text-xs font-black bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-cyan-500/40 inline-flex items-center gap-1.5">
@@ -4090,7 +4103,149 @@
     </div>
   </div>
 
-  <!-- ══ DIALOG 1: AVANZAR ETAPA / ENVIAR PROPUESTA VERSIONADA (modern-web-guidance: light-dismiss-a-dialog) ══ -->
+  <!-- ══ DIALOG 0: POPUP DE TRABAJO SETTER & BITÁCORA POR RENGLONES (modern-web-guidance: dialog + light-dismiss-a-dialog) ══ -->
+  <dialog id="setterLeadWorkDialog" closedby="any" aria-labelledby="setterWorkTitle" class="sales-dialog" style="max-width:860px;">
+    <div class="flex flex-wrap items-start justify-between gap-3 mb-4 border-b border-slate-800 pb-3">
+      <div>
+        <div class="flex flex-wrap items-center gap-2 mb-1">
+          <span class="px-2 py-0.5 rounded-full text-[10px] font-black uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/35">🧢 TRABAJO DE CONTACTO (SETTER → CLOSER)</span>
+          <span id="setter-work-stage-badge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-cyan-300 border border-slate-700">Lead identificado</span>
+        </div>
+        <h3 id="setterWorkTitle" class="text-lg font-black text-white">Trabajar Prospecto</h3>
+        <p id="setter-work-sub" class="text-xs text-slate-400 mt-0.5"></p>
+      </div>
+      <div class="flex flex-wrap items-center gap-1.5">
+        <button type="button" id="setter-work-call-btn" class="px-3 py-1.5 rounded-lg text-xs font-black bg-emerald-400 text-slate-950 hover:bg-emerald-300 transition shadow">
+          📞 Llamar (Zadarma)
+        </button>
+        <a id="setter-work-wa-btn" href="#" target="_blank" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/35 hover:bg-emerald-500/30 no-underline">
+          <i class="fab fa-whatsapp"></i> WhatsApp
+        </a>
+        <a id="setter-work-mail-btn" href="#" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-sky-500/20 text-sky-300 border border-sky-500/35 hover:bg-sky-500/30 no-underline hidden">
+          ✉️ Correo
+        </a>
+        <a id="setter-work-demo-btn" href="#" class="px-3 py-1.5 rounded-lg text-xs font-black bg-cyan-400 text-slate-950 hover:bg-cyan-300 no-underline">
+          🚀 Demo Web
+        </a>
+        <button type="button" onclick="document.getElementById('setterLeadWorkDialog').close()" aria-label="Cerrar ventana" class="px-2.5 py-1.5 rounded-lg text-slate-400 hover:text-white border border-slate-700 text-xs font-bold">✕</button>
+      </div>
+    </div>
+
+    <input type="hidden" id="setter-work-lead-id">
+    <div class="space-y-4 text-xs">
+      <!-- Fila 1: Etapa (3 etapas) + Plantilla (Todas las de los closers) -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div>
+          <label for="setter-work-stage" class="block text-slate-300 font-semibold mb-1">Etapa del Contacto (Solo 3 Etapas) *</label>
+          <select id="setter-work-stage" class="input-dark text-xs py-2">
+            <option value="Primer contacto">1. Primer contacto (Primer intento / buzón / mensaje)</option>
+            <option value="Contacto">2. Contacto (Hubo respuesta / seguimiento en cabina)</option>
+            <option value="Calificado">3. Calificado (Listo para Enviar a CRM y Pasar a Closer)</option>
+          </select>
+        </div>
+        <div>
+          <label for="setter-work-template" class="block text-slate-300 font-semibold mb-1">Plantilla Sectorial del Cliente (16 Plantillas)</label>
+          <select id="setter-work-template" class="input-dark text-xs py-2">
+            <option value="clinica_dental_estetica">🦷 Clínica Dental / Odontología</option>
+            <option value="clinica_estetica_avanzada">✨ Clínica Estética / Spa Médico</option>
+            <option value="clinica_capilar_pro">💇 Clínica Capilar / Tricología</option>
+            <option value="beauty_growth_salon_spa">💅 Salones de Belleza, Peluquería &amp; Spas</option>
+            <option value="servicios_locales_taller">🔧 Talleres &amp; Servicios Locales / Hogar</option>
+            <option value="hvac_miami">❄️ Aire Acondicionado / Climatización / HVAC</option>
+            <option value="plomeria_pro">🚰 Plomería, Fugas &amp; Destapes 24/7</option>
+            <option value="roofing_remodel">🏠 Techos, Roofing &amp; Remodelación</option>
+            <option value="electricista_pro">⚡ Electricistas &amp; Urgencias 24/7</option>
+            <option value="piscinas_spas">🏊 Piscinas, Spas &amp; Bombas de Calor</option>
+            <option value="jardineria_paisajismo">🌿 Jardinería, Paisajismo &amp; Riego</option>
+            <option value="inmobiliaria_bienes_raices">🏢 Inmobiliaria / Bienes Raíces</option>
+            <option value="profesionales_consultoria_legal">⚖️ Abogados / Estudio Contable / Legal</option>
+            <option value="academia_educacion_cursos">🎓 Academia / Instituto / Cursos</option>
+            <option value="coaching_consultoria_pro">🚀 Coaching / Mentorías / Consultoría</option>
+            <option value="sti2q_industrial">⚙️ STI²Q · Ingeniería Industrial &amp; Química</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Speech Telefónico y Guion WA colapsable -->
+      <details class="prosperia-script-acc rounded-xl bg-slate-900/90 border border-slate-800 p-3">
+        <summary class="text-xs font-bold text-cyan-300 flex items-center justify-between">
+          <span><span class="acc-chevron mr-1">▶</span> 🎙️ Ver Speech Telefónico + Guion WhatsApp + Sitio Web Actual</span>
+        </summary>
+        <div id="setter-work-scripts-body" class="mt-2 pt-2 border-t border-slate-800 space-y-2 text-[11px] text-slate-200 leading-relaxed"></div>
+      </details>
+
+      <!-- Bitácora Histórica por Renglones (9am, 11am, correo, WA, SMS...) -->
+      <div class="rounded-xl bg-slate-950/80 border border-slate-800 p-3 space-y-2">
+        <div class="flex items-center justify-between">
+          <strong class="text-amber-300 uppercase tracking-wider text-[11px]">📒 Bitácora Cronológica del Contacto (Renglones Guardados)</strong>
+          <span id="setter-work-history-count" class="text-[11px] text-slate-400">0 renglones</span>
+        </div>
+        <div id="setter-work-history-rows" class="max-h-40 overflow-y-auto space-y-1.5 pr-1">
+          <div class="text-slate-500 text-[11px]">Sin anotaciones todavía. Registra el primer renglón abajo.</div>
+        </div>
+      </div>
+
+      <!-- Nuevo Renglón de Anotación -->
+      <div class="rounded-xl bg-slate-900/70 border border-cyan-500/30 p-3.5 space-y-3">
+        <div class="text-[11px] font-black uppercase tracking-wider text-cyan-300">➕ Agregar Nuevo Renglón de Seguimiento (Hoy / Ahora)</div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+          <div>
+            <label for="setter-work-channel" class="block text-slate-400 font-semibold mb-1">Canal Usado</label>
+            <select id="setter-work-channel" class="input-dark text-xs py-1.5">
+              <option value="Llamada">📞 Llamada</option>
+              <option value="WhatsApp">💬 WhatsApp</option>
+              <option value="Correo">✉️ Correo Electrónico</option>
+              <option value="SMS">📱 SMS</option>
+            </select>
+          </div>
+          <div>
+            <label for="setter-work-outcome" class="block text-slate-400 font-semibold mb-1">Resultado del Toque</label>
+            <select id="setter-work-outcome" class="input-dark text-xs py-1.5" onchange="syncSetterOutcomeToStage()">
+              <option value="callback">🟡 Contestó / En seguimiento</option>
+              <option value="no_answer">🔴 No contestó / Buzón</option>
+              <option value="touch_wa_email">📨 Mandé Correo / WA / SMS</option>
+              <option value="qualified_crm">🔥 Calificado → Pasar a Closer (CRM)</option>
+              <option value="disqualified">⚫ No califica / Sin interés</option>
+            </select>
+          </div>
+          <div>
+            <label for="setter-work-objection" class="block text-slate-400 font-semibold mb-1">Objeción / Respuesta</label>
+            <select id="setter-work-objection" class="input-dark text-xs py-1.5">
+              <option value="">Ninguna / Fluido</option>
+              <option value="No contestó / Buzón">No contestó / Buzón</option>
+              <option value="No tiene tiempo / Llamar luego">No tiene tiempo / Llamar luego</option>
+              <option value="No le interesó al inicio / Enviar info">No le interesó al inicio / Enviar info</option>
+              <option value="Precio / Presupuesto">Precio / Presupuesto</option>
+              <option value="Ya tiene agencia / web">Ya tiene agencia / web</option>
+              <option value="Hablar con socio / decisor">Hablar con socio / decisor</option>
+              <option value="Convencido tras seguimiento">Convencido tras seguimiento</option>
+            </select>
+          </div>
+          <div>
+            <label for="setter-work-next-at" class="block text-slate-400 font-semibold mb-1">Próximo Intento (Opcional)</label>
+            <input type="datetime-local" id="setter-work-next-at" class="input-dark text-xs py-1.5">
+          </div>
+        </div>
+        <div>
+          <label for="setter-work-note" class="block text-slate-300 font-semibold mb-1">Nota de este Renglón (Qué pasó a esta hora / qué le mandaste)</label>
+          <textarea id="setter-work-note" rows="3" autofocus class="input-dark text-xs" placeholder="Ej. 9:00 AM no contestó, dejé correo + SMS. 11:00 AM contestó, al principio dijo que ya tenía web pero tras enviarle ejemplo en WhatsApp pidió ver su demo mañana..."></textarea>
+        </div>
+      </div>
+
+      <!-- Acciones Claras: Local Setter vs Calificado al Closer CRM -->
+      <div class="flex flex-wrap gap-2.5 pt-1">
+        <button type="button" onclick="document.getElementById('setterLeadWorkDialog').close()" class="btn-ghost px-4 py-2.5 rounded-xl font-semibold">Cerrar</button>
+        <button type="button" onclick="submitSetterWork('save_local')" class="flex-1 py-2.5 px-4 rounded-xl font-bold bg-amber-500/20 text-amber-200 border border-amber-400/50 hover:bg-amber-500/30 transition">
+          💾 Guardar Renglón en Mi Lista Setter (Sin enviar a CRM)
+        </button>
+        <button type="button" onclick="submitSetterWork('send_to_crm')" class="flex-1 py-2.5 px-4 rounded-xl font-black text-slate-950 transition shadow-lg" style="background:linear-gradient(135deg,#34d399,#10b981);">
+          🔥 Calificado → Enviar a CRM y Pasar a Mi Pipeline (Closer)
+        </button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- ══ DIALOG 1: AVANZAR ETAPA COMERCIAL (SOLO 3 ETAPAS + TODAS LAS PLANTILLAS) ══ -->
   <dialog id="stageUpdateDialog" closedby="any" aria-labelledby="stageDialogTitle" class="sales-dialog">
     <div class="flex items-center justify-between mb-4 border-b border-slate-800 pb-3">
       <div>
@@ -4103,21 +4258,12 @@
     <div class="space-y-3 text-xs">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
-          <label class="block text-slate-300 font-semibold mb-1">Etapa del Flujo Canónico *</label>
+          <label class="block text-slate-300 font-semibold mb-1">Etapa del Flujo (Solo 3 Etapas) *</label>
           <select id="stage-select-val" class="input-dark text-xs py-2">
-            <option value="Lead identificado">1. Lead identificado</option>
-            <option value="Primer contacto">2. Primer contacto</option>
-            <option value="Conversación">3. Conversación</option>
-            <option value="Calificado">4. Calificado</option>
-            <option value="Diagnóstico agendado">5. Diagnóstico agendado</option>
-            <option value="Demo realizada">6. Demo realizada</option>
-            <option value="Propuesta enviada">7. Propuesta enviada</option>
-            <option value="Pago pendiente">8. Pago pendiente</option>
+            <option value="Primer contacto">1. Primer contacto</option>
+            <option value="Contacto">2. Contacto</option>
+            <option value="Calificado">3. Calificado (CRM ProsperIA)</option>
             <option value="No interesado">Salida: No interesado</option>
-            <option value="No responde">Salida: No responde</option>
-            <option value="No cumple perfil">Salida: No cumple perfil</option>
-            <option value="Opt-out">Salida: Opt-out / Baja DND</option>
-            <option value="Venta perdida">Salida: Venta perdida</option>
           </select>
         </div>
         <div>
@@ -4127,7 +4273,6 @@
             <option value="ANUAL_990">⭐ Caja 2: Pack Estrella Anual — US$990 ($495 hoy + $495 entrega)</option>
             <option value="MAQUINA_1490">🔥 Caja 3: Máquina 3 en 1 — US$1,490 ($745 hoy + $745 día 15)</option>
             <option value="RESCATE_197">🛟 Plan Rescate Micro-PYME — US$197 ($100 hoy + $97 entrega)</option>
-            <option value="SVE90_CORP">🏛️ Escalamiento Corporativo SVE90 (Con Dirección)</option>
           </select>
         </div>
       </div>
@@ -4137,13 +4282,24 @@
           <input type="number" id="stage-quoted-val" class="input-dark text-xs py-2" value="497" step="1">
         </div>
         <div>
-          <label class="block text-slate-300 font-semibold mb-1">Plantilla Sectorial Elegida</label>
+          <label class="block text-slate-300 font-semibold mb-1">Plantilla Sectorial Elegida (16 Plantillas)</label>
           <select id="stage-template-val" class="input-dark text-xs py-2">
-            <option value="clinica_dental_estetica">🦷 Clínica Dental / Estética / Capilar</option>
-            <option value="servicios_locales_taller">🔧 Servicios Locales / Taller / Hogar</option>
+            <option value="clinica_dental_estetica">🦷 Clínica Dental / Odontología</option>
+            <option value="clinica_estetica_avanzada">✨ Clínica Estética / Spa Médico</option>
+            <option value="clinica_capilar_pro">💇 Clínica Capilar / Tricología</option>
+            <option value="beauty_growth_salon_spa">💅 Salones de Belleza, Peluquería &amp; Spas</option>
+            <option value="servicios_locales_taller">🔧 Talleres &amp; Servicios Locales / Hogar</option>
+            <option value="hvac_miami">❄️ Aire Acondicionado / Climatización / HVAC</option>
+            <option value="plomeria_pro">🚰 Plomería, Fugas &amp; Destapes 24/7</option>
+            <option value="roofing_remodel">🏠 Techos, Roofing &amp; Remodelación</option>
+            <option value="electricista_pro">⚡ Electricistas &amp; Urgencias 24/7</option>
+            <option value="piscinas_spas">🏊 Piscinas, Spas &amp; Bombas de Calor</option>
+            <option value="jardineria_paisajismo">🌿 Jardinería, Paisajismo &amp; Riego</option>
             <option value="inmobiliaria_bienes_raices">🏢 Inmobiliaria / Bienes Raíces</option>
-            <option value="profesionales_consultoria_legal">⚖️ Profesionales / Consultoría / Legal</option>
-            <option value="academia_educacion_cursos">🎓 Academia / Cursos / Educación</option>
+            <option value="profesionales_consultoria_legal">⚖️ Abogados / Estudio Contable / Legal</option>
+            <option value="academia_educacion_cursos">🎓 Academia / Instituto / Cursos</option>
+            <option value="coaching_consultoria_pro">🚀 Coaching / Mentorías / Consultoría</option>
+            <option value="sti2q_industrial">⚙️ STI²Q · Ingeniería Industrial &amp; Química</option>
           </select>
         </div>
       </div>
@@ -4269,20 +4425,32 @@
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
-          <label class="block text-slate-300 font-semibold mb-1">Giro / Plantilla Sectorial</label>
+          <label class="block text-slate-300 font-semibold mb-1">Giro / Plantilla Sectorial (16 Plantillas)</label>
           <select id="cnew-template" class="input-dark text-xs py-2">
-            <option value="clinica_dental_estetica">🦷 Clínica Dental / Estética / Médico</option>
-            <option value="servicios_locales_taller">🔧 Taller / Servicios Locales / Hogar</option>
+            <option value="clinica_dental_estetica">🦷 Clínica Dental / Odontología</option>
+            <option value="clinica_estetica_avanzada">✨ Clínica Estética / Spa Médico</option>
+            <option value="clinica_capilar_pro">💇 Clínica Capilar / Tricología</option>
+            <option value="beauty_growth_salon_spa">💅 Salones de Belleza, Peluquería &amp; Spas</option>
+            <option value="servicios_locales_taller">🔧 Talleres &amp; Servicios Locales / Hogar</option>
+            <option value="hvac_miami">❄️ Aire Acondicionado / Climatización / HVAC</option>
+            <option value="plomeria_pro">🚰 Plomería, Fugas &amp; Destapes 24/7</option>
+            <option value="roofing_remodel">🏠 Techos, Roofing &amp; Remodelación</option>
+            <option value="electricista_pro">⚡ Electricistas &amp; Urgencias 24/7</option>
+            <option value="piscinas_spas">🏊 Piscinas, Spas &amp; Bombas de Calor</option>
+            <option value="jardineria_paisajismo">🌿 Jardinería, Paisajismo &amp; Riego</option>
             <option value="inmobiliaria_bienes_raices">🏢 Inmobiliaria / Bienes Raíces</option>
             <option value="profesionales_consultoria_legal">⚖️ Abogados / Contadores / Consultoría</option>
             <option value="academia_educacion_cursos">🎓 Academia / Cursos / Educación</option>
+            <option value="coaching_consultoria_pro">🚀 Coaching / Mentorías / Consultoría</option>
+            <option value="sti2q_industrial">⚙️ STI²Q · Ingeniería Industrial</option>
           </select>
         </div>
         <div>
           <label class="block text-slate-300 font-semibold mb-1">¿Dónde quieres ubicarlo? *</label>
           <select id="cnew-stage" class="input-dark text-xs py-2">
-            <option value="Primer contacto" selected>🟢 Paso 2: Primer Contacto (Ya hablé con él → Directo a Mi Pipeline &amp; CRM)</option>
-            <option value="Lead identificado">⏳ Paso 1: En Mi Lista de Llamadas (Aún por llamar)</option>
+            <option value="Calificado" selected>🔥 Calificado → Directo a Mi Pipeline Closer &amp; CRM</option>
+            <option value="Contacto">🟡 En Seguimiento Setter (Contacto)</option>
+            <option value="Lead identificado">⏳ En Lista de Llamadas (Por llamar)</option>
           </select>
         </div>
       </div>
@@ -5242,17 +5410,37 @@ function copyApiKey() {
 }
 
 // ─── Navigation ──────────────────────────────────────────────────────────────
+function updateHatModeUI(sectionName) {
+  const isSetterView = sectionName === 'call-queue';
+  const activeCls = 'bg-emerald-400 text-slate-950 font-black';
+  const inactiveCls = 'bg-slate-800 text-slate-300 border border-slate-700 hover:border-cyan-400 font-bold';
+  const sBtns = [document.getElementById('hat-btn-setter'), document.getElementById('top-hat-setter')];
+  const cBtns = [document.getElementById('hat-btn-closer'), document.getElementById('top-hat-closer')];
+  sBtns.forEach(b => {
+    if (!b) return;
+    b.className = b.id.startsWith('top-')
+      ? `px-2.5 py-1 rounded-lg text-[11px] transition ${isSetterView ? activeCls : 'text-slate-300 hover:text-white font-bold'}`
+      : `px-2 py-1.5 rounded-lg text-[11px] transition ${isSetterView ? activeCls : inactiveCls}`;
+  });
+  cBtns.forEach(b => {
+    if (!b) return;
+    b.className = b.id.startsWith('top-')
+      ? `px-2.5 py-1 rounded-lg text-[11px] transition ${!isSetterView ? 'bg-cyan-400 text-slate-950 font-black' : 'text-slate-300 hover:text-white font-bold'}`
+      : `px-2 py-1.5 rounded-lg text-[11px] transition ${!isSetterView ? 'bg-cyan-400 text-slate-950 font-black' : inactiveCls}`;
+  });
+}
+
 function showSection(name) {
   const titles = {
-    'call-queue': ['📋 Mi Lista de Llamadas (455)', 'Filtro de prospección: solo quien contesta se inyecta a CRM ProsperIA'],
+    'call-queue': ['🧢 Gorra de Setter · Lista de 1,000 Contactos', 'Trabaja cada lead en su bitácora por renglones; solo cuando califica pasa a CRM & Pipeline Closer'],
     'weapons': ['🖥️ Presentaciones Clientes (Cara al Cliente)', 'Ruta oficial en vivo: 1. Presentación Lenguaje Natural → 2. Presentación Comercial e interacción con PassportAI y CRM'],
     'closer-study': ['🎓 Material de Estudio & Preparación del Closer', 'Video Tutorial (7 Pasos), Manual Operativo, Acordeones de Speech, Roleplay de Objeciones y Perfil del Cliente Ideal'],
     'closer-resources': ['🏆 Recursos, Kickoff & Contrato Oficial del Closer', 'Contrato oficial en PDF, Simulador de Comisiones 15%, Prueba Social y 10 Láminas de Recursos'],
     'payment-links': ['💳 Central de Links de Pago Oficiales (Live)', 'Copia y pega el enlace exacto de pago o el mensaje completo para WhatsApp en 1 clic'],
-    'sales-os': ['Sales OS & Comisiones 15%', 'Flujo Comercial Canónico — Sitios Web Inteligentes ($497 / $990 / $1,490 / Rescate $197)'],
-    'web-showcase': ['Demostrador de Sitios Web en Vivo', 'Muestra al cliente en 5 segundos cómo queda su página y agenda en CRM ProsperIA'],
-    'sellers-admin': ['Alta de Vendedores, Lotes & Auditoría', 'Administración de los 6-20 Closers por Duplas (A, B, C) sin duplicados'],
-    overview: ['Dashboard & Podio Semanal', 'KPIs 100→60→6→1, Check-In de asistencia y monitoreo en tiempo real'],
+    'sales-os': ['🎩 Gorra de Closer · Mi Pipeline & Comisiones 15%', 'Aquí llegan los Calificados por Setter con su bitácora completa listos para Demo y Cierre'],
+    'web-showcase': ['Demostrador de Sitios Web en Vivo (16 Plantillas)', 'Muestra al cliente en 5 segundos cómo queda su página y agenda en CRM ProsperIA'],
+    'sellers-admin': ['Alta de Vendedores, Lotes & Auditoría', 'Administración de los Closers por Duplas sin duplicados'],
+    overview: ['Embudo 1,000 Setter → Closer & Podio', 'Meta motivacional 1,000 → 150 → 30 → 5+ cierres, Check-In y Reporte Brutal CEO'],
     leads: ['Leads & CRM', 'Prospectos del sistema'],
     automations: ['Showroom SVE-90 ($5K–$10K)', 'Arquitectura de automatización corporativa llave en mano'],
     prospecting: ['Perfilamiento SDR (IA)', 'Identificación inteligente y Calificación de Leads en Piloto Automático'],
@@ -5269,6 +5457,7 @@ function showSection(name) {
   document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
   const navBtn = document.getElementById('nav-' + name);
   if (navBtn) navBtn.classList.add('active');
+  updateHatModeUI(name);
 
   if (name === 'weapons') {
     document.getElementById('weapons-menu-client')?.classList.remove('hidden');
@@ -5705,55 +5894,65 @@ function renderSalesOsTable() {
   const tbody = document.getElementById('sos-leads-tbody');
   if (!tbody) return;
   const stageFilter = document.getElementById('sos-stage-filter')?.value ?? 'active_pipeline';
-  const inactiveStages = ['Lead identificado', 'En seguimiento local', 'No responde', 'No interesado', 'No cumple perfil', 'Opt-out', 'Venta perdida'];
+  const inactiveStages = ['Lead identificado', 'En seguimiento local', 'Primer contacto', 'Contacto', 'No responde', 'No interesado', 'No cumple perfil', 'Opt-out', 'Venta perdida'];
+
+  const isInCloserPipeline = (l) => {
+    const st = l.pipeline_stage || 'Lead identificado';
+    if (!inactiveStages.includes(st)) return true;
+    const hasCrmHistory = ((l.contact_id || '').trim() !== '' || Number(l.quoted_amount || 0) > 0 || Number(l.amount_collected || 0) > 0);
+    return (st === 'Primer contacto' || st === 'Contacto') && hasCrmHistory;
+  };
 
   const rows = salesOsLeads.filter(l => {
     const st = l.pipeline_stage || 'Lead identificado';
     if (stageFilter === 'active_pipeline') {
-      return !inactiveStages.includes(st);
+      return isInCloserPipeline(l);
     }
     if (!stageFilter) return true;
     return st === stageFilter;
   });
 
-  // Actualizar el badge del menú lateral con la cantidad real de prospectos activos en el Pipeline (Paso 2+)
-  const activePipelineCount = salesOsLeads.filter(l => !inactiveStages.includes(l.pipeline_stage || 'Lead identificado')).length;
+  // Actualizar el badge del menú lateral con la cantidad real en Pipeline Closer (Calificados+)
+  const activePipelineCount = salesOsLeads.filter(isInCloserPipeline).length;
   const navSalesOsBadge = document.querySelector('#nav-sales-os span.ml-auto');
   if (navSalesOsBadge) {
-    navSalesOsBadge.textContent = activePipelineCount > 0 ? `${activePipelineCount} activos` : '15%';
+    navSalesOsBadge.textContent = activePipelineCount > 0 ? `${activePipelineCount} CRM` : '15%';
   }
 
   if (!rows.length) {
     tbody.innerHTML = `<tr><td colspan="8" class="text-center py-10 text-slate-400">
-      <div class="font-bold text-white text-sm mb-1">Aún no tienes prospectos activos en el Paso 2 (Primer Contacto) o superior.</div>
-      <div class="text-xs text-slate-400 mb-3">Ve a <strong>📞 Mi Lista de Llamadas</strong> y cuando un prospecto conteste haz clic en <strong>"🟢 Sí Contestó → Mover a Paso 2"</strong>, o da de alta un prospecto nuevo aquí mismo:</div>
+      <div class="font-bold text-white text-sm mb-1">Aún no tienes contactos Calificados en tu Pipeline Closer.</div>
+      <div class="text-xs text-slate-400 mb-3">Ponte tu <strong>🧢 Gorra de Setter</strong> en Lista de Llamadas, anota su seguimiento y cuando esté listo pulsa <strong>"🔥 Calificado → Enviar a CRM"</strong>.</div>
       <div class="flex justify-center gap-2">
-        <button type="button" onclick="showSection('call-queue')" class="px-3.5 py-2 rounded-xl text-xs font-black bg-cyan-400 text-slate-950">📞 Ir a Mi Lista de Llamadas (Paso 1)</button>
-        <button type="button" onclick="openQuickCloserLeadDialog('Primer contacto')" class="px-3.5 py-2 rounded-xl text-xs font-black bg-emerald-400 text-slate-950">➕ Dar de Alta Nuevo Prospecto en Paso 2</button>
+        <button type="button" onclick="showSection('call-queue')" class="px-3.5 py-2 rounded-xl text-xs font-black bg-emerald-400 text-slate-950">🧢 Ir a Lista Setter (1,000)</button>
+        <button type="button" onclick="openQuickCloserLeadDialog('Calificado')" class="px-3.5 py-2 rounded-xl text-xs font-black bg-cyan-400 text-slate-950">➕ Nuevo Calificado Directo</button>
       </div>
     </td></tr>`;
     return;
   }
 
   tbody.innerHTML = rows.map(l => {
-    const stage = l.pipeline_stage || 'Lead identificado';
+    const stage = l.pipeline_stage || 'Calificado';
     const isPaid = Number(l.amount_collected || 0) > 0 && (l.invoice_id || '').trim() !== '';
     const stageBadgeColor = isPaid
       ? 'background:rgba(16,185,129,0.18); color:#34d399; border:1px solid rgba(16,185,129,0.35);'
-      : stage.includes('Propuesta') || stage.includes('Demo')
+      : stage === 'Calificado' || stage.includes('Propuesta') || stage.includes('Demo')
       ? 'background:rgba(0,229,255,0.14); color:#00e5ff; border:1px solid rgba(0,229,255,0.3);'
       : 'background:rgba(16,185,129,0.14); color:#6ee7b7; border:1px solid rgba(16,185,129,0.3);';
 
     const rawPhone = (l.phone_e164 || l.phone || '').replace(/[^0-9+]/g, '');
     const waDigits = rawPhone.replace(/[^0-9]/g, '');
+    const setterRows = parseBitacoraEntries(l.notes || '');
+    const latestSetterNote = setterRows.length ? setterRows[setterRows.length - 1] : '';
 
     return `<tr class="table-row">
       <th scope="row" class="px-4 py-3 text-left font-normal">
         <div class="font-bold text-white">${esc(l.business_name || l.company || l.name)}</div>
         <div class="text-[11px] text-slate-400">${esc(l.full_name || l.name)} · ${esc(l.phone_e164 || l.phone || l.email)}</div>
+        ${latestSetterNote ? `<div class="mt-1 text-[10px] text-amber-200/90 bg-amber-500/10 border border-amber-500/20 rounded px-2 py-1 max-w-xs truncate" title="${esc(latestSetterNote)}">📒 Setter (${setterRows.length}): ${esc(latestSetterNote)}</div>` : ''}
         <div class="flex flex-wrap items-center gap-1.5 mt-1">
           ${waDigits ? `<a href="https://wa.me/${waDigits}" target="_blank" class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold no-underline hover:bg-emerald-500/30"><i class="fab fa-whatsapp"></i> WhatsApp</a>` : ''}
-          ${rawPhone ? `<a href="tel:${rawPhone}" class="px-2 py-0.5 rounded bg-slate-800 text-slate-200 border border-slate-700 text-[10px] font-bold no-underline"><i class="fas fa-phone"></i> Llamar</a>` : ''}
+          ${rawPhone ? `<button type="button" onclick="initiateCloserCall('${esc(rawPhone)}', ${l.id})" class="px-2 py-0.5 rounded bg-slate-800 text-slate-200 border border-slate-700 text-[10px] font-bold"><i class="fas fa-phone"></i> Llamar</button>` : ''}
         </div>
       </th>
       <td class="px-3 py-3 text-slate-300">
@@ -5762,7 +5961,7 @@ function renderSalesOsTable() {
       <td class="px-3 py-3">
         <span class="px-2.5 py-1 rounded-full text-[11px] font-bold inline-block" style="${stageBadgeColor}">${esc(stage)}</span>
         <div class="mt-1 flex items-center gap-1 text-[10px] font-bold text-emerald-400">
-          <span>🟢 Sincronizado en CRM</span>
+          <span>🟢 En CRM ProsperIA</span>
         </div>
       </td>
       <td class="px-3 py-3 text-slate-300 font-semibold">${esc(l.offer_version || 'EXPRESS_497')}</td>
@@ -5776,12 +5975,15 @@ function renderSalesOsTable() {
           : `<span class="text-slate-500 text-[11px]">Pendiente de cobro</span>`}
       </td>
       <td class="px-3 py-3">
-        <div class="text-slate-300">${l.next_action_at ? `📅 ${esc(l.next_action_at)}` : '<span class="text-amber-400">⚠️ Definir siguiente paso</span>'}</div>
+        <div class="text-slate-300">${l.next_action_at ? `📅 ${esc(l.next_action_at)}` : '<span class="text-amber-400">⚠️ Definir cierre</span>'}</div>
         <div class="text-[11px] text-slate-500">Entrega: <strong class="text-slate-300">${esc(l.site_delivery_status || 'pendiente_pago')}</strong></div>
       </td>
       <td class="px-4 py-3">
         <div class="flex flex-wrap gap-1.5">
-          <button onclick="openStageDialog(${l.id})" class="px-2.5 py-1.5 rounded-lg text-[11px] font-semibold bg-slate-800 text-slate-200 border border-slate-700 hover:border-cyan-400" title="Cambiar etapa y propuesta en CRM ProsperIA">
+          <button onclick="openSetterWorkDialog(${l.id})" class="px-2.5 py-1.5 rounded-lg text-[11px] font-semibold bg-amber-500/15 text-amber-300 border border-amber-500/35 hover:bg-amber-500/25" title="Ver o agregar renglones a la bitácora del Setter">
+            📒 Bitácora
+          </button>
+          <button onclick="openStageDialog(${l.id})" class="px-2.5 py-1.5 rounded-lg text-[11px] font-semibold bg-slate-800 text-slate-200 border border-slate-700 hover:border-cyan-400" title="Cambiar etapa, oferta y plantilla en CRM ProsperIA">
             📋 Etapa / Prop.
           </button>
           <button onclick="openPaymentDialog(${l.id})" class="px-2.5 py-1.5 rounded-lg text-[11px] font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/25">
@@ -5794,17 +5996,11 @@ function renderSalesOsTable() {
 }
 
 const CANONICAL_STAGE_ORDER = [
-  'Lead identificado',
   'Primer contacto',
-  'Conversación',
+  'Contacto',
   'Calificado',
-  'Diagnóstico agendado',
-  'Demo realizada',
-  'Propuesta enviada',
   'Pago pendiente',
-  'Pago confirmado',
-  'Implementación',
-  'Entregado'
+  'Pago confirmado'
 ];
 
 async function advanceLeadStageOneClick(leadId) {
@@ -5880,10 +6076,15 @@ function openStageDialog(leadId) {
   if (!lead) return;
   document.getElementById('stage-lead-id').value = lead.id;
   document.getElementById('stage-dialog-lead-label').textContent = `${lead.business_name || lead.company || lead.name} (${lead.email})`;
-  document.getElementById('stage-select-val').value = lead.pipeline_stage || 'Primer contacto';
-  document.getElementById('stage-offer-val').value = lead.offer_version || 'EXPRESS_497';
+  const stSel = document.getElementById('stage-select-val');
+  const stCur = lead.pipeline_stage || 'Calificado';
+  stSel.value = ['Primer contacto', 'Contacto', 'Calificado', 'No interesado'].includes(stCur) ? stCur : 'Calificado';
+  const offSel = document.getElementById('stage-offer-val');
+  offSel.value = ['EXPRESS_497', 'ANUAL_990', 'MAQUINA_1490', 'RESCATE_197'].includes(lead.offer_version) ? lead.offer_version : 'EXPRESS_497';
   document.getElementById('stage-quoted-val').value = lead.quoted_amount && lead.quoted_amount > 0 ? lead.quoted_amount : 497;
-  document.getElementById('stage-template-val').value = lead.selected_template || 'clinica_dental_estetica';
+  const tplSel = document.getElementById('stage-template-val');
+  tplSel.value = lead.selected_template || 'clinica_dental_estetica';
+  if (!tplSel.value) tplSel.value = 'clinica_dental_estetica';
   document.getElementById('stage-next-date').value = lead.next_action_at || '';
   document.getElementById('stage-next-note').value = lead.next_action_note || '';
   document.getElementById('stageUpdateDialog').showModal();
@@ -5998,6 +6199,8 @@ function loadEmbeddedShowcase(tpl) {
   if (iframe) iframe.src = '/demo-sitio-web?closer=1&template=' + encodeURIComponent(tpl) + '&embedded=1';
   const openBtn = document.getElementById('btn-open-clean-demo-tab');
   if (openBtn) openBtn.href = '/demo-sitio-web?closer=1&template=' + encodeURIComponent(tpl);
+  const picker = document.getElementById('showcase-template-picker');
+  if (picker && picker.value !== tpl) picker.value = tpl;
 }
 
 async function loadSalesUsersAndLogs() {
@@ -6310,7 +6513,7 @@ async function loadLeaderboardAndKpis() {
     const payload = await res.json();
     const d = payload.data || {};
     const podium = d.leaderboard || [];
-    const targets = d.targets || { weekly_calls: 500, weekly_answered: 60, weekly_demos: 10, weekly_sales: 2 };
+    const targets = d.targets || { weekly_calls: 1000, weekly_answered: 150, weekly_demos: 30, weekly_sales: 5 };
     const celebration = d.latest_sale_celebration;
 
     // 1. Mostrar Alerta Dorada de Venta Cerrada si existe
@@ -6321,7 +6524,7 @@ async function loadLeaderboardAndKpis() {
       banner.classList.remove('hidden');
     }
 
-    // 2. Actualizar Embudo KPI Semanal (500 -> 60 -> 10 -> 2+)
+    // 2. Actualizar Embudo KPI Estándar Setter -> Closer (1000 -> 150 -> 30 -> 5+)
     let myStats = podium.find(p => currentUser && p.email === currentUser.email);
     if (!myStats && d.my_kpi) {
       myStats = d.my_kpi;
@@ -6360,10 +6563,10 @@ async function loadLeaderboardAndKpis() {
       const bAns = document.getElementById('bar-wk-answered');
       const bDemos = document.getElementById('bar-wk-demos');
       const bSales = document.getElementById('bar-wk-sales');
-      if (bCalls) bCalls.style.width = Math.min(100, Math.round((cMade / (targets.weekly_calls || 500)) * 100)) + '%';
-      if (bAns) bAns.style.width = Math.min(100, Math.round((cAns / (targets.weekly_answered || 60)) * 100)) + '%';
-      if (bDemos) bDemos.style.width = Math.min(100, Math.round((cDemos / (targets.weekly_demos || 10)) * 100)) + '%';
-      if (bSales) bSales.style.width = Math.min(100, Math.round((cSales / (targets.weekly_sales || 2)) * 100)) + '%';
+      if (bCalls) bCalls.style.width = Math.min(100, Math.round((cMade / (targets.weekly_calls || 1000)) * 100)) + '%';
+      if (bAns) bAns.style.width = Math.min(100, Math.round((cAns / (targets.weekly_answered || 150)) * 100)) + '%';
+      if (bDemos) bDemos.style.width = Math.min(100, Math.round((cDemos / (targets.weekly_demos || 30)) * 100)) + '%';
+      if (bSales) bSales.style.width = Math.min(100, Math.round((cSales / (targets.weekly_sales || 5)) * 100)) + '%';
     }
 
     // 3. Renderizar Podio Top 3 con Fotos Oficiales
@@ -6386,7 +6589,7 @@ async function loadLeaderboardAndKpis() {
             <div>
               <div class="text-[11px] font-black uppercase text-amber-400">${medals[idx]}</div>
               <div class="text-sm font-black text-white mt-0.5">${esc(u.name)}</div>
-              <div class="text-[11px] text-slate-400">${u.calls_made_week || 0}/500 toques · ${u.demos_done_week || 0} demos</div>
+              <div class="text-[11px] text-slate-400">${u.calls_made_week || 0}/1,000 toques · ${u.demos_done_week || 0} demos</div>
             </div>
           </div>
           <div class="text-right">
@@ -6423,9 +6626,9 @@ async function loadLeaderboardAndKpis() {
           </td>
           <td data-label="Check-In Hoy" class="px-3 py-2.5">${statusPill}</td>
           <td data-label="Horas Activo Hoy" class="px-3 py-2.5 font-semibold text-slate-200">${hrsToday}</td>
-          <td data-label="Toques Hoy / Sem" class="px-3 py-2.5 font-bold text-cyan-300">${u.calls_made_today || 0} hoy / ${u.calls_made_week || 0} <span class="text-slate-500">/500</span></td>
-          <td data-label="Contestaron" class="px-3 py-2.5 font-bold text-amber-300">${u.calls_answered_week || 0} / 60</td>
-          <td data-label="Demos" class="px-3 py-2.5 font-bold text-indigo-300">${u.demos_done_week || 0} / 10</td>
+          <td data-label="Toques Hoy / Sem" class="px-3 py-2.5 font-bold text-cyan-300">${u.calls_made_today || 0} hoy / ${u.calls_made_week || 0} <span class="text-slate-500">/1,000</span></td>
+          <td data-label="Contestaron" class="px-3 py-2.5 font-bold text-amber-300">${u.calls_answered_week || 0} / 150</td>
+          <td data-label="Demos" class="px-3 py-2.5 font-bold text-indigo-300">${u.demos_done_week || 0} / 30</td>
           <td data-label="Cola Pendiente" class="px-3 py-2.5 font-semibold text-slate-300">${u.pending_call_queue ?? 0}</td>
           <td data-label="Cobrado USD" class="px-3 py-2.5 font-black text-emerald-400">US$${collected.toFixed(0)} (${u.sales_closed_week || 0})</td>
         </tr>`;
@@ -6446,8 +6649,8 @@ async function loadLeaderboardAndKpis() {
         data: {
           labels,
           datasets: [
-            { label: 'Toques Sem. (Meta 500)', data: callsData, backgroundColor: 'rgba(0,229,255,0.65)', borderRadius: 6 },
-            { label: 'Posibles Cierres CRM', data: ansData, backgroundColor: 'rgba(245,158,11,0.75)', borderRadius: 6 },
+            { label: 'Toques (Meta 1,000)', data: callsData, backgroundColor: 'rgba(0,229,255,0.65)', borderRadius: 6 },
+            { label: 'Calificados / CRM', data: ansData, backgroundColor: 'rgba(245,158,11,0.75)', borderRadius: 6 },
             { label: 'Demos / Citas', data: demosData, backgroundColor: 'rgba(16,185,129,0.85)', borderRadius: 6 }
           ]
         },
@@ -6485,7 +6688,7 @@ async function loadCeoIntelligenceReport() {
     const hEl = document.getElementById('ceo-brutal-team-hot');
     const uEl = document.getElementById('ceo-brutal-team-usd');
     if (vEl && sp.executive_verdict) vEl.textContent = sp.executive_verdict;
-    if (goalEl) goalEl.textContent = Number(sp.team_weekly_goal || 5500).toLocaleString();
+    if (goalEl) goalEl.textContent = Number(sp.team_weekly_goal || 11000).toLocaleString();
     if (tEl) tEl.textContent = Number(sp.team_total_touches || 0).toLocaleString();
     if (hEl) hEl.textContent = Number(sp.team_total_crm_hot || 0).toLocaleString();
     if (uEl) uEl.textContent = 'US$' + Number(sp.team_total_usd || 0).toLocaleString();
@@ -6497,7 +6700,7 @@ async function loadCeoIntelligenceReport() {
         <tr class="table-row border-b border-slate-800/60">
           <td data-label="Closer" class="px-3 py-2 font-bold text-white">${esc(c.name)} <div class="text-[10px] text-slate-400 font-normal">${esc(c.dupla || c.email)}</div></td>
           <td data-label="Base / Pend." class="px-3 py-2 text-slate-300">${c.assigned_leads} / <strong class="text-cyan-300">${c.pending_leads}</strong></td>
-          <td data-label="Toques Sem / 500" class="px-3 py-2 font-bold text-white">${c.touches_week} <span class="text-slate-400 font-normal">/ 500 (${c.touches_today} hoy)</span></td>
+          <td data-label="Toques / 1,000" class="px-3 py-2 font-bold text-white">${c.touches_week} <span class="text-slate-400 font-normal">/ 1,000 (${c.touches_today} hoy)</span></td>
           <td data-label="% Meta" class="px-3 py-2 font-bold ${c.target_pct >= 80 ? 'text-emerald-300' : c.target_pct >= 35 ? 'text-amber-300' : 'text-rose-300'}">${c.target_pct}%</td>
           <td data-label="WA / Email" class="px-3 py-2 text-sky-300">${c.wa_email_touches || 0}</td>
           <td data-label="Seg. Local" class="px-3 py-2 text-amber-300">${c.callbacks_local || 0}</td>
@@ -6598,7 +6801,53 @@ function parseLeadIntelligence(l) {
   return { webVal, googleVal, speech, waScript, diagKind, diagBadge, nicheBucket };
 }
 
-// ─── CABINA TODO-EN-UNO DE 1,000 PROSPECTOS (LOCAL PRIMERO · CRM SOLO POSIBLE CIERRE) ──
+function parseBitacoraEntries(notes) {
+  if (!notes) return [];
+  return String(notes)
+    .split(/\r?\n/)
+    .map(ln => ln.trim())
+    .filter(ln => ln.startsWith('[20'));
+}
+
+const TEMPLATE_LABELS_MAP = {
+  clinica_dental_estetica: '🦷 Clínica Dental',
+  clinica_estetica_avanzada: '✨ Clínica Estética / Spa',
+  clinica_capilar_pro: '💇 Clínica Capilar',
+  beauty_growth_salon_spa: '💅 Salón / Beauty Growth',
+  servicios_locales_taller: '🔧 Servicios / Taller',
+  hvac_miami: '❄️ HVAC / Climatización',
+  plomeria_pro: '🚰 Plomería 24/7',
+  roofing_remodel: '🏠 Roofing / Techos',
+  electricista_pro: '⚡ Electricistas 24/7',
+  piscinas_spas: '🏊 Piscinas & Spas',
+  jardineria_paisajismo: '🌿 Jardinería / Paisaje',
+  inmobiliaria_bienes_raices: '🏢 Inmobiliaria',
+  profesionales_consultoria_legal: '⚖️ Legal / Contable',
+  academia_educacion_cursos: '🎓 Academia / Cursos',
+  coaching_consultoria_pro: '🚀 Coaching / Mentoría',
+  sti2q_industrial: '⚙️ STI²Q Industrial'
+};
+
+function initiateCloserCall(rawPhone, leadId, alreadyInModal = false) {
+  const cleanPhone = String(rawPhone || '').replace(/[^0-9+]/g, '');
+  if (cleanPhone) {
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(cleanPhone).catch(() => {});
+      }
+    } catch (e) {}
+    if (typeof window.ZADARMA_CLICK2CALL_HANDLER === 'function') {
+      try { window.ZADARMA_CLICK2CALL_HANDLER(cleanPhone, leadId); } catch (e) {}
+    } else {
+      window.location.href = `tel:${cleanPhone}`;
+    }
+  }
+  if (!alreadyInModal && leadId) {
+    openSetterWorkDialog(leadId, 'Llamada');
+  }
+}
+
+// ─── BANDEJA LIMPIA SETTER (1,000 CONTACTOS · TRABAJO EN POPUP CON BITÁCORA POR RENGLONES) ──
 function renderCallQueueTable() {
   const tbody = document.getElementById('call-queue-tbody');
   if (!tbody) return;
@@ -6609,11 +6858,15 @@ function renderCallQueueTable() {
   const srcVal = document.getElementById('call-queue-source-filter')?.value || 'all';
   const searchVal = (document.getElementById('call-queue-search')?.value || '').toLowerCase().trim();
 
-  const queueBadge = document.getElementById('call-queue-badge');
-  const pendingCount = salesOsLeads.filter(l => {
+  const isSetterPendingOrLocal = (l) => {
     const st = l.pipeline_stage || 'Lead identificado';
-    return st === 'Lead identificado' || st === 'En seguimiento local';
-  }).length;
+    const hasCrmHistory = ((l.contact_id || '').trim() !== '' || Number(l.quoted_amount || 0) > 0 || Number(l.amount_collected || 0) > 0);
+    if (st === 'Lead identificado' || st === 'En seguimiento local') return true;
+    return (st === 'Primer contacto' || st === 'Contacto') && !hasCrmHistory;
+  };
+
+  const queueBadge = document.getElementById('call-queue-badge');
+  const pendingCount = salesOsLeads.filter(isSetterPendingOrLocal).length;
   if (queueBadge) queueBadge.textContent = pendingCount;
 
   const filtered = salesOsLeads.filter(l => {
@@ -6635,12 +6888,15 @@ function renderCallQueueTable() {
       const hay = `${l.name || ''} ${l.business_name || ''} ${l.company || ''} ${l.city || ''} ${l.country || ''} ${l.phone || ''} ${l.email || ''} ${l.source_campaign || ''} ${l.notes || ''}`.toLowerCase();
       if (!hay.includes(searchVal)) return false;
     }
-    if (filterVal === 'pending') return st === 'Lead identificado';
-    if (filterVal === 'callback') return st === 'En seguimiento local';
-    if (filterVal === 'answered') {
-      return st !== 'Lead identificado' && st !== 'En seguimiento local' && st !== 'No responde' && st !== 'No interesado' && st !== 'No cumple perfil';
-    }
+
+    const hasCrmHistory = ((l.contact_id || '').trim() !== '' || Number(l.quoted_amount || 0) > 0 || Number(l.amount_collected || 0) > 0);
+    if (filterVal === 'pending') return isSetterPendingOrLocal(l);
+    if (filterVal === 'untouched') return st === 'Lead identificado';
+    if (filterVal === 'callback') return (st === 'Primer contacto' || st === 'Contacto' || st === 'En seguimiento local') && !hasCrmHistory;
     if (filterVal === 'no_answer') return st === 'No responde' || notes.includes('[cola: no contestó]');
+    if (filterVal === 'answered') {
+      return (st !== 'Lead identificado' && st !== 'En seguimiento local' && st !== 'No responde' && st !== 'No interesado' && st !== 'No cumple perfil') && (st === 'Calificado' || hasCrmHistory || !['Primer contacto', 'Contacto'].includes(st));
+    }
     if (filterVal === 'disqualified') return st === 'No interesado' || st === 'No cumple perfil';
     return true;
   });
@@ -6652,7 +6908,7 @@ function renderCallQueueTable() {
   const pageItems = filtered.slice(startIdx, startIdx + CALL_QUEUE_PAGE_SIZE);
 
   const pagHtml = `
-    <div>Mostrando <strong>${totalMatches ? startIdx + 1 : 0}–${Math.min(startIdx + CALL_QUEUE_PAGE_SIZE, totalMatches)}</strong> de <strong class="text-cyan-300">${totalMatches}</strong> prospectos filtrados (Total en base: ${salesOsLeads.length})</div>
+    <div>Mostrando <strong>${totalMatches ? startIdx + 1 : 0}–${Math.min(startIdx + CALL_QUEUE_PAGE_SIZE, totalMatches)}</strong> de <strong class="text-cyan-300">${totalMatches}</strong> prospectos (Base Setter: ${salesOsLeads.length})</div>
     <div class="flex items-center gap-2">
       <button type="button" onclick="changeCallQueuePage(-1)" ${callQueuePage <= 1 ? 'disabled' : ''} class="px-2.5 py-1 rounded bg-slate-800 border border-slate-700 disabled:opacity-40">← Anterior</button>
       <span>Página <strong>${callQueuePage}</strong> / ${totalPages}</span>
@@ -6665,7 +6921,7 @@ function renderCallQueueTable() {
   if (pagBot) pagBot.innerHTML = pagHtml;
 
   if (!pageItems.length) {
-    tbody.innerHTML = '<tr><td colspan="5" class="text-center py-8 text-slate-500">No hay prospectos en este filtro de tu cabina de prospección.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="5" class="text-center py-8 text-slate-500">No hay prospectos en este filtro de tu bandeja Setter.</td></tr>';
     return;
   }
 
@@ -6675,118 +6931,242 @@ function renderCallQueueTable() {
     const waDigits = rawPhone.replace(/[^0-9]/g, '');
     const waUrl = waDigits ? `https://wa.me/${waDigits}?text=${encodeURIComponent(intel.waScript)}` : '';
     const st = l.pipeline_stage || 'Lead identificado';
-    const isAlreadyInCrm = st !== 'Lead identificado' && st !== 'En seguimiento local' && st !== 'No responde' && st !== 'No interesado' && st !== 'No cumple perfil';
+    const hasCrmHistory = ((l.contact_id || '').trim() !== '' || Number(l.quoted_amount || 0) > 0 || Number(l.amount_collected || 0) > 0);
+    const isAlreadyInCrm = (st !== 'Lead identificado' && st !== 'En seguimiento local' && st !== 'No responde' && st !== 'No interesado' && st !== 'No cumple perfil') && (st === 'Calificado' || hasCrmHistory || !['Primer contacto', 'Contacto'].includes(st));
     const demoUrl = `/demo-sitio-web?closer=1&lead_id=${l.id}&template=${encodeURIComponent(l.selected_template || 'clinica_dental_estetica')}&business=${encodeURIComponent(l.business_name || l.company || l.name)}&phone=${encodeURIComponent(l.phone || '')}`;
-    const lSrc = (l.source || '').toLowerCase();
-    let srcBadgeHtml = '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-sky-500/15 text-sky-300 border border-sky-500/35">🎯 Base Calificada</span>';
-    if (lSrc === 'comex_outbound_b2b') {
-      srcBadgeHtml = '<span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-500/15 text-amber-300 border border-amber-500/45">🏢 COMEX</span>';
-    } else if (lSrc === 'sitioweb_funnel') {
-      srcBadgeHtml = '<span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/50">🔥 /sitioweb</span>';
-    }
+    const bitacoraRows = parseBitacoraEntries(l.notes || '');
+    const lastEntry = bitacoraRows.length ? bitacoraRows[bitacoraRows.length - 1] : '';
+    const tplLabel = TEMPLATE_LABELS_MAP[l.selected_template || 'clinica_dental_estetica'] || (l.selected_template || '🦷 Clínica Dental');
+    const cleanEmail = l.email && !l.email.includes('@sin-correo.local') ? l.email : 'Sin correo';
 
-    const speechHtml = intel.speech || esc(l.notes || 'Sin guion adicional.');
-
-    return `<tr class="table-row border-b border-slate-800/70" style="${isAlreadyInCrm ? 'background:rgba(16,185,129,0.08);' : st === 'En seguimiento local' ? 'background:rgba(245,158,11,0.06);' : ''}">
-      <td data-label="Prospecto y Speech" class="px-4 py-3 align-top max-w-sm">
-        <div class="flex flex-wrap items-center gap-1.5 mb-1">${srcBadgeHtml} ${intel.diagBadge}</div>
-        <div class="font-bold text-white text-sm">${esc(l.business_name || l.company || l.name)}</div>
-        <div class="text-[11px] text-slate-400">${esc(l.city || '')} · ${esc(l.email || 'Sin correo')} ${intel.googleVal ? `· ⭐ ${esc(intel.googleVal)}` : ''}</div>
-        <details class="prosperia-script-acc mt-2 rounded-lg bg-slate-900/90 border border-slate-800 p-2">
-          <summary class="text-[11px] font-bold text-cyan-300 flex items-center justify-between gap-2">
-            <span><span class="acc-chevron mr-1">▶</span> 🎙️ Ver Speech Telefónico + Guion WA + Web</span>
-          </summary>
-          <div class="mt-2 pt-2 border-t border-slate-800 space-y-2 text-[11px] text-slate-200 leading-relaxed">
-            ${intel.webVal ? `<div><strong class="text-slate-400">Web:</strong> <span class="text-cyan-300 break-all">${esc(intel.webVal)}</span></div>` : ''}
-            <div><strong class="text-emerald-300">Speech Llamada:</strong><div class="mt-0.5 text-slate-100 whitespace-pre-line">${esc(speechHtml)}</div></div>
-            <div><strong class="text-sky-300">Guion WhatsApp:</strong><div class="mt-0.5 text-slate-300 whitespace-pre-line">${esc(intel.waScript)}</div></div>
-          </div>
-        </details>
+    return `<tr class="table-row border-b border-slate-800/70 hover:bg-slate-900/50 transition" style="${isAlreadyInCrm ? 'background:rgba(16,185,129,0.08);' : (st === 'Contacto' || st === 'Primer contacto' || st === 'En seguimiento local') ? 'background:rgba(245,158,11,0.05);' : ''}">
+      <td data-label="Prospecto y Diagnóstico" class="px-4 py-3.5 align-top max-w-xs">
+        <div class="flex flex-wrap items-center gap-1.5 mb-1">${intel.diagBadge}</div>
+        <div class="font-bold text-white text-sm leading-snug">${esc(l.business_name || l.company || l.name)}</div>
+        <div class="text-[11px] text-slate-400 mt-0.5">${esc(l.city || '')} · ${esc(cleanEmail)} ${intel.googleVal ? `· ⭐ ${esc(intel.googleVal)}` : ''}</div>
       </td>
-      <td data-label="Contacto 1-Clic" class="px-3 py-3 align-top">
+      <td data-label="Llamar / WA / Correo" class="px-3 py-3.5 align-top">
         <div class="font-mono font-bold text-cyan-300 mb-1.5">${esc(l.phone || 'Sin teléfono')}</div>
         <div class="flex flex-wrap items-center gap-1.5">
-          ${waUrl ? `<a href="${waUrl}" target="_blank" class="px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/35 text-[10px] font-bold no-underline hover:bg-emerald-500/30"><i class="fab fa-whatsapp"></i> WhatsApp 1-Clic</a>` : ''}
-          ${rawPhone ? `<a href="tel:${rawPhone}" class="px-2.5 py-1 rounded bg-slate-800 text-slate-200 border border-slate-700 text-[10px] font-bold no-underline"><i class="fas fa-phone"></i> Llamar</a>` : ''}
-          ${l.email && l.email.includes('@') ? `<a href="mailto:${encodeURIComponent(l.email)}?subject=${encodeURIComponent('Propuesta Digital para ' + (l.business_name || l.name))}&body=${encodeURIComponent(intel.waScript)}" class="px-2.5 py-1 rounded bg-sky-500/20 text-sky-300 border border-sky-500/35 text-[10px] font-bold no-underline">✉️ Correo</a>` : ''}
+          ${rawPhone ? `<button type="button" onclick="initiateCloserCall('${esc(rawPhone)}', ${l.id})" class="px-2.5 py-1 rounded-lg bg-emerald-400 text-slate-950 hover:bg-emerald-300 text-[11px] font-black shadow-sm"><i class="fas fa-phone mr-1"></i>Llamar</button>` : ''}
+          ${waUrl ? `<a href="${waUrl}" target="_blank" class="px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/35 text-[11px] font-bold no-underline hover:bg-emerald-500/30"><i class="fab fa-whatsapp"></i> WA</a>` : ''}
+          ${l.email && !l.email.includes('@sin-correo.local') ? `<a href="mailto:${encodeURIComponent(l.email)}?subject=${encodeURIComponent('Propuesta Digital para ' + (l.business_name || l.name))}&body=${encodeURIComponent(intel.waScript)}" class="px-2.5 py-1 rounded-lg bg-sky-500/20 text-sky-300 border border-sky-500/35 text-[11px] font-bold no-underline">✉️ Mail</a>` : ''}
         </div>
       </td>
-      <td data-label="País / Rubro" class="px-3 py-3 align-top">
+      <td data-label="País / Rubro / Plantilla" class="px-3 py-3.5 align-top">
         <div class="font-semibold text-white">${esc(l.country || 'Internacional')}</div>
         <div class="text-[11px] text-amber-300">${esc((l.interest_primary || l.niche || '').split('·')[0].trim())}</div>
-        <span class="inline-block mt-1 px-2 py-0.5 rounded bg-slate-800 text-cyan-300 text-[10px] font-semibold">${esc((l.owner_id || 'Sin asignar').split('@')[0])}</span>
+        <div class="text-[10px] text-slate-400 mt-0.5">${esc(tplLabel)}</div>
       </td>
-      <td data-label="Estado" class="px-3 py-3 align-top">
-        ${isAlreadyInCrm
-          ? `<span class="px-2.5 py-1 rounded-full text-[11px] font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">🔥 En CRM (${esc(st)})</span>`
-          : st === 'En seguimiento local'
-          ? `<span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">🟡 Seguimiento Local</span>`
-          : `<span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-slate-800 text-slate-200 border border-slate-700">${esc(st)}</span>`
+      <td data-label="Etapa y Bitácora" class="px-3 py-3.5 align-top max-w-xs">
+        <div class="flex flex-wrap items-center gap-1.5 mb-1">
+          ${isAlreadyInCrm
+            ? `<span class="px-2.5 py-0.5 rounded-full text-[11px] font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">🔥 En CRM (${esc(st)})</span>`
+            : (st === 'Contacto' || st === 'Primer contacto' || st === 'En seguimiento local')
+            ? `<span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">🟡 ${esc(st)}</span>`
+            : `<span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-slate-800 text-slate-200 border border-slate-700">${esc(st)}</span>`
+          }
+          <span class="text-[10px] text-slate-400 font-semibold">${bitacoraRows.length} renglones</span>
+        </div>
+        ${lastEntry
+          ? `<div class="text-[11px] text-slate-300 bg-slate-900/90 border border-slate-800 rounded px-2 py-1 truncate" title="${esc(lastEntry)}">${esc(lastEntry)}</div>`
+          : `<div class="text-[11px] text-slate-500 italic">Sin toques hoy · Listo para llamar</div>`
         }
       </td>
-      <td data-label="Acciones Locales o CRM" class="px-4 py-3 align-top min-w-[290px]">
-        <div class="space-y-1.5">
-          <div class="flex gap-1.5">
-            <input id="cq-note-${l.id}" type="text" class="input-dark text-[11px] py-1 px-2 flex-1" placeholder="Nota rápida (ej: pidió info viernes)..." />
-            <select id="cq-obj-${l.id}" class="input-dark text-[11px] py-1 px-2" style="max-width:145px;" aria-label="Objeción del prospecto">
-              <option value="">Objeción (opcional)</option>
-              <option value="Precio / Presupuesto">Precio / Presupuesto</option>
-              <option value="Ya tiene agencia / web">Ya tiene agencia / web</option>
-              <option value="No tiene tiempo / Manda info">No tiene tiempo / Manda info</option>
-              <option value="Hablar con socio / decisor">Hablar con socio / decisor</option>
-              <option value="No confía / Ya lo estafaron">No confía / Ya lo estafaron</option>
-              <option value="Sin interés actual">Sin interés actual</option>
-            </select>
-          </div>
-          <div class="flex flex-wrap items-center gap-1.5">
-            <button type="button" onclick="registerCallOutcome(${l.id}, 'touch_wa_email', 'wa_email')"
-                    class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-sky-500/20 text-sky-300 border border-sky-500/40 hover:bg-sky-500/30"
-                    title="Registra toque de WhatsApp o Email localmente (+1 toque meta 500, sin enviar a CRM)">
-              💬/✉️ Toque WA/Correo
-            </button>
-            <button type="button" onclick="registerCallOutcome(${l.id}, 'callback', 'call')"
-                    class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30"
-                    title="Contestó y pidió seguimiento luego: queda local sin ensuciar el CRM">
-              🟡 Seguimiento Local
-            </button>
-            <button type="button" onclick="registerCallOutcome(${l.id}, 'no_answer', 'call')"
-                    style="background:rgba(244,63,94,0.14); color:#fda4af; border:1px solid rgba(244,63,94,0.4);"
-                    class="px-2.5 py-1 rounded-lg text-[11px] font-bold" title="No contestó: suma toque y se queda local">
-              🔴 No Contestó
-            </button>
-            <button type="button" onclick="registerCallOutcome(${l.id}, 'disqualified', 'call')"
-                    style="background:rgba(30,41,59,0.75); color:#94a3b8; border:1px solid rgba(100,116,139,0.4);"
-                    class="px-2.5 py-1 rounded-lg text-[11px] font-semibold" title="No califica: archivar localmente sin pasar al CRM">
-              ⚫ No Califica
-            </button>
-            <button type="button" onclick="registerCallOutcome(${l.id}, 'answered', 'call')"
-                    style="background:linear-gradient(135deg,#10b981,#059669); color:#ffffff; border:1px solid #34d399; box-shadow:0 4px 14px rgba(16,185,129,0.28);"
-                    class="px-3 py-1.5 rounded-lg text-[11px] font-black" title="Posible Cierre real: envía el contacto a GoHighLevel CRM y Mi Pipeline">
-              🔥 Posible Cierre → Enviar a CRM
-            </button>
-            ${isAlreadyInCrm ? `
-              <a href="${demoUrl}" class="px-3 py-1 rounded-lg text-[11px] font-black bg-cyan-400 text-slate-950 hover:bg-cyan-300 no-underline shadow">
-                🚀 Demo Web
-              </a>
-            ` : ''}
-          </div>
+      <td data-label="Trabajar Contacto" class="px-4 py-3.5 align-top text-right">
+        <div class="inline-flex flex-wrap justify-end gap-1.5">
+          <button type="button" onclick="openSetterWorkDialog(${l.id})"
+                  class="px-3.5 py-2 rounded-xl text-xs font-black bg-cyan-400 text-slate-950 hover:bg-cyan-300 transition shadow">
+            🛠️ Trabajar / Anotar
+          </button>
+          ${isAlreadyInCrm ? `
+            <a href="${demoUrl}" class="px-3 py-2 rounded-xl text-xs font-black bg-emerald-400 text-slate-950 hover:bg-emerald-300 no-underline shadow">
+              🚀 Demo Web
+            </a>
+          ` : ''}
         </div>
       </td>
     </tr>`;
   }).join('');
 }
 
-async function registerCallOutcome(leadId, outcome, channel = 'call') {
-  try {
-    const notesInput = document.getElementById(`cq-note-${leadId}`);
-    const objSelect = document.getElementById(`cq-obj-${leadId}`);
-    const notes = notesInput ? notesInput.value.trim() : '';
-    const objection_tag = objSelect ? objSelect.value.trim() : '';
+function openSetterWorkDialog(leadId, defaultChannel = 'Llamada') {
+  const lead = salesOsLeads.find(x => x.id === leadId);
+  if (!lead) return;
+  const dlg = document.getElementById('setterLeadWorkDialog');
+  if (!dlg) return;
 
+  const intel = parseLeadIntelligence(lead);
+  const rawPhone = (lead.phone_e164 || lead.phone || '').replace(/[^0-9+]/g, '');
+  const waDigits = rawPhone.replace(/[^0-9]/g, '');
+  const demoUrl = `/demo-sitio-web?closer=1&lead_id=${lead.id}&template=${encodeURIComponent(lead.selected_template || 'clinica_dental_estetica')}&business=${encodeURIComponent(lead.business_name || lead.company || lead.name)}&phone=${encodeURIComponent(lead.phone || '')}`;
+
+  document.getElementById('setter-work-lead-id').value = lead.id;
+  document.getElementById('setterWorkTitle').textContent = lead.business_name || lead.company || lead.name || 'Prospecto';
+  const cleanMail = lead.email && !lead.email.includes('@sin-correo.local') ? lead.email : 'Sin correo registrado';
+  document.getElementById('setter-work-sub').textContent = `${lead.country || ''} ${lead.city ? '· ' + lead.city : ''} · ${rawPhone || 'Sin tel'} · ${cleanMail}`;
+
+  const curStage = lead.pipeline_stage || 'Lead identificado';
+  document.getElementById('setter-work-stage-badge').textContent = curStage;
+
+  const stageSel = document.getElementById('setter-work-stage');
+  if (stageSel) {
+    if (['Primer contacto', 'Contacto', 'Calificado'].includes(curStage)) {
+      stageSel.value = curStage;
+    } else if (curStage === 'En seguimiento local') {
+      stageSel.value = 'Contacto';
+    } else if (curStage === 'Lead identificado' || curStage === 'No responde') {
+      stageSel.value = 'Primer contacto';
+    } else {
+      stageSel.value = 'Calificado';
+    }
+  }
+
+  const tplSel = document.getElementById('setter-work-template');
+  if (tplSel) {
+    tplSel.value = lead.selected_template || 'clinica_dental_estetica';
+    if (!tplSel.value) tplSel.value = 'clinica_dental_estetica';
+  }
+
+  const callBtn = document.getElementById('setter-work-call-btn');
+  if (callBtn) {
+    callBtn.onclick = () => initiateCloserCall(rawPhone, lead.id, true);
+    callBtn.style.display = rawPhone ? '' : 'none';
+  }
+  const waBtn = document.getElementById('setter-work-wa-btn');
+  if (waBtn) {
+    waBtn.href = waDigits ? `https://wa.me/${waDigits}?text=${encodeURIComponent(intel.waScript)}` : '#';
+    waBtn.style.display = waDigits ? '' : 'none';
+  }
+  const mailBtn = document.getElementById('setter-work-mail-btn');
+  if (mailBtn) {
+    if (lead.email && !lead.email.includes('@sin-correo.local')) {
+      mailBtn.href = `mailto:${encodeURIComponent(lead.email)}?subject=${encodeURIComponent('Propuesta Digital para ' + (lead.business_name || lead.name))}&body=${encodeURIComponent(intel.waScript)}`;
+      mailBtn.classList.remove('hidden');
+    } else {
+      mailBtn.classList.add('hidden');
+    }
+  }
+  const demoBtn = document.getElementById('setter-work-demo-btn');
+  if (demoBtn) demoBtn.href = demoUrl;
+
+  const scriptsBox = document.getElementById('setter-work-scripts-body');
+  if (scriptsBox) {
+    scriptsBox.innerHTML = `
+      ${intel.webVal ? `<div><strong class="text-slate-400">Web Actual:</strong> <span class="text-cyan-300 break-all">${esc(intel.webVal)}</span></div>` : ''}
+      <div><strong class="text-emerald-300">🎙️ Speech Telefónico:</strong><div class="mt-0.5 text-slate-100 whitespace-pre-line">${esc(intel.speech || 'Presentar solución Sitio Web Inteligente + IA 24/7.')}</div></div>
+      <div><strong class="text-sky-300">💬 Guion WhatsApp / Correo:</strong><div class="mt-0.5 text-slate-300 whitespace-pre-line">${esc(intel.waScript)}</div></div>
+    `;
+  }
+
+  const rows = parseBitacoraEntries(lead.notes || '');
+  document.getElementById('setter-work-history-count').textContent = `${rows.length} ${rows.length === 1 ? 'renglón' : 'renglones'}`;
+  const histEl = document.getElementById('setter-work-history-rows');
+  if (histEl) {
+    histEl.innerHTML = rows.length
+      ? rows.map((rowTxt, i) => `
+        <div class="p-2 rounded-lg bg-slate-900 border border-slate-800 text-[11px] text-slate-200 flex items-start gap-2">
+          <span class="px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-black text-[10px]">#${i + 1}</span>
+          <span class="flex-1 leading-relaxed">${esc(rowTxt)}</span>
+        </div>
+      `).join('')
+      : '<div class="text-slate-500 text-[11px] py-1">Aún no hay renglones guardados para este contacto. Registra tu primer intento abajo.</div>';
+  }
+
+  const chSel = document.getElementById('setter-work-channel');
+  if (chSel) chSel.value = defaultChannel || 'Llamada';
+  const outSel = document.getElementById('setter-work-outcome');
+  if (outSel) outSel.value = 'callback';
+  document.getElementById('setter-work-objection').value = '';
+  document.getElementById('setter-work-next-at').value = lead.next_action_at || '';
+  document.getElementById('setter-work-note').value = '';
+
+  dlg.showModal();
+}
+
+function syncSetterOutcomeToStage() {
+  const outVal = document.getElementById('setter-work-outcome')?.value;
+  const stSel = document.getElementById('setter-work-stage');
+  if (!stSel) return;
+  if (outVal === 'qualified_crm') stSel.value = 'Calificado';
+  else if (outVal === 'callback' || outVal === 'touch_wa_email') stSel.value = 'Contacto';
+  else if (outVal === 'no_answer') stSel.value = 'Primer contacto';
+}
+
+async function submitSetterWork(mode) {
+  const leadId = Number(document.getElementById('setter-work-lead-id').value);
+  if (!leadId) return;
+  const channel = document.getElementById('setter-work-channel')?.value || 'Llamada';
+  let outcome = document.getElementById('setter-work-outcome')?.value || 'callback';
+  let setter_stage = document.getElementById('setter-work-stage')?.value || 'Contacto';
+  const selected_template = document.getElementById('setter-work-template')?.value || 'clinica_dental_estetica';
+  const objection_tag = document.getElementById('setter-work-objection')?.value || '';
+  const next_action_at = document.getElementById('setter-work-next-at')?.value || '';
+  const notes = (document.getElementById('setter-work-note')?.value || '').trim();
+
+  if (mode === 'send_to_crm') {
+    outcome = 'qualified_crm';
+    setter_stage = 'Calificado';
+  } else if (setter_stage === 'Calificado' && outcome !== 'disqualified' && outcome !== 'no_answer') {
+    setter_stage = 'Contacto';
+  }
+
+  try {
     const res = await fetch(`/api/sales-os/leads/${leadId}/call-outcome`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
-      body: JSON.stringify({ outcome, notes, objection_tag, channel })
+      body: JSON.stringify({
+        outcome,
+        notes,
+        objection_tag,
+        channel,
+        selected_template,
+        next_action_at,
+        next_action_note: notes,
+        setter_stage
+      })
+    });
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      alert(data.detail || data.error || 'No se pudo guardar el renglón.');
+      return;
+    }
+
+    const dlg = document.getElementById('setterLeadWorkDialog');
+    if (dlg) {
+      dlg.returnValue = '';
+      dlg.close();
+    }
+    await loadSalesOsData();
+    await loadLeaderboardAndKpis();
+
+    if (data.pushed_to_ghl) {
+      const lead = salesOsLeads.find(x => x.id === leadId);
+      const rawDemoUrl = data.demo_url || data.data?.demo_url || `/demo-sitio-web?lead_id=${leadId}`;
+      const demoUrl = rawDemoUrl + (rawDemoUrl.includes('?') ? '&' : '?') + 'closer=1';
+      const box = document.getElementById('call-answered-action-box');
+      const titleEl = document.getElementById('call-answered-box-title');
+      const subEl = document.getElementById('call-answered-box-sub');
+      const btnEl = document.getElementById('call-answered-demo-btn');
+      if (titleEl) titleEl.textContent = `🔥 ${lead ? (lead.business_name || lead.company || lead.name) : 'Prospecto'} Calificado → Enviado a CRM ProsperIA & Mi Pipeline Closer`;
+      if (subEl) subEl.textContent = 'Toda la bitácora del Setter viajó con el prospecto. Ya puedes abrir su Demo Sitio Web o gestionarlo con tu Gorra de Closer.';
+      if (btnEl) btnEl.href = demoUrl;
+      if (box) {
+        box.classList.remove('hidden');
+        box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+  } catch (err) {
+    alert('Error de conexión al guardar en bitácora.');
+  }
+}
+
+async function registerCallOutcome(leadId, outcome, channel = 'Llamada') {
+  try {
+    const res = await fetch(`/api/sales-os/leads/${leadId}/call-outcome`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+      body: JSON.stringify({ outcome, notes: '', objection_tag: '', channel })
     });
     const data = await res.json();
     if (!res.ok || !data.success) {
@@ -6795,34 +7175,16 @@ async function registerCallOutcome(leadId, outcome, channel = 'call') {
     }
     await loadSalesOsData();
     await loadLeaderboardAndKpis();
-    if (outcome === 'answered' || outcome === 'hot_close') {
-      const lead = salesOsLeads.find(x => x.id === leadId);
-      const rawDemoUrl = data.data?.demo_url || `/demo-sitio-web?lead_id=${leadId}`;
-      const demoUrl = rawDemoUrl + (rawDemoUrl.includes('?') ? '&' : '?') + 'closer=1';
-      const box = document.getElementById('call-answered-action-box');
-      const titleEl = document.getElementById('call-answered-box-title');
-      const subEl = document.getElementById('call-answered-box-sub');
-      const btnEl = document.getElementById('call-answered-demo-btn');
-      if (titleEl) {
-        titleEl.textContent = `🔥 ${lead ? (lead.business_name || lead.company || lead.name) : 'Prospecto'} enviado al CRM ProsperIA (Posible Cierre)`;
-      }
-      if (subEl) {
-        subEl.textContent = 'Sincronizado en GoHighLevel y Mi Pipeline. Ábrele su Demo Sitio Web en vivo para cerrar la cita.';
-      }
-      if (btnEl) {
-        btnEl.href = demoUrl;
-      }
-      if (box) {
-        box.classList.remove('hidden');
-        box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      }
-    }
   } catch (err) {
     alert('Error de conexión al registrar toque.');
   }
 }
 
-function openQuickCloserLeadDialog(defaultStage = 'Primer contacto') {
+document.getElementById('setterLeadWorkDialog')?.addEventListener('close', function () {
+  this.returnValue = '';
+});
+
+function openQuickCloserLeadDialog(defaultStage = 'Calificado') {
   const dlg = document.getElementById('closerNewLeadDialog');
   if (!dlg) return;
   document.getElementById('cnew-name').value = '';
@@ -6831,7 +7193,9 @@ function openQuickCloserLeadDialog(defaultStage = 'Primer contacto') {
   document.getElementById('cnew-email').value = '';
   document.getElementById('cnew-notes').value = '';
   const stageSel = document.getElementById('cnew-stage');
-  if (stageSel) stageSel.value = defaultStage;
+  if (stageSel) {
+    stageSel.value = ['Calificado', 'Contacto', 'Lead identificado'].includes(defaultStage) ? defaultStage : 'Contacto';
+  }
   dlg.showModal();
 }
 

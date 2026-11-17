@@ -8,7 +8,7 @@ import json
 import gzip
 from pathlib import Path
 from datetime import datetime
-from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey
+from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey, func
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
@@ -203,6 +203,7 @@ OFFER_CATALOG = {
 CANONICAL_PIPELINE_STAGES = [
     "Lead identificado",
     "Primer contacto",
+    "Contacto",
     "Conversación",
     "Calificado",
     "Diagnóstico agendado",
@@ -1282,6 +1283,59 @@ def init_db():
             except Exception as sv7_err:
                 db.rollback()
                 print(f"⚠️ [SEED 11K SPRINT] Error sembrando closers_11k_master_seed.json.gz: {sv7_err}", flush=True)
+
+        # Limpieza única post-presentación de Sheille (sheille.perez@gmail.com) sin tocar a Claudio ni a otros Closers
+        sheille_reset_flag = db.query(IntegrationSetting).filter(IntegrationSetting.key == "reset_sheille_post_presentation_v1").first()
+        if not sheille_reset_flag:
+            try:
+                sh_email = "sheille.perez@gmail.com"
+                sh_user = db.query(User).filter(func.lower(User.email) == sh_email).first()
+                if sh_user:
+                    sh_user.calls_made_today = 0
+                    sh_user.calls_made_week = 0
+                    sh_user.calls_answered_week = 0
+                    sh_user.demos_done_week = 0
+                    sh_user.sales_closed_week = 0
+                    sh_user.active_minutes_today = 0
+                    sh_user.active_minutes_week = 0
+                    sh_user.checkin_at = ""
+                sh_leads = db.query(Lead).filter(func.lower(Lead.owner_id) == sh_email).all()
+                sh_ids = []
+                for ld in sh_leads:
+                    notes_raw = getattr(ld, "notes", "") or ""
+                    cleaned_notes = re.sub(r"\n\[20\d{2}-\d{2}-\d{2}[T ][^\n]*", "", notes_raw).split("[Cola:")[0].strip()
+                    if (
+                        (getattr(ld, "pipeline_stage", "Lead identificado") or "Lead identificado") != "Lead identificado"
+                        or (getattr(ld, "status", "new") or "new") != "new"
+                        or bool(getattr(ld, "last_touch", "") or "")
+                        or float(getattr(ld, "amount_collected", 0) or 0) > 0
+                        or cleaned_notes != notes_raw.strip()
+                    ):
+                        ld.pipeline_stage = "Lead identificado"
+                        ld.status = "new"
+                        ld.last_touch = ""
+                        ld.quoted_amount = 0.0
+                        ld.contracted_amount = 0.0
+                        ld.amount_collected = 0.0
+                        ld.commission_amount = 0.0
+                        ld.commission_status = "sin_devengar"
+                        ld.invoice_id = ""
+                        ld.next_action_at = ""
+                        ld.next_action_note = ""
+                        ld.notes = cleaned_notes
+                        sh_ids.append(ld.id)
+                db.query(AuditLog).filter(func.lower(AuditLog.actor_email) == sh_email).delete(synchronize_session=False)
+                if sh_ids:
+                    db.query(AuditLog).filter(AuditLog.lead_id.in_(sh_ids)).delete(synchronize_session=False)
+                db.add(IntegrationSetting(
+                    key="reset_sheille_post_presentation_v1",
+                    value=f"reset_{len(sh_ids)}_leads_at_{now_iso}",
+                ))
+                db.commit()
+                print(f"✅ [RESET SHEILLE] Restaurados {len(sh_ids)} leads y contadores de {sh_email} desde cero.", flush=True)
+            except Exception as sh_err:
+                db.rollback()
+                print(f"⚠️ [RESET SHEILLE] Error: {sh_err}", flush=True)
 
         # Seed Leads de respaldo si no existiera el archivo 455 y la tabla estuviera vacía
         if db.query(Lead).count() == 0:
