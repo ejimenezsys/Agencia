@@ -643,7 +643,7 @@ INITIAL_SALES_TEAM = [
         "ghl_user_id": "IdhjqKwA1bOZYYMJLVqR",
         "is_active": 1,
         "calendar_url": "https://api.agenciaprosperia.com/widget/booking/oB0o3wbRwlsoItbE4adZ",
-        "avatar_url": "/static/img/closers/tanya.jpg",
+        "avatar_url": "/static/img/closers/tanya.jpg?v=2",
         "default_pass": "Closer2026!"
     },
 ]
