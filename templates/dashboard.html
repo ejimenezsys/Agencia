@@ -566,20 +566,24 @@
     </button>
   </div>
 
-  <!-- Bottom: Meta KPI Semanal + logout (Eliminado Uso del Plan 583/500) -->
+  <!-- Bottom: Meta KPI Semanal Setter->Closer 1,000 -->
   <div class="sidebar-bottom">
     <div class="p-3 rounded-xl mb-2" style="background:rgba(0,229,255,0.05); border:1px solid rgba(0,229,255,0.16);">
       <div class="flex items-center justify-between mb-1.5">
         <span class="text-cyan-300 text-[11px] font-bold uppercase">🏆 Embudo Semanal KPI</span>
-        <span id="sidebar-kpi-sales" class="text-[11px] font-extrabold text-emerald-400">Meta: 1+ Venta</span>
+        <span id="sidebar-kpi-sales" class="text-[11px] font-extrabold text-emerald-400">Meta: US$372+</span>
       </div>
       <div class="text-[11px] text-slate-300 leading-relaxed">
-        <strong>100</strong> Llamadas &rarr; <strong>60</strong> Contestan &rarr; <strong>6</strong> Demos &rarr; <strong>1</strong> Venta
+        <strong>1,000</strong> Contactos &rarr; <strong>150</strong> Hablan &rarr; <strong>30</strong> Calificados &rarr; <strong>5+</strong> Cierres
       </div>
-      <div class="progress-track mt-2">
-        <div id="usage-bar" class="progress-fill" style="width:100%"></div>
+      <div class="mt-1.5 flex items-center justify-between text-[10px]">
+        <span class="text-emerald-300 font-bold">💰 Bolsillo: US$372–US$745+</span>
+        <span id="sidebar-kpi-touches" class="text-cyan-300 font-bold">0 / 1,000</span>
       </div>
-      <span id="usage-pct" class="hidden">100%</span>
+      <div class="progress-track mt-1.5">
+        <div id="usage-bar" class="progress-fill" style="width:0%"></div>
+      </div>
+      <span id="usage-pct" class="hidden">0%</span>
       <span id="usage-leads" class="hidden">0</span>
     </div>
     <button onclick="logout()" class="nav-item" style="color:#f87171; margin-bottom:0;">
@@ -2330,7 +2334,7 @@
                     <span class="font-black text-white">1️⃣ Login, Reloj Check-In y Podio</span>
                     <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono text-[10px] font-bold">▶ 00:00</span>
                   </div>
-                  <p class="text-slate-400 text-[11px] m-0">Entrada por <code>/login</code> o CRM, reloj automático (pausa a los 5 min) y embudo <code>100 → 60 → 6 → 1</code>.</p>
+                  <p class="text-slate-400 text-[11px] m-0">Entrada por <code>/login</code>, reloj automático y embudo <code>1,000 → 150 → 30 → 5+</code>.</p>
                 </button>
 
                 <button type="button" onclick="seekCloserTutorialVideo(198, 'master', this)"
@@ -6567,6 +6571,15 @@ async function loadLeaderboardAndKpis() {
       if (bAns) bAns.style.width = Math.min(100, Math.round((cAns / (targets.weekly_answered || 150)) * 100)) + '%';
       if (bDemos) bDemos.style.width = Math.min(100, Math.round((cDemos / (targets.weekly_demos || 30)) * 100)) + '%';
       if (bSales) bSales.style.width = Math.min(100, Math.round((cSales / (targets.weekly_sales || 5)) * 100)) + '%';
+
+      const sbBar = document.getElementById('usage-bar');
+      const sbTouches = document.getElementById('sidebar-kpi-touches');
+      const sbSales = document.getElementById('sidebar-kpi-sales');
+      const goalNum = targets.weekly_calls || 1000;
+      const pctSb = Math.min(100, Math.round((cMade / goalNum) * 100));
+      if (sbBar) sbBar.style.width = pctSb + '%';
+      if (sbTouches) sbTouches.textContent = `${cMade.toLocaleString()} / ${goalNum.toLocaleString()}`;
+      if (sbSales) sbSales.textContent = cUsd > 0 ? `Cobrado: US$${cUsd.toFixed(0)}` : 'Meta: US$372+';
     }
 
     // 3. Renderizar Podio Top 3 con Fotos Oficiales

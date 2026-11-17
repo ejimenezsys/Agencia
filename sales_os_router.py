@@ -3024,8 +3024,18 @@ async def api_reset_seller_test_data(
         u.active_minutes_week = 0
         u.checkin_at = ""
 
-    # 2. Regresar únicamente los leads de target_email a 'Lead identificado' limpio
-    seller_leads = db.query(DbLead).filter(func.lower(DbLead.owner_id) == target_email).all()
+    # 2. Regresar los leads de target_email (o leads tocados en auditoría por admin cuando target_email es admin)
+    actor_touched_ids = [
+        r[0] for r in db.query(AuditLog.lead_id).filter(
+            (func.lower(AuditLog.actor_email) == target_email) & (AuditLog.lead_id.isnot(None))
+        ).all()
+    ]
+    if target_email in ("admin@prosperia.com", "edward@agenciaprosperia.com"):
+        seller_leads = db.query(DbLead).filter(
+            (func.lower(DbLead.owner_id) == target_email) | (DbLead.id.in_(actor_touched_ids) if actor_touched_ids else False)
+        ).all()
+    else:
+        seller_leads = db.query(DbLead).filter(func.lower(DbLead.owner_id) == target_email).all()
     reset_leads_count = 0
     lead_ids = []
     for ld in seller_leads:
