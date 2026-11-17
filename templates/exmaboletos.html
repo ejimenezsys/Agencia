@@ -561,6 +561,332 @@
       color: #fecaca;
     }
 
+    /* Speaker Destacado (Edward Jiménez en el centro de la fila 1) */
+    .flip-card-edward {
+      position: relative;
+      border-radius: 14px;
+      padding: 4px;
+      background: linear-gradient(135deg, #F5A623, #E210E2 55%, #7B1FA2);
+      box-shadow: 0 18px 45px rgba(245, 166, 35, 0.25), 0 0 28px rgba(226, 16, 226, 0.2);
+    }
+    .flip-card-edward .flip-face { border-radius: 11px; }
+    .flip-edward-badge {
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 6;
+      background: linear-gradient(90deg, #F5A623, #fbbf24);
+      color: #111;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 999px;
+      white-space: nowrap;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.55);
+      pointer-events: none;
+    }
+
+    /* Sección Intermedia: Conferencia & Presentación del Libro Las 4 Inteligencias */
+    .keynote-wrap {
+      background:
+        radial-gradient(circle at 18% 25%, rgba(245, 166, 35, 0.14), transparent 52%),
+        radial-gradient(circle at 85% 75%, rgba(123, 31, 162, 0.22), transparent 55%),
+        #0b0c16;
+      border-top: 1px solid rgba(245, 166, 35, 0.25);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .keynote-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 36px;
+      align-items: center;
+      background: rgba(15, 16, 28, 0.85);
+      border: 1.5px solid rgba(245, 166, 35, 0.35);
+      border-radius: 24px;
+      padding: 36px;
+      box-shadow: 0 28px 64px rgba(0, 0, 0, 0.65);
+    }
+    .keynote-author-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(245, 166, 35, 0.1);
+      border: 1px solid rgba(245, 166, 35, 0.35);
+      border-radius: 999px;
+      padding: 6px 14px 6px 6px;
+      margin-bottom: 16px;
+    }
+    .keynote-author-chip img {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #F5A623;
+    }
+    .keynote-author-chip div strong {
+      display: block;
+      font-size: 13px;
+      color: #fff;
+      line-height: 1.2;
+    }
+    .keynote-author-chip div span {
+      display: block;
+      font-size: 11px;
+      color: #fbbf24;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+    .keynote-title {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(2.1rem, 4.2vw, 3.35rem);
+      line-height: 1.03;
+      text-transform: uppercase;
+      letter-spacing: 0.015em;
+      margin-bottom: 12px;
+    }
+    .keynote-title span { color: #F5A623; }
+    .keynote-subtitle {
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: #f1f5f9;
+      margin-bottom: 14px;
+      line-height: 1.45;
+      border-left: 3px solid #F5A623;
+      padding-left: 14px;
+    }
+    .keynote-copy {
+      color: #cbd5e1;
+      font-size: 15px;
+      line-height: 1.65;
+      margin-bottom: 20px;
+    }
+    .four-intel-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .intel-mini {
+      background: rgba(7, 8, 16, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 12px 14px;
+    }
+    .intel-mini strong {
+      display: block;
+      font-size: 13.5px;
+      color: #F5A623;
+      margin-bottom: 3px;
+    }
+    .intel-mini span {
+      display: block;
+      font-size: 12.5px;
+      color: #cbd5e1;
+      line-height: 1.4;
+    }
+    .keynote-book-stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 14px;
+    }
+    .keynote-book-frame {
+      position: relative;
+      max-width: 310px;
+      width: 100%;
+      border-radius: 16px;
+      padding: 10px;
+      background: linear-gradient(155deg, rgba(245, 166, 35, 0.25), rgba(123, 31, 162, 0.25));
+      border: 1px solid rgba(245, 166, 35, 0.45);
+      box-shadow: 0 26px 56px rgba(0, 0, 0, 0.75);
+    }
+    .keynote-book-frame img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 10px;
+    }
+    .keynote-book-badges {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+    .keynote-book-pill {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #e2e8f0;
+    }
+
+    /* Sección Reels & Campaña Oficial IG */
+    .ig-campaign-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      background: linear-gradient(135deg, rgba(226, 16, 226, 0.14), rgba(245, 166, 35, 0.14));
+      border: 1px solid rgba(226, 16, 226, 0.4);
+      border-radius: 18px;
+      padding: 20px 24px;
+      margin-bottom: 32px;
+    }
+    .ig-campaign-copy {
+      flex: 1 1 380px;
+    }
+    .ig-campaign-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #f472b6;
+      margin-bottom: 6px;
+    }
+    .ig-campaign-copy p {
+      color: #e2e8f0;
+      font-size: 14.5px;
+      line-height: 1.55;
+    }
+    .ig-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #d62976, #fa7e1e);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 13.5px;
+      padding: 12px 18px;
+      border-radius: 11px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      white-space: nowrap;
+      transition: transform 0.15s;
+    }
+    .ig-btn:hover { transform: translateY(-2px); }
+
+    .reels-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+      align-items: start;
+    }
+    .reel-card {
+      container-type: inline-size;
+      display: flex;
+      flex-direction: column;
+      background: #0f111c;
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 22px 50px rgba(0, 0, 0, 0.55);
+    }
+    .reel-card.reel-card-featured {
+      border-color: rgba(245, 166, 35, 0.65);
+      box-shadow: 0 24px 56px rgba(245, 166, 35, 0.16);
+    }
+    .reel-card > video {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 9 / 16;
+      object-fit: cover;
+      display: block;
+      background: #000;
+    }
+    .reel-card > header {
+      padding: 16px 18px 6px;
+    }
+    .reel-badge {
+      display: inline-block;
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(123, 31, 162, 0.35);
+      color: #e9d5ff;
+      border: 1px solid rgba(192, 132, 252, 0.35);
+      margin-bottom: 8px;
+    }
+    .reel-card-featured .reel-badge {
+      background: rgba(245, 166, 35, 0.18);
+      color: #F5A623;
+      border-color: rgba(245, 166, 35, 0.45);
+    }
+    .reel-card > header h3 {
+      font-family: 'Anton', sans-serif;
+      font-size: 1.32rem;
+      line-height: 1.15;
+      letter-spacing: 0.02em;
+      color: #fff;
+      text-transform: uppercase;
+    }
+    @container (min-width: 340px) {
+      .reel-card > header h3 { font-size: 1.44rem; }
+      .reel-card-body { font-size: 14px; }
+    }
+    .reel-card-body {
+      padding: 8px 18px 14px;
+      font-size: 13.5px;
+      color: #cbd5e1;
+      line-height: 1.55;
+      flex: 1 1 auto;
+    }
+    .reel-bullets {
+      list-style: none;
+      margin: 10px 0 12px;
+      display: grid;
+      gap: 6px;
+      font-size: 13px;
+      color: #e2e8f0;
+    }
+    .reel-transcript {
+      background: rgba(7, 8, 15, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      padding: 9px 12px;
+      font-size: 12.5px;
+      color: #cbd5e1;
+    }
+    .reel-transcript summary {
+      cursor: pointer;
+      font-weight: 700;
+      color: #F5A623;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .reel-transcript summary::-webkit-details-marker { display: none; }
+    .reel-transcript p {
+      margin-top: 8px;
+      line-height: 1.6;
+      color: #cbd5e1;
+    }
+    .reel-card > footer {
+      padding: 0 18px 18px;
+      display: grid;
+      gap: 8px;
+    }
+
+    @media (max-width: 980px) {
+      .keynote-grid { grid-template-columns: 1fr; padding: 24px; }
+      .reels-grid { grid-template-columns: 1fr; max-width: 460px; margin: 0 auto; }
+    }
     @media (max-width: 900px) {
       .hero-intro-grid { grid-template-columns: 1fr; }
     }
@@ -569,6 +895,7 @@
       .banner-mobile { display: block; }
       .nav-links { display: none; }
       .tier-radio-grid { grid-template-columns: 1fr; }
+      .four-intel-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -595,9 +922,9 @@
       <nav class="nav-links" aria-label="Navegación EXMA Boletos">
         <a href="#sobre">Sobre EXMA</a>
         <a href="#speakers">Speakers</a>
+        <a href="#conferencia-libro">Mi Conferencia &amp; Libro</a>
         <a href="#membresias">Membresías 20% OFF</a>
-        <a href="#ediciones">Ediciones</a>
-        <a href="#galeria">Galería</a>
+        <a href="#reels-edward">Reels &amp; Campaña IG</a>
       </nav>
       <button type="button" class="nav-cta" data-select-tier="Oro">Obtener 20% OFF →</button>
     </div>
@@ -636,7 +963,7 @@
           </div>
 
           <div class="hero-video-card">
-            <video controls playsinline preload="metadata" poster="https://files.leadconnectorhq.com/file/6afba4c454a6494bd6d6fc67/banner-pc-xth-miami-1688-x-527-px-2.png">
+            <video controls playsinline preload="metadata" width="1280" height="720" poster="https://files.leadconnectorhq.com/file/6afba4c454a6494bd6d6fc67/banner-pc-xth-miami-1688-x-527-px-2.png">
               <source src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a99b77ed9a153ac43f2e742.mp4" type="video/mp4">
             </video>
           </div>
@@ -738,6 +1065,18 @@
       <div class="flip-face flip-back">
         
         <img src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a9239e3626105f955aba733.png" alt="Reverso 1">
+      </div>
+    </div>
+  </div>
+
+  <div class="flip-card flip-card-edward" data-flip>
+    <span class="flip-edward-badge">Anfitrión · Lanzamiento de Libro</span>
+    <div class="flip-inner">
+      <div class="flip-face flip-front">
+        <img src="https://files.leadconnectorhq.com/file/6af7667fe066b14ab5df952b/speaker-18-edward-jimenez-xth-miami-2.png" alt="Edward Jiménez — Speaker Oficial EXMA Miami 2026">
+      </div>
+      <div class="flip-face flip-back">
+        <img src="https://files.leadconnectorhq.com/file/6af7667fa040edd2571b701f/bio-web-edward-jimenez-xth-miami-2.png" alt="Tema: Las 4 Inteligencias. Un Futuro — Edward Jiménez">
       </div>
     </div>
   </div>
@@ -911,17 +1250,6 @@
   <div class="flip-card" data-flip>
     <div class="flip-inner">
       <div class="flip-face flip-front">
-        <img src="https://files.leadconnectorhq.com/file/6af7667fe066b14ab5df952b/speaker-18-edward-jimenez-xth-miami-2.png" alt="Frente 4">
-      </div>
-      <div class="flip-face flip-back">
-        <img src="https://files.leadconnectorhq.com/file/6af7667fa040edd2571b701f/bio-web-edward-jimenez-xth-miami-2.png" alt="Reverso 4">
-      </div>
-    </div>
-  </div>
-  
-  <div class="flip-card" data-flip>
-    <div class="flip-inner">
-      <div class="flip-face flip-front">
         <img src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6aeb776526476b4361aefd7e.png" alt="Frente 4">
       </div>
       <div class="flip-face flip-back">
@@ -937,83 +1265,6 @@
       </div>
       <div class="flip-face flip-back">
         <img src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6aeb776da3c1bfa45ebe2cc1.png" alt="Reverso 4">
-      </div>
-    </div>
-  </div>
-  
-  <div class="flip-card" data-flip>
-    <div class="flip-inner">
-      <div class="flip-face flip-front">
-        <img src="https://files.leadconnectorhq.com/file/6af7743dee7b01bee2bdfd48/speaker-21-mariana-atencio-xth-miami.png" alt="Frente 4">
-      </div>
-      <div class="flip-face flip-back">
-        <img src="https://files.leadconnectorhq.com/file/6af7743de3f654f61a7c4759/bio-web-mariana-atencio-xth-miami.png" alt="Reverso 4">
-      </div>
-    </div>
-  </div>
-  
-  <div class="flip-card" data-flip>
-    <div class="flip-inner">
-      <div class="flip-face flip-front">
-        <img src="https://files.leadconnectorhq.com/file/6afba6959d4ebed1c8600f0f/speaker-25-rodrigo-garduno-xth-miami-v2.png" alt="Frente 4">
-      </div>
-      <div class="flip-face flip-back">
-        <img src="https://files.leadconnectorhq.com/file/6afba6956223b8139d7116dd/bio-web-rodrigo-garduno-xth-miami.png" alt="Reverso 4">
-      </div>
-    </div>
-  </div>
-  
-  <div class="flip-card" data-flip>
-    <div class="flip-inner">
-      <div class="flip-face flip-front">
-        <img src="https://files.leadconnectorhq.com/file/6afba6946b9476a3ac9f584e/speaker-23-carlos-quintero-xth-miami-v2.png" alt="Frente 4">
-      </div>
-      <div class="flip-face flip-back">
-        <img src="https://files.leadconnectorhq.com/file/6afba6946223b8139d7116cd/bio-web-carlos-quintero-xth-miami.png" alt="Reverso 4">
-      </div>
-    </div>
-  </div>
-  
-  <div class="flip-card" data-flip>
-    <div class="flip-inner">
-      <div class="flip-face flip-front">
-        <img src="https://files.leadconnectorhq.com/file/6afba691893246071fd429f8/speaker-22-mafe-anzures-xth-miami-v2.png" alt="Frente 4">
-      </div>
-      <div class="flip-face flip-back">
-        <img src="https://files.leadconnectorhq.com/file/6afba691fdf6b54fd77fecb2/bio-web-mafe-anzures-xth-miami.png" alt="Reverso 4">
-      </div>
-    </div>
-  </div>
-  
-  <div class="flip-card" data-flip>
-    <div class="flip-inner">
-      <div class="flip-face flip-front">
-        <img src="https://files.leadconnectorhq.com/file/6afba69154a6494bd6d71c2d/speaker-24-juan-chipoco-xth-miami-v2.png" alt="Frente 4">
-      </div>
-      <div class="flip-face flip-back">
-        <img src="https://files.leadconnectorhq.com/file/6afba6926223b8139d7116aa/bio-web-juan-chipoco-xth-miami.png" alt="Reverso 4">
-      </div>
-    </div>
-  </div>
-  
-  <div class="flip-card" data-flip>
-    <div class="flip-inner">
-      <div class="flip-face flip-front">
-        <img src="https://files.leadconnectorhq.com/file/6afba691fdf6b54fd77fecbe/speaker-26-daniela-patino-xth-miami-v2.png" alt="Frente 4">
-      </div>
-      <div class="flip-face flip-back">
-        <img src="https://files.leadconnectorhq.com/file/6afba6926223b8139d7116b0/bio-web-daniela-patino-xth-miami.png" alt="Reverso 4">
-      </div>
-    </div>
-  </div>
-  
-  <div class="flip-card" data-flip>
-    <div class="flip-inner">
-      <div class="flip-face flip-front">
-        <img src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91ab59722007d7ff0c814a.png" alt="Frente 4">
-      </div>
-      <div class="flip-face flip-back">
-        <img src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91ab59722007d7ff0c814a.png" alt="Reverso 4">
       </div>
     </div>
   </div>
@@ -1054,6 +1305,77 @@
   }
 })();
 </script>
+      </div>
+    </section>
+
+    <!-- Conferencia Magistral & Presentación Oficial del Libro de Edward Jiménez -->
+    <section id="conferencia-libro" class="sec keynote-wrap">
+      <div class="shell">
+        <div class="sec-head" style="margin-bottom:28px;">
+          <div class="sec-kicker">Conferencia Magistral &amp; Lanzamiento Oficial del Libro · 4 y 5 de Diciembre</div>
+          <h2 class="sec-title">Mi Conferencia y Presentación en EXMA Miami 2026</h2>
+          <p class="sec-sub">El método práctico para dejar de coleccionar herramientas aisladas, ordenar tu CRM con Empleados Digitales IA y escalar tu negocio con criterio directivo.</p>
+        </div>
+
+        <div class="keynote-grid">
+          <div>
+            <div class="keynote-author-chip">
+              <img src="/static/libro/edward_hero_depth.webp" alt="Edward Jiménez — CEO Agencia Prosper IA y Speaker Oficial EXMA Global" width="120" height="120" loading="lazy">
+              <div>
+                <strong>Edward Jiménez (@edwardjimenezia)</strong>
+                <span>CEO Agencia Prosper IA · Partner Relationship Manager EXMA Global</span>
+              </div>
+            </div>
+
+            <h3 class="keynote-title">Las 4 Inteligencias. <span>Un Futuro.</span></h3>
+            <p class="keynote-subtitle">
+              Tema en el escenario de EXMA: Cómo Prosperar en la era de la disrupción tecnológica combinando inteligencia artificial, financiera, emocional y estratégica.
+            </p>
+            <p class="keynote-copy">
+              En EXMA Miami 2026 presento oficialmente mi libro <strong><em>Las 4 Inteligencias</em></strong> (con <strong>Prólogo de Fernando Anzures</strong>, fundador de EXMA Global) para que dueños de empresas y líderes comerciales dejen atrás el síndrome del «Dueño-Pulpo» y aprendan cómo usar la <strong>IA para captar y atender clientes sin coleccionar herramientas y mejorando su CRM</strong>: la tecnología ejecuta lo repetitivo y el <strong>criterio humano</strong> se reserva para negociar y cerrar.
+            </p>
+
+            <div class="four-intel-grid">
+              <div class="intel-mini">
+                <strong>1. Inteligencia Financiera · ¿Qué vale?</strong>
+                <span>Cómo distinguir flujo de caja real de métricas de vanidad y aplicar la Regla del Margen antes de automatizar.</span>
+              </div>
+              <div class="intel-mini">
+                <strong>2. Inteligencia Emocional · ¿Cómo me gobierno?</strong>
+                <span>Cómo decidir bajo máxima presión y convertir las crisis operativas en templanza directiva.</span>
+              </div>
+              <div class="intel-mini">
+                <strong>3. Inteligencia Estratégica · ¿Hacia dónde voy?</strong>
+                <span>Ciclos ejecutivos de 90 días (Sistema SVE90) enfocados en el 20% de palancas que generan el 80% del crecimiento.</span>
+              </div>
+              <div class="intel-mini">
+                <strong>4. Inteligencia Artificial · ¿Qué puedo aumentar?</strong>
+                <span>Arquitectura de Empleados Digitales 24/7 y gobernanza con PassportAI para captar, calificar y atender en automático.</span>
+              </div>
+            </div>
+
+            <div class="hero-cta-row">
+              <button type="button" class="cta-x" data-select-tier="Oro">
+                <span class="cta-x-main">Acompáñame en EXMA con 20% OFF</span>
+                <span class="cta-x-sub">Solo ingresa Nombre, Mail y WhatsApp</span>
+              </button>
+              <a href="/libro" target="_blank" rel="noopener noreferrer" class="btn-ghost">
+                <i class="fa-solid fa-book-open"></i> Conocer el Libro <em>Las 4 Inteligencias</em> ↗
+              </a>
+            </div>
+          </div>
+
+          <div class="keynote-book-stage">
+            <div class="keynote-book-frame">
+              <img src="/static/libro/cover_v4_page_1.png" alt="Portada oficial del libro Las 4 Inteligencias por Edward Jiménez — Prólogo de Fernando Anzures" width="591" height="906" loading="lazy">
+            </div>
+            <div class="keynote-book-badges">
+              <span class="keynote-book-pill">Prólogo: Fernando Anzures (EXMA)</span>
+              <span class="keynote-book-pill">Library of Congress LCCN 2026970390</span>
+              <span class="keynote-book-pill">Bono $25 USD PassportAI</span>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -1590,777 +1912,110 @@
       </div>
     </section>
 
-    <!-- Reproductor Ediciones Pasadas -->
-    <section id="ediciones" class="sec">
+    <!-- Reels Oficiales de Edward Jiménez & Campaña Instagram -->
+    <section id="reels-edward" class="sec" style="background: linear-gradient(180deg, #07070c 0%, #0d0e1a 100%);">
       <div class="shell">
         <div class="sec-head">
-          <div class="sec-kicker">Archivo · Ediciones Pasadas</div>
-          <h2 class="sec-title">Escucha los Momentos Más Poderosos de EXMA</h2>
-          <p class="sec-sub">20 conferencias y keynotes de nuestros escenarios anteriores listas para reproducir.</p>
+          <div class="sec-kicker">Reels Oficiales · Rumbo a Miami 4 y 5 de Diciembre</div>
+          <h2 class="sec-title">Por Qué Nos Vemos en EXMA Miami 2026</h2>
+          <p class="sec-sub">Mira los 3 reels grabados por Edward Jiménez con el resumen de qué trata cada uno, su transcripción completa y el acceso directo a la campaña oficial en Instagram.</p>
         </div>
-        <style>
-  .exma-player {
-    /* ====== COLORES EDITABLES ====== */
-    --morado-osc: #2b0b45;    /* fondo cabecera */
-    --morado:     #6d28c9;    /* fondo lista */
-    --morado-hover: #6926c1;  /* item activo / hover */
-    --acento:     #ffffff;    /* botones play */
-    --texto:      #ffffff;
 
-    font-family: 'Archivo', sans-serif;
-    max-width: 900px;
-    margin: 0 auto;
-    background: var(--morado-osc);
-    border-radius: 22px;
-    overflow: hidden;
-    color: var(--texto);
-    box-shadow: 0 20px 50px rgba(0,0,0,.4);
-  }
-  .exma-player * { box-sizing: border-box; }
-
-  /* ===== CABECERA: portada + info ===== */
-  .ep-head {
-    display: grid;
-    grid-template-columns: 300px 1fr;
-    gap: 24px;
-    padding: 24px;
-    align-items: start;
-    position: relative;
-  }
-
-  /* Portada del audio */
-  .ep-cover-box {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    border-radius: 12px;
-    overflow: hidden;
-    background: #000;
-  }
-  .ep-cover {
-    position: absolute; inset: 0;
-    width: 100%; height: 100%;
-    object-fit: cover; display: block;
-    transition: opacity .35s ease;
-  }
-  .ep-bigplay {
-    position: absolute; top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 60px; height: 60px; border-radius: 50%;
-    background: rgba(255,255,255,.95);
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; z-index: 3; border: none;
-    transition: opacity .3s ease, transform .2s ease;
-    box-shadow: 0 4px 16px rgba(0,0,0,.4);
-  }
-  .ep-bigplay:hover { transform: translate(-50%,-50%) scale(1.08); }
-  .ep-bigplay svg { width: 24px; height: 24px; margin-left: 3px; }
-  .ep-cover-box.is-playing .ep-bigplay { opacity: 0; pointer-events: none; }
-
-  /* Info a la derecha */
-  .ep-info { position: relative; padding-right: 90px; }
-  .ep-eyebrow {
-    font-size: 14px; font-weight: 700; letter-spacing: 2px;
-    text-transform: uppercase; margin-bottom: 4px; opacity: .95;
-  }
-  .ep-title {
-    font-family: 'Anton', sans-serif;
-    font-size: clamp(26px, 3.6vw, 42px);
-    line-height: 1; letter-spacing: 1px;
-    text-transform: uppercase; margin: 0 0 12px;
-  }
-  .ep-desc { font-size: 14px; line-height: 1.5; opacity: .85; max-width: 90%; }
-
-  /* Pista actual (nombre) */
-  .ep-now {
-    margin-top: 14px; font-size: 13px; font-weight: 600;
-    letter-spacing: .3px; opacity: .95; min-height: 18px;
-  }
-
-  /* Barra de progreso */
-  .ep-progress-wrap {
-    margin-top: 12px; display: flex; align-items: center; gap: 10px;
-    font-size: 12px; opacity: .9; max-width: 90%;
-  }
-  .ep-bar {
-    flex: 1; height: 5px; border-radius: 4px;
-    background: rgba(255,255,255,.2); cursor: pointer; position: relative;
-  }
-  .ep-bar-fill {
-    position: absolute; inset: 0; width: 0%;
-    background: #fff; border-radius: 4px;
-  }
-  .ep-time { font-variant-numeric: tabular-nums; }
-
-  /* Controles arriba a la derecha */
-  .ep-controls {
-    position: absolute; top: 0; right: 0;
-    display: flex; align-items: center; gap: 10px;
-  }
-  .ep-ctrl {
-    background: none; border: none; cursor: pointer;
-    color: #fff; padding: 4px; display: flex; align-items: center;
-    opacity: .9; transition: opacity .2s ease, transform .15s ease;
-  }
-  .ep-ctrl:hover { opacity: 1; transform: scale(1.1); }
-  .ep-ctrl svg { width: 20px; height: 20px; fill: #fff; }
-  .ep-ctrl.play {
-    background: #fff; border-radius: 50%;
-    width: 40px; height: 40px; justify-content: center;
-  }
-  .ep-ctrl.play svg { fill: var(--morado-osc); width: 18px; height: 18px; margin-left: 2px; }
-
-  /* ===== LISTA (PLAYLIST) CON SCROLL ===== */
-  .ep-list {
-    background: var(--morado);
-    padding: 8px 0;
-    max-height: 320px;          /* altura visible: sube/baja este valor */
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255,255,255,.4) rgba(0,0,0,.15);
-  }
-  /* Scrollbar personalizado (Chrome / Safari / Edge) */
-  .ep-list::-webkit-scrollbar { width: 8px; }
-  .ep-list::-webkit-scrollbar-track { background: rgba(0,0,0,.15); }
-  .ep-list::-webkit-scrollbar-thumb {
-    background: rgba(255,255,255,.3);
-    border-radius: 4px;
-  }
-  .ep-list::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,.5); }
-
-  .ep-item {
-    display: flex; align-items: center; gap: 14px;
-    padding: 14px 24px; cursor: pointer;
-    transition: background .2s ease;
-    border: none; width: 100%; text-align: left;
-    background: none; color: #fff; font-family: inherit;
-  }
-  .ep-item:hover { background: var(--morado-hover); }
-  .ep-item.active { background: var(--morado-hover); }
-  .ep-num { font-size: 15px; font-weight: 700; width: 18px; opacity: .9; flex-shrink: 0; }
-  .ep-item-play {
-    width: 30px; height: 30px; border-radius: 50%;
-    background: rgba(255,255,255,.15);
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0; transition: background .2s ease;
-  }
-  .ep-item:hover .ep-item-play,
-  .ep-item.active .ep-item-play { background: rgba(255,255,255,.3); }
-  .ep-item-play svg { width: 13px; height: 13px; fill: #fff; margin-left: 1px; }
-  .ep-item-title {
-    font-size: 14px; font-weight: 600; letter-spacing: .3px;
-    text-transform: uppercase; line-height: 1.3;
-  }
-
-  /* ===== RESPONSIVE ===== */
-  @media (max-width: 680px) {
-    .ep-head { grid-template-columns: 1fr; gap: 16px; padding: 18px; }
-    .ep-info { padding-right: 0; }
-    .ep-controls { position: static; margin-top: 14px; justify-content: flex-end; }
-    .ep-desc, .ep-progress-wrap { max-width: 100%; }
-    .ep-cover-box { max-width: 260px; margin: 0 auto; }
-    .ep-item { padding: 12px 18px; }
-    .ep-item-title { font-size: 13px; }
-    .ep-list { max-height: 280px; }
-  }
-</style>
-
-
-<svg width="0" height="0" style="position:absolute">
-  <symbol id="ep-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></symbol>
-  <symbol id="ep-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></symbol>
-  <symbol id="ep-prev" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></symbol>
-  <symbol id="ep-next" viewBox="0 0 24 24"><path d="M16 6h2v12h-2zM6 18l8.5-6L6 6z"/></symbol>
-</svg>
-
-<div class="exma-player" id="exmaPlayer">
-
-  
-  <audio id="epAudio" preload="none"></audio>
-
-  
-  <div class="ep-head">
-
-    
-    <div class="ep-cover-box" id="epCoverBox">
-      <img class="ep-cover" id="epCover" src="" alt="Portada del audio">
-      <button class="ep-bigplay" id="epBigPlay" aria-label="Reproducir">
-        <svg><use href="#ep-play"/></svg>
-      </button>
-    </div>
-
-    
-    <div class="ep-info">
-      <div class="ep-eyebrow">Archivo ·</div>
-      <h2 class="ep-title">Ediciones Pasadas</h2>
-      <p class="ep-desc">La mejor forma de entender lo que es EXMA es escucharlo. Estos son algunos de los momentos más poderosos de nuestras ediciones anteriores.</p>
-
-      <div class="ep-now" id="epNow"></div>
-
-      
-      <div class="ep-progress-wrap">
-        <span class="ep-time" id="epCurrent">0:00</span>
-        <div class="ep-bar" id="epBar"><div class="ep-bar-fill" id="epBarFill"></div></div>
-        <span class="ep-time" id="epDuration">0:00</span>
-      </div>
-
-      
-      <div class="ep-controls">
-        <button class="ep-ctrl" id="epPrev" aria-label="Anterior"><svg><use href="#ep-prev"/></svg></button>
-        <button class="ep-ctrl" id="epNext" aria-label="Siguiente"><svg><use href="#ep-next"/></svg></button>
-        <button class="ep-ctrl play" id="epPlayTop" aria-label="Reproducir"><svg><use id="epPlayTopIcon" href="#ep-play"/></svg></button>
-      </div>
-    </div>
-  </div>
-
-  
-  <div class="ep-list" id="epList">
-
-    <button class="ep-item"
-            data-src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91d20948ca8386eb010dd8.mp3"
-            data-cover="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91d2c24fe741935433c0db.png">
-      <span class="ep-num">1</span>
-      <span class="ep-item-play"><svg><use href="#ep-play"/></svg></span>
-      <span class="ep-item-title">Sistemas autónomos: Cómo delegar la estrategia de tu negocio en Inteligencia Artificial - Vishen Lakhiani</span>
-    </button>
-
-    <button class="ep-item"
-            data-src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91d1c74fe741935433a7ef.mp3"
-            data-cover="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91d318722007d7ff110fdc.png">
-      <span class="ep-num">2</span>
-      <span class="ep-item-play"><svg><use href="#ep-play"/></svg></span>
-      <span class="ep-item-title">La energía de la riqueza: Cómo activar tu abundancia financiera mediante principios y procesos - Álvaro Luque</span>
-    </button>
-
-    <button class="ep-item"
-            data-src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91d19f66b21ba469aecf22.mp3"
-            data-cover="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91d33548ca8386eb012ac8.png">
-      <span class="ep-num">3</span>
-      <span class="ep-item-play"><svg><use href="#ep-play"/></svg></span>
-      <span class="ep-item-title">Marcas Tótem: Cómo conectar con tus clientes a través de un propósito humano - Andy Stalman</span>
-    </button>
-
-    <button class="ep-item"
-            data-src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91d1a4058f231d6af20f6d.mp3"
-            data-cover="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91d33148ca8386eb012a84.png">
-      <span class="ep-num">4</span>
-      <span class="ep-item-play"><svg><use href="#ep-play"/></svg></span>
-      <span class="ep-item-title">Fórmulas de viralidad: Cómo dominar el storytelling para multiplicar tus visitas online - Brendan Kane</span>
-    </button>
-
-    <button class="ep-item"
-            data-src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91d1a84fe741935433a499.mp3"
-            data-cover="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91d32e48ca8386eb012a26.png">
-      <span class="ep-num">5</span>
-      <span class="ep-item-play"><svg><use href="#ep-play"/></svg></span>
-      <span class="ep-item-title">La ventaja de la disciplina: Cómo alinear hábitos diarios y mentalidad para escalar tu negocio - Coral Mujaes</span>
-    </button>
-
-    <button class="ep-item"
-            data-src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91d1cc68e0c51c0cadf9f5.mp3"
-            data-cover="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91d3140914f11215f2fa46.png">
-      <span class="ep-num">6</span>
-      <span class="ep-item-play"><svg><use href="#ep-play"/></svg></span>
-      <span class="ep-item-title">El dilema del crecimiento: Cómo escalar tu empresa a través de sus etapas críticas - Daniel Marcos</span>
-    </button>
-
-    <button class="ep-item"
-            data-src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91d1d068e0c51c0cadfa38.mp3"
-            data-cover="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91d3104fe741935433c852.png">
-      <span class="ep-num">7</span>
-      <span class="ep-item-play"><svg><use href="#ep-play"/></svg></span>
-      <span class="ep-item-title">Mentalidad "All In": Cómo superar el "No" y financiar tu visión empresarial - Fernando Anzures</span>
-    </button>
-
-    <button class="ep-item"
-            data-src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91d1d5854f9696b3bb76bb.mp3"
-            data-cover="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91d30b934a62aec868bc87.png">
-      <span class="ep-num">8</span>
-      <span class="ep-item-play"><svg><use href="#ep-play"/></svg></span>
-      <span class="ep-item-title">El poder del enfoque: Cómo encontrar tu perspectiva única y destacar en el mercado - Humberto Gutiérrez</span>
-    </button>
-
-    <button class="ep-item"
-            data-src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91d1da626105f955a43dd8.mp3"
-            data-cover="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91d2e448ca8386eb012385.png">
-      <span class="ep-num">9</span>
-      <span class="ep-item-play"><svg><use href="#ep-play"/></svg></span>
-      <span class="ep-item-title">De copia a original soberano: Cómo dominar tu mente para manifestar abundancia extraordinaria - Ismael Cala</span>
-    </button>
-
-    <button class="ep-item"
-            data-src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91d1df626105f955a43e8a.mp3"
-            data-cover="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91d2e066b21ba469aeef26.png">
-      <span class="ep-num">10</span>
-      <span class="ep-item-play"><svg><use href="#ep-play"/></svg></span>
-      <span class="ep-item-title">El verdadero valor del fundador: Quién te vuelves mientras construyes tu imperio financiero - Jack Levy</span>
-    </button>
-
-    <button class="ep-item"
-            data-src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91d1e766b21ba469aed582.mp3"
-            data-cover="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91d2f248ca8386eb01253c.png">
-      <span class="ep-num">11</span>
-      <span class="ep-item-play"><svg><use href="#ep-play"/></svg></span>
-      <span class="ep-item-title">Sinergia familiar: Cómo romper ciclos de negligencia emocional y liderar desde la reconciliación - Jorge Serratos</span>
-    </button>
-
-    <button class="ep-item"
-            data-src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91d1ed058f231d6af215d3.mp3"
-            data-cover="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91d2d768e0c51c0cae10f1.png">
-      <span class="ep-num">12</span>
-      <span class="ep-item-play"><svg><use href="#ep-play"/></svg></span>
-      <span class="ep-item-title">Marketing democratizado: Cómo usar Inteligencia Artificial para automatizar tus ventas sin altos costos - Juan Diego Cepeda</span>
-    </button>
-
-    <button class="ep-item"
-            data-src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91d1f466b21ba469aed6fe.mp3"
-            data-cover="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91d2d3722007d7ff1105bd.png">
-      <span class="ep-num">13</span>
-      <span class="ep-item-play"><svg><use href="#ep-play"/></svg></span>
-      <span class="ep-item-title">Ejecución sobre competencia: Cómo enfocar la estrategia interna de tu empresa para un crecimiento constante - Lashawn Merritt</span>
-    </button>
-
-    <button class="ep-item"
-            data-src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91d1b2934a62aec8689c1f.mp3"
-            data-cover="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91d32a722007d7ff111146.png">
-      <span class="ep-num">14</span>
-      <span class="ep-item-play"><svg><use href="#ep-play"/></svg></span>
-      <span class="ep-item-title">Marcas con identidad: Cómo fusionar la cultura, el diseño y el éxito comercial - Lucy, Prince y Carla</span>
-    </button>
-
-    <button class="ep-item"
-            data-src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91d1f9722007d7ff10f119.mp3"
-            data-cover="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91d2ce0914f11215f2f378.png">
-      <span class="ep-num">15</span>
-      <span class="ep-item-play"><svg><use href="#ep-play"/></svg></span>
-      <span class="ep-item-title">Disrupción Omnicanal: Cómo adaptar tu modelo de negocio a las nuevas demandas del comercio digital - Nabil Malouli</span>
-    </button>
-
-    <button class="ep-item"
-            data-src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91d1b6626105f955a43b58.mp3"
-            data-cover="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91d325626105f955a45ca8.png">
-      <span class="ep-num">16</span>
-      <span class="ep-item-play"><svg><use href="#ep-play"/></svg></span>
-      <span class="ep-item-title">De soñadores a hacedores: El poder de la comunidad latina y tu mapa de autotransformación - Paola Barquet</span>
-    </button>
-
-    <button class="ep-item"
-            data-src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91d1bc626105f955a43bd7.mp3"
-            data-cover="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91d322722007d7ff111060.png">
-      <span class="ep-num">17</span>
-      <span class="ep-item-play"><svg><use href="#ep-play"/></svg></span>
-      <span class="ep-item-title">Alianzas de alto valor: Cómo escalar tu visión empresarial junto a marcas de lujo - Perla, Elena y Robert</span>
-    </button>
-
-    <button class="ep-item"
-            data-src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91d205722007d7ff10f1ee.mp3"
-            data-cover="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91d2c648ca8386eb01206d.png">
-      <span class="ep-num">18</span>
-      <span class="ep-item-play"><svg><use href="#ep-play"/></svg></span>
-      <span class="ep-item-title">Tu propia microeconomía: Cómo reprogramar tu psicología y evitar distracciones para multiplicar ingresos - Tati Arias</span>
-    </button>
-
-    <button class="ep-item"
-            data-src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91d201626105f955a440f0.mp3"
-            data-cover="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91d2ca4fe741935433c1b7.png">
-      <span class="ep-num">19</span>
-      <span class="ep-item-play"><svg><use href="#ep-play"/></svg></span>
-      <span class="ep-item-title">Del miedo al impacto masivo: Cómo confiar en tu llamado interior y servir con tus talentos - Tania Karam</span>
-    </button>
-
-    <button class="ep-item"
-            data-src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91d1c14fe741935433a747.mp3"
-            data-cover="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91d31e68e0c51c0cae1781.png">
-      <span class="ep-num">20</span>
-      <span class="ep-item-play"><svg><use href="#ep-play"/></svg></span>
-      <span class="ep-item-title">El patrón Dickens: Cómo reprogramar tu mente y destruir tus creencias limitantes - Tomás Gracia</span>
-    </button>
-
-  </div>
-</div>
-
-<script>
-(function () {
-  function initExmaPlayer() {
-    var root = document.getElementById('exmaPlayer');
-    if (!root || root.dataset.init === 'true') return;
-    root.dataset.init = 'true';
-
-    var audio    = document.getElementById('epAudio');
-    var cover    = document.getElementById('epCover');
-    var box      = document.getElementById('epCoverBox');
-    var bigPlay  = document.getElementById('epBigPlay');
-    var playTop  = document.getElementById('epPlayTop');
-    var playIcon = document.getElementById('epPlayTopIcon');
-    var prevBtn  = document.getElementById('epPrev');
-    var nextBtn  = document.getElementById('epNext');
-    var now      = document.getElementById('epNow');
-    var barWrap  = document.getElementById('epBar');
-    var barFill  = document.getElementById('epBarFill');
-    var curTime  = document.getElementById('epCurrent');
-    var durTime  = document.getElementById('epDuration');
-    var items    = Array.prototype.slice.call(document.querySelectorAll('.ep-item'));
-
-    var current = 0;
-
-    function fmt(s) {
-      if (isNaN(s) || !isFinite(s)) return '0:00';
-      var m = Math.floor(s / 60);
-      var sec = Math.floor(s % 60);
-      return m + ':' + (sec < 10 ? '0' + sec : sec);
-    }
-
-    // Carga una pista (sin reproducir aún salvo autoplay)
-    function load(index, autoplay) {
-      if (index < 0) index = items.length - 1;
-      if (index >= items.length) index = 0;
-      current = index;
-
-      var it = items[current];
-      audio.src = it.dataset.src;
-      cover.src = it.dataset.cover || '';
-      now.textContent = it.querySelector('.ep-item-title').textContent;
-
-      barFill.style.width = '0%';
-      curTime.textContent = '0:00';
-      durTime.textContent = '0:00';
-
-      items.forEach(function (el) { el.classList.remove('active'); });
-      it.classList.add('active');
-
-      if (autoplay) play();
-      else {
-        box.classList.remove('is-playing');
-        setPlayIcon(false);
-        audio.pause();
-      }
-    }
-
-    function setPlayIcon(playing) {
-      playIcon.setAttribute('href', playing ? '#ep-pause' : '#ep-play');
-    }
-
-    function play() {
-      box.classList.add('is-playing');
-      audio.play().catch(function(){});
-    }
-
-    // Cargar la primera pista al inicio (con su portada, sin reproducir)
-    load(0, false);
-
-    // Portada / botón central → reproduce el actual
-    cover.addEventListener('click', function () {
-      if (audio.paused) play(); else audio.pause();
-    });
-    bigPlay.addEventListener('click', play);
-
-    // Botón play de arriba
-    playTop.addEventListener('click', function () {
-      if (audio.paused) play(); else audio.pause();
-    });
-
-    // Sincronizar iconos con el estado real
-    audio.addEventListener('play', function () {
-      box.classList.add('is-playing'); setPlayIcon(true);
-    });
-    audio.addEventListener('pause', function () {
-      box.classList.remove('is-playing'); setPlayIcon(false);
-    });
-
-    // Anterior / Siguiente
-    prevBtn.addEventListener('click', function () { load(current - 1, true); });
-    nextBtn.addEventListener('click', function () { load(current + 1, true); });
-
-    // Al terminar, pasa a la siguiente pista
-    audio.addEventListener('ended', function () { load(current + 1, true); });
-
-    // Progreso
-    audio.addEventListener('loadedmetadata', function () {
-      durTime.textContent = fmt(audio.duration);
-    });
-    audio.addEventListener('timeupdate', function () {
-      if (audio.duration) {
-        barFill.style.width = (audio.currentTime / audio.duration * 100) + '%';
-        curTime.textContent = fmt(audio.currentTime);
-      }
-    });
-
-    // Buscar en la barra
-    barWrap.addEventListener('click', function (e) {
-      if (!audio.duration) return;
-      var rect = barWrap.getBoundingClientRect();
-      var ratio = (e.clientX - rect.left) / rect.width;
-      audio.currentTime = ratio * audio.duration;
-    });
-
-    // Clic en un item de la lista → carga y reproduce
-    items.forEach(function (it, i) {
-      it.addEventListener('click', function () { load(i, true); });
-    });
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initExmaPlayer);
-  } else {
-    initExmaPlayer();
-  }
-})();
-</script>
-      </div>
-    </section>
-
-    <!-- Galería & Hitos -->
-    <section id="galeria" class="sec" style="background: #0b0c14;">
-      <div class="shell">
-        <div class="sec-head">
-          <div class="sec-kicker">¿Te estás perdiendo esto?</div>
-          <h2 class="sec-title">Galería EXMA Miami</h2>
-        </div>
-        <style>
-  .exma-gallery {
-    /* ====== EDITABLE ====== */
-    --acento: #7a1fa2;        /* azul de las pestañas activas */
-    --texto:  #000410;
-    --radio:  16px;           /* redondeo de las imágenes */
-    --gap:    14px;           /* separación entre imágenes */
-
-    font-family: 'Archivo', sans-serif;
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 10px;
-  }
-  .exma-gallery * { box-sizing: border-box; }
-
-  /* ===== PESTAÑAS ===== */
-  .gal-tabs {
-    display: flex; flex-wrap: wrap; justify-content: center;
-    gap: 6px 22px; margin-bottom: 22px;
-  }
-  .gal-tab {
-    background: none; border: none; cursor: pointer;
-    font-family: inherit; font-size: 18px; font-weight: 700;
-    color: var(--acento); padding: 4px 2px;
-    position: relative; transition: color .2s ease;
-  }
-  .gal-tab.active { color: var(--texto); }
-  .gal-tab.active::after {
-    content: ''; position: absolute; left: 0; right: 0; bottom: -4px;
-    height: 3px; background: var(--acento); border-radius: 2px;
-  }
-
-  /* ===== MASONRY POR COLUMNAS ===== */
-  .gal-grid {
-    column-count: 3;          /* nº de columnas en escritorio */
-    column-gap: var(--gap);
-  }
-  .gal-item {
-    break-inside: avoid;      /* que una imagen no se parta entre columnas */
-    margin-bottom: var(--gap);
-    border-radius: var(--radio);
-    overflow: hidden;
-    cursor: pointer;
-    display: block;
-  }
-  .gal-item img {
-    width: 100%;
-    height: auto;             /* ← conserva la proporción REAL de la imagen */
-    display: block;
-    transition: transform .5s ease;
-  }
-  .gal-item:hover img { transform: scale(1.05); }
-
-  .gal-item.hidden { display: none; }
-  /* animación al filtrar */
-  .gal-item { animation: galIn .35s ease; }
-  @keyframes galIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-
-  /* ===== RESPONSIVE ===== */
-  @media (max-width: 720px) {
-    .gal-grid { column-count: 2; }
-    .gal-tab { font-size: 16px; }
-  }
-  @media (max-width: 440px) {
-    .gal-grid { column-count: 1; }
-  }
-</style>
-
-<div class="exma-gallery">
-
-  
-  <div class="gal-tabs">
-    <button class="gal-tab active" data-filter="todas">Toda la galería</button>
-    <button class="gal-tab" data-filter="lideres">Líderes en EXMA</button>
-    <button class="gal-tab" data-filter="networking">Networking</button>
-    <button class="gal-tab" data-filter="talleres">Talleres</button>
-  </div>
-
-  
-  <div class="gal-grid" id="galGrid">
-
-    <div class="gal-item" data-cat="lideres">
-      <img src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91cf9c68e0c51c0cadc16c.png" alt="EXMA" loading="lazy">
-    </div>
-
-    <div class="gal-item" data-cat="networking">
-      <img src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91cf9b058f231d6af1da41.png" alt="EXMA" loading="lazy">
-    </div>
-
-    <div class="gal-item" data-cat="talleres">
-      <img src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91cf9b4fe7419354336dac.png
-" alt="EXMA" loading="lazy">
-    </div>
-
-    <div class="gal-item" data-cat="networking">
-      <img src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91cf9c0914f11215f2a190.png" alt="EXMA" loading="lazy">
-    </div>
-
-    <div class="gal-item" data-cat="networking">
-      <img src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91cf9b854f9696b3bb3e52.png" alt="EXMA" loading="lazy">
-    </div>
-
-    <div class="gal-item" data-cat="lideres">
-      <img src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91cf99722007d7ff10b156.png" alt="EXMA" loading="lazy">
-    </div>
-
-    <div class="gal-item" data-cat="networking">
-      <img src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91cf9a854f9696b3bb3e24.png" alt="EXMA" loading="lazy">
-    </div>
-
-    <div class="gal-item" data-cat="talleres">
-      <img src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91cf99e5b7829125e3a243.png" alt="EXMA" loading="lazy">
-    </div>
-
-    <div class="gal-item" data-cat="lideres">
-      <img src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91cf99058f231d6af1d9f6.png
-" alt="EXMA" loading="lazy">
-    </div>
-    
-    
-    
-    
-    <div class="gal-item" data-cat="lideres">
-      <img src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91cf98854f9696b3bb3dfa.png" alt="EXMA" loading="lazy">
-    </div>
-    <div class="gal-item" data-cat="lideres">
-      <img src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91cf980914f11215f2a11e.png" alt="EXMA" loading="lazy">
-    </div>
-    <div class="gal-item" data-cat="lideres">
-      <img src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91cf97626105f955a4027a.png" alt="EXMA" loading="lazy">
-    </div>
-    
-    <div class="gal-item" data-cat="lideres">
-      <img src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91cf95722007d7ff10b0d9.png
-" alt="EXMA" loading="lazy">
-    </div>
-    <div class="gal-item" data-cat="lideres">
-      <img src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91cf95854f9696b3bb3db1.png" alt="EXMA" loading="lazy">
-    </div>
-    <div class="gal-item" data-cat="lideres">
-      <img src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91cf95e5b7829125e3a18a.png" alt="EXMA" loading="lazy">
-    </div>
-    <div class="gal-item" data-cat="lideres">
-      <img src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91cf9568e0c51c0cadc073.png" alt="EXMA" loading="lazy">
-    </div>
-    <div class="gal-item" data-cat="lideres">
-      <img src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91cf95934a62aec8686284.png" alt="EXMA" loading="lazy">
-    </div>
-    <div class="gal-item" data-cat="lideres">
-      <img src="https://assets.cdn.filesafe.space/xPTARBp790aiBRMPWahZ/media/6a91cf95854f9696b3bb3da8.png" alt="EXMA" loading="lazy">
-    </div>
-    
-    
-
-  </div>
-</div>
-
-<script>
-(function () {
-  function initGallery() {
-    var root = document.querySelector('.exma-gallery');
-    if (!root || root.dataset.init === 'true') return;
-    root.dataset.init = 'true';
-
-    var tabs  = root.querySelectorAll('.gal-tab');
-    var items = root.querySelectorAll('.gal-item');
-
-    tabs.forEach(function (tab) {
-      tab.addEventListener('click', function () {
-        var filter = tab.dataset.filter;
-        tabs.forEach(function (t) { t.classList.remove('active'); });
-        tab.classList.add('active');
-        items.forEach(function (it) {
-          var show = (filter === 'todas' || it.dataset.cat === filter);
-          it.classList.toggle('hidden', !show);
-          if (show) { it.style.animation = 'none'; void it.offsetWidth; it.style.animation = ''; }
-        });
-      });
-    });
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initGallery);
-  } else {
-    initGallery();
-  }
-})();
-</script>
-
-        <div class="milestones-grid" style="margin-top: 42px;">
-          <div class="milestone-card">
-            <span class="milestone-year">2025 · Miami</span>
-            <h3>Vishen Lakhiani en EXMA Miami</h3>
-            <p>Referente global de educación transformacional y crecimiento frente a más de 3,000 líderes, empresarios y marcas personales de LATAM en Miami.</p>
+        <div class="ig-campaign-banner">
+          <div class="ig-campaign-copy">
+            <div class="ig-campaign-kicker">
+              <i class="fa-brands fa-instagram"></i> Publicación Oficial de Campaña · @edwardjimenezia
+            </div>
+            <p>
+              «Hay escenarios que marcan un antes y un después. Por EXMA han pasado leyendas como Tom Brady y Tony Robbins; este 4 y 5 de diciembre llegan Romero Britto, Andrés López y Vilma Núñez. <strong>Y tengo una noticia: yo también estaré en ese escenario.</strong> Tengo una sorpresa especial y <strong>20% OFF</strong> para quienes me acompañen en Miami.»
+            </p>
           </div>
-          <div class="milestone-card">
-            <span class="milestone-year">2024 · 10 Años</span>
-            <h3>Tom Brady llenó el Watsco Center</h3>
-            <p>EXMA 10 Años reunió a más de 3,000 líderes, emprendedores, CEOs y marketers en el Watsco Center de Miami.</p>
-          </div>
-          <div class="milestone-card">
-            <span class="milestone-year">2022 · CDMX</span>
-            <h3>Tony Robbins · Récord Guinness</h3>
-            <p>"EXMA Mentes sin Miedo" logró Récord Guinness con más de 10,000 asistentes en el evento de marketing más grande de LATAM.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Preguntas Frecuentes -->
-    <section class="sec">
-      <div class="shell">
-        <div class="sec-head">
-          <div class="sec-kicker">Preguntas Frecuentes</div>
-          <h2 class="sec-title">Xtraordinary Humans Miami 2026</h2>
-        </div>
-        <div class="faq-list">
-          <details class="faq-item" open>
-            <summary class="faq-q">¿Qué es Xtraordinary Humans EXMA Miami 2026?</summary>
-            <div class="faq-a">Es el evento de marketing, ventas, inteligencia artificial, marca personal, negocios y public speaking más importante de Miami para la comunidad hispana. Dos días completos de conferencias, paneles y networking estratégico.</div>
-          </details>
-          <details class="faq-item">
-            <summary class="faq-q">¿Cuándo y dónde es el evento?</summary>
-            <div class="faq-a">Los días 4 y 5 de diciembre de 2026 en el Downtown Event Center – Fort Lauderdale / Miami, Florida.</div>
-          </details>
-          <details class="faq-item">
-            <summary class="faq-q">¿Cómo funciona la compra con el 20% OFF en esta página?</summary>
-            <div class="faq-a">Elige tu membresía (Básica $159 USD, Oro $399 USD o VIP $2,799 USD), deja tu Nombre, Mail y WhatsApp, y Edward Jiménez (Speaker Oficial & Partner de EXMA Global) recibe tu solicitud al instante para enviarte tu enlace de pago oficial con el 20% de descuento aplicado.</div>
-          </details>
-          <details class="faq-item">
-            <summary class="faq-q">¿Puedo llevar a mi equipo o pedir factura corporativa?</summary>
-            <div class="faq-a">Sí, Xtraordinary Humans está diseñado para asistir con socios, líderes de marketing y equipos comerciales. Al enviarnos tus datos también podemos enviarte enlaces por múltiples boletos.</div>
-          </details>
-          <details class="faq-item">
-            <summary class="faq-q">¿El evento es presencial?</summary>
-            <div class="faq-a">El evento es 100% presencial en Miami/Fort Lauderdale los días 4 y 5 de diciembre, e incluye acceso a grabaciones posteriores según tu membresía (3 meses en Básica, 6 meses en Oro y 12 meses en VIP).</div>
-          </details>
+          <a href="https://www.instagram.com/p/Df05ZWMg9Y4/" target="_blank" rel="noopener noreferrer" class="ig-btn">
+            <i class="fa-brands fa-instagram"></i> Ver Campaña en Instagram ↗
+          </a>
         </div>
 
-        <div style="text-align:center; margin-top:34px;">
-          <button type="button" class="cta-x" data-select-tier="Oro">
-            <span class="cta-x-main">Solicitar Mi Boleto Con 20% OFF</span>
-            <span class="cta-x-sub">Solo ingresa tu Nombre, Mail y WhatsApp</span>
-          </button>
+        <div class="reels-grid">
+          <!-- Reel 3 (Campaña Oficial IG: Hard Rock Miami) -->
+          <article class="reel-card reel-card-featured">
+            <video controls loading="lazy" preload="none" playsinline width="360" height="640" poster="/static/exmaboletos/reels/reel3_poster.jpg">
+              <source src="/static/exmaboletos/reels/reel3.mp4" type="video/mp4">
+            </video>
+            <header>
+              <span class="reel-badge">Campaña Oficial IG · Hard Rock Miami</span>
+              <h3>Hay salas a las que no entra cualquiera</h3>
+            </header>
+            <div class="reel-card-body">
+              <p><strong>De qué trata:</strong> Grabado desde el Seminole Hard Rock Hotel ("las guitarras del Hard Rock") en Miami, Edward anuncia su selección oficial como speaker de EXMA Miami 2026 junto a Fernando Anzures, compartiendo escenario en la historia de un recinto con Récord Guinness y figuras como Tom Brady, Tony Robbins, Romero Britto, Andrés López y Vilma Núñez.</p>
+              <ul class="reel-bullets">
+                <li>✓ Selección oficial de Edward Jiménez en el escenario principal de EXMA Miami.</li>
+                <li>✓ Sorpresa especial de alto valor, mentorías e información preparada junto a Fernando Anzures.</li>
+                <li>✓ Video activo en campaña de pago en Instagram para acompañar a Edward en la sala.</li>
+              </ul>
+              <details class="reel-transcript">
+                <summary>Leer transcripción completa del Reel (85s) <span>▾</span></summary>
+                <p>«Hay salas a las que no entra cualquiera. Por el escenario de EXMA han pasado figuras como Tom Brady —cómo no recordar ese momento—, con Tony Robbins, con Vishen Lakhiani, recintos totalmente llenos y un Récord Guinness. Este 4 y 5 de diciembre la sala vuelve a abrirse en Miami, Florida, y esta vez va a estar Romero Britto —uno de los artistas más reconocidos del mundo en Miami—, Andrés López —el creador de La Pelota de Letras— y quién no va a reconocer a Vilma Núñez, referente del marketing en español. Y esta vez tendré el honor de participar y estar en el escenario. Hoy, desde el Hard Rock en Miami, Florida —en el famoso y emblemático hotel de las guitarras del Hard Rock—, fui seleccionado para poder participar en ese magno evento. Así es que los espero junto con Fernando Anzures, que es el fundador y CEO de EXMA, que les tenemos una sorpresa súper preparada para todos esos empresarios y todas esas figuras que nos van a acompañar para darte altísimo valor, mentorías e información súper relevante que los va a convertir por completo en unos cracks. Así es que no lo duden más y contáctenme en la bio que les voy a dejar un enlace directo para que me acompañen directamente en el escenario junto a estas grandes personalidades. ¡Nos vemos pronto!»</p>
+              </details>
+            </div>
+            <footer>
+              <button type="button" class="nav-cta" style="width:100%;" data-select-tier="Oro">Acompañar a Edward con 20% OFF →</button>
+              <a href="https://www.instagram.com/p/Df05ZWMg9Y4/" target="_blank" rel="noopener noreferrer" class="btn-ghost" style="width:100%; justify-content:center; padding:9px 14px; font-size:13px;">
+                <i class="fa-brands fa-instagram"></i> Ver Post Oficial en IG (@edwardjimenezia) ↗
+              </a>
+            </footer>
+          </article>
+
+          <!-- Reel 1 (ROI & Experiencia VIP) -->
+          <article class="reel-card">
+            <video controls loading="lazy" preload="none" playsinline width="360" height="640" poster="/static/exmaboletos/reels/reel1_poster.jpg">
+              <source src="/static/exmaboletos/reels/reel1.mp4" type="video/mp4">
+            </video>
+            <header>
+              <span class="reel-badge">ROI &amp; Experiencia VIP</span>
+              <h3>2 Días en Miami te ahorran 2 años de prueba y error</h3>
+            </header>
+            <div class="reel-card-body">
+              <p><strong>De qué trata:</strong> Explica por qué reunirte con más de 2,500 empresarios latinos el 4 y 5 de diciembre acelera resultados en IA, marketing, ventas y marca personal —y detalla qué incluye dar el salto a la membresía VIP.</p>
+              <ul class="reel-bullets">
+                <li>✓ Lo más valioso ocurre en los pasillos cerrando alianzas con referentes como Álvaro Luque, Cris Urzúa y David Gómez.</li>
+                <li>✓ Accesos desde $159 USD (Básica) con 20% OFF vigente hoy.</li>
+                <li>✓ Nivel VIP: cena privada en restaurante de 2 Estrellas Michelin, galería de Romero Britto y experiencia náutica en Miami.</li>
+              </ul>
+              <details class="reel-transcript">
+                <summary>Leer transcripción completa del Reel (68s) <span>▾</span></summary>
+                <p>«Dos días en Miami te pueden ahorrar dos años de prueba y error. El 4 y 5 de diciembre más de 2,500 empresarios latinos van a estar en la misma sala aprendiendo lo que ya funciona en inteligencia artificial, marketing, ventas y marca personal de quienes ya lo hicieron, como Álvaro Luque, Cris Urzúa, David Gómez —el autor de Bueno, Bonito y Carito— y muchísimo más. Lo más valioso no pasa en el escenario, pasa en el pasillo: ahí es donde se cierran las alianzas. Tu acceso empieza en $159 dólares y la sala VIP está reservada para ti. Sígueme en mis redes sociales que seguramente tengo un buen descuento para ti. Y si vas por el VIP: cena privada con los speakers en un restaurante con dos estrellas Michelin, recorrido privado en la galería de Romero Britto y una experiencia náutica en Miami. Hoy tienes un descuento especial: solo tienes que oprimir el botón de mi bio y tendrás el link para que este 4 y 5 de diciembre estés conmigo en la sala. Toca el botón, elige la mejor membresía y nos vemos en Miami. ¡Sé un DOER!»</p>
+              </details>
+            </div>
+            <footer>
+              <button type="button" class="nav-cta" style="width:100%;" data-select-tier="VIP">Solicitar Acceso VIP o Básica ($159) →</button>
+            </footer>
+          </article>
+
+          <!-- Reel 2 (Las 3 Excusas) -->
+          <article class="reel-card">
+            <video controls loading="lazy" preload="none" playsinline width="360" height="640" poster="/static/exmaboletos/reels/reel2_poster.jpg">
+              <source src="/static/exmaboletos/reels/reel2.mp4" type="video/mp4">
+            </video>
+            <header>
+              <span class="reel-badge">Cero Excusas · Mentalidad Doer</span>
+              <h3>Las 3 excusas para no ir a EXMA (y por qué ninguna te sirve)</h3>
+            </header>
+            <div class="reel-card-body">
+              <p><strong>De qué trata:</strong> Rebate directamente las 3 barreras mentales más comunes de los empresarios antes de decidir su asistencia —dinero, tiempo y "luego lo veo en redes"— invitando a ir con todo su equipo.</p>
+              <ul class="reel-bullets">
+                <li>✓ Excusa 1 ("Está caro"): Desde $159 USD; un cliente, una alianza o una sola idea aplicable el lunes paga el boleto.</li>
+                <li>✓ Excusa 2 ("No tengo tiempo"): Si tu empresa no opera 2 días sin ti, en EXMA aprendes justo cómo resolverlo.</li>
+                <li>✓ Excusa 3 ("Lo veo en redes"): Las alianzas reales se cierran frente a frente en el pasillo junto a Mauricio Duque, Spencer Hoffmann y Santos Lever.</li>
+              </ul>
+              <details class="reel-transcript">
+                <summary>Leer transcripción completa del Reel (67s) <span>▾</span></summary>
+                <p>«Te voy a decir las tres excusas que pone la gente para no ir a EXMA Miami y por qué ninguna te sirve. Excusa número 1: "Está muy caro". El acceso empieza con $159 dólares. Piénsalo así: si en uno de esos dos días sale un solo cliente, una sola alianza o una sola idea que puedas aplicar el lunes, ya se pagó. Excusa número 2: "No tengo tiempo". Son dos días: viernes 4 y sábado 5 de diciembre. Si tu negocio no puede funcionar dos días sin ti, ese es justo el problema que vas a aprender a resolver. Excusa número 3: "Lo veo después en redes". Las alianzas, recuerda, se cierran en el pasillo, en un café o frente a frente. Yo voy a estar en ese escenario junto a Mauricio Duque, Spencer Hoffmann, Santos Lever y más de 2,500 empresarios latinos que decidieron no poner excusas. Y si vas con tu equipo, muchísimo mejor todavía: vuelven todos hablando el mismo idioma. Hoy hay un descuento especial, solo tienes que tocar en la bio y tenemos un enlace directo para que encuentres un descuento para ti. Deja las excusas para el otro año. ¡Nos vemos en EXMA Miami!»</p>
+              </details>
+            </div>
+            <footer>
+              <button type="button" class="nav-cta" style="width:100%;" data-select-tier="Oro">Pedir Mi Enlace Con 20% OFF →</button>
+            </footer>
+          </article>
         </div>
       </div>
     </section>
@@ -2591,6 +2246,51 @@
           submitBtn.disabled = false;
           submitBtn.textContent = prevTxt;
         }
+      });
+    })();
+
+    // Lazy load offscreen <video loading="lazy"> fallback + reproducción exclusiva de un reel a la vez
+    (function () {
+      const videos = Array.from(document.querySelectorAll('video[loading="lazy"]'));
+      const supportsLazyMedia = Object.hasOwn(HTMLMediaElement.prototype, 'loading');
+      if (!supportsLazyMedia && videos.length) {
+        const mediaObserver = new IntersectionObserver((entries, observer) => {
+          for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            const media = entry.target;
+            if (media.dataset.poster) {
+              media.poster = media.dataset.poster;
+              delete media.dataset.poster;
+            }
+            if (media.dataset.preload) {
+              media.preload = media.dataset.preload;
+              delete media.dataset.preload;
+            }
+            media.load();
+            observer.unobserve(media);
+          }
+        }, { rootMargin: '200px 0px' });
+
+        for (const media of videos) {
+          if (media.hasAttribute('poster')) {
+            media.dataset.poster = media.getAttribute('poster');
+            media.removeAttribute('poster');
+          }
+          if (media.hasAttribute('preload') && media.getAttribute('preload') !== 'none') {
+            media.dataset.preload = media.getAttribute('preload');
+          }
+          media.preload = 'none';
+          mediaObserver.observe(media);
+        }
+      }
+
+      const allVideos = document.querySelectorAll('video');
+      allVideos.forEach((vid) => {
+        vid.addEventListener('play', () => {
+          allVideos.forEach((other) => {
+            if (other !== vid && !other.paused) other.pause();
+          });
+        });
       });
     })();
   </script>
