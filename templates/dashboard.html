@@ -755,26 +755,8 @@
     </button>
   </div>
 
-  <!-- Bottom: Meta KPI Semanal Setter->Closer 1,000 -->
+  <!-- Bottom: Cerrar sesión -->
   <div class="sidebar-bottom">
-    <div class="p-3 rounded-xl mb-2" style="background:rgba(0,229,255,0.05); border:1px solid rgba(0,229,255,0.16);">
-      <div class="flex items-center justify-between mb-1.5">
-        <span class="text-cyan-300 text-[11px] font-bold uppercase">🏆 Embudo Semanal KPI</span>
-        <span id="sidebar-kpi-sales" class="text-[11px] font-extrabold text-emerald-400">Meta: US$372+</span>
-      </div>
-      <div class="text-[11px] text-slate-300 leading-relaxed">
-        <strong>1,000</strong> Contactos &rarr; <strong>150</strong> Hablan &rarr; <strong>30</strong> Calificados &rarr; <strong>5+</strong> Cierres
-      </div>
-      <div class="mt-1.5 flex items-center justify-between text-[10px]">
-        <span class="text-emerald-300 font-bold">💰 Bolsillo: US$372–US$745+</span>
-        <span id="sidebar-kpi-touches" class="text-cyan-300 font-bold">0 / 1,000</span>
-      </div>
-      <div class="progress-track mt-1.5">
-        <div id="usage-bar" class="progress-fill" style="width:0%"></div>
-      </div>
-      <span id="usage-pct" class="hidden">0%</span>
-      <span id="usage-leads" class="hidden">0</span>
-    </div>
     <button onclick="logout()" class="nav-item" style="color:#f87171; margin-bottom:0;">
       <i class="fas fa-sign-out-alt" style="color:#f87171;"></i>
       <span>Cerrar sesión</span>
@@ -1192,6 +1174,24 @@
           <h3 class="text-base font-bold text-white">Podio en Vivo — Ranking de Closers (Ventas Cobradas + Demos + Toques)</h3>
         </div>
         <span class="text-xs text-slate-400">Actualizado en tiempo real</span>
+      </div>
+      <div class="p-3.5 rounded-xl mb-4" style="background:rgba(0,229,255,0.05); border:1px solid rgba(0,229,255,0.16);">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+          <span class="text-cyan-300 text-[11px] font-bold uppercase">🏆 Embudo Semanal KPI</span>
+          <span id="sidebar-kpi-sales" class="text-[11px] font-extrabold text-emerald-400">Meta: US$372+</span>
+        </div>
+        <div class="flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-300 leading-relaxed">
+          <span><strong>1,000</strong> Contactos &rarr; <strong>150</strong> Hablan &rarr; <strong>30</strong> Calificados &rarr; <strong>5+</strong> Cierres</span>
+          <div class="flex items-center gap-3 text-[11px]">
+            <span class="text-emerald-300 font-bold">💰 Bolsillo: US$372–US$745+</span>
+            <span id="sidebar-kpi-touches" class="text-cyan-300 font-bold">0 / 1,000</span>
+          </div>
+        </div>
+        <div class="progress-track mt-2">
+          <div id="usage-bar" class="progress-fill" style="width:0%"></div>
+        </div>
+        <span id="usage-pct" class="hidden">0%</span>
+        <span id="usage-leads" class="hidden">0</span>
       </div>
       <div id="podium-top3-grid" class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <!-- Renderizado por JS -->
