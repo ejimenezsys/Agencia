@@ -20,6 +20,7 @@ import smtplib
 import ssl
 import threading
 import time
+import unicodedata
 import urllib.parse
 import urllib.request
 from datetime import datetime
@@ -4164,6 +4165,24 @@ def _load_setter_ia_state(db: Session) -> dict:
         state["email_sent_today"] = 0
         state["lead_web_sent_today"] = 0
         state["passportai_21_sent_today"] = 0
+
+    try:
+        real_replied = (
+            db.query(DbLead)
+            .filter(func.coalesce(DbLead.notes, "").contains("RESPONDIÓ A SETTER IA"))
+            .count()
+        )
+        real_demos = (
+            db.query(DbLead)
+            .filter(func.coalesce(DbLead.notes, "").contains("Setter IA Demo Enviada"))
+            .count()
+        )
+        if int(state.get("replies_detected", 0) or 0) > real_replied:
+            state["replies_detected"] = real_replied
+        if int(state.get("demos_auto_sent", 0) or 0) > real_demos:
+            state["demos_auto_sent"] = real_demos
+    except Exception:
+        pass
     return state
 
 
@@ -4314,6 +4333,48 @@ def _find_lead_for_inbound(db: Session, contact_id: str = "", phone: str = "", e
     return None
 
 
+def _strip_accents_lower(text: str) -> str:
+    norm = unicodedata.normalize("NFD", text or "")
+    no_marks = "".join(ch for ch in norm if unicodedata.category(ch) != "Mn")
+    return " ".join(no_marks.lower().split())
+
+
+def _classify_automated_inbound(text: str) -> str:
+    """Clasifica respuestas entrantes en 'auto_reject', 'auto_bot' o 'human' para evitar bucles bot vs. bot."""
+    low = _strip_accents_lower(text)
+    if not low:
+        return "human"
+
+    reject_phrases = (
+        "no coordinamos reuniones",
+        "no daremos curso a propuestas",
+        "propuestas comerciales de proveedores",
+        "dedicado exclusivamente a acompanar",
+        "canal exclusivo para clientes",
+        "no estamos interesados",
+        "no nos interesa",
+        "no nos contacten",
+        "dejen de escribir",
+    )
+    if any(p in low for p in reject_phrases) or re.search(r"\b(stop|baja|unsubscribe)\b", low):
+        return "auto_reject"
+
+    bot_phrases = (
+        "asistente virtual",
+        "bot de atencion",
+        "gracias por comunicarte con",
+        "en breve te atenderemos",
+        "selecciona una opcion",
+        "menu principal",
+        "respuesta automatica",
+        "en unos momentos un asesor",
+    )
+    if ("yo soy " in low and "voy a ayudarte" in low) or any(p in low for p in bot_phrases):
+        return "auto_bot"
+
+    return "human"
+
+
 def _handle_inbound_reply_for_lead(
     db: Session,
     lead: DbLead,
@@ -4327,8 +4388,14 @@ def _handle_inbound_reply_for_lead(
     clean_msg = (inbound_text or "").strip() or "(El prospecto respondió)"
     snippet = clean_msg[:150]
     dedup_token = event_uid or snippet[:45]
-    if dedup_token and dedup_token in notes_now and "RESPONDIÓ A SETTER IA" in notes_now:
+    has_reply_or_bot_tag = ("RESPONDIÓ A SETTER IA" in notes_now) or ("Auto-respuesta detectada" in notes_now)
+    if dedup_token and dedup_token in notes_now and has_reply_or_bot_tag:
         return {"processed": False, "reason": "already_recorded"}
+
+    msg_sig = " ".join(clean_msg.lower().split())[:60]
+    notes_norm = " ".join(notes_now.lower().split())
+    if msg_sig and len(msg_sig) >= 8 and msg_sig in notes_norm:
+        return {"processed": False, "reason": "duplicate_inbound_text"}
 
     now_iso = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
     stamp = f"{now_iso[:10]} {now_iso[11:16]}"
@@ -4337,14 +4404,6 @@ def _handle_inbound_reply_for_lead(
         lead.contact_id = cid
 
     old_stage = getattr(lead, "pipeline_stage", "Lead identificado") or "Lead identificado"
-    if old_stage in ("Lead identificado", "Primer contacto", "No responde", "En seguimiento local"):
-        lead.pipeline_stage = "Contacto"
-    lead.status = "contacted"
-    lead.last_touch = now_iso
-    marker = f"[{stamp} · 🔥 RESPONDIÓ A SETTER IA ({channel})]"
-    tag_id = f" [ref:{event_uid}]" if event_uid else ""
-    lead.notes = (notes_now + f"\n{marker} 💬 Cliente escribió: \"{snippet}\"{tag_id}").strip()
-
     owner_email = (getattr(lead, "owner_id", "") or "edward@agenciaprosperia.com").strip().lower()
     owner_u = db.query(User).filter(func.lower(User.email) == owner_email).first()
     closer_name = (owner_u.name if owner_u else "tu especialista Prosper IA").strip()
@@ -4352,9 +4411,59 @@ def _handle_inbound_reply_for_lead(
     full_name = (getattr(lead, "full_name", None) or lead.name or biz_name).strip()
     first_name = full_name.split()[0] if full_name else "hola"
     phone_raw = (getattr(lead, "phone_e164", None) or lead.phone or "").strip()
+    tag_id = f" [ref:{event_uid}]" if event_uid else ""
+
+    inbound_kind = _classify_automated_inbound(clean_msg)
+    if inbound_kind == "auto_reject":
+        lead.pipeline_stage = "No cumple perfil"
+        lead.status = "lost"
+        lead.last_touch = now_iso
+        lead.notes = (notes_now + f"\n[{stamp} · 🚫 Auto-respuesta detectada (Rechazo/Opt-out · {channel})] 💬 \"{snippet}\"{tag_id}").strip()
+        record_audit(
+            db,
+            actor_email="setter_ia@agenciaprosperia.com",
+            actor_role="system",
+            lead_id=lead.id,
+            action="setter_ia_inbound_auto_reject",
+            field_changed="pipeline_stage",
+            old_value=old_stage,
+            new_value=lead.pipeline_stage,
+            notes=f"Rechazo automático detectado de {biz_name} vía {channel}. No se reenvía WhatsApp ni sube a GHL.",
+        )
+        db.commit()
+        return {"processed": False, "reason": "auto_reject", "lead_id": lead.id, "biz_name": biz_name, "demo_sent": False}
+
+    if inbound_kind == "auto_bot":
+        if "Auto-respuesta detectada" not in notes_now and "RESPONDIÓ A SETTER IA" not in notes_now:
+            lead.last_touch = now_iso
+            lead.notes = (notes_now + f"\n[{stamp} · 🤖 Auto-respuesta detectada (Bot WhatsApp · llamar directo por teléfono)] 💬 \"{snippet}\"{tag_id}").strip()
+            record_audit(
+                db,
+                actor_email="setter_ia@agenciaprosperia.com",
+                actor_role="system",
+                lead_id=lead.id,
+                action="setter_ia_inbound_auto_bot",
+                field_changed="notes",
+                old_value=old_stage,
+                new_value=lead.pipeline_stage,
+                notes=f"Bot de bienvenida detectado en {biz_name} ({channel}). Bloqueada respuesta automática WA para evitar bucle.",
+            )
+            db.commit()
+        return {"processed": False, "reason": "auto_bot", "lead_id": lead.id, "biz_name": biz_name, "demo_sent": False}
+
+    already_auto_replied = any(
+        tok in notes_now for tok in ("Setter IA Demo Enviada", "RESPONDIÓ A SETTER IA", "Auto-respuesta detectada")
+    )
+
+    if old_stage in ("Lead identificado", "Primer contacto", "No responde", "En seguimiento local"):
+        lead.pipeline_stage = "Contacto"
+    lead.status = "contacted"
+    lead.last_touch = now_iso
+    marker = f"[{stamp} · 🔥 RESPONDIÓ A SETTER IA ({channel})]"
+    lead.notes = (notes_now + f"\n{marker} 💬 Cliente escribió: \"{snippet}\"{tag_id}").strip()
 
     demo_sent = False
-    if phone_raw and "[Setter IA Demo Enviada]" not in (lead.notes or ""):
+    if phone_raw and not already_auto_replied:
         demo_url = _build_lead_demo_url(lead, phone_raw)
         ai_reply = (
             f"¡Hola {first_name}! Qué gusto saludarte de Agencia Prosper IA en Miami. "
