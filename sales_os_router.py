@@ -12,7 +12,10 @@ Implementa:
   - Demostrador interactivo en vivo de Sitios Web Inteligentes (/demo-sitio-web).
 """
 import asyncio
+import email as email_lib
+import hashlib
 import html as html_lib
+import imaplib
 import json
 import os
 import re
@@ -23,10 +26,11 @@ import time
 import unicodedata
 import urllib.parse
 import urllib.request
-from datetime import datetime
+from datetime import datetime, timedelta
+from email.header import decode_header
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from email.utils import formataddr, formatdate, make_msgid
+from email.utils import formataddr, formatdate, make_msgid, parseaddr, getaddresses
 from typing import Optional, List, Dict, Any
 from fastapi import APIRouter, Request, Depends, HTTPException, status
 from fastapi.responses import HTMLResponse, JSONResponse
@@ -50,16 +54,19 @@ from database import (
     hash_password,
     normalize_phone_e164,
     normalize_email,
+    get_next_round_robin_closer,
 )
 from ghl_client import (
     BEAUTY_LOCATION_ID,
     BEAUTY_PIPELINE_ID,
     BEAUTY_PIPELINE_NAME,
     BEAUTY_STAGE_MAP,
+    DEFAULT_LOCATION_ID,
     GHL_WA_TEMPLATES,
     _BEAUTY_PIPELINE_CACHE,
     _cfg as _ghl_cfg,
     _cfg_db,
+    _request as _ghl_request,
     add_ghl_contact_tags,
     check_and_sync_ghl_wa_workflows,
     dispatch_ghl_agency_whatsapp,
@@ -4159,6 +4166,7 @@ def _default_setter_ia_state() -> dict:
         "email_interval_sec": 45,
         "last_day": today_utc,
         "rr_cursor": 0,
+        "imap_processed_uids": [],
         "last_log": [],
     }
 
@@ -4536,7 +4544,8 @@ def _handle_inbound_reply_for_lead(
     lead.notes = (notes_now + f"\n{marker} 💬 Cliente escribió: \"{snippet}\"{tag_id}").strip()
 
     demo_sent = False
-    if phone_raw and not already_auto_replied:
+    is_wa_inbound = "whatsapp" in (channel or "").lower()
+    if is_wa_inbound and phone_raw and not already_auto_replied:
         demo_url = _build_lead_demo_url(lead, phone_raw)
         ai_reply = (
             f"¡Hola {first_name}! Qué gusto saludarte de Agencia Prosper IA en Miami. "
@@ -4672,6 +4681,625 @@ def _scan_recent_ghl_replies_sync(db: Session, state: dict) -> int:
             if res.get("demo_sent"):
                 state["demos_auto_sent"] = int(state.get("demos_auto_sent", 0) or 0) + 1
             _append_setter_ia_log(state, f"🔥 Detectada respuesta de {res['biz_name']} -> subido a Closer")
+    return found_new
+
+
+_GENERIC_EMAIL_DOMAINS = {
+    "gmail.com", "hotmail.com", "yahoo.com", "outlook.com", "live.com",
+    "icloud.com", "proton.me", "protonmail.com", "aol.com", "msn.com",
+    "me.com", "ymail.com", "yahoo.es", "hotmail.es", "outlook.es",
+}
+
+_CAMPAIGN_SUBJECT_TOKENS = (
+    "muestra web para",
+    "demo web interactiva",
+    "en que etapa estas hoy con la ia",
+    "passportai 2.1",
+    "sitio web inteligente",
+)
+
+
+def _decode_mime_header(raw_val: str) -> str:
+    """Decodifica cabeceras MIME (UTF-8 / Latin-1 / Q-encoding) sin lanzar errores."""
+    if not raw_val:
+        return ""
+    parts = decode_header(raw_val)
+    out = []
+    for chunk, enc in parts:
+        if isinstance(chunk, bytes):
+            out.append(chunk.decode(enc or "utf-8", errors="ignore"))
+        else:
+            out.append(str(chunk))
+    return "".join(out).strip()
+
+
+def _extract_email_text_part(msg: email_lib.message.Message) -> str:
+    """Extrae text/plain o convierte text/html si no hay parte plana disponible."""
+    html_fallback = ""
+    if msg.is_multipart():
+        for part in msg.walk():
+            disp = str(part.get("Content-Disposition") or "").lower()
+            if "attachment" in disp:
+                continue
+            ctype = (part.get_content_type() or "").lower()
+            payload = part.get_payload(decode=True)
+            if not payload:
+                continue
+            decoded = payload.decode(part.get_content_charset() or "utf-8", errors="ignore")
+            if ctype == "text/plain":
+                return decoded
+            if ctype == "text/html" and not html_fallback:
+                html_fallback = decoded
+        return html_fallback
+
+    payload = msg.get_payload(decode=True)
+    if not payload:
+        return ""
+    return payload.decode(msg.get_content_charset() or "utf-8", errors="ignore")
+
+
+def _extract_clean_email_reply_body(raw_body: str) -> str:
+    """Limpia HTML y corta el historial citado para obtener solo el mensaje nuevo del prospecto."""
+    txt = (raw_body or "").replace("\r\n", "\n").replace("\r", "\n").replace("\xa0", " ")
+    if "<" in txt and ">" in txt:
+        txt = re.sub(r"(?is)<(style|script)[^>]*>.*?</\1>", " ", txt)
+        txt = re.sub(r"(?i)<br\s*/?>", "\n", txt)
+        txt = re.sub(r"(?i)</(p|div|li|tr|h[1-6])>", "\n", txt)
+        txt = re.sub(r"<[^>]+>", " ", txt)
+    txt = html_lib.unescape(txt)
+
+    quote_markers = (
+        re.compile(r"^(?:el\s+)+(?:\w+\.?,\s*)?\d{1,2}\s+(?:de\s+)?\w+.*(?:20\d\d|escribi[oó]:|>)", re.IGNORECASE),
+        re.compile(r"^on\s+(?:mon|tue|wed|thu|fri|sat|sun),\s+\d{1,2}\s+\w+\s+20\d\d\b", re.IGNORECASE),
+        re.compile(r"^on\s+(?:mon|tue|wed|thu|fri|sat|sun|\w{3},|\d{1,2}\s+\w+).*(?:wrote:|@)", re.IGNORECASE),
+        re.compile(r"^-{3,}\s*(?:original message|mensaje original|forwarded message)", re.IGNORECASE),
+        re.compile(r"^_{5,}"),
+        re.compile(r"^(?:de|from|enviado|sent|para|to):\s+.+", re.IGNORECASE),
+    )
+
+    clean_lines = []
+    for raw_ln in txt.splitlines():
+        ln = " ".join(raw_ln.split())
+        if not ln:
+            continue
+        if ln.startswith(">"):
+            break
+        if any(pat.search(ln) for pat in quote_markers):
+            break
+        clean_lines.append(ln)
+        if sum(len(x) for x in clean_lines) >= 340:
+            break
+
+    joined = " ".join(clean_lines).strip()
+    joined = re.split(
+        r"\s+(?:On\s+(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun),\s+\d{1,2}\s+\w+\s+20\d\d\b|El\s+(?:El\s+)?(?:lun|mar|mi[eé]|jue|vie|s[aá]b|dom)\.?,\s+\d{1,2}\s+(?:de\s+)?\w+)",
+        joined,
+        maxsplit=1,
+        flags=re.IGNORECASE,
+    )[0]
+    return " ".join(joined.split())[:320]
+
+
+def _is_automated_or_irrelevant_email(
+    from_header: str,
+    subject: str,
+    clean_body: str,
+    seller_emails: set,
+    has_existing_lead: bool = False,
+) -> bool:
+    """Filtra rebotes, demonios SMTP, notificaciones propias, auto-respondedores, spam-challenges y newsletters."""
+    _, addr = parseaddr(from_header or "")
+    sender_addr = normalize_email(addr)
+    if not sender_addr or "@" not in sender_addr:
+        return True
+
+    low_from = _strip_accents_lower(from_header)
+    low_subj = _strip_accents_lower(subject).replace("’", "'")
+    low_body = _strip_accents_lower(clean_body).replace("’", "'")
+
+    ignored_senders = (
+        "mailer-daemon", "postmaster", "hostinger.com", "no-reply", "noreply",
+        "donotreply", "do-not-reply", "edward@agenciaprosperia.com",
+        "seller@agenciaprosperia.com", "info@agenciaprosperia.com",
+        "support@webador.com", "centrodeservicios@",
+        "google", "meta", "facebook", "stripe",
+    )
+    if any(tok in sender_addr or tok in low_from for tok in ignored_senders):
+        return True
+
+    if sender_addr in seller_emails:
+        return True
+
+    if "[respondio por correo]" in low_subj:
+        return True
+
+    auto_tokens = (
+        "undelivered", "undeliverable", "no entregable", "delivery status",
+        "failure notice", "returned mail", "mail delivery failed",
+        "bxd.cgi", "requires verification", "verify#",
+        "hemos recibido una nueva incidencia", "su incidencia ha sido registrada",
+        "thank you for contacting", "we've received your message",
+        "gracias por escribir. re:", "tu mensaje es importante para mi",
+        "automatic reply", "auto-reply", "autoreply",
+        "out of office", "fuera de la oficina", "respuesta automatica",
+        "hemos recibido su mensaje", "nos pondremos en contacto con usted lo antes posible",
+        "quiero darles las gracias por elegirnos", "estamos preparando promociones",
+    )
+    combined = f"{low_subj} {low_body}"
+    if any(tok in combined for tok in auto_tokens):
+        return True
+
+    is_campaign_reply = (
+        ("re:" in low_subj or "rv:" in low_subj or "fwd:" in low_subj)
+        and any(tok in low_subj for tok in _CAMPAIGN_SUBJECT_TOKENS)
+    )
+    if not is_campaign_reply and not has_existing_lead:
+        return True
+
+    return False
+
+
+def _match_seller_by_ghl_closer_tag(db: Session, tags: list) -> str:
+    """Resuelve el correo de un Closer activo a partir de etiquetas GHL como closer_claudiniosan."""
+    if not tags:
+        return ""
+    sellers = db.query(User).filter(User.role == "seller", User.is_active == 1).all()
+    seller_addrs = [normalize_email(u.email) for u in sellers if u.email]
+    for raw_tag in tags:
+        t = str(raw_tag or "").strip().lower()
+        if not t.startswith("closer_"):
+            continue
+        suffix = t[len("closer_"):].strip()
+        if not suffix:
+            continue
+        for em in seller_addrs:
+            local = em.split("@", 1)[0]
+            if local == suffix or local.startswith(suffix) or local.replace(".", "_") == suffix:
+                return em
+    return ""
+
+
+def _lookup_ghl_and_p21_contact_by_email(sender_email: str) -> dict:
+    """Consulta GHL v2 y la semilla PassportAI 2.1 para enriquecer teléfono, nombre y tags de un correo entrante."""
+    clean_em = normalize_email(sender_email)
+    out = {"contact_id": "", "phone": "", "full_name": "", "company": "", "country": "", "tags": []}
+    if not clean_em:
+        return out
+
+    p21 = _load_passportai_21_contacts()
+    for row in p21:
+        if normalize_email(str(row.get("email") or "")) == clean_em:
+            out["contact_id"] = str(row.get("ghl_contact_id") or "")
+            out["phone"] = str(row.get("phone") or "").strip()
+            out["full_name"] = str(row.get("full_name") or row.get("first_name") or "").strip()
+            out["company"] = str(row.get("company") or "").strip()
+            break
+
+    token = _cfg_db("GHL_PRIVATE_TOKEN") or _cfg_db("GHL_ACCESS_TOKEN")
+    loc_id = _cfg_db("GHL_LOCATION_ID", DEFAULT_LOCATION_ID)
+    if token and loc_id:
+        st, res = _ghl_request("GET", f"/contacts/?locationId={loc_id}&query={urllib.parse.quote(clean_em)}&limit=5", token)
+        if st == 200 and isinstance(res, dict):
+            contacts = res.get("contacts") or []
+            matched = next(
+                (c for c in contacts if normalize_email(str(c.get("email") or "")) == clean_em),
+                None,
+            )
+            if matched:
+                out["contact_id"] = str(matched.get("id") or out["contact_id"])
+                out["phone"] = str(matched.get("phone") or out["phone"]).strip()
+                nm = str(matched.get("contactName") or matched.get("name") or "").strip()
+                if not nm:
+                    nm = f"{matched.get('firstName') or ''} {matched.get('lastName') or ''}".strip()
+                out["full_name"] = nm or out["full_name"]
+                out["company"] = str(matched.get("companyName") or out["company"]).strip()
+                out["country"] = str(matched.get("country") or out["country"]).strip()
+                out["tags"] = [str(t).strip().lower() for t in (matched.get("tags") or [])]
+    return out
+
+
+def _find_or_create_lead_from_inbound_email_sync(
+    db: Session,
+    sender_email: str,
+    sender_name: str,
+    subject: str,
+) -> Optional[DbLead]:
+    """Busca un DbLead existente (email, empresa en asunto o dominio corporativo) o crea uno asignado a un Closer."""
+    clean_em = normalize_email(sender_email)
+    if not clean_em or "@" not in clean_em:
+        return None
+
+    found = db.query(DbLead).filter(func.lower(DbLead.email) == clean_em).first()
+    if found:
+        return found
+
+    clean_subj = (subject or "").strip()
+    biz_match = re.search(
+        r"(?:Muestra web para|Propuesta \+ Demo Web Interactiva Lista para|Tu Muestra de Sitio Web Inteligente para)\s+(.+?)(?:\s*[—\-]+\s*Agencia Prosper IA|\s*$)",
+        clean_subj,
+        flags=re.IGNORECASE,
+    )
+    if biz_match:
+        cand_biz = biz_match.group(1).strip()
+        if len(cand_biz) >= 3:
+            by_biz = (
+                db.query(DbLead)
+                .filter(
+                    func.lower(func.coalesce(DbLead.business_name, "")).contains(cand_biz.lower())
+                    | func.lower(func.coalesce(DbLead.company, "")).contains(cand_biz.lower())
+                )
+                .first()
+            )
+            if by_biz:
+                return by_biz
+
+    domain = clean_em.split("@", 1)[1]
+    if domain and domain not in _GENERIC_EMAIL_DOMAINS:
+        by_dom = db.query(DbLead).filter(func.lower(DbLead.email).like(f"%@{domain}")).first()
+        if by_dom:
+            return by_dom
+
+    subj_norm = _strip_accents_lower(clean_subj)
+    if not any(tok in subj_norm for tok in _CAMPAIGN_SUBJECT_TOKENS):
+        return None
+
+    ghl_info = _lookup_ghl_and_p21_contact_by_email(clean_em)
+    closer_from_tag = _match_seller_by_ghl_closer_tag(db, ghl_info.get("tags") or [])
+    if closer_from_tag:
+        assigned_closer = closer_from_tag
+    else:
+        chosen = get_next_round_robin_closer(db)
+        assigned_closer = normalize_email(str((chosen or {}).get("email") or "claudiniosan@yahoo.com.ar"))
+
+    full_name = (ghl_info.get("full_name") or sender_name or clean_em.split("@")[0]).strip().title()
+    comp = (ghl_info.get("company") or full_name).strip()
+    raw_phone = (ghl_info.get("phone") or "").strip()
+    phone_e164 = normalize_phone_e164(raw_phone) if raw_phone else ""
+    now_iso = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+    stamp = f"{now_iso[:10]} {now_iso[11:16]}"
+    is_p21 = "passportai" in subj_norm
+
+    new_lead = DbLead(
+        name=full_name,
+        full_name=full_name,
+        email=clean_em,
+        company=comp,
+        business_name=comp,
+        phone=raw_phone,
+        phone_e164=phone_e164,
+        status="new",
+        source="setter_ia_inbound_email",
+        source_channel="Respuesta Correo Tibio / PassportAI",
+        source_campaign="Flujo #3 PassportAI 2.1" if is_p21 else "Flujo #2 Correo Tibio lead_web",
+        interest_primary="PassportAI 2.1 + CRM IA" if is_p21 else "Opciones IA / Sitio Web Inteligente",
+        score=90,
+        contact_id=ghl_info.get("contact_id") or "",
+        owner_id=assigned_closer,
+        setter_id="setter_ia@agenciaprosperia.com",
+        niche="profesionales",
+        country=ghl_info.get("country") or "LATAM / EE. UU.",
+        pipeline_stage="Primer contacto",
+        offer_version="EXPRESS_497",
+        quoted_amount=497.0,
+        selected_template="clinica_dental_estetica",
+        created_at=now_iso,
+        last_touch="",
+        notes=f"[{stamp} · 📥 Origen Correo Entrante ({clean_em})] Asunto: {clean_subj}",
+    )
+    db.add(new_lead)
+    db.commit()
+    db.refresh(new_lead)
+    return new_lead
+
+
+def _notify_closer_of_inbound_reply_email_sync(
+    lead: DbLead,
+    closer_user: Optional[User],
+    inbound_text: str,
+    channel: str,
+    sender_email: str = "",
+    sender_name: str = "",
+    extra_cc_info: str = "",
+) -> bool:
+    """Envía alerta inmediata desde seller@agenciaprosperia.com al Closer asignado y a info@agenciaprosperia.com."""
+    closer_email = normalize_email(
+        (closer_user.email if closer_user and closer_user.email else "")
+        or getattr(lead, "owner_id", "")
+        or "edward@agenciaprosperia.com"
+    )
+    if not _is_valid_real_email(closer_email):
+        closer_email = "edward@agenciaprosperia.com"
+
+    closer_name = (closer_user.name if closer_user and closer_user.name else closer_email.split("@")[0]).strip()
+    biz_name = (getattr(lead, "business_name", None) or lead.company or lead.name or "Prospecto").strip()
+    contact_label = (sender_name or getattr(lead, "full_name", None) or lead.name or biz_name).strip()
+    phone_val = (getattr(lead, "phone_e164", None) or lead.phone or "").strip()
+    phone_digits = re.sub(r"\D", "", phone_val)
+    wa_btn_html = ""
+    wa_plain = ""
+    if len(phone_digits) >= 8:
+        wa_url = (
+            f"https://wa.me/{phone_digits}?text="
+            + urllib.parse.quote(f"Hola {contact_label}, te escribe {closer_name} de Agencia Prosper IA dando seguimiento a tu correo.")
+        )
+        wa_btn_html = (
+            f'<a href="{wa_url}" style="display:inline-block;background:#10b981;color:#020710;'
+            f'text-decoration:none;font-weight:800;font-size:13px;padding:12px 20px;border-radius:10px;margin:6px;">'
+            f'💬 Abrir WhatsApp ({html_lib.escape(phone_val)})</a>'
+        )
+        wa_plain = f"\nWhatsApp directo: {wa_url}"
+
+    dash_url = "https://agenciaprosperia.com/dashboard"
+    subject = f"🚨 [RESPONDIÓ POR CORREO] {biz_name} pide información — ¡Atácalo YA ({closer_name})!"
+    cc_line = f"\nCopia / CC detectada: {extra_cc_info}" if extra_cc_info else ""
+    cc_html = f"<p style='margin:6px 0;'><strong>Copia / CC:</strong> {html_lib.escape(extra_cc_info)}</p>" if extra_cc_info else ""
+
+    plain_text = (
+        f"¡ATENCIÓN {closer_name}! UN PROSPECTO TUYO ACABA DE RESPONDER POR {channel.upper()}.\n\n"
+        f"Empresa / Prospecto: {biz_name}\n"
+        f"Contacto que respondió: {contact_label} ({sender_email or lead.email}){cc_line}\n"
+        f"Teléfono directo: {phone_val or 'No registrado'}\n"
+        f"Qué escribió el cliente:\n\"{inbound_text}\"\n\n"
+        f"Ya quedó marcado en la FILA #1 de tu Banner Rojo (🔥 RESPONDIÓ A SETTER IA) en tu Centro de Mando:\n"
+        f"{dash_url}{wa_plain}\n"
+    )
+    html_content = f"""
+    <html>
+      <body style="font-family: Arial, Helvetica, sans-serif; background-color: #020710; color: #f8fafc; margin: 0; padding: 20px;">
+        <div style="max-width: 580px; margin: 0 auto; background-color: #071326; border: 2px solid #f59e0b; border-radius: 14px; padding: 24px;">
+          <div style="color: #fbbf24; font-size: 13px; font-weight: 800; letter-spacing: 0.5px;">
+            🚨 ALERTA INMEDIATA DE RESPUESTA ({html_lib.escape(channel.upper())})
+          </div>
+          <h2 style="margin: 8px 0 14px; color: #ffffff; font-size: 20px;">
+            {html_lib.escape(biz_name)} pidió información — ¡Atácalo YA, {html_lib.escape(closer_name)}!
+          </h2>
+          <div style="background:#0b1c36; border-radius:10px; padding:14px; font-size:14px; line-height:1.6; color:#e2e8f0;">
+            <p style="margin:6px 0;"><strong>Contacto:</strong> {html_lib.escape(contact_label)} ({html_lib.escape(sender_email or lead.email or '')})</p>
+            {cc_html}
+            <p style="margin:6px 0;"><strong>Teléfono directo:</strong> {html_lib.escape(phone_val or 'Sin teléfono')}</p>
+            <p style="margin:10px 0 4px;"><strong>Mensaje exacto del cliente:</strong></p>
+            <blockquote style="margin:4px 0; padding:10px 14px; background:#040d1c; border-left:4px solid #38bdf8; color:#f8fafc;">
+              {html_lib.escape(inbound_text)}
+            </blockquote>
+          </div>
+          <p style="margin: 16px 0 10px; font-size: 13px; color: #cbd5e1;">
+            Este prospecto ya subió a la <strong>Fila #1 del Banner Rojo (🔥 RESPONDIÓ A SETTER IA)</strong> en tu Centro de Mando.
+          </p>
+          <div style="text-align: center; margin-top: 18px;">
+            <a href="{dash_url}" style="display:inline-block;background:#00e5ff;color:#020710;text-decoration:none;font-weight:800;font-size:13px;padding:12px 20px;border-radius:10px;margin:6px;">
+              🚀 Abrir Centro de Mando
+            </a>
+            {wa_btn_html}
+          </div>
+        </div>
+      </body>
+    </html>
+    """
+
+    recipients = [closer_email]
+    if closer_email != "info@agenciaprosperia.com":
+        recipients.append("info@agenciaprosperia.com")
+
+    sent_any = False
+    for dest in recipients:
+        try:
+            _send_smtp_mime_email(
+                alias_addr="seller@agenciaprosperia.com",
+                to_email=dest,
+                closer_name="Centro de Mando Prosper IA",
+                closer_email="seller@agenciaprosperia.com",
+                final_subject=subject,
+                plain_text=plain_text,
+                html_content=html_content,
+            )
+            sent_any = True
+        except Exception as exc:
+            print(f"⚠️ [ALERTA CLOSER IMAP] Error enviando a {dest}: {exc}", flush=True)
+    return sent_any
+
+
+def _extract_imap_bytes(fetch_data: Any) -> Optional[bytes]:
+    """Extrae el payload de bytes desde una respuesta estándar de imaplib fetch."""
+    if not isinstance(fetch_data, list):
+        return None
+    for item in fetch_data:
+        if isinstance(item, tuple) and len(item) >= 2 and isinstance(item[1], (bytes, bytearray)):
+            return bytes(item[1])
+    return None
+
+
+def _scan_recent_imap_email_replies_sync(db: Session, state: dict) -> int:
+    """Lee por IMAP (imap.hostinger.com:993) respuestas reales a seller@/info@/edward@ y dispara al Closer asignado."""
+    imap_user = _cfg_db("SMTP_USER", "")
+    imap_pass = _cfg_db("SMTP_PASSWORD", "")
+    if not imap_user or not imap_pass:
+        return 0
+
+    imap_host = _cfg_db("IMAP_HOST", "imap.hostinger.com")
+    imap_port = int(_cfg_db("IMAP_PORT", "993") or "993")
+    since_str = (datetime.utcnow() - timedelta(days=2)).strftime("%d-%b-%Y")
+
+    processed_list = [str(x) for x in (state.get("imap_processed_uids") or []) if x]
+    processed_set = set(processed_list)
+
+    seller_emails = {
+        normalize_email(u.email)
+        for u in db.query(User).filter(User.role == "seller", User.is_active == 1).all()
+        if u.email
+    }
+
+    found_new = 0
+    M = None
+    try:
+        M = imaplib.IMAP4_SSL(imap_host, imap_port, timeout=12)
+        M.login(imap_user, imap_pass)
+        typ, _ = M.select("INBOX", readonly=True)
+        if typ != "OK":
+            return 0
+
+        uid_val_raw = M.response("UIDVALIDITY")[1]
+        if uid_val_raw and uid_val_raw[0]:
+            uid_validity = (
+                uid_val_raw[0].decode(errors="ignore")
+                if isinstance(uid_val_raw[0], bytes)
+                else str(uid_val_raw[0])
+            )
+        else:
+            uid_validity = "0"
+
+        typ, data = M.uid("search", None, f"(SINCE {since_str})")
+        if typ != "OK" or not data or not data[0]:
+            return 0
+
+        uids = data[0].split()[-200:]
+        unseen_uids = [
+            uid_b for uid_b in uids
+            if f"{uid_validity}:{uid_b.decode(errors='ignore')}" not in processed_set
+        ]
+        if not unseen_uids:
+            return 0
+
+        # Descarga en lote de cabeceras en un solo comando IMAP (< 1 seg para 200 mensajes)
+        headers_by_uid = {}
+        typ_batch, batch_data = M.uid(
+            "fetch",
+            b",".join(unseen_uids),
+            "(UID BODY.PEEK[HEADER.FIELDS (FROM TO CC SUBJECT DATE MESSAGE-ID)])",
+        )
+        if typ_batch == "OK" and isinstance(batch_data, list):
+            for item in batch_data:
+                if isinstance(item, tuple) and len(item) >= 2 and isinstance(item[0], (bytes, bytearray)) and isinstance(item[1], (bytes, bytearray)):
+                    m_uid = re.search(rb"UID\s+(\d+)", item[0])
+                    if m_uid:
+                        headers_by_uid[m_uid.group(1).decode("ascii", errors="ignore")] = bytes(item[1])
+
+        for uid_b in unseen_uids:
+            imap_uid = uid_b.decode(errors="ignore")
+            cache_key = f"{uid_validity}:{imap_uid}"
+            hdr_bytes = headers_by_uid.get(imap_uid)
+            if not hdr_bytes:
+                typ_h, hdr_data = M.uid("fetch", uid_b, "(BODY.PEEK[HEADER.FIELDS (FROM TO CC SUBJECT DATE MESSAGE-ID)])")
+                hdr_bytes = _extract_imap_bytes(hdr_data) if typ_h == "OK" else None
+            if not hdr_bytes:
+                continue
+
+            hdr_msg = email_lib.message_from_bytes(hdr_bytes)
+            from_hdr = _decode_mime_header(hdr_msg.get("From", ""))
+            subj_hdr = _decode_mime_header(hdr_msg.get("Subject", ""))
+            msg_id_hdr = _decode_mime_header(hdr_msg.get("Message-ID", ""))
+            date_hdr = _decode_mime_header(hdr_msg.get("Date", ""))
+
+            sender_name_raw, raw_sender_addr = parseaddr(from_hdr)
+            sender_name = _decode_mime_header(sender_name_raw)
+            clean_sender = normalize_email(raw_sender_addr)
+
+            existing_by_em = (
+                db.query(DbLead).filter(func.lower(DbLead.email) == clean_sender).first()
+                if clean_sender else None
+            )
+
+            # Pre-filtro rápido con asunto y remitente antes de bajar el RFC822 completo
+            if _is_automated_or_irrelevant_email(from_hdr, subj_hdr, "", seller_emails, bool(existing_by_em)):
+                processed_list.append(cache_key)
+                processed_set.add(cache_key)
+                continue
+
+            typ_f, full_data = M.uid("fetch", uid_b, "(BODY.PEEK[])")
+            full_bytes = _extract_imap_bytes(full_data) if typ_f == "OK" else None
+            if not full_bytes:
+                continue
+
+            full_msg = email_lib.message_from_bytes(full_bytes)
+            raw_body = _extract_email_text_part(full_msg)
+            clean_body = _extract_clean_email_reply_body(raw_body)
+
+            if _is_automated_or_irrelevant_email(from_hdr, subj_hdr, clean_body, seller_emails, bool(existing_by_em)):
+                processed_list.append(cache_key)
+                processed_set.add(cache_key)
+                continue
+
+            lead = existing_by_em or _find_or_create_lead_from_inbound_email_sync(
+                db=db,
+                sender_email=clean_sender,
+                sender_name=sender_name,
+                subject=subj_hdr,
+            )
+            if not lead:
+                processed_list.append(cache_key)
+                processed_set.add(cache_key)
+                continue
+
+            # Extraer destinatarios copiados relevantes (ej. cchimoy@imbarex.com en To o Cc)
+            raw_to_cc = full_msg.get_all("To", []) + full_msg.get_all("Cc", [])
+            cc_pairs = []
+            for nm_raw, ad_raw in getaddresses([_decode_mime_header(v) for v in raw_to_cc]):
+                ad_clean = normalize_email(ad_raw)
+                if (
+                    ad_clean
+                    and "@" in ad_clean
+                    and ad_clean != clean_sender
+                    and not ad_clean.endswith("@agenciaprosperia.com")
+                    and not ad_clean.endswith("@passportai.app")
+                ):
+                    nm_clean = nm_raw.strip()
+                    cc_pairs.append(f"{nm_clean} <{ad_clean}>" if nm_clean else ad_clean)
+            extra_cc = ", ".join(dict.fromkeys(cc_pairs))
+
+            token_src = msg_id_hdr or f"{date_hdr}|{clean_sender}|{subj_hdr[:60]}"
+            msg_token = hashlib.sha1(token_src.encode("utf-8", errors="ignore")).hexdigest()[:16]
+            event_uid = f"imap:{msg_token}"
+
+            summary_parts = [clean_body or "(El prospecto respondió por correo)"]
+            if subj_hdr:
+                summary_parts.append(f"(Asunto: {subj_hdr[:90]})")
+            if extra_cc:
+                summary_parts.append(f"[CC: {extra_cc}]")
+            reply_summary = " ".join(summary_parts)[:300]
+
+            res = _handle_inbound_reply_for_lead(
+                db,
+                lead,
+                inbound_text=reply_summary,
+                contact_id=getattr(lead, "contact_id", "") or "",
+                channel="Correo Electrónico",
+                event_uid=event_uid,
+            )
+
+            processed_list.append(cache_key)
+            processed_set.add(cache_key)
+
+            if res.get("processed"):
+                found_new += 1
+                state["replies_detected"] = int(state.get("replies_detected", 0) or 0) + 1
+                if res.get("demo_sent"):
+                    state["demos_auto_sent"] = int(state.get("demos_auto_sent", 0) or 0) + 1
+
+                owner_em = normalize_email(getattr(lead, "owner_id", "") or "edward@agenciaprosperia.com")
+                closer_u = db.query(User).filter(func.lower(User.email) == owner_em).first()
+                closer_label = closer_u.name if closer_u and closer_u.name else owner_em
+                _notify_closer_of_inbound_reply_email_sync(
+                    lead=lead,
+                    closer_user=closer_u,
+                    inbound_text=clean_body or reply_summary,
+                    channel="Correo Electrónico",
+                    sender_email=clean_sender,
+                    sender_name=sender_name,
+                    extra_cc_info=extra_cc,
+                )
+                _append_setter_ia_log(
+                    state,
+                    f"📩🔥 Respuesta Correo: {lead.business_name or lead.name} ({clean_sender}) -> Disparo a Closer {closer_label}",
+                )
+    except Exception as exc:
+        print(f"⚠️ [SETTER IA IMAP SCAN] Error IMAP: {exc}", flush=True)
+    finally:
+        if M is not None:
+            try:
+                M.logout()
+            except Exception:
+                pass
+
+    state["imap_processed_uids"] = processed_list[-600:]
     return found_new
 
 
@@ -5189,10 +5817,17 @@ def _run_setter_ia_cycle(force_step: bool = False) -> dict:
 
             if force_step or (now - _SETTER_IA_RUNTIME["last_scan_ts"]) >= 60:
                 _SETTER_IA_RUNTIME["last_scan_ts"] = now
+                ghl_replies = 0
+                imap_replies = 0
                 try:
-                    did["replies"] = _scan_recent_ghl_replies_sync(db, state)
-                except Exception:
-                    pass
+                    ghl_replies = _scan_recent_ghl_replies_sync(db, state)
+                except Exception as exc:
+                    print(f"⚠️ [SETTER IA GHL SCAN] {exc}", flush=True)
+                try:
+                    imap_replies = _scan_recent_imap_email_replies_sync(db, state)
+                except Exception as exc:
+                    print(f"⚠️ [SETTER IA IMAP SCAN] {exc}", flush=True)
+                did["replies"] = int(ghl_replies or 0) + int(imap_replies or 0)
 
             if force_step or (now - _SETTER_IA_RUNTIME["last_wa_ts"]) >= wa_gap:
                 _SETTER_IA_RUNTIME["last_wa_ts"] = now
