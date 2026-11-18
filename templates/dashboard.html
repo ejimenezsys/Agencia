@@ -7729,6 +7729,8 @@ function renderCallQueueTable() {
 
   const isSetterPendingOrLocal = (l) => {
     const st = l.pipeline_stage || 'Lead identificado';
+    const isRepliedHot = (l.notes || '').toLowerCase().includes('respondió a setter ia');
+    if (isRepliedHot && ['Lead identificado', 'Primer contacto', 'Contacto', 'En seguimiento local'].includes(st)) return true;
     const hasCrmHistory = ((l.ghl_opportunity_id || '').trim() !== '' || Number(l.quoted_amount || 0) > 0 || Number(l.amount_collected || 0) > 0);
     if (st === 'Lead identificado' || st === 'En seguimiento local') return true;
     return (st === 'Primer contacto' || st === 'Contacto') && !hasCrmHistory;
