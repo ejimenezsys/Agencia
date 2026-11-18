@@ -4443,7 +4443,7 @@
         <button type="button" id="setter-work-call-btn" class="px-3 py-1.5 rounded-lg text-xs font-black bg-emerald-400 text-slate-950 hover:bg-emerald-300 transition shadow">
           📞 Llamar
         </button>
-        <button type="button" id="setter-work-wa-btn" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/35 hover:bg-emerald-500/30 transition" title="1 clic: envía WhatsApp Oficial de la Agencia (+1 786-833-6964) rotando plantillas o texto libre si respondió">
+        <button type="button" id="setter-work-wa-btn" class="px-5 py-2.5 rounded-xl text-sm font-black text-slate-950 shadow-lg hover:brightness-110 transition flex items-center gap-1.5" style="background:linear-gradient(135deg,#25D366,#10b981); box-shadow:0 4px 14px rgba(37,211,102,0.35);" title="1 clic: envía WhatsApp Oficial de la Agencia (+1 786-833-6964) rotando plantillas o texto libre si respondió">
           💬 Enviar WhatsApp
         </button>
         <button type="button" id="setter-work-sms-btn" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/35 hover:bg-indigo-500/30" title="1 clic: envía SMS con Demo Web desde +1 786 (solo EE. UU./PR)">
@@ -4452,13 +4452,17 @@
         <button type="button" id="setter-work-inst-mail-btn" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-sky-500/25 text-sky-200 border border-sky-400/45 hover:bg-sky-500/35 transition" title="1 clic: envía correo corporativo desde la web (Windows, Mac y móvil)">
           ✉️ Enviar Correo
         </button>
-        <a id="setter-work-demo-btn" href="#" class="px-3 py-1.5 rounded-lg text-xs font-black bg-cyan-400 text-slate-950 hover:bg-cyan-300 no-underline">
-          🚀 Demo Web
-        </a>
         <button type="button" onclick="document.getElementById('setterLeadWorkDialog').close()" aria-label="Cerrar ventana" class="px-2.5 py-1.5 rounded-lg text-slate-400 hover:text-white border border-slate-700 text-xs font-bold">✕</button>
       </div>
     </div>
     <div id="setter-work-quick-feedback" class="hidden mb-3 px-3 py-2 rounded-lg text-xs font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30"></div>
+    <!-- Speech Telefónico y Guion WA al inicio del seteo -->
+    <details open class="prosperia-script-acc rounded-xl bg-slate-900/90 border border-cyan-500/30 p-3.5 mb-3">
+      <summary class="text-xs font-bold text-cyan-300 flex items-center justify-between">
+        <span><span class="acc-chevron mr-1">▶</span> 🎙️ Ver Speech Telefónico + Guion WhatsApp + Sitio Web Actual</span>
+      </summary>
+      <div id="setter-work-scripts-body" class="mt-2 pt-2 border-t border-slate-800 space-y-2 text-[11px] text-slate-200 leading-relaxed"></div>
+    </details>
     <div id="setter-work-comms-box" class="mb-3 p-3 rounded-xl bg-slate-900/90 border border-cyan-500/25 space-y-2 text-xs">
       <div class="flex flex-wrap items-center justify-between gap-2">
         <div class="flex flex-wrap items-center gap-2">
@@ -4514,8 +4518,8 @@
         </div>
       </div>
 
-      <!-- Fila 1B Integrada: Propuesta & Oferta Versionada (Antes en Etapa/Propuesta) -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 rounded-xl bg-slate-900/75 border border-emerald-500/25">
+      <!-- Fila 1B Integrada: Oculta para evitar fricción al Setter (se conserva valor por defecto EXPRESS_497 / 497) -->
+      <div class="hidden" style="display:none;">
         <div>
           <label for="setter-work-offer" class="block text-emerald-300 font-semibold mb-1">💼 Oferta Versionada / Propuesta</label>
           <select id="setter-work-offer" class="input-dark text-xs py-2" onchange="syncSetterWorkOfferPrice()">
@@ -4531,14 +4535,6 @@
         </div>
       </div>
 
-      <!-- Speech Telefónico y Guion WA colapsable -->
-      <details class="prosperia-script-acc rounded-xl bg-slate-900/90 border border-slate-800 p-3">
-        <summary class="text-xs font-bold text-cyan-300 flex items-center justify-between">
-          <span><span class="acc-chevron mr-1">▶</span> 🎙️ Ver Speech Telefónico + Guion WhatsApp + Sitio Web Actual</span>
-        </summary>
-        <div id="setter-work-scripts-body" class="mt-2 pt-2 border-t border-slate-800 space-y-2 text-[11px] text-slate-200 leading-relaxed"></div>
-      </details>
-
       <!-- Bitácora Histórica por Renglones (9am, 11am, correo, WA, SMS...) -->
       <div class="rounded-xl bg-slate-950/80 border border-slate-800 p-3 space-y-2">
         <div class="flex items-center justify-between">
@@ -4550,10 +4546,9 @@
         </div>
       </div>
 
-      <!-- Nuevo Renglón de Anotación -->
-      <div class="rounded-xl bg-slate-900/70 border border-cyan-500/30 p-3.5 space-y-3">
-        <div class="text-[11px] font-black uppercase tracking-wider text-cyan-300">➕ Agregar Nuevo Renglón de Seguimiento (Hoy / Ahora)</div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+      <!-- Nota directa del seguimiento (campos técnicos ocultos para cero fricción) -->
+      <div class="rounded-xl bg-slate-900/70 border border-cyan-500/30 p-3.5 space-y-2">
+        <div class="hidden" style="display:none;">
           <div>
             <label for="setter-work-channel" class="block text-slate-400 font-semibold mb-1">Canal Usado</label>
             <select id="setter-work-channel" class="input-dark text-xs py-1.5">
@@ -7209,7 +7204,7 @@ function parseLeadIntelligence(l) {
   const googleVal = googleMatch ? googleMatch[1].trim() : '';
   const speechMatch = notes.match(/🎙️ SPEECH TELEFÓNICO[^\n]*:\n([\s\S]*?)(?=\n\n💬 GUION WHATSAPP|$)/);
   const speech = speechMatch ? speechMatch[1].trim() : '';
-  const waMatch = notes.match(/💬 GUION WHATSAPP[^\n]*:\n([\s\S]*)$/);
+  const waMatch = notes.match(/💬 GUION WHATSAPP[^\n]*:\n([\s\S]*?)(?=\n\[20|$)/);
   const waScript = waMatch ? waMatch[1].trim() : `Hola ${l.business_name || l.name || ''}, te saluda ProsperIA.`;
 
   let diagKind = 'has_web';
@@ -7963,7 +7958,7 @@ function openSetterWorkDialog(leadId, defaultChannel = 'Llamada', preserveFeedba
   }
   if (crmBtn) {
     crmBtn.textContent = isAlreadyCloserLead
-      ? '💾 Actualizar Etapa, Oferta & Propuesta en CRM ProsperIA'
+      ? '💾 Actualizar Etapa y Nota en CRM ProsperIA'
       : '🔥 Contestó y Calificó → Pasar a Pipeline Closer';
   }
 
