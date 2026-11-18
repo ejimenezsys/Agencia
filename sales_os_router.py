@@ -4420,13 +4420,17 @@ def _strip_accents_lower(text: str) -> str:
     return " ".join(no_marks.lower().split())
 
 
-def _classify_automated_inbound(text: str) -> str:
+def _classify_automated_inbound(text: str, channel: str = "") -> str:
     """Clasifica respuestas entrantes en 'auto_reject', 'auto_bot' o 'human' para evitar bucles bot vs. bot."""
     low = _strip_accents_lower(text)
+    ch_low = (channel or "").strip().lower()
+    if "activity_" in ch_low and "dnd enabled" not in low:
+        return "auto_bot"
     if not low:
         return "human"
 
     reject_phrases = (
+        "dnd enabled by customer",
         "no coordinamos reuniones",
         "no daremos curso a propuestas",
         "propuestas comerciales de proveedores",
@@ -4437,18 +4441,53 @@ def _classify_automated_inbound(text: str) -> str:
         "no nos contacten",
         "dejen de escribir",
     )
-    if any(p in low for p in reject_phrases) or re.search(r"\b(stop|baja|unsubscribe)\b", low):
+    if (
+        any(p in low for p in reject_phrases)
+        or re.search(r"\b(stop|baja|unsubscribe)\b", low)
+        or re.search(r"\bno[.,!\s]+muchas gracias\b", low)
+    ):
         return "auto_reject"
 
     bot_phrases = (
+        "respuesta automatica",
+        "mensaje automatico",
+        "msj automatico",
         "asistente virtual",
         "bot de atencion",
-        "gracias por comunicarte con",
+        "gracias por comunicarte",
+        "gracias por comunicarse",
+        "gracias por su mensaje",
+        "gracias por tu mensaje",
+        "en este momento no podemos atenderle",
+        "por ahora no podemos responder",
         "en breve te atenderemos",
+        "en breve te responderemos",
+        "en breve nos pondremos en contacto",
         "selecciona una opcion",
         "menu principal",
-        "respuesta automatica",
         "en unos momentos un asesor",
+        "horario de atencion",
+        "fuera de horario",
+        "gracias por escribirnos",
+        "gracias por escribir a",
+        "gracias por contactarnos",
+        "gracias por contactar con",
+        "gracias por contactar a",
+        "gracias por ponerte en contacto",
+        "te responderemos lo mas pronto",
+        "te atenderemos lo mas pronto",
+        "bienvenido(a) a",
+        "bienvenida(o) a",
+        "bienvenido a",
+        "bienvenida a",
+        "bienvenid@ a",
+        "te damos la bienvenida a",
+        "estara recargando energias",
+        "estas contactando a",
+        "que gusto recibir tu mensaje",
+        "queremos ofrecerte una atencion",
+        "somos vossa",
+        "lo mas avanzado en aprendizaje",
     )
     if ("yo soy " in low and "voy a ayudarte" in low) or any(p in low for p in bot_phrases):
         return "auto_bot"
@@ -4494,7 +4533,7 @@ def _handle_inbound_reply_for_lead(
     phone_raw = (getattr(lead, "phone_e164", None) or lead.phone or "").strip()
     tag_id = f" [ref:{event_uid}]" if event_uid else ""
 
-    inbound_kind = _classify_automated_inbound(clean_msg)
+    inbound_kind = _classify_automated_inbound(clean_msg, channel)
     if inbound_kind == "auto_reject":
         lead.pipeline_stage = "No cumple perfil"
         lead.status = "lost"
@@ -4665,14 +4704,18 @@ def _scan_recent_ghl_replies_sync(db: Session, state: dict) -> int:
             continue
         latest_in = inbound_msgs[0]
         uid = str(latest_in.get("id") or "")
+        in_channel = str(latest_in.get("channel") or "WhatsApp")
+        in_body = str(latest_in.get("body") or "")
+        if in_channel.lower().startswith("activity_") and "dnd enabled" not in in_body.lower():
+            continue
         if uid and f"[ref:{uid}]" in (getattr(lead, "notes", "") or ""):
             continue
         res = _handle_inbound_reply_for_lead(
             db,
             lead,
-            inbound_text=str(latest_in.get("body") or ""),
+            inbound_text=in_body,
             contact_id=cid,
-            channel=str(latest_in.get("channel") or "WhatsApp"),
+            channel=in_channel,
             event_uid=uid,
         )
         if res.get("processed"):
@@ -5968,6 +6011,119 @@ async def api_control_setter_ia(
 
     await asyncio.to_thread(check_and_sync_ghl_wa_workflows, True)
     return {"success": True, "message": msg, "state": state}
+
+
+@router.post("/api/sales-os/reclassify-wa-autogreetings")
+async def api_reclassify_wa_autogreetings(
+    current_user: dict = Depends(get_current_sales_user),
+    db: Session = Depends(get_db),
+):
+    """Limpia retroactivamente saludos automáticos de WA Business y eventos DND/sistema
+    del banner rojo '🔥 RESPONDIÓ A SETTER IA', dejando únicamente respuestas humanas reales.
+    No modifica los contadores calls_made_today ni calls_made_week de ningún closer.
+    """
+    if current_user.get("role") != "admin":
+        raise HTTPException(status_code=403, detail="Solo el administrador (Edward) puede reclasificar el banner.")
+
+    candidates = (
+        db.query(DbLead)
+        .filter(func.coalesce(DbLead.notes, "").contains("RESPONDIÓ A SETTER IA"))
+        .all()
+    )
+
+    reclassified_bots = 0
+    reclassified_rejects = 0
+    kept_humans = 0
+    affected_by_owner: Dict[str, Dict[str, int]] = {}
+
+    block_re = re.compile(r"(\[\d{4}-\d{2}-\d{2}[^\]]*🔥\s*RESPONDIÓ A SETTER IA\s*\(([^)]*)\)[^\n]*\][\s\S]*?)(?=\n\[\d{4}-\d{2}-\d{2}|\Z)")
+
+    for lead in candidates:
+        notes_now = getattr(lead, "notes", "") or ""
+        if "RESPONDIÓ A SETTER IA (Correo Electrónico)" in notes_now:
+            kept_humans += 1
+            continue
+
+        matches = list(block_re.finditer(notes_now))
+        if not matches:
+            kept_humans += 1
+            continue
+
+        has_real_human = False
+        lead_kinds = []
+        new_notes = notes_now
+
+        # Evaluar de atrás hacia adelante para conservar índices o reemplazar cada bloque
+        for m in reversed(matches):
+            block_txt = m.group(1)
+            ch_hint = (m.group(2) or "").strip()
+            if "correo electronico" in _strip_accents_lower(ch_hint):
+                has_real_human = True
+                lead_kinds.append("human")
+                continue
+
+            kind = _classify_automated_inbound(block_txt, ch_hint)
+            lead_kinds.append(kind)
+            if kind == "human":
+                has_real_human = True
+            elif kind == "auto_reject":
+                replaced = block_txt.replace(
+                    "🔥 RESPONDIÓ A SETTER IA",
+                    "🚫 Auto-respuesta detectada (Rechazo/DND)",
+                )
+                new_notes = new_notes[:m.start(1)] + replaced + new_notes[m.end(1):]
+            else:
+                replaced = block_txt.replace(
+                    "🔥 RESPONDIÓ A SETTER IA",
+                    "🤖 Auto-respuesta detectada · Ventana 24h abierta (Saludo WA Business · llamar o escribir directo)",
+                )
+                new_notes = new_notes[:m.start(1)] + replaced + new_notes[m.end(1):]
+
+        owner = normalize_email(getattr(lead, "owner_id", "") or "sin_asignar")
+        if owner not in affected_by_owner:
+            affected_by_owner[owner] = {"humans": 0, "bots": 0, "rejects": 0}
+
+        if has_real_human:
+            if new_notes != notes_now:
+                lead.notes = new_notes
+            kept_humans += 1
+            affected_by_owner[owner]["humans"] += 1
+        elif "auto_reject" in lead_kinds and "auto_bot" not in lead_kinds:
+            lead.notes = new_notes
+            if (getattr(lead, "pipeline_stage", "") or "") in ("Primer contacto", "Contacto"):
+                lead.pipeline_stage = "No cumple perfil"
+                lead.status = "lost"
+            reclassified_rejects += 1
+            affected_by_owner[owner]["rejects"] += 1
+        else:
+            lead.notes = new_notes
+            reclassified_bots += 1
+            affected_by_owner[owner]["bots"] += 1
+
+    db.commit()
+
+    real_remaining = (
+        db.query(DbLead)
+        .filter(func.coalesce(DbLead.notes, "").contains("RESPONDIÓ A SETTER IA"))
+        .count()
+    )
+    with _SETTER_IA_LOCK:
+        st = _load_setter_ia_state(db)
+        st["replies_detected"] = real_remaining
+        _append_setter_ia_log(
+            st,
+            f"🧹 Limpieza banner rojo: {reclassified_bots} saludos WA + {reclassified_rejects} rechazos/DND movidos; {real_remaining} humanos reales en prioridad #1.",
+        )
+        _save_setter_ia_state(db, st)
+
+    return {
+        "success": True,
+        "reclassified_bots": reclassified_bots,
+        "reclassified_rejects": reclassified_rejects,
+        "kept_humans": kept_humans,
+        "real_remaining_replied": real_remaining,
+        "by_closer": affected_by_owner,
+    }
 
 
 
