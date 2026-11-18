@@ -4631,7 +4631,9 @@ def _build_lead_web_warm_email_payload(first_name: str, company_name: str = "") 
     clean_first = (first_name or "").strip() or "hola"
     greeting = f"Hola {clean_first}" if clean_first.lower() != "hola" else "Hola"
     safe_greeting = html_lib.escape(greeting)
-    biz_mention = f" en {company_name.strip()}" if (company_name or "").strip() else ""
+    comp_clean = (company_name or "").strip()
+    is_generic_form_label = any(g in comp_clean.lower() for g in ("profesional", "alumno", "passportai", "empresa / negocio", "calificado"))
+    biz_mention = f" en {comp_clean}" if (comp_clean and not is_generic_form_label) else ""
     safe_biz_mention = html_lib.escape(biz_mention)
 
     subject = f"{greeting}, consulta rapida sobre tu negocio e IA"
