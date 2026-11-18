@@ -106,6 +106,22 @@ CLOSER_AUTOMATION_TAGS = (
     "sms_opt_in",
 )
 
+# Plantillas de WhatsApp aprobadas por Meta en la subcuenta CNvJBINRWBUL2EdqRh3G (+1 786-833-6964)
+GHL_WA_TEMPLATES = {
+    "reactivacion_prosper_ia": {
+        "tag": "wa_plantilla_prosper_ia",
+        "label": "Saludo & Crecimiento Digital (reactivacion_prosper_ia)",
+    },
+    "reactivacion_oferta_directa": {
+        "tag": "wa_plantilla_oferta_directa",
+        "label": "Oferta Directa Prosper IA (reactivacion_oferta_directa)",
+    },
+    "reactivacion_valor_inicial": {
+        "tag": "wa_plantilla_valor_inicial",
+        "label": "Valor Inicial & Diagnóstico (reactivacion_valor_inicial)",
+    },
+}
+
 # IDs de los campos personalizados de contacto creados en la subcuenta (CNvJBINRWBUL2EdqRh3G).
 CF_INDUSTRIA = "K9N5HFBIpkonykvmoqB4"
 CF_TAMANO_EQUIPO = "um5xkZ48Mmgx1GzqfpRK"
@@ -1271,4 +1287,138 @@ def send_ghl_direct_message(
         "channel": type_map[ch],
         "contact_id": cid,
         "message_id": msg_id,
+    }
+
+
+def dispatch_ghl_agency_whatsapp(
+    contact_id: str,
+    phone: str,
+    email: str,
+    full_name: str,
+    company: str,
+    mode: str = "template",
+    template_name: str = "reactivacion_prosper_ia",
+    custom_message: str = "",
+    owner_email: str = "",
+    lead_db_id: Optional[int] = None,
+) -> dict:
+    """Envía WhatsApp usando ÚNICAMENTE la línea oficial de Agencia Prosper IA (+1 786-833-6964) vía GHL.
+    - No crea oportunidad en el pipeline de Closers (mantiene limpia la bandeja Setter hasta Calificar).
+    - mode='template': dispara una de las 3 plantillas aprobadas por Meta vía Workflow/Tag Added.
+    - mode='free_text': envía texto libre por Conversations API si el cliente respondió (<24h); si la ventana
+      de 24h está cerrada, activa automáticamente la plantilla oficial para reabrir conversación.
+    """
+    clean_phone = _clean_phone(phone)
+    if not clean_phone:
+        return {"ok": False, "error": "El prospecto no tiene un teléfono WhatsApp válido."}
+
+    token = _cfg_db("GHL_PRIVATE_TOKEN") or _cfg_db("GHL_ACCESS_TOKEN")
+    loc_id = _cfg_db("GHL_LOCATION_ID", DEFAULT_LOCATION_ID)
+    if not token:
+        return {"ok": False, "error": "GHL_PRIVATE_TOKEN no configurado en el servidor."}
+
+    # 1. Upsert del contacto SOLO en Contactos GHL (sin crear oportunidad en el Pipeline de Closers)
+    cid = (contact_id or "").strip()
+    if not cid:
+        parts = (full_name or company or "Prospecto").split()
+        fn = parts[0] if parts else "Prospecto"
+        ln = " ".join(parts[1:]) if len(parts) > 1 else ""
+        clean_em = (email or "").strip().lower()
+        upsert_body = {
+            "locationId": loc_id,
+            "firstName": fn,
+            "lastName": ln,
+            "name": (full_name or company or clean_phone).strip(),
+            "phone": clean_phone,
+            "companyName": (company or full_name or "").strip(),
+            "source": "Setter ProsperIA - WhatsApp Agencia",
+        }
+        if clean_em and "@" in clean_em and "@sin-correo.local" not in clean_em:
+            upsert_body["email"] = clean_em
+        u_st, u_res = _request("POST", "/contacts/upsert", token, upsert_body)
+        if u_st not in (200, 201):
+            return {"ok": False, "error": f"No se pudo registrar contacto en GHL ({u_st}): {u_res}"}
+        cid = (u_res.get("contact") or {}).get("id") or ""
+        if not cid:
+            return {"ok": False, "error": "GHL no devolvió contact_id al registrar el WhatsApp."}
+        if lead_db_id:
+            _persist_lead_ghl_ids(lead_db_id, cid, None)
+
+    tpl_key = template_name if template_name in GHL_WA_TEMPLATES else "reactivacion_prosper_ia"
+    tpl_meta = GHL_WA_TEMPLATES[tpl_key]
+    tpl_tag = tpl_meta["tag"]
+
+    # 2. Si el modo es texto libre (<24h), intentar /conversations/messages primero y comprobar ventana Meta
+    if (mode or "").strip().lower() == "free_text" and (custom_message or "").strip():
+        msg_txt = custom_message.strip()
+        m_st, m_res = _request(
+            "POST",
+            "/conversations/messages",
+            token,
+            {"type": "WhatsApp", "contactId": cid, "message": msg_txt},
+        )
+        if m_st in (200, 201):
+            conv_id = m_res.get("conversationId") or ""
+            msg_id = m_res.get("messageId") or ""
+            failed_24h = False
+            if conv_id and msg_id:
+                time.sleep(1.4)
+                c_st, c_res = _request("GET", f"/conversations/{conv_id}/messages", token)
+                if c_st == 200:
+                    msgs = (c_res.get("messages") or {}).get("messages") or []
+                    matched = next((m for m in msgs if m.get("id") == msg_id), None)
+                    if matched and matched.get("status") == "failed":
+                        err_s = str(matched.get("error") or "")
+                        if "24 hours" in err_s.lower() or "template" in err_s.lower():
+                            failed_24h = True
+            if not failed_24h:
+                return {
+                    "ok": True,
+                    "mode": "free_text",
+                    "contact_id": cid,
+                    "conversation_id": conv_id,
+                    "message_id": msg_id,
+                    "detail": "Texto libre enviado desde +1 786-833-6964 (ventana 24h activa).",
+                }
+
+    # 3. Modo Plantilla (en frío o fallback por ventana 24h cerrada):
+    # Quita y vuelve a añadir la etiqueta para disparar siempre el Workflow de plantilla en GHL
+    _request("DELETE", f"/contacts/{cid}/tags", token, {"tags": [tpl_tag]})
+    time.sleep(0.2)
+    tags_to_add = [tpl_tag, "setter_wa_agencia"]
+    for rt in _infer_country_routing_tags(clean_phone):
+        if rt not in tags_to_add:
+            tags_to_add.append(rt)
+    if owner_email:
+        tags_to_add.append(_slug_tag("closer", owner_email.split("@")[0]))
+    t_st, t_res = _request("POST", f"/contacts/{cid}/tags", token, {"tags": tags_to_add})
+    if t_st not in (200, 201):
+        return {"ok": False, "contact_id": cid, "error": f"No se pudo disparar la etiqueta WhatsApp en GHL ({t_st}): {t_res}"}
+
+    _request(
+        "POST",
+        f"/contacts/{cid}/notes",
+        token,
+        {
+            "body": (
+                f"💬 [WHATSAPP AGENCIA +1 786-833-6964]\n"
+                f"• Plantilla solicitada: {tpl_key} (tag: {tpl_tag})\n"
+                f"• Asesor: {owner_email or 'Setter ProsperIA'}\n"
+                f"• Canal: CRM GoHighLevel Oficial (sin usar teléfono personal)."
+            )
+        },
+    )
+
+    fallback_note = (
+        "Ventana Meta de 24h cerrada: se disparó plantilla oficial "
+        if (mode or "").strip().lower() == "free_text"
+        else "Plantilla oficial disparada desde +1 786-833-6964: "
+    )
+    return {
+        "ok": True,
+        "mode": "template",
+        "template_name": tpl_key,
+        "template_tag": tpl_tag,
+        "contact_id": cid,
+        "detail": f"{fallback_note}{tpl_key} (etiqueta {tpl_tag}).",
     }

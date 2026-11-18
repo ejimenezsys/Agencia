@@ -47,9 +47,11 @@ from ghl_client import (
     BEAUTY_PIPELINE_ID,
     BEAUTY_PIPELINE_NAME,
     BEAUTY_STAGE_MAP,
+    GHL_WA_TEMPLATES,
     _BEAUTY_PIPELINE_CACHE,
     _cfg as _ghl_cfg,
     _cfg_db,
+    dispatch_ghl_agency_whatsapp,
     send_ghl_direct_message,
     sync_lead_to_ghl,
     sync_sales_os_event_to_ghl_async,
@@ -2458,7 +2460,7 @@ async def api_sales_os_leaderboard(
                 "Propuesta enviada", "Pago pendiente", "Pago confirmado", "Implementación", "Entregado",
                 *BEAUTY_GROWTH_PIPELINE_STAGES[6:13],
             )
-            or ((getattr(l, "pipeline_stage", "") or "") in ("Primer contacto", "Contacto") and bool((getattr(l, "contact_id", "") or "").strip()))
+            or ((getattr(l, "pipeline_stage", "") or "") in ("Primer contacto", "Contacto") and bool((getattr(l, "ghl_opportunity_id", "") or "").strip()))
         )
         pending_queue_count = sum(
             1 for l in my_leads
@@ -2466,7 +2468,7 @@ async def api_sales_os_leaderboard(
                 "Lead identificado", "Primer contacto", "Contacto", "No responde", "En seguimiento local",
                 "1. Prospecto identificado", "2. Primer contacto", "3. Segundo contacto", "4. Tercer contacto",
             )
-            and not bool((getattr(l, "contact_id", "") or "").strip())
+            and not bool((getattr(l, "ghl_opportunity_id", "") or "").strip())
             and (getattr(l, "contact_status", "contactable") or "contactable") == "contactable"
         )
 
@@ -2646,7 +2648,7 @@ async def api_ceo_intelligence_report(
         st = getattr(l, "pipeline_stage", "") or "Lead identificado"
         is_touched = st != "Lead identificado"
         is_local_followup = st in ("En seguimiento local", "Primer contacto", "Contacto")
-        is_crm_hot = (st in crm_stages) or (st in ("Primer contacto", "Contacto") and bool((getattr(l, "contact_id", "") or "").strip()))
+        is_crm_hot = (st in crm_stages) or (st in ("Primer contacto", "Contacto") and bool((getattr(l, "ghl_opportunity_id", "") or "").strip()))
         is_demo = st in demo_stages
         col_amt = float(getattr(l, "amount_collected", 0.0) or 0.0)
         is_paid = col_amt > 0 and bool((getattr(l, "invoice_id", "") or "").strip())
@@ -2690,7 +2692,7 @@ async def api_ceo_intelligence_report(
         t_stats = touch_actions_by_actor.get(em, {})
         touches_week = int(getattr(u, "calls_made_week", 0) or 0)
         touches_today = int(getattr(u, "calls_made_today", 0) or 0)
-        crm_hot = sum(1 for l in u_leads if ((getattr(l, "pipeline_stage", "") or "") in crm_stages) or ((getattr(l, "pipeline_stage", "") or "") in ("Primer contacto", "Contacto") and bool((getattr(l, "contact_id", "") or "").strip())))
+        crm_hot = sum(1 for l in u_leads if ((getattr(l, "pipeline_stage", "") or "") in crm_stages) or ((getattr(l, "pipeline_stage", "") or "") in ("Primer contacto", "Contacto") and bool((getattr(l, "ghl_opportunity_id", "") or "").strip())))
         local_followups = sum(1 for l in u_leads if (getattr(l, "pipeline_stage", "") or "") in ("En seguimiento local", "Primer contacto", "Contacto"))
         no_ans_cnt = sum(1 for l in u_leads if (getattr(l, "pipeline_stage", "") or "") == "No responde")
         pending_cnt = sum(1 for l in u_leads if (getattr(l, "pipeline_stage", "") or "") == "Lead identificado")
@@ -3578,6 +3580,24 @@ def _auto_dispatch_semana18nov_welcome_async(
             except Exception as exc:
                 print(f"⚠️ [AUTO SEMANA18NOV SMS] Lead {lead_id}: {exc}", flush=True)
 
+        if clean_phone:
+            try:
+                res_wa = dispatch_ghl_agency_whatsapp(
+                    contact_id=contact_id,
+                    phone=clean_phone,
+                    email=email or "",
+                    full_name=full_name or biz,
+                    company=biz,
+                    mode="template",
+                    template_name="reactivacion_prosper_ia",
+                    owner_email=closer_email,
+                    lead_db_id=lead_id,
+                )
+                if res_wa.get("ok"):
+                    logs_added.append("💬 Auto-WhatsApp Agencia (reactivacion_prosper_ia)")
+            except Exception as exc:
+                print(f"⚠️ [AUTO SEMANA18NOV WA] Lead {lead_id}: {exc}", flush=True)
+
         if logs_added:
             db_bg = SessionLocal()
             try:
@@ -3757,6 +3777,108 @@ async def api_send_ghl_direct_message(
     return {
         "success": True,
         "message": f"📲 {ch_label} enviado desde el número oficial de la agencia en GHL y registrado en bitácora.",
+        "data": serialize_lead(lead),
+    }
+
+
+class AgencyWhatsappSendRequest(BaseModel):
+    mode: Optional[str] = "template"  # template | free_text
+    template_name: Optional[str] = "reactivacion_prosper_ia"
+    custom_message: Optional[str] = ""
+
+
+@router.post("/api/sales-os/leads/{lead_id}/send-agency-whatsapp")
+async def api_send_agency_whatsapp(
+    lead_id: int,
+    req: AgencyWhatsappSendRequest,
+    current_user: dict = Depends(get_current_sales_user),
+    db: Session = Depends(get_db),
+):
+    """Envía WhatsApp usando la línea oficial de Agencia Prosper IA (+1 786-833-6964 / WABA) en GHL,
+    sin usar el teléfono personal del Closer y sin crear oportunidad en el Pipeline de Closers hasta que califique.
+    """
+    import asyncio
+
+    lead = db.query(DbLead).filter(DbLead.id == lead_id).first()
+    if not lead:
+        raise HTTPException(status_code=404, detail="Prospecto no encontrado.")
+    if current_user["role"] == "seller" and (getattr(lead, "owner_id", "") or "") != current_user["email"]:
+        raise HTTPException(status_code=403, detail="Este contacto está asignado a otro closer.")
+
+    phone_raw = (getattr(lead, "phone_e164", None) or lead.phone or "").strip()
+    if not phone_raw:
+        raise HTTPException(status_code=400, detail="Este prospecto no tiene teléfono WhatsApp registrado.")
+
+    if is_contact_excluded(db, getattr(lead, "email", "") or "", normalize_phone_e164(phone_raw)):
+        raise HTTPException(status_code=400, detail="Contacto en lista DND / Opt-out; WhatsApp bloqueado.")
+
+    tpl_key = (req.template_name or "reactivacion_prosper_ia").strip()
+    mode = (req.mode or "template").strip().lower()
+    if tpl_key == "free_text":
+        mode = "free_text"
+        tpl_key = "reactivacion_prosper_ia"
+
+    biz_name = (getattr(lead, "business_name", None) or lead.company or lead.name or "").strip()
+    full_name = (getattr(lead, "full_name", None) or lead.name or biz_name or "Prospecto").strip()
+    tpl = getattr(lead, "selected_template", "clinica_dental_estetica") or "clinica_dental_estetica"
+    demo_url = (
+        f"https://agenciaprosperia.com/demo-sitio-web?template={urllib.parse.quote(tpl)}"
+        f"&business={urllib.parse.quote(biz_name or full_name)}&phone={urllib.parse.quote(phone_raw)}"
+    )
+    default_free = (
+        f"Hola {(full_name.split()[0] if full_name else '')}, te compartimos de Agencia Prosper IA la demo interactiva "
+        f"lista para {biz_name or 'tu negocio'}: {demo_url}"
+    ).strip()
+
+    res = await asyncio.to_thread(
+        dispatch_ghl_agency_whatsapp,
+        contact_id=getattr(lead, "contact_id", "") or "",
+        phone=phone_raw,
+        email=getattr(lead, "email", "") or "",
+        full_name=full_name,
+        company=biz_name,
+        mode=mode,
+        template_name=tpl_key if tpl_key in GHL_WA_TEMPLATES else "reactivacion_prosper_ia",
+        custom_message=(req.custom_message or "").strip() or default_free,
+        owner_email=getattr(lead, "owner_id", "") or current_user["email"],
+        lead_db_id=lead.id,
+    )
+    if not res.get("ok"):
+        raise HTTPException(status_code=502, detail=res.get("error") or "No se pudo disparar el WhatsApp de la agencia.")
+
+    now_iso = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+    stamp_human = f"{now_iso[:10]} {now_iso[11:16]}"
+    old_stage = getattr(lead, "pipeline_stage", "Lead identificado") or "Lead identificado"
+    new_stage = "Primer contacto" if old_stage in ("Lead identificado", "No responde") else old_stage
+    lead.contact_id = lead.contact_id or (res.get("contact_id") or "")
+    lead.pipeline_stage = new_stage
+    if getattr(lead, "status", "new") == "new":
+        lead.status = "contacted"
+    lead.last_touch = now_iso
+    lead.notes = ((lead.notes or "") + f"\n[{stamp_human} · WhatsApp Agencia +1 786 · {new_stage}] 💬 {res.get('detail')}").strip()
+
+    u = db.query(User).filter(User.email == current_user["email"]).first()
+    if u:
+        u.calls_made_today = int(getattr(u, "calls_made_today", 0) or 0) + 1
+        u.calls_made_week = int(getattr(u, "calls_made_week", 0) or 0) + 1
+        u.last_seen_at = now_iso[:19].replace("T", " ")
+
+    record_audit(
+        db,
+        actor_email=current_user["email"],
+        actor_role=current_user["role"],
+        lead_id=lead.id,
+        action="touch_wa_email_local_only",
+        field_changed="pipeline_stage",
+        old_value=old_stage,
+        new_value=new_stage,
+        notes=f"WhatsApp Agencia GHL (+1 786) disparado por {current_user['name']}: {res.get('detail')}",
+    )
+    db.commit()
+    db.refresh(lead)
+    return {
+        "success": True,
+        "message": f"💬 WhatsApp Oficial de la Agencia (+1 786) enviado: {res.get('detail')}",
         "data": serialize_lead(lead),
     }
 

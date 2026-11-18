@@ -4399,9 +4399,9 @@
         <button type="button" id="setter-work-call-btn" class="px-3 py-1.5 rounded-lg text-xs font-black bg-emerald-400 text-slate-950 hover:bg-emerald-300 transition shadow">
           📞 Llamar
         </button>
-        <a id="setter-work-wa-btn" href="#" target="_blank" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/35 hover:bg-emerald-500/30 no-underline">
-          <i class="fab fa-whatsapp"></i> WhatsApp
-        </a>
+        <button type="button" id="setter-work-wa-btn" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/35 hover:bg-emerald-500/30 transition" title="Enviar WhatsApp Oficial de la Agencia (+1 786-833-6964) sin usar tu celular personal">
+          💬 WA Agencia
+        </button>
         <button type="button" id="setter-work-sms-btn" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/35 hover:bg-indigo-500/30">
           🇺🇸 SMS Miami (+1)
         </button>
@@ -4415,6 +4415,18 @@
       </div>
     </div>
     <div id="setter-work-quick-feedback" class="hidden mb-3 px-3 py-2 rounded-lg text-xs font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30"></div>
+    <div id="setter-work-wa-tpl-bar" class="mb-3 p-2.5 rounded-xl bg-slate-900/80 border border-emerald-500/25 flex flex-wrap items-center gap-2 text-xs">
+      <label for="setter-work-wa-template" class="font-bold text-emerald-300 whitespace-nowrap">💬 Plantilla WhatsApp Agencia (+1 786):</label>
+      <select id="setter-work-wa-template" class="input-dark text-xs py-1.5 flex-1 min-w-[230px]">
+        <option value="reactivacion_prosper_ia">🟢 Saludo &amp; Crecimiento Digital (reactivacion_prosper_ia)</option>
+        <option value="reactivacion_oferta_directa">🔥 Oferta Directa Prosper IA (reactivacion_oferta_directa)</option>
+        <option value="reactivacion_valor_inicial">💎 Valor Inicial &amp; Diagnóstico (reactivacion_valor_inicial)</option>
+        <option value="free_text">✍️ Texto Libre + Demo Web (Solo si ya respondió &lt;24h)</option>
+      </select>
+      <button type="button" onclick="sendAgencyWhatsappToLead(Number(document.getElementById('setter-work-lead-id').value), this)" class="px-3 py-1.5 rounded-lg font-black bg-emerald-500 text-slate-950 hover:bg-emerald-400 transition">
+        Disparar WA Agencia
+      </button>
+    </div>
 
     <input type="hidden" id="setter-work-lead-id">
     <div class="space-y-4 text-xs">
@@ -6246,7 +6258,7 @@ function renderSalesOsTable() {
   const isInCloserPipeline = (l) => {
     const st = l.pipeline_stage || 'Lead identificado';
     if (!inactiveStages.includes(st)) return true;
-    const hasCrmHistory = ((l.contact_id || '').trim() !== '' || Number(l.quoted_amount || 0) > 0 || Number(l.amount_collected || 0) > 0);
+    const hasCrmHistory = ((l.ghl_opportunity_id || '').trim() !== '' || Number(l.quoted_amount || 0) > 0 || Number(l.amount_collected || 0) > 0);
     return (st === 'Primer contacto' || st === 'Contacto') && hasCrmHistory;
   };
 
@@ -6303,7 +6315,7 @@ function renderSalesOsTable() {
         ${latestSetterNote ? `<div class="mt-1 text-[10px] text-amber-200/90 bg-amber-500/10 border border-amber-500/20 rounded px-2 py-1 max-w-xs truncate" title="${esc(latestSetterNote)}">📒 Bitácora (${setterRows.length}): ${esc(latestSetterNote)}</div>` : ''}
         <div class="flex flex-wrap items-center gap-1.5 mt-1">
           ${rawPhone ? `<button type="button" onclick="initiateCloserCall('${esc(rawPhone)}', ${l.id})" class="px-2 py-0.5 rounded bg-slate-800 text-cyan-200 border border-cyan-500/35 text-[10px] font-bold hover:bg-slate-700">${esc(route.btnLabel)}</button>` : ''}
-          ${waDigits ? `<a href="https://wa.me/${waDigits}?text=${encodeURIComponent(intel.waScript)}" target="_blank" class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold no-underline hover:bg-emerald-500/30"><i class="fab fa-whatsapp"></i> WhatsApp</a>` : ''}
+          ${waDigits ? `<button type="button" onclick="sendAgencyWhatsappToLead(${l.id}, this)" class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold hover:bg-emerald-500/30" title="Enviar WhatsApp desde la línea oficial +1 786 de la agencia">💬 WA Agencia</button>` : ''}
           ${route.allowMiamiSms ? `<button type="button" onclick="sendGhlDirectMsgFromUi(${l.id}, 'SMS', this)" class="px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-[10px] font-bold hover:bg-indigo-500/30">🇺🇸 SMS Miami</button>` : ''}
           ${hasEmail ? `<button type="button" onclick="sendInstitutionalEmailToLead(${l.id}, this, 'seller@agenciaprosperia.com')" class="px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30 text-[10px] font-bold hover:bg-sky-500/30" title="Enviar correo corporativo 100% desde el sistema">✉️ Correo</button>` : ''}
         </div>
@@ -7292,14 +7304,79 @@ function initiateCloserCall(rawPhone, leadId, alreadyInModal = false) {
         navigator.clipboard.writeText(route.cleanPhone).catch(() => {});
       }
     } catch (e) {}
-    if (route.mode === 'LATAM_WA' && route.waUrl) {
-      window.open(route.waUrl, '_blank', 'noopener');
+    if (route.mode === 'LATAM_WA') {
+      if (!alreadyInModal && leadId) {
+        openSetterWorkDialog(leadId, 'WhatsApp Agencia');
+      }
+      if (leadId) {
+        sendAgencyWhatsappToLead(leadId, null, 'reactivacion_prosper_ia');
+      }
+      return;
     } else if (route.dialHref) {
       window.location.href = route.dialHref;
     }
   }
   if (!alreadyInModal && leadId) {
-    openSetterWorkDialog(leadId, route.mode === 'US_SIP' ? 'Llamada SIP Miami' : (route.mode === 'LATAM_WA' ? 'WhatsApp' : 'Llamada'));
+    openSetterWorkDialog(leadId, route.mode === 'US_SIP' ? 'Llamada SIP Miami' : 'Llamada');
+  }
+}
+
+async function sendAgencyWhatsappToLead(leadId, triggerBtn = null, forceTemplate = null) {
+  const lead = salesOsLeads.find(x => x.id === leadId);
+  if (!lead) return;
+  const tplSel = document.getElementById('setter-work-wa-template');
+  const chosenTpl = forceTemplate || (tplSel ? tplSel.value : 'reactivacion_prosper_ia') || 'reactivacion_prosper_ia';
+  const mode = chosenTpl === 'free_text' ? 'free_text' : 'template';
+
+  let customMsg = '';
+  if (mode === 'free_text') {
+    const intel = parseLeadIntelligence(lead);
+    const defaultFree = intel.waScript || `Hola ${lead.business_name || lead.name || ''}, te compartimos de Agencia Prosper IA tu muestra interactiva.`;
+    const typed = prompt(`Escribir WhatsApp libre (+1 786) para ${lead.business_name || lead.name} (solo si ya respondió <24h; si no, activa plantilla):`, defaultFree);
+    if (!typed || !typed.trim()) return;
+    customMsg = typed.trim();
+  }
+
+  const origHtml = triggerBtn ? triggerBtn.innerHTML : '';
+  if (triggerBtn) {
+    triggerBtn.disabled = true;
+    triggerBtn.textContent = '⏳ Enviando WA...';
+  }
+  const fb = document.getElementById('setter-work-quick-feedback');
+  try {
+    const res = await fetch(`/api/sales-os/leads/${leadId}/send-agency-whatsapp`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+      body: JSON.stringify({
+        mode,
+        template_name: chosenTpl,
+        custom_message: customMsg
+      })
+    });
+    const out = await res.json();
+    if (!res.ok || !out.success) {
+      throw new Error(out.detail || out.message || 'No se pudo enviar WhatsApp de la agencia.');
+    }
+    const idx = salesOsLeads.findIndex(x => x.id === leadId);
+    if (idx >= 0 && out.data) salesOsLeads[idx] = out.data;
+    if (fb) {
+      fb.textContent = out.message;
+      fb.classList.remove('hidden');
+    }
+    renderCallQueueTable();
+    renderSalesOsTable();
+    if (document.getElementById('setterLeadWorkDialog')?.open && Number(document.getElementById('setter-work-lead-id')?.value) === leadId) {
+      openSetterWorkDialog(leadId, 'WhatsApp Agencia', true);
+    } else if (fb && !document.getElementById('setterLeadWorkDialog')?.open) {
+      alert(out.message);
+    }
+  } catch (err) {
+    alert(err.message || 'Error enviando WhatsApp oficial de la agencia.');
+  } finally {
+    if (triggerBtn) {
+      triggerBtn.disabled = false;
+      triggerBtn.innerHTML = origHtml;
+    }
   }
 }
 
@@ -7413,7 +7490,7 @@ function renderCallQueueTable() {
 
   const isSetterPendingOrLocal = (l) => {
     const st = l.pipeline_stage || 'Lead identificado';
-    const hasCrmHistory = ((l.contact_id || '').trim() !== '' || Number(l.quoted_amount || 0) > 0 || Number(l.amount_collected || 0) > 0);
+    const hasCrmHistory = ((l.ghl_opportunity_id || '').trim() !== '' || Number(l.quoted_amount || 0) > 0 || Number(l.amount_collected || 0) > 0);
     if (st === 'Lead identificado' || st === 'En seguimiento local') return true;
     return (st === 'Primer contacto' || st === 'Contacto') && !hasCrmHistory;
   };
@@ -7442,7 +7519,7 @@ function renderCallQueueTable() {
       if (!hay.includes(searchVal)) return false;
     }
 
-    const hasCrmHistory = ((l.contact_id || '').trim() !== '' || Number(l.quoted_amount || 0) > 0 || Number(l.amount_collected || 0) > 0);
+    const hasCrmHistory = ((l.ghl_opportunity_id || '').trim() !== '' || Number(l.quoted_amount || 0) > 0 || Number(l.amount_collected || 0) > 0);
     if (filterVal === 'pending') return isSetterPendingOrLocal(l);
     if (filterVal === 'untouched') return st === 'Lead identificado';
     if (filterVal === 'callback') return (st === 'Primer contacto' || st === 'Contacto' || st === 'En seguimiento local') && !hasCrmHistory;
@@ -7485,7 +7562,7 @@ function renderCallQueueTable() {
     const waUrl = route.waUrl;
     const hasEmail = hasRealLeadEmail(l);
     const st = l.pipeline_stage || 'Lead identificado';
-    const hasCrmHistory = ((l.contact_id || '').trim() !== '' || Number(l.quoted_amount || 0) > 0 || Number(l.amount_collected || 0) > 0);
+    const hasCrmHistory = ((l.ghl_opportunity_id || '').trim() !== '' || Number(l.quoted_amount || 0) > 0 || Number(l.amount_collected || 0) > 0);
     const isAlreadyInCrm = (st !== 'Lead identificado' && st !== 'En seguimiento local' && st !== 'No responde' && st !== 'No interesado' && st !== 'No cumple perfil') && (st === 'Calificado' || hasCrmHistory || !['Primer contacto', 'Contacto'].includes(st));
     const demoUrl = `/demo-sitio-web?closer=1&lead_id=${l.id}&template=${encodeURIComponent(l.selected_template || 'clinica_dental_estetica')}&business=${encodeURIComponent(l.business_name || l.company || l.name)}&phone=${encodeURIComponent(l.phone || '')}`;
     const bitacoraRows = parseBitacoraEntries(l.notes || '');
@@ -7503,7 +7580,7 @@ function renderCallQueueTable() {
         <div class="font-mono font-bold text-cyan-300 mb-1.5">${esc(l.phone || 'Sin teléfono')}</div>
         <div class="flex flex-wrap items-center gap-1.5">
           ${rawPhone ? `<button type="button" onclick="initiateCloserCall('${esc(rawPhone)}', ${l.id})" class="px-2.5 py-1 rounded-lg bg-emerald-400 text-slate-950 hover:bg-emerald-300 text-[11px] font-black shadow-sm">${esc(route.btnLabel)}</button>` : ''}
-          ${waUrl ? `<a href="${waUrl}" target="_blank" class="px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/35 text-[11px] font-bold no-underline hover:bg-emerald-500/30"><i class="fab fa-whatsapp"></i> WA</a>` : ''}
+          ${rawPhone ? `<button type="button" onclick="sendAgencyWhatsappToLead(${l.id}, this, 'reactivacion_prosper_ia')" class="px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/35 text-[11px] font-bold hover:bg-emerald-500/30" title="Enviar plantilla WhatsApp desde +1 786 de la agencia">💬 WA Agencia</button>` : ''}
           ${route.allowMiamiSms ? `<button type="button" onclick="sendGhlDirectMsgFromUi(${l.id}, 'SMS', this)" class="px-2.5 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 border border-indigo-500/35 text-[11px] font-bold hover:bg-indigo-500/30">🇺🇸 SMS</button>` : ''}
           ${hasEmail ? `<button type="button" onclick="sendInstitutionalEmailToLead(${l.id}, this, 'seller@agenciaprosperia.com')" class="px-2.5 py-1 rounded-lg bg-sky-500/20 text-sky-200 border border-sky-400/40 text-[11px] font-bold hover:bg-sky-500/30" title="Enviar correo corporativo 100% desde el sistema">✉️ Enviar Correo</button>` : ''}
         </div>
@@ -7592,7 +7669,7 @@ function openSetterWorkDialog(leadId, defaultChannel = 'Llamada', preserveFeedba
 
   const isAlreadyCloserLead = (
     ['Calificado', 'Diagnóstico agendado', 'Demo realizada', 'Propuesta enviada', 'Pago pendiente', 'Pago confirmado', 'Implementación', 'Entregado'].includes(curStage)
-    || ((lead.contact_id || '').trim() !== '')
+    || ((lead.ghl_opportunity_id || '').trim() !== '')
   );
   const saveLocalBtn = document.getElementById('setter-work-save-local-btn');
   const crmBtn = document.getElementById('setter-work-crm-btn');
@@ -7618,9 +7695,13 @@ function openSetterWorkDialog(leadId, defaultChannel = 'Llamada', preserveFeedba
     callBtn.style.display = rawPhone ? '' : 'none';
   }
   const waBtn = document.getElementById('setter-work-wa-btn');
+  const waBar = document.getElementById('setter-work-wa-tpl-bar');
   if (waBtn) {
-    waBtn.href = waDigits ? `https://wa.me/${waDigits}?text=${encodeURIComponent(intel.waScript)}` : '#';
-    waBtn.style.display = waDigits ? '' : 'none';
+    waBtn.onclick = () => sendAgencyWhatsappToLead(lead.id, waBtn);
+    waBtn.style.display = rawPhone ? '' : 'none';
+  }
+  if (waBar) {
+    waBar.style.display = rawPhone ? 'flex' : 'none';
   }
   const smsBtn = document.getElementById('setter-work-sms-btn');
   if (smsBtn) {
