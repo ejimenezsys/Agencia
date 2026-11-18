@@ -286,6 +286,19 @@ def fetch_ghl_lead_web_contacts(force: bool = False) -> list[dict]:
     return list(collected)
 
 
+def add_ghl_contact_tags(contact_id: str, tags: list) -> bool:
+    """Agrega etiquetas aditivas en GoHighLevel para un contacto existente sin borrar sus tags previos."""
+    cid = (contact_id or "").strip()
+    clean_tags = [str(t).strip() for t in (tags or []) if str(t).strip()]
+    if not cid or not clean_tags:
+        return False
+    token = _cfg_db("GHL_PRIVATE_TOKEN") or _cfg_db("GHL_ACCESS_TOKEN")
+    if not token:
+        return False
+    st, _ = _request("POST", f"/contacts/{cid}/tags", token, {"tags": clean_tags})
+    return st in (200, 201)
+
+
 def mark_ghl_contact_lead_web_emailed(contact_id: str) -> None:
     """Etiqueta el contacto en GHL con `correo_tibio_lead_web_enviado` y lo retira de la cola en memoria."""
     cid = (contact_id or "").strip()
@@ -293,9 +306,7 @@ def mark_ghl_contact_lead_web_emailed(contact_id: str) -> None:
         _GHL_LEAD_WEB_CACHE["contacts"] = [
             c for c in _GHL_LEAD_WEB_CACHE["contacts"] if c.get("id") != cid
         ]
-        token = _cfg_db("GHL_PRIVATE_TOKEN") or _cfg_db("GHL_ACCESS_TOKEN")
-        if token:
-            _request("POST", f"/contacts/{cid}/tags", token, {"tags": ["correo_tibio_lead_web_enviado"]})
+        add_ghl_contact_tags(cid, ["correo_tibio_lead_web_enviado"])
 
 # IDs de los campos personalizados de contacto creados en la subcuenta (CNvJBINRWBUL2EdqRh3G).
 CF_INDUSTRIA = "K9N5HFBIpkonykvmoqB4"

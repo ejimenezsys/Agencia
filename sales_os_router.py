@@ -59,6 +59,7 @@ from ghl_client import (
     _BEAUTY_PIPELINE_CACHE,
     _cfg as _ghl_cfg,
     _cfg_db,
+    add_ghl_contact_tags,
     check_and_sync_ghl_wa_workflows,
     dispatch_ghl_agency_whatsapp,
     fetch_ghl_lead_web_contacts,
@@ -3395,6 +3396,7 @@ async def api_closer_bulk_import_csv(
 ALLOWED_INSTITUTIONAL_ALIASES = (
     "seller@agenciaprosperia.com",
     "info@agenciaprosperia.com",
+    "edward@agenciaprosperia.com",
 )
 
 
@@ -3445,6 +3447,8 @@ def _send_smtp_mime_email(
     final_subject: str,
     plain_text: str,
     html_content: str,
+    reply_to_override: Optional[str] = None,
+    sender_label_override: Optional[str] = None,
 ) -> None:
     """Envía un MIME multipart (texto + HTML) con cabeceras RFC limpias (Reply-To del mismo dominio)."""
     smtp_host = _cfg_db("SMTP_HOST", "smtp.hostinger.com")
@@ -3457,12 +3461,15 @@ def _send_smtp_mime_email(
     if alias_addr not in ALLOWED_INSTITUTIONAL_ALIASES:
         alias_addr = "seller@agenciaprosperia.com"
 
+    sender_label = (sender_label_override or f"{closer_name} - Agencia Prosper IA").strip()
+    reply_addr = (reply_to_override or alias_addr).strip()
+
     msg = MIMEMultipart("alternative")
     msg["Subject"] = final_subject
-    msg["From"] = formataddr((f"{closer_name} - Agencia Prosper IA", alias_addr))
+    msg["From"] = formataddr((sender_label, alias_addr))
     msg["To"] = to_email
-    # Mantener Reply-To en el mismo dominio @agenciaprosperia.com evita alertas FREEMAIL_FORGED_REPLYTO en antispam
-    msg["Reply-To"] = formataddr((f"{closer_name} - Agencia Prosper IA", alias_addr))
+    # Mantener Reply-To corporativo (@agenciaprosperia.com o @passportai.app) para proteger entregabilidad
+    msg["Reply-To"] = formataddr((sender_label, reply_addr))
     msg["Date"] = formatdate(localtime=True)
     msg["Message-ID"] = make_msgid(domain="agenciaprosperia.com")
     msg.attach(MIMEText(plain_text, "plain", "utf-8"))
@@ -4106,7 +4113,13 @@ async def api_get_lead_comms_status(
 _SETTER_IA_STATE_KEY = "setter_ia_campaign_state_json"
 _SETTER_IA_LOCK = threading.Lock()
 _SETTER_IA_WORKER_STARTED = False
-_SETTER_IA_RUNTIME = {"last_wa_ts": 0.0, "last_email_ts": 0.0, "last_lead_web_ts": 0.0, "last_scan_ts": 0.0}
+_SETTER_IA_RUNTIME = {
+    "last_wa_ts": 0.0,
+    "last_email_ts": 0.0,
+    "last_lead_web_ts": 0.0,
+    "last_passportai_21_ts": 0.0,
+    "last_scan_ts": 0.0,
+}
 
 
 def _default_setter_ia_state() -> dict:
@@ -4120,6 +4133,9 @@ def _default_setter_ia_state() -> dict:
         "lead_web_sent_today": 0,
         "lead_web_total_sent": 0,
         "lead_web_emailed_set": [],
+        "passportai_21_sent_today": 0,
+        "passportai_21_total_sent": 0,
+        "passportai_21_emailed_set": [],
         "replies_detected": 0,
         "demos_auto_sent": 0,
         "daily_wa_limit": 1000,
@@ -4147,6 +4163,7 @@ def _load_setter_ia_state(db: Session) -> dict:
         state["wa_sent_today"] = 0
         state["email_sent_today"] = 0
         state["lead_web_sent_today"] = 0
+        state["passportai_21_sent_today"] = 0
     return state
 
 
@@ -4759,10 +4776,217 @@ def _execute_lead_web_warm_email_step(db: Session, state: dict) -> bool:
     return True
 
 
+_PASSPORTAI_21_CONTACTS_CACHE: List[dict] = []
+
+
+def _load_passportai_21_contacts() -> List[dict]:
+    """Carga la lista limpia y segmentada de usuarios calientes de passportai.app (priorizada por valor)."""
+    global _PASSPORTAI_21_CONTACTS_CACHE
+    if _PASSPORTAI_21_CONTACTS_CACHE:
+        return list(_PASSPORTAI_21_CONTACTS_CACHE)
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    candidates = (
+        os.path.join(base_dir, "seeds", "passportai_usuarios_calientes.json"),
+        os.path.join(base_dir, "data", "passportai_usuarios_calientes.json"),
+    )
+    json_path = next((p for p in candidates if os.path.exists(p)), "")
+    if not json_path:
+        return []
+    try:
+        with open(json_path, "r", encoding="utf-8") as f:
+            rows = json.load(f)
+            if isinstance(rows, list):
+                _PASSPORTAI_21_CONTACTS_CACHE = rows
+    except Exception:
+        return []
+    return list(_PASSPORTAI_21_CONTACTS_CACHE)
+
+
+def _build_passportai_21_email_payload(first_name: str, segment: str, plan_actual: str) -> dict:
+    """Construye el correo de lanzamiento PassportAI 2.1 + 30 dias gratis del CRM IA firmado por Edward Jimenez (CEO)."""
+    clean_first = (first_name or "").strip()
+    if not clean_first or clean_first.lower() == "hola" or "@" in clean_first:
+        greeting = "Hola"
+    else:
+        greeting = f"Hola {clean_first}"
+    safe_greeting = html_lib.escape(greeting)
+    wa_link = (
+        "https://wa.me/17865573119?"
+        "text=Hola%20Edward%2C%20quiero%20activar%20mi%20acceso%20a%20PassportAI%202.1%20y%20el%20mes%20gratis%20del%20CRM"
+    )
+
+    if segment in ("vitalicio_pionero", "pro_dic2026"):
+        subject = f"{greeting}, tu actualizacion a PassportAI 2.1 + 1 mes sin costo de nuestro nuevo CRM IA"
+    else:
+        subject = f"{greeting}, lanzamos PassportAI 2.1 + regalo de 30 dias en nuestro nuevo CRM IA"
+
+    if segment == "vitalicio_pionero":
+        intro_plain = (
+            "Por ser parte de nuestros miembros Vitalicios y Pioneros en passportai.app, te escribo personalmente "
+            "para darte acceso anticipado a todo lo nuevo que acabamos de liberar."
+        )
+    elif segment == "pro_dic2026":
+        plan_note = f" (plan {plan_actual})" if plan_actual and plan_actual != "Sin Plan" else ""
+        intro_plain = (
+            f"Vi que tu membresia en passportai.app{plan_note} esta completando su ciclo de 2026 y queria escribirte "
+            "personalmente para mostrarte todo lo nuevo que integramos, y entregarte un beneficio directo por haber confiado en nosotros."
+        )
+    elif segment == "comprador_creditos":
+        intro_plain = (
+            "Como ya has probado y adquirido creditos en passportai.app, queria escribirte personalmente para contarte "
+            "las nuevas herramientas que acabamos de activar en la plataforma."
+        )
+    else:
+        intro_plain = (
+            "Como creaste tu cuenta en passportai.app, queria escribirte personalmente para contarte la evolucion "
+            "que acabamos de lanzar en esta nueva etapa."
+        )
+
+    safe_intro = html_lib.escape(intro_plain)
+
+    plain_text = (
+        f"{greeting},\n\n"
+        f"Te saluda Edward Jimenez, CEO y fundador de PassportAI (Agencia Prosper IA).\n\n"
+        f"{intro_plain}\n\n"
+        f"Acabamos de lanzar oficialmente PassportAI 2.1 con nuevas capacidades disenadas para que no tengas "
+        f"que pagar multiples suscripciones ni herramientas sueltas:\n\n"
+        f"1. Nuevo Consultor Estrategico IA con RAG Omnipresente:\n"
+        f"   Te acompana dentro de toda la plataforma guiando tu estrategia y navegando contigo modulo por modulo en tiempo real.\n\n"
+        f"2. Market Research y Post Radar (ProsperIA):\n"
+        f"   Investiga dolores reales de tu nicho en segundos, construye tu Avatar 360 y genera campanas completas de anuncios "
+        f"con imagenes listas para descargar en ZIP.\n\n"
+        f"3. Deep Research (estilo NotebookLM integrado):\n"
+        f"   Sube PDFs, enlaces web o videos de YouTube y conviertelos con un clic en Mapas Mentales 3D interactivos, "
+        f"Podcasts de audio a 2 voces, Flashcards 3D, Quizzes y Presentaciones.\n\n"
+        f"4. Estudio Visual, Video y Voz recargado:\n"
+        f"   Video con Sora 2, Runway Gen-3, Google Veo y avatares HeyGen; imagenes con Nano Banana Pro (Gemini 3), Midjourney y DALL-E 3; "
+        f"clonacion de voz en ElevenLabs, Subtitulos IA automaticos y Tutor de Idiomas 24/7.\n\n"
+        f"Ademas, se que la gran brecha hoy no es solo crear contenido con IA, sino tener donde atender clientes y cerrar ventas todos los dias.\n\n"
+        f"Por ser parte de la familia PassportAI, tienes incluido un regalo de 30 dias (1 mes completo gratuito) en nuestro nuevo "
+        f"CRM Todo-en-Uno con IA: WhatsApp, Instagram, embudos, calendario de citas y Empleados Digitales IA 24/7 trabajando juntos.\n\n"
+        f"Quiero atenderte personalmente en este lanzamiento. Para activar tu acceso a PassportAI 2.1 y tu mes sin costo del CRM:\n"
+        f"- Escribeme directo a mi WhatsApp personal: +1 (786) 557-3119\n"
+        f"  Enlace directo: {wa_link}\n"
+        f"- O responde a este correo / escribeme a: edward@passportai.app indicandome el correo de tu cuenta.\n\n"
+        f"Un abrazo,\nEdward Jimenez\nCEO & Fundador - PassportAI / Agencia Prosper IA LLC\nedward@passportai.app | WhatsApp: +1 (786) 557-3119"
+    )
+
+    html_content = f"""
+    <html>
+      <body style="font-family: Arial, Helvetica, sans-serif; background-color: #ffffff; color: #1e293b; margin: 0; padding: 20px; line-height: 1.65; font-size: 14px;">
+        <div style="max-width: 560px; margin: 0 auto;">
+          <p style="margin: 0 0 14px;">{safe_greeting},</p>
+          <p style="margin: 0 0 14px;">
+            Te saluda <strong>Edward Jimenez</strong>, CEO y fundador de PassportAI (Agencia Prosper IA).
+          </p>
+          <p style="margin: 0 0 14px;">
+            {safe_intro}
+          </p>
+          <p style="margin: 0 0 12px;">
+            Acabamos de lanzar oficialmente <strong>PassportAI 2.1</strong> con herramientas nuevas para que no tengas que pagar decenas de suscripciones sueltas:
+          </p>
+          <p style="margin: 0 0 10px;">
+            <strong>1. Nuevo Consultor Estrategico IA con RAG Omnipresente:</strong> te acompana dentro de toda la plataforma guiando tu estrategia y navegando contigo modulo por modulo en tiempo real.
+          </p>
+          <p style="margin: 0 0 10px;">
+            <strong>2. Market Research y Post Radar (ProsperIA):</strong> investiga dolores reales de tu nicho en segundos, construye tu Avatar 360 y genera campanas completas descargables en ZIP.
+          </p>
+          <p style="margin: 0 0 10px;">
+            <strong>3. Deep Research (estilo NotebookLM):</strong> sube PDFs, enlaces web o videos de YouTube y conviertelos con un clic en Mapas Mentales 3D, Podcasts de audio a 2 voces, Flashcards 3D, Quizzes y Presentaciones.
+          </p>
+          <p style="margin: 0 0 16px;">
+            <strong>4. Estudio Visual, Video y Voz recargado:</strong> video con Sora 2, Runway Gen-3, Google Veo y HeyGen; imagenes con Nano Banana Pro (Gemini 3), Midjourney y DALL-E 3; clonacion de voz en ElevenLabs, Subtitulos IA y Tutor de Idiomas 24/7.
+          </p>
+          <p style="margin: 0 0 14px;">
+            Y como hoy no basta solo con generar contenido si los prospectos se enfrian, queremos unificarte todo el ecosistema: por ser parte de la familia PassportAI, tienes <strong>30 dias (1 mes sin costo) de nuestro nuevo CRM Todo-en-Uno con IA</strong> para centralizar WhatsApp, Instagram, embudos, calendario de citas y Empleados Digitales IA 24/7.
+          </p>
+          <p style="margin: 0 0 14px;">
+            Quiero acompanarte personalmente en esta actualizacion. Para activar tu acceso a <strong>PassportAI 2.1</strong> y tu mes gratuito del CRM, escribeme directo por cualquiera de estas dos vias:
+          </p>
+          <p style="margin: 0 0 10px;">
+            <strong>WhatsApp personal de Edward:</strong> +1 (786) 557-3119 &mdash;
+            <a href="{wa_link}" style="color: #0284c7; font-weight: bold; text-decoration: underline;">Haz clic aqui para escribirme por WhatsApp</a>
+          </p>
+          <p style="margin: 0 0 18px;">
+            <strong>Correo directo de CEO:</strong> responde a este mismo correo o escribeme a <strong>edward@passportai.app</strong> indicandome tu correo de acceso.
+          </p>
+          <p style="margin: 0; color: #475569; font-size: 13px;">
+            Un abrazo,<br/>
+            <strong>Edward Jimenez</strong><br/>
+            CEO &amp; Fundador &middot; PassportAI / Agencia Prosper IA LLC<br/>
+            edward@passportai.app &middot; WhatsApp: +1 (786) 557-3119
+          </p>
+        </div>
+      </body>
+    </html>
+    """
+    return {"subject": subject, "plain_text": plain_text, "html_content": html_content}
+
+
+def _execute_passportai_21_email_step(db: Session, state: dict) -> bool:
+    """Ejecuta 1 envio del Flujo #3 (Lanzamiento PassportAI 2.1 + 30 dias gratis CRM) desde Edward Jimenez (CEO)."""
+    contacts = _load_passportai_21_contacts()
+    if not contacts:
+        return False
+
+    sent_set = {str(x).strip().lower() for x in (state.get("passportai_21_emailed_set") or []) if x}
+    target = None
+    for c in contacts:
+        em = str(c.get("email") or "").strip().lower()
+        if not em or em in sent_set or not _is_valid_real_email(em):
+            continue
+        if is_contact_excluded(db, em, ""):
+            sent_set.add(em)
+            continue
+        target = c
+        break
+
+    state["passportai_21_emailed_set"] = sorted(sent_set)
+    if not target:
+        return False
+
+    em = str(target["email"]).strip().lower()
+    first_nm = str(target.get("first_name") or "hola").strip()
+    seg = str(target.get("segment") or "registrado_free")
+    plan_actual = str(target.get("plan_actual") or "")
+    payload = _build_passportai_21_email_payload(first_nm, seg, plan_actual)
+
+    try:
+        _send_smtp_mime_email(
+            alias_addr="edward@agenciaprosperia.com",
+            to_email=em,
+            closer_name="Edward Jimenez",
+            closer_email="edward@passportai.app",
+            final_subject=payload["subject"],
+            plain_text=payload["plain_text"],
+            html_content=payload["html_content"],
+            reply_to_override="edward@passportai.app",
+            sender_label_override="Edward Jimenez - CEO PassportAI",
+        )
+    except Exception as exc:
+        sent_set.add(em)
+        state["passportai_21_emailed_set"] = sorted(sent_set)
+        _append_setter_ia_log(state, f"⚠️ PassportAI 2.1 {em}: {str(exc)[:75]}")
+        return False
+
+    sent_set.add(em)
+    state["passportai_21_emailed_set"] = sorted(sent_set)
+    ghl_cid = str(target.get("ghl_contact_id") or "").strip()
+    if ghl_cid:
+        add_ghl_contact_tags(ghl_cid, ["passportai_21_correo_enviado"])
+    state["passportai_21_sent_today"] = int(state.get("passportai_21_sent_today", 0) or 0) + 1
+    state["passportai_21_total_sent"] = int(state.get("passportai_21_total_sent", 0) or 0) + 1
+    _append_setter_ia_log(
+        state,
+        f"✉️ PassportAI 2.1 #{state['passportai_21_sent_today']} [{seg}] -> {first_nm} ({em})",
+    )
+    return True
+
+
 def _run_setter_ia_cycle(force_step: bool = False) -> dict:
-    """Ejecuta un ciclo seguro del motor Setter IA (respuestas + WA + Correo Frío + Correo Tibio lead_web)."""
+    """Ejecuta un ciclo seguro del motor Setter IA (respuestas + WA + Correo Frío + Correo Tibio lead_web + PassportAI 2.1)."""
     db = SessionLocal()
-    did = {"wa": False, "email": False, "lead_web_email": False, "replies": 0}
+    did = {"wa": False, "email": False, "lead_web_email": False, "passportai_21_email": False, "replies": 0}
     try:
         with _SETTER_IA_LOCK:
             state = _load_setter_ia_state(db)
@@ -4791,6 +5015,10 @@ def _run_setter_ia_cycle(force_step: bool = False) -> dict:
             if force_step or (now - _SETTER_IA_RUNTIME["last_lead_web_ts"]) >= 50:
                 _SETTER_IA_RUNTIME["last_lead_web_ts"] = now
                 did["lead_web_email"] = _execute_lead_web_warm_email_step(db, state)
+
+            if force_step or (now - _SETTER_IA_RUNTIME["last_passportai_21_ts"]) >= 48:
+                _SETTER_IA_RUNTIME["last_passportai_21_ts"] = now
+                did["passportai_21_email"] = _execute_passportai_21_email_step(db, state)
 
             _save_setter_ia_state(db, state)
             return {"running": bool(state.get("running")), **did, "state": state}
@@ -4853,6 +5081,9 @@ async def api_get_setter_ia_status(
     lw_contacts = await asyncio.to_thread(fetch_ghl_lead_web_contacts, False)
     sent_lw = {str(x).strip().lower() for x in (state.get("lead_web_emailed_set") or []) if x}
     remaining_lead_web_emails = sum(1 for c in lw_contacts if c.get("email") not in sent_lw)
+    p21_contacts = _load_passportai_21_contacts()
+    sent_p21 = {str(x).strip().lower() for x in (state.get("passportai_21_emailed_set") or []) if x}
+    remaining_passportai_21_emails = sum(1 for c in p21_contacts if str(c.get("email") or "").strip().lower() not in sent_p21)
     return {
         "success": True,
         "state": state,
@@ -4862,6 +5093,7 @@ async def api_get_setter_ia_status(
         "remaining_wa": remaining_wa,
         "remaining_emails": remaining_emails,
         "remaining_lead_web_emails": remaining_lead_web_emails,
+        "remaining_passportai_21_emails": remaining_passportai_21_emails,
         "replied_count": replied_count,
     }
 
