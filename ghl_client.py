@@ -1619,13 +1619,18 @@ def dispatch_ghl_agency_whatsapp(
         },
     )
 
-    time.sleep(2.2)
-    post_state = _fetch_ghl_conversation_state(cid, clean_phone, include_messages=True)
-    new_out_wa = [
-        m
-        for m in (post_state.get("messages") or [])
-        if m.get("channel") == "WhatsApp" and m.get("direction") == "outbound" and m.get("id") not in pre_wa_ids
-    ]
+    post_state = {}
+    new_out_wa = []
+    for delay_sec in (2.2, 2.8):
+        time.sleep(delay_sec)
+        post_state = _fetch_ghl_conversation_state(cid, clean_phone, include_messages=True)
+        new_out_wa = [
+            m
+            for m in (post_state.get("messages") or [])
+            if m.get("channel") == "WhatsApp" and m.get("direction") == "outbound" and m.get("id") not in pre_wa_ids
+        ]
+        if new_out_wa:
+            break
     workflow_dispatched = len(new_out_wa) > 0
     if workflow_dispatched:
         latest_out = new_out_wa[0]
