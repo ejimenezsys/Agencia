@@ -1570,17 +1570,28 @@ def dispatch_ghl_agency_whatsapp(
                         if "24 hours" in err_s.lower() or "template" in err_s.lower():
                             failed_24h = True
             if not failed_24h:
+                post_state = _fetch_ghl_conversation_state(cid, clean_phone, include_messages=True)
                 return {
                     "ok": True,
                     "mode": "free_text",
                     "template_name": "ventana_24h_libre",
+                    "workflow_dispatched": True,
                     "contact_id": cid,
                     "conversation_id": conv_id,
                     "message_id": msg_id,
+                    "comms": post_state,
                     "detail": "Texto libre con Demo Web enviado desde +1 786-833-6964 (ventana 24h activa).",
                 }
 
     # 3. Modo Plantilla (en frío o fallback por ventana 24h cerrada):
+    # Capturar IDs salientes previos para comprobar si GHL Workflow realmente envió un mensaje nuevo
+    pre_state = _fetch_ghl_conversation_state(cid, clean_phone, include_messages=True)
+    pre_wa_ids = {
+        m.get("id")
+        for m in (pre_state.get("messages") or [])
+        if m.get("channel") == "WhatsApp" and m.get("direction") == "outbound" and m.get("id")
+    }
+
     # Quita y vuelve a añadir la etiqueta para disparar siempre el Workflow de plantilla en GHL
     _request("DELETE", f"/contacts/{cid}/tags", token, {"tags": [tpl_tag]})
     time.sleep(0.2)
@@ -1608,16 +1619,30 @@ def dispatch_ghl_agency_whatsapp(
         },
     )
 
-    fallback_note = (
-        "Ventana Meta de 24h cerrada: se disparó plantilla oficial "
-        if norm_mode == "free_text"
-        else "Plantilla oficial disparada desde +1 786-833-6964: "
-    )
+    time.sleep(2.2)
+    post_state = _fetch_ghl_conversation_state(cid, clean_phone, include_messages=True)
+    new_out_wa = [
+        m
+        for m in (post_state.get("messages") or [])
+        if m.get("channel") == "WhatsApp" and m.get("direction") == "outbound" and m.get("id") not in pre_wa_ids
+    ]
+    workflow_dispatched = len(new_out_wa) > 0
+    if workflow_dispatched:
+        latest_out = new_out_wa[0]
+        detail_msg = f"✅ Plantilla {tpl_key} enviada por GHL ({latest_out.get('status_label') or 'enviado'})."
+    else:
+        detail_msg = (
+            f"🏷️ Etiqueta {tpl_tag} activada en GHL para {tpl_key}, pero GHL aún no disparó el mensaje "
+            f"(falta publicar en GHL → Automation el Workflow para la etiqueta {tpl_tag})."
+        )
+
     return {
         "ok": True,
         "mode": "template",
         "template_name": tpl_key,
         "template_tag": tpl_tag,
+        "workflow_dispatched": workflow_dispatched,
         "contact_id": cid,
-        "detail": f"{fallback_note}{tpl_key} (etiqueta {tpl_tag}).",
+        "comms": post_state,
+        "detail": detail_msg,
     }

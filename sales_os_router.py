@@ -3911,11 +3911,22 @@ async def api_send_agency_whatsapp(
     )
     db.commit()
     db.refresh(lead)
+    workflow_dispatched = bool(res.get("workflow_dispatched", True))
+    if res.get("mode") == "template" and not workflow_dispatched:
+        top_msg = (
+            f"⚠️ Etiqueta {res.get('template_tag')} aplicada en GHL ({res.get('template_name')}), "
+            "pero GHL aún no despachó el WhatsApp al prospecto porque falta el Workflow en GHL Automation."
+        )
+    else:
+        top_msg = f"💬 WhatsApp Oficial de la Agencia (+1 786) enviado: {res.get('detail')}"
+
     return {
         "success": True,
         "wa_mode": res.get("mode"),
         "template_used": res.get("template_name") or tpl_key,
-        "message": f"💬 WhatsApp Oficial de la Agencia (+1 786) enviado: {res.get('detail')}",
+        "workflow_dispatched": workflow_dispatched,
+        "comms": res.get("comms"),
+        "message": top_msg,
         "data": serialize_lead(lead),
     }
 

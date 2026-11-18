@@ -6326,6 +6326,7 @@ function renderSalesOsTable() {
           ${route.allowMiamiSms ? `<button type="button" onclick="sendGhlDirectMsgFromUi(${l.id}, 'SMS', this)" class="px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-[10px] font-bold hover:bg-indigo-500/30" title="1 clic: envía SMS con Demo Web (+1 EE. UU./PR)">🇺🇸 SMS</button>` : ''}
           ${hasEmail ? `<button type="button" onclick="sendInstitutionalEmailToLead(${l.id}, this, 'seller@agenciaprosperia.com')" class="px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30 text-[10px] font-bold hover:bg-sky-500/30" title="1 clic: envía correo corporativo">✉️ Correo</button>` : ''}
         </div>
+        <div id="lead-os-row-comms-${l.id}" class="mt-1 flex flex-wrap items-center gap-1">${renderLeadRowCommsBadgeHtml(l.id)}</div>
       </th>
       <td class="px-3 py-3 text-slate-300">
         ${l.owner_id ? `<span class="px-2 py-0.5 rounded bg-slate-800 text-cyan-300 font-semibold">${esc(l.owner_id.split('@')[0])}</span>` : '<span class="text-amber-400">Sin asignar</span>'}
@@ -7328,6 +7329,8 @@ function initiateCloserCall(rawPhone, leadId, alreadyInModal = false) {
   }
 }
 
+window.leadCommsStatusCache = window.leadCommsStatusCache || {};
+
 function getCommsToneClass(tone) {
   if (tone === 'emerald') return 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40';
   if (tone === 'cyan') return 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40';
@@ -7335,6 +7338,81 @@ function getCommsToneClass(tone) {
   if (tone === 'rose') return 'bg-rose-500/20 text-rose-300 border-rose-500/40';
   if (tone === 'amber') return 'bg-amber-500/20 text-amber-300 border-amber-500/40';
   return 'bg-slate-800 text-slate-300 border-slate-700';
+}
+
+function renderLeadRowCommsBadgeHtml(leadId) {
+  const c = window.leadCommsStatusCache[leadId];
+  if (c && c.ok) {
+    const toneCls = getCommsToneClass(c.wa_status_tone || 'slate');
+    return `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold border ${toneCls}" title="${esc(c.wa_status_hint || '')}">${esc(c.wa_status_badge || '⚪ En CRM')}</span>
+      <button type="button" onclick="openSetterWorkDialog(${leadId})" class="px-1.5 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-slate-700 text-[10px] font-bold transition">📡 Detalle</button>`;
+  }
+  return `<button type="button" onclick="openSetterWorkDialog(${leadId})" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700 text-[10px] font-semibold transition" title="Abrir ficha del prospecto y consultar entrega/lectura en vivo">📡 Ver entrega / respuesta CRM</button>`;
+}
+
+function showSetterQuickFeedback(msg, isWarning = false) {
+  const fb = document.getElementById('setter-work-quick-feedback');
+  if (!fb) return;
+  fb.textContent = msg;
+  fb.className = isWarning
+    ? 'mb-3 px-3 py-2 rounded-lg text-xs font-bold bg-amber-500/15 text-amber-200 border border-amber-500/40'
+    : 'mb-3 px-3 py-2 rounded-lg text-xs font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30';
+}
+
+function applyCommsStatusToUi(leadId, out) {
+  if (!out || !out.ok) return;
+  window.leadCommsStatusCache[leadId] = out;
+  const badgeHtml = renderLeadRowCommsBadgeHtml(leadId);
+  const rowEl = document.getElementById(`lead-row-comms-${leadId}`);
+  if (rowEl) rowEl.innerHTML = badgeHtml;
+  const osRowEl = document.getElementById(`lead-os-row-comms-${leadId}`);
+  if (osRowEl) osRowEl.innerHTML = badgeHtml;
+
+  if (Number(document.getElementById('setter-work-lead-id')?.value) !== leadId) return;
+  const badgeEl = document.getElementById('setter-work-comms-badge');
+  const hintEl = document.getElementById('setter-work-comms-hint');
+  const listEl = document.getElementById('setter-work-comms-list');
+  const replyWrap = document.getElementById('setter-work-wa-reply-wrap');
+  if (!badgeEl || !listEl) return;
+
+  badgeEl.textContent = out.wa_status_badge || '⚪ Sin envíos aún';
+  badgeEl.className = `px-2 py-0.5 rounded-full text-[11px] font-bold border ${getCommsToneClass(out.wa_status_tone || 'slate')}`;
+  if (hintEl) hintEl.textContent = out.wa_status_hint || '';
+
+  if (replyWrap) {
+    if (out.window_24h_open) {
+      replyWrap.classList.remove('hidden');
+      replyWrap.classList.add('flex');
+    } else {
+      replyWrap.classList.add('hidden');
+      replyWrap.classList.remove('flex');
+    }
+  }
+
+  const msgs = Array.isArray(out.messages) ? out.messages : [];
+  if (!msgs.length) {
+    listEl.innerHTML = '<div class="text-[11px] text-slate-500 italic">Aún no hay mensajes enviados/recibidos en GHL para este contacto.</div>';
+    return;
+  }
+  listEl.innerHTML = msgs.map(m => {
+    const dirBadge = m.direction === 'inbound'
+      ? '<span class="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold">📥 Respuesta</span>'
+      : '<span class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-bold">📤 Saliente</span>';
+    const stCls = getCommsToneClass(m.status_tone || 'slate');
+    const errBlock = m.error ? `<div class="text-[10px] text-rose-300 mt-0.5">⚠️ ${esc(m.error)}</div>` : '';
+    return `<div class="p-2 rounded-lg bg-slate-950/80 border border-slate-800 text-[11px]">
+      <div class="flex flex-wrap items-center justify-between gap-1.5 mb-0.5">
+        <div class="flex flex-wrap items-center gap-1.5">
+          ${dirBadge}
+          <span class="font-bold text-cyan-300">${esc(m.channel)}</span>
+          <span class="px-1.5 py-0.5 rounded border text-[10px] font-bold ${stCls}">${esc(m.status_label)}</span>
+        </div>
+        <span class="text-[10px] text-slate-500">${esc(m.date || '')}</span>
+      </div>
+      ${m.body ? `<div class="text-slate-200 leading-snug">${esc(m.body)}</div>` : ''}
+      ${errBlock}
+    </div>`;
+  }).join('');
 }
 
 async function loadLeadCommsStatus(leadId) {
@@ -7362,45 +7440,7 @@ async function loadLeadCommsStatus(leadId) {
       if (replyWrap) replyWrap.classList.add('hidden');
       return;
     }
-
-    badgeEl.textContent = out.wa_status_badge || '⚪ Sin envíos aún';
-    badgeEl.className = `px-2 py-0.5 rounded-full text-[11px] font-bold border ${getCommsToneClass(out.wa_status_tone || 'slate')}`;
-    if (hintEl) hintEl.textContent = out.wa_status_hint || '';
-
-    if (replyWrap) {
-      if (out.window_24h_open) {
-        replyWrap.classList.remove('hidden');
-        replyWrap.classList.add('flex');
-      } else {
-        replyWrap.classList.add('hidden');
-        replyWrap.classList.remove('flex');
-      }
-    }
-
-    const msgs = Array.isArray(out.messages) ? out.messages : [];
-    if (!msgs.length) {
-      listEl.innerHTML = '<div class="text-[11px] text-slate-500 italic">Aún no hay mensajes enviados/recibidos en GHL para este contacto.</div>';
-      return;
-    }
-    listEl.innerHTML = msgs.map(m => {
-      const dirBadge = m.direction === 'inbound'
-        ? '<span class="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold">📥 Respuesta</span>'
-        : '<span class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-bold">📤 Saliente</span>';
-      const stCls = getCommsToneClass(m.status_tone || 'slate');
-      const errBlock = m.error ? `<div class="text-[10px] text-rose-300 mt-0.5">⚠️ ${esc(m.error)}</div>` : '';
-      return `<div class="p-2 rounded-lg bg-slate-950/80 border border-slate-800 text-[11px]">
-        <div class="flex flex-wrap items-center justify-between gap-1.5 mb-0.5">
-          <div class="flex flex-wrap items-center gap-1.5">
-            ${dirBadge}
-            <span class="font-bold text-cyan-300">${esc(m.channel)}</span>
-            <span class="px-1.5 py-0.5 rounded border text-[10px] font-bold ${stCls}">${esc(m.status_label)}</span>
-          </div>
-          <span class="text-[10px] text-slate-500">${esc(m.date || '')}</span>
-        </div>
-        ${m.body ? `<div class="text-slate-200 leading-snug">${esc(m.body)}</div>` : ''}
-        ${errBlock}
-      </div>`;
-    }).join('');
+    applyCommsStatusToUi(leadId, out);
   } catch (err) {
     badgeEl.textContent = '⚠️ Error consultando CRM';
     badgeEl.className = `px-2 py-0.5 rounded-full text-[11px] font-bold border ${getCommsToneClass('amber')}`;
@@ -7430,7 +7470,6 @@ async function sendAgencyWhatsappToLead(leadId, triggerBtn = null, forceTemplate
     triggerBtn.disabled = true;
     triggerBtn.textContent = '⏳...';
   }
-  const fb = document.getElementById('setter-work-quick-feedback');
   try {
     const res = await fetch(`/api/sales-os/leads/${leadId}/send-agency-whatsapp`, {
       method: 'POST',
@@ -7447,17 +7486,15 @@ async function sendAgencyWhatsappToLead(leadId, triggerBtn = null, forceTemplate
     }
     const idx = salesOsLeads.findIndex(x => x.id === leadId);
     if (idx >= 0 && out.data) salesOsLeads[idx] = out.data;
-    if (fb) {
-      fb.textContent = out.message;
-      fb.classList.remove('hidden');
-    }
+    if (out.comms) window.leadCommsStatusCache[leadId] = out.comms;
     renderCallQueueTable();
     renderSalesOsTable();
-    if (document.getElementById('setterLeadWorkDialog')?.open && Number(document.getElementById('setter-work-lead-id')?.value) === leadId) {
-      openSetterWorkDialog(leadId, 'WhatsApp Agencia', true);
-      setTimeout(() => loadLeadCommsStatus(leadId), 1400);
-    } else if (fb && !document.getElementById('setterLeadWorkDialog')?.open) {
-      alert(out.message);
+    openSetterWorkDialog(leadId, 'WhatsApp Agencia', true);
+    showSetterQuickFeedback(out.message, out.workflow_dispatched === false);
+    if (out.comms) {
+      applyCommsStatusToUi(leadId, out.comms);
+    } else {
+      setTimeout(() => loadLeadCommsStatus(leadId), 1200);
     }
   } catch (err) {
     alert(err.message || 'Error enviando WhatsApp oficial de la agencia.');
@@ -7481,7 +7518,6 @@ async function sendInstitutionalEmailToLead(leadId, triggerBtn = null, senderAli
     triggerBtn.disabled = true;
     triggerBtn.textContent = '⏳ Enviando...';
   }
-  const fb = document.getElementById('setter-work-quick-feedback');
   try {
     const res = await fetch(`/api/sales-os/leads/${leadId}/send-institutional-email`, {
       method: 'POST',
@@ -7494,16 +7530,12 @@ async function sendInstitutionalEmailToLead(leadId, triggerBtn = null, senderAli
     }
     const idx = salesOsLeads.findIndex(x => x.id === leadId);
     if (idx >= 0 && out.data) salesOsLeads[idx] = out.data;
-    if (fb) {
-      fb.textContent = out.message;
-      fb.classList.remove('hidden');
-    }
     renderCallQueueTable();
     renderSalesOsTable();
     if (document.getElementById('setterLeadWorkDialog')?.open && Number(document.getElementById('setter-work-lead-id')?.value) === leadId) {
       openSetterWorkDialog(leadId, 'Correo Institucional', true);
-    }
-    if (!document.getElementById('setterLeadWorkDialog')?.open) {
+      showSetterQuickFeedback(out.message, false);
+    } else {
       alert(out.message);
     }
   } catch (err) {
@@ -7531,7 +7563,6 @@ async function sendGhlDirectMsgFromUi(leadId, channel, triggerBtn = null) {
     triggerBtn.disabled = true;
     triggerBtn.textContent = '⏳...';
   }
-  const fb = document.getElementById('setter-work-quick-feedback');
   try {
     const res = await fetch(`/api/sales-os/leads/${leadId}/send-ghl-message`, {
       method: 'POST',
@@ -7544,18 +7575,11 @@ async function sendGhlDirectMsgFromUi(leadId, channel, triggerBtn = null) {
     }
     const idx = salesOsLeads.findIndex(x => x.id === leadId);
     if (idx >= 0 && out.data) salesOsLeads[idx] = out.data;
-    if (fb) {
-      fb.textContent = out.message;
-      fb.classList.remove('hidden');
-    }
     renderCallQueueTable();
     renderSalesOsTable();
-    if (document.getElementById('setterLeadWorkDialog')?.open && Number(document.getElementById('setter-work-lead-id')?.value) === leadId) {
-      openSetterWorkDialog(leadId, channel, true);
-      setTimeout(() => loadLeadCommsStatus(leadId), 1400);
-    } else if (!document.getElementById('setterLeadWorkDialog')?.open) {
-      alert(out.message);
-    }
+    openSetterWorkDialog(leadId, channel, true);
+    showSetterQuickFeedback(out.message, false);
+    setTimeout(() => loadLeadCommsStatus(leadId), 1400);
   } catch (err) {
     alert(err.message || 'Error enviando mensaje CRM.');
   } finally {
@@ -7674,6 +7698,7 @@ function renderCallQueueTable() {
           ${route.allowMiamiSms ? `<button type="button" onclick="sendGhlDirectMsgFromUi(${l.id}, 'SMS', this)" class="px-2.5 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 border border-indigo-500/35 text-[11px] font-bold hover:bg-indigo-500/30" title="1 clic: envía SMS con Demo Web (+1 EE. UU./PR)">🇺🇸 Enviar SMS</button>` : ''}
           ${hasEmail ? `<button type="button" onclick="sendInstitutionalEmailToLead(${l.id}, this, 'seller@agenciaprosperia.com')" class="px-2.5 py-1 rounded-lg bg-sky-500/20 text-sky-200 border border-sky-400/40 text-[11px] font-bold hover:bg-sky-500/30" title="1 clic: envía correo corporativo 100% desde el sistema">✉️ Enviar Correo</button>` : ''}
         </div>
+        <div id="lead-row-comms-${l.id}" class="mt-1.5 flex flex-wrap items-center gap-1">${renderLeadRowCommsBadgeHtml(l.id)}</div>
       </td>
       <td data-label="País / Rubro / Plantilla" class="px-3 py-3.5 align-top">
         <div class="font-semibold text-white">${esc(l.country || 'Internacional')}</div>
@@ -7843,7 +7868,10 @@ function openSetterWorkDialog(leadId, defaultChannel = 'Llamada', preserveFeedba
   document.getElementById('setter-work-next-at').value = lead.next_action_at || '';
   document.getElementById('setter-work-note').value = '';
 
-  dlg.showModal();
+  if (!dlg.open) dlg.showModal();
+  if (preserveFeedback && window.leadCommsStatusCache[lead.id]) {
+    applyCommsStatusToUi(lead.id, window.leadCommsStatusCache[lead.id]);
+  }
 }
 
 function syncSetterWorkOfferPrice() {
@@ -7993,7 +8021,7 @@ function openQuickCloserLeadDialog(defaultStage = 'Calificado') {
   if (stageSel) {
     stageSel.value = ['Calificado', 'Contacto', 'Lead identificado'].includes(defaultStage) ? defaultStage : 'Contacto';
   }
-  dlg.showModal();
+  if (!dlg.open) dlg.showModal();
 }
 
 async function submitCloserNewLead() {
@@ -8046,7 +8074,7 @@ function openCloserBulkImportDialog() {
   document.getElementById('cbulk-text').value = '';
   const fileIn = document.getElementById('cbulk-file');
   if (fileIn) fileIn.value = '';
-  dlg.showModal();
+  if (!dlg.open) dlg.showModal();
 }
 
 function handleCloserCsvFileSelect(event) {
