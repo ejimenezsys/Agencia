@@ -720,7 +720,7 @@ def sync_lead_to_ghl(
         src_lower = (source or "").lower()
         is_closer_origin = (
             any(k in src_lower for k in ("sales_os_closer", "closer_prospeccion_propia", "closer_lote_excel"))
-            or bool((owner_email or "").strip())
+            and "codigos" not in src_lower
         )
         if is_closer_origin:
             # Excluye formularios web generales; este pipeline recibe SOLO resultados provocados por Closers

@@ -3664,22 +3664,31 @@ class AgentChatRequest(BaseModel):
     agent: str
 
 def _enforce_no_price_chatbot_policy(reply: str, user_msg: str = "") -> str:
-    """Política estricta: ningún chatbot público entrega precios en cifras; solicita datos de contacto o agenda cita."""
+    """Política estricta: ningún chatbot público entrega precios en cifras; redirige a /sitioweb o agenda diagnóstico."""
     import re
     txt = str(reply or "").strip()
     msg_l = (user_msg or "").lower()
     asks_price = any(
         w in msg_l
-        for w in ("precio", "precios", "costo", "costos", "cuanto cuesta", "cuánto cuesta", "cuanto vale", "cuánto vale", "tarifa", "tarifas", "presupuesto", "cotiz", "mensualidad", "mensualidades", "cuanto cobran", "cuánto cobran", "valor", "inversion", "inversión")
+        for w in (
+            "precio", "precios", "costo", "costos", "cuanto cuesta", "cuánto cuesta",
+            "cuanto vale", "cuánto vale", "tarifa", "tarifas", "presupuesto", "cotiz",
+            "mensualidad", "mensualidades", "cuanto cobran", "cuánto cobran",
+            "cuanto sale", "cuánto sale", "valor", "inversion", "inversión", "paquete", "paquetes"
+        )
     )
     has_currency_leak = bool(
-        re.search(r"(us\s*\$|\$\s*\d[\d,\.]*|\b\d{2,5}\s*(usd|dólares|dolares|dlls)\b|/mes|/año)", txt, re.IGNORECASE)
+        re.search(
+            r"(us\s*\$|\$\s*\d[\d,\.]*|\b\d{2,5}\s*(usd|dólares|dolares|dlls)\b|/mes|/año|\b(197|247|250|495|497|745|990|1490|1,490|2499|2,499)\b)",
+            txt,
+            re.IGNORECASE,
+        )
     )
     if asks_price or has_currency_leak:
         return (
-            "En Agencia Prosper IA no manejamos precios estándar en chat porque adaptamos la solución a tu industria, canales y metas. "
-            "Incluimos muestra previa en vivo de tu Sitio Web Inteligente y facilidad 50% al iniciar y 50% al entregar funcionando en 7 a 10 días. "
-            "¿Me compartes tu Nombre, giro de negocio y WhatsApp (o correo) para enviarte el informe completo y agendar tu diagnóstico de 15 minutos sin costo?"
+            "En Agencia Prosper IA no manejamos precios fijos en el chat porque adaptamos cada proyecto a tu giro y metas. "
+            "Incluimos muestra previa en vivo de tu Sitio Web Inteligente y facilidad 50% al iniciar y 50% al entregar operando en 7 a 10 días. "
+            "Puedes ver cómo funciona tu proyecto en https://agenciaprosperia.com/sitioweb o compartirnos tu Nombre y WhatsApp para agendar tu diagnóstico de 15 min sin costo."
         )
     return txt
 
@@ -3866,10 +3875,7 @@ async def api_prosperia_assistant(req: ProsperiaAssistantRequest, request: Reque
     mode = (req.mode or "chat").lower()
 
     if not raw_msg:
-        cfg = await asyncio.to_thread(_fetch_passportai_config)
-        greeting = cfg.get("greeting_message") or (
-            "¡Hola! Soy tu Setter IA de Agencia Prosper IA. ¿A qué se dedica tu negocio hoy?"
-        )
+        greeting = "¡Hola! Soy tu Setter IA de Agencia Prosper IA. ¿A qué se dedica tu negocio hoy?"
         return {
             "success": True,
             "reply": greeting,
@@ -3877,87 +3883,75 @@ async def api_prosperia_assistant(req: ProsperiaAssistantRequest, request: Reque
             "ctas": {},
             "datos_completos": False,
             "session_id": sid,
-            "engine": "passportai-config-greeting",
-            "calendar_anchor": "/#contacto",
+            "engine": "prosperia-gemini-zero-price",
+            "calendar_anchor": "/sitioweb",
             "whatsapp_url": "https://wa.me/17868336964",
         }
 
-    # 1. Primario: Bot oficial de PassportAI (extractor de prospectos + CRM en tiempo real)
-    passport_res = await asyncio.to_thread(_post_passportai_chat, sid, raw_msg)
-    reply = ""
+    # Motor exclusivo controlado en local (Gemini 2.5 Flash + KB cero precios; bloquea respuestas con tarifas externas)
+    client_ip = extract_client_ip(request)
+    kb_text = _load_prosperia_kb_text()
+    hist_lines = []
+    if req.history:
+        for h in req.history[-6:]:
+            role = "Cliente" if h.get("role") == "user" else "Setter IA"
+            txt = str(h.get("text", "")).strip()[:220]
+            if txt:
+                hist_lines.append(f"{role}: {txt}")
+    hist_block = ("\nCONVERSACIÓN RECIENTE:\n" + "\n".join(hist_lines)) if hist_lines else ""
+
+    voice_rule = (
+        "Como estás hablando EN VOZ ALTA, responde de forma cálida, natural y sin asteriscos ni emojis, en máximo 2 o 3 oraciones completas."
+        if mode == "voice"
+        else "Responde en español claro y amable en máximo 3 oraciones cortas completas, sin tecnicismos ni listas largas."
+    )
+
+    sys_prompt = (
+        "Eres el Empleado Digital Oficial (Setter IA) de Agencia Prosper IA LLC.\n"
+        f"REGLAS OBLIGATORIAS:\n1. {voice_rule}\n"
+        "2. CERO jerga técnica innecesaria (nunca digas RAG, LLM, tokens, webhooks o pipelines).\n"
+        "3. Presenta cuando corresponda nuestros 4 Empleados Digitales: SDR IA, Setter IA, Closer IA y Soporte IA.\n"
+        "4. PROHIBIDO DAR PRECIOS O CIFRAS EN DÓLARES EN EL CHAT: NUNCA menciones montos ni números de paquetes (cero 497, 990, 1490 o USD) aunque insistan. Explica que cada proyecto se cotiza a la medida tras mostrarle su demo en vivo (50% al iniciar y 50% contra entrega en 7 a 10 días), invita a ver https://agenciaprosperia.com/sitioweb y pide Nombre, Giro de negocio y WhatsApp.\n"
+        f"\nBASE DE CONOCIMIENTOS OFICIAL:\n{kb_text}\n{hist_block}"
+    )
+
+    reply = invoke_gemini_assistant(sys_prompt, raw_msg, client_ip=client_ip, max_tokens=340)
+    engine = "gemini-2.5-flash"
     ctas: Dict[str, Any] = {}
     datos_completos = False
-    engine = f"passportai-{PASSPORTAI_BOT_SLUG}"
 
-    if passport_res and passport_res.get("respuesta"):
-        reply = str(passport_res["respuesta"]).strip()
-        raw_ctas = passport_res.get("ctas")
-        if isinstance(raw_ctas, dict):
-            ctas = raw_ctas
-        datos_completos = bool(passport_res.get("datos_completos"))
-    else:
-        # 2. Respaldo automático: Gemini 2.5 Flash + knowledge_base_prosperia.md
-        client_ip = extract_client_ip(request)
-        kb_text = _load_prosperia_kb_text()
-        hist_lines = []
-        if req.history:
-            for h in req.history[-6:]:
-                role = "Cliente" if h.get("role") == "user" else "Setter IA"
-                txt = str(h.get("text", "")).strip()[:220]
-                if txt:
-                    hist_lines.append(f"{role}: {txt}")
-        hist_block = ("\nCONVERSACIÓN RECIENTE:\n" + "\n".join(hist_lines)) if hist_lines else ""
-
-        voice_rule = (
-            "Como estás hablando EN VOZ ALTA, responde de forma cálida, natural y sin asteriscos ni emojis, en máximo 2 o 3 oraciones completas."
-            if mode == "voice"
-            else "Responde en español claro y amable en máximo 3 oraciones cortas completas, sin tecnicismos ni listas largas."
-        )
-
-        sys_prompt = (
-            "Eres el Empleado Digital Oficial (Setter IA) de Agencia Prosper IA LLC.\n"
-            f"REGLAS OBLIGATORIAS:\n1. {voice_rule}\n"
-            "2. CERO jerga técnica innecesaria (nunca digas RAG, LLM, tokens, webhooks o pipelines).\n"
-            "3. Presenta cuando corresponda nuestros 4 Empleados Digitales: SDR IA, Setter IA, Closer IA y Soporte IA.\n"
-            "4. PROHIBIDO DAR PRECIOS O CIFRAS EN DÓLARES EN EL CHAT: NUNCA menciones montos en USD aunque insistan. Explica que cada proyecto se cotiza a la medida tras mostrarle su demo en vivo (con facilidad 50% al iniciar y 50% contra entrega en 7 a 10 días), pide Nombre, Giro de negocio y WhatsApp e invita a agendar en /#contacto.\n"
-            f"\nBASE DE CONOCIMIENTOS OFICIAL:\n{kb_text}\n{hist_block}"
-        )
-
-        reply = invoke_gemini_assistant(sys_prompt, raw_msg, client_ip=client_ip, max_tokens=340)
-        engine = "gemini-2.5-flash"
-
-        if not reply:
-            engine = "prosperia-kb-fallback"
-            m = raw_msg.lower()
-            if any(w in m for w in ["precio", "costo", "cuanto", "cuesta", "valor", "presupuesto", "vale", "tarifa"]):
-                reply = (
-                    "Cada negocio recibe una propuesta a medida según su rubro y alcance, sin precios fijos en chat. "
-                    "Preparamos una muestra en vivo sin costo y trabajamos con facilidad 50% al iniciar y 50% al entregar funcionando en 7 a 10 días. "
-                    "¿Me compartes tu Nombre, giro de negocio y WhatsApp para enviarte el informe y agendar tu cita diagnóstica de 15 minutos?"
-                )
-            elif any(w in m for w in ["empleado", "sdr", "setter", "closer", "soporte", "whatsapp", "atender", "voz"]):
-                reply = (
-                    "Instalamos tus 4 Empleados Digitales 24/7: SDR IA filtra cada mensaje en segundos, Setter IA conversa y agenda en tu calendario, "
-                    "Closer IA envía propuestas y da seguimiento comercial, y Soporte IA atiende postventa y consigue reseñas 5 estrellas."
-                )
-            elif any(w in m for w in ["web", "pagina", "sitio", "tienda", "portafolio", "ejemplo"]):
-                reply = (
-                    "Diseñamos páginas web y tiendas conectadas directo a tu WhatsApp y calendario en 7 a 10 días, con proyectos reales como PassportAI, Blancos Girasol, STI2Q y servicios del hogar. "
-                    "¿De qué giro es tu empresa para enseñarte una muestra parecida y agendar tu sesión?"
-                )
-            elif any(w in m for w in ["marketing", "anuncio", "reel", "video", "facebook", "instagram", "publicidad"]):
-                reply = (
-                    "Unimos campañas en Facebook, Instagram y Google directo a WhatsApp atendidas al instante por tu SDR IA y Setter IA, más edición profesional de hasta 10 Reels al mes y acceso a PassportAI."
-                )
-            elif any(w in m for w in ["crm", "agenda", "calendario", "cita", "orden", "seguimiento"]):
-                reply = (
-                    "Tu Tablero CRM y tu Closer IA dan seguimiento puntual a cada oportunidad abierta y asignan citas automáticamente en calendario Round-Robin. ¿Qué día y hora prefieres para tu cita diagnóstica?"
-                )
-            else:
-                reply = (
-                    "En Agencia Prosper IA te instalamos en 7 a 10 días tu página web, tus 4 Empleados Digitales (SDR IA, Setter IA, Closer IA y Soporte IA), tablero de clientes y campañas o Reels, pagando 50% al iniciar y 50% al entregar. "
-                    "¿A qué se dedica tu negocio y cuál es tu WhatsApp para enviarte informes o agendar?"
-                )
+    if not reply:
+        engine = "prosperia-kb-fallback"
+        m = raw_msg.lower()
+        if any(w in m for w in ["precio", "costo", "cuanto", "cuesta", "valor", "presupuesto", "vale", "tarifa"]):
+            reply = (
+                "Cada negocio recibe una propuesta a medida según su rubro y alcance, sin precios fijos en chat. "
+                "Preparamos una muestra en vivo sin costo en https://agenciaprosperia.com/sitioweb con facilidad 50% al iniciar y 50% al entregar en 7 a 10 días. "
+                "¿Me compartes tu Nombre, giro de negocio y WhatsApp para enviarte el informe y agendar tu diagnóstico de 15 minutos?"
+            )
+        elif any(w in m for w in ["empleado", "sdr", "setter", "closer", "soporte", "whatsapp", "atender", "voz"]):
+            reply = (
+                "Instalamos tus 4 Empleados Digitales 24/7: SDR IA filtra cada mensaje en segundos, Setter IA conversa y agenda en tu calendario, "
+                "Closer IA envía propuestas y da seguimiento comercial, y Soporte IA atiende postventa y consigue reseñas 5 estrellas."
+            )
+        elif any(w in m for w in ["web", "pagina", "sitio", "tienda", "portafolio", "ejemplo"]):
+            reply = (
+                "Diseñamos sitios web inteligentes conectados directo a tu WhatsApp y calendario en 7 a 10 días. "
+                "Puedes explorar cómo funciona en https://agenciaprosperia.com/sitioweb y decirme de qué giro es tu empresa para enseñarte tu muestra."
+            )
+        elif any(w in m for w in ["marketing", "anuncio", "reel", "video", "facebook", "instagram", "publicidad"]):
+            reply = (
+                "Unimos campañas en Facebook, Instagram y Google directo a WhatsApp atendidas al instante por tu SDR IA y Setter IA, más edición profesional de hasta 10 Reels al mes y acceso a PassportAI."
+            )
+        elif any(w in m for w in ["crm", "agenda", "calendario", "cita", "orden", "seguimiento"]):
+            reply = (
+                "Tu Tablero CRM y tu Closer IA dan seguimiento puntual a cada oportunidad abierta y asignan citas automáticamente en calendario Round-Robin. ¿Qué día y hora prefieres para tu cita diagnóstica?"
+            )
+        else:
+            reply = (
+                "En Agencia Prosper IA te instalamos en 7 a 10 días tu página web inteligente y tus 4 Empleados Digitales 24/7, pagando 50% al iniciar y 50% al entregar. "
+                "¿A qué se dedica tu negocio y cuál es tu WhatsApp para prepararte la demostración en https://agenciaprosperia.com/sitioweb?"
+            )
 
     reply = _enforce_no_price_chatbot_policy(reply, raw_msg)
     reply_speech = _clean_reply_for_speech(reply)

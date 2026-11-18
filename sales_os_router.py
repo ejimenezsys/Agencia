@@ -3523,7 +3523,7 @@ def _build_setter_ia_mass_email_payload(
               </ul>
               <div style="text-align: center; margin: 24px 0 14px;">
                 <a href="{demo_url}" style="display: inline-block; background: #00e5ff; color: #020710; text-decoration: none; font-weight: 900; font-size: 14px; padding: 14px 24px; border-radius: 10px; margin: 5px;">
-                  🚀 VER MI SITIO WEB DEMO EN VIVO
+                  🚀 VER EMBUDO Y DEMO EN VIVO (agenciaprosperia.com/sitioweb)
                 </a>
               </div>
               <div style="text-align: center; margin: 10px 0 18px;">
@@ -3837,12 +3837,7 @@ async def api_send_institutional_email_to_lead(
 
 
 def _build_lead_demo_url(lead: DbLead, phone_raw: str) -> str:
-    biz_name = (getattr(lead, "business_name", None) or lead.company or lead.name or "").strip()
-    tpl = getattr(lead, "selected_template", "clinica_dental_estetica") or "clinica_dental_estetica"
-    return (
-        f"https://agenciaprosperia.com/demo-sitio-web?template={urllib.parse.quote(tpl)}"
-        f"&business={urllib.parse.quote(biz_name or lead.name or 'Prospecto')}&phone={urllib.parse.quote(phone_raw)}"
-    )
+    return "https://agenciaprosperia.com/sitioweb"
 
 
 def _select_auto_wa_template(lead: DbLead) -> str:
@@ -4514,7 +4509,20 @@ def _select_next_warmup_lead(db: Session, state: dict, need_email: bool = False)
     return None
 
 
+def _is_miami_daytime_for_wa() -> bool:
+    """Respeta horario comercial Miami (8:30 AM a 8:00 PM EST) para no despertar prospectos por WhatsApp."""
+    from datetime import timedelta
+    miami_now = datetime.utcnow() - timedelta(hours=5)
+    mins = miami_now.hour * 60 + miami_now.minute
+    return (8 * 60 + 30) <= mins < (20 * 60)
+
+
 def _execute_setter_ia_wa_step(db: Session, state: dict) -> bool:
+    if not _is_miami_daytime_for_wa():
+        logs = state.get("last_log") or []
+        if not logs or "horario nocturno" not in str(logs[0]).lower():
+            _append_setter_ia_log(state, "🌙 WA en pausa por horario nocturno (8:30 AM–8:00 PM Miami); correos siguen 24/7.")
+        return False
     if int(state.get("wa_sent_today", 0) or 0) >= int(state.get("daily_wa_limit", 1000) or 1000):
         return False
     lead = _select_next_warmup_lead(db, state, need_email=False)
