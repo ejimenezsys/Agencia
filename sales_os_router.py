@@ -4296,13 +4296,58 @@ async def api_clean_launch_tests(
             ld.notes = new_notes
             reverted_failed_wa += 1
 
+    # Deduplicar renglones repetidos de RESPONDIÓ A SETTER IA / Setter IA Demo Enviada generados antes del candado anti-loop
+    dup_leads = (
+        db.query(DbLead)
+        .filter(
+            func.coalesce(DbLead.notes, "").contains("RESPONDIÓ A SETTER IA")
+            | func.coalesce(DbLead.notes, "").contains("Setter IA Demo Enviada")
+        )
+        .all()
+    )
+    deduped_bitacora_leads = 0
+    for ld in dup_leads:
+        raw_lines = (getattr(ld, "notes", "") or "").splitlines()
+        cleaned_lines = []
+        seen_reply = False
+        seen_demo = False
+        for ln in raw_lines:
+            if "RESPONDIÓ A SETTER IA" in ln:
+                if seen_reply:
+                    continue
+                seen_reply = True
+            elif "Setter IA Demo Enviada" in ln:
+                if seen_demo:
+                    continue
+                seen_demo = True
+            cleaned_lines.append(ln)
+        joined = "\n".join(cleaned_lines).strip()
+        if joined != (getattr(ld, "notes", "") or "").strip():
+            ld.notes = joined
+            deduped_bitacora_leads += 1
+
+    # Revertir los 3 leads de Tanya donde marcó Calificado por error teniendo "No tiene sms ni ws llamar"
+    tanya_leads = (
+        db.query(DbLead)
+        .filter(func.lower(DbLead.owner_id) == "tanyah.unity@gmail.com")
+        .filter(func.lower(func.coalesce(DbLead.notes, "")).contains("no tiene sms ni ws"))
+        .all()
+    )
+    tanya_reverted = 0
+    for ld in tanya_leads:
+        if (getattr(ld, "pipeline_stage", "") or "") == "Calificado":
+            ld.pipeline_stage = "Primer contacto"
+            ld.status = "contacted"
+            ld.next_action_at = ""
+            tanya_reverted += 1
+
     with _SETTER_IA_LOCK:
         st = _load_setter_ia_state(db)
         st["wa_paused_until_day"] = "2026-11-18"
         st["daily_wa_limit"] = 450
         _append_setter_ia_log(
             st,
-            "🧹 Limpieza Wendy/Sheille + enfriamiento preventivo WA hoy (cap 450/día); correos siguen 24/7.",
+            "🧹 Limpieza Wendy/Sheille + dedup bitácoras + enfriamiento preventivo WA hoy (cap 450/día); correos siguen 24/7.",
         )
         _save_setter_ia_state(db, st)
 
@@ -4321,12 +4366,14 @@ async def api_clean_launch_tests(
         "success": True,
         "message": (
             f"Limpieza completada: Wendy ({reset_users.get('wendyleiva59@gmail.com', 0)} leads) y "
-            f"Sheille ({reset_users.get('sheille.perez@gmail.com', 0)} leads) reiniciadas en 0 toques "
-            f"(preservando leads con respuesta), {reverted_failed_wa} envíos WA fallidos post-15:10 UTC revertidos "
-            f"y WA en enfriamiento preventivo por hoy (cap 450/día). Claudio, Agustín y Bruno intactos."
+            f"Sheille ({reset_users.get('sheille.perez@gmail.com', 0)} leads) reiniciadas en 0 toques, "
+            f"{reverted_failed_wa} WA fallidos revertidos, {deduped_bitacora_leads} bitácoras deduplicadas, "
+            f"{tanya_reverted} leads de Tanya corregidos a 'Primer contacto'. Claudio, Agustín y Bruno intactos."
         ),
         "reset_leads_by_closer": reset_users,
         "reverted_failed_wa_leads": reverted_failed_wa,
+        "deduped_bitacora_leads": deduped_bitacora_leads,
+        "tanya_reverted_leads": tanya_reverted,
         "wa_paused_until_day": "2026-11-18",
         "daily_wa_limit": 450,
         "closer_counts": closer_counts,

@@ -2313,6 +2313,9 @@
         </div>
       </details>
 
+      <!-- Alerta Dinámica de Prospectos Calientes que Respondieron al Setter IA -->
+      <div id="closer-hot-replied-banner" class="hidden rounded-xl p-3 border border-rose-500/45 bg-rose-500/15 flex flex-wrap items-center justify-between gap-2.5 text-xs"></div>
+
       <!-- Barra de Filtros Inteligentes (País, Nicho, Diagnóstico, Etapa Setter, Fuente y Búsqueda) -->
       <div class="flex flex-wrap gap-2 items-center pt-2 border-t border-emerald-500/20">
         <select id="call-queue-filter" class="input-dark text-xs py-2 px-3" style="width:auto;" onchange="callQueuePage=1; renderCallQueueTable()">
@@ -4598,10 +4601,10 @@
       <div class="flex flex-wrap gap-2.5 pt-1">
         <button type="button" onclick="document.getElementById('setterLeadWorkDialog').close()" class="btn-ghost px-4 py-2.5 rounded-xl font-semibold">Cerrar</button>
         <button type="button" id="setter-work-save-local-btn" onclick="submitSetterWork('save_local')" class="flex-1 py-2.5 px-4 rounded-xl font-bold bg-amber-500/20 text-amber-200 border border-amber-400/50 hover:bg-amber-500/30 transition">
-          💾 Guardar Renglón en Mi Lista Setter (Sin enviar a CRM)
+          💾 Guardar Nota / Toque (+1) en Bitácora
         </button>
         <button type="button" id="setter-work-crm-btn" onclick="submitSetterWork('send_to_crm')" class="flex-1 py-2.5 px-4 rounded-xl font-black text-slate-950 transition shadow-lg" style="background:linear-gradient(135deg,#34d399,#10b981);">
-          🔥 Calificado → Enviar a CRM y Pasar a Mi Pipeline (Closer)
+          🔥 Contestó y Calificó → Pasar a Pipeline Closer
         </button>
       </div>
     </div>
@@ -7357,11 +7360,11 @@ function initiateCloserCall(rawPhone, leadId, alreadyInModal = false) {
       }
     } catch (e) {}
     if (route.mode === 'LATAM_WA') {
-      if (!alreadyInModal && leadId) {
-        openSetterWorkDialog(leadId, 'WhatsApp Agencia');
+      if (route.waUrl) {
+        window.open(route.waUrl, '_blank', 'noopener');
       }
-      if (leadId) {
-        sendAgencyWhatsappToLead(leadId, null, 'auto');
+      if (!alreadyInModal && leadId) {
+        openSetterWorkDialog(leadId, 'Llamada');
       }
       return;
     } else if (route.dialHref) {
@@ -7740,6 +7743,31 @@ function renderCallQueueTable() {
   const pendingCount = salesOsLeads.filter(isSetterPendingOrLocal).length;
   if (queueBadge) queueBadge.textContent = pendingCount;
 
+  const hotBanner = document.getElementById('closer-hot-replied-banner');
+  const myRepliedCount = salesOsLeads.filter(l => (l.notes || '').toLowerCase().includes('respondió a setter ia')).length;
+  if (hotBanner) {
+    if (myRepliedCount > 0) {
+      hotBanner.innerHTML = `
+        <div class="text-rose-100 leading-snug">
+          <strong class="text-white">🔥 ¡TIENES ${myRepliedCount} PROSPECTOS QUE YA RESPONDIERON AL SETTER IA (VENTANA 24H ABIERTA)!</strong><br>
+          <span class="text-rose-200 text-[11px]">Ya recibieron su Demo Web y varios ya la leyeron (✓✓ azul). Llámalos o escríbeles ahora mismo.</span>
+        </div>
+        <div class="flex flex-wrap items-center gap-1.5">
+          <button type="button" onclick="filterOnlyRepliedLeads()" class="px-3 py-1.5 rounded-lg bg-rose-500 text-white hover:bg-rose-400 font-black text-[11px] shadow transition">
+            🔥 Filtrar Solo Mis ${myRepliedCount} Respondidos
+          </button>
+          <button type="button" onclick="document.getElementById('call-queue-filter').value='pending'; callQueuePage=1; renderCallQueueTable()" class="px-3 py-1.5 rounded-lg bg-slate-900/90 text-slate-200 border border-slate-700 hover:bg-slate-800 font-bold text-[11px] transition">
+            📋 Ver Todos
+          </button>
+        </div>
+      `;
+      hotBanner.classList.remove('hidden');
+    } else {
+      hotBanner.classList.add('hidden');
+      hotBanner.innerHTML = '';
+    }
+  }
+
   const filtered = salesOsLeads.filter(l => {
     const st = l.pipeline_stage || 'Lead identificado';
     const notes = (l.notes || '').toLowerCase();
@@ -7858,6 +7886,11 @@ function renderCallQueueTable() {
       </td>
       <td data-label="Trabajar Contacto" class="px-4 py-3.5 align-top text-right">
         <div class="inline-flex flex-wrap justify-end gap-1.5">
+          <button type="button" onclick="quickLogCallOutcome(${l.id}, 'no_answer', this)"
+                  class="px-2.5 py-2 rounded-xl text-[11px] font-bold bg-rose-500/20 text-rose-200 border border-rose-500/40 hover:bg-rose-500/30 transition"
+                  title="1 clic: registra 'No contestó / Buzón' (+1 toque) sin abrir popup">
+            🔴 No contestó (+1)
+          </button>
           <button type="button" onclick="openSetterWorkDialog(${l.id})"
                   class="px-3.5 py-2 rounded-xl text-xs font-black bg-cyan-400 text-slate-950 hover:bg-cyan-300 transition shadow">
             🛠️ Trabajar / Anotar
@@ -7925,12 +7958,13 @@ function openSetterWorkDialog(leadId, defaultChannel = 'Llamada', preserveFeedba
   const saveLocalBtn = document.getElementById('setter-work-save-local-btn');
   const crmBtn = document.getElementById('setter-work-crm-btn');
   if (saveLocalBtn) {
-    saveLocalBtn.style.display = isAlreadyCloserLead ? 'none' : '';
+    saveLocalBtn.style.display = '';
+    saveLocalBtn.textContent = '💾 Guardar Nota / Toque (+1) en Bitácora';
   }
   if (crmBtn) {
     crmBtn.textContent = isAlreadyCloserLead
-      ? '💾 Guardar Bitácora, Oferta & Propuesta en CRM ProsperIA'
-      : '🔥 Calificado → Enviar a CRM y Pasar a Mi Pipeline (Closer)';
+      ? '💾 Actualizar Etapa, Oferta & Propuesta en CRM ProsperIA'
+      : '🔥 Contestó y Calificó → Pasar a Pipeline Closer';
   }
 
   const route = getLeadCallRouting(lead, intel.waScript);
@@ -8043,12 +8077,24 @@ async function submitSetterWork(mode) {
 
   const curSt = lead?.pipeline_stage || '';
   const alreadyInCrm = ['Calificado', 'Diagnóstico agendado', 'Demo realizada', 'Propuesta enviada', 'Pago pendiente', 'Pago confirmado', 'Implementación', 'Entregado'].includes(curSt) || ((lead?.contact_id || '').trim() !== '');
+  const notesLow = notes.toLowerCase();
+  const hasNonQualNote = ['no contest', 'no tiene sms', 'no tiene ws', 'buzón', 'buzon'].some(k => notesLow.includes(k));
 
-  if (mode === 'send_to_crm') {
-    outcome = 'qualified_crm';
-    if (!alreadyInCrm) setter_stage = 'Calificado';
-  } else if (setter_stage === 'Calificado' && outcome !== 'disqualified' && outcome !== 'no_answer') {
-    setter_stage = 'Contacto';
+  if (mode === 'save_local') {
+    if (outcome === 'qualified_crm') outcome = 'callback';
+    if (setter_stage === 'Calificado' && outcome !== 'disqualified' && outcome !== 'no_answer') {
+      setter_stage = 'Contacto';
+    }
+  } else if (mode === 'send_to_crm') {
+    if (outcome === 'no_answer' || outcome === 'disqualified' || hasNonQualNote) {
+      if (outcome === 'qualified_crm' || hasNonQualNote) {
+        outcome = (notesLow.includes('no contest') || notesLow.includes('buzón') || notesLow.includes('buzon') || notesLow.includes('no tiene')) ? 'no_answer' : 'callback';
+      }
+      setter_stage = (outcome === 'no_answer') ? 'Primer contacto' : 'Contacto';
+    } else {
+      outcome = 'qualified_crm';
+      if (!alreadyInCrm) setter_stage = 'Calificado';
+    }
   }
 
   try {
@@ -8075,10 +8121,11 @@ async function submitSetterWork(mode) {
     }
 
     // Sincronizar oferta, monto cotizado y preservar etapa Pago pendiente/confirmado vía /stage
+    const isGenuineCrmAdvance = (mode === 'send_to_crm' && outcome === 'qualified_crm');
     const finalStage = ['Pago pendiente', 'Pago confirmado'].includes(curSt)
       ? curSt
-      : (mode === 'send_to_crm' ? (['Primer contacto', 'Contacto', 'Calificado'].includes(setter_stage) ? setter_stage : 'Calificado') : null);
-    if (mode === 'send_to_crm' || finalStage) {
+      : (isGenuineCrmAdvance ? (['Primer contacto', 'Contacto', 'Calificado'].includes(setter_stage) ? setter_stage : 'Calificado') : null);
+    if (isGenuineCrmAdvance || finalStage) {
       await fetch(`/api/sales-os/leads/${leadId}/stage`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
@@ -8119,6 +8166,45 @@ async function submitSetterWork(mode) {
     }
   } catch (err) {
     alert('Error de conexión al guardar en bitácora.');
+  }
+}
+
+async function quickLogCallOutcome(leadId, outcome, btn) {
+  const lead = salesOsLeads.find(x => x.id === leadId);
+  if (!lead) return;
+  const orig = btn ? btn.innerHTML : '';
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = '⏳...';
+  }
+  try {
+    const res = await fetch(`/api/sales-os/leads/${leadId}/call-outcome`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+      body: JSON.stringify({
+        outcome: outcome || 'no_answer',
+        channel: 'Llamada',
+        objection_tag: 'No contestó / Buzón',
+        notes: 'Llamada realizada — No contestó / Buzón (registro rápido 1 clic).',
+        setter_stage: 'Primer contacto',
+        selected_template: lead.selected_template || 'clinica_dental_estetica',
+        offer_version: lead.offer_version || 'EXPRESS_497'
+      })
+    });
+    const out = await res.json();
+    if (!res.ok || !out.success) {
+      throw new Error(out.detail || out.message || 'No se pudo registrar toque rápido.');
+    }
+    const idx = salesOsLeads.findIndex(x => x.id === leadId);
+    if (idx >= 0 && out.data) salesOsLeads[idx] = out.data;
+    renderCallQueueTable();
+    await loadLeaderboardAndKpis();
+  } catch (err) {
+    alert(err.message || 'Error al registrar toque rápido.');
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = orig;
+    }
   }
 }
 
