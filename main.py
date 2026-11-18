@@ -2366,7 +2366,7 @@ _LOGIN_MAX_FAILS_15M = 8
 
 
 def _resolve_env_secret(var_name: str, default: str = "") -> str:
-    """Lee una variable desde os.environ o el archivo .env local sin exponer contraseñas en código fuente."""
+    """Lee una variable desde os.environ, archivo .env local o IntegrationSetting DB."""
     val = (os.environ.get(var_name) or "").strip()
     if val:
         return val
@@ -2379,6 +2379,13 @@ def _resolve_env_secret(var_name: str, default: str = "") -> str:
                         parsed = line.split("=", 1)[1].strip().strip("'\"")
                         if parsed:
                             return parsed
+    except Exception:
+        pass
+    try:
+        from ghl_client import _cfg_db
+        db_val = _cfg_db(var_name, "")
+        if db_val:
+            return db_val
     except Exception:
         pass
     return default

@@ -4405,15 +4405,9 @@
         <button type="button" id="setter-work-sms-btn" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/35 hover:bg-indigo-500/30">
           🇺🇸 SMS Miami (+1)
         </button>
-        <button type="button" id="setter-work-inst-mail-btn" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-sky-500/25 text-sky-200 border border-sky-400/45 hover:bg-sky-500/35 transition" title="Enviar propuesta oficial desde seller@agenciaprosperia.com">
-          📨 seller@agenciaprosperia
+        <button type="button" id="setter-work-inst-mail-btn" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-sky-500/25 text-sky-200 border border-sky-400/45 hover:bg-sky-500/35 transition" title="Enviar correo corporativo 100% desde la web (funciona en Windows, Mac y móvil sin abrir ningún programa)">
+          ✉️ Enviar Correo
         </button>
-        <button type="button" id="setter-work-info-mail-btn" class="px-2.5 py-1.5 rounded-lg text-xs font-bold bg-cyan-500/20 text-cyan-200 border border-cyan-400/40 hover:bg-cyan-500/30 transition" title="Enviar informe oficial desde info@agenciaprosperia.com">
-          ℹ️ info@
-        </button>
-        <a id="setter-work-mail-btn" href="#" class="px-2.5 py-1.5 rounded-lg text-[11px] font-bold bg-slate-800 text-slate-300 border border-slate-700 hover:text-white no-underline hidden" title="Abrir cliente de correo externo">
-          ✉️
-        </a>
         <a id="setter-work-demo-btn" href="#" class="px-3 py-1.5 rounded-lg text-xs font-black bg-cyan-400 text-slate-950 hover:bg-cyan-300 no-underline">
           🚀 Demo Web
         </a>
@@ -6311,7 +6305,7 @@ function renderSalesOsTable() {
           ${rawPhone ? `<button type="button" onclick="initiateCloserCall('${esc(rawPhone)}', ${l.id})" class="px-2 py-0.5 rounded bg-slate-800 text-cyan-200 border border-cyan-500/35 text-[10px] font-bold hover:bg-slate-700">${esc(route.btnLabel)}</button>` : ''}
           ${waDigits ? `<a href="https://wa.me/${waDigits}?text=${encodeURIComponent(intel.waScript)}" target="_blank" class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold no-underline hover:bg-emerald-500/30"><i class="fab fa-whatsapp"></i> WhatsApp</a>` : ''}
           ${route.allowMiamiSms ? `<button type="button" onclick="sendGhlDirectMsgFromUi(${l.id}, 'SMS', this)" class="px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-[10px] font-bold hover:bg-indigo-500/30">🇺🇸 SMS Miami</button>` : ''}
-          ${hasEmail ? `<button type="button" onclick="sendInstitutionalEmailToLead(${l.id}, this, 'seller@agenciaprosperia.com')" class="px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30 text-[10px] font-bold hover:bg-sky-500/30" title="Enviar correo oficial desde seller@agenciaprosperia.com">📨 seller@agenciaprosperia</button>` : ''}
+          ${hasEmail ? `<button type="button" onclick="sendInstitutionalEmailToLead(${l.id}, this, 'seller@agenciaprosperia.com')" class="px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30 text-[10px] font-bold hover:bg-sky-500/30" title="Enviar correo corporativo 100% desde el sistema">✉️ Correo</button>` : ''}
         </div>
       </th>
       <td class="px-3 py-3 text-slate-300">
@@ -7511,7 +7505,7 @@ function renderCallQueueTable() {
           ${rawPhone ? `<button type="button" onclick="initiateCloserCall('${esc(rawPhone)}', ${l.id})" class="px-2.5 py-1 rounded-lg bg-emerald-400 text-slate-950 hover:bg-emerald-300 text-[11px] font-black shadow-sm">${esc(route.btnLabel)}</button>` : ''}
           ${waUrl ? `<a href="${waUrl}" target="_blank" class="px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/35 text-[11px] font-bold no-underline hover:bg-emerald-500/30"><i class="fab fa-whatsapp"></i> WA</a>` : ''}
           ${route.allowMiamiSms ? `<button type="button" onclick="sendGhlDirectMsgFromUi(${l.id}, 'SMS', this)" class="px-2.5 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 border border-indigo-500/35 text-[11px] font-bold hover:bg-indigo-500/30">🇺🇸 SMS</button>` : ''}
-          ${hasEmail ? `<button type="button" onclick="sendInstitutionalEmailToLead(${l.id}, this, 'seller@agenciaprosperia.com')" class="px-2.5 py-1 rounded-lg bg-sky-500/20 text-sky-200 border border-sky-400/40 text-[11px] font-bold hover:bg-sky-500/30" title="Enviar correo oficial desde seller@agenciaprosperia.com">📨 seller@agenciaprosperia</button>` : ''}
+          ${hasEmail ? `<button type="button" onclick="sendInstitutionalEmailToLead(${l.id}, this, 'seller@agenciaprosperia.com')" class="px-2.5 py-1 rounded-lg bg-sky-500/20 text-sky-200 border border-sky-400/40 text-[11px] font-bold hover:bg-sky-500/30" title="Enviar correo corporativo 100% desde el sistema">✉️ Enviar Correo</button>` : ''}
         </div>
       </td>
       <td data-label="País / Rubro / Plantilla" class="px-3 py-3.5 align-top">
@@ -7634,24 +7628,10 @@ function openSetterWorkDialog(leadId, defaultChannel = 'Llamada', preserveFeedba
     smsBtn.style.display = route.allowMiamiSms ? '' : 'none';
   }
   const instMailBtn = document.getElementById('setter-work-inst-mail-btn');
-  const infoMailBtn = document.getElementById('setter-work-info-mail-btn');
   const validMail = hasRealLeadEmail(lead);
   if (instMailBtn) {
     instMailBtn.onclick = () => sendInstitutionalEmailToLead(lead.id, instMailBtn, 'seller@agenciaprosperia.com');
     instMailBtn.style.display = validMail ? '' : 'none';
-  }
-  if (infoMailBtn) {
-    infoMailBtn.onclick = () => sendInstitutionalEmailToLead(lead.id, infoMailBtn, 'info@agenciaprosperia.com');
-    infoMailBtn.style.display = validMail ? '' : 'none';
-  }
-  const mailBtn = document.getElementById('setter-work-mail-btn');
-  if (mailBtn) {
-    if (validMail) {
-      mailBtn.href = `mailto:${encodeURIComponent(lead.email)}?subject=${encodeURIComponent('Propuesta Digital para ' + (lead.business_name || lead.name))}&body=${encodeURIComponent(intel.waScript)}`;
-      mailBtn.classList.remove('hidden');
-    } else {
-      mailBtn.classList.add('hidden');
-    }
   }
   const demoBtn = document.getElementById('setter-work-demo-btn');
   if (demoBtn) demoBtn.href = demoUrl;

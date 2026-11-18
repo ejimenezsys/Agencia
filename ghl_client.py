@@ -289,7 +289,11 @@ def _cfg_db(key: str, default: str = "") -> str:
 
         db = SessionLocal()
         try:
-            row = db.query(IntegrationSetting).filter(IntegrationSetting.key == key.lower()).first()
+            row = (
+                db.query(IntegrationSetting)
+                .filter(IntegrationSetting.key.in_([key, key.lower(), key.upper()]))
+                .first()
+            )
             if row and (row.value or "").strip():
                 return row.value.strip()
         finally:
@@ -591,11 +595,11 @@ def sync_lead_to_ghl(
         )
         stage_id = _resolve_beauty_stage_id(stages_map, inferred_stage, default_st)
     else:
-        token = _cfg("GHL_PRIVATE_TOKEN") or _cfg("GHL_ACCESS_TOKEN")
+        token = _cfg_db("GHL_PRIVATE_TOKEN") or _cfg_db("GHL_ACCESS_TOKEN")
         if not token:
             print("ℹ️ [GHL] GHL_PRIVATE_TOKEN no configurado; sincronización omitida.", flush=True)
             return {"ok": False, "skipped": True}
-        location_id = _cfg("GHL_LOCATION_ID", DEFAULT_LOCATION_ID)
+        location_id = _cfg_db("GHL_LOCATION_ID", DEFAULT_LOCATION_ID)
         src_lower = (source or "").lower()
         is_closer_origin = (
             any(k in src_lower for k in ("sales_os_closer", "closer_prospeccion_propia", "closer_lote_excel"))
@@ -797,8 +801,8 @@ def sync_sales_os_event_to_ghl_async(
                 token, loc_id, beauty_disc = _resolve_beauty_connection()
                 pip_id = beauty_disc.get("pipeline_id") or _cfg_db("GHL_BEAUTY_PIPELINE_ID")
             else:
-                token = _cfg("GHL_PRIVATE_TOKEN") or _cfg("GHL_ACCESS_TOKEN")
-                loc_id = _cfg("GHL_LOCATION_ID", DEFAULT_LOCATION_ID)
+                token = _cfg_db("GHL_PRIVATE_TOKEN") or _cfg_db("GHL_ACCESS_TOKEN")
+                loc_id = _cfg_db("GHL_LOCATION_ID", DEFAULT_LOCATION_ID)
                 beauty_disc = {}
                 pip_id = DEFAULT_PIPELINE_ID
             if not token:
@@ -1215,7 +1219,7 @@ def send_ghl_direct_message(
             ),
         }
 
-    token = _cfg("GHL_PRIVATE_TOKEN") or _cfg("GHL_ACCESS_TOKEN")
+    token = _cfg_db("GHL_PRIVATE_TOKEN") or _cfg_db("GHL_ACCESS_TOKEN")
     if not token:
         return {"ok": False, "error": "GHL_PRIVATE_TOKEN no configurado."}
 

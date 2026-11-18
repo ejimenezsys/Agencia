@@ -3414,10 +3414,10 @@ def _dispatch_institutional_email_sync(
     from email.mime.text import MIMEText
     from email.utils import formataddr
 
-    smtp_host = _ghl_cfg("SMTP_HOST", "smtp.hostinger.com")
-    smtp_port = int(_ghl_cfg("SMTP_PORT", "465") or "465")
-    smtp_user = _ghl_cfg("SMTP_USER", "edward@agenciaprosperia.com")
-    smtp_pass = _ghl_cfg("SMTP_PASSWORD", "")
+    smtp_host = _cfg_db("SMTP_HOST", "smtp.hostinger.com")
+    smtp_port = int(_cfg_db("SMTP_PORT", "465") or "465")
+    smtp_user = _cfg_db("SMTP_USER", "edward@agenciaprosperia.com")
+    smtp_pass = _cfg_db("SMTP_PASSWORD", "")
     if not smtp_pass:
         raise RuntimeError("Servidor SMTP institucional aún no configurado en el servidor.")
 
