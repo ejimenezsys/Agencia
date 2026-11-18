@@ -1271,101 +1271,15 @@
           <div style="text-align:center; margin-bottom:1.6rem;">
             <div class="bg-eyebrow"><i class="fas fa-calendar-check" aria-hidden="true"></i> Embudo Oficial Beauty Growth</div>
             <h2 style="font-size:clamp(1.65rem, 3vw, 2.25rem); font-weight:900; margin-bottom:0.45rem;">Agenda Tu Diagnóstico Comercial</h2>
-            <p style="color:var(--text-muted); font-size:0.94rem; margin:0;">Completa tus datos para pre-calificar tu salón, spa, clínica estética o academia y abrir en vivo el calendario con nuestro equipo.</p>
+            <p style="color:var(--text-muted); font-size:0.94rem; margin:0 0 1.35rem;">Inicia tu evaluación estratégica en vivo con nuestro equipo directamente desde el asistente oficial de Beauty Growth.</p>
           </div>
 
-          <form id="beauty-funnel-form" novalidate aria-label="Formulario de diagnóstico Beauty Growth">
-            <input type="text" name="website_hp" tabindex="-1" aria-hidden="true" class="visually-hidden" autocomplete="off">
-
-            <div class="bg-grid-2" style="gap:1rem;">
-              <div class="field">
-                <label for="bg-name">Nombre y Apellido *</label>
-                <span id="bg-name-hint" class="hint">Ej. Nubia Delgado</span>
-                <input type="text" id="bg-name" name="name" class="bg-input" required minlength="2" autocomplete="name" aria-describedby="bg-name-hint" data-error="bg-name-error">
-                <div id="bg-name-error" class="error-msg"><span role="img" aria-label="Error">❌</span> Ingresa tu nombre completo.</div>
-              </div>
-              <div class="field">
-                <label for="bg-company">Nombre de tu Negocio *</label>
-                <span id="bg-company-hint" class="hint">Salón, spa, clínica o academia</span>
-                <input type="text" id="bg-company" name="company" class="bg-input" required minlength="2" autocomplete="organization" aria-describedby="bg-company-hint" data-error="bg-company-error">
-                <div id="bg-company-error" class="error-msg"><span role="img" aria-label="Error">❌</span> Ingresa el nombre de tu negocio.</div>
-              </div>
-            </div>
-
-            <div class="bg-grid-2" style="gap:1rem;">
-              <div class="field">
-                <label for="bg-email">Correo Electrónico *</label>
-                <span id="bg-email-hint" class="hint">Formato: tu@negocio.com</span>
-                <input type="email" id="bg-email" name="email" class="bg-input" required autocomplete="email" aria-describedby="bg-email-hint" data-error="bg-email-error">
-                <div id="bg-email-error" class="error-msg"><span role="img" aria-label="Error">❌</span> Ingresa un correo electrónico válido (ejemplo@dominio.com).</div>
-              </div>
-              <div class="field">
-                <label for="bg-phone">WhatsApp / Teléfono *</label>
-                <span id="bg-phone-hint" class="hint">Incluye código de país (ej. +1 786...)</span>
-                <input type="tel" id="bg-phone" name="phone" class="bg-input" required minlength="7" autocomplete="tel" inputmode="tel" aria-describedby="bg-phone-hint" data-error="bg-phone-error">
-                <div id="bg-phone-error" class="error-msg"><span role="img" aria-label="Error">❌</span> Ingresa un número de WhatsApp válido.</div>
-              </div>
-            </div>
-
-            <div class="bg-grid-2" style="gap:1rem;">
-              <div class="field">
-                <label for="bg-segment">Segmento de Belleza *</label>
-                <select id="bg-segment" name="segment" class="bg-input" required data-error="bg-segment-error">
-                  <option value="">Selecciona tu segmento...</option>
-                  <option value="Salón de belleza (Cabello / Uñas / Color)">Salón de belleza (Cabello / Uñas / Color)</option>
-                  <option value="Spa o Centro Estético">Spa o Centro Estético</option>
-                  <option value="Academia o Educadora (Cursos / Mentorías)">Academia o Educadora (Cursos / Mentorías)</option>
-                </select>
-                <div id="bg-segment-error" class="error-msg"><span role="img" aria-label="Error">❌</span> Selecciona tu segmento de negocio.</div>
-              </div>
-              <div class="field">
-                <label for="bg-city">Ciudad / Mercado *</label>
-                <input type="text" id="bg-city" name="city" class="bg-input" required placeholder="Ej. Miami, FL / Houston, TX / San Juan, PR" data-error="bg-city-error">
-                <div id="bg-city-error" class="error-msg"><span role="img" aria-label="Error">❌</span> Indica tu ciudad o mercado principal.</div>
-              </div>
-            </div>
-
-            <div class="bg-grid-2" style="gap:1rem;">
-              <div class="field">
-                <label for="bg-revenue">Facturación Mensual Actual *</label>
-                <select id="bg-revenue" name="revenue" class="bg-input" required data-error="bg-revenue-error">
-                  <option value="">Selecciona un rango...</option>
-                  <option value="Menos de $5,000 USD/mes">Menos de $5,000 USD/mes</option>
-                  <option value="$5,000 – $15,000 USD/mes">$5,000 – $15,000 USD/mes</option>
-                  <option value="$15,000 – $30,000 USD/mes">$15,000 – $30,000 USD/mes</option>
-                  <option value="Más de $30,000 USD/mes">Más de $30,000 USD/mes</option>
-                </select>
-                <div id="bg-revenue-error" class="error-msg"><span role="img" aria-label="Error">❌</span> Selecciona tu rango de facturación actual.</div>
-              </div>
-              <div class="field">
-                <label for="bg-package">Paquete de Interés</label>
-                <select id="bg-package" name="package" class="bg-input">
-                  <option value="BEAUTY_ELEVATE_2499">Beauty Elevate — USD $2,499/mes (Recomendado)</option>
-                  <option value="BEAUTY_BOOST_1499">Beauty Boost — USD $1,499/mes</option>
-                  <option value="BEAUTY_EMPIRE_3499">Beauty Empire — USD $3,499/mes (Academias)</option>
-                  <option value="BEAUTY_HIGHTICKET_5000">Plan High-Ticket FL — USD $5,000/mes</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="field">
-              <label for="bg-instagram">Instagram del Negocio y Reto Principal</label>
-              <textarea id="bg-instagram" name="notes" rows="2" class="bg-input" placeholder="@tunegocio · Ej. Queremos llenar agenda de tratamientos de alto margen y reactivar nuestra base de datos."></textarea>
-            </div>
-
-            <div style="display:flex; align-items:flex-start; gap:0.65rem; margin-bottom:1.15rem;">
-              <input type="checkbox" id="bg-consent" name="sms_consent" required checked style="width:18px; height:18px; margin-top:3px; accent-color:#6D28D9;">
-              <label for="bg-consent" style="font-size:0.8rem; color:var(--text-muted); font-weight:500;">Autorizo a Beauty Growth &amp; Business System (Agencia ProsperIA LLC) a contactarme por WhatsApp, llamada y correo sobre mi sesión estratégica.</label>
-            </div>
-
-            <div data-form-status role="status" aria-live="polite" style="display:none; padding:0.95rem; border-radius:12px; margin-bottom:1rem; font-size:0.9rem;"></div>
-
-            <button type="submit" class="btn-purple" style="width:100%;">
-              <span>Registrar Solicitud y Abrir Calendario en Vivo</span>
-              <i class="fas fa-arrow-right" aria-hidden="true"></i>
+          <div style="text-align:center;">
+            <button type="button" class="btn-purple open-lc-widget" style="width:100%;">
+              <span>Iniciar Solicitud en el Chat Oficial en Vivo</span>
+              <i class="fas fa-comments" aria-hidden="true"></i>
             </button>
-          </form>
-          <div id="beauty-funnel-calendar-host" style="margin-top:1.35rem;"></div>
+          </div>
         </div>
       </div>
     </section>
@@ -1397,54 +1311,14 @@
     </div>
 
     <div class="bg-dialog-body">
-      <form id="beauty-modal-form" novalidate>
-        <input type="text" name="website_hp" tabindex="-1" aria-hidden="true" class="visually-hidden" autocomplete="off">
-        <div class="bg-grid-2" style="gap:0.85rem;">
-          <div class="field">
-            <label for="bg-modal-name">Nombre Completo *</label>
-            <input type="text" id="bg-modal-name" name="name" class="bg-input" required minlength="2" autofocus autocomplete="name" data-error="bg-modal-name-error">
-            <div id="bg-modal-name-error" class="error-msg"><span role="img" aria-label="Error">❌</span> Ingresa tu nombre completo.</div>
-          </div>
-          <div class="field">
-            <label for="bg-modal-company">Nombre del Salón / Spa / Academia *</label>
-            <input type="text" id="bg-modal-company" name="company" class="bg-input" required minlength="2" autocomplete="organization" data-error="bg-modal-company-error">
-            <div id="bg-modal-company-error" class="error-msg"><span role="img" aria-label="Error">❌</span> Ingresa el nombre de tu negocio.</div>
-          </div>
-        </div>
-        <div class="bg-grid-2" style="gap:0.85rem;">
-          <div class="field">
-            <label for="bg-modal-email">Correo Electrónico *</label>
-            <input type="email" id="bg-modal-email" name="email" class="bg-input" required autocomplete="email" data-error="bg-modal-email-error">
-            <div id="bg-modal-email-error" class="error-msg"><span role="img" aria-label="Error">❌</span> Ingresa un correo electrónico válido.</div>
-          </div>
-          <div class="field">
-            <label for="bg-modal-phone">WhatsApp *</label>
-            <input type="tel" id="bg-modal-phone" name="phone" class="bg-input" required minlength="7" autocomplete="tel" inputmode="tel" data-error="bg-modal-phone-error">
-            <div id="bg-modal-phone-error" class="error-msg"><span role="img" aria-label="Error">❌</span> Ingresa tu número de WhatsApp.</div>
-          </div>
-        </div>
-        <div class="bg-grid-2" style="gap:0.85rem;">
-          <div class="field">
-            <label for="bg-modal-package">Plan de Interés</label>
-            <select id="bg-modal-package" name="package" class="bg-input">
-              <option value="BEAUTY_ELEVATE_2499">Beauty Elevate — USD $2,499/mes</option>
-              <option value="BEAUTY_BOOST_1499">Beauty Boost — USD $1,499/mes</option>
-              <option value="BEAUTY_EMPIRE_3499">Beauty Empire — USD $3,499/mes</option>
-              <option value="BEAUTY_HIGHTICKET_5000">Plan High-Ticket FL — USD $5,000/mes</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="bg-modal-city">Ciudad (Miami, Houston, PR…)</label>
-            <input type="text" id="bg-modal-city" name="city" class="bg-input" placeholder="Ej. Miami, FL">
-          </div>
-        </div>
-        <div data-form-status role="status" aria-live="polite" style="display:none; padding:0.85rem; border-radius:10px; margin-bottom:0.85rem; font-size:0.86rem;"></div>
-        <div style="display:flex; flex-wrap:wrap; gap:0.75rem;">
-          <button type="submit" class="btn-purple" style="flex:1 1 220px;">Confirmar y Ver Agenda →</button>
-          <a href="https://wa.me/19292788261?text=Hola%20Beauty%20Growth%2C%20quiero%20agendar%20mi%20sesi%C3%B3n%20estrat%C3%A9gica" target="_blank" rel="noopener noreferrer" class="btn-ghost" style="flex:1 1 160px;">WhatsApp Directo</a>
-        </div>
-      </form>
-      <div id="beauty-modal-calendar-host" style="margin-top:1rem;"></div>
+      <p style="color:var(--text-muted); font-size:0.92rem; line-height:1.55; margin:0 0 1.25rem;">
+        Atendemos tu diagnóstico comercial y agenda estratégica de 30 minutos directamente a través de nuestro chat oficial en vivo.
+      </p>
+      <div style="display:flex; flex-wrap:wrap; gap:0.75rem;">
+        <button type="button" class="btn-purple open-lc-widget" command="close" commandfor="beautyBookingDialog" style="width:100%;">
+          Abrir Chat Oficial de Diagnóstico →
+        </button>
+      </div>
     </div>
   </dialog>
 
@@ -1472,18 +1346,22 @@
         }
       }
 
-      // Preselect package when clicking plan cards
-      document.querySelectorAll('.pick-package').forEach((btn) => {
-        btn.addEventListener('click', () => {
-          const pkg = btn.getAttribute('data-package');
-          const selModal = document.getElementById('bg-modal-package');
-          const selInline = document.getElementById('bg-package');
-          if (selModal && pkg) selModal.value = pkg;
-          if (selInline && pkg) selInline.value = pkg;
-        });
+      // 2. Open LeadConnector chat widget cleanly from CTAs / plan buttons
+      const openLeadConnectorWidget = () => {
+        if (dialog?.open) dialog.close();
+        if (window.leadConnector?.chatWidget?.openWidget) {
+          window.leadConnector.chatWidget.openWidget();
+          return;
+        }
+        const cw = document.querySelector('chat-widget');
+        cw?.shadowRoot?.querySelector('button')?.click();
+      };
+
+      document.querySelectorAll('.open-lc-widget, .pick-package').forEach((btn) => {
+        btn.addEventListener('click', () => openLeadConnectorWidget());
       });
 
-      // 2. Testimonial video 1-click play overlay + lazy-load fallback (modern-web-guidance: lazy-load-video-and-audio)
+      // 3. Testimonial video 1-click play overlay + lazy-load fallback (modern-web-guidance: lazy-load-video-and-audio)
       const nubiaVideo = document.getElementById('nubia-testimonial-video');
       const nubiaOverlay = document.getElementById('nubia-play-overlay');
       if (nubiaVideo && nubiaOverlay) {
@@ -1519,210 +1397,6 @@
         nubiaVideo.preload = 'none';
         mediaObserver.observe(nubiaVideo);
       }
-
-      // 3. Validate Input After Interaction + Consistent ARIA (modern-web-guidance: validate-input-after-interaction)
-      const linkError = (el, shown) => {
-        const errorId = el.dataset.error;
-        if (!errorId) return;
-        const ids = (el.getAttribute('aria-describedby') || '').split(/\s+/).filter((id) => id && id !== errorId);
-        if (shown) ids.push(errorId);
-        if (ids.length) el.setAttribute('aria-describedby', ids.join(' '));
-        else el.removeAttribute('aria-describedby');
-      };
-
-      const announcer = document.createElement('div');
-      announcer.setAttribute('aria-live', 'polite');
-      announcer.classList.add('visually-hidden');
-      document.body.append(announcer);
-      let announceTimer;
-      let announcedField;
-
-      const spokenText = (node) => {
-        const copy = node.cloneNode(true);
-        copy.querySelectorAll('[aria-hidden="true"]').forEach((n) => n.remove());
-        copy.querySelectorAll('[role="img"][aria-label]').forEach((n) => n.replaceWith(`${n.getAttribute('aria-label')}: `));
-        return copy.textContent.replace(/\s+/g, ' ').trim();
-      };
-
-      const announceError = (el) => {
-        const error = document.getElementById(el.dataset.error);
-        if (!error) return;
-        const label = el.labels?.[0] ? `${spokenText(el.labels[0])}: ` : '';
-        clearTimeout(announceTimer);
-        announcer.textContent = '';
-        announcedField = el;
-        announceTimer = setTimeout(() => { announcer.textContent = label + spokenText(error); }, 500);
-      };
-
-      const supportsUserInvalid = CSS.supports('selector(:user-invalid)');
-      const dirtyState = new WeakMap();
-      const flagged = new WeakSet();
-      const announced = new WeakSet();
-
-      const syncAria = (el, announce = false) => {
-        if (!el.matches?.('input, select, textarea')) return;
-        const invalid = supportsUserInvalid
-          ? el.matches(':user-invalid')
-          : Boolean(dirtyState.get(el)?.hasBlurred && !el.validity.valid);
-        if (!supportsUserInvalid && dirtyState.get(el)?.hasBlurred) {
-          el.classList.toggle('user-invalid-fallback', !el.validity.valid);
-          el.classList.toggle('user-valid-fallback', el.validity.valid);
-        }
-        if (invalid) {
-          if (announce && !announced.has(el)) {
-            announceError(el);
-            announced.add(el);
-          }
-          el.setAttribute('aria-invalid', 'true');
-          linkError(el, true);
-          flagged.add(el);
-        } else if (flagged.has(el) || el.getAttribute('aria-invalid') !== 'true') {
-          el.setAttribute('aria-invalid', 'false');
-          linkError(el, false);
-          flagged.delete(el);
-          announced.delete(el);
-          if (announcedField === el) {
-            clearTimeout(announceTimer);
-            announcer.textContent = '';
-          }
-        }
-      };
-
-      document.querySelectorAll('#beauty-funnel-form input, #beauty-funnel-form select, #beauty-funnel-form textarea, #beauty-modal-form input, #beauty-modal-form select').forEach((el) => syncAria(el));
-      document.addEventListener('blur', (e) => {
-        if (!supportsUserInvalid && e.target.matches?.('input, select, textarea')) {
-          const st = dirtyState.get(e.target) || { hasInteracted: false, hasBlurred: false };
-          st.hasBlurred = true;
-          dirtyState.set(e.target, st);
-        }
-        syncAria(e.target, true);
-      }, true);
-      document.addEventListener('input', (e) => {
-        if (!supportsUserInvalid && e.target.matches?.('input, select, textarea')) {
-          const st = dirtyState.get(e.target) || { hasInteracted: false, hasBlurred: false };
-          st.hasInteracted = true;
-          dirtyState.set(e.target, st);
-        }
-        if (e.target.hasAttribute?.('aria-invalid')) syncAria(e.target);
-      });
-      document.addEventListener('change', (e) => syncAria(e.target, true), true);
-
-      // 4. Submit handler for both funnel forms -> POST /api/auth/contact
-      function wireBeautyForm(formId, calHostId) {
-        const form = document.getElementById(formId);
-        if (!form) return;
-        const statusEl = form.querySelector('[data-form-status]');
-        const submitBtn = form.querySelector('button[type="submit"]');
-        const originalHtml = submitBtn ? submitBtn.innerHTML : '';
-
-        form.addEventListener('submit', async (e) => {
-          e.preventDefault();
-          const controls = [...form.querySelectorAll('input, select, textarea')];
-          controls.forEach((ctrl) => {
-            if (!ctrl.checkValidity()) {
-              dirtyState.set(ctrl, { hasInteracted: true, hasBlurred: true });
-              ctrl.classList.add('user-invalid-fallback');
-              announced.add(ctrl);
-              syncAria(ctrl);
-            }
-          });
-          if (!form.checkValidity()) {
-            const firstInvalid = controls.find((c) => !c.validity.valid);
-            if (firstInvalid) firstInvalid.focus();
-            return;
-          }
-
-          const hp = form.querySelector('[name="website_hp"]');
-          if (hp && hp.value.trim()) return;
-
-          const fd = new FormData(form);
-          const name = String(fd.get('name') || '').trim();
-          const company = String(fd.get('company') || '').trim();
-          const email = String(fd.get('email') || '').trim();
-          const phone = String(fd.get('phone') || '').trim();
-          const segment = String(fd.get('segment') || 'Negocio de Belleza').trim();
-          const city = String(fd.get('city') || '').trim();
-          const revenue = String(fd.get('revenue') || '').trim();
-          const pkg = String(fd.get('package') || 'BEAUTY_ELEVATE_2499').trim();
-          const notes = String(fd.get('notes') || '').trim();
-          const smsConsent = fd.get('sms_consent') !== null ? Boolean(fd.get('sms_consent')) : true;
-
-          const msgParts = [
-            `Vertical Beauty Growth · Paquete: ${pkg}`,
-            segment ? `Segmento: ${segment}` : '',
-            city ? `Ciudad/Mercado: ${city}` : '',
-            revenue ? `Facturación actual: ${revenue}` : '',
-            notes ? `Notas/IG: ${notes}` : '',
-          ].filter(Boolean).join(' | ');
-
-          if (submitBtn) {
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i><span>Conectando con CRM Beauty Growth...</span>';
-          }
-          if (statusEl) statusEl.style.display = 'none';
-
-          try {
-            const res = await fetch('/api/auth/contact', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                name,
-                email,
-                phone,
-                company,
-                industry: `beauty_growth - ${segment}`,
-                message: msgParts,
-                source: 'beautygrowth_funnel',
-                sms_consent: smsConsent,
-              }),
-            });
-            const data = await res.json();
-            if (!res.ok || !data.success) throw new Error(data.error || 'No se pudo procesar tu registro.');
-
-            const calUrl = data.calendar_url || 'https://api.agenciaprosperia.com/widget/booking/cjMUGPVYG0Z1ABRiUf6j';
-            if (statusEl) {
-              statusEl.style.display = 'block';
-              statusEl.style.background = 'rgba(52, 211, 153, 0.14)';
-              statusEl.style.border = '1px solid rgba(52, 211, 153, 0.45)';
-              statusEl.style.color = '#D1FAE5';
-              statusEl.innerHTML = `✅ <strong>¡Solicitud registrada, ${name}!</strong> Tu oportunidad ya quedó en el pipeline de <strong>Beauty Growth</strong> con <strong>${data.closer_name || 'Jhonkelwins David Becerra Cañas'}</strong>. Elige tu horario aquí abajo:`;
-            }
-
-            const waMsg = encodeURIComponent(`Hola equipo Beauty Growth! Acabo de solicitar mi diagnóstico para ${company} (${city || 'EE. UU. / PR'}). Nombre: ${name}, Plan: ${pkg}.`);
-            const calHost = document.getElementById(calHostId);
-            if (calHost) {
-              calHost.innerHTML = `
-                <div style="border-radius:16px; overflow:hidden; border:1px solid rgba(196,181,253,0.4); background:#070A12;">
-                  <div style="padding:0.85rem 1.1rem; background:#151C2F; border-bottom:1px solid rgba(196,181,253,0.2); display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:0.5rem;">
-                    <strong style="font-size:0.84rem; color:#C4B5FD;"><i class="fas fa-calendar-check" aria-hidden="true"></i> Agenda Estratégica Beauty Growth</strong>
-                    <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
-                      <a href="https://wa.me/19292788261?text=${waMsg}" target="_blank" rel="noopener noreferrer" style="font-size:0.78rem; font-weight:700; color:#34D399; text-decoration:underline;">Confirmar por WhatsApp ↗</a>
-                      <a href="${calUrl}" target="_blank" rel="noopener noreferrer" style="font-size:0.78rem; font-weight:700; color:#C4B5FD; text-decoration:underline;">Abrir calendario ↗</a>
-                    </div>
-                  </div>
-                  <iframe src="${calUrl}" title="Calendario Beauty Growth" style="width:100%; min-height:660px; border:0; background:#fff;" loading="lazy" allow="camera; microphone; autoplay"></iframe>
-                </div>`;
-              calHost.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }
-          } catch (err) {
-            if (statusEl) {
-              statusEl.style.display = 'block';
-              statusEl.style.background = 'rgba(239, 68, 68, 0.14)';
-              statusEl.style.border = '1px solid rgba(239, 68, 68, 0.45)';
-              statusEl.style.color = '#FCA5A5';
-              statusEl.textContent = err.message || 'Error de conexión. Intenta nuevamente o contáctanos por WhatsApp.';
-            }
-          } finally {
-            if (submitBtn) {
-              submitBtn.disabled = false;
-              submitBtn.innerHTML = originalHtml;
-            }
-          }
-        });
-      }
-
-      wireBeautyForm('beauty-funnel-form', 'beauty-funnel-calendar-host');
-      wireBeautyForm('beauty-modal-form', 'beauty-modal-calendar-host');
     })();
   </script>
   <!-- GoHighLevel LeadConnector Chat Widget (Beauty Growth Verification) -->
