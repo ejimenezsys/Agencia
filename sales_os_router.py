@@ -3991,6 +3991,12 @@ async def api_send_agency_whatsapp(
     if not phone_raw:
         raise HTTPException(status_code=400, detail="Este prospecto no tiene teléfono WhatsApp registrado.")
 
+    if _is_likely_landline_not_whatsapp(phone_raw):
+        raise HTTPException(
+            status_code=400,
+            detail="Este número es un teléfono fijo de oficina (sin WhatsApp). Márcale directo con el Softphone o envíale Correo.",
+        )
+
     if is_contact_excluded(db, getattr(lead, "email", "") or "", normalize_phone_e164(phone_raw)):
         raise HTTPException(status_code=400, detail="Contacto en lista DND / Opt-out; WhatsApp bloqueado.")
 
@@ -4123,6 +4129,14 @@ _SETTER_IA_RUNTIME = {
 }
 
 
+def _is_likely_landline_not_whatsapp(phone_raw: str) -> bool:
+    """Detecta prefijos de teléfonos fijos comerciales (España/Colombia) que Meta rechaza por no tener WhatsApp."""
+    norm = normalize_phone_e164(phone_raw or "")
+    if not norm:
+        return False
+    return norm.startswith("+349") or norm.startswith("+348") or norm.startswith("+5760")
+
+
 def _default_setter_ia_state() -> dict:
     today_utc = datetime.utcnow().strftime("%Y-%m-%d")
     return {
@@ -4139,7 +4153,8 @@ def _default_setter_ia_state() -> dict:
         "passportai_21_emailed_set": [],
         "replies_detected": 0,
         "demos_auto_sent": 0,
-        "daily_wa_limit": 1000,
+        "daily_wa_limit": 450,
+        "wa_paused_until_day": "2026-11-18",
         "wa_interval_sec": 30,
         "email_interval_sec": 45,
         "last_day": today_utc,
@@ -4209,79 +4224,87 @@ async def api_clean_launch_tests(
     current_user: dict = Depends(get_current_sales_user),
     db: Session = Depends(get_db),
 ):
-    """Limpia únicamente las pruebas de hoy de Sheille y los 4 leads extra de formularios de prueba,
-    dejando a los 11 Closers en exactamente 1,000 leads y preservando intactos a Claudio (46) y Agustín (8).
+    """Limpia los toques de ráfaga WA de Wendy y Sheille (preservando leads que sí respondieron),
+    revierte marcas de Setter IA WA posteriores a las 15:10 UTC (límite Meta), pausa WA hoy (cap 450/día)
+    y deja intactos a Claudio, Agustín, Bruno y demás closers.
     """
     if current_user.get("role") != "admin":
         raise HTTPException(status_code=403, detail="Solo el administrador (Edward) puede ejecutar la limpieza oficial.")
 
-    target_email = "sheille.perez@gmail.com"
-    u = db.query(User).filter(func.lower(User.email) == target_email).first()
-    if u:
-        u.calls_made_today = 0
-        u.calls_made_week = 0
-        u.calls_answered_week = 0
-        u.demos_done_week = 0
-        u.sales_closed_week = 0
-        u.active_minutes_today = 0
-        u.active_minutes_week = 0
-        u.checkin_at = ""
+    target_closers = ("wendyleiva59@gmail.com", "sheille.perez@gmail.com")
+    preserved_stages = (
+        "Diagnóstico agendado",
+        "Demo realizada",
+        "Propuesta enviada",
+        "Pago pendiente",
+        "Pago confirmado",
+        "Implementación",
+        "Entregado",
+    )
 
-    sheille_leads = db.query(DbLead).filter(func.lower(DbLead.owner_id) == target_email).all()
-    sheille_reset = 0
-    reset_ids = []
-    for ld in sheille_leads:
-        notes_raw = getattr(ld, "notes", "") or ""
-        cleaned_notes = re.sub(r"\n\[20\d{2}-\d{2}-\d{2}[T ][^\n]*", "", notes_raw).split("[Cola:")[0].strip()
-        changed = (
-            (getattr(ld, "pipeline_stage", "Lead identificado") or "Lead identificado") != "Lead identificado"
-            or (getattr(ld, "status", "new") or "new") != "new"
-            or bool(getattr(ld, "last_touch", "") or "")
-            or float(getattr(ld, "quoted_amount", 0) or 0) > 0
-            or float(getattr(ld, "contracted_amount", 0) or 0) > 0
-            or float(getattr(ld, "amount_collected", 0) or 0) > 0
-            or cleaned_notes != notes_raw.strip()
-        )
-        if changed:
-            ld.pipeline_stage = "Lead identificado"
-            ld.status = "new"
-            ld.last_touch = ""
-            ld.quoted_amount = 0.0
-            ld.contracted_amount = 0.0
-            ld.amount_collected = 0.0
-            ld.commission_amount = 0.0
-            ld.commission_status = "sin_causar"
-            ld.invoice_id = ""
-            ld.contact_id = ""
-            ld.ghl_opportunity_id = ""
-            ld.site_delivery_status = "pendiente_pago"
-            ld.next_action_at = ""
-            ld.next_action_note = ""
-            ld.notes = cleaned_notes
-            sheille_reset += 1
-            reset_ids.append(ld.id)
+    reset_users = {}
+    for target_email in target_closers:
+        u = db.query(User).filter(func.lower(User.email) == target_email).first()
+        if u:
+            u.calls_made_today = 0
+            u.calls_made_week = 0
+            u.calls_answered_week = 0
+            reset_users[target_email] = 0
 
-    db.query(AuditLog).filter(func.lower(AuditLog.actor_email) == target_email).delete(synchronize_session=False)
-    if reset_ids:
-        db.query(AuditLog).filter(AuditLog.lead_id.in_(reset_ids)).delete(synchronize_session=False)
+        closer_leads = db.query(DbLead).filter(func.lower(DbLead.owner_id) == target_email).all()
+        for ld in closer_leads:
+            notes_raw = getattr(ld, "notes", "") or ""
+            stage_now = getattr(ld, "pipeline_stage", "Lead identificado") or "Lead identificado"
+            if "RESPONDIÓ A SETTER IA" in notes_raw or stage_now in preserved_stages:
+                continue
 
-    # Eliminar los 4 leads extra de formularios web de prueba (nunca tocar a Claudio ni las carteras reales)
-    extra_test_leads = (
+            has_wa_burst = "WhatsApp Agencia +1 786" in notes_raw
+            touched_today = str(getattr(ld, "last_touch", "") or "").startswith("2026-11-18")
+            if has_wa_burst or (touched_today and stage_now in ("Primer contacto", "Contacto", "No responde")):
+                cleaned_notes = re.sub(
+                    r"\n?\[2026-11-18[^\n]*WhatsApp Agencia \+1 786[^\n]*",
+                    "",
+                    notes_raw,
+                ).strip()
+                ld.pipeline_stage = "Lead identificado"
+                ld.status = "new"
+                ld.last_touch = ""
+                ld.next_action_at = ""
+                ld.next_action_note = ""
+                ld.notes = cleaned_notes
+                reset_users[target_email] = reset_users.get(target_email, 0) + 1
+
+        db.query(AuditLog).filter(
+            func.lower(AuditLog.actor_email) == target_email,
+            AuditLog.created_at.like("2026-11-18%"),
+        ).delete(synchronize_session=False)
+
+    # Revertir marcas falsas de Setter IA WA posteriores a 15:10 UTC (10:10 AM EST) cuando Meta activó tope diario
+    failed_wa_pattern = re.compile(
+        r"\n?\[2026-11-18 (?:15:(?:1[0-9]|[2-5][0-9])|1[6-9]:\d{2}|2[0-3]:\d{2}) · 🤖 Setter IA WA[^\n]*"
+    )
+    setter_wa_leads = (
         db.query(DbLead)
-        .filter(
-            (func.lower(func.coalesce(DbLead.owner_id, "")) != "claudiniosan@yahoo.com.ar")
-            & (
-                (DbLead.id >= 13615)
-                | DbLead.business_name.in_(["Bienestar Y Compania", "Profesional / Alumno IA", "PassportAI Trial"])
-                | DbLead.name.in_(["Bienestar Y Compania", "Profesional / Alumno IA", "PassportAI Trial"])
-            )
-        )
+        .filter(func.coalesce(DbLead.notes, "").contains("🤖 Setter IA WA"))
         .all()
     )
-    deleted_ids = [x.id for x in extra_test_leads]
-    if deleted_ids:
-        db.query(AuditLog).filter(AuditLog.lead_id.in_(deleted_ids)).delete(synchronize_session=False)
-        db.query(DbLead).filter(DbLead.id.in_(deleted_ids)).delete(synchronize_session=False)
+    reverted_failed_wa = 0
+    for ld in setter_wa_leads:
+        notes_raw = getattr(ld, "notes", "") or ""
+        new_notes = failed_wa_pattern.sub("", notes_raw).strip()
+        if new_notes != notes_raw.strip():
+            ld.notes = new_notes
+            reverted_failed_wa += 1
+
+    with _SETTER_IA_LOCK:
+        st = _load_setter_ia_state(db)
+        st["wa_paused_until_day"] = "2026-11-18"
+        st["daily_wa_limit"] = 450
+        _append_setter_ia_log(
+            st,
+            "🧹 Limpieza Wendy/Sheille + enfriamiento preventivo WA hoy (cap 450/día); correos siguen 24/7.",
+        )
+        _save_setter_ia_state(db, st)
 
     db.commit()
 
@@ -4297,12 +4320,15 @@ async def api_clean_launch_tests(
     return {
         "success": True,
         "message": (
-            f"Limpieza oficial completada: Sheille reiniciada ({sheille_reset} leads regresados a 0 toques) "
-            f"y {len(deleted_ids)} leads extra de prueba eliminados. Claudio y Agustín intactos."
+            f"Limpieza completada: Wendy ({reset_users.get('wendyleiva59@gmail.com', 0)} leads) y "
+            f"Sheille ({reset_users.get('sheille.perez@gmail.com', 0)} leads) reiniciadas en 0 toques "
+            f"(preservando leads con respuesta), {reverted_failed_wa} envíos WA fallidos post-15:10 UTC revertidos "
+            f"y WA en enfriamiento preventivo por hoy (cap 450/día). Claudio, Agustín y Bruno intactos."
         ),
-        "sheille_reset_leads": sheille_reset,
-        "deleted_test_leads": len(deleted_ids),
-        "deleted_ids": deleted_ids,
+        "reset_leads_by_closer": reset_users,
+        "reverted_failed_wa_leads": reverted_failed_wa,
+        "wa_paused_until_day": "2026-11-18",
+        "daily_wa_limit": 450,
         "closer_counts": closer_counts,
     }
 
@@ -4638,7 +4664,7 @@ def _select_next_warmup_lead(db: Session, state: dict, need_email: bool = False)
             ph = normalize_phone_e164(getattr(cand, "phone_e164", None) or (cand.phone or ""))
             if need_email and not _is_valid_real_email(em):
                 continue
-            if not need_email and not ph:
+            if not need_email and (not ph or _is_likely_landline_not_whatsapp(ph)):
                 continue
             if is_contact_excluded(db, em, ph):
                 continue
@@ -4656,12 +4682,20 @@ def _is_miami_daytime_for_wa() -> bool:
 
 
 def _execute_setter_ia_wa_step(db: Session, state: dict) -> bool:
+    today_utc = datetime.utcnow().strftime("%Y-%m-%d")
+    daily_cap = min(450, int(state.get("daily_wa_limit", 450) or 450))
+    if state.get("wa_paused_until_day") == today_utc or int(state.get("wa_sent_today", 0) or 0) >= daily_cap:
+        logs = state.get("last_log") or []
+        if not logs or "enfriamiento preventivo" not in str(logs[0]).lower():
+            _append_setter_ia_log(
+                state,
+                "🛡️ WA en enfriamiento preventivo hoy para proteger calidad en Meta; correos y escáner siguen activos 24/7.",
+            )
+        return False
     if not _is_miami_daytime_for_wa():
         logs = state.get("last_log") or []
         if not logs or "horario nocturno" not in str(logs[0]).lower():
             _append_setter_ia_log(state, "🌙 WA en pausa por horario nocturno (8:30 AM–8:00 PM Miami); correos siguen 24/7.")
-        return False
-    if int(state.get("wa_sent_today", 0) or 0) >= int(state.get("daily_wa_limit", 1000) or 1000):
         return False
     lead = _select_next_warmup_lead(db, state, need_email=False)
     if not lead:

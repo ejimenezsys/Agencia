@@ -2187,9 +2187,20 @@
 
       function openTicketModal(tierName) {
         const low = String(tierName || '').toLowerCase();
-        if (low.includes('vip')) document.getElementById('tier-vip').checked = true;
-        else if (low.includes('básica') || low.includes('basica')) document.getElementById('tier-basica').checked = true;
-        else document.getElementById('tier-oro').checked = true;
+        let fbTierName = 'Membresía Oro';
+        if (low.includes('vip')) {
+          document.getElementById('tier-vip').checked = true;
+          fbTierName = 'Membresía VIP';
+        } else if (low.includes('básica') || low.includes('basica')) {
+          document.getElementById('tier-basica').checked = true;
+          fbTierName = 'Membresía Básica';
+        } else {
+          document.getElementById('tier-oro').checked = true;
+        }
+
+        if (typeof fbq === 'function') {
+          fbq('track', 'InitiateCheckout', { content_name: fbTierName });
+        }
 
         renderTierIncludes();
         statusBox.className = 'order-status';
@@ -2251,6 +2262,9 @@
           const json = await res.json();
           if (!res.ok || !json.success) {
             throw new Error(json.detail || json.error || 'No se pudo enviar la solicitud.');
+          }
+          if (typeof fbq === 'function') {
+            fbq('track', 'Lead', { content_name: 'EXMA Miami 2026' });
           }
           statusBox.className = 'order-status ok';
           statusBox.innerHTML = '<strong>¡Solicitud enviada con éxito!</strong><br>' +
