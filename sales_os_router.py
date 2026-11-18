@@ -25,7 +25,7 @@ import urllib.request
 from datetime import datetime
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from email.utils import formataddr
+from email.utils import formataddr, formatdate, make_msgid
 from typing import Optional, List, Dict, Any
 from fastapi import APIRouter, Request, Depends, HTTPException, status
 from fastapi.responses import HTMLResponse, JSONResponse
@@ -3400,7 +3400,35 @@ def _is_valid_real_email(raw_email: str) -> bool:
     em = normalize_email(raw_email or "")
     if not em or "@" not in em:
         return False
-    if "@sin-correo.local" in em or "@prosperia.local" in em:
+    blocked_fragments = (
+        "@sin-correo.local",
+        "@prosperia.local",
+        "@email.com",
+        "@domain.com",
+        "@example.com",
+        "@ejemplo.com",
+        "@sentry",
+        "@wixpress",
+        "@tidio",
+    )
+    if any(frag in em for frag in blocked_fragments):
+        return False
+    local_part = em.split("@", 1)[0]
+    blocked_prefixes = (
+        "janedoe",
+        "johndoe",
+        "example",
+        "ejemplo",
+        "noreply",
+        "no-reply",
+        "donotreply",
+        "do-not-reply",
+        "mailer-daemon",
+        "postmaster",
+        "orders",
+        "test",
+    )
+    if local_part in blocked_prefixes or any(local_part.startswith(p + ".") or local_part.startswith(p + "_") for p in ("noreply", "no-reply", "donotreply", "janedoe", "johndoe")):
         return False
     if (em.startswith("prospecto.") or em.startswith("lote.")) and em.endswith("@agenciaprosperia.com"):
         return False
@@ -3416,7 +3444,7 @@ def _send_smtp_mime_email(
     plain_text: str,
     html_content: str,
 ) -> None:
-    """Envía un MIME multipart (texto + HTML) por Hostinger SMTP usando seller@ o info@agenciaprosperia.com."""
+    """Envía un MIME multipart (texto + HTML) con cabeceras RFC limpias (Reply-To del mismo dominio)."""
     smtp_host = _cfg_db("SMTP_HOST", "smtp.hostinger.com")
     smtp_port = int(_cfg_db("SMTP_PORT", "465") or "465")
     smtp_user = _cfg_db("SMTP_USER", "edward@agenciaprosperia.com")
@@ -3431,10 +3459,10 @@ def _send_smtp_mime_email(
     msg["Subject"] = final_subject
     msg["From"] = formataddr((f"{closer_name} - Agencia Prosper IA", alias_addr))
     msg["To"] = to_email
-    reply_targets = [formataddr((closer_name, alias_addr))]
-    if closer_email and "@" in closer_email and closer_email.lower() not in (alias_addr, "edward@agenciaprosperia.com", "admin@prosperia.com"):
-        reply_targets.append(closer_email)
-    msg["Reply-To"] = ", ".join(reply_targets)
+    # Mantener Reply-To en el mismo dominio @agenciaprosperia.com evita alertas FREEMAIL_FORGED_REPLYTO en antispam
+    msg["Reply-To"] = formataddr((f"{closer_name} - Agencia Prosper IA", alias_addr))
+    msg["Date"] = formatdate(localtime=True)
+    msg["Message-ID"] = make_msgid(domain="agenciaprosperia.com")
     msg.attach(MIMEText(plain_text, "plain", "utf-8"))
     msg.attach(MIMEText(html_content, "html", "utf-8"))
 
@@ -3466,85 +3494,63 @@ def _build_setter_ia_mass_email_payload(
     closer_email: str,
     cal_url: str,
 ) -> dict:
-    """Construye la plantilla HTML ejecutiva de calentamiento masivo (656 correos) con Demo Web + WA +1 786."""
+    """Construye una carta ejecutiva 1 a 1 limpia (sin emojis ni diseño flyer) para máxima entregabilidad."""
     biz_name = (getattr(lead, "business_name", None) or lead.company or lead.name or "tu negocio").strip()
-    tpl = getattr(lead, "selected_template", "clinica_dental_estetica") or "clinica_dental_estetica"
     phone_val = (getattr(lead, "phone_e164", None) or lead.phone or "").strip()
     city = (getattr(lead, "city", None) or "").strip()
     country = (getattr(lead, "country", None) or "LATAM / EE. UU.").strip()
     location_label = f"{city}, {country}".strip(", ")
     diag_line = _extract_diag_snippet(getattr(lead, "notes", "") or "")
-    clean_cal = (cal_url or "https://agenciaprosperia.com/#contacto").strip()
 
     demo_url = _build_lead_demo_url(lead, phone_val)
-    wa_official = (
-        "https://wa.me/17868336964?text="
-        + urllib.parse.quote(f"Hola Agencia Prosper IA, vi la demo web que armaron para {biz_name} y quiero más información.")
-    )
     safe_biz = html_lib.escape(biz_name)
-    safe_loc = html_lib.escape(location_label or "Tu ciudad")
+    safe_loc = html_lib.escape(location_label or "tu ciudad")
     safe_diag = html_lib.escape(diag_line)
     safe_closer = html_lib.escape(closer_name or "Equipo Comercial Prosper IA")
 
-    subject = f"Propuesta + Demo Web Interactiva Lista para {biz_name}"
+    subject = f"Muestra web para {biz_name}"
     plain_text = (
         f"Hola equipo de {biz_name},\n\n"
-        f"En Agencia Prosper IA preparamos una muestra interactiva personalizada para {biz_name} ({location_label}):\n"
-        f"• Diagnóstico rápido: {diag_line}\n\n"
-        f"Ver tu Sitio Web Demo en vivo aquí: {demo_url}\n"
-        f"Responder directo por WhatsApp (+1 786-833-6964): {wa_official}\n"
-        f"Agendar demostración 15 min: {clean_cal}\n\n"
-        f"Atentamente,\n{closer_name} · Agencia Prosper IA LLC"
+        f"Te saluda {closer_name} de Agencia Prosper IA en Miami.\n\n"
+        f"Revisamos la presencia digital de {biz_name} ({location_label}) y notamos un punto clave:\n"
+        f"{diag_line}\n\n"
+        f"Preparamos una muestra interactiva de Sitio Web Inteligente conectado a WhatsApp y Recepcionista IA 24/7 "
+        f"con entrega en 7 días. Puedes ver cómo funciona aquí:\n"
+        f"{demo_url}\n\n"
+        f"Si prefieres que la revisemos juntos en una llamada breve, puedes responder este mismo correo "
+        f"o escribirnos a nuestra línea oficial en Miami: +1 (786) 833-6964.\n\n"
+        f"Un saludo,\n{closer_name}\nAgencia Prosper IA LLC · Miami, FL\nseller@agenciaprosperia.com"
     )
     html_content = f"""
     <html>
-      <body style="font-family: 'Segoe UI', Arial, sans-serif; background-color: #020710; color: #f8fafc; margin: 0; padding: 24px;">
-        <table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="max-width:600px; background-color: #071326; border: 1px solid #0891b2; border-radius: 16px; overflow: hidden;">
-          <tr style="background: linear-gradient(135deg, #082f49 0%, #020710 100%);">
-            <td style="padding: 26px 28px; text-align: center; border-bottom: 1px solid rgba(56,189,248,0.28);">
-              <div style="color: #00e5ff; font-size: 21px; font-weight: 900; letter-spacing: 1.4px;">AGENCIA PROSPER IA</div>
-              <div style="color: #cbd5e1; font-size: 12px; margin-top: 5px;">Sitios Web Inteligentes + Empleados Digitales 24/7 · Miami, FL</div>
-            </td>
-          </tr>
-          <tr>
-            <td style="padding: 28px; font-size: 14px; line-height: 1.65; color: #e2e8f0;">
-              <p style="margin: 0 0 14px;">Hola equipo de <strong style="color:#ffffff;">{safe_biz}</strong> ({safe_loc}),</p>
-              <p style="margin: 0 0 16px;">
-                Nuestro equipo analizó la presencia digital de negocios líderes de tu sector y armamos una
-                <strong>muestra interactiva exclusiva para {safe_biz}</strong> diseñada para convertir visitas en clientes y citas confirmadas.
-              </p>
-              <div style="background: rgba(6, 182, 212, 0.10); border-left: 4px solid #00e5ff; padding: 12px 14px; border-radius: 8px; margin-bottom: 18px; font-size: 13px; color: #cffafe;">
-                <strong style="color:#22d3ee;">🔍 Diagnóstico detectado:</strong><br/>{safe_diag}
-              </div>
-              <ul style="margin: 0 0 22px; padding-left: 18px; color: #cbd5e1; font-size: 13px;">
-                <li><strong>Entrega Express en 7 días:</strong> Sitio Web profesional adaptado a tu rubro.</li>
-                <li><strong>Recepcionista IA 24/7:</strong> Responde y califica clientes por Web y WhatsApp sin que pierdas leads.</li>
-                <li><strong>Filtro automático de agenda:</strong> Prospectos listos directo en tu calendario.</li>
-              </ul>
-              <div style="text-align: center; margin: 24px 0 14px;">
-                <a href="{demo_url}" style="display: inline-block; background: #00e5ff; color: #020710; text-decoration: none; font-weight: 900; font-size: 14px; padding: 14px 24px; border-radius: 10px; margin: 5px;">
-                  🚀 VER EMBUDO Y DEMO EN VIVO (agenciaprosperia.com/sitioweb)
-                </a>
-              </div>
-              <div style="text-align: center; margin: 10px 0 18px;">
-                <a href="{wa_official}" style="display: inline-block; background: #10b981; color: #020710; text-decoration: none; font-weight: 800; font-size: 13px; padding: 12px 22px; border-radius: 10px; margin: 5px;">
-                  💬 RESPONDER POR WHATSAPP OFICIAL (+1 786)
-                </a>
-                <a href="{html_lib.escape(clean_cal)}" style="display: inline-block; background: #0f172a; color: #38bdf8; border: 1px solid #38bdf8; text-decoration: none; font-weight: 700; font-size: 13px; padding: 11px 18px; border-radius: 10px; margin: 5px;">
-                  📅 Agendar 15 Min
-                </a>
-              </div>
-              <p style="margin: 0; font-size: 12px; color: #94a3b8;">
-                Tu especialista asignado, <strong>{safe_closer}</strong>, te contactará brevemente por si prefieres ver la demostración en vivo de 10 minutos.
-              </p>
-            </td>
-          </tr>
-          <tr style="background-color: #030a17;">
-            <td style="padding: 16px 24px; border-top: 1px solid rgba(148,163,184,0.2); font-size: 11px; color: #94a3b8; text-align: center;">
-              Enviado por <strong>{safe_closer}</strong> · seller@agenciaprosperia.com · Agencia Prosper IA LLC, Miami FL.
-            </td>
-          </tr>
-        </table>
+      <body style="font-family: Arial, Helvetica, sans-serif; background-color: #ffffff; color: #1e293b; margin: 0; padding: 20px; line-height: 1.65; font-size: 14px;">
+        <div style="max-width: 560px; margin: 0 auto;">
+          <p style="margin: 0 0 14px;">Hola equipo de <strong>{safe_biz}</strong> ({safe_loc}),</p>
+          <p style="margin: 0 0 14px;">
+            Te saluda <strong>{safe_closer}</strong> de Agencia Prosper IA en Miami.
+          </p>
+          <p style="margin: 0 0 14px;">
+            Revisamos la presencia digital de <strong>{safe_biz}</strong> y detectamos una oportunidad clara:<br/>
+            <span style="color: #0f172a;">{safe_diag}</span>
+          </p>
+          <p style="margin: 0 0 16px;">
+            Preparamos una muestra interactiva de Sitio Web Inteligente conectado a WhatsApp y Recepcionista IA 24/7 (entrega en 7 días) para que capten y agenden más clientes en automático. Puedes revisarla aquí:
+          </p>
+          <p style="margin: 0 0 18px;">
+            <a href="{demo_url}" style="color: #0284c7; font-weight: bold; text-decoration: underline;">
+              Ver muestra interactiva para {safe_biz} (agenciaprosperia.com/sitioweb)
+            </a>
+          </p>
+          <p style="margin: 0 0 18px;">
+            Si te interesa que te la expliquemos en 10 minutos, responde a este mismo correo o escríbenos a nuestra línea oficial en Miami: <strong>+1 (786) 833-6964</strong>.
+          </p>
+          <p style="margin: 0; color: #475569; font-size: 13px;">
+            Un saludo,<br/>
+            <strong>{safe_closer}</strong><br/>
+            Agencia Prosper IA LLC · Miami, FL<br/>
+            seller@agenciaprosperia.com
+          </p>
+        </div>
       </body>
     </html>
     """
