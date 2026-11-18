@@ -4399,13 +4399,13 @@
         <button type="button" id="setter-work-call-btn" class="px-3 py-1.5 rounded-lg text-xs font-black bg-emerald-400 text-slate-950 hover:bg-emerald-300 transition shadow">
           📞 Llamar
         </button>
-        <button type="button" id="setter-work-wa-btn" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/35 hover:bg-emerald-500/30 transition" title="Enviar WhatsApp Oficial de la Agencia (+1 786-833-6964) sin usar tu celular personal">
-          💬 WA Agencia
+        <button type="button" id="setter-work-wa-btn" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/35 hover:bg-emerald-500/30 transition" title="1 clic: envía WhatsApp Oficial de la Agencia (+1 786-833-6964) rotando plantillas o texto libre si respondió">
+          💬 Enviar WhatsApp
         </button>
-        <button type="button" id="setter-work-sms-btn" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/35 hover:bg-indigo-500/30">
-          🇺🇸 SMS Miami (+1)
+        <button type="button" id="setter-work-sms-btn" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/35 hover:bg-indigo-500/30" title="1 clic: envía SMS con Demo Web desde +1 786 (solo EE. UU./PR)">
+          🇺🇸 Enviar SMS
         </button>
-        <button type="button" id="setter-work-inst-mail-btn" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-sky-500/25 text-sky-200 border border-sky-400/45 hover:bg-sky-500/35 transition" title="Enviar correo corporativo 100% desde la web (funciona en Windows, Mac y móvil sin abrir ningún programa)">
+        <button type="button" id="setter-work-inst-mail-btn" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-sky-500/25 text-sky-200 border border-sky-400/45 hover:bg-sky-500/35 transition" title="1 clic: envía correo corporativo desde la web (Windows, Mac y móvil)">
           ✉️ Enviar Correo
         </button>
         <a id="setter-work-demo-btn" href="#" class="px-3 py-1.5 rounded-lg text-xs font-black bg-cyan-400 text-slate-950 hover:bg-cyan-300 no-underline">
@@ -4415,17 +4415,24 @@
       </div>
     </div>
     <div id="setter-work-quick-feedback" class="hidden mb-3 px-3 py-2 rounded-lg text-xs font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30"></div>
-    <div id="setter-work-wa-tpl-bar" class="mb-3 p-2.5 rounded-xl bg-slate-900/80 border border-emerald-500/25 flex flex-wrap items-center gap-2 text-xs">
-      <label for="setter-work-wa-template" class="font-bold text-emerald-300 whitespace-nowrap">💬 Plantilla WhatsApp Agencia (+1 786):</label>
-      <select id="setter-work-wa-template" class="input-dark text-xs py-1.5 flex-1 min-w-[230px]">
-        <option value="reactivacion_prosper_ia">🟢 Saludo &amp; Crecimiento Digital (reactivacion_prosper_ia)</option>
-        <option value="reactivacion_oferta_directa">🔥 Oferta Directa Prosper IA (reactivacion_oferta_directa)</option>
-        <option value="reactivacion_valor_inicial">💎 Valor Inicial &amp; Diagnóstico (reactivacion_valor_inicial)</option>
-        <option value="free_text">✍️ Texto Libre + Demo Web (Solo si ya respondió &lt;24h)</option>
-      </select>
-      <button type="button" onclick="sendAgencyWhatsappToLead(Number(document.getElementById('setter-work-lead-id').value), this)" class="px-3 py-1.5 rounded-lg font-black bg-emerald-500 text-slate-950 hover:bg-emerald-400 transition">
-        Disparar WA Agencia
-      </button>
+    <div id="setter-work-comms-box" class="mb-3 p-3 rounded-xl bg-slate-900/90 border border-cyan-500/25 space-y-2 text-xs">
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <div class="flex flex-wrap items-center gap-2">
+          <strong class="text-cyan-300 text-[11px] uppercase tracking-wider">📡 Entrega en Vivo &amp; Respuestas (CRM)</strong>
+          <span id="setter-work-comms-badge" class="px-2 py-0.5 rounded-full text-[11px] font-bold bg-slate-800 text-slate-300 border border-slate-700">⏳ Consultando GHL...</span>
+        </div>
+        <button type="button" onclick="loadLeadCommsStatus(Number(document.getElementById('setter-work-lead-id').value))" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-slate-700 text-[11px] font-bold transition">
+          ↻ Actualizar Estado
+        </button>
+      </div>
+      <div id="setter-work-comms-hint" class="text-[11px] text-slate-400 leading-snug">Consultando si el prospecto recibió, leyó o respondió tu mensaje...</div>
+      <div id="setter-work-comms-list" class="space-y-1 max-h-36 overflow-y-auto"></div>
+      <div id="setter-work-wa-reply-wrap" class="hidden pt-2 border-t border-slate-800 flex flex-wrap items-center gap-2">
+        <input type="text" id="setter-work-wa-reply-input" placeholder="Ventana 24h abierta: escribe respuesta libre por WhatsApp..." class="input-dark text-xs py-1.5 flex-1 min-w-[220px]">
+        <button type="button" onclick="sendQuickWaReplyFromModal(Number(document.getElementById('setter-work-lead-id').value), this)" class="px-3 py-1.5 rounded-lg font-black bg-emerald-500 text-slate-950 hover:bg-emerald-400 transition">
+          💬 Responder WA
+        </button>
+      </div>
     </div>
 
     <input type="hidden" id="setter-work-lead-id">
@@ -6315,9 +6322,9 @@ function renderSalesOsTable() {
         ${latestSetterNote ? `<div class="mt-1 text-[10px] text-amber-200/90 bg-amber-500/10 border border-amber-500/20 rounded px-2 py-1 max-w-xs truncate" title="${esc(latestSetterNote)}">📒 Bitácora (${setterRows.length}): ${esc(latestSetterNote)}</div>` : ''}
         <div class="flex flex-wrap items-center gap-1.5 mt-1">
           ${rawPhone ? `<button type="button" onclick="initiateCloserCall('${esc(rawPhone)}', ${l.id})" class="px-2 py-0.5 rounded bg-slate-800 text-cyan-200 border border-cyan-500/35 text-[10px] font-bold hover:bg-slate-700">${esc(route.btnLabel)}</button>` : ''}
-          ${waDigits ? `<button type="button" onclick="sendAgencyWhatsappToLead(${l.id}, this)" class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold hover:bg-emerald-500/30" title="Enviar WhatsApp desde la línea oficial +1 786 de la agencia">💬 WA Agencia</button>` : ''}
-          ${route.allowMiamiSms ? `<button type="button" onclick="sendGhlDirectMsgFromUi(${l.id}, 'SMS', this)" class="px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-[10px] font-bold hover:bg-indigo-500/30">🇺🇸 SMS Miami</button>` : ''}
-          ${hasEmail ? `<button type="button" onclick="sendInstitutionalEmailToLead(${l.id}, this, 'seller@agenciaprosperia.com')" class="px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30 text-[10px] font-bold hover:bg-sky-500/30" title="Enviar correo corporativo 100% desde el sistema">✉️ Correo</button>` : ''}
+          ${waDigits ? `<button type="button" onclick="sendAgencyWhatsappToLead(${l.id}, this, 'auto')" class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold hover:bg-emerald-500/30" title="1 clic: envía WhatsApp Oficial de la agencia (+1 786)">💬 WhatsApp</button>` : ''}
+          ${route.allowMiamiSms ? `<button type="button" onclick="sendGhlDirectMsgFromUi(${l.id}, 'SMS', this)" class="px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-[10px] font-bold hover:bg-indigo-500/30" title="1 clic: envía SMS con Demo Web (+1 EE. UU./PR)">🇺🇸 SMS</button>` : ''}
+          ${hasEmail ? `<button type="button" onclick="sendInstitutionalEmailToLead(${l.id}, this, 'seller@agenciaprosperia.com')" class="px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30 text-[10px] font-bold hover:bg-sky-500/30" title="1 clic: envía correo corporativo">✉️ Correo</button>` : ''}
         </div>
       </th>
       <td class="px-3 py-3 text-slate-300">
@@ -7309,7 +7316,7 @@ function initiateCloserCall(rawPhone, leadId, alreadyInModal = false) {
         openSetterWorkDialog(leadId, 'WhatsApp Agencia');
       }
       if (leadId) {
-        sendAgencyWhatsappToLead(leadId, null, 'reactivacion_prosper_ia');
+        sendAgencyWhatsappToLead(leadId, null, 'auto');
       }
       return;
     } else if (route.dialHref) {
@@ -7321,26 +7328,107 @@ function initiateCloserCall(rawPhone, leadId, alreadyInModal = false) {
   }
 }
 
-async function sendAgencyWhatsappToLead(leadId, triggerBtn = null, forceTemplate = null) {
+function getCommsToneClass(tone) {
+  if (tone === 'emerald') return 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40';
+  if (tone === 'cyan') return 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40';
+  if (tone === 'sky') return 'bg-sky-500/20 text-sky-300 border-sky-500/40';
+  if (tone === 'rose') return 'bg-rose-500/20 text-rose-300 border-rose-500/40';
+  if (tone === 'amber') return 'bg-amber-500/20 text-amber-300 border-amber-500/40';
+  return 'bg-slate-800 text-slate-300 border-slate-700';
+}
+
+async function loadLeadCommsStatus(leadId) {
+  const badgeEl = document.getElementById('setter-work-comms-badge');
+  const hintEl = document.getElementById('setter-work-comms-hint');
+  const listEl = document.getElementById('setter-work-comms-list');
+  const replyWrap = document.getElementById('setter-work-wa-reply-wrap');
+  if (!leadId || !badgeEl || !listEl) return;
+
+  badgeEl.textContent = '⏳ Consultando GHL...';
+  badgeEl.className = `px-2 py-0.5 rounded-full text-[11px] font-bold border ${getCommsToneClass('slate')}`;
+  if (hintEl) hintEl.textContent = 'Verificando si el WhatsApp, SMS o Correo llegó, fue leído o respondido...';
+
+  try {
+    const res = await fetch(`/api/sales-os/leads/${leadId}/comms-status`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    const out = await res.json();
+    if (Number(document.getElementById('setter-work-lead-id')?.value) !== leadId) return;
+    if (!res.ok || !out.ok) {
+      badgeEl.textContent = '⚠️ Sin conexión temporal a GHL';
+      badgeEl.className = `px-2 py-0.5 rounded-full text-[11px] font-bold border ${getCommsToneClass('amber')}`;
+      if (hintEl) hintEl.textContent = out.error || 'No se pudo consultar el historial en CRM.';
+      listEl.innerHTML = '';
+      if (replyWrap) replyWrap.classList.add('hidden');
+      return;
+    }
+
+    badgeEl.textContent = out.wa_status_badge || '⚪ Sin envíos aún';
+    badgeEl.className = `px-2 py-0.5 rounded-full text-[11px] font-bold border ${getCommsToneClass(out.wa_status_tone || 'slate')}`;
+    if (hintEl) hintEl.textContent = out.wa_status_hint || '';
+
+    if (replyWrap) {
+      if (out.window_24h_open) {
+        replyWrap.classList.remove('hidden');
+        replyWrap.classList.add('flex');
+      } else {
+        replyWrap.classList.add('hidden');
+        replyWrap.classList.remove('flex');
+      }
+    }
+
+    const msgs = Array.isArray(out.messages) ? out.messages : [];
+    if (!msgs.length) {
+      listEl.innerHTML = '<div class="text-[11px] text-slate-500 italic">Aún no hay mensajes enviados/recibidos en GHL para este contacto.</div>';
+      return;
+    }
+    listEl.innerHTML = msgs.map(m => {
+      const dirBadge = m.direction === 'inbound'
+        ? '<span class="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold">📥 Respuesta</span>'
+        : '<span class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-bold">📤 Saliente</span>';
+      const stCls = getCommsToneClass(m.status_tone || 'slate');
+      const errBlock = m.error ? `<div class="text-[10px] text-rose-300 mt-0.5">⚠️ ${esc(m.error)}</div>` : '';
+      return `<div class="p-2 rounded-lg bg-slate-950/80 border border-slate-800 text-[11px]">
+        <div class="flex flex-wrap items-center justify-between gap-1.5 mb-0.5">
+          <div class="flex flex-wrap items-center gap-1.5">
+            ${dirBadge}
+            <span class="font-bold text-cyan-300">${esc(m.channel)}</span>
+            <span class="px-1.5 py-0.5 rounded border text-[10px] font-bold ${stCls}">${esc(m.status_label)}</span>
+          </div>
+          <span class="text-[10px] text-slate-500">${esc(m.date || '')}</span>
+        </div>
+        ${m.body ? `<div class="text-slate-200 leading-snug">${esc(m.body)}</div>` : ''}
+        ${errBlock}
+      </div>`;
+    }).join('');
+  } catch (err) {
+    badgeEl.textContent = '⚠️ Error consultando CRM';
+    badgeEl.className = `px-2 py-0.5 rounded-full text-[11px] font-bold border ${getCommsToneClass('amber')}`;
+    if (hintEl) hintEl.textContent = err.message || 'No se pudo consultar el estado en GoHighLevel.';
+  }
+}
+
+async function sendQuickWaReplyFromModal(leadId, triggerBtn = null) {
+  const input = document.getElementById('setter-work-wa-reply-input');
+  const txt = (input?.value || '').trim();
+  if (!txt) {
+    alert('Escribe tu respuesta corta por WhatsApp antes de enviar.');
+    return;
+  }
+  await sendAgencyWhatsappToLead(leadId, triggerBtn, 'free_text', txt);
+  if (input) input.value = '';
+}
+
+async function sendAgencyWhatsappToLead(leadId, triggerBtn = null, forceTemplate = 'auto', explicitCustomMsg = '') {
   const lead = salesOsLeads.find(x => x.id === leadId);
   if (!lead) return;
-  const tplSel = document.getElementById('setter-work-wa-template');
-  const chosenTpl = forceTemplate || (tplSel ? tplSel.value : 'reactivacion_prosper_ia') || 'reactivacion_prosper_ia';
-  const mode = chosenTpl === 'free_text' ? 'free_text' : 'template';
-
-  let customMsg = '';
-  if (mode === 'free_text') {
-    const intel = parseLeadIntelligence(lead);
-    const defaultFree = intel.waScript || `Hola ${lead.business_name || lead.name || ''}, te compartimos de Agencia Prosper IA tu muestra interactiva.`;
-    const typed = prompt(`Escribir WhatsApp libre (+1 786) para ${lead.business_name || lead.name} (solo si ya respondió <24h; si no, activa plantilla):`, defaultFree);
-    if (!typed || !typed.trim()) return;
-    customMsg = typed.trim();
-  }
+  const chosenTpl = forceTemplate || 'auto';
+  const mode = explicitCustomMsg ? 'free_text' : 'auto';
 
   const origHtml = triggerBtn ? triggerBtn.innerHTML : '';
   if (triggerBtn) {
     triggerBtn.disabled = true;
-    triggerBtn.textContent = '⏳ Enviando WA...';
+    triggerBtn.textContent = '⏳...';
   }
   const fb = document.getElementById('setter-work-quick-feedback');
   try {
@@ -7350,7 +7438,7 @@ async function sendAgencyWhatsappToLead(leadId, triggerBtn = null, forceTemplate
       body: JSON.stringify({
         mode,
         template_name: chosenTpl,
-        custom_message: customMsg
+        custom_message: (explicitCustomMsg || '').trim()
       })
     });
     const out = await res.json();
@@ -7367,6 +7455,7 @@ async function sendAgencyWhatsappToLead(leadId, triggerBtn = null, forceTemplate
     renderSalesOsTable();
     if (document.getElementById('setterLeadWorkDialog')?.open && Number(document.getElementById('setter-work-lead-id')?.value) === leadId) {
       openSetterWorkDialog(leadId, 'WhatsApp Agencia', true);
+      setTimeout(() => loadLeadCommsStatus(leadId), 1400);
     } else if (fb && !document.getElementById('setterLeadWorkDialog')?.open) {
       alert(out.message);
     }
@@ -7436,9 +7525,6 @@ async function sendGhlDirectMsgFromUi(leadId, channel, triggerBtn = null) {
     alert('Candado Anti-Tarifas: el envío de SMS desde +1 786 solo está habilitado para números de EE. UU./PR (+1).');
     return;
   }
-  const defaultTxt = intel.waScript || `Hola ${lead.business_name || lead.name || ''}, te compartimos tu muestra de Sitio Web Inteligente de Agencia Prosper IA.`;
-  const msgTxt = prompt(`Enviar ${channel} oficial desde GHL (+1 786 833-6964) a ${lead.business_name || lead.name}:`, defaultTxt);
-  if (!msgTxt || !msgTxt.trim()) return;
 
   const origHtml = triggerBtn ? triggerBtn.innerHTML : '';
   if (triggerBtn) {
@@ -7450,7 +7536,7 @@ async function sendGhlDirectMsgFromUi(leadId, channel, triggerBtn = null) {
     const res = await fetch(`/api/sales-os/leads/${leadId}/send-ghl-message`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-      body: JSON.stringify({ channel, message: msgTxt.trim() })
+      body: JSON.stringify({ channel, message: '' })
     });
     const out = await res.json();
     if (!res.ok || !out.success) {
@@ -7462,9 +7548,13 @@ async function sendGhlDirectMsgFromUi(leadId, channel, triggerBtn = null) {
       fb.textContent = out.message;
       fb.classList.remove('hidden');
     }
+    renderCallQueueTable();
     renderSalesOsTable();
     if (document.getElementById('setterLeadWorkDialog')?.open && Number(document.getElementById('setter-work-lead-id')?.value) === leadId) {
       openSetterWorkDialog(leadId, channel, true);
+      setTimeout(() => loadLeadCommsStatus(leadId), 1400);
+    } else if (!document.getElementById('setterLeadWorkDialog')?.open) {
+      alert(out.message);
     }
   } catch (err) {
     alert(err.message || 'Error enviando mensaje CRM.');
@@ -7580,9 +7670,9 @@ function renderCallQueueTable() {
         <div class="font-mono font-bold text-cyan-300 mb-1.5">${esc(l.phone || 'Sin teléfono')}</div>
         <div class="flex flex-wrap items-center gap-1.5">
           ${rawPhone ? `<button type="button" onclick="initiateCloserCall('${esc(rawPhone)}', ${l.id})" class="px-2.5 py-1 rounded-lg bg-emerald-400 text-slate-950 hover:bg-emerald-300 text-[11px] font-black shadow-sm">${esc(route.btnLabel)}</button>` : ''}
-          ${rawPhone ? `<button type="button" onclick="sendAgencyWhatsappToLead(${l.id}, this, 'reactivacion_prosper_ia')" class="px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/35 text-[11px] font-bold hover:bg-emerald-500/30" title="Enviar plantilla WhatsApp desde +1 786 de la agencia">💬 WA Agencia</button>` : ''}
-          ${route.allowMiamiSms ? `<button type="button" onclick="sendGhlDirectMsgFromUi(${l.id}, 'SMS', this)" class="px-2.5 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 border border-indigo-500/35 text-[11px] font-bold hover:bg-indigo-500/30">🇺🇸 SMS</button>` : ''}
-          ${hasEmail ? `<button type="button" onclick="sendInstitutionalEmailToLead(${l.id}, this, 'seller@agenciaprosperia.com')" class="px-2.5 py-1 rounded-lg bg-sky-500/20 text-sky-200 border border-sky-400/40 text-[11px] font-bold hover:bg-sky-500/30" title="Enviar correo corporativo 100% desde el sistema">✉️ Enviar Correo</button>` : ''}
+          ${rawPhone ? `<button type="button" onclick="sendAgencyWhatsappToLead(${l.id}, this, 'auto')" class="px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/35 text-[11px] font-bold hover:bg-emerald-500/30" title="1 clic: envía WhatsApp Oficial de la agencia (+1 786)">💬 Enviar WhatsApp</button>` : ''}
+          ${route.allowMiamiSms ? `<button type="button" onclick="sendGhlDirectMsgFromUi(${l.id}, 'SMS', this)" class="px-2.5 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 border border-indigo-500/35 text-[11px] font-bold hover:bg-indigo-500/30" title="1 clic: envía SMS con Demo Web (+1 EE. UU./PR)">🇺🇸 Enviar SMS</button>` : ''}
+          ${hasEmail ? `<button type="button" onclick="sendInstitutionalEmailToLead(${l.id}, this, 'seller@agenciaprosperia.com')" class="px-2.5 py-1 rounded-lg bg-sky-500/20 text-sky-200 border border-sky-400/40 text-[11px] font-bold hover:bg-sky-500/30" title="1 clic: envía correo corporativo 100% desde el sistema">✉️ Enviar Correo</button>` : ''}
         </div>
       </td>
       <td data-label="País / Rubro / Plantilla" class="px-3 py-3.5 align-top">
@@ -7695,13 +7785,9 @@ function openSetterWorkDialog(leadId, defaultChannel = 'Llamada', preserveFeedba
     callBtn.style.display = rawPhone ? '' : 'none';
   }
   const waBtn = document.getElementById('setter-work-wa-btn');
-  const waBar = document.getElementById('setter-work-wa-tpl-bar');
   if (waBtn) {
-    waBtn.onclick = () => sendAgencyWhatsappToLead(lead.id, waBtn);
+    waBtn.onclick = () => sendAgencyWhatsappToLead(lead.id, waBtn, 'auto');
     waBtn.style.display = rawPhone ? '' : 'none';
-  }
-  if (waBar) {
-    waBar.style.display = rawPhone ? 'flex' : 'none';
   }
   const smsBtn = document.getElementById('setter-work-sms-btn');
   if (smsBtn) {
@@ -7713,6 +7799,15 @@ function openSetterWorkDialog(leadId, defaultChannel = 'Llamada', preserveFeedba
   if (instMailBtn) {
     instMailBtn.onclick = () => sendInstitutionalEmailToLead(lead.id, instMailBtn, 'seller@agenciaprosperia.com');
     instMailBtn.style.display = validMail ? '' : 'none';
+  }
+  const commsBox = document.getElementById('setter-work-comms-box');
+  if (commsBox) {
+    commsBox.style.display = (rawPhone || validMail || lead.contact_id) ? '' : 'none';
+  }
+  if (!preserveFeedback) {
+    const replyInput = document.getElementById('setter-work-wa-reply-input');
+    if (replyInput) replyInput.value = '';
+    loadLeadCommsStatus(lead.id);
   }
   const demoBtn = document.getElementById('setter-work-demo-btn');
   if (demoBtn) demoBtn.href = demoUrl;

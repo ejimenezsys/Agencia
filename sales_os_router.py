@@ -52,6 +52,7 @@ from ghl_client import (
     _cfg as _ghl_cfg,
     _cfg_db,
     dispatch_ghl_agency_whatsapp,
+    get_ghl_contact_comms_status,
     send_ghl_direct_message,
     sync_lead_to_ghl,
     sync_sales_os_event_to_ghl_async,
@@ -3712,9 +3713,31 @@ async def api_send_institutional_email_to_lead(
     }
 
 
+def _build_lead_demo_url(lead: DbLead, phone_raw: str) -> str:
+    biz_name = (getattr(lead, "business_name", None) or lead.company or lead.name or "").strip()
+    tpl = getattr(lead, "selected_template", "clinica_dental_estetica") or "clinica_dental_estetica"
+    return (
+        f"https://agenciaprosperia.com/demo-sitio-web?template={urllib.parse.quote(tpl)}"
+        f"&business={urllib.parse.quote(biz_name or lead.name or 'Prospecto')}&phone={urllib.parse.quote(phone_raw)}"
+    )
+
+
+def _select_auto_wa_template(lead: DbLead) -> str:
+    """Rota automáticamente las 3 plantillas Meta aprobadas según los intentos previos del contacto."""
+    notes_s = getattr(lead, "notes", "") or ""
+    candidates = ("reactivacion_prosper_ia", "reactivacion_valor_inicial", "reactivacion_oferta_directa")
+    used = [k for k in candidates if k in notes_s]
+    if not used:
+        return "reactivacion_prosper_ia" if ((getattr(lead, "id", 0) or 0) % 2 == 0) else "reactivacion_valor_inicial"
+    for k in candidates:
+        if k not in used:
+            return k
+    return candidates[len(used) % len(candidates)]
+
+
 class GhlDirectMessageRequest(BaseModel):
     channel: str  # SMS (+1 only) | WhatsApp | Email
-    message: str
+    message: Optional[str] = ""
     subject: Optional[str] = ""
 
 
@@ -3725,7 +3748,7 @@ async def api_send_ghl_direct_message(
     current_user: dict = Depends(get_current_sales_user),
     db: Session = Depends(get_db),
 ):
-    """Envía SMS (solo +1 EE.UU.), WhatsApp o Email directo vía GoHighLevel API v2 para leads del Closer."""
+    """Envía SMS (solo +1 EE.UU. en 1 clic), WhatsApp o Email directo vía GoHighLevel API v2 para leads del Closer."""
     import asyncio
 
     lead = db.query(DbLead).filter(DbLead.id == lead_id).first()
@@ -3734,17 +3757,26 @@ async def api_send_ghl_direct_message(
     if current_user["role"] == "seller" and (getattr(lead, "owner_id", "") or "") != current_user["email"]:
         raise HTTPException(status_code=403, detail="Este contacto está asignado a otro closer.")
 
+    phone_raw = (getattr(lead, "phone_e164", None) or (lead.phone or "")).strip()
+    biz_name = (getattr(lead, "business_name", None) or lead.company or lead.name or "").strip()
+    full_name = (getattr(lead, "full_name", None) or lead.name or biz_name or "Prospecto").strip()
+    first_name = full_name.split()[0] if full_name else "Hola"
+
     msg_body = (req.message or "").strip()
     if not msg_body:
-        raise HTTPException(status_code=400, detail="El mensaje no puede estar vacío.")
+        demo_url = _build_lead_demo_url(lead, phone_raw)
+        msg_body = (
+            f"Hola {first_name}, te saludamos de Agencia Prosper IA. Preparamos una muestra interactiva "
+            f"de Sitio Web Inteligente para {biz_name or 'tu negocio'}: {demo_url} — Responde SI si deseas verla."
+        )
 
     res = await asyncio.to_thread(
         send_ghl_direct_message,
         contact_id=getattr(lead, "contact_id", "") or "",
-        phone=getattr(lead, "phone_e164", None) or (lead.phone or ""),
+        phone=phone_raw,
         email=lead.email or "",
-        full_name=getattr(lead, "full_name", None) or lead.name,
-        company=getattr(lead, "business_name", None) or (lead.company or ""),
+        full_name=full_name,
+        company=biz_name,
         channel=req.channel,
         message_body=msg_body,
         subject=req.subject or "",
@@ -3782,8 +3814,8 @@ async def api_send_ghl_direct_message(
 
 
 class AgencyWhatsappSendRequest(BaseModel):
-    mode: Optional[str] = "template"  # template | free_text
-    template_name: Optional[str] = "reactivacion_prosper_ia"
+    mode: Optional[str] = "auto"  # auto | template | free_text
+    template_name: Optional[str] = "auto"
     custom_message: Optional[str] = ""
 
 
@@ -3794,8 +3826,9 @@ async def api_send_agency_whatsapp(
     current_user: dict = Depends(get_current_sales_user),
     db: Session = Depends(get_db),
 ):
-    """Envía WhatsApp usando la línea oficial de Agencia Prosper IA (+1 786-833-6964 / WABA) en GHL,
-    sin usar el teléfono personal del Closer y sin crear oportunidad en el Pipeline de Closers hasta que califique.
+    """Envía WhatsApp en 1 clic usando la línea oficial de Agencia Prosper IA (+1 786-833-6964 / WABA) en GHL.
+    - Si la ventana Meta de 24h está abierta, envía texto libre con el enlace Demo Web.
+    - En frío, rota automáticamente las 3 plantillas Meta aprobadas sin pedir selección manual al Closer.
     """
     import asyncio
 
@@ -3812,19 +3845,21 @@ async def api_send_agency_whatsapp(
     if is_contact_excluded(db, getattr(lead, "email", "") or "", normalize_phone_e164(phone_raw)):
         raise HTTPException(status_code=400, detail="Contacto en lista DND / Opt-out; WhatsApp bloqueado.")
 
-    tpl_key = (req.template_name or "reactivacion_prosper_ia").strip()
-    mode = (req.mode or "template").strip().lower()
-    if tpl_key == "free_text":
+    raw_tpl = (req.template_name or "auto").strip()
+    mode = (req.mode or "auto").strip().lower()
+    if raw_tpl == "free_text":
         mode = "free_text"
-        tpl_key = "reactivacion_prosper_ia"
+        tpl_key = _select_auto_wa_template(lead)
+    elif raw_tpl in ("", "auto"):
+        tpl_key = _select_auto_wa_template(lead)
+    elif raw_tpl in GHL_WA_TEMPLATES:
+        tpl_key = raw_tpl
+    else:
+        tpl_key = _select_auto_wa_template(lead)
 
     biz_name = (getattr(lead, "business_name", None) or lead.company or lead.name or "").strip()
     full_name = (getattr(lead, "full_name", None) or lead.name or biz_name or "Prospecto").strip()
-    tpl = getattr(lead, "selected_template", "clinica_dental_estetica") or "clinica_dental_estetica"
-    demo_url = (
-        f"https://agenciaprosperia.com/demo-sitio-web?template={urllib.parse.quote(tpl)}"
-        f"&business={urllib.parse.quote(biz_name or full_name)}&phone={urllib.parse.quote(phone_raw)}"
-    )
+    demo_url = _build_lead_demo_url(lead, phone_raw)
     default_free = (
         f"Hola {(full_name.split()[0] if full_name else '')}, te compartimos de Agencia Prosper IA la demo interactiva "
         f"lista para {biz_name or 'tu negocio'}: {demo_url}"
@@ -3838,7 +3873,7 @@ async def api_send_agency_whatsapp(
         full_name=full_name,
         company=biz_name,
         mode=mode,
-        template_name=tpl_key if tpl_key in GHL_WA_TEMPLATES else "reactivacion_prosper_ia",
+        template_name=tpl_key,
         custom_message=(req.custom_message or "").strip() or default_free,
         owner_email=getattr(lead, "owner_id", "") or current_user["email"],
         lead_db_id=lead.id,
@@ -3878,9 +3913,38 @@ async def api_send_agency_whatsapp(
     db.refresh(lead)
     return {
         "success": True,
+        "wa_mode": res.get("mode"),
+        "template_used": res.get("template_name") or tpl_key,
         "message": f"💬 WhatsApp Oficial de la Agencia (+1 786) enviado: {res.get('detail')}",
         "data": serialize_lead(lead),
     }
+
+
+@router.get("/api/sales-os/leads/{lead_id}/comms-status")
+async def api_get_lead_comms_status(
+    lead_id: int,
+    current_user: dict = Depends(get_current_sales_user),
+    db: Session = Depends(get_db),
+):
+    """Consulta en vivo en GoHighLevel si el WhatsApp/SMS/Correo fue enviado, entregado (✓✓), leído (💙) o respondido."""
+    import asyncio
+
+    lead = db.query(DbLead).filter(DbLead.id == lead_id).first()
+    if not lead:
+        raise HTTPException(status_code=404, detail="Prospecto no encontrado.")
+    if current_user["role"] == "seller" and (getattr(lead, "owner_id", "") or "") != current_user["email"]:
+        raise HTTPException(status_code=403, detail="Este contacto está asignado a otro closer.")
+
+    phone_raw = (getattr(lead, "phone_e164", None) or lead.phone or "").strip()
+    res = await asyncio.to_thread(
+        get_ghl_contact_comms_status,
+        contact_id=getattr(lead, "contact_id", "") or "",
+        phone=phone_raw,
+    )
+    if res.get("contact_id") and not (getattr(lead, "contact_id", "") or "").strip():
+        lead.contact_id = res["contact_id"]
+        db.commit()
+    return {"success": bool(res.get("ok")), **res}
 
 
 

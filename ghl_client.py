@@ -20,6 +20,7 @@ import re
 import time
 import threading
 import urllib.error
+import urllib.parse
 import urllib.request
 from datetime import datetime, timezone
 from typing import Optional
@@ -1290,13 +1291,200 @@ def send_ghl_direct_message(
     }
 
 
+def _fetch_ghl_conversation_state(
+    contact_id: str,
+    phone: str = "",
+    include_messages: bool = False,
+) -> dict:
+    """Consulta conversación en GoHighLevel para verificar ventana WhatsApp 24h y estado de entrega/respuestas."""
+    token = _cfg_db("GHL_PRIVATE_TOKEN") or _cfg_db("GHL_ACCESS_TOKEN")
+    loc_id = _cfg_db("GHL_LOCATION_ID", DEFAULT_LOCATION_ID)
+    if not token:
+        return {"ok": False, "error": "GHL_PRIVATE_TOKEN no configurado en el servidor."}
+
+    cid = (contact_id or "").strip()
+    clean_phone = _clean_phone(phone) if phone else ""
+    if not cid and clean_phone:
+        d_st, d_res = _request(
+            "GET",
+            f"/contacts/search/duplicate?locationId={loc_id}&number={urllib.parse.quote(clean_phone)}",
+            token,
+        )
+        if d_st == 200 and isinstance(d_res, dict):
+            c_obj = d_res.get("contact") or {}
+            cid = (c_obj.get("id") or "").strip()
+
+    if not cid:
+        return {
+            "ok": True,
+            "found": False,
+            "contact_id": "",
+            "conversation_id": "",
+            "window_24h_open": False,
+            "has_reply": False,
+            "last_inbound_wa_iso": "",
+            "wa_status_badge": "⚪ Sin sincronizar en CRM aún",
+            "wa_status_tone": "slate",
+            "wa_status_hint": "Haz clic en Enviar WhatsApp, SMS o Llamar para abrir historial en GHL.",
+            "messages": [],
+        }
+
+    s_st, s_res = _request(
+        "GET",
+        f"/conversations/search?locationId={loc_id}&contactId={urllib.parse.quote(cid)}",
+        token,
+    )
+    if s_st != 200 or not isinstance(s_res, dict):
+        return {
+            "ok": False,
+            "contact_id": cid,
+            "error": f"No se pudo consultar conversación en GHL ({s_st}): {s_res}",
+        }
+
+    convs = s_res.get("conversations") or []
+    conv = next((c for c in convs if c.get("lastInboundWhatsappMessageDate")), None) or (convs[0] if convs else None)
+    if not conv:
+        return {
+            "ok": True,
+            "found": True,
+            "contact_id": cid,
+            "conversation_id": "",
+            "window_24h_open": False,
+            "has_reply": False,
+            "last_inbound_wa_iso": "",
+            "wa_status_badge": "⏳ En CRM · Sin mensajes enviados aún",
+            "wa_status_tone": "amber",
+            "wa_status_hint": "Aún no hay mensajes WA/SMS en GHL. Si disparaste una plantilla, verifica en GHL Automation que su Workflow esté Published.",
+            "messages": [],
+        }
+
+    conv_id = conv.get("id") or ""
+    last_in_wa_raw = conv.get("lastInboundWhatsappMessageDate")
+    window_24h_open = False
+    last_inbound_wa_iso = ""
+    if last_in_wa_raw:
+        try:
+            ts_val = float(last_in_wa_raw)
+            ts_sec = ts_val / 1000.0 if ts_val > 1e12 else ts_val
+            last_inbound_wa_iso = datetime.fromtimestamp(ts_sec, tz=timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+            if (time.time() - ts_sec) < (24 * 3600 - 120):
+                window_24h_open = True
+        except Exception:
+            pass
+
+    formatted_msgs = []
+    has_reply = bool(last_in_wa_raw)
+    if include_messages and conv_id:
+        m_st, m_res = _request("GET", f"/conversations/{conv_id}/messages", token)
+        if m_st == 200 and isinstance(m_res, dict):
+            raw_wrap = m_res.get("messages")
+            raw_list = (
+                raw_wrap.get("messages")
+                if isinstance(raw_wrap, dict)
+                else (raw_wrap if isinstance(raw_wrap, list) else [])
+            ) or []
+            type_labels = {
+                "TYPE_WHATSAPP": "WhatsApp",
+                "TYPE_SMS": "SMS",
+                "TYPE_EMAIL": "Correo",
+                "TYPE_CALL": "Llamada",
+            }
+            status_labels = {
+                "read": ("💙 Leído (✓✓)", "cyan"),
+                "delivered": ("✅ Entregado (✓✓)", "emerald"),
+                "sent": ("🕒 Enviado (✓)", "sky"),
+                "pending": ("⏳ En cola", "amber"),
+                "queued": ("⏳ En cola", "amber"),
+                "failed": ("❌ No entregado", "rose"),
+                "undelivered": ("❌ No entregado", "rose"),
+            }
+            sorted_msgs = sorted(raw_list, key=lambda x: str(x.get("dateAdded") or ""), reverse=True)
+            for m in sorted_msgs[:10]:
+                m_type_raw = str(m.get("messageType") or m.get("type") or "")
+                ch_name = type_labels.get(m_type_raw, m_type_raw.replace("TYPE_", "").title() or "Mensaje")
+                direction = str(m.get("direction") or "outbound").lower()
+                if direction == "inbound":
+                    has_reply = True
+                raw_status = str(m.get("status") or ("received" if direction == "inbound" else "")).lower()
+                st_label, st_tone = status_labels.get(
+                    raw_status,
+                    ("📥 Respuesta recibida" if direction == "inbound" else f"ℹ️ {raw_status or 'registrado'}", "slate"),
+                )
+                body_txt = (m.get("body") or m.get("subject") or "").strip()
+                if len(body_txt) > 200:
+                    body_txt = body_txt[:197] + "..."
+                err_txt = str(m.get("error") or "").strip()
+                date_str = str(m.get("dateAdded") or "")[:16].replace("T", " ")
+                formatted_msgs.append(
+                    {
+                        "id": m.get("id") or "",
+                        "channel": ch_name,
+                        "direction": direction,
+                        "status": raw_status,
+                        "status_label": st_label,
+                        "status_tone": st_tone,
+                        "body": body_txt,
+                        "error": err_txt,
+                        "date": date_str,
+                    }
+                )
+
+    wa_msgs = [m for m in formatted_msgs if m["channel"] == "WhatsApp"]
+    latest_in_wa = next((m for m in wa_msgs if m["direction"] == "inbound"), None)
+    latest_out_wa = next((m for m in wa_msgs if m["direction"] == "outbound"), None)
+
+    wa_status_badge = "⚪ Sin envíos WhatsApp aún"
+    wa_status_tone = "slate"
+    wa_status_hint = "Si acabas de disparar una plantilla WA y no aparece aquí en 10 seg, verifica en GHL → Automation que el Workflow de plantilla esté Published."
+    if latest_in_wa and window_24h_open:
+        wa_status_badge = "📥 Prospecto respondió (<24h) · Ventana Libre Abierta"
+        wa_status_tone = "emerald"
+        wa_status_hint = f"El cliente escribió ({latest_in_wa['date']}): \"{latest_in_wa['body']}\". Puedes responderle texto libre aquí abajo."
+    elif latest_out_wa:
+        wa_status_tone = latest_out_wa["status_tone"]
+        wa_status_badge = f"Último WA: {latest_out_wa['status_label']}"
+        if latest_out_wa["status"] in ("failed", "undelivered"):
+            err_l = latest_out_wa["error"] or "Meta/WhatsApp rechazó el envío."
+            wa_status_hint = f"Error GHL: {err_l}"
+        elif latest_out_wa["status"] == "read":
+            wa_status_hint = f"El prospecto YA ABRIÓ Y LEYÓ tu WhatsApp ({latest_out_wa['date']}). Buen momento para llamar."
+        elif latest_out_wa["status"] == "delivered":
+            wa_status_hint = f"WhatsApp entregado al celular del prospecto ({latest_out_wa['date']}). Aún pendiente de lectura."
+        else:
+            wa_status_hint = f"WhatsApp despachado desde GHL ({latest_out_wa['date']})."
+    elif formatted_msgs:
+        top_m = formatted_msgs[0]
+        wa_status_badge = f"Último {top_m['channel']}: {top_m['status_label']}"
+        wa_status_tone = top_m["status_tone"]
+        wa_status_hint = top_m["error"] or f"Último movimiento registrado en CRM ({top_m['date']})."
+
+    return {
+        "ok": True,
+        "found": True,
+        "contact_id": cid,
+        "conversation_id": conv_id,
+        "window_24h_open": window_24h_open,
+        "has_reply": has_reply,
+        "last_inbound_wa_iso": last_inbound_wa_iso,
+        "wa_status_badge": wa_status_badge,
+        "wa_status_tone": wa_status_tone,
+        "wa_status_hint": wa_status_hint,
+        "messages": formatted_msgs,
+    }
+
+
+def get_ghl_contact_comms_status(contact_id: str, phone: str = "") -> dict:
+    """Retorna el estado real de entrega (enviado, ✓✓ entregado, leído, fallido) y respuestas desde GoHighLevel."""
+    return _fetch_ghl_conversation_state(contact_id=contact_id, phone=phone, include_messages=True)
+
+
 def dispatch_ghl_agency_whatsapp(
     contact_id: str,
     phone: str,
     email: str,
     full_name: str,
     company: str,
-    mode: str = "template",
+    mode: str = "auto",
     template_name: str = "reactivacion_prosper_ia",
     custom_message: str = "",
     owner_email: str = "",
@@ -1304,9 +1492,9 @@ def dispatch_ghl_agency_whatsapp(
 ) -> dict:
     """Envía WhatsApp usando ÚNICAMENTE la línea oficial de Agencia Prosper IA (+1 786-833-6964) vía GHL.
     - No crea oportunidad en el pipeline de Closers (mantiene limpia la bandeja Setter hasta Calificar).
-    - mode='template': dispara una de las 3 plantillas aprobadas por Meta vía Workflow/Tag Added.
-    - mode='free_text': envía texto libre por Conversations API si el cliente respondió (<24h); si la ventana
-      de 24h está cerrada, activa automáticamente la plantilla oficial para reabrir conversación.
+    - mode='auto' / 'free_text': si la ventana Meta de 24h ya está abierta, envía mensaje directo con el enlace
+      Demo Web sin esperar plantilla; si está cerrada (en frío), dispara la plantilla oficial rotada vía Workflow/Tag Added.
+    - mode='template': fuerza el disparo de plantilla oficial por etiqueta (wa_plantilla_*).
     """
     clean_phone = _clean_phone(phone)
     if not clean_phone:
@@ -1348,8 +1536,17 @@ def dispatch_ghl_agency_whatsapp(
     tpl_meta = GHL_WA_TEMPLATES[tpl_key]
     tpl_tag = tpl_meta["tag"]
 
-    # 2. Si el modo es texto libre (<24h), intentar /conversations/messages primero y comprobar ventana Meta
-    if (mode or "").strip().lower() == "free_text" and (custom_message or "").strip():
+    norm_mode = (mode or "auto").strip().lower()
+    can_try_free_text = False
+    if (custom_message or "").strip():
+        if norm_mode == "free_text":
+            can_try_free_text = True
+        elif norm_mode == "auto":
+            conv_state = _fetch_ghl_conversation_state(cid, clean_phone, include_messages=False)
+            can_try_free_text = bool(conv_state.get("window_24h_open"))
+
+    # 2. Si el modo es texto libre (<24h) o la ventana ya está abierta, enviar por /conversations/messages
+    if can_try_free_text and (custom_message or "").strip():
         msg_txt = custom_message.strip()
         m_st, m_res = _request(
             "POST",
@@ -1362,10 +1559,11 @@ def dispatch_ghl_agency_whatsapp(
             msg_id = m_res.get("messageId") or ""
             failed_24h = False
             if conv_id and msg_id:
-                time.sleep(1.4)
+                time.sleep(1.3)
                 c_st, c_res = _request("GET", f"/conversations/{conv_id}/messages", token)
-                if c_st == 200:
-                    msgs = (c_res.get("messages") or {}).get("messages") or []
+                if c_st == 200 and isinstance(c_res, dict):
+                    raw_wrap = c_res.get("messages")
+                    msgs = (raw_wrap.get("messages") if isinstance(raw_wrap, dict) else raw_wrap) or []
                     matched = next((m for m in msgs if m.get("id") == msg_id), None)
                     if matched and matched.get("status") == "failed":
                         err_s = str(matched.get("error") or "")
@@ -1375,10 +1573,11 @@ def dispatch_ghl_agency_whatsapp(
                 return {
                     "ok": True,
                     "mode": "free_text",
+                    "template_name": "ventana_24h_libre",
                     "contact_id": cid,
                     "conversation_id": conv_id,
                     "message_id": msg_id,
-                    "detail": "Texto libre enviado desde +1 786-833-6964 (ventana 24h activa).",
+                    "detail": "Texto libre con Demo Web enviado desde +1 786-833-6964 (ventana 24h activa).",
                 }
 
     # 3. Modo Plantilla (en frío o fallback por ventana 24h cerrada):
@@ -1411,7 +1610,7 @@ def dispatch_ghl_agency_whatsapp(
 
     fallback_note = (
         "Ventana Meta de 24h cerrada: se disparó plantilla oficial "
-        if (mode or "").strip().lower() == "free_text"
+        if norm_mode == "free_text"
         else "Plantilla oficial disparada desde +1 786-833-6964: "
     )
     return {
