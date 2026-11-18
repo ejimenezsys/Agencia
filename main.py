@@ -1039,6 +1039,11 @@ async def startup_event():
             populate()
     except Exception as e:
         print(f"⚠️ [STARTUP] Error auto-poblando El Arsenal: {e}", flush=True)
+    try:
+        from sales_os_router import start_setter_ia_background_worker
+        start_setter_ia_background_worker()
+    except Exception as e:
+        print(f"⚠️ [STARTUP] Error iniciando Setter IA Worker: {e}", flush=True)
 
 
 # Request schemas

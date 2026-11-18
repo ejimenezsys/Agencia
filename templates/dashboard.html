@@ -2233,6 +2233,46 @@
         </div>
       </div>
 
+      <!-- Panel Motor Setter IA & Closer IA (Calentamiento Automático: Plantillas WA + Correos + Respuestas 24h) -->
+      <div id="setter-ia-warmup-panel" class="rounded-xl bg-slate-950/85 border border-emerald-400/35 p-3.5 text-xs space-y-2.5">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="font-black text-emerald-300 uppercase tracking-wider">🤖 Motor Setter IA &amp; Closer IA</span>
+            <span id="setter-ia-status-pill" class="px-2 py-0.5 rounded-full text-[11px] font-bold bg-slate-800 text-slate-300 border border-slate-700">⏳ Cargando...</span>
+            <span id="setter-ia-tpls-pill" class="px-2 py-0.5 rounded-full text-[11px] font-bold bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">📋 3/10 Plantillas Activas</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-1.5">
+            <button type="button" onclick="filterOnlyRepliedLeads()" class="px-2.5 py-1 rounded-lg bg-rose-500/20 text-rose-200 border border-rose-500/40 hover:bg-rose-500/30 text-[11px] font-black transition">
+              🔥 Ver Solo Respondidos (<span id="setter-ia-replied-cnt">0</span>)
+            </button>
+            <div id="setter-ia-admin-controls" class="hidden flex-wrap items-center gap-1.5">
+              <button type="button" onclick="controlSetterIa('start', this)" class="px-2.5 py-1 rounded-lg bg-emerald-400 text-slate-950 hover:bg-emerald-300 text-[11px] font-black transition">▶️ Iniciar Motor</button>
+              <button type="button" onclick="controlSetterIa('step_now', this)" class="px-2.5 py-1 rounded-lg bg-cyan-400 text-slate-950 hover:bg-cyan-300 text-[11px] font-black transition">⚡ Tanda Ahora</button>
+              <button type="button" onclick="controlSetterIa('pause', this)" class="px-2.5 py-1 rounded-lg bg-amber-500/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30 text-[11px] font-bold transition">⏸️ Pausar</button>
+            </div>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px]">
+          <div class="p-2 rounded-lg bg-slate-900/90 border border-slate-800">
+            <div class="text-slate-400">💬 WhatsApp Hoy / Pend.</div>
+            <div id="setter-ia-wa-metric" class="font-black text-emerald-300 text-sm">0 / 0</div>
+          </div>
+          <div class="p-2 rounded-lg bg-slate-900/90 border border-slate-800">
+            <div class="text-slate-400">✉️ Correos Hoy / Pend.</div>
+            <div id="setter-ia-email-metric" class="font-black text-sky-300 text-sm">0 / 0</div>
+          </div>
+          <div class="p-2 rounded-lg bg-slate-900/90 border border-slate-800">
+            <div class="text-slate-400">🔥 Respondieron (Llamar YA)</div>
+            <div id="setter-ia-reply-metric" class="font-black text-rose-300 text-sm">0</div>
+          </div>
+          <div class="p-2 rounded-lg bg-slate-900/90 border border-slate-800">
+            <div class="text-slate-400">🚀 Demos Auto-Enviadas IA</div>
+            <div id="setter-ia-demo-metric" class="font-black text-cyan-300 text-sm">0</div>
+          </div>
+        </div>
+        <div id="setter-ia-last-log" class="text-[11px] text-slate-400 truncate">En espera de activación para calentar la base con plantillas WA + correos mientras llamas.</div>
+      </div>
+
       <!-- Panel colapsable Mi Extensión SIP Miami & Bifurcación Inteligente Anti-Tarifas -->
       <details class="rounded-xl bg-slate-950/75 border border-cyan-500/30 p-3 text-xs">
         <summary class="cursor-pointer font-bold text-cyan-300 flex flex-wrap items-center justify-between gap-2">
@@ -2277,6 +2317,7 @@
       <div class="flex flex-wrap gap-2 items-center pt-2 border-t border-emerald-500/20">
         <select id="call-queue-filter" class="input-dark text-xs py-2 px-3" style="width:auto;" onchange="callQueuePage=1; renderCallQueueTable()">
           <option value="pending">⏳ Sin Tocar + En Seguimiento Setter</option>
+          <option value="replied_ia">🔥 Respondieron a Setter IA (Llamar YA)</option>
           <option value="untouched">🆕 Solo Nuevos (0 Toques)</option>
           <option value="callback">🟡 En Seguimiento (Primer contacto / Contacto)</option>
           <option value="no_answer">🔴 No Contestaron / Buzón</option>
@@ -6217,6 +6258,7 @@ async function loadSalesOsData() {
       renderSalesOsTable();
       renderCallQueueTable();
       populatePaymentLinksLeadSelect();
+      loadSetterIaStatus();
     }
   } catch (err) {
     console.warn('Error cargando Sales OS:', err);
@@ -7590,6 +7632,87 @@ async function sendGhlDirectMsgFromUi(leadId, channel, triggerBtn = null) {
   }
 }
 
+function filterOnlyRepliedLeads() {
+  const fSel = document.getElementById('call-queue-filter');
+  if (fSel) {
+    fSel.value = 'replied_ia';
+    callQueuePage = 1;
+    renderCallQueueTable();
+  }
+}
+
+async function loadSetterIaStatus() {
+  const pill = document.getElementById('setter-ia-status-pill');
+  if (!pill) return;
+  try {
+    const res = await fetch('/api/sales-os/setter-ia/status', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    if (!res.ok) return;
+    const data = await res.json();
+    const st = data.state || {};
+    const running = Boolean(st.running);
+    pill.textContent = running ? '🟢 ACTIVO CALENTANDO BASE' : '⏸️ EN PAUSA';
+    pill.className = running
+      ? 'px-2 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+      : 'px-2 py-0.5 rounded-full text-[11px] font-bold bg-amber-500/15 text-amber-300 border border-amber-500/35';
+
+    const tplsPill = document.getElementById('setter-ia-tpls-pill');
+    if (tplsPill) {
+      tplsPill.textContent = `📋 ${data.active_templates_count ?? 3}/${data.total_registered_templates ?? 10} Plantillas Activas`;
+    }
+    const waEl = document.getElementById('setter-ia-wa-metric');
+    if (waEl) waEl.textContent = `${st.wa_sent_today || 0} / ${data.remaining_wa ?? 0} pend.`;
+    const emEl = document.getElementById('setter-ia-email-metric');
+    if (emEl) emEl.textContent = `${st.email_sent_today || 0} / ${data.remaining_emails ?? 0} pend.`;
+    const repEl = document.getElementById('setter-ia-reply-metric');
+    if (repEl) repEl.textContent = data.replied_count ?? st.replies_detected ?? 0;
+    const repCnt = document.getElementById('setter-ia-replied-cnt');
+    if (repCnt) repCnt.textContent = data.replied_count ?? st.replies_detected ?? 0;
+    const demoEl = document.getElementById('setter-ia-demo-metric');
+    if (demoEl) demoEl.textContent = st.demos_auto_sent ?? 0;
+
+    const logEl = document.getElementById('setter-ia-last-log');
+    if (logEl) {
+      const logs = Array.isArray(st.last_log) ? st.last_log : [];
+      logEl.textContent = logs.length
+        ? `Última actividad: ${logs[0]}`
+        : 'Listo para iniciar calentamiento automático de WhatsApp + Correos mientras los Closers llaman.';
+    }
+    const adminBox = document.getElementById('setter-ia-admin-controls');
+    if (adminBox && (currentUser?.role || '').toLowerCase() === 'admin') {
+      adminBox.classList.remove('hidden');
+      adminBox.classList.add('flex');
+    }
+  } catch (e) {
+    console.warn('Error cargando estado Setter IA:', e);
+  }
+}
+
+async function controlSetterIa(action, btn = null) {
+  const orig = btn ? btn.innerHTML : '';
+  if (btn) { btn.disabled = true; btn.textContent = '⏳...'; }
+  try {
+    const res = await fetch('/api/sales-os/setter-ia/control', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+      body: JSON.stringify({ action })
+    });
+    const out = await res.json();
+    if (!res.ok || !out.success) throw new Error(out.detail || out.message || 'Error en control Setter IA.');
+    await loadSetterIaStatus();
+    if (action === 'step_now') {
+      await loadSalesOsData();
+    }
+    const logEl = document.getElementById('setter-ia-last-log');
+    if (logEl && out.message) logEl.textContent = out.message;
+  } catch (err) {
+    alert(err.message || 'No se pudo controlar el motor Setter IA.');
+  } finally {
+    if (btn) { btn.disabled = false; btn.innerHTML = orig; }
+  }
+}
+
 // ─── BANDEJA LIMPIA SETTER (1,000 CONTACTOS · TRABAJO EN POPUP CON BITÁCORA POR RENGLONES) ──
 function renderCallQueueTable() {
   renderMySipCard();
@@ -7635,6 +7758,7 @@ function renderCallQueueTable() {
 
     const hasCrmHistory = ((l.ghl_opportunity_id || '').trim() !== '' || Number(l.quoted_amount || 0) > 0 || Number(l.amount_collected || 0) > 0);
     if (filterVal === 'pending') return isSetterPendingOrLocal(l);
+    if (filterVal === 'replied_ia') return notes.includes('respondió a setter ia');
     if (filterVal === 'untouched') return st === 'Lead identificado';
     if (filterVal === 'callback') return (st === 'Primer contacto' || st === 'Contacto' || st === 'En seguimiento local') && !hasCrmHistory;
     if (filterVal === 'no_answer') return st === 'No responde' || notes.includes('[cola: no contestó]');
@@ -7643,6 +7767,13 @@ function renderCallQueueTable() {
     }
     if (filterVal === 'disqualified') return st === 'No interesado' || st === 'No cumple perfil';
     return true;
+  });
+
+  // Poner arriba de todo a quienes respondieron al Setter IA para que el Closer llame YA
+  filtered.sort((a, b) => {
+    const aHot = (a.notes || '').toLowerCase().includes('respondió a setter ia') ? 1 : 0;
+    const bHot = (b.notes || '').toLowerCase().includes('respondió a setter ia') ? 1 : 0;
+    return bHot - aHot;
   });
 
   const totalMatches = filtered.length;
@@ -7683,10 +7814,11 @@ function renderCallQueueTable() {
     const lastEntry = bitacoraRows.length ? bitacoraRows[bitacoraRows.length - 1] : '';
     const tplLabel = TEMPLATE_LABELS_MAP[l.selected_template || 'clinica_dental_estetica'] || (l.selected_template || '🦷 Clínica Dental');
     const cleanEmail = hasEmail ? l.email : 'Sin correo';
+    const isRepliedIa = (l.notes || '').toLowerCase().includes('respondió a setter ia');
 
-    return `<tr class="table-row border-b border-slate-800/70 hover:bg-slate-900/50 transition" style="${isAlreadyInCrm ? 'background:rgba(16,185,129,0.08);' : (st === 'Contacto' || st === 'Primer contacto' || st === 'En seguimiento local') ? 'background:rgba(245,158,11,0.05);' : ''}">
+    return `<tr class="table-row border-b border-slate-800/70 hover:bg-slate-900/50 transition" style="${isRepliedIa ? 'background:rgba(244,63,94,0.12); box-shadow:inset 3px 0 0 #fb7185;' : isAlreadyInCrm ? 'background:rgba(16,185,129,0.08);' : (st === 'Contacto' || st === 'Primer contacto' || st === 'En seguimiento local') ? 'background:rgba(245,158,11,0.05);' : ''}">
       <td data-label="Prospecto y Diagnóstico" class="px-4 py-3.5 align-top max-w-xs">
-        <div class="flex flex-wrap items-center gap-1.5 mb-1">${intel.diagBadge} <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-cyan-300 border border-slate-700">${esc(route.badge)}</span></div>
+        <div class="flex flex-wrap items-center gap-1.5 mb-1">${isRepliedIa ? '<span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-rose-500/25 text-rose-200 border border-rose-400/50 animate-pulse">🔥 RESPONDIÓ A SETTER IA — LLAMAR YA</span>' : ''} ${intel.diagBadge} <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-cyan-300 border border-slate-700">${esc(route.badge)}</span></div>
         <div class="font-bold text-white text-sm leading-snug">${esc(l.business_name || l.company || l.name)}</div>
         <div class="text-[11px] text-slate-400 mt-0.5">${esc(l.city || '')} · ${esc(cleanEmail)} ${intel.googleVal ? `· ⭐ ${esc(intel.googleVal)}` : ''}</div>
       </td>

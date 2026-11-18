@@ -11,13 +11,21 @@ Implementa:
   - Registro de auditoría inmutable (AuditLog) y sincronización con GoHighLevel.
   - Demostrador interactivo en vivo de Sitios Web Inteligentes (/demo-sitio-web).
 """
+import asyncio
+import html as html_lib
 import json
 import os
 import re
+import smtplib
 import ssl
+import threading
+import time
 import urllib.parse
 import urllib.request
 from datetime import datetime
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.utils import formataddr
 from typing import Optional, List, Dict, Any
 from fastapi import APIRouter, Request, Depends, HTTPException, status
 from fastapi.responses import HTMLResponse, JSONResponse
@@ -51,8 +59,10 @@ from ghl_client import (
     _BEAUTY_PIPELINE_CACHE,
     _cfg as _ghl_cfg,
     _cfg_db,
+    check_and_sync_ghl_wa_workflows,
     dispatch_ghl_agency_whatsapp,
     get_ghl_contact_comms_status,
+    list_recent_inbound_ghl_conversations,
     send_ghl_direct_message,
     sync_lead_to_ghl,
     sync_sales_os_event_to_ghl_async,
@@ -3397,6 +3407,150 @@ def _is_valid_real_email(raw_email: str) -> bool:
     return True
 
 
+def _send_smtp_mime_email(
+    alias_addr: str,
+    to_email: str,
+    closer_name: str,
+    closer_email: str,
+    final_subject: str,
+    plain_text: str,
+    html_content: str,
+) -> None:
+    """Envía un MIME multipart (texto + HTML) por Hostinger SMTP usando seller@ o info@agenciaprosperia.com."""
+    smtp_host = _cfg_db("SMTP_HOST", "smtp.hostinger.com")
+    smtp_port = int(_cfg_db("SMTP_PORT", "465") or "465")
+    smtp_user = _cfg_db("SMTP_USER", "edward@agenciaprosperia.com")
+    smtp_pass = _cfg_db("SMTP_PASSWORD", "")
+    if not smtp_pass:
+        raise RuntimeError("Servidor SMTP institucional aún no configurado en el servidor.")
+
+    if alias_addr not in ALLOWED_INSTITUTIONAL_ALIASES:
+        alias_addr = "seller@agenciaprosperia.com"
+
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = final_subject
+    msg["From"] = formataddr((f"{closer_name} - Agencia Prosper IA", alias_addr))
+    msg["To"] = to_email
+    reply_targets = [formataddr((closer_name, alias_addr))]
+    if closer_email and "@" in closer_email and closer_email.lower() not in (alias_addr, "edward@agenciaprosperia.com", "admin@prosperia.com"):
+        reply_targets.append(closer_email)
+    msg["Reply-To"] = ", ".join(reply_targets)
+    msg.attach(MIMEText(plain_text, "plain", "utf-8"))
+    msg.attach(MIMEText(html_content, "html", "utf-8"))
+
+    if smtp_port == 465:
+        srv = smtplib.SMTP_SSL(smtp_host, smtp_port, timeout=15)
+    else:
+        srv = smtplib.SMTP(smtp_host, smtp_port, timeout=15)
+        srv.starttls()
+    srv.login(smtp_user, smtp_pass)
+    srv.sendmail(alias_addr, [to_email], msg.as_string())
+    srv.quit()
+
+
+def _extract_diag_snippet(notes_raw: str) -> str:
+    """Extrae una frase breve de diagnóstico digital desde las notas del prospecto si existe."""
+    txt = (notes_raw or "").strip()
+    for line in txt.splitlines():
+        low = line.lower()
+        if any(k in low for k in ("diagnóstico", "web actual", "sin sitio", "google", "oportunidad")):
+            clean = line.strip("•- \t")
+            if len(clean) > 15:
+                return clean[:180]
+    return "Oportunidad detectada para captar más citas y clientes en automático desde web + WhatsApp 24/7."
+
+
+def _build_setter_ia_mass_email_payload(
+    lead: DbLead,
+    closer_name: str,
+    closer_email: str,
+    cal_url: str,
+) -> dict:
+    """Construye la plantilla HTML ejecutiva de calentamiento masivo (656 correos) con Demo Web + WA +1 786."""
+    biz_name = (getattr(lead, "business_name", None) or lead.company or lead.name or "tu negocio").strip()
+    tpl = getattr(lead, "selected_template", "clinica_dental_estetica") or "clinica_dental_estetica"
+    phone_val = (getattr(lead, "phone_e164", None) or lead.phone or "").strip()
+    city = (getattr(lead, "city", None) or "").strip()
+    country = (getattr(lead, "country", None) or "LATAM / EE. UU.").strip()
+    location_label = f"{city}, {country}".strip(", ")
+    diag_line = _extract_diag_snippet(getattr(lead, "notes", "") or "")
+    clean_cal = (cal_url or "https://agenciaprosperia.com/#contacto").strip()
+
+    demo_url = _build_lead_demo_url(lead, phone_val)
+    wa_official = (
+        "https://wa.me/17868336964?text="
+        + urllib.parse.quote(f"Hola Agencia Prosper IA, vi la demo web que armaron para {biz_name} y quiero más información.")
+    )
+    safe_biz = html_lib.escape(biz_name)
+    safe_loc = html_lib.escape(location_label or "Tu ciudad")
+    safe_diag = html_lib.escape(diag_line)
+    safe_closer = html_lib.escape(closer_name or "Equipo Comercial Prosper IA")
+
+    subject = f"Propuesta + Demo Web Interactiva Lista para {biz_name}"
+    plain_text = (
+        f"Hola equipo de {biz_name},\n\n"
+        f"En Agencia Prosper IA preparamos una muestra interactiva personalizada para {biz_name} ({location_label}):\n"
+        f"• Diagnóstico rápido: {diag_line}\n\n"
+        f"Ver tu Sitio Web Demo en vivo aquí: {demo_url}\n"
+        f"Responder directo por WhatsApp (+1 786-833-6964): {wa_official}\n"
+        f"Agendar demostración 15 min: {clean_cal}\n\n"
+        f"Atentamente,\n{closer_name} · Agencia Prosper IA LLC"
+    )
+    html_content = f"""
+    <html>
+      <body style="font-family: 'Segoe UI', Arial, sans-serif; background-color: #020710; color: #f8fafc; margin: 0; padding: 24px;">
+        <table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="max-width:600px; background-color: #071326; border: 1px solid #0891b2; border-radius: 16px; overflow: hidden;">
+          <tr style="background: linear-gradient(135deg, #082f49 0%, #020710 100%);">
+            <td style="padding: 26px 28px; text-align: center; border-bottom: 1px solid rgba(56,189,248,0.28);">
+              <div style="color: #00e5ff; font-size: 21px; font-weight: 900; letter-spacing: 1.4px;">AGENCIA PROSPER IA</div>
+              <div style="color: #cbd5e1; font-size: 12px; margin-top: 5px;">Sitios Web Inteligentes + Empleados Digitales 24/7 · Miami, FL</div>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 28px; font-size: 14px; line-height: 1.65; color: #e2e8f0;">
+              <p style="margin: 0 0 14px;">Hola equipo de <strong style="color:#ffffff;">{safe_biz}</strong> ({safe_loc}),</p>
+              <p style="margin: 0 0 16px;">
+                Nuestro equipo analizó la presencia digital de negocios líderes de tu sector y armamos una
+                <strong>muestra interactiva exclusiva para {safe_biz}</strong> diseñada para convertir visitas en clientes y citas confirmadas.
+              </p>
+              <div style="background: rgba(6, 182, 212, 0.10); border-left: 4px solid #00e5ff; padding: 12px 14px; border-radius: 8px; margin-bottom: 18px; font-size: 13px; color: #cffafe;">
+                <strong style="color:#22d3ee;">🔍 Diagnóstico detectado:</strong><br/>{safe_diag}
+              </div>
+              <ul style="margin: 0 0 22px; padding-left: 18px; color: #cbd5e1; font-size: 13px;">
+                <li><strong>Entrega Express en 7 días:</strong> Sitio Web profesional adaptado a tu rubro.</li>
+                <li><strong>Recepcionista IA 24/7:</strong> Responde y califica clientes por Web y WhatsApp sin que pierdas leads.</li>
+                <li><strong>Filtro automático de agenda:</strong> Prospectos listos directo en tu calendario.</li>
+              </ul>
+              <div style="text-align: center; margin: 24px 0 14px;">
+                <a href="{demo_url}" style="display: inline-block; background: #00e5ff; color: #020710; text-decoration: none; font-weight: 900; font-size: 14px; padding: 14px 24px; border-radius: 10px; margin: 5px;">
+                  🚀 VER MI SITIO WEB DEMO EN VIVO
+                </a>
+              </div>
+              <div style="text-align: center; margin: 10px 0 18px;">
+                <a href="{wa_official}" style="display: inline-block; background: #10b981; color: #020710; text-decoration: none; font-weight: 800; font-size: 13px; padding: 12px 22px; border-radius: 10px; margin: 5px;">
+                  💬 RESPONDER POR WHATSAPP OFICIAL (+1 786)
+                </a>
+                <a href="{html_lib.escape(clean_cal)}" style="display: inline-block; background: #0f172a; color: #38bdf8; border: 1px solid #38bdf8; text-decoration: none; font-weight: 700; font-size: 13px; padding: 11px 18px; border-radius: 10px; margin: 5px;">
+                  📅 Agendar 15 Min
+                </a>
+              </div>
+              <p style="margin: 0; font-size: 12px; color: #94a3b8;">
+                Tu especialista asignado, <strong>{safe_closer}</strong>, te contactará brevemente por si prefieres ver la demostración en vivo de 10 minutos.
+              </p>
+            </td>
+          </tr>
+          <tr style="background-color: #030a17;">
+            <td style="padding: 16px 24px; border-top: 1px solid rgba(148,163,184,0.2); font-size: 11px; color: #94a3b8; text-align: center;">
+              Enviado por <strong>{safe_closer}</strong> · seller@agenciaprosperia.com · Agencia Prosper IA LLC, Miami FL.
+            </td>
+          </tr>
+        </table>
+      </body>
+    </html>
+    """
+    return {"subject": subject, "plain_text": plain_text, "html_content": html_content, "demo_url": demo_url}
+
+
 def _dispatch_institutional_email_sync(
     to_email: str,
     biz_name: str,
@@ -3411,19 +3565,6 @@ def _dispatch_institutional_email_sync(
     custom_message: str = "",
 ) -> dict:
     """Envía correo corporativo HTML usando los alias oficiales seller@ o info@agenciaprosperia.com."""
-    import html
-    import smtplib
-    from email.mime.multipart import MIMEMultipart
-    from email.mime.text import MIMEText
-    from email.utils import formataddr
-
-    smtp_host = _cfg_db("SMTP_HOST", "smtp.hostinger.com")
-    smtp_port = int(_cfg_db("SMTP_PORT", "465") or "465")
-    smtp_user = _cfg_db("SMTP_USER", "edward@agenciaprosperia.com")
-    smtp_pass = _cfg_db("SMTP_PASSWORD", "")
-    if not smtp_pass:
-        raise RuntimeError("Servidor SMTP institucional aún no configurado en el servidor.")
-
     alias_addr = (sender_alias or "").strip().lower()
     if alias_addr not in ALLOWED_INSTITUTIONAL_ALIASES:
         alias_addr = "seller@agenciaprosperia.com"
@@ -3446,9 +3587,9 @@ def _dispatch_institutional_email_sync(
         f"Puedes abrir tu muestra en vivo o apartar 15 minutos en nuestro calendario abajo."
     )
     body_text = (custom_message or "").strip() or default_msg
-    body_html = html.escape(body_text).replace("\n", "<br>")
-    safe_biz = html.escape(biz_name)
-    safe_closer = html.escape(closer_name)
+    body_html = html_lib.escape(body_text).replace("\n", "<br>")
+    safe_biz = html_lib.escape(biz_name)
+    safe_closer = html_lib.escape(closer_name)
 
     html_content = f"""
     <html>
@@ -3467,7 +3608,7 @@ def _dispatch_institutional_email_sync(
                 <a href="{demo_url}" style="display: inline-block; background: #00e5ff; color: #020710; text-decoration: none; font-weight: 800; font-size: 13px; padding: 12px 22px; border-radius: 10px; margin: 5px;">
                   🌐 Ver Demo en Vivo de {safe_biz}
                 </a>
-                <a href="{html.escape(clean_cal)}" style="display: inline-block; background: #10b981; color: #020710; text-decoration: none; font-weight: 800; font-size: 13px; padding: 12px 22px; border-radius: 10px; margin: 5px;">
+                <a href="{html_lib.escape(clean_cal)}" style="display: inline-block; background: #10b981; color: #020710; text-decoration: none; font-weight: 800; font-size: 13px; padding: 12px 22px; border-radius: 10px; margin: 5px;">
                   📅 Agendar 15 Min
                 </a>
               </div>
@@ -3480,33 +3621,15 @@ def _dispatch_institutional_email_sync(
           </tr>
           <tr style="background-color: #030a17;">
             <td style="padding: 18px 28px; border-top: 1px solid rgba(148,163,184,0.2); font-size: 11px; color: #94a3b8; text-align: center;">
-              Atendido por <strong>{safe_closer}</strong> · {html.escape(alias_addr)} · Agencia Prosper IA LLC, Miami FL.
+              Atendido por <strong>{safe_closer}</strong> · {html_lib.escape(alias_addr)} · Agencia Prosper IA LLC, Miami FL.
             </td>
           </tr>
         </table>
       </body>
     </html>
     """
-
-    msg = MIMEMultipart("alternative")
-    msg["Subject"] = final_subject
-    msg["From"] = formataddr((f"{closer_name} - Agencia Prosper IA", alias_addr))
-    msg["To"] = to_email
-    reply_targets = [formataddr((closer_name, alias_addr))]
-    if closer_email and "@" in closer_email and closer_email.lower() not in (alias_addr, "edward@agenciaprosperia.com", "admin@prosperia.com"):
-        reply_targets.append(closer_email)
-    msg["Reply-To"] = ", ".join(reply_targets)
-    msg.attach(MIMEText(f"{body_text}\n\nVer Demo en Vivo: {demo_url}\nAgendar 15 min: {clean_cal}\nWhatsApp: +1 786 833-6964", "plain", "utf-8"))
-    msg.attach(MIMEText(html_content, "html", "utf-8"))
-
-    if smtp_port == 465:
-        srv = smtplib.SMTP_SSL(smtp_host, smtp_port, timeout=15)
-    else:
-        srv = smtplib.SMTP(smtp_host, smtp_port, timeout=15)
-        srv.starttls()
-    srv.login(smtp_user, smtp_pass)
-    srv.sendmail(alias_addr, [to_email], msg.as_string())
-    srv.quit()
+    plain_full = f"{body_text}\n\nVer Demo en Vivo: {demo_url}\nAgendar 15 min: {clean_cal}\nWhatsApp: +1 786 833-6964"
+    _send_smtp_mime_email(alias_addr, to_email, closer_name, closer_email, final_subject, plain_full, html_content)
     return {"alias": alias_addr, "subject": final_subject, "demo_url": demo_url}
 
 
@@ -3723,16 +3846,31 @@ def _build_lead_demo_url(lead: DbLead, phone_raw: str) -> str:
 
 
 def _select_auto_wa_template(lead: DbLead) -> str:
-    """Rota automáticamente las 3 plantillas Meta aprobadas según los intentos previos del contacto."""
+    """Rota inteligentemente las plantillas Meta publicadas (hasta 10) según giro e historial previo."""
     notes_s = getattr(lead, "notes", "") or ""
-    candidates = ("reactivacion_prosper_ia", "reactivacion_valor_inicial", "reactivacion_oferta_directa")
-    used = [k for k in candidates if k in notes_s]
-    if not used:
-        return "reactivacion_prosper_ia" if ((getattr(lead, "id", 0) or 0) % 2 == 0) else "reactivacion_valor_inicial"
-    for k in candidates:
-        if k not in used:
-            return k
-    return candidates[len(used) % len(candidates)]
+    active_keys = check_and_sync_ghl_wa_workflows() or [
+        "reactivacion_prosper_ia",
+        "reactivacion_valor_inicial",
+        "reactivacion_oferta_directa",
+    ]
+    niche_hint = f"{getattr(lead, 'niche', '') or ''} {getattr(lead, 'selected_template', '') or ''}".lower()
+    is_health = any(k in niche_hint for k in ("clinic", "dental", "estetic", "capilar", "beauty", "salud"))
+    is_local = any(k in niche_hint for k in ("taller", "hvac", "plom", "roof", "electric", "piscin", "jardin", "inmob", "legal", "servic"))
+
+    ordered = []
+    for k in active_keys:
+        if k == "setter_especial_salud_8" and not is_health:
+            continue
+        if k == "setter_servicios_locales_9" and not is_local:
+            continue
+        ordered.append(k)
+    if not ordered:
+        ordered = list(active_keys)
+
+    used = [k for k in ordered if k in notes_s]
+    unused = [k for k in ordered if k not in used]
+    pool = unused if unused else ordered
+    return pool[((getattr(lead, "id", 0) or 0) + len(used)) % len(pool)]
 
 
 class GhlDirectMessageRequest(BaseModel):
@@ -3956,6 +4094,662 @@ async def api_get_lead_comms_status(
         lead.contact_id = res["contact_id"]
         db.commit()
     return {"success": bool(res.get("ok")), **res}
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# LANZAMIENTO LIMPIO, PLANTILLA CORREO MASIVO Y MOTOR SETTER IA / CLOSER IA
+# ═══════════════════════════════════════════════════════════════════════════════
+
+_SETTER_IA_STATE_KEY = "setter_ia_campaign_state_json"
+_SETTER_IA_LOCK = threading.Lock()
+_SETTER_IA_WORKER_STARTED = False
+_SETTER_IA_RUNTIME = {"last_wa_ts": 0.0, "last_email_ts": 0.0, "last_scan_ts": 0.0}
+
+
+def _default_setter_ia_state() -> dict:
+    today_utc = datetime.utcnow().strftime("%Y-%m-%d")
+    return {
+        "running": False,
+        "wa_sent_today": 0,
+        "wa_total_sent": 0,
+        "email_sent_today": 0,
+        "email_total_sent": 0,
+        "replies_detected": 0,
+        "demos_auto_sent": 0,
+        "daily_wa_limit": 1000,
+        "wa_interval_sec": 30,
+        "email_interval_sec": 45,
+        "last_day": today_utc,
+        "rr_cursor": 0,
+        "last_log": [],
+    }
+
+
+def _load_setter_ia_state(db: Session) -> dict:
+    state = _default_setter_ia_state()
+    row = db.query(IntegrationSetting).filter(IntegrationSetting.key == _SETTER_IA_STATE_KEY).first()
+    if row and row.value:
+        try:
+            loaded = json.loads(row.value)
+            if isinstance(loaded, dict):
+                state.update(loaded)
+        except Exception:
+            pass
+    today_utc = datetime.utcnow().strftime("%Y-%m-%d")
+    if state.get("last_day") != today_utc:
+        state["last_day"] = today_utc
+        state["wa_sent_today"] = 0
+        state["email_sent_today"] = 0
+    return state
+
+
+def _save_setter_ia_state(db: Session, state: dict) -> None:
+    payload = json.dumps(state, ensure_ascii=False)
+    row = db.query(IntegrationSetting).filter(IntegrationSetting.key == _SETTER_IA_STATE_KEY).first()
+    if not row:
+        row = IntegrationSetting(key=_SETTER_IA_STATE_KEY, value=payload)
+        db.add(row)
+    else:
+        row.value = payload
+    db.commit()
+
+
+def _append_setter_ia_log(state: dict, entry: str) -> None:
+    stamp = datetime.utcnow().strftime("%H:%M:%S UTC")
+    logs = list(state.get("last_log") or [])
+    logs.insert(0, f"[{stamp}] {entry}")
+    state["last_log"] = logs[:15]
+
+
+@router.post("/api/sales-os/clean-launch-tests")
+async def api_clean_launch_tests(
+    current_user: dict = Depends(get_current_sales_user),
+    db: Session = Depends(get_db),
+):
+    """Limpia únicamente las pruebas de hoy de Sheille y los 4 leads extra de formularios de prueba,
+    dejando a los 11 Closers en exactamente 1,000 leads y preservando intactos a Claudio (46) y Agustín (8).
+    """
+    if current_user.get("role") != "admin":
+        raise HTTPException(status_code=403, detail="Solo el administrador (Edward) puede ejecutar la limpieza oficial.")
+
+    target_email = "sheille.perez@gmail.com"
+    u = db.query(User).filter(func.lower(User.email) == target_email).first()
+    if u:
+        u.calls_made_today = 0
+        u.calls_made_week = 0
+        u.calls_answered_week = 0
+        u.demos_done_week = 0
+        u.sales_closed_week = 0
+        u.active_minutes_today = 0
+        u.active_minutes_week = 0
+        u.checkin_at = ""
+
+    sheille_leads = db.query(DbLead).filter(func.lower(DbLead.owner_id) == target_email).all()
+    sheille_reset = 0
+    reset_ids = []
+    for ld in sheille_leads:
+        notes_raw = getattr(ld, "notes", "") or ""
+        cleaned_notes = re.sub(r"\n\[20\d{2}-\d{2}-\d{2}[T ][^\n]*", "", notes_raw).split("[Cola:")[0].strip()
+        changed = (
+            (getattr(ld, "pipeline_stage", "Lead identificado") or "Lead identificado") != "Lead identificado"
+            or (getattr(ld, "status", "new") or "new") != "new"
+            or bool(getattr(ld, "last_touch", "") or "")
+            or float(getattr(ld, "quoted_amount", 0) or 0) > 0
+            or float(getattr(ld, "contracted_amount", 0) or 0) > 0
+            or float(getattr(ld, "amount_collected", 0) or 0) > 0
+            or cleaned_notes != notes_raw.strip()
+        )
+        if changed:
+            ld.pipeline_stage = "Lead identificado"
+            ld.status = "new"
+            ld.last_touch = ""
+            ld.quoted_amount = 0.0
+            ld.contracted_amount = 0.0
+            ld.amount_collected = 0.0
+            ld.commission_amount = 0.0
+            ld.commission_status = "sin_causar"
+            ld.invoice_id = ""
+            ld.contact_id = ""
+            ld.ghl_opportunity_id = ""
+            ld.site_delivery_status = "pendiente_pago"
+            ld.next_action_at = ""
+            ld.next_action_note = ""
+            ld.notes = cleaned_notes
+            sheille_reset += 1
+            reset_ids.append(ld.id)
+
+    db.query(AuditLog).filter(func.lower(AuditLog.actor_email) == target_email).delete(synchronize_session=False)
+    if reset_ids:
+        db.query(AuditLog).filter(AuditLog.lead_id.in_(reset_ids)).delete(synchronize_session=False)
+
+    # Eliminar los 4 leads extra de formularios web de prueba (nunca tocar a Claudio ni las carteras reales)
+    extra_test_leads = (
+        db.query(DbLead)
+        .filter(
+            (func.lower(func.coalesce(DbLead.owner_id, "")) != "claudiniosan@yahoo.com.ar")
+            & (
+                (DbLead.id >= 13615)
+                | DbLead.business_name.in_(["Bienestar Y Compania", "Profesional / Alumno IA", "PassportAI Trial"])
+                | DbLead.name.in_(["Bienestar Y Compania", "Profesional / Alumno IA", "PassportAI Trial"])
+            )
+        )
+        .all()
+    )
+    deleted_ids = [x.id for x in extra_test_leads]
+    if deleted_ids:
+        db.query(AuditLog).filter(AuditLog.lead_id.in_(deleted_ids)).delete(synchronize_session=False)
+        db.query(DbLead).filter(DbLead.id.in_(deleted_ids)).delete(synchronize_session=False)
+
+    db.commit()
+
+    sellers = db.query(User).filter(User.role == "seller", User.is_active == 1).all()
+    closer_counts = {}
+    for s in sellers:
+        cnt = db.query(DbLead).filter(func.lower(DbLead.owner_id) == (s.email or "").lower()).count()
+        closer_counts[s.email] = {
+            "leads": cnt,
+            "calls_today": int(getattr(s, "calls_made_today", 0) or 0),
+        }
+
+    return {
+        "success": True,
+        "message": (
+            f"Limpieza oficial completada: Sheille reiniciada ({sheille_reset} leads regresados a 0 toques) "
+            f"y {len(deleted_ids)} leads extra de prueba eliminados. Claudio y Agustín intactos."
+        ),
+        "sheille_reset_leads": sheille_reset,
+        "deleted_test_leads": len(deleted_ids),
+        "deleted_ids": deleted_ids,
+        "closer_counts": closer_counts,
+    }
+
+
+def _find_lead_for_inbound(db: Session, contact_id: str = "", phone: str = "", email: str = "") -> Optional[DbLead]:
+    cid = (contact_id or "").strip()
+    if cid:
+        found = db.query(DbLead).filter(DbLead.contact_id == cid).first()
+        if found:
+            return found
+
+    digits = re.sub(r"\D", "", phone or "")
+    if len(digits) >= 8:
+        tail = digits[-10:] if len(digits) >= 10 else digits
+        found = (
+            db.query(DbLead)
+            .filter(DbLead.phone_e164.endswith(tail) | DbLead.phone.endswith(tail))
+            .first()
+        )
+        if found:
+            return found
+
+    clean_em = normalize_email(email or "")
+    if _is_valid_real_email(clean_em):
+        found = db.query(DbLead).filter(func.lower(DbLead.email) == clean_em).first()
+        if found:
+            return found
+    return None
+
+
+def _handle_inbound_reply_for_lead(
+    db: Session,
+    lead: DbLead,
+    inbound_text: str,
+    contact_id: str = "",
+    channel: str = "WhatsApp",
+    event_uid: str = "",
+) -> dict:
+    """Registra la respuesta del cliente, envía la Demo Web automática vía Setter IA (<24h) y pasa al Closer/CRM."""
+    notes_now = getattr(lead, "notes", "") or ""
+    clean_msg = (inbound_text or "").strip() or "(El prospecto respondió)"
+    snippet = clean_msg[:150]
+    dedup_token = event_uid or snippet[:45]
+    if dedup_token and dedup_token in notes_now and "RESPONDIÓ A SETTER IA" in notes_now:
+        return {"processed": False, "reason": "already_recorded"}
+
+    now_iso = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+    stamp = f"{now_iso[:10]} {now_iso[11:16]}"
+    cid = (contact_id or getattr(lead, "contact_id", "") or "").strip()
+    if cid and not (getattr(lead, "contact_id", "") or "").strip():
+        lead.contact_id = cid
+
+    old_stage = getattr(lead, "pipeline_stage", "Lead identificado") or "Lead identificado"
+    if old_stage in ("Lead identificado", "Primer contacto", "No responde", "En seguimiento local"):
+        lead.pipeline_stage = "Contacto"
+    lead.status = "contacted"
+    lead.last_touch = now_iso
+    marker = f"[{stamp} · 🔥 RESPONDIÓ A SETTER IA ({channel})]"
+    tag_id = f" [ref:{event_uid}]" if event_uid else ""
+    lead.notes = (notes_now + f"\n{marker} 💬 Cliente escribió: \"{snippet}\"{tag_id}").strip()
+
+    owner_email = (getattr(lead, "owner_id", "") or "edward@agenciaprosperia.com").strip().lower()
+    owner_u = db.query(User).filter(func.lower(User.email) == owner_email).first()
+    closer_name = (owner_u.name if owner_u else "tu especialista Prosper IA").strip()
+    biz_name = (getattr(lead, "business_name", None) or lead.company or lead.name or "tu negocio").strip()
+    full_name = (getattr(lead, "full_name", None) or lead.name or biz_name).strip()
+    first_name = full_name.split()[0] if full_name else "hola"
+    phone_raw = (getattr(lead, "phone_e164", None) or lead.phone or "").strip()
+
+    demo_sent = False
+    if phone_raw and "[Setter IA Demo Enviada]" not in (lead.notes or ""):
+        demo_url = _build_lead_demo_url(lead, phone_raw)
+        ai_reply = (
+            f"¡Hola {first_name}! Qué gusto saludarte de Agencia Prosper IA en Miami. "
+            f"Aquí tienes lista la muestra interactiva de Sitio Web Inteligente + Recepcionista IA 24/7 para {biz_name}: "
+            f"{demo_url} — Tu especialista asignado ({closer_name}) te marcará brevemente para enseñártela en 10 min, "
+            f"¿prefieres por la mañana o por la tarde?"
+        )
+        res = dispatch_ghl_agency_whatsapp(
+            contact_id=cid,
+            phone=phone_raw,
+            email=getattr(lead, "email", "") or "",
+            full_name=full_name,
+            company=biz_name,
+            mode="free_text",
+            custom_message=ai_reply,
+            owner_email=owner_email,
+            lead_db_id=lead.id,
+        )
+        if res.get("ok") and res.get("mode") == "free_text":
+            demo_sent = True
+            lead.contact_id = lead.contact_id or (res.get("contact_id") or "")
+            lead.notes = ((lead.notes or "") + f"\n[{stamp} · 🤖 Setter IA Demo Enviada] 🚀 Link demo web enviado en vivo por WA.").strip()
+
+    record_audit(
+        db,
+        actor_email="setter_ia@agenciaprosperia.com",
+        actor_role="system",
+        lead_id=lead.id,
+        action="setter_ia_inbound_reply",
+        field_changed="pipeline_stage",
+        old_value=old_stage,
+        new_value=lead.pipeline_stage,
+        notes=f"Respuesta de {biz_name} vía {channel}. Demo auto enviada: {demo_sent}.",
+    )
+    db.commit()
+
+    # Inyectar al CRM Pipeline para visibilidad inmediata del Closer
+    sync_sales_os_event_to_ghl_async(
+        contact_id=getattr(lead, "contact_id", "") or "",
+        opportunity_id=getattr(lead, "ghl_opportunity_id", "") or "",
+        email=lead.email,
+        phone=phone_raw,
+        full_name=full_name,
+        business_name=biz_name,
+        pipeline_stage=lead.pipeline_stage,
+        owner_email=owner_email,
+        offer_version=getattr(lead, "offer_version", "EXPRESS_497") or "EXPRESS_497",
+        quoted_amount=float(getattr(lead, "quoted_amount", 0.0) or 0.0),
+        amount_collected=float(getattr(lead, "amount_collected", 0.0) or 0.0),
+        invoice_id=getattr(lead, "invoice_id", "") or "",
+        selected_template=getattr(lead, "selected_template", "clinica_dental_estetica") or "clinica_dental_estetica",
+        audit_summary=f"🔥 Respondió a Setter IA ({channel}): {snippet}",
+        lead_db_id=lead.id,
+    )
+    return {"processed": True, "lead_id": lead.id, "biz_name": biz_name, "demo_sent": demo_sent}
+
+
+@router.post("/api/sales-os/webhooks/ghl-inbound-reply")
+async def api_ghl_inbound_reply_webhook(request: Request, db: Session = Depends(get_db)):
+    """Webhook receptor de GoHighLevel ('Customer Replied') para activar Setter IA y alertar al Closer."""
+    try:
+        payload = await request.json()
+        if not isinstance(payload, dict):
+            payload = {}
+    except Exception:
+        payload = {}
+
+    contact_id = str(payload.get("contact_id") or payload.get("contactId") or (payload.get("contact") or {}).get("id") or "").strip()
+    phone = str(payload.get("phone") or (payload.get("contact") or {}).get("phone") or "").strip()
+    email = str(payload.get("email") or (payload.get("contact") or {}).get("email") or "").strip()
+    msg_obj = payload.get("message") if isinstance(payload.get("message"), dict) else {}
+    inbound_text = str(
+        msg_obj.get("body")
+        or payload.get("body")
+        or payload.get("message")
+        or payload.get("last_message")
+        or ""
+    ).strip()
+    channel = str(payload.get("type") or msg_obj.get("type") or "WhatsApp").replace("TYPE_", "").title()
+    event_uid = str(msg_obj.get("id") or payload.get("messageId") or "").strip()
+
+    lead = _find_lead_for_inbound(db, contact_id=contact_id, phone=phone, email=email)
+    if not lead:
+        return {"success": True, "matched": False, "detail": "Contacto aún no mapeado en base local."}
+
+    out = await asyncio.to_thread(_handle_inbound_reply_for_lead, db, lead, inbound_text, contact_id, channel, event_uid)
+    if out.get("processed"):
+        with _SETTER_IA_LOCK:
+            st = _load_setter_ia_state(db)
+            st["replies_detected"] = int(st.get("replies_detected", 0) or 0) + 1
+            if out.get("demo_sent"):
+                st["demos_auto_sent"] = int(st.get("demos_auto_sent", 0) or 0) + 1
+            _append_setter_ia_log(st, f"🔥 {out['biz_name']} respondió ({channel}) -> Demo IA: {'SI' if out.get('demo_sent') else 'Pendiente'}")
+            _save_setter_ia_state(db, st)
+    return {"success": True, "matched": True, **out}
+
+
+def _scan_recent_ghl_replies_sync(db: Session, state: dict) -> int:
+    """Escanea conversaciones recientes de GHL por si algún cliente respondió y aún no se registró."""
+    convs = list_recent_inbound_ghl_conversations(limit=15)
+    found_new = 0
+    for c in convs:
+        cid = str(c.get("contactId") or "").strip()
+        if not cid:
+            continue
+        last_in_ms = c.get("lastInboundWhatsappMessageDate") or c.get("lastMessageDate")
+        last_dir = str(c.get("lastMessageDirection") or "").lower()
+        if not last_in_ms and last_dir != "inbound":
+            continue
+        lead = _find_lead_for_inbound(db, contact_id=cid, phone=str(c.get("phone") or ""), email=str(c.get("email") or ""))
+        if not lead:
+            continue
+        # Consultar último mensaje real para deduplicar y leer el texto del cliente
+        comms = get_ghl_contact_comms_status(cid, getattr(lead, "phone_e164", None) or (lead.phone or ""))
+        inbound_msgs = [m for m in (comms.get("messages") or []) if m.get("direction") == "inbound"]
+        if not inbound_msgs:
+            continue
+        latest_in = inbound_msgs[0]
+        uid = str(latest_in.get("id") or "")
+        if uid and f"[ref:{uid}]" in (getattr(lead, "notes", "") or ""):
+            continue
+        res = _handle_inbound_reply_for_lead(
+            db,
+            lead,
+            inbound_text=str(latest_in.get("body") or ""),
+            contact_id=cid,
+            channel=str(latest_in.get("channel") or "WhatsApp"),
+            event_uid=uid,
+        )
+        if res.get("processed"):
+            found_new += 1
+            state["replies_detected"] = int(state.get("replies_detected", 0) or 0) + 1
+            if res.get("demo_sent"):
+                state["demos_auto_sent"] = int(state.get("demos_auto_sent", 0) or 0) + 1
+            _append_setter_ia_log(state, f"🔥 Detectada respuesta de {res['biz_name']} -> subido a Closer")
+    return found_new
+
+
+def _select_next_warmup_lead(db: Session, state: dict, need_email: bool = False) -> Optional[DbLead]:
+    """Selecciona el siguiente prospecto virgen rotando en round-robin por los 11 Closers sin tocar leads trabajados."""
+    sellers = [
+        s.email.lower()
+        for s in db.query(User).filter(User.role == "seller", User.is_active == 1).order_by(User.email.asc()).all()
+        if s.email
+    ]
+    if not sellers:
+        return None
+    marker = "🤖 Setter IA Correo" if need_email else "🤖 Setter IA WA"
+    start_idx = int(state.get("rr_cursor", 0) or 0) % len(sellers)
+
+    for offset in range(len(sellers)):
+        owner_em = sellers[(start_idx + offset) % len(sellers)]
+        q = (
+            db.query(DbLead)
+            .filter(func.lower(DbLead.owner_id) == owner_em)
+            .filter(DbLead.pipeline_stage == "Lead identificado")
+            .filter((DbLead.last_touch == "") | (DbLead.last_touch.is_(None)))
+            .filter(~func.coalesce(DbLead.notes, "").contains(marker))
+        )
+        if need_email:
+            q = (
+                q.filter(DbLead.email.isnot(None), DbLead.email != "")
+                .filter(~func.lower(DbLead.email).contains("@sin-correo.local"))
+                .filter(~func.lower(DbLead.email).contains("@prosperia.local"))
+            )
+        else:
+            q = q.filter(DbLead.phone.isnot(None), DbLead.phone != "")
+
+        candidates = q.order_by(DbLead.id.asc()).limit(10).all()
+        for cand in candidates:
+            em = getattr(cand, "email", "") or ""
+            ph = normalize_phone_e164(getattr(cand, "phone_e164", None) or (cand.phone or ""))
+            if need_email and not _is_valid_real_email(em):
+                continue
+            if not need_email and not ph:
+                continue
+            if is_contact_excluded(db, em, ph):
+                continue
+            state["rr_cursor"] = (start_idx + offset + 1) % len(sellers)
+            return cand
+    return None
+
+
+def _execute_setter_ia_wa_step(db: Session, state: dict) -> bool:
+    if int(state.get("wa_sent_today", 0) or 0) >= int(state.get("daily_wa_limit", 1000) or 1000):
+        return False
+    lead = _select_next_warmup_lead(db, state, need_email=False)
+    if not lead:
+        return False
+
+    lid = lead.id
+    cid = getattr(lead, "contact_id", "") or ""
+    phone_raw = (getattr(lead, "phone_e164", None) or lead.phone or "").strip()
+    email_raw = getattr(lead, "email", "") or ""
+    full_name = (getattr(lead, "full_name", None) or lead.name or "Prospecto").strip()
+    biz_name = (getattr(lead, "business_name", None) or lead.company or full_name).strip()
+    owner_email = getattr(lead, "owner_id", "") or "edward@agenciaprosperia.com"
+    tpl_key = _select_auto_wa_template(lead)
+
+    res = dispatch_ghl_agency_whatsapp(
+        contact_id=cid,
+        phone=phone_raw,
+        email=email_raw,
+        full_name=full_name,
+        company=biz_name,
+        mode="template",
+        template_name=tpl_key,
+        owner_email=owner_email,
+        lead_db_id=lid,
+    )
+    if not res.get("ok"):
+        _append_setter_ia_log(state, f"⚠️ WA {biz_name}: {res.get('error', 'error GHL')[:80]}")
+        return False
+
+    lead_fresh = db.query(DbLead).filter(DbLead.id == lid).first()
+    if lead_fresh:
+        now_iso = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+        stamp = f"{now_iso[:10]} {now_iso[11:16]}"
+        lead_fresh.contact_id = lead_fresh.contact_id or (res.get("contact_id") or "")
+        lead_fresh.notes = (
+            (getattr(lead_fresh, "notes", "") or "")
+            + f"\n[{stamp} · 🤖 Setter IA WA ({tpl_key})] 💬 {res.get('detail')}"
+        ).strip()
+        db.commit()
+
+    state["wa_sent_today"] = int(state.get("wa_sent_today", 0) or 0) + 1
+    state["wa_total_sent"] = int(state.get("wa_total_sent", 0) or 0) + 1
+    _append_setter_ia_log(state, f"💬 WA #{state['wa_sent_today']} ({tpl_key}) -> {biz_name} [{owner_email.split('@')[0]}]")
+    return True
+
+
+def _execute_setter_ia_email_step(db: Session, state: dict) -> bool:
+    lead = _select_next_warmup_lead(db, state, need_email=True)
+    if not lead:
+        return False
+
+    lid = lead.id
+    to_email = normalize_email(lead.email or "")
+    biz_name = (getattr(lead, "business_name", None) or lead.company or lead.name or "tu negocio").strip()
+    owner_email = (getattr(lead, "owner_id", "") or "edward@agenciaprosperia.com").strip().lower()
+    owner_u = db.query(User).filter(func.lower(User.email) == owner_email).first()
+    closer_name = (owner_u.name if owner_u else "Equipo Comercial Prosper IA").strip()
+    cal_url = (getattr(owner_u, "calendar_url", "") or "https://agenciaprosperia.com/#contacto").strip()
+
+    mail_payload = _build_setter_ia_mass_email_payload(lead, closer_name, owner_email, cal_url)
+    try:
+        _send_smtp_mime_email(
+            alias_addr="seller@agenciaprosperia.com",
+            to_email=to_email,
+            closer_name=closer_name,
+            closer_email=owner_email,
+            final_subject=mail_payload["subject"],
+            plain_text=mail_payload["plain_text"],
+            html_content=mail_payload["html_content"],
+        )
+    except Exception as exc:
+        _append_setter_ia_log(state, f"⚠️ Correo {to_email}: {str(exc)[:80]}")
+        return False
+
+    lead_fresh = db.query(DbLead).filter(DbLead.id == lid).first()
+    if lead_fresh:
+        now_iso = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+        stamp = f"{now_iso[:10]} {now_iso[11:16]}"
+        lead_fresh.notes = (
+            (getattr(lead_fresh, "notes", "") or "")
+            + f"\n[{stamp} · 🤖 Setter IA Correo (seller@agenciaprosperia.com)] 📧 Propuesta + Demo Web enviada a {to_email}"
+        ).strip()
+        db.commit()
+
+    state["email_sent_today"] = int(state.get("email_sent_today", 0) or 0) + 1
+    state["email_total_sent"] = int(state.get("email_total_sent", 0) or 0) + 1
+    _append_setter_ia_log(state, f"✉️ Correo #{state['email_sent_today']} -> {biz_name} ({to_email})")
+    return True
+
+
+def _run_setter_ia_cycle(force_step: bool = False) -> dict:
+    """Ejecuta un ciclo seguro del motor Setter IA (escaneo de respuestas + 1 WA + 1 Correo según cadencia)."""
+    db = SessionLocal()
+    did = {"wa": False, "email": False, "replies": 0}
+    try:
+        with _SETTER_IA_LOCK:
+            state = _load_setter_ia_state(db)
+            if not force_step and not state.get("running"):
+                return {"running": False, **did}
+
+            now = time.time()
+            wa_gap = max(10, int(state.get("wa_interval_sec", 30) or 30))
+            em_gap = max(15, int(state.get("email_interval_sec", 45) or 45))
+
+            if force_step or (now - _SETTER_IA_RUNTIME["last_scan_ts"]) >= 60:
+                _SETTER_IA_RUNTIME["last_scan_ts"] = now
+                try:
+                    did["replies"] = _scan_recent_ghl_replies_sync(db, state)
+                except Exception:
+                    pass
+
+            if force_step or (now - _SETTER_IA_RUNTIME["last_wa_ts"]) >= wa_gap:
+                _SETTER_IA_RUNTIME["last_wa_ts"] = now
+                did["wa"] = _execute_setter_ia_wa_step(db, state)
+
+            if force_step or (now - _SETTER_IA_RUNTIME["last_email_ts"]) >= em_gap:
+                _SETTER_IA_RUNTIME["last_email_ts"] = now
+                did["email"] = _execute_setter_ia_email_step(db, state)
+
+            _save_setter_ia_state(db, state)
+            return {"running": bool(state.get("running")), **did, "state": state}
+    finally:
+        db.close()
+
+
+def start_setter_ia_background_worker() -> None:
+    """Inicia el hilo demonio del Motor Setter IA al arrancar FastAPI (idempotente)."""
+    global _SETTER_IA_WORKER_STARTED
+    if _SETTER_IA_WORKER_STARTED:
+        return
+    _SETTER_IA_WORKER_STARTED = True
+
+    def _loop():
+        while True:
+            try:
+                _run_setter_ia_cycle(force_step=False)
+            except Exception as exc:
+                print(f"⚠️ [SETTER IA WORKER] Error en ciclo: {exc}", flush=True)
+            time.sleep(15)
+
+    t = threading.Thread(target=_loop, daemon=True, name="setter_ia_warmup_worker")
+    t.start()
+    print("🤖 [SETTER IA] Worker de calentamiento masivo inicializado en segundo plano.", flush=True)
+
+
+@router.get("/api/sales-os/setter-ia/status")
+async def api_get_setter_ia_status(
+    current_user: dict = Depends(get_current_sales_user),
+    db: Session = Depends(get_db),
+):
+    """Retorna el estado en vivo del Motor Setter IA, plantillas activas en GHL y conteos pendientes."""
+    state = _load_setter_ia_state(db)
+    active_keys = await asyncio.to_thread(check_and_sync_ghl_wa_workflows, False)
+
+    remaining_wa = (
+        db.query(DbLead)
+        .filter(DbLead.pipeline_stage == "Lead identificado")
+        .filter((DbLead.last_touch == "") | (DbLead.last_touch.is_(None)))
+        .filter(DbLead.phone.isnot(None), DbLead.phone != "")
+        .filter(~func.coalesce(DbLead.notes, "").contains("🤖 Setter IA WA"))
+        .count()
+    )
+    remaining_emails = (
+        db.query(DbLead)
+        .filter(DbLead.pipeline_stage == "Lead identificado")
+        .filter((DbLead.last_touch == "") | (DbLead.last_touch.is_(None)))
+        .filter(DbLead.email.isnot(None), DbLead.email != "")
+        .filter(~func.lower(DbLead.email).contains("@sin-correo.local"))
+        .filter(~func.lower(DbLead.email).contains("@prosperia.local"))
+        .filter(~func.coalesce(DbLead.notes, "").contains("🤖 Setter IA Correo"))
+        .count()
+    )
+    replied_count = (
+        db.query(DbLead)
+        .filter(func.coalesce(DbLead.notes, "").contains("RESPONDIÓ A SETTER IA"))
+        .count()
+    )
+    return {
+        "success": True,
+        "state": state,
+        "active_templates": active_keys,
+        "active_templates_count": len(active_keys),
+        "total_registered_templates": len(GHL_WA_TEMPLATES),
+        "remaining_wa": remaining_wa,
+        "remaining_emails": remaining_emails,
+        "replied_count": replied_count,
+    }
+
+
+class SetterIaControlRequest(BaseModel):
+    action: str  # start | pause | step_now | update_config
+    daily_wa_limit: Optional[int] = None
+    wa_interval_sec: Optional[int] = None
+    email_interval_sec: Optional[int] = None
+
+
+@router.post("/api/sales-os/setter-ia/control")
+async def api_control_setter_ia(
+    req: SetterIaControlRequest,
+    current_user: dict = Depends(get_current_sales_user),
+    db: Session = Depends(get_db),
+):
+    """Controla (inicia, pausa o dispara una tanda manual) del Motor Setter IA masivo (Solo Admin)."""
+    if current_user.get("role") != "admin":
+        raise HTTPException(status_code=403, detail="Solo el administrador (Edward) puede controlar el motor masivo Setter IA.")
+
+    act = (req.action or "").strip().lower()
+    if act == "step_now":
+        out = await asyncio.to_thread(_run_setter_ia_cycle, True)
+        return {"success": True, "message": "⚡ Tanda ejecutada (WA + Correo + Escaneo CRM).", **out}
+
+    with _SETTER_IA_LOCK:
+        state = _load_setter_ia_state(db)
+        if req.daily_wa_limit is not None:
+            state["daily_wa_limit"] = max(50, min(5000, int(req.daily_wa_limit)))
+        if req.wa_interval_sec is not None:
+            state["wa_interval_sec"] = max(10, min(300, int(req.wa_interval_sec)))
+        if req.email_interval_sec is not None:
+            state["email_interval_sec"] = max(15, min(300, int(req.email_interval_sec)))
+
+        if act == "start":
+            state["running"] = True
+            _append_setter_ia_log(state, f"▶️ Motor Setter IA activado por {current_user.get('name', 'Admin')}")
+            msg = "🤖 Motor Setter IA iniciado: calentando base por goteo seguro (WA + Correos + Escaneo 24h)."
+        elif act == "pause":
+            state["running"] = False
+            _append_setter_ia_log(state, f"⏸️ Motor Setter IA pausado por {current_user.get('name', 'Admin')}")
+            msg = "⏸️ Motor Setter IA pausado."
+        else:
+            msg = "⚙️ Configuración del Motor Setter IA actualizada."
+        _save_setter_ia_state(db, state)
+
+    await asyncio.to_thread(check_and_sync_ghl_wa_workflows, True)
+    return {"success": True, "message": msg, "state": state}
 
 
 

@@ -107,21 +107,121 @@ CLOSER_AUTOMATION_TAGS = (
     "sms_opt_in",
 )
 
-# Plantillas de WhatsApp aprobadas por Meta en la subcuenta CNvJBINRWBUL2EdqRh3G (+1 786-833-6964)
+# Registro oficial de 10 plantillas de WhatsApp en CNvJBINRWBUL2EdqRh3G (+1 786-833-6964)
 GHL_WA_TEMPLATES = {
     "reactivacion_prosper_ia": {
         "tag": "wa_plantilla_prosper_ia",
-        "label": "Saludo & Crecimiento Digital (reactivacion_prosper_ia)",
-    },
-    "reactivacion_oferta_directa": {
-        "tag": "wa_plantilla_oferta_directa",
-        "label": "Oferta Directa Prosper IA (reactivacion_oferta_directa)",
+        "label": "1. Saludo & Crecimiento Digital (reactivacion_prosper_ia)",
+        "niche": "general",
+        "workflow_ready": True,
     },
     "reactivacion_valor_inicial": {
         "tag": "wa_plantilla_valor_inicial",
-        "label": "Valor Inicial & Diagnóstico (reactivacion_valor_inicial)",
+        "label": "2. Valor Inicial & Diagnóstico (reactivacion_valor_inicial)",
+        "niche": "general",
+        "workflow_ready": True,
+    },
+    "reactivacion_oferta_directa": {
+        "tag": "wa_plantilla_oferta_directa",
+        "label": "3. Oferta Directa Prosper IA (reactivacion_oferta_directa)",
+        "niche": "general",
+        "workflow_ready": True,
+    },
+    "setter_boceto_web_4": {
+        "tag": "wa_plantilla_boceto_web_4",
+        "label": "4. Muestra Sitio Web Inteligente (setter_boceto_web_4)",
+        "niche": "general",
+        "workflow_ready": False,
+    },
+    "setter_diagnostico_google_5": {
+        "tag": "wa_plantilla_diagnostico_google_5",
+        "label": "5. Diagnóstico Google & Clientes (setter_diagnostico_google_5)",
+        "niche": "general",
+        "workflow_ready": False,
+    },
+    "setter_asistente_ia_6": {
+        "tag": "wa_plantilla_asistente_ia_6",
+        "label": "6. Asistente IA 24/7 Agenda (setter_asistente_ia_6)",
+        "niche": "general",
+        "workflow_ready": False,
+    },
+    "setter_entrega_express_7": {
+        "tag": "wa_plantilla_entrega_express_7",
+        "label": "7. Entrega Express 7 Días (setter_entrega_express_7)",
+        "niche": "general",
+        "workflow_ready": False,
+    },
+    "setter_especial_salud_8": {
+        "tag": "wa_plantilla_especial_salud_8",
+        "label": "8. Especial Clínicas & Salud (setter_especial_salud_8)",
+        "niche": "health",
+        "workflow_ready": False,
+    },
+    "setter_servicios_locales_9": {
+        "tag": "wa_plantilla_servicios_locales_9",
+        "label": "9. Especial Servicios Locales (setter_servicios_locales_9)",
+        "niche": "local",
+        "workflow_ready": False,
+    },
+    "setter_contacto_rapido_10": {
+        "tag": "wa_plantilla_contacto_rapido_10",
+        "label": "10. Contacto Rápido Directo (setter_contacto_rapido_10)",
+        "niche": "general",
+        "workflow_ready": False,
     },
 }
+
+_PUBLISHED_WA_WORKFLOWS_CACHE = {"ts": 0.0, "keys": ["reactivacion_prosper_ia", "reactivacion_valor_inicial", "reactivacion_oferta_directa"]}
+
+
+def check_and_sync_ghl_wa_workflows(force: bool = False) -> list[str]:
+    """Consulta GHL Automation /workflows/ y retorna los nombres de plantillas que tienen su Workflow Published."""
+    now = time.time()
+    if not force and (now - _PUBLISHED_WA_WORKFLOWS_CACHE["ts"]) < 90:
+        return list(_PUBLISHED_WA_WORKFLOWS_CACHE["keys"])
+
+    token = _cfg_db("GHL_PRIVATE_TOKEN") or _cfg_db("GHL_ACCESS_TOKEN")
+    loc_id = _cfg_db("GHL_LOCATION_ID", DEFAULT_LOCATION_ID)
+    if not token:
+        return list(_PUBLISHED_WA_WORKFLOWS_CACHE["keys"])
+
+    st, res = _request("GET", f"/workflows/?locationId={loc_id}", token)
+    if st != 200 or not isinstance(res, dict):
+        return list(_PUBLISHED_WA_WORKFLOWS_CACHE["keys"])
+
+    published_names = {
+        str(w.get("name") or "").strip().lower()
+        for w in (res.get("workflows") or [])
+        if str(w.get("status") or "").lower() == "published"
+    }
+    active_keys = []
+    for k, meta in GHL_WA_TEMPLATES.items():
+        expected_wf = f"wa setter - {k}".lower()
+        is_pub = (expected_wf in published_names) or any(k.lower() in pn for pn in published_names)
+        meta["workflow_ready"] = bool(is_pub)
+        if is_pub:
+            active_keys.append(k)
+
+    if active_keys:
+        _PUBLISHED_WA_WORKFLOWS_CACHE["ts"] = now
+        _PUBLISHED_WA_WORKFLOWS_CACHE["keys"] = active_keys
+    return list(_PUBLISHED_WA_WORKFLOWS_CACHE["keys"])
+
+
+def list_recent_inbound_ghl_conversations(limit: int = 20) -> list[dict]:
+    """Retorna conversaciones recientes de GHL con actividad entrante (para detección proactiva del Setter IA)."""
+    token = _cfg_db("GHL_PRIVATE_TOKEN") or _cfg_db("GHL_ACCESS_TOKEN")
+    loc_id = _cfg_db("GHL_LOCATION_ID", DEFAULT_LOCATION_ID)
+    if not token:
+        return []
+    st, res = _request(
+        "GET",
+        f"/conversations/search?locationId={loc_id}&limit={min(max(limit, 5), 50)}&sortBy=last_message_date&sortOrder=desc",
+        token,
+    )
+    if st != 200 or not isinstance(res, dict):
+        return []
+    return list(res.get("conversations") or [])
 
 # IDs de los campos personalizados de contacto creados en la subcuenta (CNvJBINRWBUL2EdqRh3G).
 CF_INDUSTRIA = "K9N5HFBIpkonykvmoqB4"
