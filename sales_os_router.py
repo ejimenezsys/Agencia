@@ -4636,19 +4636,25 @@ def _build_lead_web_warm_email_payload(first_name: str, company_name: str = "") 
     biz_mention = f" en {comp_clean}" if (comp_clean and not is_generic_form_label) else ""
     safe_biz_mention = html_lib.escape(biz_mention)
 
-    subject = f"{greeting}, consulta rapida sobre tu negocio e IA"
+    subject = f"{greeting}, en que etapa estas hoy con la IA"
     plain_text = (
         f"{greeting},\n\n"
         f"Te escribe Edward Jimenez de Agencia Prosper IA (PassportAI).\n\n"
-        f"Vi que en su momento descargaste nuestros recursos y accesos gratuitos de Inteligencia Artificial, "
-        f"y queria hacerte una pregunta rapida: actualmente tienes un negocio, clinica o empresa en marcha{biz_mention}?\n\n"
-        f"Acabamos de abrir una nueva solucion donde montamos tu Sitio Web Inteligente conectado a tus 4 Empleados "
-        f"Digitales (atencion por WhatsApp, voz, calendario y CRM 24/7) operando en 7 a 10 dias, con facilidad 50% al iniciar "
-        f"y 50% al entregar.\n\n"
-        f"Puedes ver como luce el sistema en vivo aqui:\n"
-        f"https://agenciaprosperia.com/sitioweb\n\n"
-        f"Si tienes negocio activo y quieres ver una muestra pensada para tu rubro, solo responde a este correo "
-        f"o escribenos a nuestra linea oficial en Miami: +1 (786) 833-6964.\n\n"
+        f"Vi que en su momento te registraste para recibir nuestros recursos de Inteligencia Artificial, "
+        f"y queria preguntarte directamente en cual de estas 4 opciones te encuentras hoy{biz_mention}:\n\n"
+        f"1. Negocio en marcha (Sitio Web Inteligente + 4 Empleados IA):\n"
+        f"   Quieres implementar tu Sitio Web Inteligente conectado a 4 Empleados Digitales IA 24/7 "
+        f"(WhatsApp, voz, agenda y CRM) operando en 7 a 10 dias.\n"
+        f"   Puedes ver como luce en vivo aqui: https://agenciaprosperia.com/sitioweb\n\n"
+        f"2. Implementacion de IA en tu empresa o trabajo:\n"
+        f"   Tienes algun proceso pendiente en tu negocio o area laboral que te gustaria automatizar o implementar con IA.\n\n"
+        f"3. Mentorias de IA:\n"
+        f"   Te gustaria tomar mentorias practicas para dominar el uso de las herramientas de IA paso a paso.\n\n"
+        f"4. Comunidad y recursos gratuitos cada 2 dias:\n"
+        f"   Prefieres unirte a nuestra comunidad donde cada 2 dias compartimos los recursos y herramientas gratuitas "
+        f"que publicamos a diario en nuestros Reels.\n\n"
+        f"Solo responde a este correo con el numero 1, 2, 3 o 4 segun lo que necesites hoy "
+        f"(o escribenos directo a nuestra linea en Miami: +1 (786) 833-6964) y te enviamos el acceso o siguiente paso indicado.\n\n"
         f"Un saludo,\nEdward Jimenez\nAgencia Prosper IA LLC · Miami, FL\ninfo@agenciaprosperia.com"
     )
     html_content = f"""
@@ -4660,19 +4666,23 @@ def _build_lead_web_warm_email_payload(first_name: str, company_name: str = "") 
             Te escribe <strong>Edward Jimenez</strong> de Agencia Prosper IA (PassportAI).
           </p>
           <p style="margin: 0 0 14px;">
-            Vi que descargaste nuestros recursos y accesos gratuitos de Inteligencia Artificial, y queria hacerte una consulta rapida:
-            <strong>actualmente tienes un negocio, clinica o empresa en marcha{safe_biz_mention}?</strong>
+            Vi que en su momento te registraste para recibir nuestros recursos de Inteligencia Artificial, y queria consultarte directamente en cual de estas <strong>4 opciones</strong> te encuentras hoy{safe_biz_mention}:
+          </p>
+          <p style="margin: 0 0 12px;">
+            <strong>Opcion 1 (Negocio en marcha):</strong> Implementar tu Sitio Web Inteligente conectado a 4 Empleados Digitales IA 24/7 (WhatsApp, voz, agenda y CRM) en 7 a 10 dias.<br/>
+            <a href="https://agenciaprosperia.com/sitioweb" style="color: #0284c7; font-weight: bold; text-decoration: underline;">Ver demostracion en vivo (agenciaprosperia.com/sitioweb)</a>
+          </p>
+          <p style="margin: 0 0 12px;">
+            <strong>Opcion 2 (Implementacion de IA):</strong> Tienes algun proceso pendiente en tu empresa o trabajo que te gustaria automatizar o implementar con Inteligencia Artificial.
+          </p>
+          <p style="margin: 0 0 12px;">
+            <strong>Opcion 3 (Mentorias de IA):</strong> Te gustaria tomar mentorias practicas para dominar el uso de las herramientas de IA paso a paso.
           </p>
           <p style="margin: 0 0 16px;">
-            Acabamos de lanzar una linea nueva donde dejamos montado tu Sitio Web Inteligente junto con tus 4 Empleados Digitales IA 24/7 (WhatsApp, agenda y CRM) en 7 a 10 dias, con facilidad 50% al iniciar y 50% al entregar funcionando. Puedes ver como funciona en vivo aqui:
+            <strong>Opcion 4 (Comunidad y recursos cada 2 dias):</strong> Unirte a nuestra comunidad donde cada 2 dias compartimos los recursos y herramientas gratuitas que publicamos a diario en nuestros Reels.
           </p>
           <p style="margin: 0 0 18px;">
-            <a href="https://agenciaprosperia.com/sitioweb" style="color: #0284c7; font-weight: bold; text-decoration: underline;">
-              Ver demostracion de Sitio Web Inteligente (agenciaprosperia.com/sitioweb)
-            </a>
-          </p>
-          <p style="margin: 0 0 18px;">
-            Si tienes un negocio operando y quieres ver como lo aplicariamos en tu rubro, responde a este mismo correo o escribenos al WhatsApp oficial en Miami: <strong>+1 (786) 833-6964</strong>.
+            Solo responde a este mismo correo con el numero <strong>1, 2, 3 o 4</strong> segun lo que prefieras (o escribenos a nuestra linea oficial en Miami por WhatsApp: <strong>+1 (786) 833-6964</strong>) y te enviamos el siguiente paso.
           </p>
           <p style="margin: 0; color: #475569; font-size: 13px;">
             Un saludo,<br/>
