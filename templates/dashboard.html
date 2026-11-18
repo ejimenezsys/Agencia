@@ -2404,7 +2404,7 @@
           <thead>
             <tr class="text-left text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800">
               <th class="px-4 py-3">Prospecto &amp; Diagnóstico</th>
-              <th class="px-3 py-3">Llamar (Zadarma) / WA / Correo</th>
+              <th class="px-3 py-3">Teléfono Directo</th>
               <th class="px-3 py-3">País · Rubro · Plantilla</th>
               <th class="px-3 py-3">Etapa Setter &amp; Última Anotación</th>
               <th class="px-4 py-3 text-right">Trabajar Contacto</th>
@@ -6368,13 +6368,6 @@ function renderSalesOsTable() {
         <div class="font-bold text-white">${esc(l.business_name || l.company || l.name)}</div>
         <div class="text-[11px] text-slate-400">${esc(l.full_name || l.name)} · ${esc(l.phone_e164 || l.phone || l.email)}</div>
         ${latestSetterNote ? `<div class="mt-1 text-[10px] text-amber-200/90 bg-amber-500/10 border border-amber-500/20 rounded px-2 py-1 max-w-xs truncate" title="${esc(latestSetterNote)}">📒 Bitácora (${setterRows.length}): ${esc(latestSetterNote)}</div>` : ''}
-        <div class="flex flex-wrap items-center gap-1.5 mt-1">
-          ${rawPhone ? `<button type="button" onclick="initiateCloserCall('${esc(rawPhone)}', ${l.id})" class="px-2 py-0.5 rounded bg-slate-800 text-cyan-200 border border-cyan-500/35 text-[10px] font-bold hover:bg-slate-700">${esc(route.btnLabel)}</button>` : ''}
-          ${waDigits ? `<button type="button" onclick="sendAgencyWhatsappToLead(${l.id}, this, 'auto')" class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold hover:bg-emerald-500/30" title="1 clic: envía WhatsApp Oficial de la agencia (+1 786)">💬 WhatsApp</button>` : ''}
-          ${route.allowMiamiSms ? `<button type="button" onclick="sendGhlDirectMsgFromUi(${l.id}, 'SMS', this)" class="px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-[10px] font-bold hover:bg-indigo-500/30" title="1 clic: envía SMS con Demo Web (+1 EE. UU./PR)">🇺🇸 SMS</button>` : ''}
-          ${hasEmail ? `<button type="button" onclick="sendInstitutionalEmailToLead(${l.id}, this, 'seller@agenciaprosperia.com')" class="px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30 text-[10px] font-bold hover:bg-sky-500/30" title="1 clic: envía correo corporativo">✉️ Correo</button>` : ''}
-        </div>
-        <div id="lead-os-row-comms-${l.id}" class="mt-1 flex flex-wrap items-center gap-1">${renderLeadRowCommsBadgeHtml(l.id)}</div>
       </th>
       <td class="px-3 py-3 text-slate-300">
         ${l.owner_id ? `<span class="px-2 py-0.5 rounded bg-slate-800 text-cyan-300 font-semibold">${esc(l.owner_id.split('@')[0])}</span>` : '<span class="text-amber-400">Sin asignar</span>'}
@@ -7409,6 +7402,16 @@ function showSetterQuickFeedback(msg, isWarning = false) {
     : 'mb-3 px-3 py-2 rounded-lg text-xs font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30';
 }
 
+function cleanGhlCommsErrorText(txt) {
+  const raw = String(txt || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+  if (!raw) return '';
+  const low = raw.toLowerCase();
+  if (low.includes('message undeliverable') || low.includes('not a whatsapp phone number') || low.includes('unable to deliver message')) {
+    return '📵 Este número no tiene WhatsApp activo (o es teléfono fijo). Atácalo por Llamada o Correo.';
+  }
+  return raw.slice(0, 220);
+}
+
 function applyCommsStatusToUi(leadId, out) {
   if (!out || !out.ok) return;
   window.leadCommsStatusCache[leadId] = out;
@@ -7427,7 +7430,7 @@ function applyCommsStatusToUi(leadId, out) {
 
   badgeEl.textContent = out.wa_status_badge || '⚪ Sin envíos aún';
   badgeEl.className = `px-2 py-0.5 rounded-full text-[11px] font-bold border ${getCommsToneClass(out.wa_status_tone || 'slate')}`;
-  if (hintEl) hintEl.textContent = out.wa_status_hint || '';
+  if (hintEl) hintEl.textContent = cleanGhlCommsErrorText(out.wa_status_hint || '');
 
   if (replyWrap) {
     if (out.window_24h_open) {
@@ -7439,17 +7442,29 @@ function applyCommsStatusToUi(leadId, out) {
     }
   }
 
-  const msgs = Array.isArray(out.messages) ? out.messages : [];
-  if (!msgs.length) {
+  const rawMsgs = Array.isArray(out.messages) ? out.messages : [];
+  const visibleMsgs = [];
+  const seenErrors = new Set();
+  for (const m of rawMsgs) {
+    if (String(m.channel || '').toLowerCase().startsWith('activity_')) continue;
+    const cleanedErr = cleanGhlCommsErrorText(m.error || '');
+    if (cleanedErr) {
+      if (seenErrors.has(cleanedErr)) continue;
+      seenErrors.add(cleanedErr);
+    }
+    visibleMsgs.push({ ...m, cleanError: cleanedErr });
+  }
+
+  if (!visibleMsgs.length) {
     listEl.innerHTML = '<div class="text-[11px] text-slate-500 italic">Aún no hay mensajes enviados/recibidos en GHL para este contacto.</div>';
     return;
   }
-  listEl.innerHTML = msgs.map(m => {
+  listEl.innerHTML = visibleMsgs.map(m => {
     const dirBadge = m.direction === 'inbound'
       ? '<span class="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold">📥 Respuesta</span>'
       : '<span class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-bold">📤 Saliente</span>';
     const stCls = getCommsToneClass(m.status_tone || 'slate');
-    const errBlock = m.error ? `<div class="text-[10px] text-rose-300 mt-0.5">⚠️ ${esc(m.error)}</div>` : '';
+    const errBlock = m.cleanError ? `<div class="text-[10px] text-rose-300 mt-0.5">${esc(m.cleanError)}</div>` : '';
     return `<div class="p-2 rounded-lg bg-slate-950/80 border border-slate-800 text-[11px]">
       <div class="flex flex-wrap items-center justify-between gap-1.5 mb-0.5">
         <div class="flex flex-wrap items-center gap-1.5">
@@ -7857,15 +7872,8 @@ function renderCallQueueTable() {
         <div class="font-bold text-white text-sm leading-snug">${esc(l.business_name || l.company || l.name)}</div>
         <div class="text-[11px] text-slate-400 mt-0.5">${esc(l.city || '')} · ${esc(cleanEmail)} ${intel.googleVal ? `· ⭐ ${esc(intel.googleVal)}` : ''}</div>
       </td>
-      <td data-label="Llamar / WA / Correo" class="px-3 py-3.5 align-top">
-        <div class="font-mono font-bold text-cyan-300 mb-1.5">${esc(l.phone || 'Sin teléfono')}</div>
-        <div class="flex flex-wrap items-center gap-1.5">
-          ${rawPhone ? `<button type="button" onclick="initiateCloserCall('${esc(rawPhone)}', ${l.id})" class="px-2.5 py-1 rounded-lg bg-emerald-400 text-slate-950 hover:bg-emerald-300 text-[11px] font-black shadow-sm">${esc(route.btnLabel)}</button>` : ''}
-          ${rawPhone ? `<button type="button" onclick="sendAgencyWhatsappToLead(${l.id}, this, 'auto')" class="px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/35 text-[11px] font-bold hover:bg-emerald-500/30" title="1 clic: envía WhatsApp Oficial de la agencia (+1 786)">💬 Enviar WhatsApp</button>` : ''}
-          ${route.allowMiamiSms ? `<button type="button" onclick="sendGhlDirectMsgFromUi(${l.id}, 'SMS', this)" class="px-2.5 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 border border-indigo-500/35 text-[11px] font-bold hover:bg-indigo-500/30" title="1 clic: envía SMS con Demo Web (+1 EE. UU./PR)">🇺🇸 Enviar SMS</button>` : ''}
-          ${hasEmail ? `<button type="button" onclick="sendInstitutionalEmailToLead(${l.id}, this, 'seller@agenciaprosperia.com')" class="px-2.5 py-1 rounded-lg bg-sky-500/20 text-sky-200 border border-sky-400/40 text-[11px] font-bold hover:bg-sky-500/30" title="1 clic: envía correo corporativo 100% desde el sistema">✉️ Enviar Correo</button>` : ''}
-        </div>
-        <div id="lead-row-comms-${l.id}" class="mt-1.5 flex flex-wrap items-center gap-1">${renderLeadRowCommsBadgeHtml(l.id)}</div>
+      <td data-label="Teléfono Directo" class="px-3 py-3.5 align-top">
+        <div class="font-mono font-bold text-cyan-300 text-sm whitespace-nowrap">${esc(l.phone || 'Sin teléfono')}</div>
       </td>
       <td data-label="País / Rubro / Plantilla" class="px-3 py-3.5 align-top">
         <div class="font-semibold text-white">${esc(l.country || 'Internacional')}</div>
