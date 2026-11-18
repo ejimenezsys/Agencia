@@ -223,6 +223,80 @@ def list_recent_inbound_ghl_conversations(limit: int = 20) -> list[dict]:
         return []
     return list(res.get("conversations") or [])
 
+
+_GHL_LEAD_WEB_CACHE = {"ts": 0.0, "contacts": []}
+
+
+def fetch_ghl_lead_web_contacts(force: bool = False) -> list[dict]:
+    """Lista contactos reales del CRM GHL con etiqueta `lead_web` pendientes del Flujo #2 (correo tibio)."""
+    now = time.time()
+    if not force and _GHL_LEAD_WEB_CACHE["contacts"] and (now - _GHL_LEAD_WEB_CACHE["ts"]) < 600:
+        return list(_GHL_LEAD_WEB_CACHE["contacts"])
+
+    token = _cfg_db("GHL_PRIVATE_TOKEN") or _cfg_db("GHL_ACCESS_TOKEN")
+    loc_id = _cfg_db("GHL_LOCATION_ID", DEFAULT_LOCATION_ID)
+    if not token:
+        return list(_GHL_LEAD_WEB_CACHE["contacts"])
+
+    collected = []
+    seen_emails = set()
+    start_after_id = ""
+    start_after = ""
+    blocked_parts = ("ejimenezsys", "cliente-demo", "test.local", "agenciaprosperia.com", "sin-correo.local", "prosperia.local")
+
+    for _ in range(12):
+        q = f"/contacts/?locationId={loc_id}&limit=100"
+        if start_after_id and start_after:
+            q += f"&startAfterId={urllib.parse.quote(str(start_after_id))}&startAfter={urllib.parse.quote(str(start_after))}"
+        st, res = _request("GET", q, token)
+        if st != 200 or not isinstance(res, dict):
+            break
+        batch = res.get("contacts") or []
+        for c in batch:
+            em = str(c.get("email") or "").strip().lower()
+            if not em or "@" not in em or em in seen_emails:
+                continue
+            if any(b in em for b in blocked_parts):
+                continue
+            tags = {str(t).strip().lower() for t in (c.get("tags") or [])}
+            if "lead_web" not in tags:
+                continue
+            if "correo_tibio_lead_web_enviado" in tags or "setter_wa_agencia" in tags:
+                continue
+            name = str(c.get("contactName") or c.get("firstName") or "").strip()
+            if "prueba" in name.lower():
+                continue
+            seen_emails.add(em)
+            first_nm = str(c.get("firstName") or (name.split()[0] if name else "") or "hola").strip()
+            collected.append({
+                "id": str(c.get("id") or ""),
+                "email": em,
+                "first_name": first_nm.title() if first_nm else "Hola",
+                "full_name": name,
+                "company": str(c.get("companyName") or "").strip(),
+            })
+        meta = res.get("meta") or {}
+        start_after_id = meta.get("startAfterId") or ""
+        start_after = meta.get("startAfter") or ""
+        if not start_after_id or len(batch) < 100:
+            break
+
+    _GHL_LEAD_WEB_CACHE["ts"] = now
+    _GHL_LEAD_WEB_CACHE["contacts"] = collected
+    return list(collected)
+
+
+def mark_ghl_contact_lead_web_emailed(contact_id: str) -> None:
+    """Etiqueta el contacto en GHL con `correo_tibio_lead_web_enviado` y lo retira de la cola en memoria."""
+    cid = (contact_id or "").strip()
+    if cid:
+        _GHL_LEAD_WEB_CACHE["contacts"] = [
+            c for c in _GHL_LEAD_WEB_CACHE["contacts"] if c.get("id") != cid
+        ]
+        token = _cfg_db("GHL_PRIVATE_TOKEN") or _cfg_db("GHL_ACCESS_TOKEN")
+        if token:
+            _request("POST", f"/contacts/{cid}/tags", token, {"tags": ["correo_tibio_lead_web_enviado"]})
+
 # IDs de los campos personalizados de contacto creados en la subcuenta (CNvJBINRWBUL2EdqRh3G).
 CF_INDUSTRIA = "K9N5HFBIpkonykvmoqB4"
 CF_TAMANO_EQUIPO = "um5xkZ48Mmgx1GzqfpRK"

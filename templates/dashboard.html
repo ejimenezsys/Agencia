@@ -7666,7 +7666,7 @@ async function loadSetterIaStatus() {
     const waEl = document.getElementById('setter-ia-wa-metric');
     if (waEl) waEl.textContent = `${st.wa_sent_today || 0} / ${data.remaining_wa ?? 0} pend.`;
     const emEl = document.getElementById('setter-ia-email-metric');
-    if (emEl) emEl.textContent = `${st.email_sent_today || 0} / ${data.remaining_emails ?? 0} pend.`;
+    if (emEl) emEl.textContent = `Frío: ${st.email_sent_today || 0} (${data.remaining_emails ?? 0} pend.) · Tibio lead_web: ${st.lead_web_sent_today || 0} (${data.remaining_lead_web_emails ?? 0} pend.)`;
     const repEl = document.getElementById('setter-ia-reply-metric');
     if (repEl) repEl.textContent = data.replied_count ?? st.replies_detected ?? 0;
     const repCnt = document.getElementById('setter-ia-replied-cnt');

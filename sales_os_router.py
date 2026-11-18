@@ -61,8 +61,10 @@ from ghl_client import (
     _cfg_db,
     check_and_sync_ghl_wa_workflows,
     dispatch_ghl_agency_whatsapp,
+    fetch_ghl_lead_web_contacts,
     get_ghl_contact_comms_status,
     list_recent_inbound_ghl_conversations,
+    mark_ghl_contact_lead_web_emailed,
     send_ghl_direct_message,
     sync_lead_to_ghl,
     sync_sales_os_event_to_ghl_async,
@@ -4104,7 +4106,7 @@ async def api_get_lead_comms_status(
 _SETTER_IA_STATE_KEY = "setter_ia_campaign_state_json"
 _SETTER_IA_LOCK = threading.Lock()
 _SETTER_IA_WORKER_STARTED = False
-_SETTER_IA_RUNTIME = {"last_wa_ts": 0.0, "last_email_ts": 0.0, "last_scan_ts": 0.0}
+_SETTER_IA_RUNTIME = {"last_wa_ts": 0.0, "last_email_ts": 0.0, "last_lead_web_ts": 0.0, "last_scan_ts": 0.0}
 
 
 def _default_setter_ia_state() -> dict:
@@ -4115,6 +4117,9 @@ def _default_setter_ia_state() -> dict:
         "wa_total_sent": 0,
         "email_sent_today": 0,
         "email_total_sent": 0,
+        "lead_web_sent_today": 0,
+        "lead_web_total_sent": 0,
+        "lead_web_emailed_set": [],
         "replies_detected": 0,
         "demos_auto_sent": 0,
         "daily_wa_limit": 1000,
@@ -4141,6 +4146,7 @@ def _load_setter_ia_state(db: Session) -> dict:
         state["last_day"] = today_utc
         state["wa_sent_today"] = 0
         state["email_sent_today"] = 0
+        state["lead_web_sent_today"] = 0
     return state
 
 
@@ -4620,10 +4626,131 @@ def _execute_setter_ia_email_step(db: Session, state: dict) -> bool:
     return True
 
 
+def _build_lead_web_warm_email_payload(first_name: str, company_name: str = "") -> dict:
+    """Construye la plantilla de Flujo #2 (tibio) para contactos `lead_web` de recursos gratuitos en GHL."""
+    clean_first = (first_name or "").strip() or "hola"
+    greeting = f"Hola {clean_first}" if clean_first.lower() != "hola" else "Hola"
+    safe_greeting = html_lib.escape(greeting)
+    biz_mention = f" en {company_name.strip()}" if (company_name or "").strip() else ""
+    safe_biz_mention = html_lib.escape(biz_mention)
+
+    subject = f"{greeting}, consulta rapida sobre tu negocio e IA"
+    plain_text = (
+        f"{greeting},\n\n"
+        f"Te escribe Edward Jimenez de Agencia Prosper IA (PassportAI).\n\n"
+        f"Vi que en su momento descargaste nuestros recursos y accesos gratuitos de Inteligencia Artificial, "
+        f"y queria hacerte una pregunta rapida: actualmente tienes un negocio, clinica o empresa en marcha{biz_mention}?\n\n"
+        f"Acabamos de abrir una nueva solucion donde montamos tu Sitio Web Inteligente conectado a tus 4 Empleados "
+        f"Digitales (atencion por WhatsApp, voz, calendario y CRM 24/7) operando en 7 a 10 dias, con facilidad 50% al iniciar "
+        f"y 50% al entregar.\n\n"
+        f"Puedes ver como luce el sistema en vivo aqui:\n"
+        f"https://agenciaprosperia.com/sitioweb\n\n"
+        f"Si tienes negocio activo y quieres ver una muestra pensada para tu rubro, solo responde a este correo "
+        f"o escribenos a nuestra linea oficial en Miami: +1 (786) 833-6964.\n\n"
+        f"Un saludo,\nEdward Jimenez\nAgencia Prosper IA LLC · Miami, FL\ninfo@agenciaprosperia.com"
+    )
+    html_content = f"""
+    <html>
+      <body style="font-family: Arial, Helvetica, sans-serif; background-color: #ffffff; color: #1e293b; margin: 0; padding: 20px; line-height: 1.65; font-size: 14px;">
+        <div style="max-width: 560px; margin: 0 auto;">
+          <p style="margin: 0 0 14px;">{safe_greeting},</p>
+          <p style="margin: 0 0 14px;">
+            Te escribe <strong>Edward Jimenez</strong> de Agencia Prosper IA (PassportAI).
+          </p>
+          <p style="margin: 0 0 14px;">
+            Vi que descargaste nuestros recursos y accesos gratuitos de Inteligencia Artificial, y queria hacerte una consulta rapida:
+            <strong>actualmente tienes un negocio, clinica o empresa en marcha{safe_biz_mention}?</strong>
+          </p>
+          <p style="margin: 0 0 16px;">
+            Acabamos de lanzar una linea nueva donde dejamos montado tu Sitio Web Inteligente junto con tus 4 Empleados Digitales IA 24/7 (WhatsApp, agenda y CRM) en 7 a 10 dias, con facilidad 50% al iniciar y 50% al entregar funcionando. Puedes ver como funciona en vivo aqui:
+          </p>
+          <p style="margin: 0 0 18px;">
+            <a href="https://agenciaprosperia.com/sitioweb" style="color: #0284c7; font-weight: bold; text-decoration: underline;">
+              Ver demostracion de Sitio Web Inteligente (agenciaprosperia.com/sitioweb)
+            </a>
+          </p>
+          <p style="margin: 0 0 18px;">
+            Si tienes un negocio operando y quieres ver como lo aplicariamos en tu rubro, responde a este mismo correo o escribenos al WhatsApp oficial en Miami: <strong>+1 (786) 833-6964</strong>.
+          </p>
+          <p style="margin: 0; color: #475569; font-size: 13px;">
+            Un saludo,<br/>
+            <strong>Edward Jimenez</strong><br/>
+            Agencia Prosper IA LLC · Miami, FL<br/>
+            info@agenciaprosperia.com
+          </p>
+        </div>
+      </body>
+    </html>
+    """
+    return {"subject": subject, "plain_text": plain_text, "html_content": html_content}
+
+
+def _execute_lead_web_warm_email_step(db: Session, state: dict) -> bool:
+    """Ejecuta 1 envío del Flujo #2 (correo tibio desde info@) a los contactos `lead_web` de GHL."""
+    contacts = fetch_ghl_lead_web_contacts(force=False)
+    if not contacts:
+        return False
+
+    sent_set = {str(x).strip().lower() for x in (state.get("lead_web_emailed_set") or []) if x}
+    target = None
+    for c in contacts:
+        em = str(c.get("email") or "").strip().lower()
+        if not em or em in sent_set or not _is_valid_real_email(em):
+            continue
+        if is_contact_excluded(db, em, ""):
+            sent_set.add(em)
+            continue
+        # No duplicar si el Flujo #1 ya le envió correo en DbLead
+        already_flow1 = (
+            db.query(DbLead)
+            .filter(func.lower(DbLead.email) == em)
+            .filter(func.coalesce(DbLead.notes, "").contains("🤖 Setter IA Correo"))
+            .first()
+        )
+        if already_flow1:
+            sent_set.add(em)
+            continue
+        target = c
+        break
+
+    state["lead_web_emailed_set"] = sorted(sent_set)
+    if not target:
+        return False
+
+    em = target["email"]
+    first_nm = target.get("first_name") or "hola"
+    comp = target.get("company") or ""
+    payload = _build_lead_web_warm_email_payload(first_nm, comp)
+
+    try:
+        _send_smtp_mime_email(
+            alias_addr="info@agenciaprosperia.com",
+            to_email=em,
+            closer_name="Edward Jiménez",
+            closer_email="info@agenciaprosperia.com",
+            final_subject=payload["subject"],
+            plain_text=payload["plain_text"],
+            html_content=payload["html_content"],
+        )
+    except Exception as exc:
+        sent_set.add(em)
+        state["lead_web_emailed_set"] = sorted(sent_set)
+        _append_setter_ia_log(state, f"⚠️ Tibio {em}: {str(exc)[:75]}")
+        return False
+
+    sent_set.add(em)
+    state["lead_web_emailed_set"] = sorted(sent_set)
+    mark_ghl_contact_lead_web_emailed(target.get("id") or "")
+    state["lead_web_sent_today"] = int(state.get("lead_web_sent_today", 0) or 0) + 1
+    state["lead_web_total_sent"] = int(state.get("lead_web_total_sent", 0) or 0) + 1
+    _append_setter_ia_log(state, f"✉️ Tibio lead_web #{state['lead_web_sent_today']} (info@) -> {first_nm} ({em})")
+    return True
+
+
 def _run_setter_ia_cycle(force_step: bool = False) -> dict:
-    """Ejecuta un ciclo seguro del motor Setter IA (escaneo de respuestas + 1 WA + 1 Correo según cadencia)."""
+    """Ejecuta un ciclo seguro del motor Setter IA (respuestas + WA + Correo Frío + Correo Tibio lead_web)."""
     db = SessionLocal()
-    did = {"wa": False, "email": False, "replies": 0}
+    did = {"wa": False, "email": False, "lead_web_email": False, "replies": 0}
     try:
         with _SETTER_IA_LOCK:
             state = _load_setter_ia_state(db)
@@ -4648,6 +4775,10 @@ def _run_setter_ia_cycle(force_step: bool = False) -> dict:
             if force_step or (now - _SETTER_IA_RUNTIME["last_email_ts"]) >= em_gap:
                 _SETTER_IA_RUNTIME["last_email_ts"] = now
                 did["email"] = _execute_setter_ia_email_step(db, state)
+
+            if force_step or (now - _SETTER_IA_RUNTIME["last_lead_web_ts"]) >= 50:
+                _SETTER_IA_RUNTIME["last_lead_web_ts"] = now
+                did["lead_web_email"] = _execute_lead_web_warm_email_step(db, state)
 
             _save_setter_ia_state(db, state)
             return {"running": bool(state.get("running")), **did, "state": state}
@@ -4707,6 +4838,9 @@ async def api_get_setter_ia_status(
         .filter(func.coalesce(DbLead.notes, "").contains("RESPONDIÓ A SETTER IA"))
         .count()
     )
+    lw_contacts = await asyncio.to_thread(fetch_ghl_lead_web_contacts, False)
+    sent_lw = {str(x).strip().lower() for x in (state.get("lead_web_emailed_set") or []) if x}
+    remaining_lead_web_emails = sum(1 for c in lw_contacts if c.get("email") not in sent_lw)
     return {
         "success": True,
         "state": state,
@@ -4715,6 +4849,7 @@ async def api_get_setter_ia_status(
         "total_registered_templates": len(GHL_WA_TEMPLATES),
         "remaining_wa": remaining_wa,
         "remaining_emails": remaining_emails,
+        "remaining_lead_web_emails": remaining_lead_web_emails,
         "replied_count": replied_count,
     }
 
