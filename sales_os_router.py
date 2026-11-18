@@ -2279,6 +2279,24 @@ async def api_register_call_outcome(
             lead_db_id=lead.id,
         )
 
+        # Auto-disparo secuencia semana18nov al calificar por primera vez: Correo info@agenciaprosperia.com + SMS Miami (solo +1)
+        if outcome != "closer_update" and old_stage not in (
+            "Calificado", "Diagnóstico agendado", "Demo realizada", "Propuesta enviada",
+            "Pago pendiente", "Pago confirmado", "Implementación", "Entregado"
+        ):
+            _auto_dispatch_semana18nov_welcome_async(
+                lead_id=lead.id,
+                email=lead.email or "",
+                phone=getattr(lead, "phone_e164", None) or (lead.phone or ""),
+                full_name=getattr(lead, "full_name", None) or lead.name,
+                business_name=getattr(lead, "business_name", None) or (lead.company or ""),
+                selected_template=getattr(lead, "selected_template", "clinica_dental_estetica") or "clinica_dental_estetica",
+                closer_name=current_user.get("name") or "Asesor Prosper IA",
+                closer_email=current_user.get("email") or "seller@agenciaprosperia.com",
+                cal_url=(current_user.get("calendar_url") or "https://agenciaprosperia.com/#contacto"),
+                contact_id=getattr(lead, "contact_id", "") or "",
+            )
+
         tpl = getattr(lead, "selected_template", "clinica_dental_estetica") or "clinica_dental_estetica"
         bname = urllib.parse.quote(getattr(lead, "business_name", None) or (lead.company or lead.name or ""))
         phone_q = urllib.parse.quote(lead.phone or "")
@@ -3230,6 +3248,20 @@ async def api_closer_create_new_lead(
         lead_db_id=lead_obj.id,
     )
 
+    if not is_beauty_req and not existing:
+        _auto_dispatch_semana18nov_welcome_async(
+            lead_id=lead_obj.id,
+            email=lead_obj.email or "",
+            phone=getattr(lead_obj, "phone_e164", None) or (lead_obj.phone or ""),
+            full_name=lead_obj.full_name or lead_obj.name,
+            business_name=lead_obj.business_name or lead_obj.company or lead_obj.name,
+            selected_template=lead_obj.selected_template,
+            closer_name=current_user.get("name") or "Asesor Prosper IA",
+            closer_email=current_user.get("email") or "seller@agenciaprosperia.com",
+            cal_url=(current_user.get("calendar_url") or "https://agenciaprosperia.com/#contacto"),
+            contact_id=getattr(lead_obj, "contact_id", "") or "",
+        )
+
     return {
         "success": True,
         "message": f"✅ Prospecto '{bname}' creado e inyectado en CRM ProsperIA en etapa '{stage}'.",
@@ -3345,63 +3377,57 @@ async def api_closer_bulk_import_csv(
     }
 
 
-class InstitutionalEmailSendRequest(BaseModel):
-    subject: Optional[str] = ""
-    custom_message: Optional[str] = ""
+ALLOWED_INSTITUTIONAL_ALIASES = (
+    "seller@agenciaprosperia.com",
+    "info@agenciaprosperia.com",
+)
 
 
-@router.post("/api/sales-os/leads/{lead_id}/send-institutional-email")
-async def api_send_institutional_email_to_lead(
-    lead_id: int,
-    req: InstitutionalEmailSendRequest,
-    current_user: dict = Depends(get_current_sales_user),
-    db: Session = Depends(get_db),
-):
-    """Envía un correo corporativo HTML desde @agenciaprosperia.com directo al prospecto en 1 clic
-    desde la Cachucha de Setter o Closer sin ensuciar GoHighLevel y anota el toque en Bitácora.
-    """
-    import asyncio
+def _is_valid_real_email(raw_email: str) -> bool:
+    em = normalize_email(raw_email or "")
+    if not em or "@" not in em:
+        return False
+    if "@sin-correo.local" in em or "@prosperia.local" in em:
+        return False
+    if (em.startswith("prospecto.") or em.startswith("lote.")) and em.endswith("@agenciaprosperia.com"):
+        return False
+    return True
+
+
+def _dispatch_institutional_email_sync(
+    to_email: str,
+    biz_name: str,
+    contact_first: str,
+    tpl: str,
+    phone_val: str,
+    closer_name: str,
+    closer_email: str,
+    cal_url: str,
+    sender_alias: str = "seller@agenciaprosperia.com",
+    subject: str = "",
+    custom_message: str = "",
+) -> dict:
+    """Envía correo corporativo HTML usando los alias oficiales seller@ o info@agenciaprosperia.com."""
     import html
     import smtplib
     from email.mime.multipart import MIMEMultipart
     from email.mime.text import MIMEText
-
-    lead = db.query(DbLead).filter(DbLead.id == lead_id).first()
-    if not lead:
-        raise HTTPException(status_code=404, detail="Prospecto no encontrado.")
-    if current_user["role"] == "seller" and (getattr(lead, "owner_id", "") or "") != current_user["email"]:
-        raise HTTPException(status_code=403, detail="Este contacto está asignado a otro closer.")
-
-    to_email = normalize_email(getattr(lead, "email", "") or "")
-    if (
-        not to_email
-        or "@" not in to_email
-        or "@sin-correo.local" in to_email
-        or to_email.startswith(("prospecto.", "lote.")) and to_email.endswith("@agenciaprosperia.com")
-    ):
-        raise HTTPException(status_code=400, detail="Este prospecto no tiene un correo electrónico real registrado.")
-
-    if is_contact_excluded(db, to_email, getattr(lead, "phone_e164", "") or ""):
-        raise HTTPException(status_code=400, detail="Contacto en lista DND / Opt-out; envío bloqueado.")
+    from email.utils import formataddr
 
     smtp_host = _ghl_cfg("SMTP_HOST", "smtp.hostinger.com")
     smtp_port = int(_ghl_cfg("SMTP_PORT", "465") or "465")
     smtp_user = _ghl_cfg("SMTP_USER", "edward@agenciaprosperia.com")
     smtp_pass = _ghl_cfg("SMTP_PASSWORD", "")
-    smtp_sender = _ghl_cfg("SMTP_SENDER", "edward@agenciaprosperia.com")
     if not smtp_pass:
-        raise HTTPException(status_code=503, detail="Servidor SMTP institucional aún no configurado en el servidor.")
+        raise RuntimeError("Servidor SMTP institucional aún no configurado en el servidor.")
 
-    biz_name = (getattr(lead, "business_name", None) or lead.company or lead.name or "tu negocio").strip()
-    contact_first = (getattr(lead, "full_name", None) or lead.name or "").strip().split()[0] if (getattr(lead, "full_name", None) or lead.name or "").strip() else biz_name
-    tpl = getattr(lead, "selected_template", "clinica_dental_estetica") or "clinica_dental_estetica"
-    phone_val = (getattr(lead, "phone_e164", None) or lead.phone or "").strip()
-    closer_name = current_user.get("name") or "Asesor Prosper IA"
-    closer_email = current_user.get("email") or smtp_sender
-    cal_url = (current_user.get("calendar_url") or "https://agenciaprosperia.com/#contacto").strip()
+    alias_addr = (sender_alias or "").strip().lower()
+    if alias_addr not in ALLOWED_INSTITUTIONAL_ALIASES:
+        alias_addr = "seller@agenciaprosperia.com"
 
+    clean_cal = (cal_url or "https://agenciaprosperia.com/#contacto").strip()
     demo_url = (
-        f"https://agenciaprosperia.com/demo-sitio-web?template={urllib.parse.quote(tpl)}"
+        f"https://agenciaprosperia.com/demo-sitio-web?template={urllib.parse.quote(tpl or 'clinica_dental_estetica')}"
         f"&business={urllib.parse.quote(biz_name)}&phone={urllib.parse.quote(phone_val)}"
     )
     wa_official = (
@@ -3409,14 +3435,14 @@ async def api_send_institutional_email_to_lead(
         + urllib.parse.quote(f"Hola Agencia Prosper IA, vi la muestra digital para {biz_name} y quiero agendar mi demostración.")
     )
 
-    subject = (req.subject or f"Muestra Digital Lista para {biz_name} — Agencia Prosper IA").strip()
+    final_subject = (subject or f"Muestra Digital Lista para {biz_name} — Agencia Prosper IA").strip()
     default_msg = (
         f"Hola {contact_first}, soy {closer_name} de Agencia Prosper IA.\n\n"
         f"Preparamos una demostración interactiva de cómo {biz_name} puede capturar más clientes "
         f"con un Sitio Web Inteligente conectado a WhatsApp y Recepcionista IA 24/7 que agenda citas en automático.\n\n"
         f"Puedes abrir tu muestra en vivo o apartar 15 minutos en nuestro calendario abajo."
     )
-    body_text = (req.custom_message or "").strip() or default_msg
+    body_text = (custom_message or "").strip() or default_msg
     body_html = html.escape(body_text).replace("\n", "<br>")
     safe_biz = html.escape(biz_name)
     safe_closer = html.escape(closer_name)
@@ -3438,7 +3464,7 @@ async def api_send_institutional_email_to_lead(
                 <a href="{demo_url}" style="display: inline-block; background: #00e5ff; color: #020710; text-decoration: none; font-weight: 800; font-size: 13px; padding: 12px 22px; border-radius: 10px; margin: 5px;">
                   🌐 Ver Demo en Vivo de {safe_biz}
                 </a>
-                <a href="{html.escape(cal_url)}" style="display: inline-block; background: #10b981; color: #020710; text-decoration: none; font-weight: 800; font-size: 13px; padding: 12px 22px; border-radius: 10px; margin: 5px;">
+                <a href="{html.escape(clean_cal)}" style="display: inline-block; background: #10b981; color: #020710; text-decoration: none; font-weight: 800; font-size: 13px; padding: 12px 22px; border-radius: 10px; margin: 5px;">
                   📅 Agendar 15 Min
                 </a>
               </div>
@@ -3451,7 +3477,7 @@ async def api_send_institutional_email_to_lead(
           </tr>
           <tr style="background-color: #030a17;">
             <td style="padding: 18px 28px; border-top: 1px solid rgba(148,163,184,0.2); font-size: 11px; color: #94a3b8; text-align: center;">
-              Enviado por <strong>{safe_closer}</strong> ({html.escape(closer_email)}) · Agencia Prosper IA LLC, Miami FL.
+              Atendido por <strong>{safe_closer}</strong> · {html.escape(alias_addr)} · Agencia Prosper IA LLC, Miami FL.
             </td>
           </tr>
         </table>
@@ -3459,28 +3485,177 @@ async def api_send_institutional_email_to_lead(
     </html>
     """
 
-    def _send_smtp():
-        msg = MIMEMultipart("alternative")
-        msg["Subject"] = subject
-        msg["From"] = f"Agencia Prosper IA <{smtp_sender}>"
-        msg["To"] = to_email
-        msg["Reply-To"] = closer_email if "@" in closer_email else smtp_sender
-        msg.attach(MIMEText(f"{body_text}\n\nVer Demo en Vivo: {demo_url}\nAgendar 15 min: {cal_url}\nWhatsApp: +1 786 833-6964", "plain", "utf-8"))
-        msg.attach(MIMEText(html_content, "html", "utf-8"))
-        if smtp_port == 465:
-            srv = smtplib.SMTP_SSL(smtp_host, smtp_port, timeout=15)
-        else:
-            srv = smtplib.SMTP(smtp_host, smtp_port, timeout=15)
-            srv.starttls()
-        srv.login(smtp_user, smtp_pass)
-        srv.sendmail(smtp_sender, [to_email], msg.as_string())
-        srv.quit()
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = final_subject
+    msg["From"] = formataddr((f"{closer_name} - Agencia Prosper IA", alias_addr))
+    msg["To"] = to_email
+    reply_targets = [formataddr((closer_name, alias_addr))]
+    if closer_email and "@" in closer_email and closer_email.lower() not in (alias_addr, "edward@agenciaprosperia.com", "admin@prosperia.com"):
+        reply_targets.append(closer_email)
+    msg["Reply-To"] = ", ".join(reply_targets)
+    msg.attach(MIMEText(f"{body_text}\n\nVer Demo en Vivo: {demo_url}\nAgendar 15 min: {clean_cal}\nWhatsApp: +1 786 833-6964", "plain", "utf-8"))
+    msg.attach(MIMEText(html_content, "html", "utf-8"))
+
+    if smtp_port == 465:
+        srv = smtplib.SMTP_SSL(smtp_host, smtp_port, timeout=15)
+    else:
+        srv = smtplib.SMTP(smtp_host, smtp_port, timeout=15)
+        srv.starttls()
+    srv.login(smtp_user, smtp_pass)
+    srv.sendmail(alias_addr, [to_email], msg.as_string())
+    srv.quit()
+    return {"alias": alias_addr, "subject": final_subject, "demo_url": demo_url}
+
+
+def _auto_dispatch_semana18nov_welcome_async(
+    lead_id: int,
+    email: str,
+    phone: str,
+    full_name: str,
+    business_name: str,
+    selected_template: str,
+    closer_name: str,
+    closer_email: str,
+    cal_url: str,
+    contact_id: str = "",
+) -> None:
+    """Al calificar un contacto con semana18nov, dispara automáticamente:
+    1. Correo de bienvenida desde info@agenciaprosperia.com con su Demo Web y calendario del Closer.
+    2. SMS automático desde Miami (+1 786 833-6964) exclusivamente si el teléfono es de EE.UU./PR (+1).
+    """
+    import threading
+    import time
+
+    def _run():
+        time.sleep(2.5)
+        clean_phone = normalize_phone_e164(phone or "")
+        biz = (business_name or full_name or "tu negocio").strip()
+        first_n = (full_name or biz).strip().split()[0] if (full_name or biz).strip() else biz
+        tpl = selected_template or "clinica_dental_estetica"
+        logs_added = []
+
+        if _is_valid_real_email(email):
+            try:
+                res_mail = _dispatch_institutional_email_sync(
+                    to_email=normalize_email(email),
+                    biz_name=biz,
+                    contact_first=first_n,
+                    tpl=tpl,
+                    phone_val=clean_phone,
+                    closer_name=closer_name,
+                    closer_email=closer_email,
+                    cal_url=cal_url,
+                    sender_alias="info@agenciaprosperia.com",
+                    subject=f"Tu Muestra de Sitio Web Inteligente para {biz} — Agencia Prosper IA",
+                )
+                logs_added.append(f"📧 Auto-Correo desde {res_mail['alias']}")
+            except Exception as exc:
+                print(f"⚠️ [AUTO SEMANA18NOV MAIL] Lead {lead_id}: {exc}", flush=True)
+
+        if clean_phone.startswith("+1") and len(clean_phone) == 12:
+            try:
+                demo_link = (
+                    f"https://agenciaprosperia.com/demo-sitio-web?template={urllib.parse.quote(tpl)}"
+                    f"&business={urllib.parse.quote(biz)}&phone={urllib.parse.quote(clean_phone)}"
+                )
+                sms_txt = (
+                    f"Hola {first_n}, soy {closer_name} de Agencia Prosper IA (Miami). "
+                    f"Preparamos la demo web interactiva para {biz}: {demo_link}"
+                )
+                res_sms = send_ghl_direct_message(
+                    contact_id=contact_id,
+                    phone=clean_phone,
+                    email=email or "",
+                    full_name=full_name or biz,
+                    company=biz,
+                    channel="SMS",
+                    message_body=sms_txt,
+                    owner_email=closer_email,
+                    lead_db_id=lead_id,
+                )
+                if res_sms.get("ok"):
+                    logs_added.append("🇺🇸 Auto-SMS Miami (+1 786)")
+            except Exception as exc:
+                print(f"⚠️ [AUTO SEMANA18NOV SMS] Lead {lead_id}: {exc}", flush=True)
+
+        if logs_added:
+            db_bg = SessionLocal()
+            try:
+                ld = db_bg.query(DbLead).filter(DbLead.id == lead_id).first()
+                if ld:
+                    stamp = datetime.utcnow().strftime("%Y-%m-%d %H:%M")
+                    ld.notes = ((ld.notes or "") + f"\n[{stamp} · Auto semana18nov] ✅ " + " + ".join(logs_added)).strip()
+                    db_bg.commit()
+            except Exception:
+                db_bg.rollback()
+            finally:
+                db_bg.close()
+
+    threading.Thread(target=_run, daemon=True).start()
+
+
+class InstitutionalEmailSendRequest(BaseModel):
+    subject: Optional[str] = ""
+    custom_message: Optional[str] = ""
+    sender_alias: Optional[str] = "seller@agenciaprosperia.com"
+
+
+@router.post("/api/sales-os/leads/{lead_id}/send-institutional-email")
+async def api_send_institutional_email_to_lead(
+    lead_id: int,
+    req: InstitutionalEmailSendRequest,
+    current_user: dict = Depends(get_current_sales_user),
+    db: Session = Depends(get_db),
+):
+    """Envía un correo corporativo HTML usando seller@ o info@agenciaprosperia.com directo al prospecto en 1 clic
+    desde la Cachucha de Setter o Closer sin ensuciar GoHighLevel y anota el toque en Bitácora.
+    """
+    import asyncio
+
+    lead = db.query(DbLead).filter(DbLead.id == lead_id).first()
+    if not lead:
+        raise HTTPException(status_code=404, detail="Prospecto no encontrado.")
+    if current_user["role"] == "seller" and (getattr(lead, "owner_id", "") or "") != current_user["email"]:
+        raise HTTPException(status_code=403, detail="Este contacto está asignado a otro closer.")
+
+    to_email = normalize_email(getattr(lead, "email", "") or "")
+    if not _is_valid_real_email(to_email):
+        raise HTTPException(status_code=400, detail="Este prospecto no tiene un correo electrónico real registrado.")
+
+    if is_contact_excluded(db, to_email, getattr(lead, "phone_e164", "") or ""):
+        raise HTTPException(status_code=400, detail="Contacto en lista DND / Opt-out; envío bloqueado.")
+
+    biz_name = (getattr(lead, "business_name", None) or lead.company or lead.name or "tu negocio").strip()
+    raw_full = (getattr(lead, "full_name", None) or lead.name or "").strip()
+    contact_first = raw_full.split()[0] if raw_full else biz_name
+    tpl = getattr(lead, "selected_template", "clinica_dental_estetica") or "clinica_dental_estetica"
+    phone_val = (getattr(lead, "phone_e164", None) or lead.phone or "").strip()
+    closer_name = current_user.get("name") or "Asesor Prosper IA"
+    closer_email = current_user.get("email") or "seller@agenciaprosperia.com"
+    cal_url = (current_user.get("calendar_url") or "https://agenciaprosperia.com/#contacto").strip()
 
     try:
-        await asyncio.to_thread(_send_smtp)
+        mail_out = await asyncio.to_thread(
+            _dispatch_institutional_email_sync,
+            to_email=to_email,
+            biz_name=biz_name,
+            contact_first=contact_first,
+            tpl=tpl,
+            phone_val=phone_val,
+            closer_name=closer_name,
+            closer_email=closer_email,
+            cal_url=cal_url,
+            sender_alias=req.sender_alias or "seller@agenciaprosperia.com",
+            subject=req.subject or "",
+            custom_message=req.custom_message or "",
+        )
+    except RuntimeError as cfg_err:
+        raise HTTPException(status_code=503, detail=str(cfg_err))
     except Exception as exc:
         raise HTTPException(status_code=502, detail=f"No se pudo enviar el correo institucional: {exc}")
 
+    alias_used = mail_out["alias"]
+    subject = mail_out["subject"]
     now_iso = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
     stamp_human = f"{now_iso[:10]} {now_iso[11:16]}"
     old_stage = getattr(lead, "pipeline_stage", "Lead identificado") or "Lead identificado"
@@ -3489,7 +3664,7 @@ async def api_send_institutional_email_to_lead(
     if getattr(lead, "status", "new") == "new":
         lead.status = "contacted"
     lead.last_touch = now_iso
-    lead.notes = ((lead.notes or "") + f"\n[{stamp_human} · Correo @agenciaprosperia.com · {new_stage}] 📧 CORREO INSTITUCIONAL ENVIADO a {to_email} ({subject})").strip()
+    lead.notes = ((lead.notes or "") + f"\n[{stamp_human} · Correo {alias_used} · {new_stage}] 📧 ENVIADO DESDE {alias_used} a {to_email} ({subject})").strip()
 
     u = db.query(User).filter(User.email == current_user["email"]).first()
     if u:
@@ -3506,13 +3681,13 @@ async def api_send_institutional_email_to_lead(
         field_changed="pipeline_stage",
         old_value=old_stage,
         new_value=new_stage,
-        notes=f"Correo institucional @agenciaprosperia.com enviado a {to_email} por {closer_name}.",
+        notes=f"Correo institucional {alias_used} enviado a {to_email} por {closer_name}.",
     )
     db.commit()
     db.refresh(lead)
     return {
         "success": True,
-        "message": f"📨 Correo institucional @agenciaprosperia.com enviado a {to_email} y anotado en bitácora (+1 toque).",
+        "message": f"📨 Correo enviado como {closer_name} <{alias_used}> a {to_email} y anotado en bitácora (+1 toque).",
         "data": serialize_lead(lead),
     }
 
