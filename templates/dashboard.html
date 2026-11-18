@@ -4431,7 +4431,7 @@
     <div class="flex flex-wrap items-start justify-between gap-3 mb-4 border-b border-slate-800 pb-3">
       <div>
         <div class="flex flex-wrap items-center gap-2 mb-1">
-          <span class="px-2 py-0.5 rounded-full text-[10px] font-black uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/35">🧢 TRABAJO DE CONTACTO (SETTER → CLOSER)</span>
+          <span id="setter-work-role-badge" class="px-2 py-0.5 rounded-full text-[10px] font-black uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/35">🧢 TRABAJO DE CONTACTO (SETTER → CLOSER)</span>
           <span id="setter-work-stage-badge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-cyan-300 border border-slate-700">Lead identificado</span>
           <span id="setter-work-route-badge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">🇺🇸 Ruta SIP Miami</span>
           <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/15 text-amber-300 border border-amber-500/30">🏷️ CRM: semana18nov</span>
@@ -4452,6 +4452,9 @@
         <button type="button" id="setter-work-inst-mail-btn" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-sky-500/25 text-sky-200 border border-sky-400/45 hover:bg-sky-500/35 transition" title="1 clic: envía correo corporativo desde la web (Windows, Mac y móvil)">
           ✉️ Enviar Correo
         </button>
+        <a id="setter-work-demo-btn" href="#" target="_blank" style="display:none;" class="px-3 py-1.5 rounded-lg text-xs font-black bg-cyan-400 text-slate-950 hover:bg-cyan-300 no-underline">
+          🚀 Demo Web
+        </a>
         <button type="button" onclick="document.getElementById('setterLeadWorkDialog').close()" aria-label="Cerrar ventana" class="px-2.5 py-1.5 rounded-lg text-slate-400 hover:text-white border border-slate-700 text-xs font-bold">✕</button>
       </div>
     </div>
@@ -4485,14 +4488,18 @@
 
     <input type="hidden" id="setter-work-lead-id">
     <div class="space-y-4 text-xs">
-      <!-- Fila 1: Etapa (3 etapas) + Plantilla (Todas las de los closers) -->
+      <!-- Fila 1: Etapa (Setter 3 etapas / Closer incluye etapas de cierre) + Plantilla -->
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
-          <label for="setter-work-stage" class="block text-slate-300 font-semibold mb-1">Etapa del Contacto (Solo 3 Etapas) *</label>
+          <label id="setter-work-stage-label" for="setter-work-stage" class="block text-slate-300 font-semibold mb-1">Etapa del Contacto (Solo 3 Etapas) *</label>
           <select id="setter-work-stage" class="input-dark text-xs py-2">
             <option value="Primer contacto">1. Primer contacto (Primer intento / buzón / mensaje)</option>
             <option value="Contacto">2. Contacto (Hubo respuesta / seguimiento en cabina)</option>
             <option value="Calificado">3. Calificado (Listo para Enviar a CRM y Pasar a Closer)</option>
+            <option value="Demo realizada" class="closer-only-stage-opt" hidden disabled>4. Demo realizada (Presentación hecha al cliente)</option>
+            <option value="Propuesta enviada" class="closer-only-stage-opt" hidden disabled>5. Propuesta enviada (Cotización formal entregada)</option>
+            <option value="Pago pendiente" class="closer-only-stage-opt" hidden disabled>6. Pago pendiente (Link/factura enviada, por confirmar)</option>
+            <option value="No interesado" class="closer-only-stage-opt" hidden disabled>Salida: No interesado (Archivar en GHL)</option>
           </select>
         </div>
         <div>
@@ -4518,8 +4525,8 @@
         </div>
       </div>
 
-      <!-- Fila 1B Integrada: Oculta para evitar fricción al Setter (se conserva valor por defecto EXPRESS_497 / 497) -->
-      <div class="hidden" style="display:none;">
+      <!-- Fila 1B Integrada: Propuesta & Oferta Versionada (Oculta en Gorra Setter; visible en Gorra Closer) -->
+      <div id="setter-work-offer-row" class="grid-cols-1 sm:grid-cols-2 gap-3 p-3 rounded-xl bg-slate-900/75 border border-emerald-500/25" style="display:none;">
         <div>
           <label for="setter-work-offer" class="block text-emerald-300 font-semibold mb-1">💼 Oferta Versionada / Propuesta</label>
           <select id="setter-work-offer" class="input-dark text-xs py-2" onchange="syncSetterWorkOfferPrice()">
@@ -4546,9 +4553,10 @@
         </div>
       </div>
 
-      <!-- Nota directa del seguimiento (campos técnicos ocultos para cero fricción) -->
+      <!-- Nota directa del seguimiento (campos técnicos ocultos en Setter; visibles en Closer) -->
       <div class="rounded-xl bg-slate-900/70 border border-cyan-500/30 p-3.5 space-y-2">
-        <div class="hidden" style="display:none;">
+        <div id="setter-work-followup-title" class="text-[11px] font-black uppercase tracking-wider text-cyan-300" style="display:none;">➕ Agregar Nuevo Renglón de Seguimiento (Hoy / Ahora)</div>
+        <div id="setter-work-followup-fields" class="grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5" style="display:none;">
           <div>
             <label for="setter-work-channel" class="block text-slate-400 font-semibold mb-1">Canal Usado</label>
             <select id="setter-work-channel" class="input-dark text-xs py-1.5">
@@ -6393,7 +6401,7 @@ function renderSalesOsTable() {
       </td>
       <td class="px-4 py-3">
         <div class="flex flex-col gap-1.5 min-w-[165px]">
-          <button onclick="openSetterWorkDialog(${l.id})" class="w-full px-3.5 py-2.5 rounded-xl text-xs font-black bg-amber-400 text-slate-950 hover:bg-amber-300 transition shadow-md flex items-center justify-center gap-1.5" title="Abrir bitácora completa, cambiar etapa, elegir plantilla y ajustar propuesta comercial">
+          <button onclick="openSetterWorkDialog(${l.id}, 'Llamada', false, 'closer')" class="w-full px-3.5 py-2.5 rounded-xl text-xs font-black bg-amber-400 text-slate-950 hover:bg-amber-300 transition shadow-md flex items-center justify-center gap-1.5" title="Abrir bitácora completa, cambiar etapa, elegir plantilla, cotizar oferta y disparar a CRM GHL">
             📒 Bitácora &amp; Propuesta
           </button>
           <a href="${demoUrl}" class="w-full px-3 py-1.5 rounded-lg text-[11px] font-bold bg-cyan-500/15 text-cyan-300 border border-cyan-500/35 hover:bg-cyan-500/25 no-underline text-center">
@@ -7901,11 +7909,16 @@ function renderCallQueueTable() {
   }).join('');
 }
 
-function openSetterWorkDialog(leadId, defaultChannel = 'Llamada', preserveFeedback = false) {
+window.currentSetterWorkRole = 'setter';
+
+function openSetterWorkDialog(leadId, defaultChannel = 'Llamada', preserveFeedback = false, viewRole = null) {
   const lead = salesOsLeads.find(x => x.id === leadId);
   if (!lead) return;
   const dlg = document.getElementById('setterLeadWorkDialog');
   if (!dlg) return;
+
+  window.currentSetterWorkRole = viewRole || (preserveFeedback ? window.currentSetterWorkRole : null) || 'setter';
+  const isCloserMode = (window.currentSetterWorkRole === 'closer');
 
   const intel = parseLeadIntelligence(lead);
   const rawPhone = (lead.phone_e164 || lead.phone || '').replace(/[^0-9+]/g, '');
@@ -7920,9 +7933,33 @@ function openSetterWorkDialog(leadId, defaultChannel = 'Llamada', preserveFeedba
   const curStage = lead.pipeline_stage || 'Lead identificado';
   document.getElementById('setter-work-stage-badge').textContent = curStage;
 
+  const roleBadge = document.getElementById('setter-work-role-badge');
+  if (roleBadge) {
+    roleBadge.textContent = isCloserMode
+      ? '🔥 CIERRE & PROPUESTA COMERCIAL (GORRA CLOSER → CRM GHL)'
+      : '🧢 TRABAJO DE CONTACTO (SETTER → CLOSER)';
+    roleBadge.className = isCloserMode
+      ? 'px-2 py-0.5 rounded-full text-[10px] font-black uppercase bg-amber-500/20 text-amber-300 border border-amber-500/40'
+      : 'px-2 py-0.5 rounded-full text-[10px] font-black uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/35';
+  }
+
+  const stageLabel = document.getElementById('setter-work-stage-label');
+  if (stageLabel) {
+    stageLabel.textContent = isCloserMode
+      ? 'Etapa del Cierre (Pipeline CRM GHL) *'
+      : 'Etapa del Contacto (Solo 3 Etapas) *';
+  }
+
   const stageSel = document.getElementById('setter-work-stage');
   if (stageSel) {
-    if (['Primer contacto', 'Contacto', 'Calificado'].includes(curStage)) {
+    stageSel.querySelectorAll('.closer-only-stage-opt').forEach(opt => {
+      opt.hidden = !isCloserMode;
+      opt.disabled = !isCloserMode;
+    });
+    const closerStageList = ['Primer contacto', 'Contacto', 'Calificado', 'Demo realizada', 'Propuesta enviada', 'Pago pendiente', 'No interesado'];
+    if (isCloserMode && closerStageList.includes(curStage)) {
+      stageSel.value = curStage;
+    } else if (['Primer contacto', 'Contacto', 'Calificado'].includes(curStage)) {
       stageSel.value = curStage;
     } else if (curStage === 'En seguimiento local') {
       stageSel.value = 'Contacto';
@@ -7931,6 +7968,19 @@ function openSetterWorkDialog(leadId, defaultChannel = 'Llamada', preserveFeedba
     } else {
       stageSel.value = 'Calificado';
     }
+  }
+
+  const offerRow = document.getElementById('setter-work-offer-row');
+  if (offerRow) {
+    offerRow.style.display = isCloserMode ? 'grid' : 'none';
+  }
+  const followTitle = document.getElementById('setter-work-followup-title');
+  if (followTitle) {
+    followTitle.style.display = isCloserMode ? '' : 'none';
+  }
+  const followFields = document.getElementById('setter-work-followup-fields');
+  if (followFields) {
+    followFields.style.display = isCloserMode ? 'grid' : 'none';
   }
 
   const tplSel = document.getElementById('setter-work-template');
@@ -7957,9 +8007,13 @@ function openSetterWorkDialog(leadId, defaultChannel = 'Llamada', preserveFeedba
     saveLocalBtn.textContent = '💾 Guardar Nota / Toque (+1) en Bitácora';
   }
   if (crmBtn) {
-    crmBtn.textContent = isAlreadyCloserLead
-      ? '💾 Actualizar Etapa y Nota en CRM ProsperIA'
-      : '🔥 Contestó y Calificó → Pasar a Pipeline Closer';
+    if (isCloserMode) {
+      crmBtn.textContent = '🚀 Guardar Oferta, Propuesta y Disparar a CRM GHL';
+    } else {
+      crmBtn.textContent = isAlreadyCloserLead
+        ? '💾 Actualizar Etapa y Nota en CRM ProsperIA'
+        : '🔥 Contestó y Calificó → Pasar a Pipeline Closer (CRM GHL)';
+    }
   }
 
   const route = getLeadCallRouting(lead, intel.waScript);
@@ -8000,7 +8054,10 @@ function openSetterWorkDialog(leadId, defaultChannel = 'Llamada', preserveFeedba
     loadLeadCommsStatus(lead.id);
   }
   const demoBtn = document.getElementById('setter-work-demo-btn');
-  if (demoBtn) demoBtn.href = demoUrl;
+  if (demoBtn) {
+    demoBtn.href = demoUrl;
+    demoBtn.style.display = isCloserMode ? '' : 'none';
+  }
 
   const scriptsBox = document.getElementById('setter-work-scripts-body');
   if (scriptsBox) {
@@ -8070,22 +8127,35 @@ async function submitSetterWork(mode) {
   const next_action_at = document.getElementById('setter-work-next-at')?.value || '';
   const notes = (document.getElementById('setter-work-note')?.value || '').trim();
 
+  const isCloserMode = (window.currentSetterWorkRole === 'closer');
   const curSt = lead?.pipeline_stage || '';
   const alreadyInCrm = ['Calificado', 'Diagnóstico agendado', 'Demo realizada', 'Propuesta enviada', 'Pago pendiente', 'Pago confirmado', 'Implementación', 'Entregado'].includes(curSt) || ((lead?.contact_id || '').trim() !== '');
   const notesLow = notes.toLowerCase();
   const hasNonQualNote = ['no contest', 'no tiene sms', 'no tiene ws', 'buzón', 'buzon'].some(k => notesLow.includes(k));
+  const allowedCloserStages = ['Primer contacto', 'Contacto', 'Calificado', 'Demo realizada', 'Propuesta enviada', 'Pago pendiente', 'No interesado'];
 
   if (mode === 'save_local') {
     if (outcome === 'qualified_crm') outcome = 'callback';
-    if (setter_stage === 'Calificado' && outcome !== 'disqualified' && outcome !== 'no_answer') {
+    if (!isCloserMode && setter_stage === 'Calificado' && outcome !== 'disqualified' && outcome !== 'no_answer') {
       setter_stage = 'Contacto';
     }
   } else if (mode === 'send_to_crm') {
-    if (outcome === 'no_answer' || outcome === 'disqualified' || hasNonQualNote) {
+    if (!isCloserMode && (outcome === 'no_answer' || outcome === 'disqualified' || hasNonQualNote)) {
+      alert('⚠️ Filtrado local: un contacto sin respuesta o sin calificar no se dispara al CRM de GHL. Se guardará únicamente en tu bitácora local.');
       if (outcome === 'qualified_crm' || hasNonQualNote) {
         outcome = (notesLow.includes('no contest') || notesLow.includes('buzón') || notesLow.includes('buzon') || notesLow.includes('no tiene')) ? 'no_answer' : 'callback';
       }
       setter_stage = (outcome === 'no_answer') ? 'Primer contacto' : 'Contacto';
+    } else if (isCloserMode) {
+      if (setter_stage === 'No interesado' || outcome === 'disqualified') {
+        outcome = 'disqualified';
+        setter_stage = 'No interesado';
+      } else if (outcome === 'no_answer' && !hasNonQualNote) {
+        outcome = 'callback';
+      } else if (!['Demo realizada', 'Propuesta enviada', 'Pago pendiente'].includes(setter_stage)) {
+        outcome = 'qualified_crm';
+        if (!alreadyInCrm) setter_stage = 'Calificado';
+      }
     } else {
       outcome = 'qualified_crm';
       if (!alreadyInCrm) setter_stage = 'Calificado';
@@ -8115,11 +8185,18 @@ async function submitSetterWork(mode) {
       return;
     }
 
-    // Sincronizar oferta, monto cotizado y preservar etapa Pago pendiente/confirmado vía /stage
-    const isGenuineCrmAdvance = (mode === 'send_to_crm' && outcome === 'qualified_crm');
-    const finalStage = ['Pago pendiente', 'Pago confirmado'].includes(curSt)
+    // Sincronizar oferta, monto cotizado y etapa filtrada al CRM GoHighLevel vía /stage
+    const isGenuineCrmAdvance = (
+      mode === 'send_to_crm'
+      && (isCloserMode ? !hasNonQualNote : outcome === 'qualified_crm')
+    );
+    const finalStage = ['Pago confirmado', 'Implementación', 'Entregado'].includes(curSt)
       ? curSt
-      : (isGenuineCrmAdvance ? (['Primer contacto', 'Contacto', 'Calificado'].includes(setter_stage) ? setter_stage : 'Calificado') : null);
+      : (isGenuineCrmAdvance
+        ? (isCloserMode
+          ? (allowedCloserStages.includes(setter_stage) ? setter_stage : 'Propuesta enviada')
+          : (['Primer contacto', 'Contacto', 'Calificado'].includes(setter_stage) ? setter_stage : 'Calificado'))
+        : (['Pago pendiente'].includes(curSt) ? curSt : null));
     if (isGenuineCrmAdvance || finalStage) {
       await fetch(`/api/sales-os/leads/${leadId}/stage`, {
         method: 'PUT',
