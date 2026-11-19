@@ -1,0 +1,457 @@
+/* Doral Fashion Week — Power Upgrade Styles (Prosper IA) */
+:root {
+  --dfw-gold: #d4af37;
+  --dfw-gold-soft: #f3dc92;
+  --dfw-bg: #070709;
+  --dfw-card: rgba(15, 15, 19, 0.92);
+  --dfw-border: rgba(212, 175, 55, 0.28);
+}
+
+/* ── Header EN|ES Language Toggle ───────────────────────────────────────── */
+.dfw-lang-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--dfw-border);
+  background: rgba(10, 10, 14, 0.86);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.25s, transform 0.2s, background 0.25s;
+  white-space: nowrap;
+}
+.dfw-lang-btn:hover {
+  border-color: var(--dfw-gold);
+  background: rgba(212, 175, 55, 0.14);
+  transform: translateY(-1px);
+}
+.dfw-lang-btn span.dfw-active-lang {
+  color: var(--dfw-gold);
+}
+
+/* ── High-Ticket Sponsors & VIP Section (#sponsors) ────────────────────── */
+.dfw-sponsors-section {
+  position: relative;
+  z-index: 10;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 5.5rem 1.5rem 4rem;
+}
+.dfw-sponsors-head {
+  text-align: center;
+  max-width: 780px;
+  margin: 0 auto 3rem;
+}
+.dfw-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--dfw-border);
+  background: rgba(212, 175, 55, 0.08);
+  color: var(--dfw-gold);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.dfw-sponsors-head h2 {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: #fff;
+  margin-bottom: 0.9rem;
+  line-height: 1.15;
+}
+.dfw-sponsors-head p {
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 0.98rem;
+  line-height: 1.7;
+}
+.dfw-sponsors-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+@media (max-width: 960px) {
+  .dfw-sponsors-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.dfw-sponsor-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2rem 1.75rem;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: linear-gradient(160deg, rgba(20, 20, 26, 0.96), rgba(8, 8, 11, 0.98));
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.dfw-sponsor-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--dfw-gold);
+  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.55), 0 0 28px rgba(212, 175, 55, 0.14);
+}
+.dfw-sponsor-card.featured {
+  border-color: rgba(212, 175, 55, 0.55);
+  background: linear-gradient(160deg, rgba(35, 28, 12, 0.55), rgba(8, 8, 11, 0.98));
+}
+.dfw-sponsor-num {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--dfw-gold);
+  margin-bottom: 0.75rem;
+}
+.dfw-sponsor-card h3 {
+  font-size: 1.45rem;
+  color: #fff;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+.dfw-sponsor-card p {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.68);
+  line-height: 1.6;
+  margin-bottom: 1.2rem;
+}
+.dfw-sponsor-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.6rem;
+  display: grid;
+  gap: 0.5rem;
+}
+.dfw-sponsor-list li {
+  font-size: 0.84rem;
+  color: rgba(255, 255, 255, 0.85);
+  padding-left: 1.25rem;
+  position: relative;
+}
+.dfw-sponsor-list li::before {
+  content: "✦";
+  position: absolute;
+  left: 0;
+  color: var(--dfw-gold);
+  font-size: 0.75rem;
+}
+.dfw-btn-gold {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 0.9rem 1.25rem;
+  border-radius: 999px;
+  border: 1px solid var(--dfw-gold);
+  background: linear-gradient(135deg, #d4af37, #f3dc92);
+  color: #09090b;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-decoration: none;
+  transition: filter 0.2s, transform 0.2s;
+}
+.dfw-btn-gold:hover {
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+.dfw-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 0.9rem 1.25rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+.dfw-btn-outline:hover {
+  border-color: var(--dfw-gold);
+  background: rgba(212, 175, 55, 0.1);
+}
+
+/* ── Native Light-Dismiss B2B Modal Dialog ──────────────────────────────── */
+#dfwSponsorModal {
+  margin: auto;
+  width: min(560px, 94vw);
+  max-height: 92vh;
+  overflow-y: auto;
+  border-radius: 20px;
+  border: 1px solid var(--dfw-border);
+  background: #0b0b0f;
+  color: #fff;
+  padding: 2rem;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.85);
+}
+#dfwSponsorModal::backdrop {
+  background-color: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(4px);
+}
+.dfw-modal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.dfw-modal-close {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+.dfw-field {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 0.95rem;
+}
+.dfw-field label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(255, 255, 255, 0.72);
+  font-weight: 700;
+}
+.dfw-field input,
+.dfw-field select,
+.dfw-field textarea {
+  width: 100%;
+  padding: 0.75rem 0.95rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  font-size: 0.92rem;
+  outline: none;
+}
+.dfw-field input:focus,
+.dfw-field select:focus,
+.dfw-field textarea:focus {
+  border-color: var(--dfw-gold);
+}
+.dfw-field select option {
+  background: #121218;
+  color: #fff;
+}
+
+/* ── Newsletter Confirmation Status ─────────────────────────────────────── */
+.dfw-newsletter-status {
+  margin-top: 0.9rem;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  border: 1px solid var(--dfw-border);
+  background: rgba(212, 175, 55, 0.1);
+  color: var(--dfw-gold-soft);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* ── Floating AI Concierge 24/7 + WhatsApp VIP ──────────────────────────── */
+.dfw-fab-wrap {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 2147482500;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+.dfw-fab-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.dfw-fab-wa {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 11px 16px;
+  border-radius: 999px;
+  background: #10b981;
+  color: #03150e;
+  font-size: 12px;
+  font-weight: 800;
+  text-decoration: none;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+  transition: transform 0.2s;
+}
+.dfw-fab-wa:hover {
+  transform: translateY(-2px);
+}
+.dfw-fab-ai {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--dfw-gold);
+  background: linear-gradient(135deg, #16140f, #09090c);
+  color: var(--dfw-gold-soft);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6), 0 0 22px rgba(212, 175, 55, 0.24);
+  transition: transform 0.2s;
+}
+.dfw-fab-ai:hover {
+  transform: translateY(-2px);
+}
+.dfw-concierge-panel {
+  width: min(375px, calc(100vw - 24px));
+  max-height: min(560px, calc(100vh - 95px));
+  border-radius: 20px;
+  border: 1px solid var(--dfw-border);
+  background: #0a0a0f;
+  color: #fff;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.82);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+}
+.dfw-concierge-panel.open {
+  display: flex;
+}
+.dfw-concierge-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.16), rgba(14, 14, 18, 0.98));
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.dfw-concierge-body {
+  padding: 14px 16px;
+  overflow-y: auto;
+  display: grid;
+  gap: 10px;
+}
+.dfw-msg-ai {
+  padding: 11px 13px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 13px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.92);
+}
+.dfw-msg-user {
+  padding: 10px 13px;
+  border-radius: 14px;
+  background: rgba(212, 175, 55, 0.18);
+  border: 1px solid var(--dfw-border);
+  font-size: 13px;
+  color: #fff;
+  justify-self: end;
+}
+.dfw-quick-grid {
+  display: grid;
+  gap: 7px;
+}
+.dfw-quick-btn {
+  text-align: left;
+  padding: 9px 12px;
+  border-radius: 11px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+.dfw-quick-btn:hover {
+  border-color: var(--dfw-gold);
+  background: rgba(212, 175, 55, 0.1);
+}
+
+/* ── Apply Protocol Complete Extra Actions ─────────────────────────────── */
+.dfw-contract-actions {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+.dfw-contract-actions a,
+.dfw-contract-actions button {
+  padding: 0.85rem 1.3rem;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* ── Holding Ecosystem Bar in Footer ────────────────────────────────────── */
+.dfw-ecosystem-bar {
+  margin-top: 2rem;
+  padding: 1.35rem 1.5rem;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.025);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.dfw-ecosystem-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+}
+.dfw-ecosystem-links a {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 12px;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+.dfw-ecosystem-links a:hover {
+  color: var(--dfw-gold);
+  border-color: var(--dfw-gold);
+}
+.dfw-powered {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.56);
+}
+.dfw-powered a {
+  color: var(--dfw-gold-soft);
+  text-decoration: underline;
+}
