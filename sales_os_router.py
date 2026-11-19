@@ -4080,10 +4080,11 @@ async def api_send_agency_whatsapp(
     current_user: dict = Depends(get_current_sales_user),
     db: Session = Depends(get_db),
 ):
-    """Envía WhatsApp en 1 clic usando la línea oficial de Agencia Prosper IA (+1 786-833-6964 / WABA) en GHL.
-    - Si la ventana Meta de 24h está abierta, envía texto libre con el enlace Demo Web.
-    - En frío, rota automáticamente las 3 plantillas Meta aprobadas sin pedir selección manual al Closer.
-    """
+    """Envío directo de WhatsApp de agencia deshabilitado (utiliza Llamada o Enviar Correo)."""
+    raise HTTPException(
+        status_code=403,
+        detail="Envío de WhatsApp de agencia deshabilitado. Utiliza Llamada o Enviar Correo.",
+    )
     import asyncio
 
     lead = db.query(DbLead).filter(DbLead.id == lead_id).first()

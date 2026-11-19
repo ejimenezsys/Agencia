@@ -2233,13 +2233,12 @@
         </div>
       </div>
 
-      <!-- Panel Motor Setter IA & Closer IA (Calentamiento Automático: Plantillas WA + Correos + Respuestas 24h) -->
+      <!-- Panel Motor Setter IA & Closer IA (Correos Automáticos + Detección de Respuestas + Llamadas) -->
       <div id="setter-ia-warmup-panel" class="rounded-xl bg-slate-950/85 border border-emerald-400/35 p-3.5 text-xs space-y-2.5">
         <div class="flex flex-wrap items-center justify-between gap-2">
           <div class="flex flex-wrap items-center gap-2">
             <span class="font-black text-emerald-300 uppercase tracking-wider">🤖 Motor Setter IA &amp; Closer IA</span>
             <span id="setter-ia-status-pill" class="px-2 py-0.5 rounded-full text-[11px] font-bold bg-slate-800 text-slate-300 border border-slate-700">⏳ Cargando...</span>
-            <span id="setter-ia-tpls-pill" class="px-2 py-0.5 rounded-full text-[11px] font-bold bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">📋 3/10 Plantillas Activas</span>
           </div>
           <div class="flex flex-wrap items-center gap-1.5">
             <button type="button" onclick="filterOnlyRepliedLeads()" class="px-2.5 py-1 rounded-lg bg-rose-500/20 text-rose-200 border border-rose-500/40 hover:bg-rose-500/30 text-[11px] font-black transition">
@@ -2252,11 +2251,7 @@
             </div>
           </div>
         </div>
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px]">
-          <div class="p-2 rounded-lg bg-slate-900/90 border border-slate-800">
-            <div class="text-slate-400">💬 WhatsApp Hoy / Pend.</div>
-            <div id="setter-ia-wa-metric" class="font-black text-emerald-300 text-sm">0 / 0</div>
-          </div>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[11px]">
           <div class="p-2 rounded-lg bg-slate-900/90 border border-slate-800">
             <div class="text-slate-400">✉️ Correos Hoy / Pend.</div>
             <div id="setter-ia-email-metric" class="font-black text-sky-300 text-sm">0 / 0</div>
@@ -2270,7 +2265,7 @@
             <div id="setter-ia-demo-metric" class="font-black text-cyan-300 text-sm">0</div>
           </div>
         </div>
-        <div id="setter-ia-last-log" class="text-[11px] text-slate-400 truncate">En espera de activación para calentar la base con plantillas WA + correos mientras llamas.</div>
+        <div id="setter-ia-last-log" class="text-[11px] text-slate-400 truncate">Motor enfocado en Correos + Llamadas + Detección de Respuestas 24/7.</div>
       </div>
 
       <!-- Panel colapsable Mi Extensión SIP Miami & Bifurcación Inteligente Anti-Tarifas -->
@@ -4443,9 +4438,6 @@
         <button type="button" id="setter-work-call-btn" class="px-3 py-1.5 rounded-lg text-xs font-black bg-emerald-400 text-slate-950 hover:bg-emerald-300 transition shadow">
           📞 Llamar
         </button>
-        <button type="button" id="setter-work-wa-btn" class="px-5 py-2.5 rounded-xl text-sm font-black text-slate-950 shadow-lg hover:brightness-110 transition flex items-center gap-1.5" style="background:linear-gradient(135deg,#25D366,#10b981); box-shadow:0 4px 14px rgba(37,211,102,0.35);" title="1 clic: envía WhatsApp Oficial de la Agencia (+1 786-833-6964) rotando plantillas o texto libre si respondió">
-          💬 Enviar WhatsApp
-        </button>
         <button type="button" id="setter-work-sms-btn" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/35 hover:bg-indigo-500/30" title="1 clic: envía SMS con Demo Web desde +1 786 (solo EE. UU./PR)">
           🇺🇸 Enviar SMS
         </button>
@@ -4478,12 +4470,6 @@
       </div>
       <div id="setter-work-comms-hint" class="text-[11px] text-slate-400 leading-snug">Consultando si el prospecto recibió, leyó o respondió tu mensaje...</div>
       <div id="setter-work-comms-list" class="space-y-1 max-h-36 overflow-y-auto"></div>
-      <div id="setter-work-wa-reply-wrap" class="hidden pt-2 border-t border-slate-800 flex flex-wrap items-center gap-2">
-        <input type="text" id="setter-work-wa-reply-input" placeholder="Ventana 24h abierta: escribe respuesta libre por WhatsApp..." class="input-dark text-xs py-1.5 flex-1 min-w-[220px]">
-        <button type="button" onclick="sendQuickWaReplyFromModal(Number(document.getElementById('setter-work-lead-id').value), this)" class="px-3 py-1.5 rounded-lg font-black bg-emerald-500 text-slate-950 hover:bg-emerald-400 transition">
-          💬 Responder WA
-        </button>
-      </div>
     </div>
 
     <input type="hidden" id="setter-work-lead-id">
@@ -8026,8 +8012,7 @@ function openSetterWorkDialog(leadId, defaultChannel = 'Llamada', preserveFeedba
   }
   const waBtn = document.getElementById('setter-work-wa-btn');
   if (waBtn) {
-    waBtn.onclick = () => sendAgencyWhatsappToLead(lead.id, waBtn, 'auto');
-    waBtn.style.display = rawPhone ? '' : 'none';
+    waBtn.style.display = 'none';
   }
   const smsBtn = document.getElementById('setter-work-sms-btn');
   if (smsBtn) {
