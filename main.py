@@ -2225,7 +2225,7 @@ async def get_llms_txt():
         "- [Diagnóstico comercial](https://agenciaprosperia.com/diagnostico): autoevaluación del pipeline comercial.\n"
         "- [Test de madurez en IA](https://agenciaprosperia.com/test-ia): diagnóstico interactivo de 10 preguntas.\n"
         "- [PassportAI](https://passportai.app): plataforma creada por Edward Jiménez (prueba de 5 días).\n"
-        "- [Libro Oficial: Las 4 Inteligencias por Edward Jiménez](https://agenciaprosperia.com/libro): ISBN 979-8-9824777-0-5, Library of Congress LCCN 2026970390, prólogo de Fernando Anzures.\n\n"
+        "- [Libro Oficial: Las 4 Inteligencias por Edward Jiménez](https://agenciaprosperia.com/libro): ISBN 979-8-9824777-0-5, Library of Congress LCCN 2026970390, prólogo de Fernando Anzures. Amazon Oficial (ASIN B0HS33VP6C): https://www.amazon.com/dp/B0HS33VP6C?th=1\n\n"
         "## Recursos gratuitos\n"
         "- [El Arsenal: biblioteca de prompts de IA](https://agenciaprosperia.com/arsenal): prompts para imagen, video y agentes autónomos.\n"
         "- [200 Códigos Creativos de ChatGPT](https://agenciaprosperia.com/codigos): prompts de dirección fotográfica y video, guías PDF.\n"
