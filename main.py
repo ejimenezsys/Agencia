@@ -3522,7 +3522,8 @@ async def api_emprende_funnel_capture(
     phone_e164 = normalize_phone_e164(phone_raw)
     biz_name = str(payload.get("business_name") or payload.get("businessName") or "Proyecto EmprendeProsperIA").strip()[:140]
     tool_slug = str(payload.get("tool_slug") or payload.get("toolSlug") or "personal-brand").strip()[:60]
-    prompt_input = str(payload.get("prompt_input") or payload.get("promptInput") or "").strip()[:500]
+    prompt_input = str(payload.get("prompt_input") or payload.get("promptInput") or "").strip()[:1200]
+    form_data = payload.get("form_data") if isinstance(payload.get("form_data"), dict) else {}
     source_url = str(payload.get("source_url") or payload.get("sourceUrl") or "https://www.emprendeprosperia.com").strip()[:220]
 
     if not email_clean and not phone_e164:
@@ -3538,13 +3539,19 @@ async def api_emprende_funnel_capture(
     closer_ghl_id = closer.get("ghl_user_id", "") if closer else ""
     now_str = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
 
+    form_lines = "\n".join(
+        f"  - {k}: {str(v).strip()[:200]}"
+        for k, v in form_data.items()
+        if str(v or "").strip()
+    )
     funnel_note = (
-        f"🔥 EMBUDO EMPRENDEPROSPERIA.COM (6 CONSTRUCTORES IA GRATIS)\n"
+        f"🔥 EMBUDO EMPRENDEPROSPERIA.COM (CONSTRUCTORES IA + SUITE CORTEXIA)\n"
         f"• Nombre: {full_name}\n"
         f"• Negocio / Idea: {biz_name}\n"
         f"• Email: {email_clean or 'N/D'}\n"
         f"• Teléfono / WhatsApp: {phone_raw or phone_e164 or 'N/D'}\n"
-        f"• Constructor elegido: {tool_slug}\n"
+        f"• Constructor / Módulo: {tool_slug}\n"
+        + (f"• Radiografía del formulario:\n{form_lines}\n" if form_lines else "")
         + (f"• Prompt ingresado: {prompt_input}\n" if prompt_input else "")
         + f"• Origen: {source_url}\n"
         + f"• Fecha UTC: {now_str}"
@@ -3676,6 +3683,11 @@ async def api_emprende_generate_demo_options():
     return JSONResponse({"ok": True}, headers=_EMPRENDE_CORS_HEADERS)
 
 
+@app.options("/api/emprende/execute-tool")
+async def api_emprende_execute_tool_options():
+    return JSONResponse({"ok": True}, headers=_EMPRENDE_CORS_HEADERS)
+
+
 def _extract_json_block_safe(raw_text: str) -> Optional[Dict[str, Any]]:
     txt = str(raw_text or "").strip()
     if not txt:
@@ -3695,11 +3707,134 @@ def _extract_json_block_safe(raw_text: str) -> Optional[Dict[str, Any]]:
     return None
 
 
+_EMPRENDE_RATE_BUCKETS: Dict[str, List[float]] = {}
+
+
+def _invoke_gemini_emprende_json(
+    system_prompt: str,
+    user_prompt: str,
+    client_ip: str = "internal",
+    max_tokens: int = 3600,
+) -> Optional[Dict[str, Any]]:
+    """Invoca Gemini 2.5 Flash con respuesta JSON garantizada y sin recorte a 350 chars para dossieres EmprendeProsperIA / Cortexia 777."""
+    import time
+    import ssl
+    import urllib.request
+    from sales_os_router import _resolve_gemini_api_key
+
+    now = time.time()
+    ip_key = f"emp:{client_ip or 'unknown'}"
+    bucket = [ts for ts in _EMPRENDE_RATE_BUCKETS.get(ip_key, []) if now - ts < 3600]
+    recent_min = sum(1 for ts in bucket if now - ts < 60)
+    if recent_min >= 20 or len(bucket) >= 120:
+        return None
+    bucket.append(now)
+    _EMPRENDE_RATE_BUCKETS[ip_key] = bucket
+
+    api_key = _resolve_gemini_api_key()
+    if not api_key:
+        return None
+
+    safe_user = (user_prompt or "").strip()[:5500]
+    if re.search(r"[ACGTUacgtu]{24,}", safe_user):
+        return None
+
+    payload = {
+        "contents": [{"parts": [{"text": f"{system_prompt}\n\nDATOS DE ENTRADA DEL CLIENTE:\n{safe_user}"}]}],
+        "generationConfig": {
+            "temperature": 0.55,
+            "maxOutputTokens": max_tokens,
+            "responseMimeType": "application/json",
+            "thinkingConfig": {"thinkingBudget": 0},
+        },
+    }
+    ctx = ssl._create_unverified_context()
+    for model_name in ("gemini-2.5-flash", "gemini-1.5-flash"):
+        try:
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={api_key}"
+            req = urllib.request.Request(
+                url,
+                data=json.dumps(payload).encode("utf-8"),
+                headers={"Content-Type": "application/json"},
+            )
+            with urllib.request.urlopen(req, context=ctx, timeout=28) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+                raw_txt = data["candidates"][0]["content"]["parts"][0]["text"].strip()
+                parsed = _extract_json_block_safe(raw_txt)
+                if parsed:
+                    return parsed
+        except Exception as exc:
+            print(f"[Emprende Gemini JSON Warning] {model_name}: {exc}", flush=True)
+    return None
+
+
+def _scrape_live_url_for_tool(text_or_url: str) -> Optional[Dict[str, Any]]:
+    """Extrae título, meta descripción, encabezados H1-H3 y texto limpio de una URL web o video de YouTube para Web Scraping / Reader."""
+    import html as html_lib
+    import ssl
+    import urllib.parse
+    import urllib.request
+
+    match = re.search(r"https?://[^\s<>\"']+", text_or_url or "")
+    if not match:
+        return None
+    target_url = match.group(0).rstrip(".,;)")
+    parsed_u = urllib.parse.urlparse(target_url)
+    if parsed_u.scheme not in ("http", "https") or not parsed_u.netloc:
+        return None
+    host_l = parsed_u.netloc.lower()
+    if host_l in ("localhost", "127.0.0.1", "0.0.0.0") or host_l.startswith(("10.", "192.168.", "169.254.")):
+        return None
+
+    ua = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+    ctx = ssl._create_unverified_context()
+    scraped: Dict[str, Any] = {"url": target_url}
+
+    if "youtube.com" in host_l or "youtu.be" in host_l:
+        try:
+            oembed_url = "https://www.youtube.com/oembed?" + urllib.parse.urlencode({"url": target_url, "format": "json"})
+            req_yt = urllib.request.Request(oembed_url, headers={"User-Agent": ua})
+            with urllib.request.urlopen(req_yt, context=ctx, timeout=8) as r_yt:
+                yt_meta = json.loads(r_yt.read().decode("utf-8"))
+                scraped["youtube_title"] = yt_meta.get("title", "")
+                scraped["youtube_author"] = yt_meta.get("author_name", "")
+        except Exception:
+            pass
+
+    try:
+        req = urllib.request.Request(target_url, headers={"User-Agent": ua, "Accept": "text/html,application/xhtml+xml"})
+        with urllib.request.urlopen(req, context=ctx, timeout=9) as resp:
+            raw_bytes = resp.read(220_000)
+            html_str = raw_bytes.decode("utf-8", errors="replace")
+            title_m = re.search(r"<title[^>]*>(.*?)</title>", html_str, re.I | re.S)
+            meta_desc_m = re.search(r'<meta[^>]+name=["\']description["\'][^>]+content=["\'](.*?)["\']', html_str, re.I | re.S)
+            if not meta_desc_m:
+                meta_desc_m = re.search(r'<meta[^>]+content=["\'](.*?)["\'][^>]+name=["\']description["\']', html_str, re.I | re.S)
+            headings = re.findall(r"<h[1-3][^>]*>(.*?)</h[1-3]>", html_str, re.I | re.S)
+            clean_headings = [re.sub(r"\s+", " ", html_lib.unescape(re.sub(r"<[^>]+>", " ", h))).strip() for h in headings]
+            clean_headings = [h for h in clean_headings if 2 <= len(h) <= 140][:16]
+            links_count = len(re.findall(r"<a\s+[^>]*href=", html_str, re.I))
+
+            body_clean = re.sub(r"<(script|style|noscript|svg)[^>]*>.*?</\1>", " ", html_str, flags=re.I | re.S)
+            body_clean = re.sub(r"<[^>]+>", " ", body_clean)
+            body_clean = re.sub(r"\s+", " ", html_lib.unescape(body_clean)).strip()
+
+            scraped["title"] = html_lib.unescape(re.sub(r"\s+", " ", title_m.group(1)).strip()) if title_m else scraped.get("youtube_title", "")
+            scraped["meta_description"] = html_lib.unescape(re.sub(r"\s+", " ", meta_desc_m.group(1)).strip()) if meta_desc_m else ""
+            scraped["headings"] = clean_headings
+            scraped["links_count"] = links_count
+            scraped["text_excerpt"] = body_clean[:3200]
+            return scraped
+    except Exception as exc:
+        scraped["fetch_note"] = f"Lectura parcial ({exc})"
+        return scraped
+
+
 @app.post("/api/emprende/generate-demo")
-async def api_emprende_generate_demo(request: Request):
-    """Motor IA en vivo para los 6 Constructores Gratuitos de EmprendeProsperIA.com (compatible con visor y PDF)."""
+async def api_emprende_generate_demo(request: Request, db: Session = Depends(get_db)):
+    """Motor IA en vivo para los 6 Constructores Gratuitos de EmprendeProsperIA.com (dossier ejecutivo + PDF ilustrado)."""
     import asyncio
-    from sales_os_router import invoke_gemini_assistant, extract_client_ip
+    from sales_os_router import extract_client_ip
 
     try:
         payload = await request.json()
@@ -3709,88 +3844,240 @@ async def api_emprende_generate_demo(request: Request):
         payload = {}
 
     tool_slug = str(payload.get("tool_slug") or payload.get("toolSlug") or "personal-brand").strip().lower()
-    raw_input = str(payload.get("input") or payload.get("prompt") or "").strip()[:3000]
+    raw_input = str(payload.get("input") or payload.get("prompt") or "").strip()[:3500]
     full_name = str(payload.get("full_name") or payload.get("fullName") or "Emprendedor").strip()[:100]
     biz_name = str(payload.get("business_name") or payload.get("businessName") or "Tu Negocio").strip()[:120]
+    email_clean = normalize_email(str(payload.get("email") or "").strip())
+    phone_raw = str(payload.get("phone") or "").strip()[:40]
+    form_data = payload.get("form_data") if isinstance(payload.get("form_data"), dict) else {}
 
-    if not raw_input:
+    form_context_lines = [
+        f"- {k}: {str(v).strip()[:300]}"
+        for k, v in form_data.items()
+        if str(v or "").strip()
+    ]
+    combined_input = raw_input
+    if form_context_lines:
+        combined_input = "DATOS ESTRUCTURADOS DEL FORMULARIO:\n" + "\n".join(form_context_lines)
+        if raw_input:
+            combined_input += f"\n\nDETALLE ADICIONAL:\n{raw_input}"
+
+    if not combined_input.strip():
         return JSONResponse(
-            {"success": False, "error": "Cuéntanos brevemente tu caso o idea para generar tu documento IA."},
+            {"success": False, "error": "Completa los campos del formulario estratégico para generar tu dossier PDF."},
             status_code=400,
             headers=_EMPRENDE_CORS_HEADERS,
         )
 
-    tool_specs = {
-        "personal-brand": (
-            "Constructor de Marca Personal y Autoridad Digital",
-            '{"title": "...", "positioning_statement": "...", "target_audience": "...", "tone_of_voice": "...", "sections": [{"section_title": "1. Declaración de Autoridad", "description": "...", "bullets": ["...", "..."]}, {"section_title": "2. 4 Pilares de Contenido Viral", "description": "...", "bullets": ["...", "...", "...", "..."]}, {"section_title": "3. Plan de Monetización en 30 Días", "description": "...", "bullets": ["...", "..."]}, {"section_title": "4. Siguiente Paso en Agencia ProsperIA", "description": "Convierte tu marca personal en un sistema automático con Sitio Web Inteligente + 4 Empleados IA 24/7 en https://agenciaprosperia.com/sitioweb o WhatsApp +1 (786) 557-3119.", "bullets": ["Agenda tu diagnóstico gratuito", "Implementación llave en mano en 7 días"]}]}'
-        ),
-        "business-ideas": (
-            "Constructor de Plan de Negocios y Validación de Idea",
-            '{"title": "...", "value_proposition": "...", "ideal_customer": "...", "revenue_model": "...", "sections": [{"section_title": "1. Problema Real y Propuesta Única de Valor", "description": "...", "bullets": ["...", "..."]}, {"section_title": "2. Producto Mínimo Viable (MVP en 7 Días)", "description": "...", "bullets": ["...", "..."]}, {"section_title": "3. Estrategia de Adquisición de Primeros 10 Clientes", "description": "...", "bullets": ["...", "..."]}, {"section_title": "4. Cómo Automatizar tu Lanzamiento", "description": "En Agencia ProsperIA te entregamos tu Sitio Web Inteligente + CRM + 4 Empleados Digitales IA 24/7 listos para vender en https://agenciaprosperia.com/sitioweb.", "bullets": ["Visita https://agenciaprosperia.com/sitioweb", "Escríbenos al WhatsApp +1 (786) 557-3119"]}]}'
-        ),
-        "lead-magnet": (
-            "Constructor de Lead Magnet Irresistible (Checklist / Guía PDF)",
-            '{"title": "...", "hook_headline": "...", "ideal_reader": "...", "conversion_promise": "...", "sections": [{"section_title": "1. Título y Promesa de Alto Impacto", "description": "...", "bullets": ["...", "..."]}, {"section_title": "2. Estructura de 5 Capítulos Descargables", "description": "...", "bullets": ["...", "...", "...", "..."]}, {"section_title": "3. Copy de Página de Captura", "description": "...", "bullets": ["...", "..."]}, {"section_title": "4. Automatiza la Entrega 24/7", "description": "Conecta tu guía PDF con seguimiento automático por correo, CRM y Sitio Web en https://agenciaprosperia.com/sitioweb.", "bullets": ["Entrega instantánea de leads", "Agenda automática con Closers"]}]}'
-        ),
-        "whatsapp": (
-            "Secuencia de Mensajes y Cierre Consultivo",
-            '{"campaign_name": "...", "objective": "...", "recommended_cadence": "4 toques en 7 días", "messages": [{"number": "1", "title": "Toque 1 · Primer Contacto & Valor", "message": "...", "send_day": "Día 1", "send_time_recommendation": "10:00 AM", "cta_type": "Pregunta abierta", "performance_tip": "Personaliza con el nombre y giro del cliente."}, {"number": "2", "title": "Toque 2 · Caso de Éxito y Muestra", "message": "...", "send_day": "Día 2", "send_time_recommendation": "11:30 AM", "cta_type": "Enviar demo interactiva", "performance_tip": "Muestra resultados concretos antes de hablar de precio."}, {"number": "3", "title": "Toque 3 · Resolución de Objeción", "message": "...", "send_day": "Día 4", "send_time_recommendation": "4:00 PM", "cta_type": "Agendar llamada 15 min", "performance_tip": "Enfoca la llamada en el diagnóstico sin compromiso."}, {"number": "4", "title": "Toque 4 · Cierre Suave", "message": "...", "send_day": "Día 7", "send_time_recommendation": "9:30 AM", "cta_type": "Confirmar interés", "performance_tip": "Cierra el ciclo con educación ejecutiva."}], "next_step": "Conecta este embudo a tu Sitio Web Inteligente y CRM ProsperIA en https://agenciaprosperia.com/sitioweb"}'
-        ),
-        "high-ticket-offer": (
-            "Constructor de Oferta High-Ticket Irresistible",
-            '{"title": "...", "core_promise": "...", "ideal_buyer": "...", "delivery_timeframe": "30 a 90 días", "sections": [{"section_title": "1. Arquitectura de la Oferta Principal", "description": "...", "bullets": ["...", "..."]}, {"section_title": "2. Stack de 4 Entregables y Bonos", "description": "...", "bullets": ["...", "...", "...", "..."]}, {"section_title": "3. Garantía y Reversión de Riesgo", "description": "...", "bullets": ["...", "..."]}, {"section_title": "4. Sistema de Ventas para Escalar", "description": "Implementa tu Sitio Web Inteligente + 4 Empleados IA para vender tu oferta en piloto automático en https://agenciaprosperia.com/sitioweb o WhatsApp +1 (786) 557-3119.", "bullets": ["Pre-calificación de clientes 24/7", "Agenda directa con cierre consultivo"]}]}'
-        ),
-        "viral-reels": (
-            "Constructor de Guiones de Reels & Contenido Viral",
-            '{"title": "...", "content_goal": "Atracción orgánica y captación de leads", "posting_frequency": "3 a 5 Reels por semana", "sections": [{"section_title": "Reel 1 · Gancho Contraintuitivo (30s)", "description": "...", "bullets": ["Gancho (0-3s): ...", "Desarrollo (3-22s): ...", "CTA Final (22-30s): ..."]}, {"section_title": "Reel 2 · Error Costoso del Sector (45s)", "description": "...", "bullets": ["Gancho (0-3s): ...", "Desarrollo (3-35s): ...", "CTA Final (35-45s): ..."]}, {"section_title": "Reel 3 · Caso Práctico Paso a Paso (45s)", "description": "...", "bullets": ["Gancho (0-3s): ...", "Desarrollo (3-35s): ...", "CTA Final (35-45s): ..."]}, {"section_title": "Escala tu Producción con ProsperIA", "description": "Convierte vistas en clientes agendados conectando tus Reels a https://agenciaprosperia.com/sitioweb.", "bullets": ["Embudo de palabra clave en comentarios", "Agenda automática 24/7"]}]}'
-        ),
-    }
+    # Enriquecer notas del lead en CRM si envió diagnóstico detallado
+    if email_clean or phone_raw:
+        try:
+            existing = None
+            if email_clean:
+                existing = db.query(DbLead).filter(DbLead.email == email_clean).order_by(DbLead.id.desc()).first()
+            if not existing and phone_raw:
+                p_e164 = normalize_phone_e164(phone_raw)
+                if p_e164:
+                    existing = db.query(DbLead).filter(DbLead.phone_e164 == p_e164).order_by(DbLead.id.desc()).first()
+            if existing and form_context_lines:
+                diag_block = f"📊 DIAGNÓSTICO CONSTRUCTOR ({tool_slug}):\n" + "\n".join(form_context_lines[:10])
+                prev = (existing.notes or "").strip()
+                if diag_block[:60] not in prev:
+                    existing.notes = f"{diag_block}\n\n{prev}" if prev else diag_block
+                    db.commit()
+        except Exception:
+            db.rollback()
 
-    tool_label, schema_hint = tool_specs.get(tool_slug, tool_specs["personal-brand"])
-    sys_prompt = (
-        f"Eres el Arquitecto Estratégico IA de EmprendeProsperIA.com y Agencia Prosper IA LLC.\n"
-        f"Debes generar un entregable completo, accionable y de alta calidad en ESPAÑOL para el constructor: {tool_label}.\n"
-        f"Solicitante: {full_name} | Empresa/Proyecto: {biz_name}.\n"
-        f"REGLA DE FORMATO ESTRICTA: Responde ÚNICAMENTE con un objeto JSON válido siguiendo exactamente esta estructura:\n{schema_hint}\n"
-        f"No incluyas bloques Markdown ni explicaciones fuera del JSON."
+    tool_titles = {
+        "personal-brand": "Arquitectura de Marca Personal y Autoridad Digital",
+        "business-ideas": "Plan Estratégico de Negocios, Validación y Proyección 90 Días",
+        "lead-magnet": "Blueprint de Lead Magnet & Embudo de Conversión 24/7",
+        "whatsapp": "Playbook de Cierre Consultivo por WhatsApp + Manejo de Objeciones",
+        "high-ticket-offer": "Ingeniería de Oferta High-Ticket, Stack de Bonos y Garantía",
+        "viral-reels": "Estudio de Guiones Reels Virales & Captación Orgánica",
+    }
+    tool_label = tool_titles.get(tool_slug, "Dossier Estratégico IA ProsperIA")
+
+    rich_schema = """{
+  "title": "Título ejecutivo personalizado incluyendo el nombre del negocio/marca",
+  "subtitle": "Subtítulo estratégico con promesa medible a 90 días",
+  "industry": "Sector o nicho detectado",
+  "overall_score": 89,
+  "scorecard": [
+    {"label": "Potencial de Mercado", "score": 91, "benchmark": 64, "insight": "Breve justificación con datos del caso"},
+    {"label": "Diferenciación y Oferta", "score": 87, "benchmark": 58, "insight": "Breve justificación"},
+    {"label": "Capacidad de Captación Digital", "score": 84, "benchmark": 52, "insight": "Breve justificación"},
+    {"label": "Escalabilidad con IA y Automatización", "score": 93, "benchmark": 45, "insight": "Breve justificación"}
+  ],
+  "executive_summary": "3 párrafos densos y quirúrgicos analizando exactamente la situación actual, oportunidad de mercado, ticket/modelo y ruta crítica hacia la meta planteada.",
+  "color_palette": [
+    {"name": "Primario Autoridad", "hex": "#0F2233", "usage": "Fondos de autoridad y portada"},
+    {"name": "Acento Tecnológico", "hex": "#06B6D4", "usage": "Botones CTA y resaltados clave"},
+    {"name": "Contraste Conversión", "hex": "#10B981", "usage": "Indicadores de ROI y confianza"},
+    {"name": "Superficie Editorial", "hex": "#F8FAFC", "usage": "Lectura limpia en web y PDF"}
+  ],
+  "financial_projection": [
+    {"period": "Mes 1 (Días 1-30)", "conservative": "$X USD", "realistic": "$Y USD", "ai_accelerated": "$Z USD", "driver": "Acción principal que impulsa las ventas"},
+    {"period": "Mes 2 (Días 31-60)", "conservative": "$X USD", "realistic": "$Y USD", "ai_accelerated": "$Z USD", "driver": "Escalamiento con retargeting y WhatsApp IA"},
+    {"period": "Mes 3 (Días 61-90)", "conservative": "$X USD", "realistic": "$Y USD", "ai_accelerated": "$Z USD", "driver": "Sistema completo en piloto automático"}
+  ],
+  "swot_matrix": {
+    "strengths": ["Fortaleza específica 1", "Fortaleza específica 2", "Fortaleza específica 3"],
+    "weaknesses": ["Brecha actual 1", "Brecha actual 2", "Brecha actual 3"],
+    "opportunities": ["Oportunidad de mercado 1", "Oportunidad 2", "Oportunidad 3"],
+    "threats": ["Riesgo competitivo 1", "Riesgo 2"]
+  },
+  "sections": [
+    {"section_title": "1. ...", "paragraph": "Explicación profunda de consultoría aplicada a los datos del usuario", "bullets": ["Táctica accionable 1", "Táctica accionable 2", "Táctica accionable 3", "Táctica accionable 4"]},
+    {"section_title": "2. ...", "paragraph": "...", "bullets": ["...", "...", "...", "..."]},
+    {"section_title": "3. ...", "paragraph": "...", "bullets": ["...", "...", "...", "..."]},
+    {"section_title": "4. Plan de Implementación 30-60-90 Días", "paragraph": "...", "bullets": ["...", "...", "..."]}
+  ],
+  "tactical_table": {
+    "title": "Hoja de Ruta Táctica de Ejecución Inmediata",
+    "headers": ["Fase / Timing", "Acción Estratégica", "Entregable Concreto", "KPI Esperado"],
+    "rows": [
+      ["Semana 1", "...", "...", "..."],
+      ["Semana 2", "...", "...", "..."],
+      ["Semanas 3-4", "...", "...", "..."],
+      ["Días 31-90", "...", "...", "..."]
+    ]
+  },
+  "messages": [
+    {"number": "1", "title": "...", "send_day": "Día 1 · Inmediato", "send_time_recommendation": "< 2 min tras registro", "cta_type": "Pregunta de calificación", "message": "Texto listo para copiar y enviar por WhatsApp...", "performance_tip": "..."},
+    {"number": "2", "title": "...", "send_day": "Día 2", "send_time_recommendation": "11:00 AM", "cta_type": "Valor + caso de éxito", "message": "...", "performance_tip": "..."},
+    {"number": "3", "title": "...", "send_day": "Día 4", "send_time_recommendation": "4:30 PM", "cta_type": "Manejo de objeción", "message": "...", "performance_tip": "..."},
+    {"number": "4", "title": "...", "send_day": "Día 7", "send_time_recommendation": "10:00 AM", "cta_type": "Cierre a llamada / cita", "message": "...", "performance_tip": "..."}
+  ],
+  "prosperia_blueprint": {
+    "headline": "Cómo Implementar Este Plan Llave en Mano en 7 Días con Agencia ProsperIA",
+    "summary": "Recomendación personalizada explicando cómo el Sitio Web Inteligente + 4 Empleados IA 24/7 + CRM de Agencia ProsperIA automatizan exactamente este negocio.",
+    "recommended_employees": ["Recepcionista / Setter IA 24/7", "Calificador High-Ticket en CRM", "Motor de Contenido & Ads", "Seguimiento Multicanal Email + SMS"],
+    "cta_url": "https://agenciaprosperia.com/sitioweb",
+    "whatsapp_url": "https://wa.me/17865573119"
+  }
+}"""
+
+    extra_rule = (
+        "Si es 'whatsapp', incluye 5 mensajes detallados en 'messages' listos para copiar y enviar, además de toda la estructura. "
+        if tool_slug == "whatsapp"
+        else "Incluye SIEMPRE 3 a 4 mensajes o guiones de prospección listos para copiar en 'messages' adaptados al negocio, "
+        if tool_slug in ("lead-magnet", "viral-reels", "high-ticket-offer", "personal-brand", "business-ideas")
+        else ""
     )
-    user_prompt = f"Caso del emprendedor ({biz_name}): {raw_input}"
+
+    sys_prompt = (
+        f"Eres el Socio Director de Consultoría Estratégica de Agencia Prosper IA LLC y EmprendeProsperIA.com.\n"
+        f"Genera un DOSSIER EJECUTIVO DE CONSULTORÍA PREMIUM en ESPAÑOL para la herramienta: {tool_label}.\n"
+        f"Cliente: {full_name} | Proyecto/Empresa: {biz_name}.\n"
+        f"REGLAS DE CALIDAD:\n"
+        f"1. Usa CADA dato del formulario del cliente (industria, ticket, meta financiera, dolores, canal). PROHIBIDO dar consejos genéricos.\n"
+        f"2. Calibra 'financial_projection' matemáticamente según el ticket o meta indicada por el cliente.\n"
+        f"3. Para 'viral-reels', dedica 'sections' y 'tactical_table' a 3 guiones completos segundo a segundo (Gancho 0-3s, Desarrollo 3-30s, Cierre CTA).\n"
+        f"4. {extra_rule}Mantén un tono ejecutivo, práctico y orientado a conversión.\n"
+        f"5. Devuelve ÚNICAMENTE un objeto JSON válido siguiendo exactamente este esquema:\n{rich_schema}"
+    )
+
     client_ip = extract_client_ip(request)
-    raw_reply = await asyncio.to_thread(invoke_gemini_assistant, sys_prompt, user_prompt, client_ip, 1400)
-    parsed_obj = _extract_json_block_safe(raw_reply)
+    parsed_obj = await asyncio.to_thread(_invoke_gemini_emprende_json, sys_prompt, combined_input, client_ip, 3600)
 
     if not parsed_obj:
         parsed_obj = {
             "title": f"{tool_label} — {biz_name}",
-            "summary": f"Hoja de ruta personalizada preparada para {full_name} ({biz_name}) con base en tu caso: {raw_input[:240]}",
+            "subtitle": f"Diagnóstico estratégico y hoja de ruta a 90 días preparado para {full_name}",
+            "business_name": biz_name,
+            "client_name": full_name,
+            "industry": str(form_data.get("industry") or form_data.get("businessNameIndustry") or "Servicios Profesionales / Negocio Digital"),
+            "tool_label": tool_label,
+            "overall_score": 88,
+            "scorecard": [
+                {"label": "Potencial de Demanda", "score": 90, "benchmark": 64, "insight": f"Demanda activa en el segmento de {biz_name}."},
+                {"label": "Claridad de Propuesta", "score": 86, "benchmark": 58, "insight": "Posibilidad inmediata de diferenciación por promesa medible."},
+                {"label": "Captación & Embudo", "score": 84, "benchmark": 50, "insight": "Alto impacto al pasar de atención manual a captura automatizada 24/7."},
+                {"label": "Escalabilidad con IA", "score": 93, "benchmark": 42, "insight": "Preparado para operar con Sitio Web Inteligente + Empleados IA."},
+            ],
+            "executive_summary": (
+                f"Este dossier estratégico fue generado para {full_name} ({biz_name}) con base en tu diagnóstico: {combined_input[:350]}.\n\n"
+                f"El principal cuello de botella detectado en negocios de este giro es depender de atención manual o mensajes dispersos sin un activo de autoridad que precalifique al prospecto antes de hablar con ventas.\n\n"
+                f"Al estructurar tu propuesta en pasos concretos (posicionamiento, recurso de atracción, seguimiento multicanal y oferta central) y automatizar la primera respuesta, puedes duplicar la tasa de citas calificadas en los próximos 30 a 90 días."
+            ),
+            "color_palette": [
+                {"name": "Azul Ejecutivo", "hex": "#0F2233", "usage": "Autoridad, encabezados y portada"},
+                {"name": "Cian ProsperIA", "hex": "#06B6D4", "usage": "Botones principales y llamadas a la acción"},
+                {"name": "Esmeralda ROI", "hex": "#10B981", "usage": "Métricas positivas y garantías"},
+                {"name": "Marfil Editorial", "hex": "#F8FAFC", "usage": "Fondos limpios de lectura"},
+            ],
+            "financial_projection": [
+                {"period": "Mes 1 (Días 1-30)", "conservative": "$4,500 USD", "realistic": "$8,500 USD", "ai_accelerated": "$12,000+ USD", "driver": "Lanzamiento de embudo de captación y primeros cierres"},
+                {"period": "Mes 2 (Días 31-60)", "conservative": "$7,500 USD", "realistic": "$14,000 USD", "ai_accelerated": "$22,000+ USD", "driver": "Seguimiento automático + retargeting a leads cálidos"},
+                {"period": "Mes 3 (Días 61-90)", "conservative": "$11,000 USD", "realistic": "$21,000 USD", "ai_accelerated": "$35,000+ USD", "driver": "Operación estable con calificación 24/7"},
+            ],
+            "swot_matrix": {
+                "strengths": [f"Conocimiento directo de {biz_name}", "Propuesta enfocada en resultado concreto", "Agilidad para implementar IA hoy"],
+                "weaknesses": ["Seguimiento manual dependiente de tiempo humano", "Falta de calificación previa antes de cotizar"],
+                "opportunities": ["Captación de leads 24/7 con constructores y web inteligente", "Campañas de retargeting sobre base registrada con WhatsApp"],
+                "threats": ["Competencia respondiendo en menos de 2 minutos con IA", "Prospectos fríos por demora en seguimiento"],
+            },
             "sections": [
                 {
-                    "section_title": "1. Diagnóstico y Posicionamiento Estratégico",
-                    "description": f"Tu propuesta para {biz_name} debe enfocarse en resolver un dolor específico y medible de tu cliente ideal desde los primeros 5 segundos de contacto.",
+                    "section_title": "1. Posicionamiento y Promesa Irresistible",
+                    "paragraph": f"Posiciona {biz_name} no como un servicio genérico, sino como la solución más rápida y medible para el dolor principal de tu cliente ideal.",
                     "bullets": [
-                        "Define una promesa clara orientada a resultado o ahorro de tiempo.",
-                        "Diferénciate por rapidez de respuesta, acompañamiento y garantía.",
+                        "Encabeza tu oferta con resultado específico + plazo estimado.",
+                        "Incluye prueba social, casos reales o metodología propia verificable.",
+                        "Elimina fricción ofreciendo un primer diagnóstico o demo gratuita.",
                     ],
                 },
                 {
-                    "section_title": "2. Plan de Acción Inmediata (Primeros 7 Días)",
-                    "description": "Estructura tu oferta principal en una página de captura clara con agendamiento directo.",
+                    "section_title": "2. Arquitectura de Captación y Seguimiento",
+                    "paragraph": "Cada clic proveniente de redes, pauta o referidos debe caer en una experiencia guiada que capture Nombre, Correo y WhatsApp antes de entregar valor.",
                     "bullets": [
-                        "Publica 3 piezas cortas de contenido respondiendo las preguntas frecuentes de tus clientes.",
-                        "Centraliza cada registro en un CRM con seguimiento por correo y WhatsApp.",
+                        "Captura estructurada con preguntas clave de presupuesto y urgencia.",
+                        "Seguimiento inmediato por correo corporativo + CRM centralizado.",
+                        "Secuencia de 4 toques orientada a agendar llamada estratégica.",
                     ],
                 },
                 {
-                    "section_title": "3. Siguiente Paso Recomendado: Agencia ProsperIA",
-                    "description": "Lleva este plan a producción llave en mano en 7 días con tu Sitio Web Inteligente + 4 Empleados Digitales IA 24/7 en https://agenciaprosperia.com/sitioweb o vía WhatsApp +1 (786) 557-3119.",
+                    "section_title": "3. Plan de Acción 30-60-90 Días",
+                    "paragraph": "Ejecuta por bloques semanales para validar oferta en los primeros 7 días y escalar tráfico en las semanas 3 a 12.",
                     "bullets": [
-                        "Demostración personalizada sin costo en https://agenciaprosperia.com/sitioweb",
-                        "Atención directa por WhatsApp: +1 (786) 557-3119",
+                        "Días 1-7: Publicar página de captura + entregar PDF de valor.",
+                        "Días 8-30: Lanzar campaña de retargeting a visitantes y leads.",
+                        "Días 31-90: Automatizar calificación y agendamiento con Empleados IA 24/7.",
                     ],
                 },
             ],
+            "tactical_table": {
+                "title": "Hoja de Ruta de Implementación Inmediata",
+                "headers": ["Etapa", "Acción Estratégica", "Entregable", "Meta"],
+                "rows": [
+                    ["Días 1-3", "Definir promesa + formulario de captura", "Landing de conversión", "+25% registro"],
+                    ["Días 4-7", "Activar seguimiento CRM + correo", "Secuencia 4 toques", "Respuesta < 2 min"],
+                    ["Semanas 2-4", "Contenido corto + pauta retargeting", "3 Reels + campaña Meta", "15-30 citas/mes"],
+                    ["Meses 2-3", "Escalar con Sitio Web + 4 Empleados IA", "Sistema llave en mano", "2x-3x facturación"],
+                ],
+            },
+            "messages": [
+                {"number": "1", "title": "Bienvenida + Entrega de Diagnóstico", "send_day": "Día 1", "send_time_recommendation": "< 2 minutos", "cta_type": "Confirmar recepción", "message": f"Hola {{nombre}}, soy del equipo de {biz_name}. Te comparto tu plan personalizado. Cuéntame, ¿cuál es hoy tu mayor prioridad para implementarlo?", "performance_tip": "Haz una pregunta corta que invite a responder en 1 frase."},
+                {"number": "2", "title": "Caso Práctico y Autoridad", "send_day": "Día 3", "send_time_recommendation": "11:00 AM", "cta_type": "Agendar diagnóstico", "message": f"Hola {{nombre}}, muchos clientes de {biz_name} estaban frenados justo en el mismo punto hasta que implementaron este flujo en 7 días. ¿Te muestro en 10 min cómo quedaría para ti?", "performance_tip": "Enfoca el llamado a la acción en una micro-reunión sin compromiso."},
+            ],
         }
+
+    parsed_obj.setdefault("business_name", biz_name)
+    parsed_obj.setdefault("client_name", full_name)
+    parsed_obj.setdefault("tool_label", tool_label)
+    parsed_obj["prosperia_blueprint"] = {
+        "headline": "Plan de Implementación Llave en Mano en 7 Días — Agencia ProsperIA",
+        "summary": f"Nuestro equipo instala para {biz_name} un Sitio Web Inteligente + 4 Empleados Digitales IA 24/7 + CRM GoHighLevel conectado para captar, calificar y agendar clientes automáticamente.",
+        "recommended_employees": [
+            "Recepcionista & Setter IA 24/7",
+            "Calificador High-Ticket en CRM",
+            "Motor de Contenido & Retargeting",
+            "Reactivador Multicanal Email + SMS",
+        ],
+        "cta_url": "https://agenciaprosperia.com/sitioweb",
+        "whatsapp_url": "https://wa.me/17865573119",
+    }
 
     return JSONResponse(
         {
@@ -3804,6 +4091,136 @@ async def api_emprende_generate_demo(request: Request):
                 "title": "¿Quieres que implementemos esto por ti en 7 días con Web + 4 Empleados IA?",
                 "action": "register",
             },
+        },
+        headers=_EMPRENDE_CORS_HEADERS,
+    )
+
+
+@app.post("/api/emprende/execute-tool")
+async def api_emprende_execute_tool(request: Request):
+    """Motor en vivo para los módulos del Dashboard Cortexia 777 (Digital Marketing, Search & Research, Content Processing, Web Scraping, Strategy, CRM/Outreach)."""
+    import asyncio
+    import time
+    from sales_os_router import extract_client_ip
+
+    t0 = time.time()
+    try:
+        payload = await request.json()
+        if not isinstance(payload, dict):
+            payload = {}
+    except Exception:
+        payload = {}
+
+    tool_id = payload.get("tool_id") or payload.get("toolId") or 0
+    tool_name = str(payload.get("tool_name") or payload.get("toolName") or "AI Assistant").strip()[:120]
+    category = str(payload.get("category") or "Cortexia 777").strip()[:80]
+    params = payload.get("params") if isinstance(payload.get("params"), dict) else {}
+    user_input = str(
+        payload.get("input")
+        or params.get("input")
+        or params.get("prompt")
+        or params.get("url")
+        or ""
+    ).strip()[:4000]
+    out_format = str(params.get("format") or payload.get("format") or "texto").strip()[:40]
+    biz_name = str(payload.get("business_name") or payload.get("businessName") or "Tu Negocio").strip()[:120]
+
+    if not user_input:
+        return JSONResponse(
+            {"ok": False, "error": "Ingresa una URL, tema o instrucción para ejecutar la herramienta.", "data": {"status": "Failed"}},
+            status_code=400,
+            headers=_EMPRENDE_CORS_HEADERS,
+        )
+
+    scraped_ctx = None
+    name_low = tool_name.lower()
+    if any(k in name_low for k in ("scrape", "firecrawl", "jina", "youtube", "landing", "seo", "competit", "search", "research", "browser")) or "http" in user_input.lower():
+        scraped_ctx = await asyncio.to_thread(_scrape_live_url_for_tool, user_input)
+
+    scraped_text = ""
+    if scraped_ctx:
+        scraped_text = "\n\nDATOS REALES EXTRAÍDOS DE LA URL OBJETIVO:\n" + json.dumps(scraped_ctx, ensure_ascii=False)[:3200]
+
+    tool_schema = """{
+  "title": "Título ejecutivo del entregable generado",
+  "tool": "Nombre exacto del módulo ejecutado",
+  "overall_score": 90,
+  "summary": "Resumen ejecutivo accionable y directo basado exactamente en el input/URL analizado.",
+  "scraped_source": {"url": "si aplica o vacío", "title": "...", "headings_found": ["..."]},
+  "key_metrics": [
+    {"label": "Métrica clave 1", "value": "Valor concreto"},
+    {"label": "Métrica clave 2", "value": "Valor concreto"},
+    {"label": "Métrica clave 3", "value": "Valor concreto"}
+  ],
+  "deliverables": [
+    {"title": "Bloque 1 del Entregable", "content": "Desarrollo detallado, copy, análisis técnico o hallazgos citados...", "bullets": ["Punto accionable 1", "Punto accionable 2", "Punto accionable 3"]},
+    {"title": "Bloque 2 del Entregable", "content": "...", "bullets": ["...", "...", "..."]},
+    {"title": "Bloque 3 · Plan de Implementación con Agencia ProsperIA", "content": "Cómo automatizar esta capacidad dentro de tu operación comercial con Sitio Web Inteligente + 4 Empleados IA 24/7.", "bullets": ["Implementación guiada en https://agenciaprosperia.com/sitioweb", "WhatsApp Directo: +1 (786) 557-3119"]}
+  ],
+  "action_table": {
+    "headers": ["Elemento / Canal", "Recomendación Técnica o Copy", "Impacto Esperado"],
+    "rows": [["...", "...", "..."], ["...", "...", "..."], ["...", "...", "..."]]
+  }
+}"""
+
+    sys_prompt = (
+        f"Eres el Motor Operativo Cortexia 777 integrado en EmprendeProsperIA.com y Agencia Prosper IA.\n"
+        f"Módulo activo: {tool_name} (Categoría: {category}). Formato solicitado: {out_format}.\n"
+        f"Proyecto/Negocio del usuario: {biz_name}.\n"
+        f"INSTRUCCIÓN:\n"
+        f"- Si el módulo es de Web Scraping / Reader / SEO / YouTube / Competitive Intel, analiza rigurosamente los datos reales extraídos de la URL si están presentes; si solo se dio un tema o dominio, entrega auditoría, arquitectura, keywords y extracción estructurada.\n"
+        f"- Si el módulo es de Digital Marketing (Ad Copy, Email, Landing Page, LinkedIn, Social Calendar, WhatsApp, Lead Magnet, Reels), redacta textos 100% terminados listos para copiar y publicar.\n"
+        f"- Si es Search & Research / Business Analytics / Strategy / Discovery / Outreach, entrega investigación profunda, ICP, ángulos de dolor, señales de compra o mensajes listos.\n"
+        f"- Recuerda al final cómo escalarlo con Agencia ProsperIA (https://agenciaprosperia.com/sitioweb).\n"
+        f"- Responde SIEMPRE en ESPAÑOL y ÚNICAMENTE con JSON válido siguiendo este esquema:\n{tool_schema}"
+    )
+
+    client_ip = extract_client_ip(request)
+    parsed = await asyncio.to_thread(_invoke_gemini_emprende_json, sys_prompt, user_input + scraped_text, client_ip, 3200)
+
+    if not parsed:
+        parsed = {
+            "title": f"Resultado Cortexia 777 · {tool_name}",
+            "tool": tool_name,
+            "overall_score": 87,
+            "summary": f"Ejecución completada sobre '{user_input[:160]}'. " + (f"Se extrajeron {len(scraped_ctx.get('headings', []))} encabezados y metadatos en vivo." if scraped_ctx else "Análisis estratégico estructurado generado."),
+            "scraped_source": scraped_ctx or {},
+            "key_metrics": [
+                {"label": "Módulo", "value": tool_name},
+                {"label": "Categoría", "value": category},
+                {"label": "Estado", "value": "Completado (Listo para PDF)"},
+            ],
+            "deliverables": [
+                {
+                    "title": f"Entregable Principal ({tool_name})",
+                    "content": (scraped_ctx.get("text_excerpt", "")[:900] if scraped_ctx and scraped_ctx.get("text_excerpt") else f"Diagnóstico y estructura generada para {user_input[:300]}."),
+                    "bullets": [
+                        f"Enfoque recomendado para {biz_name}: prioriza conversión directa hacia WhatsApp y captura de datos.",
+                        "Descarga el PDF ejecutivo para compartir o trabajar con tu equipo.",
+                    ],
+                },
+                {
+                    "title": "Siguiente Nivel con Agencia ProsperIA",
+                    "content": "Esta ejecución corresponde al modo introductorio gratuito. Para desplegar agentes autónomos 24/7, CRM y pauta conectada, agenda con nuestro equipo en https://agenciaprosperia.com/sitioweb o WhatsApp +1 (786) 557-3119.",
+                    "bullets": [
+                        "Sitio Web Inteligente + 4 Empleados Digitales IA en 7 días",
+                        "Integración total con CRM GoHighLevel y WhatsApp",
+                    ],
+                },
+            ],
+        }
+
+    elapsed_ms = max(120, int((time.time() - t0) * 1000))
+    return JSONResponse(
+        {
+            "ok": True,
+            "data": {
+                "executionId": f"ctx-{tool_id}-{uuid.uuid4().hex[:8]}",
+                "status": "Completed",
+                "executionTimeMs": elapsed_ms,
+                "result": parsed,
+            },
+            "error": None,
         },
         headers=_EMPRENDE_CORS_HEADERS,
     )
