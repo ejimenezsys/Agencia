@@ -3824,7 +3824,8 @@ def _auto_dispatch_semana18nov_welcome_async(
             except Exception as exc:
                 print(f"⚠️ [AUTO SEMANA18NOV SMS] Lead {lead_id}: {exc}", flush=True)
 
-        if clean_phone:
+        # Protección WABA Meta (2026-11-19): no disparar plantillas automáticas de WhatsApp en frío sin opt-in previo.
+        if False and clean_phone:
             try:
                 res_wa = dispatch_ghl_agency_whatsapp(
                     contact_id=contact_id,
@@ -5577,6 +5578,14 @@ def _is_miami_daytime_for_wa() -> bool:
 
 
 def _execute_setter_ia_wa_step(db: Session, state: dict) -> bool:
+    """Desactivado permanentemente para evitar disparos automáticos de plantillas WA en frío sin opt-in (protección WABA Meta)."""
+    logs = state.get("last_log") or []
+    if not any("desactivado permanentemente" in str(item).lower() for item in logs[:10]):
+        _append_setter_ia_log(
+            state,
+            "🛑 WA en frío desactivado permanentemente (protección WABA Meta); correos e IMAP siguen activos 24/7.",
+        )
+    return False
     today_miami = _miami_today_str()
     now_utc_iso = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
     paused_until_utc = str(state.get("wa_paused_until_utc") or "").strip()
@@ -5717,7 +5726,7 @@ def _build_lead_web_warm_email_payload(first_name: str, company_name: str = "") 
         f"   Prefieres unirte a nuestra comunidad donde cada 2 dias compartimos los recursos y herramientas gratuitas "
         f"que publicamos a diario en nuestros Reels.\n\n"
         f"Solo responde a este correo con el numero 1, 2, 3 o 4 segun lo que necesites hoy "
-        f"(o escribenos directo a nuestra linea en Miami: +1 (786) 833-6964) y te enviamos el acceso o siguiente paso indicado.\n\n"
+        f"(o escribenos directo a nuestra linea en Miami: +1 (786) 557-3119) y te enviamos el acceso o siguiente paso indicado.\n\n"
         f"Un saludo,\nEdward Jimenez\nAgencia Prosper IA LLC · Miami, FL\ninfo@agenciaprosperia.com"
     )
     html_content = f"""
@@ -5745,7 +5754,7 @@ def _build_lead_web_warm_email_payload(first_name: str, company_name: str = "") 
             <strong>Opcion 4 (Comunidad y recursos cada 2 dias):</strong> Unirte a nuestra comunidad donde cada 2 dias compartimos los recursos y herramientas gratuitas que publicamos a diario en nuestros Reels.
           </p>
           <p style="margin: 0 0 18px;">
-            Solo responde a este mismo correo con el numero <strong>1, 2, 3 o 4</strong> segun lo que prefieras (o escribenos a nuestra linea oficial en Miami por WhatsApp: <strong>+1 (786) 833-6964</strong>) y te enviamos el siguiente paso.
+            Solo responde a este mismo correo con el numero <strong>1, 2, 3 o 4</strong> segun lo que prefieras (o escribenos a nuestra linea oficial en Miami por WhatsApp: <strong>+1 (786) 557-3119</strong>) y te enviamos el siguiente paso.
           </p>
           <p style="margin: 0; color: #475569; font-size: 13px;">
             Un saludo,<br/>
