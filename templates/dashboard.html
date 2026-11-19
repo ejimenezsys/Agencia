@@ -2320,6 +2320,7 @@
       <div class="flex flex-wrap gap-2 items-center pt-2 border-t border-emerald-500/20">
         <select id="call-queue-filter" class="input-dark text-xs py-2 px-3" style="width:auto;" onchange="callQueuePage=1; renderCallQueueTable()">
           <option value="pending">⏳ Sin Tocar + En Seguimiento Setter</option>
+          <option value="touched_today">🕒 Tocados Hoy / Mis Cambios Recientes</option>
           <option value="replied_ia">🔥 Respondieron a Setter IA (Llamar YA)</option>
           <option value="untouched">🆕 Solo Nuevos (0 Toques)</option>
           <option value="callback">🟡 En Seguimiento (Primer contacto / Contacto)</option>
@@ -6312,9 +6313,7 @@ function renderSalesOsTable() {
 
   const isInCloserPipeline = (l) => {
     const st = l.pipeline_stage || 'Lead identificado';
-    if (!inactiveStages.includes(st)) return true;
-    const hasCrmHistory = ((l.ghl_opportunity_id || '').trim() !== '' || Number(l.quoted_amount || 0) > 0 || Number(l.amount_collected || 0) > 0);
-    return (st === 'Primer contacto' || st === 'Contacto') && hasCrmHistory;
+    return !inactiveStages.includes(st);
   };
 
   const rows = salesOsLeads.filter(l => {
@@ -7750,11 +7749,7 @@ function renderCallQueueTable() {
 
   const isSetterPendingOrLocal = (l) => {
     const st = l.pipeline_stage || 'Lead identificado';
-    const isRepliedHot = (l.notes || '').toLowerCase().includes('respondió a setter ia');
-    if (isRepliedHot && ['Lead identificado', 'Primer contacto', 'Contacto', 'En seguimiento local'].includes(st)) return true;
-    const hasCrmHistory = ((l.ghl_opportunity_id || '').trim() !== '' || Number(l.quoted_amount || 0) > 0 || Number(l.amount_collected || 0) > 0);
-    if (st === 'Lead identificado' || st === 'En seguimiento local') return true;
-    return (st === 'Primer contacto' || st === 'Contacto') && !hasCrmHistory;
+    return ['Lead identificado', 'Primer contacto', 'Contacto', 'Conversación', 'En seguimiento local'].includes(st);
   };
 
   const queueBadge = document.getElementById('call-queue-badge');
@@ -7806,24 +7801,30 @@ function renderCallQueueTable() {
       if (!hay.includes(searchVal)) return false;
     }
 
-    const hasCrmHistory = ((l.ghl_opportunity_id || '').trim() !== '' || Number(l.quoted_amount || 0) > 0 || Number(l.amount_collected || 0) > 0);
+    const nowMs = Date.now();
+    const ltMs = l.last_touch ? Date.parse(l.last_touch) : NaN;
     if (filterVal === 'pending') return isSetterPendingOrLocal(l);
+    if (filterVal === 'touched_today') return !isNaN(ltMs) && (nowMs - ltMs) <= 24 * 3600 * 1000;
     if (filterVal === 'replied_ia') return notes.includes('respondió a setter ia');
     if (filterVal === 'untouched') return st === 'Lead identificado';
-    if (filterVal === 'callback') return (st === 'Primer contacto' || st === 'Contacto' || st === 'En seguimiento local') && !hasCrmHistory;
+    if (filterVal === 'callback') return ['Primer contacto', 'Contacto', 'Conversación', 'En seguimiento local'].includes(st);
     if (filterVal === 'no_answer') return st === 'No responde' || notes.includes('[cola: no contestó]');
     if (filterVal === 'answered') {
-      return (st !== 'Lead identificado' && st !== 'En seguimiento local' && st !== 'No responde' && st !== 'No interesado' && st !== 'No cumple perfil') && (st === 'Calificado' || hasCrmHistory || !['Primer contacto', 'Contacto'].includes(st));
+      return !['Lead identificado', 'Primer contacto', 'Contacto', 'Conversación', 'En seguimiento local', 'No responde', 'No interesado', 'No cumple perfil', 'Opt-out', 'Venta perdida'].includes(st);
     }
     if (filterVal === 'disqualified') return st === 'No interesado' || st === 'No cumple perfil';
     return true;
   });
 
-  // Poner arriba de todo a quienes respondieron al Setter IA para que el Closer llame YA
+  // En Tocados Hoy / Seguimiento ordenar por cambio más reciente arriba; en el resto priorizar respondidos IA + último toque
   filtered.sort((a, b) => {
+    if (filterVal === 'touched_today' || filterVal === 'callback') {
+      return (b.last_touch || '').localeCompare(a.last_touch || '');
+    }
     const aHot = (a.notes || '').toLowerCase().includes('respondió a setter ia') ? 1 : 0;
     const bHot = (b.notes || '').toLowerCase().includes('respondió a setter ia') ? 1 : 0;
-    return bHot - aHot;
+    if (bHot !== aHot) return bHot - aHot;
+    return (b.last_touch || '').localeCompare(a.last_touch || '');
   });
 
   const totalMatches = filtered.length;
@@ -8130,12 +8131,15 @@ async function submitSetterWork(mode) {
   const selected_template = document.getElementById('setter-work-template')?.value || 'clinica_dental_estetica';
   const offer_version = document.getElementById('setter-work-offer')?.value || 'EXPRESS_497';
   const quotedRaw = document.getElementById('setter-work-quoted')?.value;
-  const quoted_amount = quotedRaw !== '' && quotedRaw !== undefined ? Number(quotedRaw) : null;
+  let quoted_amount = quotedRaw !== '' && quotedRaw !== undefined ? Number(quotedRaw) : null;
   const objection_tag = document.getElementById('setter-work-objection')?.value || '';
   const next_action_at = document.getElementById('setter-work-next-at')?.value || '';
   const notes = (document.getElementById('setter-work-note')?.value || '').trim();
 
   const isCloserMode = (window.currentSetterWorkRole === 'closer');
+  if (!isCloserMode && mode === 'save_local') {
+    quoted_amount = null;
+  }
   const curSt = lead?.pipeline_stage || '';
   const alreadyInCrm = ['Calificado', 'Diagnóstico agendado', 'Demo realizada', 'Propuesta enviada', 'Pago pendiente', 'Pago confirmado', 'Implementación', 'Entregado'].includes(curSt) || ((lead?.contact_id || '').trim() !== '');
   const notesLow = notes.toLowerCase();
