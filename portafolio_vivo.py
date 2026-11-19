@@ -58,6 +58,10 @@ STATIC_PORTFOLIO_MAP: Dict[str, Dict[str, Optional[str]]] = {
         "dir": _resolve_site_dir("edwardjimenez"),
         "fallback_url": "https://edwardjimenez.com/",
     },
+    "doralfashionweek": {
+        "dir": _resolve_site_dir("doralfashionweek"),
+        "fallback_url": "https://www.doralfashionweek.com/",
+    },
 }
 
 BLANCOS_DIST_DIR = _resolve_site_dir("blancosgirasol", "proyecto-blancos-girasol", "dist")

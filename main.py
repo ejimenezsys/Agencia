@@ -3283,6 +3283,132 @@ async def api_exmaboletos_order(
     }
 
 
+_DFW_CORS_HEADERS = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+}
+
+
+@app.options("/api/doralfashionweek/forms/submit")
+async def api_doralfashionweek_forms_options():
+    return JSONResponse({"ok": True}, headers=_DFW_CORS_HEADERS)
+
+
+@app.post("/api/doralfashionweek/forms/submit")
+async def api_doralfashionweek_forms_submit(
+    request: Request,
+    background_tasks: BackgroundTasks,
+    db: Session = Depends(get_db),
+):
+    """Receptor oficial de aplicaciones y contratos firmados de doralfashionweek.com."""
+    try:
+        payload = await request.json()
+        if not isinstance(payload, dict):
+            payload = {}
+    except Exception:
+        payload = {}
+
+    role = str(payload.get("role") or "applicant").strip()
+    contract_id = str(payload.get("contractId") or f"DFW-2026-{uuid.uuid4().hex[:6].upper()}").strip()
+    full_name = str(payload.get("fullName") or payload.get("name") or payload.get("firstName") or "Aplicante DFW").strip()
+    email_raw = str(payload.get("email") or "").strip()
+    email_clean = normalize_email(email_raw) or email_raw.lower()
+    phone_raw = str(payload.get("phone") or "").strip()
+    phone_e164 = normalize_phone_e164(phone_raw)
+    portfolio_ig = str(payload.get("portfolio") or payload.get("instagram") or "").strip()
+    city_state = str(payload.get("cityState") or payload.get("address") or "").strip()
+    experience = str(payload.get("experience") or "").strip()
+    experience_details = str(payload.get("experienceDetails") or "").strip()
+    fiscal_status = str(payload.get("fiscalStatus") or "").strip()
+    sig_raw = str(payload.get("signature") or "")
+    sig_summary = f"Firma digital PNG capturada ({len(sig_raw)} bytes)" if sig_raw else "Sin firma"
+    created_at = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+    owner_email = "edward@agenciaprosperia.com"
+
+    dfw_note = (
+        f"👗 APLICACIÓN DORAL FASHION WEEK — {role.upper()}\n"
+        f"Contrato ID: {contract_id}\n"
+        f"Nombre: {full_name}\n"
+        f"Email: {email_clean}\n"
+        f"Teléfono: {phone_raw}\n"
+        f"Instagram / Portafolio: {portfolio_ig}\n"
+        f"Ubicación: {city_state}\n"
+        f"Experiencia: {experience} {experience_details[:200]}\n"
+        f"Estatus fiscal: {fiscal_status}\n"
+        f"Firma: {sig_summary}\n"
+        f"Fecha UTC: {created_at}"
+    )
+
+    lead_id = None
+    try:
+        existing = db.query(DbLead).filter(DbLead.email == email_clean).first() if email_clean else None
+        if not existing and phone_e164:
+            existing = db.query(DbLead).filter(DbLead.phone_e164 == phone_e164).first()
+
+        if existing:
+            prev_notes = (existing.notes or "").strip()
+            existing.notes = f"{dfw_note}\n\n--- Historial previo ---\n{prev_notes}" if prev_notes else dfw_note
+            existing.name = full_name or existing.name
+            existing.full_name = full_name or existing.full_name
+            existing.phone = phone_raw or existing.phone
+            existing.phone_e164 = phone_e164 or existing.phone_e164
+            existing.source = "doralfashionweek_apply"
+            existing.source_channel = "doralfashionweek_web"
+            existing.source_campaign = f"Doral Fashion Week ({role})"
+            existing.interest_primary = f"DFW {role} · {contract_id}"
+            db.commit()
+            lead_id = existing.id
+        else:
+            new_lead = DbLead(
+                name=full_name,
+                full_name=full_name,
+                email=email_clean or f"{contract_id.lower()}@doralfashionweek.com",
+                company=f"Doral Fashion Week ({role})",
+                business_name=portfolio_ig or f"Doral Fashion Week ({role})",
+                phone=phone_raw,
+                phone_e164=phone_e164,
+                status="qualified",
+                source="doralfashionweek_apply",
+                source_channel="doralfashionweek_web",
+                source_campaign=f"Doral Fashion Week ({role})",
+                interest_primary=f"DFW {role} · {contract_id}",
+                score=85,
+                notes=dfw_note,
+                created_at=created_at,
+                owner_id=owner_email,
+                setter_id=owner_email,
+                niche="doralfashionweek",
+                selected_template="doralfashionweek",
+                contact_permission=f"Contrato firmado {contract_id}",
+                contact_status="contactable",
+                pipeline_stage="Primer contacto",
+            )
+            db.add(new_lead)
+            db.commit()
+            db.refresh(new_lead)
+            lead_id = new_lead.id
+    except Exception as db_err:
+        print(f"⚠️ [DFW DB WARNING] Could not persist lead: {db_err}", flush=True)
+        db.rollback()
+
+    background_tasks.add_task(
+        send_email_notification,
+        name=full_name,
+        email=email_clean or "info@doralfashionweek.com",
+        company=f"Doral Fashion Week ({role}) · {contract_id}",
+        phone=phone_raw,
+        message=dfw_note,
+        custom_subject=f"👗 Nueva Aplicación DFW ({role}): {full_name} — {contract_id}",
+        custom_subtitle=f"CONTRATO FIRMADO DORAL FASHION WEEK · {role.upper()}",
+    )
+
+    return JSONResponse(
+        {"ok": True, "success": True, "contractId": contract_id, "lead_id": lead_id},
+        headers=_DFW_CORS_HEADERS,
+    )
+
+
 @app.get("/api/users/me")
 async def api_get_profile(current_user: dict = Depends(get_current_user)):
     user_payload = {
