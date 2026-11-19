@@ -3409,6 +3409,406 @@ async def api_doralfashionweek_forms_submit(
     )
 
 
+_EMPRENDE_CORS_HEADERS = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization",
+}
+
+
+def _send_emprende_welcome_email_bg(
+    to_email: str,
+    full_name: str,
+    business_name: str,
+    tool_slug: str,
+    closer_name: str,
+    closer_email: str,
+) -> None:
+    """Envía correo de bienvenida desde info@agenciaprosperia.com a registros de EmprendeProsperIA.com."""
+    try:
+        from sales_os_router import _send_smtp_mime_email, _is_valid_real_email
+        import html as html_lib
+        if not _is_valid_real_email(to_email):
+            return
+        first_n = (full_name.split()[0] if full_name else "Emprendedor").strip()
+        biz_disp = (business_name or "tu proyecto").strip()
+        tool_label = {
+            "personal-brand": "Constructor de Marca Personal",
+            "business-ideas": "Plan de Negocios & Validación",
+            "lead-magnet": "Constructor de Lead Magnet",
+            "whatsapp": "Secuencia de Cierre WhatsApp",
+            "high-ticket-offer": "Constructor de Oferta High-Ticket",
+            "viral-reels": "Guiones de Reels Virales IA",
+        }.get((tool_slug or "").strip(), "Constructores IA Gratuitos")
+
+        subject = f"{first_n}, tu acceso a EmprendeProsperIA + siguiente paso para {biz_disp}"
+        plain = (
+            f"Hola {first_n},\n\n"
+            f"¡Bienvenido a EmprendeProsperIA.com (Agencia Prosper IA LLC)!\n"
+            f"Ya tienes acceso habilitado a nuestros 6 Constructores IA Gratuitos ({tool_label}) y descarga en PDF.\n\n"
+            f"Cuando tengas listo tu plan y quieras llevar {biz_disp} a ventas reales en 7 días "
+            f"(Sitio Web Inteligente + 4 Empleados Digitales IA 24/7 + CRM), explora cómo lo implementamos aquí:\n"
+            f"https://agenciaprosperia.com/sitioweb\n\n"
+            f"O escríbenos directo por WhatsApp en Miami: +1 (786) 557-3119 (https://wa.me/17865573119)\n\n"
+            f"Un saludo,\n{closer_name}\nAgencia Prosper IA LLC · Miami, FL\ninfo@agenciaprosperia.com"
+        )
+        safe_first = html_lib.escape(first_n)
+        safe_biz = html_lib.escape(biz_disp)
+        safe_tool = html_lib.escape(tool_label)
+        safe_closer = html_lib.escape(closer_name or "Equipo Comercial Prosper IA")
+        html_body = f"""
+        <html>
+          <body style="font-family: Arial, Helvetica, sans-serif; background-color: #020710; color: #f8fafc; margin: 0; padding: 24px;">
+            <div style="max-width: 580px; margin: 0 auto; background: #081224; border: 1px solid #0e7490; border-radius: 14px; padding: 28px;">
+              <div style="color: #00e5ff; font-size: 18px; font-weight: 900; letter-spacing: 1px; margin-bottom: 12px;">EMPRENDE PROSPER IA × AGENCIA PROSPERIA</div>
+              <p style="font-size: 15px; color: #ffffff; margin: 0 0 14px;">Hola <strong>{safe_first}</strong>,</p>
+              <p style="font-size: 14px; color: #cbd5e1; line-height: 1.6; margin: 0 0 14px;">
+                Ya tienes habilitado tu acceso a los <strong>6 Constructores IA Gratuitos</strong> (<em>{safe_tool}</em>) para <strong>{safe_biz}</strong>, incluyendo descarga de tu documento en PDF.
+              </p>
+              <p style="font-size: 14px; color: #cbd5e1; line-height: 1.6; margin: 0 0 20px;">
+                Y si quieres dar el siguiente paso para que nuestro equipo instale por ti en <strong>7 días</strong> tu <strong>Sitio Web Inteligente + 4 Empleados Digitales IA 24/7 + CRM</strong>:
+              </p>
+              <div style="text-align: center; margin: 22px 0;">
+                <a href="https://agenciaprosperia.com/sitioweb" style="display: inline-block; background: #00e5ff; color: #020710; text-decoration: none; font-weight: 800; font-size: 13px; padding: 12px 22px; border-radius: 10px; margin: 5px;">
+                  🚀 Ver Implementación Sitio Web + IA 24/7
+                </a>
+                <a href="https://wa.me/17865573119?text=Hola%20Agencia%20ProsperIA,%20acabo%20de%20registrarme%20en%20EmprendeProsperIA.com" style="display: inline-block; background: #10b981; color: #020710; text-decoration: none; font-weight: 800; font-size: 13px; padding: 12px 22px; border-radius: 10px; margin: 5px;">
+                  💬 Hablar por WhatsApp (+1 786 557-3119)
+                </a>
+              </div>
+              <p style="font-size: 12px; color: #94a3b8; border-top: 1px solid rgba(148,163,184,0.2); padding-top: 14px; margin: 18px 0 0;">
+                Atendido por <strong>{safe_closer}</strong> · Agencia Prosper IA LLC, Miami, FL · info@agenciaprosperia.com
+              </p>
+            </div>
+          </body>
+        </html>
+        """
+        _send_smtp_mime_email(
+            alias_addr="info@agenciaprosperia.com",
+            to_email=to_email,
+            closer_name=closer_name or "Agencia Prosper IA",
+            closer_email=closer_email or "edward@agenciaprosperia.com",
+            final_subject=subject,
+            plain_text=plain,
+            html_content=html_body,
+        )
+    except Exception as exc:
+        print(f"⚠️ [EMPRENDE WELCOME EMAIL] {exc}", flush=True)
+
+
+@app.options("/api/leads/emprende-funnel")
+async def api_emprende_funnel_options():
+    return JSONResponse({"ok": True}, headers=_EMPRENDE_CORS_HEADERS)
+
+
+@app.post("/api/leads/emprende-funnel")
+async def api_emprende_funnel_capture(
+    request: Request,
+    background_tasks: BackgroundTasks,
+    db: Session = Depends(get_db),
+):
+    """Receptor oficial del embudo EmprendeProsperIA.com hacia el CRM y GoHighLevel de Agencia Prosper IA."""
+    try:
+        payload = await request.json()
+        if not isinstance(payload, dict):
+            payload = {}
+    except Exception:
+        payload = {}
+
+    full_name = str(payload.get("full_name") or payload.get("fullName") or payload.get("name") or "Emprendedor").strip()[:120]
+    email_raw = str(payload.get("email") or "").strip()
+    email_clean = normalize_email(email_raw) or email_raw.lower()
+    phone_raw = str(payload.get("phone") or payload.get("whatsapp") or "").strip()[:40]
+    phone_e164 = normalize_phone_e164(phone_raw)
+    biz_name = str(payload.get("business_name") or payload.get("businessName") or "Proyecto EmprendeProsperIA").strip()[:140]
+    tool_slug = str(payload.get("tool_slug") or payload.get("toolSlug") or "personal-brand").strip()[:60]
+    prompt_input = str(payload.get("prompt_input") or payload.get("promptInput") or "").strip()[:500]
+    source_url = str(payload.get("source_url") or payload.get("sourceUrl") or "https://www.emprendeprosperia.com").strip()[:220]
+
+    if not email_clean and not phone_e164:
+        return JSONResponse(
+            {"ok": False, "success": False, "detail": "Correo o WhatsApp requerido."},
+            status_code=400,
+            headers=_EMPRENDE_CORS_HEADERS,
+        )
+
+    closer = get_next_round_robin_closer(db)
+    owner_email = closer["email"] if closer else "edward@agenciaprosperia.com"
+    closer_name = closer["name"] if closer else "Edward Jiménez"
+    closer_ghl_id = closer.get("ghl_user_id", "") if closer else ""
+    now_str = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+
+    funnel_note = (
+        f"🔥 EMBUDO EMPRENDEPROSPERIA.COM (6 CONSTRUCTORES IA GRATIS)\n"
+        f"• Nombre: {full_name}\n"
+        f"• Negocio / Idea: {biz_name}\n"
+        f"• Email: {email_clean or 'N/D'}\n"
+        f"• Teléfono / WhatsApp: {phone_raw or phone_e164 or 'N/D'}\n"
+        f"• Constructor elegido: {tool_slug}\n"
+        + (f"• Prompt ingresado: {prompt_input}\n" if prompt_input else "")
+        + f"• Origen: {source_url}\n"
+        + f"• Fecha UTC: {now_str}"
+    )
+
+    lead_id = None
+    try:
+        existing = None
+        if email_clean:
+            existing = db.query(DbLead).filter(DbLead.email == email_clean).order_by(DbLead.id.desc()).first()
+        if not existing and phone_e164:
+            existing = db.query(DbLead).filter(DbLead.phone_e164 == phone_e164).order_by(DbLead.id.desc()).first()
+
+        if existing:
+            prev_notes = (existing.notes or "").strip()
+            existing.notes = f"{funnel_note}\n\n--- Historial previo ---\n{prev_notes}" if prev_notes else funnel_note
+            existing.name = full_name or existing.name
+            existing.full_name = full_name or existing.full_name
+            existing.company = biz_name or existing.company
+            existing.business_name = biz_name or existing.business_name
+            if phone_raw:
+                existing.phone = phone_raw
+            if phone_e164:
+                existing.phone_e164 = phone_e164
+            existing.source = "emprendeprosperia_funnel"
+            existing.source_channel = "EmprendeProsperIA.com"
+            existing.source_campaign = "🔥 Embudo 6 Constructores IA Gratis"
+            existing.interest_primary = f"EmprendeProsperIA · {tool_slug}"
+            existing.score = max(existing.score or 0, 92)
+            if not existing.owner_id:
+                existing.owner_id = owner_email
+                existing.setter_id = owner_email
+            if existing.pipeline_stage in ("Lead identificado", "No cumple perfil", "No responde", ""):
+                existing.pipeline_stage = "Primer contacto"
+            existing.last_touch = now_str
+            db.commit()
+            lead_id = existing.id
+        else:
+            digits_tail = re.sub(r"\D", "", phone_e164 or phone_raw)[-10:] or uuid.uuid4().hex[:8]
+            fallback_email = email_clean or f"emprende_{digits_tail}@sin-correo.local"
+            new_lead = DbLead(
+                name=full_name,
+                full_name=full_name,
+                email=fallback_email,
+                company=biz_name,
+                business_name=biz_name,
+                phone=phone_raw or phone_e164,
+                phone_e164=phone_e164,
+                status="qualified",
+                source="emprendeprosperia_funnel",
+                source_channel="EmprendeProsperIA.com",
+                source_campaign="🔥 Embudo 6 Constructores IA Gratis",
+                interest_primary=f"EmprendeProsperIA · {tool_slug}",
+                score=92,
+                notes=funnel_note,
+                created_at=now_str,
+                owner_id=owner_email,
+                setter_id=owner_email,
+                niche="emprendedor",
+                country="EE. UU. / LATAM",
+                contact_permission="Registro EmprendeProsperIA Opt-in",
+                contact_status="contactable",
+                pipeline_stage="Primer contacto",
+                offer_version="ANUAL_990",
+                quoted_amount=990.0,
+            )
+            db.add(new_lead)
+            db.commit()
+            db.refresh(new_lead)
+            lead_id = new_lead.id
+    except Exception as exc:
+        print(f"⚠️ [EMPRENDE FUNNEL DB] {exc}", flush=True)
+        db.rollback()
+
+    name_parts = full_name.split()
+    fn = name_parts[0] if name_parts else full_name
+    ln = " ".join(name_parts[1:]) if len(name_parts) > 1 else ""
+    sync_lead_to_ghl_async(
+        first_name=fn,
+        last_name=ln,
+        email=email_clean,
+        phone=phone_e164 or phone_raw,
+        company=biz_name,
+        source="EmprendeProsperIA.com - Constructores IA",
+        industry="emprendedor",
+        message=funnel_note,
+        notes=funnel_note,
+        sms_consent=True,
+        assigned_to=closer_ghl_id,
+        extra_tags=["emprendeprosperia", "lead_web", "constructores_ia_gratis"],
+    )
+
+    background_tasks.add_task(
+        send_email_notification,
+        name=full_name,
+        email=email_clean or "info@agenciaprosperia.com",
+        company=biz_name,
+        phone=phone_raw or phone_e164,
+        message=funnel_note,
+        custom_subject=f"🚀 Nuevo Lead EmprendeProsperIA: {full_name} ({biz_name})",
+        custom_subtitle="EMBUDO CONSTRUCTORES IA GRATIS → AGENCIA PROSPERIA",
+    )
+    if email_clean and "@" in email_clean:
+        background_tasks.add_task(
+            _send_emprende_welcome_email_bg,
+            to_email=email_clean,
+            full_name=full_name,
+            business_name=biz_name,
+            tool_slug=tool_slug,
+            closer_name=closer_name,
+            closer_email=owner_email,
+        )
+
+    return JSONResponse(
+        {
+            "ok": True,
+            "success": True,
+            "lead_id": lead_id,
+            "closer_name": closer_name,
+            "next_step_url": "https://agenciaprosperia.com/sitioweb",
+            "whatsapp_url": "https://wa.me/17865573119",
+        },
+        headers=_EMPRENDE_CORS_HEADERS,
+    )
+
+
+@app.options("/api/emprende/generate-demo")
+async def api_emprende_generate_demo_options():
+    return JSONResponse({"ok": True}, headers=_EMPRENDE_CORS_HEADERS)
+
+
+def _extract_json_block_safe(raw_text: str) -> Optional[Dict[str, Any]]:
+    txt = str(raw_text or "").strip()
+    if not txt:
+        return None
+    if txt.startswith("```"):
+        txt = re.sub(r"^```(?:json)?\s*", "", txt)
+        txt = re.sub(r"\s*```$", "", txt)
+    start = txt.find("{")
+    end = txt.rfind("}")
+    if start >= 0 and end > start:
+        try:
+            obj = json.loads(txt[start : end + 1])
+            if isinstance(obj, dict):
+                return obj
+        except Exception:
+            pass
+    return None
+
+
+@app.post("/api/emprende/generate-demo")
+async def api_emprende_generate_demo(request: Request):
+    """Motor IA en vivo para los 6 Constructores Gratuitos de EmprendeProsperIA.com (compatible con visor y PDF)."""
+    import asyncio
+    from sales_os_router import invoke_gemini_assistant, extract_client_ip
+
+    try:
+        payload = await request.json()
+        if not isinstance(payload, dict):
+            payload = {}
+    except Exception:
+        payload = {}
+
+    tool_slug = str(payload.get("tool_slug") or payload.get("toolSlug") or "personal-brand").strip().lower()
+    raw_input = str(payload.get("input") or payload.get("prompt") or "").strip()[:3000]
+    full_name = str(payload.get("full_name") or payload.get("fullName") or "Emprendedor").strip()[:100]
+    biz_name = str(payload.get("business_name") or payload.get("businessName") or "Tu Negocio").strip()[:120]
+
+    if not raw_input:
+        return JSONResponse(
+            {"success": False, "error": "Cuéntanos brevemente tu caso o idea para generar tu documento IA."},
+            status_code=400,
+            headers=_EMPRENDE_CORS_HEADERS,
+        )
+
+    tool_specs = {
+        "personal-brand": (
+            "Constructor de Marca Personal y Autoridad Digital",
+            '{"title": "...", "positioning_statement": "...", "target_audience": "...", "tone_of_voice": "...", "sections": [{"section_title": "1. Declaración de Autoridad", "description": "...", "bullets": ["...", "..."]}, {"section_title": "2. 4 Pilares de Contenido Viral", "description": "...", "bullets": ["...", "...", "...", "..."]}, {"section_title": "3. Plan de Monetización en 30 Días", "description": "...", "bullets": ["...", "..."]}, {"section_title": "4. Siguiente Paso en Agencia ProsperIA", "description": "Convierte tu marca personal en un sistema automático con Sitio Web Inteligente + 4 Empleados IA 24/7 en https://agenciaprosperia.com/sitioweb o WhatsApp +1 (786) 557-3119.", "bullets": ["Agenda tu diagnóstico gratuito", "Implementación llave en mano en 7 días"]}]}'
+        ),
+        "business-ideas": (
+            "Constructor de Plan de Negocios y Validación de Idea",
+            '{"title": "...", "value_proposition": "...", "ideal_customer": "...", "revenue_model": "...", "sections": [{"section_title": "1. Problema Real y Propuesta Única de Valor", "description": "...", "bullets": ["...", "..."]}, {"section_title": "2. Producto Mínimo Viable (MVP en 7 Días)", "description": "...", "bullets": ["...", "..."]}, {"section_title": "3. Estrategia de Adquisición de Primeros 10 Clientes", "description": "...", "bullets": ["...", "..."]}, {"section_title": "4. Cómo Automatizar tu Lanzamiento", "description": "En Agencia ProsperIA te entregamos tu Sitio Web Inteligente + CRM + 4 Empleados Digitales IA 24/7 listos para vender en https://agenciaprosperia.com/sitioweb.", "bullets": ["Visita https://agenciaprosperia.com/sitioweb", "Escríbenos al WhatsApp +1 (786) 557-3119"]}]}'
+        ),
+        "lead-magnet": (
+            "Constructor de Lead Magnet Irresistible (Checklist / Guía PDF)",
+            '{"title": "...", "hook_headline": "...", "ideal_reader": "...", "conversion_promise": "...", "sections": [{"section_title": "1. Título y Promesa de Alto Impacto", "description": "...", "bullets": ["...", "..."]}, {"section_title": "2. Estructura de 5 Capítulos Descargables", "description": "...", "bullets": ["...", "...", "...", "..."]}, {"section_title": "3. Copy de Página de Captura", "description": "...", "bullets": ["...", "..."]}, {"section_title": "4. Automatiza la Entrega 24/7", "description": "Conecta tu guía PDF con seguimiento automático por correo, CRM y Sitio Web en https://agenciaprosperia.com/sitioweb.", "bullets": ["Entrega instantánea de leads", "Agenda automática con Closers"]}]}'
+        ),
+        "whatsapp": (
+            "Secuencia de Mensajes y Cierre Consultivo",
+            '{"campaign_name": "...", "objective": "...", "recommended_cadence": "4 toques en 7 días", "messages": [{"number": "1", "title": "Toque 1 · Primer Contacto & Valor", "message": "...", "send_day": "Día 1", "send_time_recommendation": "10:00 AM", "cta_type": "Pregunta abierta", "performance_tip": "Personaliza con el nombre y giro del cliente."}, {"number": "2", "title": "Toque 2 · Caso de Éxito y Muestra", "message": "...", "send_day": "Día 2", "send_time_recommendation": "11:30 AM", "cta_type": "Enviar demo interactiva", "performance_tip": "Muestra resultados concretos antes de hablar de precio."}, {"number": "3", "title": "Toque 3 · Resolución de Objeción", "message": "...", "send_day": "Día 4", "send_time_recommendation": "4:00 PM", "cta_type": "Agendar llamada 15 min", "performance_tip": "Enfoca la llamada en el diagnóstico sin compromiso."}, {"number": "4", "title": "Toque 4 · Cierre Suave", "message": "...", "send_day": "Día 7", "send_time_recommendation": "9:30 AM", "cta_type": "Confirmar interés", "performance_tip": "Cierra el ciclo con educación ejecutiva."}], "next_step": "Conecta este embudo a tu Sitio Web Inteligente y CRM ProsperIA en https://agenciaprosperia.com/sitioweb"}'
+        ),
+        "high-ticket-offer": (
+            "Constructor de Oferta High-Ticket Irresistible",
+            '{"title": "...", "core_promise": "...", "ideal_buyer": "...", "delivery_timeframe": "30 a 90 días", "sections": [{"section_title": "1. Arquitectura de la Oferta Principal", "description": "...", "bullets": ["...", "..."]}, {"section_title": "2. Stack de 4 Entregables y Bonos", "description": "...", "bullets": ["...", "...", "...", "..."]}, {"section_title": "3. Garantía y Reversión de Riesgo", "description": "...", "bullets": ["...", "..."]}, {"section_title": "4. Sistema de Ventas para Escalar", "description": "Implementa tu Sitio Web Inteligente + 4 Empleados IA para vender tu oferta en piloto automático en https://agenciaprosperia.com/sitioweb o WhatsApp +1 (786) 557-3119.", "bullets": ["Pre-calificación de clientes 24/7", "Agenda directa con cierre consultivo"]}]}'
+        ),
+        "viral-reels": (
+            "Constructor de Guiones de Reels & Contenido Viral",
+            '{"title": "...", "content_goal": "Atracción orgánica y captación de leads", "posting_frequency": "3 a 5 Reels por semana", "sections": [{"section_title": "Reel 1 · Gancho Contraintuitivo (30s)", "description": "...", "bullets": ["Gancho (0-3s): ...", "Desarrollo (3-22s): ...", "CTA Final (22-30s): ..."]}, {"section_title": "Reel 2 · Error Costoso del Sector (45s)", "description": "...", "bullets": ["Gancho (0-3s): ...", "Desarrollo (3-35s): ...", "CTA Final (35-45s): ..."]}, {"section_title": "Reel 3 · Caso Práctico Paso a Paso (45s)", "description": "...", "bullets": ["Gancho (0-3s): ...", "Desarrollo (3-35s): ...", "CTA Final (35-45s): ..."]}, {"section_title": "Escala tu Producción con ProsperIA", "description": "Convierte vistas en clientes agendados conectando tus Reels a https://agenciaprosperia.com/sitioweb.", "bullets": ["Embudo de palabra clave en comentarios", "Agenda automática 24/7"]}]}'
+        ),
+    }
+
+    tool_label, schema_hint = tool_specs.get(tool_slug, tool_specs["personal-brand"])
+    sys_prompt = (
+        f"Eres el Arquitecto Estratégico IA de EmprendeProsperIA.com y Agencia Prosper IA LLC.\n"
+        f"Debes generar un entregable completo, accionable y de alta calidad en ESPAÑOL para el constructor: {tool_label}.\n"
+        f"Solicitante: {full_name} | Empresa/Proyecto: {biz_name}.\n"
+        f"REGLA DE FORMATO ESTRICTA: Responde ÚNICAMENTE con un objeto JSON válido siguiendo exactamente esta estructura:\n{schema_hint}\n"
+        f"No incluyas bloques Markdown ni explicaciones fuera del JSON."
+    )
+    user_prompt = f"Caso del emprendedor ({biz_name}): {raw_input}"
+    client_ip = extract_client_ip(request)
+    raw_reply = await asyncio.to_thread(invoke_gemini_assistant, sys_prompt, user_prompt, client_ip, 1400)
+    parsed_obj = _extract_json_block_safe(raw_reply)
+
+    if not parsed_obj:
+        parsed_obj = {
+            "title": f"{tool_label} — {biz_name}",
+            "summary": f"Hoja de ruta personalizada preparada para {full_name} ({biz_name}) con base en tu caso: {raw_input[:240]}",
+            "sections": [
+                {
+                    "section_title": "1. Diagnóstico y Posicionamiento Estratégico",
+                    "description": f"Tu propuesta para {biz_name} debe enfocarse en resolver un dolor específico y medible de tu cliente ideal desde los primeros 5 segundos de contacto.",
+                    "bullets": [
+                        "Define una promesa clara orientada a resultado o ahorro de tiempo.",
+                        "Diferénciate por rapidez de respuesta, acompañamiento y garantía.",
+                    ],
+                },
+                {
+                    "section_title": "2. Plan de Acción Inmediata (Primeros 7 Días)",
+                    "description": "Estructura tu oferta principal en una página de captura clara con agendamiento directo.",
+                    "bullets": [
+                        "Publica 3 piezas cortas de contenido respondiendo las preguntas frecuentes de tus clientes.",
+                        "Centraliza cada registro en un CRM con seguimiento por correo y WhatsApp.",
+                    ],
+                },
+                {
+                    "section_title": "3. Siguiente Paso Recomendado: Agencia ProsperIA",
+                    "description": "Lleva este plan a producción llave en mano en 7 días con tu Sitio Web Inteligente + 4 Empleados Digitales IA 24/7 en https://agenciaprosperia.com/sitioweb o vía WhatsApp +1 (786) 557-3119.",
+                    "bullets": [
+                        "Demostración personalizada sin costo en https://agenciaprosperia.com/sitioweb",
+                        "Atención directa por WhatsApp: +1 (786) 557-3119",
+                    ],
+                },
+            ],
+        }
+
+    return JSONResponse(
+        {
+            "success": True,
+            "demoId": f"emp_{uuid.uuid4().hex[:10]}",
+            "tool": tool_slug,
+            "status": "completed",
+            "preview": json.dumps(parsed_obj, ensure_ascii=False),
+            "remainingUses": 99,
+            "cta": {
+                "title": "¿Quieres que implementemos esto por ti en 7 días con Web + 4 Empleados IA?",
+                "action": "register",
+            },
+        },
+        headers=_EMPRENDE_CORS_HEADERS,
+    )
+
+
 @app.get("/api/users/me")
 async def api_get_profile(current_user: dict = Depends(get_current_user)):
     user_payload = {
