@@ -92,7 +92,7 @@
             </div>
             <div class="pia-form-field">
               <label for="td-in-wa">WhatsApp de Contacto</label>
-              <input type="tel" id="td-in-wa" class="pia-input" value="+1 786 833 6964">
+              <input type="tel" id="td-in-wa" class="pia-input" value="+1 786 557 3119">
             </div>
 
             <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:0.5rem;">
@@ -114,7 +114,7 @@
               <div id="td-out-city" style="font-size:0.78rem; color:#94a3b8; margin-top:2px;"><i class="fas fa-location-dot" aria-hidden="true"></i> Miami, Florida</div>
 
               <div style="display:grid; gap:0.55rem; margin-top:1.15rem;">
-                <a id="td-out-wa-btn" href="https://wa.me/17868336964" target="_blank" rel="noopener" class="pia-btn-emerald" style="width:100%; min-height:42px; font-size:0.86rem;">
+                <a id="td-out-wa-btn" href="https://wa.me/17865573119" target="_blank" rel="noopener" class="pia-btn-emerald" style="width:100%; min-height:42px; font-size:0.86rem;">
                   <i class="fab fa-whatsapp" aria-hidden="true"></i> Enviar WhatsApp Directo
                 </a>
                 <a href="/paginas-web" class="pia-btn-primary" style="width:100%; min-height:42px; font-size:0.86rem;">
@@ -179,7 +179,7 @@
             <div data-form-status role="status" aria-live="polite" style="display:none; padding:0.9rem; border-radius:12px; margin-bottom:1rem; font-size:0.88rem;"></div>
             <div style="display:flex; flex-wrap:wrap; gap:0.85rem;">
               <button type="submit" class="pia-btn-primary" style="flex:1 1 220px;">Solicitar Mi Tarjeta Digital</button>
-              <a href="https://wa.me/17868336964?text=Hola%20ProsperIA,%20quiero%20activar%20mi%20Tarjeta%20Digital%20con%20QR%20de%20Rese%C3%B1as%20Google" target="_blank" rel="noopener" class="pia-btn-emerald" style="flex:1 1 180px;">Pedir por WhatsApp</a>
+              <a href="https://wa.me/17865573119?text=Hola%20ProsperIA,%20quiero%20activar%20mi%20Tarjeta%20Digital%20con%20QR%20de%20Rese%C3%B1as%20Google" target="_blank" rel="noopener" class="pia-btn-emerald" style="flex:1 1 180px;">Pedir por WhatsApp</a>
             </div>
           </form>
         </div>
@@ -206,7 +206,7 @@
       document.getElementById('td-out-role').textContent = inRole.value || 'Especialista';
       document.getElementById('td-out-biz').textContent = inBiz.value || 'Tu Negocio';
       document.getElementById('td-out-city').innerHTML = `<i class="fas fa-location-dot" aria-hidden="true"></i> ${inCity.value || 'Tu Ciudad'}`;
-      const digits = (inWa.value || '').replace(/\D/g, '') || '17868336964';
+      const digits = (inWa.value || '').replace(/\D/g, '') || '17865573119';
       document.getElementById('td-out-wa-btn').href = `https://wa.me/${digits}?text=${encodeURIComponent('Hola ' + n + ', vi tu Tarjeta Digital.')}`;
     }
     [inName, inRole, inBiz, inCity, inWa].forEach(el => el.addEventListener('input', syncCardPreview));
@@ -215,7 +215,7 @@
       const n = inName.value.trim() || 'Contacto';
       const biz = inBiz.value.trim() || 'Empresa';
       const role = inRole.value.trim() || '';
-      const wa = inWa.value.trim() || '+17868336964';
+      const wa = inWa.value.trim() || '+17865573119';
       const vcard = [
         'BEGIN:VCARD',
         'VERSION:3.0',

@@ -3632,7 +3632,7 @@ def _build_setter_ia_mass_email_payload(
         f"con entrega en 7 días. Puedes ver cómo funciona aquí:\n"
         f"{demo_url}\n\n"
         f"Si prefieres que la revisemos juntos en una llamada breve, puedes responder este mismo correo "
-        f"o escribirnos a nuestra línea oficial en Miami: +1 (786) 833-6964.\n\n"
+        f"o escribirnos a nuestra línea de WhatsApp en Miami: +1 (786) 557-3119.\n\n"
         f"Un saludo,\n{closer_name}\nAgencia Prosper IA LLC · Miami, FL\nseller@agenciaprosperia.com"
     )
     html_content = f"""
@@ -3656,7 +3656,7 @@ def _build_setter_ia_mass_email_payload(
             </a>
           </p>
           <p style="margin: 0 0 18px;">
-            Si te interesa que te la expliquemos en 10 minutos, responde a este mismo correo o escríbenos a nuestra línea oficial en Miami: <strong>+1 (786) 833-6964</strong>.
+            Si te interesa que te la expliquemos en 10 minutos, responde a este mismo correo o escríbenos por WhatsApp en Miami: <strong>+1 (786) 557-3119</strong>.
           </p>
           <p style="margin: 0; color: #475569; font-size: 13px;">
             Un saludo,<br/>
@@ -3695,7 +3695,7 @@ def _dispatch_institutional_email_sync(
         f"&business={urllib.parse.quote(biz_name)}&phone={urllib.parse.quote(phone_val)}"
     )
     wa_official = (
-        "https://wa.me/17868336964?text="
+        "https://wa.me/17865573119?text="
         + urllib.parse.quote(f"Hola Agencia Prosper IA, vi la muestra digital para {biz_name} y quiero agendar mi demostración.")
     )
 
@@ -3734,7 +3734,7 @@ def _dispatch_institutional_email_sync(
               </div>
               <div style="text-align: center; margin-top: 8px;">
                 <a href="{wa_official}" style="color: #34d399; font-weight: 700; font-size: 12px; text-decoration: underline;">
-                  💬 También puedes responder directo por WhatsApp (+1 786 833-6964)
+                  💬 También puedes responder directo por WhatsApp (+1 786 557-3119)
                 </a>
               </div>
             </td>
@@ -3748,7 +3748,7 @@ def _dispatch_institutional_email_sync(
       </body>
     </html>
     """
-    plain_full = f"{body_text}\n\nVer Demo en Vivo: {demo_url}\nAgendar 15 min: {clean_cal}\nWhatsApp: +1 786 833-6964"
+    plain_full = f"{body_text}\n\nVer Demo en Vivo: {demo_url}\nAgendar 15 min: {clean_cal}\nWhatsApp: +1 786 557-3119"
     _send_smtp_mime_email(alias_addr, to_email, closer_name, closer_email, final_subject, plain_full, html_content)
     return {"alias": alias_addr, "subject": final_subject, "demo_url": demo_url}
 

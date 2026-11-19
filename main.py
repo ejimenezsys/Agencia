@@ -2569,7 +2569,7 @@ def send_email_notification(
                 </tr>
                 <tr>
                   <td style="padding: 10px 0; font-weight: bold; font-size: 13px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px;">Edward WhatsApp Directo:</td>
-                  <td style="padding: 10px 0; font-size: 14px; color: #10b981; font-weight: 600;"><a href="https://wa.me/17868336964" style="color: #10b981; text-decoration: none;">+1 (786) 833-6964</a></td>
+                  <td style="padding: 10px 0; font-size: 14px; color: #10b981; font-weight: 600;"><a href="https://wa.me/17865573119" style="color: #10b981; text-decoration: none;">+1 (786) 557-3119</a></td>
                 </tr>
               </table>
               
@@ -3982,6 +3982,101 @@ class ProsperiaAssistantRequest(BaseModel):
     history: Optional[List[Dict[str, str]]] = None
 
 
+EMERGENCY_WA_PHONE_E164 = "+17865573119"
+EMERGENCY_WA_DISPLAY = "+1 (786) 557-3119"
+EMERGENCY_WA_URL = "https://wa.me/17865573119"
+
+
+def _normalize_emergency_whatsapp_text(text: str) -> str:
+    """Redirige cualquier referencia al número WABA en revisión hacia la línea directa de emergencia +1 (786) 557-3119."""
+    import re
+    out = str(text or "")
+    out = re.sub(r"17868336964", "17865573119", out)
+    out = re.sub(r"(\+?1[\s\-\.]*\(?786\)?[\s\-\.]*)833[\s\-\.]*6964", r"\g<1>557-3119", out)
+    return out
+
+
+def _normalize_emergency_whatsapp_ctas(ctas: Any) -> Any:
+    if isinstance(ctas, dict):
+        return {k: _normalize_emergency_whatsapp_ctas(v) for k, v in ctas.items()}
+    if isinstance(ctas, list):
+        return [_normalize_emergency_whatsapp_ctas(v) for v in ctas]
+    if isinstance(ctas, str):
+        return _normalize_emergency_whatsapp_text(ctas)
+    return ctas
+
+
+def _capture_chatbot_lead_sync(raw_msg: str, sid: str) -> None:
+    """Guarda automáticamente en CRM (DbLead) cualquier teléfono o correo que el visitante escriba en el Chatbot Web."""
+    import re
+    em_match = re.search(r"[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}", raw_msg)
+    ph_match = re.search(r"(?:\+?\d[\d\s\-\(\)]{6,}\d)", raw_msg)
+    found_email = normalize_email(em_match.group(0)) if em_match else ""
+    found_digits = re.sub(r"\D", "", ph_match.group(0)) if ph_match else ""
+    if found_digits in ("17865573119", "7865573119", "17868336964", "7868336964"):
+        found_digits = ""
+    found_phone = normalize_phone_e164(ph_match.group(0)) if len(found_digits) >= 8 else ""
+    if not found_email and not found_phone:
+        return
+
+    db = SessionLocal()
+    try:
+        existing = None
+        if found_email:
+            existing = db.query(DbLead).filter(DbLead.email == found_email).order_by(DbLead.id.desc()).first()
+        if not existing and found_phone:
+            existing = db.query(DbLead).filter(DbLead.phone_e164 == found_phone).order_by(DbLead.id.desc()).first()
+
+        now_str = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+        snippet = raw_msg.strip().replace("\n", " ")[:280]
+        note_line = f"[{now_str[:16]} · 💬 Chatbot Web + PassportAI] Sesión {sid}: {snippet}"
+        if existing:
+            if found_phone and not existing.phone_e164:
+                existing.phone = found_phone
+                existing.phone_e164 = found_phone
+            if found_email and (not existing.email or "@sin-correo.local" in existing.email):
+                existing.email = found_email
+            existing.notes = ((existing.notes or "") + "\n" + note_line).strip()
+            existing.last_touch = now_str
+            db.commit()
+            return
+
+        closer = get_next_round_robin_closer(db)
+        owner_em = closer["email"] if closer else "edward@agenciaprosperia.com"
+        new_lead = DbLead(
+            name=found_email.split("@")[0].title() if found_email else f"Lead Chatbot {found_digits[-4:]}",
+            full_name=found_email.split("@")[0].title() if found_email else f"Lead Chatbot {found_digits[-4:]}",
+            email=found_email or f"chat_{found_digits}@sin-correo.local",
+            company="Prospecto Chatbot Web",
+            business_name="Prospecto Chatbot Web",
+            phone=found_phone or "",
+            phone_e164=found_phone or "",
+            status="new",
+            source="Chatbot Web + PassportAI",
+            source_channel="Chatbot Web",
+            source_campaign="Asistente Digital 24/7",
+            interest_primary="Sitio Web Inteligente + IA 24/7",
+            score=85,
+            notes=note_line,
+            created_at=now_str,
+            owner_id=owner_em,
+            setter_id=owner_em,
+            niche="general",
+            country="EE. UU. / LATAM",
+            contact_permission="Chatbot Web Opt-in",
+            contact_status="contactable",
+            pipeline_stage="Primer contacto",
+            offer_version="ANUAL_990",
+            quoted_amount=990.0,
+        )
+        db.add(new_lead)
+        db.commit()
+    except Exception as exc:
+        print(f"⚠️ [CHATBOT LEAD CAPTURE] {exc}", flush=True)
+    finally:
+        db.close()
+
+
 @app.get("/api/prosperia/assistant/config")
 async def api_prosperia_assistant_config():
     """Devuelve saludo, nombre y configuración sincronizada con PassportAI."""
@@ -3992,7 +4087,7 @@ async def api_prosperia_assistant_config():
 
 @app.post("/api/prosperia/assistant")
 async def api_prosperia_assistant(req: ProsperiaAssistantRequest, request: Request = None):
-    """Fusión Total: Chat & Voz en Vivo conectado por API al bot de PassportAI + respaldo local KB."""
+    """Fusión Total: Chat & Voz en Vivo conectado por API al bot de PassportAI + respaldo Gemini + KB local."""
     import asyncio
     from sales_os_router import invoke_gemini_assistant, extract_client_ip
 
@@ -4009,42 +4104,62 @@ async def api_prosperia_assistant(req: ProsperiaAssistantRequest, request: Reque
             "ctas": {},
             "datos_completos": False,
             "session_id": sid,
-            "engine": "prosperia-gemini-zero-price",
+            "engine": "prosperia-passportai-fusion",
             "calendar_anchor": "/sitioweb",
-            "whatsapp_url": "https://wa.me/17868336964",
+            "whatsapp_url": EMERGENCY_WA_URL,
         }
 
-    # Motor exclusivo controlado en local (Gemini 2.5 Flash + KB cero precios; bloquea respuestas con tarifas externas)
-    client_ip = extract_client_ip(request)
-    kb_text = _load_prosperia_kb_text()
-    hist_lines = []
-    if req.history:
-        for h in req.history[-6:]:
-            role = "Cliente" if h.get("role") == "user" else "Setter IA"
-            txt = str(h.get("text", "")).strip()[:220]
-            if txt:
-                hist_lines.append(f"{role}: {txt}")
-    hist_block = ("\nCONVERSACIÓN RECIENTE:\n" + "\n".join(hist_lines)) if hist_lines else ""
+    # Capturar automáticamente cualquier teléfono o correo ingresado en el chat sin bloquear la respuesta
+    try:
+        await asyncio.to_thread(_capture_chatbot_lead_sync, raw_msg, sid)
+    except Exception:
+        pass
 
-    voice_rule = (
-        "Como estás hablando EN VOZ ALTA, responde de forma cálida, natural y sin asteriscos ni emojis, en máximo 2 o 3 oraciones completas."
-        if mode == "voice"
-        else "Responde en español claro y amable en máximo 3 oraciones cortas completas, sin tecnicismos ni listas largas."
-    )
-
-    sys_prompt = (
-        "Eres el Empleado Digital Oficial (Setter IA) de Agencia Prosper IA LLC.\n"
-        f"REGLAS OBLIGATORIAS:\n1. {voice_rule}\n"
-        "2. CERO jerga técnica innecesaria (nunca digas RAG, LLM, tokens, webhooks o pipelines).\n"
-        "3. Presenta cuando corresponda nuestros 4 Empleados Digitales: SDR IA, Setter IA, Closer IA y Soporte IA.\n"
-        "4. PROHIBIDO DAR PRECIOS O CIFRAS EN DÓLARES EN EL CHAT: NUNCA menciones montos ni números de paquetes (cero 497, 990, 1490 o USD) aunque insistan. Explica que cada proyecto se cotiza a la medida tras mostrarle su demo en vivo (50% al iniciar y 50% contra entrega en 7 a 10 días), invita a ver https://agenciaprosperia.com/sitioweb y pide Nombre, Giro de negocio y WhatsApp.\n"
-        f"\nBASE DE CONOCIMIENTOS OFICIAL:\n{kb_text}\n{hist_block}"
-    )
-
-    reply = invoke_gemini_assistant(sys_prompt, raw_msg, client_ip=client_ip, max_tokens=340)
-    engine = "gemini-2.5-flash"
+    reply = ""
+    engine = "passportai-live"
     ctas: Dict[str, Any] = {}
     datos_completos = False
+
+    # 1. Primario en vivo: Chatbot PassportAI (asesor-comercial-prosper-ia-25-1)
+    pp_res = await asyncio.to_thread(_post_passportai_chat, sid, raw_msg)
+    if isinstance(pp_res, dict) and pp_res.get("ok") and str(pp_res.get("respuesta") or "").strip():
+        reply = str(pp_res.get("respuesta") or "").strip()
+        raw_ctas = pp_res.get("ctas")
+        if isinstance(raw_ctas, dict):
+            ctas = _normalize_emergency_whatsapp_ctas(raw_ctas)
+        datos_completos = bool(pp_res.get("datos_completos"))
+        engine = "passportai-live"
+
+    # 2. Respaldo inteligente Gemini 2.5 Flash + KB local si PassportAI no responde
+    if not reply:
+        client_ip = extract_client_ip(request)
+        kb_text = _load_prosperia_kb_text()
+        hist_lines = []
+        if req.history:
+            for h in req.history[-6:]:
+                role = "Cliente" if h.get("role") == "user" else "Setter IA"
+                txt = str(h.get("text", "")).strip()[:220]
+                if txt:
+                    hist_lines.append(f"{role}: {txt}")
+        hist_block = ("\nCONVERSACIÓN RECIENTE:\n" + "\n".join(hist_lines)) if hist_lines else ""
+
+        voice_rule = (
+            "Como estás hablando EN VOZ ALTA, responde de forma cálida, natural y sin asteriscos ni emojis, en máximo 2 o 3 oraciones completas."
+            if mode == "voice"
+            else "Responde en español claro y amable en máximo 3 oraciones cortas completas, sin tecnicismos ni listas largas."
+        )
+
+        sys_prompt = (
+            "Eres el Empleado Digital Oficial (Setter IA) de Agencia Prosper IA LLC.\n"
+            f"REGLAS OBLIGATORIAS:\n1. {voice_rule}\n"
+            "2. CERO jerga técnica innecesaria (nunca digas RAG, LLM, tokens, webhooks o pipelines).\n"
+            "3. Presenta cuando corresponda nuestros 4 Empleados Digitales: SDR IA, Setter IA, Closer IA y Soporte IA.\n"
+            "4. PROHIBIDO DAR PRECIOS O CIFRAS EN DÓLARES EN EL CHAT: NUNCA menciones montos ni números de paquetes (cero 497, 990, 1490 o USD) aunque insistan. Explica que cada proyecto se cotiza a la medida tras mostrarle su demo en vivo (50% al iniciar y 50% contra entrega en 7 a 10 días), invita a ver https://agenciaprosperia.com/sitioweb y pide Nombre, Giro de negocio y WhatsApp (o escribir al +1 786 557-3119).\n"
+            f"\nBASE DE CONOCIMIENTOS OFICIAL:\n{kb_text}\n{hist_block}"
+        )
+
+        reply = invoke_gemini_assistant(sys_prompt, raw_msg, client_ip=client_ip, max_tokens=340)
+        engine = "gemini-2.5-flash"
 
     if not reply:
         engine = "prosperia-kb-fallback"
@@ -4079,6 +4194,7 @@ async def api_prosperia_assistant(req: ProsperiaAssistantRequest, request: Reque
                 "¿A qué se dedica tu negocio y cuál es tu WhatsApp para prepararte la demostración en https://agenciaprosperia.com/sitioweb?"
             )
 
+    reply = _normalize_emergency_whatsapp_text(reply)
     reply = _enforce_no_price_chatbot_policy(reply, raw_msg)
     reply_speech = _clean_reply_for_speech(reply)
 
@@ -4091,7 +4207,7 @@ async def api_prosperia_assistant(req: ProsperiaAssistantRequest, request: Reque
         "session_id": sid,
         "engine": engine,
         "calendar_anchor": "/#contacto",
-        "whatsapp_url": "https://wa.me/17868336964",
+        "whatsapp_url": EMERGENCY_WA_URL,
     }
 
 # --- ENDPOINT DE PROSPECCIÓN INTELIGENTE ---
