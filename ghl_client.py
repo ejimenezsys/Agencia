@@ -1819,6 +1819,24 @@ def dispatch_ghl_agency_whatsapp(
     workflow_dispatched = len(new_out_wa) > 0
     if workflow_dispatched:
         latest_out = new_out_wa[0]
+        if str(latest_out.get("status") or "").lower() == "failed":
+            err_low = str(latest_out.get("error") or "").lower()
+            if any(k in err_low for k in ("restrictions on how many messages", "healthy ecosystem", "frequency cap")):
+                return {
+                    "ok": False,
+                    "rate_limited": True,
+                    "contact_id": cid,
+                    "comms": post_state,
+                    "error": "Meta aún está en ventana de enfriamiento de 24h para plantillas nuevas (se libera a las 10:15 AM Miami).",
+                }
+            if any(k in err_low for k in ("undeliverable", "not a whatsapp phone number", "unable to deliver message")):
+                return {
+                    "ok": False,
+                    "undeliverable": True,
+                    "contact_id": cid,
+                    "comms": post_state,
+                    "error": "Este número no tiene WhatsApp activo (o es teléfono fijo).",
+                }
         detail_msg = f"✅ Plantilla {tpl_key} enviada por GHL ({latest_out.get('status_label') or 'enviado'})."
     else:
         detail_msg = (

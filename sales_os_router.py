@@ -4144,8 +4144,13 @@ def _is_likely_landline_not_whatsapp(phone_raw: str) -> bool:
     return norm.startswith("+349") or norm.startswith("+348") or norm.startswith("+5760")
 
 
+def _miami_today_str() -> str:
+    """Fecha calendario actual en horario de Miami (UTC-5)."""
+    return (datetime.utcnow() - timedelta(hours=5)).strftime("%Y-%m-%d")
+
+
 def _default_setter_ia_state() -> dict:
-    today_utc = datetime.utcnow().strftime("%Y-%m-%d")
+    today_miami = _miami_today_str()
     return {
         "running": False,
         "wa_sent_today": 0,
@@ -4162,9 +4167,10 @@ def _default_setter_ia_state() -> dict:
         "demos_auto_sent": 0,
         "daily_wa_limit": 450,
         "wa_paused_until_day": "2026-11-18",
+        "wa_paused_until_utc": "2026-11-19T15:15:00Z",
         "wa_interval_sec": 30,
         "email_interval_sec": 45,
-        "last_day": today_utc,
+        "last_day": today_miami,
         "rr_cursor": 0,
         "imap_processed_uids": [],
         "last_log": [],
@@ -4181,9 +4187,9 @@ def _load_setter_ia_state(db: Session) -> dict:
                 state.update(loaded)
         except Exception:
             pass
-    today_utc = datetime.utcnow().strftime("%Y-%m-%d")
-    if state.get("last_day") != today_utc:
-        state["last_day"] = today_utc
+    today_miami = _miami_today_str()
+    if state.get("last_day") != today_miami:
+        state["last_day"] = today_miami
         state["wa_sent_today"] = 0
         state["email_sent_today"] = 0
         state["lead_web_sent_today"] = 0
@@ -5400,14 +5406,20 @@ def _is_miami_daytime_for_wa() -> bool:
 
 
 def _execute_setter_ia_wa_step(db: Session, state: dict) -> bool:
-    today_utc = datetime.utcnow().strftime("%Y-%m-%d")
+    today_miami = _miami_today_str()
+    now_utc_iso = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+    paused_until_utc = str(state.get("wa_paused_until_utc") or "").strip()
     daily_cap = min(450, int(state.get("daily_wa_limit", 450) or 450))
-    if state.get("wa_paused_until_day") == today_utc or int(state.get("wa_sent_today", 0) or 0) >= daily_cap:
+    if (
+        state.get("wa_paused_until_day") == today_miami
+        or (paused_until_utc and now_utc_iso < paused_until_utc)
+        or int(state.get("wa_sent_today", 0) or 0) >= daily_cap
+    ):
         logs = state.get("last_log") or []
         if not logs or "enfriamiento preventivo" not in str(logs[0]).lower():
             _append_setter_ia_log(
                 state,
-                "🛡️ WA en enfriamiento preventivo hoy para proteger calidad en Meta; correos y escáner siguen activos 24/7.",
+                "🛡️ WA en enfriamiento preventivo Meta 24h (se reactiva 10:15 AM Miami); llamadas y ventana 24h siguen activas.",
             )
         return False
     if not _is_miami_daytime_for_wa():
@@ -5440,6 +5452,8 @@ def _execute_setter_ia_wa_step(db: Session, state: dict) -> bool:
         lead_db_id=lid,
     )
     if not res.get("ok"):
+        if res.get("rate_limited"):
+            state["wa_paused_until_utc"] = (datetime.utcnow() + timedelta(hours=2)).strftime("%Y-%m-%dT%H:%M:%SZ")
         _append_setter_ia_log(state, f"⚠️ WA {biz_name}: {res.get('error', 'error GHL')[:80]}")
         return False
 
@@ -6100,6 +6114,23 @@ async def api_reclassify_wa_autogreetings(
             reclassified_bots += 1
             affected_by_owner[owner]["bots"] += 1
 
+    # Revertir marcas de Setter IA WA de esta noche ([2026-11-19 00:...] UTC) que Meta rechazó por ventana móvil de 24h
+    nov19_wa_leads = (
+        db.query(DbLead)
+        .filter(func.coalesce(DbLead.notes, "").contains("[2026-11-19 00:"))
+        .filter(func.coalesce(DbLead.notes, "").contains("🤖 Setter IA WA"))
+        .all()
+    )
+    reverted_rate_limited_wa = 0
+    for ld in nov19_wa_leads:
+        notes_raw = getattr(ld, "notes", "") or ""
+        if "RESPONDIÓ A SETTER IA" in notes_raw:
+            continue
+        cleaned = re.sub(r"\n?\[2026-11-19 00:[^\n]*🤖 Setter IA WA[^\n]*", "", notes_raw).strip()
+        if cleaned != notes_raw.strip():
+            ld.notes = cleaned
+            reverted_rate_limited_wa += 1
+
     db.commit()
 
     real_remaining = (
@@ -6110,9 +6141,14 @@ async def api_reclassify_wa_autogreetings(
     with _SETTER_IA_LOCK:
         st = _load_setter_ia_state(db)
         st["replies_detected"] = real_remaining
+        st["last_day"] = _miami_today_str()
+        st["wa_sent_today"] = 0
+        if reverted_rate_limited_wa:
+            st["wa_total_sent"] = max(0, int(st.get("wa_total_sent", 0) or 0) - reverted_rate_limited_wa)
+        st["wa_paused_until_utc"] = "2026-11-19T15:15:00Z"
         _append_setter_ia_log(
             st,
-            f"🧹 Limpieza banner rojo: {reclassified_bots} saludos WA + {reclassified_rejects} rechazos/DND movidos; {real_remaining} humanos reales en prioridad #1.",
+            f"🛡️ Revertidos {reverted_rate_limited_wa} intentos WA (00:00 UTC) rechazados por Meta; reactivación programada 10:15 AM Miami.",
         )
         _save_setter_ia_state(db, st)
 
@@ -6122,6 +6158,8 @@ async def api_reclassify_wa_autogreetings(
         "reclassified_rejects": reclassified_rejects,
         "kept_humans": kept_humans,
         "real_remaining_replied": real_remaining,
+        "reverted_rate_limited_wa": reverted_rate_limited_wa,
+        "wa_paused_until_utc": "2026-11-19T15:15:00Z",
         "by_closer": affected_by_owner,
     }
 
