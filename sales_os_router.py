@@ -4745,6 +4745,26 @@ _CAMPAIGN_SUBJECT_TOKENS = (
     "en que etapa estas hoy con la ia",
     "passportai 2.1",
     "sitio web inteligente",
+    "vista previa del nuevo sitio web",
+    "mantenemos activa la demo web",
+    "demo web de",
+)
+
+_INSTANTLY_OUTREACH_MAILBOXES = (
+    "diego@prosperia-systems.com",
+    "edward@prosperia-systems.com",
+    "diego@prosperia-advisors.com",
+    "edward@prosperia-advisors.com",
+    "edward@prosperia-global.com",
+    "diego@prosperia-global.com",
+)
+
+_OWN_OUTREACH_DOMAINS = (
+    "@agenciaprosperia.com",
+    "@passportai.app",
+    "@prosperia-systems.com",
+    "@prosperia-advisors.com",
+    "@prosperia-global.com",
 )
 
 
@@ -4850,16 +4870,23 @@ def _is_automated_or_irrelevant_email(
         "mailer-daemon", "postmaster", "hostinger.com", "no-reply", "noreply",
         "donotreply", "do-not-reply", "edward@agenciaprosperia.com",
         "seller@agenciaprosperia.com", "info@agenciaprosperia.com",
-        "support@webador.com", "centrodeservicios@",
+        "support@webador.com", "centrodeservicios@", "instantly.ai",
         "google", "meta", "facebook", "stripe",
     )
     if any(tok in sender_addr or tok in low_from for tok in ignored_senders):
+        return True
+
+    if any(sender_addr.endswith(dom) for dom in _OWN_OUTREACH_DOMAINS):
         return True
 
     if sender_addr in seller_emails:
         return True
 
     if "[respondio por correo]" in low_subj:
+        return True
+
+    # Calentamiento (Warmup) de Instantly u otros pools: etiquetas alfanuméricas al final del asunto
+    if "561xfz5" in low_subj or "561xfz5" in low_body or re.search(r"\|\s*[a-z0-9]{6,8}\s+[a-z0-9]{6,8}\s*$", low_subj):
         return True
 
     auto_tokens = (
@@ -5157,30 +5184,24 @@ def _extract_imap_bytes(fetch_data: Any) -> Optional[bytes]:
     return None
 
 
-def _scan_recent_imap_email_replies_sync(db: Session, state: dict) -> int:
-    """Lee por IMAP (imap.hostinger.com:993) respuestas reales a seller@/info@/edward@ y dispara al Closer asignado."""
-    imap_user = _cfg_db("SMTP_USER", "")
-    imap_pass = _cfg_db("SMTP_PASSWORD", "")
-    if not imap_user or not imap_pass:
-        return 0
-
-    imap_host = _cfg_db("IMAP_HOST", "imap.hostinger.com")
-    imap_port = int(_cfg_db("IMAP_PORT", "993") or "993")
-    since_str = (datetime.utcnow() - timedelta(days=2)).strftime("%d-%b-%Y")
-
-    processed_list = [str(x) for x in (state.get("imap_processed_uids") or []) if x]
-    processed_set = set(processed_list)
-
-    seller_emails = {
-        normalize_email(u.email)
-        for u in db.query(User).filter(User.role == "seller", User.is_active == 1).all()
-        if u.email
-    }
-
+def _scan_single_imap_mailbox_sync(
+    db: Session,
+    state: dict,
+    imap_host: str,
+    imap_port: int,
+    imap_user: str,
+    imap_pass: str,
+    since_str: str,
+    seller_emails: set,
+    processed_list: list,
+    processed_set: set,
+    key_prefix: str = "",
+) -> int:
+    """Escanea una cuenta IMAP y enruta respuestas reales de clientes hacia su Closer asignado."""
     found_new = 0
     M = None
     try:
-        M = imaplib.IMAP4_SSL(imap_host, imap_port, timeout=12)
+        M = imaplib.IMAP4_SSL(imap_host, imap_port, timeout=10)
         M.login(imap_user, imap_pass)
         typ, _ = M.select("INBOX", readonly=True)
         if typ != "OK":
@@ -5200,10 +5221,13 @@ def _scan_recent_imap_email_replies_sync(db: Session, state: dict) -> int:
         if typ != "OK" or not data or not data[0]:
             return 0
 
+        def _make_key(uid_val: str) -> str:
+            return f"{key_prefix}:{uid_validity}:{uid_val}" if key_prefix else f"{uid_validity}:{uid_val}"
+
         uids = data[0].split()[-200:]
         unseen_uids = [
             uid_b for uid_b in uids
-            if f"{uid_validity}:{uid_b.decode(errors='ignore')}" not in processed_set
+            if _make_key(uid_b.decode(errors="ignore")) not in processed_set
         ]
         if not unseen_uids:
             return 0
@@ -5224,7 +5248,7 @@ def _scan_recent_imap_email_replies_sync(db: Session, state: dict) -> int:
 
         for uid_b in unseen_uids:
             imap_uid = uid_b.decode(errors="ignore")
-            cache_key = f"{uid_validity}:{imap_uid}"
+            cache_key = _make_key(imap_uid)
             hdr_bytes = headers_by_uid.get(imap_uid)
             if not hdr_bytes:
                 typ_h, hdr_data = M.uid("fetch", uid_b, "(BODY.PEEK[HEADER.FIELDS (FROM TO CC SUBJECT DATE MESSAGE-ID)])")
@@ -5287,8 +5311,7 @@ def _scan_recent_imap_email_replies_sync(db: Session, state: dict) -> int:
                     ad_clean
                     and "@" in ad_clean
                     and ad_clean != clean_sender
-                    and not ad_clean.endswith("@agenciaprosperia.com")
-                    and not ad_clean.endswith("@passportai.app")
+                    and not any(ad_clean.endswith(dom) for dom in _OWN_OUTREACH_DOMAINS)
                 ):
                     nm_clean = nm_raw.strip()
                     cc_pairs.append(f"{nm_clean} <{ad_clean}>" if nm_clean else ad_clean)
@@ -5337,18 +5360,69 @@ def _scan_recent_imap_email_replies_sync(db: Session, state: dict) -> int:
                 )
                 _append_setter_ia_log(
                     state,
-                    f"📩🔥 Respuesta Correo: {lead.business_name or lead.name} ({clean_sender}) -> Disparo a Closer {closer_label}",
+                    f"📩🔥 Respuesta Correo ({imap_user}): {lead.business_name or lead.name} ({clean_sender}) -> Disparo a Closer {closer_label}",
                 )
     except Exception as exc:
-        print(f"⚠️ [SETTER IA IMAP SCAN] Error IMAP: {exc}", flush=True)
+        print(f"⚠️ [SETTER IA IMAP SCAN] Error IMAP ({imap_user}): {exc}", flush=True)
     finally:
         if M is not None:
             try:
                 M.logout()
             except Exception:
                 pass
+    return found_new
 
-    state["imap_processed_uids"] = processed_list[-600:]
+
+def _scan_recent_imap_email_replies_sync(db: Session, state: dict) -> int:
+    """Lee por IMAP (imap.hostinger.com:993) respuestas reales en la cuenta principal y los 6 buzones Instantly."""
+    imap_host = _cfg_db("IMAP_HOST", "imap.hostinger.com")
+    imap_port = int(_cfg_db("IMAP_PORT", "993") or "993")
+    since_str = (datetime.utcnow() - timedelta(days=2)).strftime("%d-%b-%Y")
+
+    processed_list = [str(x) for x in (state.get("imap_processed_uids") or []) if x]
+    processed_set = set(processed_list)
+
+    seller_emails = {
+        normalize_email(u.email)
+        for u in db.query(User).filter(User.role == "seller", User.is_active == 1).all()
+        if u.email
+    }
+
+    mailboxes = []
+    primary_user = _cfg_db("SMTP_USER", "")
+    primary_pass = _cfg_db("SMTP_PASSWORD", "")
+    if primary_user and primary_pass:
+        mailboxes.append((primary_user, primary_pass, ""))
+
+    instantly_pass = _cfg_db("INSTANTLY_IMAP_PASSWORD", "Prosperia2@27")
+    if instantly_pass:
+        seen_users = {normalize_email(primary_user)} if primary_user else set()
+        for acc in _INSTANTLY_OUTREACH_MAILBOXES:
+            norm_acc = normalize_email(acc)
+            if norm_acc and norm_acc not in seen_users:
+                seen_users.add(norm_acc)
+                mailboxes.append((norm_acc, instantly_pass, norm_acc))
+
+    if not mailboxes:
+        return 0
+
+    found_new = 0
+    for mbox_user, mbox_pass, prefix in mailboxes:
+        found_new += _scan_single_imap_mailbox_sync(
+            db=db,
+            state=state,
+            imap_host=imap_host,
+            imap_port=imap_port,
+            imap_user=mbox_user,
+            imap_pass=mbox_pass,
+            since_str=since_str,
+            seller_emails=seller_emails,
+            processed_list=processed_list,
+            processed_set=processed_set,
+            key_prefix=prefix,
+        )
+
+    state["imap_processed_uids"] = processed_list[-3500:]
     return found_new
 
 
