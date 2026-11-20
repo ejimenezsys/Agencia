@@ -2315,8 +2315,10 @@
       <div class="flex flex-wrap gap-2 items-center pt-2 border-t border-emerald-500/20">
         <select id="call-queue-filter" class="input-dark text-xs py-2 px-3" style="width:auto;" onchange="callQueuePage=1; renderCallQueueTable()">
           <option value="pending">⏳ Sin Tocar + En Seguimiento Setter</option>
+          <option value="warm_hot">🔥🟡 Todos Mis Calientes y Tibios (Prioridad Cierre)</option>
+          <option value="replied_ia">🔥 CALIENTES: Respondieron / Inbound / Calificados</option>
+          <option value="setter_demo_sent">📨 TIBIOS: Ya Recibieron Demo por Setter IA</option>
           <option value="touched_today">🕒 Tocados Hoy / Mis Cambios Recientes</option>
-          <option value="replied_ia">🔥 Respondieron a Setter IA (Llamar YA)</option>
           <option value="untouched">🆕 Solo Nuevos (0 Toques)</option>
           <option value="callback">🟡 En Seguimiento (Primer contacto / Contacto)</option>
           <option value="no_answer">🔴 No Contestaron / Buzón</option>
@@ -4444,6 +4446,9 @@
         <button type="button" id="setter-work-call-btn" class="px-3 py-1.5 rounded-lg text-xs font-black bg-emerald-400 text-slate-950 hover:bg-emerald-300 transition shadow">
           📞 Llamar
         </button>
+        <a id="setter-work-wa-btn" href="#" target="_blank" rel="noopener" class="px-3 py-1.5 rounded-lg text-xs font-black bg-emerald-500/25 text-emerald-200 border border-emerald-400/50 hover:bg-emerald-500/35 no-underline transition" title="Abre tu WhatsApp (1 a 1 controlado) con el guion y la Demo Web listos">
+          💬 Mi WhatsApp 1a1
+        </a>
         <button type="button" id="setter-work-sms-btn" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/35 hover:bg-indigo-500/30" title="1 clic: envía SMS con Demo Web desde +1 786 (solo EE. UU./PR)">
           🇺🇸 Enviar SMS
         </button>
@@ -7645,13 +7650,50 @@ async function sendGhlDirectMsgFromUi(leadId, channel, triggerBtn = null) {
   }
 }
 
-function filterOnlyRepliedLeads() {
+function filterCallQueuePreset(presetVal) {
   const fSel = document.getElementById('call-queue-filter');
   if (fSel) {
-    fSel.value = 'replied_ia';
+    fSel.value = presetVal || 'pending';
     callQueuePage = 1;
     renderCallQueueTable();
   }
+}
+
+function filterOnlyRepliedLeads() {
+  filterCallQueuePreset('replied_ia');
+}
+
+function getLeadTemperatureMeta(l) {
+  const st = String(l.pipeline_stage || 'Lead identificado').trim();
+  const notesLow = String(l.notes || '').toLowerCase();
+  const srcLow = String(l.source || '').toLowerCase();
+  const scLow = String(l.source_campaign || '').toLowerCase();
+  const isClosedOut = ['No interesado', 'No cumple perfil', 'Opt-out', 'Venta perdida'].includes(st);
+  if (isClosedOut) {
+    return { prio: 9, isHot: false, isWarm: false, isReplied: false, isDemoSent: false, badge: '' };
+  }
+  const isReplied = notesLow.includes('respondió a setter ia') || srcLow === 'setter_ia_inbound_email';
+  const isQualified = ['Calificado', 'Diagnóstico agendado', 'Demo realizada', 'Propuesta enviada', 'Pago pendiente', 'Pago confirmado', 'Implementación', 'Entregado'].includes(st);
+  const isInbound = ['hub_codigos', 'sitioweb', 'portal_corporativo', 'emprende'].some(k => srcLow.includes(k)) || scLow.includes('flujo #2') || scLow.includes('flujo #3');
+  const isFollowup = ['Primer contacto', 'Contacto', 'Conversación', 'En seguimiento local'].includes(st);
+  const isSetterDemo = notesLow.includes('🤖 setter ia') && !isReplied;
+
+  if (isReplied) {
+    return { prio: 1, isHot: true, isWarm: true, isReplied: true, isDemoSent: true, badge: '<span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-rose-500/25 text-rose-200 border border-rose-400/50 animate-pulse">🔥 CALIENTE · RESPONDIÓ — LLAMAR YA</span>' };
+  }
+  if (isQualified) {
+    return { prio: 2, isHot: true, isWarm: true, isReplied: true, isDemoSent: true, badge: `<span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-500/25 text-emerald-200 border border-emerald-400/50">🔥 CALIENTE · ${esc(st.toUpperCase())}</span>` };
+  }
+  if (isInbound) {
+    return { prio: 3, isHot: true, isWarm: true, isReplied: true, isDemoSent: false, badge: '<span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-500/25 text-amber-200 border border-amber-400/50">🔥 CALIENTE · INBOUND WEB</span>' };
+  }
+  if (isFollowup) {
+    return { prio: 4, isHot: false, isWarm: true, isReplied: false, isDemoSent: isSetterDemo, badge: '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/15 text-amber-300 border border-amber-500/35">🟡 TIBIO · EN SEGUIMIENTO</span>' };
+  }
+  if (isSetterDemo) {
+    return { prio: 5, isHot: false, isWarm: true, isReplied: false, isDemoSent: true, badge: '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-sky-500/20 text-sky-200 border border-sky-400/40">📨 TIBIO · YA RECIBIÓ DEMO IA</span>' };
+  }
+  return { prio: 6, isHot: false, isWarm: false, isReplied: false, isDemoSent: false, badge: '' };
 }
 
 async function loadSetterIaStatus() {
@@ -7740,29 +7782,43 @@ function renderCallQueueTable() {
 
   const isSetterPendingOrLocal = (l) => {
     const st = l.pipeline_stage || 'Lead identificado';
-    return ['Lead identificado', 'Primer contacto', 'Contacto', 'Conversación', 'En seguimiento local'].includes(st);
+    const notesLow = (l.notes || '').toLowerCase();
+    return ['Lead identificado', 'Primer contacto', 'Contacto', 'Conversación', 'En seguimiento local'].includes(st) || notesLow.includes('respondió a setter ia');
   };
 
   const queueBadge = document.getElementById('call-queue-badge');
   const pendingCount = salesOsLeads.filter(isSetterPendingOrLocal).length;
   if (queueBadge) queueBadge.textContent = pendingCount;
 
+  let myHotCount = 0;
+  let myWarmOnlyCount = 0;
+  let myDemoSentCount = 0;
+  for (const leadItem of salesOsLeads) {
+    const t = getLeadTemperatureMeta(leadItem);
+    if (t.isHot) myHotCount += 1;
+    else if (t.isWarm) myWarmOnlyCount += 1;
+    if (t.isDemoSent) myDemoSentCount += 1;
+  }
+  const myWarmHotTotal = myHotCount + myWarmOnlyCount;
+
   const hotBanner = document.getElementById('closer-hot-replied-banner');
-  const myRepliedCount = salesOsLeads.filter(l => (l.notes || '').toLowerCase().includes('respondió a setter ia')).length;
   if (hotBanner) {
-    if (myRepliedCount > 0) {
+    if (myWarmHotTotal > 0 || salesOsLeads.length > 0) {
       hotBanner.innerHTML = `
         <div class="text-rose-100 leading-snug">
-          <strong class="text-white">🔥 ¡TIENES ${myRepliedCount} PROSPECTOS QUE YA RESPONDIERON AL SETTER IA (VENTANA 24H ABIERTA)!</strong><br>
-          <span class="text-rose-200 text-[11px]">Ya recibieron su Demo Web y varios ya la leyeron (✓✓ azul). Llámalos o escríbeles ahora mismo.</span>
+          <strong class="text-white">🎯 RADAR DE CIERRE: TIENES ${myHotCount} 🔥 CALIENTES Y ${myWarmOnlyCount} 🟡 TIBIOS (${myWarmHotTotal} LISTOS PARA ATACAR)</strong><br>
+          <span class="text-rose-200 text-[11px]">${myDemoSentCount} ya recibieron su Demo Web IA. Usa <strong>💬 WA 1a1</strong> desde tu WhatsApp de forma controlada (bloques de 15–20 conversaciones 1 a 1 tras llamarlos, nunca en ráfagas).</span>
         </div>
         <div class="flex flex-wrap items-center gap-1.5">
-          <button type="button" onclick="filterOnlyRepliedLeads()" class="px-3 py-1.5 rounded-lg bg-rose-500 text-white hover:bg-rose-400 font-black text-[11px] shadow transition">
-            🔥 Filtrar Solo Mis ${myRepliedCount} Respondidos
+          <button type="button" onclick="filterCallQueuePreset('replied_ia')" class="px-3 py-1.5 rounded-lg bg-rose-500 text-white hover:bg-rose-400 font-black text-[11px] shadow transition">
+            🔥 Ver Mis Calientes (${myHotCount})
           </button>
-          <button type="button" onclick="document.getElementById('call-queue-filter').value='pending'; callQueuePage=1; renderCallQueueTable()" class="px-3 py-1.5 rounded-lg bg-slate-900/90 text-slate-200 border border-slate-700 hover:bg-slate-800 font-bold text-[11px] transition">
-            📋 Ver Todos
+          <button type="button" onclick="filterCallQueuePreset('warm_hot')" class="px-3 py-1.5 rounded-lg bg-amber-400 text-slate-950 hover:bg-amber-300 font-black text-[11px] shadow transition">
+            🔥🟡 Ver Calientes + Tibios (${myWarmHotTotal})
           </button>
+          <a href="/static/docs/LEADS_TIBIOS_Y_CALIENTES_CLOSERS_PROSPER_IA.xlsx" download="LEADS_TIBIOS_Y_CALIENTES_CLOSERS_PROSPER_IA.xlsx" class="px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-200 border border-emerald-400/50 hover:bg-emerald-500/30 font-black text-[11px] no-underline transition">
+            📥 Descargar Excel (Tibios y Calientes)
+          </a>
         </div>
       `;
       hotBanner.classList.remove('hidden');
@@ -7776,6 +7832,7 @@ function renderCallQueueTable() {
     const st = l.pipeline_stage || 'Lead identificado';
     const notes = (l.notes || '').toLowerCase();
     const lSrc = (l.source || '').toLowerCase();
+    const temp = getLeadTemperatureMeta(l);
     if (srcVal === 'apify_sprint_nov18' && !lSrc.includes('apify') && !lSrc.includes('sprint')) return false;
     if (srcVal === 'sitioweb_funnel' && lSrc !== 'sitioweb_funnel') return false;
     if (srcVal === 'comex_outbound_b2b' && lSrc !== 'comex_outbound_b2b') return false;
@@ -7795,8 +7852,10 @@ function renderCallQueueTable() {
     const nowMs = Date.now();
     const ltMs = l.last_touch ? Date.parse(l.last_touch) : NaN;
     if (filterVal === 'pending') return isSetterPendingOrLocal(l);
+    if (filterVal === 'warm_hot') return temp.isWarm || temp.isHot;
     if (filterVal === 'touched_today') return !isNaN(ltMs) && (nowMs - ltMs) <= 24 * 3600 * 1000;
-    if (filterVal === 'replied_ia') return notes.includes('respondió a setter ia');
+    if (filterVal === 'replied_ia') return temp.isHot;
+    if (filterVal === 'setter_demo_sent') return temp.isDemoSent && !['No interesado', 'No cumple perfil', 'Opt-out', 'Venta perdida'].includes(st);
     if (filterVal === 'untouched') return st === 'Lead identificado';
     if (filterVal === 'callback') return ['Primer contacto', 'Contacto', 'Conversación', 'En seguimiento local'].includes(st);
     if (filterVal === 'no_answer') return st === 'No responde' || notes.includes('[cola: no contestó]');
@@ -7807,14 +7866,14 @@ function renderCallQueueTable() {
     return true;
   });
 
-  // En Tocados Hoy / Seguimiento ordenar por cambio más reciente arriba; en el resto priorizar respondidos IA + último toque
+  // Ordenar siempre por prioridad térmica (Calientes -> Tibios en Seguimiento -> Tibios Demo IA -> Nuevos)
   filtered.sort((a, b) => {
-    if (filterVal === 'touched_today' || filterVal === 'callback') {
+    if (filterVal === 'touched_today') {
       return (b.last_touch || '').localeCompare(a.last_touch || '');
     }
-    const aHot = (a.notes || '').toLowerCase().includes('respondió a setter ia') ? 1 : 0;
-    const bHot = (b.notes || '').toLowerCase().includes('respondió a setter ia') ? 1 : 0;
-    if (bHot !== aHot) return bHot - aHot;
+    const aPrio = getLeadTemperatureMeta(a).prio;
+    const bPrio = getLeadTemperatureMeta(b).prio;
+    if (aPrio !== bPrio) return aPrio - bPrio;
     return (b.last_touch || '').localeCompare(a.last_touch || '');
   });
 
@@ -7856,17 +7915,27 @@ function renderCallQueueTable() {
     const lastEntry = bitacoraRows.length ? bitacoraRows[bitacoraRows.length - 1] : '';
     const tplLabel = TEMPLATE_LABELS_MAP[l.selected_template || 'clinica_dental_estetica'] || (l.selected_template || '🦷 Clínica Dental');
     const cleanEmail = hasEmail ? l.email : 'Sin correo';
-    const isRepliedIa = (l.notes || '').toLowerCase().includes('respondió a setter ia');
+    const temp = getLeadTemperatureMeta(l);
+    const rowBgStyle = temp.prio <= 3
+      ? 'background:rgba(244,63,94,0.12); box-shadow:inset 3px 0 0 #fb7185;'
+      : temp.prio === 4
+      ? 'background:rgba(245,158,11,0.06); box-shadow:inset 3px 0 0 #fbbf24;'
+      : temp.prio === 5
+      ? 'background:rgba(14,165,233,0.07); box-shadow:inset 3px 0 0 #38bdf8;'
+      : isAlreadyInCrm
+      ? 'background:rgba(16,185,129,0.08);'
+      : '';
 
-    return `<tr class="table-row border-b border-slate-800/70 hover:bg-slate-900/50 transition" style="${isRepliedIa ? 'background:rgba(244,63,94,0.12); box-shadow:inset 3px 0 0 #fb7185;' : isAlreadyInCrm ? 'background:rgba(16,185,129,0.08);' : (st === 'Contacto' || st === 'Primer contacto' || st === 'En seguimiento local') ? 'background:rgba(245,158,11,0.05);' : ''}">
+    return `<tr class="table-row border-b border-slate-800/70 hover:bg-slate-900/50 transition" style="${rowBgStyle}">
       <td data-label="Prospecto y Diagnóstico" class="px-4 py-3.5 align-top max-w-xs">
-        <div class="flex flex-wrap items-center gap-1.5 mb-1">${isRepliedIa ? '<span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-rose-500/25 text-rose-200 border border-rose-400/50 animate-pulse">🔥 RESPONDIÓ A SETTER IA — LLAMAR YA</span>' : ''} ${intel.diagBadge} <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-cyan-300 border border-slate-700">${esc(route.badge)}</span></div>
+        <div class="flex flex-wrap items-center gap-1.5 mb-1">${temp.badge} ${intel.diagBadge} <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-cyan-300 border border-slate-700">${esc(route.badge)}</span></div>
         <div class="font-bold text-white text-sm leading-snug">${esc(l.business_name || l.company || l.name)}</div>
         <div class="text-[11px] text-slate-400 mt-0.5">${esc(l.city || '')} · ${esc(cleanEmail)} ${intel.googleVal ? `· ⭐ ${esc(intel.googleVal)}` : ''}</div>
       </td>
       <td data-label="Teléfono y Acción" class="px-3 py-3.5 align-top">
         <div class="flex flex-wrap items-center gap-2">
           <span class="font-mono font-bold text-cyan-300 text-sm whitespace-nowrap">${esc(l.phone || 'Sin teléfono')}</span>
+          ${waUrl ? `<a href="${waUrl}" target="_blank" rel="noopener" onclick="openSetterWorkDialog(${l.id}, 'WhatsApp')" class="px-2.5 py-1.5 rounded-xl text-xs font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-500/30 no-underline whitespace-nowrap" title="Abrir en tu WhatsApp personal de forma controlada (1 a 1) y registrar en bitácora">💬 WA 1a1</a>` : ''}
           <button type="button" onclick="openSetterWorkDialog(${l.id})"
                   class="px-3 py-1.5 rounded-xl text-xs font-black bg-cyan-400 text-slate-950 hover:bg-cyan-300 transition shadow whitespace-nowrap">
             🛠️ Trabajar / Anotar
@@ -8018,7 +8087,16 @@ function openSetterWorkDialog(leadId, defaultChannel = 'Llamada', preserveFeedba
   }
   const waBtn = document.getElementById('setter-work-wa-btn');
   if (waBtn) {
-    waBtn.style.display = 'none';
+    if (route.waUrl) {
+      waBtn.href = route.waUrl;
+      waBtn.style.display = '';
+      waBtn.onclick = () => {
+        const chEl = document.getElementById('setter-work-channel');
+        if (chEl) chEl.value = 'WhatsApp';
+      };
+    } else {
+      waBtn.style.display = 'none';
+    }
   }
   const smsBtn = document.getElementById('setter-work-sms-btn');
   if (smsBtn) {
