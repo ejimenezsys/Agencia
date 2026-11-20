@@ -3533,10 +3533,7 @@ async def api_emprende_funnel_capture(
             headers=_EMPRENDE_CORS_HEADERS,
         )
 
-    closer = get_next_round_robin_closer(db)
-    owner_email = closer["email"] if closer else "edward@agenciaprosperia.com"
-    closer_name = closer["name"] if closer else "Edward Jiménez"
-    closer_ghl_id = closer.get("ghl_user_id", "") if closer else ""
+    base_owner = "base_emprende@agenciaprosperia.com"
     now_str = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
 
     form_lines = "\n".join(
@@ -3545,7 +3542,7 @@ async def api_emprende_funnel_capture(
         if str(v or "").strip()
     )
     funnel_note = (
-        f"🔥 EMBUDO EMPRENDEPROSPERIA.COM (CONSTRUCTORES IA + SUITE CORTEXIA)\n"
+        f"🔥 EMBUDO EMPRENDEPROSPERIA.COM (6 CONSTRUCTORES PROSPER IA)\n"
         f"• Nombre: {full_name}\n"
         f"• Negocio / Idea: {biz_name}\n"
         f"• Email: {email_clean or 'N/D'}\n"
@@ -3578,14 +3575,14 @@ async def api_emprende_funnel_capture(
                 existing.phone_e164 = phone_e164
             existing.source = "emprendeprosperia_funnel"
             existing.source_channel = "EmprendeProsperIA.com"
-            existing.source_campaign = "🔥 Embudo 6 Constructores IA Gratis"
+            existing.source_campaign = "Recurso Gratis - 6 Constructores IA"
             existing.interest_primary = f"EmprendeProsperIA · {tool_slug}"
             existing.score = max(existing.score or 0, 92)
             if not existing.owner_id:
-                existing.owner_id = owner_email
-                existing.setter_id = owner_email
+                existing.owner_id = base_owner
+                existing.setter_id = base_owner
             if existing.pipeline_stage in ("Lead identificado", "No cumple perfil", "No responde", ""):
-                existing.pipeline_stage = "Primer contacto"
+                existing.pipeline_stage = "Recurso Gratis Descargado"
             existing.last_touch = now_str
             db.commit()
             lead_id = existing.id
@@ -3600,21 +3597,21 @@ async def api_emprende_funnel_capture(
                 business_name=biz_name,
                 phone=phone_raw or phone_e164,
                 phone_e164=phone_e164,
-                status="qualified",
+                status="lead",
                 source="emprendeprosperia_funnel",
                 source_channel="EmprendeProsperIA.com",
-                source_campaign="🔥 Embudo 6 Constructores IA Gratis",
+                source_campaign="Recurso Gratis - 6 Constructores IA",
                 interest_primary=f"EmprendeProsperIA · {tool_slug}",
                 score=92,
                 notes=funnel_note,
                 created_at=now_str,
-                owner_id=owner_email,
-                setter_id=owner_email,
+                owner_id=base_owner,
+                setter_id=base_owner,
                 niche="emprendedor",
                 country="EE. UU. / LATAM",
-                contact_permission="Registro EmprendeProsperIA Opt-in",
+                contact_permission="Recurso Gratis EmprendeProsperIA",
                 contact_status="contactable",
-                pipeline_stage="Primer contacto",
+                pipeline_stage="Recurso Gratis Descargado",
                 offer_version="ANUAL_990",
                 quoted_amount=990.0,
             )
@@ -3629,48 +3626,28 @@ async def api_emprende_funnel_capture(
     name_parts = full_name.split()
     fn = name_parts[0] if name_parts else full_name
     ln = " ".join(name_parts[1:]) if len(name_parts) > 1 else ""
+    safe_tool_tag = re.sub(r"[^a-z0-9_]+", "_", tool_slug.lower()).strip("_") or "general"
     sync_lead_to_ghl_async(
         first_name=fn,
         last_name=ln,
         email=email_clean,
         phone=phone_e164 or phone_raw,
         company=biz_name,
-        source="EmprendeProsperIA.com - Constructores IA",
+        source="EmprendeProsperIA.com - Recurso Gratis",
         industry="emprendedor",
         message=funnel_note,
         notes=funnel_note,
         sms_consent=True,
-        assigned_to=closer_ghl_id,
-        extra_tags=["emprendeprosperia", "lead_web", "constructores_ia_gratis"],
+        assigned_to="",
+        extra_tags=["emprendeprosperia", "recurso_gratis_pdf", f"constructor_{safe_tool_tag}"],
     )
-
-    background_tasks.add_task(
-        send_email_notification,
-        name=full_name,
-        email=email_clean or "info@agenciaprosperia.com",
-        company=biz_name,
-        phone=phone_raw or phone_e164,
-        message=funnel_note,
-        custom_subject=f"🚀 Nuevo Lead EmprendeProsperIA: {full_name} ({biz_name})",
-        custom_subtitle="EMBUDO CONSTRUCTORES IA GRATIS → AGENCIA PROSPERIA",
-    )
-    if email_clean and "@" in email_clean:
-        background_tasks.add_task(
-            _send_emprende_welcome_email_bg,
-            to_email=email_clean,
-            full_name=full_name,
-            business_name=biz_name,
-            tool_slug=tool_slug,
-            closer_name=closer_name,
-            closer_email=owner_email,
-        )
 
     return JSONResponse(
         {
             "ok": True,
             "success": True,
             "lead_id": lead_id,
-            "closer_name": closer_name,
+            "stored_in_crm": True,
             "next_step_url": "https://agenciaprosperia.com/sitioweb",
             "whatsapp_url": "https://wa.me/17865573119",
         },
@@ -3716,7 +3693,7 @@ def _invoke_gemini_emprende_json(
     client_ip: str = "internal",
     max_tokens: int = 3600,
 ) -> Optional[Dict[str, Any]]:
-    """Invoca Gemini 2.5 Flash con respuesta JSON garantizada y sin recorte a 350 chars para dossieres EmprendeProsperIA / Cortexia 777."""
+    """Invoca Gemini 2.5 Flash con respuesta JSON garantizada y sin recorte a 350 chars para dossieres EmprendeProsperIA / Prosper IA."""
     import time
     import ssl
     import urllib.request
@@ -4098,7 +4075,7 @@ async def api_emprende_generate_demo(request: Request, db: Session = Depends(get
 
 @app.post("/api/emprende/execute-tool")
 async def api_emprende_execute_tool(request: Request):
-    """Motor en vivo para los módulos del Dashboard Cortexia 777 (Digital Marketing, Search & Research, Content Processing, Web Scraping, Strategy, CRM/Outreach)."""
+    """Motor en vivo para los módulos de EmprendeProsperIA / Prosper IA (Digital Marketing, Search & Research, Content Processing, Web Scraping, Strategy, CRM/Outreach)."""
     import asyncio
     import time
     from sales_os_router import extract_client_ip
@@ -4113,7 +4090,7 @@ async def api_emprende_execute_tool(request: Request):
 
     tool_id = payload.get("tool_id") or payload.get("toolId") or 0
     tool_name = str(payload.get("tool_name") or payload.get("toolName") or "AI Assistant").strip()[:120]
-    category = str(payload.get("category") or "Cortexia 777").strip()[:80]
+    category = str(payload.get("category") or "Prosper IA").strip()[:80]
     params = payload.get("params") if isinstance(payload.get("params"), dict) else {}
     user_input = str(
         payload.get("input")
@@ -4164,7 +4141,7 @@ async def api_emprende_execute_tool(request: Request):
 }"""
 
     sys_prompt = (
-        f"Eres el Motor Operativo Cortexia 777 integrado en EmprendeProsperIA.com y Agencia Prosper IA.\n"
+        f"Eres el Motor Estratégico de Prosper IA integrado en EmprendeProsperIA.com y Agencia Prosper IA. Nunca uses la palabra Cortexia.\n"
         f"Módulo activo: {tool_name} (Categoría: {category}). Formato solicitado: {out_format}.\n"
         f"Proyecto/Negocio del usuario: {biz_name}.\n"
         f"INSTRUCCIÓN:\n"
@@ -4180,7 +4157,7 @@ async def api_emprende_execute_tool(request: Request):
 
     if not parsed:
         parsed = {
-            "title": f"Resultado Cortexia 777 · {tool_name}",
+            "title": f"Resultado Prosper IA · {tool_name}",
             "tool": tool_name,
             "overall_score": 87,
             "summary": f"Ejecución completada sobre '{user_input[:160]}'. " + (f"Se extrajeron {len(scraped_ctx.get('headings', []))} encabezados y metadatos en vivo." if scraped_ctx else "Análisis estratégico estructurado generado."),
