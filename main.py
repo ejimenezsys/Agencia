@@ -3720,28 +3720,27 @@ def _invoke_gemini_emprende_json(
         "contents": [{"parts": [{"text": f"{system_prompt}\n\nDATOS DE ENTRADA DEL CLIENTE:\n{safe_user}"}]}],
         "generationConfig": {
             "temperature": 0.55,
-            "maxOutputTokens": max_tokens,
+            "maxOutputTokens": min(max_tokens, 2200),
             "responseMimeType": "application/json",
             "thinkingConfig": {"thinkingBudget": 0},
         },
     }
     ctx = ssl._create_unverified_context()
-    for model_name in ("gemini-2.5-flash", "gemini-1.5-flash"):
-        try:
-            url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={api_key}"
-            req = urllib.request.Request(
-                url,
-                data=json.dumps(payload).encode("utf-8"),
-                headers={"Content-Type": "application/json"},
-            )
-            with urllib.request.urlopen(req, context=ctx, timeout=28) as resp:
-                data = json.loads(resp.read().decode("utf-8"))
-                raw_txt = data["candidates"][0]["content"]["parts"][0]["text"].strip()
-                parsed = _extract_json_block_safe(raw_txt)
-                if parsed:
-                    return parsed
-        except Exception as exc:
-            print(f"[Emprende Gemini JSON Warning] {model_name}: {exc}", flush=True)
+    try:
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={api_key}"
+        req = urllib.request.Request(
+            url,
+            data=json.dumps(payload).encode("utf-8"),
+            headers={"Content-Type": "application/json"},
+        )
+        with urllib.request.urlopen(req, context=ctx, timeout=16) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+            raw_txt = data["candidates"][0]["content"]["parts"][0]["text"].strip()
+            parsed = _extract_json_block_safe(raw_txt)
+            if parsed:
+                return parsed
+    except Exception as exc:
+        print(f"[Emprende Gemini JSON Warning] gemini-2.5-flash: {exc}", flush=True)
     return None
 
 
