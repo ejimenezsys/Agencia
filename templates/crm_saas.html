@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prosper IA CRM SaaS ($97–$497) &amp; Alianza Agencias GoHighLevel | Agencia Prosper IA</title>
+  <meta name="description" content="Activa tu subcuenta de Prosper IA CRM con el Snapshot Passport AI Master v2 preinstalado desde US$97/mes, o inicia tu propia agencia con GoHighLevel usando el enlace oficial de Edward Jiménez y llévate 3 Bonos VIP.">
+  <link rel="icon" type="image/png" href="{{ static_versioned('favicon.png') }}">
+  <link rel="stylesheet" href="{{ static_versioned('fonts.css') }}">
+  <link rel="stylesheet" href="{{ static_versioned('fa.min.css') }}">
+  <link rel="stylesheet" href="{{ static_versioned('ecosistema_squad.css') }}">
+  <style>
+    .saas-hero-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2.25rem;
+      align-items: center;
+    }
+    @media (min-width: 980px) {
+      .saas-hero-grid {
+        grid-template-columns: 1.12fr 0.88fr;
+      }
+    }
+    .saas-hero-figure {
+      margin: 0;
+    }
+    .saas-hero-figure img {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      border-radius: 20px;
+      border: 1px solid rgba(0, 229, 255, 0.32);
+      box-shadow: 0 24px 52px -14px rgba(0, 0, 0, 0.82);
+      display: block;
+    }
+    .saas-hero-figure figcaption {
+      margin-top: 0.65rem;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    /* Billing Switch Bar (modern-web-guidance: switch + accessible contrast) */
+    .saas-billing-bar {
+      display: inline-flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 0.85rem;
+      padding: 0.7rem 1.25rem;
+      border-radius: 999px;
+      background: rgba(14, 22, 40, 0.86);
+      border: 1px solid rgba(0, 229, 255, 0.34);
+      margin-top: 1.25rem;
+    }
+    .saas-switch-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-weight: 700;
+      font-size: 0.94rem;
+      color: var(--text-main);
+      cursor: pointer;
+      min-height: 28px;
+    }
+    input[type="checkbox"][switch] {
+      accent-color: #00e5ff;
+      margin: 0;
+      cursor: pointer;
+      inline-size: 42px;
+      block-size: 24px;
+    }
+    input[type="checkbox"][switch]:focus-visible {
+      outline: 3px solid #00e5ff;
+      outline-offset: 4px;
+    }
+    .saas-billing-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.76rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: rgba(16, 185, 129, 0.16);
+      border: 1px solid rgba(16, 185, 129, 0.45);
+      color: #6ee7b7;
+    }
+
+    /* 3-Plan Subgrid Cards (modern-web-guidance: card subgrid & container queries) */
+    .saas-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      align-items: stretch;
+    }
+    @media (min-width: 1080px) {
+      .saas-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+      @supports (grid-template-rows: subgrid) {
+        .saas-grid {
+          grid-auto-rows: auto;
+        }
+        .saas-card {
+          grid-row: span 4;
+          display: grid;
+          grid-template-rows: subgrid;
+          gap: 1rem;
+        }
+      }
+    }
+    .saas-card {
+      container-type: inline-size;
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1.1rem;
+    }
+    .saas-card-featured {
+      border-color: rgba(0, 229, 255, 0.52);
+      box-shadow: 0 28px 58px -16px rgba(0, 0, 0, 0.88), 0 0 36px rgba(0, 229, 255, 0.14);
+    }
+    .saas-plan-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.28rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.65rem;
+    }
+    .saas-plan-badge-cyan {
+      background: rgba(0, 229, 255, 0.14);
+      border: 1px solid rgba(0, 229, 255, 0.42);
+      color: #67e8f9;
+    }
+    .saas-plan-badge-emerald {
+      background: rgba(16, 185, 129, 0.16);
+      border: 1px solid rgba(16, 185, 129, 0.45);
+      color: #6ee7b7;
+    }
+    .saas-plan-badge-amber {
+      background: rgba(245, 158, 11, 0.16);
+      border: 1px solid rgba(245, 158, 11, 0.45);
+      color: #fcd34d;
+    }
+    .saas-price-block {
+      padding: 1rem 1.15rem;
+      border-radius: 14px;
+      background: rgba(2, 7, 16, 0.62);
+      border: 1px solid rgba(148, 163, 184, 0.22);
+    }
+    .saas-price-amount {
+      font-family: 'Space Grotesk', system-ui, sans-serif;
+      font-size: clamp(1.9rem, 3cqi + 1rem, 2.55rem);
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 1.05;
+    }
+    .saas-price-note {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 0.35rem;
+    }
+    .saas-features {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 0.65rem;
+      align-content: start;
+    }
+    .saas-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      font-size: 0.91rem;
+      color: var(--text-secondary);
+      line-height: 1.45;
+    }
+    .saas-features i {
+      color: #34d399;
+      margin-top: 0.25rem;
+      flex-shrink: 0;
+    }
+    .saas-card-footer {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      padding-top: 0.5rem;
+    }
+
+    /* Affiliate Partner Split */
+    .affiliate-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      align-items: center;
+    }
+    @media (min-width: 960px) {
+      .affiliate-grid {
+        grid-template-columns: 1.18fr 0.82fr;
+      }
+    }
+    .bonus-list {
+      list-style: none;
+      padding: 0;
+      margin: 1.25rem 0;
+      display: grid;
+      gap: 0.85rem;
+    }
+    .bonus-item {
+      padding: 0.95rem 1.15rem;
+      border-radius: 14px;
+      background: rgba(16, 185, 129, 0.09);
+      border: 1px solid rgba(16, 185, 129, 0.32);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+    .bonus-item i {
+      color: #34d399;
+      font-size: 1.15rem;
+      margin-top: 0.15rem;
+      flex-shrink: 0;
+    }
+    .affiliate-figure {
+      margin: 0;
+      text-align: center;
+    }
+    .affiliate-figure img {
+      width: 100%;
+      max-width: 420px;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 22px;
+      border: 1px solid rgba(0, 229, 255, 0.35);
+      box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.8);
+      display: inline-block;
+    }
+    .affiliate-figure figcaption {
+      margin-top: 0.75rem;
+      font-size: 0.84rem;
+      color: var(--text-muted);
+    }
+
+    html[data-theme="light"] .saas-billing-bar {
+      background: #ffffff;
+      border-color: #0284c7;
+    }
+    html[data-theme="light"] .saas-billing-pill {
+      background: #dcfce7;
+      border-color: #16a34a;
+      color: #166534;
+    }
+    html[data-theme="light"] .saas-price-block {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+    }
+    html[data-theme="light"] .saas-price-amount {
+      color: #0f172a;
+    }
+    html[data-theme="light"] .bonus-item {
+      background: #ecfdf5;
+      border-color: #6ee7b7;
+    }
+    html[data-theme="light"] .saas-plan-badge-cyan {
+      background: #e0f2fe;
+      border-color: #0284c7;
+      color: #0369a1;
+    }
+    html[data-theme="light"] .saas-plan-badge-emerald {
+      background: #d1fae5;
+      border-color: #059669;
+      color: #065f46;
+    }
+    html[data-theme="light"] .saas-plan-badge-amber {
+      background: #fef3c7;
+      border-color: #d97706;
+      color: #92400e;
+    }
+  </style>
+</head>
+<body>
+  {% with active_menu='crm' %}{% include "navbar.html" %}{% endwith %}
+
+  <main id="contenido-principal">
+    <!-- ── HERO ── -->
+    <section class="pia-shell" style="padding-block: 2.5rem 3.5rem;">
+      <div class="saas-hero-grid">
+        <div>
+          <div class="pia-eyebrow"><i class="fas fa-layer-group" aria-hidden="true"></i> Prosper IA CRM SaaS &amp; Alianza Agencias</div>
+          <h1 class="font-heading" style="font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 900; margin-bottom: 1rem;">
+            Tu Subcuenta CRM Lista en 1 Clic o <span class="pia-gradient-text">Tu Propia Agencia de IA con GoHighLevel</span>
+          </h1>
+          <p style="font-size: 1.04rem; color: var(--text-secondary); max-width: 650px; margin-bottom: 1.5rem;">
+            Elige tu camino según tu etapa: activa una subcuenta preconfigurada de <strong style="color:#fff;">Prosper IA CRM</strong> (con el Snapshot <strong style="color:#67e8f9;">Passport AI Master v2</strong> listo desde US$97/mes), o lanza tu propia agencia independiente en GoHighLevel con soporte directo y <strong style="color:#34d399;">3 Bonos VIP de Edward Jiménez</strong>.
+          </p>
+          <div style="display:flex; flex-wrap:wrap; gap:0.85rem;">
+            <a href="#planes-crm-saas" class="pia-btn-primary">
+              <i class="fas fa-rocket" aria-hidden="true"></i>
+              <span>Ver 3 Paquetes CRM SaaS</span>
+            </a>
+            <a href="#programa-agencias-ghl" class="pia-btn-emerald">
+              <i class="fas fa-building" aria-hidden="true"></i>
+              <span>Quiero Mi Propia Agencia GHL + Bonos</span>
+            </a>
+            <a href="/crm" class="pia-btn-ghost">
+              <span>Explorar CRMs por Industria →</span>
+            </a>
+          </div>
+        </div>
+
+        <figure class="saas-hero-figure">
+          <img
+            src="{{ static_versioned('passportai_mockup_showcase.jpg') }}"
+            alt="Panel unificado de Prosper IA CRM mostrando bandeja omnicanal, calificación automática y métricas en vivo"
+            width="1280"
+            height="720"
+            fetchpriority="high"
+          >
+          <figcaption>Subcuentas desplegadas en automático con el Snapshot Passport AI Master v2 incluido.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ── MODELO A: LOS 3 PAQUETES SAAS CON STRIPE DIRECTO ── -->
+    <section class="pia-section" id="planes-crm-saas" style="background: rgba(7, 11, 20, 0.72);">
+      <div class="pia-shell">
+        <div style="text-align:center; max-width:780px; margin:0 auto 2.5rem;">
+          <div class="pia-eyebrow"><i class="fas fa-bolt" aria-hidden="true"></i> Modelo A · Subcuentas Prosper IA CRM (Listas para Operar)</div>
+          <h2 class="font-heading" style="font-size: clamp(1.75rem, 3.2vw, 2.55rem); font-weight: 900; margin-bottom: 0.75rem;">
+            3 Paquetes Oficiales con Snapshot Preinstalado
+          </h2>
+          <p style="color: var(--text-secondary); font-size: 0.98rem;">
+            Olvídate de recibir un CRM vacío que nadie implementa. Al activar cualquiera de nuestros 3 planes, tu subcuenta se crea en 60 segundos con pipelines, calendario y flujos de <strong style="color:#fff;">Passport AI Master v2</strong> listos para usar.
+          </p>
+
+          <div class="saas-billing-bar">
+            <label for="billing-period-switch" class="saas-switch-label">
+              <span id="label-monthly" style="color:#67e8f9;">Pago Mensual</span>
+              <input id="billing-period-switch" type="checkbox" switch aria-describedby="billing-period-hint">
+              <span id="label-annual">Pago Anual</span>
+            </label>
+            <span id="billing-period-hint" class="saas-billing-pill">
+              <i class="fas fa-tags" aria-hidden="true"></i>
+              Ahorra 2 meses con el plan anual
+            </span>
+          </div>
+        </div>
+
+        <div class="saas-grid">
+          <!-- PLAN 1: STARTER -->
+          <article class="pia-card saas-card">
+            <header>
+              <span class="saas-plan-badge saas-plan-badge-cyan">Plan 1 · Negocios Locales</span>
+              <h3 class="font-heading" style="font-size: 1.45rem; font-weight: 800; margin-bottom: 0.4rem;">CRM Prosper IA Starter</h3>
+              <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0;">Centraliza WhatsApp, redes sociales, agenda de citas y seguimiento comercial en un solo lugar.</p>
+            </header>
+
+            <div class="saas-price-block">
+              <div class="saas-price-amount" data-price-monthly="US$97 / mes" data-price-annual="US$970 / año">US$97 / mes</div>
+              <div class="saas-price-note" data-note-monthly="Plan anual disponible: US$970/año (2 meses gratis)" data-note-annual="Equivale a US$80.83/mes · 2 meses gratis incluidos">Plan anual disponible: US$970/año (2 meses gratis)</div>
+              <div class="saas-price-note" style="color:#6ee7b7; font-weight:700; margin-top:0.45rem;">✓ Prueba 7 días · Snapshot Passport AI Master v2 incluido</div>
+            </div>
+
+            <ul class="saas-features">
+              <li><i class="fas fa-check-circle" aria-hidden="true"></i><span><strong>Bandeja Omnicanal:</strong> WhatsApp, Instagram DM, Facebook Messenger, correo y Google Reviews en una sola vista.</span></li>
+              <li><i class="fas fa-check-circle" aria-hidden="true"></i><span><strong>Calendario de Citas Sincronizado:</strong> Enlace propio de reservas con recordatorios automáticos.</span></li>
+              <li><i class="fas fa-check-circle" aria-hidden="true"></i><span><strong>Pipeline Visual + Formularios:</strong> Control de oportunidades y captura directa desde tu sitio web.</span></li>
+              <li><i class="fas fa-check-circle" aria-hidden="true"></i><span><strong>App Móvil Prosper IA CRM:</strong> Contesta y atiende prospectos desde tu celular iOS o Android.</span></li>
+              <li><i class="fas fa-check-circle" aria-hidden="true"></i><span><strong>Despliegue Instantáneo:</strong> Incluye Snapshot <em>Passport AI Master v2</em> preinstalado.</span></li>
+            </ul>
+
+            <footer class="saas-card-footer">
+              <a
+                class="pia-btn-primary saas-checkout-link"
+                href="https://buy.stripe.com/14A6oHh2X9qTabj0ddbo407"
+                data-href-monthly="https://buy.stripe.com/14A6oHh2X9qTabj0ddbo407"
+                data-href-annual="https://buy.stripe.com/bJecN5eUPeLdbfn9NNbo408"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fas fa-credit-card" aria-hidden="true"></i>
+                <span>Activar CRM Prosper IA Starter</span>
+              </a>
+              <a
+                class="pia-btn-ghost"
+                href="https://wa.me/17865573119?text=Hola%20Agencia%20Prosper%20IA,%20quiero%20resolver%20una%20duda%20sobre%20CRM%20Prosper%20IA%20Starter%20(%2497%2Fmes)"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fab fa-whatsapp" aria-hidden="true"></i>
+                <span>Consultar Plan Starter por WhatsApp</span>
+              </a>
+            </footer>
+          </article>
+
+          <!-- PLAN 2: GROWTH -->
+          <article class="pia-card saas-card saas-card-featured">
+            <header>
+              <span class="saas-plan-badge saas-plan-badge-emerald">⭐ Plan 2 · Más Vendido</span>
+              <h3 class="font-heading" style="font-size: 1.45rem; font-weight: 800; margin-bottom: 0.4rem;">Prosper IA Growth</h3>
+              <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0;">CRM Completo + Empleados Digitales IA 24/7 + Workflows automáticos de conversión.</p>
+            </header>
+
+            <div class="saas-price-block">
+              <div class="saas-price-amount" data-price-monthly="US$297 / mes" data-price-annual="US$2,970 / año">US$297 / mes</div>
+              <div class="saas-price-note" data-note-monthly="Plan anual disponible: US$2,970/año (ahorra US$594)" data-note-annual="Equivale a US$247.50/mes · ahorra US$594 al año">Plan anual disponible: US$2,970/año (ahorra US$594)</div>
+              <div class="saas-price-note" style="color:#6ee7b7; font-weight:700; margin-top:0.45rem;">✓ Prueba 7 días · Snapshot Passport AI Master v2 incluido</div>
+            </div>
+
+            <ul class="saas-features">
+              <li><i class="fas fa-check-circle" aria-hidden="true"></i><span><strong>Todo lo de Starter incluido</strong> sin límites de canales conectados.</span></li>
+              <li><i class="fas fa-check-circle" aria-hidden="true"></i><span><strong>Chatbot Recepcionista IA 24/7:</strong> Responde, califica y agenda en Web, WhatsApp, Instagram y Facebook.</span></li>
+              <li><i class="fas fa-check-circle" aria-hidden="true"></i><span><strong>Workflows Anti No-Show:</strong> Confirmaciones y recordatorios automáticos para duplicar asistencia a citas.</span></li>
+              <li><i class="fas fa-check-circle" aria-hidden="true"></i><span><strong>Constructor de Embudos y Sitios Web:</strong> Páginas de aterrizaje ilimitadas conectadas a tu CRM.</span></li>
+              <li><i class="fas fa-check-circle" aria-hidden="true"></i><span><strong>Campañas de Reactivación de Base:</strong> Recupera clientes antiguos con secuencias automatizadas.</span></li>
+            </ul>
+
+            <footer class="saas-card-footer">
+              <a
+                class="pia-btn-emerald saas-checkout-link"
+                href="https://buy.stripe.com/14A9ATeUP7iLbfn7FFbo409"
+                data-href-monthly="https://buy.stripe.com/14A9ATeUP7iLbfn7FFbo409"
+                data-href-annual="https://buy.stripe.com/9B6dR9bID9qTerz5xxbo40a"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fas fa-bolt" aria-hidden="true"></i>
+                <span>Activar Prosper IA Growth</span>
+              </a>
+              <a
+                class="pia-btn-ghost"
+                href="https://wa.me/17865573119?text=Hola%20Agencia%20Prosper%20IA,%20quiero%20una%20demo%20de%20Prosper%20IA%20Growth%20(%24297%2Fmes)"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fab fa-whatsapp" aria-hidden="true"></i>
+                <span>Consultar Plan Growth por WhatsApp</span>
+              </a>
+            </footer>
+          </article>
+
+          <!-- PLAN 3: ENTERPRISE -->
+          <article class="pia-card saas-card">
+            <header>
+              <span class="saas-plan-badge saas-plan-badge-amber">Plan 3 · Full IA + Escalamiento</span>
+              <h3 class="font-heading" style="font-size: 1.45rem; font-weight: 800; margin-bottom: 0.4rem;">Prosper IA Enterprise</h3>
+              <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0;">Suite total para clínicas multi-sede, equipos comerciales grandes y operación con Agente de Voz IA.</p>
+            </header>
+
+            <div class="saas-price-block">
+              <div class="saas-price-amount" data-price-monthly="US$497 / mes" data-price-annual="US$4,970 / año">US$497 / mes</div>
+              <div class="saas-price-note" data-note-monthly="Plan anual disponible: US$4,970/año (ahorra US$994)" data-note-annual="Equivale a US$414.16/mes · ahorra US$994 al año">Plan anual disponible: US$4,970/año (ahorra US$994)</div>
+              <div class="saas-price-note" style="color:#6ee7b7; font-weight:700; margin-top:0.45rem;">✓ Prueba 7 días · Snapshot Passport AI Master v2 incluido</div>
+            </div>
+
+            <ul class="saas-features">
+              <li><i class="fas fa-check-circle" aria-hidden="true"></i><span><strong>Todo lo de Growth incluido</strong> para múltiples asesores y asignación Round-Robin.</span></li>
+              <li><i class="fas fa-check-circle" aria-hidden="true"></i><span><strong>Agente de Voz IA &amp; Empleados IA Avanzados:</strong> Calificación y seguimiento telefónico automatizado.</span></li>
+              <li><i class="fas fa-check-circle" aria-hidden="true"></i><span><strong>Arquitectura Completa Passport AI Master v2:</strong> Todos los pipelines, plantillas y reportes ejecutivos.</span></li>
+              <li><i class="fas fa-check-circle" aria-hidden="true"></i><span><strong>Soporte Prioritario + Acompañamiento Estratégico:</strong> Afinación continua de flujos y conversión.</span></li>
+              <li><i class="fas fa-check-circle" aria-hidden="true"></i><span><strong>Control de Equipo y Reputación:</strong> Tableros de productividad por vendedor y gestión de reseñas.</span></li>
+            </ul>
+
+            <footer class="saas-card-footer">
+              <a
+                class="pia-btn-primary saas-checkout-link"
+                href="https://buy.stripe.com/8x28wPeUPeLdbfn8JJbo40b"
+                data-href-monthly="https://buy.stripe.com/8x28wPeUPeLdbfn8JJbo40b"
+                data-href-annual="https://buy.stripe.com/4gM9ATbID32vdnvaRRbo40c"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fas fa-crown" aria-hidden="true"></i>
+                <span>Activar Prosper IA Enterprise</span>
+              </a>
+              <a
+                class="pia-btn-ghost"
+                href="https://wa.me/17865573119?text=Hola%20Agencia%20Prosper%20IA,%20quiero%20informaci%C3%B3n%20sobre%20Prosper%20IA%20Enterprise%20(%24497%2Fmes)"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fab fa-whatsapp" aria-hidden="true"></i>
+                <span>Consultar Plan Enterprise por WhatsApp</span>
+              </a>
+            </footer>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── MODELO B: LINK OFICIAL DE AFILIADO GHL + 3 BONOS VIP ── -->
+    <section class="pia-section" id="programa-agencias-ghl">
+      <div class="pia-shell">
+        <article class="pia-card" style="padding: 2.25rem; border-color: rgba(52, 211, 153, 0.42);">
+          <div class="affiliate-grid">
+            <div>
+              <div class="pia-eyebrow" style="border-color: rgba(52, 211, 153, 0.45); color: #6ee7b7;">
+                <i class="fas fa-building-columns" aria-hidden="true"></i> Modelo B · Para Agencias, Marketers y Alumnos
+              </div>
+              <h2 class="font-heading" style="font-size: clamp(1.7rem, 3vw, 2.45rem); font-weight: 900; margin-bottom: 0.85rem;">
+                ¿Quieres Montar <span class="pia-gradient-text">Tu Propia Agencia de IA</span> con Subcuentas Ilimitadas en GoHighLevel?
+              </h2>
+              <p style="color: var(--text-secondary); font-size: 0.98rem; margin-bottom: 1rem;">
+                Si eres dueño de agencia, marketer, freelancer o alumno de nuestras mentorías y quieres tener tu <strong style="color:#fff;">propia cuenta maestra de GoHighLevel</strong> (para vender el software con tu marca a tus propios clientes y recibir soporte oficial 24/7 de HighLevel), regístrate desde el <strong style="color:#67e8f9;">Enlace Oficial de Edward Jiménez</strong> y recibe <strong style="color:#34d399;">gratis estos 3 Bonos VIP</strong> para arrancar vendiendo desde la semana 1:
+              </p>
+
+              <ul class="bonus-list">
+                <li class="bonus-item">
+                  <i class="fas fa-cubes" aria-hidden="true"></i>
+                  <div>
+                    <strong style="color:#fff;">Bono 1 · Snapshot Maestro <em>Passport AI Master v2</em> (Listo en 1 Clic)</strong>
+                    <div style="color: var(--text-secondary); font-size: 0.88rem; margin-top: 2px;">Importa nuestra arquitectura probada con pipelines comerciales, calendarios y flujos de captación sin partir de cero.</div>
+                  </div>
+                </li>
+                <li class="bonus-item">
+                  <i class="fas fa-wand-magic-sparkles" aria-hidden="true"></i>
+                  <div>
+                    <strong style="color:#fff;">Bono 2 · Acceso a los 6 Constructores IA (EmprendeProsperIA / PassportAI 2.1)</strong>
+                    <div style="color: var(--text-secondary); font-size: 0.88rem; margin-top: 2px;">Genera ofertas irresistibles, guiones, avatares y propuestas para cerrar tus primeros clientes de agencia.</div>
+                  </div>
+                </li>
+                <li class="bonus-item">
+                  <i class="fas fa-handshake" aria-hidden="true"></i>
+                  <div>
+                    <strong style="color:#fff;">Bono 3 · Guía de Arranque Comercial Agencia Prosper IA</strong>
+                    <div style="color: var(--text-secondary); font-size: 0.88rem; margin-top: 2px;">Estructura oficial para empaquetar Sitios Web Inteligentes + Agentes IA 24/7 + suscripciones CRM recurrentes.</div>
+                  </div>
+                </li>
+              </ul>
+
+              <div style="display:flex; flex-wrap:wrap; gap:0.85rem; margin-top: 1.35rem;">
+                <a
+                  href="https://www.gohighlevel.com/main-page?fp_ref=agencia-prosper-ia51"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="pia-btn-emerald"
+                >
+                  <i class="fas fa-external-link-alt" aria-hidden="true"></i>
+                  <span>Crear Mi Cuenta Oficial de GoHighLevel</span>
+                </a>
+                <a
+                  href="https://wa.me/17865573119?text=Hola%20Edward,%20ya%20me%20registr%C3%A9%20en%20GoHighLevel%20con%20tu%20enlace%20oficial%20(?fp_ref=agencia-prosper-ia51)%20y%20quiero%20reclamar%20mis%203%20Bonos%20VIP."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="pia-btn-primary"
+                >
+                  <i class="fab fa-whatsapp" aria-hidden="true"></i>
+                  <span>Reclamar Mis 3 Bonos VIP</span>
+                </a>
+                <a
+                  href="https://affiliates.gohighlevel.com/?fp_ref=agencia-prosper-ia51"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="pia-btn-ghost"
+                >
+                  <span>Programa de Partners / Afiliados GHL →</span>
+                </a>
+              </div>
+            </div>
+
+            <figure class="affiliate-figure">
+              <img
+                src="{{ static_versioned('edward_hero_depth.jpg') }}"
+                alt="Edward Jiménez, CEO y fundador de Agencia Prosper IA LLC en Miami"
+                width="600"
+                height="600"
+                loading="lazy"
+              >
+              <figcaption>
+                <strong>Edward Jiménez · CEO Agencia Prosper IA LLC</strong><br>
+                Respaldo directo para que implementes GoHighLevel sin perder meses configurando desde cero.
+              </figcaption>
+            </figure>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ── TABLA COMPARATIVA ── -->
+    <section class="pia-section" style="background: rgba(7, 11, 20, 0.72);">
+      <div class="pia-shell">
+        <div style="text-align:center; max-width:740px; margin:0 auto 2rem;">
+          <h2 class="font-heading" style="font-size: clamp(1.6rem, 2.8vw, 2.25rem); font-weight: 900; margin-bottom: 0.5rem;">
+            ¿Qué Opción Te Conviene Elegir Hoy?
+          </h2>
+          <p style="color: var(--text-muted); font-size: 0.94rem;">Comparativa directa entre activar una subcuenta Prosper IA CRM (llave en mano) o lanzar tu propia cuenta maestra en GoHighLevel.</p>
+        </div>
+
+        <div class="pia-table-wrap">
+          <table class="pia-table">
+            <caption class="pia-visually-hidden">Comparativa entre subcuentas Prosper IA CRM SaaS y cuenta maestra GoHighLevel con enlace oficial</caption>
+            <thead>
+              <tr>
+                <th scope="col">Criterio</th>
+                <th scope="col">Subcuenta Prosper IA CRM (US$97 – US$497/mes)</th>
+                <th scope="col">Tu Propia Cuenta GoHighLevel (Enlace Oficial + 3 Bonos)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Perfil ideal</th>
+                <td>Negocios, clínicas, inmobiliarias, despachos y empresas que quieren operar ya.</td>
+                <td>Agencias de marketing/IA, marketers, freelancers y mentores con múltiples clientes.</td>
+              </tr>
+              <tr>
+                <th scope="row">Configuración inicial</th>
+                <td>Despliegue automático en 60 segundos con Snapshot <em>Passport AI Master v2</em>.</td>
+                <td>Importas nuestro Snapshot Maestro como Bono #1 en tu nueva cuenta de agencia.</td>
+              </tr>
+              <tr>
+                <th scope="row">Soporte técnico diario</th>
+                <td>Respaldo y plantillas operadas dentro del ecosistema Agencia Prosper IA.</td>
+                <td>Soporte oficial 24/7 directo de GoHighLevel + nuestros 3 Bonos de arranque.</td>
+              </tr>
+              <tr>
+                <th scope="row">Cobro y prueba</th>
+                <td>Pago directo con Stripe (Mensual o Anual con 2 meses gratis · 7 días de prueba).</td>
+                <td>Registro oficial directo en GoHighLevel mediante código <code>agencia-prosper-ia51</code>.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── FAQ NATIVO (<details name="saas-faq">) ── -->
+    <section class="pia-section" aria-label="Preguntas frecuentes sobre CRM SaaS y GoHighLevel">
+      <div class="pia-shell" style="max-width: 860px;">
+        <h2 class="font-heading" style="font-size: clamp(1.6rem, 2.8vw, 2.2rem); font-weight: 900; text-align:center; margin-bottom: 1.75rem;">
+          Preguntas Frecuentes
+        </h2>
+        <div class="pia-faq-list">
+          <details class="pia-faq-item" name="saas-faq">
+            <summary>¿Cuándo recibo mi subcuenta después de pagar alguno de los planes de US$97, US$297 o US$497?</summary>
+            <div class="pia-faq-body">
+              De inmediato. Al completar el pago en Stripe, GoHighLevel crea tu subcuenta automáticamente con el nombre de tu empresa, te envía tus credenciales de acceso por correo e instala el Snapshot <strong>Passport AI Master v2</strong> en menos de un minuto.
+            </div>
+          </details>
+          <details class="pia-faq-item" name="saas-faq">
+            <summary>¿Hay contratos forzosos si elijo pago mensual o puedo ahorrar pagando anual?</summary>
+            <div class="pia-faq-body">
+              Los planes mensuales no tienen permanencia forzosa: puedes administrar tu suscripción cuando lo necesites. Si prefieres el pago anual usando el interruptor superior (US$970, US$2,970 o US$4,970), obtienes el equivalente a <strong>2 meses completamente gratis</strong>.
+            </div>
+          </details>
+          <details class="pia-faq-item" name="saas-faq">
+            <summary>¿Cómo reclamo los 3 Bonos VIP después de abrir mi cuenta con el enlace oficial de GoHighLevel?</summary>
+            <div class="pia-faq-body">
+              Solo haz clic en <em>"Crear Mi Cuenta Oficial de GoHighLevel"</em> (verificando que la URL mantenga <code>?fp_ref=agencia-prosper-ia51</code>), completa tu registro y envíanos una captura o el correo con el que te registraste a nuestro WhatsApp oficial <strong>+1 (786) 557-3119</strong> para liberar al instante el Snapshot y tus accesos VIP.
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  {% include "footer.html" %}
+
+  <script type="module">
+    if (!('switch' in HTMLInputElement.prototype)) {
+      import('https://esm.sh/input-switch-polyfill').catch(() => {});
+    }
+  </script>
+  <script>
+    (function () {
+      const billingSwitch = document.getElementById('billing-period-switch');
+      const labelMonthly = document.getElementById('label-monthly');
+      const labelAnnual = document.getElementById('label-annual');
+      const priceEls = document.querySelectorAll('.saas-price-amount');
+      const noteEls = document.querySelectorAll('[data-note-monthly]');
+      const checkoutLinks = document.querySelectorAll('.saas-checkout-link');
+
+      if (!billingSwitch) return;
+
+      function syncBillingView() {
+        const isAnnual = billingSwitch.checked;
+        priceEls.forEach((el) => {
+          el.textContent = isAnnual ? el.dataset.priceAnnual : el.dataset.priceMonthly;
+        });
+        noteEls.forEach((el) => {
+          el.textContent = isAnnual ? el.dataset.noteAnnual : el.dataset.noteMonthly;
+        });
+        checkoutLinks.forEach((link) => {
+          link.href = isAnnual ? link.dataset.hrefAnnual : link.dataset.hrefMonthly;
+        });
+        if (labelMonthly && labelAnnual) {
+          labelMonthly.style.color = isAnnual ? '' : '#67e8f9';
+          labelAnnual.style.color = isAnnual ? '#34d399' : '';
+        }
+      }
+
+      billingSwitch.addEventListener('change', syncBillingView);
+      syncBillingView();
+    })();
+  </script>
+</body>
+</html>

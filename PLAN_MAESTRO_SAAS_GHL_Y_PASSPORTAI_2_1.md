@@ -1,8 +1,8 @@
 # Plan Maestro: Modelo SaaS GoHighLevel (Modo Agencia) + Lanzamiento PassportAI 2.1
 
-**Fecha:** 18 de noviembre de 2026  
+**Actualizado:** 20 de noviembre de 2026  
 **Titular:** Edward Jiménez — CEO & Fundador, Agencia Prosper IA LLC / PassportAI  
-**Estado:** Plan SaaS GHL guardado para ejecución comercial dedicada + Reactivación inmediata de base caliente `passportai.app`
+**Estado:** Configurador SaaS GHL actualizado en producción (`$0` créditos de cortesía + Snapshot `Passport AI Master v2` adjunto) · Página pública activa en `https://agenciaprosperia.com/crm-saas` (`/agencias-crm`)
 
 ---
 
@@ -15,31 +15,32 @@ Actualmente la agencia paga la licencia **GoHighLevel Agency Pro (Modo SaaS)**, 
 | Criterio | Modelo A: Tu Propio SaaS Marca Blanca (100% Tuyo) | Modelo B: Enlace de Afiliado Oficial (40% De Por Vida) |
 | :--- | :--- | :--- |
 | **Perfil ideal** | Dueños de negocio, clínicas, inmobiliarias, talleres y comercios locales que quieren el sistema funcionando ("llave en mano"). | Seguidores de Reels, alumnos de mentorías, marketers y otras agencias que dicen *"Quiero montar mi propia agencia de IA"*. |
-| **Quién cobra** | **100% directo a tu Stripe** desde los enlaces de venta de *Agency View → SaaS Configurator*. | **GoHighLevel cobra** usando tu enlace `?fp_ref=agencia-prosper-ia51`. |
-| **Quién da soporte** | Tu equipo / Snapshot automatizado (baja fricción porque reciben todo preconfigurado). | **100% GoHighLevel** (cero carga operativa o soporte técnico para ti). |
-| **Ingreso recurrente** | **\$97 / \$297 / \$497 USD/mes** por cuenta + **margen de Rebilling**. | **40% mensual recurrente de por vida** (**\$38.80**, **\$118.80** o **\$198.80 USD/mes** por referido activo). |
-| **URLs oficiales** | Enlaces de venta directos desde Stripe dentro de GHL. | `https://affiliates.gohighlevel.com/?fp_ref=agencia-prosper-ia51`<br>`https://www.gohighlevel.com/main-page?fp_ref=agencia-prosper-ia51`<br>Panel FirstPromoter: `https://gohighlevel.firstpromoter.com` (`edward@passportai.app`) |
+| **Quién cobra** | **100% directo a tu Stripe** desde los enlaces de venta de *Agency View → SaaS Configurator* (cuenta Stripe `PassportAI` verificada). | **GoHighLevel cobra** usando tu enlace `?fp_ref=agencia-prosper-ia51`. |
+| **Quién da soporte** | Tu equipo / Snapshot automatizado **`Passport AI Master v2`** (`w5Ask4uef1orJVnjVhBf`). | **100% GoHighLevel** (cero carga operativa o soporte técnico para ti). |
+| **Ingreso recurrente** | **\$97 / \$297 / \$497 USD/mes** (o **\$970 / \$2,970 / \$4,970 USD/año**) + **margen de Rebilling**. | **40% mensual recurrente de por vida** (**\$38.80**, **\$118.80** o **\$198.80 USD/mes** por referido activo). |
+| **URLs oficiales** | **Embudo unificado:** `https://agenciaprosperia.com/crm-saas` (`/agencias-crm`)<br>• **Starter Mensual (\$97/mes):** `https://buy.stripe.com/14A6oHh2X9qTabj0ddbo407`<br>• **Starter Anual (\$970/año):** `https://buy.stripe.com/bJecN5eUPeLdbfn9NNbo408`<br>• **Growth Mensual (\$297/mes):** `https://buy.stripe.com/14A9ATeUP7iLbfn7FFbo409`<br>• **Growth Anual (\$2,970/año):** `https://buy.stripe.com/9B6dR9bID9qTerz5xxbo40a`<br>• **Enterprise Mensual (\$497/mes):** `https://buy.stripe.com/8x28wPeUPeLdbfn8JJbo40b`<br>• **Enterprise Anual (\$4,970/año):** `https://buy.stripe.com/4gM9ATbID32vdnvaRRbo40c` | `https://www.gohighlevel.com/main-page?fp_ref=agencia-prosper-ia51`<br>`https://affiliates.gohighlevel.com/?fp_ref=agencia-prosper-ia51`<br>Panel FirstPromoter: `https://gohighlevel.firstpromoter.com` (`edward@passportai.app`) |
 
 **Punto de equilibrio del Modelo A:** con solo **5 clientes de \$97/mes** (o **2 clientes de \$297/mes**), la inversión mensual de **\$490–\$497 USD** en GoHighLevel queda cubierta al 100%. Del cliente #6 en adelante, cada mensualidad es utilidad neta recurrente.
 
 ---
 
-### Optimización Obligatoria del Configurador SaaS (Antes de Enviar Tráfico Masivo)
+### Optimización Aplicada en el Configurador SaaS (`crm.agenciaprosperia.com/saas_dashboard`)
 
-1. **Renombrar y posicionar los 3 paquetes para dueños de negocio:**
-   * **Plan Estándar — \$97/mes (\$970/año) → *CRM Prosper IA Starter (Agenda + WhatsApp/IG Centralizado)***
-     * WhatsApp, Instagram, Facebook, Google Reviews, Calendario de Citas y Pipeline CRM unificados en un solo lugar.
-   * **Plan Profesional — \$297/mes (\$2,970/año) → *Prosper IA Growth (CRM + Empleados Digitales IA 24/7 + Workflows)***
-     * Todo lo del Starter + Chatbot IA omnicanal, reactivación de base de datos, recordatorios anti-inasistencia y embudos de captación.
-   * **Plan Premium — \$497/mes (\$4,970/año) → *Prosper IA Enterprise (Full IA + Agente de Voz + Mentoría)***
-     * Todo lo anterior + Agente de Voz IA, soporte prioritario y acompañamiento de implementación.
-2. **Adjuntar Snapshot (Instantánea) propia a los 3 planes:**
-   * Nunca entregar una subcuenta vacía. Cada compra debe desplegar automáticamente el Snapshot oficial (Pipeline comercial, Calendario, Recepcionista IA base y Workflows anti no-show).
-3. **Proteger los \$5 USD de créditos de cortesía y el período de prueba:**
-   * **No dejar 7 días de prueba gratis + \$5 USD de saldo abierto en enlaces públicos**, porque usuarios curiosos consumen el saldo en telefonía/WhatsApp/IA y cancelan antes del primer cobro.
-   * Mantener cobro desde el Día 1 (o liberar los \$5 USD de créditos solo tras confirmar el primer pago real), salvo promociones controladas 1-a-1 como la activación de **30 días gratis para la base verificada de PassportAI 2.1**.
-4. **Activar Rebilling con margen (1.5x – 2x):**
-   * Configurar en el SaaS Configurator que los consumos de SMS, WhatsApp, llamadas, correos y acciones de IA se recarguen a la tarjeta del cliente con margen adicional directo para la agencia.
+1. **Los 3 paquetes renombrados y listos para venta directa:**
+   * **Plan 1 — `CRM Prosper IA Starter` (\$97/mes · \$970/año)** (`6acba989a6f496eda3a3955a`)
+     * WhatsApp, Instagram, Facebook, Google Reviews, Calendario de Citas, Pipeline CRM y App Móvil.
+   * **Plan 2 — `Prosper IA Growth` (\$297/mes · \$2,970/año)** (`6acba989a6f496eda3a3955b`)
+     * Todo lo de Starter + Chatbot Recepcionista IA 24/7, Workflows anti No-Show, Embudos y Reactivación de base de datos.
+   * **Plan 3 — `Prosper IA Enterprise` (\$497/mes · \$4,970/año)** (`6acba989a6f496eda3a3955c`)
+     * Todo lo anterior + Agente de Voz IA, soporte prioritario y acompañamiento estratégico.
+2. **Snapshot oficial adjuntada a los 3 planes:**
+   * **`Passport AI Master v2`** (`w5Ask4uef1orJVnjVhBf`) vinculada a los 3 niveles para que cada compra en Stripe cree automáticamente la subcuenta con su estructura lista.
+3. **Protección del Wallet aplicada (`\$0` Créditos de cortesía):**
+   * Desactivado el regalo de `\$5` USD en los 3 planes (`addCreditsAfterTrialPeriod: false`, **`$0 Créditos de cortesía`** sobre prueba de 7 días) para evitar fuga de saldo en pruebas.
+4. **Estado de Rebilling (Refacturación):**
+   * **Telefonía (Twilio):** Activo (margen **2x** / 100% markup).
+   * **Correo electrónico (Mailgun):** Activo (margen **2x** / 100% markup).
+   * **WhatsApp Rebilling:** Pendiente de activación manual según consumo.
 
 ---
 

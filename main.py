@@ -1718,6 +1718,26 @@ async def crm_verticales_page(request: Request):
     return templates.TemplateResponse(request=request, name="crm_verticales.html", context={"request": request, "active_menu": "crm"})
 
 
+@app.get("/crm-saas", response_class=HTMLResponse)
+@app.head("/crm-saas")
+@app.get("/crm-saas/", response_class=HTMLResponse)
+@app.head("/crm-saas/")
+@app.get("/crm-saas.html", response_class=HTMLResponse)
+@app.head("/crm-saas.html")
+@app.get("/agencias-crm", response_class=HTMLResponse)
+@app.head("/agencias-crm")
+@app.get("/agencias-crm/", response_class=HTMLResponse)
+@app.head("/agencias-crm/")
+@app.get("/agencias-crm.html", response_class=HTMLResponse)
+@app.head("/agencias-crm.html")
+@app.get("/crm-agencias", response_class=HTMLResponse)
+@app.head("/crm-agencias")
+@app.get("/crm-agencias/", response_class=HTMLResponse)
+@app.head("/crm-agencias/")
+async def crm_saas_page(request: Request):
+    return templates.TemplateResponse(request=request, name="crm_saas.html", context={"request": request, "active_menu": "crm"})
+
+
 @app.get("/agentes-ia", response_class=HTMLResponse)
 @app.head("/agentes-ia")
 @app.get("/agentes-ia/", response_class=HTMLResponse)
