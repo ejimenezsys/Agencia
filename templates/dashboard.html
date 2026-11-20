@@ -4449,6 +4449,9 @@
         <a id="setter-work-wa-btn" href="#" target="_blank" rel="noopener" class="px-3 py-1.5 rounded-lg text-xs font-black bg-emerald-500/25 text-emerald-200 border border-emerald-400/50 hover:bg-emerald-500/35 no-underline transition" title="Abre tu WhatsApp (1 a 1 controlado) con el guion y la Demo Web listos">
           💬 Mi WhatsApp 1a1
         </a>
+        <a id="setter-work-ig-btn" href="#" target="_blank" rel="noopener" class="px-3 py-1.5 rounded-lg text-xs font-black bg-violet-500/25 text-violet-200 border border-violet-400/50 hover:bg-violet-500/35 no-underline transition" title="Buscar perfil oficial en Instagram o Facebook para enviar DM directo">
+          📸 Buscar IG/FB
+        </a>
         <button type="button" id="setter-work-sms-btn" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/35 hover:bg-indigo-500/30" title="1 clic: envía SMS con Demo Web desde +1 786 (solo EE. UU./PR)">
           🇺🇸 Enviar SMS
         </button>
@@ -6229,7 +6232,7 @@ async function loadSalesOsData() {
   try {
     const [mRes, lRes] = await Promise.all([
       fetch('/api/sales-os/metrics', { headers: { Authorization: 'Bearer ' + token } }),
-      fetch('/api/leads?limit=1500', { headers: { Authorization: 'Bearer ' + token } })
+      fetch('/api/leads?limit=3500', { headers: { Authorization: 'Bearer ' + token } })
     ]);
     if (mRes.ok) {
       const mData = await mRes.json();
@@ -7816,8 +7819,11 @@ function renderCallQueueTable() {
           <button type="button" onclick="filterCallQueuePreset('warm_hot')" class="px-3 py-1.5 rounded-lg bg-amber-400 text-slate-950 hover:bg-amber-300 font-black text-[11px] shadow transition">
             🔥🟡 Ver Calientes + Tibios (${myWarmHotTotal})
           </button>
-          <a href="/static/docs/LEADS_TIBIOS_Y_CALIENTES_CLOSERS_PROSPER_IA.xlsx" download="LEADS_TIBIOS_Y_CALIENTES_CLOSERS_PROSPER_IA.xlsx" class="px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-200 border border-emerald-400/50 hover:bg-emerald-500/30 font-black text-[11px] no-underline transition">
-            📥 Descargar Excel (Tibios y Calientes)
+          <a href="/static/docs/BASE_CALIENTE_Y_TIBIA_5_PAREJAS_PROSPER_IA.xlsx" download="BASE_CALIENTE_Y_TIBIA_5_PAREJAS_PROSPER_IA.xlsx" class="px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-200 border border-emerald-400/50 hover:bg-emerald-500/30 font-black text-[11px] no-underline transition">
+            📥 Descargar Excel (5 Parejas)
+          </a>
+          <a href="/static/docs/PROTOCOLO_OFICIAL_6_PAREJAS_30_LLAMADAS_Y_ESTRATEGIA_OMNICANAL_PROSPER_IA.docx" download="PROTOCOLO_OFICIAL_6_PAREJAS_PROSPER_IA.docx" class="px-3 py-1.5 rounded-lg bg-sky-500/20 text-sky-200 border border-sky-400/50 hover:bg-sky-500/30 font-black text-[11px] no-underline transition">
+            📄 Descargar Word Estrategia 6 Parejas
           </a>
         </div>
       `;
@@ -8096,6 +8102,17 @@ function openSetterWorkDialog(leadId, defaultChannel = 'Llamada', preserveFeedba
       };
     } else {
       waBtn.style.display = 'none';
+    }
+  }
+  const igBtn = document.getElementById('setter-work-ig-btn');
+  if (igBtn) {
+    const bizSearch = String(lead.business_name || lead.company || lead.full_name || lead.name || '').trim();
+    if (bizSearch) {
+      const igQuery = `site:instagram.com OR site:facebook.com "${bizSearch.slice(0, 80)}"`;
+      igBtn.href = `https://www.google.com/search?q=${encodeURIComponent(igQuery)}`;
+      igBtn.style.display = '';
+    } else {
+      igBtn.style.display = 'none';
     }
   }
   const smsBtn = document.getElementById('setter-work-sms-btn');

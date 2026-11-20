@@ -14,7 +14,7 @@ from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, EmailStr
 from sqlalchemy import func
 from sqlalchemy.orm import Session
-from database import init_db, SessionLocal, User, Lead as DbLead, SessionModel, BlogPost, ArsenalPrompt, sync_blog_posts, IntegrationSetting, hash_password, verify_password, normalize_phone_e164, normalize_email, get_next_round_robin_closer
+from database import init_db, SessionLocal, User, Lead as DbLead, SessionModel, BlogPost, ArsenalPrompt, sync_blog_posts, IntegrationSetting, hash_password, verify_password, normalize_phone_e164, normalize_email, get_next_round_robin_closer, get_partner_emails
 from editorial import LANES, enrich_post
 from ghl_client import sync_lead_to_ghl_async, sync_sales_os_event_to_ghl_async
 from sales_os_router import router as sales_os_router, WEBSITE_TEMPLATES_SHOWCASE, serialize_lead, record_audit, is_contact_excluded
@@ -3155,7 +3155,9 @@ async def api_contact(req: ContactRequest, background_tasks: BackgroundTasks, db
     sep = "&" if "?" in base_cal else "?"
     calendar_url = f"{base_cal}{sep}{urllib.parse.urlencode(cal_params)}" if cal_params else base_cal
 
-    # Enviar notificación automática por correo electrónico a Edward (y a David Becerra si es Beauty Growth)
+    # Enviar notificación automática por correo electrónico a Edward (y a ambos integrantes de la Pareja asignada)
+    partner_notify = get_partner_emails(owner_email) if owner_email else []
+    notify_extra = ["dbecerra@agenciaprosperia.com"] if is_beauty_growth else (partner_notify or None)
     background_tasks.add_task(
         send_email_notification,
         name=full_name,
@@ -3163,7 +3165,7 @@ async def api_contact(req: ContactRequest, background_tasks: BackgroundTasks, db
         company=company_name,
         phone=phone_raw,
         message=f"[{'Beauty Growth · ' if is_beauty_growth else ''}Responsable: {closer_name}] {combined_notes}",
-        extra_recipients=["dbecerra@agenciaprosperia.com"] if is_beauty_growth else None,
+        extra_recipients=notify_extra,
     )
 
     # Envío automático de la radiografía de diagnóstico comercial o bienvenida SMTP propia ($0 GHL)
@@ -4338,10 +4340,13 @@ async def api_get_leads(
     query = db.query(DbLead)
 
     user_role = current_user.get("role", "seller")
+    effective_limit = int(limit or 1500)
     if user_role == "seller":
-        # Regla P0: un vendedor solo puede ver sus prospectos asignados y nunca ve contactos DND/Opt-out en cola activa
-        query = query.filter(DbLead.owner_id == current_user["email"])
+        # Regla de Parejas: ambos integrantes ven la bandeja compartida de su pareja (sin DND/Opt-out)
+        pair_emails = get_partner_emails(current_user["email"])
+        query = query.filter(func.lower(DbLead.owner_id).in_(pair_emails))
         query = query.filter((DbLead.contact_status == None) | (~DbLead.contact_status.in_(["dnd", "opt_out"])))
+        effective_limit = max(effective_limit, 3500)
     else:
         if owner_id:
             if owner_id == "__unassigned__":
@@ -4358,7 +4363,7 @@ async def api_get_leads(
     if pipeline_stage:
         query = query.filter(DbLead.pipeline_stage == pipeline_stage)
 
-    rows = query.order_by(DbLead.id.desc()).limit(limit).all()
+    rows = query.order_by(DbLead.id.desc()).limit(effective_limit).all()
     leads = [serialize_lead(r) for r in rows]
     return {"success": True, "data": {"leads": leads}}
 
@@ -4541,10 +4546,10 @@ async def api_update_lead(
             status_code=404,
             content={"success": False, "error": "Lead no encontrado."}
         )
-    if current_user.get("role") == "seller" and (getattr(lead, "owner_id", "") or "") != current_user["email"]:
+    if current_user.get("role") == "seller" and (getattr(lead, "owner_id", "") or "").lower() not in get_partner_emails(current_user["email"]):
         return JSONResponse(
             status_code=403,
-            content={"success": False, "error": "No puedes editar un prospecto asignado a otro vendedor."}
+            content={"success": False, "error": "No puedes editar un prospecto asignado a otra pareja."}
         )
 
     old_status = lead.status

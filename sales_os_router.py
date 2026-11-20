@@ -55,7 +55,18 @@ from database import (
     normalize_phone_e164,
     normalize_email,
     get_next_round_robin_closer,
+    CLOSER_PAIRS_CONFIG,
+    get_pair_info,
+    get_partner_emails,
 )
+
+
+def _can_seller_access_lead(current_user: dict, lead: DbLead) -> bool:
+    """Permite el acceso compartido si el prospecto pertenece al closer o a su compañero(a) de Pareja."""
+    if current_user.get("role") != "seller":
+        return True
+    lead_owner = (getattr(lead, "owner_id", "") or "").strip().lower()
+    return lead_owner in get_partner_emails(current_user.get("email") or "")
 from ghl_client import (
     BEAUTY_LOCATION_ID,
     BEAUTY_PIPELINE_ID,
@@ -1689,11 +1700,11 @@ async def api_update_lead_stage_and_proposal(
     if not lead:
         raise HTTPException(status_code=404, detail="Prospecto no encontrado.")
 
-    # Regla P0 de aislamiento: un vendedor solo puede modificar sus propios prospectos
-    if current_user["role"] == "seller" and (getattr(lead, "owner_id", "") or "") != current_user["email"]:
+    # Regla de Parejas: ambos integrantes pueden modificar los prospectos de su Pareja
+    if not _can_seller_access_lead(current_user, lead):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="Acceso denegado: este prospecto pertenece a otro vendedor."
+            detail="Acceso denegado: este prospecto pertenece a otra pareja."
         )
 
     # Regla P0 de cobro verificado: No se puede pasar a 'Pago confirmado', 'Implementación' ni 'Entregado'
@@ -1861,8 +1872,8 @@ async def api_verify_payment_and_accrue_commission(
     if not lead:
         raise HTTPException(status_code=404, detail="Prospecto no encontrado.")
 
-    if current_user["role"] == "seller" and (getattr(lead, "owner_id", "") or "") != current_user["email"]:
-        raise HTTPException(status_code=403, detail="No puedes registrar pagos sobre el prospecto de otro vendedor.")
+    if not _can_seller_access_lead(current_user, lead):
+        raise HTTPException(status_code=403, detail="No puedes registrar pagos sobre el prospecto de otra pareja.")
 
     clean_invoice = (req.invoice_id or "").strip()
     if not clean_invoice or len(clean_invoice) < 3:
@@ -2025,9 +2036,10 @@ async def api_get_sales_os_metrics(
     """Calcula el Tablero de Dirección y el Tablero del Vendedor separando estrictamente propuestas de cobros reales."""
     all_leads = db.query(DbLead).all()
 
-    # Filtrar según el rol para las métricas personales del vendedor
+    # Filtrar por Pareja para las métricas del vendedor
     if current_user["role"] == "seller":
-        scoped_leads = [l for l in all_leads if (getattr(l, "owner_id", "") or "") == current_user["email"]]
+        pair_ems = set(get_partner_emails(current_user["email"]))
+        scoped_leads = [l for l in all_leads if (getattr(l, "owner_id", "") or "").strip().lower() in pair_ems]
     else:
         scoped_leads = all_leads
 
@@ -2139,7 +2151,8 @@ async def api_get_audit_logs(
     if lead_id is not None:
         q = q.filter(AuditLog.lead_id == lead_id)
     elif current_user["role"] == "seller":
-        q = q.filter(AuditLog.actor_email == current_user["email"])
+        pair_ems = get_partner_emails(current_user["email"])
+        q = q.filter(func.lower(AuditLog.actor_email).in_(pair_ems))
 
     rows = q.order_by(AuditLog.id.desc()).limit(limit).all()
     logs = [
@@ -2304,8 +2317,8 @@ async def api_register_call_outcome(
     if not lead:
         raise HTTPException(status_code=404, detail="Prospecto no encontrado.")
 
-    if current_user["role"] == "seller" and (getattr(lead, "owner_id", "") or "") != current_user["email"]:
-        raise HTTPException(status_code=403, detail="Este contacto está asignado a otro closer.")
+    if not _can_seller_access_lead(current_user, lead):
+        raise HTTPException(status_code=403, detail="Este contacto está asignado a otra pareja.")
 
     u = db.query(User).filter(User.email == current_user["email"]).first()
     now_iso = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -3917,8 +3930,8 @@ async def api_send_institutional_email_to_lead(
     lead = db.query(DbLead).filter(DbLead.id == lead_id).first()
     if not lead:
         raise HTTPException(status_code=404, detail="Prospecto no encontrado.")
-    if current_user["role"] == "seller" and (getattr(lead, "owner_id", "") or "") != current_user["email"]:
-        raise HTTPException(status_code=403, detail="Este contacto está asignado a otro closer.")
+    if not _can_seller_access_lead(current_user, lead):
+        raise HTTPException(status_code=403, detail="Este contacto está asignado a otra pareja.")
 
     to_email = normalize_email(getattr(lead, "email", "") or "")
     if not _is_valid_real_email(to_email):
@@ -4045,8 +4058,8 @@ async def api_send_ghl_direct_message(
     lead = db.query(DbLead).filter(DbLead.id == lead_id).first()
     if not lead:
         raise HTTPException(status_code=404, detail="Prospecto no encontrado.")
-    if current_user["role"] == "seller" and (getattr(lead, "owner_id", "") or "") != current_user["email"]:
-        raise HTTPException(status_code=403, detail="Este contacto está asignado a otro closer.")
+    if not _can_seller_access_lead(current_user, lead):
+        raise HTTPException(status_code=403, detail="Este contacto está asignado a otra pareja.")
 
     phone_raw = (getattr(lead, "phone_e164", None) or (lead.phone or "")).strip()
     biz_name = (getattr(lead, "business_name", None) or lead.company or lead.name or "").strip()
@@ -4127,8 +4140,8 @@ async def api_send_agency_whatsapp(
     lead = db.query(DbLead).filter(DbLead.id == lead_id).first()
     if not lead:
         raise HTTPException(status_code=404, detail="Prospecto no encontrado.")
-    if current_user["role"] == "seller" and (getattr(lead, "owner_id", "") or "") != current_user["email"]:
-        raise HTTPException(status_code=403, detail="Este contacto está asignado a otro closer.")
+    if not _can_seller_access_lead(current_user, lead):
+        raise HTTPException(status_code=403, detail="Este contacto está asignado a otra pareja.")
 
     phone_raw = (getattr(lead, "phone_e164", None) or lead.phone or "").strip()
     if not phone_raw:
@@ -4241,8 +4254,8 @@ async def api_get_lead_comms_status(
     lead = db.query(DbLead).filter(DbLead.id == lead_id).first()
     if not lead:
         raise HTTPException(status_code=404, detail="Prospecto no encontrado.")
-    if current_user["role"] == "seller" and (getattr(lead, "owner_id", "") or "") != current_user["email"]:
-        raise HTTPException(status_code=403, detail="Este contacto está asignado a otro closer.")
+    if not _can_seller_access_lead(current_user, lead):
+        raise HTTPException(status_code=403, detail="Este contacto está asignado a otra pareja.")
 
     phone_raw = (getattr(lead, "phone_e164", None) or lead.phone or "").strip()
     res = await asyncio.to_thread(
@@ -4764,6 +4777,34 @@ def _handle_inbound_reply_for_lead(
     )
     db.commit()
 
+    # Notificar por correo en tiempo real a ambos miembros de la Pareja cuando el cliente responde por WhatsApp/SMS
+    if "correo" not in (channel or "").lower():
+        from types import SimpleNamespace
+        lead_snap = SimpleNamespace(
+            id=lead.id,
+            owner_id=owner_email,
+            business_name=biz_name,
+            company=biz_name,
+            name=full_name,
+            full_name=full_name,
+            phone_e164=phone_raw,
+            phone=phone_raw,
+            email=getattr(lead, "email", "") or "",
+        )
+        closer_snap = SimpleNamespace(email=owner_email, name=closer_name)
+        threading.Thread(
+            target=_notify_closer_of_inbound_reply_email_sync,
+            kwargs={
+                "lead": lead_snap,
+                "closer_user": closer_snap,
+                "inbound_text": clean_msg,
+                "channel": channel,
+                "sender_email": getattr(lead, "email", "") or "",
+                "sender_name": full_name,
+            },
+            daemon=True,
+        ).start()
+
     # Inyectar al CRM Pipeline para visibilidad inmediata del Closer
     sync_sales_os_event_to_ghl_async(
         contact_id=getattr(lead, "contact_id", "") or "",
@@ -5282,8 +5323,8 @@ def _notify_closer_of_inbound_reply_email_sync(
     </html>
     """
 
-    recipients = [closer_email]
-    if closer_email != "info@agenciaprosperia.com":
+    recipients = get_partner_emails(closer_email) or [closer_email]
+    if "info@agenciaprosperia.com" not in recipients:
         recipients.append("info@agenciaprosperia.com")
 
     sent_any = False
@@ -6383,6 +6424,179 @@ async def api_reclassify_wa_autogreetings(
         "wa_paused_until_utc": "2026-11-19T15:15:00Z",
         "by_closer": affected_by_owner,
     }
+
+
+def _classify_lead_briefing_tier(ld: DbLead) -> tuple:
+    """Clasifica un prospecto para el correo de asignación de las 5 Parejas activas."""
+    st = (getattr(ld, "pipeline_stage", "") or "Lead identificado").strip()
+    if st in ("No interesado", "No cumple perfil", "Opt-out", "Venta perdida"):
+        return 9, ""
+    notes_low = (getattr(ld, "notes", "") or "").lower()
+    src_low = (getattr(ld, "source", "") or "").lower()
+    sc_low = (getattr(ld, "source_campaign", "") or "").lower()
+
+    if "respondió a setter ia" in notes_low or src_low == "setter_ia_inbound_email":
+        return 1, "Respondió a Setter IA"
+    if st in ("Calificado", "Diagnóstico agendado", "Demo realizada", "Propuesta enviada", "Pago pendiente", "Pago confirmado"):
+        return 2, f"Pipeline ({st})"
+    if any(k in src_low for k in ("hub_codigos", "sitioweb", "portal_corporativo", "emprende")) or "flujo #2" in sc_low or "flujo #3" in sc_low:
+        return 3, "Inbound Web / Hub"
+    if st in ("Primer contacto", "Contacto", "Conversación", "En seguimiento local"):
+        return 4, f"Seguimiento ({st})"
+    if "🤖 setter ia" in notes_low:
+        return 5, "Recibió Demo IA"
+    return 6, ""
+
+
+@router.post("/api/sales-os/send-pairs-briefing-emails")
+async def api_send_pairs_briefing_emails(
+    current_user: dict = Depends(get_current_sales_user),
+    db: Session = Depends(get_db),
+):
+    """Envía por correo institucional el briefing oficial de Parejas, meta de 30 llamadas y sus prospectos 🔥 Calientes."""
+    if current_user.get("role") != "admin":
+        raise HTTPException(status_code=403, detail="Solo el administrador (Edward) puede enviar el briefing oficial.")
+
+    word_url = "https://agenciaprosperia.com/static/docs/PROTOCOLO_OFICIAL_6_PAREJAS_30_LLAMADAS_Y_ESTRATEGIA_OMNICANAL_PROSPER_IA.docx"
+    excel_url = "https://agenciaprosperia.com/static/docs/BASE_CALIENTE_Y_TIBIA_5_PAREJAS_PROSPER_IA.xlsx"
+    dash_url = "https://agenciaprosperia.com/dashboard"
+
+    users_map = {
+        normalize_email(u.email): u
+        for u in db.query(User).filter(User.role == "seller").all()
+        if u.email
+    }
+
+    report = []
+    sent_count = 0
+    for pair in CLOSER_PAIRS_CONFIG:
+        if pair.get("excluded_from_auto"):
+            continue
+        p_emails = [normalize_email(e) for e in pair["emails"]]
+        p_leads = (
+            db.query(DbLead)
+            .filter(func.lower(DbLead.owner_id).in_(p_emails))
+            .filter((DbLead.contact_status == None) | (~DbLead.contact_status.in_(["dnd", "opt_out"])))
+            .all()
+        )
+        hot_rows = []
+        warm_count = 0
+        for ld in p_leads:
+            prio, sub = _classify_lead_briefing_tier(ld)
+            if prio <= 3:
+                hot_rows.append((prio, sub, ld))
+            elif prio in (4, 5):
+                warm_count += 1
+        hot_rows.sort(key=lambda x: x[0])
+
+        rows_html_parts = []
+        rows_plain_parts = []
+        for idx, (_prio, sub, ld) in enumerate(hot_rows, start=1):
+            biz = html_lib.escape((getattr(ld, "business_name", None) or ld.company or ld.name or "Negocio")[:65])
+            contact = html_lib.escape((getattr(ld, "full_name", None) or ld.name or "")[:45])
+            ph = (getattr(ld, "phone_e164", None) or ld.phone or "").strip()
+            digits = re.sub(r"\D", "", ph)
+            em_disp = (ld.email or "").strip()
+            if not em_disp or "@sin-correo.local" in em_disp or "@prosperia.local" in em_disp:
+                em_disp = "Sin correo"
+            wa_cell = (
+                f'<a href="https://wa.me/{digits}" style="background:#10b981;color:#020710;padding:5px 10px;'
+                f'border-radius:6px;text-decoration:none;font-weight:800;font-size:11px;display:inline-block;">💬 WA 1a1</a>'
+                if len(digits) >= 8
+                else "-"
+            )
+            rows_html_parts.append(
+                f"<tr style='border-bottom:1px solid #1e293b;'>"
+                f"<td style='padding:8px;font-size:12px;color:#fb7185;font-weight:bold;'>#{idx} {html_lib.escape(sub)}</td>"
+                f"<td style='padding:8px;font-size:12px;color:#ffffff;'><strong>{biz}</strong><br/><span style='color:#94a3b8;'>{contact}</span></td>"
+                f"<td style='padding:8px;font-size:12px;color:#67e8f9;font-family:monospace;'>{html_lib.escape(ph or 'Sin tel')}<br/><span style='color:#94a3b8;font-family:sans-serif;'>{html_lib.escape(em_disp)}</span></td>"
+                f"<td style='padding:8px;text-align:center;'>{wa_cell}</td>"
+                f"</tr>"
+            )
+            rows_plain_parts.append(f"{idx}. [{sub}] {biz} ({contact}) · Tel: {ph or 'N/D'} · Email: {em_disp}")
+
+        hot_table_html = "".join(rows_html_parts)
+        hot_plain_list = "\n".join(rows_plain_parts)
+
+        for dest_em in p_emails:
+            u_obj = users_map.get(dest_em)
+            closer_first = ((u_obj.name if u_obj and u_obj.name else dest_em.split("@")[0]).split()[0]).strip()
+            partner_names = " y ".join(
+                users_map[e].name.split()[0] if (e in users_map and users_map[e].name) else e.split("@")[0]
+                for e in p_emails
+            )
+            subj = f"🔥 {closer_first}, tus {len(hot_rows)} Leads CALIENTES + Nuevo Protocolo {pair['label']} — Prosper IA"
+            plain = (
+                f"Hola {closer_first},\n\n"
+                f"Te comparto tu asignación oficial de hoy dentro de {pair['label']} ({pair['role_note']}).\n\n"
+                f"RESUMEN DE TU PAREJA ({partner_names}):\n"
+                f"• 🔥 {len(hot_rows)} Prospectos CALIENTES asignados para ataque hoy mismo\n"
+                f"• 🟡 {warm_count} Prospectos TIBIOS (en seguimiento o ya recibieron Demo Web por correo)\n"
+                f"• Nueva Meta Diaria: 30 llamadas de alta calidad por integrante + WhatsApp 1a1 controlado + DM IG/FB\n"
+                f"• Liderazgos de apoyo: Sheille Pérez (Líder Closers) · Lorena Rodríguez (Líder Seteo) · Diego Arriondo (Líder Técnico + Ventas)\n\n"
+                f"DESCARGAS OFICIALES:\n"
+                f"• Protocolo en Word (.docx): {word_url}\n"
+                f"• Excel 5 Parejas (.xlsx): {excel_url}\n"
+                f"• Centro de Mando (bandeja compartida de tu Pareja): {dash_url}\n\n"
+                f"TUS {len(hot_rows)} PROSPECTOS CALIENTES:\n{hot_plain_list}\n"
+            )
+            html_body = f"""
+            <html>
+              <body style="font-family: Arial, Helvetica, sans-serif; background-color: #020710; color: #f8fafc; margin: 0; padding: 20px;">
+                <div style="max-width: 720px; margin: 0 auto; background-color: #071326; border: 1px solid #0284c7; border-radius: 14px; padding: 26px;">
+                  <div style="color: #00e5ff; font-size: 12px; font-weight: 900; letter-spacing: 1px;">AGENCIA PROSPER IA · COMANDO COMERCIAL</div>
+                  <h2 style="margin: 8px 0 10px; color: #ffffff; font-size: 20px;">Hola {html_lib.escape(closer_first)}, arranca tu ofensiva con {html_lib.escape(pair['label'])}</h2>
+                  <p style="color: #cbd5e1; font-size: 13.5px; line-height: 1.6; margin: 0 0 14px;">
+                    Ya tienen habilitada su <strong>bandeja compartida en el CRM</strong> (ambos miembros de la pareja ven los mismos prospectos y reciben alertas por correo) y se repartió aleatoriamente la base caliente entre las 5 parejas activas.
+                  </p>
+                  <div style="background: #0b1c36; border-left: 4px solid #fb7185; border-radius: 8px; padding: 14px; margin-bottom: 16px; font-size: 13px; color: #e2e8f0; line-height: 1.6;">
+                    <div>• <strong>Tu Pareja:</strong> {html_lib.escape(pair['label'])} — <em>{html_lib.escape(pair['role_note'])}</em></div>
+                    <div>• <strong>Base Asignada Hoy:</strong> <strong style="color:#fb7185;">{len(hot_rows)} 🔥 CALIENTES</strong> + <strong style="color:#fbbf24;">{warm_count} 🟡 TIBIOS</strong></div>
+                    <div>• <strong>Nueva Meta:</strong> 30 llamadas de alta calidad al día + botón <strong>💬 WA 1a1</strong> (controlado, bloques de 10-15) + DM en Instagram/Facebook.</div>
+                    <div>• <strong>Líderes de Apoyo:</strong> Sheille (Closers) · Lorena (Seteo) · Diego (Técnico + Ventas).</div>
+                  </div>
+                  <div style="text-align: center; margin: 18px 0 22px;">
+                    <a href="{dash_url}" style="display:inline-block;background:#00e5ff;color:#020710;text-decoration:none;font-weight:800;font-size:12px;padding:11px 18px;border-radius:9px;margin:4px;">🚀 Abrir Centro de Mando</a>
+                    <a href="{word_url}" style="display:inline-block;background:#38bdf8;color:#020710;text-decoration:none;font-weight:800;font-size:12px;padding:11px 18px;border-radius:9px;margin:4px;">📄 Descargar Word Estrategia</a>
+                    <a href="{excel_url}" style="display:inline-block;background:#10b981;color:#020710;text-decoration:none;font-weight:800;font-size:12px;padding:11px 18px;border-radius:9px;margin:4px;">📥 Descargar Excel 5 Parejas</a>
+                  </div>
+                  <h3 style="color: #fb7185; font-size: 15px; margin: 0 0 10px;">🔥 TUS {len(hot_rows)} PROSPECTOS CALIENTES (ATACAR HOY MISMO)</h3>
+                  <table width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse; background:#040d1c; border-radius:8px; overflow:hidden;">
+                    <thead>
+                      <tr style="background:#0f172a; color:#00e5ff; text-align:left; font-size:11px;">
+                        <th style="padding:8px;">Prioridad</th>
+                        <th style="padding:8px;">Negocio / Contacto</th>
+                        <th style="padding:8px;">Teléfono / Email</th>
+                        <th style="padding:8px; text-align:center;">Acción</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {hot_table_html}
+                    </tbody>
+                  </table>
+                </div>
+              </body>
+            </html>
+            """
+            try:
+                await asyncio.to_thread(
+                    _send_smtp_mime_email,
+                    "seller@agenciaprosperia.com",
+                    dest_em,
+                    "Edward Jiménez",
+                    "info@agenciaprosperia.com",
+                    subj,
+                    plain,
+                    html_body,
+                    "info@agenciaprosperia.com",
+                    "Edward Jiménez · Agencia Prosper IA",
+                )
+                sent_count += 1
+                report.append({"pair": pair["label"], "email": dest_em, "hot": len(hot_rows), "warm": warm_count, "sent": True})
+            except Exception as exc:
+                report.append({"pair": pair["label"], "email": dest_em, "hot": len(hot_rows), "warm": warm_count, "sent": False, "error": str(exc)[:120]})
+
+    return {"success": True, "emails_sent": sent_count, "results": report}
 
 
 

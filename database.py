@@ -706,14 +706,89 @@ OBSOLETE_TEST_EMAILS = [
 ]
 
 
+CLOSER_PAIRS_CONFIG = [
+    {
+        "num": 1,
+        "label": "Pareja 1 — Sheille & Wendy",
+        "dupla": "Pareja 1 — Sheille & Wendy (Líder Closers)",
+        "role_note": "Líder de Closers: Sheille Pérez (Dudas de cierre, propuestas y cobros)",
+        "emails": ["sheille.perez@gmail.com", "wendyleiva59@gmail.com"],
+        "excluded_from_auto": False,
+    },
+    {
+        "num": 2,
+        "label": "Pareja 2 — Diego & Jhonatan",
+        "dupla": "Pareja 2 — Diego & Jhonatan (Líder Técnico)",
+        "role_note": "Líder Técnico + Ventas: Diego Arriondo (Dudas técnicas Web/IA/CRM)",
+        "emails": ["diegoarriondo03@gmail.com", "digitalblups@gmail.com"],
+        "excluded_from_auto": False,
+    },
+    {
+        "num": 3,
+        "label": "Pareja 3 — Bruno & Claudio",
+        "dupla": "Pareja 3 — Bruno & Claudio",
+        "role_note": "Célula Comercial de Ataque Directo y Demos Web",
+        "emails": ["bruno.hernan.espinosa1694@gmail.com", "claudiniosan@yahoo.com.ar"],
+        "excluded_from_auto": False,
+    },
+    {
+        "num": 4,
+        "label": "Pareja 4 — Lorena & Agustín",
+        "dupla": "Pareja 4 — Lorena & Agustín (Líder Seteo)",
+        "role_note": "Líder de Seteo (Setter): Lorena Rodríguez (Apertura, calificación y bitácora)",
+        "emails": ["loremrodriguezafb@gmail.com", "laverdaderafuerza02@gmail.com"],
+        "excluded_from_auto": False,
+    },
+    {
+        "num": 5,
+        "label": "Pareja 5 — Tanya & Nuevo",
+        "dupla": "Pareja 5 — Tanya & Nuevo Closer",
+        "role_note": "Mercado EE. UU. / Bilingüe (en integración del 2do integrante)",
+        "emails": ["tanyah.unity@gmail.com"],
+        "excluded_from_auto": False,
+    },
+    {
+        "num": 6,
+        "label": "Pareja 6 — Cinthya & Sergio",
+        "dupla": "Pareja 6 — Cinthya & Sergio (En Alineación)",
+        "role_note": "En alineación con Dirección (pausa temporal de reparto caliente)",
+        "emails": ["cinthyapenida0@gmail.com", "sergiotorales608@gmail.com"],
+        "excluded_from_auto": True,
+    },
+]
+
+
+def get_pair_info(email: str):
+    """Devuelve la configuración de la Pareja oficial a la que pertenece el closer."""
+    em = (email or "").strip().lower()
+    if not em:
+        return None
+    for p in CLOSER_PAIRS_CONFIG:
+        if em in p["emails"]:
+            return p
+    return None
+
+
+def get_partner_emails(email: str) -> list:
+    """Devuelve todos los correos electrónicos de la Pareja del closer para compartir bandeja y alertas."""
+    em = (email or "").strip().lower()
+    if not em:
+        return []
+    p = get_pair_info(em)
+    return list(p["emails"]) if p else [em]
+
+
 def get_active_real_closers() -> list:
     """Devuelve únicamente los Closers reales activos con cuenta en ProsperIA CRM (excluye vacantes en contratación)."""
     return [m for m in INITIAL_SALES_TEAM if (m.get("ghl_user_id") or "").strip() or m.get("is_active")]
 
 
 def get_next_round_robin_closer(db) -> dict:
-    """Rota equitativamente (Round-Robin 1 a 6) entre los Closers reales activos."""
-    active_closers = get_active_real_closers()
+    """Rota equitativamente entre los Closers activos (excluyendo Pareja 6 en pausa temporal)."""
+    paused = {em for p in CLOSER_PAIRS_CONFIG if p.get("excluded_from_auto") for em in p["emails"]}
+    active_closers = [m for m in get_active_real_closers() if (m.get("email") or "").lower() not in paused]
+    if not active_closers:
+        active_closers = get_active_real_closers()
     if not active_closers:
         return INITIAL_SALES_TEAM[0]
     rr_row = db.query(IntegrationSetting).filter(IntegrationSetting.key == "sales_rr_index").first()
@@ -784,8 +859,9 @@ def init_db():
                 if not getattr(adm_u, "api_key", ""):
                     adm_u.api_key = "sve90_live_master_key_777_prosperia"
 
-        # 3. Sembrar o actualizar los 6 Closers reales de GHL + las 4 vacantes en contratación
+        # 3. Sembrar o actualizar los Closers reales de GHL con su etiqueta oficial de Pareja
         for member in INITIAL_SALES_TEAM:
+            pair_dupla = (get_pair_info(member["email"]) or {}).get("dupla") or member["dupla"]
             exists_u = db.query(User).filter(User.email == member["email"]).first()
             if not exists_u:
                 db.add(User(
@@ -797,7 +873,7 @@ def init_db():
                     plan=member["plan"],
                     api_key="sve90_closer_key_777",
                     role="seller",
-                    dupla=member["dupla"],
+                    dupla=pair_dupla,
                     ghl_user_id=member.get("ghl_user_id", ""),
                     is_active=1 if (member.get("ghl_user_id") or member.get("is_active")) else 0,
                     commission_rate=0.15,
@@ -807,7 +883,7 @@ def init_db():
                 ))
             else:
                 exists_u.name = member["name"]
-                exists_u.dupla = member["dupla"]
+                exists_u.dupla = pair_dupla
                 exists_u.role = "seller"
                 exists_u.plan = "SVE-90 Enterprise"
                 if member.get("phone"):
@@ -1442,6 +1518,50 @@ def init_db():
                             setattr(existing_article, key, value)
                 except Exception as art_err:
                     print(f"⚠️ Error leyendo artículo {article_path}: {art_err}")
+
+        # 6. Migración idempotente: Reparto aleatorio en 5 Parejas activas (excluye Pareja 6 Cinthya/Sergio) + visibilidad Setter IA
+        pairs_mig_key = "pairs_hot_redistribution_nov20_v1"
+        if not db.query(IntegrationSetting).filter(IntegrationSetting.key == pairs_mig_key).first():
+            for p_cfg in CLOSER_PAIRS_CONFIG:
+                for p_em in p_cfg["emails"]:
+                    u_row = db.query(User).filter(func.lower(User.email) == p_em).first()
+                    if u_row:
+                        u_row.dupla = p_cfg["dupla"]
+
+            assign_path = Path(__file__).parent / "seeds" / "pairs_5_hot_warm_assignments.json"
+            reassigned_cnt = 0
+            if assign_path.exists():
+                try:
+                    assign_map = json.loads(assign_path.read_text(encoding="utf-8"))
+                    if isinstance(assign_map, dict) and assign_map:
+                        target_ids = [int(k) for k in assign_map.keys() if str(k).isdigit()]
+                        for i in range(0, len(target_ids), 500):
+                            chunk_ids = target_ids[i:i + 500]
+                            for ld in db.query(Lead).filter(Lead.id.in_(chunk_ids)).all():
+                                new_ow = (assign_map.get(str(ld.id)) or "").strip().lower()
+                                if new_ow:
+                                    ld.owner_id = new_ow
+                                    ld.setter_id = new_ow
+                                    reassigned_cnt += 1
+                except Exception as assign_exc:
+                    print(f"⚠️ [PAIRS MIG] Error leyendo assignments JSON: {assign_exc}", flush=True)
+
+            setter_touched_rows = (
+                db.query(Lead)
+                .filter((Lead.last_touch == "") | (Lead.last_touch.is_(None)))
+                .filter(Lead.notes.contains("🤖 Setter IA"))
+                .all()
+            )
+            touched_fixed = 0
+            for ld in setter_touched_rows:
+                m_dt = re.search(r"\[(2026-\d{2}-\d{2})\s+(\d{2}:\d{2})\s+·\s+🤖 Setter IA", ld.notes or "")
+                ld.last_touch = f"{m_dt.group(1)}T{m_dt.group(2)}:00Z" if m_dt else "2026-11-19T18:00:00Z"
+                touched_fixed += 1
+
+            db.add(IntegrationSetting(
+                key=pairs_mig_key,
+                value=f"reassigned={reassigned_cnt},last_touch_fixed={touched_fixed}",
+            ))
 
         db.commit()
     except Exception as e:
