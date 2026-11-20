@@ -611,18 +611,6 @@ INITIAL_SALES_TEAM = [
         "default_pass": "Closer2026!"
     },
     {
-        "email": "sergiotorales608@gmail.com",
-        "name": "Sergio Torales",
-        "role": "seller",
-        "dupla": "Dupla C — Profesionales, Consultores & Academias",
-        "phone": "+5493704035398",
-        "plan": "SVE-90 Enterprise",
-        "ghl_user_id": "hhYMDFJpoBVVrP7AOiZ9",
-        "calendar_url": "https://api.agenciaprosperia.com/widget/booking/w2KriVI4LqhisSjIPiMV",
-        "avatar_url": "/static/img/closers/sergio.jpg",
-        "default_pass": "Closer2026!"
-    },
-    {
         "email": "laverdaderafuerza02@gmail.com",
         "name": "Agustín García",
         "role": "seller",
@@ -703,6 +691,7 @@ OBSOLETE_TEST_EMAILS = [
     "closer10@agenciaprosperia.com",
     "ucumaryvisual@gmail.com",
     "dbecerra@agenciaprosperia.com",
+    "sergiotorales608@gmail.com",
 ]
 
 
@@ -741,19 +730,11 @@ CLOSER_PAIRS_CONFIG = [
     },
     {
         "num": 5,
-        "label": "Pareja 5 — Tanya & Nuevo",
-        "dupla": "Pareja 5 — Tanya & Nuevo Closer",
-        "role_note": "Mercado EE. UU. / Bilingüe (en integración del 2do integrante)",
-        "emails": ["tanyah.unity@gmail.com"],
+        "label": "Pareja 5 — Tanya & Cinthya",
+        "dupla": "Pareja 5 — Tanya & Cinthya",
+        "role_note": "Célula Comercial EE. UU. / LATAM (Turnos Cruzados Mañana / Tarde)",
+        "emails": ["tanyah.unity@gmail.com", "cinthyapenida0@gmail.com"],
         "excluded_from_auto": False,
-    },
-    {
-        "num": 6,
-        "label": "Pareja 6 — Cinthya & Sergio",
-        "dupla": "Pareja 6 — Cinthya & Sergio (En Alineación)",
-        "role_note": "En alineación con Dirección (pausa temporal de reparto caliente)",
-        "emails": ["cinthyapenida0@gmail.com", "sergiotorales608@gmail.com"],
-        "excluded_from_auto": True,
     },
 ]
 
@@ -1561,6 +1542,49 @@ def init_db():
             db.add(IntegrationSetting(
                 key=pairs_mig_key,
                 value=f"reassigned={reassigned_cnt},last_touch_fixed={touched_fixed}",
+            ))
+
+        # 7. Migración idempotente: Baja definitiva de Sergio Torales y activación de Pareja 5 — Tanya & Cinthya
+        pairs_v2_key = "pairs_5_tanya_cinthya_sergio_exit_nov20_v2"
+        if not db.query(IntegrationSetting).filter(IntegrationSetting.key == pairs_v2_key).first():
+            active_emails = []
+            for p_cfg in CLOSER_PAIRS_CONFIG:
+                for p_em in p_cfg["emails"]:
+                    active_emails.append(p_em)
+                    u_row = db.query(User).filter(func.lower(User.email) == p_em).first()
+                    if u_row:
+                        u_row.dupla = p_cfg["dupla"]
+
+            assign_path = Path(__file__).parent / "seeds" / "pairs_5_hot_warm_assignments.json"
+            reassigned_v2 = 0
+            if assign_path.exists():
+                try:
+                    assign_map = json.loads(assign_path.read_text(encoding="utf-8"))
+                    if isinstance(assign_map, dict) and assign_map:
+                        target_ids = [int(k) for k in assign_map.keys() if str(k).isdigit()]
+                        for i in range(0, len(target_ids), 500):
+                            chunk_ids = target_ids[i:i + 500]
+                            for ld in db.query(Lead).filter(Lead.id.in_(chunk_ids)).all():
+                                new_ow = (assign_map.get(str(ld.id)) or "").strip().lower()
+                                if new_ow:
+                                    ld.owner_id = new_ow
+                                    ld.setter_id = new_ow
+                                    reassigned_v2 += 1
+                except Exception as assign_exc:
+                    print(f"⚠️ [PAIRS V2 MIG] Error leyendo assignments JSON: {assign_exc}", flush=True)
+
+            sergio_rows = db.query(Lead).filter(func.lower(Lead.owner_id) == "sergiotorales608@gmail.com").all()
+            sergio_moved = 0
+            if sergio_rows and active_emails:
+                for idx, ld in enumerate(sergio_rows):
+                    dst_em = active_emails[idx % len(active_emails)]
+                    ld.owner_id = dst_em
+                    ld.setter_id = dst_em
+                    sergio_moved += 1
+
+            db.add(IntegrationSetting(
+                key=pairs_v2_key,
+                value=f"reassigned_hot_warm={reassigned_v2},sergio_reassigned={sergio_moved}",
             ))
 
         db.commit()

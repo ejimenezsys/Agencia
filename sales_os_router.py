@@ -6450,6 +6450,7 @@ def _classify_lead_briefing_tier(ld: DbLead) -> tuple:
 
 @router.post("/api/sales-os/send-pairs-briefing-emails")
 async def api_send_pairs_briefing_emails(
+    only_pair: Optional[int] = None,
     current_user: dict = Depends(get_current_sales_user),
     db: Session = Depends(get_db),
 ):
@@ -6471,6 +6472,8 @@ async def api_send_pairs_briefing_emails(
     sent_count = 0
     for pair in CLOSER_PAIRS_CONFIG:
         if pair.get("excluded_from_auto"):
+            continue
+        if only_pair is not None and pair.get("num") != only_pair:
             continue
         p_emails = [normalize_email(e) for e in pair["emails"]]
         p_leads = (
