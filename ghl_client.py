@@ -22,8 +22,8 @@ import threading
 import urllib.error
 import urllib.parse
 import urllib.request
-from datetime import datetime, timezone
-from typing import Optional
+from datetime import datetime, timedelta, timezone
+from typing import Optional, Tuple
 
 GHL_BASE_URL = "https://services.leadconnectorhq.com"
 GHL_API_VERSION = "2021-07-28"
@@ -721,6 +721,77 @@ def _extract_beauty_custom_fields(raw_text: str, offer_version: str = "", indust
     return fields
 
 
+_GHL_SMS_LOCK = threading.Lock()
+_GHL_DAILY_SMS_COUNTER = {"day": "", "count": 0}
+_GHL_SMS_COUNTER_KEY = "ghl_daily_sms_counter_json"
+MAX_DAILY_GHL_SMS = 40
+
+
+def _is_synthetic_placeholder_email(email: str) -> bool:
+    """Detecta correos internos ficticios (@sin-correo.local, etc.) para no contaminar GoHighLevel."""
+    em = (email or "").strip().lower()
+    if not em or "@" not in em:
+        return True
+    if any(dom in em for dom in ("@sin-correo.local", "@prosperia.local", "@no-email.local")):
+        return True
+    if (em.startswith("contacto.") or em.startswith("prospecto_") or em.startswith("prospecto.")) and em.endswith("@agenciaprosperia.com"):
+        return True
+    return False
+
+
+def _miami_day_str() -> str:
+    return (datetime.now(timezone.utc) - timedelta(hours=5)).strftime("%Y-%m-%d")
+
+
+def _check_and_reserve_ghl_daily_sms_slot() -> Tuple[bool, int]:
+    """Verifica y reserva 1 cupo del límite diario de SMS Miami (+1) para proteger la billetera GHL."""
+    today = _miami_day_str()
+    with _GHL_SMS_LOCK:
+        # Sincronizar con DB si el proceso acaba de iniciar para este día
+        if _GHL_DAILY_SMS_COUNTER["day"] != today:
+            loaded_cnt = 0
+            try:
+                from database import IntegrationSetting, SessionLocal
+
+                db = SessionLocal()
+                try:
+                    row = db.query(IntegrationSetting).filter(IntegrationSetting.key == _GHL_SMS_COUNTER_KEY).first()
+                    if row and row.value:
+                        data = json.loads(row.value)
+                        if isinstance(data, dict) and data.get("day") == today:
+                            loaded_cnt = int(data.get("count", 0) or 0)
+                finally:
+                    db.close()
+            except Exception:
+                loaded_cnt = 0
+            _GHL_DAILY_SMS_COUNTER["day"] = today
+            _GHL_DAILY_SMS_COUNTER["count"] = loaded_cnt
+
+        cur = int(_GHL_DAILY_SMS_COUNTER["count"] or 0)
+        if cur >= MAX_DAILY_GHL_SMS:
+            return False, cur
+
+        new_cnt = cur + 1
+        _GHL_DAILY_SMS_COUNTER["count"] = new_cnt
+        try:
+            from database import IntegrationSetting, SessionLocal
+
+            db = SessionLocal()
+            try:
+                payload = json.dumps({"day": today, "count": new_cnt})
+                row = db.query(IntegrationSetting).filter(IntegrationSetting.key == _GHL_SMS_COUNTER_KEY).first()
+                if not row:
+                    db.add(IntegrationSetting(key=_GHL_SMS_COUNTER_KEY, value=payload))
+                else:
+                    row.value = payload
+                db.commit()
+            finally:
+                db.close()
+        except Exception:
+            pass
+        return True, new_cnt
+
+
 def _persist_lead_ghl_ids(lead_db_id: Optional[int], contact_id: str, opp_id: Optional[str]) -> None:
     """Guarda contact_id y ghl_opportunity_id en SQLite cuando el lead se sincroniza con GHL."""
     if not lead_db_id or (not contact_id and not opp_id):
@@ -833,31 +904,36 @@ def sync_lead_to_ghl(
     else:
         team_label = TEAM_LABELS.get((team_size or "").strip())
 
+    clean_phone = _clean_phone(phone)
+    real_email = "" if _is_synthetic_placeholder_email(email) else (email or "").strip().lower()
+    if not real_email and not clean_phone:
+        return {"ok": False, "skipped": True, "reason": "no_real_email_or_phone"}
+
     contact_body = {
         "locationId": location_id,
         "firstName": first_name,
         "lastName": last_name,
         "name": full_name,
-        "email": email,
         "companyName": company,
         "source": f"Beauty Growth – {source}" if is_beauty else f"Web ProsperIA – {source}",
     }
+    if real_email:
+        contact_body["email"] = real_email
     if custom_fields:
         contact_body["customFields"] = custom_fields
-    clean_phone = _clean_phone(phone)
     if clean_phone:
         contact_body["phone"] = clean_phone
     if assigned_to:
         contact_body["assignedTo"] = assigned_to
 
-    # 1. Upsert del contacto (si el teléfono es inválido, reintenta sin él).
+    # 1. Upsert del contacto (si el teléfono es inválido, reintenta sin él si existe email real).
     status, res = _request("POST", "/contacts/upsert", token, contact_body)
-    if status not in (200, 201) and "phone" in contact_body:
+    if status not in (200, 201) and "phone" in contact_body and real_email:
         print(f"⚠️ [GHL] Upsert con teléfono falló ({status}); reintentando sin teléfono.", flush=True)
         contact_body.pop("phone")
         status, res = _request("POST", "/contacts/upsert", token, contact_body)
     if status not in (200, 201):
-        print(f"❌ [GHL] No se pudo crear/actualizar el contacto {email} (loc={location_id}): {status} {res}", flush=True)
+        print(f"❌ [GHL] No se pudo crear/actualizar el contacto {real_email or clean_phone} (loc={location_id}): {status} {res}", flush=True)
         return {"ok": False, "step": "contact", "status": status, "location_id": location_id}
 
     contact = res.get("contact", {})
@@ -922,12 +998,12 @@ def sync_lead_to_ghl(
     if s_status == 200 and s_res.get("opportunities"):
         opp_id = s_res["opportunities"][0].get("id")
         _persist_lead_ghl_ids(lead_db_id, contact_id, opp_id)
-        print(f"ℹ️ [GHL] {email} ya tiene oportunidad abierta ({opp_id}); no se duplica.", flush=True)
+        print(f"ℹ️ [GHL] {real_email or clean_phone} ya tiene oportunidad abierta ({opp_id}); no se duplica.", flush=True)
         return {"ok": True, "contact_id": contact_id, "contact_new": is_new,
                 "opportunity_id": opp_id, "opportunity_new": False,
                 "location_id": location_id, "pipeline_id": pipeline_id, "stage_id": stage_id}
 
-    opp_name = f"{company} – {full_name}" if company else (full_name or email)
+    opp_name = f"{company} – {full_name}" if company else (full_name or real_email or clean_phone)
     opp_payload = {
         "locationId": location_id,
         "pipelineId": pipeline_id,
@@ -949,7 +1025,7 @@ def sync_lead_to_ghl(
             m = re.search(r'"existingId"\s*:\s*"([^"]+)"', err_text)
             existing_id = m.group(1) if m else None
             _persist_lead_ghl_ids(lead_db_id, contact_id, existing_id)
-            print(f"ℹ️ [GHL] {email} ya tiene oportunidad ({existing_id}); no se duplica.", flush=True)
+            print(f"ℹ️ [GHL] {real_email or clean_phone} ya tiene oportunidad ({existing_id}); no se duplica.", flush=True)
             return {"ok": True, "contact_id": contact_id, "contact_new": is_new,
                     "opportunity_id": existing_id, "opportunity_new": False,
                     "location_id": location_id, "pipeline_id": pipeline_id, "stage_id": stage_id}
@@ -958,7 +1034,7 @@ def sync_lead_to_ghl(
 
     opp_id = o_res.get("opportunity", {}).get("id")
     _persist_lead_ghl_ids(lead_db_id, contact_id, opp_id)
-    print(f"✅ [GHL] Lead {email} → contacto {contact_id} (nuevo={is_new}), oportunidad {opp_id} en loc={location_id} (pipeline={pipeline_id})", flush=True)
+    print(f"✅ [GHL] Lead {real_email or clean_phone} → contacto {contact_id} (nuevo={is_new}), oportunidad {opp_id} en loc={location_id} (pipeline={pipeline_id})", flush=True)
     return {"ok": True, "contact_id": contact_id, "contact_new": is_new,
             "opportunity_id": opp_id, "opportunity_new": True,
             "location_id": location_id, "pipeline_id": pipeline_id, "stage_id": stage_id}
@@ -1229,7 +1305,7 @@ def sync_beauty_growth_ig_lead_to_ghl(lead: dict) -> dict:
         "assignedTo": BEAUTY_DEFAULT_USER_ID,
         "customFields": custom_fields,
     }
-    if email:
+    if email and not _is_synthetic_placeholder_email(email):
         contact_body["email"] = email
     if phone:
         contact_body["phone"] = phone
@@ -1405,10 +1481,30 @@ def send_ghl_direct_message(
     owner_email: str = "",
     lead_db_id: Optional[int] = None,
 ) -> dict:
-    """Envía SMS (+1 solamente), WhatsApp o Email vía GoHighLevel Conversations API v2 con candado anti-tarifas."""
+    """Envía SMS (+1 solamente, tope diario de seguridad) vía GoHighLevel Conversations API v2 con candado anti-tarifas."""
     ch = (channel or "").strip().upper()
     if ch not in ("SMS", "WHATSAPP", "EMAIL"):
         return {"ok": False, "error": f"Canal GHL no soportado: {channel}"}
+
+    if ch == "EMAIL":
+        return {
+            "ok": False,
+            "blocked_by_cost_guard": True,
+            "error": (
+                "Candado de Costos GHL: el envío directo de Email por LC Email GHL está deshabilitado "
+                "para evitar cargos en billetera. Usa el botón de Correo Institucional gratuito (SMTP $0)."
+            ),
+        }
+
+    if ch == "WHATSAPP":
+        return {
+            "ok": False,
+            "blocked_by_cost_guard": True,
+            "error": (
+                "Candado de Costos GHL: el envío manual de WhatsApp en frío por GHL está deshabilitado "
+                "para proteger costos de billetera Meta/GHL."
+            ),
+        }
 
     clean_phone = _clean_phone(phone)
     if ch == "SMS" and (not clean_phone.startswith("+1") or len(clean_phone) != 12):
@@ -1425,15 +1521,27 @@ def send_ghl_direct_message(
     if not token:
         return {"ok": False, "error": "GHL_PRIVATE_TOKEN no configurado."}
 
+    allowed_sms, sms_today = _check_and_reserve_ghl_daily_sms_slot()
+    if not allowed_sms:
+        return {
+            "ok": False,
+            "blocked_by_cost_guard": True,
+            "error": (
+                f"Candado de Costos GHL: se alcanzó el límite diario de {MAX_DAILY_GHL_SMS} SMS Miami (+1) "
+                f"(~${MAX_DAILY_GHL_SMS * 0.011:.2f} USD/día máx). Los SMS se reanudan mañana para proteger la billetera."
+            ),
+        }
+
     cid = (contact_id or "").strip()
     if not cid:
         parts = (full_name or company or "Prospecto").split()
         fn = parts[0] if parts else "Prospecto"
         ln = " ".join(parts[1:]) if len(parts) > 1 else ""
+        safe_email = "" if _is_synthetic_placeholder_email(email) else email
         up_res = sync_lead_to_ghl(
             first_name=fn,
             last_name=ln,
-            email=email or f"contacto.{lead_db_id or 'crm'}@agenciaprosperia.com",
+            email=safe_email,
             phone=clean_phone or phone,
             company=company or full_name or "Negocio",
             source="sales_os_closer",
@@ -1455,7 +1563,7 @@ def send_ghl_direct_message(
         payload["fromNumber"] = "+17868336964"
     elif ch == "EMAIL":
         clean_em = (email or "").strip().lower()
-        if not clean_em or "@sin-correo.local" in clean_em:
+        if not clean_em or _is_synthetic_placeholder_email(clean_em):
             return {"ok": False, "error": "El contacto no tiene un correo electrónico válido."}
         payload["subject"] = (subject or f"Propuesta Digital para {company or full_name}").strip()
         payload["emailTo"] = clean_em
@@ -1706,7 +1814,7 @@ def dispatch_ghl_agency_whatsapp(
             "companyName": (company or full_name or "").strip(),
             "source": "Setter ProsperIA - WhatsApp Agencia",
         }
-        if clean_em and "@" in clean_em and "@sin-correo.local" not in clean_em:
+        if clean_em and not _is_synthetic_placeholder_email(clean_em):
             upsert_body["email"] = clean_em
         u_st, u_res = _request("POST", "/contacts/upsert", token, upsert_body)
         if u_st not in (200, 201):

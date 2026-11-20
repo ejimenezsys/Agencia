@@ -3544,6 +3544,18 @@ def _is_valid_real_email(raw_email: str) -> bool:
     return True
 
 
+_SMTP_ROTATION_LOCK = threading.Lock()
+_SMTP_ROTATION_CURSOR = 0
+_SMTP_ROTATION_MAILBOXES = (
+    "diego@prosperia-systems.com",
+    "edward@prosperia-systems.com",
+    "diego@prosperia-advisors.com",
+    "edward@prosperia-advisors.com",
+    "edward@prosperia-global.com",
+    "diego@prosperia-global.com",
+)
+
+
 def _send_smtp_mime_email(
     alias_addr: str,
     to_email: str,
@@ -3555,39 +3567,64 @@ def _send_smtp_mime_email(
     reply_to_override: Optional[str] = None,
     sender_label_override: Optional[str] = None,
 ) -> None:
-    """Envía un MIME multipart (texto + HTML) con cabeceras RFC limpias (Reply-To del mismo dominio)."""
+    """Envía un MIME multipart (texto + HTML) con cabeceras RFC limpias y rotación SMTP para descargar el buzón principal."""
+    global _SMTP_ROTATION_CURSOR
     smtp_host = _cfg_db("SMTP_HOST", "smtp.hostinger.com")
     smtp_port = int(_cfg_db("SMTP_PORT", "465") or "465")
     smtp_user = _cfg_db("SMTP_USER", "edward@agenciaprosperia.com")
     smtp_pass = _cfg_db("SMTP_PASSWORD", "")
-    if not smtp_pass:
-        raise RuntimeError("Servidor SMTP institucional aún no configurado en el servidor.")
 
     if alias_addr not in ALLOWED_INSTITUTIONAL_ALIASES:
         alias_addr = "seller@agenciaprosperia.com"
 
     sender_label = (sender_label_override or f"{closer_name} - Agencia Prosper IA").strip()
-    reply_addr = (reply_to_override or alias_addr).strip()
+    instantly_pass = _cfg_db("INSTANTLY_IMAP_PASSWORD", "Prosperia2@27")
 
-    msg = MIMEMultipart("alternative")
-    msg["Subject"] = final_subject
-    msg["From"] = formataddr((sender_label, alias_addr))
-    msg["To"] = to_email
-    # Mantener Reply-To corporativo (@agenciaprosperia.com o @passportai.app) para proteger entregabilidad
-    msg["Reply-To"] = formataddr((sender_label, reply_addr))
-    msg["Date"] = formatdate(localtime=True)
-    msg["Message-ID"] = make_msgid(domain="agenciaprosperia.com")
-    msg.attach(MIMEText(plain_text, "plain", "utf-8"))
-    msg.attach(MIMEText(html_content, "html", "utf-8"))
+    attempts = []
+    # Descargar a edward@agenciaprosperia.com rotando envíos de prospección / alertas (seller@) por los 6 buzones secundarios
+    if alias_addr == "seller@agenciaprosperia.com" and instantly_pass and _SMTP_ROTATION_MAILBOXES:
+        with _SMTP_ROTATION_LOCK:
+            idx = _SMTP_ROTATION_CURSOR % len(_SMTP_ROTATION_MAILBOXES)
+            _SMTP_ROTATION_CURSOR += 1
+        sec_user = _SMTP_ROTATION_MAILBOXES[idx]
+        sec_reply = (reply_to_override or "info@agenciaprosperia.com").strip()
+        attempts.append((sec_user, instantly_pass, sec_user, sec_reply))
 
-    if smtp_port == 465:
-        srv = smtplib.SMTP_SSL(smtp_host, smtp_port, timeout=15)
-    else:
-        srv = smtplib.SMTP(smtp_host, smtp_port, timeout=15)
-        srv.starttls()
-    srv.login(smtp_user, smtp_pass)
-    srv.sendmail(alias_addr, [to_email], msg.as_string())
-    srv.quit()
+    if smtp_pass:
+        pri_reply = (reply_to_override or alias_addr).strip()
+        attempts.append((smtp_user, smtp_pass, alias_addr, pri_reply))
+
+    if not attempts:
+        raise RuntimeError("Servidor SMTP institucional aún no configurado en el servidor.")
+
+    last_exc: Optional[Exception] = None
+    for idx_try, (auth_u, auth_p, from_addr, reply_addr) in enumerate(attempts):
+        msg = MIMEMultipart("alternative")
+        msg["Subject"] = final_subject
+        msg["From"] = formataddr((sender_label, from_addr))
+        msg["To"] = to_email
+        msg["Reply-To"] = formataddr((sender_label, reply_addr))
+        msg["Date"] = formatdate(localtime=True)
+        msg_dom = from_addr.split("@", 1)[1] if "@" in from_addr else "agenciaprosperia.com"
+        msg["Message-ID"] = make_msgid(domain=msg_dom)
+        msg.attach(MIMEText(plain_text, "plain", "utf-8"))
+        msg.attach(MIMEText(html_content, "html", "utf-8"))
+        try:
+            if smtp_port == 465:
+                srv = smtplib.SMTP_SSL(smtp_host, smtp_port, timeout=15)
+            else:
+                srv = smtplib.SMTP(smtp_host, smtp_port, timeout=15)
+                srv.starttls()
+            srv.login(auth_u, auth_p)
+            srv.sendmail(from_addr, [to_email], msg.as_string())
+            srv.quit()
+            return
+        except Exception as exc:
+            last_exc = exc
+            if idx_try + 1 < len(attempts):
+                print(f"⚠️ [SMTP ROTATION] Falló {auth_u} ({exc}); reintentando con buzón primario.", flush=True)
+    if last_exc:
+        raise last_exc
 
 
 def _extract_diag_snippet(notes_raw: str) -> str:
@@ -4265,10 +4302,11 @@ def _default_setter_ia_state() -> dict:
         "replies_detected": 0,
         "demos_auto_sent": 0,
         "daily_wa_limit": 450,
+        "daily_email_limit": 80,
         "wa_paused_until_day": "2026-11-18",
         "wa_paused_until_utc": "2026-11-19T15:15:00Z",
         "wa_interval_sec": 30,
-        "email_interval_sec": 45,
+        "email_interval_sec": 120,
         "last_day": today_miami,
         "rr_cursor": 0,
         "imap_processed_uids": [],
@@ -4849,14 +4887,7 @@ _CAMPAIGN_SUBJECT_TOKENS = (
     "demo web de",
 )
 
-_INSTANTLY_OUTREACH_MAILBOXES = (
-    "diego@prosperia-systems.com",
-    "edward@prosperia-systems.com",
-    "diego@prosperia-advisors.com",
-    "edward@prosperia-advisors.com",
-    "edward@prosperia-global.com",
-    "diego@prosperia-global.com",
-)
+_INSTANTLY_OUTREACH_MAILBOXES = _SMTP_ROTATION_MAILBOXES
 
 _OWN_OUTREACH_DOMAINS = (
     "@agenciaprosperia.com",
@@ -6051,7 +6082,8 @@ def _run_setter_ia_cycle(force_step: bool = False) -> dict:
 
             now = time.time()
             wa_gap = max(10, int(state.get("wa_interval_sec", 30) or 30))
-            em_gap = max(15, int(state.get("email_interval_sec", 45) or 45))
+            em_gap = max(120, int(state.get("email_interval_sec", 120) or 120))
+            primary_email_cap = max(10, int(state.get("daily_email_limit", 80) or 80))
 
             if force_step or (now - _SETTER_IA_RUNTIME["last_scan_ts"]) >= 60:
                 _SETTER_IA_RUNTIME["last_scan_ts"] = now
@@ -6073,15 +6105,20 @@ def _run_setter_ia_cycle(force_step: bool = False) -> dict:
 
             if force_step or (now - _SETTER_IA_RUNTIME["last_email_ts"]) >= em_gap:
                 _SETTER_IA_RUNTIME["last_email_ts"] = now
-                did["email"] = _execute_setter_ia_email_step(db, state)
+                if int(state.get("email_sent_today", 0) or 0) < 120:
+                    did["email"] = _execute_setter_ia_email_step(db, state)
 
-            if force_step or (now - _SETTER_IA_RUNTIME["last_lead_web_ts"]) >= 50:
+            if force_step or (now - _SETTER_IA_RUNTIME["last_lead_web_ts"]) >= em_gap:
                 _SETTER_IA_RUNTIME["last_lead_web_ts"] = now
-                did["lead_web_email"] = _execute_lead_web_warm_email_step(db, state)
+                total_primary_today = int(state.get("lead_web_sent_today", 0) or 0) + int(state.get("passportai_21_sent_today", 0) or 0)
+                if total_primary_today < primary_email_cap:
+                    did["lead_web_email"] = _execute_lead_web_warm_email_step(db, state)
 
-            if force_step or (now - _SETTER_IA_RUNTIME["last_passportai_21_ts"]) >= 48:
+            if force_step or (now - _SETTER_IA_RUNTIME["last_passportai_21_ts"]) >= em_gap:
                 _SETTER_IA_RUNTIME["last_passportai_21_ts"] = now
-                did["passportai_21_email"] = _execute_passportai_21_email_step(db, state)
+                total_primary_today = int(state.get("lead_web_sent_today", 0) or 0) + int(state.get("passportai_21_sent_today", 0) or 0)
+                if total_primary_today < primary_email_cap:
+                    did["passportai_21_email"] = _execute_passportai_21_email_step(db, state)
 
             _save_setter_ia_state(db, state)
             return {"running": bool(state.get("running")), **did, "state": state}
@@ -6164,6 +6201,7 @@ async def api_get_setter_ia_status(
 class SetterIaControlRequest(BaseModel):
     action: str  # start | pause | step_now | update_config
     daily_wa_limit: Optional[int] = None
+    daily_email_limit: Optional[int] = None
     wa_interval_sec: Optional[int] = None
     email_interval_sec: Optional[int] = None
 
@@ -6187,10 +6225,12 @@ async def api_control_setter_ia(
         state = _load_setter_ia_state(db)
         if req.daily_wa_limit is not None:
             state["daily_wa_limit"] = max(50, min(5000, int(req.daily_wa_limit)))
+        if req.daily_email_limit is not None:
+            state["daily_email_limit"] = max(10, min(200, int(req.daily_email_limit)))
         if req.wa_interval_sec is not None:
             state["wa_interval_sec"] = max(10, min(300, int(req.wa_interval_sec)))
         if req.email_interval_sec is not None:
-            state["email_interval_sec"] = max(15, min(300, int(req.email_interval_sec)))
+            state["email_interval_sec"] = max(120, min(600, int(req.email_interval_sec)))
 
         if act == "start":
             state["running"] = True
