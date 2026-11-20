@@ -4899,7 +4899,12 @@ async def api_prosperia_assistant_config():
     """Devuelve saludo, nombre y configuración sincronizada con PassportAI."""
     import asyncio
     cfg = await asyncio.to_thread(_fetch_passportai_config)
-    return JSONResponse(cfg)
+    return JSONResponse(cfg, headers=_EMPRENDE_CORS_HEADERS)
+
+
+@app.options("/api/prosperia/assistant", include_in_schema=False)
+async def api_prosperia_assistant_options():
+    return JSONResponse({"ok": True}, headers=_EMPRENDE_CORS_HEADERS)
 
 
 @app.post("/api/prosperia/assistant")
@@ -4914,17 +4919,20 @@ async def api_prosperia_assistant(req: ProsperiaAssistantRequest, request: Reque
 
     if not raw_msg:
         greeting = "¡Hola! Soy tu Setter IA de Agencia Prosper IA. ¿A qué se dedica tu negocio hoy?"
-        return {
-            "success": True,
-            "reply": greeting,
-            "reply_speech": _clean_reply_for_speech(greeting),
-            "ctas": {},
-            "datos_completos": False,
-            "session_id": sid,
-            "engine": "prosperia-passportai-fusion",
-            "calendar_anchor": "/sitioweb",
-            "whatsapp_url": EMERGENCY_WA_URL,
-        }
+        return JSONResponse(
+            {
+                "success": True,
+                "reply": greeting,
+                "reply_speech": _clean_reply_for_speech(greeting),
+                "ctas": {},
+                "datos_completos": False,
+                "session_id": sid,
+                "engine": "prosperia-passportai-fusion",
+                "calendar_anchor": "/sitioweb",
+                "whatsapp_url": EMERGENCY_WA_URL,
+            },
+            headers=_EMPRENDE_CORS_HEADERS,
+        )
 
     # Capturar automáticamente cualquier teléfono o correo ingresado en el chat sin bloquear la respuesta
     try:
@@ -5015,17 +5023,20 @@ async def api_prosperia_assistant(req: ProsperiaAssistantRequest, request: Reque
     reply = _enforce_no_price_chatbot_policy(reply, raw_msg)
     reply_speech = _clean_reply_for_speech(reply)
 
-    return {
-        "success": True,
-        "reply": reply,
-        "reply_speech": reply_speech,
-        "ctas": ctas,
-        "datos_completos": datos_completos,
-        "session_id": sid,
-        "engine": engine,
-        "calendar_anchor": "/#contacto",
-        "whatsapp_url": EMERGENCY_WA_URL,
-    }
+    return JSONResponse(
+        {
+            "success": True,
+            "reply": reply,
+            "reply_speech": reply_speech,
+            "ctas": ctas,
+            "datos_completos": datos_completos,
+            "session_id": sid,
+            "engine": engine,
+            "calendar_anchor": "/#contacto",
+            "whatsapp_url": EMERGENCY_WA_URL,
+        },
+        headers=_EMPRENDE_CORS_HEADERS,
+    )
 
 # --- ENDPOINT DE PROSPECCIÓN INTELIGENTE ---
 import urllib.request
