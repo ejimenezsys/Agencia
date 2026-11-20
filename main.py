@@ -2619,6 +2619,77 @@ def send_email_notification(
     except Exception as e:
         print(f"❌ [EMAIL NOTIFICATION ERROR] Failed to send email to {recipients_list}: {e}", flush=True)
 
+def send_web_lead_welcome_smtp_email(name: str, email: str, source_label: str = "Agencia Prosper IA") -> None:
+    """Envía bienvenida por SMTP propio ($0 GHL, rotación en 6 buzones secundarios) sin usar LC Email ni edward@."""
+    try:
+        import html as html_lib
+        from sales_os_router import _is_valid_real_email, _send_smtp_mime_email
+
+        clean_em = normalize_email(email or "")
+        if not _is_valid_real_email(clean_em):
+            return
+
+        clean_name = (name or "").strip()
+        first_name = clean_name.split()[0] if clean_name else "Hola"
+        src_disp = (source_label or "Agencia Prosper IA").strip()
+        safe_first = html_lib.escape(first_name)
+        safe_src = html_lib.escape(src_disp)
+        wa_link = "https://wa.me/17865573119?text=Hola%20Agencia%20Prosper%20IA%2C%20acabo%20de%20registrarme"
+        site_link = "https://agenciaprosperia.com"
+
+        subject = f"Hola {first_name}, recibimos tu registro en Agencia Prosper IA"
+        plain_text = (
+            f"Hola {first_name},\n\n"
+            f"Gracias por ponerte en contacto con Agencia Prosper IA ({src_disp}). "
+            f"Recibimos correctamente tus datos y nuestro equipo ya los tiene registrados.\n\n"
+            f"Si deseas atención inmediata o resolver alguna duda en vivo, puedes:\n"
+            f"• Escribirnos directo por WhatsApp en Miami: {wa_link} (+1 786-557-3119)\n"
+            f"• Conocer más sobre nuestras soluciones e implementación: {site_link}\n\n"
+            f"Un saludo,\nEquipo Agencia Prosper IA · Miami, FL\ninfo@agenciaprosperia.com"
+        )
+        html_content = f"""
+        <html>
+          <body style="font-family: Arial, Helvetica, sans-serif; background-color: #020710; color: #f8fafc; margin: 0; padding: 24px;">
+            <div style="max-width: 580px; margin: 0 auto; background: #081224; border: 1px solid #0e7490; border-radius: 14px; padding: 28px;">
+              <div style="color: #00e5ff; font-size: 16px; font-weight: 800; letter-spacing: 1px; margin-bottom: 14px;">AGENCIA PROSPER IA</div>
+              <p style="font-size: 15px; color: #ffffff; margin: 0 0 14px;">Hola <strong>{safe_first}</strong>,</p>
+              <p style="font-size: 14px; color: #cbd5e1; line-height: 1.6; margin: 0 0 14px;">
+                Gracias por ponerte en contacto con <strong>Agencia Prosper IA</strong> (<em>{safe_src}</em>). Confirmamos que recibimos tus datos correctamente.
+              </p>
+              <p style="font-size: 14px; color: #cbd5e1; line-height: 1.6; margin: 0 0 22px;">
+                Si quieres avanzar hoy mismo o tienes alguna consulta, comunícate directo con nosotros por cualquiera de estos dos canales oficiales:
+              </p>
+              <div style="text-align: center; margin: 22px 0;">
+                <a href="{wa_link}" style="display: inline-block; background: #10b981; color: #020710; text-decoration: none; font-weight: 800; font-size: 13px; padding: 12px 22px; border-radius: 10px; margin: 5px;">
+                  💬 Escribir por WhatsApp (+1 786-557-3119)
+                </a>
+                <a href="{site_link}" style="display: inline-block; background: #00e5ff; color: #020710; text-decoration: none; font-weight: 800; font-size: 13px; padding: 12px 22px; border-radius: 10px; margin: 5px;">
+                  🌐 Visitar AgenciaProsperIA.com
+                </a>
+              </div>
+              <p style="font-size: 12px; color: #94a3b8; border-top: 1px solid rgba(148,163,184,0.2); padding-top: 14px; margin: 18px 0 0;">
+                Equipo Agencia Prosper IA · Miami, FL · info@agenciaprosperia.com
+              </p>
+            </div>
+          </body>
+        </html>
+        """
+        _send_smtp_mime_email(
+            alias_addr="seller@agenciaprosperia.com",
+            to_email=clean_em,
+            closer_name="Agencia Prosper IA",
+            closer_email="info@agenciaprosperia.com",
+            final_subject=subject,
+            plain_text=plain_text,
+            html_content=html_content,
+            reply_to_override="info@agenciaprosperia.com",
+            sender_label_override="Agencia Prosper IA",
+        )
+        print(f"📧 [WELCOME SMTP $0] Bienvenida enviada a {clean_em} ({src_disp})", flush=True)
+    except Exception as exc:
+        print(f"⚠️ [WELCOME SMTP $0] Error enviando bienvenida a {email}: {exc}", flush=True)
+
+
 def send_client_diagnostic_email(name: str, email: str, phone: str, message: str):
     """Envía el resultado de la radiografía de eficiencia comercial directamente al cliente desde edward@agenciaprosperia.com"""
     smtp_host = _resolve_env_secret("SMTP_HOST", "smtp.hostinger.com")
@@ -3095,7 +3166,7 @@ async def api_contact(req: ContactRequest, background_tasks: BackgroundTasks, db
         extra_recipients=["dbecerra@agenciaprosperia.com"] if is_beauty_growth else None,
     )
 
-    # Envío automático de la radiografía de diagnóstico comercial al cliente desde edward@agenciaprosperia.com
+    # Envío automático de la radiografía de diagnóstico comercial o bienvenida SMTP propia ($0 GHL)
     if "DIAGNÓSTICO COMERCIAL" in combined_notes:
         background_tasks.add_task(
             send_client_diagnostic_email,
@@ -3103,6 +3174,13 @@ async def api_contact(req: ContactRequest, background_tasks: BackgroundTasks, db
             email=req.email,
             phone=phone_raw,
             message=combined_notes
+        )
+    elif email_raw:
+        background_tasks.add_task(
+            send_web_lead_welcome_smtp_email,
+            full_name,
+            email_raw,
+            industry_label,
         )
 
     # Sincronizar automáticamente con GoHighLevel y n8n asignando al responsable / subcuenta correspondiente
@@ -3416,6 +3494,16 @@ _EMPRENDE_CORS_HEADERS = {
 }
 
 
+_EMPRENDE_TOOL_LABELS = {
+    "personal-brand": "Constructor de Marca Personal",
+    "business-ideas": "Plan de Negocios & Validación",
+    "lead-magnet": "Constructor de Lead Magnet",
+    "whatsapp": "Secuencia de Cierre WhatsApp",
+    "high-ticket-offer": "Constructor de Oferta High-Ticket",
+    "viral-reels": "Guiones de Reels Virales IA",
+}
+
+
 def _send_emprende_welcome_email_bg(
     to_email: str,
     full_name: str,
@@ -3432,14 +3520,7 @@ def _send_emprende_welcome_email_bg(
             return
         first_n = (full_name.split()[0] if full_name else "Emprendedor").strip()
         biz_disp = (business_name or "tu proyecto").strip()
-        tool_label = {
-            "personal-brand": "Constructor de Marca Personal",
-            "business-ideas": "Plan de Negocios & Validación",
-            "lead-magnet": "Constructor de Lead Magnet",
-            "whatsapp": "Secuencia de Cierre WhatsApp",
-            "high-ticket-offer": "Constructor de Oferta High-Ticket",
-            "viral-reels": "Guiones de Reels Virales IA",
-        }.get((tool_slug or "").strip(), "Constructores IA Gratuitos")
+        tool_label = _EMPRENDE_TOOL_LABELS.get((tool_slug or "").strip(), "Constructores IA Gratuitos")
 
         subject = f"{first_n}, tu acceso a EmprendeProsperIA + siguiente paso para {biz_disp}"
         plain = (
@@ -3641,6 +3722,13 @@ async def api_emprende_funnel_capture(
         assigned_to="",
         extra_tags=["emprendeprosperia", "recurso_gratis_pdf", f"constructor_{safe_tool_tag}"],
     )
+    if email_clean:
+        tool_label = _EMPRENDE_TOOL_LABELS.get((tool_slug or "").strip(), "Constructores IA Gratuitos")
+        threading.Thread(
+            target=send_web_lead_welcome_smtp_email,
+            args=(full_name, email_clean, f"Constructor PDF ({tool_label})"),
+            daemon=True,
+        ).start()
 
     return JSONResponse(
         {
