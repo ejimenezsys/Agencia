@@ -3559,14 +3559,9 @@ def _is_valid_real_email(raw_email: str) -> bool:
 
 _SMTP_ROTATION_LOCK = threading.Lock()
 _SMTP_ROTATION_CURSOR = 0
-_SMTP_ROTATION_MAILBOXES = (
-    "diego@prosperia-systems.com",
-    "edward@prosperia-systems.com",
-    "diego@prosperia-advisors.com",
-    "edward@prosperia-advisors.com",
-    "edward@prosperia-global.com",
-    "diego@prosperia-global.com",
-)
+# Los 6 buzones de prospección externa se reservan solo para Instantly.ai (SMTP) y lectura IMAP en Coolify,
+# evitando envíos SMTP simultáneos desde dos IPs que disparen bloqueos en Hostinger.
+_SMTP_ROTATION_MAILBOXES = ()
 
 
 def _send_smtp_mime_email(
