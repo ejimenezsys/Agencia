@@ -573,7 +573,15 @@ async function handleLeadSubmit(event, formType = 'modal') {
     interestLabel = 'Sector Salud: Sistema Paciente 360™';
   }
 
-  const notes = `[DIAGNÓSTICO EN INTELIGENCIA ARTIFICIAL - TRÁFICO YOUTUBE]\nNombre: ${name}\nCargo: ${role}\nEmpresa: ${company}\nEmail: ${email}\nWhatsApp: ${phone}\nSitio Web: ${website}\nInterés Principal: ${interestLabel}\nFacturación: ${revenue}\nColaboradores: ${employees}\nMayor Cuello de Botella: ${bottleneck}`;
+  const qs = new URLSearchParams(window.location.search);
+  const rawOrigin = (qs.get('ref') || qs.get('utm_source') || qs.get('origen') || '').trim().toLowerCase();
+  const isDoralGazette = rawOrigin.includes('doral') || rawOrigin.includes('gazette') || rawOrigin.includes('idol');
+  const leadSource = isDoralGazette ? 'doral_gazette_idol_jose' : 'landing_youtube_consultoria';
+  const notesHeader = isDoralGazette
+    ? '[ORIGEN: THE DORAL FASHION GAZETTE · COMUNIDAD IDOL JOSÉ]\n'
+    : '[DIAGNÓSTICO EN INTELIGENCIA ARTIFICIAL - TRÁFICO YOUTUBE]\n';
+
+  const notes = `${notesHeader}Nombre: ${name}\nCargo: ${role}\nEmpresa: ${company}\nEmail: ${email}\nWhatsApp: ${phone}\nSitio Web: ${website}\nInterés Principal: ${interestLabel}\nFacturación: ${revenue}\nColaboradores: ${employees}\nMayor Cuello de Botella: ${bottleneck}`;
 
   const payload = {
     first_name: firstName,
@@ -585,7 +593,7 @@ async function handleLeadSubmit(event, formType = 'modal') {
     industry: 'Consultoría / Implementación de IA',
     team_size: employees || '',
     message: notes,
-    source: "landing_youtube_consultoria",
+    source: leadSource,
     sms_consent: true
   };
 
@@ -604,7 +612,10 @@ async function handleLeadSubmit(event, formType = 'modal') {
   // Transición al Paso 2: Mensaje de Éxito y WhatsApp VIP directo
   const successBoxId = formType === 'inline' ? 'inline-form-success' : 'form-success-message';
   const successBox = document.getElementById(successBoxId);
-  const waMsg = encodeURIComponent(`Hola Edward / ProsperIA, completé mi solicitud de Diagnóstico Ejecutivo de IA desde el canal de YouTube.\n\nNombre: ${name} (${role || 'Director'})\nEmpresa: ${company || 'Mi Empresa'}\nInterés: ${interestLabel}\nObjetivo: ${bottleneck}`);
+  const waIntro = isDoralGazette
+    ? 'Hola Edward, leí tu portada en The Doral Fashion Gazette de Idol José y completé mi solicitud en agenciaprosperia.com/ia.'
+    : 'Hola Edward / ProsperIA, completé mi solicitud de Diagnóstico Ejecutivo de IA desde el canal de YouTube.';
+  const waMsg = encodeURIComponent(`${waIntro}\n\nNombre: ${name} (${role || 'Director'})\nEmpresa: ${company || 'Mi Empresa'}\nInterés: ${interestLabel}\nObjetivo: ${bottleneck}`);
   const waLink = `https://wa.me/17865573119?text=${waMsg}`;
   
   if (successBox) {
