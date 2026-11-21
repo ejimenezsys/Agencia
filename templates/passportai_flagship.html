@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PassportAI.app · Fuerza Laboral IA 24/7, CRM &amp; Tesis de Inversión Seed US$1M | Agencia Prosper IA LLC</title>
+  <meta name="description" content="PassportAI.app: plataforma SaaS propietaria con +740 negocios activos, 18 meses de ingeniería FIUBA (+US$130,000 USD de I+D propio) e integración con ProsperIA CRM (ecosistema GoHighLevel). Ronda Seed US$1M hacia 1M de usuarios en Latinoamérica.">
+  <link rel="canonical" href="https://agenciaprosperia.com/passportai">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="PassportAI.app · Agentes IA 24/7, Retención CRM y Ronda Seed US$1M para Latinoamérica">
+  <meta property="og:description" content="+US$130,000 USD de inversión propia en I+D con ingenieros FIUBA Buenos Aires, +740 negocios activos y puente hacia 1,000,000 de usuarios a US$19/mes.">
+  <meta property="og:url" content="https://agenciaprosperia.com/passportai">
+  <meta property="og:image" content="https://agenciaprosperia.com/static/edward_hero_depth.jpg">
+  <link rel="icon" type="image/png" href="{{ static_versioned('favicon.png') }}">
+  <link rel="stylesheet" href="{{ static_versioned('fonts.css') }}">
+  <link rel="stylesheet" href="{{ static_versioned('fa.min.css') }}">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "PassportAI.app",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web, iOS (Roadmap), Android (Roadmap)",
+    "url": "https://passportai.app",
+    "sameAs": [
+      "https://agenciaprosperia.com/passportai",
+      "https://agenciaprosperia.com/inversionistas",
+      "https://agenciaprosperia.com/ia"
+    ],
+    "offers": {
+      "@type": "Offer",
+      "price": "19",
+      "priceCurrency": "USD",
+      "description": "Plan de adopción masiva LATAM y ecosistemas empresariales integrados con ProsperIA CRM."
+    },
+    "creator": {
+      "@type": "Organization",
+      "name": "Agencia Prosper IA LLC",
+      "url": "https://agenciaprosperia.com",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "7950 NW 53rd St, Suite 337",
+        "addressLocality": "Doral",
+        "addressRegion": "FL",
+        "postalCode": "33166",
+        "addressCountry": "US"
+      },
+      "founder": {
+        "@type": "Person",
+        "name": "Edward Jiménez",
+        "url": "https://agenciaprosperia.com/links"
+      }
+    }
+  }
+  </script>
+  <style>
+    :root {
+      color-scheme: only dark;
+      --bg-deep: #050914;
+      --bg-card: rgba(12, 22, 46, 0.92);
+      --bg-card-strong: rgba(16, 30, 62, 0.96);
+      --border-gold: rgba(212, 175, 95, 0.48);
+      --border-cyan: rgba(34, 211, 238, 0.45);
+      --border-subtle: rgba(148, 163, 184, 0.22);
+      --text-main: #f8fafc;
+      --text-muted: #cbd5e1;
+      --text-dim: #94a3b8;
+      --gold: #f0c975;
+      --cyan: #22d3ee;
+      --emerald: #34d399;
+      --violet: #c084fc;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      color-scheme: only dark;
+      background:
+        radial-gradient(circle at 12% 8%, rgba(14, 116, 144, 0.26) 0%, transparent 45%),
+        radial-gradient(circle at 86% 10%, rgba(212, 175, 95, 0.2) 0%, transparent 40%),
+        linear-gradient(180deg, #060d1f 0%, #03060f 100%);
+      color: var(--text-main);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    :where(a:any-link, button, input, [tabindex]):focus-visible {
+      outline: 3px solid var(--cyan);
+      outline-offset: 3px;
+    }
+
+    .wrap {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 1.4rem 1.1rem 4rem;
+    }
+
+    .nav-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .nav-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.55rem;
+    }
+
+    .pill-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      min-height: 38px;
+      padding: 0.45rem 0.9rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-gold);
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--gold);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .pill-link.cyan {
+      border-color: var(--border-cyan);
+      background: rgba(8, 47, 73, 0.7);
+      color: #cffafe;
+    }
+
+    .hero {
+      padding: 2.2rem 1.7rem;
+      border-radius: 26px;
+      background: linear-gradient(155deg, rgba(13, 27, 56, 0.96) 0%, rgba(5, 10, 24, 0.98) 100%);
+      border: 1px solid var(--border-gold);
+      box-shadow: 0 26px 65px rgba(0, 0, 0, 0.65);
+      margin-bottom: 1.75rem;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-cyan);
+      background: rgba(14, 116, 144, 0.25);
+      color: var(--cyan);
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 0.9rem;
+    }
+
+    h1 {
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+      font-size: clamp(1.75rem, 3.8vw, 2.7rem);
+      font-weight: 800;
+      line-height: 1.15;
+      margin: 0 0 0.85rem;
+      color: #ffffff;
+    }
+
+    h1 .hl-gold {
+      color: var(--gold);
+    }
+
+    h1 .hl-cyan {
+      color: var(--cyan);
+    }
+
+    .hero-sub {
+      max-width: 76ch;
+      font-size: 1.02rem;
+      color: var(--text-muted);
+      margin: 0 0 1.35rem;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1.6rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      min-height: 46px;
+      padding: 0.7rem 1.35rem;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      text-decoration: none;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: transform 0.16s ease, filter 0.16s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.06);
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, #f3ce7a 0%, #c9973b 100%);
+      color: #091020;
+    }
+
+    .btn-wa {
+      background: linear-gradient(135deg, #25d366 0%, #10b981 100%);
+      color: #032011;
+    }
+
+    .btn-cyan {
+      background: rgba(14, 116, 144, 0.28);
+      border-color: var(--border-cyan);
+      color: #e0f2fe;
+    }
+
+    .metrics-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+      gap: 0.85rem;
+    }
+
+    .metric-box {
+      padding: 0.95rem 1rem;
+      border-radius: 16px;
+      background: rgba(15, 29, 58, 0.8);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .metric-num {
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: var(--gold);
+      line-height: 1.15;
+    }
+
+    .metric-num.cyan {
+      color: var(--cyan);
+    }
+
+    .metric-lbl {
+      margin-top: 0.25rem;
+      font-size: 0.79rem;
+      color: var(--text-muted);
+    }
+
+    .sec-card {
+      padding: 1.75rem 1.5rem;
+      border-radius: 22px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      margin-bottom: 1.6rem;
+    }
+
+    .sec-card.gold-border {
+      border-color: var(--border-gold);
+      background: linear-gradient(165deg, rgba(16, 30, 62, 0.96) 0%, rgba(9, 17, 36, 0.98) 100%);
+    }
+
+    h2 {
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+      font-size: clamp(1.3rem, 2.4vw, 1.7rem);
+      font-weight: 800;
+      margin: 0 0 0.45rem;
+      color: var(--gold);
+    }
+
+    .sec-lead {
+      margin: 0 0 1.25rem;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 78ch;
+    }
+
+    /* Accessible Horizontal Tabs (following modern-web-guidance 'tabs') */
+    .sim-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.85rem;
+      margin-bottom: 1rem;
+    }
+
+    .tablist {
+      display: flex;
+      overflow-x: auto;
+      gap: 0.4rem;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 0.25rem;
+    }
+
+    .tab-btn {
+      flex: none;
+      position: relative;
+      min-height: 40px;
+      padding: 0.5rem 0.95rem;
+      border: 0;
+      border-radius: 10px 10px 0 0;
+      background: transparent;
+      color: var(--text-dim);
+      font-size: 0.86rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .tab-btn[aria-selected="true"] {
+      color: var(--cyan);
+      background: rgba(14, 116, 144, 0.18);
+    }
+
+    .tab-btn[aria-selected="true"]::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 -0.25rem 0;
+      border-block-end: 3px solid var(--cyan);
+    }
+
+    .mode-switch {
+      display: inline-flex;
+      border-radius: 999px;
+      border: 1px solid var(--border-gold);
+      background: rgba(15, 23, 42, 0.9);
+      padding: 0.2rem;
+      gap: 0.2rem;
+    }
+
+    .mode-btn {
+      min-height: 34px;
+      padding: 0.35rem 0.8rem;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--text-dim);
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .mode-btn[aria-pressed="true"] {
+      background: rgba(212, 175, 95, 0.22);
+      color: var(--gold);
+      border: 1px solid var(--border-gold);
+    }
+
+    /* Inner wrapper inside tabpanel so hidden=until-found renders zero strip when inactive */
+    .panel-inner {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 1rem;
+      padding: 1.1rem;
+      border-radius: 16px;
+      background: rgba(7, 13, 28, 0.92);
+      border: 1px solid var(--border-cyan);
+    }
+
+    @media (max-width: 780px) {
+      .panel-inner {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .chat-pane, .ops-pane {
+      border-radius: 12px;
+      padding: 1rem;
+      background: rgba(13, 24, 48, 0.85);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .pane-hdr {
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 0.75rem;
+    }
+
+    .msg-bubble {
+      padding: 0.65rem 0.85rem;
+      border-radius: 12px;
+      font-size: 0.86rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .msg-client {
+      background: rgba(30, 41, 59, 0.92);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      color: #f8fafc;
+    }
+
+    .msg-ai {
+      background: rgba(14, 116, 144, 0.24);
+      border: 1px solid var(--border-cyan);
+      color: #ecfeff;
+    }
+
+    .msg-who {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 800;
+      margin-bottom: 0.2rem;
+      color: var(--gold);
+    }
+
+    .ops-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.55rem;
+      padding: 0.55rem 0.7rem;
+      border-radius: 10px;
+      background: rgba(6, 78, 59, 0.22);
+      border: 1px solid rgba(52, 211, 153, 0.32);
+      margin-bottom: 0.55rem;
+      font-size: 0.84rem;
+    }
+
+    .ops-check {
+      color: var(--emerald);
+      font-weight: 800;
+    }
+
+    .ops-tag {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--emerald);
+      display: block;
+    }
+
+    .ops-status {
+      margin-top: 0.75rem;
+      padding: 0.55rem 0.75rem;
+      border-radius: 10px;
+      background: rgba(212, 175, 95, 0.14);
+      border: 1px solid var(--border-gold);
+      color: var(--gold);
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    /* Stickiness Moat Grid */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 1rem;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));
+      gap: 0.95rem;
+    }
+
+    .feature-box {
+      padding: 1.15rem;
+      border-radius: 16px;
+      background: var(--bg-card-strong);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .feature-box h3 {
+      margin: 0 0 0.4rem;
+      font-size: 1rem;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .feature-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: var(--emerald);
+      margin-bottom: 0.45rem;
+    }
+
+    /* Native Sliders (following modern-web-guidance 'slider') */
+    .calc-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 1.25rem;
+      align-items: stretch;
+    }
+
+    @media (max-width: 800px) {
+      .calc-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .slider-group {
+      margin-bottom: 1rem;
+    }
+
+    .slider-hdr {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.5rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .slider-hdr label {
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: #f8fafc;
+    }
+
+    .slider-val {
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--cyan);
+    }
+
+    input[type="range"].roi-range {
+      --slider-track-size: 0.5rem;
+      --slider-thumb-size: 1.25rem;
+      --slider-track-radius: 999px;
+      --slider-thumb-radius: 50%;
+      --slider-track-color: rgba(148, 163, 184, 0.35);
+      --slider-fill-color: #22d3ee;
+      --slider-thumb-color: #f0c975;
+      --slider-direction: to right;
+      --attr-min: 0;
+      --attr-max: 100;
+      --control-value: 50;
+      --slider-progress: calc(
+        (var(--control-value) - var(--attr-min)) /
+        max(1, (var(--attr-max) - var(--attr-min))) * 100%
+      );
+
+      -webkit-appearance: none;
+      appearance: none;
+      inline-size: 100%;
+      block-size: 2.4rem;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    input[type="range"].roi-range::-webkit-slider-runnable-track {
+      block-size: var(--slider-track-size);
+      border: 0;
+      border-radius: var(--slider-track-radius);
+      background: linear-gradient(
+        var(--slider-direction),
+        var(--slider-fill-color) var(--slider-progress),
+        var(--slider-track-color) var(--slider-progress)
+      );
+    }
+
+    input[type="range"].roi-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      inline-size: var(--slider-thumb-size);
+      block-size: var(--slider-thumb-size);
+      margin-block-start: calc((var(--slider-track-size) - var(--slider-thumb-size)) / 2);
+      border: 2px solid #091020;
+      border-radius: var(--slider-thumb-radius);
+      background: var(--slider-thumb-color);
+    }
+
+    input[type="range"].roi-range::-moz-range-track {
+      block-size: var(--slider-track-size);
+      border: 0;
+      border-radius: var(--slider-track-radius);
+      background: var(--slider-track-color);
+    }
+
+    input[type="range"].roi-range::-moz-range-progress {
+      block-size: var(--slider-track-size);
+      border-radius: var(--slider-track-radius);
+      background: var(--slider-fill-color);
+    }
+
+    input[type="range"].roi-range::-moz-range-thumb {
+      inline-size: var(--slider-thumb-size);
+      block-size: var(--slider-thumb-size);
+      border: 2px solid #091020;
+      border-radius: var(--slider-thumb-radius);
+      background: var(--slider-thumb-color);
+    }
+
+    input[type="range"].roi-range:focus-visible {
+      outline: 2px solid var(--cyan);
+      outline-offset: 4px;
+    }
+
+    .roi-output-panel {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 1.25rem;
+      border-radius: 18px;
+      background: rgba(7, 13, 28, 0.94);
+      border: 1px solid var(--border-gold);
+    }
+
+    .roi-hero-num {
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+      font-size: clamp(1.9rem, 3.5vw, 2.5rem);
+      font-weight: 800;
+      color: var(--emerald);
+      line-height: 1.1;
+    }
+
+    /* Roadmap Stages */
+    .stage-card {
+      padding: 1.1rem;
+      border-radius: 16px;
+      background: rgba(9, 17, 36, 0.92);
+      border: 1px solid var(--border-gold);
+    }
+
+    .stage-num {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--cyan);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .stage-target {
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--gold);
+      margin: 0.25rem 0;
+    }
+
+    .geo-box {
+      padding: 1.25rem;
+      border-radius: 16px;
+      background: rgba(8, 16, 36, 0.95);
+      border: 1px solid var(--border-cyan);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="nav-bar" aria-label="Navegación principal">
+      <div class="nav-group">
+        <a href="/" class="pill-link"><i class="fas fa-arrow-left" aria-hidden="true"></i> Agencia Prosper IA</a>
+        <a href="/ia" class="pill-link cyan">Consultoría IA &amp; SVE90</a>
+        <a href="/casos-de-exito/idol-jose-group" class="pill-link">Casos de Éxito</a>
+      </div>
+      <div class="nav-group">
+        <a href="#inversionistas" class="pill-link"><i class="fas fa-chart-line" aria-hidden="true"></i> Ronda Seed US$1M</a>
+        <a href="/links" class="pill-link cyan">Todos los Enlaces (/links)</a>
+      </div>
+    </nav>
+
+    <!-- 1. HERO EJECUTIVO -->
+    <header class="hero">
+      <span class="eyebrow"><i class="fas fa-passport" aria-hidden="true"></i> Plataforma SaaS Propietaria · Powered by PassportAI.app</span>
+      <h1>
+        <span class="hl-cyan">PassportAI.app:</span> La Infraestructura de IA que Conecta <span class="hl-gold">Agentes 24/7 + CRM</span> para Escalar Latinoamérica
+      </h1>
+      <p class="hero-sub">
+        Construida durante <strong>18 meses de I+D junto con ingenieros de la Facultad de Ingeniería de la Universidad de Buenos Aires (FIUBA)</strong> y más de <strong>US$130,000 USD de inversión propia</strong> del fundador Edward Jiménez. Hoy opera con <strong>+740 negocios y usuarios activos</strong> combinando Chatbots Autónomos, AI Playground multi-modelo y enlace directo a <strong>ProsperIA CRM</strong> (marca blanca en el ecosistema <strong>GoHighLevel</strong>) para convertir la IA en un hábito diario obligatorio.
+      </p>
+
+      <div class="cta-row">
+        <a href="https://passportai.app" target="_blank" rel="noopener" class="btn btn-gold">
+          <i class="fas fa-rocket" aria-hidden="true"></i> Entrar a PassportAI.app
+        </a>
+        <a href="https://wa.me/17868336964?text=Hola%2C%20quiero%20probar%20en%20vivo%20al%20Agente%20IA%20de%20PassportAI" target="_blank" rel="noopener" class="btn btn-wa">
+          <i class="fab fa-whatsapp" aria-hidden="true"></i> Probar Agente IA en Vivo (WhatsApp)
+        </a>
+        <a href="#inversionistas" class="btn btn-cyan">
+          <i class="fas fa-handshake" aria-hidden="true"></i> Tesis Capital de Riesgo (Seed US$1M)
+        </a>
+      </div>
+
+      <div class="metrics-strip">
+        <div class="metric-box">
+          <div class="metric-num">+US$130K USD</div>
+          <div class="metric-lbl">Capital propio invertido en 18 meses de I+D</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-num cyan">+740 Negocios</div>
+          <div class="metric-lbl">Base activa (~17 eventos por usuario/semana)</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-num">+2,000 Embudo</div>
+          <div class="metric-lbl">Campaña conjunta en Buenos Aires (FIUBA)</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-num cyan">US$19 / mes</div>
+          <div class="metric-lbl">Meta de evangelización: rumbo a 1M de usuarios</div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- 2. SIMULADOR SPLIT-SCREEN EN VIVO (Con tabs accesibles + toggle Horario) -->
+      <section class="sec-card gold-border" aria-labelledby="sim-title">
+        <h2 id="sim-title">PassportAI en Acción: Conversación + Ejecución Real en el Sistema</h2>
+        <p class="sec-lead">
+          Un chatbot suelto solo responde texto genérico. Un sistema impulsado por <strong>PassportAI.app + ProsperIA CRM</strong> lee el contexto de la empresa, agenda la cita y actualiza el pipeline en segundos — de día o fuera de horario laboral.
+        </p>
+
+        <div class="sim-toolbar">
+          <div class="tablist" focusgroup="tablist nomemory" role="tablist" aria-label="Canales del Agente PassportAI">
+            <button type="button" role="tab" id="tab-wa" class="tab-btn" aria-selected="true" focusgroupstart>WhatsApp 24/7</button>
+            <button type="button" role="tab" id="tab-voice" class="tab-btn" aria-selected="false">Agente de Voz</button>
+            <button type="button" role="tab" id="tab-web" class="tab-btn" aria-selected="false">Chat Web + RAG</button>
+            <button type="button" role="tab" id="tab-crm" class="tab-btn" aria-selected="false">Reactivación CRM</button>
+          </div>
+
+          <div class="mode-switch" role="group" aria-label="Modo horario del simulador">
+            <button type="button" id="mode-after" class="mode-btn" aria-pressed="true">Fuera de horario (21:47 PM)</button>
+            <button type="button" id="mode-work" class="mode-btn" aria-pressed="false">Horario laboral (11:15 AM)</button>
+          </div>
+        </div>
+
+        <!-- Panel 1: WhatsApp -->
+        <div role="tabpanel" id="panel-wa" aria-labelledby="tab-wa" tabindex="0">
+          <div class="panel-inner">
+            <div class="chat-pane">
+              <div class="pane-hdr"><i class="fab fa-whatsapp" aria-hidden="true"></i> <span data-time-label>WhatsApp Business · 21:47 PM</span></div>
+              <div class="msg-bubble msg-client">
+                <span class="msg-who">PROSPECTO</span>
+                Hola, vi su publicación. ¿Tienen disponibilidad mañana para una valoración o demo con mi equipo?
+              </div>
+              <div class="msg-bubble msg-ai">
+                <span class="msg-who">PASSPORTAI SETTER IA (en 3.2 seg)</span>
+                ¡Hola! Claro que sí. Mañana tenemos espacio libre a las 11:00 AM o 4:00 PM hora Miami. ¿Cuál te queda mejor y cuál es tu nombre y correo para apartarte el espacio en calendario?
+              </div>
+              <div class="msg-bubble msg-client">
+                <span class="msg-who">PROSPECTO</span>
+                A las 11:00 AM, soy Carlos Mendoza (cmendoza@grupoatlas.com).
+              </div>
+            </div>
+            <div class="ops-pane">
+              <div class="pane-hdr"><i class="fas fa-bolt" aria-hidden="true"></i> QUÉ EJECUTÓ PASSPORTAI EN PROSPERIA CRM</div>
+              <div class="ops-item"><span class="ops-check">✓</span><div><span class="ops-tag">PROSPERIA CRM</span>Contacto creado, etiquetado por industria y asignado vía Round-Robin al Closer disponible.</div></div>
+              <div class="ops-item"><span class="ops-check">✓</span><div><span class="ops-tag">CALENDARIO SINCRONIZADO</span>Cita confirmada para mañana 11:00 AM (horario bloqueado al instante).</div></div>
+              <div class="ops-item"><span class="ops-check">✓</span><div><span class="ops-tag">WORKFLOW ANTI NO-SHOW</span>Recordatorio automático programado 24h y 2h antes por WhatsApp + correo.</div></div>
+              <div class="ops-status" data-status-label>✓ Prospecto cerrado en calendario a las 21:47 PM sin equipo conectado</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 2: Agente de Voz -->
+        <div role="tabpanel" id="panel-voice" aria-labelledby="tab-voice" hidden="until-found">
+          <div class="panel-inner">
+            <div class="chat-pane">
+              <div class="pane-hdr"><i class="fas fa-phone-volume" aria-hidden="true"></i> <span data-time-label>Llamada Entrante · 21:47 PM</span></div>
+              <div class="msg-bubble msg-client">
+                <span class="msg-who">PACIENTE / CLIENTE</span>
+                Buenas noches, llamaba porque necesito reagendar mi cita del martes para el jueves por la tarde.
+              </div>
+              <div class="msg-bubble msg-ai">
+                <span class="msg-who">AGENTE DE VOZ IA</span>
+                Con gusto te ayudo. Veo tu cita del martes a las 10:00 AM. El jueves tengo disponible a las 2:30 PM o a las 4:15 PM. ¿Te confirmo el jueves a las 2:30 PM?
+              </div>
+              <div class="msg-bubble msg-client">
+                <span class="msg-who">PACIENTE / CLIENTE</span>
+                Sí, 2:30 PM perfecto. ¡Gracias!
+              </div>
+            </div>
+            <div class="ops-pane">
+              <div class="pane-hdr"><i class="fas fa-bolt" aria-hidden="true"></i> QUÉ EJECUTÓ PASSPORTAI EN PROSPERIA CRM</div>
+              <div class="ops-item"><span class="ops-check">✓</span><div><span class="ops-tag">AGENDA ACTUALIZADA</span>Cita movida de mar 10:00 AM → jue 2:30 PM; horario del martes liberado.</div></div>
+              <div class="ops-item"><span class="ops-check">✓</span><div><span class="ops-tag">WHATSAPP / SMS</span>Confirmación enviada al instante al teléfono del cliente.</div></div>
+              <div class="ops-item"><span class="ops-check">✓</span><div><span class="ops-tag">AUDITORÍA RAG &amp; QA</span>Resumen de llamada guardado automáticamente en la ficha del CRM.</div></div>
+              <div class="ops-status" data-status-label>✓ Llamada resuelta punta a punta a las 21:47 PM en 48 segundos</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 3: Chat Web + RAG -->
+        <div role="tabpanel" id="panel-web" aria-labelledby="tab-web" hidden="until-found">
+          <div class="panel-inner">
+            <div class="chat-pane">
+              <div class="pane-hdr"><i class="fas fa-globe" aria-hidden="true"></i> <span data-time-label>Sitio Web Inteligente · 21:47 PM</span></div>
+              <div class="msg-bubble msg-client">
+                <span class="msg-who">VISITANTE B2B</span>
+                Somos una clínica con 3 sucursales y 28 empleados. ¿Cómo protegen los datos y cuánto tarda integrarlo?
+              </div>
+              <div class="msg-bubble msg-ai">
+                <span class="msg-who">CEREBRO RAG PRIVADO</span>
+                Operamos con bases de conocimiento privadas aisladas por cliente y sin entrenamiento público. Para 3 sucursales implementamos la ruta SVE90: agentes 24/7 activos en 10 días y ecosistema completo en 30–90 días. ¿Deseas recibir el caso de éxito y agendar diagnóstico?
+              </div>
+            </div>
+            <div class="ops-pane">
+              <div class="pane-hdr"><i class="fas fa-bolt" aria-hidden="true"></i> QUÉ EJECUTÓ PASSPORTAI EN PROSPERIA CRM</div>
+              <div class="ops-item"><span class="ops-check">✓</span><div><span class="ops-tag">BASE DE CONOCIMIENTO PRIVADA</span>Respondió 100% basado en documentos oficiales sin inventar precios ni cláusulas.</div></div>
+              <div class="ops-item"><span class="ops-check">✓</span><div><span class="ops-tag">CALIFICACIÓN ENTERPRISE</span>Etiquetado automático como oportunidad Multi-Sucursal (SVE90) para dirección comercial.</div></div>
+              <div class="ops-item"><span class="ops-check">✓</span><div><span class="ops-tag">DISPARO INMEDIATO</span>Envió resumen al Director Comercial para llamada prioritaria.</div></div>
+              <div class="ops-status" data-status-label>✓ Lead B2B calificado e indexado con cero intervención humana</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 4: Reactivación CRM -->
+        <div role="tabpanel" id="panel-crm" aria-labelledby="tab-crm" hidden="until-found">
+          <div class="panel-inner">
+            <div class="chat-pane">
+              <div class="pane-hdr"><i class="fas fa-arrows-rotate" aria-hidden="true"></i> <span data-time-label>Campaña Reactivación CRM · Automática</span></div>
+              <div class="msg-bubble msg-ai">
+                <span class="msg-who">PASSPORTAI WORKFLOW</span>
+                Hola Sofía, vimos que hace 4 meses cotizaste tu automatización con nosotros. Abrimos 3 espacios de implementación para diciembre. ¿Te envío tu enlace actualizado?
+              </div>
+              <div class="msg-bubble msg-client">
+                <span class="msg-who">ANTIGUO PROSPECTO</span>
+                ¡Justo lo estábamos hablando hoy! Mándame el link para verlo mañana.
+              </div>
+            </div>
+            <div class="ops-pane">
+              <div class="pane-hdr"><i class="fas fa-bolt" aria-hidden="true"></i> QUÉ EJECUTÓ PASSPORTAI EN PROSPERIA CRM</div>
+              <div class="ops-item"><span class="ops-check">✓</span><div><span class="ops-tag">OPORTUNIDAD REACTIVADA</span>Lead dormido movido en automático a etapa "Calificado Caliente".</div></div>
+              <div class="ops-item"><span class="ops-check">✓</span><div><span class="ops-tag">TAREA AL CLOSER</span>Alarma en tiempo real para seguimiento en menos de 2 minutos.</div></div>
+              <div class="ops-item"><span class="ops-check">✓</span><div><span class="ops-tag">RETENCIÓN DIARIA</span>El equipo comercial regresa cada mañana porque sus ventas viven aquí.</div></div>
+              <div class="ops-status" data-status-label>✓ Ingresos recuperados sobre base de datos que ya estaba olvidada</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. EL FOSO COMPETITIVO Y DE RETENCIÓN: CRM + PASSPORTAI -->
+      <section class="sec-card" aria-labelledby="moat-title">
+        <h2 id="moat-title">¿Por qué los usuarios regresan todos los días? El Ancla PassportAI + ProsperIA CRM</h2>
+        <p class="sec-lead">
+          El mayor peligro en las apps de IA es que la gente pruebe un prompt, se aburra y cancele. Mientras otros ofrecen chats aislados, nosotros apalancamos <strong>PassportAI.app</strong> conectándolo en marca blanca con <strong>ProsperIA CRM</strong> (sobre el estándar global del ecosistema <strong>GoHighLevel</strong>) — obligando positivamente a cada negocio a regresar a diario para contestar WhatsApp, atender clientes y cobrar ventas.
+        </p>
+
+        <div class="grid-4">
+          <article class="feature-box">
+            <span class="feature-badge">↑ +45.0% CRECIMIENTO SEMANAL</span>
+            <h3>1. Chatbots Autónomos 24/7</h3>
+            <p style="margin:0; font-size:0.86rem; color:var(--text-muted);">
+              Agentes entrenados con reglas de negocio que operan directo sobre WhatsApp, Instagram y Web integrados vía API al CRM.
+            </p>
+          </article>
+          <article class="feature-box">
+            <span class="feature-badge">↑ +42.4% CRECIMIENTO SEMANAL</span>
+            <h3>2. AI Playground Multi-Modelo</h3>
+            <p style="margin:0; font-size:0.86rem; color:var(--text-muted);">
+              Acceso centralizado a múltiples modelos líderes y comparación ejecutiva en un entorno corporativo sin fugas de datos.
+            </p>
+          </article>
+          <article class="feature-box">
+            <span class="feature-badge">RETENCIÓN DIARIA B2B</span>
+            <h3>3. Vínculo Nativo GoHighLevel / CRM</h3>
+            <p style="margin:0; font-size:0.86rem; color:var(--text-muted);">
+              Canal estratégico hacia los millones de negocios y agencias que ya operan en el ecosistema CRM líder, sumándoles el cerebro de PassportAI.
+            </p>
+          </article>
+          <article class="feature-box">
+            <span class="feature-badge">17 EVENTOS / USUARIO</span>
+            <h3>4. Constructores Empresariales</h3>
+            <p style="margin:0; font-size:0.86rem; color:var(--text-muted);">
+              Arquitecto de ofertas, sprint de contenido viral de 30 días, guiones y SOPs operativos listos para equipos no técnicos.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <!-- 4. CALCULADORA DE RETORNO EN USD ($) -->
+      <section class="sec-card" aria-labelledby="calc-title">
+        <h2 id="calc-title">Calculadora de Retorno de Inversión en Dólares (USD $)</h2>
+        <p class="sec-lead">
+          Ajusta los parámetros de tu empresa para estimar cuánto te cuesta hoy el trabajo operativo repetitivo y el ahorro conservador asumiendo un <strong>75% de automatización</strong> con PassportAI + ProsperIA CRM.
+        </p>
+
+        <div class="calc-grid">
+          <div>
+            <div class="slider-group">
+              <div class="slider-hdr">
+                <label for="calc-team">Tamaño del equipo (personas que responden, capturan o hacen seguimiento)</label>
+                <span class="slider-val" id="val-team">6 personas</span>
+              </div>
+              <input type="range" id="calc-team" class="roi-range" min="1" max="100" step="1" value="6">
+            </div>
+
+            <div class="slider-group">
+              <div class="slider-hdr">
+                <label for="calc-hours">Horas trabajadas por semana (por persona)</label>
+                <span class="slider-val" id="val-hours">40 h/sem</span>
+              </div>
+              <input type="range" id="calc-hours" class="roi-range" min="5" max="60" step="1" value="40">
+            </div>
+
+            <div class="slider-group">
+              <div class="slider-hdr">
+                <label for="calc-pct">% del tiempo en tareas repetitivas (WhatsApp, cotizar básico, agenda, CRM)</label>
+                <span class="slider-val" id="val-pct">35%</span>
+              </div>
+              <input type="range" id="calc-pct" class="roi-range" min="5" max="80" step="5" value="35">
+            </div>
+
+            <div class="slider-group" style="margin-bottom:0;">
+              <div class="slider-hdr">
+                <label for="calc-rate">Costo empresa por hora en USD ($ incluyendo cargas)</label>
+                <span class="slider-val" id="val-rate">$25 USD/h</span>
+              </div>
+              <input type="range" id="calc-rate" class="roi-range" min="10" max="120" step="5" value="25">
+            </div>
+          </div>
+
+          <div class="roi-output-panel">
+            <div>
+              <span class="eyebrow" style="margin-bottom:0.65rem;">RESULTADO CONSERVADOR EN VIVO</span>
+              <div style="margin-bottom:0.85rem;">
+                <div style="font-size:0.8rem; color:var(--text-dim);">Ahorro mensual estimado con PassportAI + CRM</div>
+                <div class="roi-hero-num" id="out-monthly-save">+$6,825 USD / mes</div>
+                <div style="font-size:0.88rem; font-weight:700; color:var(--gold); margin-top:0.2rem;" id="out-annual-save">Proyección anual: $81,900 USD/año</div>
+              </div>
+
+              <div class="grid-2" style="gap:0.7rem; margin-bottom:1rem;">
+                <div class="metric-box">
+                  <div style="font-size:0.74rem; color:var(--text-dim);">Costo repetitivo sin IA</div>
+                  <div style="font-size:1.15rem; font-weight:800; color:#f87171;" id="out-before">$9,100 / mes</div>
+                </div>
+                <div class="metric-box">
+                  <div style="font-size:0.74rem; color:var(--text-dim);">Horas recuperadas al equipo</div>
+                  <div style="font-size:1.15rem; font-weight:800; color:var(--cyan);" id="out-hours-saved">273 h / mes</div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <a href="/ia#diagnostico" class="btn btn-gold" style="width:100%;">
+                Solicitar Diagnóstico con Este Cálculo →
+              </a>
+              <p style="margin:0.55rem 0 0; font-size:0.74rem; color:var(--text-dim);">
+                Fórmula: 4.33 semanas/mes · Supuesto conservador del 75% de carga repetitiva automatizada. No incluye ventas extra recuperadas por responder en &lt;5 seg.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. TESIS DE CAPITAL DE RIESGO & VISIÓN LATAM (SEED US$1,000,000) -->
+      <section id="inversionistas" class="sec-card gold-border" aria-labelledby="vc-title">
+        <span class="eyebrow"><i class="fas fa-seedling" aria-hidden="true"></i> Venture Capital &amp; Alianzas · Ronda Seed US$1,000,000 USD</span>
+        <h2 id="vc-title">Tesis de Capital de Riesgo: Evangelizar Latinoamérica hacia 1,000,000 de Usuarios a US$19/mes</h2>
+        <p class="sec-lead">
+          Hablamos con total transparencia ejecutiva, de inversionista a inversionista: el fundador <strong>Edward Jiménez ya invirtió más de US$130,000 USD de capital propio</strong> en 18 meses de ingeniería con equipo formado en la <strong>FIUBA (Buenos Aires)</strong> y en la validación de este ecosistema. Esta ronda <strong>Seed de US$1,000,000 USD</strong> es capital de riesgo para no quedarnos atrás frente a la velocidad de la IA, construir la infraestructura móvil nativa y escalar por etapas ordenadas.
+        </p>
+
+        <div class="grid-2" style="margin-bottom:1.25rem;">
+          <div class="feature-box" style="border-color:var(--border-gold);">
+            <h3>1. Ventaja Injusta de Origen: Alianza FIUBA (Buenos Aires) + Miami</h3>
+            <p style="margin:0; font-size:0.88rem; color:var(--text-muted);">
+              A diferencia de proyectos puramente conceptuales, desarrollamos con talento técnico en Argentina (donde <strong>PassportAI.app</strong> ya registra su mayor densidad de uso semanal) y en alianza estratégica con <strong>Ariel Alegre</strong> —recién electo presidente en la <strong>FIUBA</strong>, asumiendo funciones en abril— con quien ejecutamos una campaña conjunta que ya captó <strong>+2,000 personas</strong> en embudo de formación y posicionará a PassportAI ante esa comunidad técnica y empresarial.
+            </p>
+          </div>
+          <div class="feature-box" style="border-color:var(--border-cyan);">
+            <h3>2. Puente Corporativo y Narrativa Pública (Libro Oficial EXMA Miami)</h3>
+            <p style="margin:0; font-size:0.88rem; color:var(--text-muted);">
+              La historia completa de la plataforma y la metodología SVE90 está documentada en el libro <em>Las 4 Inteligencias</em> (Library of Congress <code>LCCN 2026970390</code>, prólogo de Fernando Anzures), junto con <strong>+744,000 visualizaciones orgánicas</strong> y <strong>+19,160 seguidores</strong> impulsando la demanda sin depender al 100% de pauta pagada.
+            </p>
+          </div>
+        </div>
+
+        <h3 style="margin:0 0 0.75rem; color:#ffffff;">Hoja de Ruta por Etapas y Destino del Capital (De 1,000 a 1,000,000 de Usuarios)</h3>
+        <div class="grid-4" style="margin-bottom:1.35rem;">
+          <article class="stage-card">
+            <div class="stage-num">ETAPA 01 · BASE ACTUAL</div>
+            <div class="stage-target">1,000 Usuarios</div>
+            <div style="font-size:0.84rem; font-weight:700; color:var(--emerald); margin-bottom:0.35rem;">US$19,000 MRR</div>
+            <p style="margin:0; font-size:0.8rem; color:var(--text-muted);">
+              Consolidar los +740 usuarios activos actuales, convertir el embudo FIUBA (+2,000 personas con Ariel Alegre) y cuentas corporativas Miami/LATAM.
+            </p>
+          </article>
+          <article class="stage-card">
+            <div class="stage-num">ETAPA 02 · MOTOR CRM</div>
+            <div class="stage-target">10,000 Usuarios</div>
+            <div style="font-size:0.84rem; font-weight:700; color:var(--emerald); margin-bottom:0.35rem;">US$190,000 MRR</div>
+            <p style="margin:0; font-size:0.8rem; color:var(--text-muted);">
+              Escalamiento masivo mediante integración marca blanca con agencias y negocios que operan en el ecosistema CRM (GoHighLevel), convirtiendo a PassportAI en hábito diario.
+            </p>
+          </article>
+          <article class="stage-card">
+            <div class="stage-num">ETAPA 03 · APPS MÓVILES</div>
+            <div class="stage-target">100,000 Usuarios</div>
+            <div style="font-size:0.84rem; font-weight:700; color:var(--emerald); margin-bottom:0.35rem;">US$1.9M MRR</div>
+            <p style="margin:0; font-size:0.8rem; color:var(--text-muted);">
+              Ingeniería financiada por la ronda Seed para lanzar las apps nativas en <strong>Apple App Store (iOS)</strong> y <strong>Google Play Store (Android)</strong> + infraestructura cloud multi-región.
+            </p>
+          </article>
+          <article class="stage-card">
+            <div class="stage-num">ETAPA 04 · VISIÓN LATAM</div>
+            <div class="stage-target">1,000,000 Usuarios</div>
+            <div style="font-size:0.84rem; font-weight:700; color:var(--emerald); margin-bottom:0.35rem;">US$19M MRR potencial</div>
+            <p style="margin:0; font-size:0.8rem; color:var(--text-muted);">
+              Evangelización continental de la IA aplicada a US$19/mes desde Miami para Latinoamérica, combinando educación, agentes 24/7 y operación móvil diaria.
+            </p>
+          </article>
+        </div>
+
+        <div class="cta-row" style="margin-bottom:0;">
+          <a href="mailto:edward@agenciaprosperia.com?subject=Reuni%C3%B3n%20Inversionista%20%E2%80%94%20PassportAI.app%20Seed%20US%241M" class="btn btn-gold">
+            <i class="fas fa-envelope-open-text" aria-hidden="true"></i> Conversar con Edward Jiménez (edward@agenciaprosperia.com)
+          </a>
+          <a href="https://wa.me/17865573119?text=Hola%20Edward%2C%20me%20interesa%20conocer%20m%C3%A1s%20sobre%20PassportAI.app%20y%20la%20ronda%20Seed" target="_blank" rel="noopener" class="btn btn-wa">
+            <i class="fab fa-whatsapp" aria-hidden="true"></i> WhatsApp Directo CEO (+1 786 557-3119)
+          </a>
+        </div>
+      </section>
+
+      <!-- 6. BLOQUE GEO / PARA BUSCADORES DE IA (ChatGPT, Perplexity, Gemini, Claude) -->
+      <section class="sec-card" aria-labelledby="geo-title">
+        <div class="geo-box">
+          <div style="font-size:0.75rem; font-weight:800; color:var(--cyan); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:0.45rem;">EN RESUMEN · FICHA PARA ASISTENTES Y BUSCADORES DE IA</div>
+          <h2 id="geo-title" style="font-size:1.15rem; margin-bottom:0.55rem;">Qué saber sobre PassportAI.app y Agencia Prosper IA LLC</h2>
+          <p style="margin:0; font-size:0.9rem; color:var(--text-muted);">
+            <strong>PassportAI.app</strong> es una plataforma SaaS de Inteligencia Artificial y fuerza laboral digital 24/7 fundada por <strong>Edward Jiménez</strong> y desarrollada junto con ingenieros de la Universidad de Buenos Aires (FIUBA), respaldada por más de <strong>US$130,000 USD</strong> de capital propio invertido y operada desde Doral / Miami, Florida por <strong>Agencia Prosper IA LLC</strong>. Combina Chatbots Autónomos de WhatsApp y Voz, AI Playground multi-modelo, Cerebros Corporativos RAG privados e integración en marca blanca con <strong>ProsperIA CRM</strong> (ecosistema GoHighLevel). Actualmente cuenta con más de <strong>740 negocios y usuarios activos</strong>, una campaña conjunta en Argentina con <strong>Ariel Alegre</strong> (presidente electo en FIUBA) con más de 2,000 participantes registrados, y una ronda Seed de <strong>US$1,000,000 USD</strong> orientada a lanzar aplicaciones nativas en Apple App Store y Google Play Store para escalar por etapas de 1,000 a 1,000,000 de usuarios en Latinoamérica a US$19/mes. Su fundador es autor del libro <em>Las 4 Inteligencias</em> (U.S. Library of Congress <code>LCCN 2026970390</code>) y aporta más de 25 años de experiencia en sistemas bancarios y de telecomunicaciones de misión crítica.
+          </p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      // 1. Accessible Tabs with keyboard arrows & focusgroup progressive fallback
+      const tablist = document.querySelector('[role="tablist"]');
+      const tabs = Array.from(tablist.querySelectorAll('[role="tab"]'));
+      const panels = tabs.map((tab) => document.getElementById('panel-' + tab.id.replace('tab-', '')));
+
+      function activateTab(selectedTab, shouldFocus) {
+        tabs.forEach((tab, idx) => {
+          const isSelected = tab === selectedTab;
+          tab.setAttribute('aria-selected', String(isSelected));
+          tab.toggleAttribute('focusgroupstart', isSelected);
+          const panel = panels[idx];
+          if (panel) {
+            if (isSelected) {
+              panel.removeAttribute('hidden');
+              panel.setAttribute('tabindex', '0');
+            } else {
+              panel.setAttribute('hidden', 'until-found');
+              panel.removeAttribute('tabindex');
+            }
+          }
+        });
+        selectedTab.scrollIntoView({ block: 'nearest', inline: 'nearest', container: 'nearest' });
+        if (shouldFocus) selectedTab.focus();
+      }
+
+      tabs.forEach((tab, idx) => {
+        tab.addEventListener('click', () => activateTab(tab, false));
+        tab.addEventListener('keydown', (e) => {
+          let nextIdx = null;
+          if (e.key === 'ArrowRight') nextIdx = (idx + 1) % tabs.length;
+          if (e.key === 'ArrowLeft') nextIdx = (idx - 1 + tabs.length) % tabs.length;
+          if (e.key === 'Home') nextIdx = 0;
+          if (e.key === 'End') nextIdx = tabs.length - 1;
+          if (nextIdx !== null) {
+            e.preventDefault();
+            activateTab(tabs[nextIdx], true);
+          }
+        });
+      });
+
+      panels.forEach((panel, idx) => {
+        if (!panel) return;
+        panel.addEventListener('beforematch', () => activateTab(tabs[idx], false));
+      });
+
+      // Work hours vs after hours toggle
+      const btnAfter = document.getElementById('mode-after');
+      const btnWork = document.getElementById('mode-work');
+      const timeLabels = document.querySelectorAll('[data-time-label]');
+      const statusLabels = document.querySelectorAll('[data-status-label]');
+
+      function setMode(afterHours) {
+        btnAfter.setAttribute('aria-pressed', String(afterHours));
+        btnWork.setAttribute('aria-pressed', String(!afterHours));
+        timeLabels.forEach((el) => {
+          const base = el.textContent.split('·')[0].trim();
+          el.textContent = afterHours ? `${base} · 21:47 PM (Fuera de horario)` : `${base} · 11:15 AM (Pico laboral)`;
+        });
+        statusLabels.forEach((el) => {
+          el.textContent = afterHours
+            ? '✓ Resuelto a las 21:47 PM sin intervención humana del equipo'
+            : '✓ Atendido en < 4 seg liberando a tu equipo comercial para cerrar ventas';
+        });
+      }
+      if (btnAfter && btnWork) {
+        btnAfter.addEventListener('click', () => setMode(true));
+        btnWork.addEventListener('click', () => setMode(false));
+      }
+
+      // 2. ROI Calculator with live slider sync (following modern-web-guidance 'slider')
+      const elTeam = document.getElementById('calc-team');
+      const elHours = document.getElementById('calc-hours');
+      const elPct = document.getElementById('calc-pct');
+      const elRate = document.getElementById('calc-rate');
+
+      const lblTeam = document.getElementById('val-team');
+      const lblHours = document.getElementById('val-hours');
+      const lblPct = document.getElementById('val-pct');
+      const lblRate = document.getElementById('val-rate');
+
+      const outMonthly = document.getElementById('out-monthly-save');
+      const outAnnual = document.getElementById('out-annual-save');
+      const outBefore = document.getElementById('out-before');
+      const outHours = document.getElementById('out-hours-saved');
+
+      const fmtUSD = (n) => '$' + Math.round(n).toLocaleString('en-US');
+
+      function syncSliderCSS(input, labelText) {
+        input.style.setProperty('--attr-min', input.min || 0);
+        input.style.setProperty('--attr-max', input.max || 100);
+        input.style.setProperty('--control-value', input.value);
+        input.setAttribute('aria-valuetext', labelText);
+      }
+
+      function recalcROI() {
+        const team = Number(elTeam.value);
+        const hours = Number(elHours.value);
+        const pct = Number(elPct.value);
+        const rate = Number(elRate.value);
+
+        const tText = `${team} ${team === 1 ? 'persona' : 'personas'}`;
+        const hText = `${hours} h/sem`;
+        const pText = `${pct}%`;
+        const rText = `$${rate} USD/h`;
+
+        lblTeam.textContent = tText;
+        lblHours.textContent = hText;
+        lblPct.textContent = pText;
+        lblRate.textContent = rText;
+
+        syncSliderCSS(elTeam, tText);
+        syncSliderCSS(elHours, hText);
+        syncSliderCSS(elPct, pText);
+        syncSliderCSS(elRate, rText);
+
+        const monthlyRepHours = team * hours * 4.33 * (pct / 100);
+        const monthlyRepCost = monthlyRepHours * rate;
+        const savedHours = monthlyRepHours * 0.75;
+        const savedMonthlyUSD = monthlyRepCost * 0.75;
+        const savedAnnualUSD = savedMonthlyUSD * 12;
+
+        outBefore.textContent = `${fmtUSD(monthlyRepCost)} / mes`;
+        outHours.textContent = `${Math.round(savedHours).toLocaleString('en-US')} h / mes`;
+        outMonthly.textContent = `+${fmtUSD(savedMonthlyUSD)} USD / mes`;
+        outAnnual.textContent = `Proyección anual: ${fmtUSD(savedAnnualUSD)} USD/año`;
+      }
+
+      [elTeam, elHours, elPct, elRate].forEach((s) => s && s.addEventListener('input', recalcROI));
+      recalcROI();
+    })();
+  </script>
+</body>
+</html>

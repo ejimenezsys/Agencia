@@ -1826,6 +1826,19 @@ async def caso_idol_jose_page(request: Request):
     return templates.TemplateResponse(request=request, name="caso_idol_jose.html", context={"request": request})
 
 
+@app.get("/passportai", response_class=HTMLResponse)
+@app.head("/passportai")
+@app.get("/passportai/", response_class=HTMLResponse)
+@app.head("/passportai/")
+@app.get("/inversionistas", response_class=HTMLResponse)
+@app.head("/inversionistas")
+@app.get("/inversionistas/", response_class=HTMLResponse)
+@app.head("/inversionistas/")
+async def passportai_flagship_page(request: Request):
+    """Página insignia de PassportAI.app: Simulador 24/7, Calculadora USD y Tesis Venture Capital Seed US$1M."""
+    return templates.TemplateResponse(request=request, name="passportai_flagship.html", context={"request": request})
+
+
 @app.get("/sitioweb", response_class=HTMLResponse)
 @app.head("/sitioweb")
 @app.get("/sitioweb/", response_class=HTMLResponse)
@@ -2401,6 +2414,16 @@ async def get_sitemap(db: Session = Depends(get_db)):
         '  </url>\n'
         '  <url>\n'
         '    <loc>https://agenciaprosperia.com/casos-de-exito/idol-jose-group</loc>\n'
+        '    <changefreq>weekly</changefreq>\n'
+        '    <priority>0.90</priority>\n'
+        '  </url>\n'
+        '  <url>\n'
+        '    <loc>https://agenciaprosperia.com/passportai</loc>\n'
+        '    <changefreq>weekly</changefreq>\n'
+        '    <priority>0.95</priority>\n'
+        '  </url>\n'
+        '  <url>\n'
+        '    <loc>https://agenciaprosperia.com/inversionistas</loc>\n'
         '    <changefreq>weekly</changefreq>\n'
         '    <priority>0.90</priority>\n'
         '  </url>\n'
