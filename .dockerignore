@@ -11,7 +11,8 @@ prosper_ia.db
 README.md
 Dockerfile
 docker-compose.yml
-content/
+content/diario/
+content/semanal/
 exmamiami_assets/
 DOCS/
 .agents/

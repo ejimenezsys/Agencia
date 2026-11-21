@@ -311,17 +311,30 @@ def fetch_youtube_rss_videos() -> List[Dict[str, str]]:
 
 
 def _load_registry() -> Dict[str, Any]:
-    if REGISTRY_PATH.exists():
+    merged: Dict[str, Any] = {"telegraph": {}, "devto": {}, "hashnode": {}, "indexnow_last": None, "articles": {}}
+    data_reg_path = BASE_DIR / "data" / "syndication_registry.json"
+    for candidate in (data_reg_path, REGISTRY_PATH):
+        if not candidate.exists():
+            continue
         try:
-            return json.loads(REGISTRY_PATH.read_text(encoding="utf-8"))
+            loaded = json.loads(candidate.read_text(encoding="utf-8"))
+            for section in ("telegraph", "devto", "hashnode", "articles"):
+                if isinstance(loaded.get(section), dict):
+                    merged[section].update(loaded[section])
+            if loaded.get("indexnow_last"):
+                merged["indexnow_last"] = loaded["indexnow_last"]
         except Exception:
             pass
-    return {"telegraph": {}, "devto": {}, "hashnode": {}, "indexnow_last": None, "articles": {}}
+    return merged
 
 
 def _save_registry(reg: Dict[str, Any]) -> None:
+    serialized = json.dumps(reg, ensure_ascii=False, indent=2) + "\n"
     REGISTRY_PATH.parent.mkdir(parents=True, exist_ok=True)
-    REGISTRY_PATH.write_text(json.dumps(reg, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    REGISTRY_PATH.write_text(serialized, encoding="utf-8")
+    data_dir = BASE_DIR / "data"
+    if data_dir.exists():
+        (data_dir / "syndication_registry.json").write_text(serialized, encoding="utf-8")
 
 
 def ensure_youtube_articles_published(normalize_existing: bool = True) -> List[str]:
