@@ -15,9 +15,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ post.title }} — PROSPERIA Intelligence</title>
   <meta name="description" content="{{ post.summary }}">
-  {% if post.review_status == 'legacy' %}<meta name="robots" content="noindex, follow">{% endif %}
-  <meta name="keywords" content="prosper ia, {{ post.category | lower }}, ia ceo, automatizacion">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="keywords" content="edward jimenez, agencia prosper ia, las 4 inteligencias, {{ post.category | lower }}, inteligencia artificial empresas latam, automatizacion ia">
   <link rel="canonical" href="https://agenciaprosperia.com/blog/{{ post.slug }}">
+  <link rel="alternate" type="application/rss+xml" title="PROSPERIA Intelligence RSS" href="https://agenciaprosperia.com/feed.xml">
   <link rel="icon" type="image/png" href="{{ static_versioned('favicon.png') }}">
 
   <!-- Open Graph -->
@@ -27,7 +28,63 @@
   <meta property="og:description" content="{{ post.summary }}">
   <meta property="og:image" content="https://agenciaprosperia.com{{ post.image_url }}">
   <meta property="article:published_time" content="{{ post.published_at }}">
-  <meta property="article:author" content="{{ post.author }}">
+  <meta property="article:author" content="Edward Jiménez">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://agenciaprosperia.com/#organization",
+        "name": "Agencia Prosper IA LLC",
+        "url": "https://agenciaprosperia.com",
+        "sameAs": [
+          "https://www.youtube.com/@AgenciaProsper_IA",
+          "https://www.linkedin.com/in/edwardjimenezia/",
+          "https://www.instagram.com/edwardjimenezia/"
+        ]
+      },
+      {
+        "@type": "Person",
+        "@id": "https://agenciaprosperia.com/#edward-jimenez",
+        "name": "Edward Jiménez",
+        "jobTitle": "Founder & AI Systems Architect",
+        "worksFor": {"@id": "https://agenciaprosperia.com/#organization"},
+        "url": "https://agenciaprosperia.com/libro"
+      },
+      {
+        "@type": "Book",
+        "@id": "https://agenciaprosperia.com/libro#book",
+        "name": "Las 4 Inteligencias",
+        "author": {"@id": "https://agenciaprosperia.com/#edward-jimenez"},
+        "isbn": "979-8-9824777-0-5",
+        "identifier": "LCCN:2026970390",
+        "url": "https://agenciaprosperia.com/libro",
+        "sameAs": ["https://www.amazon.com/dp/B0HS33VP6C?th=1"]
+      },
+      {
+        "@type": "BlogPosting",
+        "headline": {{ post.title | tojson }},
+        "description": {{ post.summary | tojson }},
+        "image": {{ ("https://agenciaprosperia.com" + post.image_url) | tojson }},
+        "datePublished": {{ post.published_at | tojson }},
+        "mainEntityOfPage": {{ ("https://agenciaprosperia.com/blog/" + post.slug) | tojson }},
+        "author": {"@id": "https://agenciaprosperia.com/#edward-jimenez"},
+        "publisher": {"@id": "https://agenciaprosperia.com/#organization"},
+        "about": {"@id": "https://agenciaprosperia.com/libro#book"}
+      }{% if post.youtube_video_id %},
+      {
+        "@type": "VideoObject",
+        "name": {{ post.title | tojson }},
+        "description": {{ post.summary | tojson }},
+        "thumbnailUrl": {{ ("https://i.ytimg.com/vi/" + post.youtube_video_id + "/hqdefault.jpg") | tojson }},
+        "uploadDate": {{ (post.published_at[:10] + "T12:00:00Z") | tojson }},
+        "embedUrl": {{ ("https://www.youtube.com/embed/" + post.youtube_video_id) | tojson }},
+        "contentUrl": {{ ("https://www.youtube.com/watch?v=" + post.youtube_video_id) | tojson }}
+      }{% endif %}
+    ]
+  }
+  </script>
 
   <link rel="stylesheet" href="{{ static_versioned('tw.css') }}">
   <link rel="stylesheet" href="{{ static_versioned('fonts.css') }}">
@@ -251,6 +308,30 @@
       <span><i class="far fa-clock mr-1.5"></i> {{ post.reading_minutes }} min de lectura</span>
     </div>
 
+    {% if post.youtube_video_id %}
+    <!-- Video Oficial de YouTube Indexado -->
+    <div class="mb-10 rounded-2xl overflow-hidden border border-cyan-500/30 bg-slate-950/90 shadow-2xl">
+      <div class="relative w-full" style="padding-bottom: 56.25%;">
+        <iframe
+          src="https://www.youtube.com/embed/{{ post.youtube_video_id }}?rel=0"
+          title="{{ post.title }}"
+          class="absolute inset-0 w-full h-full"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+          loading="lazy"></iframe>
+      </div>
+      <div class="px-5 py-3.5 flex flex-wrap items-center justify-between gap-3 border-t border-slate-800 bg-slate-950">
+        <div class="text-xs sm:text-sm text-slate-300">
+          <strong class="text-white">📺 Video oficial en @AgenciaProsper_IA</strong> · Análisis por Edward Jiménez
+        </div>
+        <a href="https://www.youtube.com/@AgenciaProsper_IA?sub_confirmation=1" target="_blank" rel="noopener noreferrer"
+           class="px-4 py-1.5 rounded-lg text-xs font-black text-white bg-red-600 hover:bg-red-500 transition">
+          ▶ Suscribirse al Canal de YouTube
+        </a>
+      </div>
+    </div>
+    {% else %}
     <!-- Main Cover with CSS Fallback -->
     <div class="blog-post-cover-container">
       <img src="{{ post.image_url }}" alt="{{ post.title }}" class="blog-img-fit" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -259,6 +340,7 @@
         <i class="fas fa-robot text-8xl text-cyan-400/10"></i>
       </div>
     </div>
+    {% endif %}
 
     <!-- Post Body -->
     <div class="post-content text-slate-300 leading-relaxed text-base sm:text-lg">
@@ -308,6 +390,42 @@
       <h2 class="text-2xl font-black text-white mb-3">Descubre dónde la inteligencia puede mover resultados reales.</h2>
       <a href="/diagnostico?utm_source=prosperia_intelligence&utm_medium=editorial&utm_campaign={{ post.lane }}&utm_content={{ post.slug }}" class="inline-flex mt-3 px-6 py-3 rounded-xl font-bold text-slate-950 hover:opacity-90 transition-all shadow-lg shadow-cyan-500/20 hover:scale-[1.02]" style="background:linear-gradient(135deg, #00e5ff, #0ea5e9);">Solicitar diagnóstico</a>
       {% endif %}
+    </aside>
+
+    <!-- Bloque Ecosistema Agencia Prosper IA (4 Escalones + EXMA Miami) -->
+    <aside class="mt-8 p-6 rounded-2xl border border-slate-800 bg-slate-950/80 space-y-5">
+      <div>
+        <p class="text-xs uppercase tracking-widest text-amber-400 font-extrabold">Ecosistema Agencia Prosper IA · Prosperar + Inteligencia Artificial</p>
+        <p class="text-sm text-slate-300 mt-1">Ningún profesional o empresario de 30, 40 o 50+ años debe quedar obsoleto ante la IA.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+        <div class="p-4 rounded-xl bg-slate-900/70 border border-slate-800">
+          <div class="font-bold text-white mb-1">📘 Libro Oficial: Las 4 Inteligencias</div>
+          <p class="text-xs text-slate-400 mb-3">ISBN 979-8-9824777-0-5 · Library of Congress LCCN 2026970390 · Prólogo de Fernando Anzures.</p>
+          <div class="flex flex-wrap gap-2">
+            <a href="/libro" class="px-3 py-1.5 rounded-lg bg-amber-400 text-slate-950 font-bold text-xs">Ver Libro Oficial</a>
+            <a href="https://www.amazon.com/dp/B0HS33VP6C?th=1" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg border border-amber-400/40 text-amber-300 font-bold text-xs">Amazon (B0HS33VP6C) ↗</a>
+          </div>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-900/70 border border-slate-800">
+          <div class="font-bold text-white mb-1">🏢 Corporativos, Web IA &amp; PassportAI</div>
+          <p class="text-xs text-slate-400 mb-3">Ingeniería SVE90 con equipo senior en FIUBA Argentina, México y Miami + CRM con IA llave en mano.</p>
+          <div class="flex flex-wrap gap-2">
+            <a href="/ia" class="px-3 py-1.5 rounded-lg bg-cyan-400 text-slate-950 font-bold text-xs">Consultoría Corporativa (/ia)</a>
+            <a href="/crm-saas" class="px-3 py-1.5 rounded-lg border border-cyan-400/40 text-cyan-300 font-bold text-xs">Web IA + CRM</a>
+            <a href="https://passportai.app" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg border border-slate-700 text-slate-300 font-bold text-xs">PassportAI ↗</a>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 rounded-xl border border-amber-500/40 bg-amber-500/10 flex flex-wrap items-center justify-between gap-3">
+        <div class="text-xs text-amber-100">
+          <strong>🎤 EXMA Miami 2026 (4 y 5 de Diciembre · Fort Lauderdale / Miami):</strong> Edward Jiménez en el escenario oficial presentando <em>Las 4 Inteligencias</em>.
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <a href="/exmaboletos" class="px-3 py-1.5 rounded-lg bg-amber-400 text-slate-950 font-black text-xs">Boletos EXMA 20% OFF</a>
+          <a href="/exmamiami" class="px-3 py-1.5 rounded-lg border border-amber-400/50 text-amber-200 font-bold text-xs">Patrocinios y VIP</a>
+        </div>
+      </div>
     </aside>
   </article>
 </main>

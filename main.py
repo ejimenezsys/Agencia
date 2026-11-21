@@ -1044,6 +1044,20 @@ async def startup_event():
         start_setter_ia_background_worker()
     except Exception as e:
         print(f"⚠️ [STARTUP] Error iniciando Setter IA Worker: {e}", flush=True)
+    try:
+        from database import SessionLocal as _SyncSession
+        _sdb = _SyncSession()
+        try:
+            sync_blog_posts(_sdb)
+        finally:
+            _sdb.close()
+    except Exception as e:
+        print(f"⚠️ [STARTUP] Error sincronizando blog posts: {e}", flush=True)
+    try:
+        from cortexia_syndicator import start_background_syndication_worker
+        start_background_syndication_worker()
+    except Exception as e:
+        print(f"⚠️ [STARTUP] Error iniciando Cortexia Syndicator 24/7: {e}", flush=True)
 
 
 # Request schemas
@@ -2238,6 +2252,7 @@ async def get_robots():
         )
         +
         "Sitemap: https://agenciaprosperia.com/sitemap.xml\n"
+        "Sitemap: https://agenciaprosperia.com/video-sitemap.xml\n"
     )
     return content
 
@@ -2262,6 +2277,7 @@ async def get_llms_txt():
         "- [El Arsenal: biblioteca de prompts de IA](https://agenciaprosperia.com/arsenal): prompts para imagen, video y agentes autónomos.\n"
         "- [200 Códigos Creativos de ChatGPT](https://agenciaprosperia.com/codigos): prompts de dirección fotográfica y video, guías PDF.\n"
         "- [PROSPERIA Intelligence](https://agenciaprosperia.com/intelligence): análisis sobre tecnología y transformación empresarial.\n"
+        "- [Feed RSS Editorial](https://agenciaprosperia.com/feed.xml) y [Video Sitemap YouTube](https://agenciaprosperia.com/video-sitemap.xml): sindicación y videos oficiales.\n"
         "- [Podcast](https://agenciaprosperia.com/podcast): metodología SVE90, PassportAI y automatización comercial.\n\n"
         "## Sobre Edward Jiménez\n"
         "- Fundador de Agencia ProsperIA y AI System Architect, con más de 25 años en integraciones tecnológicas "
@@ -2278,7 +2294,9 @@ async def get_llms_txt():
     )
 
 @app.get("/sitemap.xml")
+@app.head("/sitemap.xml")
 async def get_sitemap(db: Session = Depends(get_db)):
+    sync_blog_posts(db)
     posts = db.query(BlogPost.slug, BlogPost.published_at).all()
     
     xml_content = (
@@ -2373,17 +2391,23 @@ async def get_sitemap(db: Session = Depends(get_db)):
     xml_content += '</urlset>\n'
     return Response(content=xml_content, media_type="application/xml")
 
+@app.get("/feed.xml")
+@app.head("/feed.xml")
+@app.get("/rss.xml")
+@app.head("/rss.xml")
 @app.get("/intelligence/feed.xml")
+@app.head("/intelligence/feed.xml")
 async def get_intelligence_feed(db: Session = Depends(get_db)):
-    """Feed de distribución; conserva el sitio como fuente canónica."""
+    """Feed RSS 2.0 de distribución; conserva el sitio como fuente canónica."""
     from email.utils import format_datetime
     from html import escape
     from datetime import timezone
 
-    rows = db.query(BlogPost).order_by(BlogPost.published_at.desc(), BlogPost.id.desc()).limit(30).all()
+    sync_blog_posts(db)
+    rows = db.query(BlogPost).order_by(BlogPost.published_at.desc(), BlogPost.id.desc()).limit(50).all()
     items = []
     for row in rows:
-        metadata = enrich_post({"slug": row.slug})
+        metadata = enrich_post({"slug": row.slug, "author": row.author})
         if metadata.get("review_status") != "published":
             continue
         try:
@@ -2393,23 +2417,104 @@ async def get_intelligence_feed(db: Session = Depends(get_db)):
         if published.tzinfo is None:
             published = published.replace(tzinfo=timezone.utc)
         url = f"https://agenciaprosperia.com/blog/{row.slug}"
+        vid = metadata.get("youtube_video_id")
+        enclosure = (
+            f'<enclosure url="https://i.ytimg.com/vi/{escape(vid)}/hqdefault.jpg" length="0" type="image/jpeg" />'
+            if vid
+            else f'<enclosure url="https://agenciaprosperia.com{escape(metadata.get("image_url") or row.image_url)}" length="0" type="image/jpeg" />'
+        )
+        yt_note = f'<p>Ver video en YouTube: <a href="https://www.youtube.com/watch?v={escape(vid)}">https://www.youtube.com/watch?v={escape(vid)}</a></p>' if vid else ""
+        full_body = yt_note + (row.content or "")
         items.append(
             "<item>"
             f"<title>{escape(row.title)}</title>"
-            f"<link>{url}</link><guid>{url}</guid>"
+            f"<link>{url}</link><guid isPermaLink=\"true\">{url}</guid>"
+            f"<dc:creator>Edward Jiménez</dc:creator>"
             f"<description>{escape(row.summary)}</description>"
+            f"<content:encoded><![CDATA[{full_body}]]></content:encoded>"
+            f"{enclosure}"
             f"<pubDate>{format_datetime(published)}</pubDate>"
             "</item>"
         )
     xml = (
         '<?xml version="1.0" encoding="UTF-8"?>'
-        '<rss version="2.0"><channel>'
-        '<title>PROSPERIA Intelligence</title>'
+        '<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom">'
+        '<channel>'
+        '<title>PROSPERIA Intelligence · Edward Jiménez</title>'
         '<link>https://agenciaprosperia.com/intelligence</link>'
-        '<description>Tecnología disruptiva, criterio y transformación empresarial y humana.</description>'
+        '<atom:link href="https://agenciaprosperia.com/feed.xml" rel="self" type="application/rss+xml" />'
+        '<language>es</language>'
+        '<description>Las 4 Inteligencias, Automatización Comercial e Ingeniería IA para Empresas y Profesionales por Edward Jiménez.</description>'
         + "".join(items) + "</channel></rss>"
     )
     return Response(content=xml, media_type="application/rss+xml")
+
+
+@app.get("/video-sitemap.xml")
+@app.head("/video-sitemap.xml")
+async def get_video_sitemap(db: Session = Depends(get_db)):
+    """Video Sitemap XML oficial para indexar los videos de @AgenciaProsper_IA incrustados en PROSPERIA Intelligence."""
+    from html import escape
+
+    sync_blog_posts(db)
+    rows = db.query(BlogPost).order_by(BlogPost.published_at.desc(), BlogPost.id.desc()).all()
+    entries = []
+    for row in rows:
+        meta = enrich_post({"slug": row.slug})
+        vid = meta.get("youtube_video_id")
+        if not vid:
+            continue
+        pub_date = (row.published_at or "2026-11-20")[:10] + "T12:00:00+00:00"
+        page_url = f"https://agenciaprosperia.com/blog/{row.slug}"
+        thumb = f"https://i.ytimg.com/vi/{escape(vid)}/hqdefault.jpg"
+        entries.append(
+            "  <url>\n"
+            f"    <loc>{escape(page_url)}</loc>\n"
+            "    <video:video>\n"
+            f"      <video:thumbnail_loc>{thumb}</video:thumbnail_loc>\n"
+            f"      <video:title>{escape(row.title)}</video:title>\n"
+            f"      <video:description>{escape(row.summary[:1800])}</video:description>\n"
+            f"      <video:player_loc>https://www.youtube.com/embed/{escape(vid)}</video:player_loc>\n"
+            f"      <video:publication_date>{escape(pub_date)}</video:publication_date>\n"
+            "      <video:family_friendly>yes</video:family_friendly>\n"
+            "    </video:video>\n"
+            "  </url>\n"
+        )
+    xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
+        'xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">\n'
+        + "".join(entries)
+        + "</urlset>\n"
+    )
+    return Response(content=xml, media_type="application/xml")
+
+
+@app.get("/777prosperiaindexnow2026edward.txt", response_class=PlainTextResponse)
+@app.head("/777prosperiaindexnow2026edward.txt")
+async def get_indexnow_key():
+    """Clave pública de verificación del protocolo IndexNow."""
+    return "777prosperiaindexnow2026edward"
+
+
+@app.get("/api/cortexia/syndication-status")
+async def get_cortexia_syndication_status(db: Session = Depends(get_db)):
+    """Resumen en tiempo real de artículos publicados, videos YouTube indexados y sindicación pública."""
+    sync_blog_posts(db)
+    from cortexia_syndicator import _load_registry
+    reg = _load_registry()
+    rows = db.query(BlogPost).all()
+    youtube_count = sum(1 for r in rows if enrich_post({"slug": r.slug}).get("youtube_video_id"))
+    return {
+        "status": "active",
+        "published_articles": len(rows),
+        "youtube_indexed_articles": youtube_count,
+        "telegraph_pages": len(reg.get("telegraph", {})),
+        "devto_pages": len(reg.get("devto", {})),
+        "hashnode_pages": len(reg.get("hashnode", {})),
+        "indexnow_last": reg.get("indexnow_last"),
+        "telegraph_urls": reg.get("telegraph", {}),
+    }
 
 # ─── API ENDPOINTS ──────────────────────────────────────────────────────────
 

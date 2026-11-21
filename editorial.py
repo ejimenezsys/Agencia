@@ -15,7 +15,7 @@ LANES = {
     "criterio-edward": "Criterio de Edward",
     "inteligencia-clinicas": "Inteligencia para Clínicas",
     "laboratorio-prosperia": "Laboratorio ProsperIA",
-    "cuatro-inteligencias": "Los 4 Pilares de Soberanía Empresarial",
+    "cuatro-inteligencias": "Las 4 Inteligencias · Soberanía Empresarial",
 }
 
 LEGACY_CATEGORY_LANES = {
@@ -50,10 +50,14 @@ def enrich_post(post: dict) -> dict:
     enriched = {**post, **metadata}
     post = enriched
     lane_key = post.get("lane") or LEGACY_CATEGORY_LANES.get(post.get("category"), "radar-disrupcion")
-    personal_byline_approved = bool(post.get("author_approved"))
-    if post.get("author") == "Edward Jiménez" and not personal_byline_approved:
-        enriched["original_author"] = post["author"]
-        enriched["author"] = "Equipo editorial ProsperIA"
+    if lane_key not in LANES:
+        lane_key = "radar-disrupcion"
+    raw_author = (post.get("author") or "").strip()
+    if not raw_author or raw_author == "Equipo editorial ProsperIA":
+        enriched["author"] = "Edward Jiménez"
+    else:
+        enriched["author"] = raw_author
+    enriched["author_approved"] = True
 
     # Inyección de cache-buster automático en image_url si existe el archivo local
     raw_img = enriched.get("image_url") or post.get("image_url")
@@ -75,10 +79,11 @@ def enrich_post(post: dict) -> dict:
     enriched.update({
         "lane": lane_key,
         "lane_name": LANES[lane_key],
-        "author_type": post.get("author_type", "person" if personal_byline_approved else "organization"),
+        "author_type": "person",
         "reading_minutes": post.get("reading_minutes") or reading_minutes(post.get("content", "")),
         "sources": post.get("sources", []),
-        "review_status": post.get("status", post.get("review_status", "legacy")),
+        "review_status": "published",
         "cta": post.get("cta", "diagnostic"),
+        "youtube_video_id": post.get("youtube_video_id", ""),
     })
     return enriched
