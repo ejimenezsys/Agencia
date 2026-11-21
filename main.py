@@ -1813,6 +1813,19 @@ async def links_hub_page(request: Request):
     return templates.TemplateResponse(request=request, name="links_hub.html", context={"request": request})
 
 
+@app.get("/casos-de-exito", response_class=HTMLResponse)
+@app.head("/casos-de-exito")
+@app.get("/casos-de-exito/", response_class=HTMLResponse)
+@app.head("/casos-de-exito/")
+@app.get("/casos-de-exito/idol-jose-group", response_class=HTMLResponse)
+@app.head("/casos-de-exito/idol-jose-group")
+@app.get("/casos-de-exito/idol-jose-group/", response_class=HTMLResponse)
+@app.head("/casos-de-exito/idol-jose-group/")
+async def caso_idol_jose_page(request: Request):
+    """Caso de estudio oficial de IDOL JOSE GROUP CORP optimizado para Clutch URL Extractor."""
+    return templates.TemplateResponse(request=request, name="caso_idol_jose.html", context={"request": request})
+
+
 @app.get("/sitioweb", response_class=HTMLResponse)
 @app.head("/sitioweb")
 @app.get("/sitioweb/", response_class=HTMLResponse)
@@ -2385,6 +2398,11 @@ async def get_sitemap(db: Session = Depends(get_db)):
         '    <loc>https://agenciaprosperia.com/links</loc>\n'
         '    <changefreq>weekly</changefreq>\n'
         '    <priority>0.85</priority>\n'
+        '  </url>\n'
+        '  <url>\n'
+        '    <loc>https://agenciaprosperia.com/casos-de-exito/idol-jose-group</loc>\n'
+        '    <changefreq>weekly</changefreq>\n'
+        '    <priority>0.90</priority>\n'
         '  </url>\n'
     )
     
