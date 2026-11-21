@@ -23,6 +23,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copiar el resto del código de la aplicación
 COPY . .
+# Respaldar /app/static fuera del volumen persistente de Coolify para sincronizar archivos nuevos/actualizados al arrancar
+RUN cp -a /app/static /app/static_bundled
 
 # Definir variables de entorno por defecto
 # Indicamos que la base de datos SQLite se guarde en el volumen persistente
@@ -33,4 +35,4 @@ ENV PORT=8000
 EXPOSE 8000
 
 # Comando para ejecutar la aplicación con Uvicorn en producción
-CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port ${PORT}"]
+CMD ["sh", "-c", "cp -af /app/static_bundled/. /app/static/ 2>/dev/null || true; uvicorn main:app --host 0.0.0.0 --port ${PORT}"]
