@@ -3739,8 +3739,8 @@
             <span class="px-2.5 py-0.5 rounded-full text-[11px] font-black uppercase bg-emerald-400 text-slate-950">🟢 OPCIÓN 1 — ENTRADA ÁGIL PYME (DOWNSELL PRINCIPAL)</span>
             <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Comisión Closer 10%: US$49.70 · Ciclo Completo 15%: US$74.55</span>
           </div>
-          <h3 class="text-lg font-black text-white mt-1">Opción 1: Sitio Web Inteligente Express PYME + 1er Mes CRM + IA Gratis (US$497 USD)</h3>
-          <p class="text-xs text-slate-300">Sitio Web de 6 secciones + Dominio y Hosting 1 Año + SSL + 1er Mes Gratis de CRM ProsperIA, Recepcionista IA 24/7 y PassportAI. Entrega en 5 días hábiles.</p>
+          <h3 class="text-lg font-black text-white mt-1">Opción 1: Plan Impulso / Rescate · Sitio Web Inteligente + Chatbot IA 24/7 + 3 Meses Gratis CRM (US$497 USD)</h3>
+          <p class="text-xs text-slate-300">Sitio Web de 6 secciones + Chatbot Recepcionista IA 24/7 en Web + Formulario CRM + <strong>3 Meses Gratis (90 Días)</strong> de CRM ProsperIA, Hosting y PassportAI (Mes 4+: US$97/mes). Entrega en 7-10 días.</p>
         </div>
         <div class="text-right">
           <div class="text-xs text-slate-400 uppercase font-bold">Valor Total del Paquete</div>
@@ -3795,7 +3795,7 @@
             </div>
             <div class="text-base font-black text-white">Pago Único 100%: Opción 1 Express PYME</div>
             <div class="text-2xl font-black text-cyan-300">US$497.00 <span class="text-xs font-semibold text-slate-400">USD total</span></div>
-            <p class="text-[11px] text-slate-300">Liquidación total en una sola exhibición del Sitio Web Inteligente Express PYME + Bonos de 1er mes gratis.</p>
+            <p class="text-[11px] text-slate-300">Liquidación total en una sola exhibición del Sitio Web Inteligente + Chatbot IA 24/7 + 3 Meses Gratis (90 días) de CRM y PassportAI.</p>
             <div class="text-[11px] font-semibold text-emerald-300 bg-emerald-500/10 border border-emerald-500/20 rounded-lg px-2.5 py-1">
               💰 Tu comisión en este cobro: <strong>+$49.70 USD</strong> (Closer 10%) / <strong>+$74.55 USD</strong> (15%)
             </div>
@@ -3811,7 +3811,7 @@
                       class="w-full py-2 px-3 rounded-lg text-xs font-black bg-cyan-400 text-slate-950 hover:bg-cyan-300 transition flex items-center justify-center gap-1.5">
                 <i class="fas fa-copy"></i> Copiar Solo Link ($497 USD)
               </button>
-              <button type="button" onclick="copyPaymentLinkWhatsApp('Opción 1 — Sitio Web Inteligente Express PYME', 'Pago Único 100% Llave en Mano (US$497.00 USD)', 'https://api.agenciaprosperia.com/payment-link/6af228ba03c375ed645fe62d', 'Incluye tu Sitio Web de 6 secciones, Dominio + Hosting 1 Año y el 1er Mes Gratis de CRM ProsperIA + Recepcionista IA 24/7 + PassportAI.', this)"
+              <button type="button" onclick="copyPaymentLinkWhatsApp('Opción 1 — Plan Impulso / Rescate (Web + Chatbot IA + 3 Meses Gratis CRM)', 'Pago Único 100% Llave en Mano (US$497.00 USD)', 'https://api.agenciaprosperia.com/payment-link/6af228ba03c375ed645fe62d', 'Incluye tu Sitio Web de 6 secciones, Chatbot Recepcionista IA 24/7, Formulario conectado a CRM y 3 Meses Gratis (90 días) de CRM ProsperIA y PassportAI.', this)"
                       class="w-full py-2 px-3 rounded-lg text-xs font-bold bg-cyan-500/20 text-cyan-200 border border-cyan-500/40 hover:bg-cyan-500/30 transition flex items-center justify-center gap-1.5">
                 <i class="fab fa-whatsapp"></i> Copiar Mensaje WhatsApp + Link
               </button>
@@ -4540,6 +4540,7 @@
           <label for="setter-work-quoted" class="block text-emerald-300 font-semibold mb-1">💵 Monto Propuesto / Cotizado (USD)</label>
           <input type="number" id="setter-work-quoted" class="input-dark text-xs py-2" value="497" min="0" step="1">
         </div>
+        <div id="setter-work-quick-links" class="sm:col-span-2 flex flex-wrap items-center gap-2 pt-2 border-t border-emerald-500/20"></div>
       </div>
 
       <!-- Bitácora Histórica por Renglones (9am, 11am, correo, WA, SMS...) -->
@@ -4644,6 +4645,7 @@
           </select>
         </div>
       </div>
+      <div id="stage-offer-quick-links" class="flex flex-wrap items-center gap-2 p-2.5 rounded-xl bg-slate-900/75 border border-cyan-500/25"></div>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
           <label class="block text-slate-300 font-semibold mb-1">Monto Propuesto / Cotizado (USD)</label>
@@ -5888,6 +5890,35 @@ function showPaymentCopyToast(msg) {
   }, 3000);
 }
 
+const OFFER_QUICK_PAYMENT_LINKS = {
+  EXPRESS_497: [
+    { key: 'reserva_50', label: '🔥 Copiar 50% Hoy ($250)', url: 'https://api.agenciaprosperia.com/payment-link/6af2287303c375ed645fe629', cls: 'bg-emerald-400 text-slate-950 hover:bg-emerald-300' },
+    { key: 'unico_100', label: '💳 Copiar 100% Único ($497)', url: 'https://api.agenciaprosperia.com/payment-link/6af228ba03c375ed645fe62d', cls: 'bg-cyan-400 text-slate-950 hover:bg-cyan-300' },
+    { key: 'liquidacion_50', label: '🏁 Copiar 50% Entrega ($247)', url: 'https://api.agenciaprosperia.com/payment-link/6af2289003c375ed645fe62a', cls: 'bg-amber-400 text-slate-950 hover:bg-amber-300' }
+  ],
+  ANUAL_990: [
+    { key: 'reserva_50', label: '🔥 Copiar 50% Hoy ($495)', url: 'https://api.agenciaprosperia.com/payment-link/6af227a4d4cfb789aef22986', cls: 'bg-emerald-400 text-slate-950 hover:bg-emerald-300' },
+    { key: 'unico_100', label: '💳 Copiar 100% Único ($990)', url: 'https://api.agenciaprosperia.com/payment-link/6af227ecd4cfb789aef2298d', cls: 'bg-cyan-400 text-slate-950 hover:bg-cyan-300' },
+    { key: 'liquidacion_50', label: '🏁 Copiar 50% Entrega ($495)', url: 'https://api.agenciaprosperia.com/payment-link/6af227c7d4cfb789aef22989', cls: 'bg-amber-400 text-slate-950 hover:bg-amber-300' }
+  ],
+  MAQUINA_1490: [
+    { key: 'reserva_50', label: '🔥 Copiar 50% Hoy ($745)', url: 'https://api.agenciaprosperia.com/payment-link/6af22915d4cfb789aef2299b', cls: 'bg-emerald-400 text-slate-950 hover:bg-emerald-300' },
+    { key: 'unico_100', label: '💳 Copiar 100% Único ($1,490)', url: 'https://api.agenciaprosperia.com/payment-link/6af2297ad4cfb789aef229a0', cls: 'bg-cyan-400 text-slate-950 hover:bg-cyan-300' },
+    { key: 'liquidacion_50', label: '🏁 Copiar 50% Entrega ($745)', url: 'https://api.agenciaprosperia.com/payment-link/6af22943d4cfb789aef2299d', cls: 'bg-amber-400 text-slate-950 hover:bg-amber-300' }
+  ],
+  RESCATE_197: [
+    { key: 'unico_100', label: '💳 Copiar Link Rescate ($197)', url: 'https://api.agenciaprosperia.com/payment-link/6af1f575d4cfb789aef22853', cls: 'bg-rose-500 text-white hover:bg-rose-400' }
+  ]
+};
+
+function renderQuickOfferLinks(offerCode, containerId) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  const items = OFFER_QUICK_PAYMENT_LINKS[offerCode] || OFFER_QUICK_PAYMENT_LINKS.EXPRESS_497;
+  el.innerHTML = `<span class="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mr-1">💳 Copiar Link Stripe:</span>`
+    + items.map(it => `<button type="button" onclick="copyPaymentLinkUrl('${it.url}', this)" class="px-2.5 py-1.5 rounded-lg text-[11px] font-black transition ${it.cls}">${esc(it.label)}</button>`).join('');
+}
+
 function copyPaymentLinkUrl(url, btnEl) {
   navigator.clipboard.writeText(url).then(() => {
     showPaymentCopyToast('✓ Link de pago copiado: ' + url);
@@ -6496,6 +6527,7 @@ function openStageDialog(leadId) {
   if (!tplSel.value) tplSel.value = 'clinica_dental_estetica';
   document.getElementById('stage-next-date').value = lead.next_action_at || '';
   document.getElementById('stage-next-note').value = lead.next_action_note || '';
+  renderQuickOfferLinks(offSel.value, 'stage-offer-quick-links');
   document.getElementById('stageUpdateDialog').showModal();
 }
 
@@ -6503,6 +6535,7 @@ function syncOfferDefaultPrice() {
   const map = { EXPRESS_497: 497, ANUAL_990: 990, MAQUINA_1490: 1490, RESCATE_197: 197, SVE90_CORP: 5000 };
   const code = document.getElementById('stage-offer-val').value;
   if (map[code]) document.getElementById('stage-quoted-val').value = map[code];
+  renderQuickOfferLinks(code, 'stage-offer-quick-links');
 }
 
 async function submitStageAndProposalUpdate() {
@@ -8057,6 +8090,7 @@ function openSetterWorkDialog(leadId, defaultChannel = 'Llamada', preserveFeedba
   const defaultOfferMap = { EXPRESS_497: 497, ANUAL_990: 990, MAQUINA_1490: 1490, RESCATE_197: 197 };
   if (offerSel) offerSel.value = offerCode;
   if (quotedInput) quotedInput.value = Number(lead.quoted_amount || 0) > 0 ? Number(lead.quoted_amount) : (defaultOfferMap[offerCode] || 497);
+  renderQuickOfferLinks(offerCode, 'setter-work-quick-links');
 
   const isAlreadyCloserLead = (
     ['Calificado', 'Diagnóstico agendado', 'Demo realizada', 'Propuesta enviada', 'Pago pendiente', 'Pago confirmado', 'Implementación', 'Entregado'].includes(curStage)
@@ -8182,6 +8216,7 @@ function syncSetterWorkOfferPrice() {
   const code = document.getElementById('setter-work-offer')?.value;
   const qEl = document.getElementById('setter-work-quoted');
   if (qEl && map[code]) qEl.value = map[code];
+  renderQuickOfferLinks(code || 'EXPRESS_497', 'setter-work-quick-links');
 }
 
 function syncSetterOutcomeToStage() {

@@ -90,36 +90,45 @@ def normalize_email(email: str) -> str:
 OFFER_CATALOG = {
     "EXPRESS_497": {
         "code": "EXPRESS_497",
-        "name": "Caja 1 · Sitio Web Inteligente Express (Oferta Principal)",
+        "name": "Caja 1 · Plan Impulso / Rescate Web + Chatbot IA (Oferta Principal)",
         "price": 497.0,
         "initial_payment": 250.0,
         "delivery_payment": 247.0,
-        "payment_terms": "US$250 hoy (reserva 50%) + US$247 contra entrega en 7-10 días (Total: US$497 USD). Mes 1 de CRM incluido; desde mes 2 US$99/mes opcional.",
+        "payment_terms": "US$250 hoy (reserva 50%) + US$247 contra entrega en 7-10 días (Total: US$497 USD). Incluye 3 MESES GRATIS (90 días) de Hosting + Chatbot IA + CRM ligado a PassportAI; desde el mes 4 US$97/mes.",
         "delivery_cost_estimate": 100.0,
         "requires_director_approval": False,
-        "scope": "1 Sitio Web Inteligente sobre plantilla de su giro + Formulario Calificador + Punto de contacto y Asistente Digital 24/7 básico + Publicación y revisión."
+        "link_reserva_50": "https://api.agenciaprosperia.com/payment-link/6af2287303c375ed645fe629",
+        "link_liquidacion_50": "https://api.agenciaprosperia.com/payment-link/6af2289003c375ed645fe62a",
+        "link_unico_100": "https://api.agenciaprosperia.com/payment-link/6af228ba03c375ed645fe62d",
+        "scope": "1 Sitio Web Inteligente de hasta 6 secciones (1 revisión de lanzamiento) + Módulo 1 Chatbot Recepcionista IA 24/7 en Web + Formulario Calificador conectado a Bandeja CRM + 3 Meses Gratis de CRM y PassportAI."
     },
     "ANUAL_990": {
         "code": "ANUAL_990",
-        "name": "Caja 2 · Pack Estrella Anual (Escalamiento Aprobado)",
+        "name": "Caja 2 · Pack Estrella Anual (0% Mensualidades 1 Año)",
         "price": 990.0,
         "initial_payment": 495.0,
         "delivery_payment": 495.0,
-        "payment_terms": "US$495 hoy (50%) + US$495 contra entrega en 7-10 días (Total: US$990 USD/año). Incluye 12 meses de CRM y PassportAI + 2 Reels.",
+        "payment_terms": "US$495 hoy (50%) + US$495 contra entrega en 7-10 días (Total: US$990 USD/año). Incluye 12 meses completos de CRM y PassportAI + 2 Reels + Reactivación inicial.",
         "delivery_cost_estimate": 150.0,
         "requires_director_approval": False,
-        "scope": "Sitio Web Inteligente + Formulario + Asistente 24/7 + 12 meses de Tablero CRM + 12 meses PassportAI Business + 2 Reels editados."
+        "link_reserva_50": "https://api.agenciaprosperia.com/payment-link/6af227a4d4cfb789aef22986",
+        "link_liquidacion_50": "https://api.agenciaprosperia.com/payment-link/6af227c7d4cfb789aef22989",
+        "link_unico_100": "https://api.agenciaprosperia.com/payment-link/6af227ecd4cfb789aef2298d",
+        "scope": "Sitio Web Inteligente + Formulario + Chatbot Recepcionista IA 24/7 + 12 meses de Licencia CRM y PassportAI Business + 2 Reels editados + Campaña inicial de reactivación (hasta 2 ajustes puntuales en el año)."
     },
     "MAQUINA_1490": {
         "code": "MAQUINA_1490",
-        "name": "Caja 3 · Máquina Completa 3 en 1 (Escalamiento Tráfico + Videos)",
+        "name": "Caja 3 · Máquina Completa 360° (Escalamiento Tráfico + Videos)",
         "price": 1490.0,
         "initial_payment": 745.0,
         "delivery_payment": 745.0,
-        "payment_terms": "US$745 hoy (50%) + US$745 en el día 15 (Total: US$1,490 USD). No incluye presupuesto de pauta en Meta.",
+        "payment_terms": "US$745 hoy (50%) + US$745 contra entrega en el día 15 (Total: US$1,490 USD). No incluye presupuesto de pauta en Meta.",
         "delivery_cost_estimate": 300.0,
         "requires_director_approval": True,
-        "scope": "Sitio Web Inteligente + Asistente + 10 Videos Cortos Editados + 1 Mes de Gestión de Campañas Meta Ads (pauta pagada por el cliente)."
+        "link_reserva_50": "https://api.agenciaprosperia.com/payment-link/6af22915d4cfb789aef2299b",
+        "link_liquidacion_50": "https://api.agenciaprosperia.com/payment-link/6af22943d4cfb789aef2299d",
+        "link_unico_100": "https://api.agenciaprosperia.com/payment-link/6af2297ad4cfb789aef229a0",
+        "scope": "Sitio Web Inteligente + Chatbot IA 24/7 + Agentes Redes (WA/IG/FB) + 10 Reels Editados + 1 Mes de Gestión Meta Ads + 12 meses de CRM y PassportAI (pauta pagada por el cliente)."
     },
     "RESCATE_197": {
         "code": "RESCATE_197",
