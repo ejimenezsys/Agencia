@@ -1553,6 +1553,18 @@ async def read_exmaboletos(request: Request):
 async def read_harmonypayments(request: Request):
     return templates.TemplateResponse(request=request, name="harmonypayments.html")
 
+@app.get("/ia", response_class=HTMLResponse)
+@app.head("/ia")
+@app.get("/ia/", response_class=HTMLResponse)
+@app.head("/ia/")
+@app.get("/corporativos", response_class=HTMLResponse)
+@app.head("/corporativos")
+@app.get("/corporativos/", response_class=HTMLResponse)
+@app.head("/corporativos/")
+@app.get("/consultoria", response_class=HTMLResponse)
+@app.head("/consultoria")
+@app.get("/consultoria/", response_class=HTMLResponse)
+@app.head("/consultoria/")
 @app.get("/consultoriadeinteligenciaartificial", response_class=HTMLResponse)
 @app.head("/consultoriadeinteligenciaartificial")
 @app.get("/consultoriadeinteligenciaartificial/", response_class=HTMLResponse)
@@ -2239,7 +2251,7 @@ async def get_llms_txt():
         "y datos para que PyMEs, corporativos, clínicas y profesionales en Estados Unidos, Latinoamérica y España operen y crezcan con menos fricción.\n\n"
         "## Servicios\n"
         "- [Inicio: IA, automatización y sistemas de negocio](https://agenciaprosperia.com/): sistemas que conectan IA, automatización, CRM y estrategia.\n"
-        "- [Consultoría en Inteligencia Artificial](https://agenciaprosperia.com/consultoriadeinteligenciaartificial) (también en https://agenciaprosperia.com/consultoria-inteligencia-artificial): consultoría de IA que termina en sistemas en producción "
+        "- [Consultoría en Inteligencia Artificial](https://agenciaprosperia.com/ia) (también en https://agenciaprosperia.com/corporativos y https://agenciaprosperia.com/consultoriadeinteligenciaartificial): consultoría de IA que termina en sistemas en producción "
         "para PyMEs y corporativos: diagnóstico de madurez, business case, RAG privado, agentes de IA, integración con ERP/CRM, metodología SVE90 de 90 días "
         "y Fractional Chief AI Officer. Incluye definición de consultoría en IA, comparativa y preguntas frecuentes.\n"
         "- [Diagnóstico comercial](https://agenciaprosperia.com/diagnostico): autoevaluación del pipeline comercial.\n"
@@ -2300,6 +2312,21 @@ async def get_sitemap(db: Session = Depends(get_db)):
         '  <url>\n'
         '    <loc>https://agenciaprosperia.com/arsenal</loc>\n'
         '    <changefreq>daily</changefreq>\n'
+        '    <priority>0.9</priority>\n'
+        '  </url>\n'
+        '  <url>\n'
+        '    <loc>https://agenciaprosperia.com/ia</loc>\n'
+        '    <changefreq>weekly</changefreq>\n'
+        '    <priority>0.95</priority>\n'
+        '  </url>\n'
+        '  <url>\n'
+        '    <loc>https://agenciaprosperia.com/corporativos</loc>\n'
+        '    <changefreq>weekly</changefreq>\n'
+        '    <priority>0.95</priority>\n'
+        '  </url>\n'
+        '  <url>\n'
+        '    <loc>https://agenciaprosperia.com/consultoria</loc>\n'
+        '    <changefreq>weekly</changefreq>\n'
         '    <priority>0.9</priority>\n'
         '  </url>\n'
         '  <url>\n'
