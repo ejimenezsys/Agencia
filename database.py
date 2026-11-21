@@ -100,6 +100,9 @@ OFFER_CATALOG = {
         "link_reserva_50": "https://api.agenciaprosperia.com/payment-link/6af2287303c375ed645fe629",
         "link_liquidacion_50": "https://api.agenciaprosperia.com/payment-link/6af2289003c375ed645fe62a",
         "link_unico_100": "https://api.agenciaprosperia.com/payment-link/6af228ba03c375ed645fe62d",
+        "whop_reserva_50": "https://whop.com/checkout/ch_xQflGEnePudxbjw/",
+        "whop_liquidacion_50": "https://whop.com/checkout/ch_92aSdDc7D7MlELy/",
+        "whop_unico_100": "https://whop.com/checkout/ch_JNFzIX0aWE7jNZN/",
         "scope": "1 Sitio Web Inteligente de hasta 6 secciones (1 revisión de lanzamiento) + Módulo 1 Chatbot Recepcionista IA 24/7 en Web + Formulario Calificador conectado a Bandeja CRM + 3 Meses Gratis de CRM y PassportAI."
     },
     "ANUAL_990": {
@@ -114,6 +117,9 @@ OFFER_CATALOG = {
         "link_reserva_50": "https://api.agenciaprosperia.com/payment-link/6af227a4d4cfb789aef22986",
         "link_liquidacion_50": "https://api.agenciaprosperia.com/payment-link/6af227c7d4cfb789aef22989",
         "link_unico_100": "https://api.agenciaprosperia.com/payment-link/6af227ecd4cfb789aef2298d",
+        "whop_reserva_50": "https://whop.com/checkout/ch_q4TXGYQSzBGkQSY/",
+        "whop_liquidacion_50": "https://whop.com/checkout/ch_rkUci9bt0JLBW1S/",
+        "whop_unico_100": "https://whop.com/checkout/ch_4vhuNtpWoJFUYkH/",
         "scope": "Sitio Web Inteligente + Formulario + Chatbot Recepcionista IA 24/7 + 12 meses de Licencia CRM y PassportAI Business + 2 Reels editados + Campaña inicial de reactivación (hasta 2 ajustes puntuales en el año)."
     },
     "MAQUINA_1490": {
@@ -128,6 +134,9 @@ OFFER_CATALOG = {
         "link_reserva_50": "https://api.agenciaprosperia.com/payment-link/6af22915d4cfb789aef2299b",
         "link_liquidacion_50": "https://api.agenciaprosperia.com/payment-link/6af22943d4cfb789aef2299d",
         "link_unico_100": "https://api.agenciaprosperia.com/payment-link/6af2297ad4cfb789aef229a0",
+        "whop_reserva_50": "https://whop.com/checkout/ch_U26FriHORRYQczG/",
+        "whop_liquidacion_50": "https://whop.com/checkout/ch_aiwdfkuGAcREozG/",
+        "whop_unico_100": "https://whop.com/checkout/ch_fBPqhdK2KhpHPkb/",
         "scope": "Sitio Web Inteligente + Chatbot IA 24/7 + Agentes Redes (WA/IG/FB) + 10 Reels Editados + 1 Mes de Gestión Meta Ads + 12 meses de CRM y PassportAI (pauta pagada por el cliente)."
     },
     "RESCATE_197": {
