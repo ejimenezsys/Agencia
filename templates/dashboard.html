@@ -8317,6 +8317,76 @@ function openSetterWorkDialog(leadId, defaultChannel = 'Llamada', preserveFeedba
 
   const callBtn = document.getElementById('setter-work-call-btn');
   if (callBtn) {
+    callBtn.textContent = route.modalBtnLabel;
+    callBtn.onclick = () => initiateCloserCall(rawPhone, lead.id, true);
+    callBtn.style.display = rawPhone ? '' : 'none';
+  }
+  const waBtn = document.getElementById('setter-work-wa-btn');
+  if (waBtn) {
+    if (route.waUrl) {
+      waBtn.href = route.waUrl;
+      waBtn.style.display = '';
+      waBtn.onclick = () => {
+        const chEl = document.getElementById('setter-work-channel');
+        if (chEl) chEl.value = 'WhatsApp';
+      };
+    } else {
+      waBtn.style.display = 'none';
+    }
+  }
+  const igBtn = document.getElementById('setter-work-ig-btn');
+  if (igBtn) {
+    const bizSearch = String(lead.business_name || lead.company || lead.full_name || lead.name || '').trim();
+    if (bizSearch) {
+      const igQuery = `site:instagram.com OR site:facebook.com "${bizSearch.slice(0, 80)}"`;
+      igBtn.href = `https://www.google.com/search?q=${encodeURIComponent(igQuery)}`;
+      igBtn.style.display = '';
+    } else {
+      igBtn.style.display = 'none';
+    }
+  }
+  const smsBtn = document.getElementById('setter-work-sms-btn');
+  if (smsBtn) {
+    smsBtn.onclick = () => sendGhlDirectMsgFromUi(lead.id, 'SMS', smsBtn);
+    smsBtn.style.display = route.allowMiamiSms ? '' : 'none';
+  }
+  const instMailBtn = document.getElementById('setter-work-inst-mail-btn');
+  const validMail = hasRealLeadEmail(lead);
+  if (instMailBtn) {
+    instMailBtn.onclick = () => sendInstitutionalEmailToLead(lead.id, instMailBtn, 'seller@agenciaprosperia.com');
+    instMailBtn.style.display = validMail ? '' : 'none';
+  }
+  const commsBox = document.getElementById('setter-work-comms-box');
+  if (commsBox) {
+    commsBox.style.display = (rawPhone || validMail || lead.contact_id) ? '' : 'none';
+  }
+  if (!preserveFeedback) {
+    const replyInput = document.getElementById('setter-work-wa-reply-input');
+    if (replyInput) replyInput.value = '';
+    loadLeadCommsStatus(lead.id);
+  }
+  const demoBtn = document.getElementById('setter-work-demo-btn');
+  if (demoBtn) {
+    demoBtn.href = demoUrl;
+    demoBtn.style.display = isCloserMode ? '' : 'none';
+  }
+
+  const scriptsBox = document.getElementById('setter-work-scripts-body');
+  if (scriptsBox) {
+    scriptsBox.innerHTML = `
+      ${intel.webVal ? `<div><strong class="text-slate-400">Web Actual:</strong> <span class="text-cyan-300 break-all">${esc(intel.webVal)}</span></div>` : ''}
+      <div><strong class="text-emerald-300">🎙️ Speech Telefónico:</strong><div class="mt-0.5 text-slate-100 whitespace-pre-line">${esc(intel.speech || 'Presentar solución Sitio Web Inteligente + IA 24/7.')}</div></div>
+      <div><strong class="text-sky-300">💬 Guion WhatsApp / Correo:</strong><div class="mt-0.5 text-slate-300 whitespace-pre-line">${esc(intel.waScript)}</div></div>
+    `;
+  }
+
+  const rows = parseBitacoraEntries(lead.notes || '');
+  document.getElementById('setter-work-history-count').textContent = `${rows.length} ${rows.length === 1 ? 'renglón' : 'renglones'}`;
+  const histEl = document.getElementById('setter-work-history-rows');
+  if (histEl) {
+    histEl.innerHTML = rows.length
+      ? rows.map((rowTxt, i) => `
+        <div class="p-2 rounded-lg bg-slate-900 border border-slate-800 text-[11px] text-slate-200 flex items-start gap-2">
           <span class="px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-black text-[10px]">#${i + 1}</span>
           <span class="flex-1 leading-relaxed">${esc(rowTxt)}</span>
         </div>
