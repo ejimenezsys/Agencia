@@ -1804,6 +1804,15 @@ async def tarjeta_digital_page(request: Request):
     return templates.TemplateResponse(request=request, name="tarjeta_digital.html", context={"request": request, "active_menu": "tarjeta"})
 
 
+@app.get("/links", response_class=HTMLResponse)
+@app.head("/links")
+@app.get("/links/", response_class=HTMLResponse)
+@app.head("/links/")
+async def links_hub_page(request: Request):
+    """Hub ejecutivo oficial tipo Linktree con redes, contacto directo y recursos IA."""
+    return templates.TemplateResponse(request=request, name="links_hub.html", context={"request": request})
+
+
 @app.get("/sitioweb", response_class=HTMLResponse)
 @app.head("/sitioweb")
 @app.get("/sitioweb/", response_class=HTMLResponse)
@@ -2371,6 +2380,11 @@ async def get_sitemap(db: Session = Depends(get_db)):
         '    <loc>https://agenciaprosperia.com/chat</loc>\n'
         '    <changefreq>monthly</changefreq>\n'
         '    <priority>0.5</priority>\n'
+        '  </url>\n'
+        '  <url>\n'
+        '    <loc>https://agenciaprosperia.com/links</loc>\n'
+        '    <changefreq>weekly</changefreq>\n'
+        '    <priority>0.85</priority>\n'
         '  </url>\n'
     )
     
