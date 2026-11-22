@@ -1796,6 +1796,50 @@ async def crm_saas_page(request: Request):
     return templates.TemplateResponse(request=request, name="crm_saas.html", context={"request": request, "active_menu": "crm"})
 
 
+@app.get("/knowledge-base", response_class=HTMLResponse)
+@app.head("/knowledge-base")
+@app.get("/knowledge-base/", response_class=HTMLResponse)
+@app.head("/knowledge-base/")
+@app.get("/knowledge-base.html", response_class=HTMLResponse)
+@app.head("/knowledge-base.html")
+@app.get("/centro-de-conocimiento", response_class=HTMLResponse)
+@app.head("/centro-de-conocimiento")
+@app.get("/centro-de-conocimiento/", response_class=HTMLResponse)
+@app.head("/centro-de-conocimiento/")
+@app.get("/directorio-ia", response_class=HTMLResponse)
+@app.head("/directorio-ia")
+@app.get("/directorio-ia/", response_class=HTMLResponse)
+@app.head("/directorio-ia/")
+async def knowledge_base_page(request: Request, db: Session = Depends(get_db)):
+    sync_blog_posts(db)
+    rows = db.query(BlogPost).order_by(BlogPost.published_at.desc(), BlogPost.id.desc()).all()
+    published_posts = []
+    for r in rows:
+        item = enrich_post({
+            "slug": r.slug,
+            "title": r.title,
+            "category": r.category,
+            "summary": r.summary,
+            "content": r.content,
+            "image_url": r.image_url,
+            "published_at": r.published_at,
+            "author": r.author,
+        })
+        if item.get("review_status") == "published":
+            published_posts.append(item)
+        if len(published_posts) >= 6:
+            break
+    return templates.TemplateResponse(
+        request=request,
+        name="knowledge_base.html",
+        context={
+            "request": request,
+            "active_menu": "recursos",
+            "posts": published_posts,
+        },
+    )
+
+
 @app.get("/agentes-ia", response_class=HTMLResponse)
 @app.head("/agentes-ia")
 @app.get("/agentes-ia/", response_class=HTMLResponse)
@@ -2458,6 +2502,16 @@ async def get_sitemap(db: Session = Depends(get_db)):
         '    <loc>https://agenciaprosperia.com/inversionistas</loc>\n'
         '    <changefreq>weekly</changefreq>\n'
         '    <priority>0.90</priority>\n'
+        '  </url>\n'
+        '  <url>\n'
+        '    <loc>https://agenciaprosperia.com/knowledge-base</loc>\n'
+        '    <changefreq>weekly</changefreq>\n'
+        '    <priority>0.95</priority>\n'
+        '  </url>\n'
+        '  <url>\n'
+        '    <loc>https://agenciaprosperia.com/crm-saas</loc>\n'
+        '    <changefreq>weekly</changefreq>\n'
+        '    <priority>0.92</priority>\n'
         '  </url>\n'
     )
     
@@ -6189,3 +6243,214 @@ def translate_dynamic_batch(req: TranslateBatchRequest):
                     continue
 
     return JSONResponse(content={"ok": True, "translations": result})
+
+
+class DirectoryBusinessRequest(BaseModel):
+    business_name: str
+    vertical: str
+    contact_name: str
+    city: str
+    email: EmailStr
+    phone: str
+    website_url: Optional[str] = ""
+    description: Optional[str] = ""
+    website_hp: Optional[str] = ""
+
+
+_DIRECTORY_VERTICAL_MAP = {
+    "clinicas": {
+        "template": "clinica_dental_estetica",
+        "niche": "clinica",
+        "industry": "Clínicas SVE90 & Beauty Growth",
+        "offer": "RESCATE_197",
+    },
+    "profesionales": {
+        "template": "profesionales_consultoria_legal",
+        "niche": "profesionales",
+        "industry": "Profesionales, Despachos & Inmobiliaria",
+        "offer": "EXPRESS_497",
+    },
+    "oficios": {
+        "template": "servicios_locales_taller",
+        "niche": "servicios_locales",
+        "industry": "Servicios Locales & 82 Oficios",
+        "offer": "RESCATE_197",
+    },
+    "agencias_crm": {
+        "template": "profesionales_consultoria_legal",
+        "niche": "agencias",
+        "industry": "Agencias CRM-SaaS & ProsperIAStack",
+        "offer": "ANUAL_990",
+    },
+    "faceless_ai": {
+        "template": "academia_educacion_cursos",
+        "niche": "faceless_ai",
+        "industry": "Creadores & Proyectos Faceless PassportAI",
+        "offer": "EXPRESS_497",
+    },
+}
+
+
+@app.post("/api/knowledge-base/register-business")
+async def api_directory_register_business(
+    req: DirectoryBusinessRequest,
+    background_tasks: BackgroundTasks,
+    db: Session = Depends(get_db),
+):
+    """Registra gratuitamente una empresa/agencia en el Directorio Knowledge Base y genera preview + upsell Stripe."""
+    if (req.website_hp or "").strip():
+        return {"success": True, "preview_url": "/demo-sitio-web?public=1"}
+
+    biz_name = req.business_name.strip()
+    contact_name = req.contact_name.strip()
+    city_val = req.city.strip()
+    if not biz_name or not contact_name or not city_val:
+        raise HTTPException(status_code=400, detail="Completa empresa, contacto y ciudad.")
+
+    vertical_key = (req.vertical or "profesionales").strip().lower()
+    meta = _DIRECTORY_VERTICAL_MAP.get(vertical_key, _DIRECTORY_VERTICAL_MAP["profesionales"])
+    email_raw = normalize_email(str(req.email or ""))
+    phone_raw = req.phone.strip()
+    phone_e164 = normalize_phone_e164(phone_raw)
+    created_at = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+
+    note_parts = [
+        f"[Directorio Knowledge Base · Vertical: {meta['industry']}]",
+        f"Ciudad: {city_val}",
+    ]
+    if (req.website_url or "").strip():
+        note_parts.append(f"Web/Social: {req.website_url.strip()}")
+    if (req.description or "").strip():
+        note_parts.append(f"Detalle: {req.description.strip()}")
+    combined_notes = " | ".join(note_parts)
+
+    closer = get_next_round_robin_closer(db)
+    owner_email = closer.get("email", "") if closer else ""
+    closer_ghl_id = closer.get("ghl_user_id", "") if closer else ""
+    closer_name = closer.get("name", "Especialista Agencia Prosper IA") if closer else "Especialista Agencia Prosper IA"
+
+    lead_id = None
+    try:
+        existing = None
+        if email_raw or phone_e164:
+            existing = db.query(DbLead).filter(
+                (DbLead.email == email_raw) | ((DbLead.phone_e164 == phone_e164) if phone_e164 else False)
+            ).first()
+        if existing:
+            existing.name = contact_name or existing.name
+            existing.full_name = contact_name or existing.full_name
+            existing.company = biz_name or existing.company
+            existing.business_name = biz_name or existing.business_name
+            existing.phone = phone_raw or existing.phone
+            existing.phone_e164 = phone_e164 or existing.phone_e164
+            existing.source = "knowledge_base_directory"
+            existing.source_channel = "Knowledge Base Directorio"
+            existing.interest_primary = meta["industry"]
+            existing.notes = combined_notes
+            existing.selected_template = meta["template"]
+            existing.score = max(existing.score or 0, 88)
+            db.commit()
+            lead_id = existing.id
+        else:
+            new_lead = DbLead(
+                name=contact_name,
+                full_name=contact_name,
+                email=email_raw or str(req.email),
+                company=biz_name,
+                business_name=biz_name,
+                phone=phone_raw,
+                phone_e164=phone_e164,
+                status="qualified",
+                source="knowledge_base_directory",
+                source_channel="Knowledge Base Directorio",
+                source_campaign="Directorio Gratis -> Upsell Stripe",
+                interest_primary=meta["industry"],
+                score=88,
+                notes=combined_notes,
+                created_at=created_at,
+                owner_id=owner_email,
+                setter_id=owner_email,
+                niche=meta["niche"],
+                selected_template=meta["template"],
+                offer_version=meta["offer"],
+                quoted_amount=0.0,
+                contact_permission="Directorio Web Público",
+                contact_status="contactable",
+                pipeline_stage="Primer contacto",
+            )
+            db.add(new_lead)
+            db.commit()
+            db.refresh(new_lead)
+            lead_id = new_lead.id
+    except Exception as db_err:
+        print(f"⚠️ [KB DIRECTORY WARNING] SQLite persist skipped: {db_err}", flush=True)
+        db.rollback()
+
+    preview_params = {
+        "public": "1",
+        "template": meta["template"],
+        "business": biz_name,
+        "city": city_val,
+    }
+    if phone_raw:
+        preview_params["phone"] = phone_raw
+    preview_url = f"/demo-sitio-web?{urllib.parse.urlencode(preview_params)}"
+
+    partner_notify = get_partner_emails(owner_email) if owner_email else []
+    background_tasks.add_task(
+        send_email_notification,
+        name=contact_name,
+        email=str(req.email),
+        company=biz_name,
+        phone=phone_raw,
+        message=f"[Directorio Knowledge Base · Responsable: {closer_name}] {combined_notes}",
+        extra_recipients=partner_notify or None,
+    )
+    if email_raw:
+        background_tasks.add_task(
+            send_web_lead_welcome_smtp_email,
+            contact_name,
+            email_raw,
+            meta["industry"],
+        )
+
+    parts = contact_name.split()
+    trigger_lead_sync(
+        lead_name=contact_name,
+        lead_email=str(req.email),
+        lead_phone=phone_raw,
+        lead_company=biz_name,
+        lead_notes=combined_notes,
+        lead_source="knowledge_base_directory",
+        db=db,
+        first_name_param=parts[0] if parts else contact_name,
+        last_name_param=" ".join(parts[1:]) if len(parts) > 1 else "",
+        industry=meta["industry"],
+        team_size="",
+        raw_message=(req.description or "").strip(),
+        sms_consent=False,
+        assigned_to=closer_ghl_id,
+        owner_email=owner_email,
+        offer_version=meta["offer"],
+        lead_db_id=lead_id,
+    )
+
+    return {
+        "success": True,
+        "lead_id": lead_id,
+        "business_name": biz_name,
+        "vertical": vertical_key,
+        "preview_url": preview_url,
+        "onboarding_url": "https://prosperia.passportai.app/dashboard",
+        "stripe_links": {
+            "core_monthly": "https://buy.stripe.com/14A6oHh2X9qTabj0ddbo407",
+            "core_annual": "https://buy.stripe.com/bJecN5eUPeLdbfn9NNbo408",
+            "pro_monthly": "https://buy.stripe.com/14A9ATeUP7iLbfn7FFbo409",
+            "pro_annual": "https://buy.stripe.com/9B6dR9bID9qTerz5xxbo40a",
+            "enterprise_monthly": "https://buy.stripe.com/8x28wPeUPeLdbfn8JJbo40b",
+            "rescate_197": "https://api.agenciaprosperia.com/payment-link/6af1f575d4cfb789aef22853",
+            "impulso_497": "https://api.agenciaprosperia.com/payment-link/6af228ba03c375ed645fe62d",
+            "estrella_990": "https://api.agenciaprosperia.com/payment-link/6af227ecd4cfb789aef2298d",
+            "maquina_1490": "https://api.agenciaprosperia.com/payment-link/6af2297ad4cfb789aef229a0",
+        },
+    }

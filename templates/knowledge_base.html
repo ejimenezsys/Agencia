@@ -1,0 +1,1629 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Knowledge Base, Directorio IA &amp; Planes Auto-Servicio Stripe | Agencia Prosper IA LLC</title>
+  <meta name="description" content="Centro de conocimiento, directorio gratuito de negocios inteligentes y escalera auto-servicio (FREE, CORE, PRO) con Stripe para Clínicas SVE90, Profesionales Locales y Agencias CRM-SaaS con ProsperIAStack y PassportAI.app.">
+  <link rel="icon" type="image/png" href="{{ static_versioned('favicon.png') }}">
+  <link rel="stylesheet" href="{{ static_versioned('fonts.css') }}">
+  <link rel="stylesheet" href="{{ static_versioned('fa.min.css') }}">
+  <link rel="stylesheet" href="{{ static_versioned('ecosistema_squad.css') }}">
+  <style>
+    /* ── Knowledge Base, TechBehemoths Pricing Ladder & AIFindy Directory ── */
+    .kb-hero-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      align-items: center;
+    }
+    @media (min-width: 980px) {
+      .kb-hero-grid { grid-template-columns: 1.18fr 0.82fr; }
+    }
+    .kb-kpi-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 0.85rem;
+      margin-top: 1.5rem;
+    }
+    .kb-kpi-card {
+      padding: 0.9rem 1rem;
+      border-radius: 16px;
+      background: rgba(14, 22, 40, 0.78);
+      border: 1px solid rgba(0, 229, 255, 0.24);
+    }
+    .kb-kpi-val {
+      font-family: 'Space Grotesk', system-ui, sans-serif;
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: #67e8f9;
+      line-height: 1.1;
+    }
+    .kb-kpi-lbl {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+    }
+
+    /* Search Bar (<search>) */
+    .kb-search-box {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: flex-end;
+      padding: 1.15rem;
+      border-radius: 18px;
+      background: rgba(11, 17, 32, 0.86);
+      border: 1px solid rgba(0, 229, 255, 0.28);
+      margin-bottom: 1.5rem;
+    }
+    .kb-search-field {
+      flex: 1 1 280px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    .kb-label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+    .kb-input,
+    .kb-select,
+    .kb-textarea {
+      font: inherit;
+      font-size: max(1rem, 1em);
+      min-height: 48px;
+      padding: 0.65rem 0.9rem;
+      border-radius: 12px;
+      background: rgba(2, 6, 16, 0.88);
+      color: #f8fafc;
+      border: 1.5px solid rgba(148, 163, 184, 0.35);
+      width: 100%;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .kb-textarea { min-height: 92px; resize: vertical; }
+    .kb-input:focus-visible,
+    .kb-select:focus-visible,
+    .kb-textarea:focus-visible {
+      outline: 3px solid #00e5ff;
+      outline-offset: 2px;
+      border-color: #67e8f9;
+    }
+    .kb-input:user-invalid,
+    .kb-select:user-invalid,
+    .kb-textarea:user-invalid,
+    .kb-input[aria-invalid="true"],
+    .kb-select[aria-invalid="true"] {
+      border-color: #f43f5e;
+      box-shadow: 0 0 0 2px rgba(244, 63, 94, 0.2);
+    }
+    .kb-error-msg {
+      font-size: 0.78rem;
+      color: #fda4af;
+      min-height: 1rem;
+    }
+
+    /* Accessible Tablist (modern-web-guidance: tabs with ::after border indicator) */
+    .kb-tablist {
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      gap: 0.5rem;
+      padding-bottom: 0.35rem;
+      margin-bottom: 1.5rem;
+      scrollbar-width: thin;
+      scroll-snap-type: inline proximity;
+    }
+    .kb-tab {
+      position: relative;
+      flex: none;
+      scroll-snap-align: start;
+      min-height: 46px;
+      padding: 0.65rem 1.15rem;
+      border-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.28);
+      background: rgba(14, 22, 40, 0.72);
+      color: var(--text-secondary);
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+    }
+    .kb-tab:hover { color: #ffffff; border-color: rgba(0, 229, 255, 0.45); }
+    .kb-tab:focus-visible { outline: 3px solid #00e5ff; outline-offset: 2px; }
+    .kb-tab[aria-selected="true"] {
+      color: #67e8f9;
+      background: rgba(0, 229, 255, 0.12);
+      border-color: rgba(0, 229, 255, 0.55);
+    }
+    .kb-tab[aria-selected="true"]::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      border-block-end: 3px solid #00e5ff;
+      border-radius: 0 0 10px 10px;
+    }
+    .kb-tabpanel-inner {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 1.25rem;
+    }
+
+    /* Knowledge Base Guide Cards */
+    .kb-guide-card {
+      padding: 1.45rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 0.9rem;
+    }
+    .kb-tag-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: rgba(0, 229, 255, 0.12);
+      border: 1px solid rgba(0, 229, 255, 0.36);
+      color: #67e8f9;
+      align-self: flex-start;
+    }
+    .kb-tag-emerald {
+      background: rgba(16, 185, 129, 0.15);
+      border-color: rgba(16, 185, 129, 0.42);
+      color: #6ee7b7;
+    }
+    .kb-tag-amber {
+      background: rgba(245, 158, 11, 0.15);
+      border-color: rgba(245, 158, 11, 0.42);
+      color: #fcd34d;
+    }
+
+    /* Agency Bridge Banner */
+    .kb-agency-bridge {
+      margin-top: 2rem;
+      padding: 1.75rem;
+      border-radius: 22px;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(14, 22, 40, 0.92) 55%, rgba(0, 229, 255, 0.1) 100%);
+      border: 1px solid rgba(52, 211, 153, 0.45);
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      align-items: center;
+    }
+    @media (min-width: 960px) {
+      .kb-agency-bridge { grid-template-columns: 1.35fr 0.65fr; }
+    }
+
+    /* TechBehemoths Pricing Ladder */
+    .kb-pricing-controls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2.25rem;
+    }
+    .kb-cycle-bar {
+      display: inline-flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.4rem;
+      padding: 0.4rem;
+      border-radius: 16px;
+      background: rgba(11, 17, 32, 0.92);
+      border: 1px solid rgba(0, 229, 255, 0.34);
+    }
+    .kb-cycle-btn {
+      position: relative;
+      min-height: 44px;
+      padding: 0.55rem 1rem;
+      border-radius: 11px;
+      border: 0;
+      background: transparent;
+      color: var(--text-secondary);
+      font-family: inherit;
+      font-size: 0.86rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.18s ease, color 0.18s ease;
+    }
+    .kb-cycle-btn[aria-selected="true"] {
+      background: rgba(0, 229, 255, 0.18);
+      color: #67e8f9;
+    }
+    .kb-cycle-btn[aria-selected="true"]::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      border-block-end: 3px solid #00e5ff;
+      border-radius: 0 0 8px 8px;
+    }
+    .kb-pricing-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.4rem;
+      align-items: stretch;
+    }
+    @media (min-width: 1020px) {
+      .kb-pricing-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    .kb-tier-card {
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .kb-tier-popular {
+      border-color: rgba(0, 229, 255, 0.58);
+      box-shadow: 0 28px 60px -16px rgba(0, 0, 0, 0.9), 0 0 38px rgba(0, 229, 255, 0.16);
+    }
+    .kb-tier-pro {
+      border-color: rgba(52, 211, 153, 0.45);
+    }
+    .kb-price-box {
+      padding: 1rem 1.15rem;
+      border-radius: 14px;
+      background: rgba(2, 7, 16, 0.65);
+      border: 1px solid rgba(148, 163, 184, 0.22);
+    }
+    .kb-price-main {
+      font-family: 'Space Grotesk', system-ui, sans-serif;
+      font-size: clamp(1.85rem, 3vw, 2.5rem);
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 1.05;
+    }
+    .kb-price-sub {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 0.35rem;
+    }
+    .kb-feature-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 0.6rem;
+      font-size: 0.89rem;
+      color: var(--text-secondary);
+    }
+    .kb-feature-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.55rem;
+      line-height: 1.45;
+    }
+    .kb-feature-yes i { color: #34d399; margin-top: 0.22rem; flex-shrink: 0; }
+    .kb-feature-no { color: var(--text-muted); opacity: 0.72; }
+    .kb-feature-no i { color: #64748b; margin-top: 0.22rem; flex-shrink: 0; }
+
+    /* Yellow Preview Strip (TechBehemoths style "Preview your position") */
+    .kb-btn-preview-yellow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      min-height: 48px;
+      padding: 0.72rem 1.25rem;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+      color: #020617 !important;
+      font-weight: 800;
+      font-size: 0.9rem;
+      text-decoration: none;
+      border: 1.5px solid #fde68a;
+      cursor: pointer;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+    .kb-btn-preview-yellow:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 26px rgba(245, 158, 11, 0.32);
+    }
+    .kb-preview-bar {
+      margin-top: 1.75rem;
+      padding: 1.25rem 1.4rem;
+      border-radius: 18px;
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid rgba(251, 191, 36, 0.4);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+
+    /* Responsive Comparison Table (modern-web-guidance: responsive-table) */
+    .kb-table-wrap {
+      overflow: auto;
+      max-inline-size: 100%;
+      max-block-size: min(640px, 78vh);
+      container-type: inline-size;
+      border-radius: 20px;
+      border: 1px solid rgba(148, 163, 184, 0.24);
+      background: #070d1b;
+    }
+    .kb-matrix-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      text-align: left;
+      font-size: 0.9rem;
+      --label-2: "FREE ($0)";
+      --label-3: "CORE (Popular)";
+      --label-4: "PRO (Owner)";
+    }
+    .kb-matrix-table caption {
+      text-align: left;
+      padding: 1rem 1.25rem 0.65rem;
+      font-family: 'Space Grotesk', system-ui, sans-serif;
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: #f8fafc;
+    }
+    .kb-matrix-table thead th {
+      position: sticky;
+      inset-block-start: 0;
+      z-index: 3;
+      background: #0d1629;
+      color: #f8fafc;
+      padding: 0.9rem 1rem;
+      font-weight: 800;
+      border-bottom: 1.5px solid rgba(0, 229, 255, 0.3);
+    }
+    .kb-matrix-table tbody th {
+      position: sticky;
+      inset-inline-start: 0;
+      z-index: 1;
+      background: #091122;
+      color: #f8fafc;
+      font-weight: 700;
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      min-width: 240px;
+    }
+    .kb-matrix-table tbody td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      color: var(--text-secondary);
+      vertical-align: middle;
+    }
+    .kb-group-row th {
+      background: #0f1d38 !important;
+      color: #67e8f9 !important;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+    }
+    .kb-check { color: #34d399; font-weight: 800; }
+    .kb-cross { color: #64748b; }
+
+    @container (width < 680px) {
+      .kb-matrix-table,
+      .kb-matrix-table thead,
+      .kb-matrix-table tbody,
+      .kb-matrix-table tr,
+      .kb-matrix-table th,
+      .kb-matrix-table td {
+        display: block;
+      }
+      .kb-matrix-table thead { display: none; }
+      .kb-matrix-table tr {
+        margin: 0.75rem;
+        border: 1px solid rgba(148, 163, 184, 0.25);
+        border-radius: 14px;
+        overflow: hidden;
+        background: rgba(11, 18, 34, 0.92);
+      }
+      .kb-matrix-table tbody th {
+        position: sticky;
+        inset-block-start: 0;
+        z-index: 2;
+        background: #0f1c36;
+        min-width: 0;
+      }
+      .kb-matrix-table tbody td {
+        display: flex;
+        justify-content: space-between;
+        gap: 0.75rem;
+        padding: 0.65rem 1rem;
+      }
+      .kb-matrix-table tbody td:nth-child(2)::before { content: var(--label-2) ": "; font-weight: 700; color: #94a3b8; }
+      .kb-matrix-table tbody td:nth-child(3)::before { content: var(--label-3) ": "; font-weight: 700; color: #67e8f9; }
+      .kb-matrix-table tbody td:nth-child(4)::before { content: var(--label-4) ": "; font-weight: 700; color: #6ee7b7; }
+    }
+
+    /* Directory Split Grid */
+    .kb-dir-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+    @media (min-width: 980px) {
+      .kb-dir-grid { grid-template-columns: 0.95fr 1.05fr; }
+    }
+    .kb-dir-form-card {
+      padding: 1.85rem;
+      border-color: rgba(0, 229, 255, 0.36);
+    }
+    .kb-form-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    @media (min-width: 640px) {
+      .kb-form-grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+    }
+    .kb-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      margin-bottom: 0.85rem;
+    }
+    .kb-hp {
+      position: absolute;
+      left: -9999px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+
+    /* Native Modal Dialog (modern-web-guidance: dialog) */
+    dialog#aifindy-upsell-dialog {
+      max-width: min(920px, calc(100vw - 1.5rem));
+      width: 100%;
+      border: 1px solid rgba(0, 229, 255, 0.45);
+      border-radius: 24px;
+      padding: 0;
+      background: #0a101d;
+      color: #f8fafc;
+      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.92);
+      overflow: auto;
+      max-height: 92dvh;
+    }
+    dialog#aifindy-upsell-dialog:modal {
+      overscroll-behavior: contain;
+    }
+    dialog#aifindy-upsell-dialog::backdrop {
+      background: rgba(2, 4, 12, 0.82);
+      backdrop-filter: blur(8px);
+      overflow: hidden;
+      overscroll-behavior: contain;
+    }
+    .kb-modal-inner { padding: 1.75rem; }
+    .kb-modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.15rem;
+    }
+    .kb-modal-close {
+      min-width: 44px;
+      min-height: 44px;
+      border-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: rgba(15, 23, 42, 0.9);
+      color: #f8fafc;
+      font-size: 1.1rem;
+      cursor: pointer;
+    }
+    .kb-upsell-cols {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.15rem;
+      margin-top: 1rem;
+    }
+    @media (min-width: 720px) {
+      .kb-upsell-cols { grid-template-columns: 1fr 1fr; }
+    }
+    .kb-upsell-card {
+      padding: 1.35rem;
+      border-radius: 18px;
+      background: rgba(17, 24, 39, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.28);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 0.9rem;
+    }
+    .kb-upsell-card.is-popular {
+      background: linear-gradient(160deg, rgba(14, 30, 56, 0.96), rgba(15, 23, 42, 0.96));
+      border-color: rgba(0, 229, 255, 0.62);
+    }
+
+    /* Light Mode Contrast Adjustments */
+    html[data-theme="light"] .kb-kpi-card,
+    html[data-theme="light"] .kb-search-box,
+    html[data-theme="light"] .kb-cycle-bar {
+      background: #ffffff;
+      border-color: #cbd5e1;
+    }
+    html[data-theme="light"] .kb-kpi-val { color: #0284c7; }
+    html[data-theme="light"] .kb-input,
+    html[data-theme="light"] .kb-select,
+    html[data-theme="light"] .kb-textarea {
+      background: #f8fafc;
+      color: #0f172a;
+      border-color: #94a3b8;
+    }
+    html[data-theme="light"] .kb-tab {
+      background: #f1f5f9;
+      color: #334155;
+      border-color: #cbd5e1;
+    }
+    html[data-theme="light"] .kb-tab[aria-selected="true"] {
+      background: #e0f2fe;
+      color: #0369a1;
+      border-color: #0284c7;
+    }
+    html[data-theme="light"] .kb-price-box {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+    }
+    html[data-theme="light"] .kb-price-main { color: #0f172a; }
+    html[data-theme="light"] .kb-table-wrap { background: #ffffff; border-color: #cbd5e1; }
+    html[data-theme="light"] .kb-matrix-table thead th { background: #e2e8f0; color: #0f172a; }
+    html[data-theme="light"] .kb-matrix-table tbody th { background: #f8fafc; color: #0f172a; border-color: #e2e8f0; }
+    html[data-theme="light"] .kb-matrix-table tbody td { color: #334155; border-color: #e2e8f0; }
+    html[data-theme="light"] .kb-group-row th { background: #e0f2fe !important; color: #0369a1 !important; }
+    html[data-theme="light"] .kb-agency-bridge {
+      background: linear-gradient(135deg, #ecfdf5 0%, #f8fafc 60%, #e0f2fe 100%);
+      border-color: #10b981;
+    }
+    html[data-theme="light"] dialog#aifindy-upsell-dialog {
+      background: #ffffff;
+      color: #0f172a;
+      border-color: #0284c7;
+    }
+    html[data-theme="light"] .kb-upsell-card {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+    }
+    html[data-theme="light"] .kb-upsell-card.is-popular {
+      background: #eff6ff;
+      border-color: #0284c7;
+    }
+  </style>
+</head>
+<body>
+  {% with active_menu='recursos' %}{% include "navbar.html" %}{% endwith %}
+
+  <main id="contenido-principal">
+    <!-- ── HERO ── -->
+    <section class="pia-shell" style="padding-block: 2.5rem 3.25rem;">
+      <div class="kb-hero-grid">
+        <div>
+          <div class="pia-eyebrow"><i class="fas fa-book-atlas" aria-hidden="true"></i> Knowledge Base · Directorio Verificado · Checkout Directo Stripe</div>
+          <h1 class="font-heading" style="font-size: clamp(2rem, 4.1vw, 3.25rem); font-weight: 900; margin-bottom: 1rem;">
+            Centro de Conocimiento IA, <span class="pia-gradient-text">Directorio de Negocios &amp; Planes Auto-Servicio</span>
+          </h1>
+          <p style="font-size: 1.04rem; color: var(--text-secondary); max-width: 680px; margin-bottom: 1.45rem;">
+            Explora guías reales implementadas en producción para <strong style="color:#fff;">Clínicas SVE90 &amp; Beauty Growth</strong>, <strong style="color:#fff;">Profesionales &amp; 82 Oficios</strong> y <strong style="color:#fff;">Agencias CRM-SaaS + Creadores Faceless</strong>. Previsualiza tu sitio web en vivo gratis, regístrate en el directorio oficial o activa tu sistema en 1 clic con Stripe sin esperar cotizaciones.
+          </p>
+          <div style="display:flex; flex-wrap:wrap; gap:0.85rem;">
+            <a href="#registro-directorio" class="pia-btn-primary">
+              <i class="fas fa-plus-circle" aria-hidden="true"></i>
+              <span>Registrar Mi Negocio Gratis (24h)</span>
+            </a>
+            <a href="#pricing-glance" class="pia-btn-emerald">
+              <i class="fas fa-credit-card" aria-hidden="true"></i>
+              <span>Ver Planes Stripe (FREE · CORE · PRO)</span>
+            </a>
+            <a href="#bloque-guias" class="pia-btn-ghost">
+              <i class="fas fa-compass" aria-hidden="true"></i>
+              <span>Explorar Guías por Vertical</span>
+            </a>
+          </div>
+          <div class="kb-kpi-strip">
+            <div class="kb-kpi-card">
+              <div class="kb-kpi-val">3 Verticales</div>
+              <div class="kb-kpi-lbl">Clínicas, Oficios y Agencias CRM-SaaS</div>
+            </div>
+            <div class="kb-kpi-card">
+              <div class="kb-kpi-val">5 Minutos</div>
+              <div class="kb-kpi-lbl">Despliegue CRM vía ProsperIAStack</div>
+            </div>
+            <div class="kb-kpi-card">
+              <div class="kb-kpi-val">+58 Modelos</div>
+              <div class="kb-kpi-lbl">Unificados en PassportAI.app</div>
+            </div>
+            <div class="kb-kpi-card">
+              <div class="kb-kpi-val">100% Stripe</div>
+              <div class="kb-kpi-lbl">Activación mensual, anual o única</div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="pia-card" style="padding: 1.65rem; border-color: rgba(0, 229, 255, 0.36);">
+          <span class="kb-tag-pill kb-tag-emerald"><i class="fas fa-bolt" aria-hidden="true"></i> ¿Por qué todos nuestros servicios se conectan aquí?</span>
+          <h2 class="font-heading" style="font-size: 1.38rem; font-weight: 800; margin: 0.85rem 0 0.65rem;">
+            Un Solo Ecosistema Sin Fricción ni Sistemas Sueltos
+          </h2>
+          <p style="font-size: 0.92rem; color: var(--text-secondary); margin-bottom: 1rem;">
+            A diferencia de consultoras fragmentadas donde contratas un diseñador por un lado, un programador por otro y editores aparte, todo corre unido sobre:
+          </p>
+          <ul class="kb-feature-list">
+            <li class="kb-feature-yes"><i class="fas fa-check-circle" aria-hidden="true"></i><span><strong>16+ Plantillas Vivas (/demo-sitio-web):</strong> Previsualiza tu web con tu nombre y WhatsApp hoy mismo.</span></li>
+            <li class="kb-feature-yes"><i class="fas fa-check-circle" aria-hidden="true"></i><span><strong>ProsperIAStack Onboarding (5 min):</strong> Sube tu PDF y nuestra IA inyecta 141 variables, 9 workflows y 3 calendarios.</span></li>
+            <li class="kb-feature-yes"><i class="fas fa-check-circle" aria-hidden="true"></i><span><strong>PassportAI.app (+58 modelos):</strong> Centraliza OpenAI, Gemini, Claude, Runway, ElevenLabs y Reels 9:16 Faceless.</span></li>
+            <li class="kb-feature-yes"><i class="fas fa-check-circle" aria-hidden="true"></i><span><strong>CRM-SaaS &amp; Alianza Agencias:</strong> Subcuentas listas desde US$97/mes o cuenta maestra GoHighLevel con 3 Bonos VIP.</span></li>
+          </ul>
+          <div style="margin-top: 1.15rem; display:flex; flex-wrap:wrap; gap:0.65rem;">
+            <a href="/crm-saas" class="pia-btn-ghost" style="min-height:42px; padding:0.55rem 1rem; font-size:0.84rem;">Ver Vertical Agencias CRM-SaaS →</a>
+            <a href="/passportai" class="pia-btn-ghost" style="min-height:42px; padding:0.55rem 1rem; font-size:0.84rem;">Ver PassportAI.app →</a>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ── BLOQUE A: KNOWLEDGE BASE & GUÍAS POR VERTICAL ── -->
+    <section class="pia-section" id="bloque-guias" style="background: rgba(7, 11, 20, 0.72);">
+      <div class="pia-shell">
+        <div style="max-width: 820px; margin-bottom: 1.75rem;">
+          <div class="pia-eyebrow"><i class="fas fa-graduation-cap" aria-hidden="true"></i> Bloque 1 · Knowledge Base por Vertical (Estilo TechBehemoths)</div>
+          <h2 class="font-heading" style="font-size: clamp(1.75rem, 3.2vw, 2.5rem); font-weight: 900; margin-bottom: 0.65rem;">
+            Guías Operativas, Planos Técnicos y Artículos Indexados
+          </h2>
+          <p style="color: var(--text-secondary); font-size: 0.96rem;">
+            Filtra por tu vertical o busca cualquier tema (WhatsApp IA, SVE90, GoHighLevel, Reels 9:16, Sitios Web o Negocios Faceless) para ir directo a la solución.
+          </p>
+        </div>
+
+        <search>
+          <form class="kb-search-box" onsubmit="return false;" aria-label="Buscar guías en Knowledge Base">
+            <div class="kb-search-field">
+              <label for="kb-search-input" class="kb-label">Buscar en la base de conocimiento</label>
+              <input
+                type="search"
+                id="kb-search-input"
+                name="q"
+                class="kb-input"
+                placeholder="Ej. WhatsApp QR, clínicas, CRM en 5 minutos, GoHighLevel, Reels 9:16, faceless..."
+                autocorrect="off"
+                autocapitalize="none"
+                spellcheck="false"
+                enterkeyhint="search"
+              >
+            </div>
+            <button type="button" id="kb-search-clear" class="pia-btn-ghost" style="min-height:48px;">Limpiar filtro</button>
+          </form>
+        </search>
+
+        <div class="kb-tablist" focusgroup="tablist nomemory" role="tablist" aria-label="Filtrar Knowledge Base por vertical">
+          <button type="button" role="tab" id="vtab-all" class="kb-tab" aria-selected="true" focusgroupstart data-vfilter="all">Todas las Verticales (9 Guías)</button>
+          <button type="button" role="tab" id="vtab-clinicas" class="kb-tab" aria-selected="false" data-vfilter="clinicas">1. Clínicas SVE90 &amp; Beauty Growth</button>
+          <button type="button" role="tab" id="vtab-profesionales" class="kb-tab" aria-selected="false" data-vfilter="profesionales">2. Profesionales &amp; 82 Oficios</button>
+          <button type="button" role="tab" id="vtab-agencias" class="kb-tab" aria-selected="false" data-vfilter="agencias">3. Agencias CRM-SaaS &amp; Faceless IA</button>
+        </div>
+
+        <div id="kb-guides-grid" class="kb-tabpanel-inner">
+          <!-- Vertical 1: Clínicas -->
+          <article class="pia-card kb-guide-card" data-vertical="clinicas" data-keywords="clinicas belleza estetica capilar odontologia sve90 beauty growth whatsapp no-show pacientes">
+            <div>
+              <span class="kb-tag-pill"><i class="fas fa-stethoscope" aria-hidden="true"></i> Vertical 1 · Clínicas SVE90</span>
+              <h3 class="font-heading" style="font-size:1.18rem; font-weight:800; margin:0.75rem 0 0.5rem;">Cómo Instalar un Recepcionista WhatsApp IA y Agenda Anti-Plantones en 5 Minutos</h3>
+              <p style="font-size:0.89rem; color:var(--text-secondary);">Sube el brochure PDF de tu clínica dental, capilar o estética en ProsperIAStack y despliega 2 embudos, 141 variables, 9 workflows y 3 calendarios sin depender de técnicos.</p>
+            </div>
+            <div style="display:flex; flex-wrap:wrap; gap:0.6rem;">
+              <a href="/demo-sitio-web?public=1&template=clinica_dental_estetica" target="_blank" rel="noopener" class="pia-btn-primary" style="min-height:42px; padding:0.5rem 0.95rem; font-size:0.82rem;">Ver Demo Clínica →</a>
+              <a href="#pricing-glance" class="pia-btn-ghost" style="min-height:42px; padding:0.5rem 0.95rem; font-size:0.82rem;">Activar con Stripe</a>
+            </div>
+          </article>
+
+          <article class="pia-card kb-guide-card" data-vertical="clinicas" data-keywords="beauty growth spa medspa salon academias belleza reactivacion clientes citas">
+            <div>
+              <span class="kb-tag-pill"><i class="fas fa-wand-magic-sparkles" aria-hidden="true"></i> Vertical 1 · Beauty Growth</span>
+              <h3 class="font-heading" style="font-size:1.18rem; font-weight:800; margin:0.75rem 0 0.5rem;">Sistema Beauty Growth: Recuperación de Pacientes Dormidos y Citas High-Ticket</h3>
+              <p style="font-size:0.89rem; color:var(--text-secondary);">Arquitectura completa de 14 etapas en CRM para MedSpas, clínicas de belleza y academias que quieren llenar cabina con recordatorios automáticos y Reels de autoridad.</p>
+            </div>
+            <div style="display:flex; flex-wrap:wrap; gap:0.6rem;">
+              <a href="/beautygrowth" class="pia-btn-primary" style="min-height:42px; padding:0.5rem 0.95rem; font-size:0.82rem;">Explorar Beauty Growth →</a>
+              <a href="/demo-sitio-web?public=1&template=beauty_growth_salon_spa" target="_blank" rel="noopener" class="pia-btn-ghost" style="min-height:42px; padding:0.5rem 0.95rem; font-size:0.82rem;">Demo MedSpa</a>
+            </div>
+          </article>
+
+          <article class="pia-card kb-guide-card" data-vertical="clinicas" data-keywords="diagnostico test ia fugas comercial pacientes cotizaciones velocidad">
+            <div>
+              <span class="kb-tag-pill"><i class="fas fa-chart-line" aria-hidden="true"></i> Vertical 1 · Auditoría IA</span>
+              <h3 class="font-heading" style="font-size:1.18rem; font-weight:800; margin:0.75rem 0 0.5rem;">Test de Madurez IA (90 Segundos): Mide Cuántos Pacientes Pierdes por Tardanza</h3>
+              <p style="font-size:0.89rem; color:var(--text-secondary);">Calcula el impacto financiero de responder en 5 segundos vs. 3 horas y obtén tu hoja de ruta automática SVE90 antes de invertir en publicidad.</p>
+            </div>
+            <div style="display:flex; flex-wrap:wrap; gap:0.6rem;">
+              <a href="/test-ia" class="pia-btn-primary" style="min-height:42px; padding:0.5rem 0.95rem; font-size:0.82rem;">Hacer Test 90s →</a>
+              <a href="/diagnostico" class="pia-btn-ghost" style="min-height:42px; padding:0.5rem 0.95rem; font-size:0.82rem;">Diagnóstico Comercial</a>
+            </div>
+          </article>
+
+          <!-- Vertical 2: Profesionales & 82 Oficios -->
+          <article class="pia-card kb-guide-card" data-vertical="profesionales" data-keywords="abogados inmobiliaria contadores despachos locales hvac plomeria sitios web qr rescate 197 497">
+            <div>
+              <span class="kb-tag-pill kb-tag-amber"><i class="fas fa-briefcase" aria-hidden="true"></i> Vertical 2 · Profesionales &amp; Oficios</span>
+              <h3 class="font-heading" style="font-size:1.18rem; font-weight:800; margin:0.75rem 0 0.5rem;">Sitio Web Inteligente + Chatbot WhatsApp en 7 Días (16 Plantillas Listas por Giro)</h3>
+              <p style="font-size:0.89rem; color:var(--text-secondary);">Inmobiliarias, despachos legales/contables, HVAC, plomería y 82 oficios. Previsualiza tu página con tu nombre y elige desde el Plan Rescate US$197 hasta Pack Estrella US$990.</p>
+            </div>
+            <div style="display:flex; flex-wrap:wrap; gap:0.6rem;">
+              <a href="/demo-sitio-web?public=1" target="_blank" rel="noopener" class="kb-btn-preview-yellow" style="min-height:42px; padding:0.5rem 0.95rem; font-size:0.82rem;">Probar Plantillas en Vivo →</a>
+              <a href="/paginas-web" class="pia-btn-ghost" style="min-height:42px; padding:0.5rem 0.95rem; font-size:0.82rem;">Ver Planes Web</a>
+            </div>
+          </article>
+
+          <article class="pia-card kb-guide-card" data-vertical="profesionales" data-keywords="tarjeta digital qr google resenas locales negocio local ventas">
+            <div>
+              <span class="kb-tag-pill kb-tag-amber"><i class="fas fa-qrcode" aria-hidden="true"></i> Vertical 2 · Presencia &amp; QR</span>
+              <h3 class="font-heading" style="font-size:1.18rem; font-weight:800; margin:0.75rem 0 0.5rem;">Tarjeta Digital Ejecutiva + QR de Reseñas Google + Botón WhatsApp Directo</h3>
+              <p style="font-size:0.89rem; color:var(--text-secondary);">Convierte cada reunión presencial, mostrador o vehículo en una máquina de captura hacia WhatsApp y reseñas 5 estrellas verificadas en Google.</p>
+            </div>
+            <div style="display:flex; flex-wrap:wrap; gap:0.6rem;">
+              <a href="/tarjeta" class="pia-btn-primary" style="min-height:42px; padding:0.5rem 0.95rem; font-size:0.82rem;">Ver Tarjeta Digital →</a>
+              <a href="https://api.agenciaprosperia.com/payment-link/6af1f575d4cfb789aef22853" target="_blank" rel="noopener" class="pia-btn-ghost" style="min-height:42px; padding:0.5rem 0.95rem; font-size:0.82rem;">Rescate Express US$197</a>
+            </div>
+          </article>
+
+          <article class="pia-card kb-guide-card" data-vertical="profesionales" data-keywords="las 4 inteligencias libro edward jimenez metodologia sobereania empresarial">
+            <div>
+              <span class="kb-tag-pill kb-tag-amber"><i class="fas fa-book-open" aria-hidden="true"></i> Vertical 2 · Metodología Oficial</span>
+              <h3 class="font-heading" style="font-size:1.18rem; font-weight:800; margin:0.75rem 0 0.5rem;">Libro Oficial «Las 4 Inteligencias»: Financiera, Emocional, Estratégica y Tecnológica</h3>
+              <p style="font-size:0.89rem; color:var(--text-secondary);">El marco de referencia con prólogo de Fernando Anzures para dejar de ser el «Dueño-Pulpo» esclavizado al celular e instalar soberanía operativa con IA.</p>
+            </div>
+            <div style="display:flex; flex-wrap:wrap; gap:0.6rem;">
+              <a href="/libro" class="pia-btn-primary" style="min-height:42px; padding:0.5rem 0.95rem; font-size:0.82rem;">Explorar Libro →</a>
+              <a href="/arsenal" class="pia-btn-ghost" style="min-height:42px; padding:0.5rem 0.95rem; font-size:0.82rem;">Arsenal +5,000 Prompts</a>
+            </div>
+          </article>
+
+          <!-- Vertical 3: Agencias CRM-SaaS, ProsperIAStack & Creadores Faceless -->
+          <article class="pia-card kb-guide-card" data-vertical="agencias" data-keywords="agencias crm saas gohighlevel subcuentas 97 297 497 stripe bonos vip afiliado">
+            <div>
+              <span class="kb-tag-pill kb-tag-emerald"><i class="fas fa-layer-group" aria-hidden="true"></i> Vertical 3 · Agencias CRM-SaaS</span>
+              <h3 class="font-heading" style="font-size:1.18rem; font-weight:800; margin:0.75rem 0 0.5rem;">Subcuentas CRM SaaS ($97–$497/mes) o Tu Propia Agencia GoHighLevel (+3 Bonos VIP)</h3>
+              <p style="font-size:0.89rem; color:var(--text-secondary);">Activa una subcuenta con Snapshot Passport AI Master v2 en 60 segundos con Stripe, o abre tu cuenta maestra oficial GHL y llévate el Snapshot + Constructores IA + Guía.</p>
+            </div>
+            <div style="display:flex; flex-wrap:wrap; gap:0.6rem;">
+              <a href="/crm-saas" class="pia-btn-emerald" style="min-height:42px; padding:0.5rem 0.95rem; font-size:0.82rem;">Ir a Agencias CRM-SaaS →</a>
+              <a href="https://www.gohighlevel.com/main-page?fp_ref=agencia-prosper-ia51" target="_blank" rel="noopener" class="pia-btn-ghost" style="min-height:42px; padding:0.5rem 0.95rem; font-size:0.82rem;">Cuenta Oficial GHL</a>
+            </div>
+          </article>
+
+          <article class="pia-card kb-guide-card" data-vertical="agencias" data-keywords="prosperiastack onboarding 5 minutos api v2 snapshots 141 custom values whatsapp qr">
+            <div>
+              <span class="kb-tag-pill kb-tag-emerald"><i class="fas fa-rocket" aria-hidden="true"></i> Vertical 3 · ProsperIAStack</span>
+              <h3 class="font-heading" style="font-size:1.18rem; font-weight:800; margin:0.75rem 0 0.5rem;">Motor ProsperIAStack: Despliega 10 Verticales GHL en 5 Minutos sin Técnicos</h3>
+              <p style="font-size:0.89rem; color:var(--text-secondary);">31 preguntas asistidas por IA que leen el PDF/web del cliente, rellenan 141 variables, disparan inyección masiva API v2 y conectan WhatsApp por código QR al instante.</p>
+            </div>
+            <div style="display:flex; flex-wrap:wrap; gap:0.6rem;">
+              <a href="/passportai#motor-prosperiastack" class="pia-btn-emerald" style="min-height:42px; padding:0.5rem 0.95rem; font-size:0.82rem;">Ver Arquitectura →</a>
+              <a href="https://prosperia.passportai.app/dashboard" target="_blank" rel="noopener" class="pia-btn-ghost" style="min-height:42px; padding:0.5rem 0.95rem; font-size:0.82rem;">Abrir Portal</a>
+            </div>
+          </article>
+
+          <article class="pia-card kb-guide-card" data-vertical="agencias" data-keywords="passportai faceless reels 9:16 58 modelos openai gemini claude runway elevenlabs carta astral ugc">
+            <div>
+              <span class="kb-tag-pill kb-tag-emerald"><i class="fas fa-film" aria-hidden="true"></i> Vertical 3 · PassportAI &amp; Faceless</span>
+              <h3 class="font-heading" style="font-size:1.18rem; font-weight:800; margin:0.75rem 0 0.5rem;">PassportAI.app: +58 Modelos de IA, Reels 9:16 Motion Graphics y Proyectos Faceless</h3>
+              <p style="font-size:0.89rem; color:var(--text-secondary);">Reúne OpenAI, Gemini, Claude, Runway, ElevenLabs y motores propietarios en una sola app para producir 30 Reels/mes sin salir en cámara o monetizar micro-productos con Stripe.</p>
+            </div>
+            <div style="display:flex; flex-wrap:wrap; gap:0.6rem;">
+              <a href="https://passportai.app/register" target="_blank" rel="noopener" class="pia-btn-emerald" style="min-height:42px; padding:0.5rem 0.95rem; font-size:0.82rem;">Probar 250 Créditos Gratis →</a>
+              <a href="/passportai" class="pia-btn-ghost" style="min-height:42px; padding:0.5rem 0.95rem; font-size:0.82rem;">Ecosistema SaaS</a>
+            </div>
+          </article>
+        </div>
+
+        <!-- Puente Especial: Vertical CRM-SaaS + ProsperIAStack sin consultores externos -->
+        <div class="kb-agency-bridge">
+          <div>
+            <span class="kb-tag-pill kb-tag-emerald"><i class="fas fa-network-wired" aria-hidden="true"></i> Pieza Central Unificadora · CRM-SaaS + ProsperIAStack</span>
+            <h3 class="font-heading" style="font-size: clamp(1.28rem, 2.4vw, 1.7rem); font-weight: 900; margin: 0.7rem 0 0.5rem;">
+              ¿Cómo nuestra Vertical Agencias CRM-SaaS ata todo el ecosistema en un solo producto auto-servicio?
+            </h3>
+            <p style="font-size:0.93rem; color:var(--text-secondary); margin:0;">
+              En lugar de depender de consultores externos o implementaciones manuales lentas, <strong style="color:#fff;">CRM-SaaS (/crm-saas)</strong> + <strong style="color:#34d399;">ProsperIAStack</strong> + <strong style="color:#67e8f9;">PassportAI.app</strong> entregan en automático: tu subcuenta GoHighLevel preconfigurada desde US$97/mes, tu Sitio Web Inteligente de 16 plantillas, tu Recepcionista WhatsApp IA en 5 minutos y tu fábrica mensual de Reels 9:16 y artículos SEO.
+            </p>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:0.7rem;">
+            <a href="/crm-saas" class="pia-btn-emerald"><i class="fas fa-cubes" aria-hidden="true"></i><span>Abrir Embudo CRM-SaaS ($97–$497)</span></a>
+            <a href="https://www.gohighlevel.com/main-page?fp_ref=agencia-prosper-ia51" target="_blank" rel="noopener" class="pia-btn-ghost"><i class="fas fa-award" aria-hidden="true"></i><span>Abrir Cuenta Maestra GHL + 3 Bonos</span></a>
+          </div>
+        </div>
+
+        <!-- Artículos recientes indexados en PROSPERIA Intelligence -->
+        {% if posts %}
+        <div style="margin-top: 2.75rem;">
+          <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1rem; margin-bottom:1.25rem;">
+            <h3 class="font-heading" style="font-size: 1.35rem; font-weight: 800;">
+              Últimos Artículos Técnicos &amp; Casos Indexados en PROSPERIA Intelligence
+            </h3>
+            <a href="/intelligence" class="pia-btn-ghost" style="min-height:40px; padding:0.45rem 0.9rem; font-size:0.82rem;">Ver Todos los Artículos &amp; Podcast →</a>
+          </div>
+          <div class="kb-tabpanel-inner" id="kb-articles-grid">
+            {% for post in posts %}
+            <article class="pia-card kb-guide-card kb-article-item" data-keywords="{{ (post.title ~ ' ' ~ post.category ~ ' ' ~ post.summary) | lower }}">
+              <div>
+                <span class="kb-tag-pill">{{ post.lane_name or post.category }} · {{ post.reading_minutes or 4 }} min</span>
+                <h4 class="font-heading" style="font-size:1.06rem; font-weight:800; margin:0.65rem 0 0.45rem;">
+                  <a href="/blog/{{ post.slug }}" style="color:inherit; text-decoration:none;">{{ post.title }}</a>
+                </h4>
+                <p style="font-size:0.85rem; color:var(--text-muted); margin:0;">{{ post.summary }}</p>
+              </div>
+              <a href="/blog/{{ post.slug }}" style="color:#67e8f9; font-weight:700; font-size:0.85rem; text-decoration:none;">Leer artículo completo →</a>
+            </article>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </section>
+
+    <!-- ── BLOQUE B: PRICING AT A GLANCE & THE FULL OFFER (ESTILO TECHBEHEMOTHS) ── -->
+    <section class="pia-section" id="pricing-glance">
+      <div class="pia-shell">
+        <div style="text-align:center; max-width:820px; margin:0 auto;">
+          <div class="pia-eyebrow"><i class="fas fa-tags" aria-hidden="true"></i> Bloque 2 · Pricing at a Glance &amp; Checkout Directo Stripe</div>
+          <h2 class="font-heading" style="font-size: clamp(1.85rem, 3.4vw, 2.75rem); font-weight: 900; margin-bottom: 0.7rem;">
+            Escalera Auto-Servicio: Entra Gratis, Destaca o Toma Todo el Mercado
+          </h2>
+          <p style="color:var(--text-secondary); font-size:0.98rem;">
+            Sin esperas ni cotizaciones eternas. Elige tu ciclo (<strong style="color:#fff;">Mensual</strong>, <strong style="color:#34d399;">Anual con 2 meses gratis</strong> o <strong style="color:#fbbf24;">Pago Único Llave en Mano</strong>), previsualiza tu negocio en vivo y activa hoy mismo con Stripe.
+          </p>
+        </div>
+
+        <div class="kb-pricing-controls">
+          <div class="kb-cycle-bar" focusgroup="tablist nomemory" role="tablist" aria-label="Ciclo de facturación Pricing at a Glance">
+            <button type="button" role="tab" id="cycle-monthly" class="kb-cycle-btn" aria-selected="true" focusgroupstart data-cycle="monthly">Mensualmente (CRM + IA)</button>
+            <button type="button" role="tab" id="cycle-annual" class="kb-cycle-btn" aria-selected="false" data-cycle="annual">Anualmente (2 Meses Gratis · -20%)</button>
+            <button type="button" role="tab" id="cycle-onetime" class="kb-cycle-btn" aria-selected="false" data-cycle="onetime">Pago Único (Llave en Mano)</button>
+          </div>
+        </div>
+
+        <div class="kb-pricing-grid">
+          <!-- TIER 1: FREE -->
+          <article class="pia-card kb-tier-card">
+            <div>
+              <span class="kb-tag-pill">FREE · Be Present (Imán Oficial)</span>
+              <h3 class="font-heading" style="font-size:1.55rem; font-weight:900; margin-top:0.4rem;">FREE · Presencia &amp; Demo</h3>
+              <p style="font-size:0.88rem; color:var(--text-muted); margin:0.35rem 0 0.85rem;">Registra tu empresa en el Directorio Oficial, previsualiza tu web con tu nombre y prueba +58 modelos IA sin tarjeta.</p>
+              <div class="kb-price-box">
+                <div class="kb-price-main">US$0</div>
+                <div class="kb-price-sub">Alta gratuita en 60 segundos · 250 créditos en PassportAI.app</div>
+              </div>
+            </div>
+            <ul class="kb-feature-list">
+              <li class="kb-feature-yes"><i class="fas fa-check-circle" aria-hidden="true"></i><span>Publicación de tu negocio en el Directorio (revisión 24h)</span></li>
+              <li class="kb-feature-yes"><i class="fas fa-check-circle" aria-hidden="true"></i><span>Previsualización interactiva en vivo en 16 giros (<code>/demo-sitio-web</code>)</span></li>
+              <li class="kb-feature-yes"><i class="fas fa-check-circle" aria-hidden="true"></i><span>Diagnóstico Comercial + Test Madurez IA (90 seg.)</span></li>
+              <li class="kb-feature-yes"><i class="fas fa-check-circle" aria-hidden="true"></i><span>250 créditos de prueba gratis en PassportAI.app</span></li>
+              <li class="kb-feature-no"><i class="fas fa-times-circle" aria-hidden="true"></i><span>Sello Verificado y posicionamiento Top</span></li>
+              <li class="kb-feature-no"><i class="fas fa-times-circle" aria-hidden="true"></i><span>CRM + Recepcionista WhatsApp IA en 5 min</span></li>
+              <li class="kb-feature-no"><i class="fas fa-times-circle" aria-hidden="true"></i><span>1 Artículo SEO mensual + Reels 9:16 IA</span></li>
+            </ul>
+            <div style="display:flex; flex-direction:column; gap:0.6rem;">
+              <a href="#registro-directorio" class="pia-btn-ghost">Publicar Negocio Gratis →</a>
+              <a href="https://passportai.app/register" target="_blank" rel="noopener" style="text-align:center; font-size:0.82rem; color:#67e8f9; text-decoration:none; font-weight:700;">Probar PassportAI.app Gratis (250 créditos) →</a>
+            </div>
+          </article>
+
+          <!-- TIER 2: CORE (MOST POPULAR) -->
+          <article class="pia-card kb-tier-card kb-tier-popular">
+            <div>
+              <span class="kb-tag-pill">⭐ MÁS POPULAR · CORE · Be Trusted</span>
+              <h3 class="font-heading" style="font-size:1.55rem; font-weight:900; margin-top:0.4rem;" id="core-title">CORE · CRM Starter / Web + Bot IA</h3>
+              <p style="font-size:0.88rem; color:var(--text-muted); margin:0.35rem 0 0.85rem;" id="core-desc">Tu negocio verificado, con Sitio Web o Subcuenta CRM preconfigurada con Snapshot Passport AI Master v2 y captura directa a WhatsApp.</p>
+              <div class="kb-price-box">
+                <div class="kb-price-main" id="core-price">US$97 <span style="font-size:1rem; font-weight:600; color:#94a3b8;">/ mes</span></div>
+                <div class="kb-price-sub" id="core-sub">Stripe Directo · Activación en 60s · Opción Rescate US$197 o Impulso US$497</div>
+              </div>
+            </div>
+            <ul class="kb-feature-list">
+              <li class="kb-feature-yes"><i class="fas fa-check-circle" aria-hidden="true"></i><span><strong>Todo lo de FREE</strong> + Ficha de Información Completa Verificada</span></li>
+              <li class="kb-feature-yes"><i class="fas fa-check-circle" aria-hidden="true"></i><span><strong>Destacado Top 100</strong> y enlace directo «Visitar Sitio Web &amp; WhatsApp»</span></li>
+              <li class="kb-feature-yes"><i class="fas fa-check-circle" aria-hidden="true"></i><span><strong>Subcuenta Prosper IA CRM Starter</strong> (o Landing/Sitio Web Inteligente + QR)</span></li>
+              <li class="kb-feature-yes"><i class="fas fa-check-circle" aria-hidden="true"></i><span>Bandeja Omnicanal, Calendario de Citas y App Móvil iOS/Android</span></li>
+              <li class="kb-feature-yes"><i class="fas fa-check-circle" aria-hidden="true"></i><span>Snapshot <em>Passport AI Master v2</em> preinstalado desde el día 1</span></li>
+              <li class="kb-feature-no"><i class="fas fa-times-circle" aria-hidden="true"></i><span>Despliegue API v2 de 141 variables en 5 min (<em>ProsperIAStack</em>)</span></li>
+              <li class="kb-feature-no"><i class="fas fa-times-circle" aria-hidden="true"></i><span>1 Artículo SEO mensual en <code>/knowledge-base</code> + Reels 9:16</span></li>
+            </ul>
+            <div style="display:flex; flex-direction:column; gap:0.6rem;">
+              <a id="core-cta-primary" href="https://buy.stripe.com/14A6oHh2X9qTabj0ddbo407" target="_blank" rel="noopener noreferrer" class="pia-btn-primary">
+                <i class="fas fa-credit-card" aria-hidden="true"></i>
+                <span id="core-cta-label">Activar CORE con Stripe ($97/mes)</span>
+              </a>
+              <a id="core-cta-secondary" href="https://api.agenciaprosperia.com/payment-link/6af228ba03c375ed645fe62d" target="_blank" rel="noopener noreferrer" class="pia-btn-ghost" style="min-height:42px; font-size:0.82rem;">
+                <span id="core-sec-label">O Pago Único Plan Impulso Web + Bot + 3m CRM ($497) →</span>
+              </a>
+            </div>
+          </article>
+
+          <!-- TIER 3: PRO (BE FIRST) -->
+          <article class="pia-card kb-tier-card kb-tier-pro">
+            <div>
+              <span class="kb-tag-pill kb-tag-emerald">🚀 BE FIRST · PRO · Escalamiento Total</span>
+              <h3 class="font-heading" style="font-size:1.55rem; font-weight:900; margin-top:0.4rem;" id="pro-title">PRO · Growth IA / Pack Estrella 360°</h3>
+              <p style="font-size:0.88rem; color:var(--text-muted); margin:0.35rem 0 0.85rem;" id="pro-desc">La máquina completa para Clínicas SVE90, Profesionales y Agencias: WhatsApp IA 24/7, ProsperIAStack 5-min, artículo SEO en Knowledge Base y Reels 9:16 en PassportAI.</p>
+              <div class="kb-price-box">
+                <div class="kb-price-main" id="pro-price">US$297 <span style="font-size:1rem; font-weight:600; color:#94a3b8;">/ mes</span></div>
+                <div class="kb-price-sub" id="pro-sub">Opción Enterprise US$497/mes · Pack Anual US$990/año · Máquina 360° US$1,490</div>
+              </div>
+            </div>
+            <ul class="kb-feature-list">
+              <li class="kb-feature-yes"><i class="fas fa-check-circle" aria-hidden="true"></i><span><strong>Todo lo de CORE</strong> + Posición <strong>Destacado Top 10</strong> con insignia PRO</span></li>
+              <li class="kb-feature-yes"><i class="fas fa-check-circle" aria-hidden="true"></i><span><strong>Recepcionista IA 24/7 &amp; RAG</strong> conectado a tu WhatsApp por QR</span></li>
+              <li class="kb-feature-yes"><i class="fas fa-check-circle" aria-hidden="true"></i><span><strong>Instalación en 5 Minutos (ProsperIAStack):</strong> 141 variables, 9 workflows anti-plantones y 3 calendarios</span></li>
+              <li class="kb-feature-yes"><i class="fas fa-check-circle" aria-hidden="true"></i><span><strong>1 Artículo SEO al mes en <code>/knowledge-base</code></strong> + Backlink a tu web</span></li>
+              <li class="kb-feature-yes"><i class="fas fa-check-circle" aria-hidden="true"></i><span><strong>Fábrica de Reels 9:16 &amp; +58 Modelos</strong> en <code>PassportAI.app</code> (ideal Faceless &amp; Clínicas)</span></li>
+              <li class="kb-feature-yes"><i class="fas fa-check-circle" aria-hidden="true"></i><span>Bonus Agencias: Enlace Maestro GoHighLevel + 3 Bonos VIP incluidos</span></li>
+            </ul>
+            <div style="display:flex; flex-direction:column; gap:0.6rem;">
+              <a id="pro-cta-primary" href="https://buy.stripe.com/14A9ATeUP7iLbfn7FFbo409" target="_blank" rel="noopener noreferrer" class="pia-btn-emerald">
+                <i class="fas fa-bolt" aria-hidden="true"></i>
+                <span id="pro-cta-label">Activar PRO Growth con Stripe ($297/mes)</span>
+              </a>
+              <a id="pro-cta-secondary" href="https://api.agenciaprosperia.com/payment-link/6af227ecd4cfb789aef2298d" target="_blank" rel="noopener noreferrer" class="pia-btn-ghost" style="min-height:42px; font-size:0.82rem;">
+                <span id="pro-sec-label">O Pack Anual 0% Mensualidades ($990/año) · Máquina 360° ($1,490) →</span>
+              </a>
+            </div>
+          </article>
+        </div>
+
+        <!-- Preview Interactive Strip (TechBehemoths style yellow "Preview your position") -->
+        <div class="kb-preview-bar" aria-label="Previsualizador instantáneo de tu sitio web en vivo">
+          <div style="flex: 1 1 260px;">
+            <strong style="color:#fde68a; font-size:0.95rem; display:block; margin-bottom:0.2rem;"><i class="fas fa-eye" aria-hidden="true"></i> Preview your Business — Previsualiza tu Sitio Web en Vivo Antes de Pagar</strong>
+            <span style="font-size:0.83rem; color:var(--text-secondary);">Escribe el nombre de tu negocio, elige tu giro y mira cómo queda montado al instante:</span>
+          </div>
+          <div style="flex: 1 1 200px;">
+            <label for="preview-biz-input" class="kb-label" style="font-size:0.74rem; color:#fde68a;">Nombre de tu negocio</label>
+            <input type="text" id="preview-biz-input" class="kb-input" style="min-height:44px;" placeholder="Ej. Clínica Dental Sonrisa">
+          </div>
+          <div style="flex: 1 1 210px;">
+            <label for="preview-tpl-select" class="kb-label" style="font-size:0.74rem; color:#fde68a;">Vertical / Plantilla</label>
+            <select id="preview-tpl-select" class="kb-select" style="min-height:44px;">
+              <option value="clinica_dental_estetica">🦷 Clínica Dental / Médica</option>
+              <option value="beauty_growth_salon_spa">💎 MedSpa / Estética / Belleza</option>
+              <option value="inmobiliaria_bienes_raices">🏢 Inmobiliaria / Bienes Raíces</option>
+              <option value="profesionales_consultoria_legal">⚖️ Legal / Contable / Consultoría</option>
+              <option value="academia_educacion_cursos">🎓 Academia / Coaching / Infoproductos</option>
+              <option value="servicios_locales_taller">🔧 Servicios Locales / Taller</option>
+              <option value="hvac_miami">❄️ HVAC / Aire Acondicionado</option>
+              <option value="plomeria_pro">🚰 Plomería / Home Services</option>
+            </select>
+          </div>
+          <a id="preview-launch-btn" href="/demo-sitio-web?public=1&template=clinica_dental_estetica" target="_blank" rel="noopener" class="kb-btn-preview-yellow">
+            <i class="fas fa-wand-magic-sparkles" aria-hidden="true"></i>
+            <span>Previsualizar en Vivo →</span>
+          </a>
+        </div>
+
+        <!-- THE FULL OFFER: Responsive Sticky Matrix (modern-web-guidance: responsive-table) -->
+        <div style="margin-top: 3rem;">
+          <h3 class="font-heading" style="font-size: 1.5rem; font-weight: 900; text-align:center; margin-bottom: 1rem;">
+            The Full Offer — Comparativa Completa de Funcionalidades
+          </h3>
+          <div tabindex="0" role="region" aria-labelledby="full-offer-caption" class="kb-table-wrap">
+            <table class="kb-matrix-table">
+              <caption id="full-offer-caption">Detalle completo de entregables incluidos en FREE, CORE y PRO (Clínicas, Profesionales y Agencias CRM-SaaS)</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Capacidad / Entregable del Ecosistema</th>
+                  <th scope="col">FREE (US$0)</th>
+                  <th scope="col">CORE (Desde US$97/m · $197/$497)</th>
+                  <th scope="col">PRO (Desde US$297/m · $990/a)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="kb-group-row"><th colspan="4" scope="colgroup">BE FOUND · Visibilidad en Directorio &amp; Web</th></tr>
+                <tr>
+                  <th scope="row">Alta en el Directorio Oficial de Negocios IA</th>
+                  <td class="kb-check">✔ Estándar (24h)</td>
+                  <td class="kb-check">✔ Top 100</td>
+                  <td class="kb-check">✔ Top 10 Prioritario</td>
+                </tr>
+                <tr>
+                  <th scope="row">Previsualización de Sitio Web por Giro (/demo-sitio-web)</th>
+                  <td class="kb-check">✔ Modo Demo</td>
+                  <td class="kb-check">✔ Publicado con tu marca</td>
+                  <td class="kb-check">✔ Full + Embudos Ilimitados</td>
+                </tr>
+                <tr>
+                  <th scope="row">Botón Directo a WhatsApp &amp; Tarjeta Digital QR</th>
+                  <td class="kb-cross">×</td>
+                  <td class="kb-check">✔ Incluido</td>
+                  <td class="kb-check">✔ Omnicanal (WA + IG + FB)</td>
+                </tr>
+
+                <tr class="kb-group-row"><th colspan="4" scope="colgroup">BE TRUSTED · IA Conversacional &amp; Calificación 24/7</th></tr>
+                <tr>
+                  <th scope="row">Sello Oficial «Negocio Verificado IA»</th>
+                  <td class="kb-cross">×</td>
+                  <td class="kb-check">✔ Insignia Verificada</td>
+                  <td class="kb-check">✔ Insignia PRO + Destacado</td>
+                </tr>
+                <tr>
+                  <th scope="row">Recepcionista WhatsApp IA entrenado con tus PDFs (RAG)</th>
+                  <td class="kb-cross">×</td>
+                  <td>Básico / Enlace WA</td>
+                  <td class="kb-check">✔ Autónomo 24/7 + Agendamiento</td>
+                </tr>
+                <tr>
+                  <th scope="row">Workflows Anti No-Show &amp; Reactivación de Bases</th>
+                  <td class="kb-cross">×</td>
+                  <td>Recordatorio estándar</td>
+                  <td class="kb-check">✔ 9 Workflows completos</td>
+                </tr>
+
+                <tr class="kb-group-row"><th colspan="4" scope="colgroup">OPERATE ON AUTOPILOT · ProsperIAStack &amp; CRM-SaaS</th></tr>
+                <tr>
+                  <th scope="row">Subcuenta Prosper IA CRM (GoHighLevel White Label)</th>
+                  <td class="kb-cross">×</td>
+                  <td class="kb-check">✔ Starter (o 3–12 meses pack)</td>
+                  <td class="kb-check">✔ Growth / Enterprise 12m</td>
+                </tr>
+                <tr>
+                  <th scope="row">Despliegue de Vertical en 5 Minutos vía ProsperIAStack (API v2)</th>
+                  <td class="kb-cross">×</td>
+                  <td>Snapshot Master v2</td>
+                  <td class="kb-check">✔ 141 Variables + QR WhatsApp</td>
+                </tr>
+                <tr>
+                  <th scope="row">Ruta Agencias: Alianza GoHighLevel + 3 Bonos VIP</th>
+                  <td>Solo info</td>
+                  <td class="kb-check">✔ 3 Bonos VIP con enlace oficial</td>
+                  <td class="kb-check">✔ Full Multi-Subcuenta</td>
+                </tr>
+
+                <tr class="kb-group-row"><th colspan="4" scope="colgroup">OWN YOUR MARKET · PassportAI.app (+58 Modelos) &amp; Tráfico Orgánico</th></tr>
+                <tr>
+                  <th scope="row">Acceso a PassportAI.app (OpenAI, Gemini, Claude, Runway, ElevenLabs + motores privados)</th>
+                  <td class="kb-check">✔ 250 Créditos Gratis</td>
+                  <td class="kb-check">✔ Plan incluido según paquete</td>
+                  <td class="kb-check">✔ Full Estudio Reels 9:16 &amp; Avatares</td>
+                </tr>
+                <tr>
+                  <th scope="row">1 Artículo SEO al mes en Knowledge Base + Backlink</th>
+                  <td class="kb-cross">×</td>
+                  <td class="kb-cross">×</td>
+                  <td class="kb-check">✔ 1 Publicación Mensual</td>
+                </tr>
+                <tr>
+                  <th scope="row">Reels 9:16 con Motion Graphics / Proyectos Faceless</th>
+                  <td class="kb-cross">×</td>
+                  <td class="kb-cross">×</td>
+                  <td class="kb-check">✔ 1 a 10 Reels / mes</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── BLOQUE C: DIRECTORIO DE NEGOCIOS + REGISTRO GRATUITO ESTILO AIFINDY ── -->
+    <section class="pia-section" id="registro-directorio" style="background: rgba(7, 11, 20, 0.78);">
+      <div class="pia-shell">
+        <div class="kb-dir-grid">
+          <div>
+            <div class="pia-eyebrow"><i class="fas fa-sitemap" aria-hidden="true"></i> Bloque 3 · Directorio Oficial (Modelo AIFindy + Tu Idea Original)</div>
+            <h2 class="font-heading" style="font-size: clamp(1.75rem, 3.2vw, 2.5rem); font-weight: 900; margin-bottom: 0.75rem;">
+              Publica Tu Negocio, Clínica o Agencia Gratis y Mira tu Sistema en Vivo
+            </h2>
+            <p style="color:var(--text-secondary); font-size:0.96rem; margin-bottom:1.25rem;">
+              ¿Quieres atraer clientes desde Google y nuestros buscadores de IA sin pagar anuncios por clic? Súmate en 60 segundos a nuestro directorio clasificado en 3 verticales reales.
+            </p>
+
+            <div style="display:grid; gap:0.85rem;">
+              <div class="pia-card" style="padding:1.1rem 1.25rem;">
+                <span class="kb-tag-pill">🦷 Clínicas &amp; Salud Activas</span>
+                <p style="font-size:0.86rem; color:var(--text-secondary); margin:0.45rem 0 0;">Odontología Digital, Capilar, Estética y Beauty Growth MedSpas con recepción WhatsApp IA y agenda anti-plantones.</p>
+              </div>
+              <div class="pia-card" style="padding:1.1rem 1.25rem;">
+                <span class="kb-tag-pill kb-tag-amber">⚖️ Profesionales &amp; 82 Oficios</span>
+                <p style="font-size:0.86rem; color:var(--text-secondary); margin:0.45rem 0 0;">Inmobiliarias, despachos legales/contables, consultoría, HVAC, plomería, techos y academias listos para cotizar por WhatsApp.</p>
+              </div>
+              <div class="pia-card" style="padding:1.1rem 1.25rem;">
+                <span class="kb-tag-pill kb-tag-emerald">🚀 Agencias CRM-SaaS &amp; Herramientas IA</span>
+                <p style="font-size:0.86rem; color:var(--text-secondary); margin:0.45rem 0 0;">Implementadores GoHighLevel con ProsperIAStack, creadores de Reels 9:16 Faceless y operadores de PassportAI.app.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="pia-card kb-dir-form-card">
+            <h3 id="dir-form-heading" class="font-heading" style="font-size:1.38rem; font-weight:800; margin-bottom:0.35rem;">
+              Publicar Nueva Empresa o Herramienta IA (Gratis)
+            </h3>
+            <p style="font-size:0.86rem; color:var(--text-muted); margin-bottom:1.15rem;">
+              Completa estos 5 campos: registraremos tu ficha gratuita para revisión en 24h y te mostraremos al instante la vista previa de tu Sitio Web Inteligente.
+            </p>
+
+            <form id="kb-directory-form" action="/api/knowledge-base/register-business" method="POST" aria-labelledby="dir-form-heading" novalidate>
+              <!-- Honeypot anti-spam -->
+              <div class="kb-hp" aria-hidden="true">
+                <label for="website_hp">Dejar vacío</label>
+                <input type="text" id="website_hp" name="website_hp" tabindex="-1" autocomplete="off">
+              </div>
+
+              <div class="kb-form-grid-2">
+                <div class="kb-field">
+                  <label for="dir-business" class="kb-label">Nombre de tu Empresa / Clínica / Agencia <span aria-hidden="true">*</span></label>
+                  <input type="text" id="dir-business" name="business_name" class="kb-input" required autocomplete="organization" placeholder="Ej. Clínica Estética Nova o Studio Web IA" aria-describedby="err-dir-business">
+                  <span id="err-dir-business" class="kb-error-msg"></span>
+                </div>
+
+                <div class="kb-field">
+                  <label for="dir-vertical" class="kb-label">Vertical / Categoría <span aria-hidden="true">*</span></label>
+                  <select id="dir-vertical" name="vertical" class="kb-select" required aria-describedby="err-dir-vertical">
+                    <option value="">Selecciona tu vertical...</option>
+                    <option value="clinicas">🦷 Clínicas, Dental, Capilar &amp; Beauty Growth</option>
+                    <option value="profesionales">⚖️ Profesionales, Inmobiliaria &amp; Legal</option>
+                    <option value="oficios">🔧 Servicios Locales / 82 Oficios</option>
+                    <option value="agencias_crm">🚀 Agencia CRM-SaaS / Implementador GHL</option>
+                    <option value="faceless_ai">🎬 Creador Digital / Proyecto Faceless IA</option>
+                  </select>
+                  <span id="err-dir-vertical" class="kb-error-msg"></span>
+                </div>
+              </div>
+
+              <div class="kb-form-grid-2">
+                <div class="kb-field">
+                  <label for="dir-name" class="kb-label">Tu Nombre Completo <span aria-hidden="true">*</span></label>
+                  <input type="text" id="dir-name" name="contact_name" class="kb-input" required autocomplete="name" placeholder="Ej. Laura Mendoza" aria-describedby="err-dir-name">
+                  <span id="err-dir-name" class="kb-error-msg"></span>
+                </div>
+
+                <div class="kb-field">
+                  <label for="dir-city" class="kb-label">Ciudad y País <span aria-hidden="true">*</span></label>
+                  <input type="text" id="dir-city" name="city" class="kb-input" required autocomplete="address-level2" placeholder="Ej. Miami, USA o CDMX, México" aria-describedby="err-dir-city">
+                  <span id="err-dir-city" class="kb-error-msg"></span>
+                </div>
+              </div>
+
+              <div class="kb-form-grid-2">
+                <div class="kb-field">
+                  <label for="dir-email" class="kb-label">Correo Electrónico <span aria-hidden="true">*</span></label>
+                  <input type="email" id="dir-email" name="email" class="kb-input" required autocomplete="email" autocorrect="off" autocapitalize="none" spellcheck="false" inputmode="email" placeholder="nombre@tuempresa.com" aria-describedby="err-dir-email">
+                  <span id="err-dir-email" class="kb-error-msg"></span>
+                </div>
+
+                <div class="kb-field">
+                  <label for="dir-phone" class="kb-label">WhatsApp / Teléfono <span aria-hidden="true">*</span></label>
+                  <input type="tel" id="dir-phone" name="phone" class="kb-input" required autocomplete="tel" inputmode="tel" placeholder="+1 786 000 0000" aria-describedby="err-dir-phone">
+                  <span id="err-dir-phone" class="kb-error-msg"></span>
+                </div>
+              </div>
+
+              <div class="kb-field">
+                <label for="dir-website" class="kb-label">Sitio Web o Instagram Actual (opcional)</label>
+                <input type="url" id="dir-website" name="website_url" class="kb-input" autocomplete="url" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="https://tuempresa.com o https://instagram.com/tuperfil">
+              </div>
+
+              <div class="kb-field">
+                <label for="dir-desc" class="kb-label">¿Qué servicios ofreces o qué quieres automatizar?</label>
+                <textarea id="dir-desc" name="description" class="kb-textarea" placeholder="Ej. Implantes dentales y diseño de sonrisa, quiero responder WhatsApp en 5 segundos y reducir citas perdidas."></textarea>
+              </div>
+
+              <div id="dir-status-msg" role="status" aria-live="polite" style="font-size:0.88rem; min-height:1.25rem; margin-bottom:0.75rem; color:#6ee7b7;"></div>
+
+              <button type="submit" id="dir-submit-btn" class="pia-btn-primary" style="width:100%; font-size:0.98rem;">
+                <i class="fas fa-paper-plane" aria-hidden="true"></i>
+                <span>Publicar Gratis y Generar Mi Vista Previa en Vivo</span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ── MODAL DE CONFIRMACIÓN + UPSELL INSTANTÁNEO ESTILO AIFINDY (native <dialog>) ── -->
+  <dialog id="aifindy-upsell-dialog" closedby="any" aria-labelledby="upsell-dialog-title">
+    <div class="kb-modal-inner">
+      <div class="kb-modal-header">
+        <div>
+          <span class="kb-tag-pill kb-tag-emerald"><i class="fas fa-check-double" aria-hidden="true"></i> Solicitud Registrada en el Directorio</span>
+          <h2 id="upsell-dialog-title" class="font-heading" style="font-size: clamp(1.35rem, 2.8vw, 1.85rem); font-weight: 900; margin-top: 0.6rem;">
+            ¡Gracias! Revisaremos tu solicitud en 24 horas y añadiremos <span id="upsell-biz-name" style="color:#67e8f9;">tu negocio</span> a nuestra base de datos.
+          </h2>
+        </div>
+        <form method="dialog">
+          <button type="submit" value="close" class="kb-modal-close" aria-label="Cerrar ventana" autofocus>✕</button>
+        </form>
+      </div>
+
+      <p style="font-size:0.93rem; color:var(--text-secondary); margin-bottom:1rem;">
+        Mientras aprueban tu ficha gratuita, ya generamos la <strong>vista previa interactiva de tu Sitio Web Inteligente</strong> y puedes desbloquear HOY mismo el posicionamiento verificado y la automatización por WhatsApp + IA sin esperar 24 horas:
+      </p>
+
+      <div style="display:flex; flex-wrap:wrap; gap:0.75rem; align-items:center; justify-content:space-between; padding:0.9rem 1.1rem; border-radius:14px; background:rgba(245,158,11,0.12); border:1px solid rgba(251,191,36,0.45); margin-bottom:1.15rem;">
+        <div style="font-size:0.88rem;">
+          <strong style="color:#fde68a;">Tu Demo Web Lista en Vivo:</strong>
+          <span id="upsell-preview-label" style="color:#cbd5e1;"> Pre-cargada con el nombre de tu negocio y asistente 24/7.</span>
+        </div>
+        <a id="upsell-preview-link" href="/demo-sitio-web?public=1" target="_blank" rel="noopener" class="kb-btn-preview-yellow" style="min-height:42px; padding:0.5rem 1rem; font-size:0.84rem;">
+          <i class="fas fa-external-link-alt" aria-hidden="true"></i>
+          <span>Abrir Mi Sitio Preview →</span>
+        </a>
+      </div>
+
+      <div style="display:flex; justify-content:center; margin-bottom:0.5rem;">
+        <div class="kb-cycle-bar" focusgroup="tablist nomemory" role="tablist" aria-label="Ciclo de pago upsell inmediato">
+          <button type="button" role="tab" class="kb-cycle-btn kb-modal-cycle" aria-selected="true" focusgroupstart data-mcycle="monthly">Mensualmente</button>
+          <button type="button" role="tab" class="kb-cycle-btn kb-modal-cycle" aria-selected="false" data-mcycle="annual">Anualmente (-20%)</button>
+          <button type="button" role="tab" class="kb-cycle-btn kb-modal-cycle" aria-selected="false" data-mcycle="onetime">Única (Llave en Mano)</button>
+        </div>
+      </div>
+
+      <div class="kb-upsell-cols">
+        <div class="kb-upsell-card">
+          <div>
+            <span class="kb-tag-pill">Plan Basic · Destaca ya</span>
+            <h3 class="font-heading" style="font-size:1.22rem; font-weight:800; margin:0.65rem 0 0.3rem;" id="m-core-title">Basic / CORE con Prosper IA</h3>
+            <p style="font-size:0.84rem; color:var(--text-muted); margin:0 0 0.75rem;">Haz que tu negocio o startup destaque hoy frente a tu competencia.</p>
+            <div style="font-family:'Space Grotesk',sans-serif; font-size:1.95rem; font-weight:900; margin-bottom:0.75rem;" id="m-core-price">US$97 <span style="font-size:0.88rem; color:#94a3b8; font-weight:600;">por mes</span></div>
+            <ul class="kb-feature-list" style="font-size:0.84rem;">
+              <li class="kb-feature-yes"><i class="fas fa-check-circle" aria-hidden="true"></i><span>Sello Verificado hoy mismo (sin espera de 24h)</span></li>
+              <li class="kb-feature-yes"><i class="fas fa-check-circle" aria-hidden="true"></i><span>Destacado Top 100 + Ficha de Información Completa</span></li>
+              <li class="kb-feature-yes"><i class="fas fa-check-circle" aria-hidden="true"></i><span>Subcuenta CRM Starter (o Sitio Web + QR en pago único)</span></li>
+            </ul>
+          </div>
+          <a id="m-core-btn" href="https://buy.stripe.com/14A6oHh2X9qTabj0ddbo407" target="_blank" rel="noopener noreferrer" class="pia-btn-primary" style="width:100%;">
+            <span id="m-core-btn-txt">Suscribirse en Stripe ($97/mes)</span>
+          </a>
+        </div>
+
+        <div class="kb-upsell-card is-popular">
+          <div>
+            <span class="kb-tag-pill kb-tag-emerald">⭐ Más Popular · Business PRO</span>
+            <h3 class="font-heading" style="font-size:1.22rem; font-weight:800; margin:0.65rem 0 0.3rem;" id="m-pro-title">Business / PRO Máquina Completa</h3>
+            <p style="font-size:0.84rem; color:var(--text-muted); margin:0 0 0.75rem;">Kit promocional y de automatización IA completo para captar y cerrar clientes en piloto automático.</p>
+            <div style="font-family:'Space Grotesk',sans-serif; font-size:1.95rem; font-weight:900; margin-bottom:0.75rem;" id="m-pro-price">US$297 <span style="font-size:0.88rem; color:#94a3b8; font-weight:600;">por mes</span></div>
+            <ul class="kb-feature-list" style="font-size:0.84rem;">
+              <li class="kb-feature-yes"><i class="fas fa-check-circle" aria-hidden="true"></i><span>Verificado + Destacado Top 10 + Ficha Completa</span></li>
+              <li class="kb-feature-yes"><i class="fas fa-check-circle" aria-hidden="true"></i><span>1 Blog post SEO al mes en <code>/knowledge-base</code></span></li>
+              <li class="kb-feature-yes"><i class="fas fa-check-circle" aria-hidden="true"></i><span>1 Reel 9:16 al mes con <code>PassportAI.app</code></span></li>
+              <li class="kb-feature-yes"><i class="fas fa-check-circle" aria-hidden="true"></i><span>Despliegue WhatsApp IA + CRM en 5 min vía <code>ProsperIAStack</code></span></li>
+            </ul>
+          </div>
+          <a id="m-pro-btn" href="https://buy.stripe.com/14A9ATeUP7iLbfn7FFbo409" target="_blank" rel="noopener noreferrer" class="pia-btn-emerald" style="width:100%;">
+            <span id="m-pro-btn-txt">Activar Business PRO ($297/mes)</span>
+          </a>
+        </div>
+      </div>
+
+      <div style="margin-top:1rem; text-align:center; font-size:0.82rem; color:var(--text-muted);">
+        ¿Eres agencia GoHighLevel y prefieres tu propia cuenta maestra? <a href="/crm-saas#programa-agencias-ghl" style="color:#34d399; font-weight:700;">Activa tu cuenta oficial aquí con 3 Bonos VIP →</a>
+      </div>
+    </div>
+  </dialog>
+
+  {% include "footer.html" %}
+
+  <script type="module">
+    if (!(Object.hasOwn(HTMLElement.prototype, 'focusGroup'))) {
+      import('https://esm.sh/@microsoft/focusgroup-polyfill').then(({ polyfill }) => {
+        if (typeof polyfill === 'function') polyfill();
+      }).catch(() => {});
+    }
+  </script>
+
+  <script>
+    (function () {
+      'use strict';
+
+      // 1. Knowledge Base Vertical Tabs + Search Filter
+      var verticalTabs = Array.prototype.slice.call(document.querySelectorAll('[data-vfilter]'));
+      var guideCards = Array.prototype.slice.call(document.querySelectorAll('.kb-guide-card'));
+      var searchInput = document.getElementById('kb-search-input');
+      var clearBtn = document.getElementById('kb-search-clear');
+      var activeVertical = 'all';
+
+      function filterGuides() {
+        var q = (searchInput ? searchInput.value : '').trim().toLowerCase();
+        guideCards.forEach(function (card) {
+          var cv = card.getAttribute('data-vertical') || 'all';
+          var text = (card.textContent + ' ' + (card.getAttribute('data-keywords') || '')).toLowerCase();
+          var matchesVertical = (activeVertical === 'all') || (cv === activeVertical) || card.classList.contains('kb-article-item');
+          if (card.classList.contains('kb-article-item') && activeVertical !== 'all') {
+            matchesVertical = text.indexOf(activeVertical === 'agencias' ? 'saas' : activeVertical.slice(0, 5)) !== -1 || q.length > 0;
+          }
+          var matchesSearch = !q || text.indexOf(q) !== -1;
+          card.hidden = !(matchesVertical && matchesSearch);
+        });
+      }
+
+      verticalTabs.forEach(function (tab, idx) {
+        tab.addEventListener('click', function () {
+          activeVertical = tab.getAttribute('data-vfilter') || 'all';
+          verticalTabs.forEach(function (t) {
+            var isSel = t === tab;
+            t.setAttribute('aria-selected', String(isSel));
+            t.toggleAttribute('focusgroupstart', isSel);
+          });
+          filterGuides();
+        });
+        tab.addEventListener('keydown', function (e) {
+          if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+            e.preventDefault();
+            var nextIdx = e.key === 'ArrowRight' ? (idx + 1) % verticalTabs.length : (idx - 1 + verticalTabs.length) % verticalTabs.length;
+            verticalTabs[nextIdx].focus();
+            verticalTabs[nextIdx].click();
+          }
+        });
+      });
+
+      if (searchInput) {
+        searchInput.addEventListener('input', filterGuides);
+        searchInput.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' && !e.isComposing) {
+            e.preventDefault();
+            filterGuides();
+          }
+        });
+      }
+      if (clearBtn && searchInput) {
+        clearBtn.addEventListener('click', function () {
+          searchInput.value = '';
+          activeVertical = 'all';
+          verticalTabs.forEach(function (t) {
+            var isAll = t.getAttribute('data-vfilter') === 'all';
+            t.setAttribute('aria-selected', String(isAll));
+            t.toggleAttribute('focusgroupstart', isAll);
+          });
+          filterGuides();
+        });
+      }
+
+      // 2. Pricing at a Glance Switcher (Monthly / Annual / One-Time) -> Real Stripe Links
+      var PRICING_STATES = {
+        monthly: {
+          corePrice: 'US$97 <span style="font-size:1rem; font-weight:600; color:#94a3b8;">/ mes</span>',
+          coreSub: 'Stripe Directo · Activación en 60s · Opción Enterprise US$497/mes',
+          coreUrl: 'https://buy.stripe.com/14A6oHh2X9qTabj0ddbo407',
+          coreLabel: 'Activar CORE con Stripe ($97/mes)',
+          coreSecUrl: 'https://api.agenciaprosperia.com/payment-link/6af228ba03c375ed645fe62d',
+          coreSecLabel: 'O Pago Único Plan Impulso Web + Bot + 3m CRM ($497) →',
+          proPrice: 'US$297 <span style="font-size:1rem; font-weight:600; color:#94a3b8;">/ mes</span>',
+          proSub: 'Opción Enterprise Full Voz IA US$497/mes · Prueba 7 días incluida',
+          proUrl: 'https://buy.stripe.com/14A9ATeUP7iLbfn7FFbo409',
+          proLabel: 'Activar PRO Growth con Stripe ($297/mes)',
+          proSecUrl: 'https://buy.stripe.com/8x28wPeUPeLdbfn8JJbo40b',
+          proSecLabel: 'O Prosper IA Enterprise Voz IA ($497/mes) en Stripe →',
+          mCorePrice: 'US$97 <span style="font-size:0.88rem; color:#94a3b8; font-weight:600;">por mes</span>',
+          mCoreBtnTxt: 'Suscribirse en Stripe ($97/mes)',
+          mProPrice: 'US$297 <span style="font-size:0.88rem; color:#94a3b8; font-weight:600;">por mes</span>',
+          mProBtnTxt: 'Activar Business PRO ($297/mes)'
+        },
+        annual: {
+          corePrice: 'US$970 <span style="font-size:1rem; font-weight:600; color:#34d399;">/ año</span>',
+          coreSub: 'Equivale a US$80.83/mes · 2 meses gratis con Stripe Anual',
+          coreUrl: 'https://buy.stripe.com/bJecN5eUPeLdbfn9NNbo408',
+          coreLabel: 'Activar CORE Anual Stripe ($970/año)',
+          coreSecUrl: 'https://api.agenciaprosperia.com/payment-link/6af1f575d4cfb789aef22853',
+          coreSecLabel: 'O Plan Rescate Anual Web Micro-Landing + QR ($197/año) →',
+          proPrice: 'US$990 <span style="font-size:1rem; font-weight:600; color:#34d399;">/ año</span>',
+          proSub: 'Pack Estrella (Web + Bot + 12m CRM & PassportAI) · Growth Anual US$2,970/año',
+          proUrl: 'https://api.agenciaprosperia.com/payment-link/6af227ecd4cfb789aef2298d',
+          proLabel: 'Activar Pack Anual 0% Mensualidades ($990/año)',
+          proSecUrl: 'https://buy.stripe.com/9B6dR9bID9qTerz5xxbo40a',
+          proSecLabel: 'O Subcuenta SaaS Growth Anual en Stripe ($2,970/año) →',
+          mCorePrice: 'US$970 <span style="font-size:0.88rem; color:#34d399; font-weight:600;">al año (-20%)</span>',
+          mCoreBtnTxt: 'Activar Anual Stripe ($970/año)',
+          mProPrice: 'US$990 <span style="font-size:0.88rem; color:#34d399; font-weight:600;">al año todo incluido</span>',
+          mProBtnTxt: 'Activar Pack Estrella ($990/año)'
+        },
+        onetime: {
+          corePrice: 'US$497 <span style="font-size:1rem; font-weight:600; color:#fbbf24;">único</span>',
+          coreSub: 'Sitio Web 6 secciones + Chatbot IA + 90 días CRM & PassportAI · Opción Rescate US$197',
+          coreUrl: 'https://api.agenciaprosperia.com/payment-link/6af228ba03c375ed645fe62d',
+          coreLabel: 'Comprar Plan Impulso Llave en Mano ($497)',
+          coreSecUrl: 'https://api.agenciaprosperia.com/payment-link/6af1f575d4cfb789aef22853',
+          coreSecLabel: 'O Tarjeta / Micro-Landing Rescate Express ($197) →',
+          proPrice: 'US$1,490 <span style="font-size:1rem; font-weight:600; color:#fbbf24;">único</span>',
+          proSub: 'Máquina Completa 360° (+ 10 Reels + Meta Ads + 12m CRM) · Opción Anual US$990',
+          proUrl: 'https://api.agenciaprosperia.com/payment-link/6af2297ad4cfb789aef229a0',
+          proLabel: 'Comprar Máquina Completa 360° ($1,490)',
+          proSecUrl: 'https://api.agenciaprosperia.com/payment-link/6af227ecd4cfb789aef2298d',
+          proSecLabel: 'O Pack Estrella Web + IA + 12m CRM ($990) →',
+          mCorePrice: 'US$497 <span style="font-size:0.88rem; color:#fbbf24; font-weight:600;">pago único</span>',
+          mCoreBtnTxt: 'Pagar Plan Impulso ($497)',
+          mProPrice: 'US$1,490 <span style="font-size:0.88rem; color:#fbbf24; font-weight:600;">pago único 360°</span>',
+          mProBtnTxt: 'Pagar Máquina 360° ($1,490)'
+        }
+      };
+
+      function applyCycle(cycleKey) {
+        var d = PRICING_STATES[cycleKey] || PRICING_STATES.monthly;
+        var el = function (id) { return document.getElementById(id); };
+        if (el('core-price')) el('core-price').innerHTML = d.corePrice;
+        if (el('core-sub')) el('core-sub').textContent = d.coreSub;
+        if (el('core-cta-primary')) el('core-cta-primary').href = d.coreUrl;
+        if (el('core-cta-label')) el('core-cta-label').textContent = d.coreLabel;
+        if (el('core-cta-secondary')) el('core-cta-secondary').href = d.coreSecUrl;
+        if (el('core-sec-label')) el('core-sec-label').textContent = d.coreSecLabel;
+        if (el('pro-price')) el('pro-price').innerHTML = d.proPrice;
+        if (el('pro-sub')) el('pro-sub').textContent = d.proSub;
+        if (el('pro-cta-primary')) el('pro-cta-primary').href = d.proUrl;
+        if (el('pro-cta-label')) el('pro-cta-label').textContent = d.proLabel;
+        if (el('pro-cta-secondary')) el('pro-cta-secondary').href = d.proSecUrl;
+        if (el('pro-sec-label')) el('pro-sec-label').textContent = d.proSecLabel;
+
+        // Sync modal too
+        if (el('m-core-price')) el('m-core-price').innerHTML = d.mCorePrice;
+        if (el('m-core-btn')) el('m-core-btn').href = d.coreUrl;
+        if (el('m-core-btn-txt')) el('m-core-btn-txt').textContent = d.mCoreBtnTxt;
+        if (el('m-pro-price')) el('m-pro-price').innerHTML = d.mProPrice;
+        if (el('m-pro-btn')) el('m-pro-btn').href = d.proUrl;
+        if (el('m-pro-btn-txt')) el('m-pro-btn-txt').textContent = d.mProBtnTxt;
+      }
+
+      var cycleBtns = Array.prototype.slice.call(document.querySelectorAll('[data-cycle]'));
+      var modalCycleBtns = Array.prototype.slice.call(document.querySelectorAll('[data-mcycle]'));
+      function selectCycleButtons(btns, attr, value) {
+        btns.forEach(function (b) {
+          var act = b.getAttribute(attr) === value;
+          b.setAttribute('aria-selected', String(act));
+          b.toggleAttribute('focusgroupstart', act);
+        });
+      }
+      cycleBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var val = btn.getAttribute('data-cycle');
+          selectCycleButtons(cycleBtns, 'data-cycle', val);
+          selectCycleButtons(modalCycleBtns, 'data-mcycle', val);
+          applyCycle(val);
+        });
+      });
+      modalCycleBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var val = btn.getAttribute('data-mcycle');
+          selectCycleButtons(modalCycleBtns, 'data-mcycle', val);
+          selectCycleButtons(cycleBtns, 'data-cycle', val);
+          applyCycle(val);
+        });
+      });
+
+      // 3. Yellow Preview Button Builder -> /demo-sitio-web?public=1&template=...&business=...
+      var prevBiz = document.getElementById('preview-biz-input');
+      var prevTpl = document.getElementById('preview-tpl-select');
+      var prevLaunch = document.getElementById('preview-launch-btn');
+      function updatePreviewUrl() {
+        if (!prevLaunch) return;
+        var p = new URLSearchParams({ public: '1', template: (prevTpl && prevTpl.value) || 'clinica_dental_estetica' });
+        if (prevBiz && prevBiz.value.trim()) p.set('business', prevBiz.value.trim());
+        prevLaunch.href = '/demo-sitio-web?' + p.toString();
+      }
+      if (prevBiz) prevBiz.addEventListener('input', updatePreviewUrl);
+      if (prevTpl) prevTpl.addEventListener('change', updatePreviewUrl);
+
+      // 4. Native <dialog> light-dismiss fallback (modern-web-guidance: dialog)
+      var upsellDialog = document.getElementById('aifindy-upsell-dialog');
+      if (upsellDialog) {
+        upsellDialog.addEventListener('close', function () {
+          upsellDialog.returnValue = '';
+        });
+        if (!('closedBy' in HTMLDialogElement.prototype)) {
+          var outside = function (e, d) {
+            var r = d.getBoundingClientRect();
+            return e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom;
+          };
+          var pressedOutside = false;
+          upsellDialog.addEventListener('pointerdown', function (e) { pressedOutside = outside(e, upsellDialog); });
+          upsellDialog.addEventListener('pointerup', function (e) { if (pressedOutside && outside(e, upsellDialog)) upsellDialog.close(); });
+        }
+      }
+
+      // 5. Directory Registration Form Validation & AJAX Submission -> AIFindy Upsell Dialog
+      var dirForm = document.getElementById('kb-directory-form');
+      var dirSubmit = document.getElementById('dir-submit-btn');
+      var dirStatus = document.getElementById('dir-status-msg');
+      var REQUIRED_FIELDS = [
+        { id: 'dir-business', errId: 'err-dir-business', msg: 'Escribe el nombre de tu empresa, clínica o agencia.' },
+        { id: 'dir-vertical', errId: 'err-dir-vertical', msg: 'Selecciona una vertical del directorio.' },
+        { id: 'dir-name', errId: 'err-dir-name', msg: 'Ingresa tu nombre completo.' },
+        { id: 'dir-city', errId: 'err-dir-city', msg: 'Indica tu ciudad y país.' },
+        { id: 'dir-email', errId: 'err-dir-email', msg: 'Ingresa un correo electrónico válido.' },
+        { id: 'dir-phone', errId: 'err-dir-phone', msg: 'Ingresa un número de WhatsApp válido.' }
+      ];
+
+      function validateField(cfg) {
+        var field = document.getElementById(cfg.id);
+        var errEl = document.getElementById(cfg.errId);
+        if (!field || !errEl) return true;
+        var val = (field.value || '').trim();
+        var valid = Boolean(val) && field.checkValidity();
+        if (!valid) {
+          field.setAttribute('aria-invalid', 'true');
+          errEl.textContent = cfg.msg;
+          return false;
+        }
+        field.removeAttribute('aria-invalid');
+        errEl.textContent = '';
+        return true;
+      }
+
+      REQUIRED_FIELDS.forEach(function (cfg) {
+        var field = document.getElementById(cfg.id);
+        if (!field) return;
+        var dirty = false;
+        field.addEventListener('input', function () {
+          dirty = true;
+          field.removeAttribute('aria-invalid');
+          var errEl = document.getElementById(cfg.errId);
+          if (errEl) errEl.textContent = '';
+        });
+        field.addEventListener('blur', function () {
+          if (dirty || (field.value || '').trim()) validateField(cfg);
+        });
+      });
+
+      if (dirForm) {
+        dirForm.addEventListener('submit', async function (e) {
+          e.preventDefault();
+          var firstBad = null;
+          REQUIRED_FIELDS.forEach(function (cfg) {
+            if (!validateField(cfg) && !firstBad) {
+              firstBad = document.getElementById(cfg.id);
+            }
+          });
+          if (firstBad) {
+            firstBad.focus();
+            if (dirStatus) dirStatus.textContent = 'Revisa los campos marcados en rojo antes de continuar.';
+            return;
+          }
+
+          var hp = document.getElementById('website_hp');
+          if (hp && hp.value) return;
+
+          if (dirSubmit) dirSubmit.disabled = true;
+          if (dirStatus) dirStatus.textContent = 'Registrando tu negocio y preparando tu vista previa en vivo...';
+
+          var payload = {
+            business_name: document.getElementById('dir-business').value.trim(),
+            vertical: document.getElementById('dir-vertical').value,
+            contact_name: document.getElementById('dir-name').value.trim(),
+            city: document.getElementById('dir-city').value.trim(),
+            email: document.getElementById('dir-email').value.trim(),
+            phone: document.getElementById('dir-phone').value.trim(),
+            website_url: (document.getElementById('dir-website').value || '').trim(),
+            description: (document.getElementById('dir-desc').value || '').trim()
+          };
+
+          try {
+            var res = await fetch('/api/knowledge-base/register-business', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+            var data = await res.json();
+            if (!res.ok || !data.success) {
+              throw new Error(data.detail || 'No pudimos completar el registro.');
+            }
+            if (dirStatus) dirStatus.textContent = '¡Ficha registrada correctamente! Se abrió tu vista previa y opciones de activación.';
+            var bizSpan = document.getElementById('upsell-biz-name');
+            var pLink = document.getElementById('upsell-preview-link');
+            if (bizSpan) bizSpan.textContent = payload.business_name;
+            if (pLink && data.preview_url) pLink.href = data.preview_url;
+            if (upsellDialog && typeof upsellDialog.showModal === 'function') {
+              upsellDialog.showModal();
+            }
+          } catch (err) {
+            if (dirStatus) dirStatus.textContent = 'Error al registrar: ' + (err.message || 'Intenta nuevamente.');
+          } finally {
+            if (dirSubmit) dirSubmit.disabled = false;
+          }
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
