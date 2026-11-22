@@ -10,6 +10,7 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, EmailStr
 from sqlalchemy import func
@@ -74,6 +75,9 @@ async def add_security_headers(request: Request, call_next):
             rebuilt.raw_headers = list(response.raw_headers)
         return rebuilt
     return response
+
+# Compresión GZip en capa externa para máximo rendimiento móvil (HTML, JSON, JS, CSS)
+app.add_middleware(GZipMiddleware, minimum_size=500)
 
 # Mount static files
 app.mount("/static", StaticFiles(directory="static"), name="static")
