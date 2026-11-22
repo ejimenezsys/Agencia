@@ -1,0 +1,1154 @@
+{
+  "coleccion_1": {
+    "title": "100 Códigos Creativos de ChatGPT (Prompts de Texto)",
+    "pdf_filename": "ChatGPT_Codigos_Creativos_ProsperIA_ES.pdf",
+    "categories": [
+      {
+        "category_id": "01",
+        "category_name": "ILUMINACIÓN",
+        "range": "001—010",
+        "count": 10,
+        "items": [
+          {
+            "number": "001",
+            "command": "/spotlight",
+            "description": "Un único haz enfocado separa al sujeto de la oscuridad circundante, con estilo teatral."
+          },
+          {
+            "number": "002",
+            "command": "/goldenhour",
+            "description": "El sol de última hora cruza la escena con tonos cálidos y sombras alargadas."
+          },
+          {
+            "number": "003",
+            "command": "/silhouette",
+            "description": "El sujeto se percibe como una forma oscura y limpia contra un fondo más luminoso."
+          },
+          {
+            "number": "004",
+            "command": "/practicallight",
+            "description": "Lámparas, pantallas y neón dentro del encuadre son las fuentes reales de iluminación."
+          },
+          {
+            "number": "005",
+            "command": "/rimlight",
+            "description": "Un fino contorno brillante recorre los bordes del sujeto y lo separa del fondo."
+          },
+          {
+            "number": "006",
+            "command": "/chiaroscuro",
+            "description": "Contrastes pictóricos de luz y sombra esculpen al sujeto como en una obra de maestro clásico."
+          },
+          {
+            "number": "007",
+            "command": "/softlight",
+            "description": "Una fuente grande y difusa envuelve al sujeto con una luz suave, favorecedora y de sombras delicadas."
+          },
+          {
+            "number": "008",
+            "command": "/bluehour",
+            "description": "Ese momento frío y atmosférico del crepúsculo en que el cielo adquiere un azul profundo."
+          },
+          {
+            "number": "009",
+            "command": "/backlight",
+            "description": "La luz principal se ubica detrás del sujeto, creando halo, brillo y separación."
+          },
+          {
+            "number": "010",
+            "command": "/hardlight",
+            "description": "Luz direccional intensa y definida que proyecta sombras gráficas y nítidas."
+          }
+        ]
+      },
+      {
+        "category_id": "02",
+        "category_name": "SURREAL E IMPOSIBLE",
+        "range": "011—020",
+        "count": 10,
+        "items": [
+          {
+            "number": "011",
+            "command": "/portal",
+            "description": "Una puerta creíble conecta dos mundos completamente distintos dentro del mismo encuadre."
+          },
+          {
+            "number": "012",
+            "command": "/gravityoff",
+            "description": "Todo en la escena flota sin peso, como si la gravedad hubiera dejado de existir."
+          },
+          {
+            "number": "013",
+            "command": "/realityshift",
+            "description": "Dos entornos que no deberían coexistir se fusionan en una única escena continua."
+          },
+          {
+            "number": "014",
+            "command": "/miniworld",
+            "description": "Un mundo diminuto y totalmente detallado vive alrededor o dentro del sujeto principal."
+          },
+          {
+            "number": "015",
+            "command": "/infinite",
+            "description": "Un elemento se repite sin fin hacia una distancia hipnótica e imposible."
+          },
+          {
+            "number": "016",
+            "command": "/scaleillusion",
+            "description": "Trucos de perspectiva hacen que los objetos parezcan absurdamente grandes o imposiblemente pequeños."
+          },
+          {
+            "number": "017",
+            "command": "/dreamlogic",
+            "description": "La escena sigue la lógica de los sueños: combinaciones extrañas que aun así se sienten coherentes."
+          },
+          {
+            "number": "018",
+            "command": "/impossibleangle",
+            "description": "Un punto de vista que ninguna cámara física podría ocupar."
+          },
+          {
+            "number": "019",
+            "command": "/mirrorworld",
+            "description": "Una realidad gemela reflejada o invertida, construida con una lógica visual deliberada."
+          },
+          {
+            "number": "020",
+            "command": "/giantobject",
+            "description": "Un objeto cotidiano se convierte en un monumento gigantesco dentro de la escena."
+          }
+        ]
+      },
+      {
+        "category_id": "03",
+        "category_name": "ENCUADRE Y COMPOSICIÓN",
+        "range": "021—030",
+        "count": 10,
+        "items": [
+          {
+            "number": "021",
+            "command": "/negativeSpace",
+            "description": "Un vacío intencional y generoso da aire al encuadre y deja espacio para texto."
+          },
+          {
+            "number": "022",
+            "command": "/closeup",
+            "description": "Recorte cerrado que permite que el rostro, la textura o el detalle del producto dominen el encuadre."
+          },
+          {
+            "number": "023",
+            "command": "/ruleofthirds",
+            "description": "El sujeto se coloca sobre una línea de tercios para lograr un equilibrio editorial relajado."
+          },
+          {
+            "number": "024",
+            "command": "/fullbody",
+            "description": "Encuadre de cuerpo completo, de cabeza a pies, con espacio limpio alrededor de la figura."
+          },
+          {
+            "number": "025",
+            "command": "/foregroundframe",
+            "description": "Objetos en el primer plano rodean al sujeto y aportan profundidad por capas."
+          },
+          {
+            "number": "026",
+            "command": "/symmetry",
+            "description": "Los lados izquierdo y derecho se reflejan entre sí para lograr máximo impacto gráfico."
+          },
+          {
+            "number": "027",
+            "command": "/extremecloseup",
+            "description": "Recorte ultracerrado sobre un detalle impactante: un ojo, una textura o una costura."
+          },
+          {
+            "number": "028",
+            "command": "/wideframe",
+            "description": "Encuadre cinematográfico amplio que muestra al sujeto y su entorno en una sola mirada."
+          },
+          {
+            "number": "029",
+            "command": "/centerframe",
+            "description": "Composición completamente centrada para una imagen icónica, lista para póster."
+          },
+          {
+            "number": "030",
+            "command": "/mediumshot",
+            "description": "Encuadre de cintura hacia arriba que equilibra presencia y contexto: un clásico de publicidad y diálogo."
+          }
+        ]
+      },
+      {
+        "category_id": "04",
+        "category_name": "BTS Y PRODUCCIÓN CREATIVA",
+        "range": "031—040",
+        "count": 10,
+        "items": [
+          {
+            "number": "031",
+            "command": "/lightingrig",
+            "description": "Softboxes, soportes, banderas y modificadores aparecen abiertamente dentro de la toma."
+          },
+          {
+            "number": "032",
+            "command": "/BTS",
+            "description": "La toma pulida se abre para revelar la producción real que existe alrededor."
+          },
+          {
+            "number": "033",
+            "command": "/videovillage",
+            "description": "El equipo se reúne alrededor de un monitor para revisar la toma en curso."
+          },
+          {
+            "number": "034",
+            "command": "/makingof",
+            "description": "Una fotografía cinematográfica del proceso creativo detrás de la imagen final."
+          },
+          {
+            "number": "035",
+            "command": "/camerarig",
+            "description": "Cuerpo de cámara, lente, trípode y monitor se vuelven elementos visibles de la escena."
+          },
+          {
+            "number": "036",
+            "command": "/beforeafter",
+            "description": "La preparación original y el resultado terminado aparecen lado a lado para contrastarlos."
+          },
+          {
+            "number": "037",
+            "command": "/studiofloor",
+            "description": "Vista amplia de un estudio activo y funcional que rodea al sujeto."
+          },
+          {
+            "number": "038",
+            "command": "/directorview",
+            "description": "El encuadre se compone desde la posición donde se encuentra el director en el set."
+          },
+          {
+            "number": "039",
+            "command": "/setphoto",
+            "description": "El sujeto es fotografiado en un set de producción profesional y cuidadosamente ambientado."
+          },
+          {
+            "number": "040",
+            "command": "/behindthescenes",
+            "description": "Luces, equipo, cables y utilería comparten el encuadre con la toma principal."
+          }
+        ]
+      },
+      {
+        "category_id": "05",
+        "category_name": "CÁMARA Y ÁNGULOS",
+        "range": "041—050",
+        "count": 10,
+        "items": [
+          {
+            "number": "041",
+            "command": "/birdsview",
+            "description": "Encuadre cenital completamente vertical que aplana la escena en formas gráficas."
+          },
+          {
+            "number": "042",
+            "command": "/POV",
+            "description": "Encuadre en primera persona que coloca al espectador directamente dentro del momento."
+          },
+          {
+            "number": "043",
+            "command": "/dutchangle",
+            "description": "Un horizonte inclinado añade tensión, inquietud o energía editorial con estilo."
+          },
+          {
+            "number": "044",
+            "command": "/lowangle",
+            "description": "Disparar desde abajo hace que el sujeto se perciba imponente y poderoso."
+          },
+          {
+            "number": "045",
+            "command": "/isometric",
+            "description": "Vista geométrica limpia en tres cuartos que revela profundidad en varios planos."
+          },
+          {
+            "number": "046",
+            "command": "/droneview",
+            "description": "Perspectiva aérea amplia con verdadera escala cinematográfica."
+          },
+          {
+            "number": "047",
+            "command": "/eyelevel",
+            "description": "Encuadre neutro a la altura de los ojos, con proporciones naturales y honestas."
+          },
+          {
+            "number": "048",
+            "command": "/wormsview",
+            "description": "Vista extrema desde el nivel del suelo mirando dramáticamente hacia arriba."
+          },
+          {
+            "number": "049",
+            "command": "/OTS",
+            "description": "Encuadre sobre el hombro que añade profundidad y una sensación conversacional y cinematográfica."
+          },
+          {
+            "number": "050",
+            "command": "/highangle",
+            "description": "Mirada hacia abajo sobre el sujeto para transmitir vulnerabilidad o escala gráfica."
+          }
+        ]
+      },
+      {
+        "category_id": "06",
+        "category_name": "FOTOGRAFÍA Y EDITORIAL",
+        "range": "051—060",
+        "count": 10,
+        "items": [
+          {
+            "number": "051",
+            "command": "/lookbook",
+            "description": "Estilismo consistente y encuadres limpios presentados como un lookbook de moda."
+          },
+          {
+            "number": "052",
+            "command": "/35mm",
+            "description": "Carácter clásico de 35 mm: grano auténtico, respuesta real del lente y sensación atemporal."
+          },
+          {
+            "number": "053",
+            "command": "/coverstory",
+            "description": "Retrato de portada de revista con espacio negativo pensado para cabecera y titulares."
+          },
+          {
+            "number": "054",
+            "command": "/streetphoto",
+            "description": "Energía documental espontánea con las bellas imperfecciones de la fotografía callejera."
+          },
+          {
+            "number": "055",
+            "command": "/polaroid",
+            "description": "Suavidad de película instantánea, contraste apagado y encuadre casual de instantánea."
+          },
+          {
+            "number": "056",
+            "command": "/contactsheet",
+            "description": "Múltiples fotogramas organizados en una composición cohesiva tipo hoja de contactos."
+          },
+          {
+            "number": "057",
+            "command": "/mediumformat",
+            "description": "Profundidad tonal rica y detalle limpio propios de una captura en formato medio."
+          },
+          {
+            "number": "058",
+            "command": "/fashioneditorial",
+            "description": "Actitud de alta moda con estilismo intencional y composición segura y expresiva."
+          },
+          {
+            "number": "059",
+            "command": "/disposablecam",
+            "description": "Flash intenso, accidentes felices y encanto nostálgico de cámara compacta."
+          },
+          {
+            "number": "060",
+            "command": "/paparazzi",
+            "description": "Energía espontánea bañada por flashes, capturada en pleno momento y sin posar."
+          }
+        ]
+      },
+      {
+        "category_id": "07",
+        "category_name": "EXPERIMENTOS CREATIVOS",
+        "range": "061—070",
+        "count": 10,
+        "items": [
+          {
+            "number": "061",
+            "command": "/thermal",
+            "description": "Una gradación tipo mapa térmico convierte la temperatura en diseño gráfico."
+          },
+          {
+            "number": "062",
+            "command": "/reflection",
+            "description": "La composición se construye alrededor de espejos, vidrio, agua o superficies pulidas."
+          },
+          {
+            "number": "063",
+            "command": "/cutaway",
+            "description": "Se elimina una sección del objeto o espacio para revelar su interior."
+          },
+          {
+            "number": "064",
+            "command": "/fisheye",
+            "description": "Distorsión extrema de gran angular para un encuadre caótico y de alta energía."
+          },
+          {
+            "number": "065",
+            "command": "/underwater",
+            "description": "Punto de vista sumergido con rayos de luz, burbujas y partículas creíbles."
+          },
+          {
+            "number": "066",
+            "command": "/xraystyle",
+            "description": "Render estilizado semitransparente que revela lo que hay en el interior."
+          },
+          {
+            "number": "067",
+            "command": "/tinyplanet",
+            "description": "Todo el entorno se curva hasta formar un pequeño mundo esférico y surrealista."
+          },
+          {
+            "number": "068",
+            "command": "/blueprint",
+            "description": "Tratamiento de dibujo técnico: líneas medidas, etiquetas y serenidad esquemática."
+          },
+          {
+            "number": "069",
+            "command": "/conceptart",
+            "description": "Arte conceptual cinematográfico de gran producción que conserva credibilidad fotográfica."
+          },
+          {
+            "number": "070",
+            "command": "/throughglass",
+            "description": "Toma realizada a través de vidrio real, con reflejos, manchas y refracción."
+          }
+        ]
+      },
+      {
+        "category_id": "08",
+        "category_name": "ESTÉTICAS CINEMATOGRÁFICAS",
+        "range": "071—080",
+        "count": 10,
+        "items": [
+          {
+            "number": "071",
+            "command": "/neonnoir",
+            "description": "Oscuridad húmeda y reflectante atravesada por brillos de neón saturados."
+          },
+          {
+            "number": "072",
+            "command": "/cinematic",
+            "description": "Apariencia pulida de fotograma de película, con luz, profundidad y encuadre controlados."
+          },
+          {
+            "number": "073",
+            "command": "/70scinema",
+            "description": "Textura cálida, granulada y bañada por el sol, propia del cine de los años setenta."
+          },
+          {
+            "number": "074",
+            "command": "/indiefilm",
+            "description": "Encuadres tranquilos y naturalistas con decisiones sutiles e íntimas."
+          },
+          {
+            "number": "075",
+            "command": "/anamorphic",
+            "description": "Carácter de lente panorámico: bokeh ovalado y destellos horizontales sutiles."
+          },
+          {
+            "number": "076",
+            "command": "/noir",
+            "description": "Blanco y negro de sombras duras con la tensión clásica del cine criminal."
+          },
+          {
+            "number": "077",
+            "command": "/filmstill",
+            "description": "Un fotograma que parece extraído en plena historia de una película narrativa real."
+          },
+          {
+            "number": "078",
+            "command": "/80saction",
+            "description": "Contraste fuerte, humo, luz de recorte y encuadre heroico sin complejos."
+          },
+          {
+            "number": "079",
+            "command": "/imax",
+            "description": "Inmersión de gran formato con detalle imponente y escala dramática."
+          },
+          {
+            "number": "080",
+            "command": "/vintagefilm",
+            "description": "Grano delicado, halation y color desvanecido recuperado de un pasado analógico."
+          }
+        ]
+      },
+      {
+        "category_id": "09",
+        "category_name": "ACCIÓN Y DINÁMICA",
+        "range": "081—090",
+        "count": 10,
+        "items": [
+          {
+            "number": "081",
+            "command": "/midair",
+            "description": "El sujeto queda suspendido en el punto máximo de un salto imposible."
+          },
+          {
+            "number": "082",
+            "command": "/chaosframe",
+            "description": "Un encuadre denso donde varios eventos enérgicos chocan al mismo tiempo."
+          },
+          {
+            "number": "083",
+            "command": "/freezeaction",
+            "description": "Una fracción de segundo de movimiento rápido congelada con detalle extremadamente nítido."
+          },
+          {
+            "number": "084",
+            "command": "/windblown",
+            "description": "Un viento creíble da vida al cabello, la tela, el polvo y los objetos sueltos."
+          },
+          {
+            "number": "085",
+            "command": "/speedramp",
+            "description": "El ritmo visual de una secuencia lento-rápido-lento condensado en un solo fotograma."
+          },
+          {
+            "number": "086",
+            "command": "/collision",
+            "description": "Los elementos convergen en un único instante escenificado de contacto dramático."
+          },
+          {
+            "number": "087",
+            "command": "/motionblur",
+            "description": "Desenfoque direccional en movimiento mientras el protagonista del encuadre permanece legible."
+          },
+          {
+            "number": "088",
+            "command": "/jumpcutframe",
+            "description": "Un golpe editorial brusco: el equivalente visual de un jump cut."
+          },
+          {
+            "number": "089",
+            "command": "/runningframe",
+            "description": "Pose en plena carrera con el entorno desplazándose velozmente alrededor."
+          },
+          {
+            "number": "090",
+            "command": "/impactframe",
+            "description": "El instante exacto del impacto: fragmentos, líneas de fuerza y energía bruta."
+          }
+        ]
+      },
+      {
+        "category_id": "10",
+        "category_name": "PRODUCTO Y PUBLICIDAD",
+        "range": "091—100",
+        "count": 10,
+        "items": [
+          {
+            "number": "091",
+            "command": "/packshot",
+            "description": "Presentación limpia de estudio lista para e-commerce o presentaciones de marca."
+          },
+          {
+            "number": "092",
+            "command": "/luxuryad",
+            "description": "Composición contenida e impecable que comunica lujo sin exagerarlo."
+          },
+          {
+            "number": "093",
+            "command": "/explodedview",
+            "description": "Los componentes se separan y flotan en el espacio mientras el producto sigue siendo reconocible."
+          },
+          {
+            "number": "094",
+            "command": "/producthero",
+            "description": "El producto domina el encuadre: es, sin duda, el protagonista absoluto."
+          },
+          {
+            "number": "095",
+            "command": "/macroproduct",
+            "description": "Detalle extremo en primer plano que celebra material, textura y acabado."
+          },
+          {
+            "number": "096",
+            "command": "/billboard",
+            "description": "Composición como una campaña exterior audaz diseñada para detener miradas."
+          },
+          {
+            "number": "097",
+            "command": "/beautyshot",
+            "description": "Toma de glamour pulida, obsesionada con superficie, forma y acabado."
+          },
+          {
+            "number": "098",
+            "command": "/applestyle",
+            "description": "Presentación de producto minimalista y aireada, con jerarquía limpia y mucho espacio."
+          },
+          {
+            "number": "099",
+            "command": "/floatingproduct",
+            "description": "El producto flota limpiamente en el espacio con sombras suaves y controladas."
+          },
+          {
+            "number": "100",
+            "command": "/editorialad",
+            "description": "Sofisticación de anuncio de revista brillante con composición de alta moda."
+          }
+        ]
+      }
+    ]
+  },
+  "coleccion_2": {
+    "title": "100 Códigos de Imágenes — Edward Jiménez (Dirección Fotográfica)",
+    "pdf_filename": "Codigos_Creativos_ChatGPT_Edward_Jimenez_ES_ProsperIA.pdf",
+    "categories": [
+      {
+        "category_id": "01",
+        "category_name": "ILUMINACIÓN",
+        "items": [
+          {
+            "sub_number": "01",
+            "command": "/spotlight",
+            "description": "Un único haz enfocado separa al sujeto de la oscuridad circundante, con estilo teatral."
+          },
+          {
+            "sub_number": "02",
+            "command": "/goldenhour",
+            "description": "El sol del final del día atraviesa la escena con tonos cálidos y sombras alargadas."
+          },
+          {
+            "sub_number": "03",
+            "command": "/silhouette",
+            "description": "El sujeto aparece como una forma oscura y definida contra un fondo más luminoso."
+          },
+          {
+            "sub_number": "04",
+            "command": "/practicallight",
+            "description": "Las lámparas, pantallas y luces de neón visibles en el encuadre iluminan realmente la escena."
+          },
+          {
+            "sub_number": "05",
+            "command": "/rimlight",
+            "description": "Un fino contorno brillante recorre los bordes del sujeto y lo separa del fondo."
+          },
+          {
+            "sub_number": "06",
+            "command": "/chiaroscuro",
+            "description": "Contrastes pictóricos de luz y sombra esculpen al sujeto como en una obra de un viejo maestro."
+          },
+          {
+            "sub_number": "07",
+            "command": "/softlight",
+            "description": "Una fuente amplia y difusa envuelve al sujeto con una luz suave, favorecedora y de sombras ligeras."
+          },
+          {
+            "sub_number": "08",
+            "command": "/bluehour",
+            "description": "Ese instante frío y evocador del crepúsculo en el que el cielo resplandece en azul profundo."
+          },
+          {
+            "sub_number": "09",
+            "command": "/backlight",
+            "description": "La luz principal se sitúa detrás del sujeto para crear halo, brillo y separación."
+          },
+          {
+            "sub_number": "10",
+            "command": "/hardlight",
+            "description": "Una luz direccional intensa y contundente proyecta sombras gráficas y bien definidas."
+          }
+        ]
+      },
+      {
+        "category_id": "02",
+        "category_name": "SURREALISTA E IMPOSIBLE",
+        "items": [
+          {
+            "sub_number": "11",
+            "command": "/portal",
+            "description": "Una puerta creíble conecta dos mundos completamente diferentes dentro del mismo encuadre."
+          },
+          {
+            "sub_number": "12",
+            "command": "/gravityoff",
+            "description": "Todo en la escena flota sin peso, como si la gravedad hubiera dejado de existir."
+          },
+          {
+            "sub_number": "13",
+            "command": "/realityshift",
+            "description": "Dos entornos que nunca deberían coexistir se fusionan en una sola escena continua."
+          },
+          {
+            "sub_number": "14",
+            "command": "/miniworld",
+            "description": "Un mundo diminuto y totalmente detallado vive alrededor o dentro del sujeto principal."
+          },
+          {
+            "sub_number": "15",
+            "command": "/infinite",
+            "description": "Un elemento se repite sin fin hasta perderse en una distancia hipnótica e imposible."
+          },
+          {
+            "sub_number": "16",
+            "command": "/scaleillusion",
+            "description": "Los trucos de perspectiva hacen que los objetos parezcan absurdamente grandes o imposiblemente pequeños."
+          },
+          {
+            "sub_number": "17",
+            "command": "/dreamlogic",
+            "description": "La escena obedece reglas de sueño: combinaciones extrañas que aun así se sienten coherentes."
+          },
+          {
+            "sub_number": "18",
+            "command": "/impossibleangle",
+            "description": "Un punto de vista que ninguna cámara física podría ocupar."
+          },
+          {
+            "sub_number": "19",
+            "command": "/mirrorworld",
+            "description": "Una realidad gemela, reflejada o invertida, construida con una lógica visual intencional."
+          },
+          {
+            "sub_number": "20",
+            "command": "/giantobject",
+            "description": "Un objeto cotidiano se convierte en un monumento gigantesco dentro de la escena."
+          }
+        ]
+      },
+      {
+        "category_id": "03",
+        "category_name": "ENCUADRE Y COMPOSICIÓN",
+        "items": [
+          {
+            "sub_number": "21",
+            "command": "/negativeSpace",
+            "description": "Un vacío amplio e intencional da aire al encuadre y deja espacio disponible para texto."
+          },
+          {
+            "sub_number": "22",
+            "command": "/closeup",
+            "description": "Un recorte cerrado permite que el rostro, la textura o el detalle del producto dominen el encuadre."
+          },
+          {
+            "sub_number": "23",
+            "command": "/ruleofthirds",
+            "description": "El sujeto se sitúa sobre una línea de tercios para lograr un equilibrio editorial y relajado."
+          },
+          {
+            "sub_number": "24",
+            "command": "/fullbody",
+            "description": "Encuadre de la cabeza a los pies con espacio limpio alrededor de la figura."
+          },
+          {
+            "sub_number": "25",
+            "command": "/foregroundframe",
+            "description": "Objetos en primer plano rodean al sujeto y añaden profundidad por capas."
+          },
+          {
+            "sub_number": "26",
+            "command": "/symmetry",
+            "description": "Las mitades izquierda y derecha se reflejan para producir el máximo impacto gráfico."
+          },
+          {
+            "sub_number": "27",
+            "command": "/extremecloseup",
+            "description": "Un recorte extremadamente cerrado destaca un detalle cautivador: un ojo, una textura o una costura."
+          },
+          {
+            "sub_number": "28",
+            "command": "/wideframe",
+            "description": "Un encuadre cinematográfico amplio muestra al sujeto y su mundo en una sola mirada."
+          },
+          {
+            "sub_number": "29",
+            "command": "/centerframe",
+            "description": "La colocación exacta en el centro crea una composición icónica, lista para un cartel."
+          },
+          {
+            "sub_number": "30",
+            "command": "/mediumshot",
+            "description": "El plano desde la cintura equilibra presencia y contexto: un clásico para anuncios y diálogos."
+          }
+        ]
+      },
+      {
+        "category_id": "04",
+        "category_name": "TRAS CÁMARAS Y PRODUCCIÓN CREATIVA",
+        "items": [
+          {
+            "sub_number": "31",
+            "command": "/lightingrig",
+            "description": "Cajas de luz, soportes, banderas y modificadores aparecen abiertamente en la toma."
+          },
+          {
+            "sub_number": "32",
+            "command": "/BTS",
+            "description": "La toma pulida se abre para revelar el equipo y la producción trabajando a su alrededor."
+          },
+          {
+            "sub_number": "33",
+            "command": "/videovillage",
+            "description": "El equipo se reúne frente a un monitor para revisar la toma en curso."
+          },
+          {
+            "sub_number": "34",
+            "command": "/makingof",
+            "description": "Una fotografía cinematográfica muestra el oficio y el proceso detrás de la imagen final."
+          },
+          {
+            "sub_number": "35",
+            "command": "/camerarig",
+            "description": "El cuerpo de cámara, el lente, el trípode y el monitor se vuelven elementos visibles de la escena."
+          },
+          {
+            "sub_number": "36",
+            "command": "/beforeafter",
+            "description": "La preparación sin editar y el resultado final aparecen lado a lado para contrastarlos."
+          },
+          {
+            "sub_number": "37",
+            "command": "/studiofloor",
+            "description": "Una vista amplia muestra un estudio real y operativo alrededor del sujeto."
+          },
+          {
+            "sub_number": "38",
+            "command": "/directorview",
+            "description": "El encuadre se compone desde la posición que ocupa el director en el set."
+          },
+          {
+            "sub_number": "39",
+            "command": "/setphoto",
+            "description": "El sujeto es fotografiado en un set profesional diseñado y ambientado."
+          },
+          {
+            "sub_number": "40",
+            "command": "/behindthescenes",
+            "description": "Luces, equipo, cables y utilería comparten el encuadre con la toma protagonista."
+          }
+        ]
+      },
+      {
+        "category_id": "05",
+        "category_name": "CÁMARA Y ÁNGULOS",
+        "items": [
+          {
+            "sub_number": "41",
+            "command": "/birdsview",
+            "description": "Un encuadre cenital completamente vertical aplana la escena y la convierte en formas gráficas."
+          },
+          {
+            "sub_number": "42",
+            "command": "/POV",
+            "description": "El encuadre en primera persona sitúa al espectador directamente dentro del momento."
+          },
+          {
+            "sub_number": "43",
+            "command": "/dutchangle",
+            "description": "Un horizonte inclinado introduce tensión, inquietud o energía editorial con estilo."
+          },
+          {
+            "sub_number": "44",
+            "command": "/lowangle",
+            "description": "Fotografiar desde abajo hace que el sujeto se sienta imponente y poderoso."
+          },
+          {
+            "sub_number": "45",
+            "command": "/isometric",
+            "description": "Una vista geométrica limpia en tres cuartos revela profundidad en varios planos."
+          },
+          {
+            "sub_number": "46",
+            "command": "/droneview",
+            "description": "Una perspectiva aérea envolvente aporta auténtica escala cinematográfica."
+          },
+          {
+            "sub_number": "47",
+            "command": "/eyelevel",
+            "description": "Un encuadre neutral a la altura de los ojos mantiene proporciones honestas y naturales."
+          },
+          {
+            "sub_number": "48",
+            "command": "/wormsview",
+            "description": "Una vista extrema desde el nivel del suelo mira dramáticamente hacia arriba."
+          },
+          {
+            "sub_number": "49",
+            "command": "/OTS",
+            "description": "El encuadre sobre el hombro añade profundidad y una sensación cinematográfica de conversación."
+          },
+          {
+            "sub_number": "50",
+            "command": "/highangle",
+            "description": "La cámara mira al sujeto desde arriba para transmitir vulnerabilidad o una escala gráfica."
+          }
+        ]
+      },
+      {
+        "category_id": "06",
+        "category_name": "FOTOGRAFÍA Y EDITORIAL",
+        "items": [
+          {
+            "sub_number": "51",
+            "command": "/lookbook",
+            "description": "Estilismo coherente y encuadres limpios presentados como un catálogo visual de moda."
+          },
+          {
+            "sub_number": "52",
+            "command": "/35mm",
+            "description": "Carácter clásico de 35 mm: grano honesto, respuesta real del lente y una sensación atemporal."
+          },
+          {
+            "sub_number": "53",
+            "command": "/coverstory",
+            "description": "Un retrato de portada con espacio negativo deliberado para cabecera y titulares."
+          },
+          {
+            "sub_number": "54",
+            "command": "/streetphoto",
+            "description": "Energía documental espontánea con las bellas imperfecciones de la fotografía callejera."
+          },
+          {
+            "sub_number": "55",
+            "command": "/polaroid",
+            "description": "Suavidad de película instantánea, contraste apagado y encuadre de fotografía casual."
+          },
+          {
+            "sub_number": "56",
+            "command": "/contactsheet",
+            "description": "Varios fotogramas organizados en una composición coherente de hoja de contactos."
+          },
+          {
+            "sub_number": "57",
+            "command": "/mediumformat",
+            "description": "La gran profundidad tonal y el detalle limpio de una captura en formato medio."
+          },
+          {
+            "sub_number": "58",
+            "command": "/fashioneditorial",
+            "description": "Actitud de alta moda con estilismo intencional y una composición segura."
+          },
+          {
+            "sub_number": "59",
+            "command": "/disposablecam",
+            "description": "Flash intenso, accidentes felices y el encanto nostálgico de una cámara compacta."
+          },
+          {
+            "sub_number": "60",
+            "command": "/paparazzi",
+            "description": "Energía espontánea iluminada por flash, capturada a mitad del momento y sin posar."
+          }
+        ]
+      },
+      {
+        "category_id": "07",
+        "category_name": "EXPERIMENTOS CREATIVOS",
+        "items": [
+          {
+            "sub_number": "61",
+            "command": "/thermal",
+            "description": "Una gradación de color tipo mapa térmico convierte la temperatura en diseño gráfico."
+          },
+          {
+            "sub_number": "62",
+            "command": "/reflection",
+            "description": "La composición se construye alrededor de espejos, vidrio, agua o superficies pulidas."
+          },
+          {
+            "sub_number": "63",
+            "command": "/cutaway",
+            "description": "Se retira una sección del objeto o del espacio para revelar su interior."
+          },
+          {
+            "sub_number": "64",
+            "command": "/fisheye",
+            "description": "Una distorsión extrema de gran angular crea un encuadre caótico y lleno de energía."
+          },
+          {
+            "sub_number": "65",
+            "command": "/underwater",
+            "description": "Un punto de vista sumergido con rayos de luz, burbujas y partículas creíbles."
+          },
+          {
+            "sub_number": "66",
+            "command": "/xraystyle",
+            "description": "Un render estilizado y transparente revela lo que hay en el interior."
+          },
+          {
+            "sub_number": "67",
+            "command": "/tinyplanet",
+            "description": "Todo el entorno se curva hasta formar un pequeño mundo esférico y surrealista."
+          },
+          {
+            "sub_number": "68",
+            "command": "/blueprint",
+            "description": "Tratamiento de dibujo técnico con líneas medidas, etiquetas y serenidad esquemática."
+          },
+          {
+            "sub_number": "69",
+            "command": "/conceptart",
+            "description": "Arte conceptual cinematográfico de gran producción que conserva credibilidad fotográfica."
+          },
+          {
+            "sub_number": "70",
+            "command": "/throughglass",
+            "description": "Toma realizada a través de vidrio real, con reflejos, manchas y refracción."
+          }
+        ]
+      },
+      {
+        "category_id": "08",
+        "category_name": "ESTÉTICAS CINEMATOGRÁFICAS",
+        "items": [
+          {
+            "sub_number": "71",
+            "command": "/neonnoir",
+            "description": "Oscuridad húmeda por la lluvia, cortada por reflejos y resplandores de neón saturado."
+          },
+          {
+            "sub_number": "72",
+            "command": "/cinematic",
+            "description": "Una estética pulida de fotograma de película con luz, profundidad y encuadre controlados."
+          },
+          {
+            "sub_number": "73",
+            "command": "/70scinema",
+            "description": "Textura cálida, granulada y bañada por el sol, propia del cine de los años setenta."
+          },
+          {
+            "sub_number": "74",
+            "command": "/indiefilm",
+            "description": "Encuadres tranquilos y naturalistas con decisiones íntimas y discretas."
+          },
+          {
+            "sub_number": "75",
+            "command": "/anamorphic",
+            "description": "Carácter de lente panorámico con bokeh ovalado y un sutil destello horizontal."
+          },
+          {
+            "sub_number": "76",
+            "command": "/noir",
+            "description": "Blanco y negro de sombras duras con la amenaza clásica del cine criminal."
+          },
+          {
+            "sub_number": "77",
+            "command": "/filmstill",
+            "description": "Un encuadre que parece extraído a mitad de la historia de una película narrativa real."
+          },
+          {
+            "sub_number": "78",
+            "command": "/80saction",
+            "description": "Contraste intenso, humo, luz de contorno y un encuadre heroico sin complejos."
+          },
+          {
+            "sub_number": "79",
+            "command": "/imax",
+            "description": "Inmersión de gran formato con detalle monumental y una escala dramática."
+          },
+          {
+            "sub_number": "80",
+            "command": "/vintagefilm",
+            "description": "Grano suave, halos luminosos y color desvanecido rescatado de un pasado analógico."
+          }
+        ]
+      },
+      {
+        "category_id": "09",
+        "category_name": "ACCIÓN Y DINAMISMO",
+        "items": [
+          {
+            "sub_number": "81",
+            "command": "/midair",
+            "description": "El sujeto queda suspendido en el aire en el punto máximo de un salto imposible."
+          },
+          {
+            "sub_number": "82",
+            "command": "/chaosframe",
+            "description": "Un encuadre denso donde varios acontecimientos llenos de energía chocan a la vez."
+          },
+          {
+            "sub_number": "83",
+            "command": "/freezeaction",
+            "description": "Una fracción de segundo de movimiento rápido queda congelada con detalle extremadamente nítido."
+          },
+          {
+            "sub_number": "84",
+            "command": "/windblown",
+            "description": "Un viento creíble da vida al cabello, la tela, el polvo y los objetos sueltos."
+          },
+          {
+            "sub_number": "85",
+            "command": "/speedramp",
+            "description": "El ritmo visual de una secuencia lenta-rápida-lenta se concentra en un solo encuadre."
+          },
+          {
+            "sub_number": "86",
+            "command": "/collision",
+            "description": "Los elementos convergen en un momento preparado de contacto dramático."
+          },
+          {
+            "sub_number": "87",
+            "command": "/motionblur",
+            "description": "Un desenfoque direccional crea estelas mientras el protagonista permanece reconocible."
+          },
+          {
+            "sub_number": "88",
+            "command": "/jumpcutframe",
+            "description": "Un golpe editorial brusco: el equivalente visual de un corte con salto."
+          },
+          {
+            "sub_number": "89",
+            "command": "/runningframe",
+            "description": "Una pose de carrera a máxima velocidad mientras el entorno pasa velozmente."
+          },
+          {
+            "sub_number": "90",
+            "command": "/impactframe",
+            "description": "El instante exacto del impacto: fragmentos, líneas de fuerza y energía pura."
+          }
+        ]
+      },
+      {
+        "category_id": "10",
+        "category_name": "PRODUCTO Y PUBLICIDAD",
+        "items": [
+          {
+            "sub_number": "91",
+            "command": "/packshot",
+            "description": "Una presentación limpia de estudio, lista para comercio electrónico o presentaciones de marca."
+          },
+          {
+            "sub_number": "92",
+            "command": "/luxuryad",
+            "description": "Una composición sobria e impecable que comunica exclusividad sin levantar la voz."
+          },
+          {
+            "sub_number": "93",
+            "command": "/explodedview",
+            "description": "Los componentes se separan y flotan mientras el producto sigue siendo reconocible."
+          },
+          {
+            "sub_number": "94",
+            "command": "/producthero",
+            "description": "El producto domina el encuadre y se convierte, sin duda, en el protagonista."
+          },
+          {
+            "sub_number": "95",
+            "command": "/macroproduct",
+            "description": "Un detalle extremadamente cercano celebra el material, la textura y la calidad del trabajo."
+          },
+          {
+            "sub_number": "96",
+            "command": "/billboard",
+            "description": "Composición de campaña exterior audaz, diseñada para detener las miradas."
+          },
+          {
+            "sub_number": "97",
+            "command": "/beautyshot",
+            "description": "Una imagen glamorosa y pulida, enfocada en la superficie, la forma y el acabado."
+          },
+          {
+            "sub_number": "98",
+            "command": "/applestyle",
+            "description": "Presentación minimalista y ligera del producto, con jerarquía limpia y abundante espacio."
+          },
+          {
+            "sub_number": "99",
+            "command": "/floatingproduct",
+            "description": "El producto flota limpiamente en el espacio con sombras suaves y controladas."
+          },
+          {
+            "sub_number": "100",
+            "command": "/editorialad",
+            "description": "Sofisticación de anuncio editorial con acabado brillante y composición de alta moda."
+          }
+        ]
+      }
+    ]
+  }
+}

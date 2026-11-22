@@ -1747,10 +1747,27 @@ async def read_gracias(request: Request, db: Session = Depends(get_db)):
     )
 
 def get_codigos_data():
-    json_path = os.path.join(os.path.dirname(__file__), "content", "codigos_100.json")
-    if os.path.exists(json_path):
-        import json
-        with open(json_path, "r", encoding="utf-8") as f:
+    import json
+    base_dir = os.path.join(os.path.dirname(__file__), "content")
+    path_200 = os.path.join(base_dir, "codigos_200.json")
+    if os.path.exists(path_200):
+        with open(path_200, "r", encoding="utf-8") as f:
+            raw = json.load(f)
+        combined = []
+        for col_key in ("coleccion_1", "coleccion_2"):
+            for cat in raw.get(col_key, {}).get("categories", []):
+                norm_items = []
+                for it in cat.get("items", []):
+                    norm_it = dict(it)
+                    norm_it["number"] = it.get("number") or it.get("sub_number") or ""
+                    norm_items.append(norm_it)
+                combined.append({**cat, "items": norm_items})
+        if combined:
+            return combined
+
+    path_100 = os.path.join(base_dir, "codigos_100.json")
+    if os.path.exists(path_100):
+        with open(path_100, "r", encoding="utf-8") as f:
             return json.load(f)
     return []
 
