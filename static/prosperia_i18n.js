@@ -542,7 +542,7 @@
     if (document.getElementById('pia-i18n-style')) return;
     var css = [
       '.pia-lang-switcher{display:inline-flex;align-items:center;gap:2px;padding:2px;border-radius:999px;background:rgba(15,23,42,.88);border:1px solid rgba(34,211,238,.38);backdrop-filter:blur(8px);vertical-align:middle}',
-      '.pia-lang-btn{border:0;background:transparent;color:#cbd5e1;font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;font-size:11px;font-weight:800;letter-spacing:.03em;padding:4px 9px;border-radius:999px;cursor:pointer;line-height:1.25;white-space:nowrap;transition:background .15s ease,color .15s ease}',
+      '.pia-lang-btn{border:0;background:transparent;color:#cbd5e1;font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;font-size:11px;font-weight:800;letter-spacing:.03em;padding:4px 9px;min-height:24px;min-width:24px;border-radius:999px;cursor:pointer;line-height:1.25;white-space:nowrap;transition:background .15s ease,color .15s ease}',
       '.pia-lang-btn:hover{color:#ffffff}',
       '.pia-lang-btn[aria-pressed="true"]{background:linear-gradient(135deg,#22d3ee 0%,#0ea5e9 100%);color:#020617}',
       '.pia-lang-floating{position:fixed;inset-block-end:1rem;inset-inline-start:1rem;z-index:9998;box-shadow:0 12px 28px rgba(0,0,0,.55)}',
