@@ -32,7 +32,10 @@ def feature_enabled(name: str) -> bool:
     """Las integraciones salientes son opt-in; ausencia equivale a desactivado."""
     return os.environ.get(name, "false").strip().lower() in {"1", "true", "yes", "on"}
 
-# Cabeceras de seguridad HTTP (Permitiendo embeber en CRM ProsperIA / Enlaces Externos)
+_I18N_SKIP_PREFIXES = ("/api/", "/static/", "/dashboard", "/login", "/closers", "/portafolio-vivo/", "/beautygrowth")
+
+
+# Cabeceras de seguridad HTTP + inyección universal del selector bilingüe ES/EN en páginas HTML públicas
 @app.middleware("http")
 async def add_security_headers(request: Request, call_next):
     response = await call_next(request)
@@ -41,6 +44,35 @@ async def add_security_headers(request: Request, call_next):
     response.headers["Content-Security-Policy"] = "frame-ancestors *"
     response.headers["X-Content-Type-Options"] = "nosniff"
     response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
+
+    ctype = (response.headers.get("content-type") or "").lower()
+    cenc = (response.headers.get("content-encoding") or "").lower()
+    path = request.url.path or ""
+    if (
+        response.status_code == 200
+        and request.method == "GET"
+        and "text/html" in ctype
+        and not cenc
+        and not path.startswith(_I18N_SKIP_PREFIXES)
+    ):
+        body_chunks = [chunk async for chunk in response.body_iterator]
+        body_bytes = b"".join(body_chunks)
+        injected = False
+        if b"prosperia_i18n.js" not in body_bytes and b"</body>" in body_bytes:
+            v_url = static_versioned("prosperia_i18n.js").encode("utf-8")
+            tag = b'<script src="' + v_url + b'" defer></script>\n</body>'
+            body_bytes = body_bytes.replace(b"</body>", tag, 1)
+            injected = True
+        rebuilt = Response(content=body_bytes, status_code=response.status_code)
+        if injected:
+            rebuilt.raw_headers = [
+                (k, v)
+                for k, v in response.raw_headers
+                if k.lower() != b"content-length"
+            ] + [(b"content-length", str(len(body_bytes)).encode("ascii"))]
+        else:
+            rebuilt.raw_headers = list(response.raw_headers)
+        return rebuilt
     return response
 
 # Mount static files

@@ -521,10 +521,13 @@
       <a href="/" class="brand-chip">
         <span>AGENCIA PROSPER IA LLC</span>
       </a>
-      <button type="button" id="openQrModalBtn" class="qr-trigger-btn">
-        <i class="fas fa-qrcode" aria-hidden="true"></i>
-        <span>Mostrar QR</span>
-      </button>
+      <div style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap;">
+        <div class="pia-lang-slot" data-pia-lang-slot></div>
+        <button type="button" id="openQrModalBtn" class="qr-trigger-btn">
+          <i class="fas fa-qrcode" aria-hidden="true"></i>
+          <span>Mostrar QR</span>
+        </button>
+      </div>
     </header>
 
     <main id="main-content">
@@ -893,5 +896,6 @@
       }
     })();
   </script>
+  <script src="{{ static_versioned('prosperia_i18n.js') }}" defer></script>
 </body>
 </html>
