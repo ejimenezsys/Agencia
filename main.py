@@ -6086,3 +6086,106 @@ async def api_bizbox_squeeze_lead(
         content={"ok": True, "success": True, "lead_id": lead_id},
         headers={"Access-Control-Allow-Origin": "*"},
     )
+
+
+# ---------------------------------------------------------------------------
+# Traducción dinámica ES -> EN para contenido no cubierto por el diccionario estático
+# ---------------------------------------------------------------------------
+_I18N_DICT_PATH = os.path.join(os.path.dirname(__file__), "static", "prosperia_i18n_dict.json")
+_I18N_MEM_CACHE: Dict[str, str] = {}
+try:
+    if os.path.exists(_I18N_DICT_PATH):
+        with open(_I18N_DICT_PATH, "r", encoding="utf-8") as _f:
+            _loaded = json.load(_f)
+            if isinstance(_loaded, dict):
+                _I18N_MEM_CACHE.update({str(k): str(v) for k, v in _loaded.items()})
+except Exception:
+    pass
+
+
+def _resolve_gemini_api_key() -> str:
+    val = os.environ.get("GEMINI_API_KEY", "").strip()
+    if val:
+        return val
+    env_path = os.path.join(os.path.dirname(__file__), ".env")
+    if os.path.exists(env_path):
+        try:
+            with open(env_path, "r", encoding="utf-8") as ef:
+                for line in ef:
+                    if line.startswith("GEMINI_API_KEY="):
+                        return line.split("=", 1)[1].strip().strip('"').strip("'")
+        except Exception:
+            pass
+    return ""
+
+
+class TranslateBatchRequest(BaseModel):
+    texts: List[str] = []
+
+
+@app.post("/api/i18n/translate")
+def translate_dynamic_batch(req: TranslateBatchRequest):
+    """Traduce dinámicamente textos no cacheados ES->EN con respaldo en Gemini."""
+    unique_clean = []
+    seen = set()
+    for raw in (req.texts or [])[:60]:
+        s = " ".join(str(raw or "").split())
+        if s and len(s) >= 2 and s not in seen:
+            seen.add(s)
+            unique_clean.append(s)
+
+    result: Dict[str, str] = {}
+    missing = []
+    for s in unique_clean:
+        cached = _I18N_MEM_CACHE.get(s)
+        if cached:
+            result[s] = cached
+        else:
+            missing.append(s)
+
+    if missing:
+        api_key = _resolve_gemini_api_key()
+        if api_key:
+            import urllib.request
+            payload_items = [{"id": idx, "es": txt} for idx, txt in enumerate(missing)]
+            body = {
+                "systemInstruction": {
+                    "parts": [{
+                        "text": (
+                            "Translate each JSON item from Spanish to crisp executive American English. "
+                            "Preserve brand names (Agencia Prosper IA, PassportAI.app, ProsperIAStack, ProsperIA CRM, "
+                            "Las 4 Inteligencias, SVE90, GoHighLevel, FIUBA, Edward Jiménez). "
+                            "Return JSON array with exact keys 'id' and 'en'."
+                        )
+                    }]
+                },
+                "contents": [{"parts": [{"text": json.dumps(payload_items, ensure_ascii=False)}]}],
+                "generationConfig": {"temperature": 0.1, "responseMimeType": "application/json"},
+            }
+            id_map = dict(enumerate(missing))
+            for model_name in ("gemini-3.8-flash", "gemini-3.5-flash-lite", "gemini-2.5-flash"):
+                url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={api_key}"
+                http_req = urllib.request.Request(
+                    url,
+                    data=json.dumps(body, ensure_ascii=False).encode("utf-8"),
+                    headers={"Content-Type": "application/json"},
+                )
+                try:
+                    with urllib.request.urlopen(http_req, timeout=20) as resp:
+                        data = json.loads(resp.read().decode("utf-8"))
+                        raw_txt = data["candidates"][0]["content"]["parts"][0]["text"]
+                        parsed = json.loads(raw_txt)
+                        rows = parsed if isinstance(parsed, list) else parsed.get("translations", [])
+                        for row in rows:
+                            rid = row.get("id")
+                            ren = row.get("en")
+                            if rid in id_map and isinstance(ren, str) and ren.strip():
+                                src_str = id_map[rid]
+                                val_str = ren.strip()
+                                _I18N_MEM_CACHE[src_str] = val_str
+                                result[src_str] = val_str
+                        break
+                except Exception:
+                    continue
+
+    return JSONResponse(content={"ok": True, "translations": result})
