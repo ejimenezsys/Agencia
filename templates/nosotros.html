@@ -267,7 +267,7 @@
 
       <!-- Tarjeta CEO & Fundador -->
       <div class="ns-ceo-card">
-        <img src="{{ static_versioned('edwar_jimenez.jpg') }}" alt="Edward Jiménez, CEO y Fundador de Agencia ProsperIA" class="ns-ceo-photo">
+        <img src="{{ static_versioned('edwar_jimenez.webp') }}" alt="Edward Jiménez, CEO y Fundador de Agencia ProsperIA" class="ns-ceo-photo" width="280" height="310" fetchpriority="high">
 
         <div>
           <span class="pia-eyebrow" style="margin-bottom: 0.65rem; background: rgba(251,191,36,0.12); border-color: rgba(251,191,36,0.4); color: #fde68a;">
@@ -303,7 +303,7 @@
       </div>
     </section>
 
-    <!-- ── SELECTOR INTERACTIVO DE CONSULTORES CERTIFICADOS (8 CLOSERS) ── -->
+    <!-- ── SELECTOR INTERACTIVO DE CONSULTORES CERTIFICADOS (10 CLOSERS) ── -->
     <section class="pia-section" id="consultores">
       <div class="pia-shell">
         <div style="max-width: 820px; margin-bottom: 1.5rem;">
@@ -334,14 +334,14 @@
 
         <!-- 5 Pestañas de Especialidad -->
         <div class="pia-tablist" role="tablist" aria-label="Filtrar consultores por industria">
-          <button type="button" class="pia-tab" role="tab" aria-selected="true" data-filter="all">✨ Todos los Consultores (8)</button>
+          <button type="button" class="pia-tab" role="tab" aria-selected="true" data-filter="all">✨ Todos los Consultores (10)</button>
           <button type="button" class="pia-tab" role="tab" aria-selected="false" data-filter="clinicas">🦷 Clínicas, Salud &amp; Estética</button>
           <button type="button" class="pia-tab" role="tab" aria-selected="false" data-filter="servicios">🏢 Inmobiliaria, Servicios Locales &amp; Agenda</button>
           <button type="button" class="pia-tab" role="tab" aria-selected="false" data-filter="profesionales">💼 Profesionales, Consultores &amp; Empresas</button>
           <button type="button" class="pia-tab" role="tab" aria-selected="false" data-filter="comercio-exterior">🚢 Comercio Exterior</button>
         </div>
 
-        <!-- Grid de 8 Consultores Certificados -->
+        <!-- Grid de 10 Consultores Certificados -->
         <div class="ns-consultants-grid" id="ns-consultants-grid">
 
           <!-- 1. Sheille Pérez (Clínicas + Comercio Exterior) -->
@@ -541,35 +541,7 @@
             </button>
           </article>
 
-          <!-- 8. Sergio Torales -->
-          <article class="ns-consultant-card" data-categories="profesionales">
-            <div>
-              <span class="ns-verified-pill"><i class="fas fa-circle-check" aria-hidden="true"></i> Consultor Certificado Prosper IA</span>
-              <div class="ns-avatar-ring">
-                <img src="{{ static_versioned('img/closers/sergio.jpg') }}" alt="Sergio Torales — Consultor Senior en IA">
-              </div>
-              <h3 class="font-heading" style="font-size: 1.25rem; font-weight: 800; color: #ffffff;">Sergio Torales</h3>
-              <p style="font-size: 0.8rem; color: #67e8f9; font-weight: 700; margin-top: 0.15rem;">Consultor Senior en IA &amp; Soluciones B2B</p>
-              <div class="ns-tag-list">
-                <span class="ns-spec-tag">💼 Firmas Legales, Contables &amp; Empresas</span>
-              </div>
-              <p style="font-size: 0.86rem; color: #cbd5e1; line-height: 1.5; margin-bottom: 1.1rem;">
-                Especializado en firmas de servicios profesionales, notarías, despachos financieros y empresas B2B que buscan orden comercial y seguimiento automático.
-              </p>
-            </div>
-            <button type="button"
-              class="pia-btn-primary ns-book-btn"
-              style="width:100%;"
-              data-name="Sergio Torales"
-              data-role="Consultor Senior · Profesionales &amp; B2B"
-              data-photo="{{ static_versioned('img/closers/sergio.jpg') }}"
-              data-calendar="https://api.agenciaprosperia.com/widget/booking/w2KriVI4LqhisSjIPiMV">
-              <i class="fas fa-calendar-check" aria-hidden="true"></i>
-              <span>Agendar con Sergio</span>
-            </button>
-          </article>
-
-          <!-- 9. Jhonatan Rivero -->
+          <!-- 8. Jhonatan Rivero -->
           <article class="ns-consultant-card" data-categories="profesionales servicios">
             <div>
               <span class="ns-verified-pill"><i class="fas fa-circle-check" aria-hidden="true"></i> Consultor Certificado Prosper IA</span>
@@ -597,7 +569,7 @@
             </button>
           </article>
 
-          <!-- 10. Bruno Espinoza -->
+          <!-- 9. Bruno Espinoza -->
           <article class="ns-consultant-card" data-categories="profesionales servicios">
             <div>
               <span class="ns-verified-pill"><i class="fas fa-circle-check" aria-hidden="true"></i> Consultor Certificado Prosper IA</span>
@@ -625,7 +597,7 @@
             </button>
           </article>
 
-          <!-- 11. Tanya Headley Mullings -->
+          <!-- 10. Tanya Headley Mullings -->
           <article class="ns-consultant-card" data-categories="clinicas">
             <div>
               <span class="ns-verified-pill"><i class="fas fa-circle-check" aria-hidden="true"></i> Consultora Certificada Prosper IA</span>
@@ -717,7 +689,7 @@
   <dialog id="consultant-booking-modal" class="ns-dialog" aria-labelledby="ns-modal-name">
     <div class="ns-dialog-head">
       <div style="display:flex; align-items:center; gap:0.9rem;">
-        <img id="ns-modal-photo" src="{{ static_versioned('edwar_jimenez.jpg') }}" alt="" style="width:52px; height:52px; border-radius:50%; object-fit:cover; object-position:top; border:2px solid #00e5ff;">
+        <img id="ns-modal-photo" src="{{ static_versioned('edwar_jimenez.webp') }}" alt="" style="width:52px; height:52px; border-radius:50%; object-fit:cover; object-position:top; border:2px solid #00e5ff;">
         <div>
           <h3 id="ns-modal-name" class="font-heading" style="font-size:1.15rem; font-weight:800; color:#ffffff;">Agendar Cita Personalizada</h3>
           <p id="ns-modal-role" style="font-size:0.8rem; color:#67e8f9; font-weight:600; margin:0.15rem 0 0;"></p>

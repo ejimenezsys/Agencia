@@ -92,8 +92,13 @@
         "mainEntity": {
           "@type": "ItemList",
           "numberOfItems": {{ seo_prompts_total }},
-          "itemListElement": [{% for p in seo_prompts[:50] %}
-            { "@type": "ListItem", "position": {{ loop.index }}, "name": {{ p.title | tojson }} }{% if not loop.last %},{% endif %}{% endfor %}
+          "itemListElement": [{% for p in seo_prompts[:100] %}
+            {
+              "@type": "ListItem",
+              "position": {{ loop.index }},
+              "name": {{ p.title | tojson }},
+              "description": {{ (p.model ~ " · " ~ p.category ~ ((" · " ~ p.lens) if p.lens else "") ~ ((" · " ~ p.lighting) if p.lighting else "") ~ " — " ~ p.prompt[:240]) | tojson }}
+            }{% if not loop.last %},{% endif %}{% endfor %}
           ]
         }{% endif %}
       }
@@ -175,6 +180,10 @@
       border: 2px solid rgba(255, 255, 255, 0.1);
       box-shadow: 5px 5px 0px rgba(0, 229, 255, 0.25);
       transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    #prompts-grid-container .youmind-card {
+      content-visibility: auto;
+      contain-intrinsic-size: auto none auto 280px;
     }
     .youmind-card:hover {
       transform: translate(-2px, -2px);
@@ -903,9 +912,12 @@
         <div class="flex items-center gap-2 text-[10px] font-mono uppercase">
           <span class="px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-500/30">{{ p.model }}</span>
           <span class="px-2 py-0.5 rounded bg-slate-900 text-slate-400 border border-slate-700">{{ p.category }}</span>
+          {% if p.aspect_ratio %}<span class="px-2 py-0.5 rounded bg-slate-900 text-amber-300 border border-amber-500/20">{{ p.aspect_ratio }}</span>{% endif %}
         </div>
         <h3 class="text-sm font-bold text-white leading-snug">{{ p.title }}</h3>
-        <p class="text-xs text-slate-300 font-light leading-relaxed line-clamp-4">{{ p.prompt }}</p>
+        <p class="text-xs text-slate-300 font-light leading-relaxed">{{ p.prompt }}</p>
+        {% if p.negative_prompt %}<p class="text-[11px] text-slate-400 font-mono">Negative prompt: {{ p.negative_prompt }}</p>{% endif %}
+        {% if p.lens or p.lighting or p.style %}<dl class="text-[10px] text-slate-400 font-mono flex flex-wrap gap-x-3 gap-y-1">{% if p.lens %}<div><dt class="inline text-slate-500">Lente:</dt> <dd class="inline">{{ p.lens }}</dd></div>{% endif %}{% if p.lighting %}<div><dt class="inline text-slate-500">Luz:</dt> <dd class="inline">{{ p.lighting }}</dd></div>{% endif %}{% if p.style %}<div><dt class="inline text-slate-500">Estilo:</dt> <dd class="inline">{{ p.style }}</dd></div>{% endif %}</dl>{% endif %}
         {% if p.tags %}<p class="text-[10px] text-slate-500 font-mono">{{ p.tags }}</p>{% endif %}
       </article>
       {% endfor %}

@@ -1434,14 +1434,40 @@ async def read_spiderman(request: Request):
 @app.head("/arsenal/")
 @app.get("/arsenal.html", response_class=HTMLResponse)
 @app.head("/arsenal.html")
-async def read_arsenal(request: Request):
+async def read_arsenal(
+    request: Request,
+    category: Optional[str] = Query(None),
+    model: Optional[str] = Query(None),
+    q: Optional[str] = Query(None),
+):
     # SSR: prompts reales en el HTML para que bots de búsqueda e IA los lean sin ejecutar JS
     seo_prompts, seo_prompts_total = [], 0
     db = SessionLocal()
     try:
-        q = db.query(ArsenalPrompt).order_by(ArsenalPrompt.views_count.desc(), ArsenalPrompt.id.desc())
-        seo_prompts_total = q.count()
-        seo_prompts = q.limit(120).all()
+        if db.query(ArsenalPrompt).count() == 0:
+            try:
+                from populate_arsenal import populate
+                populate()
+            except Exception as seed_err:
+                print(f"⚠️ [ARSENAL SSR] Error en lazy-seed: {seed_err}", flush=True)
+
+        query = db.query(ArsenalPrompt)
+        if category and category.lower() not in {"all", "todos"}:
+            query = query.filter(ArsenalPrompt.category == category.lower())
+        if model and model.lower() not in {"all", "todos"}:
+            query = query.filter(ArsenalPrompt.model.ilike(f"%{model}%"))
+        if q and q.strip():
+            term = f"%{q.strip()}%"
+            query = query.filter(
+                (ArsenalPrompt.title.ilike(term))
+                | (ArsenalPrompt.prompt.ilike(term))
+                | (ArsenalPrompt.tags.ilike(term))
+                | (ArsenalPrompt.style.ilike(term))
+            )
+
+        query = query.order_by(ArsenalPrompt.views_count.desc(), ArsenalPrompt.id.desc())
+        seo_prompts_total = query.count()
+        seo_prompts = query.limit(500).all()
     except Exception as e:
         print(f"⚠️ [ARSENAL SSR] No se pudieron cargar prompts: {e}", flush=True)
     finally:
@@ -1450,7 +1476,13 @@ async def read_arsenal(request: Request):
         return templates.TemplateResponse(
             request=request,
             name="arsenal.html",
-            context={"seo_prompts": seo_prompts, "seo_prompts_total": seo_prompts_total},
+            context={
+                "seo_prompts": seo_prompts,
+                "seo_prompts_total": seo_prompts_total,
+                "active_category": category or "all",
+                "active_model": model or "all",
+                "active_q": q or "",
+            },
         )
     except Exception:
         static_html = os.path.join(os.path.dirname(__file__), "static", "arsenal", "index.html")
@@ -1731,14 +1763,21 @@ CODIGOS_DATA = get_codigos_data()
 @app.get("/codigos.html", response_class=HTMLResponse)
 @app.head("/codigos.html")
 async def read_codigos(request: Request):
-    static_html = os.path.join(os.path.dirname(__file__), "static", "codigos", "index.html")
-    if os.path.exists(static_html):
-        with open(static_html, "r", encoding="utf-8") as f:
-            return HTMLResponse(content=f.read())
     global CODIGOS_DATA
     if not CODIGOS_DATA:
         CODIGOS_DATA = get_codigos_data()
-    return templates.TemplateResponse(request=request, name="codigos.html", context={"categories": CODIGOS_DATA})
+    try:
+        return templates.TemplateResponse(
+            request=request,
+            name="codigos.html",
+            context={"categories": CODIGOS_DATA},
+        )
+    except Exception:
+        static_html = os.path.join(os.path.dirname(__file__), "static", "codigos", "index.html")
+        if os.path.exists(static_html):
+            with open(static_html, "r", encoding="utf-8") as f:
+                return HTMLResponse(content=f.read())
+        raise
 
 
 SITIOWEB_NICHE_TEMPLATE_MAP = {
@@ -2376,22 +2415,25 @@ async def get_llms_txt():
     """Resumen del sitio para LLMs (estándar llms.txt). Solo datos ya publicados en el sitio."""
     return (
         "# Agencia ProsperIA\n\n"
-        "> Agencia ProsperIA LLC es una firma de consultoría en inteligencia artificial e implementación con sede en Miami, Florida (EE. UU.), "
-        "fundada y dirigida por Edward Jiménez. Diseña la estrategia, programa e implementa agentes de IA, RAG privado, automatización de procesos, CRM "
-        "y datos para que PyMEs, corporativos, clínicas y profesionales en Estados Unidos, Latinoamérica y España operen y crezcan con menos fricción.\n\n"
-        "## Servicios\n"
-        "- [Inicio: IA, automatización y sistemas de negocio](https://agenciaprosperia.com/): sistemas que conectan IA, automatización, CRM y estrategia.\n"
-        "- [Consultoría en Inteligencia Artificial](https://agenciaprosperia.com/ia) (también en https://agenciaprosperia.com/corporativos y https://agenciaprosperia.com/consultoriadeinteligenciaartificial): consultoría de IA que termina en sistemas en producción "
-        "para PyMEs y corporativos: diagnóstico de madurez, business case, RAG privado, agentes de IA, integración con ERP/CRM, metodología SVE90 de 90 días "
-        "y Fractional Chief AI Officer. Incluye definición de consultoría en IA, comparativa y preguntas frecuentes.\n"
-        "- [Diagnóstico comercial](https://agenciaprosperia.com/diagnostico): autoevaluación del pipeline comercial.\n"
-        "- [Test de madurez en IA](https://agenciaprosperia.com/test-ia): diagnóstico interactivo de 10 preguntas.\n"
-        "- [PassportAI](https://passportai.app): plataforma creada por Edward Jiménez (prueba de 5 días).\n"
-        "- [Libro Oficial: Las 4 Inteligencias por Edward Jiménez](https://agenciaprosperia.com/libro): ISBN 979-8-9824777-0-5, Library of Congress LCCN 2026970390, prólogo de Fernando Anzures. Amazon Oficial (ASIN B0HS33VP6C): https://www.amazon.com/dp/B0HS33VP6C?th=1\n\n"
-        "## Recursos gratuitos\n"
-        "- [El Arsenal: biblioteca de prompts de IA](https://agenciaprosperia.com/arsenal): prompts para imagen, video y agentes autónomos.\n"
-        "- [200 Códigos Creativos de ChatGPT](https://agenciaprosperia.com/codigos): prompts de dirección fotográfica y video, guías PDF.\n"
-        "- [PROSPERIA Intelligence](https://agenciaprosperia.com/intelligence): análisis sobre tecnología y transformación empresarial.\n"
+        "> Agencia ProsperIA LLC es una firma de consultoría en inteligencia artificial, software SaaS y automatización comercial con sede en Miami, Florida (EE. UU.), "
+        "fundada y dirigida por Edward Jiménez. Opera en 3 verticales principales: (1) Clínicas de Salud, Estética, Dental, Capilar & Beauty Growth (SVE90), "
+        "(2) Profesionales Independientes, Despachos, Inmobiliarias & 82 Oficios Locales, y (3) Agencias CRM-SaaS, Implementadores GHL & Creadores Faceless con PassportAI.app y ProsperIAStack.\n\n"
+        "## Verticales, Servicios y Oferta Comercial\n"
+        "- [Inicio: Ecosistema IA, 3 Verticales, Casos y Planes Directos](https://agenciaprosperia.com/): visión ejecutiva, marcas registradas, vitrina real e inicio inmediato con Stripe/CRM.\n"
+        "- [Knowledge Base, Planes y Directorio B2B IA](https://agenciaprosperia.com/knowledge-base) (también `/directorio-ia` y `/centro-de-conocimiento`): guías por vertical, matriz comparativa FREE / CORE / PRO y registro gratuito en el directorio.\n"
+        "- [Vertical Agencias CRM-SaaS & Marca Blanca GHL](https://agenciaprosperia.com/crm-saas): infraestructura CRM + +58 modelos líderes de IA (OpenAI, Google Gemini, Anthropic Claude, Runway, ElevenLabs), ProsperIAStack y licencias SaaS.\n"
+        "- [Consultoría en Inteligencia Artificial](https://agenciaprosperia.com/ia) (también https://agenciaprosperia.com/corporativos y https://agenciaprosperia.com/consultoriadeinteligenciaartificial): diagnóstico de madurez, business case, RAG privado, agentes de IA, integración ERP/CRM, metodología SVE90 de 90 días y Fractional CAIO.\n"
+        "- [Sitios Web Inteligentes](https://agenciaprosperia.com/paginas-web) y [Embudo Mi Web](https://agenciaprosperia.com/sitioweb): arquitectura web de alta conversión conectada a WhatsApp y agenda 24/7.\n"
+        "- [CRM & Verticales Sectoriales](https://agenciaprosperia.com/crm), [Agentes de IA](https://agenciaprosperia.com/agentes-ia) y [Beauty Growth](https://agenciaprosperia.com/beautygrowth).\n"
+        "- [Equipo y Consultores Certificados 1 a 1](https://agenciaprosperia.com/nosotros): dirección ejecutiva, ingeniería FIUBA, estudio creativo viral (+744K vistas) y consultores por industria.\n"
+        "- [Caso de Estudio: IDOL JOSE GROUP CORP & DFW](https://agenciaprosperia.com/casos-de-exito/idol-jose-group): arquitectura comercial y automatización verificable.\n"
+        "- [PassportAI.app & Tesis de Inversión Seed US$1M](https://agenciaprosperia.com/passportai) (también `/inversionistas`): plataforma SaaS multifrontera (prueba de 5 días).\n"
+        "- [Diagnóstico comercial](https://agenciaprosperia.com/diagnostico) y [Test de madurez en IA (10 preguntas)](https://agenciaprosperia.com/test-ia).\n"
+        "- [Libro Oficial: Las 4 Inteligencias por Edward Jiménez](https://agenciaprosperia.com/libro): ISBN 979-8-9824777-0-5, Library of Congress LCCN 2026970390, Copyright #1-15304798691, prólogo de Fernando Anzures. Amazon Oficial (ASIN B0HS33VP6C): https://www.amazon.com/dp/B0HS33VP6C?th=1\n\n"
+        "## Recursos gratuitos indexables\n"
+        "- [El Arsenal: biblioteca curada de prompts de IA](https://agenciaprosperia.com/arsenal): prompts de video (Kling, Runway), imagen (Flux, Midjourney), agentes autónomos y código.\n"
+        "- [200 Códigos Creativos de ChatGPT](https://agenciaprosperia.com/codigos): 200 comandos de dirección fotográfica, iluminación, cine y video viral, más guías PDF.\n"
+        "- [PROSPERIA Intelligence](https://agenciaprosperia.com/intelligence): análisis editorial sobre IA, ventas y transformación empresarial.\n"
         "- [Feed RSS Editorial](https://agenciaprosperia.com/feed.xml) y [Video Sitemap YouTube](https://agenciaprosperia.com/video-sitemap.xml): sindicación y videos oficiales.\n"
         "- [Podcast](https://agenciaprosperia.com/podcast): metodología SVE90, PassportAI y automatización comercial.\n\n"
         "## Sobre Edward Jiménez\n"
@@ -2516,6 +2558,66 @@ async def get_sitemap(db: Session = Depends(get_db)):
         '    <loc>https://agenciaprosperia.com/crm-saas</loc>\n'
         '    <changefreq>weekly</changefreq>\n'
         '    <priority>0.92</priority>\n'
+        '  </url>\n'
+        '  <url>\n'
+        '    <loc>https://agenciaprosperia.com/paginas-web</loc>\n'
+        '    <changefreq>weekly</changefreq>\n'
+        '    <priority>0.90</priority>\n'
+        '  </url>\n'
+        '  <url>\n'
+        '    <loc>https://agenciaprosperia.com/crm</loc>\n'
+        '    <changefreq>weekly</changefreq>\n'
+        '    <priority>0.90</priority>\n'
+        '  </url>\n'
+        '  <url>\n'
+        '    <loc>https://agenciaprosperia.com/agentes-ia</loc>\n'
+        '    <changefreq>weekly</changefreq>\n'
+        '    <priority>0.90</priority>\n'
+        '  </url>\n'
+        '  <url>\n'
+        '    <loc>https://agenciaprosperia.com/marketing</loc>\n'
+        '    <changefreq>weekly</changefreq>\n'
+        '    <priority>0.85</priority>\n'
+        '  </url>\n'
+        '  <url>\n'
+        '    <loc>https://agenciaprosperia.com/equipo</loc>\n'
+        '    <changefreq>weekly</changefreq>\n'
+        '    <priority>0.85</priority>\n'
+        '  </url>\n'
+        '  <url>\n'
+        '    <loc>https://agenciaprosperia.com/nosotros</loc>\n'
+        '    <changefreq>weekly</changefreq>\n'
+        '    <priority>0.85</priority>\n'
+        '  </url>\n'
+        '  <url>\n'
+        '    <loc>https://agenciaprosperia.com/sitioweb</loc>\n'
+        '    <changefreq>weekly</changefreq>\n'
+        '    <priority>0.85</priority>\n'
+        '  </url>\n'
+        '  <url>\n'
+        '    <loc>https://agenciaprosperia.com/beautygrowth</loc>\n'
+        '    <changefreq>weekly</changefreq>\n'
+        '    <priority>0.85</priority>\n'
+        '  </url>\n'
+        '  <url>\n'
+        '    <loc>https://agenciaprosperia.com/diagnostico</loc>\n'
+        '    <changefreq>weekly</changefreq>\n'
+        '    <priority>0.80</priority>\n'
+        '  </url>\n'
+        '  <url>\n'
+        '    <loc>https://agenciaprosperia.com/test-ia</loc>\n'
+        '    <changefreq>weekly</changefreq>\n'
+        '    <priority>0.85</priority>\n'
+        '  </url>\n'
+        '  <url>\n'
+        '    <loc>https://agenciaprosperia.com/exmamiami</loc>\n'
+        '    <changefreq>weekly</changefreq>\n'
+        '    <priority>0.85</priority>\n'
+        '  </url>\n'
+        '  <url>\n'
+        '    <loc>https://agenciaprosperia.com/tarjeta</loc>\n'
+        '    <changefreq>monthly</changefreq>\n'
+        '    <priority>0.75</priority>\n'
         '  </url>\n'
     )
     

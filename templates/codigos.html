@@ -85,6 +85,29 @@
         },
         "description": "Arsenal curado de más de 200 códigos de dirección fotográfica, cinematografía, prompts y blueprints de IA por Edward Jiménez.",
         "inLanguage": "es"
+      },
+      {
+        "@type": "CollectionPage",
+        "@id": "https://agenciaprosperia.com/codigos#collection",
+        "url": "https://agenciaprosperia.com/codigos",
+        "name": "200 Códigos Creativos de ChatGPT para Imágenes y Video | Agencia ProsperIA",
+        "description": "Directorio completo y gratuito de 200 comandos creativos de iluminación, encuadre, cinematografía, ángulos y fotografía con IA por Edward Jiménez.",
+        "inLanguage": "es",
+        "isPartOf": { "@id": "https://agenciaprosperia.com/#website" },
+        "author": { "@id": "https://agenciaprosperia.com/#edward" },
+        "publisher": { "@id": "https://agenciaprosperia.com/#organization" }{% if categories %},
+        "mainEntity": {
+          "@type": "ItemList",
+          "numberOfItems": 200,
+          "itemListElement": [{% set ns = namespace(pos=0) %}{% for cat in categories %}{% for item in cat['items'] %}{% set ns.pos = ns.pos + 1 %}{% if ns.pos > 1 %},{% endif %}
+            {
+              "@type": "ListItem",
+              "position": {{ ns.pos }},
+              "name": {{ (item['command'] ~ " — #" ~ item['number'] ~ " " ~ cat['category_name']) | tojson }},
+              "description": {{ item['description'] | tojson }}
+            }{% endfor %}{% endfor %}
+          ]
+        }{% endif %}
       }
     ]
   }
@@ -145,7 +168,7 @@
     /* Turbo Performance Core Web Vitals: renderiza tarjetas bajo demanda */
     .code-card {
       content-visibility: auto;
-      contain-intrinsic-size: 0 160px;
+      contain-intrinsic-size: auto none auto 280px;
       background: rgba(13, 22, 43, 0.9);
       border: 1px solid rgba(0, 229, 255, 0.15);
       border-radius: 16px;
