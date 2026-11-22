@@ -11,6 +11,7 @@
 
   var DYN_CACHE_KEY = 'prosperia_i18n_dyn_cache_v1';
   var origTextNodes = new WeakMap();
+  var appliedEnText = new WeakMap();
   var origBlocks = new WeakMap();
   var origAttrs = new WeakMap();
   var origDocTitle = null;
@@ -20,6 +21,7 @@
   var inflightDyn = {};
   var currentLang = 'es';
   var observerPaused = false;
+  var activeMo = null;
 
   // Marcas protegidas que no deben alterarse al traducir frases
   var PROTECTED_TERMS = [
@@ -241,7 +243,9 @@
               unmatchedNodes.forEach(function (item) {
                 var k = norm(item.base);
                 if (map[k]) {
-                  item.node.nodeValue = item.base.replace(item.base.trim(), map[k]);
+                  var nextVal = item.base.replace(item.base.trim(), map[k]);
+                  appliedEnText.set(item.node, nextVal);
+                  item.node.nodeValue = nextVal;
                 }
               });
               unmatchedAttrs.forEach(function (item) {
@@ -251,6 +255,7 @@
                 }
               });
             } finally {
+              if (activeMo && typeof activeMo.takeRecords === 'function') activeMo.takeRecords();
               observerPaused = false;
             }
           })
@@ -317,6 +322,18 @@
       {
         sel: '#aura-stage-transcript',
         en: '💬 «Hi, I am your <strong>AI Setter</strong> at Agencia Prosper IA. Tap the microphone to ask me out loud about Smart Websites, our 4 Digital Employees, CRM, or Reels.»'
+      },
+      {
+        sel: '.kb-hero-grid > div > p',
+        en: 'Explore proven production playbooks for <strong style="color:#fff;">Clinics SVE90 &amp; Beauty Growth</strong>, <strong style="color:#fff;">Professionals &amp; 82 Trades</strong>, and <strong style="color:#fff;">CRM-SaaS Agencies + Faceless Creators</strong>. Preview your smart website live for free, register in the official directory, or activate your system in 1 click via Stripe without waiting for quotes.'
+      },
+      {
+        sel: '#pricing-glance .pia-shell > div:first-child > p',
+        en: 'No delays or endless quotes. Choose your billing cycle (<strong style="color:#fff;">Monthly</strong>, <strong style="color:#34d399;">Annual with 2 months free</strong>, or <strong style="color:#fbbf24;">Turnkey One-Time Payment</strong>), preview your business live, and activate today with Stripe.'
+      },
+      {
+        sel: '.kb-agency-bridge > div > p',
+        en: 'Instead of relying on fragmented external consultants or slow manual setups, <strong style="color:#fff;">CRM-SaaS (/crm-saas)</strong> + <strong style="color:#34d399;">ProsperIAStack</strong> + <strong style="color:#67e8f9;">PassportAI.app</strong> deliver automatically: your preconfigured GoHighLevel subaccount starting at US$97/mo, your 16-template Smart Website, your 5-minute WhatsApp AI Receptionist, and your monthly factory of 9:16 Reels and SEO articles.'
       }
     ];
 
@@ -404,6 +421,7 @@
           var base = origTextNodes.get(n);
           var translated = translateTextString(base);
           if (translated && translated !== n.nodeValue) {
+            appliedEnText.set(n, translated);
             n.nodeValue = translated;
           } else if (!translated && looksSpanish(base)) {
             unmatchedNodes.push({ node: n, base: base });
@@ -448,6 +466,7 @@
         });
       });
     } finally {
+      if (activeMo && typeof activeMo.takeRecords === 'function') activeMo.takeRecords();
       observerPaused = false;
     }
 
@@ -563,7 +582,7 @@
     // Si algún componente dinámico añade bloques o actualiza contadores (ROI, asistente voz/chat) en inglés activo, reaplicar suavemente con debounce
     if (typeof MutationObserver !== 'undefined') {
       var moTimer = null;
-      var mo = new MutationObserver(function (mutations) {
+      activeMo = new MutationObserver(function (mutations) {
         if (observerPaused || currentLang !== 'en') return;
         var needsPass = false;
         for (var i = 0; i < mutations.length; i++) {
@@ -573,8 +592,10 @@
           } else if (m.type === 'characterData' && m.target && m.target.nodeValue) {
             var pEl = m.target.parentElement;
             if (!pEl || !pEl.closest('[data-pia-lang-switcher], [translate="no"]')) {
-              origTextNodes.set(m.target, m.target.nodeValue);
-              needsPass = true;
+              if (appliedEnText.get(m.target) !== m.target.nodeValue && origTextNodes.get(m.target) !== m.target.nodeValue) {
+                origTextNodes.set(m.target, m.target.nodeValue);
+                needsPass = true;
+              }
             }
           }
         }
@@ -586,7 +607,7 @@
           }
         }, 90);
       });
-      mo.observe(document.body, { childList: true, subtree: true, characterData: true });
+      activeMo.observe(document.body, { childList: true, subtree: true, characterData: true });
     }
   }
 
