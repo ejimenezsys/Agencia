@@ -64,14 +64,6 @@
     font-weight: 800;
     box-shadow: inset 0 0 0 1px #52525b;
   }
-  @media (max-width: 640px) {
-    .pia-top-badge { display: none; }
-    .pia-top-bar-inner { justify-content: center; gap: 0.4rem; padding-inline: 0.5rem; }
-    .pia-top-socials { gap: 0.45rem; }
-    .pia-top-socials a[aria-label] { display: none; }
-    .pia-theme-label { display: none; }
-    .pia-theme-pill { padding: 2px 5px; font-size: 11px; min-width: 26px; min-height: 26px; }
-  }
   html[data-theme="dark"] .pia-top-bar { background: #09090b; border-bottom-color: rgba(255, 255, 255, 0.1); }
   html[data-theme="dark"] .pia-floating-nav { background: rgba(16, 16, 20, 0.92); border-color: rgba(255, 255, 255, 0.12); }
   html[data-theme="dark"] .pia-dropdown-list { background: #141418; border-color: #27272a; }
@@ -178,6 +170,14 @@
   }
   .pia-top-socials a:hover {
     color: #00e5ff;
+  }
+  @media (max-width: 640px) {
+    .pia-top-badge { display: none; }
+    .pia-top-bar-inner { justify-content: center; gap: 0.4rem; padding-inline: 0.5rem; }
+    .pia-top-socials { gap: 0.45rem; }
+    .pia-top-socials a[aria-label] { display: none; }
+    .pia-theme-label { display: none; }
+    .pia-theme-pill { padding: 2px 5px; font-size: 11px; min-width: 26px; min-height: 26px; }
   }
 
   .pia-site-header {
