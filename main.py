@@ -1971,8 +1971,23 @@ async def caso_idol_jose_page(request: Request):
 @app.get("/inversionistas/", response_class=HTMLResponse)
 @app.head("/inversionistas/")
 async def passportai_flagship_page(request: Request):
-    """Página insignia de PassportAI.app: Simulador 24/7, Calculadora USD y Tesis Venture Capital Seed US$1M."""
+    """Página insignia de PassportAI.app: Caso de Éxito Corporativo 3 Países, Simulador 24/7, Calculadora USD y Tesis Venture Capital Seed US$1M."""
     return templates.TemplateResponse(request=request, name="passportai_flagship.html", context={"request": request})
+
+
+@app.get("/manual_passportai", response_class=HTMLResponse)
+@app.head("/manual_passportai")
+@app.get("/manual_passportai/", response_class=HTMLResponse)
+@app.head("/manual_passportai/")
+@app.get("/manual-passportai", response_class=HTMLResponse)
+@app.head("/manual-passportai")
+@app.get("/manual-passportai/", response_class=HTMLResponse)
+@app.head("/manual-passportai/")
+@app.get("/passportai/manual", response_class=HTMLResponse)
+@app.head("/passportai/manual")
+async def manual_passportai_page(request: Request):
+    """Manual Maestro Oficial v4.0 de PassportAI.app (22 Secciones) en HTML interactivo + descarga PDF/DOCX."""
+    return templates.TemplateResponse(request=request, name="manual_passportai.html", context={"request": request})
 
 
 @app.get("/sitioweb", response_class=HTMLResponse)
@@ -2444,7 +2459,8 @@ async def get_llms_txt():
         "- [CRM & Verticales Sectoriales](https://agenciaprosperia.com/crm), [Agentes de IA](https://agenciaprosperia.com/agentes-ia) y [Beauty Growth](https://agenciaprosperia.com/beautygrowth).\n"
         "- [Equipo y Consultores Certificados 1 a 1](https://agenciaprosperia.com/nosotros): dirección ejecutiva, ingeniería FIUBA, estudio creativo viral (+744K vistas) y consultores por industria.\n"
         "- [Caso de Estudio: IDOL JOSE GROUP CORP & DFW](https://agenciaprosperia.com/casos-de-exito/idol-jose-group): arquitectura comercial y automatización verificable.\n"
-        "- [PassportAI.app & Tesis de Inversión Seed US$1M](https://agenciaprosperia.com/passportai) (también `/inversionistas`): plataforma SaaS multifrontera (prueba de 5 días).\n"
+        "- [PassportAI.app, Caso de Éxito Tri-País & Tesis de Inversión Seed US$1M](https://agenciaprosperia.com/passportai) (también `/inversionistas`): plataforma SaaS +58 modelos de IA con ingeniería en EE. UU., México y Argentina (FIUBA) y conexión directa con ProsperIAStack.\n"
+        "- [Manual Maestro Oficial PassportAI.app v4.0 (22 Secciones)](https://agenciaprosperia.com/manual_passportai): documentación interactiva y PDF descargable de NotebookLM RAG, Chatbots 24/7, 6 Constructores PDF, Creative Studio y ProsperIA CRM.\n"
         "- [Diagnóstico comercial](https://agenciaprosperia.com/diagnostico) y [Test de madurez en IA (10 preguntas)](https://agenciaprosperia.com/test-ia).\n"
         "- [Libro Oficial: Las 4 Inteligencias por Edward Jiménez](https://agenciaprosperia.com/libro): ISBN 979-8-9824777-0-5, Library of Congress LCCN 2026970390, Copyright #1-15304798691, prólogo de Fernando Anzures. Amazon Oficial (ASIN B0HS33VP6C): https://www.amazon.com/dp/B0HS33VP6C?th=1\n\n"
         "## Recursos gratuitos indexables\n"
@@ -2560,6 +2576,11 @@ async def get_sitemap(db: Session = Depends(get_db)):
         '    <loc>https://agenciaprosperia.com/passportai</loc>\n'
         '    <changefreq>weekly</changefreq>\n'
         '    <priority>0.95</priority>\n'
+        '  </url>\n'
+        '  <url>\n'
+        '    <loc>https://agenciaprosperia.com/manual_passportai</loc>\n'
+        '    <changefreq>weekly</changefreq>\n'
+        '    <priority>0.92</priority>\n'
         '  </url>\n'
         '  <url>\n'
         '    <loc>https://agenciaprosperia.com/inversionistas</loc>\n'

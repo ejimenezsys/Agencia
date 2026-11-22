@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manual Oficial PassportAI.app v4.0 (22 Secciones) | Agencia Prosper IA LLC</title>
+  <meta name="description" content="Manual Maestro Oficial de PassportAI.app v4.0 con 22 secciones: AI Playground multi-modelo (+58 modelos), NotebookLM Deep Research RAG, Radar de Mercado, Chatbots WhatsApp 24/7, Suite Constructores PDF, Creative Studio y ProsperIAStack / ProsperIA CRM.">
+  <link rel="canonical" href="https://agenciaprosperia.com/manual_passportai">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Manual Maestro PassportAI.app v4.0 — 22 Secciones &amp; Guía PDF Descargable">
+  <meta property="og:description" content="Aprende a dominar todos los módulos de PassportAI.app y ProsperIAStack paso a paso con capturas reales, ejemplos listos y descarga en PDF/Word.">
+  <meta property="og:url" content="https://agenciaprosperia.com/manual_passportai">
+  <meta property="og:image" content="https://agenciaprosperia.com/static/img/passportai_v4/00_landing.webp">
+  <link rel="icon" type="image/png" href="{{ static_versioned('favicon.png') }}">
+  <link rel="stylesheet" href="{{ static_versioned('fonts.css') }}">
+  <link rel="stylesheet" href="{{ static_versioned('fa.min.css') }}">
+  <script type="application/ld+json">
+  {
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "Manual Maestro Oficial PassportAI.app v4.0 (22 Secciones en 4 Módulos)",
+  "description": "Guía interactiva completa de PassportAI.app, Suite de Constructores PDF, NotebookLM Deep Research, Chatbots Autónomos 24/7, Creative Studio y ProsperIAStack / ProsperIA CRM.",
+  "url": "https://agenciaprosperia.com/manual_passportai",
+  "mainEntityOfPage": "https://agenciaprosperia.com/manual_passportai",
+  "inLanguage": "es",
+  "author": {
+    "@type": "Person",
+    "name": "Edward Jiménez",
+    "url": "https://agenciaprosperia.com/links"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Agencia Prosper IA LLC",
+    "url": "https://agenciaprosperia.com"
+  },
+  "about": {
+    "@type": "SoftwareApplication",
+    "name": "PassportAI.app",
+    "applicationCategory": "BusinessApplication",
+    "url": "https://passportai.app"
+  }
+}
+  </script>
+  <style>
+    :root {
+      color-scheme: only dark;
+      --bg: #050914;
+      --card: rgba(12, 22, 46, 0.94);
+      --card-strong: rgba(15, 29, 60, 0.98);
+      --border: rgba(148, 163, 184, 0.22);
+      --border-cyan: rgba(34, 211, 238, 0.45);
+      --border-gold: rgba(240, 201, 117, 0.45);
+      --text: #f8fafc;
+      --muted: #cbd5e1;
+      --dim: #94a3b8;
+      --cyan: #22d3ee;
+      --gold: #f0c975;
+      --emerald: #34d399;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 12% 6%, rgba(14, 116, 144, 0.24) 0%, transparent 45%),
+        radial-gradient(circle at 88% 8%, rgba(212, 175, 95, 0.16) 0%, transparent 40%),
+        linear-gradient(180deg, #060d1f 0%, #03060f 100%);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.55;
+    }
+    :where(a:any-link, button, input, [tabindex]):focus-visible {
+      outline: 3px solid var(--cyan);
+      outline-offset: 2px;
+    }
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+    }
+
+    .top-bar {
+      position: sticky; top: 0; z-index: 40;
+      background: rgba(5, 9, 20, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.7rem 1.25rem;
+    }
+    .top-inner {
+      max-width: 1320px; margin: 0 auto;
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem;
+    }
+    .brand-pills { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
+    .nav-pill {
+      display: inline-flex; align-items: center; gap: 0.4rem; min-height: 36px;
+      padding: 0.38rem 0.85rem; border-radius: 999px;
+      background: rgba(15, 23, 42, 0.92); border: 1px solid var(--border);
+      color: var(--muted); font-size: 0.78rem; font-weight: 700; text-decoration: none;
+    }
+    .nav-pill:hover { border-color: var(--cyan); color: #fff; }
+    .nav-pill.gold { border-color: var(--border-gold); color: var(--gold); }
+    .nav-pill.cyan { border-color: var(--border-cyan); background: rgba(8, 47, 73, 0.75); color: #e0f2fe; }
+
+    .page-grid {
+      max-width: 1320px; margin: 0 auto;
+      display: grid; grid-template-columns: 290px minmax(0, 1fr); gap: 1.5rem;
+      padding: 1.4rem 1.25rem 4rem;
+      align-items: start;
+    }
+    @media (max-width: 980px) {
+      .page-grid { grid-template-columns: 1fr; }
+    }
+
+    /* Scrollspy TOC (modern-web-guidance: scrollspy) */
+    .toc-aside {
+      position: sticky; top: 76px;
+      max-height: calc(100vh - 94px);
+      display: flex; flex-direction: column;
+      background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 1rem;
+    }
+    @media (max-width: 980px) {
+      .toc-aside { position: static; max-height: none; }
+    }
+    .toc-search {
+      width: 100%; padding: 0.58rem 0.8rem; border-radius: 10px;
+      background: #040814; border: 1px solid var(--border-cyan);
+      color: #fff; font-size: 0.84rem; margin-bottom: 0.75rem;
+    }
+    .toc-nav {
+      scroll-target-group: auto;
+      overflow-y: auto; display: flex; flex-direction: column; gap: 0.25rem;
+      padding-right: 0.2rem;
+    }
+    .toc-link {
+      display: flex; align-items: baseline; gap: 0.5rem;
+      padding: 0.42rem 0.6rem; border-radius: 8px;
+      border-left: 3px solid transparent;
+      color: var(--muted); font-size: 0.78rem; font-weight: 600; text-decoration: none;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+    .toc-link span { font-family: 'Space Grotesk', monospace; font-size: 0.72rem; color: var(--dim); flex-shrink: 0; }
+    .toc-link:hover { background: rgba(34, 211, 238, 0.1); color: #fff; }
+    .toc-nav a:is(:target-current, .target-current) {
+      background: rgba(34, 211, 238, 0.18);
+      border-left-color: var(--cyan);
+      color: var(--cyan);
+      font-weight: 800;
+    }
+    .toc-nav a:is(:target-current, .target-current) span { color: var(--gold); }
+
+    .hero-box {
+      padding: 2rem 1.7rem; border-radius: 24px;
+      background: linear-gradient(155deg, rgba(13, 27, 56, 0.96) 0%, rgba(5, 10, 24, 0.98) 100%);
+      border: 1px solid var(--border-gold);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+      margin-bottom: 1.5rem;
+    }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      padding: 0.32rem 0.85rem; border-radius: 999px;
+      background: rgba(14, 116, 144, 0.28); border: 1px solid var(--border-cyan);
+      color: var(--cyan); font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;
+      margin-bottom: 0.85rem;
+    }
+    h1 {
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+      font-size: clamp(1.65rem, 3.2vw, 2.45rem); line-height: 1.15; margin: 0 0 0.75rem;
+    }
+    .hero-lead { color: var(--muted); font-size: 0.98rem; max-width: 78ch; margin: 0 0 1.25rem; }
+    .cta-row { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-bottom: 1.25rem; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem;
+      min-height: 44px; padding: 0.65rem 1.2rem; border-radius: 12px;
+      font-size: 0.88rem; font-weight: 800; text-decoration: none; border: 1px solid transparent;
+    }
+    .btn-gold { background: linear-gradient(135deg, #f3ce7a 0%, #c9973b 100%); color: #091020; }
+    .btn-cyan { background: rgba(14, 116, 144, 0.28); border-color: var(--border-cyan); color: #e0f2fe; }
+    .btn-emerald { background: rgba(16, 185, 129, 0.2); border-color: rgba(52, 211, 153, 0.48); color: #a7f3d0; }
+
+    .badge-strip {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(195px, 1fr)); gap: 0.75rem;
+    }
+    .stat-pill {
+      padding: 0.8rem 0.95rem; border-radius: 14px; background: rgba(15, 29, 58, 0.85); border: 1px solid var(--border);
+    }
+    .stat-pill strong { display: block; color: var(--gold); font-size: 1.05rem; font-family: 'Space Grotesk', sans-serif; }
+    .stat-pill span { font-size: 0.78rem; color: var(--muted); }
+
+    .doc-section {
+      background: var(--card); border: 1px solid var(--border); border-radius: 22px;
+      padding: 1.55rem 1.45rem; margin-bottom: 1.4rem; scroll-margin-top: 84px;
+    }
+    .doc-section.hidden-filter { display: none; }
+    .sec-head {
+      padding-bottom: 0.9rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border);
+    }
+    .mod-tag {
+      display: inline-block; font-size: 0.7rem; font-weight: 800; text-transform: uppercase;
+      letter-spacing: 0.06em; color: var(--cyan); margin-bottom: 0.35rem;
+    }
+    .sec-head h2 {
+      font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.2rem, 2.2vw, 1.55rem);
+      margin: 0 0 0.45rem; color: #fff;
+    }
+    .route-bar { font-size: 0.82rem; color: var(--muted); }
+    .route-bar code {
+      background: rgba(4, 8, 20, 0.85); border: 1px solid var(--border-cyan);
+      color: var(--cyan); padding: 0.15rem 0.5rem; border-radius: 6px; font-size: 0.78rem;
+    }
+    .sec-summary { color: var(--muted); font-size: 0.95rem; margin: 0 0 1rem; }
+    .steps-panel {
+      background: rgba(7, 13, 28, 0.9); border: 1px solid var(--border); border-radius: 14px;
+      padding: 1rem 1.15rem; margin-bottom: 1rem;
+    }
+    .steps-panel h3, .callout-box h3 {
+      margin: 0 0 0.55rem; font-size: 0.92rem; font-weight: 800; color: var(--cyan);
+    }
+    .steps-panel ol { margin: 0 0 0 1.2rem; padding: 0; font-size: 0.88rem; color: var(--text); }
+    .steps-panel li { margin-bottom: 0.35rem; }
+
+    .dual-callouts {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0.9rem; margin-bottom: 1rem;
+    }
+    .callout-box { border-radius: 14px; padding: 0.95rem 1.05rem; font-size: 0.85rem; }
+    .callout-box.emerald { background: rgba(6, 78, 59, 0.24); border: 1px solid rgba(52, 211, 153, 0.38); }
+    .callout-box.emerald h3 { color: var(--emerald); }
+    .callout-box.gold { background: rgba(120, 53, 15, 0.22); border: 1px solid var(--border-gold); }
+    .callout-box.gold h3 { color: var(--gold); }
+    .callout-box ul { margin: 0 0 0 1.1rem; padding: 0; color: var(--muted); }
+    .callout-box li { margin-bottom: 0.35rem; }
+
+    .shot-fig { margin: 0; text-align: center; }
+    .shot-fig img {
+      max-width: 100%; height: auto; border-radius: 12px;
+      border: 1px solid var(--border); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .shot-fig figcaption { font-size: 0.78rem; color: var(--dim); margin-top: 0.45rem; }
+    .media-wrap.two-up {
+      display: grid; grid-template-columns: 1.35fr 0.65fr; gap: 1rem; align-items: start;
+    }
+    @media (max-width: 760px) {
+      .media-wrap.two-up { grid-template-columns: 1fr; }
+    }
+
+    .onb-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; }
+    .onb-card {
+      background: rgba(7, 13, 28, 0.92); border: 1px solid var(--border); border-radius: 16px; padding: 1rem;
+    }
+    .step-pill {
+      display: inline-block; background: rgba(34, 211, 238, 0.16); border: 1px solid var(--border-cyan);
+      color: var(--cyan); font-size: 0.7rem; font-weight: 800; padding: 0.2rem 0.55rem; border-radius: 6px; margin-bottom: 0.45rem;
+    }
+    .onb-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: #fff; }
+    .onb-card p { margin: 0 0 0.75rem; font-size: 0.84rem; color: var(--muted); }
+
+    /* Responsive Accessible Table (modern-web-guidance: responsive-table) */
+    .table-wrapper {
+      overflow: auto; max-inline-size: 100%; max-block-size: min(560px, 75vh);
+      container-type: inline-size; border: 1px solid var(--border); border-radius: 14px;
+      background: rgba(5, 10, 24, 0.94);
+    }
+    .table-wrapper table {
+      width: 100%; border-collapse: separate; border-spacing: 0; font-size: 0.84rem;
+      --label-1: "Sección"; --label-2: "Módulo"; --label-3: "Título"; --label-4: "Ruta";
+    }
+    .table-wrapper thead { position: sticky; inset-block-start: 0; z-index: 2; }
+    .table-wrapper th, .table-wrapper td {
+      padding: 0.65rem 0.8rem; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top;
+    }
+    .table-wrapper thead th {
+      background: #071426; color: var(--gold); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .table-wrapper tbody th {
+      position: sticky; inset-inline-start: 0; background: #0a1428; z-index: 1;
+    }
+    @container (width < 600px) {
+      .table-wrapper table, .table-wrapper thead, .table-wrapper tbody, .table-wrapper tr, .table-wrapper th, .table-wrapper td {
+        display: block;
+      }
+      .table-wrapper thead { display: none; }
+      .table-wrapper tr { margin-block-end: 1rem; border: 1px solid var(--border); border-radius: 10px; padding: 0.35rem; }
+      .table-wrapper tbody th { position: sticky; inset-block-start: 0; z-index: 2; background: #0f1d3a; }
+      .table-wrapper td:nth-child(2)::before { content: var(--label-2) ": "; color: var(--gold); font-weight: 700; }
+      .table-wrapper td:nth-child(3)::before { content: var(--label-3) ": "; color: var(--gold); font-weight: 700; }
+      .table-wrapper td:nth-child(4)::before { content: var(--label-4) ": "; color: var(--gold); font-weight: 700; }
+    }
+  </style>
+</head>
+<body>
+  <header class="top-bar">
+    <div class="top-inner">
+      <div class="brand-pills">
+        <a href="/passportai" class="nav-pill gold"><i class="fas fa-arrow-left" aria-hidden="true"></i> Caso de Éxito &amp; Tesis /passportai</a>
+        <a href="/" class="nav-pill">Agencia Prosper IA</a>
+        <a href="/ia" class="nav-pill">Consultoría IA &amp; SVE90</a>
+      </div>
+      <div class="brand-pills">
+        <a href="/static/docs/Manual_PassportAI.pdf" class="nav-pill cyan" download><i class="fas fa-file-pdf" aria-hidden="true"></i> Descargar PDF v4.0</a>
+        <a href="/static/docs/Manual_PassportAI_V4.docx" class="nav-pill" download><i class="fas fa-file-word" aria-hidden="true"></i> Word (.docx)</a>
+        <a href="https://passportai.app" target="_blank" rel="noopener" class="nav-pill gold">Abrir PassportAI.app ↗</a>
+        <div class="pia-lang-slot" data-pia-lang-slot></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="page-grid">
+    <aside class="toc-aside" aria-label="Índice interactivo del manual">
+      <label for="manual-search" class="sr-only">Buscar sección o herramienta en el manual</label>
+      <input id="manual-search" type="search" class="toc-search" placeholder="🔎 Filtrar sección (ej. RAG, Reels, CRM)...">
+      <nav class="toc-nav" aria-label="Tabla de contenidos">
+        <a href="#arquitectura" class="toc-link"><span>00</span> Arquitectura &amp; 4 Pilares</a><a href="#acceso" class="toc-link"><span>00B</span> Registro &amp; Acceso Seguro</a><a href="#sec-1" class="toc-link"><span>01</span> Chatea con Inteligencia Artificial</a><a href="#sec-2" class="toc-link"><span>02</span> NotebookLM Deep Research</a><a href="#sec-3" class="toc-link"><span>03</span> Radar de Mercado IA</a><a href="#sec-4" class="toc-link"><span>04</span> Chatbots Autónomos 24/7</a><a href="#sec-5" class="toc-link"><span>05</span> Suite de 6 Constructores de Negocios</a><a href="#sec-6" class="toc-link"><span>06</span> PassportAI Leads</a><a href="#sec-7" class="toc-link"><span>07</span> CRM ProsperIA &amp; ProsperIAStack</a><a href="#sec-8" class="toc-link"><span>08</span> Creación de Imágenes con Inteligencia Artificial (Estudio Visual)</a><a href="#sec-9" class="toc-link"><span>09</span> Creación de Videos con Inteligencia Artificial (Texto a Video e Imagen a Video)</a><a href="#sec-10" class="toc-link"><span>10</span> Cine IA con Runway ML</a><a href="#sec-11" class="toc-link"><span>11</span> Fábrica de Reels 9:16 &amp; Motion Graphics Studio (Videos Virales y Cinéticos)</a><a href="#sec-12" class="toc-link"><span>12</span> Generación de Audio y Clonación de Voz (ElevenLabs Audio &amp; Clonar Voz)</a><a href="#sec-13" class="toc-link"><span>13</span> Presentadores Virtuales con Avatares Hiperrealistas (HeyGen Video &amp; Mis Avatares)</a><a href="#sec-14" class="toc-link"><span>14</span> Subtítulos Automáticos y Transcripción con IA (Subtítulos IA)</a><a href="#sec-15" class="toc-link"><span>15</span> Galería Multimedia Centralizada y Galería de Stock (Mis Creaciones)</a><a href="#sec-16" class="toc-link"><span>16</span> Tutor de Idiomas Interactivo con IA (Texto + Audio en 11 Idiomas)</a><a href="#sec-17" class="toc-link"><span>17</span> Novedades y Bitácora de Evolución de la Plataforma (Changelog)</a><a href="#sec-18" class="toc-link"><span>18</span> Videotutoriales, Presentación de Novedades y Centro de Aprendizaje</a><a href="#sec-19" class="toc-link"><span>19</span> Panel de Administración de Cuenta, Planes y Recarga de Créditos</a><a href="#sec-20" class="toc-link"><span>20</span> Personalización Visual</a><a href="#sec-21" class="toc-link"><span>21</span> Operación Multilingüe Nativa (Español · English · Português)</a><a href="#sec-22" class="toc-link"><span>22</span> Asistente IA 24/7 Integrado, Soporte Técnico y 10 Reglas de Oro para Maximizar ROI</a>
+      </nav>
+    </aside>
+
+    <main>
+      <header class="hero-box">
+        <span class="eyebrow"><i class="fas fa-book-open" aria-hidden="true"></i> Documentación Oficial v4.0 · 22 Secciones en 4 Módulos Maestros</span>
+        <h1>Manual Maestro de <span style="color:var(--cyan);">PassportAI.app</span> + Ecosistema <span style="color:var(--gold);">ProsperIAStack &amp; CRM</span></h1>
+        <p class="hero-lead">
+          Guía oficial paso a paso creada por <strong>Agencia Prosper IA LLC</strong> (EE. UU. · México · Ingeniería FIUBA Argentina) para dominar los más de 58 modelos líderes de IA, Investigación Privada con RAG (NotebookLM), Chatbots WhatsApp 24/7, Suite de Constructores PDF, Creative Studio y el puente directo hacia ProsperIA CRM.
+        </p>
+        <div class="cta-row">
+          <a href="/static/docs/Manual_PassportAI.pdf" class="btn btn-gold" download><i class="fas fa-file-pdf" aria-hidden="true"></i> Descargar Manual Maestro PDF (4.9 MB)</a>
+          <a href="/static/docs/Manual_PassportAI_V4.docx" class="btn btn-cyan" download><i class="fas fa-file-word" aria-hidden="true"></i> Descargar Versión Editable (.DOCX)</a>
+          <a href="/passportai" class="btn btn-emerald"><i class="fas fa-trophy" aria-hidden="true"></i> Ver Caso de Éxito &amp; Ingeniería Tri-País</a>
+        </div>
+        <div class="badge-strip">
+          <div class="stat-pill"><strong>22 Secciones Vivas</strong><span>4 Módulos Maestros + Onboarding Paso a Paso</span></div>
+          <div class="stat-pill"><strong>+58 Modelos Líderes</strong><span>OpenAI · Google Gemini · Claude · Runway · ElevenLabs</span></div>
+          <div class="stat-pill"><strong>Conexión Directa CRM</strong><span>PassportAI.app ↔ ProsperIAStack &amp; ProsperIA CRM</span></div>
+        </div>
+      </header>
+
+      <section id="arquitectura" tabindex="-1" class="doc-section" aria-labelledby="arq-hdr">
+        <div class="sec-head">
+          <span class="mod-tag">PRELIMINAR A · MAPA DEL ECOSISTEMA</span>
+          <h2 id="arq-hdr">Arquitectura Completa e Índice Interactivo de las 22 Secciones</h2>
+        </div>
+        <p class="sec-summary">
+          Haz clic en cualquier sección de la tabla para saltar directamente a sus instrucciones, ejemplos listos y capturas reales de pantalla.
+        </p>
+        <div tabindex="0" role="region" aria-labelledby="toc-table-caption" class="table-wrapper">
+          <table>
+            <caption id="toc-table-caption" class="sr-only">Índice maestro de las 22 secciones de PassportAI.app v4.0</caption>
+            <thead>
+              <tr><th>Sec.</th><th>Módulo</th><th>Nombre de la Sección</th><th>Ruta en Plataforma</th></tr>
+            </thead>
+            <tbody><tr>
+              <th><a href="#sec-1" style="color:#38bdf8; font-weight:800; text-decoration:none;">01</a></th>
+              <td>MÓDULO I · CEREBRO MULTI-MODELO</td>
+              <td><a href="#sec-1" style="color:#f8fafc; font-weight:700; text-decoration:none;">Chatea con Inteligencia Artificial — Asistentes LLM &amp; AI Playground</a></td>
+              <td class="route-cell">Menú Lateral → Asistentes LLM → Chat IA (o Tarjeta &#x27;Nuevo Chat&#x27; en Inicio)</td>
+            </tr><tr>
+              <th><a href="#sec-2" style="color:#38bdf8; font-weight:800; text-decoration:none;">02</a></th>
+              <td>MÓDULO I · CEREBRO MULTI-MODELO</td>
+              <td><a href="#sec-2" style="color:#f8fafc; font-weight:700; text-decoration:none;">NotebookLM Deep Research — Investigación Documental y RAG Privado</a></td>
+              <td class="route-cell">Menú Lateral → NotebookLM (Primer Nivel)</td>
+            </tr><tr>
+              <th><a href="#sec-3" style="color:#38bdf8; font-weight:800; text-decoration:none;">03</a></th>
+              <td>MÓDULO I · CEREBRO MULTI-MODELO</td>
+              <td><a href="#sec-3" style="color:#f8fafc; font-weight:700; text-decoration:none;">Radar de Mercado IA — Nichos, Dolor Real del Cliente y Ads Campaign</a></td>
+              <td class="route-cell">Menú Lateral → Radar de Mercado → Panel Control / Explorador Nichos / Reddit Radar / Ads Campaign</td>
+            </tr><tr>
+              <th><a href="#sec-4" style="color:#38bdf8; font-weight:800; text-decoration:none;">04</a></th>
+              <td>MÓDULO II · NEGOCIOS, VENTAS Y CRM</td>
+              <td><a href="#sec-4" style="color:#f8fafc; font-weight:700; text-decoration:none;">Chatbots Autónomos 24/7 — WhatsApp (QR / API Oficial) y Web Widget</a></td>
+              <td class="route-cell">Menú Lateral → Negocios &amp; Ventas → Chatbots WhatsApp (o acceso directo Chatbots WhatsApp en 1er nivel)</td>
+            </tr><tr>
+              <th><a href="#sec-5" style="color:#38bdf8; font-weight:800; text-decoration:none;">05</a></th>
+              <td>MÓDULO II · NEGOCIOS, VENTAS Y CRM</td>
+              <td><a href="#sec-5" style="color:#f8fafc; font-weight:700; text-decoration:none;">Suite de 6 Constructores de Negocios — Blueprints Listos en PDF (6 a 12 Páginas)</a></td>
+              <td class="route-cell">Menú Lateral → Negocios &amp; Ventas → Suite Constructores / Business Constructor</td>
+            </tr><tr>
+              <th><a href="#sec-6" style="color:#38bdf8; font-weight:800; text-decoration:none;">06</a></th>
+              <td>MÓDULO II · NEGOCIOS, VENTAS Y CRM</td>
+              <td><a href="#sec-6" style="color:#f8fafc; font-weight:700; text-decoration:none;">PassportAI Leads — Orquestación de Prospección B2B (LinkedIn + Email)</a></td>
+              <td class="route-cell">Menú Lateral → Negocios &amp; Ventas → PassportAI Leads</td>
+            </tr><tr>
+              <th><a href="#sec-7" style="color:#38bdf8; font-weight:800; text-decoration:none;">07</a></th>
+              <td>MÓDULO II · NEGOCIOS, VENTAS Y CRM</td>
+              <td><a href="#sec-7" style="color:#f8fafc; font-weight:700; text-decoration:none;">CRM ProsperIA &amp; ProsperIAStack — Aprovisionamiento Automático en Minutos</a></td>
+              <td class="route-cell">Menú Lateral → Negocios &amp; Ventas → CRM ProsperIA (y ícono de Llave 🔑 de Acceso/Credenciales)</td>
+            </tr><tr>
+              <th><a href="#sec-8" style="color:#38bdf8; font-weight:800; text-decoration:none;">08</a></th>
+              <td>MÓDULO III · CREATIVE STUDIO</td>
+              <td><a href="#sec-8" style="color:#f8fafc; font-weight:700; text-decoration:none;">Creación de Imágenes con Inteligencia Artificial (Estudio Visual)</a></td>
+              <td class="route-cell">Menú Lateral → Creative Studio → Crear Imagen (o Tarjeta &#x27;Estudio de Imágenes&#x27;)</td>
+            </tr><tr>
+              <th><a href="#sec-9" style="color:#38bdf8; font-weight:800; text-decoration:none;">09</a></th>
+              <td>MÓDULO III · CREATIVE STUDIO</td>
+              <td><a href="#sec-9" style="color:#f8fafc; font-weight:700; text-decoration:none;">Creación de Videos con Inteligencia Artificial (Texto a Video e Imagen a Video)</a></td>
+              <td class="route-cell">Menú Lateral → Creative Studio → Crear Video</td>
+            </tr><tr>
+              <th><a href="#sec-10" style="color:#38bdf8; font-weight:800; text-decoration:none;">10</a></th>
+              <td>MÓDULO III · CREATIVE STUDIO</td>
+              <td><a href="#sec-10" style="color:#f8fafc; font-weight:700; text-decoration:none;">Cine IA con Runway ML — Dirección Cinematográfica e Imagen a Video</a></td>
+              <td class="route-cell">Menú Lateral → Creative Studio → Runway ML (o Tarjeta &#x27;Cine IA Runway&#x27;)</td>
+            </tr><tr>
+              <th><a href="#sec-11" style="color:#38bdf8; font-weight:800; text-decoration:none;">11</a></th>
+              <td>MÓDULO III · CREATIVE STUDIO</td>
+              <td><a href="#sec-11" style="color:#f8fafc; font-weight:700; text-decoration:none;">Fábrica de Reels 9:16 &amp; Motion Graphics Studio (Videos Virales y Cinéticos)</a></td>
+              <td class="route-cell">Menú Lateral → Creative Studio → Constructor de Reels [PRO] &amp; Motion Graphics [NUEVO]</td>
+            </tr><tr>
+              <th><a href="#sec-12" style="color:#38bdf8; font-weight:800; text-decoration:none;">12</a></th>
+              <td>MÓDULO III · CREATIVE STUDIO</td>
+              <td><a href="#sec-12" style="color:#f8fafc; font-weight:700; text-decoration:none;">Generación de Audio y Clonación de Voz (ElevenLabs Audio &amp; Clonar Voz)</a></td>
+              <td class="route-cell">Menú Lateral → Creative Studio → ElevenLabs Audio &amp; Clonar Voz</td>
+            </tr><tr>
+              <th><a href="#sec-13" style="color:#38bdf8; font-weight:800; text-decoration:none;">13</a></th>
+              <td>MÓDULO III · CREATIVE STUDIO</td>
+              <td><a href="#sec-13" style="color:#f8fafc; font-weight:700; text-decoration:none;">Presentadores Virtuales con Avatares Hiperrealistas (HeyGen Video &amp; Mis Avatares)</a></td>
+              <td class="route-cell">Menú Lateral → Creative Studio → HeyGen Video &amp; Mis Avatares</td>
+            </tr><tr>
+              <th><a href="#sec-14" style="color:#38bdf8; font-weight:800; text-decoration:none;">14</a></th>
+              <td>MÓDULO III · CREATIVE STUDIO</td>
+              <td><a href="#sec-14" style="color:#f8fafc; font-weight:700; text-decoration:none;">Subtítulos Automáticos y Transcripción con IA (Subtítulos IA)</a></td>
+              <td class="route-cell">Menú Lateral → Herramientas → Subtítulos IA (y Creative Studio → Subtítulos IA)</td>
+            </tr><tr>
+              <th><a href="#sec-15" style="color:#38bdf8; font-weight:800; text-decoration:none;">15</a></th>
+              <td>MÓDULO III · CREATIVE STUDIO</td>
+              <td><a href="#sec-15" style="color:#f8fafc; font-weight:700; text-decoration:none;">Galería Multimedia Centralizada y Galería de Stock (Mis Creaciones)</a></td>
+              <td class="route-cell">Menú Lateral → Galería Multimedia (y Recursos &amp; Ayuda → Mis Creaciones / Galería de Stock)</td>
+            </tr><tr>
+              <th><a href="#sec-16" style="color:#38bdf8; font-weight:800; text-decoration:none;">16</a></th>
+              <td>MÓDULO IV · FORMACIÓN, CUENTA Y SOPORTE</td>
+              <td><a href="#sec-16" style="color:#f8fafc; font-weight:700; text-decoration:none;">Tutor de Idiomas Interactivo con IA (Texto + Audio en 11 Idiomas)</a></td>
+              <td class="route-cell">Menú Lateral → Herramientas → Tutor de Idiomas (y Asistentes LLM → Tutor de Idiomas)</td>
+            </tr><tr>
+              <th><a href="#sec-17" style="color:#38bdf8; font-weight:800; text-decoration:none;">17</a></th>
+              <td>MÓDULO IV · FORMACIÓN, CUENTA Y SOPORTE</td>
+              <td><a href="#sec-17" style="color:#f8fafc; font-weight:700; text-decoration:none;">Novedades y Bitácora de Evolución de la Plataforma (Changelog)</a></td>
+              <td class="route-cell">Menú Lateral → Novedades (con insignia roja de nuevas actualizaciones)</td>
+            </tr><tr>
+              <th><a href="#sec-18" style="color:#38bdf8; font-weight:800; text-decoration:none;">18</a></th>
+              <td>MÓDULO IV · FORMACIÓN, CUENTA Y SOPORTE</td>
+              <td><a href="#sec-18" style="color:#f8fafc; font-weight:700; text-decoration:none;">Videotutoriales, Presentación de Novedades y Centro de Aprendizaje</a></td>
+              <td class="route-cell">Menú Lateral → Recursos &amp; Ayuda → Videotutoriales / Presentación Novedades / Manual PDF</td>
+            </tr><tr>
+              <th><a href="#sec-19" style="color:#38bdf8; font-weight:800; text-decoration:none;">19</a></th>
+              <td>MÓDULO IV · FORMACIÓN, CUENTA Y SOPORTE</td>
+              <td><a href="#sec-19" style="color:#f8fafc; font-weight:700; text-decoration:none;">Panel de Administración de Cuenta, Planes y Recarga de Créditos</a></td>
+              <td class="route-cell">Barra Superior Derecha → Usuario (Mi Perfil) / Indicador de Plan &amp; Créditos → Configuración de Perfil</td>
+            </tr><tr>
+              <th><a href="#sec-20" style="color:#38bdf8; font-weight:800; text-decoration:none;">20</a></th>
+              <td>MÓDULO IV · FORMACIÓN, CUENTA Y SOPORTE</td>
+              <td><a href="#sec-20" style="color:#f8fafc; font-weight:700; text-decoration:none;">Personalización Visual — Los 4 Temas de Interfaz</a></td>
+              <td class="route-cell">Barra Superior Derecha → &#x27;Tema&#x27; (o Sección &#x27;Tema&#x27; al pie del Menú Lateral)</td>
+            </tr><tr>
+              <th><a href="#sec-21" style="color:#38bdf8; font-weight:800; text-decoration:none;">21</a></th>
+              <td>MÓDULO IV · FORMACIÓN, CUENTA Y SOPORTE</td>
+              <td><a href="#sec-21" style="color:#f8fafc; font-weight:700; text-decoration:none;">Operación Multilingüe Nativa (Español · English · Português)</a></td>
+              <td class="route-cell">Barra Superior Derecha → Selector de Globo Terráqueo (&#x27;Español / English / Português&#x27;)</td>
+            </tr><tr>
+              <th><a href="#sec-22" style="color:#38bdf8; font-weight:800; text-decoration:none;">22</a></th>
+              <td>MÓDULO IV · FORMACIÓN, CUENTA Y SOPORTE</td>
+              <td><a href="#sec-22" style="color:#f8fafc; font-weight:700; text-decoration:none;">Asistente IA 24/7 Integrado, Soporte Técnico y 10 Reglas de Oro para Maximizar ROI</a></td>
+              <td class="route-cell">Botón Azul Flotante (Esquina Inferior Derecha) &amp; Menú Lateral → Recursos &amp; Ayuda → Soporte Técnico</td>
+            </tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="acceso" tabindex="-1" class="doc-section" aria-labelledby="acc-hdr">
+        <div class="sec-head">
+          <span class="mod-tag">PRELIMINAR B · PRIMEROS PASOS EN 2 MINUTOS</span>
+          <h2 id="acc-hdr">Guía de Registro, Verificación de Correo, Acceso y Recuperación</h2>
+        </div>
+        <div class="onb-grid">
+          
+        <article class="onb-card">
+          <span class="step-pill">Acceso 0 · Portada Oficial</span>
+          <h3>Ingreso desde PassportAI.app</h3>
+          <p>Ingresa a https://passportai.app desde cualquier navegador moderno (Chrome, Safari, Edge o móvil). Desde la pantalla principal puedes explorar las capacidades del ecosistema o hacer clic en &#x27;Regístrate&#x27; o &#x27;Iniciar Sesión&#x27;.</p>
+          <figure class="shot-fig">
+            <img src="{{ static_versioned('img/passportai_v4/00_landing.webp') }}"
+                 alt="Pantalla principal oficial de Central Passport AI (https://passportai.app)." width="1280" height="894" fetchpriority="high" decoding="async">
+            <figcaption>Pantalla principal oficial de Central Passport AI (https://passportai.app).</figcaption>
+          </figure>
+        </article>
+        
+        <article class="onb-card">
+          <span class="step-pill">Paso 1 y Paso 2 · Crear Cuenta</span>
+          <h3>Registro con Correo y Contraseña Segura</h3>
+          <p>Haz clic en el botón &#x27;Regístrate&#x27;. Ingresa tu correo electrónico corporativo o personal, define una contraseña segura de al menos 6 caracteres y confírmala. Presiona &#x27;Crear Cuenta&#x27; para generar tu espacio aislado.</p>
+          <figure class="shot-fig">
+            <img src="{{ static_versioned('img/passportai_v4/01_registro.webp') }}"
+                 alt="Formulario de creación de cuenta en Central Passport AI." width="1216" height="644" loading="lazy" decoding="async">
+            <figcaption>Formulario de creación de cuenta en Central Passport AI.</figcaption>
+          </figure>
+        </article>
+        
+        <article class="onb-card">
+          <span class="step-pill">Paso 3 · Activación Oficial</span>
+          <h3>Verificación de Correo Electrónico</h3>
+          <p>Recibirás un correo oficial enviado desde Central Passport AI (edward@passportai.app) con el asunto &#x27;Verifica tu correo&#x27;. Haz clic en &#x27;Verificar mi correo electrónico&#x27; (o copia el enlace de respaldo) para habilitar tus créditos y módulos.</p>
+          <figure class="shot-fig">
+            <img src="{{ static_versioned('img/passportai_v4/02_verifica_email.webp') }}"
+                 alt="Correo automático de verificación para activar la cuenta sin fricciones." width="1280" height="1263" loading="lazy" decoding="async">
+            <figcaption>Correo automático de verificación para activar la cuenta sin fricciones.</figcaption>
+          </figure>
+        </article>
+        
+        <article class="onb-card">
+          <span class="step-pill">Paso 4 y Paso 5 · Inicio de Sesión y Dashboard</span>
+          <h3>Ingreso al Panel de Control Principal</h3>
+          <p>En la pantalla &#x27;Bienvenido de Nuevo&#x27;, introduce tu correo y contraseña verificados. Al ingresar verás el Dashboard principal con tus accesos rápidos (Nuevo Chat, Estudio de Imágenes, Cine IA Runway, Sintetizador de Voz), el menú lateral organizado en módulos y tu saldo de créditos en tiempo real en la barra superior.</p>
+          <figure class="shot-fig">
+            <img src="{{ static_versioned('img/passportai_v4/05_dashboard.webp') }}"
+                 alt="Dashboard principal de Central Passport AI con accesos rápidos y barra de créditos en vivo." width="1280" height="756" loading="lazy" decoding="async">
+            <figcaption>Dashboard principal de Central Passport AI con accesos rápidos y barra de créditos en vivo.</figcaption>
+          </figure>
+        </article>
+        
+        <article class="onb-card">
+          <span class="step-pill">Paso Extra · Recuperación Segura</span>
+          <h3>Restablecer Contraseña en 1 Minuto</h3>
+          <p>Si olvidaste tu clave, haz clic en &#x27;¿Olvidaste tu contraseña?&#x27; debajo del botón &#x27;Iniciar Sesión&#x27;. El sistema enviará un enlace cifrado único de un solo uso a tu bandeja para definir una nueva contraseña de inmediato.</p>
+          <figure class="shot-fig">
+            <img src="{{ static_versioned('img/passportai_v4/04_reset_pass.webp') }}"
+                 alt="Correo de restablecimiento de contraseña con enlace seguro de un solo uso." width="1280" height="1340" loading="lazy" decoding="async">
+            <figcaption>Correo de restablecimiento de contraseña con enlace seguro de un solo uso.</figcaption>
+          </figure>
+        </article>
+        
+        </div>
+      </section>
+
+      
+        <section id="sec-1" tabindex="-1" class="doc-section" data-search="1 MÓDULO I · CEREBRO MULTI-MODELO Chatea con Inteligencia Artificial — Asistentes LLM &amp; AI Playground Menú Lateral → Asistentes LLM → Chat IA (o Tarjeta &#x27;Nuevo Chat&#x27; en Inicio) Espacio de conversación estratégica conectado a +58 modelos líderes de IA —incluyendo motores insignia de OpenAI, Google Gemini y Anthropic Claude— con historial por fecha, selección flexible de modelo en vivo y protección de contexto empresarial." aria-labelledby="sec-1-hdr">
+          <div class="sec-head">
+            <span class="mod-tag">MÓDULO I · CEREBRO MULTI-MODELO · SECCIÓN 01 DE 22</span>
+            <h2 id="sec-1-hdr">Chatea con Inteligencia Artificial — Asistentes LLM &amp; AI Playground</h2>
+            <div class="route-bar"><i class="fas fa-compass" aria-hidden="true"></i> Ruta en plataforma: <code>Menú Lateral → Asistentes LLM → Chat IA (o Tarjeta &#x27;Nuevo Chat&#x27; en Inicio)</code></div>
+          </div>
+
+          <p class="sec-summary"><strong>Qué es y para qué sirve:</strong> Espacio de conversación estratégica conectado a +58 modelos líderes de IA —incluyendo motores insignia de OpenAI, Google Gemini y Anthropic Claude— con historial por fecha, selección flexible de modelo en vivo y protección de contexto empresarial.</p>
+
+          <div class="steps-panel">
+            <h3><i class="fas fa-list-check" aria-hidden="true"></i> Operación Paso a Paso</h3>
+            <ol><li>Abre &#x27;Asistentes LLM → Chat IA&#x27; en el menú izquierdo para ingresar al AI Playground.</li><li>Selecciona el modelo de IA adecuado en el selector superior derecho según tu tarea (análisis estratégico, redacción comercial, código o síntesis ejecutiva).</li><li>Redacta tu instrucción (prompt) indicando rol, contexto del negocio, audiencia y formato de salida deseado; puedes adjuntar archivos de referencia con el ícono de clip.</li><li>Guarda y retoma cualquier conversación desde la columna izquierda &#x27;Historial&#x27; organizada cronológicamente (Hoy, Semana Anterior y meses previos).</li></ol>
+          </div>
+
+          <div class="dual-callouts">
+            <div class="callout-box emerald">
+              <h3><i class="fas fa-lightbulb" aria-hidden="true"></i> Ejemplos Prácticos Listos</h3>
+              <ul><li><strong>Resumir contratos o propuestas largas:</strong> Actúa como director legal y comercial. Resume este documento en 5 viñetas ejecutivas: alcance, entregables, plazos, riesgos y próximos pasos.</li><li><strong>Redactar ofertas comerciales:</strong> Redacta 3 correos de seguimiento consultivo para un director médico interesado en automatizar citas por WhatsApp, tono ejecutivo, máximo 120 palabras.</li><li><strong>Estructurar SOPs internos:</strong> Convierte estas notas sueltas de atención al cliente en un Procedimiento Operativo Estándar (SOP) paso a paso para mi recepcionista.</li></ul>
+            </div>
+            <div class="callout-box gold">
+              <h3><i class="fas fa-bolt" aria-hidden="true"></i> Consejos Pro de Implementación</h3>
+              <ul><li>No cierres ni borres tus hilos ganadores: renómbralos o reutiliza el mismo chat para mantener la memoria coherente de tu marca.</li><li>Cambia de modelo en el selector sin perder el contexto cuando necesites pasar de lluvia de ideas creativa a verificación analítica.</li></ul>
+            </div>
+          </div>
+
+          <div class="media-wrap ">
+            
+        <figure class="shot-fig">
+          <img src="{{ static_versioned('img/passportai_v4/05_dashboard.webp') }}"
+               alt="AI Playground multi-modelo con historial cronológico lateral y selector de motor en vivo." width="1280" height="756" loading="lazy" decoding="async">
+          <figcaption>AI Playground multi-modelo con historial cronológico lateral y selector de motor en vivo.</figcaption>
+        </figure>
+        
+            
+          </div>
+        </section>
+        
+        <section id="sec-2" tabindex="-1" class="doc-section" data-search="2 MÓDULO I · CEREBRO MULTI-MODELO NotebookLM Deep Research — Investigación Documental y RAG Privado Menú Lateral → NotebookLM (Primer Nivel) Motor de investigación profunda impulsado por Google NotebookLM + Gemini que analiza tus propios documentos (PDFs, manuales, pólizas, catálogos y URLs específicas) generando informes estructurados, resúmenes ejecutivos con citas verificables y cero invenciones." aria-labelledby="sec-2-hdr">
+          <div class="sec-head">
+            <span class="mod-tag">MÓDULO I · CEREBRO MULTI-MODELO · SECCIÓN 02 DE 22</span>
+            <h2 id="sec-2-hdr">NotebookLM Deep Research — Investigación Documental y RAG Privado</h2>
+            <div class="route-bar"><i class="fas fa-compass" aria-hidden="true"></i> Ruta en plataforma: <code>Menú Lateral → NotebookLM (Primer Nivel)</code></div>
+          </div>
+
+          <p class="sec-summary"><strong>Qué es y para qué sirve:</strong> Motor de investigación profunda impulsado por Google NotebookLM + Gemini que analiza tus propios documentos (PDFs, manuales, pólizas, catálogos y URLs específicas) generando informes estructurados, resúmenes ejecutivos con citas verificables y cero invenciones.</p>
+
+          <div class="steps-panel">
+            <h3><i class="fas fa-list-check" aria-hidden="true"></i> Operación Paso a Paso</h3>
+            <ol><li>Haz clic en &#x27;NotebookLM&#x27; en el menú lateral principal para abrir el panel de Deep Research.</li><li>Escribe tu &#x27;Tema de Investigación o URL&#x27; en el campo central indicando exactamente qué pregunta estratégica deseas resolver.</li><li>Despliega la sección &#x27;Fuentes Propias y Documentos (Opcional)&#x27; y adjunta tus PDFs corporativos, catálogos técnicos o enlaces internos.</li><li>Activa el interruptor &#x27;Solo mis fuentes (omitir búsqueda web)&#x27; cuando necesites un análisis 100% blindado (ideal para despachos legales, clínicas, aseguradoras y manuales privados).</li><li>Lanza la investigación y descarga los artefactos resultantes desde la pestaña de informes y resúmenes.</li></ol>
+          </div>
+
+          <div class="dual-callouts">
+            <div class="callout-box emerald">
+              <h3><i class="fas fa-lightbulb" aria-hidden="true"></i> Ejemplos Prácticos Listos</h3>
+              <ul><li><strong>Estudio Jurídico / Seguros:</strong> Sube PDFs de pólizas y condiciones generales con &#x27;Solo mis fuentes&#x27; activo para extraer coberturas, exclusiones y requisitos de siniestro en segundos.</li><li><strong>Auditoría Comercial B2B:</strong> Combina la URL de un prospecto corporativo con tu catálogo de soluciones para preparar un diagnóstico ejecutivo de 1 página antes de tu llamada.</li></ul>
+            </div>
+            <div class="callout-box gold">
+              <h3><i class="fas fa-bolt" aria-hidden="true"></i> Consejos Pro de Implementación</h3>
+              <ul><li>Activa siempre &#x27;Solo mis fuentes&#x27; cuando trabajes con precios propios, reglamentos internos o cláusulas legales para impedir mezcla con datos públicos de internet.</li><li>Revisa la lista de &#x27;Artefactos&#x27; generados para convertir cada investigación en guiones de venta o bases de conocimiento para tu Chatbot IA.</li></ul>
+            </div>
+          </div>
+
+          <div class="media-wrap ">
+            
+        <figure class="shot-fig">
+          <img src="{{ static_versioned('img/passportai_v4/29_flujomaster.webp') }}"
+               alt="Motor de Inteligencia Central PassportAI procesando conocimiento e IP privada con cero fugas." width="1024" height="558" loading="lazy" decoding="async">
+          <figcaption>Motor de Inteligencia Central PassportAI procesando conocimiento e IP privada con cero fugas.</figcaption>
+        </figure>
+        
+            
+          </div>
+        </section>
+        
+        <section id="sec-3" tabindex="-1" class="doc-section" data-search="3 MÓDULO I · CEREBRO MULTI-MODELO Radar de Mercado IA — Nichos, Dolor Real del Cliente y Ads Campaign Menú Lateral → Radar de Mercado → Panel Control / Explorador Nichos / Reddit Radar / Ads Campaign Suite de inteligencia competitiva y escucha social compuesta por 4 herramientas especializadas para descubrir qué están preguntando, sufriendo y comprando los clientes reales antes de invertir en campañas o crear contenido." aria-labelledby="sec-3-hdr">
+          <div class="sec-head">
+            <span class="mod-tag">MÓDULO I · CEREBRO MULTI-MODELO · SECCIÓN 03 DE 22</span>
+            <h2 id="sec-3-hdr">Radar de Mercado IA — Nichos, Dolor Real del Cliente y Ads Campaign</h2>
+            <div class="route-bar"><i class="fas fa-compass" aria-hidden="true"></i> Ruta en plataforma: <code>Menú Lateral → Radar de Mercado → Panel Control / Explorador Nichos / Reddit Radar / Ads Campaign</code></div>
+          </div>
+
+          <p class="sec-summary"><strong>Qué es y para qué sirve:</strong> Suite de inteligencia competitiva y escucha social compuesta por 4 herramientas especializadas para descubrir qué están preguntando, sufriendo y comprando los clientes reales antes de invertir en campañas o crear contenido.</p>
+
+          <div class="steps-panel">
+            <h3><i class="fas fa-list-check" aria-hidden="true"></i> Operación Paso a Paso</h3>
+            <ol><li>Inicia en &#x27;Panel Control&#x27; dentro de &#x27;Radar de Mercado&#x27; para revisar métricas y proyectos activos de investigación.</li><li>Usa &#x27;Explorador Nichos&#x27; para mapear comunidades, segmentos rentables y palabras clave del problema que resuelve tu servicio.</li><li>Abre &#x27;Reddit Radar&#x27; (Post Radar &amp; Pain Analysis) para extraer objeciones literales, frustraciones frecuentes y vocabulario real del comprador.</li><li>Pasa los hallazgos directo a &#x27;Ads Campaign&#x27; para generar ángulos publicitarios, ganchos y copias orientadas a conversión listos para Meta o Google Ads.</li></ol>
+          </div>
+
+          <div class="dual-callouts">
+            <div class="callout-box emerald">
+              <h3><i class="fas fa-lightbulb" aria-hidden="true"></i> Ejemplos Prácticos Listos</h3>
+              <ul><li><strong>Clínicas Dentales y Estéticas:</strong> Detecta por qué los pacientes dudan antes de agendar una valoración (miedo al dolor, financiamiento o tiempos) y convierte esa objeción en el gancho del primer anuncio.</li><li><strong>Agencias B2B y Consultores:</strong> Identifica preguntas recurrentes de dueños de PYMEs sobre seguimiento lento en WhatsApp y genera campañas Click-to-WhatsApp de alta intención.</li></ul>
+            </div>
+            <div class="callout-box gold">
+              <h3><i class="fas fa-bolt" aria-hidden="true"></i> Consejos Pro de Implementación</h3>
+              <ul><li>Usa exactamente las frases literales de dolor extraídas por el Radar como los primeros 3 segundos (Hook) de tus Reels y anuncios.</li><li>Combina los resultados del Radar con el Constructor de Ofertas (Sección 5) para lanzar promociones imposibles de ignorar.</li></ul>
+            </div>
+          </div>
+
+          <div class="media-wrap ">
+            
+        <figure class="shot-fig">
+          <img src="{{ static_versioned('img/passportai_v4/28_dashboard_v2.webp') }}"
+               alt="Tarjetas PassportAI Leads, Business Constructor y Radar &amp; Deep Research integradas en el Dashboard." width="1024" height="521" loading="lazy" decoding="async">
+          <figcaption>Tarjetas PassportAI Leads, Business Constructor y Radar &amp; Deep Research integradas en el Dashboard.</figcaption>
+        </figure>
+        
+            
+          </div>
+        </section>
+        
+        <section id="sec-4" tabindex="-1" class="doc-section" data-search="4 MÓDULO II · NEGOCIOS, VENTAS Y CRM Chatbots Autónomos 24/7 — WhatsApp (QR / API Oficial) y Web Widget Menú Lateral → Negocios &amp; Ventas → Chatbots WhatsApp (o acceso directo Chatbots WhatsApp en 1er nivel) Consola operativa para crear, entrenar, probar y conectar asistentes conversacionales autónomos 24/7 en WhatsApp Business y en tu Sitio Web. Responden en segundos con base de conocimiento privada (RAG), califican datos clave del prospecto y sincronizan oportunidades directo con ProsperIA CRM." aria-labelledby="sec-4-hdr">
+          <div class="sec-head">
+            <span class="mod-tag">MÓDULO II · NEGOCIOS, VENTAS Y CRM · SECCIÓN 04 DE 22</span>
+            <h2 id="sec-4-hdr">Chatbots Autónomos 24/7 — WhatsApp (QR / API Oficial) y Web Widget</h2>
+            <div class="route-bar"><i class="fas fa-compass" aria-hidden="true"></i> Ruta en plataforma: <code>Menú Lateral → Negocios &amp; Ventas → Chatbots WhatsApp (o acceso directo Chatbots WhatsApp en 1er nivel)</code></div>
+          </div>
+
+          <p class="sec-summary"><strong>Qué es y para qué sirve:</strong> Consola operativa para crear, entrenar, probar y conectar asistentes conversacionales autónomos 24/7 en WhatsApp Business y en tu Sitio Web. Responden en segundos con base de conocimiento privada (RAG), califican datos clave del prospecto y sincronizan oportunidades directo con ProsperIA CRM.</p>
+
+          <div class="steps-panel">
+            <h3><i class="fas fa-list-check" aria-hidden="true"></i> Operación Paso a Paso</h3>
+            <ol><li>Ingresa a &#x27;Chatbots WhatsApp&#x27; y oprime &#x27;+ Nuevo Chatbot&#x27; (o selecciona un asistente existente y haz clic en &#x27;Configurar&#x27;).</li><li>Define la identidad del asistente, mensaje de bienvenida y los campos de calificación obligatorios (por ejemplo: nombre, email, teléfono, empresa o servicio de interés).</li><li>Sube tus documentos PDF, lista de precios, horarios y preguntas frecuentes a su Base de Conocimiento (RAG) para garantizar cero inventos.</li><li>Conecta el canal: activa el código QR / línea API de WhatsApp Business y copia el script del &#x27;Web Widget&#x27; para tu sitio web o prueba en &#x27;Demo Widget&#x27;.</li><li>Supervisa en tiempo real los prospectos calificados y su derivación automática hacia tu CRM desde la vista de métricas y el ícono de llave CRM.</li></ol>
+          </div>
+
+          <div class="dual-callouts">
+            <div class="callout-box emerald">
+              <h3><i class="fas fa-lightbulb" aria-hidden="true"></i> Ejemplos Prácticos Listos</h3>
+              <ul><li><strong>Consultorios y Clínicas:</strong> Saluda en &lt; 5 segundos a las 10:30 PM, resuelve dudas de ubicación/tratamientos y recolecta teléfono + horario preferido para confirmar cita.</li><li><strong>Abogados y Productores de Seguros:</strong> Diferencia si el prospecto busca cotizar una póliza o una consulta legal, solicita tipo de siniestro/cobertura y agenda directo sin inventar cláusulas.</li></ul>
+            </div>
+            <div class="callout-box gold">
+              <h3><i class="fas fa-bolt" aria-hidden="true"></i> Consejos Pro de Implementación</h3>
+              <ul><li>Mantén actualizado el bloque de precios y promociones del mes en la configuración del bot: cualquier cambio se refleja al instante en todas sus respuestas.</li><li>Activa la asociación a tu subcuenta de ProsperIA CRM (botón de llave) para que cada lead capturado dispare flujos anti no-show automáticos.</li></ul>
+            </div>
+          </div>
+
+          <div class="media-wrap ">
+            
+        <figure class="shot-fig">
+          <img src="{{ static_versioned('img/passportai_v4/07_chatbots_wa.webp') }}"
+               alt="Consola de Chatbots Autónomos 24/7 con bots activos, Web Widget, RAG y estado CRM Live." width="1024" height="468" loading="lazy" decoding="async">
+          <figcaption>Consola de Chatbots Autónomos 24/7 con bots activos, Web Widget, RAG y estado CRM Live.</figcaption>
+        </figure>
+        
+            
+          </div>
+        </section>
+        
+        <section id="sec-5" tabindex="-1" class="doc-section" data-search="5 MÓDULO II · NEGOCIOS, VENTAS Y CRM Suite de 6 Constructores de Negocios — Blueprints Listos en PDF (6 a 12 Páginas) Menú Lateral → Negocios &amp; Ventas → Suite Constructores / Business Constructor Seis generadores guiados por formulario para empresarios y equipos sin conocimientos técnicos: respondes preguntas simples sobre tu negocio y descargas en minutos documentos PDF ejecutivos de 6 a 12 páginas listos para ejecutar." aria-labelledby="sec-5-hdr">
+          <div class="sec-head">
+            <span class="mod-tag">MÓDULO II · NEGOCIOS, VENTAS Y CRM · SECCIÓN 05 DE 22</span>
+            <h2 id="sec-5-hdr">Suite de 6 Constructores de Negocios — Blueprints Listos en PDF (6 a 12 Páginas)</h2>
+            <div class="route-bar"><i class="fas fa-compass" aria-hidden="true"></i> Ruta en plataforma: <code>Menú Lateral → Negocios &amp; Ventas → Suite Constructores / Business Constructor</code></div>
+          </div>
+
+          <p class="sec-summary"><strong>Qué es y para qué sirve:</strong> Seis generadores guiados por formulario para empresarios y equipos sin conocimientos técnicos: respondes preguntas simples sobre tu negocio y descargas en minutos documentos PDF ejecutivos de 6 a 12 páginas listos para ejecutar.</p>
+
+          <div class="steps-panel">
+            <h3><i class="fas fa-list-check" aria-hidden="true"></i> Operación Paso a Paso</h3>
+            <ol><li>Entra a &#x27;Negocios &amp; Ventas → Suite Constructores&#x27; para visualizar los 6 constructores especializados con su costo transparente por generación.</li><li>1. Arquitecto de Marca Personal (6 págs): define tu postura diferenciadora, manifiesto de autoridad, pilares de contenido 50/30/20 y ganchos de retención.</li><li>2. Sprint de Contenido (12 págs): genera tu calendario multidía y guiones completos con Hook, Guion y Call to Action.</li><li>3. Arquitecto de Landing Page (8 págs): diseña la estructura persuasiva de tu página (Hero, bloques de valor, objeciones y copy verificado).</li><li>4. Arquitecto de Ofertas (8 págs) + 5. Embudo de Lead Magnet (8 págs) + 6. Business Constructor (9 págs en el menú Negocios &amp; Ventas): estructura promociones irresistibles, secuencias de 5 mensajes para WhatsApp/Email y el plan financiero y Go-To-Market de tu empresa.</li></ol>
+          </div>
+
+          <div class="dual-callouts">
+            <div class="callout-box emerald">
+              <h3><i class="fas fa-lightbulb" aria-hidden="true"></i> Ejemplos Prácticos Listos</h3>
+              <ul><li><strong>Lanzamiento Express en 1 Hora:</strong> Completa primero el Arquitecto de Ofertas (~0.28 cr) para definir tu paquete estrella y enseguida corre el Sprint de Contenido (~0.35 cr) para obtener los guiones del mes.</li><li><strong>Alineación de Equipo Comercial:</strong> Descarga el PDF de 8 páginas del Embudo de Lead Magnet (~0.30 cr) y entrega a tu equipo de WhatsApp la secuencia de 5 mensajes lista para copiar y pegar.</li></ul>
+            </div>
+            <div class="callout-box gold">
+              <h3><i class="fas fa-bolt" aria-hidden="true"></i> Consejos Pro de Implementación</h3>
+              <ul><li>Reutiliza el resultado del Business Constructor y del Arquitecto de Ofertas como fuente documental dentro de NotebookLM o de tu Chatbot IA.</li><li>Ideal para demostrar valor inmediato en pantalla compartida frente a clientes de consultoría o agencias.</li></ul>
+            </div>
+          </div>
+
+          <div class="media-wrap ">
+            
+        <figure class="shot-fig">
+          <img src="{{ static_versioned('img/passportai_v4/08_constructores.webp') }}"
+               alt="Suite de Constructores de Negocios en PassportAI.app con generación directa de PDFs ejecutivos." width="1024" height="263" loading="lazy" decoding="async">
+          <figcaption>Suite de Constructores de Negocios en PassportAI.app con generación directa de PDFs ejecutivos.</figcaption>
+        </figure>
+        
+            
+          </div>
+        </section>
+        
+        <section id="sec-6" tabindex="-1" class="doc-section" data-search="6 MÓDULO II · NEGOCIOS, VENTAS Y CRM PassportAI Leads — Orquestación de Prospección B2B (LinkedIn + Email) Menú Lateral → Negocios &amp; Ventas → PassportAI Leads Módulo de prospección comercial B2B asistida con vinculación segura OAuth para LinkedIn (regla de cuenta única) y correo electrónico corporativo (Google / Microsoft), análisis explicable por IA y flujo obligatorio de aprobación humana antes de cada envío." aria-labelledby="sec-6-hdr">
+          <div class="sec-head">
+            <span class="mod-tag">MÓDULO II · NEGOCIOS, VENTAS Y CRM · SECCIÓN 06 DE 22</span>
+            <h2 id="sec-6-hdr">PassportAI Leads — Orquestación de Prospección B2B (LinkedIn + Email)</h2>
+            <div class="route-bar"><i class="fas fa-compass" aria-hidden="true"></i> Ruta en plataforma: <code>Menú Lateral → Negocios &amp; Ventas → PassportAI Leads</code></div>
+          </div>
+
+          <p class="sec-summary"><strong>Qué es y para qué sirve:</strong> Módulo de prospección comercial B2B asistida con vinculación segura OAuth para LinkedIn (regla de cuenta única) y correo electrónico corporativo (Google / Microsoft), análisis explicable por IA y flujo obligatorio de aprobación humana antes de cada envío.</p>
+
+          <div class="steps-panel">
+            <h3><i class="fas fa-list-check" aria-hidden="true"></i> Operación Paso a Paso</h3>
+            <ol><li>Accede a &#x27;Negocios &amp; Ventas → PassportAI Leads&#x27; para abrir el centro de conexiones seguras.</li><li>Haz clic en &#x27;Vincular Cuenta de LinkedIn&#x27; mediante autorización oficial OAuth (tu contraseña jamás se almacena en nuestros servidores; solo se permite 1 cuenta activa a la vez).</li><li>Conecta igualmente tu bandeja de correo de trabajo mediante autorización segura con Google o Microsoft.</li><li>Define tu perfil de comprador ideal y revisa los mensajes personalizados generados con análisis explicable de la IA; aprueba o ajusta cada contacto antes del disparo.</li></ol>
+          </div>
+
+          <div class="dual-callouts">
+            <div class="callout-box emerald">
+              <h3><i class="fas fa-lightbulb" aria-hidden="true"></i> Ejemplos Prácticos Listos</h3>
+              <ul><li><strong>Prospección de Directores y Clínicas:</strong> Conecta la cuenta del CEO o consultor comercial para contactar tomadores de decisión con mensajes contextualizados y seguimiento ordenado en bandeja.</li><li><strong>Reactivación de Relaciones B2B:</strong> Combina correo corporativo + LinkedIn para invitar a prospectos fríos a un diagnóstico ejecutivo en calendario.</li></ul>
+            </div>
+            <div class="callout-box gold">
+              <h3><i class="fas fa-bolt" aria-hidden="true"></i> Consejos Pro de Implementación</h3>
+              <ul><li>Si necesitas cambiar el perfil de LinkedIn vinculado, primero debes &#x27;Desvincular y Reemplazar Cuenta&#x27; antes de conectar la nueva.</li><li>Respeta las recomendaciones de volumen diario humano y utiliza siempre la revisión previa para maximizar tasas de respuesta.</li></ul>
+            </div>
+          </div>
+
+          <div class="media-wrap ">
+            
+        <figure class="shot-fig">
+          <img src="{{ static_versioned('img/passportai_v4/27_agentes_wa_qr_voz.webp') }}"
+               alt="Flujo conectado de captura multicanal, WhatsApp 24/7, prospección y agendamiento en CRM." width="850" height="650" loading="lazy" decoding="async">
+          <figcaption>Flujo conectado de captura multicanal, WhatsApp 24/7, prospección y agendamiento en CRM.</figcaption>
+        </figure>
+        
+            
+          </div>
+        </section>
+        
+        <section id="sec-7" tabindex="-1" class="doc-section" data-search="7 MÓDULO II · NEGOCIOS, VENTAS Y CRM CRM ProsperIA &amp; ProsperIAStack — Aprovisionamiento Automático en Minutos Menú Lateral → Negocios &amp; Ventas → CRM ProsperIA (y ícono de Llave 🔑 de Acceso/Credenciales) Puente por enlace directo desde PassportAI.app hacia ProsperIA CRM (crm.agenciaprosperia.com sobre ecosistema GoHighLevel) y el motor ProsperIAStack (https://prosperia.passportai.app/dashboard), diseñado para convertir la implementación de un CRM vertical (pipelines, 141 variables, calendarios y workflows) de 2 meses de trabajo en cuestión de minutos." aria-labelledby="sec-7-hdr">
+          <div class="sec-head">
+            <span class="mod-tag">MÓDULO II · NEGOCIOS, VENTAS Y CRM · SECCIÓN 07 DE 22</span>
+            <h2 id="sec-7-hdr">CRM ProsperIA &amp; ProsperIAStack — Aprovisionamiento Automático en Minutos</h2>
+            <div class="route-bar"><i class="fas fa-compass" aria-hidden="true"></i> Ruta en plataforma: <code>Menú Lateral → Negocios &amp; Ventas → CRM ProsperIA (y ícono de Llave 🔑 de Acceso/Credenciales)</code></div>
+          </div>
+
+          <p class="sec-summary"><strong>Qué es y para qué sirve:</strong> Puente por enlace directo desde PassportAI.app hacia ProsperIA CRM (crm.agenciaprosperia.com sobre ecosistema GoHighLevel) y el motor ProsperIAStack (https://prosperia.passportai.app/dashboard), diseñado para convertir la implementación de un CRM vertical (pipelines, 141 variables, calendarios y workflows) de 2 meses de trabajo en cuestión de minutos.</p>
+
+          <div class="steps-panel">
+            <h3><i class="fas fa-list-check" aria-hidden="true"></i> Operación Paso a Paso</h3>
+            <ol><li>En &#x27;Negocios &amp; Ventas → CRM ProsperIA&#x27;, haz clic en el ícono de llave (🔑) para abrir el Modal Universal de Acceso si es tu primera vez.</li><li>Oprime &#x27;Enviar enlace de activación&#x27; para recibir tu invitación oficial de contraseña en tu correo (o entra directo con &#x27;Abrir CRM ProsperIA&#x27; si ya tienes clave).</li><li>Desde el enlace directo a ProsperIAStack (https://prosperia.passportai.app/dashboard), completa el diagnóstico guiado o sube los documentos base de la empresa.</li><li>El motor selecciona la plantilla entre 10 verticales listas (Dental, Estética, Restaurante, Fitness, Automotriz, Coaching, Marketing, Abogados, Inmobiliaria y Plomería), personaliza más de 140 variables y despliega pipelines, calendarios y flujos automatizados vía API segura (AES-256-CBC).</li></ol>
+          </div>
+
+          <div class="dual-callouts">
+            <div class="callout-box emerald">
+              <h3><i class="fas fa-lightbulb" aria-hidden="true"></i> Ejemplos Prácticos Listos</h3>
+              <ul><li><strong>Onboarding de Nuevo Cliente en Agencia:</strong> Sube el brochure PDF o web del cliente en ProsperIAStack y provisiona su subcuenta completa con WhatsApp conectado el mismo día.</li><li><strong>Operación Diaria del Equipo Comercial:</strong> El closer recibe citas confirmadas, historial de WhatsApp/IG/FB unificado y recordatorios automáticos 24h y 2h antes para reducir ausencias.</li></ul>
+            </div>
+            <div class="callout-box gold">
+              <h3><i class="fas fa-bolt" aria-hidden="true"></i> Consejos Pro de Implementación</h3>
+              <ul><li>PassportAI.app y ProsperIAStack conviven unidos por enlace directo: utiliza cada herramienta en su dominio especializado sin duplicar configuraciones manuales.</li><li>Los administradores y colaboradores pueden validar y asociar una subcuenta GHL existente desde el modal verificando que tenga una línea de WhatsApp activa.</li></ul>
+            </div>
+          </div>
+
+          <div class="media-wrap ">
+            
+        <figure class="shot-fig">
+          <img src="{{ static_versioned('img/passportai_v4/26_prosperiastack_5min.webp') }}"
+               alt="Arquitectura ProsperIAStack: de documentos PDF y diagnóstico IA a un CRM operativo en minutos." width="850" height="650" loading="lazy" decoding="async">
+          <figcaption>Arquitectura ProsperIAStack: de documentos PDF y diagnóstico IA a un CRM operativo en minutos.</figcaption>
+        </figure>
+        
+            
+          </div>
+        </section>
+        
+        <section id="sec-8" tabindex="-1" class="doc-section" data-search="8 MÓDULO III · CREATIVE STUDIO Creación de Imágenes con Inteligencia Artificial (Estudio Visual) Menú Lateral → Creative Studio → Crear Imagen (o Tarjeta &#x27;Estudio de Imágenes&#x27;) Estudio visual multi-modelo para generar fotografías publicitarias, retratos corporativos, maquetas de producto e ilustraciones profesionales en segundos con selector de modelo, opciones avanzadas e historial instantáneo." aria-labelledby="sec-8-hdr">
+          <div class="sec-head">
+            <span class="mod-tag">MÓDULO III · CREATIVE STUDIO · SECCIÓN 08 DE 22</span>
+            <h2 id="sec-8-hdr">Creación de Imágenes con Inteligencia Artificial (Estudio Visual)</h2>
+            <div class="route-bar"><i class="fas fa-compass" aria-hidden="true"></i> Ruta en plataforma: <code>Menú Lateral → Creative Studio → Crear Imagen (o Tarjeta &#x27;Estudio de Imágenes&#x27;)</code></div>
+          </div>
+
+          <p class="sec-summary"><strong>Qué es y para qué sirve:</strong> Estudio visual multi-modelo para generar fotografías publicitarias, retratos corporativos, maquetas de producto e ilustraciones profesionales en segundos con selector de modelo, opciones avanzadas e historial instantáneo.</p>
+
+          <div class="steps-panel">
+            <h3><i class="fas fa-list-check" aria-hidden="true"></i> Operación Paso a Paso</h3>
+            <ol><li>Abre &#x27;Creative Studio → Crear Imagen&#x27; y escribe en &#x27;Descripción&#x27; exactamente qué escena, sujeto, iluminación, lente y estilo visual necesitas.</li><li>Selecciona el motor visual disponible en el menú desplegable &#x27;Modelo&#x27; según el tipo de pieza (fotorrealismo publicitario, texto integrado o concepto artístico).</li><li>Despliega &#x27;Opciones avanzadas&#x27; si necesitas ajustar relación de aspecto o parámetros adicionales de composición.</li><li>Haz clic en &#x27;Generar Imagen&#x27;, revisa los resultados en la &#x27;Galería de Imágenes Generadas&#x27; filtrando por modelo o rango de fechas y descarga o reutiliza la pieza directo en video.</li></ol>
+          </div>
+
+          <div class="dual-callouts">
+            <div class="callout-box emerald">
+              <h3><i class="fas fa-lightbulb" aria-hidden="true"></i> Ejemplos Prácticos Listos</h3>
+              <ul><li><strong>Anuncio Meta Ads de Clínica:</strong> Fotografía editorial luminosa de odontólogo sonriendo con paciente en consultorio minimalista moderno, iluminación natural de estudio, estilo cámara 50mm.</li><li><strong>Portada de Lead Magnet o B2B:</strong> Render ejecutivo azul marino y dorado de arquitectura digital en oficina corporativa panorámica de Miami al atardecer, composición limpia con espacio para titular.</li></ul>
+            </div>
+            <div class="callout-box gold">
+              <h3><i class="fas fa-bolt" aria-hidden="true"></i> Consejos Pro de Implementación</h3>
+              <ul><li>Describe siempre Sujeto + Acción + Entorno + Iluminación + Estilo visual para obtener resultados publicitarios a la primera.</li><li>Las imágenes generadas aquí quedan disponibles dentro de &#x27;Mi Galería&#x27; para animarlas después en Crear Video o Runway ML.</li></ul>
+            </div>
+          </div>
+
+          <div class="media-wrap ">
+            
+        <figure class="shot-fig">
+          <img src="{{ static_versioned('img/passportai_v4/09_imagen_ia.webp') }}"
+               alt="Generador de Imágenes IA con selector de modelo, filtros por fecha y galería inmediata." width="1280" height="771" loading="lazy" decoding="async">
+          <figcaption>Generador de Imágenes IA con selector de modelo, filtros por fecha y galería inmediata.</figcaption>
+        </figure>
+        
+            
+          </div>
+        </section>
+        
+        <section id="sec-9" tabindex="-1" class="doc-section" data-search="9 MÓDULO III · CREATIVE STUDIO Creación de Videos con Inteligencia Artificial (Texto a Video e Imagen a Video) Menú Lateral → Creative Studio → Crear Video Generador de clips cinematográficos de alta definición en dos modalidades: &#x27;Texto a Video&#x27; (a partir de descripción escrita) e &#x27;Imagen a Video&#x27; (animando cualquier fotografía de tu galería o producto) con cálculo visible de créditos antes de renderizar." aria-labelledby="sec-9-hdr">
+          <div class="sec-head">
+            <span class="mod-tag">MÓDULO III · CREATIVE STUDIO · SECCIÓN 09 DE 22</span>
+            <h2 id="sec-9-hdr">Creación de Videos con Inteligencia Artificial (Texto a Video e Imagen a Video)</h2>
+            <div class="route-bar"><i class="fas fa-compass" aria-hidden="true"></i> Ruta en plataforma: <code>Menú Lateral → Creative Studio → Crear Video</code></div>
+          </div>
+
+          <p class="sec-summary"><strong>Qué es y para qué sirve:</strong> Generador de clips cinematográficos de alta definición en dos modalidades: &#x27;Texto a Video&#x27; (a partir de descripción escrita) e &#x27;Imagen a Video&#x27; (animando cualquier fotografía de tu galería o producto) con cálculo visible de créditos antes de renderizar.</p>
+
+          <div class="steps-panel">
+            <h3><i class="fas fa-list-check" aria-hidden="true"></i> Operación Paso a Paso</h3>
+            <ol><li>Entra a &#x27;Creative Studio → Crear Video&#x27; y elige la pestaña &#x27;Texto a Video&#x27; o &#x27;Imagen a Video&#x27;.</li><li>Redacta la descripción del video detallando acción principal, movimiento de cámara, iluminación y atmósfera.</li><li>Si elegiste &#x27;Imagen a Video&#x27;, selecciona una imagen de tu galería lateral (&#x27;Mi Galería de Imágenes&#x27;) o carga una propia.</li><li>Configura en &#x27;Opciones de video&#x27; la &#x27;Duración&#x27; (ej. 4, 8 o 12 segundos), la &#x27;Resolución&#x27; / formato (horizontal 16:9 o vertical 9:16), verifica el estimado de créditos y oprime &#x27;Generar Video&#x27;.</li></ol>
+          </div>
+
+          <div class="dual-callouts">
+            <div class="callout-box emerald">
+              <h3><i class="fas fa-lightbulb" aria-hidden="true"></i> Ejemplos Prácticos Listos</h3>
+              <ul><li><strong>B-Roll para Reels y Anuncios (9:16):</strong> Plano vertical cinematográfico de cliente recibiendo asesoría en oficina moderna luminosa, cámara en travelling suave hacia adelante, luz cálida.</li><li><strong>Animar Producto o Catálogo:</strong> Sube la foto estática de tu producto o inmueble y describe: &#x27;Paneo lento de cámara hacia la derecha con destellos sutiles de luz natural por la ventana&#x27;.</li></ul>
+            </div>
+            <div class="callout-box gold">
+              <h3><i class="fas fa-bolt" aria-hidden="true"></i> Consejos Pro de Implementación</h3>
+              <ul><li>Comienza con pruebas de 4 segundos para validar composición y movimiento de cámara antes de renderizar versiones de 8 o 12 segundos.</li><li>Los videos generados se almacenan automáticamente en la parte inferior y en tu Galería Multimedia listos para el Constructor de Reels.</li></ul>
+            </div>
+          </div>
+
+          <div class="media-wrap ">
+            
+        <figure class="shot-fig">
+          <img src="{{ static_versioned('img/passportai_v4/10_video_ia.webp') }}"
+               alt="Generador de Videos IA con modos Texto a Video e Imagen a Video, duración y selector de formato." width="1280" height="810" loading="lazy" decoding="async">
+          <figcaption>Generador de Videos IA con modos Texto a Video e Imagen a Video, duración y selector de formato.</figcaption>
+        </figure>
+        
+            
+          </div>
+        </section>
+        
+        <section id="sec-10" tabindex="-1" class="doc-section" data-search="10 MÓDULO III · CREATIVE STUDIO Cine IA con Runway ML — Dirección Cinematográfica e Imagen a Video Menú Lateral → Creative Studio → Runway ML (o Tarjeta &#x27;Cine IA Runway&#x27;) Estación especializada impulsada por tecnología Runway ML para transformar imágenes estáticas o guiones visuales en secuencias cinematográficas con control granular de movimiento de cámara, relación de aspecto y galería de referencia integrada." aria-labelledby="sec-10-hdr">
+          <div class="sec-head">
+            <span class="mod-tag">MÓDULO III · CREATIVE STUDIO · SECCIÓN 10 DE 22</span>
+            <h2 id="sec-10-hdr">Cine IA con Runway ML — Dirección Cinematográfica e Imagen a Video</h2>
+            <div class="route-bar"><i class="fas fa-compass" aria-hidden="true"></i> Ruta en plataforma: <code>Menú Lateral → Creative Studio → Runway ML (o Tarjeta &#x27;Cine IA Runway&#x27;)</code></div>
+          </div>
+
+          <p class="sec-summary"><strong>Qué es y para qué sirve:</strong> Estación especializada impulsada por tecnología Runway ML para transformar imágenes estáticas o guiones visuales en secuencias cinematográficas con control granular de movimiento de cámara, relación de aspecto y galería de referencia integrada.</p>
+
+          <div class="steps-panel">
+            <h3><i class="fas fa-list-check" aria-hidden="true"></i> Operación Paso a Paso</h3>
+            <ol><li>Ingresa a &#x27;Creative Studio → Runway ML&#x27; y selecciona &#x27;Imagen a Video&#x27; o &#x27;Texto a Video&#x27;.</li><li>Sube un archivo desde tu computadora (JPG/PNG/GIF), elige una pieza existente desde &#x27;Mi Galería&#x27; o pega una URL externa.</li><li>Describe el movimiento deseado en el campo &#x27;Descripción del movimiento&#x27; (por ejemplo: zoom lento hacia adelante, hojas moviéndose con el viento o travelling lateral).</li><li>Configura el Modelo Runway disponible, Duración y Formato (Horizontal, Vertical o Cuadrado) y ejecuta la generación.</li></ol>
+          </div>
+
+          <div class="dual-callouts">
+            <div class="callout-box emerald">
+              <h3><i class="fas fa-lightbulb" aria-hidden="true"></i> Ejemplos Prácticos Listos</h3>
+              <ul><li><strong>Spot Publicitario de Alto Nivel:</strong> Toma una imagen fotorrealista generada en la Sección 8 y aplica &#x27;Movimiento lento de cámara orbitando 15 grados a la derecha con iluminación dramática de estudio&#x27;.</li><li><strong>Fondo Dinámico para VSL o Web:</strong> Anima una escena corporativa nocturna con luces sutiles en movimiento para usar como encabezado de sitio web inteligente.</li></ul>
+            </div>
+            <div class="callout-box gold">
+              <h3><i class="fas fa-bolt" aria-hidden="true"></i> Consejos Pro de Implementación</h3>
+              <ul><li>Revisa los &#x27;Consejos para Videos&#x27; en el panel derecho del módulo antes de lanzar renders largos para optimizar el consumo de créditos.</li><li>Usa imágenes bien iluminadas y nítidas sin texto superpuesto excesivo para lograr animaciones mucho más limpias.</li></ul>
+            </div>
+          </div>
+
+          <div class="media-wrap ">
+            
+        <figure class="shot-fig">
+          <img src="{{ static_versioned('img/passportai_v4/11_runway_ml.webp') }}"
+               alt="Estudio Runway ML integrado dentro del Dashboard con carga directa desde Mi Galería." width="1280" height="808" loading="lazy" decoding="async">
+          <figcaption>Estudio Runway ML integrado dentro del Dashboard con carga directa desde Mi Galería.</figcaption>
+        </figure>
+        
+            
+          </div>
+        </section>
+        
+        <section id="sec-11" tabindex="-1" class="doc-section" data-search="11 MÓDULO III · CREATIVE STUDIO Fábrica de Reels 9:16 &amp; Motion Graphics Studio (Videos Virales y Cinéticos) Menú Lateral → Creative Studio → Constructor de Reels [PRO] &amp; Motion Graphics [NUEVO] Dos estudios dedicados al formato vertical y didáctico de alta retención: &#x27;Constructor de Reels&#x27; (encuadre 9:16 1080×1920 con zonas seguras de TikTok/Reels, subtítulos dinámicos y línea de tiempo B-Roll) y &#x27;Motion Graphics Studio&#x27; (videos explicativos deterministas basados en guion con tipografía cinética y métricas animadas en 16:9 y 9:16)." aria-labelledby="sec-11-hdr">
+          <div class="sec-head">
+            <span class="mod-tag">MÓDULO III · CREATIVE STUDIO · SECCIÓN 11 DE 22</span>
+            <h2 id="sec-11-hdr">Fábrica de Reels 9:16 &amp; Motion Graphics Studio (Videos Virales y Cinéticos)</h2>
+            <div class="route-bar"><i class="fas fa-compass" aria-hidden="true"></i> Ruta en plataforma: <code>Menú Lateral → Creative Studio → Constructor de Reels [PRO] &amp; Motion Graphics [NUEVO]</code></div>
+          </div>
+
+          <p class="sec-summary"><strong>Qué es y para qué sirve:</strong> Dos estudios dedicados al formato vertical y didáctico de alta retención: &#x27;Constructor de Reels&#x27; (encuadre 9:16 1080×1920 con zonas seguras de TikTok/Reels, subtítulos dinámicos y línea de tiempo B-Roll) y &#x27;Motion Graphics Studio&#x27; (videos explicativos deterministas basados en guion con tipografía cinética y métricas animadas en 16:9 y 9:16).</p>
+
+          <div class="steps-panel">
+            <h3><i class="fas fa-list-check" aria-hidden="true"></i> Operación Paso a Paso</h3>
+            <ol><li>Para Reels y Shorts: abre &#x27;Constructor de Reels&#x27;, sube un video grabado con tu celular o importa un clip de &#x27;Mis Videos de IA&#x27;, ajusta el zoom/encuadre en 9:16 respetando las guías de zona segura y avanza por las 4 pestañas: Encuadre → Subtítulos → B-Roll &amp; Assets → Exportar.</li><li>Para Videos Explicativos y Métricas: abre &#x27;Motion Graphics&#x27;, ponle título al proyecto y elige formato 16:9 (YouTube/Webinars) o 9:16 (Reels/TikTok).</li><li>Pega el guion generado previamente en el Sprint de Contenido (Sección 5) y haz clic en &#x27;Planificar Escenas con IA&#x27; para desglosar los beats narrativos y renderizar el video cinético.</li></ol>
+          </div>
+
+          <div class="dual-callouts">
+            <div class="callout-box emerald">
+              <h3><i class="fas fa-lightbulb" aria-hidden="true"></i> Ejemplos Prácticos Listos</h3>
+              <ul><li><strong>Video Comercial sin Salir en Cámara (Faceless):</strong> Pega un guion de 45 segundos en Motion Graphics Studio en formato 9:16, genera las escenas animadas y añade voz de ElevenLabs para producir un anuncio completo sin cámara.</li><li><strong>Reel de Autoridad con Celular:</strong> Graba 45 segundos verticales leyendo tu Hook/Guion/CTA, súbelo al Constructor de Reels, agrega subtítulos seguros que no queden tapados por los botones de Instagram y exporta en 1080×1920.</li></ul>
+            </div>
+            <div class="callout-box gold">
+              <h3><i class="fas fa-bolt" aria-hidden="true"></i> Consejos Pro de Implementación</h3>
+              <ul><li>Activa siempre la superposición de &#x27;Zonas seguras TikTok / Reels&#x27; para evitar que la descripción o los botones de Like tapen tus subtítulos.</li><li>Combina Motion Graphics en 16:9 para insertar clips de 30 segundos explicando tu oferta dentro de páginas web o presentaciones de cierre.</li></ul>
+            </div>
+          </div>
+
+          <div class="media-wrap ">
+            
+        <figure class="shot-fig">
+          <img src="{{ static_versioned('img/passportai_v4/16_galeria.webp') }}"
+               alt="Ecosistema audiovisual unificado con videos verticales, piezas cinematográficas y repositorio central." width="1280" height="700" loading="lazy" decoding="async">
+          <figcaption>Ecosistema audiovisual unificado con videos verticales, piezas cinematográficas y repositorio central.</figcaption>
+        </figure>
+        
+            
+          </div>
+        </section>
+        
+        <section id="sec-12" tabindex="-1" class="doc-section" data-search="12 MÓDULO III · CREATIVE STUDIO Generación de Audio y Clonación de Voz (ElevenLabs Audio &amp; Clonar Voz) Menú Lateral → Creative Studio → ElevenLabs Audio &amp; Clonar Voz Motor de síntesis de voz hiperrealista impulsado por ElevenLabs con amplio catálogo de voces por idioma, género, edad y estilo, más herramienta dedicada para clonar tu propia voz comercial a partir de muestras limpias de audio." aria-labelledby="sec-12-hdr">
+          <div class="sec-head">
+            <span class="mod-tag">MÓDULO III · CREATIVE STUDIO · SECCIÓN 12 DE 22</span>
+            <h2 id="sec-12-hdr">Generación de Audio y Clonación de Voz (ElevenLabs Audio &amp; Clonar Voz)</h2>
+            <div class="route-bar"><i class="fas fa-compass" aria-hidden="true"></i> Ruta en plataforma: <code>Menú Lateral → Creative Studio → ElevenLabs Audio &amp; Clonar Voz</code></div>
+          </div>
+
+          <p class="sec-summary"><strong>Qué es y para qué sirve:</strong> Motor de síntesis de voz hiperrealista impulsado por ElevenLabs con amplio catálogo de voces por idioma, género, edad y estilo, más herramienta dedicada para clonar tu propia voz comercial a partir de muestras limpias de audio.</p>
+
+          <div class="steps-panel">
+            <h3><i class="fas fa-list-check" aria-hidden="true"></i> Operación Paso a Paso</h3>
+            <ol><li>Para locución instantánea (ElevenLabs Audio): escribe o pega el texto/guion en el área superior, selecciona una voz desde el catálogo filtrando por idioma, género, edad o categoría, escucha el &#x27;Preview de la voz&#x27; y oprime &#x27;Generar Audio&#x27;.</li><li>Para clonar tu voz (Clonar Voz): entra a &#x27;Creative Studio → Clonar Voz&#x27;, asigna el &#x27;Nombre de la voz&#x27;, especifica el idioma (&#x27;es&#x27;, &#x27;en&#x27;, etc.), redacta una breve descripción y sube 1 o más muestras claras en audio sin ruido de fondo ni música.</li><li>Presiona &#x27;Crear voz&#x27;: tu clon quedará listado en &#x27;Mis voces disponibles&#x27; para locutar guiones o responder en narraciones automáticamente.</li></ol>
+          </div>
+
+          <div class="dual-callouts">
+            <div class="callout-box emerald">
+              <h3><i class="fas fa-lightbulb" aria-hidden="true"></i> Ejemplos Prácticos Listos</h3>
+              <ul><li><strong>Narración de Podcasts y Anuncios:</strong> Convierte los resúmenes ejecutivos de NotebookLM en locuciones listas para Spotify, YouTube o anuncios de voz en cuestión de segundos.</li><li><strong>Clonación del Fundador o Doctor:</strong> Graba 2 minutos leyendo claramente con el micrófono del teléfono en una habitación silenciosa para clonar tu timbre y generar docenas de locuciones al mes sin volver al estudio.</li></ul>
+            </div>
+            <div class="callout-box gold">
+              <h3><i class="fas fa-bolt" aria-hidden="true"></i> Consejos Pro de Implementación</h3>
+              <ul><li>Usa puntos, comas y signos de exclamación con intención en el texto: el motor respeta las pausas naturales del guion.</li><li>En &#x27;Clonar Voz&#x27;, utiliza únicamente audios propios o con autorización expresa del locutor.</li></ul>
+            </div>
+          </div>
+
+          <div class="media-wrap ">
+            
+        <figure class="shot-fig">
+          <img src="{{ static_versioned('img/passportai_v4/12_audio_elevenlabs.webp') }}"
+               alt="Consola ElevenLabs Audio con filtros de voces, vista previa integrada y generación en 1 clic." width="1276" height="785" loading="lazy" decoding="async">
+          <figcaption>Consola ElevenLabs Audio con filtros de voces, vista previa integrada y generación en 1 clic.</figcaption>
+        </figure>
+        
+            
+          </div>
+        </section>
+        
+        <section id="sec-13" tabindex="-1" class="doc-section" data-search="13 MÓDULO III · CREATIVE STUDIO Presentadores Virtuales con Avatares Hiperrealistas (HeyGen Video &amp; Mis Avatares) Menú Lateral → Creative Studio → HeyGen Video &amp; Mis Avatares Estudio completo para crear videos de presentadores profesionales hablando a cámara en varios idiomas sin necesidad de grabar físicamente: incluye biblioteca de +1,287 avatares y +2,385 voces ajustables en velocidad y tono (pitch), además de gestión de avatares personalizados." aria-labelledby="sec-13-hdr">
+          <div class="sec-head">
+            <span class="mod-tag">MÓDULO III · CREATIVE STUDIO · SECCIÓN 13 DE 22</span>
+            <h2 id="sec-13-hdr">Presentadores Virtuales con Avatares Hiperrealistas (HeyGen Video &amp; Mis Avatares)</h2>
+            <div class="route-bar"><i class="fas fa-compass" aria-hidden="true"></i> Ruta en plataforma: <code>Menú Lateral → Creative Studio → HeyGen Video &amp; Mis Avatares</code></div>
+          </div>
+
+          <p class="sec-summary"><strong>Qué es y para qué sirve:</strong> Estudio completo para crear videos de presentadores profesionales hablando a cámara en varios idiomas sin necesidad de grabar físicamente: incluye biblioteca de +1,287 avatares y +2,385 voces ajustables en velocidad y tono (pitch), además de gestión de avatares personalizados.</p>
+
+          <div class="steps-panel">
+            <h3><i class="fas fa-list-check" aria-hidden="true"></i> Operación Paso a Paso</h3>
+            <ol><li>Abre &#x27;Creative Studio → HeyGen Video&#x27; y redacta el guion (hasta 2,000 caracteres por toma) en el recuadro &#x27;Texto para el video&#x27;.</li><li>Selecciona un presentador en el listado de Avatares (puedes filtrar por nombre o género y previsualizar el movimiento pasando el cursor en &#x27;Previsualización de Avatares&#x27;).</li><li>Elige la voz (por idioma/género/timbre) y ajusta finamente &#x27;Velocidad de la voz&#x27; (0.5x a 1.5x) y &#x27;Tono de la voz / Pitch&#x27;.</li><li>Haz clic en &#x27;Generar Video&#x27;; consulta el progreso o reutiliza tus presentadores propios en la pestaña &#x27;Mis Avatares&#x27;.</li></ol>
+          </div>
+
+          <div class="dual-callouts">
+            <div class="callout-box emerald">
+              <h3><i class="fas fa-lightbulb" aria-hidden="true"></i> Ejemplos Prácticos Listos</h3>
+              <ul><li><strong>Video de Bienvenida en Sitio Web:</strong> Crea un video de 45 segundos con un avatar ejecutivo dando la bienvenida a tu estudio jurídico, inmobiliaria o clínica y explicando cómo agendar en 1 clic.</li><li><strong>Anuncios Multilingües desde Miami:</strong> Graba o redacta la misma oferta comercial en español e inglés usando el mismo presentador corporativo para expandir campañas a EE. UU. sin contratar actores.</li></ul>
+            </div>
+            <div class="callout-box gold">
+              <h3><i class="fas fa-bolt" aria-hidden="true"></i> Consejos Pro de Implementación</h3>
+              <ul><li>Activa el interruptor &#x27;Reproducir video al pasar el mouse&#x27; para evaluar gestos y postura del avatar antes de renderizar.</li><li>Mantén los bloques entre 600 y 1,200 caracteres (35 a 60 segundos) para mantener alta retención en anuncios y cursos.</li></ul>
+            </div>
+          </div>
+
+          <div class="media-wrap ">
+            
+        <figure class="shot-fig">
+          <img src="{{ static_versioned('img/passportai_v4/14_heygen_avatares.webp') }}"
+               alt="Estudio HeyGen integrado con 1,287 avatares, 2,385 voces, control de velocidad/pitch y vista previa." width="1280" height="775" loading="lazy" decoding="async">
+          <figcaption>Estudio HeyGen integrado con 1,287 avatares, 2,385 voces, control de velocidad/pitch y vista previa.</figcaption>
+        </figure>
+        
+            
+          </div>
+        </section>
+        
+        <section id="sec-14" tabindex="-1" class="doc-section" data-search="14 MÓDULO III · CREATIVE STUDIO Subtítulos Automáticos y Transcripción con IA (Subtítulos IA) Menú Lateral → Herramientas → Subtítulos IA (y Creative Studio → Subtítulos IA) Herramienta de transcripción profesional Speech-to-Text con detección automática de idioma, identificación de hablantes (diarización), capítulos automáticos, análisis de sentimiento, detección de entidades y cálculo transparente de costo previo antes de procesar." aria-labelledby="sec-14-hdr">
+          <div class="sec-head">
+            <span class="mod-tag">MÓDULO III · CREATIVE STUDIO · SECCIÓN 14 DE 22</span>
+            <h2 id="sec-14-hdr">Subtítulos Automáticos y Transcripción con IA (Subtítulos IA)</h2>
+            <div class="route-bar"><i class="fas fa-compass" aria-hidden="true"></i> Ruta en plataforma: <code>Menú Lateral → Herramientas → Subtítulos IA (y Creative Studio → Subtítulos IA)</code></div>
+          </div>
+
+          <p class="sec-summary"><strong>Qué es y para qué sirve:</strong> Herramienta de transcripción profesional Speech-to-Text con detección automática de idioma, identificación de hablantes (diarización), capítulos automáticos, análisis de sentimiento, detección de entidades y cálculo transparente de costo previo antes de procesar.</p>
+
+          <div class="steps-panel">
+            <h3><i class="fas fa-list-check" aria-hidden="true"></i> Operación Paso a Paso</h3>
+            <ol><li>Entra a &#x27;Subtítulos IA&#x27; y arrastra tu archivo multimedia (soporta MP4, AVI, MOV, MP3, WAV y FLAC hasta 100 MB).</li><li>En &#x27;Configuración de Transcripción&#x27;, deja &#x27;Detección automática&#x27; o fija el idioma exacto del audio.</li><li>Marca las casillas opcionales según tu objetivo: &#x27;Identificar hablantes&#x27; (ideal para entrevistas/podcast), &#x27;Capítulos automáticos&#x27;, &#x27;Análisis de Sentimiento&#x27; o &#x27;Detección de entidades&#x27;.</li><li>Revisa la duración y costo estimado en el panel derecho, haz clic en &#x27;Generar Subtítulos&#x27; y descarga el texto o subtítulos listos (y limpia temporales tras descargar).</li></ol>
+          </div>
+
+          <div class="dual-callouts">
+            <div class="callout-box emerald">
+              <h3><i class="fas fa-lightbulb" aria-hidden="true"></i> Ejemplos Prácticos Listos</h3>
+              <ul><li><strong>Minutas de Reuniones B2B o Ventas:</strong> Sube el audio de una llamada Zoom con un prospecto marcando &#x27;Identificar hablantes&#x27; y pasa el texto limpio al Chat IA para extraer acuerdos y tareas en CRM.</li><li><strong>Subtítulos para Cursos y Reels:</strong> Genera transcripciones precisas en español o inglés y tradúcelas para reciclar tus videos en mercados internacionales.</li></ul>
+            </div>
+            <div class="callout-box gold">
+              <h3><i class="fas fa-bolt" aria-hidden="true"></i> Consejos Pro de Implementación</h3>
+              <ul><li>Limpia archivos temporales después de descargar tus subtítulos o transcripciones para mantener ordenada tu cuota de almacenamiento.</li><li>Para subtítulos visuales quemados con estilo viral de redes sociales, apóyate también en el Constructor de Reels (Sección 11).</li></ul>
+            </div>
+          </div>
+
+          <div class="media-wrap ">
+            
+        <figure class="shot-fig">
+          <img src="{{ static_versioned('img/passportai_v4/15_subtitulos_ia.webp') }}"
+               alt="Panel de Subtítulos IA con diarización de hablantes, capítulos automáticos y estimación de costo previa." width="1280" height="786" loading="lazy" decoding="async">
+          <figcaption>Panel de Subtítulos IA con diarización de hablantes, capítulos automáticos y estimación de costo previa.</figcaption>
+        </figure>
+        
+            
+          </div>
+        </section>
+        
+        <section id="sec-15" tabindex="-1" class="doc-section" data-search="15 MÓDULO III · CREATIVE STUDIO Galería Multimedia Centralizada y Galería de Stock (Mis Creaciones) Menú Lateral → Galería Multimedia (y Recursos &amp; Ayuda → Mis Creaciones / Galería de Stock) Repositorio unificado donde se indexan todas las imágenes, videos y audios producidos en tus distintos estudios de IA, con pestañas por formato (&#x27;Todas&#x27;, &#x27;Imágenes&#x27;, &#x27;Audio&#x27;, &#x27;Video&#x27;), filtros por modelo/rango de fechas y acceso paralelo a tu Galería de Stock." aria-labelledby="sec-15-hdr">
+          <div class="sec-head">
+            <span class="mod-tag">MÓDULO III · CREATIVE STUDIO · SECCIÓN 15 DE 22</span>
+            <h2 id="sec-15-hdr">Galería Multimedia Centralizada y Galería de Stock (Mis Creaciones)</h2>
+            <div class="route-bar"><i class="fas fa-compass" aria-hidden="true"></i> Ruta en plataforma: <code>Menú Lateral → Galería Multimedia (y Recursos &amp; Ayuda → Mis Creaciones / Galería de Stock)</code></div>
+          </div>
+
+          <p class="sec-summary"><strong>Qué es y para qué sirve:</strong> Repositorio unificado donde se indexan todas las imágenes, videos y audios producidos en tus distintos estudios de IA, con pestañas por formato (&#x27;Todas&#x27;, &#x27;Imágenes&#x27;, &#x27;Audio&#x27;, &#x27;Video&#x27;), filtros por modelo/rango de fechas y acceso paralelo a tu Galería de Stock.</p>
+
+          <div class="steps-panel">
+            <h3><i class="fas fa-list-check" aria-hidden="true"></i> Operación Paso a Paso</h3>
+            <ol><li>Haz clic en &#x27;Galería Multimedia&#x27; en el menú principal izquierdo (o en &#x27;Recursos &amp; Ayuda → Mis Creaciones&#x27;).</li><li>Utiliza las pestañas superiores derechas (&#x27;Todas&#x27;, &#x27;Imágenes&#x27;, &#x27;Audio&#x27;, &#x27;Video&#x27;) para aislar rápidamente el tipo de activo.</li><li>Filtra por nombre de modelo o rango de fechas (&#x27;Desde / Hasta&#x27;) y presiona &#x27;Filtrar&#x27; cuando busques producciones de una campaña anterior.</li><li>Descarga, reproduce o reutiliza cualquier imagen en Runway ML / Crear Video; complementa con &#x27;Galería de Stock&#x27; si buscas visuales base listos.</li></ol>
+          </div>
+
+          <div class="dual-callouts">
+            <div class="callout-box emerald">
+              <h3><i class="fas fa-lightbulb" aria-hidden="true"></i> Ejemplos Prácticos Listos</h3>
+              <ul><li><strong>Banco de Activos para Campañas Mensuales:</strong> Al cierre de la semana, filtra por &#x27;Video&#x27; + los últimos 7 días y descarga en bloque las piezas aprobadas para el equipo de pauta Meta Ads.</li><li><strong>Consistencia de Campaña Visual:</strong> Recupera imágenes aprobadas en semanas pasadas para generar variantes de movimiento o nuevos anuncios sin perder línea gráfica.</li></ul>
+            </div>
+            <div class="callout-box gold">
+              <h3><i class="fas fa-bolt" aria-hidden="true"></i> Consejos Pro de Implementación</h3>
+              <ul><li>Cada pieza muestra claramente la fecha, formato (icono cámara, foto o nota musical) y motor utilizado para auditoría rápida de calidad.</li></ul>
+            </div>
+          </div>
+
+          <div class="media-wrap ">
+            
+        <figure class="shot-fig">
+          <img src="{{ static_versioned('img/passportai_v4/16_galeria.webp') }}"
+               alt="Galería Multimedia filtrable por formato (Imágenes, Audio, Video), modelo y rango de fechas." width="1280" height="700" loading="lazy" decoding="async">
+          <figcaption>Galería Multimedia filtrable por formato (Imágenes, Audio, Video), modelo y rango de fechas.</figcaption>
+        </figure>
+        
+            
+          </div>
+        </section>
+        
+        <section id="sec-16" tabindex="-1" class="doc-section" data-search="16 MÓDULO IV · FORMACIÓN, CUENTA Y SOPORTE Tutor de Idiomas Interactivo con IA (Texto + Audio en 11 Idiomas) Menú Lateral → Herramientas → Tutor de Idiomas (y Asistentes LLM → Tutor de Idiomas) Entrenador conversacional personalizado para equipos ejecutivos, vendedores y estudiantes que necesitan dominar inglés, portugués, francés, alemán, italiano, japonés, chino y otros idiomas a su ritmo con respuesta de audio natural y correcciones al instante." aria-labelledby="sec-16-hdr">
+          <div class="sec-head">
+            <span class="mod-tag">MÓDULO IV · FORMACIÓN, CUENTA Y SOPORTE · SECCIÓN 16 DE 22</span>
+            <h2 id="sec-16-hdr">Tutor de Idiomas Interactivo con IA (Texto + Audio en 11 Idiomas)</h2>
+            <div class="route-bar"><i class="fas fa-compass" aria-hidden="true"></i> Ruta en plataforma: <code>Menú Lateral → Herramientas → Tutor de Idiomas (y Asistentes LLM → Tutor de Idiomas)</code></div>
+          </div>
+
+          <p class="sec-summary"><strong>Qué es y para qué sirve:</strong> Entrenador conversacional personalizado para equipos ejecutivos, vendedores y estudiantes que necesitan dominar inglés, portugués, francés, alemán, italiano, japonés, chino y otros idiomas a su ritmo con respuesta de audio natural y correcciones al instante.</p>
+
+          <div class="steps-panel">
+            <h3><i class="fas fa-list-check" aria-hidden="true"></i> Operación Paso a Paso</h3>
+            <ol><li>Abre &#x27;Tutor de Idiomas&#x27; desde el menú &#x27;Asistentes LLM&#x27; o &#x27;Herramientas&#x27;.</li><li>Elige &#x27;Tu idioma nativo&#x27; (ej. Español), define tu &#x27;Nivel&#x27; (Básico, Intermedio o Avanzado) y activa el interruptor &#x27;Respuesta con audio&#x27; para entrenar oído y pronunciación.</li><li>Selecciona la tarjeta del idioma objetivo (ej. English o Português) y haz clic en &#x27;Iniciar&#x27;.</li><li>Conversa por texto o micrófono aplicando los consejos rápidos laterales: habla de temas cotidianos o reuniones comerciales, pide correcciones gramaticales y escucha las respuestas en voz.</li></ol>
+          </div>
+
+          <div class="dual-callouts">
+            <div class="callout-box emerald">
+              <h3><i class="fas fa-lightbulb" aria-hidden="true"></i> Ejemplos Prácticos Listos</h3>
+              <ul><li><strong>Preparar un Pitch B2B en Inglés (Miami):</strong> Configura idioma objetivo &#x27;English&#x27; + nivel &#x27;Intermedio&#x27; y pídele: &#x27;Simulemos una llamada comercial de 5 minutos donde yo soy consultor IA y tú el gerente de una clínica en Florida. Corrige mis errores al final&#x27;.</li><li><strong>Expansión Regional hacia Brasil:</strong> Entrena expresiones comerciales clave en &#x27;Português&#x27; con respuesta en audio antes de atender reuniones con prospectos brasileños.</li></ul>
+            </div>
+            <div class="callout-box gold">
+              <h3><i class="fas fa-bolt" aria-hidden="true"></i> Consejos Pro de Implementación</h3>
+              <ul><li>Activa siempre &#x27;Respuesta con audio&#x27; si estás mejorando acento comercial y fluidez auditiva para llamadas por Zoom.</li></ul>
+            </div>
+          </div>
+
+          <div class="media-wrap ">
+            
+        <figure class="shot-fig">
+          <img src="{{ static_versioned('img/passportai_v4/17_tutor_idiomas.webp') }}"
+               alt="Tutor de Idiomas con selección de idioma nativo, nivel, 11 idiomas objetivo y respuesta con audio." width="1280" height="792" loading="lazy" decoding="async">
+          <figcaption>Tutor de Idiomas con selección de idioma nativo, nivel, 11 idiomas objetivo y respuesta con audio.</figcaption>
+        </figure>
+        
+            
+          </div>
+        </section>
+        
+        <section id="sec-17" tabindex="-1" class="doc-section" data-search="17 MÓDULO IV · FORMACIÓN, CUENTA Y SOPORTE Novedades y Bitácora de Evolución de la Plataforma (Changelog) Menú Lateral → Novedades (con insignia roja de nuevas actualizaciones) Bitácora cronológica transparente dentro del sistema donde el equipo de ingeniería documenta cada nueva versión, nuevo motor audiovisual, mejoras de velocidad, integraciones CRM y guías rápidas de lanzamiento." aria-labelledby="sec-17-hdr">
+          <div class="sec-head">
+            <span class="mod-tag">MÓDULO IV · FORMACIÓN, CUENTA Y SOPORTE · SECCIÓN 17 DE 22</span>
+            <h2 id="sec-17-hdr">Novedades y Bitácora de Evolución de la Plataforma (Changelog)</h2>
+            <div class="route-bar"><i class="fas fa-compass" aria-hidden="true"></i> Ruta en plataforma: <code>Menú Lateral → Novedades (con insignia roja de nuevas actualizaciones)</code></div>
+          </div>
+
+          <p class="sec-summary"><strong>Qué es y para qué sirve:</strong> Bitácora cronológica transparente dentro del sistema donde el equipo de ingeniería documenta cada nueva versión, nuevo motor audiovisual, mejoras de velocidad, integraciones CRM y guías rápidas de lanzamiento.</p>
+
+          <div class="steps-panel">
+            <h3><i class="fas fa-list-check" aria-hidden="true"></i> Operación Paso a Paso</h3>
+            <ol><li>Observa el indicador numérico junto a &#x27;Novedades&#x27; en el menú izquierdo cada vez que ingresas a PassportAI.app.</li><li>Haz clic en &#x27;Novedades&#x27; para abrir las tarjetas de lanzamiento ordenadas por fecha y número de versión (ej. Generadores de Video, Motion Graphics, Chatbots 24/7, Suite de Constructores).</li><li>Revisa los boletines &#x27;Características disponibles&#x27; y sigue el acceso directo inferior (ej. &#x27;Explora la nueva sección...&#x27;) para probar inmediatamente la nueva capacidad.</li></ol>
+          </div>
+
+          <div class="dual-callouts">
+            <div class="callout-box emerald">
+              <h3><i class="fas fa-lightbulb" aria-hidden="true"></i> Ejemplos Prácticos Listos</h3>
+              <ul><li><strong>Reunión Semanal de Equipo:</strong> Revisa los viernes la sección &#x27;Novedades&#x27; durante 5 minutos con tus closers o editores para aprovechar las funciones recién liberadas antes que la competencia.</li></ul>
+            </div>
+            <div class="callout-box gold">
+              <h3><i class="fas fa-bolt" aria-hidden="true"></i> Consejos Pro de Implementación</h3>
+              <ul><li>Gracias al ciclo de ingeniería continua del equipo en EE. UU., México y Argentina, la plataforma recibe mejoras constantes sin instalaciones ni cobros extra por actualización.</li></ul>
+            </div>
+          </div>
+
+          <div class="media-wrap ">
+            
+        <figure class="shot-fig">
+          <img src="{{ static_versioned('img/passportai_v4/18_novedades.webp') }}"
+               alt="Sección Novedades detallando capacidades recién liberadas y acceso directo al módulo." width="1130" height="741" loading="lazy" decoding="async">
+          <figcaption>Sección Novedades detallando capacidades recién liberadas y acceso directo al módulo.</figcaption>
+        </figure>
+        
+            
+          </div>
+        </section>
+        
+        <section id="sec-18" tabindex="-1" class="doc-section" data-search="18 MÓDULO IV · FORMACIÓN, CUENTA Y SOPORTE Videotutoriales, Presentación de Novedades y Centro de Aprendizaje Menú Lateral → Recursos &amp; Ayuda → Videotutoriales / Presentación Novedades / Manual PDF Academia integrada dentro de la propia aplicación con lecciones en video grabadas paso a paso para dominar cada módulo en minutos, presentación ejecutiva interactiva de funcionalidades y descarga directa de este Manual Maestro PDF." aria-labelledby="sec-18-hdr">
+          <div class="sec-head">
+            <span class="mod-tag">MÓDULO IV · FORMACIÓN, CUENTA Y SOPORTE · SECCIÓN 18 DE 22</span>
+            <h2 id="sec-18-hdr">Videotutoriales, Presentación de Novedades y Centro de Aprendizaje</h2>
+            <div class="route-bar"><i class="fas fa-compass" aria-hidden="true"></i> Ruta en plataforma: <code>Menú Lateral → Recursos &amp; Ayuda → Videotutoriales / Presentación Novedades / Manual PDF</code></div>
+          </div>
+
+          <p class="sec-summary"><strong>Qué es y para qué sirve:</strong> Academia integrada dentro de la propia aplicación con lecciones en video grabadas paso a paso para dominar cada módulo en minutos, presentación ejecutiva interactiva de funcionalidades y descarga directa de este Manual Maestro PDF.</p>
+
+          <div class="steps-panel">
+            <h3><i class="fas fa-list-check" aria-hidden="true"></i> Operación Paso a Paso</h3>
+            <ol><li>Desde el propio Dashboard inicial (&#x27;Aprende a usar la plataforma&#x27;) o desde &#x27;Recursos &amp; Ayuda → Videotutoriales&#x27;, haz clic en &#x27;&gt; Ver tutorial&#x27; en la lección que necesites.</li><li>Capacita a nuevos miembros de tu empresa asignándoles el orden básico: Introducción → Cómo usar el Chat → Estudio de Imágenes → Chatbots &amp; Constructores.</li><li>Accede a &#x27;Presentación Novedades&#x27; cuando quieras mostrar en pantalla la arquitectura visual a un socio o cliente, o descarga el último &#x27;Manual PDF&#x27; en 1 clic.</li></ol>
+          </div>
+
+          <div class="dual-callouts">
+            <div class="callout-box emerald">
+              <h3><i class="fas fa-lightbulb" aria-hidden="true"></i> Ejemplos Prácticos Listos</h3>
+              <ul><li><strong>Onboarding de Empleados en 48 Horas:</strong> Entrega a tu nueva recepcionista o community manager su acceso a PassportAI junto con la lista de 4 videotutoriales iniciales para evitar capacitación repetitiva.</li></ul>
+            </div>
+            <div class="callout-box gold">
+              <h3><i class="fas fa-bolt" aria-hidden="true"></i> Consejos Pro de Implementación</h3>
+              <ul><li>La sección está optimizada para resolver dudas rápidas en video de pocos minutos mientras mantienes otra pestaña abierta practicando.</li></ul>
+            </div>
+          </div>
+
+          <div class="media-wrap ">
+            
+        <figure class="shot-fig">
+          <img src="{{ static_versioned('img/passportai_v4/19_tutoriales.webp') }}"
+               alt="Centro de Videotutoriales y aprendizaje práctico integrado dentro de Central Passport AI." width="1280" height="786" loading="lazy" decoding="async">
+          <figcaption>Centro de Videotutoriales y aprendizaje práctico integrado dentro de Central Passport AI.</figcaption>
+        </figure>
+        
+            
+          </div>
+        </section>
+        
+        <section id="sec-19" tabindex="-1" class="doc-section" data-search="19 MÓDULO IV · FORMACIÓN, CUENTA Y SOPORTE Panel de Administración de Cuenta, Planes y Recarga de Créditos Barra Superior Derecha → Usuario (Mi Perfil) / Indicador de Plan &amp; Créditos → Configuración de Perfil Centro financiero y de seguridad personal donde gestionas tus datos, revisas el consumo exacto de créditos, cambias o actualizas de plan (desde entrada masiva Free y Pro US$19/mes hasta Agente Custom/CRM Starter US$99/mes y Pack Anual / Vitalicio US$990) y compras paquetes adicionales de créditos sin cambiar tu suscripción." aria-labelledby="sec-19-hdr">
+          <div class="sec-head">
+            <span class="mod-tag">MÓDULO IV · FORMACIÓN, CUENTA Y SOPORTE · SECCIÓN 19 DE 22</span>
+            <h2 id="sec-19-hdr">Panel de Administración de Cuenta, Planes y Recarga de Créditos</h2>
+            <div class="route-bar"><i class="fas fa-compass" aria-hidden="true"></i> Ruta en plataforma: <code>Barra Superior Derecha → Usuario (Mi Perfil) / Indicador de Plan &amp; Créditos → Configuración de Perfil</code></div>
+          </div>
+
+          <p class="sec-summary"><strong>Qué es y para qué sirve:</strong> Centro financiero y de seguridad personal donde gestionas tus datos, revisas el consumo exacto de créditos, cambias o actualizas de plan (desde entrada masiva Free y Pro US$19/mes hasta Agente Custom/CRM Starter US$99/mes y Pack Anual / Vitalicio US$990) y compras paquetes adicionales de créditos sin cambiar tu suscripción.</p>
+
+          <div class="steps-panel">
+            <h3><i class="fas fa-list-check" aria-hidden="true"></i> Operación Paso a Paso</h3>
+            <ol><li>Haz clic en tu nombre en la esquina superior derecha y entra a &#x27;Perfil / Mi Perfil&#x27; para visualizar la tarjeta &#x27;Plan Actual&#x27; y la tarjeta &#x27;Créditos&#x27;.</li><li>Revisa tu &#x27;Saldo disponible&#x27;, &#x27;Total consumido&#x27; y pulsa &#x27;Ver historial&#x27; para auditar en qué herramientas se invirtieron tus créditos.</li><li>Pulsa &#x27;Cambiar plan&#x27; o &#x27;Ver planes&#x27; para escalar entre Free ($0 / 5 cr), Pro ($19/mes / 19 cr), Formación ($49/mes / 49 cr), Agente Custom ($99/mes / 99 cr + ecosistema CRM) o Licencia Vitalicia / Anual ($990).</li><li>Si necesitas potencia extra puntual sin cambiar de nivel mensual, pulsa &#x27;Comprar créditos&#x27; y elige Pack Starter ($9.00), Pack Pro ($19.00) o Pack Growth ($39.00). También puedes gestionar tu clave en la pestaña &#x27;Seguridad&#x27;.</li></ol>
+          </div>
+
+          <div class="dual-callouts">
+            <div class="callout-box emerald">
+              <h3><i class="fas fa-lightbulb" aria-hidden="true"></i> Ejemplos Prácticos Listos</h3>
+              <ul><li><strong>Escalamiento Ordenado:</strong> Un negocio comienza validando sus primeros guiones y bots con el Plan Pro ($19/mes) o Formación ($49/mes) y evoluciona al ecosistema conectado con ProsperIA CRM Starter ($99/mes) o Pack Anual ($990).</li><li><strong>Producción Audiovisual Intensa:</strong> Durante una semana de lanzamiento de videos o HeyGen, recarga un Pack Growth de $39 sin modificar tu cuota fija mensual.</li></ul>
+            </div>
+            <div class="callout-box gold">
+              <h3><i class="fas fa-bolt" aria-hidden="true"></i> Consejos Pro de Implementación</h3>
+              <ul><li>Antes de generar videos largos o investigaciones extensas, consulta el indicador de créditos disponible arriba a la derecha.</li><li>Las pasarelas operan de manera cifrada con control inmediato de saldo tras el pago.</li></ul>
+            </div>
+          </div>
+
+          <div class="media-wrap two-up">
+            
+        <figure class="shot-fig">
+          <img src="{{ static_versioned('img/passportai_v4/20_admin_perfil.webp') }}"
+               alt="Configuración de Perfil con Plan Actual, Créditos disponibles, Paquetes de recarga y Seguridad." width="1251" height="771" loading="lazy" decoding="async">
+          <figcaption>Configuración de Perfil con Plan Actual, Créditos disponibles, Paquetes de recarga y Seguridad.</figcaption>
+        </figure>
+        
+            
+            <figure class="shot-fig" style="max-width:460px; margin-top:1rem;">
+              <img src="{{ static_versioned('img/passportai_v4/21_planes.webp') }}"
+                   alt="Planes y créditos en Central Passport AI" width="1280" height="1196" loading="lazy" decoding="async">
+              <figcaption>Selector de planes y créditos dentro de Central Passport AI.</figcaption>
+            </figure>
+            
+          </div>
+        </section>
+        
+        <section id="sec-20" tabindex="-1" class="doc-section" data-search="20 MÓDULO IV · FORMACIÓN, CUENTA Y SOPORTE Personalización Visual — Los 4 Temas de Interfaz Barra Superior Derecha → &#x27;Tema&#x27; (o Sección &#x27;Tema&#x27; al pie del Menú Lateral) Selector instantáneo de apariencia visual diseñado para trabajar sin fatiga ocular en jornadas cortas o largas de oficina, noche o campo: Oscuro, Claro, Ultravioleta y Ocean." aria-labelledby="sec-20-hdr">
+          <div class="sec-head">
+            <span class="mod-tag">MÓDULO IV · FORMACIÓN, CUENTA Y SOPORTE · SECCIÓN 20 DE 22</span>
+            <h2 id="sec-20-hdr">Personalización Visual — Los 4 Temas de Interfaz</h2>
+            <div class="route-bar"><i class="fas fa-compass" aria-hidden="true"></i> Ruta en plataforma: <code>Barra Superior Derecha → &#x27;Tema&#x27; (o Sección &#x27;Tema&#x27; al pie del Menú Lateral)</code></div>
+          </div>
+
+          <p class="sec-summary"><strong>Qué es y para qué sirve:</strong> Selector instantáneo de apariencia visual diseñado para trabajar sin fatiga ocular en jornadas cortas o largas de oficina, noche o campo: Oscuro, Claro, Ultravioleta y Ocean.</p>
+
+          <div class="steps-panel">
+            <h3><i class="fas fa-list-check" aria-hidden="true"></i> Operación Paso a Paso</h3>
+            <ol><li>Ubica el selector &#x27;Tema&#x27; en la barra superior (junto al selector de idioma) o en la parte inferior del menú lateral.</li><li>Haz clic y selecciona cualquiera de los 4 estilos disponibles: Oscuro (contraste nocturno profundo), Claro (limpio de día), Ultravioleta (enfoque creativo) u Ocean (azul ejecutivo).</li><li>La interfaz se adapta al instante conservando tu sesión y conversación intactas sin recargar tu trabajo.</li></ol>
+          </div>
+
+          <div class="dual-callouts">
+            <div class="callout-box emerald">
+              <h3><i class="fas fa-lightbulb" aria-hidden="true"></i> Ejemplos Prácticos Listos</h3>
+              <ul><li><strong>Demos en Sala o Zoom vs. Trabajo Nocturno:</strong> Usa el tema Claro durante demos de escritorio en oficinas con mucha luz solar y cambia a Oscuro o Ocean cuando trabajes por la noche.</li></ul>
+            </div>
+            <div class="callout-box gold">
+              <h3><i class="fas fa-bolt" aria-hidden="true"></i> Consejos Pro de Implementación</h3>
+              <ul><li>Combinar el botón de colapsar menú lateral (&#x27;&lt;&#x27;) con el tema Oscuro u Ocean amplía al máximo el área útil de Chat, Constructores y Reels.</li></ul>
+            </div>
+          </div>
+
+          <div class="media-wrap ">
+            
+        <figure class="shot-fig">
+          <img src="{{ static_versioned('img/passportai_v4/22_temas.webp') }}"
+               alt="Selector de 4 temas visuales (Oscuro, Claro, Ultravioleta y Ocean) aplicado en tiempo real." width="1280" height="673" loading="lazy" decoding="async">
+          <figcaption>Selector de 4 temas visuales (Oscuro, Claro, Ultravioleta y Ocean) aplicado en tiempo real.</figcaption>
+        </figure>
+        
+            
+          </div>
+        </section>
+        
+        <section id="sec-21" tabindex="-1" class="doc-section" data-search="21 MÓDULO IV · FORMACIÓN, CUENTA Y SOPORTE Operación Multilingüe Nativa (Español · English · Português) Barra Superior Derecha → Selector de Globo Terráqueo (&#x27;Español / English / Português&#x27;) Traducción nativa completa de menús, tarjetas, botones, constructores y mensajes de plataforma entre Español, Inglés y Portugués con un solo clic — preparada para equipos multinacionales de EE. UU., Latinoamérica y Brasil." aria-labelledby="sec-21-hdr">
+          <div class="sec-head">
+            <span class="mod-tag">MÓDULO IV · FORMACIÓN, CUENTA Y SOPORTE · SECCIÓN 21 DE 22</span>
+            <h2 id="sec-21-hdr">Operación Multilingüe Nativa (Español · English · Português)</h2>
+            <div class="route-bar"><i class="fas fa-compass" aria-hidden="true"></i> Ruta en plataforma: <code>Barra Superior Derecha → Selector de Globo Terráqueo (&#x27;Español / English / Português&#x27;)</code></div>
+          </div>
+
+          <p class="sec-summary"><strong>Qué es y para qué sirve:</strong> Traducción nativa completa de menús, tarjetas, botones, constructores y mensajes de plataforma entre Español, Inglés y Portugués con un solo clic — preparada para equipos multinacionales de EE. UU., Latinoamérica y Brasil.</p>
+
+          <div class="steps-panel">
+            <h3><i class="fas fa-list-check" aria-hidden="true"></i> Operación Paso a Paso</h3>
+            <ol><li>Ubica el ícono de globo terráqueo en la barra superior derecha (a la izquierda de &#x27;Tema&#x27;).</li><li>Despliega el selector y elige entre &#x27;Español&#x27;, &#x27;English&#x27; o &#x27;Português&#x27;.</li><li>Toda la interfaz de navegación y herramientas se actualiza instantáneamente al idioma seleccionado para todo tu equipo.</li></ol>
+          </div>
+
+          <div class="dual-callouts">
+            <div class="callout-box emerald">
+              <h3><i class="fas fa-lightbulb" aria-hidden="true"></i> Ejemplos Prácticos Listos</h3>
+              <ul><li><strong>Equipos Bilingües en Miami y LATAM:</strong> Tu ingeniero o especialista en EE. UU. puede operar la consola en English mientras el closer en México o Argentina y el aliado en Brasil operan la misma empresa en Español o Português.</li></ul>
+            </div>
+            <div class="callout-box gold">
+              <h3><i class="fas fa-bolt" aria-hidden="true"></i> Consejos Pro de Implementación</h3>
+              <ul><li>Independientemente del idioma de la interfaz, todos los modelos LLM, Constructores y Chatbots entienden y redactan contenido en decenas de idiomas según el prompt.</li></ul>
+            </div>
+          </div>
+
+          <div class="media-wrap ">
+            
+        <figure class="shot-fig">
+          <img src="{{ static_versioned('img/passportai_v4/23_idiomas.webp') }}"
+               alt="Selector de idioma nativo en vivo cambiando menús y tarjetas entre Español, English y Português." width="1128" height="632" loading="lazy" decoding="async">
+          <figcaption>Selector de idioma nativo en vivo cambiando menús y tarjetas entre Español, English y Português.</figcaption>
+        </figure>
+        
+            
+          </div>
+        </section>
+        
+        <section id="sec-22" tabindex="-1" class="doc-section" data-search="22 MÓDULO IV · FORMACIÓN, CUENTA Y SOPORTE Asistente IA 24/7 Integrado, Soporte Técnico y 10 Reglas de Oro para Maximizar ROI Botón Azul Flotante (Esquina Inferior Derecha) &amp; Menú Lateral → Recursos &amp; Ayuda → Soporte Técnico Soporte técnico continuo en dos capas: el Asistente IA flotante disponible en cualquier pantalla para guiarte paso a paso dentro de la plataforma y el sistema formal de Tickets de Soporte Técnico para acompañamiento humano." aria-labelledby="sec-22-hdr">
+          <div class="sec-head">
+            <span class="mod-tag">MÓDULO IV · FORMACIÓN, CUENTA Y SOPORTE · SECCIÓN 22 DE 22</span>
+            <h2 id="sec-22-hdr">Asistente IA 24/7 Integrado, Soporte Técnico y 10 Reglas de Oro para Maximizar ROI</h2>
+            <div class="route-bar"><i class="fas fa-compass" aria-hidden="true"></i> Ruta en plataforma: <code>Botón Azul Flotante (Esquina Inferior Derecha) &amp; Menú Lateral → Recursos &amp; Ayuda → Soporte Técnico</code></div>
+          </div>
+
+          <p class="sec-summary"><strong>Qué es y para qué sirve:</strong> Soporte técnico continuo en dos capas: el Asistente IA flotante disponible en cualquier pantalla para guiarte paso a paso dentro de la plataforma y el sistema formal de Tickets de Soporte Técnico para acompañamiento humano.</p>
+
+          <div class="steps-panel">
+            <h3><i class="fas fa-list-check" aria-hidden="true"></i> Operación Paso a Paso</h3>
+            <ol><li>Para dudas inmediatas de uso (&#x27;¿cómo creo una imagen?&#x27;, &#x27;¿cómo configuro mi chatbot?&#x27;), toca la burbuja azul en la esquina inferior derecha y escribe tu pregunta.</li><li>Para requerimientos de cuenta, vinculaciones CRM o incidencias técnicas, entra a &#x27;Recursos &amp; Ayuda → Soporte Técnico&#x27; para levantar y dar seguimiento a un ticket oficial.</li><li>Aplica las 10 Recomendaciones de Oro para exprimir tu inversión desde la semana 1:</li><li>1) Empieza por el orden antes que la complejidad: define tu oferta en Suite Constructores antes de pautar. 2) Usa el RAG privado de NotebookLM con &#x27;Solo mis fuentes&#x27; para cero inventos. 3) Conecta tu Chatbot WhatsApp 24/7 desde la primera semana para no perder ningún lead nocturno. 4) Activa tu ProsperIA CRM desde el ícono de llave. 5) Publica tus primeros Reels con zonas seguras. 6) Prueba audios cortos de 4s/15s antes de renders largos. 7) Revisa cada viernes &#x27;Novedades&#x27;. 8) Aplica aprobación humana en PassportAI Leads. 9) Reutiliza hilos ganadores del AI Playground. 10) Apóyate en los Videotutoriales internos para entrenar a todo tu personal.</li></ol>
+          </div>
+
+          <div class="dual-callouts">
+            <div class="callout-box emerald">
+              <h3><i class="fas fa-lightbulb" aria-hidden="true"></i> Ejemplos Prácticos Listos</h3>
+              <ul><li><strong>Guía En Vivo Sin Salir de tu Flujo:</strong> Mientras redactas un anuncio o imagen, abre el Asistente IA flotante para recibir la ruta exacta en 4 pasos sin perder lo que estabas escribiendo.</li></ul>
+            </div>
+            <div class="callout-box gold">
+              <h3><i class="fas fa-bolt" aria-hidden="true"></i> Consejos Pro de Implementación</h3>
+              <ul><li>Consulta la página oficial del caso de éxito y tesis de crecimiento en https://agenciaprosperia.com/passportai y este manual interactivo en https://agenciaprosperia.com/manual_passportai.</li></ul>
+            </div>
+          </div>
+
+          <div class="media-wrap ">
+            
+        <figure class="shot-fig">
+          <img src="{{ static_versioned('img/passportai_v4/24_asistente_soporte.webp') }}"
+               alt="Widget flotante del Asistente IA resolviendo paso a paso cualquier duda dentro de la plataforma." width="1100" height="676" loading="lazy" decoding="async">
+          <figcaption>Widget flotante del Asistente IA resolviendo paso a paso cualquier duda dentro de la plataforma.</figcaption>
+        </figure>
+        
+            
+          </div>
+        </section>
+        
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      // 1. Scrollspy: Native CSS scroll-target-group + IntersectionObserver fallback + aria-current sync
+      const navLinks = Array.from(document.querySelectorAll('.toc-nav a[href^="#"]'));
+      const sections = navLinks.map((a) => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+
+      function setAria(activeLink) {
+        navLinks.forEach((l) => l.setAttribute('aria-current', l === activeLink ? 'true' : 'false'));
+      }
+
+      if (CSS.supports('scroll-target-group: auto')) {
+        const syncNative = () => {
+          const current = document.querySelector('.toc-nav a:target-current');
+          if (current) setAria(current);
+        };
+        syncNative();
+        document.addEventListener('scrollend', syncNative);
+      } else {
+        const obs = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const id = entry.target.getAttribute('id');
+              const match = navLinks.find((l) => l.getAttribute('href') === '#' + id);
+              navLinks.forEach((l) => l.classList.toggle('target-current', l === match));
+              if (match) setAria(match);
+            }
+          });
+        }, { rootMargin: '-35% 0px -55% 0px', threshold: 0 });
+        sections.forEach((sec) => obs.observe(sec));
+      }
+
+      // 2. Instant search filter for the 22 sections
+      const searchInput = document.getElementById('manual-search');
+      const secCards = Array.from(document.querySelectorAll('main section.doc-section[data-search]'));
+      if (searchInput) {
+        searchInput.addEventListener('input', () => {
+          const q = searchInput.value.trim().toLowerCase();
+          secCards.forEach((sec) => {
+            const hay = (sec.getAttribute('data-search') || '').toLowerCase() + ' ' + sec.textContent.toLowerCase();
+            sec.classList.toggle('hidden-filter', q !== '' && !hay.includes(q));
+          });
+        });
+      }
+    })();
+  </script>
+  <script src="{{ static_versioned('prosperia_i18n.js') }}" defer></script>
+</body>
+</html>
