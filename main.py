@@ -2792,6 +2792,8 @@ async def get_cortexia_syndication_status(db: Session = Depends(get_db)):
     youtube_count = sum(1 for r in rows if enrich_post({"slug": r.slug}).get("youtube_video_id"))
     return {
         "status": "active",
+        "worker_schedule": "Cada 12h (Mañana y Noche · Lunes a Domingo 24/7 · publish_linkedin=False)",
+        "worker_last_cycle": reg.get("worker_last_cycle"),
         "published_articles": len(rows),
         "youtube_indexed_articles": youtube_count,
         "telegraph_pages": len(reg.get("telegraph", {})),
@@ -2799,6 +2801,8 @@ async def get_cortexia_syndication_status(db: Session = Depends(get_db)):
         "hashnode_pages": len(reg.get("hashnode", {})),
         "indexnow_last": reg.get("indexnow_last"),
         "telegraph_urls": reg.get("telegraph", {}),
+        "devto_urls": reg.get("devto", {}),
+        "hashnode_urls": reg.get("hashnode", {}),
     }
 
 # ─── API ENDPOINTS ──────────────────────────────────────────────────────────

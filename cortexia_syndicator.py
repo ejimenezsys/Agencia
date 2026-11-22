@@ -7,6 +7,7 @@ import json
 import os
 from pathlib import Path
 import re
+import sys
 import threading
 import time
 from typing import Any, Dict, List, Optional
@@ -310,10 +311,78 @@ def fetch_youtube_rss_videos() -> List[Dict[str, str]]:
         return []
 
 
+def _load_initial_blog_posts() -> List[Dict[str, Any]]:
+    """Obtiene de forma segura INITIAL_BLOG_POSTS desde main.py sin fallar por CWD o import circular."""
+    main_mod = sys.modules.get("main")
+    if main_mod is not None and hasattr(main_mod, "INITIAL_BLOG_POSTS"):
+        return list(getattr(main_mod, "INITIAL_BLOG_POSTS") or [])
+
+    prev_cwd = os.getcwd()
+    base_str = str(BASE_DIR)
+    if base_str not in sys.path:
+        sys.path.insert(0, base_str)
+    try:
+        os.chdir(BASE_DIR)
+        import main as loaded_main
+        return list(getattr(loaded_main, "INITIAL_BLOG_POSTS") or [])
+    except Exception as e:
+        print(f"⚠️ [SYNDICATOR] No se pudo cargar INITIAL_BLOG_POSTS: {e}", flush=True)
+        return []
+    finally:
+        try:
+            os.chdir(prev_cwd)
+        except Exception:
+            pass
+
+
+def _iter_all_published_articles() -> List[Dict[str, Any]]:
+    """Combina los artículos de editorial_published/*.json con INITIAL_BLOG_POSTS (deduplicados por slug)."""
+    combined: List[Dict[str, Any]] = []
+    seen_slugs: set = set()
+
+    for path in sorted(PUBLISHED_DIR.glob("*.json")):
+        try:
+            article = json.loads(path.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        slug = (article.get("slug") or "").strip()
+        if article.get("status") != "published" or not slug or slug in seen_slugs:
+            continue
+        seen_slugs.add(slug)
+        combined.append(article)
+
+    for post in _load_initial_blog_posts():
+        slug = (post.get("slug") or "").strip()
+        if not slug or slug in seen_slugs:
+            continue
+        seen_slugs.add(slug)
+        combined.append({
+            "slug": slug,
+            "title": post.get("title") or slug,
+            "summary": post.get("summary") or "",
+            "content": post.get("content") or "",
+            "lane": post.get("category") or "estrategia-ia",
+            "author": post.get("author") or "Edward Jiménez",
+            "status": "published",
+            "published_at": post.get("published_at") or "",
+            "image_url": post.get("image_url") or f"/static/blog/{slug}.jpg",
+            "youtube_video_id": post.get("youtube_video_id") or "",
+        })
+
+    return combined
+
+
 def _load_registry() -> Dict[str, Any]:
-    merged: Dict[str, Any] = {"telegraph": {}, "devto": {}, "hashnode": {}, "indexnow_last": None, "articles": {}}
+    merged: Dict[str, Any] = {
+        "telegraph": {},
+        "devto": {},
+        "hashnode": {},
+        "indexnow_last": None,
+        "worker_last_cycle": None,
+        "articles": {},
+    }
     data_reg_path = BASE_DIR / "data" / "syndication_registry.json"
-    for candidate in (data_reg_path, REGISTRY_PATH):
+    for candidate in (REGISTRY_PATH, data_reg_path):
         if not candidate.exists():
             continue
         try:
@@ -321,8 +390,12 @@ def _load_registry() -> Dict[str, Any]:
             for section in ("telegraph", "devto", "hashnode", "articles"):
                 if isinstance(loaded.get(section), dict):
                     merged[section].update(loaded[section])
-            if loaded.get("indexnow_last"):
-                merged["indexnow_last"] = loaded["indexnow_last"]
+            for ts_key in ("indexnow_last", "worker_last_cycle"):
+                cand_val = loaded.get(ts_key)
+                if isinstance(cand_val, dict):
+                    curr_ts = (merged.get(ts_key) or {}).get("timestamp", "") if isinstance(merged.get(ts_key), dict) else ""
+                    if (cand_val.get("timestamp") or "") >= curr_ts:
+                        merged[ts_key] = cand_val
         except Exception:
             pass
     return merged
@@ -540,19 +613,14 @@ def _get_telegraph_token() -> str:
 
 
 def syndicate_all_to_telegraph() -> Dict[str, str]:
-    """Publica en telegra.ph todos los artículos publicados que aún no están registrados."""
+    """Publica en telegra.ph los 101+ artículos publicados que aún no están registrados, guardando progresivamente."""
     reg = _load_registry()
     telegraph_map = reg.setdefault("telegraph", {})
     articles_meta = reg.setdefault("articles", {})
     token = None
+    abort_flood = False
 
-    for path in sorted(PUBLISHED_DIR.glob("*.json")):
-        try:
-            article = json.loads(path.read_text(encoding="utf-8"))
-        except Exception:
-            continue
-        if article.get("status") != "published":
-            continue
+    for article in _iter_all_published_articles():
         slug = article["slug"]
         articles_meta[slug] = {
             "title": article["title"],
@@ -560,6 +628,8 @@ def syndicate_all_to_telegraph() -> Dict[str, str]:
             "youtube_video_id": article.get("youtube_video_id", ""),
             "published_at": article.get("published_at", ""),
         }
+        if abort_flood:
+            continue
         if slug in telegraph_map and telegraph_map[slug].startswith("https://telegra.ph/"):
             continue
         if token is None:
@@ -573,7 +643,7 @@ def syndicate_all_to_telegraph() -> Dict[str, str]:
             "content": nodes,
             "return_content": False,
         }).encode("utf-8")
-        for attempt in range(2):
+        for attempt in range(3):
             try:
                 req = urllib.request.Request("https://api.telegra.ph/createPage", data=payload, method="POST")
                 req.add_header("Content-Type", "application/json")
@@ -581,15 +651,20 @@ def syndicate_all_to_telegraph() -> Dict[str, str]:
                     res = json.loads(resp.read().decode("utf-8"))
                 if res.get("ok") and res.get("result", {}).get("url"):
                     telegraph_map[slug] = res["result"]["url"]
+                    _save_registry(reg)
                     print(f"📰 [TELEGRAPH] Publicado: {slug} -> {telegraph_map[slug]}", flush=True)
-                    time.sleep(1.0)
+                    time.sleep(1.1)
                     break
                 err_str = str(res.get("error", ""))
-                if err_str.startswith("FLOOD_WAIT_") and attempt == 0:
+                if err_str.startswith("FLOOD_WAIT_"):
                     wait_sec = int(err_str.split("_")[-1]) + 1
-                    print(f"⏳ [TELEGRAPH] Esperando {wait_sec}s por rate-limit en {slug}...", flush=True)
-                    time.sleep(wait_sec)
-                    continue
+                    if wait_sec <= 60 and attempt < 2:
+                        print(f"⏳ [TELEGRAPH] Esperando {wait_sec}s por rate-limit en {slug}...", flush=True)
+                        time.sleep(wait_sec)
+                        continue
+                    print(f"⚠️ [TELEGRAPH] Rate-limit largo ({wait_sec}s) en {slug}; progreso guardado ({len(telegraph_map)} páginas).", flush=True)
+                    abort_flood = True
+                    break
                 print(f"⚠️ [TELEGRAPH] Error en {slug}: {res}", flush=True)
                 break
             except Exception as e:
@@ -601,71 +676,149 @@ def syndicate_all_to_telegraph() -> Dict[str, str]:
 
 
 def _html_to_markdown_simple(article: Dict[str, Any]) -> str:
+    slug = article["slug"]
+    canonical_url = f"{SITE_URL}/blog/{slug}"
     txt = article.get("content", "")
     txt = re.sub(r"<h[1-3][^>]*>(.*?)</h[1-3]>", r"\n\n## \1\n\n", txt, flags=re.S)
+    txt = re.sub(r"<h4[^>]*>(.*?)</h4>", r"\n\n### \1\n\n", txt, flags=re.S)
     txt = re.sub(r"<li[^>]*>(.*?)</li>", r"\n- \1", txt, flags=re.S)
-    txt = re.sub(r"<strong[^>]*>(.*?)</strong>", r"**\1**", txt, flags=re.S)
+    txt = re.sub(r"<(?:strong|b)[^>]*>(.*?)</(?:strong|b)>", r"**\1**", txt, flags=re.S)
+    txt = re.sub(r"<(?:em|i)[^>]*>(.*?)</(?:em|i)>", r"*\1*", txt, flags=re.S)
     txt = re.sub(r"<a[^>]*href=[\"']([^\"']+)[\"'][^>]*>(.*?)</a>", r"[\2](\1)", txt, flags=re.S)
     txt = re.sub(r"</p>", "\n\n", txt)
     txt = unescape(re.sub(r"<[^>]+>", "", txt))
     vid = article.get("youtube_video_id")
     prefix = f"{{% youtube https://www.youtube.com/watch?v={vid} %}}\n\n" if vid else ""
-    footer = f"\n\n---\nArtículo canónico original en [Agencia Prosper IA]({SITE_URL}/blog/{article['slug']}).\n"
+    exma_line = (
+        f"- **🎤 EXMA Miami 2026 (4 y 5 de Diciembre · Fort Lauderdale):** Boletos 20% OFF en [agenciaprosperia.com/exmaboletos]({SITE_URL}/exmaboletos) y Patrocinios VIP en [agenciaprosperia.com/exmamiami]({SITE_URL}/exmamiami).\n"
+        if is_exma_active()
+        else ""
+    )
+    footer = (
+        f"\n\n---\n\n### Ecosistema Agencia Prosper IA · Edward Jiménez\n"
+        f"- **Artículo canónico original:** [{canonical_url}]({canonical_url})\n"
+        f"- **Libro Oficial *Las 4 Inteligencias*** (`ISBN 979-8-9824777-0-5` · `LCCN 2026970390`): [agenciaprosperia.com/libro]({SITE_URL}/libro) · [Amazon ASIN B0HS33VP6C](https://www.amazon.com/dp/B0HS33VP6C?th=1)\n"
+        f"- **Consultoría Corporativa IA (20 Ingenieros FIUBA Argentina, México y Miami):** [agenciaprosperia.com/ia]({SITE_URL}/ia)\n"
+        f"- **Sitios Web Inteligentes + Chatbot IA + CRM:** [agenciaprosperia.com/crm-saas]({SITE_URL}/crm-saas) · [PassportAI.app](https://passportai.app)\n"
+        f"{exma_line}"
+    )
     return prefix + re.sub(r"\n{3,}", "\n\n", txt).strip() + footer
 
 
 def syndicate_to_devto() -> Dict[str, str]:
-    """Opcional: publica vía API de Dev.to cuando DEVTO_API_KEY está configurada."""
-    api_key = os.environ.get("DEVTO_API_KEY", "").strip()
-    if not api_key:
-        return {}
+    """Publica vía API oficial de Dev.to cuando DEVTO_API_KEY está configurada."""
     reg = _load_registry()
     devto_map = reg.setdefault("devto", {})
-    for path in sorted(PUBLISHED_DIR.glob("*.json")):
-        article = json.loads(path.read_text(encoding="utf-8"))
+    api_key = os.environ.get("DEVTO_API_KEY", "").strip()
+    if not api_key:
+        return devto_map
+
+    existing_by_canonical: Dict[str, str] = {}
+    seen_titles: set = set()
+    try:
+        me_req = urllib.request.Request("https://dev.to/api/articles/me/all?per_page=100")
+        me_req.add_header("api-key", api_key)
+        me_req.add_header("User-Agent", "AgenciaProsperIA/1.0")
+        with urllib.request.urlopen(me_req, timeout=20) as mr:
+            me_items = json.loads(mr.read().decode("utf-8"))
+        for it in me_items:
+            cu = (it.get("canonical_url") or "").strip().rstrip("/")
+            if cu and it.get("url"):
+                existing_by_canonical[cu] = it["url"]
+            if it.get("title"):
+                seen_titles.add(it["title"].strip().lower())
+    except urllib.error.HTTPError as e:
+        if e.code in (401, 403):
+            raise RuntimeError(f"DEV.to auth error ({e.code}): {e.read().decode('utf-8', errors='replace')}")
+        print(f"⚠️ [DEVTO] No se pudo precargar artículos existentes: HTTP {e.code}", flush=True)
+    except Exception as e:
+        print(f"⚠️ [DEVTO] Aviso al listar artículos existentes: {e}", flush=True)
+
+    for article in _iter_all_published_articles():
         slug = article["slug"]
-        if article.get("status") != "published" or slug in devto_map:
+        canonical = f"{SITE_URL}/blog/{slug}"
+        if slug in devto_map and devto_map[slug].startswith("https://dev.to/"):
+            seen_titles.add(article["title"].strip().lower())
             continue
+        if canonical in existing_by_canonical:
+            devto_map[slug] = existing_by_canonical[canonical]
+            seen_titles.add(article["title"].strip().lower())
+            _save_registry(reg)
+            continue
+
+        title = article["title"][:115].strip()
+        if title.lower() in seen_titles:
+            title = f"{title[:94].rstrip()} (Análisis Ejecutivo)"
+            if title.lower() in seen_titles:
+                title = f"{title[:90].rstrip()} · {slug[:12]}"
+        seen_titles.add(title.lower())
+
+        vid = article.get("youtube_video_id")
+        img_path = article.get("image_url") or f"/static/blog/{slug}.jpg"
+        main_image = f"https://i.ytimg.com/vi/{vid}/hqdefault.jpg" if vid else (
+            f"{SITE_URL}{img_path}" if img_path.startswith("/") else img_path
+        )
+
         payload = json.dumps({
             "article": {
-                "title": article["title"][:120],
+                "title": title,
                 "published": True,
+                "description": (article.get("summary") or title)[:140],
+                "main_image": main_image,
                 "body_markdown": _html_to_markdown_simple(article),
-                "canonical_url": f"{SITE_URL}/blog/{slug}",
+                "canonical_url": canonical,
                 "tags": ["ia", "automatizacion", "negocios", "inteligenciaartificial"],
             }
         }).encode("utf-8")
-        try:
-            req = urllib.request.Request("https://dev.to/api/articles", data=payload, method="POST")
-            req.add_header("api-key", api_key)
-            req.add_header("Content-Type", "application/json")
-            req.add_header("User-Agent", "AgenciaProsperIA/1.0")
-            with urllib.request.urlopen(req, timeout=20) as r:
-                res = json.loads(r.read().decode("utf-8"))
-            if res.get("url"):
-                devto_map[slug] = res["url"]
-        except Exception as e:
-            print(f"⚠️ [DEVTO] {slug}: {e}", flush=True)
+
+        for attempt in range(3):
+            try:
+                req = urllib.request.Request("https://dev.to/api/articles", data=payload, method="POST")
+                req.add_header("api-key", api_key)
+                req.add_header("Content-Type", "application/json")
+                req.add_header("User-Agent", "AgenciaProsperIA/1.0")
+                with urllib.request.urlopen(req, timeout=25) as r:
+                    res = json.loads(r.read().decode("utf-8"))
+                if res.get("url"):
+                    devto_map[slug] = res["url"]
+                    _save_registry(reg)
+                    print(f"📝 [DEVTO] Publicado: {slug} -> {devto_map[slug]}", flush=True)
+                    time.sleep(3.5)
+                break
+            except urllib.error.HTTPError as e:
+                body = e.read().decode("utf-8", errors="replace")
+                if e.code in (401, 403):
+                    raise RuntimeError(f"DEV.to rechazó publicación ({e.code}) en {slug}: {body}")
+                if e.code == 429 and attempt < 2:
+                    wait_sec = int(e.headers.get("Retry-After") or 32) + 1
+                    print(f"⏳ [DEVTO] Rate-limit 429 en {slug}, esperando {wait_sec}s (intento {attempt + 1}/3)...", flush=True)
+                    time.sleep(wait_sec)
+                    continue
+                print(f"⚠️ [DEVTO] HTTP {e.code} en {slug}: {body}", flush=True)
+                break
+            except Exception as e:
+                print(f"⚠️ [DEVTO] Excepción en {slug}: {e}", flush=True)
+                break
+
     _save_registry(reg)
     return devto_map
 
 
 def syndicate_to_hashnode() -> Dict[str, str]:
     """Opcional: publica vía GraphQL API de Hashnode cuando HASHNODE_TOKEN y HASHNODE_PUBLICATION_ID existen."""
+    reg = _load_registry()
+    hn_map = reg.setdefault("hashnode", {})
     token = os.environ.get("HASHNODE_TOKEN", "").strip()
     pub_id = os.environ.get("HASHNODE_PUBLICATION_ID", "").strip()
     if not token or not pub_id:
-        return {}
-    reg = _load_registry()
-    hn_map = reg.setdefault("hashnode", {})
+        return hn_map
     mutation = """
     mutation PublishPost($input: PublishPostInput!) {
       publishPost(input: $input) { post { url } }
     }"""
-    for path in sorted(PUBLISHED_DIR.glob("*.json")):
-        article = json.loads(path.read_text(encoding="utf-8"))
+    for article in _iter_all_published_articles():
         slug = article["slug"]
-        if article.get("status") != "published" or slug in hn_map:
+        if slug in hn_map:
             continue
         payload = json.dumps({
             "query": mutation,
@@ -687,6 +840,7 @@ def syndicate_to_hashnode() -> Dict[str, str]:
             url = (res.get("data") or {}).get("publishPost", {}).get("post", {}).get("url")
             if url:
                 hn_map[slug] = url
+                _save_registry(reg)
         except Exception as e:
             print(f"⚠️ [HASHNODE] {slug}: {e}", flush=True)
     _save_registry(reg)
@@ -702,6 +856,8 @@ def build_indexnow_url_list() -> List[str]:
         f"{SITE_URL}/consultoriadeinteligenciaartificial",
         f"{SITE_URL}/libro",
         f"{SITE_URL}/crm-saas",
+        f"{SITE_URL}/passportai",
+        f"{SITE_URL}/manual_passportai",
         f"{SITE_URL}/arsenal",
         f"{SITE_URL}/codigos",
         f"{SITE_URL}/blog",
@@ -714,13 +870,9 @@ def build_indexnow_url_list() -> List[str]:
         f"{SITE_URL}/video-sitemap.xml",
         f"{SITE_URL}/feed.xml",
     ]
-    for path in sorted(PUBLISHED_DIR.glob("*.json")):
-        try:
-            data = json.loads(path.read_text(encoding="utf-8"))
-            if data.get("status") == "published" and data.get("slug"):
-                urls.append(f"{SITE_URL}/blog/{data['slug']}")
-        except Exception:
-            continue
+    for article in _iter_all_published_articles():
+        if article.get("slug"):
+            urls.append(f"{SITE_URL}/blog/{article['slug']}")
     return list(dict.fromkeys(urls))
 
 
@@ -776,13 +928,33 @@ def run_syndication_cycle(run_daily_ai_generation: bool = True) -> Dict[str, Any
     devto = syndicate_to_devto()
     hashnode = syndicate_to_hashnode()
     indexnow = notify_indexnow()
-    return {
-        "created_youtube_articles": created_yt,
+    total_articles = len(_iter_all_published_articles())
+    completed_at = datetime.now(timezone.utc)
+    worker_meta = {
+        "timestamp": completed_at.isoformat(),
+        "timestamp_miami": completed_at.astimezone(ZoneInfo("America/New_York")).strftime("%Y-%m-%d %H:%M:%S %Z"),
+        "schedule": "Cada 12h (Mañana y Noche · Lunes a Domingo 24/7 · publish_linkedin=False)",
+        "publish_linkedin": False,
         "daily_ai_generated": daily_ran,
+        "created_youtube_articles": len(created_yt),
+        "published_articles": total_articles,
         "telegraph_count": len(telegraph),
         "devto_count": len(devto),
         "hashnode_count": len(hashnode),
         "indexnow": indexnow,
+    }
+    reg = _load_registry()
+    reg["worker_last_cycle"] = worker_meta
+    _save_registry(reg)
+    return {
+        "created_youtube_articles": created_yt,
+        "daily_ai_generated": daily_ran,
+        "published_articles": total_articles,
+        "telegraph_count": len(telegraph),
+        "devto_count": len(devto),
+        "hashnode_count": len(hashnode),
+        "indexnow": indexnow,
+        "worker_last_cycle": worker_meta,
     }
 
 
