@@ -292,6 +292,54 @@
     'EN RESUMEN · FICHA PARA ASISTENTES Y BUSCADORES DE IA': 'IN SUMMARY · STRUCTURED BRIEF FOR AI ASSISTANTS & INVESTORS',
     'Qué saber sobre PassportAI.app y Agencia Prosper IA LLC': 'What to Know About PassportAI.app & Agencia Prosper IA LLC',
 
+    // 8 Motores Reales Internos (/passportai & /inversionistas)
+    '8 Motores Internos': '8 Core Engines',
+    'Arquitectura Real Verificada · Código Fuente AIEngineCentral (FIUBA)':
+      'Verified Live Engineering · AIEngineCentral Codebase (FIUBA)',
+    'Por Dentro de PassportAI.app: 8 Motores Reales en Producción':
+      'Inside PassportAI.app: 8 Production-Grade AI Engines',
+    '58 MODELOS ACTIVOS · MARKUP 3X–5X': '58 ACTIVE MODELS · 3X–5X MARKUP',
+    '1. Orquestador Multi-Modelo & Gobernanza de Márgenes':
+      '1. Multi-Model Orchestrator & Margin Governance',
+    'Integra bajo un catálogo unificado OpenAI (GPT-4o, GPT-5, GPT-5.2/5.6, GPT-Image-2), Google (Gemini 3.8/4, Nano Banana 2.1, Imagen 3), Anthropic (Claude Opus 5 / Sonnet 5) y Together AI (DeepSeek R1/V4, Qwen 3 Coder 480B, Llama 3.3, FLUX.2 Pro), con reserva provisional de créditos, Stripe/Hotmart y auditoría diaria de precios que blinda entre 300% y 500% de margen bruto.':
+      'Integrates under one unified enterprise catalog: OpenAI (GPT-4o, GPT-5, GPT-5.2/5.6, GPT-Image-2), Google (Gemini 3.8/4, Nano Banana 2.1, Imagen 3), Anthropic (Claude Opus 5 / Sonnet 5), and Together AI (DeepSeek R1/V4, Qwen 3 Coder 480B, Llama 3.3, FLUX.2 Pro), featuring provisional credit locking, Stripe/Hotmart billing, and daily automated price audits protecting 300%–500% gross margins.',
+    '21 MODELOS DE VIDEO · REELS 9:16 + MOTION': '21 VIDEO MODELS · 9:16 REELS + MOTION',
+    '2. Estudio Cinematográfico Video IA, Reels Builder & Motion Graphics':
+      '2. Cinematic AI Video Studio, Reels Builder & Motion Graphics',
+    'Generación Text-to-Video e Image-to-Video con OpenAI Sora 2 (sora-2 / sora-2-pro), Runway Gen-4.5 / Gen-4 Turbo, Google Gemini Omni / Veo 3.1, Kling 4.0, Seedance 2.5, Wan 3.0 Prime, MiniMax Hailuo, PixVerse v6, Vidu Q3 y Avatares HeyGen. Incluye Constructor de Reels 9:16 con Coverr Stock B-Roll, Motion Design WebM Alpha, clonación de voz ElevenLabs, transcripción AssemblyAI/Whisper y renderizado determinista FFmpeg.':
+      'Text-to-Video and Image-to-Video powered by OpenAI Sora 2 (sora-2 / sora-2-pro), Runway Gen-4.5 / Gen-4 Turbo, Google Gemini Omni / Veo 3.1, Kling 4.0, Seedance 2.5, Wan 3.0 Prime, MiniMax Hailuo, PixVerse v6, Vidu Q3, and HeyGen Avatars. Includes a 9:16 Reels Builder with Coverr B-Roll, WebM Alpha Motion Design, ElevenLabs voice cloning, AssemblyAI/Whisper captions, and deterministic FFmpeg rendering.',
+    '3. Chatbots Autónomos & Vínculo ProsperIA CRM': '3. Autonomous Chatbots & ProsperIA CRM Link',
+    'Creador guiado de asistentes WhatsApp y Web entrenables con documentos PDF/DOCX privados de cada negocio (hasta 10 MB por archivo en motor RAG aislado), motor de calificación heurística de leads, listas blancas de control, simulador interactivo y webhook nativo directo hacia ProsperIA CRM (ecosistema GoHighLevel).':
+      'Guided builder for WhatsApp & Web AI assistants trained on private PDF/DOCX business files (up to 10 MB per file in an isolated RAG engine), heuristic lead qualification, control whitelists, live WhatsApp simulator, and native webhook into ProsperIA CRM (GoHighLevel ecosystem).',
+    'Base RAG Privada': 'Private RAG Knowledge',
+    'Simulador en Vivo': 'Live Simulator',
+    '4. Prospección Multicanal B2B (LinkedIn & Email)': '4. Omnichannel B2B Prospecting (LinkedIn & Email)',
+    'Sistema completo de prospección con arquitectura de 10 modelos de datos: mapeo de ADN corporativo y perfil ICP, conectividad OAuth vía Unipile para LinkedIn, Google Workspace y Outlook/Microsoft 365, detector inteligente de Leads Dormidos (+30 días), Centro de Aprobaciones IA y despacho distribuido Celery con cuotas diarias y jitter anti-bloqueo (89 tests unitarios).':
+      'Full B2B prospecting engine built on 10 data models: corporate DNA & ICP profiling, Unipile OAuth connectivity for LinkedIn, Google Workspace & Outlook/Microsoft 365, smart Dormant Leads (30+ days) scanner, AI Approvals Center, and distributed Celery dispatching with daily quotas & jitter (89 passing unit tests).',
+    'POST RADAR REDDIT · 6 MÉTODOS IA': 'REDDIT POST RADAR · 6 AI METHODS',
+    '5. Analista de Mercado Inteligente & Creatividades': '5. Intelligent Market Analyst & Creative Packs',
+    'Scraper de radar en Reddit que extrae fricciones y dolores reales del nicho en tiempo real, procesándolos mediante 6 análisis psicológicos con IA (Avatar 360°, Dolores y Frustraciones, Brecha Emocional, Voces del Mercado y Keywords SEO) y compilando campañas publicitarias con descarga directa en paquete ZIP listo para pauta.':
+      'Real-time Reddit Post Radar extracting authentic market pain points, processed through 6 psychological AI frameworks (360° Avatar, Pain Points, Emotional Gap, Voice of Customer, and SEO Keywords), compiling full ad campaigns with direct creative ZIP bundle export.',
+    'Post Radar Reddit': 'Reddit Post Radar',
+    'Avatar 360° IA': '360° AI Avatar',
+    'Exportación ZIP Ads': 'Ad Creative ZIP Export',
+    '5 CONSTRUCTORES + DEEP RESEARCH': '5 BUILDERS + DEEP RESEARCH',
+    '6. Suite Constructores & Motor NotebookLM (KI Research)': '6. Business Builders Suite & NotebookLM Engine',
+    'Incluye 5 constructores estratégicos de élite (Personal Brand, Content Sprint, 3D Landing Architect, Offer & VSL Architect, Lead Magnet & Nurture), Generador de Planes de Negocio de 9 páginas y Motor KI Deep Research / NotebookLM alimentado con fuentes propias (URLs, enlaces YouTube normalizados y archivos) + búsqueda web híbrida.':
+      'Includes 5 elite strategic builders (Personal Brand, Content Sprint, 3D Landing Architect, Offer & VSL Architect, Lead Magnet & Nurture), a 9-page Business Plan generator, and KI Deep Research / NotebookLM powered by custom sources (URLs, normalized YouTube links & files) + hybrid web search.',
+    '5 Constructores IA': '5 AI Builders',
+    'Planes 9 Páginas': '9-Page Business Plans',
+    '312 FRAGMENTOS · AHORRO 60–80% TOKENS': '312 CHUNKS · 60–80% TOKEN SAVINGS',
+    '7. Agente Omnipresente RAG & Tutor de Idiomas Trilingüe': '7. Omnipresent RAG Agent & Trilingual Language Tutor',
+    'Copiloto interno basado en búsqueda semántica vectorial (312 fragmentos indexados por hash SHA-256 con embeddings OpenAI text-embedding-3-small) y 5 herramientas agénticas en vivo que reducen 60–70% el tiempo de soporte. Incorpora Tutor de Idiomas interactivo en tiempo real (SSE + audio) e internacionalización nativa Español, Inglés y Portugués vía Flask-Babel.':
+      'Internal semantic copilot powered by vector search (312 SHA-256 indexed chunks via OpenAI text-embedding-3-small) and 5 live agentic tools cutting support time by 60–70%. Features a real-time SSE + audio Language Tutor and native Spanish, English & Portuguese i18n via Flask-Babel.',
+    'RAG 5 Herramientas': '5-Tool Live RAG',
+    'Tutor de Idiomas SSE': 'SSE Language Tutor',
+    'ES / EN / PT Nativo': 'Native ES / EN / PT',
+    '8. Infraestructura Enterprise & Observabilidad Misión Crítica': '8. Enterprise Infrastructure & Mission-Critical Observability',
+    'Arquitectura Flask Application Factory sobre Python 3.13 + Gunicorn multiproceso, colas asíncronas Celery + Redis, PostgreSQL con migraciones Alembic, Dual-Auth (JWT + Google OAuth 2.0), despliegue Zero-Downtime con Cloudflare Worker Smart Fallback, eventos de embudo GTM/GA4 y stack completo Prometheus + Grafana + Loki + Alertmanager con telemetría geográfica por país.':
+      'Flask Application Factory on Python 3.13 + multi-process Gunicorn, distributed Celery + Redis queues, PostgreSQL + Alembic migrations, Dual-Auth (JWT + Google OAuth 2.0), Zero-Downtime deploys with Cloudflare Worker Smart Fallback, GTM/GA4 funnel events, and Prometheus + Grafana + Loki + Alertmanager monitoring with per-country geo-telemetry.',
+
     // /links Hub
     'Mostrar QR': 'Show QR',
     'Agencia Prosper IA LLC · Miami, Florida': 'Agencia Prosper IA LLC · Miami, Florida',
@@ -464,6 +512,10 @@
         en: 'The biggest churn risk in consumer AI apps is novelty fatigue. While standalone prompt apps lose users after week one, we anchor <strong>PassportAI.app</strong> directly onto <strong>ProsperIA CRM</strong> (white-labeled on the global <strong>GoHighLevel</strong> standard), giving businesses a mission-critical reason to log in daily to handle WhatsApp, calls, and revenue.'
       },
       {
+        sel: '#arch-title + .sec-lead',
+        en: 'For investors and strategic partners: <strong>PassportAI.app is not a pitch-deck concept or thin chat wrapper</strong>. It is a multi-tenant platform engineered over 18 months with FIUBA (University of Buenos Aires) talent on <strong>Python 3.13, PostgreSQL, Celery + Redis</strong> orchestrating <strong>58 active AI models</strong> with proprietary margin governance.'
+      },
+      {
         sel: '#calc-title + .sec-lead',
         en: 'Adjust your team metrics below to estimate the current monthly cost of repetitive manual work and conservative savings assuming <strong>75% operational automation</strong> powered by PassportAI + ProsperIA CRM.'
       },
@@ -473,7 +525,7 @@
       },
       {
         sel: '#geo-title + p',
-        en: '<strong>PassportAI.app</strong> is an Applied AI &amp; 24/7 Digital Workforce SaaS platform founded by <strong>Edward Jiménez</strong> and engineered with talent from FIUBA (University of Buenos Aires), backed by <strong>$130,000+ USD</strong> in founder capital and operated out of Doral / Miami, FL by <strong>Agencia Prosper IA LLC</strong>. Combining Autonomous WhatsApp &amp; Voice AI Agents, Multi-Model AI Playground, Private Corporate RAG, and white-label <strong>ProsperIA CRM</strong> (GoHighLevel ecosystem), it serves <strong>740+ active businesses</strong> alongside a joint campaign with <strong>Ariel Alegre</strong> (president-elect at FIUBA taking office in April, 2,000+ funnel participants). Its monetization ladder spans $19–$49/mo mass mobile tiers, $99/mo (PassportAI + CRM Starter), and a $990/year turnkey business pack, raising a <strong>$1M Seed Round</strong> to launch native Apple App Store &amp; Google Play Store apps and scale toward 100,000+ active recurring users across Latin America.'
+        en: '<strong>PassportAI.app</strong> is a multi-tenant Applied AI &amp; 24/7 Digital Workforce SaaS platform founded by <strong>Edward Jiménez</strong> and built over 18 months with engineers from FIUBA (University of Buenos Aires), backed by <strong>$130,000+ USD</strong> in founder capital and operated out of Doral / Miami, FL by <strong>Agencia Prosper IA LLC</strong>. In live production it orchestrates <strong>58 active AI models</strong> (OpenAI GPT-5/Sora 2, Google Gemini 4/Nano Banana 2.1, Anthropic Claude Opus 5, Runway Gen-4.5, Kling 4.0, HeyGen, ElevenLabs &amp; DeepSeek), <strong>PassportAI Leads</strong> for omnichannel LinkedIn &amp; Email prospecting via Unipile OAuth, a <strong>9:16 Reels Builder &amp; Motion Graphics Studio</strong>, <strong>Autonomous WhatsApp Chatbots</strong> integrated with <strong>ProsperIA CRM</strong> (white-label GoHighLevel), Reddit Market Analyst, Deep Research (NotebookLM), a 5-Builder Suite, Trilingual Language Tutor, and a 312-chunk RAG Agent on a Zero-Downtime Python 3.13, Celery + Redis, PostgreSQL, and Prometheus + Grafana stack. It currently serves <strong>740+ active businesses</strong> alongside a joint campaign with <strong>Ariel Alegre</strong> (president-elect at FIUBA, 2,000+ registered participants), raising a <strong>$1,000,000 USD Seed Round</strong> to launch native Apple App Store &amp; Google Play Store apps and scale toward 100,000–1,000,000 users across Latin America starting at $19/mo.'
       },
       {
         sel: '#inversionistas .grid-2 .feature-box:first-child p',

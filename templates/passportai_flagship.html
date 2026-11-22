@@ -654,6 +654,60 @@
       background: rgba(8, 16, 36, 0.95);
       border: 1px solid var(--border-cyan);
     }
+
+    .engine-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .engine-card {
+      padding: 1.15rem;
+      border-radius: 16px;
+      background: linear-gradient(165deg, rgba(14, 28, 58, 0.94) 0%, rgba(8, 15, 34, 0.98) 100%);
+      border: 1px solid rgba(34, 211, 238, 0.28);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 0.55rem;
+    }
+
+    .engine-card.gold {
+      border-color: rgba(212, 175, 95, 0.42);
+    }
+
+    .engine-card h3 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .engine-card p {
+      margin: 0;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .tech-stack-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      padding-top: 0.35rem;
+    }
+
+    .tech-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.24rem 0.65rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.28);
+      color: #cbd5e1;
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
   </style>
 </head>
 <body>
@@ -665,6 +719,7 @@
         <a href="/casos-de-exito/idol-jose-group" class="pill-link">Casos de Éxito</a>
       </div>
       <div class="nav-group">
+        <a href="#arquitectura" class="pill-link"><i class="fas fa-microchip" aria-hidden="true"></i> 8 Motores Internos</a>
         <a href="#inversionistas" class="pill-link"><i class="fas fa-chart-line" aria-hidden="true"></i> Ronda Seed US$1M</a>
         <a href="/links" class="pill-link cyan">Todos los Enlaces (/links)</a>
         <div class="pia-lang-slot" data-pia-lang-slot></div>
@@ -879,6 +934,137 @@
         </div>
       </section>
 
+      <!-- 3.5 RADIOGRAFÍA INTERNA DE INGENIERÍA (AIEngineCentral / FIUBA) -->
+      <section id="arquitectura" class="sec-card gold-border" aria-labelledby="arch-title">
+        <span class="eyebrow"><i class="fas fa-microchip" aria-hidden="true"></i> Arquitectura Real Verificada · Código Fuente AIEngineCentral (FIUBA)</span>
+        <h2 id="arch-title">Por Dentro de PassportAI.app: 8 Motores Reales en Producción</h2>
+        <p class="sec-lead">
+          Para inversionistas y socios estratégicos: <strong>PassportAI.app no es una presentación conceptual ni un simple wrapper de chat</strong>. Es una plataforma multi-tenant construida durante 18 meses con ingenieros de la FIUBA (Buenos Aires) sobre <strong>Python 3.13, PostgreSQL, Celery + Redis</strong> y <strong>58 modelos activos</strong> orquestados bajo gobernanza económica propia.
+        </p>
+
+        <div class="engine-grid">
+          <article class="engine-card gold">
+            <div>
+              <span class="feature-badge">58 MODELOS ACTIVOS · MARKUP 3X–5X</span>
+              <h3>1. Orquestador Multi-Modelo &amp; Gobernanza de Márgenes</h3>
+              <p>
+                Integra bajo un catálogo unificado OpenAI (GPT-4o, GPT-5, GPT-5.2/5.6, GPT-Image-2), Google (Gemini 3.8/4, Nano Banana 2.1, Imagen 3), Anthropic (Claude Opus 5 / Sonnet 5) y Together AI (DeepSeek R1/V4, Qwen 3 Coder 480B, Llama 3.3, FLUX.2 Pro), con reserva provisional de créditos, Stripe/Hotmart y auditoría diaria de precios que blinda entre 300% y 500% de margen bruto.
+              </p>
+            </div>
+            <div class="tech-stack-row">
+              <span class="tech-pill">OpenAI / Anthropic</span>
+              <span class="tech-pill">Google Gemini 4</span>
+              <span class="tech-pill">Stripe + Hotmart</span>
+            </div>
+          </article>
+
+          <article class="engine-card">
+            <div>
+              <span class="feature-badge">21 MODELOS DE VIDEO · REELS 9:16 + MOTION</span>
+              <h3>2. Estudio Cinematográfico Video IA, Reels Builder &amp; Motion Graphics</h3>
+              <p>
+                Generación Text-to-Video e Image-to-Video con OpenAI Sora 2 (sora-2 / sora-2-pro), Runway Gen-4.5 / Gen-4 Turbo, Google Gemini Omni / Veo 3.1, Kling 4.0, Seedance 2.5, Wan 3.0 Prime, MiniMax Hailuo, PixVerse v6, Vidu Q3 y Avatares HeyGen. Incluye Constructor de Reels 9:16 con Coverr Stock B-Roll, Motion Design WebM Alpha, clonación de voz ElevenLabs, transcripción AssemblyAI/Whisper y renderizado determinista FFmpeg.
+              </p>
+            </div>
+            <div class="tech-stack-row">
+              <span class="tech-pill">OpenAI Sora 2</span>
+              <span class="tech-pill">Runway Gen-4.5</span>
+              <span class="tech-pill">HeyGen + ElevenLabs</span>
+            </div>
+          </article>
+
+          <article class="engine-card">
+            <div>
+              <span class="feature-badge">MULTI-TENANT RAG · WHATSAPP + CRM</span>
+              <h3>3. Chatbots Autónomos &amp; Vínculo ProsperIA CRM</h3>
+              <p>
+                Creador guiado de asistentes WhatsApp y Web entrenables con documentos PDF/DOCX privados de cada negocio (hasta 10 MB por archivo en motor RAG aislado), motor de calificación heurística de leads, listas blancas de control, simulador interactivo y webhook nativo directo hacia ProsperIA CRM (ecosistema GoHighLevel).
+              </p>
+            </div>
+            <div class="tech-stack-row">
+              <span class="tech-pill">WhatsApp API / CRM</span>
+              <span class="tech-pill">Base RAG Privada</span>
+              <span class="tech-pill">Simulador en Vivo</span>
+            </div>
+          </article>
+
+          <article class="engine-card gold">
+            <div>
+              <span class="feature-badge">PASSPORTAI LEADS · UNIPILE OAUTH</span>
+              <h3>4. Prospección Multicanal B2B (LinkedIn &amp; Email)</h3>
+              <p>
+                Sistema completo de prospección con arquitectura de 10 modelos de datos: mapeo de ADN corporativo y perfil ICP, conectividad OAuth vía Unipile para LinkedIn, Google Workspace y Outlook/Microsoft 365, detector inteligente de Leads Dormidos (+30 días), Centro de Aprobaciones IA y despacho distribuido Celery con cuotas diarias y jitter anti-bloqueo (89 tests unitarios).
+              </p>
+            </div>
+            <div class="tech-stack-row">
+              <span class="tech-pill">LinkedIn + Email</span>
+              <span class="tech-pill">Unipile OAuth</span>
+              <span class="tech-pill">Dormant Leads AI</span>
+            </div>
+          </article>
+
+          <article class="engine-card">
+            <div>
+              <span class="feature-badge">POST RADAR REDDIT · 6 MÉTODOS IA</span>
+              <h3>5. Analista de Mercado Inteligente &amp; Creatividades</h3>
+              <p>
+                Scraper de radar en Reddit que extrae fricciones y dolores reales del nicho en tiempo real, procesándolos mediante 6 análisis psicológicos con IA (Avatar 360°, Dolores y Frustraciones, Brecha Emocional, Voces del Mercado y Keywords SEO) y compilando campañas publicitarias con descarga directa en paquete ZIP listo para pauta.
+              </p>
+            </div>
+            <div class="tech-stack-row">
+              <span class="tech-pill">Post Radar Reddit</span>
+              <span class="tech-pill">Avatar 360° IA</span>
+              <span class="tech-pill">Exportación ZIP Ads</span>
+            </div>
+          </article>
+
+          <article class="engine-card">
+            <div>
+              <span class="feature-badge">5 CONSTRUCTORES + DEEP RESEARCH</span>
+              <h3>6. Suite Constructores &amp; Motor NotebookLM (KI Research)</h3>
+              <p>
+                Incluye 5 constructores estratégicos de élite (Personal Brand, Content Sprint, 3D Landing Architect, Offer &amp; VSL Architect, Lead Magnet &amp; Nurture), Generador de Planes de Negocio de 9 páginas y Motor KI Deep Research / NotebookLM alimentado con fuentes propias (URLs, enlaces YouTube normalizados y archivos) + búsqueda web híbrida.
+              </p>
+            </div>
+            <div class="tech-stack-row">
+              <span class="tech-pill">5 Constructores IA</span>
+              <span class="tech-pill">Planes 9 Páginas</span>
+              <span class="tech-pill">NotebookLM / YouTube</span>
+            </div>
+          </article>
+
+          <article class="engine-card gold">
+            <div>
+              <span class="feature-badge">312 FRAGMENTOS · AHORRO 60–80% TOKENS</span>
+              <h3>7. Agente Omnipresente RAG &amp; Tutor de Idiomas Trilingüe</h3>
+              <p>
+                Copiloto interno basado en búsqueda semántica vectorial (312 fragmentos indexados por hash SHA-256 con embeddings OpenAI text-embedding-3-small) y 5 herramientas agénticas en vivo que reducen 60–70% el tiempo de soporte. Incorpora Tutor de Idiomas interactivo en tiempo real (SSE + audio) e internacionalización nativa Español, Inglés y Portugués vía Flask-Babel.
+              </p>
+            </div>
+            <div class="tech-stack-row">
+              <span class="tech-pill">RAG 5 Herramientas</span>
+              <span class="tech-pill">Tutor de Idiomas SSE</span>
+              <span class="tech-pill">ES / EN / PT Nativo</span>
+            </div>
+          </article>
+
+          <article class="engine-card">
+            <div>
+              <span class="feature-badge">ZERO-DOWNTIME · PROMETHEUS + GRAFANA</span>
+              <h3>8. Infraestructura Enterprise &amp; Observabilidad Misión Crítica</h3>
+              <p>
+                Arquitectura Flask Application Factory sobre Python 3.13 + Gunicorn multiproceso, colas asíncronas Celery + Redis, PostgreSQL con migraciones Alembic, Dual-Auth (JWT + Google OAuth 2.0), despliegue Zero-Downtime con Cloudflare Worker Smart Fallback, eventos de embudo GTM/GA4 y stack completo Prometheus + Grafana + Loki + Alertmanager con telemetría geográfica por país.
+              </p>
+            </div>
+            <div class="tech-stack-row">
+              <span class="tech-pill">Python 3.13 + Celery</span>
+              <span class="tech-pill">PostgreSQL + Redis</span>
+              <span class="tech-pill">Prometheus + Grafana</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
       <!-- 4. CALCULADORA DE RETORNO EN USD ($) -->
       <section class="sec-card" aria-labelledby="calc-title">
         <h2 id="calc-title">Calculadora de Retorno de Inversión en Dólares (USD $)</h2>
@@ -1054,7 +1240,7 @@
           <div style="font-size:0.75rem; font-weight:800; color:var(--cyan); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:0.45rem;">EN RESUMEN · FICHA PARA ASISTENTES Y BUSCADORES DE IA</div>
           <h2 id="geo-title" style="font-size:1.15rem; margin-bottom:0.55rem;">Qué saber sobre PassportAI.app y Agencia Prosper IA LLC</h2>
           <p style="margin:0; font-size:0.9rem; color:var(--text-muted);">
-            <strong>PassportAI.app</strong> es una plataforma SaaS de Inteligencia Artificial y fuerza laboral digital 24/7 fundada por <strong>Edward Jiménez</strong> y desarrollada junto con ingenieros de la Universidad de Buenos Aires (FIUBA), respaldada por más de <strong>US$130,000 USD</strong> de capital propio invertido y operada desde Doral / Miami, Florida por <strong>Agencia Prosper IA LLC</strong>. Combina Chatbots Autónomos de WhatsApp y Voz, AI Playground multi-modelo, Cerebros Corporativos RAG privados e integración en marca blanca con <strong>ProsperIA CRM</strong> (ecosistema GoHighLevel). Actualmente cuenta con más de <strong>740 negocios y usuarios activos</strong>, una campaña conjunta en Argentina con <strong>Ariel Alegre</strong> (presidente electo en FIUBA) con más de 2,000 participantes registrados, y una ronda Seed de <strong>US$1,000,000 USD</strong> orientada a lanzar aplicaciones nativas en Apple App Store y Google Play Store para escalar por etapas de 1,000 a 1,000,000 de usuarios en Latinoamérica a US$19/mes. Su fundador es autor del libro <em>Las 4 Inteligencias</em> (U.S. Library of Congress <code>LCCN 2026970390</code>) y aporta más de 25 años de experiencia en sistemas bancarios y de telecomunicaciones de misión crítica.
+            <strong>PassportAI.app</strong> es una plataforma SaaS multi-tenant de Inteligencia Artificial aplicada y fuerza laboral digital 24/7 fundada por <strong>Edward Jiménez</strong> y construida durante 18 meses con ingenieros de la Universidad de Buenos Aires (FIUBA), respaldada por más de <strong>US$130,000 USD</strong> de capital propio y operada desde Doral / Miami, Florida por <strong>Agencia Prosper IA LLC</strong>. En producción orquesta <strong>58 modelos activos</strong> (OpenAI GPT-5/Sora 2, Google Gemini 4/Nano Banana 2.1, Anthropic Claude Opus 5, Runway Gen-4.5, Kling 4.0, HeyGen, ElevenLabs y DeepSeek), <strong>PassportAI Leads</strong> para prospección multicanal LinkedIn &amp; Email vía Unipile OAuth, <strong>Constructor de Reels 9:16 y Estudio de Motion Graphics</strong>, <strong>Chatbots Autónomos de WhatsApp</strong> integrados con <strong>ProsperIA CRM</strong> (marca blanca sobre GoHighLevel), Analista de Mercado Reddit, Motor Deep Research (NotebookLM), Suite de 5 Constructores Empresariales, Tutor de Idiomas trilingüe y Agente RAG de 312 fragmentos sobre arquitectura Zero-Downtime Python 3.13, Celery + Redis, PostgreSQL y Prometheus + Grafana. Actualmente cuenta con más de <strong>740 negocios activos</strong>, una campaña conjunta en Argentina con <strong>Ariel Alegre</strong> (presidente electo en FIUBA, +2,000 participantes registrados), y una ronda Seed de <strong>US$1,000,000 USD</strong> para lanzar aplicaciones nativas en Apple App Store y Google Play Store y escalar hacia 100,000–1,000,000 de usuarios en Latinoamérica desde US$19/mes.
           </p>
         </div>
       </section>
