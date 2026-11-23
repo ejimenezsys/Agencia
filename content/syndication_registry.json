@@ -100,7 +100,8 @@
     "consolidacion-herramientas-ia-operaciones": "https://telegra.ph/Consolidación-de-herramientas-de-IA-La-tendencia-que-está-salvando-el-margen-operativo-de-las-empresas-de-servicios-11-22",
     "ai-sdr-vs-ai-setter-ventas": "https://telegra.ph/AI-SDR-vs-AI-Setter-Cómo-estructurar-el-equipo-de-ventas-digital-perfecto-sin-inflar-tu-nómina-11-22",
     "factor-humano-sops-retorno-inversion-ia": "https://telegra.ph/El-factor-humano-en-la-era-de-los-agentes-autónomos-Por-qué-tus-SOPs-son-tu-activo-más-valioso-11-22",
-    "speed-to-lead-velocidad-ventas-latam": "https://telegra.ph/De-4-horas-a-45-segundos-Cómo-la-velocidad-de-respuesta-Speed-to-Lead-define-quién-gana-los-clientes-B2B-en-Latinoamérica-en-202-11-22"
+    "speed-to-lead-velocidad-ventas-latam": "https://telegra.ph/De-4-horas-a-45-segundos-Cómo-la-velocidad-de-respuesta-Speed-to-Lead-define-quién-gana-los-clientes-B2B-en-Latinoamérica-en-202-11-22",
+    "openai-descubre-948-fallas-en-linux-10-noticias-de-ia": "https://telegra.ph/OpenAI-descubre-948-fallas-en-Linux--10-noticias-de-IA-11-23"
   },
   "devto": {
     "7-tareas-agente-ia-empresa-24-7-mexico-latinoamerica": "https://dev.to/edwardjimenezia/7-tareas-que-un-agente-de-ia-puede-hacer-por-tu-empresa-247-en-mexico-y-latinoamerica-pme",
@@ -114,25 +115,25 @@
   },
   "hashnode": {},
   "indexnow_last": {
-    "timestamp": "2026-11-22T21:25:08.994674+00:00",
+    "timestamp": "2026-11-23T04:30:38.982132+00:00",
     "http_status": 200,
-    "url_count": 121
+    "url_count": 122
   },
   "worker_last_cycle": {
-    "timestamp": "2026-11-22T21:25:08.997166+00:00",
-    "timestamp_miami": "2026-11-22 16:25:08 EST",
+    "timestamp": "2026-11-23T04:30:38.990410+00:00",
+    "timestamp_miami": "2026-11-22 23:30:38 EST",
     "schedule": "Cada 12h (Mañana y Noche · Lunes a Domingo 24/7 · publish_linkedin=False)",
     "publish_linkedin": false,
     "daily_ai_generated": false,
     "created_youtube_articles": 0,
-    "published_articles": 101,
-    "telegraph_count": 101,
+    "published_articles": 102,
+    "telegraph_count": 102,
     "devto_count": 8,
     "hashnode_count": 0,
     "indexnow": {
-      "timestamp": "2026-11-22T21:25:08.994674+00:00",
+      "timestamp": "2026-11-23T04:30:38.982132+00:00",
       "http_status": 200,
-      "url_count": 121
+      "url_count": 122
     }
   },
   "articles": {
@@ -741,6 +742,12 @@
       "url": "https://agenciaprosperia.com/blog/speed-to-lead-velocidad-ventas-latam",
       "youtube_video_id": "",
       "published_at": "2026-06-09T13:00:00Z"
+    },
+    "openai-descubre-948-fallas-en-linux-10-noticias-de-ia": {
+      "title": "OpenAI descubre 948 fallas en Linux | 10 noticias de IA",
+      "url": "https://agenciaprosperia.com/blog/openai-descubre-948-fallas-en-linux-10-noticias-de-ia",
+      "youtube_video_id": "FQepMo5AKwQ",
+      "published_at": "2026-11-23T03:00:08+00:00"
     }
   }
 }
