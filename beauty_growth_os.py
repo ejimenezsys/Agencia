@@ -922,12 +922,18 @@ def init_beauty_growth_os() -> None:
                 ))
 
         # 2. Tres Setters iniciales por slot (1, 2, 3) — nunca sobrescribe correos ya actualizados por Jhon
+        default_setters = {
+            1: ("johanna507@yahoo.es", "Johanna Carolina Cely Páez"),
+            2: ("luzdoradadel.ser7@gmail.com", "Yndira Katerine Sifontes"),
+            3: ("setter3@agenciaprosperia.com", "Setter 3 · Beauty Growth"),
+        }
         for slot in (1, 2, 3):
             existing_slot = db.query(BeautyGrowthUser).filter(BeautyGrowthUser.setter_slot == slot).first()
             if not existing_slot:
+                def_email, def_name = default_setters[slot]
                 db.add(BeautyGrowthUser(
-                    email=f"setter{slot}@agenciaprosperia.com",
-                    name=f"Setter {slot} · Beauty Growth",
+                    email=def_email,
+                    name=def_name,
                     password_hash=hash_password("Setter2026!"),
                     role="setter",
                     setter_slot=slot,
