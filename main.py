@@ -19,7 +19,15 @@ from database import init_db, SessionLocal, User, Lead as DbLead, SessionModel, 
 from editorial import LANES, enrich_post
 from ghl_client import sync_lead_to_ghl_async, sync_sales_os_event_to_ghl_async
 from sales_os_router import router as sales_os_router, WEBSITE_TEMPLATES_SHOWCASE, serialize_lead, record_audit, is_contact_excluded
-from beauty_growth_os import router as beauty_growth_router, init_beauty_growth_os
+from beauty_growth_os import (
+    router as beauty_growth_router,
+    init_beauty_growth_os,
+    BeautyGrowthUser,
+    BeautyGrowthSession,
+    BG_COOKIE_NAME,
+    _verify_bg_password,
+    _serialize_bg_user,
+)
 from portafolio_vivo import setup_portafolio_vivo
 import json
 
@@ -2855,6 +2863,34 @@ async def api_login(req: LoginRequest, request: Request, response: Response, db:
     email_clean = normalize_email(req.email)
     user = db.query(User).filter(func.lower(User.email) == email_clean).first()
     if not user:
+        # Puente automático: si el usuario pertenece a Beauty Growth OS, autenticarlo y enviarlo directo a /beautygrowth/crm
+        bg_user = db.query(BeautyGrowthUser).filter(func.lower(BeautyGrowthUser.email) == email_clean).first()
+        if bg_user and int(bg_user.is_active or 0) == 1 and _verify_bg_password(req.password, bg_user.password_hash, bg_user.email, bg_user.role):
+            _LOGIN_FAIL_BUCKETS.pop(client_ip, None)
+            bg_token = f"bg_{uuid.uuid4().hex}"
+            created_at = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+            db.add(BeautyGrowthSession(token=bg_token, email=bg_user.email, created_at=created_at))
+            bg_user.last_login_at = created_at
+            db.commit()
+            is_secure = (request.url.scheme == "https") or (request.headers.get("x-forwarded-proto") == "https")
+            response.set_cookie(
+                key=BG_COOKIE_NAME,
+                value=bg_token,
+                max_age=604800,
+                path="/",
+                httponly=True,
+                samesite="none" if is_secure else "lax",
+                secure=is_secure,
+            )
+            return {
+                "success": True,
+                "data": {
+                    "token": bg_token,
+                    "bg_token": bg_token,
+                    "redirect_url": "/beautygrowth/crm",
+                    "user": _serialize_bg_user(bg_user),
+                },
+            }
         fails.append(now_ts)
         _LOGIN_FAIL_BUCKETS[client_ip] = fails
         return JSONResponse(

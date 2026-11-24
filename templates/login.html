@@ -286,6 +286,14 @@
       const data = await res.json();
 
       if (data.success) {
+        if (data.data.bg_token) {
+          localStorage.setItem('bg_auth_token', data.data.bg_token);
+          localStorage.setItem('bg_user', JSON.stringify(data.data.user));
+          alertBox.style.cssText = 'background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.3); color:#6ee7b7; display:block; padding:16px; border-radius:12px; font-size:14px; margin-bottom:24px;';
+          alertBox.innerHTML = '<i class="fas fa-check-circle mr-2"></i>Acceso Beauty Growth concedido. Redirigiendo a tu base de prospectos...';
+          setTimeout(() => window.location.href = data.data.redirect_url || '/beautygrowth/crm', 400);
+          return;
+        }
         localStorage.setItem('auth_token', data.data.token);
         localStorage.setItem('user', JSON.stringify(data.data.user));
         const sameSiteAttr = window.location.protocol === 'https:' ? 'SameSite=None; Secure' : 'SameSite=Lax';

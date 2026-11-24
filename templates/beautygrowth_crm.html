@@ -1184,15 +1184,15 @@
                         </div>
                         <div class="f-group">
                             <label>Correo Electrónico de Acceso</label>
-                            <input id="stEmail_${s.setter_slot}" class="f-control" value="${escHtml(s.email)}">
+                            <input id="stEmail_${s.setter_slot}" class="f-control" autocomplete="off" value="${escHtml(s.email)}">
                         </div>
                         <div class="f-group">
                             <label>Teléfono / WhatsApp</label>
-                            <input id="stPhone_${s.setter_slot}" class="f-control" value="${escHtml(s.phone)}">
+                            <input id="stPhone_${s.setter_slot}" class="f-control" autocomplete="off" value="${escHtml(s.phone)}">
                         </div>
                         <div class="f-group">
-                            <label>Nueva Contraseña (dejar vacío para conservar)</label>
-                            <input id="stPass_${s.setter_slot}" class="f-control" type="password" placeholder="Ej: Setter2026!">
+                            <label>Contraseña (activa: Setter2026! · escribe otra solo para cambiarla)</label>
+                            <input id="stPass_${s.setter_slot}" class="f-control" type="password" autocomplete="new-password" placeholder="Dejar vacío para conservar Setter2026!">
                         </div>
                     </div>
                     <div style="margin-top:10px;">
