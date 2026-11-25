@@ -2535,23 +2535,26 @@
       <!-- COLUMNA DERECHA: VISOR AMPLIO DESDE ARRIBA SIN CORTARSE -->
       <div style="min-width:0;">
 
-        <!-- SUB-VISTA 0: VIDEO TUTORIAL OFICIAL DE OPERACIONES PARA CLOSERS (CON VIDEO EXPRESS 6 MIN INTEGRADO + ESPACIO MASTER 34 MIN) -->
+        <!-- SUB-VISTA 0: VIDEO TUTORIAL OFICIAL DE OPERACIONES PARA CLOSERS (VIDEO CORTO 2 MIN ACTUALIZADO + DESCARGA WHATSAPP) -->
         <div id="weapon-view-tutorial-video" class="hidden space-y-4">
           <div class="card p-6 sm:p-7 border-2 border-cyan-500/40" style="background:radial-gradient(circle at top right, rgba(0,229,255,0.14), rgba(5,13,26,0.98) 70%);">
             <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-4 mb-5">
               <div>
                 <div class="flex flex-wrap items-center gap-2">
                   <span class="px-3 py-0.5 rounded-full text-[11px] font-black uppercase bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">🎬 CAPACITACIÓN OFICIAL · CLOSERS PROSPER IA</span>
-                  <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">✓ Video Express (06:11) Ya Integrado + Master Completo (34:27)</span>
+                  <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">✓ Nuevo Tutorial 2 Min (02:08) · Bolsa 500 + Canales $0</span>
                 </div>
-                <h3 class="text-lg sm:text-xl font-black text-white mt-1.5">Video Tutorial Operativo de Edward Jiménez: Cómo Llamar, Pasar al Pipeline, Dar Demos y Cobrar tu 15%</h3>
+                <h3 class="text-lg sm:text-xl font-black text-white mt-1.5">Tutorial Oficial de 2 Minutos: Bolsa 500 ($0 AR), Popups sin Ruido, 16 Demos Web y Cobros 15%</h3>
               </div>
               <div class="flex flex-wrap gap-2">
-                <button type="button" onclick="resetToBuiltInExpressVideo('master')" class="px-3.5 py-2 rounded-xl text-xs font-black bg-cyan-400 text-slate-950 hover:bg-cyan-300 inline-flex items-center gap-1.5">
-                  🎬 Ver Master Completo (34:27)
-                </button>
                 <button type="button" onclick="resetToBuiltInExpressVideo('express')" class="px-3.5 py-2 rounded-xl text-xs font-black bg-emerald-400 text-slate-950 hover:bg-emerald-300 inline-flex items-center gap-1.5">
-                  ⚡ Ver Resumen Express (6:11)
+                  ⚡ Tutorial Oficial 2 Min (Actualizado)
+                </button>
+                <a href="/static/video/tutorial_closers_express_2min.mp4" download="Tutorial-Oficial-Closers-ProsperIA-2min.mp4" class="px-3.5 py-2 rounded-xl text-xs font-black bg-cyan-400 text-slate-950 hover:bg-cyan-300 no-underline inline-flex items-center gap-1.5">
+                  📲 Descargar Video MP4 (WhatsApp)
+                </a>
+                <button type="button" onclick="resetToBuiltInExpressVideo('master')" class="btn-ghost px-3.5 py-2 rounded-xl text-xs font-bold text-slate-300 border-slate-700 inline-flex items-center gap-1.5">
+                  🎬 Grabación Anterior (34:27)
                 </button>
                 <a href="/videoclosers" class="btn-ghost px-3.5 py-2 rounded-xl text-xs font-bold text-cyan-300 border-cyan-500/30 no-underline inline-flex items-center gap-1.5">
                   ↗ Abrir /videoclosers
@@ -2563,7 +2566,7 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-              <!-- Reproductor 16:9 con Video Nativo Integrado + Soporte Drive/YouTube/Loom -->
+              <!-- Reproductor 16:9 con Video Nativo Integrado (Tutorial Corto 2 Min Actualizado) -->
               <div class="lg:col-span-8 space-y-3">
                 <div id="closer-tutorial-video-box" class="relative w-full rounded-2xl overflow-hidden border-2 border-cyan-500/40 bg-slate-950 shadow-2xl flex items-center justify-center" style="aspect-ratio: 16 / 9; min-height: 380px;">
                   <video
@@ -2575,7 +2578,7 @@
                     width="1280"
                     height="720"
                     poster="/static/img/crm_slides/crm_command_center.jpg?v=2"
-                    src="/api/video-stream/master"
+                    src="/api/video-stream/express?v=2"
                     class="w-full h-full object-contain bg-slate-950"
                   >
                     Tu navegador no soporta reproducción de video HTML5.
@@ -2584,81 +2587,81 @@
                 </div>
               </div>
 
-              <!-- Índice Interactivo Clicable de los 7 Capítulos de la Grabación (Con Timestamps del Corte Maestro 34:27) -->
+              <!-- Índice Interactivo Clicable de los 7 Capítulos del Video Corto (02:08) -->
               <div class="lg:col-span-4 space-y-2" id="closer-tutorial-chapters-list">
                 <div class="flex items-center justify-between mb-1">
-                  <div class="text-xs font-black uppercase tracking-wider text-cyan-400">📋 ÍNDICE INTERACTIVO (CLIC PARA SALTAR)</div>
+                  <div class="text-xs font-black uppercase tracking-wider text-cyan-400">📋 ÍNDICE INTERACTIVO · 7 PASOS (02:08)</div>
                   <span class="text-[10px] font-bold text-emerald-300">▶ Toca un paso</span>
                 </div>
 
-                <button type="button" onclick="seekCloserTutorialVideo(0, 'master', this)"
+                <button type="button" onclick="seekCloserTutorialVideo(0, 'express', this)"
                         style="width:100%; text-align:left; cursor:pointer; background:#091528; border:1.5px solid #00e5ff; transition:all 0.18s;"
                         class="closer-chapter-card p-2.5 rounded-xl text-xs space-y-0.5 block hover:border-cyan-400">
                   <div class="flex items-center justify-between gap-2">
-                    <span class="font-black text-white">1️⃣ Login, Reloj Check-In y Podio</span>
+                    <span class="font-black text-white">1️⃣ Login, Gorras, Reloj y 3 Modos</span>
                     <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono text-[10px] font-bold">▶ 00:00</span>
                   </div>
-                  <p class="text-slate-400 text-[11px] m-0">Entrada por <code>/login</code>, reloj automático y embudo <code>1,000 → 150 → 30 → 5+</code>.</p>
+                  <p class="text-slate-400 text-[11px] m-0">Entrada directa en <code>/login</code> (<code>Closer2026!</code>), Gorra Setter/Closer, Check-In y temas Azul/Blanco/Oscuro.</p>
                 </button>
 
-                <button type="button" onclick="seekCloserTutorialVideo(198, 'master', this)"
+                <button type="button" onclick="seekCloserTutorialVideo(20, 'express', this)"
                         style="width:100%; text-align:left; cursor:pointer; background:#091528; border:1px solid rgba(16,185,129,0.38); transition:all 0.18s;"
                         class="closer-chapter-card p-2.5 rounded-xl text-xs space-y-0.5 block hover:border-cyan-400">
                   <div class="flex items-center justify-between gap-2">
-                    <span class="font-black text-emerald-300">2️⃣ Bolsa Libre 500 B2B ($0) + Mis Activos</span>
-                    <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono text-[10px] font-bold">▶ 03:18</span>
+                    <span class="font-black text-emerald-300">2️⃣ Bolsa Libre 500 B2B ($0) + Tomar Contacto</span>
+                    <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono text-[10px] font-bold">▶ 00:20</span>
                   </div>
-                  <p class="text-slate-400 text-[11px] m-0">Negocios reales con WhatsApp móvil (MX/CO/CL/PE/ES) y líneas de Argentina ($0). Cómo reservar en exclusiva con <strong>✋ Tomar Contacto</strong>.</p>
+                  <p class="text-slate-400 text-[11px] m-0">500 negocios B2B reales (WA móvil + línea <code>+54</code> AR a $0). Botón <strong>✋ Tomar Contacto</strong> para propiedad exclusiva.</p>
                 </button>
 
-                <button type="button" onclick="seekCloserTutorialVideo(390, 'master', this)"
+                <button type="button" onclick="seekCloserTutorialVideo(38, 'express', this)"
                         style="width:100%; text-align:left; cursor:pointer; background:#091528; border:1px solid rgba(245,158,11,0.38); transition:all 0.18s;"
                         class="closer-chapter-card p-2.5 rounded-xl text-xs space-y-0.5 block hover:border-cyan-400">
                   <div class="flex items-center justify-between gap-2">
-                    <span class="font-black text-amber-300">3️⃣ Popup de Trabajo, Correo y Seteo → Closer</span>
-                    <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono text-[10px] font-bold">▶ 06:30</span>
+                    <span class="font-black text-amber-300">3️⃣ Popup 4 Canales $0 + Seteo → Closer</span>
+                    <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono text-[10px] font-bold">▶ 00:38</span>
                   </div>
-                  <p class="text-slate-400 text-[11px] m-0"><strong>💬 Mi WhatsApp 1a1</strong>, <strong>📸 Buscar IG/FB</strong>, <strong>✉️ Redactar Correo</strong> desde <code>seller@agenciaprosperia.com</code>, <strong>🎯 Asignar a Closer</strong> y <strong>➕ Nuevo Prospecto</strong>.</p>
+                  <p class="text-slate-400 text-[11px] m-0">Llamada +54/WA, <strong>💬 Mi WhatsApp 1a1</strong>, <strong>✉️ Redactar Correo</strong> (<code>seller@</code> + detección respuestas), <strong>📸 Buscar IG/FB</strong> y <strong>🎯 Seteo → Closer</strong>.</p>
                 </button>
 
-                <button type="button" onclick="seekCloserTutorialVideo(645, 'master', this)"
-                        style="width:100%; text-align:left; cursor:pointer; background:#091528; border:1px solid rgba(244,63,94,0.38); transition:all 0.18s;"
+                <button type="button" onclick="seekCloserTutorialVideo(59, 'express', this)"
+                        style="width:100%; text-align:left; cursor:pointer; background:#091528; border:1px solid rgba(56,189,248,0.38); transition:all 0.18s;"
                         class="closer-chapter-card p-2.5 rounded-xl text-xs space-y-0.5 block hover:border-cyan-400">
                   <div class="flex items-center justify-between gap-2">
-                    <span class="font-black text-rose-300">4️⃣ Pipeline Activo y Pago 15%</span>
-                    <span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 font-mono text-[10px] font-bold">▶ 10:45</span>
+                    <span class="font-black text-sky-300">4️⃣ ➕ Nuevo Prospecto e Importar Excel/CSV</span>
+                    <span class="px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 font-mono text-[10px] font-bold">▶ 00:59</span>
                   </div>
-                  <p class="text-slate-400 text-[11px] m-0">Mover etapas (Paso 2 a 8) en vivo con el CRM y botón <strong>💳 Verificar Pago</strong> (comisión 15%).</p>
+                  <p class="text-slate-400 text-[11px] m-0">Elige entre <strong>16 Plantillas Sectoriales</strong> y ubícalo en Setter o directo en <strong>🔥 Pipeline Closer</strong>.</p>
                 </button>
 
-                <button type="button" onclick="seekCloserTutorialVideo(855, 'master', this)"
+                <button type="button" onclick="seekCloserTutorialVideo(73, 'express', this)"
                         style="width:100%; text-align:left; cursor:pointer; background:#091528; border:1px solid rgba(0,229,255,0.38); transition:all 0.18s;"
                         class="closer-chapter-card p-2.5 rounded-xl text-xs space-y-0.5 block hover:border-cyan-400">
                   <div class="flex items-center justify-between gap-2">
-                    <span class="font-black text-cyan-300">5️⃣ Demo Sitio Web + 1,000 Plantillas</span>
-                    <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono text-[10px] font-bold">▶ 14:15</span>
+                    <span class="font-black text-cyan-300">5️⃣ Demo Sitio Web (16 Demos + Chatbot IA)</span>
+                    <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono text-[10px] font-bold">▶ 01:13</span>
                   </div>
-                  <p class="text-slate-400 text-[11px] m-0">Personalización en 5s, prueba de formulario + correo en 40s, <span onclick="event.stopPropagation(); seekCloserTutorialVideo(1264, 'master');" class="underline text-cyan-300 font-bold">Chatbot IA (21:04)</span> y <span onclick="event.stopPropagation(); seekCloserTutorialVideo(1338, 'master');" class="underline text-cyan-300 font-bold">+1,000 Plantillas (22:18)</span>.</p>
+                  <p class="text-slate-400 text-[11px] m-0">Personaliza empresa y ciudad en 5s, cambia <strong>🎨 +60 Looks</strong> y prueba en vivo el <strong>Chatbot IA 24/7</strong>.</p>
                 </button>
 
-                <button type="button" onclick="seekCloserTutorialVideo(1415, 'master', this)"
+                <button type="button" onclick="seekCloserTutorialVideo(90, 'express', this)"
                         style="width:100%; text-align:left; cursor:pointer; background:#091528; border:1px solid rgba(168,85,247,0.4); transition:all 0.18s;"
                         class="closer-chapter-card p-2.5 rounded-xl text-xs space-y-0.5 block hover:border-cyan-400">
                   <div class="flex items-center justify-between gap-2">
-                    <span class="font-black text-purple-300">6️⃣ Las 3 Ofertas Separadas (11 Slides)</span>
-                    <span class="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-mono text-[10px] font-bold">▶ 23:35</span>
+                    <span class="font-black text-purple-300">6️⃣ Presentaciones Clientes vs. Estudio</span>
+                    <span class="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-mono text-[10px] font-bold">▶ 01:30</span>
                   </div>
-                  <p class="text-slate-400 text-[11px] m-0">Slide 8 Estrella (<strong>$990</strong>), Slide 9 Downsell (<strong>$497</strong>), Slide 10 Máquina (<strong>$1,490</strong> con 10 Videos + Meta Ads) y Slide 11 Cierre.</p>
+                  <p class="text-slate-400 text-[11px] m-0">Cara al cliente: <strong>Lenguaje Natural</strong>, <strong>Comercial 3 Cajas</strong> (<strong>$497–$1,490</strong>), <strong>PassportAI</strong> (<strong>+58 modelos</strong>) y <strong>CRM</strong>.</p>
                 </button>
 
-                <button type="button" onclick="seekCloserTutorialVideo(1764, 'master', this)"
+                <button type="button" onclick="seekCloserTutorialVideo(112, 'express', this)"
                         style="width:100%; text-align:left; cursor:pointer; background:#091528; border:1px solid rgba(16,185,129,0.38); transition:all 0.18s;"
                         class="closer-chapter-card p-2.5 rounded-xl text-xs space-y-0.5 block hover:border-cyan-400">
                   <div class="flex items-center justify-between gap-2">
-                    <span class="font-black text-emerald-300">7️⃣ PassportAI (17 Slides) + ProsperIA CRM</span>
-                    <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono text-[10px] font-bold">▶ 29:24</span>
+                    <span class="font-black text-emerald-300">7️⃣ Mi Pipeline, 14 Links Live y Pago 15%</span>
+                    <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono text-[10px] font-bold">▶ 01:52</span>
                   </div>
-                  <p class="text-slate-400 text-[11px] m-0">Ahorro de $1,680/año en IAs sueltas, Slides CRM y demostración de <span onclick="event.stopPropagation(); seekCloserTutorialVideo(1966, 'master');" class="underline text-emerald-300 font-bold">ProsperIA CRM en vivo (32:46)</span>.</p>
+                  <p class="text-slate-400 text-[11px] m-0"><strong>📒 Bitácora &amp; Propuesta</strong>, reserva 50% por <strong>Stripe / Whop</strong> y botón <strong>✅ Verificar Pago (15%)</strong> + campana 🔔.</p>
                 </button>
               </div>
             </div>
@@ -8926,7 +8929,7 @@ function setWeaponsTheme(theme) {
 }
 
 function seekCloserTutorialVideo(seconds, mode, btnEl) {
-  const targetMode = mode || 'master';
+  const targetMode = mode || 'express';
   const targetSec = Number(seconds) || 0;
 
   // Resaltar visualmente el capítulo activo si se hizo clic en una tarjeta del índice
@@ -8950,9 +8953,9 @@ function seekCloserTutorialVideo(seconds, mode, btnEl) {
   }
   if (!vid) return;
 
-  const targetSrc = targetMode === 'express'
-    ? '/api/video-stream/express'
-    : '/api/video-stream/master';
+  const targetSrc = targetMode === 'master'
+    ? '/api/video-stream/master'
+    : '/api/video-stream/express?v=2';
 
   vid.classList.remove('hidden');
 
@@ -8984,9 +8987,9 @@ function resetToBuiltInExpressVideo(mode) {
     iframe.classList.add('hidden');
   }
   if (vid) {
-    const targetSrc = mode === 'express'
-      ? '/api/video-stream/express'
-      : '/api/video-stream/master';
+    const targetSrc = mode === 'master'
+      ? '/api/video-stream/master'
+      : '/api/video-stream/express?v=2';
     if (!vid.src.includes(targetSrc)) {
       vid.src = targetSrc;
       vid.load();

@@ -2318,7 +2318,8 @@ async def stream_closer_training_video(video_key: str, request: Request):
     """Streaming HTTP 206 Partial Content (Byte-Range) sin compresión proxy para reproducción inmediata en Safari/Chrome."""
     video_map = {
         "master": os.path.join(os.path.dirname(__file__), "static", "video", "tutorial_master_closers_34min.mp4"),
-        "express": os.path.join(os.path.dirname(__file__), "static", "video", "tutorial_closers_express_6min.mp4"),
+        "express": os.path.join(os.path.dirname(__file__), "static", "video", "tutorial_closers_express_2min.mp4"),
+        "corto": os.path.join(os.path.dirname(__file__), "static", "video", "tutorial_closers_express_2min.mp4"),
         "nubia": os.path.join(os.path.dirname(__file__), "static", "video", "testimonio_nubia_allinbeauty.mp4"),
         "beautygrowth": os.path.join(os.path.dirname(__file__), "static", "video", "testimonio_nubia_allinbeauty.mp4"),
         "exma-reel-1": os.path.join(os.path.dirname(__file__), "static", "exmaboletos", "reels", "reel1.mp4"),
