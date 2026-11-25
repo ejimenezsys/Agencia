@@ -2038,7 +2038,9 @@ async def sitioweb_qualify_submit(request: Request, db: Session = Depends(get_db
     full_name = (body.get("full_name") or "").strip()[:100]
     phone_raw = (body.get("phone") or "").strip()[:30]
     email_raw = normalize_email(body.get("email") or "")
-    monthly_volume = (body.get("monthly_volume") or "15_50").strip()
+    monthly_volume = (body.get("monthly_volume") or "").strip()
+    urgency = (body.get("urgency") or "urgente").strip()[:40]
+    budget_confirm = (body.get("budget_confirm") or "").strip().lower()
     utm_source = (body.get("utm_source") or "").strip()[:60]
     utm_campaign = (body.get("utm_campaign") or "").strip()[:80]
 
@@ -2050,7 +2052,10 @@ async def sitioweb_qualify_submit(request: Request, db: Session = Depends(get_db
         raise HTTPException(status_code=422, detail="Por favor ingresa un número de WhatsApp válido de al menos 8 dígitos.")
 
     selected_tpl = SITIOWEB_NICHE_TEMPLATE_MAP.get(niche, "clinica_dental_estetica")
-    is_qualified_owner = monthly_volume != "sin_negocio"
+    if budget_confirm:
+        is_qualified_owner = budget_confirm == "si"
+    else:
+        is_qualified_owner = monthly_volume != "sin_negocio"
     now_str = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
 
     closer = get_next_round_robin_closer(db) if is_qualified_owner else None
@@ -2061,9 +2066,21 @@ async def sitioweb_qualify_submit(request: Request, db: Session = Depends(get_db
         (DbLead.email == email_raw) | (DbLead.phone_e164 == phone_e164)
     ).first()
 
+    urgency_labels = {
+        "urgente": "🔥 Urgente (pierde clientes hoy)",
+        "proximas_semanas": "⏱️ Próximas 2-3 semanas",
+        "explorando": "👀 Explorando opciones",
+    }
+    urgency_human = urgency_labels.get(urgency, urgency or "urgente")
+    budget_human = (
+        "Presupuesto US$497+ (50/50): SÍ CONFIRMADO"
+        if is_qualified_owner
+        else "Presupuesto US$497+ (50/50): NO / Solo explorando"
+    )
     note_summary = (
-        f"🔥 Embudo /sitioweb ({'DUEÑO CALIFICADO' if is_qualified_owner else 'Explorando sin negocio'}) | "
-        f"Giro: {niche} | Volumen mensual: {monthly_volume}"
+        f"🔥 Embudo /sitioweb ({'DUEÑO CALIFICADO' if is_qualified_owner else 'No cumple presupuesto'}) | "
+        f"Giro: {niche} | {budget_human} | Urgencia: {urgency_human}"
+        + (f" | Vol: {monthly_volume}" if monthly_volume else "")
         + (f" | UTM: {utm_source}/{utm_campaign}" if (utm_source or utm_campaign) else "")
     )
 
@@ -2075,7 +2092,7 @@ async def sitioweb_qualify_submit(request: Request, db: Session = Depends(get_db
         existing.phone = phone_raw
         existing.phone_e164 = phone_e164
         existing.source = "sitioweb_funnel"
-        existing.source_channel = utm_source or "Instagram / Meta Ads"
+        existing.source_channel = utm_source or "VSL /sitioweb"
         existing.source_campaign = "🔥 Embudo /sitioweb B2B"
         existing.niche = niche
         existing.selected_template = selected_tpl
@@ -2086,7 +2103,7 @@ async def sitioweb_qualify_submit(request: Request, db: Session = Depends(get_db
                 existing.setter_id = owner_email
             if existing.pipeline_stage in ("Lead identificado", "No cumple perfil", "No responde", ""):
                 existing.pipeline_stage = "Primer contacto"
-            existing.score = max(existing.score or 0, 92)
+            existing.score = max(existing.score or 0, 95)
             existing.quoted_amount = existing.quoted_amount or 990.0
             existing.offer_version = existing.offer_version or "ANUAL_990"
         else:
@@ -2105,10 +2122,10 @@ async def sitioweb_qualify_submit(request: Request, db: Session = Depends(get_db
             phone_e164=phone_e164,
             status="qualified" if is_qualified_owner else "new",
             source="sitioweb_funnel",
-            source_channel=utm_source or "Instagram / Meta Ads",
+            source_channel=utm_source or "VSL /sitioweb",
             source_campaign="🔥 Embudo /sitioweb B2B",
-            interest_primary="Sitio Web Inteligente + IA 24/7",
-            score=92 if is_qualified_owner else 30,
+            interest_primary="Página Web + Asistente 24/7",
+            score=95 if is_qualified_owner else 30,
             notes=note_summary,
             created_at=now_str,
             owner_id=owner_email,
@@ -2138,9 +2155,9 @@ async def sitioweb_qualify_submit(request: Request, db: Session = Depends(get_db
     fn = name_parts[0] if name_parts else full_name
     ln = " ".join(name_parts[1:]) if len(name_parts) > 1 else ""
     extra_tags = (
-        ["embudo_sitioweb_b2b", "dueno_negocio_activo", f"vol_{monthly_volume}", f"giro_{niche}"]
+        ["embudo_sitioweb_b2b", "dueno_negocio_activo", f"urg_{urgency}", "presupuesto_confirmado_497", f"giro_{niche}"]
         if is_qualified_owner
-        else ["embudo_sitioweb_explorador", "curioso_sin_negocio"]
+        else ["embudo_sitioweb_explorador", "no_cumple_presupuesto", f"urg_{urgency}"]
     )
     sync_lead_to_ghl_async(
         first_name=fn,
@@ -2320,6 +2337,8 @@ async def stream_closer_training_video(video_key: str, request: Request):
         "master": os.path.join(os.path.dirname(__file__), "static", "video", "tutorial_master_closers_34min.mp4"),
         "express": os.path.join(os.path.dirname(__file__), "static", "video", "tutorial_closers_express_2min.mp4"),
         "corto": os.path.join(os.path.dirname(__file__), "static", "video", "tutorial_closers_express_2min.mp4"),
+        "vsl-sitioweb": os.path.join(os.path.dirname(__file__), "static", "video", "vsl_sitioweb_90s.mp4"),
+        "sitioweb": os.path.join(os.path.dirname(__file__), "static", "video", "vsl_sitioweb_90s.mp4"),
         "nubia": os.path.join(os.path.dirname(__file__), "static", "video", "testimonio_nubia_allinbeauty.mp4"),
         "beautygrowth": os.path.join(os.path.dirname(__file__), "static", "video", "testimonio_nubia_allinbeauty.mp4"),
         "exma-reel-1": os.path.join(os.path.dirname(__file__), "static", "exmaboletos", "reels", "reel1.mp4"),
