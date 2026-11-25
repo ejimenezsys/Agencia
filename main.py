@@ -2016,6 +2016,23 @@ async def sitioweb_funnel_page(request: Request):
     return templates.TemplateResponse(request=request, name="sitioweb.html", context={"request": request})
 
 
+@app.get("/diagnostico-whatsapp", response_class=HTMLResponse)
+@app.head("/diagnostico-whatsapp")
+@app.get("/diagnostico-whatsapp/", response_class=HTMLResponse)
+@app.head("/diagnostico-whatsapp/")
+@app.get("/lead-magnet", response_class=HTMLResponse)
+@app.head("/lead-magnet")
+@app.get("/lead-magnet/", response_class=HTMLResponse)
+@app.head("/lead-magnet/")
+@app.get("/calculadora-whatsapp", response_class=HTMLResponse)
+@app.head("/calculadora-whatsapp")
+@app.get("/calculadora-whatsapp/", response_class=HTMLResponse)
+@app.head("/calculadora-whatsapp/")
+async def diagnostico_whatsapp_lead_magnet_page(request: Request):
+    """Lead Magnet Oficial: Calculadora de Fugas en WhatsApp + Folleto 1 Hoja + Reels 9:16 hacia /sitioweb."""
+    return templates.TemplateResponse(request=request, name="diagnostico_whatsapp.html", context={"request": request})
+
+
 @app.post("/api/sitioweb/qualify")
 async def sitioweb_qualify_submit(request: Request, db: Session = Depends(get_db)):
     content_type = (request.headers.get("content-type") or "").lower()
@@ -2339,6 +2356,8 @@ async def stream_closer_training_video(video_key: str, request: Request):
         "corto": os.path.join(os.path.dirname(__file__), "static", "video", "tutorial_closers_express_2min.mp4"),
         "vsl-sitioweb": os.path.join(os.path.dirname(__file__), "static", "video", "vsl_sitioweb_90s.mp4"),
         "sitioweb": os.path.join(os.path.dirname(__file__), "static", "video", "vsl_sitioweb_90s.mp4"),
+        "reel-sitioweb-1": os.path.join(os.path.dirname(__file__), "static", "video", "reel_sitioweb_01_lunes_9x16.mp4"),
+        "reel-sitioweb-2": os.path.join(os.path.dirname(__file__), "static", "video", "reel_sitioweb_02_11pm_9x16.mp4"),
         "nubia": os.path.join(os.path.dirname(__file__), "static", "video", "testimonio_nubia_allinbeauty.mp4"),
         "beautygrowth": os.path.join(os.path.dirname(__file__), "static", "video", "testimonio_nubia_allinbeauty.mp4"),
         "exma-reel-1": os.path.join(os.path.dirname(__file__), "static", "exmaboletos", "reels", "reel1.mp4"),

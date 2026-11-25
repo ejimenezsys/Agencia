@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Fugas en WhatsApp + Guía en 1 Hoja | Agencia Prosper IA</title>
+  <meta name="description" content="Calcula gratis en 10 segundos cuánto dinero pierde tu negocio cada mes por mensajes sin responder a tiempo y descarga la guía práctica en 1 hoja.">
+  <link rel="icon" type="image/jpeg" href="/static/logo_prosper_ia_cropped.jpg">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg-0: #040814;
+      --surface: rgba(11, 20, 42, 0.94);
+      --border-strong: rgba(0, 229, 255, 0.52);
+      --cyan: #00e5ff;
+      --emerald: #34d399;
+      --gold: #fbbf24;
+      --danger: #fb7185;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --brand-color: #34d399;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { overflow-x: clip; }
+    @media (prefers-reduced-motion: no-preference) {
+      html { scroll-behavior: smooth; }
+    }
+
+    body {
+      margin: 0;
+      overflow-x: clip;
+      font-family: var(--font-sans);
+      color: var(--text);
+      background-color: var(--bg-0);
+      background-image:
+        radial-gradient(circle at 15% 10%, rgba(0, 229, 255, 0.14) 0%, transparent 45%),
+        radial-gradient(circle at 85% 26%, rgba(16, 185, 129, 0.12) 0%, transparent 48%);
+      line-height: 1.55;
+      accent-color: var(--brand-color);
+    }
+
+    .container > *,
+    .grid-2 > *,
+    .reels-2 > *,
+    .calc-card,
+    .panel-card {
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    /* ── TOPBAR SIN FUGAS ── */
+    .topbar {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(4, 8, 20, 0.92);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+    .topbar-inner {
+      max-width: 1180px;
+      margin-inline: auto;
+      padding: 0.78rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.9rem;
+      flex-wrap: wrap;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .brand > div { min-width: 0; }
+    .brand img {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      border: 1.5px solid var(--cyan);
+      object-fit: cover;
+    }
+    .brand-kicker {
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: #67e8f9;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .brand-name {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: #ffffff;
+    }
+    .topbar-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0.55rem 1.2rem;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #00e5ff, #34d399);
+      color: #03101d;
+      font-size: 0.86rem;
+      font-weight: 900;
+      text-decoration: none;
+      box-shadow: 0 6px 20px rgba(0, 229, 255, 0.25);
+    }
+    @media (max-width: 520px) {
+      .topbar-cta { width: 100%; }
+    }
+
+    button:focus-visible,
+    a:focus-visible,
+    input:focus-visible {
+      outline: 3px solid var(--cyan);
+      outline-offset: 2px;
+    }
+
+    /* ── MAIN CONTAINER ── */
+    .container {
+      max-width: 1180px;
+      margin-inline: auto;
+      padding: 2rem 1.25rem 3.5rem;
+      display: grid;
+      gap: 2.25rem;
+    }
+
+    .hero-head {
+      text-align: center;
+      max-width: 820px;
+      margin-inline: auto;
+    }
+    .pill-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.4rem 0.95rem;
+      border-radius: 999px;
+      background: rgba(0, 229, 255, 0.12);
+      border: 1px solid rgba(0, 229, 255, 0.38);
+      color: #67e8f9;
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      margin-block-end: 0.95rem;
+    }
+    h1 {
+      margin: 0 0 0.85rem;
+      font-size: clamp(1.85rem, 3.8vw, 2.75rem);
+      line-height: 1.15;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+    h1 .danger { color: var(--danger); }
+    h1 .cyan { color: var(--cyan); }
+    .hero-sub {
+      margin: 0;
+      font-size: 1.02rem;
+      color: #cbd5e1;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+    @media (min-width: 920px) {
+      .grid-2 { grid-template-columns: 1.06fr 0.94fr; }
+    }
+
+    .calc-card,
+    .panel-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border-strong);
+      border-radius: 22px;
+      padding: 1.6rem;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+    }
+    @media (min-width: 720px) {
+      .calc-card, .panel-card { padding: 2rem; }
+    }
+    .card-title {
+      margin: 0 0 0.35rem;
+      font-size: 1.32rem;
+      font-weight: 900;
+      color: #ffffff;
+    }
+    .card-sub {
+      margin: 0 0 1.4rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* ── MODERN RANGE SLIDER (SLIDER GUIDE) ── */
+    .slider-group {
+      margin-block-end: 1.45rem;
+      background: rgba(4, 9, 23, 0.75);
+      border: 1px solid rgba(148, 163, 184, 0.24);
+      border-radius: 16px;
+      padding: 1rem 1.1rem;
+    }
+    .slider-label-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-block-end: 0.45rem;
+    }
+    .slider-label-row label {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #f1f5f9;
+    }
+    .slider-val-pill {
+      font-size: 1.05rem;
+      font-weight: 900;
+      color: var(--cyan);
+      background: rgba(0, 229, 255, 0.14);
+      border: 1px solid rgba(0, 229, 255, 0.4);
+      padding: 0.2rem 0.7rem;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    input[type="range"] {
+      --slider-track-size: 0.55rem;
+      --slider-thumb-size: 1.35rem;
+      --slider-track-radius: 999px;
+      --slider-thumb-radius: 50%;
+      --slider-track-color: #1e293b;
+      --slider-fill-color: #00e5ff;
+      --slider-thumb-color: #34d399;
+      --slider-direction: to right;
+      --attr-min: 1;
+      --attr-max: 40;
+      --control-value: 10;
+      --slider-progress: calc(
+        progress(var(--control-value), var(--attr-min), var(--attr-max)) * 100%
+      );
+
+      appearance: none;
+      inline-size: 100%;
+      block-size: 2.5rem;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      cursor: pointer;
+    }
+    @supports not (opacity: progress(1, 0, 100)) {
+      input[type="range"] {
+        --slider-progress: calc(
+          (var(--control-value) - var(--attr-min)) /
+          (var(--attr-max) - var(--attr-min)) * 100%
+        );
+      }
+    }
+    input[type="range"]::-webkit-slider-runnable-track {
+      block-size: var(--slider-track-size);
+      border: 0;
+      border-radius: var(--slider-track-radius);
+      background: linear-gradient(
+        var(--slider-direction),
+        var(--slider-fill-color) var(--slider-progress),
+        var(--slider-track-color) var(--slider-progress)
+      );
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      inline-size: var(--slider-thumb-size);
+      block-size: var(--slider-thumb-size);
+      margin-block-start: calc((var(--slider-track-size) - var(--slider-thumb-size)) / 2);
+      border: 2px solid #020617;
+      border-radius: var(--slider-thumb-radius);
+      background: var(--slider-thumb-color);
+    }
+    input[type="range"]::-moz-range-track {
+      block-size: var(--slider-track-size);
+      border: 0;
+      border-radius: var(--slider-track-radius);
+      background: var(--slider-track-color);
+    }
+    input[type="range"]::-moz-range-progress {
+      block-size: var(--slider-track-size);
+      border-radius: var(--slider-track-radius);
+      background: var(--slider-fill-color);
+    }
+    input[type="range"]::-moz-range-thumb {
+      inline-size: var(--slider-thumb-size);
+      block-size: var(--slider-thumb-size);
+      border: 2px solid #020617;
+      border-radius: var(--slider-thumb-radius);
+      background: var(--slider-thumb-color);
+    }
+    input[type="range"]:focus-visible {
+      outline: 2px solid var(--cyan);
+      outline-offset: 4px;
+    }
+
+    /* ── RESULTADO FINANCIERO EN VIVO ── */
+    .loss-result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.85rem;
+      margin-block-end: 1.25rem;
+    }
+    @media (max-width: 520px) {
+      .loss-result-grid { grid-template-columns: 1fr; }
+    }
+    .loss-box {
+      background: linear-gradient(160deg, rgba(244, 63, 94, 0.16), rgba(4, 9, 23, 0.94));
+      border: 1.5px solid rgba(244, 63, 94, 0.55);
+      border-radius: 16px;
+      padding: 1rem;
+      text-align: center;
+    }
+    .loss-box span {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #fecdd3;
+      margin-block-end: 0.25rem;
+    }
+    .loss-box output {
+      display: block;
+      font-size: clamp(1.55rem, 3vw, 2rem);
+      font-weight: 900;
+      color: #fb7185;
+    }
+    .loss-box.year {
+      border-color: rgba(251, 191, 36, 0.55);
+      background: linear-gradient(160deg, rgba(245, 158, 11, 0.14), rgba(4, 9, 23, 0.94));
+    }
+    .loss-box.year span { color: #fde68a; }
+    .loss-box.year output { color: #fbbf24; }
+
+    /* ── CHECKLIST CON FALLBACK @supports not ── */
+    .audit-list {
+      display: grid;
+      gap: 0.6rem;
+      margin-block-end: 1rem;
+    }
+    .audit-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.7rem;
+      background: rgba(4, 9, 23, 0.78);
+      border: 1px solid rgba(148, 163, 184, 0.24);
+      border-radius: 12px;
+      padding: 0.75rem 0.9rem;
+      cursor: pointer;
+      font-size: 0.87rem;
+      color: #e2e8f0;
+    }
+    .audit-item input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      margin-top: 2px;
+      accent-color: var(--emerald);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    @supports not (accent-color: #34d399) {
+      .audit-item input[type="checkbox"] {
+        position: absolute !important;
+        clip-path: inset(50%) !important;
+        overflow: hidden !important;
+        width: 1px !important;
+        height: 1px !important;
+        margin: -1px !important;
+      }
+      .audit-item span {
+        position: relative;
+        padding-left: 1.8rem;
+      }
+      .audit-item span::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 2px;
+        width: 1.15rem;
+        height: 1.15rem;
+        border: 2px solid #94a3b8;
+        border-radius: 4px;
+        background: #0f172a;
+      }
+      .audit-item input[type="checkbox"]:checked + span::before {
+        background: var(--emerald);
+        border-color: var(--emerald);
+      }
+    }
+    .audit-score-pill {
+      padding: 0.8rem 1rem;
+      border-radius: 12px;
+      background: rgba(16, 185, 129, 0.14);
+      border: 1px solid rgba(52, 211, 153, 0.45);
+      color: #a7f3d0;
+      font-size: 0.88rem;
+      font-weight: 800;
+      text-align: center;
+      margin-block-end: 1.25rem;
+    }
+    .audit-score-pill.warn {
+      background: rgba(244, 63, 94, 0.16);
+      border-color: rgba(244, 63, 94, 0.5);
+      color: #fecdd3;
+    }
+
+    /* ── BOTONES CTA Y DESCARGA PDF ── */
+    .btn-primary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 54px;
+      padding: 0.9rem 1.3rem;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #00e5ff, #34d399);
+      color: #03101d;
+      font-size: 1rem;
+      font-weight: 900;
+      text-decoration: none;
+      text-align: center;
+      box-shadow: 0 12px 30px rgba(0, 229, 255, 0.26);
+    }
+    .btn-download {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 48px;
+      padding: 0.78rem 1.15rem;
+      border-radius: 12px;
+      background: rgba(251, 191, 36, 0.16);
+      border: 1.5px solid rgba(251, 191, 36, 0.55);
+      color: #fde68a;
+      font-size: 0.92rem;
+      font-weight: 800;
+      text-decoration: none;
+      text-align: center;
+      margin-block-start: 0.85rem;
+    }
+    .btn-secondary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 44px;
+      padding: 0.65rem 1rem;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      color: #e2e8f0;
+      font-size: 0.86rem;
+      font-weight: 700;
+      text-decoration: none;
+      text-align: center;
+      margin-block-start: 0.65rem;
+    }
+
+    /* ── COPY LINK INVOKER COMMANDS (COPY-BUTTON GUIDE) ── */
+    .share-box {
+      margin-block-start: 1.2rem;
+      padding: 0.95rem 1rem;
+      border-radius: 14px;
+      background: rgba(4, 9, 23, 0.8);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+    }
+    .share-row {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      flex-wrap: wrap;
+      margin-block-start: 0.5rem;
+    }
+    .share-input {
+      flex: 1 1 220px;
+      min-height: 42px;
+      padding: 0.55rem 0.8rem;
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      background: #020612;
+      color: #cbd5e1;
+      font: inherit;
+      font-size: 0.84rem;
+    }
+    .copy {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .copy-button {
+      min-inline-size: 24px;
+      min-block-size: 42px;
+      padding: 0.55rem 0.95rem;
+      border-radius: 10px;
+      border: 1px solid rgba(0, 229, 255, 0.45);
+      background: rgba(0, 229, 255, 0.14);
+      color: #67e8f9;
+      font: inherit;
+      font-size: 0.84rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .copy-button .icon-check { display: none; }
+    .copy-button[data-copied] .icon-copy { display: none; }
+    .copy-button[data-copied] .icon-check { display: inline; }
+    .copy .tip {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--emerald);
+      opacity: 0;
+      transition: opacity 0.18s ease;
+    }
+    .copy-button[data-copied] + .tip,
+    .copy-button[data-failed] + .tip {
+      opacity: 1;
+    }
+
+    /* ── REELS VERTICALES 9:16 ── */
+    .reels-section {
+      background: var(--surface);
+      border: 1.5px solid rgba(52, 211, 153, 0.35);
+      border-radius: 22px;
+      padding: 1.6rem;
+    }
+    @media (min-width: 720px) {
+      .reels-section { padding: 2rem; }
+    }
+    .reels-2 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      margin-block-start: 1.35rem;
+    }
+    @media (min-width: 760px) {
+      .reels-2 { grid-template-columns: repeat(2, 1fr); }
+    }
+    .reel-card {
+      background: rgba(4, 9, 23, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      border-radius: 18px;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+    .reel-card video {
+      width: 100%;
+      max-width: 340px;
+      margin-inline: auto;
+      aspect-ratio: 9 / 16;
+      border-radius: 14px;
+      background: #020612;
+      display: block;
+    }
+    .reel-card h3 {
+      margin: 0;
+      font-size: 1.05rem;
+      color: #ffffff;
+    }
+    .reel-card p {
+      margin: 0;
+      font-size: 0.86rem;
+      color: var(--text-muted);
+    }
+
+    .footer-clean {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 1.4rem 1.25rem 2rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <img src="/static/logo_prosper_ia_cropped.jpg" alt="Agencia Prosper IA" width="42" height="42">
+        <div>
+          <div class="brand-kicker">AGENCIA PROSPER IA · HERRAMIENTA GRATUITA PARA DUEÑOS</div>
+          <div class="brand-name">Diagnóstico de Fugas en WhatsApp &amp; Agenda Automática</div>
+        </div>
+      </div>
+      <a href="/sitioweb?utm_source=lead_magnet_whatsapp&utm_campaign=diagnostico_topbar" class="topbar-cta">
+        Agendar Demostración 1 a 1 &rarr;
+      </a>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero-head">
+      <div class="pill-kicker">📘 RECURSO GRATUITO · DIAGNÓSTICO EN 10 SEGUNDOS</div>
+      <h1>Descubre <span class="danger">Cuánto Dinero Pierde Tu Negocio</span> Cada Mes Por <span class="cyan">Responder Tarde</span></h1>
+      <p class="hero-sub">Ajusta los dos controles con los números aproximados de tu negocio, marca las fugas que ocurren hoy y descarga nuestra guía práctica en 1 sola hoja.</p>
+    </section>
+
+    <div class="grid-2">
+      <!-- IZQUIERDA: CALCULADORA EN VIVO + CHECKLIST -->
+      <section class="calc-card" aria-labelledby="calc-heading">
+        <h2 id="calc-heading" class="card-title">🧮 1. Calculadora Rápida de Fugas</h2>
+        <p class="card-sub">Basada en la regla real de internet: 2 de cada 3 consultas que esperan más de 10 minutos compran en otro lugar.</p>
+
+        <div class="slider-group">
+          <div class="slider-label-row">
+            <label for="missed_per_week">Consultas perdidas a la semana (noche, domingo o mientras trabajas)</label>
+            <output id="out_missed" for="missed_per_week" class="slider-val-pill">10 / sem</output>
+          </div>
+          <input type="range" id="missed_per_week" min="1" max="40" step="1" value="10" aria-valuetext="10 consultas por semana">
+        </div>
+
+        <div class="slider-group">
+          <div class="slider-label-row">
+            <label for="avg_ticket">Valor promedio de 1 cliente o cita en tu negocio (US$)</label>
+            <output id="out_ticket" for="avg_ticket" class="slider-val-pill">US$80</output>
+          </div>
+          <input type="range" id="avg_ticket" min="25" max="500" step="5" value="80" aria-valuetext="80 dólares por cliente">
+        </div>
+
+        <div class="loss-result-grid" role="status" aria-live="polite">
+          <div class="loss-box">
+            <span>Dinero que se va cada mes</span>
+            <output id="out_monthly" for="missed_per_week avg_ticket">US$3,200</output>
+          </div>
+          <div class="loss-box year">
+            <span>Impacto estimado en 12 meses</span>
+            <output id="out_yearly" for="missed_per_week avg_ticket">US$38,400</output>
+          </div>
+        </div>
+
+        <h3 style="margin:0 0 0.65rem; font-size:1.05rem; color:#ffffff;">✅ 2. Marca qué situaciones ocurren hoy en tu negocio:</h3>
+        <div class="audit-list">
+          <label class="audit-item">
+            <input type="checkbox" class="audit-chk" checked>
+            <span><strong>Mensajes de noche o fin de semana:</strong> Quien escribe después de cerrar espera hasta el día siguiente.</span>
+          </label>
+          <label class="audit-item">
+            <input type="checkbox" class="audit-chk" checked>
+            <span><strong>Demoras durante el día:</strong> Estás ocupado atendiendo clientes y respondes 1 a 3 horas tarde.</span>
+          </label>
+          <label class="audit-item">
+            <input type="checkbox" class="audit-chk">
+            <span><strong>Sin filtro de curiosos:</strong> Pierdes tiempo contestando precios sin saber quién sí quiere agendar.</span>
+          </label>
+          <label class="audit-item">
+            <input type="checkbox" class="audit-chk">
+            <span><strong>Sin Página Web Moderna:</strong> Quien te busca no ve una página clara para confiar y dejar sus datos.</span>
+          </label>
+          <label class="audit-item">
+            <input type="checkbox" class="audit-chk">
+            <span><strong>Cotizaciones sin seguimiento:</strong> Personas que pidieron información quedan olvidadas en el chat.</span>
+          </label>
+        </div>
+
+        <div id="audit-score-pill" class="audit-score-pill warn" role="status">
+          ⚠️ 2 de 5 fugas activas: puedes recuperar decenas de citas al mes automatizando tu atención.
+        </div>
+
+        <a href="/sitioweb?utm_source=lead_magnet_whatsapp&utm_campaign=calculadora_cta" class="btn-primary">
+          📅 Detener Esta Fuga Hoy · Agendar Demostración 1 a 1 &rarr;
+        </a>
+      </section>
+
+      <!-- DERECHA: DESCARGA PDF 1 HOJA + COMPARTIR -->
+      <aside class="panel-card" aria-labelledby="pdf-heading">
+        <h2 id="pdf-heading" class="card-title">📘 Descarga Tu Guía Gratuita en 1 Hoja</h2>
+        <p class="card-sub">Llévate el diagnóstico completo y la checklist impresa para revisar con tu equipo o socios (cero precios en frío, cero tecnicismos).</p>
+
+        <div style="background:rgba(4,9,23,0.82); border:1px solid rgba(56,189,248,0.28); border-radius:16px; padding:1.15rem;">
+          <strong style="display:block; color:#67e8f9; font-size:0.95rem; margin-bottom:0.5rem;">Qué incluye el PDF de 1 sola página:</strong>
+          <ul style="margin:0; padding-left:1.1rem; display:grid; gap:0.45rem; font-size:0.88rem; color:#e2e8f0;">
+            <li>La <strong>Regla de los 10 Minutos</strong>: qué pasa realmente con el mensaje de las 11:14 PM.</li>
+            <li>Cómo contestar en menos de <strong>5 segundos</strong> por WhatsApp, Instagram y Web sin perder tu voz humana.</li>
+            <li>Cómo instalamos tu sistema completo en <strong>7 a 10 días</strong> con garantía <strong>50% al iniciar y 50% al entregar</strong>.</li>
+          </ul>
+        </div>
+
+        <a href="/static/armas/LEAD_MAGNET_DIAGNOSTICO_FUGAS_WHATSAPP_PROSPER_IA.pdf" download="Diagnostico-Fugas-WhatsApp-ProsperIA.pdf" class="btn-download">
+          📥 Descargar Diagnóstico y Checklist en 1 Hoja (PDF)
+        </a>
+
+        <a href="/static/armas/FOLLETO_VENTAS_1_HOJA_PROSPER_IA.pdf" download="Folleto-Historia-Visual-ProsperIA-1-Hoja.pdf" class="btn-secondary">
+          📄 Descargar Historia Ilustrada Antes vs. Después (PDF 1 Hoja)
+        </a>
+
+        <div class="share-box">
+          <strong style="font-size:0.88rem; color:#f1f5f9;">🔗 Comparte esta calculadora con un socio o colega:</strong>
+          <div class="share-row">
+            <input id="share-url-input" type="text" class="share-input" readonly value="https://agenciaprosperia.com/diagnostico-whatsapp" aria-label="Enlace de la calculadora de diagnóstico">
+            <span class="copy">
+              <button type="button" class="copy-button" command="--copy" commandfor="share-url-input" aria-label="Copiar enlace de la calculadora">
+                <span class="icon-copy" aria-hidden="true">📋</span>
+                <span class="icon-check" aria-hidden="true">✅</span>
+                <span>Copiar link</span>
+              </button>
+              <span class="tip" role="status"></span>
+            </span>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- BLOQUE REELS VERTICALES 9:16 LISTOS PARA TRÁFICO -->
+    <section class="reels-section" aria-labelledby="reels-heading">
+      <div style="display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:1rem;">
+        <div>
+          <h2 id="reels-heading" class="card-title">🎬 Míralo en 45 Segundos (Casos Reales)</h2>
+          <p class="card-sub" style="margin-bottom:0;">Dos videos cortos verticales mostrando exactamente cómo deja de perder clientes un dueño de negocio:</p>
+        </div>
+        <a href="/sitioweb?utm_source=lead_magnet_whatsapp&utm_campaign=reels_preview" style="color:#67e8f9; font-weight:800; font-size:0.9rem; text-decoration:none;">
+          Ir a Agendar Mi Demostración 1 a 1 &rarr;
+        </a>
+      </div>
+
+      <div class="reels-2">
+        <article class="reel-card">
+          <video controls playsinline preload="metadata" poster="/static/video/reel_sitioweb_01_poster.jpg?v=1">
+            <source src="/api/video-stream/reel-sitioweb-1?v=1" type="video/mp4">
+          </video>
+          <h3>1. Un Día en Tu Negocio: Lunes Con y Sin Asistente 24/7</h3>
+          <p>Qué pasa entre las 10:00 AM y las 9:00 PM cuando atiendes clientes y entran mensajes nuevos por WhatsApp.</p>
+          <a href="/api/video-stream/reel-sitioweb-1?v=1" download="REEL_01_LUNES_CON_Y_SIN_ASISTENTE_9x16.mp4" class="btn-secondary">
+            ⬇️ Descargar Video Reel #1 (MP4 Vertical 9:16)
+          </a>
+        </article>
+
+        <article class="reel-card">
+          <video controls playsinline preload="metadata" poster="/static/video/reel_sitioweb_02_poster.jpg?v=1">
+            <source src="/api/video-stream/reel-sitioweb-2?v=1" type="video/mp4">
+          </video>
+          <h3>2. El Mensaje de las 11:14 PM que Cuesta US$2,000+ al Mes</h3>
+          <p>La cuenta matemática rápida y cómo un contestador 24/7 confirma citas mientras descansas.</p>
+          <a href="/api/video-stream/reel-sitioweb-2?v=1" download="REEL_02_MENSAJE_11PM_FUGA_WHATSAPP_9x16.mp4" class="btn-secondary">
+            ⬇️ Descargar Video Reel #2 (MP4 Vertical 9:16)
+          </a>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer-clean">
+    Agencia Prosper IA LLC · Estados Unidos &amp; Latinoamérica · Página Web Moderna + Asistente Inteligente 24/7.
+  </footer>
+
+  <script>
+    (() => {
+      const missedSlider = document.getElementById('missed_per_week');
+      const ticketSlider = document.getElementById('avg_ticket');
+      const outMissed = document.getElementById('out_missed');
+      const outTicket = document.getElementById('out_ticket');
+      const outMonthly = document.getElementById('out_monthly');
+      const outYearly = document.getElementById('out_yearly');
+
+      const syncSlider = (slider) => {
+        slider.style.setProperty('--attr-min', slider.min || 0);
+        slider.style.setProperty('--attr-max', slider.max || 100);
+        slider.style.setProperty('--control-value', slider.value);
+      };
+
+      const updateCalc = () => {
+        const missed = Number(missedSlider.value || 10);
+        const ticket = Number(ticketSlider.value || 80);
+        const monthly = missed * ticket * 4;
+        const yearly = monthly * 12;
+
+        syncSlider(missedSlider);
+        syncSlider(ticketSlider);
+
+        missedSlider.setAttribute('aria-valuetext', `${missed} consultas por semana`);
+        ticketSlider.setAttribute('aria-valuetext', `${ticket} dólares por cliente`);
+
+        outMissed.textContent = `${missed} / sem`;
+        outTicket.textContent = `US$${ticket.toLocaleString('en-US')}`;
+        outMonthly.textContent = `US$${monthly.toLocaleString('en-US')}`;
+        outYearly.textContent = `US$${yearly.toLocaleString('en-US')}`;
+      };
+
+      missedSlider.addEventListener('input', updateCalc);
+      ticketSlider.addEventListener('input', updateCalc);
+      updateCalc();
+
+      // Self-audit checklist counter
+      const chks = Array.from(document.querySelectorAll('.audit-chk'));
+      const scorePill = document.getElementById('audit-score-pill');
+      const updateAudit = () => {
+        const count = chks.filter((c) => c.checked).length;
+        if (count >= 2) {
+          scorePill.classList.add('warn');
+          scorePill.textContent = `⚠️ ${count} de 5 fugas activas: estás dejando escapar decenas de citas cada mes hacia negocios que contestan más rápido.`;
+        } else if (count === 1) {
+          scorePill.classList.remove('warn');
+          scorePill.textContent = '⏱️ 1 de 5 fugas detectada: resolverla a tiempo te protege antes de perder clientes en temporada alta.';
+        } else {
+          scorePill.classList.remove('warn');
+          scorePill.textContent = '✅ 0 fugas marcadas: aun así puedes blindar tu atención 24/7 con respuesta en menos de 5 segundos.';
+        }
+      };
+      chks.forEach((c) => c.addEventListener('change', updateAudit));
+      updateAudit();
+
+      // Copy-button implementation (Invoker Commands + Fallback + Accessible Bubble)
+      const timers = new WeakMap();
+      let lastMessage = '';
+
+      function legacyCopy(text) {
+        const previousFocus = document.activeElement;
+        const field = Object.assign(document.createElement('textarea'), { value: text });
+        field.setAttribute('readonly', '');
+        field.style.cssText = 'position:fixed;inset-block-start:0;opacity:0';
+        document.body.append(field);
+        field.select();
+        try {
+          return document.execCommand('copy');
+        } finally {
+          field.remove();
+          previousFocus?.focus({ preventScroll: true });
+        }
+      }
+
+      function report(button, ok) {
+        const tip = button.nextElementSibling;
+        clearTimeout(timers.get(button));
+        button.removeAttribute('data-copied');
+        button.removeAttribute('data-failed');
+        let message = ok ? '¡Enlace copiado!' : 'Error al copiar';
+        if (message === lastMessage) message += '\u00A0';
+        lastMessage = message;
+        if (tip) tip.textContent = '';
+        void button.offsetWidth;
+        button.setAttribute(ok ? 'data-copied' : 'data-failed', '');
+        requestAnimationFrame(() => { if (tip) tip.textContent = message; });
+        timers.set(button, setTimeout(() => {
+          button.removeAttribute('data-copied');
+          button.removeAttribute('data-failed');
+          if (tip) tip.textContent = '';
+        }, 2000));
+      }
+
+      async function copy(button, target) {
+        const text = target.matches('input, textarea') ? target.value : target.innerText.trim();
+        if (!text) return;
+        try {
+          try {
+            await navigator.clipboard.writeText(text);
+          } catch {
+            if (!legacyCopy(text)) throw new Error('Copy failed');
+          }
+          report(button, true);
+        } catch {
+          report(button, false);
+        }
+      }
+
+      if ('CommandEvent' in window) {
+        document.addEventListener('command', (event) => {
+          if (event.command && event.command.startsWith('--copy')) {
+            copy(event.source, event.target);
+          }
+        }, true);
+      } else {
+        document.addEventListener('click', (event) => {
+          if (event.defaultPrevented) return;
+          const button = event.target.closest('button[command^="--copy"]');
+          if (!button) return;
+          const target = document.getElementById(button.getAttribute('commandfor'));
+          if (target) copy(button, target);
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
