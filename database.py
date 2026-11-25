@@ -1827,6 +1827,63 @@ def init_db():
                 flush=True,
             )
 
+        # 9. Migración idempotente: compactar historial viejo de WhatsApp (solo último renglón útil)
+        trim_wa_key = "pool_500_trim_old_wa_notes_nov25_v2"
+        if not db.query(IntegrationSetting).filter(IntegrationSetting.key == trim_wa_key).first():
+            wa_auto_tokens = (
+                "WhatsApp Agencia +1 786",
+                "🤖 Setter IA Demo Enviada",
+                "🔥 RESPONDIÓ A SETTER IA",
+                "Plantilla reactivacion_",
+            )
+            trimmed_count = 0
+            active_rows = db.query(Lead).filter(
+                (Lead.contact_status == None) | (Lead.contact_status != "archivo_reserva")
+            ).all()
+            for ld in active_rows:
+                raw_notes = getattr(ld, "notes", "") or ""
+                if not raw_notes.strip():
+                    continue
+                lines = raw_notes.splitlines()
+                static_lines = []
+                bitacora_lines = []
+                for ln in lines:
+                    s_ln = ln.strip()
+                    if s_ln.startswith("[20"):
+                        bitacora_lines.append(ln)
+                    else:
+                        static_lines.append(ln)
+                if len(bitacora_lines) <= 1:
+                    continue
+
+                is_owned = bool((getattr(ld, "owner_id", "") or "").strip())
+                if not is_owned:
+                    last_line = re.sub(r"\bShey:\s*", "Nota previa: ", bitacora_lines[-1], flags=re.IGNORECASE)
+                    kept_bitacora = [last_line]
+                else:
+                    human_lines = [b for b in bitacora_lines if not any(tok in b for tok in wa_auto_tokens)]
+                    auto_lines = [b for b in bitacora_lines if any(tok in b for tok in wa_auto_tokens)]
+                    kept_bitacora = list(human_lines)
+                    if auto_lines and not human_lines:
+                        kept_bitacora = [auto_lines[-1]]
+                    elif auto_lines and human_lines:
+                        # Conservar orden: las humanas + solo la última automática si es posterior
+                        last_auto_idx = max(i for i, b in enumerate(bitacora_lines) if any(tok in b for tok in wa_auto_tokens))
+                        last_human_idx = max(i for i, b in enumerate(bitacora_lines) if not any(tok in b for tok in wa_auto_tokens))
+                        if last_auto_idx > last_human_idx:
+                            kept_bitacora.append(bitacora_lines[last_auto_idx])
+
+                if kept_bitacora != bitacora_lines:
+                    rebuilt = "\n".join(static_lines + kept_bitacora).strip()
+                    ld.notes = rebuilt
+                    trimmed_count += 1
+
+            db.add(IntegrationSetting(
+                key=trim_wa_key,
+                value=f"trimmed={trimmed_count}",
+            ))
+            print(f"✅ [TRIM OLD WA BITACORA] Compactados={trimmed_count} leads (solo último renglón útil).", flush=True)
+
         db.commit()
     except Exception as e:
         db.rollback()

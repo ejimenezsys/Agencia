@@ -4230,13 +4230,25 @@ async def api_send_institutional_email_to_lead(
     subject = mail_out["subject"]
     now_iso = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
     stamp_human = f"{now_iso[:10]} {now_iso[11:16]}"
+    was_free_pool = not bool((getattr(lead, "owner_id", "") or "").strip())
     old_stage = getattr(lead, "pipeline_stage", "Lead identificado") or "Lead identificado"
     new_stage = "Primer contacto" if old_stage in ("Lead identificado", "No responde") else old_stage
     lead.pipeline_stage = new_stage
     if getattr(lead, "status", "new") == "new":
         lead.status = "contacted"
     lead.last_touch = now_iso
-    lead.notes = ((lead.notes or "") + f"\n[{stamp_human} · Correo {alias_used} · {new_stage}] 📧 ENVIADO DESDE {alias_used} a {to_email} ({subject})").strip()
+
+    _apply_setter_claim_and_assignment(
+        db=db,
+        lead=lead,
+        current_user=current_user,
+        assign_to_closer=None,
+        stamp_human=stamp_human,
+    )
+
+    custom_preview = " ".join((req.custom_message or "").split())[:140]
+    msg_preview_suffix = f" | {custom_preview}" if custom_preview else ""
+    lead.notes = ((lead.notes or "") + f"\n[{stamp_human} · Correo {alias_used} · {new_stage}] 📧 ENVIADO DESDE {alias_used} a {to_email} ({subject}){msg_preview_suffix}").strip()
 
     u = db.query(User).filter(User.email == current_user["email"]).first()
     if u:
@@ -4257,9 +4269,10 @@ async def api_send_institutional_email_to_lead(
     )
     db.commit()
     db.refresh(lead)
+    claimed_msg = " Contacto asignado a tu cuenta y si responde te avisaremos en 🔥 Calientes." if was_free_pool else " Si responde, subirá automático a 🔥 Calientes."
     return {
         "success": True,
-        "message": f"📨 Correo enviado como {closer_name} <{alias_used}> a {to_email} y anotado en bitácora (+1 toque).",
+        "message": f"📨 Correo enviado como {closer_name} <{alias_used}> a {to_email}.{claimed_msg}",
         "data": serialize_lead(lead),
     }
 

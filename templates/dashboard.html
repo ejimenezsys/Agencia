@@ -4495,16 +4495,42 @@
         <button type="button" id="setter-work-sms-btn" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/35 hover:bg-indigo-500/30" title="1 clic: envía SMS con Demo Web desde +1 786 (solo EE. UU./PR)">
           🇺🇸 Enviar SMS
         </button>
-        <button type="button" id="setter-work-inst-mail-btn" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-sky-500/25 text-sky-200 border border-sky-400/45 hover:bg-sky-500/35 transition" title="1 clic: envía correo corporativo desde la web (Windows, Mac y móvil)">
-          ✉️ Enviar Correo
+        <button type="button" id="setter-work-inst-mail-btn" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-sky-500/25 text-sky-200 border border-sky-400/45 hover:bg-sky-500/35 transition" title="Redacta tu mensaje y envíalo con seller@agenciaprosperia.com o ábrelo en tu correo (mailto:)">
+          ✉️ Redactar Correo
         </button>
         <a id="setter-work-demo-btn" href="#" target="_blank" style="display:none;" class="px-3 py-1.5 rounded-lg text-xs font-black bg-cyan-400 text-slate-950 hover:bg-cyan-300 no-underline">
           🚀 Demo Web
         </a>
-        <button type="button" onclick="document.getElementById('setterLeadWorkDialog').close()" aria-label="Cerrar ventana" class="px-2.5 py-1.5 rounded-lg text-slate-400 hover:text-white border border-slate-700 text-xs font-bold">✕</button>
+        <button type="button" onclick="document.getElementById('setterLeadWorkDialog').close()" aria-label="Cerrar ventana" style="padding:6px 11px; min-width:32px; flex-shrink:0;" class="rounded-lg text-slate-300 hover:text-white border border-slate-700 text-xs font-bold"><span aria-hidden="true">✕</span></button>
       </div>
     </div>
     <div id="setter-work-quick-feedback" class="hidden mb-3 px-3 py-2 rounded-lg text-xs font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30"></div>
+    <!-- Redactor Libre de Correo Corporativo (seller@agenciaprosperia.com + mailto:) -->
+    <div id="setter-work-email-composer" class="hidden mb-3 p-3.5 rounded-xl bg-slate-900/95 border border-sky-500/40 space-y-2.5 text-xs">
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <strong class="text-sky-300 text-[11px] uppercase tracking-wider">✉️ Redactar Correo desde Cuenta Genérica (seller@agenciaprosperia.com)</strong>
+        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">🔔 Respuestas suben automático a 🔥 Calientes</span>
+      </div>
+      <div>
+        <label for="setter-work-email-subject" class="block text-slate-300 font-semibold mb-1">Asunto del correo</label>
+        <input type="text" id="setter-work-email-subject" name="email_subject" class="input-dark text-xs py-1.5" oninput="syncMailtoHrefFromComposer()">
+      </div>
+      <div>
+        <label for="setter-work-email-body" class="block text-slate-300 font-semibold mb-1">Tu mensaje (edítalo libremente con tu estilo)</label>
+        <textarea id="setter-work-email-body" name="email_body" rows="4" class="input-dark text-xs py-1.5" oninput="syncMailtoHrefFromComposer()"></textarea>
+      </div>
+      <div class="flex flex-wrap items-center gap-2 pt-1">
+        <button type="button" id="setter-work-email-send-btn" onclick="sendCustomInstitutionalEmailFromModal()" class="px-3.5 py-2 rounded-xl text-xs font-black bg-sky-400 text-slate-950 hover:bg-sky-300 transition shadow">
+          📨 Enviar con seller@agenciaprosperia.com (Rastrea Respuesta)
+        </button>
+        <a id="setter-work-email-mailto-link" href="#" onclick="syncMailtoHrefFromComposer()" class="px-3 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-200 border border-slate-700 hover:bg-slate-700 no-underline transition" title="Abre tu app de correo local con copia a seller@agenciaprosperia.com">
+          ↗️ Abrir en mi correo (mailto:)
+        </a>
+        <button type="button" onclick="document.getElementById('setter-work-email-composer').classList.add('hidden')" class="px-3 py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white border border-slate-800">
+          Cancelar
+        </button>
+      </div>
+    </div>
     <!-- Speech Telefónico y Guion WA al inicio del seteo -->
     <details open class="prosperia-script-acc rounded-xl bg-slate-900/90 border border-cyan-500/30 p-3.5 mb-3">
       <summary class="text-xs font-bold text-cyan-300 flex items-center justify-between">
@@ -4512,7 +4538,7 @@
       </summary>
       <div id="setter-work-scripts-body" class="mt-2 pt-2 border-t border-slate-800 space-y-2 text-[11px] text-slate-200 leading-relaxed"></div>
     </details>
-    <div id="setter-work-comms-box" class="mb-3 p-3 rounded-xl bg-slate-900/90 border border-cyan-500/25 space-y-2 text-xs">
+    <div id="setter-work-comms-box" class="hidden mb-3 p-2.5 rounded-xl bg-slate-900/90 border border-cyan-500/25 space-y-1.5 text-xs">
       <div class="flex flex-wrap items-center justify-between gap-2">
         <div class="flex flex-wrap items-center gap-2">
           <strong class="text-cyan-300 text-[11px] uppercase tracking-wider">📡 Entrega en Vivo &amp; Respuestas (CRM)</strong>
@@ -7329,10 +7355,46 @@ function parseLeadIntelligence(l) {
 
 function parseBitacoraEntries(notes) {
   if (!notes) return [];
-  return String(notes)
+  const rawLines = String(notes)
     .split(/\r?\n/)
     .map(ln => ln.trim())
     .filter(ln => ln.startsWith('[20'));
+  if (rawLines.length <= 1) return rawLines;
+  const isAutoWaLine = (ln) => (
+    ln.includes('WhatsApp Agencia +1 786')
+    || ln.includes('🤖 Setter IA Demo Enviada')
+    || ln.includes('🔥 RESPONDIÓ A SETTER IA')
+    || ln.includes('Plantilla reactivacion_')
+  );
+  const humanLines = rawLines.filter(ln => !isAutoWaLine(ln));
+  const autoLines = rawLines.filter(isAutoWaLine);
+  if (!humanLines.length) return autoLines.slice(-1);
+  if (!autoLines.length) return humanLines;
+  const lastAuto = autoLines[autoLines.length - 1];
+  const lastAutoIdx = rawLines.lastIndexOf(lastAuto);
+  const lastHumanIdx = rawLines.lastIndexOf(humanLines[humanLines.length - 1]);
+  return lastAutoIdx > lastHumanIdx ? [...humanLines, lastAuto] : humanLines;
+}
+
+function buildLeadSocialSearchUrl(lead) {
+  const rawBiz = String(lead?.business_name || lead?.company || lead?.full_name || lead?.name || '').trim();
+  if (!rawBiz) return '';
+  const parts = rawBiz.split(/\s+(?:[-|·—–]|\/)\s+/);
+  let coreName = (parts[0] || rawBiz).replace(/["'()[\]]/g, ' ').replace(/\s+/g, ' ').trim();
+  if (parts.length > 1 && coreName.split(' ').length <= 2) {
+    const extraWords = parts[1]
+      .replace(/["'()[\]]/g, ' ')
+      .trim()
+      .split(/\s+/)
+      .slice(0, 3)
+      .join(' ')
+      .replace(/\s+(?:y|e|o|de|del|la|el|en|con|para)$/i, '')
+      .trim();
+    coreName = `${coreName} ${extraWords}`.trim();
+  }
+  const loc = String(lead?.city || lead?.country || '').replace(/\(.*?\)/g, ' ').replace(/\s+/g, ' ').trim();
+  const query = `${coreName} ${loc} instagram facebook`.replace(/\s+/g, ' ').trim();
+  return `https://www.google.com/search?q=${encodeURIComponent(query)}`;
 }
 
 const TEMPLATE_LABELS_MAP = {
@@ -7495,15 +7557,12 @@ function applyCommsStatusToUi(leadId, out) {
   if (osRowEl) osRowEl.innerHTML = badgeHtml;
 
   if (Number(document.getElementById('setter-work-lead-id')?.value) !== leadId) return;
+  const commsBox = document.getElementById('setter-work-comms-box');
   const badgeEl = document.getElementById('setter-work-comms-badge');
   const hintEl = document.getElementById('setter-work-comms-hint');
   const listEl = document.getElementById('setter-work-comms-list');
   const replyWrap = document.getElementById('setter-work-wa-reply-wrap');
   if (!badgeEl || !listEl) return;
-
-  badgeEl.textContent = out.wa_status_badge || '⚪ Sin envíos aún';
-  badgeEl.className = `px-2 py-0.5 rounded-full text-[11px] font-bold border ${getCommsToneClass(out.wa_status_tone || 'slate')}`;
-  if (hintEl) hintEl.textContent = cleanGhlCommsErrorText(out.wa_status_hint || '');
 
   if (replyWrap) {
     if (out.window_24h_open) {
@@ -7529,10 +7588,23 @@ function applyCommsStatusToUi(leadId, out) {
   }
 
   if (!visibleMsgs.length) {
-    listEl.innerHTML = '<div class="text-[11px] text-slate-500 italic">Aún no hay mensajes enviados/recibidos en GHL para este contacto.</div>';
+    if (commsBox) commsBox.classList.add('hidden');
+    listEl.innerHTML = '';
     return;
   }
-  listEl.innerHTML = visibleMsgs.map(m => {
+
+  if (commsBox) commsBox.classList.remove('hidden');
+  badgeEl.textContent = out.wa_status_badge || '⚪ En CRM';
+  badgeEl.className = `px-2 py-0.5 rounded-full text-[11px] font-bold border ${getCommsToneClass(out.wa_status_tone || 'slate')}`;
+  if (hintEl) {
+    const baseHint = cleanGhlCommsErrorText(out.wa_status_hint || '');
+    hintEl.textContent = baseHint
+      ? `${baseHint} (Mostrando solo el último movimiento de ${visibleMsgs.length})`
+      : `Mostrando el último movimiento en CRM (de ${visibleMsgs.length})`;
+  }
+
+  const latestOnly = visibleMsgs.slice(0, 1);
+  listEl.innerHTML = latestOnly.map(m => {
     const dirBadge = m.direction === 'inbound'
       ? '<span class="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold">📥 Respuesta</span>'
       : '<span class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-bold">📤 Saliente</span>';
@@ -7554,15 +7626,12 @@ function applyCommsStatusToUi(leadId, out) {
 }
 
 async function loadLeadCommsStatus(leadId) {
+  const commsBox = document.getElementById('setter-work-comms-box');
   const badgeEl = document.getElementById('setter-work-comms-badge');
   const hintEl = document.getElementById('setter-work-comms-hint');
   const listEl = document.getElementById('setter-work-comms-list');
   const replyWrap = document.getElementById('setter-work-wa-reply-wrap');
   if (!leadId || !badgeEl || !listEl) return;
-
-  badgeEl.textContent = '⏳ Consultando GHL...';
-  badgeEl.className = `px-2 py-0.5 rounded-full text-[11px] font-bold border ${getCommsToneClass('slate')}`;
-  if (hintEl) hintEl.textContent = 'Verificando si el WhatsApp, SMS o Correo llegó, fue leído o respondido...';
 
   try {
     const res = await fetch(`/api/sales-os/leads/${leadId}/comms-status`, {
@@ -7571,18 +7640,14 @@ async function loadLeadCommsStatus(leadId) {
     const out = await res.json();
     if (Number(document.getElementById('setter-work-lead-id')?.value) !== leadId) return;
     if (!res.ok || !out.ok) {
-      badgeEl.textContent = '⚠️ Sin conexión temporal a GHL';
-      badgeEl.className = `px-2 py-0.5 rounded-full text-[11px] font-bold border ${getCommsToneClass('amber')}`;
-      if (hintEl) hintEl.textContent = out.error || 'No se pudo consultar el historial en CRM.';
+      if (commsBox) commsBox.classList.add('hidden');
       listEl.innerHTML = '';
       if (replyWrap) replyWrap.classList.add('hidden');
       return;
     }
     applyCommsStatusToUi(leadId, out);
   } catch (err) {
-    badgeEl.textContent = '⚠️ Error consultando CRM';
-    badgeEl.className = `px-2 py-0.5 rounded-full text-[11px] font-bold border ${getCommsToneClass('amber')}`;
-    if (hintEl) hintEl.textContent = err.message || 'No se pudo consultar el estado en GoHighLevel.';
+    if (commsBox) commsBox.classList.add('hidden');
   }
 }
 
@@ -7644,7 +7709,64 @@ async function sendAgencyWhatsappToLead(leadId, triggerBtn = null, forceTemplate
   }
 }
 
-async function sendInstitutionalEmailToLead(leadId, triggerBtn = null, senderAlias = 'seller@agenciaprosperia.com') {
+function syncMailtoHrefFromComposer() {
+  const leadId = Number(document.getElementById('setter-work-lead-id')?.value);
+  const lead = salesOsLeads.find(x => x.id === leadId);
+  const link = document.getElementById('setter-work-email-mailto-link');
+  if (!lead || !link) return;
+  const toEmail = hasRealLeadEmail(lead) ? String(lead.email || '').trim() : '';
+  const subj = (document.getElementById('setter-work-email-subject')?.value || '').trim();
+  const body = (document.getElementById('setter-work-email-body')?.value || '').trim();
+  if (!toEmail) {
+    link.href = '#';
+    return;
+  }
+  link.href = `mailto:${encodeURIComponent(toEmail)}?cc=seller@agenciaprosperia.com&subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(body)}`;
+}
+
+function toggleSetterEmailComposer(leadId) {
+  const composer = document.getElementById('setter-work-email-composer');
+  const lead = salesOsLeads.find(x => x.id === leadId);
+  if (!composer || !lead) return;
+  if (!hasRealLeadEmail(lead)) {
+    alert('Este prospecto no tiene un correo electrónico válido registrado.');
+    return;
+  }
+  const isOpening = composer.classList.contains('hidden');
+  if (!isOpening) {
+    composer.classList.add('hidden');
+    return;
+  }
+  const bizName = String(lead.business_name || lead.company || lead.name || 'tu negocio').trim();
+  const rawContact = String(lead.full_name || lead.name || '').trim();
+  const firstN = rawContact ? rawContact.split(/\s+/)[0] : 'equipo';
+  const senderName = String(currentUser?.name || 'Asesor Prosper IA').trim();
+
+  const subjEl = document.getElementById('setter-work-email-subject');
+  const bodyEl = document.getElementById('setter-work-email-body');
+  if (subjEl) subjEl.value = `Muestra Digital para ${bizName} — Agencia Prosper IA`;
+  if (bodyEl) {
+    bodyEl.value = `Hola ${firstN},\n\nTe saluda ${senderName} de Agencia Prosper IA. Preparamos una muestra interactiva de cómo ${bizName} puede captar y agendar más clientes en automático con Sitio Web Inteligente + Recepcionista IA 24/7.\n\nSi te interesa verla en vivo, responde este correo o indícanos tu horario ideal.`;
+  }
+  composer.classList.remove('hidden');
+  syncMailtoHrefFromComposer();
+  if (bodyEl) bodyEl.focus();
+}
+
+async function sendCustomInstitutionalEmailFromModal() {
+  const leadId = Number(document.getElementById('setter-work-lead-id')?.value);
+  if (!leadId) return;
+  const btn = document.getElementById('setter-work-email-send-btn');
+  const subj = (document.getElementById('setter-work-email-subject')?.value || '').trim();
+  const msg = (document.getElementById('setter-work-email-body')?.value || '').trim();
+  if (!msg) {
+    alert('Escribe tu mensaje antes de enviar el correo.');
+    return;
+  }
+  await sendInstitutionalEmailToLead(leadId, btn, 'seller@agenciaprosperia.com', subj, msg);
+}
+
+async function sendInstitutionalEmailToLead(leadId, triggerBtn = null, senderAlias = 'seller@agenciaprosperia.com', customSubject = '', customMessage = '') {
   const lead = salesOsLeads.find(x => x.id === leadId);
   if (!lead) return;
   if (!hasRealLeadEmail(lead)) {
@@ -7660,7 +7782,11 @@ async function sendInstitutionalEmailToLead(leadId, triggerBtn = null, senderAli
     const res = await fetch(`/api/sales-os/leads/${leadId}/send-institutional-email`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-      body: JSON.stringify({ sender_alias: senderAlias })
+      body: JSON.stringify({
+        sender_alias: senderAlias,
+        subject: customSubject || '',
+        custom_message: customMessage || ''
+      })
     });
     const out = await res.json();
     if (!res.ok || !out.success) {
@@ -7668,13 +7794,15 @@ async function sendInstitutionalEmailToLead(leadId, triggerBtn = null, senderAli
     }
     const idx = salesOsLeads.findIndex(x => x.id === leadId);
     if (idx >= 0 && out.data) salesOsLeads[idx] = out.data;
+    const composer = document.getElementById('setter-work-email-composer');
+    if (composer) composer.classList.add('hidden');
     renderCallQueueTable();
     renderSalesOsTable();
     if (document.getElementById('setterLeadWorkDialog')?.open && Number(document.getElementById('setter-work-lead-id')?.value) === leadId) {
       openSetterWorkDialog(leadId, 'Correo Institucional', true);
       showSetterQuickFeedback(out.message, false);
     } else {
-      alert(out.message);
+      showCallQueueToast(`<span>📨 <strong>${esc(out.message)}</strong></span>`);
     }
   } catch (err) {
     alert(err.message || 'Error enviando correo institucional.');
@@ -8275,10 +8403,9 @@ function openSetterWorkDialog(leadId, defaultChannel = 'Llamada', preserveFeedba
   }
   const igBtn = document.getElementById('setter-work-ig-btn');
   if (igBtn) {
-    const bizSearch = String(lead.business_name || lead.company || lead.full_name || lead.name || '').trim();
-    if (bizSearch) {
-      const igQuery = `site:instagram.com OR site:facebook.com "${bizSearch.slice(0, 80)}"`;
-      igBtn.href = `https://www.google.com/search?q=${encodeURIComponent(igQuery)}`;
+    const socialUrl = buildLeadSocialSearchUrl(lead);
+    if (socialUrl) {
+      igBtn.href = socialUrl;
       igBtn.style.display = '';
     } else {
       igBtn.style.display = 'none';
@@ -8292,14 +8419,14 @@ function openSetterWorkDialog(leadId, defaultChannel = 'Llamada', preserveFeedba
   const instMailBtn = document.getElementById('setter-work-inst-mail-btn');
   const validMail = hasRealLeadEmail(lead);
   if (instMailBtn) {
-    instMailBtn.onclick = () => sendInstitutionalEmailToLead(lead.id, instMailBtn, 'seller@agenciaprosperia.com');
+    instMailBtn.onclick = () => toggleSetterEmailComposer(lead.id);
     instMailBtn.style.display = validMail ? '' : 'none';
   }
+  const emailComposer = document.getElementById('setter-work-email-composer');
   const commsBox = document.getElementById('setter-work-comms-box');
-  if (commsBox) {
-    commsBox.style.display = (rawPhone || validMail || lead.contact_id) ? '' : 'none';
-  }
   if (!preserveFeedback) {
+    if (emailComposer) emailComposer.classList.add('hidden');
+    if (commsBox) commsBox.classList.add('hidden');
     const replyInput = document.getElementById('setter-work-wa-reply-input');
     if (replyInput) replyInput.value = '';
     loadLeadCommsStatus(lead.id);
