@@ -115,6 +115,237 @@ def _is_callable_zero_cost_from_argentina(country: str, phone: str, phone_e164: 
     return False
 
 
+_FREEBIE_BAD_SOURCES = {
+    "hub_codigos_comunidad",
+    "ghl_516_pool",
+    "ghl_455_pool",
+    "emprendeprosperia_funnel",
+    "exmaboletos_20off",
+}
+_FREEBIE_TEXT_TOKENS = (
+    "profesional / alumno ia",
+    "profesional alumno ia",
+    "alumno ia",
+    "passportai trial",
+    "negocio / profesional por calificar",
+    "empresa / negocio calificado",
+    "prueba pixel",
+    "cliente-demo",
+    "recurso gratis",
+)
+_PLACEHOLDER_BIZ_NAMES = {
+    "closer",
+    "agencia",
+    "agencia prosperia",
+    "prosperia",
+    "por definir",
+    "n/a",
+    "sin empresa",
+}
+_CLOSER_TEST_EMAILS = {
+    "claudiniosan@yahoo.com.ar",
+    "diegoarriondo03@gmail.com",
+    "digitalblups@gmail.com",
+    "wendyleiva59@gmail.com",
+    "tanyah.unity@gmail.com",
+    "cinthyapenida0@gmail.com",
+    "bruno.hernan.espinosa1694@gmail.com",
+    "bruno.hernan.espinosa9416@gmail.com",
+    "loremrodriguezafb@gmail.com",
+    "laverdaderafuerza02@gmail.com",
+    "sheille.perez@gmail.com",
+    "edward@agenciaprosperia.com",
+    "admin@prosperia.com",
+    "ejimenezsys@icloud.com",
+    "maria@cliente-demo.com",
+    "espitia.network@gmail.com",
+}
+_CLOSER_TEST_NAMES = {
+    "bruno espinosa",
+    "bruno hernan espinosa",
+    "lorena meriel",
+    "lorena rodriguez",
+    "edward jimenez",
+    "agencia prosperia",
+    "prueba pixel",
+}
+_CLOSER_TEST_PHONE_TAILS = ("1135992614", "3885862967", "7865573119", "1155554444")
+_WA_AUTO_NOTE_TOKENS = (
+    "WhatsApp Agencia +1 786",
+    "🤖 Setter IA Demo Enviada",
+    "🔥 RESPONDIÓ A SETTER IA",
+    "Plantilla reactivacion_",
+)
+
+
+def _is_freebie_or_closer_test_lead(ld) -> bool:
+    """Identifica leads gratuitos (/codigos, Alumno IA, PassportAI Trial) y registros de prueba de Closers."""
+    src = (getattr(ld, "source", "") or "").strip().lower()
+    if src in _FREEBIE_BAD_SOURCES:
+        return True
+
+    biz = (getattr(ld, "business_name", "") or "").strip().lower()
+    comp = (getattr(ld, "company", "") or "").strip().lower()
+    nm = (getattr(ld, "name", "") or "").strip().lower()
+    fnm = (getattr(ld, "full_name", "") or "").strip().lower()
+    if biz in _PLACEHOLDER_BIZ_NAMES or comp in _PLACEHOLDER_BIZ_NAMES:
+        return True
+    if nm in _CLOSER_TEST_NAMES or fnm in _CLOSER_TEST_NAMES:
+        return True
+
+    em = normalize_email(getattr(ld, "email", "") or "")
+    if em in _CLOSER_TEST_EMAILS or em.endswith("@cliente-demo.com"):
+        return True
+
+    text_fields = (
+        biz,
+        comp,
+        nm,
+        fnm,
+        (getattr(ld, "interest_primary", "") or "").strip().lower(),
+        (getattr(ld, "source_campaign", "") or "").strip().lower(),
+    )
+    if any(tok in val for val in text_fields for tok in _FREEBIE_TEXT_TOKENS):
+        return True
+
+    digits = re.sub(r"\D", "", str(getattr(ld, "phone_e164", None) or getattr(ld, "phone", None) or ""))
+    if digits and any(digits.endswith(tail) for tail in _CLOSER_TEST_PHONE_TAILS):
+        return True
+
+    return False
+
+
+def _real_email_pool(em_val: str) -> str:
+    """Devuelve email real deduplicable para Bolsa 500 o cadena vacía si es sintético/local."""
+    em_c = normalize_email(em_val or "")
+    if (
+        em_c
+        and "@" in em_c
+        and not em_c.endswith(".local")
+        and "sin-correo" not in em_c
+        and "noemail" not in em_c
+        and not (
+            (em_c.startswith("prospecto.") or em_c.startswith("prospecto_") or em_c.startswith("lote."))
+            and em_c.endswith("@agenciaprosperia.com")
+        )
+    ):
+        return em_c
+    return ""
+
+
+def _trim_lead_old_wa_notes(ld) -> bool:
+    """Compacta historiales automáticos de WhatsApp en bitácora dejando solo el último renglón útil."""
+    raw_notes = getattr(ld, "notes", "") or ""
+    if not raw_notes.strip():
+        return False
+    static_lines = []
+    bitacora_lines = []
+    for ln in raw_notes.splitlines():
+        if ln.strip().startswith("[20"):
+            bitacora_lines.append(ln)
+        else:
+            static_lines.append(ln)
+    if len(bitacora_lines) <= 1:
+        return False
+
+    is_owned = bool((getattr(ld, "owner_id", "") or "").strip())
+    if not is_owned:
+        last_line = re.sub(r"\bShey:\s*", "Nota previa: ", bitacora_lines[-1], flags=re.IGNORECASE)
+        kept_bitacora = [last_line]
+    else:
+        human_lines = [b for b in bitacora_lines if not any(tok in b for tok in _WA_AUTO_NOTE_TOKENS)]
+        auto_lines = [b for b in bitacora_lines if any(tok in b for tok in _WA_AUTO_NOTE_TOKENS)]
+        kept_bitacora = list(human_lines)
+        if auto_lines and not human_lines:
+            kept_bitacora = [auto_lines[-1]]
+        elif auto_lines and human_lines:
+            last_auto_idx = max(i for i, b in enumerate(bitacora_lines) if any(tok in b for tok in _WA_AUTO_NOTE_TOKENS))
+            last_human_idx = max(i for i, b in enumerate(bitacora_lines) if not any(tok in b for tok in _WA_AUTO_NOTE_TOKENS))
+            if last_auto_idx > last_human_idx:
+                kept_bitacora.append(bitacora_lines[last_auto_idx])
+
+    if kept_bitacora != bitacora_lines:
+        ld.notes = "\n".join(static_lines + kept_bitacora).strip()
+        return True
+    return False
+
+
+def _select_pool_candidates(
+    leads_iterable,
+    seen_phones: set,
+    seen_emails: set,
+    seen_biz: set,
+    limit: int,
+    skip_ids: set = None,
+    require_real_biz: bool = False,
+) -> list:
+    """Selecciona y puntúa los mejores negocios B2B $0 desde Argentina sin duplicados ni freebies."""
+    closed_out_stages = {"No interesado", "No cumple perfil", "Opt-out", "Venta perdida"}
+    candidates = []
+    skip_set = skip_ids or set()
+    for ld in leads_iterable:
+        if ld.id in skip_set or _is_freebie_or_closer_test_lead(ld):
+            continue
+        c_st = (getattr(ld, "contact_status", "contactable") or "contactable").lower()
+        if c_st in ("dnd", "opt_out", "bounce", "unauthorized"):
+            continue
+        stg = (getattr(ld, "pipeline_stage", "Lead identificado") or "Lead identificado").strip()
+        if stg in closed_out_stages:
+            continue
+        ph = getattr(ld, "phone", "") or ""
+        ph164 = getattr(ld, "phone_e164", "") or ""
+        country = getattr(ld, "country", "") or ""
+        if not _is_callable_zero_cost_from_argentina(country, ph, ph164):
+            continue
+        digits = re.sub(r"\D", "", str(ph164 or ph))
+        key_ph = digits[-10:]
+        if not key_ph or key_ph in seen_phones:
+            continue
+        em_ok = _real_email_pool(getattr(ld, "email", "") or "")
+        if em_ok and em_ok in seen_emails:
+            continue
+        biz_ok = (getattr(ld, "business_name", None) or getattr(ld, "company", None) or "").strip().lower()
+        if require_real_biz and (not biz_ok or biz_ok in _PLACEHOLDER_BIZ_NAMES):
+            continue
+        if biz_ok and biz_ok not in _PLACEHOLDER_BIZ_NAMES and biz_ok in seen_biz:
+            continue
+
+        txt = f"{getattr(ld, 'source_campaign', '') or ''} {getattr(ld, 'notes', '') or ''}"
+        src = (getattr(ld, "source", "") or "").lower()
+        is_hot = (src != "apify_sprint_nov18") or ("🔥" in txt) or ("Caliente" in txt) or ("RESPONDIÓ" in txt)
+        no_web = "SIN SITIO WEB" in txt
+        web_no_ai = ("WEB SIN IA" in txt) or ("LÍDER" in txt)
+        niche_val = (getattr(ld, "niche", "") or "").lower()
+        score_val = int(getattr(ld, "score", 0) or 0)
+        prio = (
+            (200 if is_hot else 0)
+            + (80 if no_web else (55 if web_no_ai else 0))
+            + (60 if em_ok else 0)
+            + (15 if niche_val in ("clinica", "inmobiliaria") else 0)
+            + (score_val // 10)
+        )
+        candidates.append((prio, ld, key_ph, em_ok, biz_ok))
+
+    candidates.sort(key=lambda item: item[0], reverse=True)
+    selected = []
+    for _prio, ld, key_ph, em_ok, biz_ok in candidates:
+        if len(selected) >= limit:
+            break
+        if key_ph in seen_phones:
+            continue
+        if em_ok and em_ok in seen_emails:
+            continue
+        if biz_ok and biz_ok not in _PLACEHOLDER_BIZ_NAMES and biz_ok in seen_biz:
+            continue
+        seen_phones.add(key_ph)
+        if em_ok:
+            seen_emails.add(em_ok)
+        if biz_ok and biz_ok not in _PLACEHOLDER_BIZ_NAMES:
+            seen_biz.add(biz_ok)
+        selected.append(ld)
+    return selected
+
+
 # Catálogo Oficial Versionado (Sección 2 del Brief Operativo)
 OFFER_CATALOG = {
     "EXPRESS_497": {
@@ -1670,24 +1901,10 @@ def init_db():
             seen_emails = set()
             seen_biz = set()
 
-            def _real_email_pool(em_val: str) -> str:
-                em_c = normalize_email(em_val or "")
-                if (
-                    em_c
-                    and "@" in em_c
-                    and not em_c.endswith(".local")
-                    and "sin-correo" not in em_c
-                    and "noemail" not in em_c
-                    and not (
-                        (em_c.startswith("prospecto.") or em_c.startswith("prospecto_") or em_c.startswith("lote."))
-                        and em_c.endswith("@agenciaprosperia.com")
-                    )
-                ):
-                    return em_c
-                return ""
-
-            # Paso A: Conservar los registros útiles trabajados por los 9 integrantes activos
+            # Paso A: Conservar los registros útiles trabajados por los 9 integrantes activos (excluyendo freebies/pruebas)
             for ld in all_leads:
+                if _is_freebie_or_closer_test_lead(ld):
+                    continue
                 c_st = (getattr(ld, "contact_status", "contactable") or "contactable").lower()
                 if c_st in ("dnd", "opt_out", "bounce", "unauthorized"):
                     continue
@@ -1719,68 +1936,21 @@ def init_db():
                 if em_ok:
                     seen_emails.add(em_ok)
                 biz_ok = (getattr(ld, "business_name", None) or getattr(ld, "company", None) or "").strip().lower()
-                if biz_ok and biz_ok not in ("por definir", "n/a", "sin empresa", "profesional / alumno ia"):
+                if biz_ok and biz_ok not in _PLACEHOLDER_BIZ_NAMES:
                     seen_biz.add(biz_ok)
 
-            # Paso B: Seleccionar exactamente 500 Super-Calificados 100% Móviles/WA + Argentina ($0) para Bolsa Libre
-            candidates = []
-            for ld in all_leads:
-                if ld.id in preserved_ids:
-                    continue
-                c_st = (getattr(ld, "contact_status", "contactable") or "contactable").lower()
-                if c_st in ("dnd", "opt_out", "bounce", "unauthorized"):
-                    continue
-                stg = (getattr(ld, "pipeline_stage", "Lead identificado") or "Lead identificado").strip()
-                if stg in closed_out_stages:
-                    continue
-                ph = getattr(ld, "phone", "") or ""
-                ph164 = getattr(ld, "phone_e164", "") or ""
-                country = getattr(ld, "country", "") or ""
-                if not _is_callable_zero_cost_from_argentina(country, ph, ph164):
-                    continue
-                digits = re.sub(r"\D", "", str(ph164 or ph))
-                key_ph = digits[-10:]
-                if key_ph in seen_phones:
-                    continue
-                em_ok = _real_email_pool(getattr(ld, "email", "") or "")
-                if em_ok and em_ok in seen_emails:
-                    continue
-                biz_ok = (getattr(ld, "business_name", None) or getattr(ld, "company", None) or "").strip().lower()
-                if biz_ok and biz_ok not in ("por definir", "n/a", "sin empresa", "profesional / alumno ia") and biz_ok in seen_biz:
-                    continue
-
-                txt = f"{getattr(ld, 'source_campaign', '') or ''} {getattr(ld, 'notes', '') or ''}"
-                src = (getattr(ld, "source", "") or "").lower()
-                is_hot = (src != "apify_sprint_nov18") or ("🔥" in txt) or ("Caliente" in txt) or ("RESPONDIÓ" in txt)
-                no_web = "SIN SITIO WEB" in txt
-                web_no_ai = ("WEB SIN IA" in txt) or ("LÍDER" in txt)
-                niche_val = (getattr(ld, "niche", "") or "").lower()
-                score_val = int(getattr(ld, "score", 0) or 0)
-                prio = (
-                    (200 if is_hot else 0)
-                    + (80 if no_web else (55 if web_no_ai else 0))
-                    + (60 if em_ok else 0)
-                    + (15 if niche_val in ("clinica", "inmobiliaria") else 0)
-                    + (score_val // 10)
-                )
-                candidates.append((prio, ld, key_ph, em_ok, biz_ok))
-
-            candidates.sort(key=lambda item: item[0], reverse=True)
+            # Paso B: Seleccionar exactamente 500 Negocios B2B 100% Móviles/WA + Argentina ($0) para Bolsa Libre
+            selected_pool = _select_pool_candidates(
+                all_leads,
+                seen_phones=seen_phones,
+                seen_emails=seen_emails,
+                seen_biz=seen_biz,
+                limit=500,
+                skip_ids=preserved_ids,
+                require_real_biz=True,
+            )
             pool_500_ids = set()
-            for _prio, ld, key_ph, em_ok, biz_ok in candidates:
-                if len(pool_500_ids) >= 500:
-                    break
-                if key_ph in seen_phones:
-                    continue
-                if em_ok and em_ok in seen_emails:
-                    continue
-                if biz_ok and biz_ok not in ("por definir", "n/a", "sin empresa", "profesional / alumno ia") and biz_ok in seen_biz:
-                    continue
-                seen_phones.add(key_ph)
-                if em_ok:
-                    seen_emails.add(em_ok)
-                if biz_ok and biz_ok not in ("por definir", "n/a", "sin empresa", "profesional / alumno ia"):
-                    seen_biz.add(biz_ok)
+            for ld in selected_pool:
                 pool_500_ids.add(ld.id)
                 ld.owner_id = ""
                 ld.setter_id = ""
@@ -1830,52 +2000,12 @@ def init_db():
         # 9. Migración idempotente: compactar historial viejo de WhatsApp (solo último renglón útil)
         trim_wa_key = "pool_500_trim_old_wa_notes_nov25_v2"
         if not db.query(IntegrationSetting).filter(IntegrationSetting.key == trim_wa_key).first():
-            wa_auto_tokens = (
-                "WhatsApp Agencia +1 786",
-                "🤖 Setter IA Demo Enviada",
-                "🔥 RESPONDIÓ A SETTER IA",
-                "Plantilla reactivacion_",
-            )
             trimmed_count = 0
             active_rows = db.query(Lead).filter(
                 (Lead.contact_status == None) | (Lead.contact_status != "archivo_reserva")
             ).all()
             for ld in active_rows:
-                raw_notes = getattr(ld, "notes", "") or ""
-                if not raw_notes.strip():
-                    continue
-                lines = raw_notes.splitlines()
-                static_lines = []
-                bitacora_lines = []
-                for ln in lines:
-                    s_ln = ln.strip()
-                    if s_ln.startswith("[20"):
-                        bitacora_lines.append(ln)
-                    else:
-                        static_lines.append(ln)
-                if len(bitacora_lines) <= 1:
-                    continue
-
-                is_owned = bool((getattr(ld, "owner_id", "") or "").strip())
-                if not is_owned:
-                    last_line = re.sub(r"\bShey:\s*", "Nota previa: ", bitacora_lines[-1], flags=re.IGNORECASE)
-                    kept_bitacora = [last_line]
-                else:
-                    human_lines = [b for b in bitacora_lines if not any(tok in b for tok in wa_auto_tokens)]
-                    auto_lines = [b for b in bitacora_lines if any(tok in b for tok in wa_auto_tokens)]
-                    kept_bitacora = list(human_lines)
-                    if auto_lines and not human_lines:
-                        kept_bitacora = [auto_lines[-1]]
-                    elif auto_lines and human_lines:
-                        # Conservar orden: las humanas + solo la última automática si es posterior
-                        last_auto_idx = max(i for i, b in enumerate(bitacora_lines) if any(tok in b for tok in wa_auto_tokens))
-                        last_human_idx = max(i for i, b in enumerate(bitacora_lines) if not any(tok in b for tok in wa_auto_tokens))
-                        if last_auto_idx > last_human_idx:
-                            kept_bitacora.append(bitacora_lines[last_auto_idx])
-
-                if kept_bitacora != bitacora_lines:
-                    rebuilt = "\n".join(static_lines + kept_bitacora).strip()
-                    ld.notes = rebuilt
+                if _trim_lead_old_wa_notes(ld):
                     trimmed_count += 1
 
             db.add(IntegrationSetting(
@@ -1883,6 +2013,72 @@ def init_db():
                 value=f"trimmed={trimmed_count}",
             ))
             print(f"✅ [TRIM OLD WA BITACORA] Compactados={trimmed_count} leads (solo último renglón útil).", flush=True)
+
+        # 10. Migración idempotente: purgar freebies (/codigos, Alumno IA, PassportAI Trial) y pruebas de Closers + rellenar Bolsa a 500 B2B reales
+        purge_key = "purge_freebies_trials_and_closer_tests_nov25_v3"
+        if not db.query(IntegrationSetting).filter(IntegrationSetting.key == purge_key).first():
+            deleted_cnt = 0
+            for ld in db.query(Lead).all():
+                if _is_freebie_or_closer_test_lead(ld):
+                    db.delete(ld)
+                    deleted_cnt += 1
+            db.flush()
+
+            remaining_all = db.query(Lead).all()
+            seen_phones = set()
+            seen_emails = set()
+            seen_biz = set()
+            current_free_cnt = 0
+
+            for ld in remaining_all:
+                c_st = (getattr(ld, "contact_status", "contactable") or "contactable").lower()
+                if c_st in ("archivo_reserva", "dnd", "opt_out", "bounce", "unauthorized"):
+                    continue
+                if not (getattr(ld, "owner_id", "") or "").strip() and c_st == "contactable":
+                    current_free_cnt += 1
+                digits = re.sub(r"\D", "", str(getattr(ld, "phone_e164", None) or getattr(ld, "phone", None) or ""))
+                if len(digits) >= 9:
+                    seen_phones.add(digits[-10:])
+                em_ok = _real_email_pool(getattr(ld, "email", "") or "")
+                if em_ok:
+                    seen_emails.add(em_ok)
+                biz_ok = (getattr(ld, "business_name", None) or getattr(ld, "company", None) or "").strip().lower()
+                if biz_ok and biz_ok not in _PLACEHOLDER_BIZ_NAMES:
+                    seen_biz.add(biz_ok)
+
+            promoted_cnt = 0
+            if current_free_cnt < 500:
+                needed = 500 - current_free_cnt
+                archived_pool = [
+                    ld for ld in remaining_all
+                    if (getattr(ld, "contact_status", "") or "").lower() == "archivo_reserva"
+                ]
+                promotions = _select_pool_candidates(
+                    archived_pool,
+                    seen_phones=seen_phones,
+                    seen_emails=seen_emails,
+                    seen_biz=seen_biz,
+                    limit=needed,
+                    require_real_biz=True,
+                )
+                for ld in promotions:
+                    ld.owner_id = ""
+                    ld.setter_id = ""
+                    ld.pipeline_stage = "Lead identificado"
+                    ld.status = "new"
+                    ld.contact_status = "contactable"
+                    _trim_lead_old_wa_notes(ld)
+                    promoted_cnt += 1
+
+            final_free_cnt = current_free_cnt + promoted_cnt
+            db.add(IntegrationSetting(
+                key=purge_key,
+                value=f"deleted={deleted_cnt},topped_up={promoted_cnt},free_pool={final_free_cnt}",
+            ))
+            print(
+                f"✅ [PURGE FREEBIES & TESTS] Eliminados={deleted_cnt} | Promovidos Bolsa={promoted_cnt} | Bolsa Libre={final_free_cnt}",
+                flush=True,
+            )
 
         db.commit()
     except Exception as e:

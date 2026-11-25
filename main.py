@@ -3540,8 +3540,12 @@ async def api_contact(req: ContactRequest, background_tasks: BackgroundTasks, db
         closer_name = closer.get("name", "Especialista Agencia Prosper IA") if closer else "Especialista Agencia Prosper IA"
         base_cal = (closer.get("calendar_url") if closer else "") or "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8"
 
+    is_freebie_or_test = (
+        any(k in lead_source.lower() for k in ("codigos", "trial", "emprende"))
+        or any(k in company_name.lower() for k in ("profesional / alumno ia", "profesional alumno ia", "alumno ia", "passportai trial"))
+    )
     lead_id = None
-    if not is_beauty_growth:
+    if not is_beauty_growth and not is_freebie_or_test:
         try:
             existing = None
             if email_raw or phone_e164:
@@ -4138,9 +4142,10 @@ async def api_emprende_funnel_capture(
             existing.source_campaign = "Recurso Gratis - 6 Constructores IA"
             existing.interest_primary = f"EmprendeProsperIA · {tool_slug}"
             existing.score = max(existing.score or 0, 92)
-            if not existing.owner_id:
-                existing.owner_id = base_owner
-                existing.setter_id = base_owner
+            if not existing.owner_id or existing.owner_id == base_owner:
+                existing.owner_id = ""
+                existing.setter_id = ""
+                existing.contact_status = "archivo_reserva"
             if existing.pipeline_stage in ("Lead identificado", "No cumple perfil", "No responde", ""):
                 existing.pipeline_stage = "Recurso Gratis Descargado"
             existing.last_touch = now_str
@@ -4165,12 +4170,12 @@ async def api_emprende_funnel_capture(
                 score=92,
                 notes=funnel_note,
                 created_at=now_str,
-                owner_id=base_owner,
-                setter_id=base_owner,
+                owner_id="",
+                setter_id="",
                 niche="emprendedor",
                 country="EE. UU. / LATAM",
                 contact_permission="Recurso Gratis EmprendeProsperIA",
-                contact_status="contactable",
+                contact_status="archivo_reserva",
                 pipeline_stage="Recurso Gratis Descargado",
                 offer_version="ANUAL_990",
                 quoted_amount=990.0,

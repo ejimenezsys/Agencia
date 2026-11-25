@@ -2312,7 +2312,6 @@
           <option value="all">📂 Fuente: Todas</option>
           <option value="apify_sprint_nov18">🎯 Base Calificada (Bolsa 500 + Activos)</option>
           <option value="sitioweb_funnel">🔥 Embudo /sitioweb</option>
-          <option value="ghl_pool">📱 Base Anterior</option>
           <option value="comex_outbound_b2b">🏢 Exportadores COMEX</option>
         </select>
         <input id="call-queue-search" type="text" class="input-dark text-xs py-2 px-3 flex-1 min-w-[200px]" placeholder="Buscar negocio, ciudad, tel o nota..." oninput="callQueuePage=1; renderCallQueueTable()">
@@ -7377,7 +7376,26 @@ function parseBitacoraEntries(notes) {
 }
 
 function buildLeadSocialSearchUrl(lead) {
-  const rawBiz = String(lead?.business_name || lead?.company || lead?.full_name || lead?.name || '').trim();
+  const genericPlaceholders = [
+    'profesional / alumno ia',
+    'profesional alumno ia',
+    'alumno ia',
+    'passportai trial',
+    'por definir',
+    'empresa / negocio calificado',
+    'negocio / profesional por calificar',
+    'sin empresa',
+    'closer',
+    'agencia'
+  ];
+  const candidates = [lead?.business_name, lead?.company, lead?.full_name, lead?.name]
+    .map(v => String(v || '').trim())
+    .filter(v => {
+      if (!v) return false;
+      const low = v.toLowerCase();
+      return !genericPlaceholders.some(ph => low === ph || low.includes('profesional / alumno ia') || low.includes('passportai trial'));
+    });
+  const rawBiz = candidates[0] || '';
   if (!rawBiz) return '';
   const parts = rawBiz.split(/\s+(?:[-|·—–]|\/)\s+/);
   let coreName = (parts[0] || rawBiz).replace(/["'()[\]]/g, ' ').replace(/\s+/g, ' ').trim();

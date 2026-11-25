@@ -5470,6 +5470,8 @@ def _find_or_create_lead_from_inbound_email_sync(
 
     full_name = (ghl_info.get("full_name") or sender_name or clean_em.split("@")[0]).strip().title()
     comp = (ghl_info.get("company") or full_name).strip()
+    if comp.lower() in ("profesional / alumno ia", "profesional alumno ia", "alumno ia", "passportai trial") or "codigos" in subj_norm:
+        return None
     raw_phone = (ghl_info.get("phone") or "").strip()
     phone_e164 = normalize_phone_e164(raw_phone) if raw_phone else ""
     now_iso = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
