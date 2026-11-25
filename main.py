@@ -4809,29 +4809,41 @@ async def api_get_leads(
     pipeline_stage: Optional[str] = None,
     owner_id: Optional[str] = None,
     include_dnd: Optional[bool] = False,
+    include_archive: Optional[bool] = False,
     limit: Optional[int] = 1500,
     current_user: dict = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
-    """Obtiene el listado de leads respetando permisos RBAC (un vendedor solo ve sus oportunidades y sin DND)."""
+    """Obtiene el listado de leads respetando propiedad individual + Bolsa General Libre (sin DND ni archivo_reserva)."""
     query = db.query(DbLead)
 
     user_role = current_user.get("role", "seller")
     effective_limit = int(limit or 1500)
     if user_role == "seller":
-        # Regla de Parejas: ambos integrantes ven la bandeja compartida de su pareja (sin DND/Opt-out)
-        pair_emails = get_partner_emails(current_user["email"])
-        query = query.filter(func.lower(DbLead.owner_id).in_(pair_emails))
-        query = query.filter((DbLead.contact_status == None) | (~DbLead.contact_status.in_(["dnd", "opt_out"])))
+        cur_em = (current_user["email"] or "").strip().lower()
+        query = query.filter(
+            (func.lower(DbLead.owner_id) == cur_em)
+            | (DbLead.owner_id == None)
+            | (DbLead.owner_id == "")
+        )
+        query = query.filter(
+            (DbLead.contact_status == None)
+            | (~DbLead.contact_status.in_(["dnd", "opt_out", "archivo_reserva"]))
+        )
         effective_limit = max(effective_limit, 3500)
     else:
+        if not include_archive:
+            query = query.filter((DbLead.contact_status == None) | (DbLead.contact_status != "archivo_reserva"))
         if owner_id:
             if owner_id == "__unassigned__":
                 query = query.filter((DbLead.owner_id == None) | (DbLead.owner_id == ""))
             else:
                 query = query.filter(DbLead.owner_id == owner_id)
         if not include_dnd and user_role != "admin":
-            query = query.filter((DbLead.contact_status == None) | (~DbLead.contact_status.in_(["dnd", "opt_out"])))
+            query = query.filter(
+                (DbLead.contact_status == None)
+                | (~DbLead.contact_status.in_(["dnd", "opt_out", "archivo_reserva"]))
+            )
 
     if status:
         query = query.filter(DbLead.status == status)
@@ -5023,11 +5035,15 @@ async def api_update_lead(
             status_code=404,
             content={"success": False, "error": "Lead no encontrado."}
         )
-    if current_user.get("role") == "seller" and (getattr(lead, "owner_id", "") or "").lower() not in get_partner_emails(current_user["email"]):
+    lead_owner = (getattr(lead, "owner_id", "") or "").strip().lower()
+    if current_user.get("role") == "seller" and lead_owner and lead_owner != current_user["email"].strip().lower():
         return JSONResponse(
             status_code=403,
-            content={"success": False, "error": "No puedes editar un prospecto asignado a otra pareja."}
+            content={"success": False, "error": "No puedes editar un prospecto asignado a otro vendedor."}
         )
+    if current_user.get("role") == "seller" and not lead_owner:
+        lead.owner_id = current_user["email"].strip().lower()
+        lead.setter_id = lead.setter_id or current_user["email"].strip().lower()
 
     old_status = lead.status
     lead.name = req.name
@@ -5116,9 +5132,9 @@ async def api_get_stats(
     db: Session = Depends(get_db)
 ):
     """Calcula estadísticas reales separando cobros verificados (amount_collected) de propuestas (quoted_amount)."""
-    query = db.query(DbLead)
+    query = db.query(DbLead).filter((DbLead.contact_status == None) | (DbLead.contact_status != "archivo_reserva"))
     if current_user.get("role") == "seller":
-        query = query.filter(DbLead.owner_id == current_user["email"])
+        query = query.filter(func.lower(DbLead.owner_id) == current_user["email"].strip().lower())
     rows = query.all()
 
     total = len(rows)

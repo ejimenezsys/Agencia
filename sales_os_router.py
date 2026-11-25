@@ -36,7 +36,7 @@ from fastapi import APIRouter, Request, Depends, HTTPException, status
 from fastapi.responses import HTMLResponse, JSONResponse
 from pydantic import BaseModel, EmailStr
 from sqlalchemy.orm import Session
-from sqlalchemy import func
+from sqlalchemy import func, or_
 
 from database import (
     SessionLocal,
@@ -62,11 +62,64 @@ from database import (
 
 
 def _can_seller_access_lead(current_user: dict, lead: DbLead) -> bool:
-    """Permite el acceso compartido si el prospecto pertenece al closer o a su compañero(a) de Pareja."""
+    """Permite el acceso al dueño exclusivo o cuando el prospecto está libre en la Bolsa General."""
     if current_user.get("role") != "seller":
         return True
     lead_owner = (getattr(lead, "owner_id", "") or "").strip().lower()
-    return lead_owner in get_partner_emails(current_user.get("email") or "")
+    if not lead_owner:
+        return True
+    return lead_owner == (current_user.get("email") or "").strip().lower()
+
+
+def _apply_setter_claim_and_assignment(
+    db: Session,
+    lead: DbLead,
+    current_user: dict,
+    assign_to_closer: Optional[str],
+    stamp_human: str,
+) -> tuple:
+    """Reclama un lead libre de la Bolsa de 500 o lo asigna en exclusiva al Closer indicado por Seteo."""
+    cur_em = (current_user.get("email") or "").strip().lower()
+    cur_name = (current_user.get("name") or cur_em).strip()
+    old_owner = (getattr(lead, "owner_id", "") or "").strip().lower()
+    clean_assign = (assign_to_closer or "").strip().lower()
+
+    if not old_owner:
+        lead.setter_id = getattr(lead, "setter_id", "") or cur_em
+        if not clean_assign:
+            lead.owner_id = cur_em
+            lead.notes = (
+                (getattr(lead, "notes", "") or "")
+                + f"\n[{stamp_human} · Bolsa 500] ✋ Tomado por iniciativa por {cur_name}"
+            ).strip()
+
+    if clean_assign and clean_assign != old_owner:
+        target_u = (
+            db.query(User)
+            .filter(func.lower(User.email) == clean_assign, User.is_active == 1)
+            .first()
+        )
+        if target_u:
+            lead.setter_id = getattr(lead, "setter_id", "") or cur_em
+            lead.owner_id = target_u.email.strip().lower()
+            lead.notes = (
+                (getattr(lead, "notes", "") or "")
+                + f"\n[{stamp_human} · Asignación Seteo → Closer] 🎯 Asignado por {cur_name} a Closer {target_u.name}"
+            ).strip()
+            record_audit(
+                db,
+                actor_email=cur_em,
+                actor_role=current_user.get("role", "seller"),
+                lead_id=lead.id,
+                action="setter_assigned_to_closer",
+                field_changed="owner_id",
+                old_value=old_owner or "bolsa_libre",
+                new_value=lead.owner_id,
+                notes=f"Asignado por {cur_name} a {target_u.name} ({lead.owner_id})",
+            )
+            return True, target_u.name, lead.owner_id
+
+    return False, "", ""
 from ghl_client import (
     BEAUTY_LOCATION_ID,
     BEAUTY_PIPELINE_ID,
@@ -1206,6 +1259,7 @@ class StageAndProposalUpdateRequest(BaseModel):
     demo_config_json: Optional[str] = None
     contact_status: Optional[str] = None
     owner_id: Optional[str] = None
+    assign_to_closer: Optional[str] = None
     notes: Optional[str] = None
 
 
@@ -1434,14 +1488,18 @@ async def api_list_sales_users(
     db: Session = Depends(get_db),
 ):
     """Lista los vendedores, supervisores y equipo de operaciones junto con sus métricas reales."""
-    users = db.query(User).order_by(User.role.asc(), User.email.asc()).all()
-    all_leads = db.query(DbLead).all()
+    users = db.query(User).filter(User.is_active == 1).order_by(User.role.asc(), User.email.asc()).all()
+    all_leads = (
+        db.query(DbLead)
+        .filter((DbLead.contact_status == None) | (DbLead.contact_status != "archivo_reserva"))
+        .all()
+    )
 
     result = []
     for u in users:
         u_role = getattr(u, "role", "seller") or "seller"
         # Si el usuario que consulta es 'seller', solo ve su propio perfil y nombres básicos para referencia
-        my_leads = [l for l in all_leads if (getattr(l, "owner_id", "") or "") == u.email]
+        my_leads = [l for l in all_leads if (getattr(l, "owner_id", "") or "").strip().lower() == (u.email or "").strip().lower()]
         proposals = [
             l for l in my_leads
             if (getattr(l, "pipeline_stage", "") or "") in (
@@ -1700,11 +1758,10 @@ async def api_update_lead_stage_and_proposal(
     if not lead:
         raise HTTPException(status_code=404, detail="Prospecto no encontrado.")
 
-    # Regla de Parejas: ambos integrantes pueden modificar los prospectos de su Pareja
     if not _can_seller_access_lead(current_user, lead):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="Acceso denegado: este prospecto pertenece a otra pareja."
+            detail="Acceso denegado: este prospecto pertenece a otro vendedor."
         )
 
     # Regla P0 de cobro verificado: No se puede pasar a 'Pago confirmado', 'Implementación' ni 'Entregado'
@@ -1800,7 +1857,16 @@ async def api_update_lead_stage_and_proposal(
     if req.notes is not None:
         lead.notes = req.notes
 
-    # Solo Admin o Supervisor pueden reasignar el propietario
+    stamp_human = f"{now_iso[:10]} {now_iso[11:16]}"
+    assigned_flag, assigned_name, assigned_email = _apply_setter_claim_and_assignment(
+        db=db,
+        lead=lead,
+        current_user=current_user,
+        assign_to_closer=getattr(req, "assign_to_closer", None),
+        stamp_human=stamp_human,
+    )
+
+    # Solo Admin o Supervisor pueden reasignar libremente por req.owner_id
     if req.owner_id is not None and current_user["role"] in ("admin", "supervisor"):
         old_owner = getattr(lead, "owner_id", "") or ""
         if old_owner != req.owner_id:
@@ -1851,11 +1917,15 @@ async def api_update_lead_stage_and_proposal(
         lead_db_id=lead.id,
     )
 
+    extra_assign = f" · Asignado a {assigned_name}" if assigned_flag else ""
     return {
         "success": True,
         "crm_synced": True,
         "crm_synced_at": now_iso,
-        "message": f"🟢 Sincronizado con CRM ProsperIA: etapa '{lead.pipeline_stage}' y propuesta actualizadas en tiempo real.",
+        "assigned_to_closer": assigned_flag,
+        "assigned_to_name": assigned_name,
+        "assigned_to_email": assigned_email,
+        "message": f"🟢 Sincronizado con CRM ProsperIA: etapa '{lead.pipeline_stage}' y propuesta actualizadas en tiempo real{extra_assign}.",
         "data": serialize_lead(lead),
     }
 
@@ -1873,7 +1943,7 @@ async def api_verify_payment_and_accrue_commission(
         raise HTTPException(status_code=404, detail="Prospecto no encontrado.")
 
     if not _can_seller_access_lead(current_user, lead):
-        raise HTTPException(status_code=403, detail="No puedes registrar pagos sobre el prospecto de otra pareja.")
+        raise HTTPException(status_code=403, detail="No puedes registrar pagos sobre el prospecto de otro vendedor.")
 
     clean_invoice = (req.invoice_id or "").strip()
     if not clean_invoice or len(clean_invoice) < 3:
@@ -2034,12 +2104,16 @@ async def api_get_sales_os_metrics(
     db: Session = Depends(get_db),
 ):
     """Calcula el Tablero de Dirección y el Tablero del Vendedor separando estrictamente propuestas de cobros reales."""
-    all_leads = db.query(DbLead).all()
+    all_leads = [
+        l for l in db.query(DbLead).all()
+        if (getattr(l, "contact_status", "") or "").strip().lower() != "archivo_reserva"
+    ]
+    free_pool_count = sum(1 for l in all_leads if not (getattr(l, "owner_id", "") or "").strip())
 
-    # Filtrar por Pareja para las métricas del vendedor
+    # Filtrar por Vendedor Individual para métricas de su base tomada
     if current_user["role"] == "seller":
-        pair_ems = set(get_partner_emails(current_user["email"]))
-        scoped_leads = [l for l in all_leads if (getattr(l, "owner_id", "") or "").strip().lower() in pair_ems]
+        cur_em = (current_user["email"] or "").strip().lower()
+        scoped_leads = [l for l in all_leads if (getattr(l, "owner_id", "") or "").strip().lower() == cur_em]
     else:
         scoped_leads = all_leads
 
@@ -2116,6 +2190,7 @@ async def api_get_sales_os_metrics(
             "role_scope": current_user["role"],
             "user_email": current_user["email"],
             "total_leads_in_scope": len(scoped_leads),
+            "free_pool_count": free_pool_count,
             "contactable_leads": len(scoped_leads) - dnd_excluded_count,
             "dnd_excluded_leads": dnd_excluded_count,
             "leads_without_next_step": without_next_step,
@@ -2151,8 +2226,8 @@ async def api_get_audit_logs(
     if lead_id is not None:
         q = q.filter(AuditLog.lead_id == lead_id)
     elif current_user["role"] == "seller":
-        pair_ems = get_partner_emails(current_user["email"])
-        q = q.filter(func.lower(AuditLog.actor_email).in_(pair_ems))
+        cur_em = (current_user["email"] or "").strip().lower()
+        q = q.filter(func.lower(AuditLog.actor_email) == cur_em)
 
     rows = q.order_by(AuditLog.id.desc()).limit(limit).all()
     logs = [
@@ -2188,6 +2263,7 @@ class CallOutcomeRequest(BaseModel):
     next_action_at: Optional[str] = ""
     next_action_note: Optional[str] = ""
     setter_stage: Optional[str] = ""
+    assign_to_closer: Optional[str] = None
 
 
 @router.post("/api/sales-os/checkin")
@@ -2301,6 +2377,98 @@ async def api_update_my_calendar_url(
     }
 
 
+@router.post("/api/sales-os/leads/{lead_id}/claim")
+async def api_claim_free_pool_lead(
+    lead_id: int,
+    current_user: dict = Depends(get_current_sales_user),
+    db: Session = Depends(get_db),
+):
+    """Toma un prospecto libre de la Bolsa de 500 y lo asigna en exclusiva al vendedor actual."""
+    lead = db.query(DbLead).filter(DbLead.id == lead_id).first()
+    if not lead:
+        raise HTTPException(status_code=404, detail="Prospecto no encontrado.")
+    if (getattr(lead, "contact_status", "") or "").strip().lower() == "archivo_reserva":
+        raise HTTPException(status_code=409, detail="Este prospecto está en reserva archivada.")
+
+    cur_em = (current_user.get("email") or "").strip().lower()
+    cur_name = (current_user.get("name") or cur_em).strip()
+    existing_owner = (getattr(lead, "owner_id", "") or "").strip().lower()
+
+    if existing_owner == cur_em:
+        return {
+            "success": True,
+            "already_owned": True,
+            "message": f"Este contacto ya está asignado a tu cuenta ({cur_name}).",
+            "data": serialize_lead(lead),
+        }
+    if existing_owner and current_user.get("role") == "seller":
+        raise HTTPException(
+            status_code=409,
+            detail=f"Este contacto ya fue tomado por {existing_owner}. Selecciona otro disponible en la Bolsa de 500.",
+        )
+
+    now_iso = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+    stamp_human = f"{now_iso[:10]} {now_iso[11:16]}"
+    updated_rows = (
+        db.query(DbLead)
+        .filter(
+            DbLead.id == lead_id,
+            or_(DbLead.owner_id.is_(None), DbLead.owner_id == ""),
+        )
+        .update(
+            {
+                DbLead.owner_id: cur_em,
+                DbLead.setter_id: cur_em,
+                DbLead.last_touch: now_iso,
+            },
+            synchronize_session=False,
+        )
+    )
+    if not updated_rows:
+        db.rollback()
+        fresh = db.query(DbLead).filter(DbLead.id == lead_id).first()
+        taken_by = (getattr(fresh, "owner_id", "") or "otro vendedor") if fresh else "otro vendedor"
+        if fresh and (getattr(fresh, "owner_id", "") or "").strip().lower() == cur_em:
+            return {
+                "success": True,
+                "already_owned": True,
+                "message": f"Este contacto ya está asignado a tu cuenta ({cur_name}).",
+                "data": serialize_lead(fresh),
+            }
+        if current_user.get("role") == "seller":
+            raise HTTPException(
+                status_code=409,
+                detail=f"Otro compañero acaba de tomar este contacto ({taken_by}). Elige otro de la Bolsa de 500.",
+            )
+        lead.owner_id = cur_em
+        lead.setter_id = getattr(lead, "setter_id", "") or cur_em
+        lead.last_touch = now_iso
+    else:
+        db.expire(lead)
+        lead = db.query(DbLead).filter(DbLead.id == lead_id).first()
+
+    lead.notes = ((lead.notes or "") + f"\n[{stamp_human} · Bolsa 500] ✋ Tomado por iniciativa por {cur_name}").strip()
+    record_audit(
+        db,
+        actor_email=cur_em,
+        actor_role=current_user.get("role", "seller"),
+        lead_id=lead.id,
+        action="pool_lead_claimed",
+        field_changed="owner_id",
+        old_value=existing_owner or "bolsa_libre",
+        new_value=cur_em,
+        notes=f"Tomado de la Bolsa Libre de 500 por {cur_name}",
+    )
+    db.commit()
+    db.refresh(lead)
+    return {
+        "success": True,
+        "already_owned": False,
+        "message": f"✋ Contacto #{lead.id} asignado en exclusiva a {cur_name}.",
+        "data": serialize_lead(lead),
+    }
+
+
 @router.post("/api/sales-os/leads/{lead_id}/call-outcome")
 async def api_register_call_outcome(
     lead_id: int,
@@ -2318,7 +2486,7 @@ async def api_register_call_outcome(
         raise HTTPException(status_code=404, detail="Prospecto no encontrado.")
 
     if not _can_seller_access_lead(current_user, lead):
-        raise HTTPException(status_code=403, detail="Este contacto está asignado a otra pareja.")
+        raise HTTPException(status_code=403, detail="Este contacto pertenece a otro vendedor.")
 
     u = db.query(User).filter(User.email == current_user["email"]).first()
     now_iso = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -2363,10 +2531,26 @@ async def api_register_call_outcome(
     if is_qualify_to_crm:
         if outcome != "closer_update" and u:
             u.calls_answered_week = int(getattr(u, "calls_answered_week", 0) or 0) + 1
-        target_stage = old_stage if (outcome == "closer_update" and old_stage in ("Pago pendiente", "Pago confirmado")) else (req_stage if req_stage in ("Primer contacto", "Contacto", "Calificado") and outcome == "closer_update" else "Calificado")
+        valid_closer_stages = (
+            "Primer contacto",
+            "Contacto",
+            "Conversación",
+            "Calificado",
+            "Diagnóstico agendado",
+            "Demo realizada",
+            "Propuesta enviada",
+            "Pago pendiente",
+            "No interesado",
+        )
+        if req_stage in valid_closer_stages:
+            target_stage = req_stage
+        elif outcome == "closer_update" and old_stage in ("Pago pendiente", "Pago confirmado"):
+            target_stage = old_stage
+        else:
+            target_stage = "Calificado"
         lead.pipeline_stage = target_stage
         if lead.status not in ("won", "paid"):
-            lead.status = "qualified"
+            lead.status = "contacted" if target_stage in ("Primer contacto", "Contacto", "Conversación") else ("lost" if target_stage == "No interesado" else "qualified")
         note_msg = (req.notes or "").strip() or (
             f"Actualización Closer · Oferta {lead.offer_version or 'EXPRESS_497'} (US${float(lead.quoted_amount or 0):.0f})"
             if outcome == "closer_update"
@@ -2375,6 +2559,13 @@ async def api_register_call_outcome(
         chan_prefix = f"[{stamp_human} · {channel_tag} · {target_stage}{obj_suffix}{next_suffix}]"
         prefix_emoji = "🎩 CLOSER CRM:" if outcome == "closer_update" else "🔥 CALIFICADO → CLOSER CRM:"
         lead.notes = ((lead.notes or "") + f"\n{chan_prefix} {prefix_emoji} {note_msg}").strip()
+        assigned_to_closer, assigned_to_name, assigned_to_email = _apply_setter_claim_and_assignment(
+            db=db,
+            lead=lead,
+            current_user=current_user,
+            assign_to_closer=getattr(req, "assign_to_closer", None),
+            stamp_human=stamp_human,
+        )
         record_audit(
             db,
             actor_email=current_user["email"],
@@ -2425,8 +2616,8 @@ async def api_register_call_outcome(
                 full_name=getattr(lead, "full_name", None) or lead.name,
                 business_name=getattr(lead, "business_name", None) or (lead.company or ""),
                 selected_template=getattr(lead, "selected_template", "clinica_dental_estetica") or "clinica_dental_estetica",
-                closer_name=current_user.get("name") or "Asesor Prosper IA",
-                closer_email=current_user.get("email") or "seller@agenciaprosperia.com",
+                closer_name=assigned_to_name or current_user.get("name") or "Asesor Prosper IA",
+                closer_email=assigned_to_email or (getattr(lead, "owner_id", "") or current_user.get("email") or "seller@agenciaprosperia.com"),
                 cal_url=(current_user.get("calendar_url") or "https://agenciaprosperia.com/#contacto"),
                 contact_id=getattr(lead, "contact_id", "") or "",
             )
@@ -2434,12 +2625,21 @@ async def api_register_call_outcome(
         tpl = getattr(lead, "selected_template", "clinica_dental_estetica") or "clinica_dental_estetica"
         bname = urllib.parse.quote(getattr(lead, "business_name", None) or (lead.company or lead.name or ""))
         phone_q = urllib.parse.quote(lead.phone or "")
-        demo_url = f"/demo-sitio-web?lead_id={lead.id}&template={tpl}&business={bname}&phone={phone_q}&closer_email={current_user['email']}"
+        demo_closer_em = assigned_to_email or (getattr(lead, "owner_id", "") or current_user["email"])
+        demo_url = f"/demo-sitio-web?lead_id={lead.id}&template={tpl}&business={bname}&phone={phone_q}&closer_email={demo_closer_em}"
+        ok_msg = (
+            f"🎯 ¡Contacto Calificado y asignado a {assigned_to_name}! Ya aparece en su Pipeline Closer con tu bitácora y tu crédito de Seteo."
+            if assigned_to_closer
+            else "🔥 ¡Contacto Calificado! Enviado en vivo al CRM ProsperIA y pasado a Mi Pipeline (Closer) con toda su bitácora."
+        )
         return {
             "success": True,
             "pushed_to_ghl": True,
             "demo_url": demo_url,
-            "message": "🔥 ¡Contacto Calificado! Enviado en vivo al CRM ProsperIA y pasado a Mi Pipeline (Closer) con toda su bitácora.",
+            "assigned_to_closer": assigned_to_closer,
+            "assigned_to_name": assigned_to_name,
+            "assigned_to_email": assigned_to_email,
+            "message": ok_msg,
             "data": serialize_lead(lead),
         }
 
@@ -2450,6 +2650,13 @@ async def api_register_call_outcome(
         note_msg = (req.notes or "").strip() or "No contestó / Buzón (permanece en bandeja Setter sin enviar a GHL)."
         chan_prefix = f"[{stamp_human} · {channel_tag} · {local_stage}{obj_suffix}{next_suffix}]"
         lead.notes = ((lead.notes or "") + f"\n{chan_prefix} 🔴 NO CONTESTÓ: {note_msg}").strip()
+        assigned_to_closer, assigned_to_name, assigned_to_email = _apply_setter_claim_and_assignment(
+            db=db,
+            lead=lead,
+            current_user=current_user,
+            assign_to_closer=getattr(req, "assign_to_closer", None),
+            stamp_human=stamp_human,
+        )
         record_audit(
             db,
             actor_email=current_user["email"],
@@ -2465,6 +2672,9 @@ async def api_register_call_outcome(
         return {
             "success": True,
             "pushed_to_ghl": False,
+            "assigned_to_closer": assigned_to_closer,
+            "assigned_to_name": assigned_to_name,
+            "assigned_to_email": assigned_to_email,
             "message": f"🔴 Renglón guardado ({local_stage} · +1 toque). Sigue en tu lista de Setter sin ensuciar el CRM.",
             "data": serialize_lead(lead),
         }
@@ -2485,6 +2695,13 @@ async def api_register_call_outcome(
             audit_act = "call_callback_local_only"
         chan_prefix = f"[{stamp_human} · {channel_tag} · {local_stage}{obj_suffix}{next_suffix}]"
         lead.notes = ((lead.notes or "") + f"\n{chan_prefix} {tag_ico} {local_stage.upper()}: {note_msg}").strip()
+        assigned_to_closer, assigned_to_name, assigned_to_email = _apply_setter_claim_and_assignment(
+            db=db,
+            lead=lead,
+            current_user=current_user,
+            assign_to_closer=getattr(req, "assign_to_closer", None),
+            stamp_human=stamp_human,
+        )
         record_audit(
             db,
             actor_email=current_user["email"],
@@ -2497,10 +2714,18 @@ async def api_register_call_outcome(
             notes=f"{channel_tag}{obj_suffix} | {note_msg}",
         )
         db.commit()
+        ok_msg = (
+            f"🎯 Renglón guardado y asignado a {assigned_to_name} ({local_stage})."
+            if assigned_to_closer
+            else f"{tag_ico} Renglón guardado en bitácora ({local_stage}). Sigue en tu bandeja Setter hasta calificar."
+        )
         return {
             "success": True,
             "pushed_to_ghl": False,
-            "message": f"{tag_ico} Renglón guardado en bitácora ({local_stage}). Sigue en tu bandeja Setter hasta calificar.",
+            "assigned_to_closer": assigned_to_closer,
+            "assigned_to_name": assigned_to_name,
+            "assigned_to_email": assigned_to_email,
+            "message": ok_msg,
             "data": serialize_lead(lead),
         }
 
@@ -2510,6 +2735,13 @@ async def api_register_call_outcome(
         note_msg = (req.notes or "").strip() or "No califica / Sin interés (archivado localmente sin enviar a GHL)."
         chan_prefix = f"[{stamp_human} · {channel_tag} · Descartado{obj_suffix}]"
         lead.notes = ((lead.notes or "") + f"\n{chan_prefix} ⚫ DESCARTADO: {note_msg}").strip()
+        assigned_to_closer, assigned_to_name, assigned_to_email = _apply_setter_claim_and_assignment(
+            db=db,
+            lead=lead,
+            current_user=current_user,
+            assign_to_closer=getattr(req, "assign_to_closer", None),
+            stamp_human=stamp_human,
+        )
         record_audit(
             db,
             actor_email=current_user["email"],
@@ -2525,6 +2757,9 @@ async def api_register_call_outcome(
         return {
             "success": True,
             "pushed_to_ghl": False,
+            "assigned_to_closer": assigned_to_closer,
+            "assigned_to_name": assigned_to_name,
+            "assigned_to_email": assigned_to_email,
             "message": "⚫ Registrado como 'No Califica' (+1 toque). Archivado localmente sin ensuciar el CRM.",
             "data": serialize_lead(lead),
         }
@@ -2543,8 +2778,11 @@ async def api_sales_os_leaderboard(
     - Tabla y Gráfica CEO Anti-'Hacerse Pato' (Check-in hoy, Horas conectado, Llamadas hoy, Contestadas, Demos, Cobrado USD).
     - Banner de Celebración de Venta Reciente.
     """
-    users = db.query(User).order_by(User.role.asc(), User.name.asc()).all()
-    all_leads = db.query(DbLead).all()
+    users = db.query(User).filter(User.is_active == 1).order_by(User.role.asc(), User.name.asc()).all()
+    all_leads = [
+        l for l in db.query(DbLead).all()
+        if (getattr(l, "contact_status", "") or "").strip().lower() != "archivo_reserva"
+    ]
 
     sellers_board = []
     recent_sales = []
@@ -2570,7 +2808,7 @@ async def api_sales_os_leaderboard(
         u_role = getattr(u, "role", "seller") or "seller"
         if u_role != "seller":
             continue
-        my_leads = [l for l in all_leads if (getattr(l, "owner_id", "") or "") == u.email]
+        my_leads = [l for l in all_leads if (getattr(l, "owner_id", "") or "").strip().lower() == (u.email or "").strip().lower()]
         paid_leads = [
             l for l in my_leads
             if float(getattr(l, "amount_collected", 0.0) or 0.0) > 0 and (getattr(l, "invoice_id", "") or "").strip() != ""
@@ -2725,8 +2963,12 @@ async def api_ceo_intelligence_report(
     """Reporte Ejecutivo Brutal del Sprint 500 Toques/Semana (18–25 Nov -> Evaluación 26 Nov):
     Mide rendimiento real por Closer (meta 500 toques), conversión por Rubro/Nicho, País, Diagnóstico Digital y Objeciones.
     """
-    users = db.query(User).filter(User.role == "seller").order_by(User.name.asc()).all()
-    all_leads = db.query(DbLead).filter(DbLead.source != "exmaboletos_20off").all()
+    users = db.query(User).filter(User.role == "seller", User.is_active == 1).order_by(User.name.asc()).all()
+    all_leads = [
+        l for l in db.query(DbLead).filter(DbLead.source != "exmaboletos_20off").all()
+        if (getattr(l, "contact_status", "") or "").strip().lower() != "archivo_reserva"
+    ]
+    free_pool_remaining = sum(1 for l in all_leads if not (getattr(l, "owner_id", "") or "").strip())
     audits = db.query(AuditLog).order_by(AuditLog.id.desc()).limit(5000).all()
 
     crm_stages = {
@@ -2890,20 +3132,21 @@ async def api_ceo_intelligence_report(
     best_country = next((c for c in by_country if c["touched"] >= 10), by_country[0] if by_country else None)
 
     if team_touches == 0:
-        verdict_msg = "Sprint estándar Setter → Closer activo (Meta: 1,000 contactos/toques por perfil). Conforme anoten renglones y califiquen al CRM, aquí verás qué nicho y país convierte mejor."
+        verdict_msg = "Bolsa Libre de 500 Super-Calificados + Base Activa en marcha (Seteo → Closer). Conforme tomen contactos y califiquen al CRM, aquí verás qué nicho y país convierte mejor."
     else:
         n_txt = f"{best_niche['label']} ({best_niche['hot_rate_pct']}% Calificados)" if best_niche else "Por determinar"
         c_txt = f"{best_country['label']} ({best_country['crm_hot_closes']} Calificados)" if best_country else "Por determinar"
         top_obj = objections_ranked[0]["tag"] if objections_ranked else "Ninguna"
-        verdict_msg = f"Equipo suma {team_touches:,} toques ({team_hot} Calificados en CRM · US${team_usd:,.0f} cobrados). Nicho líder: {n_txt}. País líder: {c_txt}. Principal fricción del mercado: '{top_obj}'."
+        verdict_msg = f"Equipo suma {team_touches:,} toques ({team_hot} Calificados en CRM · US${team_usd:,.0f} cobrados · {free_pool_remaining} libres en Bolsa 500). Nicho líder: {n_txt}. País líder: {c_txt}. Principal fricción del mercado: '{top_obj}'."
 
     return {
         "success": True,
         "data": {
             "sprint": {
-                "window": "Sprint Comercial Setter → Closer · Meta 1,000 Contactos · Evaluación en Vivo 26 Nov",
-                "weekly_touch_target": 1000,
-                "team_weekly_goal": len(by_closer) * 1000,
+                "window": "Bolsa Libre de 500 Super-Calificados + Base Activa · Seteo → Closer",
+                "weekly_touch_target": 500,
+                "free_pool_remaining": free_pool_remaining,
+                "team_weekly_goal": len(by_closer) * 100,
                 "team_total_touches": team_touches,
                 "team_total_crm_hot": team_hot,
                 "team_total_sales": team_sales,
@@ -3297,8 +3540,9 @@ async def api_closer_create_new_lead(
     ).first()
 
     now_iso = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
-    allowed_stages = ("Lead identificado", "Primer contacto") + tuple(BEAUTY_GROWTH_PIPELINE_STAGES)
-    stage = req.initial_stage if req.initial_stage in allowed_stages else "Primer contacto"
+    stamp_human = f"{now_iso[:10]} {now_iso[11:16]}"
+    allowed_stages = tuple(ALL_PIPELINE_STAGES) + ("Contacto", "Primer contacto", "Lead identificado", "Calificado")
+    stage = req.initial_stage if req.initial_stage in allowed_stages else "Calificado"
     bname = (req.business_name or "").strip() or full_name
     tpl = (req.selected_template or "clinica_dental_estetica").strip()
     is_beauty_req = (
@@ -3308,12 +3552,30 @@ async def api_closer_create_new_lead(
         or "Beauty Growth" in (current_user.get("dupla") or "")
     )
     offer_default = "BEAUTY_ELEVATE_2499" if is_beauty_req else "EXPRESS_497"
-    quoted_default = 2499.0 if is_beauty_req else (497.0 if stage == "Primer contacto" else 0.0)
+    quoted_default = 2499.0 if is_beauty_req else (497.0 if stage in ("Primer contacto", "Contacto", "Calificado") else 0.0)
+    raw_note = (req.notes or "").strip() or f"Alta directa por Closer {current_user['name']} ({current_user['email']})."
+    formatted_note_line = f"[{stamp_human} · Alta Closer · {stage}] 📝 {raw_note}"
 
     if existing:
-        existing.owner_id = existing.owner_id or current_user["email"]
+        existing.name = full_name
+        existing.full_name = full_name
+        existing.company = bname
+        existing.business_name = bname
+        existing.phone = raw_phone
+        existing.phone_e164 = phone_e164
+        if req.email and clean_email and clean_email != existing.email and not clean_email.endswith("@agenciaprosperia.com"):
+            email_conflict = db.query(DbLead).filter(DbLead.email == clean_email, DbLead.id != existing.id).first()
+            if not email_conflict:
+                existing.email = clean_email
+        old_stage_existing = (getattr(existing, "pipeline_stage", "Lead identificado") or "Lead identificado")
+        if not existing.owner_id or old_stage_existing in ("Lead identificado", "No responde"):
+            existing.owner_id = current_user["email"]
+            existing.setter_id = existing.setter_id or current_user["email"]
         existing.pipeline_stage = stage
+        existing.status = "new" if stage in ("Lead identificado", "1. Prospecto identificado") else ("contacted" if stage in ("Primer contacto", "Contacto", "Conversación") else "qualified")
+        existing.selected_template = "beauty_growth_salon_spa" if is_beauty_req else tpl
         existing.last_touch = now_iso
+        existing.notes = ((getattr(existing, "notes", "") or "") + f"\n{formatted_note_line}").strip()
         if is_beauty_req:
             existing.niche = "beauty_growth"
             existing.offer_version = existing.offer_version if str(existing.offer_version or "").startswith("BEAUTY_") else offer_default
@@ -3329,12 +3591,12 @@ async def api_closer_create_new_lead(
             business_name=bname,
             phone=raw_phone,
             phone_e164=phone_e164,
-            status="new" if stage in ("Lead identificado", "1. Prospecto identificado") else "qualified",
+            status="new" if stage in ("Lead identificado", "1. Prospecto identificado") else ("contacted" if stage in ("Primer contacto", "Contacto", "Conversación") else "qualified"),
             source="beautygrowth_closer_alta" if is_beauty_req else "closer_prospeccion_propia",
             source_channel="Vertical Beauty Growth" if is_beauty_req else "Iniciativa Closer",
             source_campaign="✨ Beauty Growth & Business System" if is_beauty_req else f"Closer: {current_user['name']}",
             score=85,
-            notes=(req.notes or f"Alta directa por Closer {current_user['name']} ({current_user['email']}).").strip(),
+            notes=formatted_note_line,
             created_at=now_iso,
             owner_id=current_user["email"],
             setter_id=current_user["email"],
@@ -3926,7 +4188,7 @@ async def api_send_institutional_email_to_lead(
     if not lead:
         raise HTTPException(status_code=404, detail="Prospecto no encontrado.")
     if not _can_seller_access_lead(current_user, lead):
-        raise HTTPException(status_code=403, detail="Este contacto está asignado a otra pareja.")
+        raise HTTPException(status_code=403, detail="Este contacto pertenece a otro vendedor.")
 
     to_email = normalize_email(getattr(lead, "email", "") or "")
     if not _is_valid_real_email(to_email):
@@ -4054,7 +4316,7 @@ async def api_send_ghl_direct_message(
     if not lead:
         raise HTTPException(status_code=404, detail="Prospecto no encontrado.")
     if not _can_seller_access_lead(current_user, lead):
-        raise HTTPException(status_code=403, detail="Este contacto está asignado a otra pareja.")
+        raise HTTPException(status_code=403, detail="Este contacto pertenece a otro vendedor.")
 
     phone_raw = (getattr(lead, "phone_e164", None) or (lead.phone or "")).strip()
     biz_name = (getattr(lead, "business_name", None) or lead.company or lead.name or "").strip()
@@ -4136,7 +4398,7 @@ async def api_send_agency_whatsapp(
     if not lead:
         raise HTTPException(status_code=404, detail="Prospecto no encontrado.")
     if not _can_seller_access_lead(current_user, lead):
-        raise HTTPException(status_code=403, detail="Este contacto está asignado a otra pareja.")
+        raise HTTPException(status_code=403, detail="Este contacto pertenece a otro vendedor.")
 
     phone_raw = (getattr(lead, "phone_e164", None) or lead.phone or "").strip()
     if not phone_raw:
@@ -4250,7 +4512,7 @@ async def api_get_lead_comms_status(
     if not lead:
         raise HTTPException(status_code=404, detail="Prospecto no encontrado.")
     if not _can_seller_access_lead(current_user, lead):
-        raise HTTPException(status_code=403, detail="Este contacto está asignado a otra pareja.")
+        raise HTTPException(status_code=403, detail="Este contacto pertenece a otro vendedor.")
 
     phone_raw = (getattr(lead, "phone_e164", None) or lead.phone or "").strip()
     res = await asyncio.to_thread(
@@ -5318,7 +5580,7 @@ def _notify_closer_of_inbound_reply_email_sync(
     </html>
     """
 
-    recipients = get_partner_emails(closer_email) or [closer_email]
+    recipients = [closer_email.strip().lower()] if closer_email else []
     if "info@agenciaprosperia.com" not in recipients:
         recipients.append("info@agenciaprosperia.com")
 

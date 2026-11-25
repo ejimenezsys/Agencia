@@ -86,6 +86,35 @@ def normalize_email(email: str) -> str:
     return (email or "").strip().lower()
 
 
+def _is_callable_zero_cost_from_argentina(country: str, phone: str, phone_e164: str) -> bool:
+    """Valida si el negocio tiene línea móvil con WhatsApp (MX/CO/PE/CL/ES) o línea nacional Argentina (+54) a costo $0."""
+    digits = re.sub(r"\D", "", str(phone_e164 or phone or ""))
+    c = (country or "").strip().lower()
+    if not digits or len(digits) < 9:
+        return False
+    # Excluir EE. UU. / Canadá / Puerto Rico (+1) — teléfonos fijos de oficina en inglés o SMS pagado
+    if digits.startswith("1") and len(digits) == 11:
+        return False
+    if "argent" in c or digits.startswith("54"):
+        return len(digits) >= 10
+    if "colomb" in c or digits.startswith("57"):
+        rest = digits[2:] if digits.startswith("57") else digits
+        return len(rest) == 10 and rest.startswith("3")
+    if "per" in c or digits.startswith("51"):
+        rest = digits[2:] if digits.startswith("51") else digits
+        return len(rest) == 9 and rest.startswith("9")
+    if "chile" in c or digits.startswith("56"):
+        rest = digits[2:] if digits.startswith("56") else digits
+        return len(rest) == 9 and rest.startswith("9")
+    if "espa" in c or digits.startswith("34"):
+        rest = digits[2:] if digits.startswith("34") else digits
+        return len(rest) == 9 and rest[0] in ("6", "7")
+    if "méx" in c or "mex" in c or digits.startswith("52"):
+        rest = digits[3:] if digits.startswith("521") else (digits[2:] if digits.startswith("52") else digits)
+        return len(rest) == 10 and not rest.startswith("800")
+    return False
+
+
 # Catálogo Oficial Versionado (Sección 2 del Brief Operativo)
 OFFER_CATALOG = {
     "EXPRESS_497": {
@@ -569,18 +598,6 @@ def _run_safe_migrations():
 
 INITIAL_SALES_TEAM = [
     {
-        "email": "sheille.perez@gmail.com",
-        "name": "Sheille Pérez",
-        "role": "seller",
-        "dupla": "Dupla A — Clínicas (Dental, Estética y Capilar)",
-        "phone": "+541128612007",
-        "plan": "SVE-90 Enterprise",
-        "ghl_user_id": "ucToiI5LKdcDLUpnAC5g",
-        "calendar_url": "https://api.agenciaprosperia.com/widget/booking/GrvltSCThpWp2cEptiTF",
-        "avatar_url": "/static/img/closers/sheilla.jpg",
-        "default_pass": "Closer2026!"
-    },
-    {
         "email": "diegoarriondo03@gmail.com",
         "name": "Diego Arriondo",
         "role": "seller",
@@ -710,16 +727,17 @@ OBSOLETE_TEST_EMAILS = [
     "ucumaryvisual@gmail.com",
     "dbecerra@agenciaprosperia.com",
     "sergiotorales608@gmail.com",
+    "sheille.perez@gmail.com",
 ]
 
 
 CLOSER_PAIRS_CONFIG = [
     {
         "num": 1,
-        "label": "Pareja 1 — Sheille & Wendy",
-        "dupla": "Pareja 1 — Sheille & Wendy (Líder Closers)",
-        "role_note": "Líder de Closers: Sheille Pérez (Dudas de cierre, propuestas y cobros)",
-        "emails": ["sheille.perez@gmail.com", "wendyleiva59@gmail.com"],
+        "label": "Pareja 1 — Wendy Leiva",
+        "dupla": "Pareja 1 — Wendy Leiva",
+        "role_note": "Closer Titular (Propuestas, demos y cobros)",
+        "emails": ["wendyleiva59@gmail.com"],
         "excluded_from_auto": False,
     },
     {
@@ -1604,6 +1622,210 @@ def init_db():
                 key=pairs_v2_key,
                 value=f"reassigned_hot_warm={reassigned_v2},sergio_reassigned={sergio_moved}",
             ))
+
+        # 8. Migración idempotente: Bolsa Abierta de 500 Super-Calificados (100% Móviles/WA + Argentina $0) + Conservar Tocados Útiles
+        pool_mig_key = "pool_500_super_qualified_nov25_v1"
+        if not db.query(IntegrationSetting).filter(IntegrationSetting.key == pool_mig_key).first():
+            active_team_emails = {m["email"].lower() for m in INITIAL_SALES_TEAM}
+            auto_markers = (
+                "🤖 Setter IA",
+                "📥 Origen Correo Entrante",
+                "🔥 RESPONDIÓ A SETTER IA",
+                "💬 Chatbot Web",
+                "Auto-respuesta detectada",
+                "Auto semana18nov",
+            )
+            dead_notes = (
+                "sin wp",
+                "no tiene wp",
+                "no tiene whatssap",
+                "no tiene whatsapp",
+                "no tiene movil",
+                "no es movil",
+                "landline",
+                "no tiene celular",
+                "no tiene sms",
+                "corto la llamada",
+                "no está interesado",
+                "no se intereso",
+                "se niega a comprar",
+            )
+            active_touched_stages = {
+                "Contacto",
+                "Conversación",
+                "Calificado",
+                "Diagnóstico agendado",
+                "Demo realizada",
+                "Propuesta enviada",
+                "Pago pendiente",
+                "Pago confirmado",
+                "Implementación",
+                "Entregado",
+            }
+            closed_out_stages = {"No interesado", "No cumple perfil", "Opt-out", "Venta perdida"}
+
+            all_leads = db.query(Lead).all()
+            preserved_ids = set()
+            seen_phones = set()
+            seen_emails = set()
+            seen_biz = set()
+
+            def _real_email_pool(em_val: str) -> str:
+                em_c = normalize_email(em_val or "")
+                if (
+                    em_c
+                    and "@" in em_c
+                    and not em_c.endswith(".local")
+                    and "sin-correo" not in em_c
+                    and "noemail" not in em_c
+                    and not (
+                        (em_c.startswith("prospecto.") or em_c.startswith("prospecto_") or em_c.startswith("lote."))
+                        and em_c.endswith("@agenciaprosperia.com")
+                    )
+                ):
+                    return em_c
+                return ""
+
+            # Paso A: Conservar los registros útiles trabajados por los 9 integrantes activos
+            for ld in all_leads:
+                c_st = (getattr(ld, "contact_status", "contactable") or "contactable").lower()
+                if c_st in ("dnd", "opt_out", "bounce", "unauthorized"):
+                    continue
+                own = (getattr(ld, "owner_id", "") or "").strip().lower()
+                if own not in active_team_emails:
+                    continue
+                stg = (getattr(ld, "pipeline_stage", "Lead identificado") or "Lead identificado").strip()
+                if stg in closed_out_stages:
+                    continue
+                notes_raw = getattr(ld, "notes", "") or ""
+                entries = [
+                    e for e in re.findall(r"\[20\d{2}-[^\]]+\][^\n]*", notes_raw)
+                    if not any(m in e for m in auto_markers)
+                ]
+                has_real_paid = float(getattr(ld, "amount_collected", 0.0) or 0.0) > 0
+                has_human_work = bool(entries) or (stg in active_touched_stages) or has_real_paid
+                if not has_human_work:
+                    continue
+                last_e_low = entries[-1].lower() if entries else ""
+                if not has_real_paid and last_e_low and any(d in last_e_low for d in dead_notes):
+                    continue
+
+                preserved_ids.add(ld.id)
+                ld.contact_status = "contactable"
+                digits = re.sub(r"\D", "", str(getattr(ld, "phone_e164", None) or getattr(ld, "phone", None) or ""))
+                if len(digits) >= 9:
+                    seen_phones.add(digits[-10:])
+                em_ok = _real_email_pool(getattr(ld, "email", "") or "")
+                if em_ok:
+                    seen_emails.add(em_ok)
+                biz_ok = (getattr(ld, "business_name", None) or getattr(ld, "company", None) or "").strip().lower()
+                if biz_ok and biz_ok not in ("por definir", "n/a", "sin empresa", "profesional / alumno ia"):
+                    seen_biz.add(biz_ok)
+
+            # Paso B: Seleccionar exactamente 500 Super-Calificados 100% Móviles/WA + Argentina ($0) para Bolsa Libre
+            candidates = []
+            for ld in all_leads:
+                if ld.id in preserved_ids:
+                    continue
+                c_st = (getattr(ld, "contact_status", "contactable") or "contactable").lower()
+                if c_st in ("dnd", "opt_out", "bounce", "unauthorized"):
+                    continue
+                stg = (getattr(ld, "pipeline_stage", "Lead identificado") or "Lead identificado").strip()
+                if stg in closed_out_stages:
+                    continue
+                ph = getattr(ld, "phone", "") or ""
+                ph164 = getattr(ld, "phone_e164", "") or ""
+                country = getattr(ld, "country", "") or ""
+                if not _is_callable_zero_cost_from_argentina(country, ph, ph164):
+                    continue
+                digits = re.sub(r"\D", "", str(ph164 or ph))
+                key_ph = digits[-10:]
+                if key_ph in seen_phones:
+                    continue
+                em_ok = _real_email_pool(getattr(ld, "email", "") or "")
+                if em_ok and em_ok in seen_emails:
+                    continue
+                biz_ok = (getattr(ld, "business_name", None) or getattr(ld, "company", None) or "").strip().lower()
+                if biz_ok and biz_ok not in ("por definir", "n/a", "sin empresa", "profesional / alumno ia") and biz_ok in seen_biz:
+                    continue
+
+                txt = f"{getattr(ld, 'source_campaign', '') or ''} {getattr(ld, 'notes', '') or ''}"
+                src = (getattr(ld, "source", "") or "").lower()
+                is_hot = (src != "apify_sprint_nov18") or ("🔥" in txt) or ("Caliente" in txt) or ("RESPONDIÓ" in txt)
+                no_web = "SIN SITIO WEB" in txt
+                web_no_ai = ("WEB SIN IA" in txt) or ("LÍDER" in txt)
+                niche_val = (getattr(ld, "niche", "") or "").lower()
+                score_val = int(getattr(ld, "score", 0) or 0)
+                prio = (
+                    (200 if is_hot else 0)
+                    + (80 if no_web else (55 if web_no_ai else 0))
+                    + (60 if em_ok else 0)
+                    + (15 if niche_val in ("clinica", "inmobiliaria") else 0)
+                    + (score_val // 10)
+                )
+                candidates.append((prio, ld, key_ph, em_ok, biz_ok))
+
+            candidates.sort(key=lambda item: item[0], reverse=True)
+            pool_500_ids = set()
+            for _prio, ld, key_ph, em_ok, biz_ok in candidates:
+                if len(pool_500_ids) >= 500:
+                    break
+                if key_ph in seen_phones:
+                    continue
+                if em_ok and em_ok in seen_emails:
+                    continue
+                if biz_ok and biz_ok not in ("por definir", "n/a", "sin empresa", "profesional / alumno ia") and biz_ok in seen_biz:
+                    continue
+                seen_phones.add(key_ph)
+                if em_ok:
+                    seen_emails.add(em_ok)
+                if biz_ok and biz_ok not in ("por definir", "n/a", "sin empresa", "profesional / alumno ia"):
+                    seen_biz.add(biz_ok)
+                pool_500_ids.add(ld.id)
+                ld.owner_id = ""
+                ld.setter_id = ""
+                ld.pipeline_stage = "Lead identificado"
+                ld.status = "new"
+                ld.contact_status = "contactable"
+
+            # Paso C: Archivar el resto en archivo_reserva sin eliminarlos de BD
+            archived_cnt = 0
+            for ld in all_leads:
+                if ld.id in preserved_ids or ld.id in pool_500_ids:
+                    continue
+                c_st = (getattr(ld, "contact_status", "contactable") or "contactable").lower()
+                if c_st in ("dnd", "opt_out", "bounce", "unauthorized"):
+                    ld.owner_id = ""
+                    continue
+                ld.contact_status = "archivo_reserva"
+                ld.owner_id = ""
+                ld.setter_id = ""
+                archived_cnt += 1
+
+            # Paso D: Pausar por defecto el motor de correos en frío Setter IA
+            for st_key in ("setter_ia_campaign_state_json", "setter_ia_warmup_state_json"):
+                st_row = db.query(IntegrationSetting).filter(IntegrationSetting.key == st_key).first()
+                if st_row and st_row.value:
+                    try:
+                        st_json = json.loads(st_row.value)
+                        if isinstance(st_json, dict):
+                            st_json["running"] = False
+                            logs_lst = st_json.get("last_log")
+                            if isinstance(logs_lst, list):
+                                logs_lst.insert(0, f"[{now_iso[:16]}] ⏸️ Correos en frío pausados (Bolsa 500 100% WhatsApp/Llamada $0).")
+                                st_json["last_log"] = logs_lst[:40]
+                            st_row.value = json.dumps(st_json, ensure_ascii=False)
+                    except Exception:
+                        pass
+
+            db.add(IntegrationSetting(
+                key=pool_mig_key,
+                value=f"preserved={len(preserved_ids)},pool_500={len(pool_500_ids)},archived={archived_cnt}",
+            ))
+            print(
+                f"✅ [POOL 500 SUPER-QUALIFIED] Conservados={len(preserved_ids)} | Bolsa Libre={len(pool_500_ids)} | Archivo Reserva={archived_cnt}",
+                flush=True,
+            )
 
         db.commit()
     except Exception as e:

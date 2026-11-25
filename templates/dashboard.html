@@ -702,13 +702,9 @@
       <i class="fas fa-graduation-cap" style="color:#fbbf24;"></i>
       <span>Material de Estudio Closer</span>
     </button>
-    <button onclick="showSection('closer-resources')" id="nav-closer-resources" class="nav-item">
-      <i class="fas fa-file-signature" style="color:#a78bfa;"></i>
-      <span>Recursos &amp; Contrato</span>
-    </button>
     <button onclick="showSection('sellers-admin')" id="nav-sellers-admin" class="nav-item">
       <i class="fas fa-user-shield"></i>
-      <span>Alta Closers &amp; Lotes (CEO)</span>
+      <span>Alta Closers (CEO)</span>
     </button>
 
     <!-- Opción Avanzada High-Ticket oculta por directriz operativa -->
@@ -859,9 +855,6 @@
       <button type="button" onclick="showSection('call-queue')" class="px-3.5 py-2 rounded-xl text-xs font-extrabold text-slate-950 bg-amber-400 hover:bg-amber-300 transition">
         📞 Ir a Mi Lista de Llamadas
       </button>
-      <a href="/demo-sitio-web?closer=1" class="px-3.5 py-2 rounded-xl text-xs font-extrabold text-slate-950 bg-cyan-400 hover:bg-cyan-300 transition no-underline">
-        ⚡ Abrir Demo Sitio Web
-      </a>
     </div>
   </div>
 
@@ -2209,12 +2202,12 @@
       <div class="flex flex-wrap items-center justify-between gap-4">
         <div>
           <div class="flex flex-wrap items-center gap-2 mb-1">
-            <span class="px-2.5 py-0.5 rounded-full text-xs font-black uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">🧢 FUNCIÓN 1 · GORRA DE SETTER (META: 1,000 CONTACTOS)</span>
-            <span id="call-queue-owner-badge" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">Mis 1,000 Prospectos Calificados</span>
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-black uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">🧢 FUNCIÓN 1 · GORRA DE SETTER (BOLSA 500 + MIS ACTIVOS)</span>
+            <span id="call-queue-owner-badge" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">Bolsa Libre 500 + Mis Contactos</span>
           </div>
           <h2 class="text-xl font-bold text-white">📞 Mi Lista de Llamadas y Bitácora Diaria (Setter)</h2>
           <p class="text-xs text-slate-300 mt-0.5">
-            <strong>Flujo Limpio en 1 Popup:</strong> Haz clic en <strong>📞 Llamar</strong> (listo para Zadarma) o en <strong>🛠️ Trabajar Contacto</strong> para abrir su tarjeta, anotar renglón tras renglón (9am no contestó, 11am habló, correo/SMS) y <strong>SOLO cuando califique</strong> enviarlo al CRM y a tu <strong>🎩 Pipeline Closer</strong>.
+            <strong>Flujo Limpio en 1 Popup:</strong> Haz clic en <strong>✋ Tomar Contacto</strong> de la Bolsa Libre de 500, abre <strong>💬 WA 1a1</strong> o <strong>🛠️ Trabajar / Anotar</strong> para registrar cada toque en bitácora y asignarlo o pasarlo al <strong>🎩 Pipeline Closer</strong>.
           </p>
         </div>
         <div class="flex flex-wrap gap-2 items-center">
@@ -2233,8 +2226,8 @@
         </div>
       </div>
 
-      <!-- Panel Motor Setter IA & Closer IA (Correos Automáticos + Detección de Respuestas + Llamadas) -->
-      <div id="setter-ia-warmup-panel" class="rounded-xl bg-slate-950/85 border border-emerald-400/35 p-3.5 text-xs space-y-2.5">
+      <!-- Panel Motor Setter IA & Closer IA (Visible únicamente para Admin) -->
+      <div id="setter-ia-warmup-panel" class="hidden rounded-xl bg-slate-950/85 border border-emerald-400/35 p-3.5 text-xs space-y-2.5">
         <div class="flex flex-wrap items-center justify-between gap-2">
           <div class="flex flex-wrap items-center gap-2">
             <span class="font-black text-emerald-300 uppercase tracking-wider">🤖 Motor Setter IA &amp; Closer IA</span>
@@ -2268,45 +2261,8 @@
         <div id="setter-ia-last-log" class="text-[11px] text-slate-400 truncate">Motor enfocado en Correos + Llamadas + Detección de Respuestas 24/7.</div>
       </div>
 
-      <!-- Panel colapsable Mi Extensión SIP Miami & Bifurcación Inteligente Anti-Tarifas -->
-      <details class="rounded-xl bg-slate-950/75 border border-cyan-500/30 p-3 text-xs">
-        <summary class="cursor-pointer font-bold text-cyan-300 flex flex-wrap items-center justify-between gap-2">
-          <span>🎧 Mi Teléfono SIP Miami (<span class="text-white">+1 786 833-6964</span>) · Extensión Asignada: <strong id="my-sip-ext-summary" class="text-emerald-300">Cargando...</strong> · Regla Anti-Cobros Activa</span>
-          <span class="text-[11px] font-semibold text-slate-400">Ver credenciales MicroSIP / Zoiper ▼</span>
-        </summary>
-        <div class="mt-3 pt-3 border-t border-slate-800 grid grid-cols-1 lg:grid-cols-3 gap-3">
-          <div class="rounded-lg bg-slate-900/90 border border-slate-800 p-3 space-y-1.5">
-            <div class="text-[11px] font-black uppercase text-emerald-300">🔑 Tu Credencial SIP en GHL</div>
-            <div>Usuario: <strong id="my-sip-user-label" class="text-white">Equipo</strong></div>
-            <div>Extensión SIP: <strong id="my-sip-ext" class="text-cyan-300 text-sm">201</strong></div>
-            <div class="flex flex-wrap items-center gap-1.5">
-              <span>Dominio SIP: <code class="text-amber-300 font-bold">passportaibusiness.sip.ashburn.twilio.com</code></span>
-              <button type="button" onclick="navigator.clipboard?.writeText('passportaibusiness.sip.ashburn.twilio.com'); this.textContent='✓ Copiado';" class="px-2 py-0.5 rounded bg-slate-800 text-cyan-300 border border-slate-700 text-[10px] font-bold">Copiar</button>
-            </div>
-            <div class="flex flex-wrap gap-1.5 pt-1">
-              <a href="https://www.microsip.org/downloads" target="_blank" rel="noopener" class="px-2 py-1 rounded bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 text-[10px] font-bold no-underline">⬇ MicroSIP (Windows)</a>
-              <a href="https://www.zoiper.com/en/voip-softphone/download/current" target="_blank" rel="noopener" class="px-2 py-1 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold no-underline">⬇ Zoiper (Mac/Móvil)</a>
-            </div>
-          </div>
-          <div class="lg:col-span-2 rounded-lg bg-slate-900/90 border border-slate-800 p-3 space-y-1.5">
-            <div class="text-[11px] font-black uppercase text-amber-300">🚦 Bifurcación Automática de Llamadas (Cero Tarifas Caras)</div>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[11px]">
-              <div class="p-2 rounded bg-cyan-500/10 border border-cyan-500/25">
-                <strong class="text-cyan-300">🇺🇸 EE. UU. / PR (+1)</strong>
-                <div class="text-slate-300 mt-0.5">El botón <strong>📞 Llamar</strong> marca directo por <strong>SIP GHL (+1 786 833-6964)</strong> y habilita SMS Miami.</div>
-              </div>
-              <div class="p-2 rounded bg-emerald-500/10 border border-emerald-500/25">
-                <strong class="text-emerald-300">🇦🇷 Argentina (+54)</strong>
-                <div class="text-slate-300 mt-0.5">El botón <strong>📞 Llamar</strong> usa tu línea local <strong>($0)</strong> + WhatsApp y bloquea SIP Miami para evitar cobros internacionales.</div>
-              </div>
-              <div class="p-2 rounded bg-amber-500/10 border border-amber-500/25">
-                <strong class="text-amber-300">🌎 LATAM / España (+52/+57/+56/+34)</strong>
-                <div class="text-slate-300 mt-0.5">El botón <strong>📞 Llamar</strong> abre llamada/chat por <strong>WhatsApp ($0)</strong> + botón directo de <strong>Correo Institucional</strong>.</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </details>
+      <!-- Toast de Confirmación Rápida en Lista Setter -->
+      <div id="call-queue-toast-banner" role="status" aria-live="polite" class="hidden rounded-xl p-3 border border-emerald-500/45 bg-emerald-500/15 text-xs text-emerald-200 font-bold flex flex-wrap items-center justify-between gap-2"></div>
 
       <!-- Alerta Dinámica de Prospectos Calientes que Respondieron al Setter IA -->
       <div id="closer-hot-replied-banner" class="hidden rounded-xl p-3 border border-rose-500/45 bg-rose-500/15 flex flex-wrap items-center justify-between gap-2.5 text-xs"></div>
@@ -2314,7 +2270,9 @@
       <!-- Barra de Filtros Inteligentes (País, Nicho, Diagnóstico, Etapa Setter, Fuente y Búsqueda) -->
       <div class="flex flex-wrap gap-2 items-center pt-2 border-t border-emerald-500/20">
         <select id="call-queue-filter" class="input-dark text-xs py-2 px-3" style="width:auto;" onchange="callQueuePage=1; renderCallQueueTable()">
-          <option value="pending">⏳ Sin Tocar + En Seguimiento Setter</option>
+          <option value="pending">📋 Bolsa Libre (500) + Mis Contactos en Seguimiento</option>
+          <option value="free_pool">🟢 Solo Bolsa Libre de 500 (Sin dueño · Tomar por iniciativa)</option>
+          <option value="my_owned">👤 Solo Mis Contactos Tomados / Asignados</option>
           <option value="warm_hot">🔥🟡 Todos Mis Calientes y Tibios (Prioridad Cierre)</option>
           <option value="replied_ia">🔥 CALIENTES: Respondieron / Inbound / Calificados</option>
           <option value="setter_demo_sent">📨 TIBIOS: Ya Recibieron Demo por Setter IA</option>
@@ -2324,7 +2282,7 @@
           <option value="no_answer">🔴 No Contestaron / Buzón</option>
           <option value="answered">🔥 Calificados (Ya en CRM Closer)</option>
           <option value="disqualified">⚫ No Califican</option>
-          <option value="all">📋 Todos mis 1,000 Asignados</option>
+          <option value="all">📋 Todos (Bolsa Libre 500 + Todos Mis Contactos)</option>
         </select>
         <select id="call-queue-country-filter" class="input-dark text-xs py-2 px-3" style="width:auto;" onchange="callQueuePage=1; renderCallQueueTable()">
           <option value="all">🌎 País: Todos</option>
@@ -2352,7 +2310,7 @@
         </select>
         <select id="call-queue-source-filter" class="input-dark text-xs py-2 px-3" style="width:auto;" onchange="callQueuePage=1; renderCallQueueTable()">
           <option value="all">📂 Fuente: Todas</option>
-          <option value="apify_sprint_nov18">🎯 Lote Calificado 1,000</option>
+          <option value="apify_sprint_nov18">🎯 Base Calificada (Bolsa 500 + Activos)</option>
           <option value="sitioweb_funnel">🔥 Embudo /sitioweb</option>
           <option value="ghl_pool">📱 Base Anterior</option>
           <option value="comex_outbound_b2b">🏢 Exportadores COMEX</option>
@@ -2408,7 +2366,7 @@
             </tr>
           </thead>
           <tbody id="call-queue-tbody" class="text-xs">
-            <tr><td colspan="4" class="text-center py-8 text-slate-500">Cargando tu base de 1,000 prospectos...</td></tr>
+            <tr><td colspan="4" class="text-center py-8 text-slate-500">Cargando Bolsa Libre 500 y tus contactos activos...</td></tr>
           </tbody>
         </table>
       </div>
@@ -3453,48 +3411,6 @@
   </dialog>
 
   <!-- ════════════════════════════════════════════════════════════════════════
-       SECTION: RECURSOS, KICKOFF & CONTRATO OFICIAL DEL CLOSER (/CLOSERS INTEGRADO)
-  ════════════════════════════════════════════════════════════════════════ -->
-  <div id="section-closer-resources" class="p-4 sm:p-6 hidden space-y-4">
-    <div id="closer-resources-card" class="card p-4 sm:p-5 border border-cyan-500/35" style="background:linear-gradient(135deg,#071426,#040b16);">
-      <div class="flex flex-wrap items-center justify-between gap-3 pb-3 mb-3 border-b border-slate-800">
-        <div>
-          <div class="flex flex-wrap items-center gap-2">
-            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-purple-500/20 text-purple-300 border border-purple-500/40">🏆 RECURSOS OFICIALES &amp; CONTRATO CLOSER</span>
-            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">15% Comisión Full-Cycle</span>
-          </div>
-          <h3 class="text-sm sm:text-base font-black text-white mt-1">Portal de Recursos, Simulador de Comisiones, Prueba Social y Contrato Oficial en PDF</h3>
-        </div>
-        <div class="flex flex-wrap items-center gap-2">
-          <a href="/static/CONTRATO_Y_PROTOCOLO_VENTAS_PROSPER_IA.pdf" target="_blank" rel="noopener" class="px-3.5 py-2 rounded-xl text-xs font-black bg-amber-400 text-slate-950 hover:bg-amber-300 no-underline inline-flex items-center gap-1.5 shadow">
-            <i class="fas fa-file-signature"></i> Contrato Closer Internacional (PDF)
-          </a>
-          <a href="/static/CONTRATO_CLOSER_COSTA_RICA_PROSPER_IA.pdf" target="_blank" rel="noopener" class="px-3.5 py-2 rounded-xl text-xs font-black bg-cyan-400 text-slate-950 hover:bg-cyan-300 no-underline inline-flex items-center gap-1.5 shadow">
-            <i class="fas fa-file-contract"></i> 🇨🇷 Contrato Closer Costa Rica (PDF)
-          </a>
-          <a href="/static/CONTRATO_CLIENTE_ESTANDAR_Y_ANEXOS_PROSPER_IA.pdf" target="_blank" rel="noopener" class="px-3.5 py-2 rounded-xl text-xs font-black bg-emerald-400 text-slate-950 hover:bg-emerald-300 no-underline inline-flex items-center gap-1.5 shadow">
-            <i class="fas fa-handshake"></i> 🤝 Contrato Cliente Estándar + Anexos (PDF)
-          </a>
-          <a href="/static/armas/MANUAL_OPERATIVO_CLOSERS_PROSPER_IA.pdf" download="Manual-Operativo-Closers-ProsperIA.pdf" class="btn-ghost px-3 py-2 rounded-xl text-xs font-bold text-emerald-300 border-emerald-500/30 no-underline inline-flex items-center gap-1.5">
-            <i class="fas fa-book-open"></i> Descargar Manual PDF
-          </a>
-          <button type="button" onclick="toggleDeckFullscreen('closer-resources-card')" class="px-3.5 py-2 rounded-xl text-xs font-black bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-cyan-500/40 inline-flex items-center gap-1.5">
-            <i class="fas fa-expand"></i> ⛶ Pantalla Completa
-          </button>
-        </div>
-      </div>
-      <iframe
-        id="closer-resources-iframe"
-        src="/closers"
-        class="w-full rounded-2xl border border-slate-800 shadow-2xl bg-slate-950"
-        style="height: calc(100vh - 185px); min-height: 760px;"
-        loading="lazy"
-        title="Portal de Recursos y Contrato Oficial Closer"
-      ></iframe>
-    </div>
-  </div>
-
-  <!-- ════════════════════════════════════════════════════════════════════════
        SECTION: LINKS DE PAGO OFICIALES (14 LINKS EN TIEMPO REAL CRM PROSPERIA)
   ════════════════════════════════════════════════════════════════════════ -->
   <div id="section-payment-links" class="p-6 hidden space-y-6">
@@ -4493,12 +4409,12 @@
   </div>
 
   <!-- ════════════════════════════════════════════════════════════════════════
-       SECTION: ALTA DE VENDEDORES, ASIGNACIÓN DE LOTES Y AUDITORÍA
+       SECTION: ALTA DE VENDEDORES (SOLO CUADRO DE ALTA)
   ════════════════════════════════════════════════════════════════════════ -->
   <div id="section-sellers-admin" class="p-6 hidden space-y-6">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <div class="max-w-2xl">
       <!-- Formulario de Alta / Edición de Vendedor -->
-      <div class="lg:col-span-5 card p-5 space-y-4">
+      <div class="card p-5 space-y-4">
         <div>
           <span class="text-xs font-bold uppercase tracking-wider text-cyan-400">ESCUADRÓN COMERCIAL (6 A 20 CLOSERS)</span>
           <h3 class="text-lg font-bold text-white mt-0.5">Dar de Alta o Actualizar Vendedor en CRM</h3>
@@ -4549,71 +4465,6 @@
             <i class="fas fa-user-check mr-1.5"></i> Guardar / Dar de Alta Vendedor en CRM
           </button>
         </div>
-
-        <!-- Distribución Automática de Lotes sin Duplicación -->
-        <div class="pt-4 border-t border-slate-800 space-y-3">
-          <h4 class="text-sm font-bold text-amber-300"><i class="fas fa-random mr-1"></i> Repartir Lote de Prospectos (Sin Duplicar y con Filtro DND)</h4>
-          <p class="text-xs text-slate-400">Asigna automáticamente los leads sin propietario en partes iguales entre los vendedores activos.</p>
-          <div class="grid grid-cols-2 gap-3">
-            <div>
-              <label class="block text-[11px] text-slate-400 mb-1">Filtrar por Dupla</label>
-              <select id="batch-dupla-filter" class="input-dark text-xs py-2">
-                <option value="all">Todas las Duplas (6 Closers)</option>
-                <option value="Dupla A">Solo Dupla A (Clínicas)</option>
-                <option value="Dupla B">Solo Dupla B (Servicios Locales)</option>
-                <option value="Dupla C">Solo Dupla C (Profesionales)</option>
-              </select>
-            </div>
-            <div>
-              <label class="block text-[11px] text-slate-400 mb-1">Máx. Leads por Vendedor</label>
-              <input type="number" id="batch-max-per-seller" class="input-dark text-xs py-2" value="20" min="1" max="100">
-            </div>
-          </div>
-          <button onclick="distributeBatchToSellers()" class="w-full py-2.5 px-4 rounded-xl text-xs font-bold text-slate-950 bg-amber-400 hover:bg-amber-300 transition">
-            <i class="fas fa-bolt mr-1"></i> Distribuir Prospectos Ahora (Con Auditoría)
-          </button>
-          <div id="batch-assign-alert" class="hidden p-2.5 rounded-lg text-xs"></div>
-        </div>
-      </div>
-
-      <!-- Tabla de Vendedores Activos y Rendimiento -->
-      <div class="lg:col-span-7 card p-5 space-y-4">
-        <div class="flex items-center justify-between">
-          <div>
-            <h3 class="text-base font-bold text-white">Equipo Comercial Activo (6 Closers Iniciales + Supervisión + Operaciones)</h3>
-            <p class="text-xs text-slate-400">Contraseña inicial por defecto de los 6 closers: <code class="text-cyan-300">Closer1Prosper2026!</code> ... <code class="text-cyan-300">Closer6Prosper2026!</code></p>
-          </div>
-          <button onclick="loadSalesUsersAndLogs()" class="btn-ghost px-3 py-1.5 rounded-lg text-xs">
-            <i class="fas fa-sync-alt mr-1"></i> Refrescar
-          </button>
-        </div>
-
-        <div tabindex="0" role="region" aria-label="Tabla de vendedores y rendimiento" class="table-wrapper rounded-xl border border-slate-800">
-          <table>
-            <thead>
-              <tr class="text-left text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800">
-                <th class="px-3 py-2.5">Vendedor / Usuario</th>
-                <th class="px-3 py-2.5">Rol & Dupla</th>
-                <th class="px-3 py-2.5">Asignados</th>
-                <th class="px-3 py-2.5">Demos / Prop.</th>
-                <th class="px-3 py-2.5">Cobrado Real</th>
-                <th class="px-3 py-2.5">Comisión 15%</th>
-                <th class="px-3 py-2.5">Editar</th>
-              </tr>
-            </thead>
-            <tbody id="sellers-table-tbody" class="text-xs">
-              <tr><td colspan="7" class="text-center py-6 text-slate-500">Cargando vendedores...</td></tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- Historial Inmutable de Auditoría -->
-        <div class="pt-3 border-t border-slate-800">
-          <h4 class="text-sm font-bold text-white mb-2"><i class="fas fa-shield-alt text-cyan-400 mr-1"></i> Registro de Auditoría en Tiempo Real (Cambios de Etapa, Precio, Asignación y Pagos)</h4>
-          <div id="audit-logs-container" class="max-h-56 overflow-y-auto space-y-1.5 pr-1 text-xs">
-            <div class="text-slate-500">Cargando auditoría...</div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -4625,7 +4476,7 @@
         <div class="flex flex-wrap items-center gap-2 mb-1">
           <span id="setter-work-role-badge" class="px-2 py-0.5 rounded-full text-[10px] font-black uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/35">🧢 TRABAJO DE CONTACTO (SETTER → CLOSER)</span>
           <span id="setter-work-stage-badge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-cyan-300 border border-slate-700">Lead identificado</span>
-          <span id="setter-work-route-badge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">🇺🇸 Ruta SIP Miami</span>
+          <span id="setter-work-route-badge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">📞 Línea &amp; WhatsApp 1a1</span>
           <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/15 text-amber-300 border border-amber-500/30">🏷️ CRM: semana18nov</span>
         </div>
         <h3 id="setterWorkTitle" class="text-lg font-black text-white">Trabajar Prospecto</h3>
@@ -4711,6 +4562,26 @@
             <option value="coaching_consultoria_pro">🚀 Coaching / Mentorías / Consultoría</option>
             <option value="sti2q_industrial">⚙️ STI²Q · Ingeniería Industrial &amp; Química</option>
           </select>
+        </div>
+      </div>
+
+      <!-- Fila 1A-bis: Asignación Seteo → Closer (Handoff en exclusiva al calificar o trabajar) -->
+      <div class="p-3 rounded-xl bg-slate-900/75 border border-cyan-500/25">
+        <label for="setter-work-assign-closer" class="block text-cyan-300 font-semibold text-xs mb-1">🎯 Asignar este Prospecto a Closer (Seteo → Closer)</label>
+        <select id="setter-work-assign-closer" name="assign_to_closer" class="input-dark text-xs py-2" aria-describedby="setter-work-assign-help">
+          <option value="">👤 Mantener en mi cuenta (o reclamar para mí si está libre)</option>
+          <option value="claudiniosan@yahoo.com.ar">Claudio A. Sánchez (Closer / Vendedor)</option>
+          <option value="diegoarriondo03@gmail.com">Diego Rubén Arriondo (Closer / Vendedor)</option>
+          <option value="digitalblups@gmail.com">Agustín Sánchez (Closer / Vendedor)</option>
+          <option value="wendyleiva59@gmail.com">Wendy Leiva (Closer / Vendedor)</option>
+          <option value="tanyah.unity@gmail.com">Tanya Hernández (Seteo / Closer)</option>
+          <option value="cinthyapenida0@gmail.com">Cinthya Penida (Closer / Vendedor)</option>
+          <option value="bruno.hernan.espinosa1694@gmail.com">Bruno Hernán Espinosa (Closer / Vendedor)</option>
+          <option value="loremrodriguezafb@gmail.com">Lorena Rodríguez (Closer / Vendedor)</option>
+          <option value="laverdaderafuerza02@gmail.com">Jhonatan Alexis Reyes (Closer / Vendedor)</option>
+        </select>
+        <div id="setter-work-assign-help" class="text-[10px] text-slate-400 mt-1">
+          Si estás haciendo Seteo, elige aquí al Closer que recibirá el lead en su Pipeline manteniendo tu crédito en bitácora.
         </div>
       </div>
 
@@ -5998,11 +5869,10 @@ function showSection(name) {
     'call-queue': ['🧢 Gorra de Setter · Lista de 1,000 Contactos', 'Trabaja cada lead en su bitácora por renglones; solo cuando califica pasa a CRM & Pipeline Closer'],
     'weapons': ['🖥️ Presentaciones Clientes (Cara al Cliente)', 'Ruta oficial en vivo: 1. Presentación Lenguaje Natural → 2. Presentación Comercial e interacción con PassportAI y CRM'],
     'closer-study': ['🎓 Material de Estudio & Preparación del Closer', 'Video Tutorial (7 Pasos), Manual Operativo, Acordeones de Speech, Roleplay de Objeciones y Perfil del Cliente Ideal'],
-    'closer-resources': ['🏆 Recursos, Kickoff & Contrato Oficial del Closer', 'Contrato oficial en PDF, Simulador de Comisiones 15%, Prueba Social y 10 Láminas de Recursos'],
     'payment-links': ['💳 Central de Links de Pago & Verificador (Live)', 'Copia el enlace oficial en 1 clic, marca Pago Pendiente o verifica comprobante y activa comisión 15%'],
     'sales-os': ['🎩 Gorra de Closer · Mi Pipeline & Cierre en Vivo', 'Espacio de trabajo limpio: aquí llegan los Calificados por Setter con su bitácora completa listos para Demo y Venta'],
     'web-showcase': ['Demostrador de Sitios Web en Vivo (16 Plantillas)', 'Muestra al cliente en 5 segundos cómo queda su página y agenda en CRM ProsperIA'],
-    'sellers-admin': ['Alta de Vendedores, Lotes & Auditoría', 'Administración de los Closers por Duplas sin duplicados'],
+    'sellers-admin': ['Alta de Vendedores', 'Crear o actualizar credenciales de acceso en CRM'],
     overview: ['Embudo 1,000 Setter → Closer & Podio', 'Meta motivacional 1,000 → 150 → 30 → 5+ cierres, Check-In y Reporte Brutal CEO'],
     leads: ['Leads & CRM', 'Prospectos del sistema'],
     automations: ['Showroom SVE-90 ($5K–$10K)', 'Arquitectura de automatización corporativa llave en mano'],
@@ -7484,32 +7354,8 @@ const TEMPLATE_LABELS_MAP = {
   sti2q_industrial: '⚙️ STI²Q Industrial'
 };
 
-const SIP_DOMAIN_PROSPERIA = 'passportaibusiness.sip.ashburn.twilio.com';
-const SIP_EXTENSIONS_BY_EMAIL = {
-  'sheille.perez@gmail.com': '201',
-  'diegoarriondo03@gmail.com': '202',
-  'cinthyapenida0@gmail.com': '203',
-  'claudiniosan@yahoo.com.ar': '204',
-  'loremrodriguezafb@gmail.com': '205',
-  'laverdaderafuerza02@gmail.com': '206',
-  'bruno.hernan.espinosa1694@gmail.com': '207',
-  'tanyah.unity@gmail.com': '209',
-  'wendyleiva59@gmail.com': '210',
-  'digitalblups@gmail.com': '211',
-  'ucumaryvisual@gmail.com': '212',
-  'edward@agenciaprosperia.com': '221',
-  'admin@prosperia.com': '221'
-};
-
 function renderMySipCard() {
-  const email = ((window.currentUser && currentUser.email) || '').toLowerCase().trim();
-  const ext = SIP_EXTENSIONS_BY_EMAIL[email] || 'Admin / Global';
-  const sumEl = document.getElementById('my-sip-ext-summary');
-  const extEl = document.getElementById('my-sip-ext');
-  const usrEl = document.getElementById('my-sip-user-label');
-  if (sumEl) sumEl.textContent = SIP_EXTENSIONS_BY_EMAIL[email] ? `Extensión ${ext}` : '201–212 (Equipo)';
-  if (extEl) extEl.textContent = ext;
-  if (usrEl && window.currentUser) usrEl.textContent = `${currentUser.name || email} (${email})`;
+  // Panel SIP externo deshabilitado: marcación directa sin softphone externo.
 }
 
 function hasRealLeadEmail(lead) {
@@ -7548,11 +7394,11 @@ function getLeadCallRouting(leadOrPhone, waScriptText = '') {
   if (isUsPlusOne && !latamHint) {
     const e164Us = cleanPhone.startsWith('+1') ? cleanPhone : `+1${digits}`;
     return {
-      mode: 'US_SIP',
-      badge: '🇺🇸 SIP Miami (+1)',
-      btnLabel: '🇺🇸 SIP (+1)',
-      modalBtnLabel: '🇺🇸 Llamar SIP Miami',
-      dialHref: `sip:${e164Us}@${SIP_DOMAIN_PROSPERIA}`,
+      mode: 'US_LINE',
+      badge: '🇺🇸 Línea EE. UU. (+1)',
+      btnLabel: '🇺🇸 Llamar (+1)',
+      modalBtnLabel: '📞 Llamar (+1)',
+      dialHref: `tel:${e164Us}`,
       allowMiamiSms: true,
       cleanPhone: e164Us,
       digits: e164Us.replace(/[^0-9]/g, ''),
@@ -7595,7 +7441,7 @@ function initiateCloserCall(rawPhone, leadId, alreadyInModal = false) {
     }
   }
   if (!alreadyInModal && leadId) {
-    openSetterWorkDialog(leadId, route.mode === 'US_SIP' ? 'Llamada SIP Miami' : 'Llamada');
+    openSetterWorkDialog(leadId, 'Llamada');
   }
 }
 
@@ -7929,6 +7775,15 @@ function getLeadTemperatureMeta(l) {
 }
 
 async function loadSetterIaStatus() {
+  const panel = document.getElementById('setter-ia-warmup-panel');
+  const isAdmin = (currentUser?.role || '').toLowerCase() === 'admin';
+  if (panel) {
+    if (!isAdmin) {
+      panel.classList.add('hidden');
+      return;
+    }
+    panel.classList.remove('hidden');
+  }
   const pill = document.getElementById('setter-ia-status-pill');
   if (!pill) return;
   try {
@@ -8000,7 +7855,59 @@ async function controlSetterIa(action, btn = null) {
   }
 }
 
-// ─── BANDEJA LIMPIA SETTER (1,000 CONTACTOS · TRABAJO EN POPUP CON BITÁCORA POR RENGLONES) ──
+// ─── BANDEJA LIMPIA SETTER (BOLSA LIBRE 500 + MIS ACTIVOS · BITÁCORA POR RENGLONES) ──
+function isLeadFreePool(lead) {
+  return !String(lead?.owner_id || '').trim();
+}
+
+function isLeadOwnedByMe(lead) {
+  const owner = String(lead?.owner_id || '').trim().toLowerCase();
+  const me = String(currentUser?.email || '').trim().toLowerCase();
+  return Boolean(owner && me && owner === me);
+}
+
+function showCallQueueToast(htmlMsg) {
+  const cqToast = document.getElementById('call-queue-toast-banner');
+  if (!cqToast) return;
+  cqToast.innerHTML = `${htmlMsg}<button type="button" onclick="this.parentElement.classList.add('hidden')" class="text-emerald-300 hover:text-white text-xs font-black px-2" aria-label="Cerrar notificación">✕</button>`;
+  cqToast.classList.remove('hidden');
+}
+
+async function claimPoolLead(leadId, btn, silent = false) {
+  if (btn) btn.disabled = true;
+  try {
+    const res = await fetch(`/api/sales-os/leads/${leadId}/claim`, {
+      method: 'POST',
+      headers: { Authorization: 'Bearer ' + token }
+    });
+    const data = await res.json();
+    if (res.status === 409) {
+      if (!silent) alert(data.detail || 'Otro compañero acaba de tomar este contacto.');
+      await loadSalesOsData();
+      return false;
+    }
+    if (!res.ok || !data.success) {
+      if (!silent) alert(data.detail || 'No se pudo tomar el contacto.');
+      return false;
+    }
+    if (data.data) {
+      const idx = salesOsLeads.findIndex(x => x.id === leadId);
+      if (idx >= 0) salesOsLeads[idx] = data.data;
+    }
+    renderCallQueueTable();
+    if (typeof renderSalesOsTables === 'function') renderSalesOsTables();
+    if (!silent) {
+      showCallQueueToast(`<span>✋ <strong>${esc(data.message)}</strong> — Ahora aparece en <u>👤 Mis Tomados</u>.</span>`);
+    }
+    return true;
+  } catch (err) {
+    if (!silent) alert('Error de conexión al tomar el contacto.');
+    return false;
+  } finally {
+    if (btn) btn.disabled = false;
+  }
+}
+
 function renderCallQueueTable() {
   renderMySipCard();
   const tbody = document.getElementById('call-queue-tbody');
@@ -8017,6 +7924,12 @@ function renderCallQueueTable() {
     const notesLow = (l.notes || '').toLowerCase();
     return ['Lead identificado', 'Primer contacto', 'Contacto', 'Conversación', 'En seguimiento local'].includes(st) || notesLow.includes('respondió a setter ia');
   };
+
+  const freePoolCount = salesOsLeads.filter(isLeadFreePool).length;
+  const myOwnedCount = salesOsLeads.filter(isLeadOwnedByMe).length;
+
+  const ownerBadgeEl = document.getElementById('call-queue-owner-badge');
+  if (ownerBadgeEl) ownerBadgeEl.textContent = `🟢 ${freePoolCount} Bolsa Libre · 👤 ${myOwnedCount} Tuyos`;
 
   const queueBadge = document.getElementById('call-queue-badge');
   const pendingCount = salesOsLeads.filter(isSetterPendingOrLocal).length;
@@ -8038,22 +7951,23 @@ function renderCallQueueTable() {
     if (myWarmHotTotal > 0 || salesOsLeads.length > 0) {
       hotBanner.innerHTML = `
         <div class="text-rose-100 leading-snug">
-          <strong class="text-white">🎯 RADAR DE CIERRE: TIENES ${myHotCount} 🔥 CALIENTES Y ${myWarmOnlyCount} 🟡 TIBIOS (${myWarmHotTotal} LISTOS PARA ATACAR)</strong><br>
-          <span class="text-rose-200 text-[11px]">${myDemoSentCount} ya recibieron su Demo Web IA. Usa <strong>💬 WA 1a1</strong> desde tu WhatsApp de forma controlada (bloques de 15–20 conversaciones 1 a 1 tras llamarlos, nunca en ráfagas).</span>
+          <strong class="text-white">🟢 BOLSA LIBRE: ${freePoolCount} CONTACTOS · 👤 TOMADOS POR TI: ${myOwnedCount}</strong>
+          <span class="text-rose-200"> · 🔥 ${myHotCount} CALIENTES · 🟡 ${myWarmOnlyCount} TIBIOS</span><br>
+          <span class="text-rose-200 text-[11px]">${myDemoSentCount} con Demo IA previa. Haz clic en <strong>✋ Tomar Contacto</strong> para reservar en exclusiva o usa <strong>💬 WA 1a1</strong> de forma controlada (15–20 conversaciones 1 a 1 tras llamar).</span>
         </div>
         <div class="flex flex-wrap items-center gap-1.5">
+          <button type="button" onclick="filterCallQueuePreset('free_pool')" class="px-3 py-1.5 rounded-lg bg-emerald-400 text-slate-950 hover:bg-emerald-300 font-black text-[11px] shadow transition">
+            🟢 Bolsa Libre (${freePoolCount})
+          </button>
+          <button type="button" onclick="filterCallQueuePreset('my_owned')" class="px-3 py-1.5 rounded-lg bg-cyan-400 text-slate-950 hover:bg-cyan-300 font-black text-[11px] shadow transition">
+            👤 Mis Tomados (${myOwnedCount})
+          </button>
           <button type="button" onclick="filterCallQueuePreset('replied_ia')" class="px-3 py-1.5 rounded-lg bg-rose-500 text-white hover:bg-rose-400 font-black text-[11px] shadow transition">
-            🔥 Ver Mis Calientes (${myHotCount})
+            🔥 Calientes (${myHotCount})
           </button>
           <button type="button" onclick="filterCallQueuePreset('warm_hot')" class="px-3 py-1.5 rounded-lg bg-amber-400 text-slate-950 hover:bg-amber-300 font-black text-[11px] shadow transition">
-            🔥🟡 Ver Calientes + Tibios (${myWarmHotTotal})
+            🔥🟡 Calientes + Tibios (${myWarmHotTotal})
           </button>
-          <a href="/static/docs/BASE_CALIENTE_Y_TIBIA_5_PAREJAS_PROSPER_IA.xlsx" download="BASE_CALIENTE_Y_TIBIA_5_PAREJAS_PROSPER_IA.xlsx" class="px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-200 border border-emerald-400/50 hover:bg-emerald-500/30 font-black text-[11px] no-underline transition">
-            📥 Descargar Excel (5 Parejas)
-          </a>
-          <a href="/static/docs/PROTOCOLO_OFICIAL_6_PAREJAS_30_LLAMADAS_Y_ESTRATEGIA_OMNICANAL_PROSPER_IA.docx" download="PROTOCOLO_OFICIAL_5_PAREJAS_PROSPER_IA.docx" class="px-3 py-1.5 rounded-lg bg-sky-500/20 text-sky-200 border border-sky-400/50 hover:bg-sky-500/30 font-black text-[11px] no-underline transition">
-            📄 Descargar Word Estrategia 5 Parejas
-          </a>
         </div>
       `;
       hotBanner.classList.remove('hidden');
@@ -8086,6 +8000,8 @@ function renderCallQueueTable() {
 
     const nowMs = Date.now();
     const ltMs = l.last_touch ? Date.parse(l.last_touch) : NaN;
+    if (filterVal === 'free_pool') return isLeadFreePool(l);
+    if (filterVal === 'my_owned') return isLeadOwnedByMe(l);
     if (filterVal === 'pending') return isSetterPendingOrLocal(l);
     if (filterVal === 'warm_hot') return temp.isWarm || temp.isHot;
     if (filterVal === 'touched_today') return !isNaN(ltMs) && (nowMs - ltMs) <= 24 * 3600 * 1000;
@@ -8119,7 +8035,7 @@ function renderCallQueueTable() {
   const pageItems = filtered.slice(startIdx, startIdx + CALL_QUEUE_PAGE_SIZE);
 
   const pagHtml = `
-    <div>Mostrando <strong>${totalMatches ? startIdx + 1 : 0}–${Math.min(startIdx + CALL_QUEUE_PAGE_SIZE, totalMatches)}</strong> de <strong class="text-cyan-300">${totalMatches}</strong> prospectos (Base Setter: ${salesOsLeads.length})</div>
+    <div>Mostrando <strong>${totalMatches ? startIdx + 1 : 0}–${Math.min(startIdx + CALL_QUEUE_PAGE_SIZE, totalMatches)}</strong> de <strong class="text-cyan-300">${totalMatches}</strong> prospectos (Bolsa Libre: ${freePoolCount} · Tuyos: ${myOwnedCount})</div>
     <div class="flex items-center gap-2">
       <button type="button" onclick="changeCallQueuePage(-1)" ${callQueuePage <= 1 ? 'disabled' : ''} class="px-2.5 py-1 rounded bg-slate-800 border border-slate-700 disabled:opacity-40">← Anterior</button>
       <span>Página <strong>${callQueuePage}</strong> / ${totalPages}</span>
@@ -8151,6 +8067,13 @@ function renderCallQueueTable() {
     const tplLabel = TEMPLATE_LABELS_MAP[l.selected_template || 'clinica_dental_estetica'] || (l.selected_template || '🦷 Clínica Dental');
     const cleanEmail = hasEmail ? l.email : 'Sin correo';
     const temp = getLeadTemperatureMeta(l);
+    const isFree = isLeadFreePool(l);
+    const isMine = isLeadOwnedByMe(l);
+    const ownershipBadge = isFree
+      ? `<span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">🟢 LIBRE · BOLSA 500</span>`
+      : isMine
+      ? `<span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">👤 MI CONTACTO</span>`
+      : `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-500/20 text-purple-300 border border-purple-500/40">👤 ${esc(l.owner_id)}</span>`;
     const rowBgStyle = temp.prio <= 3
       ? 'background:rgba(244,63,94,0.12); box-shadow:inset 3px 0 0 #fb7185;'
       : temp.prio === 4
@@ -8163,13 +8086,14 @@ function renderCallQueueTable() {
 
     return `<tr class="table-row border-b border-slate-800/70 hover:bg-slate-900/50 transition" style="${rowBgStyle}">
       <td data-label="Prospecto y Diagnóstico" class="px-4 py-3.5 align-top max-w-xs">
-        <div class="flex flex-wrap items-center gap-1.5 mb-1">${temp.badge} ${intel.diagBadge} <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-cyan-300 border border-slate-700">${esc(route.badge)}</span></div>
+        <div class="flex flex-wrap items-center gap-1.5 mb-1">${ownershipBadge} ${temp.badge} ${intel.diagBadge} <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-cyan-300 border border-slate-700">${esc(route.badge)}</span></div>
         <div class="font-bold text-white text-sm leading-snug">${esc(l.business_name || l.company || l.name)}</div>
         <div class="text-[11px] text-slate-400 mt-0.5">${esc(l.city || '')} · ${esc(cleanEmail)} ${intel.googleVal ? `· ⭐ ${esc(intel.googleVal)}` : ''}</div>
       </td>
       <td data-label="Teléfono y Acción" class="px-3 py-3.5 align-top">
         <div class="flex flex-wrap items-center gap-2">
           <span class="font-mono font-bold text-cyan-300 text-sm whitespace-nowrap">${esc(l.phone || 'Sin teléfono')}</span>
+          ${isFree ? `<button type="button" onclick="claimPoolLead(${l.id}, this)" class="px-2.5 py-1.5 rounded-xl text-xs font-black bg-amber-400 text-slate-950 hover:bg-amber-300 transition shadow whitespace-nowrap">✋ Tomar Contacto</button>` : ''}
           ${waUrl ? `<a href="${waUrl}" target="_blank" rel="noopener" onclick="openSetterWorkDialog(${l.id}, 'WhatsApp')" class="px-2.5 py-1.5 rounded-xl text-xs font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-500/30 no-underline whitespace-nowrap" title="Abrir en tu WhatsApp personal de forma controlada (1 a 1) y registrar en bitácora">💬 WA 1a1</a>` : ''}
           <button type="button" onclick="openSetterWorkDialog(${l.id})"
                   class="px-3 py-1.5 rounded-xl text-xs font-black bg-cyan-400 text-slate-950 hover:bg-cyan-300 transition shadow whitespace-nowrap">
@@ -8194,7 +8118,7 @@ function renderCallQueueTable() {
         </div>
         ${lastEntry
           ? `<div class="text-[11px] text-slate-300 bg-slate-900/90 border border-slate-800 rounded px-2 py-1 leading-snug" style="max-width:330px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; white-space:normal; word-break:break-word;" title="${esc(lastEntry)}">${esc(lastEntry)}</div>`
-          : `<div class="text-[11px] text-slate-500 italic">Sin toques hoy · Listo para llamar</div>`
+          : `<div class="text-[11px] text-slate-500 italic">Sin toques hoy · Listo para tomar o llamar</div>`
         }
       </td>
     </tr>`;
@@ -8279,6 +8203,21 @@ function openSetterWorkDialog(leadId, defaultChannel = 'Llamada', preserveFeedba
   if (tplSel) {
     tplSel.value = lead.selected_template || 'clinica_dental_estetica';
     if (!tplSel.value) tplSel.value = 'clinica_dental_estetica';
+  }
+
+  const assignSel = document.getElementById('setter-work-assign-closer');
+  if (assignSel) {
+    if (Array.isArray(salesOsUsers) && salesOsUsers.length) {
+      const sellerOpts = salesOsUsers
+        .filter(u => (u.role === 'seller' || u.role === 'admin') && String(u.email || '').toLowerCase() !== String(currentUser?.email || '').toLowerCase())
+        .map(u => `<option value="${esc(u.email)}">${esc(u.name || u.email)} (${u.role === 'admin' ? 'CEO' : 'Closer'})</option>`)
+        .join('');
+      assignSel.innerHTML = `<option value="">👤 Mantener en mi cuenta (o reclamar para mí si está libre)</option>${sellerOpts}`;
+    }
+    assignSel.value = '';
+  }
+  if (!preserveFeedback && defaultChannel === 'WhatsApp' && isLeadFreePool(lead) && currentUser?.role === 'seller') {
+    claimPoolLead(lead.id, null, true);
   }
 
   const offerSel = document.getElementById('setter-work-offer');
@@ -8439,6 +8378,7 @@ async function submitSetterWork(mode) {
   const objection_tag = document.getElementById('setter-work-objection')?.value || '';
   const next_action_at = document.getElementById('setter-work-next-at')?.value || '';
   const notes = (document.getElementById('setter-work-note')?.value || '').trim();
+  const assign_to_closer = (document.getElementById('setter-work-assign-closer')?.value || '').trim() || null;
 
   const isCloserMode = (window.currentSetterWorkRole === 'closer');
   if (!isCloserMode && mode === 'save_local') {
@@ -8468,16 +8408,28 @@ async function submitSetterWork(mode) {
         setter_stage = 'No interesado';
       } else if (outcome === 'no_answer' && !hasNonQualNote) {
         outcome = 'callback';
-      } else if (!['Demo realizada', 'Propuesta enviada', 'Pago pendiente'].includes(setter_stage)) {
+      } else if (allowedCloserStages.includes(setter_stage)) {
+        outcome = ['Primer contacto', 'Contacto'].includes(setter_stage)
+          ? 'closer_update'
+          : (alreadyInCrm ? 'closer_update' : 'qualified_crm');
+      } else {
         outcome = 'qualified_crm';
         if (!alreadyInCrm) setter_stage = 'Calificado';
       }
     } else {
-      outcome = 'qualified_crm';
-      if (!alreadyInCrm) setter_stage = 'Calificado';
+      if (allowedCloserStages.includes(setter_stage) && setter_stage !== 'Primer contacto') {
+        outcome = (setter_stage === 'Calificado' && !alreadyInCrm) ? 'qualified_crm' : 'closer_update';
+      } else {
+        outcome = 'qualified_crm';
+        if (!alreadyInCrm) setter_stage = 'Calificado';
+      }
     }
   }
 
+  const saveLocalBtn = document.getElementById('setter-work-save-local-btn');
+  const crmBtn = document.getElementById('setter-work-crm-btn');
+  if (saveLocalBtn) saveLocalBtn.disabled = true;
+  if (crmBtn) crmBtn.disabled = true;
   try {
     const res = await fetch(`/api/sales-os/leads/${leadId}/call-outcome`, {
       method: 'POST',
@@ -8492,7 +8444,8 @@ async function submitSetterWork(mode) {
         quoted_amount,
         next_action_at,
         next_action_note: notes,
-        setter_stage
+        setter_stage,
+        assign_to_closer
       })
     });
     const data = await res.json();
@@ -8501,7 +8454,7 @@ async function submitSetterWork(mode) {
       return;
     }
 
-    // Sincronizar oferta, monto cotizado y etapa filtrada al CRM GoHighLevel vía /stage
+    // Sincronizar oferta, monto cotizado y etapa elegida al CRM GoHighLevel vía /stage
     const isGenuineCrmAdvance = (
       mode === 'send_to_crm'
       && (isCloserMode ? !hasNonQualNote : outcome === 'qualified_crm')
@@ -8509,9 +8462,7 @@ async function submitSetterWork(mode) {
     const finalStage = ['Pago confirmado', 'Implementación', 'Entregado'].includes(curSt)
       ? curSt
       : (isGenuineCrmAdvance
-        ? (isCloserMode
-          ? (allowedCloserStages.includes(setter_stage) ? setter_stage : 'Propuesta enviada')
-          : (['Primer contacto', 'Contacto', 'Calificado'].includes(setter_stage) ? setter_stage : 'Calificado'))
+        ? (allowedCloserStages.includes(setter_stage) ? setter_stage : 'Calificado')
         : (['Pago pendiente'].includes(curSt) ? curSt : null));
     if (isGenuineCrmAdvance || finalStage) {
       await fetch(`/api/sales-os/leads/${leadId}/stage`, {
@@ -8523,7 +8474,8 @@ async function submitSetterWork(mode) {
           quoted_amount: quoted_amount || 497,
           selected_template,
           next_action_at: next_action_at || '',
-          next_action_note: notes || lead?.next_action_note || ''
+          next_action_note: notes || lead?.next_action_note || '',
+          assign_to_closer
         })
       }).catch(() => {});
     }
@@ -8536,16 +8488,29 @@ async function submitSetterWork(mode) {
     await loadSalesOsData();
     await loadLeaderboardAndKpis();
 
+    if (data.assigned_to_closer) {
+      showCallQueueToast(`<span>🎯 <strong>${esc(data.message)}</strong></span>`);
+    }
+
     if (data.pushed_to_ghl) {
-      const lead = salesOsLeads.find(x => x.id === leadId);
+      const updatedLead = salesOsLeads.find(x => x.id === leadId) || lead;
       const rawDemoUrl = data.demo_url || data.data?.demo_url || `/demo-sitio-web?lead_id=${leadId}`;
       const demoUrl = rawDemoUrl + (rawDemoUrl.includes('?') ? '&' : '?') + 'closer=1';
       const box = document.getElementById('call-answered-action-box');
       const titleEl = document.getElementById('call-answered-box-title');
       const subEl = document.getElementById('call-answered-box-sub');
       const btnEl = document.getElementById('call-answered-demo-btn');
-      if (titleEl) titleEl.textContent = `🔥 ${lead ? (lead.business_name || lead.company || lead.name) : 'Prospecto'} Calificado → Enviado a CRM ProsperIA & Mi Pipeline Closer`;
-      if (subEl) subEl.textContent = 'Toda la bitácora del Setter viajó con el prospecto. Ya puedes abrir su Demo Sitio Web o gestionarlo con tu Gorra de Closer.';
+      const bizLabel = updatedLead ? (updatedLead.business_name || updatedLead.company || updatedLead.name) : 'Prospecto';
+      if (titleEl) {
+        titleEl.textContent = data.assigned_to_closer
+          ? `🎯 ${bizLabel} Calificado y Asignado a ${data.assigned_to_name || 'Closer'}`
+          : `🔥 ${bizLabel} Calificado → Enviado a CRM ProsperIA & Mi Pipeline Closer`;
+      }
+      if (subEl) {
+        subEl.textContent = data.assigned_to_closer
+          ? `La bitácora del Setter viajó completa al Pipeline de ${data.assigned_to_name || 'tu Closer'} manteniendo tu crédito en setter_id.`
+          : 'Toda la bitácora del Setter viajó con el prospecto. Ya puedes abrir su Demo Sitio Web o gestionarlo con tu Gorra de Closer.';
+      }
       if (btnEl) btnEl.href = demoUrl;
       if (box) {
         box.classList.remove('hidden');
@@ -8554,6 +8519,9 @@ async function submitSetterWork(mode) {
     }
   } catch (err) {
     alert('Error de conexión al guardar en bitácora.');
+  } finally {
+    if (saveLocalBtn) saveLocalBtn.disabled = false;
+    if (crmBtn) crmBtn.disabled = false;
   }
 }
 
@@ -8663,13 +8631,16 @@ async function submitCloserNewLead() {
     document.getElementById('closerNewLeadDialog').close();
     await loadSalesOsData();
     await loadLeaderboardAndKpis();
-    if (initial_stage === 'Primer contacto') {
+    if (initial_stage === 'Calificado') {
       showSection('sales-os');
       const toastBanner = document.getElementById('crm-sync-toast-banner');
       if (toastBanner) {
         toastBanner.innerHTML = `<span>🟢 <strong>${esc(data.message)}</strong> — Ya puedes gestionarlo aquí en tu Pipeline Activo.</span><button type="button" onclick="this.parentElement.classList.add('hidden')" class="text-emerald-300 hover:text-white text-xs font-black px-2">✕</button>`;
         toastBanner.classList.remove('hidden');
       }
+    } else {
+      filterCallQueuePreset('touched_today');
+      showCallQueueToast(`<span>🟢 <strong>${esc(data.message)}</strong> — Mostrándolo primero en <u>Tocados Hoy / Mis Cambios Recientes</u>.</span>`);
     }
   } catch (err) {
     alert('Error de conexión al guardar el nuevo prospecto.');

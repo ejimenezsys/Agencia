@@ -32,6 +32,12 @@ DEFAULT_LOCATION_ID = "CNvJBINRWBUL2EdqRh3G"
 DEFAULT_PIPELINE_ID = "G9nVz4GhrxAROVkPtPis"        # Ventas Sitios Web & Closers ProsperIA (Exclusivo B2B / Closers)
 DEFAULT_STAGE_ID = "38a46419-b420-49a6-8df6-021cb0467dd0"  # 1. Nuevo Prospecto (/sitioweb)
 
+# Las 2 líneas oficiales verificadas en la subcuenta CNvJBINRWBUL2EdqRh3G (PassportAI Business):
+# 1. Línea telefónica / SMS / Voz EE. UU. (isDefaultNumber=True)
+GHL_VOICE_SMS_NUMBER = "+17868336964"
+# 2. WhatsApp Oficial Agencia Prosper IA (cuidar contra ráfagas/bloqueos)
+GHL_WHATSAPP_OFFICIAL_NUMBER = "+17869828707"
+
 # Subcuenta y Pipeline dedicados EXCLUSIVAMENTE a la vertical Beauty Growth & Business System
 BEAUTY_LOCATION_ID = "V8tM5xk6xl15wKhbQS0p"
 BEAUTY_PIPELINE_ID = "BBQlDFhNVE0NRmKNTMS2"   # Creado vía API v2 en subcuenta Beauty Growth (V8tM5xk6xl15wKhbQS0p)
@@ -107,7 +113,7 @@ CLOSER_AUTOMATION_TAGS = (
     "sms_opt_in",
 )
 
-# Registro oficial de 10 plantillas de WhatsApp en CNvJBINRWBUL2EdqRh3G (+1 786-833-6964)
+# Registro oficial de 10 plantillas de WhatsApp en CNvJBINRWBUL2EdqRh3G (Voz/SMS: +1 786-833-6964 · WhatsApp Oficial: +1 786-982-8707)
 GHL_WA_TEMPLATES = {
     "reactivacion_prosper_ia": {
         "tag": "wa_plantilla_prosper_ia",
@@ -443,7 +449,7 @@ def _infer_country_routing_tags(phone: str, country: str = "") -> list:
     if (cleaned.startswith("+1") and len(cleaned) == 12 and not latam_hint) or (
         not raw and any(k in c_low for k in ("estados unidos", "usa", "puerto rico", "us")) and c_low != "latam / us"
     ):
-        return ["pais_usa_1", "ruta_sip_miami"]
+        return ["pais_usa_1", "linea_miami_usa"]
     return ["pais_latam_wa"]
 
 
@@ -1560,7 +1566,7 @@ def send_ghl_direct_message(
         "message": (message_body or "").strip(),
     }
     if ch == "SMS":
-        payload["fromNumber"] = "+17868336964"
+        payload["fromNumber"] = GHL_VOICE_SMS_NUMBER
     elif ch == "EMAIL":
         clean_em = (email or "").strip().lower()
         if not clean_em or _is_synthetic_placeholder_email(clean_em):
@@ -1783,7 +1789,8 @@ def dispatch_ghl_agency_whatsapp(
     owner_email: str = "",
     lead_db_id: Optional[int] = None,
 ) -> dict:
-    """Envía WhatsApp usando ÚNICAMENTE la línea oficial de Agencia Prosper IA (+1 786-833-6964) vía GHL.
+    """Envía WhatsApp usando ÚNICAMENTE la línea de WhatsApp Oficial de Agencia Prosper IA (+1 786-982-8707) vía GHL,
+    cuidando límites anti-bloqueo y separada de la línea de Voz/SMS (+1 786-833-6964).
     - No crea oportunidad en el pipeline de Closers (mantiene limpia la bandeja Setter hasta Calificar).
     - mode='auto' / 'free_text': si la ventana Meta de 24h ya está abierta, envía mensaje directo con el enlace
       Demo Web sin esperar plantilla; si está cerrada (en frío), dispara la plantilla oficial rotada vía Workflow/Tag Added.
@@ -1873,7 +1880,7 @@ def dispatch_ghl_agency_whatsapp(
                     "conversation_id": conv_id,
                     "message_id": msg_id,
                     "comms": post_state,
-                    "detail": "Texto libre con Demo Web enviado desde +1 786-833-6964 (ventana 24h activa).",
+                    "detail": f"Texto libre con Demo Web enviado desde WhatsApp Oficial ({GHL_WHATSAPP_OFFICIAL_NUMBER}) (ventana 24h activa).",
                 }
 
     # 3. Modo Plantilla (en frío o fallback por ventana 24h cerrada):
@@ -1904,7 +1911,7 @@ def dispatch_ghl_agency_whatsapp(
         token,
         {
             "body": (
-                f"💬 [WHATSAPP AGENCIA +1 786-833-6964]\n"
+                f"💬 [WHATSAPP OFICIAL AGENCIA {GHL_WHATSAPP_OFFICIAL_NUMBER}]\n"
                 f"• Plantilla solicitada: {tpl_key} (tag: {tpl_tag})\n"
                 f"• Asesor: {owner_email or 'Setter ProsperIA'}\n"
                 f"• Canal: CRM GoHighLevel Oficial (sin usar teléfono personal)."
