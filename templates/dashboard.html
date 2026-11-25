@@ -2456,18 +2456,6 @@
             </div>
           </button>
 
-          <div class="pt-1 pb-0.5 px-1 text-[10px] font-black uppercase tracking-wider text-emerald-300">
-            📲 ENVÍO POR WHATSAPP AL CLIENTE:
-          </div>
-
-          <button onclick="switchWeaponTab('folleto-1hoja')" id="wtab-folleto-1hoja" class="weapon-nav-btn" style="border-color:rgba(16,185,129,0.55); background:rgba(16,185,129,0.12);">
-            <span>📄</span>
-            <div>
-              <div style="color:#6ee7b7; font-weight:900;">Folletos Historia 1 Hoja (3 Nichos)</div>
-              <div style="font-size:10px; opacity:0.95; color:#cbd5e1;">Clínicas · Inmob · Negocios + WhatsApp</div>
-            </div>
-          </button>
-
           <div class="pt-2 mt-2 border-t border-slate-800/90">
             <button type="button" onclick="showSection('closer-study')" class="w-full py-2 px-3 rounded-xl text-[11px] font-bold text-amber-300 bg-amber-500/10 border border-amber-500/30 hover:bg-amber-500/20 transition text-left flex items-center justify-between">
               <span>🎓 Ir a Material de Estudio Closer</span>
@@ -2618,20 +2606,20 @@
                         style="width:100%; text-align:left; cursor:pointer; background:#091528; border:1px solid rgba(16,185,129,0.38); transition:all 0.18s;"
                         class="closer-chapter-card p-2.5 rounded-xl text-xs space-y-0.5 block hover:border-cyan-400">
                   <div class="flex items-center justify-between gap-2">
-                    <span class="font-black text-emerald-300">2️⃣ Origen de los 455 Leads (/codigos)</span>
+                    <span class="font-black text-emerald-300">2️⃣ Bolsa Libre 500 B2B ($0) + Mis Activos</span>
                     <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono text-[10px] font-bold">▶ 03:18</span>
                   </div>
-                  <p class="text-slate-400 text-[11px] m-0">Cómo llegan por Reels a <code>/codigos</code> y a la Comunidad de WhatsApp (+1,000 miembros).</p>
+                  <p class="text-slate-400 text-[11px] m-0">Negocios reales con WhatsApp móvil (MX/CO/CL/PE/ES) y líneas de Argentina ($0). Cómo reservar en exclusiva con <strong>✋ Tomar Contacto</strong>.</p>
                 </button>
 
                 <button type="button" onclick="seekCloserTutorialVideo(390, 'master', this)"
                         style="width:100%; text-align:left; cursor:pointer; background:#091528; border:1px solid rgba(245,158,11,0.38); transition:all 0.18s;"
                         class="closer-chapter-card p-2.5 rounded-xl text-xs space-y-0.5 block hover:border-cyan-400">
                   <div class="flex items-center justify-between gap-2">
-                    <span class="font-black text-amber-300">3️⃣ Mi Lista de Llamadas y Excel</span>
+                    <span class="font-black text-amber-300">3️⃣ Popup de Trabajo, Correo y Seteo → Closer</span>
                     <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono text-[10px] font-bold">▶ 06:30</span>
                   </div>
-                  <p class="text-slate-400 text-[11px] m-0">WhatsApp directo, botón <strong>¡Sí Contestó!</strong>, <strong>➕ Nuevo Prospecto</strong> y <strong>📥 Subir Mi Lista Excel</strong>.</p>
+                  <p class="text-slate-400 text-[11px] m-0"><strong>💬 Mi WhatsApp 1a1</strong>, <strong>📸 Buscar IG/FB</strong>, <strong>✉️ Redactar Correo</strong> desde <code>seller@agenciaprosperia.com</code>, <strong>🎯 Asignar a Closer</strong> y <strong>➕ Nuevo Prospecto</strong>.</p>
                 </button>
 
                 <button type="button" onclick="seekCloserTutorialVideo(645, 'master', this)"
@@ -3252,9 +3240,6 @@
                 </button>
                 <button type="button" onclick="switchWeaponTab('crm-slides')" class="px-3 py-2 rounded-xl text-xs font-black inline-flex items-center gap-1.5" style="background:rgba(56,189,248,0.16); border:1px solid #38bdf8; color:#bae6fd;">
                   ⚙️ CRM
-                </button>
-                <button type="button" onclick="switchWeaponTab('folleto-1hoja')" class="px-3 py-2 rounded-xl text-xs font-black inline-flex items-center gap-1.5" style="background:rgba(16,185,129,0.18); border:1px solid #10b981; color:#6ee7b7;">
-                  📄 Folletos 1 Hoja
                 </button>
               </div>
               <a id="weapon-open-tab-btn" href="/static/armas/PRESENTACION_HUMANA_VISUAL_V2_PROSPER_IA.html" target="_blank" class="btn-primary px-3.5 py-2 rounded-xl text-xs font-black inline-flex items-center gap-1.5 no-underline">
@@ -9045,7 +9030,7 @@ function applyCloserTutorialVideoUrl(rawUrl) {
 }
 
 function switchWeaponTab(tabKey) {
-  const allTabs = ['tutorial-video', 'manual-closer', 'deck-humana', 'guia-orador', 'folleto-1hoja', 'passport-slides', 'crm-slides', 'deck-v1', 'acordeon', 'closers-kickoff', 'roleplay', 'cliente-ideal'];
+  const allTabs = ['tutorial-video', 'manual-closer', 'deck-humana', 'guia-orador', 'passport-slides', 'crm-slides', 'deck-v1', 'acordeon', 'closers-kickoff', 'roleplay', 'cliente-ideal'];
   allTabs.forEach(k => {
     const btn = document.getElementById('wtab-' + k);
     if (btn) {
@@ -9092,9 +9077,9 @@ function switchWeaponTab(tabKey) {
 
   const weaponCatalog = {
     'manual-closer': {
-      title: '📘 Manual Operativo Oficial del Closer (Versión Actualizada en 7 Pasos)',
-      sub: 'Guía estándar para operar de 1 a 20 Closers: Etapa 1 vs Etapa 2+, Alta de Prospectos, WhatsApp, Demo +1,000 Plantillas, Las 3 Cajas y Comisión 15%.',
-      html: '/static/armas/MANUAL_OPERATIVO_CLOSERS_PROSPER_IA.html?v=3',
+      title: '📘 Manual Operativo Oficial del Closer (Bolsa 500 B2B + Seteo → Closer)',
+      sub: 'Guía actualizada: Bolsa Libre de 500 Negocios B2B ($0), ✋ Tomar Contacto, 💬 WA 1a1, ✉️ Redactar Correo (seller@), 🎯 Seteo → Closer y Las 3 Cajas.',
+      html: '/static/armas/MANUAL_OPERATIVO_CLOSERS_PROSPER_IA.html?v=4',
       pdf: '/static/armas/MANUAL_OPERATIVO_CLOSERS_PROSPER_IA.pdf'
     },
     'deck-humana': {
@@ -9149,17 +9134,14 @@ function switchWeaponTab(tabKey) {
 
   const cfg = weaponCatalog[tabKey];
   if (!cfg) return;
-  const isClientTab = ['deck-humana', 'deck-v1', 'passport-slides', 'crm-slides', 'folleto-1hoja'].includes(tabKey);
+  const isClientTab = ['deck-humana', 'deck-v1', 'passport-slides', 'crm-slides'].includes(tabKey);
   const clientBtnsBar = document.getElementById('iframe-bar-client-btns');
   if (clientBtnsBar) {
     clientBtnsBar.classList.toggle('hidden', !isClientTab);
   }
   const folletoQuickBar = document.getElementById('weapon-folleto-quick-bar');
   if (folletoQuickBar) {
-    folletoQuickBar.classList.toggle('hidden', tabKey !== 'folleto-1hoja');
-    if (tabKey === 'folleto-1hoja') {
-      updateDashFolletoWaText();
-    }
+    folletoQuickBar.classList.add('hidden');
   }
   const themedUrl = cfg.html.includes('?') ? `${cfg.html}&theme=${currentWeaponsTheme}` : `${cfg.html}?theme=${currentWeaponsTheme}`;
   document.getElementById('weapon-iframe-title').textContent = cfg.title;
