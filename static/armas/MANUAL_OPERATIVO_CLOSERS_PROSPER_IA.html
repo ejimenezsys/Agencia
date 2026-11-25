@@ -245,6 +245,8 @@
       border: 1px solid rgba(148, 163, 184, 0.16);
       border-radius: 12px;
       padding: 14px;
+      min-width: 0;
+      overflow-wrap: anywhere;
     }
     .sub-box h4 {
       font-size: 13px;
@@ -268,6 +270,8 @@
       border-radius: 6px;
       font-family: monospace;
       font-size: 12px;
+      overflow-wrap: anywhere;
+      word-break: break-word;
     }
     .callout {
       margin-top: 14px;
@@ -278,10 +282,21 @@
       font-size: 12.5px;
       color: #e0f2fe;
     }
+    @page {
+      size: A4;
+      margin: 0;
+    }
     @media print {
-      body { background: #030712 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; padding: 0; }
+      html, body { background: #030712 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; padding: 10mm 11mm !important; margin: 0 !important; }
       .top-bar { display: none !important; }
-      .step-card { break-inside: avoid; margin-bottom: 14px; }
+      .hero { padding: 18px 20px !important; margin-bottom: 14px !important; }
+      .kpi-strip { grid-template-columns: repeat(4, 1fr) !important; gap: 8px !important; margin-top: 14px !important; }
+      .kpi-box { padding: 10px 10px !important; }
+      .kpi-box .num { font-size: 15px !important; }
+      .step-card { break-inside: avoid; padding: 14px 16px !important; margin-bottom: 12px !important; }
+      .sub-grid { grid-template-columns: repeat(auto-fit, minmax(175px, 1fr)) !important; gap: 10px !important; margin-top: 10px !important; }
+      .sub-box { padding: 10px 12px !important; }
+      .sub-box p, .sub-box li { font-size: 11.5px !important; line-height: 1.45 !important; }
     }
   </style>
 </head>
@@ -291,29 +306,29 @@
       <div class="brand">
         <img src="/static/logo_prosper_ia_cropped.jpg" alt="Agencia Prosper IA" width="40" height="40">
         <div>
-          <div class="brand-title">MANUAL OPERATIVO OFICIAL · <span>CLOSERS PROSPER IA (V2 ACTUALIZADO)</span></div>
-          <div class="brand-sub">Guía Oficial en 7 Pasos: Cola de Llamadas, Pipeline Activo, Alta de Prospectos, Armas Visuales y Comisión 15%</div>
+          <div class="brand-title">MANUAL OPERATIVO OFICIAL · <span>CLOSERS PROSPER IA (SETTER → CLOSER)</span></div>
+          <div class="brand-sub">Guía Oficial en 7 Pasos: Bolsa Libre 500 B2B ($0), ✋ Tomar Contacto, 4 Canales $0, 16 Demos Web, Presentaciones y Cobros 15%</div>
         </div>
       </div>
       <div class="actions">
         <button type="button" class="btn btn-cyan" onclick="window.print()">🖨️ Imprimir / Guardar en PDF</button>
-        <a href="/demo-sitio-web" target="_blank" rel="noopener" class="btn btn-emerald">🚀 Abrir Demo Sitio Web</a>
+        <a href="/demo-sitio-web" target="_blank" rel="noopener" class="btn btn-emerald">🎨 Abrir Demo Sitio Web</a>
         <a id="manual-back-btn" href="/dashboard" target="_top" onclick="if(window.opener){window.close();return false;}" class="btn">📊 Volver al Panel</a>
       </div>
       <script>if (window.self !== window.top) { const b = document.getElementById('manual-back-btn'); if (b) b.style.display = 'none'; }</script>
     </header>
 
     <section class="hero">
-      <span class="pill">SOP Oficial de Entrenamiento · 100% Sincronizado con CRM ProsperIA</span>
+      <span class="pill">SOP Oficial Operativo · 100% Sincronizado con AgenciaProsperIA.com y CRM ProsperIA</span>
       <h1>Tu Sistema Ganador de <span>7 Pasos</span> como Director de Arquitectura Comercial &amp; IA</h1>
       <p>
-        Este manual documenta paso a paso el flujo exacto del video tutorial oficial de <strong>Edward Jiménez</strong>.
-        Todo tu ecosistema —tus prospectos asignados, tu calendario personal, tu presentación con tu foto ejecutiva, las 17 láminas de PassportAI y los 8 slides visuales del CRM— ya viene pre-conectado de fábrica para que te concentres al 100% en hablar con dueños de negocio y cerrar las <strong>3 Cajas (US$497 / US$990 / US$1,490)</strong>.
+        Este manual documenta paso a paso el proceso comercial vivo en tu panel de <strong>Agencia Prosper IA</strong>.
+        Todo tu ecosistema —la <strong>Bolsa Libre de 500 Negocios B2B ($0 desde Argentina)</strong>, tu propiedad individual sobre cada prospecto, tus <strong>16 Demos Web Sectoriales</strong> con Chatbot IA 24/7, tus presentaciones para clientes (<strong>Lenguaje Natural</strong>, <strong>Comercial 3 Cajas</strong>, <strong>PassportAI.app</strong> y <strong>CRM ProsperIA</strong>) y tus <strong>14 Links de Pago Live</strong>— ya viene listo para prospectar sin fricción y cerrar las <strong>3 Cajas (US$497 / US$990 / US$1,490)</strong>.
       </p>
       <div class="kpi-strip">
         <div class="kpi-box">
-          <div class="num">100 → 60 → 6 → 1+</div>
-          <div class="lbl">Meta Semanal: 100 Llamadas · 60 Contestan · 6 Demos · 1+ Cierre</div>
+          <div class="num">500 B2B ($0 AR)</div>
+          <div class="lbl">Bolsa Libre Exclusiva · Clínicas, Inmobiliarias y Negocios con WA o Línea +54</div>
         </div>
         <div class="kpi-box">
           <div class="num" style="color:#34d399;">15% Comisión Directa</div>
@@ -324,14 +339,14 @@
           <div class="lbl">Las 3 Cajas Estrella con Reserva 50/50 + Rescate Express ($197)</div>
         </div>
         <div class="kpi-box">
-          <div class="num" style="color:#c4b5fd;">Etapa 1 vs. Etapa 2+</div>
-          <div class="lbl">Separación automática entre Lista de Llamadas y Pipeline Activo</div>
+          <div class="num" style="color:#c4b5fd;">🧢 Setter → 🎩 Closer</div>
+          <div class="lbl">Separación limpia: prospección en Lista de Llamadas y cierre en Mi Pipeline</div>
         </div>
       </div>
       <div class="flow-banner">
         <div>
-          <strong>🧭 REGLA DE ORO DEL NUEVO FLUJO (SETTER → CLOSER):</strong>
-          <span><strong>📞 Mi Lista de Llamadas</strong> muestra tu <em>Bolsa Libre de 500 Negocios B2B ($0)</em> + tus contactos en seguimiento Setter · Solo cuando el dueño contesta y califica pasa a <strong>🎩 Mi Pipeline Closer</strong>.</span>
+          <strong>🧭 REGLA DE ORO DEL FLUJO (SETTER → CLOSER):</strong>
+          <span><strong>📞 Lista de Llamadas (Setter)</strong> concentra la <em>Bolsa Libre de 500 Negocios B2B ($0)</em> y tus contactos en toque inicial · Usa <strong>✋ Tomar Contacto</strong> para hacerlo tuyo (<code>👤 MI CONTACTO</code>) y, cuando el dueño califique, pásalo a <strong>🎩 Mi Pipeline (Closer CRM)</strong>.</span>
         </div>
       </div>
     </section>
@@ -343,27 +358,27 @@
         <div class="step-header">
           <div class="step-title">
             <span class="step-num">1</span>
-            <span>Cómo Entrar a Trabajar y Cómo Funciona tu Reloj de Actividad Inteligente</span>
+            <span>Acceso Directo al Panel, Conmutador Setter/Closer, Reloj de Jornada y Modos de Color</span>
           </div>
-          <span class="step-tag">Libertad de Horario · Medición Justa</span>
+          <span class="step-tag">Tu Cabina Única · Login Directo</span>
         </div>
         <div class="step-body">
-          Tienes <strong>2 puertas de entrada</strong> conectadas en tiempo real a la misma base de datos:
+          Todo tu trabajo diario ocurre dentro de un solo panel conectado en tiempo real con el CRM ProsperIA:
           <div class="sub-grid">
             <div class="sub-box">
-              <h4>🚪 Opción A: Desde adentro del CRM ProsperIA</h4>
-              <p>Entras a <code>https://crm.agenciaprosperia.com</code> con tu correo y en el menú lateral izquierdo haces clic en <strong>📊 Panel Comisiones y Leads</strong>. Ideal para tener el CRM y tu panel en una misma pestaña.</p>
+              <h4>🔑 Acceso Directo (agenciaprosperia.com/login)</h4>
+              <p>Entra a <code>https://agenciaprosperia.com/login</code> con tu correo registrado y tu contraseña inicial (<code>Closer2026!</code>). Desde <strong>⚙️ Mi Perfil &amp; Calendario</strong> puedes subir tu foto circular ejecutiva, ajustar tu contraseña y copiar tu <strong>🗓️ Mi Link Calendario</strong>.</p>
             </div>
             <div class="sub-box">
-              <h4>🔑 Opción B: Acceso Directo en Pantalla Completa</h4>
-              <p>Entras directo a <code>https://agenciaprosperia.com/login</code> con tu correo y contraseña (<code>CloserProsper2026!</code>). Ideal para usar toda la pantalla en tus presentaciones de Zoom o desde tu celular.</p>
+              <h4>🧢 Conmutador Rápido de Gorras + Apariencia (3 Modos)</h4>
+              <p>En el menú lateral o arriba en la barra cambias en 1 clic entre <strong>🧢 Gorra Setter (1,000)</strong> para prospectar y <strong>🎩 Gorra Closer (CRM)</strong> para cerrar. Además puedes elegir tu tema visual preferido entre <strong>🟦 Azul</strong>, <strong>☀️ Blanco</strong> o <strong>🌑 Oscuro</strong>.</p>
             </div>
             <div class="sub-box">
-              <h4>⏱️ Reloj Inteligente (Cero Popups Molestos)</h4>
+              <h4>⏱️ Reloj de Jornada Inteligente (Cero Popups Molestos)</h4>
               <ul>
-                <li>Al abrir tu panel, el cronómetro arranca solo en tu hora local: <strong>🟢 En Línea (Aplicado)</strong>.</li>
-                <li>Si dejas la pestaña sin actividad durante 5 minutos, pasa automáticamente a <strong>🟡 En Pausa (Inactivo)</strong>.</li>
-                <li>Si entras varias veces al día (mañana, tarde y noche), tus minutos efectivos se <strong>suman automáticamente</strong>.</li>
+                <li>Al iniciar turno haz clic en <strong>🟢 Iniciar Jornada (Check-In)</strong> para activar tu medidor <code>Hoy / Sem</code>.</li>
+                <li>Si dejas el panel sin actividad durante 5 minutos pasa automáticamente a pausa y se reanuda al volver.</li>
+                <li>Si trabajas en bloques (mañana, tarde o noche), tus minutos efectivos se suman automáticamente.</li>
               </ul>
             </div>
           </div>
@@ -375,28 +390,28 @@
         <div class="step-header">
           <div class="step-title">
             <span class="step-num" style="border-color:#10b981; color:#34d399; background:rgba(16,185,129,0.15);">2</span>
-            <span>Bolsa Libre de 500 Negocios B2B ($0 desde Argentina) y Cómo Operar 📞 Mi Lista de Llamadas (Seteo → Closer)</span>
+            <span>Bolsa Libre de 500 Negocios B2B ($0 desde Argentina), Propiedad Individual y Pase Seteo → Closer</span>
           </div>
-          <span class="step-tag">Pestaña: 📞 Mi Lista de Llamadas (Bolsa 500 + Activos)</span>
+          <span class="step-tag">Pestaña: 📞 Lista de Llamadas (Setter)</span>
         </div>
         <div class="step-body">
-          La base comercial contiene <strong>500 negocios B2B super-calificados</strong> (clínicas, inmobiliarias, empresas y comercios con WhatsApp móvil en México, Colombia, Chile, Perú y España, o línea local de Argentina a costo <strong>$0 USD</strong>), además de los contactos activos de cada vendedor. Para que nadie se pise un prospecto, así trabajas la cola en 3 pasos:
+          Tu lista principal arranca con <strong>500 negocios B2B reales</strong> (clínicas, inmobiliarias, estudios y comercios locales con WhatsApp móvil o línea de Argentina <code>+54</code> llamables a costo <strong>$0 USD</strong>), más tus propios contactos asignados. El trabajo limpio sigue 3 pasos:
           <div class="sub-grid">
             <div class="sub-box" style="border-color:rgba(245,158,11,0.45);">
               <h4 style="color:#fde68a;">✋ 1. Botón "Tomar Contacto" (Propiedad Exclusiva)</h4>
-              <p>Haz clic en <strong>✋ Tomar Contacto</strong> sobre cualquier lead con etiqueta <code>🟢 LIBRE · BOLSA 500</code> para bloquearlo al instante en exclusiva en tu cuenta (<code>👤 MI CONTACTO</code>) y que ningún compañero pueda tomarlo.</p>
+              <p>En cualquier fila marcada con <code>🟢 LIBRE · BOLSA 500</code>, pulsa <strong>✋ Tomar Contacto</strong> (o simplemente abre el popup y guarda un avance/envía correo). Al instante queda bloqueado en exclusiva como <code>👤 MI CONTACTO</code> para que ningún compañero lo tome ni se pisen.</p>
             </div>
             <div class="sub-box">
-              <h4 style="color:#67e8f9;">🛠️ 2. Popup "Trabajar / Anotar" y Pase Seteo → Closer</h4>
-              <p>Anota cada toque en la Bitácora por renglones (<code>1. Primer contacto</code>, <code>2. Contacto</code>, <code>3. Calificado</code>). Si estás haciendo <strong>Seteo</strong>, elige en <strong>🎯 Asignar este Prospecto a Closer</strong> a qué Closer se lo pasas conservando tu crédito de Setter (<strong>5%</strong>).</p>
+              <h4 style="color:#67e8f9;">🛠️ 2. Popup "Trabajar / Anotar" + 🎯 Seteo → Closer</h4>
+              <p>El popup muestra limpio solo el último registro útil (sin ruido de bots viejos). Anota cada intento en la <strong>Bitácora Cronológica</strong> por renglones (<code>1. Primer contacto</code>, <code>2. Contacto</code>, <code>3. Calificado</code>). Si prospectas como <strong>Setter</strong>, elige en <strong>🎯 Asignar este Prospecto a Closer</strong> a qué Closer lo entregas conservando tu crédito de Setter (<strong>5%</strong>).</p>
             </div>
             <div class="sub-box" style="border-color:rgba(16,185,129,0.5);">
               <h4 style="color:#34d399;">🔥 3. Pasar a Pipeline Closer (Etapa: Calificado)</h4>
-              <p>Solo cuando el dueño contesta y califica, pulsa <strong>🔥 Contestó y Calificó → Pasar a Pipeline Closer</strong>: el sistema lo envía con toda su bitácora al CRM ProsperIA y lo pasa a <strong>🎩 Mi Pipeline Closer</strong>.</p>
+              <p>Solo cuando el dueño contesta y califica, pulsa <strong>🔥 Contestó y Calificó → Pasar a Pipeline Closer</strong>: toda la bitácora viaja completa al CRM ProsperIA y el prospecto aparece listo en <strong>🎩 Mi Pipeline (Closer CRM)</strong>.</p>
             </div>
           </div>
           <div class="callout">
-            💡 <strong>¿Dónde sigo trabajando a un prospecto que ya calificó?</strong> ¡Siempre en <strong>🎩 Mi Pipeline Closer</strong>! Así tu bandeja Setter queda limpia enfocada en los 500 contactos B2B y tus seguimientos diarios.
+            💡 <strong>¿Cómo mantengo ordenada mi bandeja?</strong> Usa los filtros por fuente (<code>🎯 Base Calificada</code> o <code>🔥 Embudo /sitioweb</code>), país o estado. Todo lo que ya calificó se gestiona siempre dentro de <strong>🎩 Mi Pipeline (Closer CRM)</strong>.
           </div>
         </div>
       </article>
@@ -406,22 +421,22 @@
         <div class="step-header">
           <div class="step-title">
             <span class="step-num" style="border-color:#f59e0b; color:#fde68a; background:rgba(245,158,11,0.15);">3</span>
-            <span>Iniciativa del Closer: Cómo Dar de Alta un Prospecto Nuevo o Subir tu Propia Lista de Excel</span>
+            <span>Prospección Activa Propia: ➕ Nuevo Prospecto e Importación desde Excel / CSV</span>
           </div>
           <span class="step-tag">Botones Superiores en Llamadas y Pipeline</span>
         </div>
         <div class="step-body">
-          Si tú consigues un prospecto por tu cuenta (un referido, un dueño de negocio conocido, de redes sociales o de tu propia base de datos), tienes <strong>2 herramientas en la parte superior</strong> tanto de <em>Mi Lista de Llamadas</em> como de <em>Mi Pipeline Closer</em>:
+          Si consigues un cliente por cuenta propia (referido, Google Maps, Instagram o base personal), tienes <strong>2 herramientas en la parte superior</strong> tanto de <em>Lista de Llamadas (Setter)</em> como de <em>Mi Pipeline (Closer CRM)</em>:
           <div class="sub-grid">
             <div class="sub-box" style="border-color:rgba(16,185,129,0.45);">
-              <h4 style="color:#34d399;">➕ Nuevo Prospecto (Inyectar a CRM)</h4>
-              <p>Abre una ventana rápida con los campos básicos: <strong>Nombre y Apellido, WhatsApp (con código de país), Correo Electrónico, Nombre del Negocio/Giro, ¿Dónde quieres ubicarlo? y Notas</strong>.</p>
-              <p style="margin-top:6px; color:#a7f3d0;">Con el selector <strong>¿Dónde quieres ubicarlo?</strong> eliges guardarlo en <strong>🟡 En Seguimiento Setter</strong> (aparece de inmediato primero en <code>🕒 Tocados Hoy</code>) o directo en <strong>🔥 Calificado (Pipeline Closer)</strong>.</p>
+              <h4 style="color:#34d399;">➕ Nuevo Prospecto (Inyectar a CRM ProsperIA)</h4>
+              <p>Registra en segundos: <strong>Nombre del Cliente/Dueño, Nombre del Negocio, WhatsApp (con código de país), Correo (opcional), Giro / Plantilla Sectorial (16 Plantillas) y Nota rápida</strong>.</p>
+              <p style="margin-top:6px; color:#a7f3d0;">Con el selector <strong>¿Dónde quieres ubicarlo?</strong> tú decides si entra a <strong>🟡 En Seguimiento Setter</strong> (sale primero en tus tocados) o directo a <strong>🔥 Calificado → Mi Pipeline Closer &amp; CRM</strong>.</p>
             </div>
             <div class="sub-box" style="border-color:rgba(0,229,255,0.45);">
-              <h4 style="color:#00e5ff;">📥 Subir Mi Lista (Excel / CSV)</h4>
-              <p>¿Tienes una lista de 20, 50 o 200 prospectos en Excel? Haz clic en <strong>📥 Subir Mi Lista (Excel/CSV)</strong>: puedes subir tu archivo <code>.csv</code> o simplemente <strong>copiar y pegar las filas directamente desde Excel</strong> (<code>Nombre, WhatsApp, Email, Giro</code>).</p>
-              <p style="margin-top:6px; color:#67e8f9;">Tú eliges si quieres que entren a tu <em>Cola de Llamadas (Setter)</em> o directo a tu <em>Pipeline Closer</em>.</p>
+              <h4 style="color:#00e5ff;">📥 Subir Excel/CSV (Lista Propia Masiva)</h4>
+              <p>¿Ya armaste un listado de 20, 50 o 200 negocios en Excel? Abre <strong>📥 Subir Excel/CSV</strong>, adjunta tu archivo <code>.csv</code> o <strong>copia y pega filas directo desde Excel</strong>.</p>
+              <p style="margin-top:6px; color:#67e8f9;">Eliges si la carga entra a tu <em>Lista de Llamadas (Setter)</em> o directo a tu <em>Pipeline Closer</em> respetando tu propiedad privada sin que nadie más la vea.</p>
             </div>
           </div>
         </div>
@@ -432,24 +447,24 @@
         <div class="step-header">
           <div class="step-title">
             <span class="step-num" style="border-color:#ef4444; color:#fca5a5; background:rgba(239,68,68,0.15);">4</span>
-            <span>Canales de Contacto a Costo $0: Mi WhatsApp 1a1, Llamada Local, Redactor de Correo Genérico y Buscador IG/FB</span>
+            <span>Los 4 Canales Gratuitos de Primer Contacto dentro del Popup ($0 USD desde Argentina)</span>
           </div>
-          <span class="step-tag">Botones Directos en la Cabecera del Popup</span>
+          <span class="step-tag">Cabecera del Popup Trabajar / Anotar</span>
         </div>
         <div class="step-body">
-          Dentro del popup <strong>🛠️ Trabajar / Anotar</strong> tienes los 4 canales gratuitos y ordenados para atacar a cada dueño de negocio sin tarifas internacionales ni bloqueos:
+          Dentro del popup <strong>🛠️ Trabajar / Anotar</strong> tienes integrados los 4 canales gratuitos para contactar cualquier país sin gastar crédito internacional ni depender de discadores bloqueados:
           <div class="sub-grid">
             <div class="sub-box" style="border-color:rgba(16,185,129,0.45);">
-              <h4 style="color:#34d399;">💬 1. Botón "Mi WhatsApp 1a1" y Llamada Local ($0)</h4>
-              <p>Abre tu WhatsApp personal 1 a 1 con el guion listo (trabaja en bloques controlados de 15–20 conversaciones tras llamar, nunca en ráfagas masivas para cuidar tu línea). Para teléfonos de Argentina (<code>+54</code>) marca directo sin costo internacional.</p>
+              <h4 style="color:#34d399;">📞 +54 Local / WhatsApp Llamada &amp; 💬 Mi WhatsApp 1a1</h4>
+              <p>Para teléfonos en Argentina (<code>+54</code>) marcas sin costo adicional; para México, Colombia, Chile, Perú o España llamas y escribes directo vía <strong>💬 Mi WhatsApp 1a1</strong> con el guion prellenado. Trabaja en bloques ordenados de 15–20 conversaciones 1 a 1 (nunca envíos masivos automáticos).</p>
             </div>
             <div class="sub-box" style="border-color:rgba(56,189,248,0.45);">
-              <h4 style="color:#7dd3fc;">✉️ 2. Botón "Redactar Correo" (seller@agenciaprosperia.com)</h4>
-              <p>Abre el redactor libre donde escribes el asunto y mensaje que quieras y lo envías desde nuestra cuenta oficial <code>seller@agenciaprosperia.com</code> (o por <code>mailto:</code>). <strong>Si el cliente responde, el CRM lo detecta automáticamente, te avisa por correo y lo sube a 🔥 Calientes.</strong></p>
+              <h4 style="color:#7dd3fc;">✉️ Redactar Correo (seller@agenciaprosperia.com + mailto:)</h4>
+              <p>Pulsa <strong>✉️ Redactar Correo</strong> para redactar tu asunto y mensaje personalizado desde nuestra bandeja oficial <code>seller@agenciaprosperia.com</code> (o abrir tu cliente local con <code>mailto:</code>). Al enviarlo reclama el contacto en tu cuenta automáticamente y, <strong>si el dueño responde por correo, el CRM lo detecta, te avisa por email y lo etiqueta en 🔥 Calientes.</strong></p>
             </div>
             <div class="sub-box">
-              <h4 style="color:#c4b5fd;">📸 3. Botón "Buscar IG/FB" y Tu Link de Calendario</h4>
-              <p>Localiza en 1 clic el Instagram o Facebook real del negocio en Google para contactarlo por DM y comparte tu link personal de calendario desde <strong>🗓️ Mi Perfil &amp; Calendario</strong> cuando el cliente esté listo para ver el Demo.</p>
+              <h4 style="color:#c4b5fd;">📸 Buscar IG/FB + 🗓️ Link de Calendario Personal</h4>
+              <p>Si no responde teléfono ni WhatsApp, pulsa <strong>📸 Buscar IG/FB</strong> para localizar en 1 clic su Instagram o Facebook real y mandarle un DM corto. Cuando el dueño quiera ver su muestra en vivo, pásale tu enlace desde <strong>🗓️ Mi Link Calendario</strong>.</p>
             </div>
           </div>
         </div>
@@ -460,24 +475,24 @@
         <div class="step-header">
           <div class="step-title">
             <span class="step-num">5</span>
-            <span>Cómo Hacer la Demo en Vivo en 5 Minutos (+ Biblioteca de +1,000 Plantillas Web en CRM)</span>
+            <span>Demo en Vivo en 5 Minutos: 16 Plantillas Sectoriales + 60 Looks de Diseño + Chatbot IA</span>
           </div>
-          <span class="step-tag">Pestaña: 🎨 Demo Sitio Web (En Vivo)</span>
+          <span class="step-tag">Pestaña: 🎨 Demo Sitio Web (16 Demos)</span>
         </div>
         <div class="step-body">
-          Cuando estás en videollamada (Zoom/Meet) con el dueño del negocio, abre <strong>🎨 Demo Sitio Web (En Vivo)</strong> y sigue esta secuencia de 3 minutos:
+          Ya en videollamada (Zoom/Meet) con el dueño del negocio, abre <strong>🎨 Demo Sitio Web (16 Demos)</strong> en el menú lateral para darle el efecto "¡ese ya es mi negocio!" en menos de 3 minutos:
           <div class="sub-grid">
             <div class="sub-box">
-              <h4>1️⃣ Personaliza con el Nombre de su Negocio</h4>
-              <p>Selecciona su giro (Clínica/Médico, Servicios Locales, Inmobiliaria, Profesionales, Academia o Restaurante), escribe el <strong>Nombre de su Empresa</strong> y su Ciudad, y pulsa <strong>Aplicar en Vivo</strong>. Haz una prueba en vivo del <strong>Chatbot IA con Gemini</strong> en la esquina inferior derecha.</p>
+              <h4>1️⃣ Elige su Giro (16 Plantillas Sectoriales) y Personaliza</h4>
+              <p>Selecciona su industria exacta (Clínica Dental, Medicina Estética, Veterinaria, Inmobiliaria, Restaurante, Despacho Legal, Consultora, Academia, Fitness, Taller, Belleza, etc.), escribe el <strong>Nombre real de su Negocio</strong> y su Ciudad, y aplica en vivo sobre la pantalla compartida.</p>
             </div>
             <div class="sub-box">
-              <h4>2️⃣ Cambia el Estilo con 🎨 +60 Looks de Diseño</h4>
-              <p>Muestra cómo su sitio cambia de personalidad al instante (Modo Oscuro, Clínico Puro, Minimalista Suizo, Luxury Gold) con 1 clic en <strong>🎨 +60 Looks de Diseño</strong>.</p>
+              <h4>2️⃣ Cambia Estética al Instante (🎨 +60 Looks de Diseño)</h4>
+              <p>Con un solo clic alternas paletas y personalidades visuales (Clínico Puro, Luxury Gold, Oscuro Ejecutivo, Moderno Editorial) para mostrar que su web nunca será genérica ni repetida.</p>
             </div>
             <div class="sub-box" style="border-color:rgba(0,229,255,0.45);">
-              <h4 style="color:#00e5ff;">3️⃣ Abre la 📚 Biblioteca +1,000 Plantillas CRM</h4>
-              <p>Si el cliente pregunta <em>"¿Tienen más diseños para mi giro específico?"</em>, haz clic en el botón superior <strong>📚 Biblioteca +1,000 Plantillas CRM</strong>. Ahí le muestras la galería oficial del CRM ProsperIA con más de 1,000 sitios por industria incluidos.</p>
+              <h4 style="color:#00e5ff;">3️⃣ Prueba el Chatbot Recepcionista IA 24/7 en Vivo</h4>
+              <p>Abre el widget en la esquina inferior derecha y haz una pregunta real de cliente (precios, horarios, agendar cita) para que vea cómo su asistente IA responde y captura prospectos conectado directo a su CRM ProsperIA (con más de 1,000 diseños disponibles en biblioteca CRM si pide otro subnicho).</p>
             </div>
           </div>
         </div>
@@ -488,39 +503,37 @@
         <div class="step-header">
           <div class="step-title">
             <span class="step-num" style="border-color:#8b5cf6; color:#c4b5fd; background:rgba(139,92,246,0.15);">6</span>
-            <span>Tus Armas Visuales Renovadas: Presentación de 11 Slides (3 Ofertas Separadas), 17 Láminas PassportAI y 8 Slides CRM</span>
+            <span>Presentaciones Clientes (Zoom) vs. Material de Estudio Closer (Uso Interno)</span>
           </div>
-          <span class="step-tag">Pestaña: 🔥 Presentaciones &amp; Armas</span>
+          <span class="step-tag">🖥️ Presentaciones Clientes · 🎓 Material de Estudio</span>
         </div>
         <div class="step-body">
-          En <strong>🔥 Presentaciones &amp; Armas</strong> tienes tus presentaciones listas para proyectar en pantalla completa (el menú <em>💎 Opción Avanzada High-Ticket</em> está plegado en el menú izquierdo solo para proyectos corporativos de US$2,900+):
+          Tu panel separa estrictamente lo que <strong>proyectas al cliente</strong> de lo que es solo <strong>entrenamiento interno del vendedor</strong>:
           <div class="sub-grid">
-            <div class="sub-box" style="border-color:rgba(245,158,11,0.45);">
-              <h4 style="color:#fde68a;">📦 1. Presentación Comercial (11 Slides con las 3 Ofertas por Separado)</h4>
-              <p>La portada muestra <strong>tu foto circular y tu título ejecutivo</strong>. Las 3 ofertas están separadas lámina por lámina para no confundir al cliente y liderar con la oferta estrella:</p>
+            <div class="sub-box" style="border-color:rgba(0,229,255,0.45);">
+              <h4 style="color:#00e5ff;">🖥️ Presentaciones Clientes (Orden Oficial en Vivo)</h4>
               <ul>
-                <li><strong>⭐ Slide 8 (Oferta Principal — Pack Anual Estrella US$990):</strong> Lo que vamos a vender por defecto (Sitio Web + 1 Año de CRM + IA 24/7 + PassportAI). Reserva 50% hoy con <strong>US$495</strong>.</li>
-                <li><strong>🟢 Slide 9 (Downsell — Express PYME US$497):</strong> Si pide empezar con menor inversión (Pago único · Sin anualidad CRM ni PassportAI). Reserva hoy con <strong>US$250</strong>.</li>
-                <li><strong>🔥 Slide 10 (Upsell — Máquina Completa US$1,490):</strong> Todo el Pack Anual + <strong>10 Videos Virales + 1 Mes de Campañas Meta Ads</strong>. Reserva hoy con <strong>US$745</strong>.</li>
-                <li><strong>🏁 Slide 11 (Paso Final 50/50 + Rescate Express US$197/año):</strong> Cierre de la reserva hoy y salvavidas de US$197/año.</li>
+                <li><strong>1. 💬 Lenguaje Natural (13 Láminas):</strong> Rompe el hielo explicando sin tecnicismos cómo dejar de perder clientes que preguntan y no agendan.</li>
+                <li><strong>2. 💎 Presentación Comercial (11 Slides — 3 Ofertas):</strong>
+                  <br>• <strong>⭐ Opción 2 Estrella (US$990 · Reserva US$495):</strong> Web 6 secciones + 12 meses CRM + IA 24/7 + PassportAI (Entrega 5 días hábiles).
+                  <br>• <strong>🟢 Opción 1 Express PYME (US$497 · Reserva US$250):</strong> Web 6 secciones + Chatbot IA 24/7 + 3 Meses Gratis CRM y PassportAI.
+                  <br>• <strong>🚀 Opción 3 Máquina Completa (US$1,490 · Reserva US$745):</strong> Pack Anual + 10 Videos IA + Campaña Meta Ads.
+                  <br>• <strong>🛟 Slide Final — Rescate Express (US$197):</strong> Salvavidas para cerrar hoy si pidió empezar mínimo.</li>
               </ul>
             </div>
-            <div class="sub-box" style="border-color:rgba(0,229,255,0.45);">
-              <h4 style="color:#00e5ff;">🛂 2. Presentación PassportAI.app (17 Láminas Interactivas HD)</h4>
-              <p>Las <strong>17 láminas oficiales en alta definición</strong> integradas directo en pantalla (mostrando el ahorro frente a pagar US$1,680/año en IAs sueltas), con botones <em>◀ Anterior / Siguiente ▶</em>, barra numérica del <code>1</code> al <code>17</code>, botón de <strong>⛶ Pantalla Completa</strong> y acceso vivo a <code>https://passportai.app/</code>.</p>
+            <div class="sub-box" style="border-color:rgba(245,158,11,0.45);">
+              <h4 style="color:#fde68a;">🛂 PassportAI.app (17 Láminas HD) &amp; ⚙️ CRM ProsperIA (8 Slides)</h4>
+              <p><strong>PassportAI.app (17 Láminas):</strong> Navega con flechas o pantalla completa mostrando cómo reemplaza pagar por separado herramientas sueltas reuniendo <strong>+58 modelos líderes de IA</strong> (OpenAI, Google Gemini, Anthropic Claude, Runway, ElevenLabs) en un solo ecosistema, más enlace directo a <code>https://passportai.app/</code>.</p>
+              <p style="margin-top:6px;"><strong>CRM ProsperIA (8 Slides):</strong> Muestra bandeja omnicanal única, embudo visual, agenda anti-plantones, constructor web, plantillas oficiales WhatsApp y recepcionista IA 24/7.</p>
             </div>
             <div class="sub-box" style="border-color:rgba(16,185,129,0.45);">
-              <h4 style="color:#34d399;">⚙️ 3. 8 Slides CRM ProsperIA (Presentación Visual Ilustrada)</h4>
-              <p>Ampliada a <strong>8 láminas visuales con capturas reales del CRM</strong> en cada slide:</p>
+              <h4 style="color:#34d399;">🎓 Material de Estudio Closer (NO proyectar al cliente)</h4>
+              <p>En la pestaña <strong>🎓 Material de Estudio Closer</strong> encuentras todo tu entrenamiento privado:</p>
               <ul>
-                <li><strong>Slide 1:</strong> Centro de Control Todo-en-Uno.</li>
-                <li><strong>Slide 2:</strong> Bandeja Única Omnicanal (WhatsApp, IG, FB, SMS, Email).</li>
-                <li><strong>Slide 3:</strong> Embudo Visual de Ventas (Pipeline ProsperIA CRM).</li>
-                <li><strong>Slide 4:</strong> Agenda Inteligente Anti-Plantones.</li>
-                <li><strong>Slide 5:</strong> Constructor Web + Biblioteca de +1,000 Plantillas.</li>
-                <li><strong>Slide 6:</strong> Plantillas Oficiales de WhatsApp con Botones.</li>
-                <li><strong>Slide 7:</strong> Recepcionista IA 24/7 (&lt; 60 segundos) + App Móvil.</li>
-                <li><strong>Slide 8:</strong> Reemplazo de +10 Softwares y botón directo a las 3 Cajas.</li>
+                <li><strong>🎬 Video Tutorial Oficial</strong> por capítulos.</li>
+                <li><strong>📘 Manual Operativo Closer</strong> (esta guía + versión PDF).</li>
+                <li><strong>🎙️ Acordeón Lenguaje Natural (Speech)</strong> y <strong>🪗 Acordeón Catálogo + Bonos</strong>.</li>
+                <li><strong>🎭 Biblia de Roleplay</strong> (objeciones) y <strong>🎯 Perfil Cliente Ideal</strong>.</li>
               </ul>
             </div>
           </div>
@@ -532,22 +545,24 @@
         <div class="step-header">
           <div class="step-title">
             <span class="step-num" style="border-color:#10b981; color:#34d399; background:rgba(16,185,129,0.15);">7</span>
-            <span>Cómo Actualizar Etapa en 1 Clic y Verificar el Pago para Cobrar tu 15%</span>
+            <span>Mi Pipeline (Closer CRM), Central de Links de Pago (14 Live) y Activación del 15%</span>
           </div>
-          <span class="step-tag">Pestaña: 💰 Mi Pipeline &amp; Comisiones (15%)</span>
+          <span class="step-tag">🎩 Mi Pipeline (Closer CRM) · 💳 Links de Pago &amp; Cobros</span>
         </div>
         <div class="step-body">
-          En <strong>💰 Mi Pipeline &amp; Comisiones</strong> (vista por defecto: <code>🔥 Mi Pipeline Activo · Paso 2+</code>) gestionas a todos los prospectos con los que ya hablaste. Al final de cada fila tienes tus 2 botones de cierre:
+          Cuando un prospecto ya calificó, pasas tu gorra a <strong>🎩 Mi Pipeline (Closer CRM)</strong> (filtro por defecto: <code>🔥 Mi Pipeline Activo (Calificados → Cierre)</code>) y cierras en 3 movimientos:
           <div class="sub-grid">
             <div class="sub-box">
-              <h4 style="color:#00e5ff;">📋 Botón 1: Etapa / Prop. (Sincronización Bidireccional con CRM)</h4>
-              <p>Cada vez que avanzas con un cliente, haz clic en <strong>📋 Etapa / Prop.</strong>, selecciona la nueva etapa (<em>3. En conversación</em>, <em>4. Calificado</em>, <em>5. Cita agendada</em>, <em>6. Demo realizada</em>, <em>7. Propuesta enviada</em>, <em>8. En negociación</em>), la Caja ofrecida y la fecha del próximo contacto, y pulsa <strong>Guardar y Sincronizar con CRM ProsperIA</strong>.</p>
-              <p style="margin-top:6px; color:#34d399; font-weight:700;">✓ Verás al instante el sello <code>🟢 Sincronizado en CRM</code> y una barra verde confirmando que el Pipeline en CRM ProsperIA fue actualizado.</p>
+              <h4 style="color:#00e5ff;">📒 1. Botón "Bitácora &amp; Propuesta" (Sincronizado con CRM)</h4>
+              <p>Desde <strong>🎩 Mi Pipeline (Closer CRM)</strong> ves la bitácora completa que envió el Setter y actualizas la etapa real (<em>Calificado</em>, <em>Diagnóstico agendado</em>, <em>Demo realizada</em>, <em>Propuesta enviada</em>, <em>Pago pendiente</em>) sincronizada al instante con CRM ProsperIA.</p>
             </div>
-            <div class="sub-box" style="border-color:rgba(16,185,129,0.5);">
-              <h4 style="color:#34d399;">💳 Botón 2: Verificar Pago (Activa tu 15% y Suena la Campana 🔔)</h4>
-              <p>Cuando el cliente realiza su pago (50% de reserva o 100%) por Stripe, Hotmart, Zelle o Transferencia, abre <strong>💳 Verificar Pago</strong>, registra el método, la referencia del comprobante y el monto cobrado.</p>
-              <p style="margin-top:6px; color:#fde68a; font-weight:700;">🏆 El sistema liquida tu <strong>15% de comisión</strong> sobre el dinero cobrado, mueve al cliente a Onboarding Técnico, toca la campana de victoria 🔔 y actualiza tu posición en el Podio Semanal.</p>
+            <div class="sub-box" style="border-color:rgba(16,185,129,0.45);">
+              <h4 style="color:#34d399;">💳 2. Enviar Link desde "Links de Pago &amp; Cobros (14 Live)"</h4>
+              <p>Ofrece primero la <strong>Reserva 50% Hoy</strong> (para iniciar construcción en menos de 24 horas y liquidar el 50% restante contra entrega en el Día 5) o el <strong>Pago Único 100%</strong>. Copia en 1 clic el link oficial de checkout (<strong>Stripe / api.agenciaprosperia.com</strong> o <strong>🟣 Whop Argentina / LATAM</strong>, también Zelle o Transferencia) o usa el generador <strong>💬 WhatsApp + Link</strong> con el nombre y teléfono del cliente prellenados.</p>
+            </div>
+            <div class="sub-box" style="border-color:rgba(245,158,11,0.5);">
+              <h4 style="color:#fde68a;">🏆 3. Botón "Verificar Pago" → Comisión 15% + Campana 🔔</h4>
+              <p>En cuanto entra el pago, selecciona al cliente en <strong>✅ Verificar Pago de un Cliente / Activar Comisión 15%</strong>, registra el método, monto y referencia del comprobante. El sistema liquida tu <strong>15% (5% Setter + 10% Closer)</strong>, pasa el proyecto a Implementación, hace sonar la campana 🔔 y te posiciona en <strong>🏆 Embudo 1,000 &amp; Podio</strong>.</p>
             </div>
           </div>
         </div>

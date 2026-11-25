@@ -270,6 +270,71 @@ def _trim_lead_old_wa_notes(ld) -> bool:
     return False
 
 
+def _strip_unreplied_bot_email_lines(ld) -> bool:
+    """Elimina líneas muertas de '🤖 Setter IA Correo' en leads sin respuesta ('RESPONDIÓ')."""
+    raw_notes = getattr(ld, "notes", "") or ""
+    if not raw_notes or "🤖 Setter IA Correo" not in raw_notes or "RESPONDIÓ" in raw_notes:
+        return False
+    kept_lines = [ln for ln in raw_notes.splitlines() if "🤖 Setter IA Correo" not in ln]
+    cleaned = "\n".join(kept_lines).strip()
+    if cleaned != raw_notes.strip():
+        ld.notes = cleaned
+        return True
+    return False
+
+
+def _topup_free_pool_to_target(db, target: int = 500) -> tuple:
+    """Recuenta activos/duplicados y rellena la Bolsa Libre hasta `target` desde archivo_reserva."""
+    remaining_all = db.query(Lead).all()
+    seen_phones = set()
+    seen_emails = set()
+    seen_biz = set()
+    current_free_cnt = 0
+
+    for ld in remaining_all:
+        c_st = (getattr(ld, "contact_status", "contactable") or "contactable").lower()
+        if c_st in ("archivo_reserva", "dnd", "opt_out", "bounce", "unauthorized"):
+            continue
+        if not (getattr(ld, "owner_id", "") or "").strip() and c_st == "contactable":
+            current_free_cnt += 1
+        digits = re.sub(r"\D", "", str(getattr(ld, "phone_e164", None) or getattr(ld, "phone", None) or ""))
+        if len(digits) >= 9:
+            seen_phones.add(digits[-10:])
+        em_ok = _real_email_pool(getattr(ld, "email", "") or "")
+        if em_ok:
+            seen_emails.add(em_ok)
+        biz_ok = (getattr(ld, "business_name", None) or getattr(ld, "company", None) or "").strip().lower()
+        if biz_ok and biz_ok not in _PLACEHOLDER_BIZ_NAMES:
+            seen_biz.add(biz_ok)
+
+    promoted_cnt = 0
+    if current_free_cnt < target:
+        needed = target - current_free_cnt
+        archived_pool = [
+            ld for ld in remaining_all
+            if (getattr(ld, "contact_status", "") or "").lower() == "archivo_reserva"
+        ]
+        promotions = _select_pool_candidates(
+            archived_pool,
+            seen_phones=seen_phones,
+            seen_emails=seen_emails,
+            seen_biz=seen_biz,
+            limit=needed,
+            require_real_biz=True,
+        )
+        for ld in promotions:
+            ld.owner_id = ""
+            ld.setter_id = ""
+            ld.pipeline_stage = "Lead identificado"
+            ld.status = "new"
+            ld.contact_status = "contactable"
+            _strip_unreplied_bot_email_lines(ld)
+            _trim_lead_old_wa_notes(ld)
+            promoted_cnt += 1
+
+    return promoted_cnt, current_free_cnt + promoted_cnt
+
+
 def _select_pool_candidates(
     leads_iterable,
     seen_phones: set,
@@ -285,6 +350,8 @@ def _select_pool_candidates(
     skip_set = skip_ids or set()
     for ld in leads_iterable:
         if ld.id in skip_set or _is_freebie_or_closer_test_lead(ld):
+            continue
+        if (getattr(ld, "source", "") or "").strip().lower() == "comex_outbound_b2b":
             continue
         c_st = (getattr(ld, "contact_status", "contactable") or "contactable").lower()
         if c_st in ("dnd", "opt_out", "bounce", "unauthorized"):
@@ -2024,59 +2091,76 @@ def init_db():
                     deleted_cnt += 1
             db.flush()
 
-            remaining_all = db.query(Lead).all()
-            seen_phones = set()
-            seen_emails = set()
-            seen_biz = set()
-            current_free_cnt = 0
-
-            for ld in remaining_all:
-                c_st = (getattr(ld, "contact_status", "contactable") or "contactable").lower()
-                if c_st in ("archivo_reserva", "dnd", "opt_out", "bounce", "unauthorized"):
-                    continue
-                if not (getattr(ld, "owner_id", "") or "").strip() and c_st == "contactable":
-                    current_free_cnt += 1
-                digits = re.sub(r"\D", "", str(getattr(ld, "phone_e164", None) or getattr(ld, "phone", None) or ""))
-                if len(digits) >= 9:
-                    seen_phones.add(digits[-10:])
-                em_ok = _real_email_pool(getattr(ld, "email", "") or "")
-                if em_ok:
-                    seen_emails.add(em_ok)
-                biz_ok = (getattr(ld, "business_name", None) or getattr(ld, "company", None) or "").strip().lower()
-                if biz_ok and biz_ok not in _PLACEHOLDER_BIZ_NAMES:
-                    seen_biz.add(biz_ok)
-
-            promoted_cnt = 0
-            if current_free_cnt < 500:
-                needed = 500 - current_free_cnt
-                archived_pool = [
-                    ld for ld in remaining_all
-                    if (getattr(ld, "contact_status", "") or "").lower() == "archivo_reserva"
-                ]
-                promotions = _select_pool_candidates(
-                    archived_pool,
-                    seen_phones=seen_phones,
-                    seen_emails=seen_emails,
-                    seen_biz=seen_biz,
-                    limit=needed,
-                    require_real_biz=True,
-                )
-                for ld in promotions:
-                    ld.owner_id = ""
-                    ld.setter_id = ""
-                    ld.pipeline_stage = "Lead identificado"
-                    ld.status = "new"
-                    ld.contact_status = "contactable"
-                    _trim_lead_old_wa_notes(ld)
-                    promoted_cnt += 1
-
-            final_free_cnt = current_free_cnt + promoted_cnt
+            promoted_cnt, final_free_cnt = _topup_free_pool_to_target(db, target=500)
             db.add(IntegrationSetting(
                 key=purge_key,
                 value=f"deleted={deleted_cnt},topped_up={promoted_cnt},free_pool={final_free_cnt}",
             ))
             print(
                 f"✅ [PURGE FREEBIES & TESTS] Eliminados={deleted_cnt} | Promovidos Bolsa={promoted_cnt} | Bolsa Libre={final_free_cnt}",
+                flush=True,
+            )
+
+        # 11. Migración idempotente Opción 1 COMEX: archivar COMEX fríos/no-responde (conservar solo avance real) + limpiar bot correos sin respuesta + reponer Bolsa a 500 Apify ($0 AR)
+        comex_key = "archive_comex_and_topup_apify_500_nov25_v4"
+        if not db.query(IntegrationSetting).filter(IntegrationSetting.key == comex_key).first():
+            comex_keep_stages = {
+                "Contacto",
+                "Conversación",
+                "Calificado",
+                "Diagnóstico agendado",
+                "Demo realizada",
+                "Propuesta enviada",
+                "Pago pendiente",
+                "Pago confirmado",
+                "Implementación",
+                "Entregado",
+            }
+            comex_archived = 0
+            comex_kept = 0
+            bot_email_stripped = 0
+
+            for ld in db.query(Lead).all():
+                src = (getattr(ld, "source", "") or "").strip().lower()
+                c_st = (getattr(ld, "contact_status", "contactable") or "contactable").lower()
+                own = (getattr(ld, "owner_id", "") or "").strip()
+                stg = (getattr(ld, "pipeline_stage", "Lead identificado") or "Lead identificado").strip()
+
+                if src == "comex_outbound_b2b":
+                    has_real_paid = float(getattr(ld, "amount_collected", 0.0) or 0.0) > 0
+                    is_real_progress = (
+                        bool(own)
+                        and c_st not in ("dnd", "opt_out", "bounce", "unauthorized")
+                        and (stg in comex_keep_stages or has_real_paid)
+                    )
+                    if is_real_progress:
+                        ld.contact_status = "contactable"
+                        comex_kept += 1
+                    else:
+                        if c_st not in ("dnd", "opt_out", "bounce", "unauthorized") and (
+                            c_st != "archivo_reserva" or own or (getattr(ld, "setter_id", "") or "").strip()
+                        ):
+                            ld.contact_status = "archivo_reserva"
+                            ld.owner_id = ""
+                            ld.setter_id = ""
+                            comex_archived += 1
+                    continue
+
+                if not own and c_st == "contactable":
+                    if _strip_unreplied_bot_email_lines(ld):
+                        bot_email_stripped += 1
+
+            db.flush()
+            promoted_cnt, final_free_cnt = _topup_free_pool_to_target(db, target=500)
+            db.add(IntegrationSetting(
+                key=comex_key,
+                value=(
+                    f"comex_archived={comex_archived},comex_kept={comex_kept},"
+                    f"bot_email_stripped={bot_email_stripped},topped_up={promoted_cnt},free_pool={final_free_cnt}"
+                ),
+            ))
+            print(
+                f"✅ [COMEX OP1 + BOLSA 500 APIFY] Archivados={comex_archived} | Conservados={comex_kept} | BotEmailsLimp={bot_email_stripped} | Promovidos={promoted_cnt} | BolsaLibre={final_free_cnt}",
                 flush=True,
             )
 
