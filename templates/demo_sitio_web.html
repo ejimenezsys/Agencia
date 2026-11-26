@@ -60,13 +60,155 @@
     }
     html[data-theme="light"],
     body.light-theme {
-      --bg-dark: #f8fafc;
+      --bg-dark: #f1f5f9;
       --bg-surface: #ffffff;
       --bg-card: #ffffff;
-      --text-main: #0f172a;
-      --text-muted: #475569;
-      --border-col: rgba(2, 132, 199, 0.35);
-      --border-subtle: rgba(15, 23, 42, 0.1);
+      --text-main: #090d16;
+      --text-muted: #1e293b;
+      --border-col: rgba(2, 132, 199, 0.5);
+      --border-subtle: rgba(15, 23, 42, 0.16);
+    }
+    html[data-theme="light"] #servicios,
+    body.light-theme #servicios {
+      background: linear-gradient(180deg, #e0f2fe 0%, #eff6ff 100%) !important;
+    }
+    html[data-theme="light"] #testimonios,
+    body.light-theme #testimonios {
+      background: linear-gradient(180deg, #d1fae5 0%, #ecfdf5 100%) !important;
+    }
+    html[data-theme="light"] .section-eyebrow,
+    body.light-theme .section-eyebrow {
+      background: linear-gradient(135deg, #0284c7, #2563eb) !important;
+      color: #ffffff !important;
+      border-color: #0369a1 !important;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+    }
+    html[data-theme="light"] .service-card,
+    html[data-theme="light"] .review-card,
+    html[data-theme="light"] .gallery-card,
+    html[data-theme="light"] .stat-card,
+    body.light-theme .service-card,
+    body.light-theme .review-card,
+    body.light-theme .gallery-card,
+    body.light-theme .stat-card {
+      background: #ffffff !important;
+      border: 1.5px solid #cbd5e1 !important;
+      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.07) !important;
+      color: #090d16 !important;
+    }
+    html[data-theme="light"] .service-card p,
+    html[data-theme="light"] .review-card p,
+    html[data-theme="light"] .stat-card div,
+    html[data-theme="light"] #view-hero-subtitle,
+    html[data-theme="light"] #view-about-story,
+    html[data-theme="light"] #view-about-mission,
+    html[data-theme="light"] .nav-links a,
+    body.light-theme .service-card p,
+    body.light-theme .review-card p,
+    body.light-theme .stat-card div,
+    body.light-theme #view-hero-subtitle,
+    body.light-theme #view-about-story,
+    body.light-theme #view-about-mission,
+    body.light-theme .nav-links a {
+      color: #1e293b !important;
+      opacity: 1 !important;
+    }
+    html[data-theme="light"] #view-about-stats .stat-card > div:first-child,
+    body.light-theme #view-about-stats .stat-card > div:first-child {
+      color: #0369a1 !important;
+    }
+    html[data-theme="light"] #view-about-pillars > div,
+    body.light-theme #view-about-pillars > div {
+      background: #f0f9ff !important;
+      border: 1.5px solid #7dd3fc !important;
+      color: #0c4a6e !important;
+    }
+    html[data-theme="light"] .service-card h3,
+    html[data-theme="light"] .site-section h2,
+    html[data-theme="light"] #view-hero-title,
+    html[data-theme="light"] #view-business-name,
+    body.light-theme .service-card h3,
+    body.light-theme .site-section h2,
+    body.light-theme #view-hero-title,
+    body.light-theme #view-business-name {
+      color: #090d16 !important;
+    }
+    html[data-theme="light"] .service-card button,
+    body.light-theme .service-card button {
+      background: #e0f2fe !important;
+      color: #0369a1 !important;
+      border: 1.5px solid #0284c7 !important;
+    }
+    html[data-theme="light"] .service-card button:hover,
+    body.light-theme .service-card button:hover {
+      background: #0284c7 !important;
+      color: #ffffff !important;
+    }
+    html[data-theme="light"] .hero-badge-pill,
+    body.light-theme .hero-badge-pill {
+      background: #e0f2fe !important;
+      border-color: #0284c7 !important;
+      color: #0369a1 !important;
+    }
+    html[data-theme="light"] #view-badge,
+    body.light-theme #view-badge {
+      color: #0369a1 !important;
+      font-weight: 900 !important;
+    }
+    html[data-theme="light"] .hero-offer-box,
+    body.light-theme .hero-offer-box {
+      background: #fef3c7 !important;
+      border: 1.5px solid #f59e0b !important;
+    }
+    html[data-theme="light"] .hero-offer-title,
+    body.light-theme .hero-offer-title {
+      color: #b45309 !important;
+    }
+    html[data-theme="light"] #view-offer,
+    body.light-theme #view-offer {
+      color: #78350f !important;
+      font-weight: 800 !important;
+    }
+    html[data-theme="light"] .form-card,
+    body.light-theme .form-card {
+      background: #ffffff !important;
+      border-color: #0284c7 !important;
+      color: #090d16 !important;
+    }
+    html[data-theme="light"] .accent-btn,
+    body.light-theme .accent-btn {
+      background: linear-gradient(135deg, #0284c7, #2563eb) !important;
+      color: #ffffff !important;
+    }
+    html[data-theme="light"] .service-card span,
+    html[data-theme="light"] .review-card > div:first-child span,
+    html[data-theme="light"] .form-card [style*="color:#34d399"],
+    body.light-theme .service-card span,
+    body.light-theme .review-card > div:first-child span,
+    body.light-theme .form-card [style*="color:#34d399"] {
+      color: #047857 !important;
+      background-color: #d1fae5 !important;
+      border-color: #10b981 !important;
+    }
+    html[data-theme="light"] .gallery-card button,
+    body.light-theme .gallery-card button {
+      background: #e0f2fe !important;
+      color: #0369a1 !important;
+      border-color: #0284c7 !important;
+    }
+    html[data-theme="light"] .section-header p,
+    html[data-theme="light"] .gallery-card div,
+    html[data-theme="light"] .review-card div,
+    body.light-theme .section-header p,
+    body.light-theme .gallery-card div,
+    body.light-theme .review-card div {
+      color: #0f172a !important;
+    }
+    html[data-theme="light"] .constructed-result-bar,
+    body.light-theme .constructed-result-bar {
+      background: linear-gradient(90deg, #064e3b, #0c4a6e) !important;
+      color: #ffffff !important;
+      border-bottom: 2px solid #10b981 !important;
     }
     html[data-theme="light"] .closer-toolbar {
       background: rgba(255, 255, 255, 0.97);
@@ -850,7 +992,7 @@
 
         <!-- Columna Izquierda: Propuesta de Valor + Fotografía Panorámica Sin Cortar -->
         <div class="hero-left-col">
-          <div style="display:inline-flex; align-items:center; gap:8px; padding:6px 14px; border-radius:999px; font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:0.06em; background:rgba(0,229,255,0.12); color:var(--accent); border:1px solid var(--border-col); margin-bottom:18px;">
+          <div class="hero-badge-pill" style="display:inline-flex; align-items:center; gap:8px; padding:6px 14px; border-radius:999px; font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:0.06em; background:rgba(0,229,255,0.12); color:var(--accent); border:1px solid var(--border-col); margin-bottom:18px;">
             <i class="fas fa-check-circle"></i>
             <span id="view-badge">SALUD, ODONTOLOGÍA & ESTÉTICA AVANZADA</span>
           </div>
@@ -864,12 +1006,12 @@
           </p>
 
           <!-- Caja de Oferta / Beneficio Activo -->
-          <div style="padding:16px 20px; border-radius:16px; border:1px solid rgba(245,158,11,0.4); background:rgba(245,158,11,0.1); display:flex; align-items:center; gap:14px; margin-bottom:24px;">
+          <div class="hero-offer-box" style="padding:16px 20px; border-radius:16px; border:1px solid rgba(245,158,11,0.4); background:rgba(245,158,11,0.1); display:flex; align-items:center; gap:14px; margin-bottom:24px;">
             <div style="width:42px; height:42px; border-radius:12px; background:rgba(245,158,11,0.2); color:#fbbf24; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0;">
               <i class="fas fa-gift"></i>
             </div>
             <div>
-              <div style="font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.08em; color:#fbbf24;">Beneficio Especial al Registrarte Hoy en la Web</div>
+              <div class="hero-offer-title" style="font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.08em; color:#fbbf24;">Beneficio Especial al Registrarte Hoy en la Web</div>
               <div id="view-offer" style="font-size:15px; font-weight:700; margin-top:2px;">
                 Valoración Diagnóstica 3D + Diseño de Sonrisa / Armonización con 20% OFF esta semana
               </div>

@@ -2134,6 +2134,15 @@ _GEMINI_VISUAL_SCENE_CATALOG: Dict[str, str] = {
     "university_education_campus": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=85",
     "industrial_engineering_plant": "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=85",
     "miami_yacht_charter_marina": "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?auto=format&fit=crop&w=1200&q=85",
+    # Seguros de Vida, Familias, Jubilados, Salud y Educación
+    "happy_family_home_protection": "https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=1200&q=85",
+    "parents_children_happy_future": "https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?auto=format&fit=crop&w=1200&q=85",
+    "senior_retired_couple_smiling": "https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=1200&q=85",
+    "senior_couple_retirement_peace": "https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?auto=format&fit=crop&w=1200&q=85",
+    "insurance_advisor_family_consultation": "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=1200&q=85",
+    "couple_planning_financial_future": "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1200&q=85",
+    "student_graduation_education_plan": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=85",
+    "family_doctor_health_coverage": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=85",
 }
 
 
@@ -2315,11 +2324,82 @@ _PROMPT_INDUSTRY_PACKS: List[Dict[str, Any]] = [
     {"key": "piscinas", "template_key": "piscinas_spas", "keywords": ["piscina", "alberca", "jacuzzi"]},
     {"key": "jardineria", "template_key": "jardineria_paisajismo", "keywords": ["jardin", "paisaj", "poda", "cesped", "pasto", "riego"]},
     {"key": "inmobiliaria", "template_key": "inmobiliaria_bienes_raices", "keywords": ["inmobili", "bienes raices", "real estate", "real state", "realtor", "propiedad", "propiedades", "casa", "casas", "venta de casa", "venta de casas", "comprar casa", "departamento", "penthouse", "condominio", "hipoteca", "alquiler", "preventa", "brickell", "coral gables", "kendall", "doral"]},
-    {"key": "legal_contable", "template_key": "profesionales_consultoria_legal", "keywords": ["abogad", "legal", "juridic", "notari", "contad", "contable", "fiscal", "impuestos", "inmigracion", "seguros", "despacho"]},
+    {
+        "key": "seguros",
+        "template_key": "profesionales_consultoria_legal",
+        "keywords": ["seguro", "seguros", "poliza", "polizas", "aseguradora", "seguro de vida", "seguros de vida", "gastos medicos", "jubilado", "jubilados", "retiro", "pension", "proteccion familiar", "patrimonio familiar", "agente de seguros"],
+        "badge": "SEGUROS DE VIDA, SALUD, EDUCACIÓN & PROTECCIÓN FAMILIAR",
+        "accent": "#0284c7",
+        "secondary": "#10b981",
+        "gallery_images": [
+            {"label": "Protección Familiar & Tranquilidad en Casa", "url": "https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=1200&q=85"},
+            {"label": "Pólizas de Vida & Salud para Jubilados", "url": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=85"},
+            {"label": "Asesoría Personalizada & Futuro Educativo", "url": "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=1200&q=85"},
+        ],
+        "about_image": "https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?auto=format&fit=crop&w=1000&q=85",
+        "default_business": "Seguros & Protección Patrimonial Familiar",
+        "default_offer": "Evaluación Gratuita de Cobertura Familiar y Comparativa de Pólizas por WhatsApp",
+        "about_stats": [
+            {"value": "+1,200", "label": "Familias y Jubilados Protegidos"},
+            {"value": "100%", "label": "Planes Claros Sin Letra Pequeña"},
+            {"value": "24/7", "label": "Acompañamiento Directo en Pólizas"},
+        ],
+        "form_questions": [
+            "¿Qué protección buscas (Vida, Póliza Médica, Estudio o Jubilados)?",
+            "¿Para ti, tu pareja o toda tu familia y en qué etapa se encuentran?",
+        ],
+        "testimonials": [
+            {"author": "Martha & Jorge Restrepo", "role": "Familia Protegida · Póliza de Vida", "text": "Nos explicaron todo sin tecnicismos ni presiones. Hoy tenemos tranquilidad total para la educación y el futuro de nuestros hijos."},
+            {"author": "Hernando Castellanos", "role": "Jubilado · Póliza Médica y de Vida", "text": "Buscaba una cobertura real para mi retiro sin trámites interminables. Me presentaron tres opciones claras y en dos días quedé asegurado."},
+            {"author": "Paula Andrea Gómez", "role": "Madre de Familia · Plan Educativo", "text": "Excelente asesoría 1 a 1. Revisaron mi póliza anterior, evitaron pagos duplicados y protegimos los ingresos del hogar."},
+        ],
+        "chatbot_greeting": "¡Hola! 🛡️ ¿Buscas asesoría en seguros de vida, póliza médica, cobertura para jubilados o plan educativo?",
+        "services": [
+            {"icon": "fa-heart-pulse", "title": "Seguro de Vida a Término", "desc": "Protección accesible y flexible por periodos definidos para etapas clave como hipoteca o crianza.", "tag": "Más solicitado"},
+            {"icon": "fa-piggy-bank", "title": "Seguro de Vida Permanente & Ahorro", "desc": "Cobertura de por vida con componente de acumulación a largo plazo para proteger tu patrimonio.", "tag": "Patrimonio seguro"},
+            {"icon": "fa-notes-medical", "title": "Pólizas Médicas & Salud para Jubilados", "desc": "Atención hospitalaria, consultas de especialidad y respaldo médico diseñado para adultos mayores y familias.", "tag": "Cobertura real"},
+            {"icon": "fa-graduation-cap", "title": "Seguro Educativo & Futuro de Estudio", "desc": "Planificación financiera clara para asegurar la carrera universitaria de tus hijos pase lo que pase.", "tag": "Para tus hijos"},
+            {"icon": "fa-people-roof", "title": "Protección Familiar & Respaldo de Ingresos", "desc": "Diseño de cobertura calculado según dependientes, metas familiares y estabilidad del hogar.", "tag": "A la medida"},
+            {"icon": "fa-handshake", "title": "Asesoría 1 a 1 y Revisión de Pólizas", "desc": "Comparamos tus coberturas actuales, eliminamos duplicidades y ajustamos el plan a tu presupuesto real.", "tag": "Sin letra pequeña"},
+        ],
+    },
+    {"key": "legal_contable", "template_key": "profesionales_consultoria_legal", "keywords": ["abogad", "legal", "juridic", "notari", "contad", "contable", "fiscal", "impuestos", "inmigracion", "despacho"]},
     {"key": "academia", "template_key": "academia_educacion_cursos", "keywords": ["academi", "curso", "escuela", "instituto", "taller educativo", "diplomado", "clases", "idioma", "formacion"]},
     {"key": "coaching", "template_key": "coaching_consultoria_pro", "keywords": ["coach", "mentor", "consultor", "marketing", "agencia", "software", "saas", "inteligencia artificial", "agencia ia"]},
     {"key": "industria", "template_key": "sti2q_industrial", "keywords": ["quimic", "laboratorio", "industrial", "fabrica", "manufactur", "aduana", "logistica", "comercio exterior"]},
 ]
+
+
+_TRUSTED_PHOTO_CDNS = (
+    "images.unsplash.com",
+    "plus.unsplash.com",
+    "images.pexels.com",
+    "img.freepik.com/free-photo",
+    "images.stockcake.com",
+)
+
+
+def _fetch_live_web_photos(query_str: str, limit: int = 4) -> List[str]:
+    """Busca fotografías comerciales libres de marcas de agua según título, primer renglón o consulta visual del prompt."""
+    clean_q = re.sub(r"\s+", " ", (query_str or "").strip())[:100]
+    if len(clean_q) < 3:
+        return []
+    try:
+        search_url = "https://www.bing.com/images/search?q=" + urllib.parse.quote(f"{clean_q} free photo") + "&form=HDRSC2"
+        req = urllib.request.Request(
+            search_url,
+            headers={
+                "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+                "Accept-Language": "en-US,en;q=0.9",
+            },
+        )
+        with urllib.request.urlopen(req, timeout=3.5) as resp:
+            html = resp.read().decode("utf-8", errors="ignore")
+        murls = list(dict.fromkeys(re.findall(r"murl&quot;:&quot;(https://[^&]+?)&quot;", html)))
+        trusted = [u for u in murls if any(host in u.lower() for host in _TRUSTED_PHOTO_CDNS)]
+        return trusted[:limit]
+    except Exception:
+        return []
 
 
 def _kw_matches(text_norm: str, kw: str) -> bool:
@@ -2348,6 +2428,10 @@ def _build_matched_pack_dict(pack: Dict[str, Any], explicit_tpl: str = "") -> Di
         "default_business": pack.get("default_business") or base.get("default_business", "Tu Negocio Inteligente"),
         "default_offer": pack.get("default_offer") or base.get("default_offer", "Atención Prioritaria e Información en Minutos"),
         "services": [dict(s) for s in (pack.get("services") or base.get("services") or [])],
+        "about_stats": list(pack.get("about_stats") or base.get("about_stats") or []),
+        "testimonials": list(pack.get("testimonials") or base.get("testimonials") or []),
+        "form_questions": list(pack.get("form_questions") or base.get("form_questions") or []),
+        "chatbot_greeting": pack.get("chatbot_greeting") or base.get("chatbot_greeting", ""),
         "industry_matched": True,
     }
 
@@ -2379,6 +2463,10 @@ def _match_prompt_industry(combined_text: str, explicit_tpl: str) -> Dict[str, A
         "default_business": base.get("default_business", "Tu Negocio Inteligente"),
         "default_offer": base.get("default_offer", "Atención Prioritaria e Información en Minutos"),
         "services": [dict(s) for s in (base.get("services") or [])],
+        "about_stats": list(base.get("about_stats") or []),
+        "testimonials": list(base.get("testimonials") or []),
+        "form_questions": list(base.get("form_questions") or []),
+        "chatbot_greeting": base.get("chatbot_greeting", ""),
         "industry_matched": False,
     }
 
@@ -2439,22 +2527,27 @@ def _construct_site_from_big_text(
         inferred_offer = promo_match[:90] if promo_match else matched["default_offer"]
 
     base_services = list(matched.get("services") or [])
-    bullet_lines = [
-        re.sub(r"^[\-\*•\d\.\)\s]+", "", ln).strip()
-        for ln in text_clean.split("\n")
-        if re.match(r"^\s*([\-\*•]|\d+[\.\)])\s+", ln) and len(ln.strip()) > 6
-    ]
-    if len(bullet_lines) < 3 and "," in text_clean:
-        parts = [p.strip() for p in re.split(r"[,\n;]+", text_clean) if 6 <= len(p.strip()) <= 75 and len(p.strip().split()) <= 10]
+    _meta_prompt_rx = re.compile(
+        r"^(crea|dise[ñn]a|posiciona|destaca|enfoque|tono|secciones|servicios|cercano|hero|beneficios|tipos de|proceso|preguntas)\b",
+        re.I,
+    )
+    bullet_lines = []
+    for ln in text_clean.split("\n"):
+        if re.match(r"^\s*([\-\*•]|\d+[\.\)])\s+", ln):
+            cleaned_ln = re.sub(r"^[\-\*•\d\.\)\s]+", "", ln).strip()
+            if len(cleaned_ln) >= 6 and not _meta_prompt_rx.match(cleaned_ln):
+                bullet_lines.append(cleaned_ln)
+    if not matched["industry_matched"] and len(bullet_lines) < 3 and "," in text_clean and len(text_clean) < 260:
+        parts = [p.strip() for p in re.split(r"[,\n;]+", text_clean) if 8 <= len(p.strip()) <= 64 and len(p.strip().split()) <= 8]
         for p in parts:
-            if p not in bullet_lines:
+            if p not in bullet_lines and not _meta_prompt_rx.match(p):
                 bullet_lines.append(p)
 
     icons_pool = [s.get("icon", "fa-check-circle") for s in base_services] or ["fa-star", "fa-bolt", "fa-shield-alt", "fa-calendar-check", "fa-comments", "fa-award"]
     built_services = []
     for idx in range(6):
         fallback_srv = base_services[idx] if idx < len(base_services) else {"icon": "fa-star", "tag": "Destacado", "title": f"Servicio Especializado {idx+1}", "desc": f"Atención profesional de {inferred_biz} adaptada a tus objetivos."}
-        if idx < len(bullet_lines):
+        if idx < len(bullet_lines) and not matched["industry_matched"]:
             raw_item = bullet_lines[idx]
             if ":" in raw_item:
                 t_part, d_part = raw_item.split(":", 1)
@@ -2476,14 +2569,14 @@ def _construct_site_from_big_text(
         else:
             built_services.append(fallback_srv)
 
-    if len(sentences) >= 2:
+    if len(sentences) >= 2 and not _meta_prompt_rx.match(sentences[0]):
         summary_story = " ".join(sentences[:3])[:420]
     elif matched["industry_matched"]:
         summary_story = base.get("about_story") or f"En {inferred_biz} combinamos especialistas certificados, atención cálida y seguimiento digital 24/7 para brindarte una experiencia profesional desde tu primer mensaje."
     else:
         summary_story = text_clean[:380] or base.get("about_story", "")
 
-    if sentences and len(sentences[0]) > 25:
+    if sentences and len(sentences[0]) > 25 and not _meta_prompt_rx.match(sentences[0]):
         hero_sub = sentences[0][:210]
     elif matched["industry_matched"]:
         hero_sub = base.get("hero_subtitle") or f"Atención profesional de {inferred_biz} con agenda prioritaria y respuesta en segundos por WhatsApp."
@@ -2513,172 +2606,224 @@ def _construct_site_from_big_text(
             f"Cotización rápida y orientación por WhatsApp ({inferred_phone})",
             "Agenda disponible las 24 horas sin tiempos de espera",
         ]),
-        "about_stats": list(base.get("about_stats") or []),
-        "testimonials": list(base.get("testimonials") or []),
-        "chatbot_greeting": base.get("chatbot_greeting") or f"¡Hola! 👋 ¿En qué te ayudamos hoy en {inferred_biz}?",
-        "form_questions": list(base.get("form_questions") or ["¿Qué servicio te interesa cotizar primero?", "¿Para cuándo te gustaría agendar?"]),
+        "about_stats": list(matched.get("about_stats") or base.get("about_stats") or []),
+        "testimonials": list(matched.get("testimonials") or base.get("testimonials") or []),
+        "chatbot_greeting": matched.get("chatbot_greeting") or base.get("chatbot_greeting") or f"¡Hola! 👋 ¿En qué te ayudamos hoy en {inferred_biz}?",
+        "form_questions": list(matched.get("form_questions") or base.get("form_questions") or ["¿Qué servicio te interesa cotizar primero?", "¿Para cuándo te gustaría agendar?"]),
         "contact_hours": base.get("contact_hours") or "Lunes a Sábados · Recepción IA 24/7",
         "services": built_services,
         "raw_text": text_clean[:2500],
         "constructed_with": "cortexia_engine",
     }
 
-    # Enriquecimiento con IA generativa si hay GEMINI_API_KEY activa (textos + escenas visuales por prompt)
+    # Enriquecimiento con IA generativa (cascada de 5 modelos Gemini + respaldo fotográfico dinámico por título/primer renglón)
     gemini_key = _resolve_env_secret("GEMINI_API_KEY", "")
     prompt_input = text_clean or business_name
+    parsed_used_valid_scenes = False
+    gem_is_otro = False
+    visual_search_query = ""
     if gemini_key and len(prompt_input) >= 3:
-        try:
-            allowed_industries = ", ".join(p["key"] for p in _PROMPT_INDUSTRY_PACKS)
-            allowed_scenes = ", ".join(_GEMINI_VISUAL_SCENE_CATALOG.keys())
-            prompt = (
-                "Eres el Director Creativo y Visual de Agencia Prosper IA & PassportAI. "
-                "A partir de la instrucción o texto libre del cliente sobre su negocio (puede ser un prompt detallado o una frase corta), "
-                "selecciona las 4 escenas fotográficas EXACTAS que mejor representan ese negocio y genera un JSON válido en ESPAÑOL limpio "
-                "(NUNCA inventes precios ni mezcles contenido de otro giro como taller mecánico o dentista si no corresponde) con estas llaves exactas:\n"
-                '{"industry_key":"una clave exacta de INDUSTRIAS_PERMITIDAS",'
-                '"business_name":"nombre comercial atractivo si no dio uno exacto",'
-                '"badge":"etiqueta corta en mayúsculas del giro real",'
-                '"hero_title":"titular principal de alto impacto (máximo 11 palabras) específico del giro",'
-                '"hero_subtitle":"1 oración clara de propuesta de valor específica del giro y zonas/ciudad",'
-                '"city":"ciudad o zonas mencionadas",'
-                '"offer":"gancho o valoración/asesoría especial sin inventar precios en dólares",'
-                '"gallery_scene_keys":["clave_escena_1","clave_escena_2","clave_escena_3"],'
-                '"about_scene_key":"clave_escena_para_quienes_somos",'
-                '"image_labels":["título corto foto 1 (máx 38 chars)","título corto foto 2 (máx 38 chars)","título corto foto 3 (máx 38 chars)"],'
-                '"about_title":"titular de Quiénes Somos específico de este negocio y ciudad",'
-                '"about_story":"2 a 3 oraciones claras basadas en este negocio y ciudad",'
-                '"about_mission":"1 oración de misión",'
-                '"about_pillars":["pilar 1 específico","pilar 2 específico","pilar 3 específico"],'
-                '"about_stats":[{"value":"cifra corta ej. +350","label":"métrica real del giro"},{"value":"cifra 2","label":"métrica 2"},{"value":"cifra 3","label":"métrica 3"}],'
-                '"form_questions":["pregunta 1 del formulario para calificar clientes de este giro","pregunta 2 de horario o requerimiento de este giro"],'
-                '"testimonials":[{"author":"Nombre Apellido","role":"Perfil del cliente en la ciudad/giro","text":"Reseña realista de 1-2 oraciones"},{"author":"Nombre 2","role":"Perfil 2","text":"Reseña 2"},{"author":"Nombre 3","role":"Perfil 3","text":"Reseña 3"}],'
-                '"chatbot_greeting":"saludo corto de recepcionista IA 24/7 específico para este negocio",'
-                '"services":[{"tag":"etiqueta corta","title":"nombre real del servicio de este giro","desc":"1 oración"} (exactamente 6 servicios distintos y reales para este negocio)]}\n\n'
-                f"INDUSTRIAS_PERMITIDAS: {allowed_industries}\n"
-                f"ESCENAS_VISUALES_PERMITIDAS (elige EXACTAMENTE claves de esta lista en gallery_scene_keys y about_scene_key): {allowed_scenes}\n\n"
-                f"NOMBRE SUGERIDO: {inferred_biz}\nCIUDAD: {inferred_city}\nPROMPT / TEXTO DEL CLIENTE:\n{prompt_input[:2400]}"
-            )
-            api_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={urllib.parse.quote(gemini_key)}"
-            req_body = json.dumps({
-                "contents": [{"parts": [{"text": prompt}]}],
-                "generationConfig": {
-                    "temperature": 0.4,
-                    "responseMimeType": "application/json",
-                    "thinkingConfig": {"thinkingBudget": 0},
-                },
-            }).encode("utf-8")
-            req_obj = urllib.request.Request(api_url, data=req_body, headers={"Content-Type": "application/json"}, method="POST")
-            with urllib.request.urlopen(req_obj, timeout=16.0) as resp:
-                raw_resp = json.loads(resp.read().decode("utf-8"))
-                txt_out = raw_resp["candidates"][0]["content"]["parts"][0]["text"]
-                parsed = json.loads(txt_out)
-                if isinstance(parsed, dict) and parsed.get("hero_title"):
-                    # 1. Si Gemini detectó un giro distinto con certeza, sincronizar base, paleta y estadísticas primero
-                    gem_ind = str(parsed.get("industry_key") or "").strip().lower()
-                    if gem_ind and gem_ind != matched.get("industry_key"):
-                        ov_pack = next((p for p in _PROMPT_INDUSTRY_PACKS if p["key"] == gem_ind), None)
-                        if ov_pack:
-                            ov = _build_matched_pack_dict(ov_pack, template_key)
-                            ov_base = ov["base"]
-                            result["template_key"] = ov["template_key"]
-                            result["accent"] = ov["accent"]
-                            result["secondary"] = ov["secondary"]
-                            if ov["gallery_images"]:
-                                result["gallery_images"] = [dict(g) for g in ov["gallery_images"]]
-                            if ov["about_image"]:
-                                result["about_image"] = ov["about_image"]
-                            if ov_base.get("about_stats"):
-                                result["about_stats"] = list(ov_base["about_stats"])
-                            if ov_base.get("testimonials"):
-                                result["testimonials"] = list(ov_base["testimonials"])
-                            if ov_base.get("form_questions"):
-                                result["form_questions"] = list(ov_base["form_questions"])
-                            if ov_base.get("chatbot_greeting"):
-                                result["chatbot_greeting"] = ov_base["chatbot_greeting"]
-                            if ov["services"]:
-                                result["services"] = [dict(s) for s in ov["services"]]
-                                icons_pool = [s.get("icon", "fa-check-circle") for s in result["services"]] or icons_pool
+        allowed_industries = ", ".join(p["key"] for p in _PROMPT_INDUSTRY_PACKS)
+        allowed_scenes = ", ".join(_GEMINI_VISUAL_SCENE_CATALOG.keys())
+        prompt = (
+            "Eres el Director Creativo y Visual de Agencia Prosper IA & PassportAI. "
+            "A partir de la instrucción o texto libre del cliente sobre su negocio (puede ser un prompt detallado o una frase corta), "
+            "selecciona las 4 escenas fotográficas EXACTAS que mejor representan ese negocio y genera un JSON válido en ESPAÑOL limpio "
+            "(NUNCA inventes precios ni mezcles contenido de otro giro como taller mecánico, contadores corporativos o dentista si el negocio es de seguros de vida, jubilados, belleza o cualquier otro giro) con estas llaves exactas:\n"
+            '{"industry_key":"una clave exacta de INDUSTRIAS_PERMITIDAS o otro",'
+            '"business_name":"nombre comercial atractivo si no dio uno exacto",'
+            '"badge":"etiqueta corta en mayúsculas del giro real",'
+            '"hero_title":"titular principal de alto impacto (máximo 11 palabras) específico del giro",'
+            '"hero_subtitle":"1 oración clara de propuesta de valor específica del giro y zonas/ciudad",'
+            '"city":"ciudad o zonas mencionadas",'
+            '"offer":"gancho o valoración/asesoría especial sin inventar precios en dólares",'
+            '"visual_search_query":"frase corta en inglés de 3-5 palabras con el sujeto fotográfico exacto del título/primer renglón (ej. happy family home protection, senior retired couple smiling, florist flower shop roses)",'
+            '"gallery_scene_keys":["clave_escena_1","clave_escena_2","clave_escena_3"],'
+            '"about_scene_key":"clave_escena_para_quienes_somos",'
+            '"image_labels":["título corto foto 1 (máx 38 chars)","título corto foto 2 (máx 38 chars)","título corto foto 3 (máx 38 chars)"],'
+            '"about_title":"titular de Quiénes Somos específico de este negocio y ciudad",'
+            '"about_story":"2 a 3 oraciones claras basadas en este negocio y ciudad",'
+            '"about_mission":"1 oración de misión",'
+            '"about_pillars":["pilar 1 específico","pilar 2 específico","pilar 3 específico"],'
+            '"about_stats":[{"value":"cifra corta ej. +350","label":"métrica real del giro"},{"value":"cifra 2","label":"métrica 2"},{"value":"cifra 3","label":"métrica 3"}],'
+            '"form_questions":["pregunta 1 del formulario para calificar clientes de este giro","pregunta 2 de horario o requerimiento de este giro"],'
+            '"testimonials":[{"author":"Nombre Apellido","role":"Perfil del cliente en la ciudad/giro","text":"Reseña realista de 1-2 oraciones"},{"author":"Nombre 2","role":"Perfil 2","text":"Reseña 2"},{"author":"Nombre 3","role":"Perfil 3","text":"Reseña 3"}],'
+            '"chatbot_greeting":"saludo corto de recepcionista IA 24/7 específico para este negocio",'
+            '"services":[{"tag":"etiqueta corta","title":"nombre real del servicio de este giro","desc":"1 oración"} (exactamente 6 servicios distintos y reales para este negocio)]}\n\n'
+            "IMPORTANTE: Si el negocio del cliente NO corresponde literalmente a ninguna escena de ESCENAS_VISUALES_PERMITIDAS "
+            '(ej. florería, joyería, cerrajería, tienda de mascotas exóticas, etc.), devuelve "industry_key": "otro", '
+            '"gallery_scene_keys": [] y "about_scene_key": "", y escribe en "visual_search_query" la frase exacta en inglés de 3-5 palabras '
+            "para descargar fotos reales de ese giro.\n\n"
+            f"INDUSTRIAS_PERMITIDAS: {allowed_industries}, otro\n"
+            f"ESCENAS_VISUALES_PERMITIDAS (elige EXACTAMENTE claves de esta lista en gallery_scene_keys y about_scene_key): {allowed_scenes}\n\n"
+            f"NOMBRE SUGERIDO: {inferred_biz}\nCIUDAD: {inferred_city}\nPROMPT / TEXTO DEL CLIENTE:\n{prompt_input[:2400]}"
+        )
+        gemini_models_cascade = (
+            "gemini-2.5-flash",
+            "gemini-3-flash-preview",
+            "gemini-3.5-flash-lite",
+            "gemini-3.1-flash-lite",
+            "gemini-3.1-flash-lite-preview",
+        )
+        for model_id in gemini_models_cascade:
+            try:
+                api_url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_id}:generateContent?key={urllib.parse.quote(gemini_key)}"
+                gen_cfg: Dict[str, Any] = {"temperature": 0.4, "responseMimeType": "application/json"}
+                if "2.5" in model_id:
+                    gen_cfg["thinkingConfig"] = {"thinkingBudget": 0}
+                req_body = json.dumps({"contents": [{"parts": [{"text": prompt}]}], "generationConfig": gen_cfg}).encode("utf-8")
+                req_obj = urllib.request.Request(api_url, data=req_body, headers={"Content-Type": "application/json"}, method="POST")
+                with urllib.request.urlopen(req_obj, timeout=14.0) as resp:
+                    raw_resp = json.loads(resp.read().decode("utf-8"))
+                    txt_out = raw_resp["candidates"][0]["content"]["parts"][0]["text"]
+                    parsed = json.loads(txt_out)
+                if not (isinstance(parsed, dict) and parsed.get("hero_title")):
+                    continue
 
-                    # 2. Aplicar textos generados respetando nombre/ciudad/gancho no numérico del usuario
-                    for k in ("badge", "hero_title", "hero_subtitle", "city", "offer", "about_title", "about_story", "about_mission"):
-                        if k == "city" and city.strip():
-                            continue
-                        if k == "offer" and user_offer_meaningful:
-                            continue
-                        if isinstance(parsed.get(k), str) and parsed[k].strip():
-                            result[k] = parsed[k].strip()
-                    if not business_name.strip() and isinstance(parsed.get("business_name"), str) and parsed["business_name"].strip():
-                        result["business_name"] = parsed["business_name"].strip()[:80]
-                    if isinstance(parsed.get("about_pillars"), list) and len(parsed["about_pillars"]) >= 2:
-                        result["about_pillars"] = [str(x).strip() for x in parsed["about_pillars"][:4] if str(x).strip()]
+                visual_search_query = str(parsed.get("visual_search_query") or "").strip()[:100]
 
-                    # 3. Aplicar escenas fotográficas elegidas por Gemini desde _GEMINI_VISUAL_SCENE_CATALOG
-                    scene_keys = parsed.get("gallery_scene_keys")
-                    img_labels = parsed.get("image_labels") if isinstance(parsed.get("image_labels"), list) else []
-                    if isinstance(scene_keys, list):
-                        valid_scenes = [str(sk).strip() for sk in scene_keys if str(sk).strip() in _GEMINI_VISUAL_SCENE_CATALOG]
-                        if valid_scenes:
-                            new_gallery = []
-                            for idx, sk in enumerate(valid_scenes[:3]):
-                                lbl = str(img_labels[idx]).strip()[:38] if idx < len(img_labels) and str(img_labels[idx]).strip() else f"Escena Destacada {idx + 1}"
-                                new_gallery.append({"label": lbl, "url": _GEMINI_VISUAL_SCENE_CATALOG[sk]})
-                            if new_gallery:
-                                result["gallery_images"] = new_gallery
-                    if isinstance(img_labels, list):
-                        for idx, lbl in enumerate(img_labels[:len(result["gallery_images"])]):
-                            if isinstance(lbl, str) and lbl.strip():
-                                result["gallery_images"][idx]["label"] = lbl.strip()[:38]
+                # 1. Si Gemini detectó un giro distinto con certeza, sincronizar base, paleta y estadísticas primero
+                gem_ind = str(parsed.get("industry_key") or "").strip().lower()
+                if gem_ind == "otro":
+                    gem_is_otro = True
+                elif gem_ind and gem_ind != matched.get("industry_key"):
+                    ov_pack = next((p for p in _PROMPT_INDUSTRY_PACKS if p["key"] == gem_ind), None)
+                    if ov_pack:
+                        ov = _build_matched_pack_dict(ov_pack, template_key)
+                        ov_base = ov["base"]
+                        result["template_key"] = ov["template_key"]
+                        result["accent"] = ov["accent"]
+                        result["secondary"] = ov["secondary"]
+                        if ov["gallery_images"]:
+                            result["gallery_images"] = [dict(g) for g in ov["gallery_images"]]
+                        if ov["about_image"]:
+                            result["about_image"] = ov["about_image"]
+                        if ov.get("about_stats") or ov_base.get("about_stats"):
+                            result["about_stats"] = list(ov.get("about_stats") or ov_base["about_stats"])
+                        if ov.get("testimonials") or ov_base.get("testimonials"):
+                            result["testimonials"] = list(ov.get("testimonials") or ov_base["testimonials"])
+                        if ov.get("form_questions") or ov_base.get("form_questions"):
+                            result["form_questions"] = list(ov.get("form_questions") or ov_base["form_questions"])
+                        if ov.get("chatbot_greeting") or ov_base.get("chatbot_greeting"):
+                            result["chatbot_greeting"] = ov.get("chatbot_greeting") or ov_base["chatbot_greeting"]
+                        if ov["services"]:
+                            result["services"] = [dict(s) for s in ov["services"]]
+                            icons_pool = [s.get("icon", "fa-check-circle") for s in result["services"]] or icons_pool
 
-                    about_sk = str(parsed.get("about_scene_key") or "").strip()
-                    if about_sk in _GEMINI_VISUAL_SCENE_CATALOG:
-                        result["about_image"] = _GEMINI_VISUAL_SCENE_CATALOG[about_sk]
+                # 2. Aplicar textos generados respetando nombre/ciudad/gancho no numérico del usuario
+                for k in ("badge", "hero_title", "hero_subtitle", "city", "offer", "about_title", "about_story", "about_mission"):
+                    if k == "city" and city.strip():
+                        continue
+                    if k == "offer" and user_offer_meaningful:
+                        continue
+                    if isinstance(parsed.get(k), str) and parsed[k].strip():
+                        result[k] = parsed[k].strip()
+                if not business_name.strip() and isinstance(parsed.get("business_name"), str) and parsed["business_name"].strip():
+                    result["business_name"] = parsed["business_name"].strip()[:80]
+                if isinstance(parsed.get("about_pillars"), list) and len(parsed["about_pillars"]) >= 2:
+                    result["about_pillars"] = [str(x).strip() for x in parsed["about_pillars"][:4] if str(x).strip()]
 
-                    # 4. Aplicar estadísticas, preguntas, reseñas y chatbot a medida del prompt
-                    if isinstance(parsed.get("about_stats"), list):
-                        clean_stats = [
-                            {"value": str(st.get("value") or "").strip()[:18], "label": str(st.get("label") or "").strip()[:70]}
-                            for st in parsed["about_stats"][:3]
-                            if isinstance(st, dict) and str(st.get("value") or "").strip() and str(st.get("label") or "").strip()
-                        ]
-                        if len(clean_stats) == 3:
-                            result["about_stats"] = clean_stats
+                # 3. Aplicar escenas fotográficas elegidas por Gemini desde _GEMINI_VISUAL_SCENE_CATALOG
+                scene_keys = parsed.get("gallery_scene_keys")
+                img_labels = parsed.get("image_labels") if isinstance(parsed.get("image_labels"), list) else []
+                if isinstance(scene_keys, list):
+                    valid_scenes = [str(sk).strip() for sk in scene_keys if str(sk).strip() in _GEMINI_VISUAL_SCENE_CATALOG]
+                    if valid_scenes:
+                        parsed_used_valid_scenes = True
+                        new_gallery = []
+                        seen_urls = set()
+                        for idx, sk in enumerate(valid_scenes):
+                            u = _GEMINI_VISUAL_SCENE_CATALOG[sk]
+                            if u in seen_urls:
+                                continue
+                            seen_urls.add(u)
+                            lbl = str(img_labels[idx]).strip()[:38] if idx < len(img_labels) and str(img_labels[idx]).strip() else f"Escena Destacada {len(new_gallery) + 1}"
+                            new_gallery.append({"label": lbl, "url": u})
+                            if len(new_gallery) == 3:
+                                break
+                        for fallback_img in (result.get("gallery_images") or []):
+                            if len(new_gallery) >= 3:
+                                break
+                            fu = fallback_img.get("url")
+                            if fu and fu not in seen_urls:
+                                seen_urls.add(fu)
+                                idx_lbl = len(new_gallery)
+                                lbl = str(img_labels[idx_lbl]).strip()[:38] if idx_lbl < len(img_labels) and str(img_labels[idx_lbl]).strip() else fallback_img.get("label", "Vista Destacada")
+                                new_gallery.append({"label": lbl, "url": fu})
+                        if new_gallery:
+                            result["gallery_images"] = new_gallery
+                if isinstance(img_labels, list):
+                    for idx, lbl in enumerate(img_labels[:len(result["gallery_images"])]):
+                        if isinstance(lbl, str) and lbl.strip():
+                            result["gallery_images"][idx]["label"] = lbl.strip()[:38]
 
-                    if isinstance(parsed.get("form_questions"), list):
-                        clean_qs = [str(q).strip()[:120] for q in parsed["form_questions"][:2] if str(q).strip()]
-                        if len(clean_qs) == 2:
-                            result["form_questions"] = clean_qs
+                about_sk = str(parsed.get("about_scene_key") or "").strip()
+                if about_sk in _GEMINI_VISUAL_SCENE_CATALOG:
+                    result["about_image"] = _GEMINI_VISUAL_SCENE_CATALOG[about_sk]
 
-                    if isinstance(parsed.get("testimonials"), list):
-                        clean_revs = [
-                            {
-                                "author": str(rv.get("author") or "").strip()[:48],
-                                "role": str(rv.get("role") or "").strip()[:60],
-                                "text": str(rv.get("text") or "").strip()[:240],
-                            }
-                            for rv in parsed["testimonials"][:3]
-                            if isinstance(rv, dict) and str(rv.get("author") or "").strip() and str(rv.get("text") or "").strip()
-                        ]
-                        if len(clean_revs) >= 2:
-                            result["testimonials"] = clean_revs
+                # 4. Aplicar estadísticas, preguntas, reseñas y chatbot a medida del prompt
+                if isinstance(parsed.get("about_stats"), list):
+                    clean_stats = [
+                        {"value": str(st.get("value") or "").strip()[:18], "label": str(st.get("label") or "").strip()[:70]}
+                        for st in parsed["about_stats"][:3]
+                        if isinstance(st, dict) and str(st.get("value") or "").strip() and str(st.get("label") or "").strip()
+                    ]
+                    if len(clean_stats) == 3:
+                        result["about_stats"] = clean_stats
 
-                    if isinstance(parsed.get("chatbot_greeting"), str) and parsed["chatbot_greeting"].strip():
-                        result["chatbot_greeting"] = parsed["chatbot_greeting"].strip()[:220]
+                if isinstance(parsed.get("form_questions"), list):
+                    clean_qs = [str(q).strip()[:120] for q in parsed["form_questions"][:2] if str(q).strip()]
+                    if len(clean_qs) == 2:
+                        result["form_questions"] = clean_qs
 
-                    if isinstance(parsed.get("services"), list) and len(parsed["services"]) >= 3:
-                        merged_srvs = []
-                        for idx, srv in enumerate(parsed["services"][:6]):
-                            if isinstance(srv, dict) and srv.get("title"):
-                                merged_srvs.append({
-                                    "icon": icons_pool[idx % len(icons_pool)],
-                                    "tag": str(srv.get("tag") or "Destacado")[:24],
-                                    "title": str(srv.get("title"))[:64],
-                                    "desc": str(srv.get("desc") or "")[:180],
-                                })
-                        if merged_srvs:
-                            result["services"] = merged_srvs
-                    result["constructed_with"] = "cortexia_gemini"
-        except Exception:
-            pass
+                if isinstance(parsed.get("testimonials"), list):
+                    clean_revs = [
+                        {
+                            "author": str(rv.get("author") or "").strip()[:48],
+                            "role": str(rv.get("role") or "").strip()[:60],
+                            "text": str(rv.get("text") or "").strip()[:240],
+                        }
+                        for rv in parsed["testimonials"][:3]
+                        if isinstance(rv, dict) and str(rv.get("author") or "").strip() and str(rv.get("text") or "").strip()
+                    ]
+                    if len(clean_revs) >= 2:
+                        result["testimonials"] = clean_revs
+
+                if isinstance(parsed.get("chatbot_greeting"), str) and parsed["chatbot_greeting"].strip():
+                    result["chatbot_greeting"] = parsed["chatbot_greeting"].strip()[:220]
+
+                if isinstance(parsed.get("services"), list) and len(parsed["services"]) >= 3:
+                    merged_srvs = []
+                    for idx, srv in enumerate(parsed["services"][:6]):
+                        if isinstance(srv, dict) and srv.get("title"):
+                            merged_srvs.append({
+                                "icon": icons_pool[idx % len(icons_pool)],
+                                "tag": str(srv.get("tag") or "Destacado")[:24],
+                                "title": str(srv.get("title"))[:64],
+                                "desc": str(srv.get("desc") or "")[:180],
+                            })
+                    if merged_srvs:
+                        result["services"] = merged_srvs
+                result["constructed_with"] = f"cortexia_gemini:{model_id}"
+                break
+            except Exception:
+                continue
+
+    # Respaldo fotográfico rápido por título / primer renglón si el giro no estaba catalogado ni usó escenas dedicadas
+    if (gem_is_otro or not matched["industry_matched"]) and not parsed_used_valid_scenes:
+        first_line_ref = lines[0][:80] if lines else inferred_biz
+        web_query = visual_search_query or result.get("hero_title") or first_line_ref
+        live_photos = _fetch_live_web_photos(web_query, limit=4)
+        if live_photos:
+            updated_gallery = []
+            for idx, pic_url in enumerate(live_photos[:3]):
+                existing_lbl = result["gallery_images"][idx]["label"] if idx < len(result["gallery_images"]) else f"{inferred_biz} {idx + 1}"
+                updated_gallery.append({"label": existing_lbl[:38], "url": pic_url})
+            while len(updated_gallery) < 3 and len(live_photos) >= 1:
+                idx = len(updated_gallery)
+                updated_gallery.append({"label": f"{inferred_biz[:28]} {idx + 1}", "url": live_photos[idx % len(live_photos)]})
+            result["gallery_images"] = updated_gallery
+            result["about_image"] = live_photos[-1]
 
     return result
 

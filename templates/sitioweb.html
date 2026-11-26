@@ -621,9 +621,14 @@
       scroll-margin-top: 5.5rem;
     }
     @media (min-width: 980px) {
+      .hero-right-col {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+        align-self: start;
+      }
       .form-card {
-        position: sticky;
-        top: 5.2rem;
+        position: static;
         padding: 1.9rem;
       }
     }
@@ -1467,81 +1472,22 @@
           </div>
         </section>
 
-        <!-- TARJETA GRANDE: CONSTRUCTOR EN VIVO CORTEXIA & PASSPORTAI EN NUEVA PESTAÑA -->
-        <search class="instant-preview-card">
-          <h2 id="instant-preview-heading">⚡ Mira ahora mismo cómo lucirá <span style="color:#00e5ff;">agenciaprosperia.com/<wbr>tu-negocio</span></h2>
-          <p class="instant-preview-sub">Abre nuestro <strong>Constructor Inteligente en una nueva pestaña</strong>, pega cualquier texto con los datos de tu negocio o elige tu giro y míralo construido al instante:</p>
-
-          <div class="vanity-stage-bar" aria-live="polite">
-            <span>🔗 Vista previa de tu enlace:</span>
-            <strong>https://agenciaprosperia.com/<span id="preview-vanity-bar-text">tu-negocio</span></strong>
-          </div>
-
-          <form id="instant-preview-form" action="/demo-sitio-web" method="GET" target="_blank" rel="noopener" novalidate aria-labelledby="instant-preview-heading">
-            <input type="hidden" name="public" value="1">
-            <div class="preview-grid">
-              <div class="preview-field">
-                <label for="preview_business">Nombre de tu negocio <span class="req-star" aria-hidden="true">*</span></label>
-                <input
-                  type="text"
-                  id="preview_business"
-                  name="business"
-                  required
-                  minlength="2"
-                  maxlength="100"
-                  autocomplete="organization"
-                  placeholder="Ej. Clínica Dental Sonrisa"
-                  data-error="preview-biz-error"
-                >
-                <div id="preview-biz-error" class="error-msg" role="alert">
-                  <span role="img" aria-label="Error">❌</span> Escribe el nombre de tu negocio para generar tu muestra en vivo.
-                </div>
-              </div>
-              <div class="preview-field">
-                <label for="preview_template">Giro del negocio</label>
-                <select id="preview_template" name="template">
-                  <option value="clinica_dental_estetica">Dentista / Clínica / Estética</option>
-                  <option value="hvac_miami">Aire Acondicionado y Climatización</option>
-                  <option value="plomeria_pro">Plomería y Emergencias 24/7</option>
-                  <option value="roofing_remodel">Techos, Construcción y Remodelación</option>
-                  <option value="electricista_pro">Electricistas e Instalaciones</option>
-                  <option value="piscinas_spas">Piscinas y Albercas</option>
-                  <option value="jardineria_paisajismo">Jardinería y Paisajismo</option>
-                  <option value="inmobiliaria_bienes_raices">Inmobiliaria y Bienes Raíces</option>
-                  <option value="profesionales_consultoria_legal">Abogado, Contador o Consultoría</option>
-                  <option value="servicios_locales_taller">Comercio, Restaurante o Taller</option>
-                  <option value="academia_educacion_cursos">Academia o Centro de Capacitación</option>
-                  <option value="sti2q_industrial">Empresa B2B o Industria</option>
-                </select>
-              </div>
-              <div class="preview-actions-row">
-                <a id="btn-open-constructor-tab" href="/constructor-sitio-web" target="_blank" rel="noopener" class="constructor-launch-btn">
-                  ✨ Abrir Constructor IA (Pega Texto Libre y Crea Tu Sitio) &#8599;
-                </a>
-                <button type="submit" class="preview-submit-btn">
-                  👁️ Ver Muestra Rápida en Nueva Pestaña &#8599;
-                </button>
-              </div>
-            </div>
-          </form>
-        </search>
-
-        <!-- REPRODUCTOR DE VIDEO EXPLICATIVO -->
+        <!-- REPRODUCTOR DE VIDEO EXPLICATIVO (ACTUALIZADO A SITIO WEB INICIAL GRATIS EN 3 PASOS) -->
         <div class="vsl-card">
           <div class="vsl-header">
             <strong>🎬 Mira por qué todo negocio necesita atención en segundos</strong>
-            <span class="vsl-duration">⏱️ 1 min 24 seg · El mensaje de las 11:00 PM</span>
+            <span class="vsl-duration">⏱️ 1 min 30 seg · Sitio Inicial Gratis en 3 pasos</span>
           </div>
-          <video id="vsl-player" controls playsinline preload="metadata" poster="/static/video/vsl_sitioweb_poster.jpg?v=1">
-            <source src="/api/video-stream/vsl-sitioweb?v=1" type="video/mp4">
+          <video id="vsl-player" controls playsinline preload="metadata" poster="/static/video/vsl_sitioweb_poster.jpg?v=2">
+            <source src="/api/video-stream/vsl-sitioweb?v=2" type="video/mp4">
             Tu navegador no soporta la reproducción de video HTML5.
           </video>
           <div class="chapter-bar" aria-label="Capítulos del video explicativo">
             <button type="button" class="chapter-btn active" data-seek="0">00:00 Las 11 PM</button>
             <button type="button" class="chapter-btn" data-seek="18">00:18 Cuánto pierdes</button>
             <button type="button" class="chapter-btn" data-seek="35">00:35 Asistente 24/7</button>
-            <button type="button" class="chapter-btn" data-seek="55">00:55 Cómo empezar</button>
-            <button type="button" class="chapter-btn" data-seek="70">01:10 Tu cita con ejecutivo</button>
+            <button type="button" class="chapter-btn" data-seek="55">00:55 Tus 3 pasos gratis</button>
+            <button type="button" class="chapter-btn" data-seek="78">01:18 Sitio Inicial $0</button>
           </div>
         </div>
 
@@ -1566,7 +1512,8 @@
         </div>
       </section>
 
-      <!-- COLUMNA DERECHA: FORMULARIO DE REGISTRO 100% ESPAÑOL + RESERVA EN VIVO DE DIAGONAL -->
+      <!-- COLUMNA DERECHA: FORMULARIO DE REGISTRO 100% ESPAÑOL + VISTA PREVIA ABAJO DEL FORMULARIO -->
+      <div class="hero-right-col">
       <section id="agendar" class="form-card" tabindex="-1" aria-labelledby="form-heading">
 
         <div id="step1-form-wrap">
@@ -1758,6 +1705,66 @@
         </div>
 
       </section>
+
+        <!-- TARJETA GRANDE BAJADA ABAJO DEL FORMULARIO: MIRA AHORA MISMO CÓMO LUCIRÁ -->
+        <search class="instant-preview-card" style="margin-block-start:1rem;">
+          <h2 id="instant-preview-heading">⚡ Mira ahora mismo cómo lucirá <span style="color:#00e5ff;">agenciaprosperia.com/<wbr>tu-negocio</span></h2>
+          <p class="instant-preview-sub">Abre nuestro <strong>Constructor Inteligente en una nueva pestaña</strong>, pega cualquier texto con los datos de tu negocio o elige tu giro y míralo construido al instante:</p>
+
+          <div class="vanity-stage-bar" aria-live="polite">
+            <span>🔗 Vista previa de tu enlace:</span>
+            <strong>https://agenciaprosperia.com/<span id="preview-vanity-bar-text">tu-negocio</span></strong>
+          </div>
+
+          <form id="instant-preview-form" action="/demo-sitio-web" method="GET" target="_blank" rel="noopener" novalidate aria-labelledby="instant-preview-heading">
+            <input type="hidden" name="public" value="1">
+            <div class="preview-grid">
+              <div class="preview-field">
+                <label for="preview_business">Nombre de tu negocio <span class="req-star" aria-hidden="true">*</span></label>
+                <input
+                  type="text"
+                  id="preview_business"
+                  name="business"
+                  required
+                  minlength="2"
+                  maxlength="100"
+                  autocomplete="organization"
+                  placeholder="Ej. Clínica Dental Sonrisa"
+                  data-error="preview-biz-error"
+                >
+                <div id="preview-biz-error" class="error-msg" role="alert">
+                  <span role="img" aria-label="Error">❌</span> Escribe el nombre de tu negocio para generar tu muestra en vivo.
+                </div>
+              </div>
+              <div class="preview-field">
+                <label for="preview_template">Giro del negocio</label>
+                <select id="preview_template" name="template">
+                  <option value="clinica_dental_estetica">Dentista / Clínica / Estética</option>
+                  <option value="hvac_miami">Aire Acondicionado y Climatización</option>
+                  <option value="plomeria_pro">Plomería y Emergencias 24/7</option>
+                  <option value="roofing_remodel">Techos, Construcción y Remodelación</option>
+                  <option value="electricista_pro">Electricistas e Instalaciones</option>
+                  <option value="piscinas_spas">Piscinas y Albercas</option>
+                  <option value="jardineria_paisajismo">Jardinería y Paisajismo</option>
+                  <option value="inmobiliaria_bienes_raices">Inmobiliaria y Bienes Raíces</option>
+                  <option value="profesionales_consultoria_legal">Abogado, Contador o Consultoría</option>
+                  <option value="servicios_locales_taller">Comercio, Restaurante o Taller</option>
+                  <option value="academia_educacion_cursos">Academia o Centro de Capacitación</option>
+                  <option value="sti2q_industrial">Empresa B2B o Industria</option>
+                </select>
+              </div>
+              <div class="preview-actions-row">
+                <a id="btn-open-constructor-tab" href="/constructor-sitio-web" target="_blank" rel="noopener" class="constructor-launch-btn">
+                  ✨ Abrir Constructor IA (Pega Texto Libre y Crea Tu Sitio) &#8599;
+                </a>
+                <button type="submit" class="preview-submit-btn">
+                  👁️ Ver Muestra Rápida en Nueva Pestaña &#8599;
+                </button>
+              </div>
+            </div>
+          </form>
+        </search>
+      </div>
 
     </div>
 
