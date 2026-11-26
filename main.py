@@ -30,6 +30,8 @@ from beauty_growth_os import (
 )
 from portafolio_vivo import setup_portafolio_vivo
 import json
+import re
+import unicodedata
 
 app = FastAPI(title="Prosper IA API Stack", version="1.0.0")
 app.include_router(sales_os_router)
@@ -1805,6 +1807,13 @@ async def read_codigos(request: Request):
         raise
 
 
+def _slugify_business_name(name: str) -> str:
+    raw = unicodedata.normalize("NFKD", (name or "").strip().lower())
+    ascii_str = raw.encode("ascii", "ignore").decode("ascii")
+    slug = re.sub(r"[^a-z0-9]+", "-", ascii_str).strip("-")
+    return (slug or "tu-negocio")[:64]
+
+
 SITIOWEB_NICHE_TEMPLATE_MAP = {
     "clinica": "clinica_dental_estetica",
     "inmobiliaria": "inmobiliaria_bienes_raices",
@@ -2016,6 +2025,39 @@ async def sitioweb_funnel_page(request: Request):
     return templates.TemplateResponse(request=request, name="sitioweb.html", context={"request": request})
 
 
+@app.get("/mi-sitio/{business_slug}")
+@app.get("/negocio/{business_slug}")
+async def vanity_business_preview_redirect(business_slug: str, request: Request, db: Session = Depends(get_db)):
+    clean_slug = _slugify_business_name(business_slug)
+    tpl = (request.query_params.get("template") or "").strip() or "clinica_dental_estetica"
+    biz_display = " ".join(w.capitalize() for w in clean_slug.split("-")) if clean_slug != "tu-negocio" else "Tu Negocio"
+    phone_q = (request.query_params.get("phone") or "").strip()
+    try:
+        candidates = (
+            db.query(DbLead)
+            .filter(DbLead.business_name != None)
+            .order_by(DbLead.id.desc())
+            .limit(250)
+            .all()
+        )
+        for ld in candidates:
+            if _slugify_business_name(ld.business_name or ld.company or "") == clean_slug:
+                biz_display = ld.business_name or ld.company or biz_display
+                tpl = getattr(ld, "selected_template", "") or tpl
+                phone_q = phone_q or getattr(ld, "phone", "") or ""
+                break
+    except Exception:
+        pass
+    params = {
+        "public": "1",
+        "template": tpl,
+        "business": biz_display,
+    }
+    if phone_q:
+        params["phone"] = phone_q
+    return RedirectResponse(url=f"/demo-sitio-web?{urllib.parse.urlencode(params)}", status_code=307)
+
+
 @app.get("/diagnostico-whatsapp", response_class=HTMLResponse)
 @app.head("/diagnostico-whatsapp")
 @app.get("/diagnostico-whatsapp/", response_class=HTMLResponse)
@@ -2058,6 +2100,10 @@ async def sitioweb_qualify_submit(request: Request, db: Session = Depends(get_db
     monthly_volume = (body.get("monthly_volume") or "").strip()
     urgency = (body.get("urgency") or "urgente").strip()[:40]
     budget_confirm = (body.get("budget_confirm") or "").strip().lower()
+    start_preference = (body.get("start_preference") or "sitio_gratis_mas_ia_24_7").strip().lower()
+    market_region = (body.get("market_region") or "latam").strip().lower()
+    if market_region not in ("miami_us", "es_us", "latam"):
+        market_region = "latam"
     utm_source = (body.get("utm_source") or "").strip()[:60]
     utm_campaign = (body.get("utm_campaign") or "").strip()[:80]
 
@@ -2068,9 +2114,16 @@ async def sitioweb_qualify_submit(request: Request, db: Session = Depends(get_db
     if len(re.sub(r"\D", "", phone_e164)) < 8:
         raise HTTPException(status_code=422, detail="Por favor ingresa un número de WhatsApp válido de al menos 8 dígitos.")
 
+    business_slug = _slugify_business_name(business_name)
+    vanity_url_display = f"agenciaprosperia.com/{business_slug}"
     selected_tpl = SITIOWEB_NICHE_TEMPLATE_MAP.get(niche, "clinica_dental_estetica")
-    if budget_confirm:
-        is_qualified_owner = budget_confirm == "si"
+    vanity_preview_path = f"/mi-sitio/{business_slug}?template={urllib.parse.quote(selected_tpl)}"
+
+    # Todo dueño real que reclama su Sitio Web Inicial Gratis ($0) califica para toma de información con ejecutivo
+    if budget_confirm == "no":
+        is_qualified_owner = False
+    elif start_preference or budget_confirm == "si":
+        is_qualified_owner = True
     else:
         is_qualified_owner = monthly_volume != "sin_negocio"
     now_str = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
@@ -2084,22 +2137,48 @@ async def sitioweb_qualify_submit(request: Request, db: Session = Depends(get_db
     ).first()
 
     urgency_labels = {
-        "urgente": "🔥 Urgente (pierde clientes hoy)",
-        "proximas_semanas": "⏱️ Próximas 2-3 semanas",
-        "explorando": "👀 Explorando opciones",
+        "urgente": "🔥 Esta misma semana (prioridad inmediata)",
+        "proximas_semanas": "⏱️ En las próximas 2 a 3 semanas",
+        "explorando": "👀 Quiere ver primero su muestra gratis",
+    }
+    pref_labels = {
+        "sitio_gratis_mas_ia_24_7": "Sitio Web Gratis + Demo Renta Mensual Crecimiento IA 24/7 ($297/mes)",
+        "solo_sitio_inicial_gratis": "Sitio Web Inicial Gratis + Planes Renta Mensual ($97/mes)",
+        "sistema_completo_voz_y_crm": "Sitio Web Gratis + Paquete Empresarial Voz IA ($497/mes)",
+        "plan_mensual_0_setup": "Renta Mensual $0 Diseño ($97-$297/mes)",
+        "llave_en_mano_497": "Sitio Web Personalizado + Implementación ($497)",
+        "ver_demo_primero": "Toma de información y muestra en vivo con ejecutivo",
     }
     urgency_human = urgency_labels.get(urgency, urgency or "urgente")
-    budget_human = (
-        "Presupuesto US$497+ (50/50): SÍ CONFIRMADO"
-        if is_qualified_owner
-        else "Presupuesto US$497+ (50/50): NO / Solo explorando"
-    )
+    if start_preference:
+        budget_human = f"Interés: {pref_labels.get(start_preference, start_preference)}"
+    elif is_qualified_owner:
+        budget_human = "Reclama Sitio Web Inicial Gratis ($0) -> Renta Mensual"
+    else:
+        budget_human = "Paquete Mensual Básico ($97/mes)"
+
+    region_label = "Estados Unidos" if market_region in ("miami_us", "es_us") else "Latinoamérica"
     note_summary = (
-        f"🔥 Embudo /sitioweb ({'DUEÑO CALIFICADO' if is_qualified_owner else 'No cumple presupuesto'}) | "
-        f"Giro: {niche} | {budget_human} | Urgencia: {urgency_human}"
+        f"🎁 Caballo de Troya /sitioweb ({'DUEÑO PARA TOMA DE INFO' if is_qualified_owner else 'Explorador'}) | "
+        f"Diagonal: {vanity_url_display} | Región: {region_label} | Giro: {niche} | {budget_human} | Urgencia: {urgency_human}"
         + (f" | Vol: {monthly_volume}" if monthly_volume else "")
-        + (f" | UTM: {utm_source}/{utm_campaign}" if (utm_source or utm_campaign) else "")
+        + (f" | Origen: {utm_source}/{utm_campaign}" if (utm_source or utm_campaign) else "")
     )
+    if start_preference in ("sistema_completo_voz_y_crm",):
+        quoted_val = 497.0
+        offer_tag = "SAAS_EMPRESARIAL_497"
+    elif start_preference in ("sitio_gratis_mas_ia_24_7",):
+        quoted_val = 297.0
+        offer_tag = "SAAS_CRECIMIENTO_297"
+    elif start_preference in ("solo_sitio_inicial_gratis",):
+        quoted_val = 97.0
+        offer_tag = "SAAS_BASICO_97"
+    elif start_preference == "plan_mensual_0_setup":
+        quoted_val = 297.0 if market_region in ("miami_us", "es_us") else 97.0
+        offer_tag = "SAAS_MENSUAL_0_SETUP"
+    else:
+        quoted_val = 297.0
+        offer_tag = "SAAS_CRECIMIENTO_297"
 
     if existing:
         existing.name = full_name
@@ -2109,9 +2188,10 @@ async def sitioweb_qualify_submit(request: Request, db: Session = Depends(get_db
         existing.phone = phone_raw
         existing.phone_e164 = phone_e164
         existing.source = "sitioweb_funnel"
-        existing.source_channel = utm_source or "VSL /sitioweb"
-        existing.source_campaign = "🔥 Embudo /sitioweb B2B"
+        existing.source_channel = utm_source or f"Embudo /sitioweb ({region_label})"
+        existing.source_campaign = "🎁 Sitio Web Inicial Gratis -> Renta Mensual"
         existing.niche = niche
+        existing.country = region_label
         existing.selected_template = selected_tpl
         existing.notes = note_summary
         if is_qualified_owner:
@@ -2121,11 +2201,11 @@ async def sitioweb_qualify_submit(request: Request, db: Session = Depends(get_db
             if existing.pipeline_stage in ("Lead identificado", "No cumple perfil", "No responde", ""):
                 existing.pipeline_stage = "Primer contacto"
             existing.score = max(existing.score or 0, 95)
-            existing.quoted_amount = existing.quoted_amount or 990.0
-            existing.offer_version = existing.offer_version or "ANUAL_990"
+            existing.quoted_amount = existing.quoted_amount or quoted_val
+            existing.offer_version = existing.offer_version or offer_tag
         else:
             if existing.pipeline_stage == "Lead identificado":
-                existing.pipeline_stage = "No cumple perfil"
+                existing.pipeline_stage = "Rescate SaaS"
         db.commit()
         lead_id = existing.id
     else:
@@ -2139,21 +2219,21 @@ async def sitioweb_qualify_submit(request: Request, db: Session = Depends(get_db
             phone_e164=phone_e164,
             status="qualified" if is_qualified_owner else "new",
             source="sitioweb_funnel",
-            source_channel=utm_source or "VSL /sitioweb",
-            source_campaign="🔥 Embudo /sitioweb B2B",
-            interest_primary="Página Web + Asistente 24/7",
-            score=95 if is_qualified_owner else 30,
+            source_channel=utm_source or f"Embudo /sitioweb ({region_label})",
+            source_campaign="🎁 Sitio Web Inicial Gratis -> Renta Mensual",
+            interest_primary=f"Sitio Web Inicial Gratis ({vanity_url_display}) + Renta Mensual IA",
+            score=95 if is_qualified_owner else 55,
             notes=note_summary,
             created_at=now_str,
             owner_id=owner_email,
             setter_id=owner_email,
             niche=niche,
-            country="LATAM / US",
-            contact_permission="Formulario /sitioweb Opt-in",
+            country=region_label,
+            contact_permission="Registro /sitioweb Toma de Información",
             contact_status="contactable",
-            pipeline_stage="Primer contacto" if is_qualified_owner else "No cumple perfil",
-            offer_version="ANUAL_990",
-            quoted_amount=990.0 if is_qualified_owner else 0.0,
+            pipeline_stage="Primer contacto" if is_qualified_owner else "Rescate SaaS",
+            offer_version=offer_tag if is_qualified_owner else "SAAS_BASICO_97",
+            quoted_amount=quoted_val if is_qualified_owner else 97.0,
             selected_template=selected_tpl,
         )
         db.add(new_lead)
@@ -2162,7 +2242,7 @@ async def sitioweb_qualify_submit(request: Request, db: Session = Depends(get_db
         lead_id = new_lead.id
 
     demo_url = (
-        f"/demo-sitio-web?lead_id={lead_id}"
+        f"/demo-sitio-web?public=1&lead_id={lead_id}"
         f"&template={urllib.parse.quote(selected_tpl)}"
         f"&business={urllib.parse.quote(business_name)}"
         f"&phone={urllib.parse.quote(phone_raw)}"
@@ -2171,10 +2251,11 @@ async def sitioweb_qualify_submit(request: Request, db: Session = Depends(get_db
     name_parts = full_name.split()
     fn = name_parts[0] if name_parts else full_name
     ln = " ".join(name_parts[1:]) if len(name_parts) > 1 else ""
+    pref_tag = f"pref_{start_preference}" if start_preference else "sitio_gratis_caballo_troya"
     extra_tags = (
-        ["embudo_sitioweb_b2b", "dueno_negocio_activo", f"urg_{urgency}", "presupuesto_confirmado_497", f"giro_{niche}"]
+        ["embudo_sitioweb_gratis", "caballo_de_troya_web", "toma_info_ejecutivo", f"urg_{urgency}", f"region_{market_region}", pref_tag, f"giro_{niche}"]
         if is_qualified_owner
-        else ["embudo_sitioweb_explorador", "no_cumple_presupuesto", f"urg_{urgency}"]
+        else ["embudo_sitioweb_explorador", "renta_mensual_97", f"region_{market_region}", f"urg_{urgency}"]
     )
     sync_lead_to_ghl_async(
         first_name=fn,
@@ -2182,7 +2263,7 @@ async def sitioweb_qualify_submit(request: Request, db: Session = Depends(get_db
         email=email_raw,
         phone=phone_raw,
         company=business_name,
-        source="embudo_sitioweb",
+        source="embudo_sitioweb_regalo",
         industry=niche,
         message=note_summary,
         notes=note_summary,
@@ -2202,6 +2283,15 @@ async def sitioweb_qualify_submit(request: Request, db: Session = Depends(get_db
             f"&phone={urllib.parse.quote(phone_e164)}"
         )
 
+    fast_track_links = {
+        "stripe_monthly_97": "https://buy.stripe.com/14A6oHh2X9qTabj0ddbo407",
+        "stripe_pro_monthly": "https://buy.stripe.com/14A9ATeUP7iLbfn7FFbo409",
+        "stripe_enterprise_monthly": "https://buy.stripe.com/8x28wPeUPeLdbfn8JJbo40b",
+        "reserva_250": "https://api.agenciaprosperia.com/payment-link/6af2287303c375ed645fe629",
+        "impulso_497": "https://api.agenciaprosperia.com/payment-link/6af228ba03c375ed645fe62d",
+        "rescate_197": "https://api.agenciaprosperia.com/payment-link/6af1f575d4cfb789aef22853",
+    }
+
     if not is_json:
         return RedirectResponse(url=demo_url, status_code=303)
 
@@ -2210,7 +2300,14 @@ async def sitioweb_qualify_submit(request: Request, db: Session = Depends(get_db
         "qualified": is_qualified_owner,
         "lead_id": lead_id,
         "business_name": business_name,
+        "business_slug": business_slug,
+        "vanity_url_display": vanity_url_display,
+        "vanity_preview_path": vanity_preview_path,
         "demo_url": demo_url,
+        "live_preview_url": demo_url,
+        "start_preference": start_preference or "sitio_gratis_mas_ia_24_7",
+        "market_region": market_region,
+        "fast_track_links": fast_track_links,
         "closer_name": closer["name"] if closer else "",
         "closer_avatar": closer.get("avatar_url", "") if closer else "",
         "calendar_url": cal_url,

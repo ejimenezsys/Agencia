@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tu Página Web + Asistente 24/7 que Agenda Citas | Agencia Prosper IA</title>
-  <meta name="description" content="Tu negocio nunca más pierde un cliente por no responder a tiempo. Instalamos tu Página Web Moderna + Asistente Inteligente 24/7 en 7 a 10 días con garantía 50% / 50%.">
+  <title>Te Regalamos Tu Sitio Web Inicial en agenciaprosperia.com/tu-negocio | Agencia Prosper IA</title>
+  <meta name="description" content="Agencia Prosper IA te regala tu Sitio Web Inicial personalizado en agenciaprosperia.com/tu-negocio a $0 costo de diseño. Regístrate, agenda 15 minutos con un ejecutivo para la toma de información y recibe tu página lista.">
   <link rel="icon" type="image/jpeg" href="/static/logo_prosper_ia_cropped.jpg">
   <style>
     :root {
       --bg-0: #040814;
       --bg-1: #091224;
-      --surface: rgba(11, 20, 42, 0.92);
+      --surface: rgba(11, 20, 42, 0.94);
       --border: rgba(56, 189, 248, 0.25);
       --border-strong: rgba(0, 229, 255, 0.55);
       --cyan: #00e5ff;
@@ -24,9 +24,7 @@
     }
 
     *, *::before, *::after { box-sizing: border-box; }
-    html {
-      overflow-x: clip;
-    }
+    html { overflow-x: clip; }
     @media (prefers-reduced-motion: no-preference) {
       html { scroll-behavior: smooth; }
     }
@@ -44,12 +42,27 @@
       min-height: 100vh;
     }
 
+    .brand,
     .brand > div,
+    .topbar-inner > *,
     .container > *,
     .grid-2-equal > *,
     .clarity-grid > *,
+    .preview-grid > *,
+    .showcase-grid > *,
+    .plans-grid > *,
+    .gift-scope-card > *,
+    .catalog-visual-strip > *,
+    .catalog-screens-grid > *,
+    .catalog-hero-banner > *,
+    .section-box,
+    .section-box > *,
+    .showcase-card,
+    .instant-preview-card,
+    .catalog-hero-banner,
     .vsl-card,
     .form-card,
+    .field,
     fieldset {
       min-width: 0;
       max-width: 100%;
@@ -67,23 +80,23 @@
       white-space: nowrap !important;
     }
 
-    /* ── TOPBAR SIN FUGAS (1 LOGO + 1 CTA) ── */
+    /* ── BARRA SUPERIOR ── */
     .topbar {
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      background: rgba(4, 8, 20, 0.92);
+      background: rgba(4, 8, 20, 0.94);
       backdrop-filter: blur(12px);
       position: sticky;
       top: 0;
       z-index: 40;
     }
     .topbar-inner {
-      max-width: 1200px;
+      max-width: 1220px;
       margin-inline: auto;
       padding: 0.78rem 1.25rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 1rem;
+      gap: 0.9rem;
       flex-wrap: wrap;
     }
     .brand {
@@ -101,32 +114,80 @@
       object-fit: cover;
     }
     .brand-kicker {
-      font-size: 0.7rem;
+      font-size: 0.69rem;
       font-weight: 800;
       color: #67e8f9;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
+      overflow-wrap: anywhere;
     }
     .brand-name {
       font-size: 0.9rem;
       font-weight: 800;
       color: #ffffff;
+      overflow-wrap: anywhere;
     }
     .topbar-actions {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 0.65rem;
       flex-wrap: wrap;
     }
+    .market-switch {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.22rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+    }
+    .market-pill {
+      min-height: 36px;
+      padding: 0.3rem 0.72rem;
+      border-radius: 999px;
+      border: none;
+      background: transparent;
+      color: #cbd5e1;
+      font: inherit;
+      font-size: 0.75rem;
+      font-weight: 800;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background-color 0.15s ease, color 0.15s ease;
+    }
+    .market-pill:hover { color: #ffffff; }
+    .market-pill[aria-pressed="true"] {
+      background: linear-gradient(135deg, #00e5ff, #34d399);
+      color: #03101d;
+    }
     .badge-live {
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       font-weight: 700;
       color: #6ee7b7;
       background: rgba(16, 185, 129, 0.14);
       border: 1px solid rgba(52, 211, 153, 0.35);
-      padding: 0.35rem 0.75rem;
+      padding: 0.34rem 0.72rem;
       border-radius: 999px;
-      max-width: 100%;
+    }
+    .topbar-catalog-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      padding: 0.45rem 0.9rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1.5px solid rgba(0, 229, 255, 0.48);
+      color: #67e8f9;
+      font-size: 0.8rem;
+      font-weight: 800;
+      text-decoration: none;
+      transition: border-color 0.15s ease, background-color 0.15s ease;
+    }
+    .topbar-catalog-link:hover {
+      border-color: var(--cyan);
+      background: rgba(0, 229, 255, 0.14);
     }
     .topbar-cta {
       display: inline-flex;
@@ -137,24 +198,30 @@
       border-radius: 999px;
       background: linear-gradient(135deg, #00e5ff, #34d399);
       color: #03101d;
-      font-size: 0.86rem;
+      font-size: 0.85rem;
       font-weight: 900;
       text-decoration: none;
       box-shadow: 0 6px 20px rgba(0, 229, 255, 0.25);
       transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
-    @media (max-width: 520px) {
-      .topbar-inner { padding: 0.65rem 1rem; gap: 0.65rem; }
-      .brand-name { font-size: 0.82rem; }
-      .badge-live { font-size: 0.72rem; }
-      .topbar-cta { width: 100%; font-size: 0.84rem; }
-      .pill-kicker { font-size: 0.7rem; padding: 0.35rem 0.75rem; }
-    }
     .topbar-cta:hover {
       transform: translateY(-1px);
       box-shadow: 0 10px 26px rgba(52, 211, 153, 0.34);
     }
-    .topbar-cta:focus-visible,
+    @media (max-width: 600px) {
+      .topbar-inner { padding: 0.65rem 0.95rem; gap: 0.55rem; }
+      .brand { width: 100%; }
+      .brand-kicker { font-size: 0.62rem; }
+      .brand-name { font-size: 0.78rem; }
+      .badge-live { font-size: 0.71rem; }
+      .topbar-cta, .topbar-catalog-link { width: 100%; }
+      .container { padding: 1.25rem 0.95rem 2.2rem; }
+      .below-fold-section { padding: 0 0.95rem 2.4rem; }
+      .pill-kicker { font-size: 0.68rem; line-height: 1.35; padding: 0.35rem 0.72rem; }
+      .hero-title { font-size: 1.48rem; line-height: 1.18; }
+    }
+
+    a:focus-visible,
     button:focus-visible,
     input:focus-visible,
     select:focus-visible {
@@ -162,21 +229,21 @@
       outline-offset: 2px;
     }
 
-    /* ── HERO + FORM CONTAINER ── */
+    /* ── HERO Y FORMULARIO PRINCIPAL ── */
     .container {
-      max-width: 1200px;
+      max-width: 1220px;
       margin-inline: auto;
-      padding: 2rem 1.25rem 3.2rem;
+      padding: 1.85rem 1.25rem 2.8rem;
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 2.25rem;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 2.15rem;
       align-items: start;
     }
-    @media (min-width: 960px) {
+    @media (min-width: 980px) {
       .container {
-        grid-template-columns: 1.08fr 0.92fr;
-        padding-block: 2.5rem 3.8rem;
-        gap: 2.5rem;
+        grid-template-columns: minmax(0, 1.07fr) minmax(0, 0.93fr);
+        padding-block: 2.3rem 3.2rem;
+        gap: 2.35rem;
       }
     }
 
@@ -186,43 +253,194 @@
       gap: 0.45rem;
       padding: 0.4rem 0.9rem;
       border-radius: 999px;
-      background: rgba(0, 229, 255, 0.12);
-      border: 1px solid rgba(0, 229, 255, 0.38);
-      color: #67e8f9;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(52, 211, 153, 0.45);
+      color: #6ee7b7;
       font-size: 0.76rem;
       font-weight: 800;
       letter-spacing: 0.04em;
-      margin-block-end: 1rem;
+      margin-block-end: 0.9rem;
     }
-
+    h1, h2, h3, p {
+      overflow-wrap: anywhere;
+    }
     h1, h2, h3 {
       margin: 0;
       line-height: 1.15;
       letter-spacing: -0.02em;
     }
     .hero-title {
-      font-size: clamp(1.9rem, 3.8vw, 2.85rem);
+      font-size: clamp(1.48rem, 3.6vw, 2.75rem);
       font-weight: 900;
-      margin-block-end: 0.95rem;
+      margin-block-end: 0.85rem;
+      overflow-wrap: anywhere;
     }
     .hero-title .accent { color: var(--cyan); }
     .hero-title .gold { color: var(--gold); }
-
     .hero-sub {
-      font-size: 1.03rem;
-      color: #cbd5e1;
-      margin-block: 0 1.4rem;
-      max-width: 62ch;
+      font-size: 1.02rem;
+      color: #e2e8f0;
+      margin-block: 0 1.2rem;
+      max-width: 64ch;
     }
 
-    /* ── VSL VIDEO ARRIBA DEL PLIEGUE ── */
+    /* ── BANNER PROTAGONISTA DE CATÁLOGO ARRIBA DEL PLIEGUE ── */
+    .catalog-hero-banner {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.95rem;
+      background: linear-gradient(145deg, rgba(10, 27, 56, 0.96), rgba(5, 14, 30, 0.98));
+      border: 1.5px solid rgba(0, 229, 255, 0.52);
+      border-radius: 18px;
+      padding: 0.95rem;
+      margin-block-end: 1.25rem;
+      box-shadow: 0 16px 38px rgba(0, 229, 255, 0.12);
+      align-items: center;
+    }
+    @media (min-width: 620px) {
+      .catalog-hero-banner {
+        grid-template-columns: 195px minmax(0, 1fr);
+      }
+    }
+    .catalog-thumb-wrap {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      background: #020817;
+      aspect-ratio: 16 / 10;
+    }
+    .catalog-thumb-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .catalog-banner-copy h2 {
+      font-size: 1rem;
+      font-weight: 900;
+      color: #ffffff;
+      margin-block-end: 0.3rem;
+    }
+    .catalog-banner-copy p {
+      margin: 0 0 0.7rem;
+      font-size: 0.83rem;
+      color: #cbd5e1;
+    }
+    .catalog-banner-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .btn-catalog-main {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 0.52rem 0.95rem;
+      border-radius: 11px;
+      background: linear-gradient(135deg, #00e5ff, #34d399);
+      color: #03101d;
+      font-size: 0.82rem;
+      font-weight: 900;
+      text-decoration: none;
+      transition: transform 0.15s ease;
+    }
+    .btn-catalog-main:hover { transform: translateY(-1px); }
+    .btn-catalog-sec {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 0.52rem 0.9rem;
+      border-radius: 11px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1.5px solid rgba(56, 189, 248, 0.45);
+      color: #e0f2fe;
+      font-size: 0.8rem;
+      font-weight: 800;
+      text-decoration: none;
+    }
+    .btn-catalog-sec:hover { border-color: var(--cyan); }
+
+    /* ── WIDGET DE MUESTRA INSTANTÁNEA EN 5 SEGUNDOS ── */
+    .instant-preview-card {
+      background: linear-gradient(155deg, rgba(13, 31, 60, 0.96), rgba(6, 17, 36, 0.98));
+      border: 1.5px solid rgba(52, 211, 153, 0.52);
+      border-radius: 18px;
+      padding: 1.05rem 1.15rem;
+      margin-block: 0 1.25rem;
+      box-shadow: 0 16px 40px rgba(16, 185, 129, 0.12);
+    }
+    .instant-preview-card h2 {
+      font-size: 1rem;
+      font-weight: 900;
+      color: #ffffff;
+      margin-block-end: 0.25rem;
+    }
+    .instant-preview-sub {
+      margin: 0 0 0.78rem;
+      font-size: 0.84rem;
+      color: #cbd5e1;
+    }
+    .preview-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.7rem;
+      align-items: end;
+    }
+    @media (min-width: 600px) {
+      .preview-grid { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); }
+      .preview-submit-btn { grid-column: 1 / -1; }
+    }
+    .preview-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.28rem;
+    }
+    .preview-field label {
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: #6ee7b7;
+    }
+    .preview-field input,
+    .preview-field select {
+      width: 100%;
+      min-height: 48px;
+      padding: 0.62rem 0.85rem;
+      border-radius: 12px;
+      border: 1.5px solid rgba(56, 189, 248, 0.4);
+      background: rgba(4, 9, 23, 0.92);
+      color: var(--text);
+      font: inherit;
+      font-size: max(1rem, 1em);
+    }
+    .preview-submit-btn {
+      width: 100%;
+      min-height: 48px;
+      padding: 0.68rem 1.05rem;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #34d399, #00e5ff);
+      color: #03101d;
+      font: inherit;
+      font-size: 0.9rem;
+      font-weight: 900;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .preview-submit-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(52, 211, 153, 0.3);
+    }
+
+    /* ── REPRODUCTOR DE VIDEO EXPLICATIVO ── */
     .vsl-card {
       background: rgba(8, 17, 36, 0.95);
       border: 1.5px solid rgba(0, 229, 255, 0.42);
       border-radius: 20px;
       padding: 0.75rem;
       box-shadow: 0 22px 50px rgba(0, 0, 0, 0.45);
-      margin-block-end: 1.4rem;
+      margin-block-end: 1.25rem;
     }
     .vsl-header {
       display: flex;
@@ -232,10 +450,7 @@
       padding: 0.25rem 0.4rem 0.6rem;
       flex-wrap: wrap;
     }
-    .vsl-header strong {
-      font-size: 0.84rem;
-      color: #ffffff;
-    }
+    .vsl-header strong { font-size: 0.84rem; color: #ffffff; }
     .vsl-duration {
       font-size: 0.74rem;
       font-weight: 800;
@@ -270,7 +485,6 @@
       font-size: 0.74rem;
       font-weight: 700;
       cursor: pointer;
-      transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
     }
     .chapter-btn:hover,
     .chapter-btn.active {
@@ -279,7 +493,7 @@
       background: rgba(0, 229, 255, 0.12);
     }
 
-    /* ── MÉTRICAS ORIENTADAS A RESULTADO DEL CLIENTE ── */
+    /* ── MÉTRICAS ── */
     .proof-strip {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -289,113 +503,109 @@
       .proof-strip { grid-template-columns: repeat(4, 1fr); }
     }
     .proof-box {
-      background: rgba(10, 22, 45, 0.84);
-      border: 1px solid rgba(56, 189, 248, 0.24);
+      background: rgba(10, 22, 45, 0.86);
+      border: 1px solid rgba(56, 189, 248, 0.26);
       border-radius: 14px;
-      padding: 0.85rem 0.75rem;
+      padding: 0.85rem 0.7rem;
       text-align: center;
     }
-    .proof-num {
-      font-size: 1.25rem;
-      font-weight: 900;
-      color: var(--cyan);
-    }
+    .proof-num { font-size: 1.2rem; font-weight: 900; color: var(--cyan); }
     .proof-box.em .proof-num { color: var(--emerald); }
     .proof-box.gold .proof-num { color: var(--gold); }
-    .proof-lbl {
-      font-size: 0.74rem;
-      color: #cbd5e1;
-      margin-block-start: 0.15rem;
-    }
+    .proof-lbl { font-size: 0.73rem; color: #cbd5e1; margin-block-start: 0.15rem; }
 
-    /* ── FORM CARD (COLUMNA DERECHA STICKY) ── */
+    /* ── FORMULARIO DE REGISTRO (COLUMNA DERECHA STICKY) ── */
     .form-card {
       background: var(--surface);
-      border: 1.5px solid var(--border-strong);
+      border: 2px solid var(--border-strong);
       border-radius: 22px;
-      padding: 1.75rem;
+      padding: 1.65rem;
       box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
       scroll-margin-top: 5.5rem;
     }
-    @media (min-width: 960px) {
+    @media (min-width: 980px) {
       .form-card {
         position: sticky;
         top: 5.2rem;
-        padding: 2rem;
+        padding: 1.9rem;
       }
     }
     .form-header {
-      margin-block-end: 1.35rem;
+      margin-block-end: 1.2rem;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      padding-block-end: 1rem;
+      padding-block-end: 0.95rem;
     }
     .form-header h2 {
-      font-size: 1.42rem;
+      font-size: 1.38rem;
       font-weight: 900;
       margin-block-end: 0.4rem;
       color: #ffffff;
     }
     .form-header p {
       margin: 0;
-      font-size: 0.9rem;
-      color: var(--text-muted);
+      font-size: 0.89rem;
+      color: #cbd5e1;
+    }
+
+    .slug-preview-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+      margin-block-start: 0.45rem;
+      padding: 0.48rem 0.78rem;
+      border-radius: 10px;
+      background: rgba(16, 185, 129, 0.14);
+      border: 1px solid rgba(52, 211, 153, 0.42);
+      font-size: 0.8rem;
+      color: #a7f3d0;
+    }
+    .slug-preview-pill strong {
+      color: #ffffff;
+      word-break: break-all;
     }
 
     .field {
       display: flex;
       flex-direction: column;
-      gap: 0.3rem;
-      margin-block-end: 1.1rem;
+      gap: 0.28rem;
+      margin-block-end: 1rem;
     }
     .field label,
     fieldset legend {
-      font-size: 0.88rem;
+      font-size: 0.87rem;
       font-weight: 700;
       color: #f1f5f9;
       padding: 0;
     }
     .req-star { color: var(--cyan); }
-    .hint {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-    }
+    .hint { font-size: 0.77rem; color: var(--text-muted); }
     .field input,
     .field select {
       width: 100%;
       min-height: 48px;
-      padding: 0.72rem 0.9rem;
+      padding: 0.7rem 0.9rem;
       border-radius: 12px;
       border: 1.5px solid rgba(148, 163, 184, 0.35);
-      background: rgba(4, 9, 23, 0.9);
+      background: rgba(4, 9, 23, 0.92);
       color: var(--text);
       font: inherit;
       font-size: max(1rem, 1em);
       transition: border-color 0.15s ease, background-color 0.15s ease;
     }
 
-    fieldset {
-      border: none;
-      margin: 0 0 1.15rem;
-      padding: 0;
-    }
-    fieldset legend {
-      margin-block-end: 0.55rem;
-      line-height: 1.4;
-    }
-    .radio-stack {
-      display: grid;
-      gap: 0.5rem;
-    }
+    fieldset { border: none; margin: 0 0 1.05rem; padding: 0; }
+    fieldset legend { margin-block-end: 0.5rem; line-height: 1.4; }
+    .radio-stack { display: grid; gap: 0.48rem; }
     .radio-row {
       display: flex;
       align-items: flex-start;
-      gap: 0.65rem;
-      background: rgba(4, 9, 23, 0.72);
+      gap: 0.62rem;
+      background: rgba(4, 9, 23, 0.76);
       border: 1.5px solid rgba(148, 163, 184, 0.25);
       border-radius: 12px;
-      padding: 0.7rem 0.85rem;
+      padding: 0.68rem 0.82rem;
       cursor: pointer;
-      transition: border-color 0.15s ease, background-color 0.15s ease;
     }
     .radio-row:has(input:checked) {
       border-color: var(--emerald);
@@ -411,7 +621,7 @@
       flex-shrink: 0;
     }
     .radio-row label {
-      font-size: 0.86rem;
+      font-size: 0.85rem;
       font-weight: 600;
       color: #e2e8f0;
       cursor: pointer;
@@ -422,15 +632,16 @@
     .error-msg {
       display: none;
       color: #fda4af;
-      font-size: 0.84rem;
+      font-size: 0.83rem;
       font-weight: 600;
       margin-block-start: 0.25rem;
     }
+    .error-msg.is-visible { display: block; }
     :is(input, select):is(:user-invalid, .user-invalid-fallback) {
       border-color: var(--danger);
       background-color: var(--danger-bg);
     }
-    :is(input, select):is(:user-invalid, .user-invalid-fallback) + .error-msg {
+    :is(input, select):is(:user-invalid, .user-invalid-fallback) ~ .error-msg {
       display: block;
     }
     :is(input, select):is(:user-valid, .user-valid-fallback) {
@@ -442,9 +653,9 @@
       min-height: 54px;
       border: none;
       border-radius: 14px;
-      padding: 0.9rem 1.25rem;
+      padding: 0.9rem 1.2rem;
       font: inherit;
-      font-size: 1.02rem;
+      font-size: 1rem;
       font-weight: 900;
       color: #03101d;
       background: linear-gradient(135deg, #00e5ff, #34d399);
@@ -456,29 +667,97 @@
       transform: translateY(-1px);
       box-shadow: 0 14px 34px rgba(52, 211, 153, 0.36);
     }
-    .submit-btn:disabled {
-      opacity: 0.65;
-      cursor: wait;
-    }
+    .submit-btn:disabled { opacity: 0.65; cursor: wait; }
 
     .privacy-note {
       text-align: center;
-      font-size: 0.78rem;
+      font-size: 0.77rem;
       color: var(--text-muted);
-      margin-block: 0.85rem 0;
+      margin-block: 0.8rem 0;
     }
 
-    /* ── STEP 2: CALENDARIO EN VIVO SIN DISTRACTORES ── */
-    .result-panel { margin-block-start: 0.25rem; }
+    /* ── PASO 2: DIAGONAL RESERVADA + VISTA PREVIA + AGENDA ── */
+    .result-panel { margin-block-start: 0.2rem; }
+    .vanity-reserved-card {
+      background: rgba(16, 185, 129, 0.14);
+      border: 1.5px solid rgba(52, 211, 153, 0.5);
+      border-radius: 14px;
+      padding: 0.85rem 1rem;
+      margin-block-end: 0.9rem;
+    }
+    .vanity-reserved-card small {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: #6ee7b7;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .vanity-reserved-card strong {
+      display: block;
+      font-size: 1.05rem;
+      color: #ffffff;
+      word-break: break-all;
+      margin-top: 0.2rem;
+    }
+    .fasttrack-box {
+      background: linear-gradient(155deg, rgba(6, 28, 38, 0.96), rgba(9, 18, 36, 0.98));
+      border: 1.5px solid rgba(0, 229, 255, 0.45);
+      border-radius: 16px;
+      padding: 0.95rem 1rem;
+      margin-block: 0.85rem 1rem;
+    }
+    .fasttrack-title {
+      font-size: 0.85rem;
+      font-weight: 900;
+      color: #67e8f9;
+      margin-block-end: 0.3rem;
+    }
+    .fasttrack-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.55rem;
+      margin-block-start: 0.65rem;
+    }
+    @media (min-width: 540px) {
+      .fasttrack-actions { grid-template-columns: 1fr 1fr; }
+      .fasttrack-btn.full { grid-column: 1 / -1; }
+    }
+    .fasttrack-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0.55rem 0.9rem;
+      border-radius: 12px;
+      font-size: 0.83rem;
+      font-weight: 900;
+      text-decoration: none;
+      text-align: center;
+    }
+    .fasttrack-btn.primary {
+      background: linear-gradient(135deg, #00e5ff, #34d399);
+      color: #03101d;
+    }
+    .fasttrack-btn.secondary {
+      background: rgba(16, 185, 129, 0.14);
+      border: 1.5px solid rgba(52, 211, 153, 0.5);
+      color: #6ee7b7;
+    }
+    .fasttrack-btn.outline {
+      background: rgba(15, 23, 42, 0.92);
+      border: 1.5px solid rgba(56, 189, 248, 0.45);
+      color: #e0f2fe;
+    }
     .closer-badge-box {
       display: flex;
       align-items: center;
       gap: 0.9rem;
-      padding: 1rem;
+      padding: 0.95rem;
       border-radius: 14px;
       background: rgba(16, 185, 129, 0.12);
       border: 1px solid rgba(52, 211, 153, 0.4);
-      margin-block: 1rem;
+      margin-block: 0.9rem;
     }
     .closer-badge-box img {
       width: 54px;
@@ -491,66 +770,352 @@
     }
     .calendar-embed {
       width: 100%;
-      min-height: 620px;
+      min-height: 600px;
       border: 1px solid rgba(0, 229, 255, 0.32);
       border-radius: 14px;
       background: #061022;
     }
 
-    /* ── SECCIONES INFERIORES DE RETENCIÓN Y CONVERSIÓN ── */
+    /* ── SECCIONES INFERIORES ── */
     .below-fold-section {
-      content-visibility: auto;
-      contain-intrinsic-size: auto none auto 460px;
-      max-width: 1200px;
+      max-width: 1220px;
       margin-inline: auto;
-      padding: 0 1.25rem 3.2rem;
+      padding: 0 1.25rem 3rem;
     }
     .section-box {
-      background: linear-gradient(160deg, rgba(10, 22, 45, 0.92), rgba(5, 12, 26, 0.96));
+      background: linear-gradient(160deg, rgba(10, 22, 45, 0.94), rgba(5, 12, 26, 0.97));
       border: 1.5px solid rgba(0, 229, 255, 0.26);
       border-radius: 24px;
-      padding: 1.75rem;
+      padding: 1.65rem;
     }
     @media (min-width: 768px) {
       .section-box { padding: 2.35rem; }
     }
 
+    /* ── VITRINA VISUAL IMPACTANTE CON FOTOS REALES ── */
+    .showcase-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1.25rem;
+      margin-block-start: 1.5rem;
+    }
+    @media (min-width: 680px) {
+      .showcase-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (min-width: 1060px) {
+      .showcase-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    .showcase-card {
+      background: #060e20;
+      border: 1.5px solid rgba(56, 189, 248, 0.32);
+      border-radius: 18px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 18px 36px rgba(0, 0, 0, 0.38);
+      transition: transform 0.18s ease, border-color 0.18s ease;
+    }
+    .showcase-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--cyan);
+    }
+    .browser-bar {
+      background: #0f172a;
+      padding: 0.55rem 0.78rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      min-width: 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .browser-dots {
+      display: flex;
+      gap: 5px;
+      flex-shrink: 0;
+    }
+    .browser-dots span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(148, 163, 184, 0.45);
+    }
+    .browser-dots span:nth-child(1) { background: #fb7185; }
+    .browser-dots span:nth-child(2) { background: #fbbf24; }
+    .browser-dots span:nth-child(3) { background: #34d399; }
+    .browser-url {
+      flex: 1 1 0%;
+      min-width: 0;
+      width: 0;
+      background: #040814;
+      border: 1px solid rgba(56, 189, 248, 0.28);
+      border-radius: 999px;
+      padding: 0.18rem 0.6rem;
+      font-size: 0.71rem;
+      font-weight: 700;
+      color: #67e8f9;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .showcase-img-wrap {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      background: #020612;
+      overflow: hidden;
+    }
+    .showcase-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .showcase-gift-tag {
+      position: absolute;
+      top: 0.65rem;
+      left: 0.65rem;
+      background: rgba(4, 8, 20, 0.88);
+      border: 1px solid rgba(52, 211, 153, 0.6);
+      color: #6ee7b7;
+      font-size: 0.71rem;
+      font-weight: 900;
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      backdrop-filter: blur(6px);
+    }
+    .showcase-body {
+      padding: 1rem 1.05rem 1.1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      flex: 1;
+    }
+    .showcase-body h3 {
+      font-size: 1.03rem;
+      font-weight: 900;
+      color: #ffffff;
+    }
+    .showcase-body p {
+      margin: 0;
+      font-size: 0.84rem;
+      color: #cbd5e1;
+      flex: 1;
+    }
+    .showcase-live-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 0.55rem 0.9rem;
+      border-radius: 11px;
+      background: rgba(0, 229, 255, 0.14);
+      border: 1.5px solid rgba(0, 229, 255, 0.5);
+      color: #e0f2fe;
+      font-size: 0.83rem;
+      font-weight: 800;
+      text-decoration: none;
+      transition: background-color 0.15s ease, color 0.15s ease;
+    }
+    .showcase-live-btn:hover {
+      background: linear-gradient(135deg, #00e5ff, #34d399);
+      color: #03101d;
+    }
+
+    /* ── VITRINA VISUAL DEL CATÁLOGO COMPLETO ── */
+    .catalog-visual-strip {
+      margin-block-start: 1.65rem;
+      background: linear-gradient(145deg, rgba(8, 22, 48, 0.95), rgba(4, 10, 24, 0.98));
+      border: 1.5px solid rgba(52, 211, 153, 0.45);
+      border-radius: 20px;
+      padding: 1.25rem;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1.25rem;
+      align-items: center;
+    }
+    @media (min-width: 860px) {
+      .catalog-visual-strip { grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); }
+    }
+    .catalog-screens-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.75rem;
+    }
+    @media (min-width: 560px) {
+      .catalog-screens-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    }
+    .catalog-screen-box {
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(56, 189, 248, 0.38);
+      background: #020817;
+    }
+    .catalog-screen-box img {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      display: block;
+    }
+    .catalog-screen-cap {
+      padding: 0.45rem 0.65rem;
+      font-size: 0.73rem;
+      font-weight: 700;
+      color: #cbd5e1;
+      background: rgba(15, 23, 42, 0.95);
+    }
+
+    /* ── ALCANCE DEL REGALO $0 Y LOS 3 PAQUETES DE RENTA MENSUAL ── */
+    .gift-scope-card {
+      background: linear-gradient(145deg, rgba(6, 36, 32, 0.85), rgba(6, 16, 34, 0.96));
+      border: 2px solid rgba(52, 211, 153, 0.58);
+      border-radius: 20px;
+      padding: 1.45rem;
+      margin-block: 1.4rem 1.75rem;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1.25rem;
+      align-items: center;
+    }
+    @media (min-width: 860px) {
+      .gift-scope-card { grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); }
+    }
+    .gift-list {
+      margin: 0.75rem 0 0;
+      padding-left: 1.15rem;
+      color: #e2e8f0;
+      font-size: 0.9rem;
+      display: grid;
+      gap: 0.45rem;
+    }
+    .gift-boundary-note {
+      background: rgba(4, 8, 20, 0.78);
+      border: 1px dashed rgba(251, 191, 36, 0.5);
+      border-radius: 14px;
+      padding: 1rem 1.1rem;
+      font-size: 0.84rem;
+      color: #fde68a;
+    }
+
+    .plans-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1.25rem;
+      margin-block-start: 1.25rem;
+    }
+    @media (min-width: 900px) {
+      .plans-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    .plan-card {
+      background: rgba(4, 9, 23, 0.88);
+      border: 1.5px solid rgba(148, 163, 184, 0.28);
+      border-radius: 20px;
+      padding: 1.45rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .plan-card.featured {
+      background: linear-gradient(160deg, rgba(6, 30, 52, 0.96), rgba(4, 12, 28, 0.98));
+      border: 2px solid var(--cyan);
+      box-shadow: 0 22px 48px rgba(0, 229, 255, 0.14);
+    }
+    .plan-badge {
+      display: inline-block;
+      font-size: 0.71rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      padding: 0.24rem 0.65rem;
+      border-radius: 999px;
+      margin-block-end: 0.55rem;
+    }
+    .plan-badge.green { background: rgba(52, 211, 153, 0.2); color: #6ee7b7; border: 1px solid rgba(52, 211, 153, 0.45); }
+    .plan-badge.cyan { background: linear-gradient(135deg, #00e5ff, #34d399); color: #03101d; }
+    .plan-badge.gold { background: rgba(251, 191, 36, 0.18); color: #fde68a; border: 1px solid rgba(251, 191, 36, 0.45); }
+    .plan-price {
+      font-size: 2rem;
+      font-weight: 900;
+      color: #ffffff;
+      margin-block: 0.35rem 0.15rem;
+    }
+    .plan-price small { font-size: 0.86rem; color: #94a3b8; font-weight: 700; }
+    .plan-setup-tag {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: #34d399;
+      margin-block-end: 0.75rem;
+    }
+    .plan-features {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 0.52rem;
+      font-size: 0.85rem;
+      color: #cbd5e1;
+    }
+    .plan-features li::before {
+      content: "✓ ";
+      color: #34d399;
+      font-weight: 900;
+    }
+    .plan-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 46px;
+      border: none;
+      border-radius: 12px;
+      padding: 0.65rem 1rem;
+      font: inherit;
+      font-size: 0.86rem;
+      font-weight: 900;
+      cursor: pointer;
+      background: rgba(56, 189, 248, 0.14);
+      border: 1.5px solid rgba(56, 189, 248, 0.45);
+      color: #e0f2fe;
+    }
+    .plan-card.featured .plan-cta {
+      background: linear-gradient(135deg, #00e5ff, #34d399);
+      border: none;
+      color: #03101d;
+    }
+
+    /* ── PROBLEMA + SOLUCIÓN + SIMULADOR + PASOS ── */
     .grid-2-equal {
       display: grid;
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
       gap: 1.75rem;
       margin-block-start: 1.5rem;
       align-items: center;
     }
     @media (min-width: 880px) {
-      .grid-2-equal { grid-template-columns: 1fr 1fr; }
+      .grid-2-equal { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
     }
-
-    /* Problema */
-    .pain-stack { display: grid; gap: 0.95rem; }
+    .pain-stack, .benefit-stack { display: grid; gap: 0.95rem; }
     .pain-card {
       background: rgba(4, 9, 23, 0.8);
       border: 1px solid rgba(244, 63, 94, 0.32);
       border-radius: 16px;
       padding: 1.1rem 1.2rem;
     }
-    .pain-card h3 {
-      font-size: 1.03rem;
-      color: #fda4af;
-      margin-block-end: 0.35rem;
+    .pain-card h3 { font-size: 1.03rem; color: #fda4af; margin-block-end: 0.35rem; }
+    .pain-card p, .benefit-card p { margin: 0; font-size: 0.88rem; color: #cbd5e1; }
+    .benefit-card {
+      background: rgba(4, 9, 23, 0.78);
+      border: 1px solid rgba(0, 229, 255, 0.26);
+      border-radius: 16px;
+      padding: 1.1rem 1.2rem;
     }
-    .pain-card p {
-      margin: 0;
-      font-size: 0.88rem;
-      color: #cbd5e1;
-    }
+    .benefit-card h3 { font-size: 1.05rem; color: #ffffff; margin-block-end: 0.35rem; }
 
     .missed-inbox {
       background: #050b18;
       border: 1.5px solid rgba(244, 63, 94, 0.45);
       border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 20px 44px rgba(0, 0, 0, 0.45);
     }
     .missed-hdr {
       background: #0f172a;
@@ -570,11 +1135,7 @@
       padding: 0.22rem 0.65rem;
       border-radius: 999px;
     }
-    .missed-list {
-      padding: 1.1rem;
-      display: grid;
-      gap: 0.75rem;
-    }
+    .missed-list { padding: 1.1rem; display: grid; gap: 0.75rem; }
     .missed-row {
       background: rgba(15, 23, 42, 0.9);
       border: 1px solid rgba(148, 163, 184, 0.2);
@@ -582,33 +1143,13 @@
       padding: 0.85rem 1rem;
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
       gap: 0.8rem;
     }
-    .missed-row strong {
-      display: block;
-      font-size: 0.88rem;
-      color: #ffffff;
-      margin-block-end: 0.2rem;
-    }
-    .missed-row span {
-      font-size: 0.82rem;
-      color: #94a3b8;
-    }
-    .missed-time {
-      text-align: right;
-      flex-shrink: 0;
-    }
-    .missed-time b {
-      display: block;
-      font-size: 0.78rem;
-      color: #fda4af;
-    }
-    .missed-time small {
-      font-size: 0.7rem;
-      color: #fb7185;
-      font-weight: 700;
-    }
+    .missed-row strong { display: block; font-size: 0.88rem; color: #ffffff; margin-block-end: 0.2rem; }
+    .missed-row span { font-size: 0.82rem; color: #94a3b8; }
+    .missed-time { text-align: right; flex-shrink: 0; }
+    .missed-time b { display: block; font-size: 0.78rem; color: #fda4af; }
+    .missed-time small { font-size: 0.7rem; color: #fb7185; font-weight: 700; }
     .missed-footer {
       background: rgba(244, 63, 94, 0.16);
       border-top: 1px dashed rgba(244, 63, 94, 0.55);
@@ -619,13 +1160,11 @@
       text-align: center;
     }
 
-    /* Solución + Simulador Celular 23:47 */
     .phone-sim {
       background: #060d1e;
       border: 2px solid rgba(52, 211, 153, 0.58);
       border-radius: 26px;
       overflow: hidden;
-      box-shadow: 0 24px 55px rgba(16, 185, 129, 0.16);
     }
     .sim-hdr {
       background: #0f172a;
@@ -636,11 +1175,7 @@
       gap: 0.75rem;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
-    .sim-id {
-      display: flex;
-      align-items: center;
-      gap: 0.7rem;
-    }
+    .sim-id { display: flex; align-items: center; gap: 0.7rem; }
     .sim-avatar {
       width: 38px;
       height: 38px;
@@ -669,7 +1204,7 @@
       display: flex;
       flex-direction: column;
       gap: 0.75rem;
-      min-height: 330px;
+      min-height: 320px;
     }
     .sim-msg {
       max-width: 86%;
@@ -677,24 +1212,10 @@
       border-radius: 15px;
       font-size: 0.88rem;
       line-height: 1.42;
-      transition: opacity 0.25s ease, transform 0.25s ease;
     }
-    .sim-msg.hidden-step {
-      display: none;
-    }
-    .sim-msg time {
-      display: block;
-      text-align: right;
-      font-size: 0.68rem;
-      color: #94a3b8;
-      margin-top: 0.3rem;
-    }
-    .sim-msg.in {
-      align-self: flex-start;
-      background: #1e293b;
-      color: #f8fafc;
-      border-bottom-left-radius: 4px;
-    }
+    .sim-msg.hidden-step { display: none; }
+    .sim-msg time { display: block; text-align: right; font-size: 0.68rem; color: #94a3b8; margin-top: 0.3rem; }
+    .sim-msg.in { align-self: flex-start; background: #1e293b; color: #f8fafc; border-bottom-left-radius: 4px; }
     .sim-msg.out {
       align-self: flex-end;
       background: rgba(16, 185, 129, 0.16);
@@ -734,25 +1255,6 @@
       font-weight: 800;
       cursor: pointer;
     }
-    .sim-replay-btn:hover { background: rgba(0, 229, 255, 0.2); }
-
-    .benefit-stack { display: grid; gap: 0.95rem; }
-    .benefit-card {
-      background: rgba(4, 9, 23, 0.78);
-      border: 1px solid rgba(0, 229, 255, 0.26);
-      border-radius: 16px;
-      padding: 1.1rem 1.2rem;
-    }
-    .benefit-card h3 {
-      font-size: 1.05rem;
-      color: #ffffff;
-      margin-block-end: 0.35rem;
-    }
-    .benefit-card p {
-      margin: 0;
-      font-size: 0.88rem;
-      color: #cbd5e1;
-    }
 
     .cta-inline-btn {
       display: inline-flex;
@@ -771,47 +1273,33 @@
       font-weight: 900;
       cursor: pointer;
       box-shadow: 0 10px 28px rgba(0, 229, 255, 0.24);
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
-    }
-    .cta-inline-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 14px 34px rgba(52, 211, 153, 0.34);
     }
 
-    /* Cómo empezamos en 3 pasos */
     .clarity-grid {
       display: grid;
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
       gap: 1rem;
       margin-block-start: 1.35rem;
     }
     @media (min-width: 820px) {
-      .clarity-grid { grid-template-columns: repeat(3, 1fr); }
+      .clarity-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     }
     .clarity-card {
-      background: rgba(4, 9, 23, 0.78);
+      background: rgba(4, 9, 23, 0.8);
       border: 1px solid rgba(148, 163, 184, 0.24);
       border-radius: 16px;
       padding: 1.25rem;
     }
     .clarity-card.highlight {
-      border-color: rgba(251, 191, 36, 0.45);
-      background: linear-gradient(165deg, rgba(245, 158, 11, 0.12), rgba(4, 9, 23, 0.92));
+      border-color: rgba(52, 211, 153, 0.5);
+      background: linear-gradient(165deg, rgba(16, 185, 129, 0.14), rgba(4, 9, 23, 0.92));
     }
-    .clarity-card h3 {
-      font-size: 1.06rem;
-      color: #ffffff;
-      margin-block: 0.4rem 0.5rem;
-    }
-    .clarity-card p {
-      font-size: 0.88rem;
-      color: #cbd5e1;
-      margin: 0;
-    }
+    .clarity-card h3 { font-size: 1.06rem; color: #ffffff; margin-block: 0.4rem 0.5rem; }
+    .clarity-card p { font-size: 0.88rem; color: #cbd5e1; margin: 0; }
 
     .footer-clean {
       border-top: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 1.4rem 1.25rem 2rem;
+      padding: 1.4rem 1.25rem 2.2rem;
       text-align: center;
       font-size: 0.8rem;
       color: var(--text-muted);
@@ -825,13 +1313,18 @@
       <div class="brand">
         <img src="/static/logo_prosper_ia_cropped.jpg" alt="Agencia Prosper IA" width="42" height="42" fetchpriority="high">
         <div>
-          <div class="brand-kicker">AGENCIA PROSPER IA · ESTADOS UNIDOS &amp; LATAM</div>
-          <div class="brand-name">Página Web Moderna + Asistente Inteligente 24/7</div>
+          <div class="brand-kicker" id="brand-kicker">AGENCIA PROSPER IA · ESTADOS UNIDOS Y LATINOAMÉRICA</div>
+          <div class="brand-name" id="brand-name">Sitio Web Inicial Gratis + Sistema Inteligente 24/7</div>
         </div>
       </div>
       <div class="topbar-actions">
-        <span class="badge-live">● Garantía 50% al iniciar / 50% al entregar</span>
-        <a href="#agendar" class="topbar-cta" data-scroll-target="agendar">Agendar Demostración 1 a 1 &rarr;</a>
+        <div class="market-switch" role="group" aria-label="Selector de región">
+          <button type="button" class="market-pill" id="btn-market-latam" data-market="latam" aria-pressed="true">🌎 Latinoamérica</button>
+          <button type="button" class="market-pill" id="btn-market-usa" data-market="es_us" aria-pressed="false">🇺🇸 Estados Unidos</button>
+        </div>
+        <span class="badge-live" id="topbar-guarantee-badge">🎁 Sitio Web Inicial a $0 Costo de Diseño</span>
+        <a href="/demo-sitio-web" target="_blank" rel="noopener" class="topbar-catalog-link">🌐 Ver Catálogo de Muestras</a>
+        <a href="#agendar" class="topbar-cta" data-scroll-target="agendar">🎁 Reclamar Mi Sitio Web Gratis &rarr;</a>
       </div>
     </div>
   </header>
@@ -839,24 +1332,89 @@
   <main>
     <div class="container">
 
-      <!-- COLUMNA IZQUIERDA: 1 PROMESA EN LENGUAJE DE DUEÑO + VSL 90 SEG + RESULTADOS -->
+      <!-- COLUMNA IZQUIERDA: PROMESA DE REGALO + CATÁLOGO DE MUESTRAS + DEMO 5s + VIDEO -->
       <section aria-labelledby="hero-heading">
-        <div class="pill-kicker">
-          <span>● SISTEMA LLAVE EN MANO PARA DUEÑOS DE NEGOCIO</span>
+        <div class="pill-kicker" id="hero-kicker">
+          <span>🎁 REGALO OFICIAL PARA DUEÑOS DE NEGOCIO · $0 COSTO DE DISEÑO</span>
         </div>
 
         <h1 id="hero-heading" class="hero-title">
-          Tu negocio nunca más <span class="accent">pierde un cliente</span> por <span class="gold">no responder a tiempo</span>
+          Te Regalamos Tu Sitio Web Inicial en <span class="accent">agenciaprosperia.com/<wbr>tu-negocio</span> <span class="gold">Listo para Recibir Clientes</span>
         </h1>
 
-        <p class="hero-sub">
-          Instalamos tu <strong>Página Web Moderna</strong> y tu <strong>Asistente Inteligente 24/7</strong> en WhatsApp, Instagram y Web que responde en segundos, filtra interesados y agenda citas directo en tu celular. Listo en <strong>7 a 10 días</strong> con facilidad <strong>50% al iniciar y 50% al entregar funcionando</strong>.
+        <p class="hero-sub" id="hero-sub">
+          Lanza o renueva la imagen profesional de tu negocio a <strong>$0 costo de diseño</strong>. Lo único que tienes que hacer es registrarte en el formulario para que un ejecutivo te contacte en una breve llamada de <strong>15 minutos</strong>, haga la toma de información de tu negocio y te entregue tu Sitio Web Inicial personalizado.
         </p>
 
-        <!-- VSL CORTA (84 SEGUNDOS) ARRIBA DEL PLIEGUE -->
+        <!-- ENLACE PROTAGONISTA A TODO NUESTRO CATÁLOGO VISUAL -->
+        <div class="catalog-hero-banner" aria-label="Acceso directo al catálogo completo de muestras">
+          <div class="catalog-thumb-wrap">
+            <img src="/static/soluciones_por_industria.jpg" alt="Catálogo visual de sitios web inteligentes por industria de Agencia Prosper IA" loading="eager">
+          </div>
+          <div class="catalog-banner-copy">
+            <h2>🌐 ¿Quieres ver muestras reales de nuestros sitios antes de registrarte?</h2>
+            <p>Explora más de 60 diseños listos para clínicas, bienes raíces, contratistas, abogados, comercios e industria.</p>
+            <div class="catalog-banner-btns">
+              <a href="/demo-sitio-web" target="_blank" rel="noopener" class="btn-catalog-main">
+                🌐 Pícale Aquí: Ver Todo el Catálogo en Vivo &rarr;
+              </a>
+              <a href="/paginas-web" target="_blank" rel="noopener" class="btn-catalog-sec">
+                🏆 Ver Casos de Clientes Reales &rarr;
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- WIDGET DE VISTA PREVIA INSTANTÁNEA (5 SEGUNDOS) -->
+        <search class="instant-preview-card">
+          <h2 id="instant-preview-heading">⚡ Mira ahora mismo cómo lucirá agenciaprosperia.com/tu-negocio</h2>
+          <p class="instant-preview-sub">Escribe el nombre de tu empresa, elige tu giro y ábrelo bautizado en vivo en 5 segundos:</p>
+          <form id="instant-preview-form" action="/demo-sitio-web" method="GET" target="_blank" rel="noopener" novalidate aria-labelledby="instant-preview-heading">
+            <input type="hidden" name="public" value="1">
+            <div class="preview-grid">
+              <div class="preview-field">
+                <label for="preview_business">Nombre de tu negocio <span class="req-star" aria-hidden="true">*</span></label>
+                <input
+                  type="text"
+                  id="preview_business"
+                  name="business"
+                  required
+                  minlength="2"
+                  maxlength="100"
+                  autocomplete="organization"
+                  placeholder="Ej. Clínica Dental Sonrisa"
+                  data-error="preview-biz-error"
+                >
+                <div id="preview-biz-error" class="error-msg" role="alert">
+                  <span role="img" aria-label="Error">❌</span> Escribe el nombre de tu negocio para generar tu muestra en vivo.
+                </div>
+              </div>
+              <div class="preview-field">
+                <label for="preview_template">Giro del negocio</label>
+                <select id="preview_template" name="template">
+                  <option value="clinica_dental_estetica">Dentista / Clínica / Estética</option>
+                  <option value="hvac_miami">Aire Acondicionado y Climatización</option>
+                  <option value="plomeria_pro">Plomería y Emergencias 24/7</option>
+                  <option value="roofing_remodel">Techos, Construcción y Remodelación</option>
+                  <option value="electricista_pro">Electricistas e Instalaciones</option>
+                  <option value="piscinas_spas">Piscinas y Albercas</option>
+                  <option value="jardineria_paisajismo">Jardinería y Paisajismo</option>
+                  <option value="inmobiliaria_bienes_raices">Inmobiliaria y Bienes Raíces</option>
+                  <option value="profesionales_consultoria_legal">Abogado, Contador o Consultoría</option>
+                  <option value="servicios_locales_taller">Comercio, Restaurante o Taller</option>
+                  <option value="academia_educacion_cursos">Academia o Centro de Capacitación</option>
+                  <option value="sti2q_industrial">Empresa B2B o Industria</option>
+                </select>
+              </div>
+              <button type="submit" class="preview-submit-btn">👁️ Ver Muestra de Mi Negocio en Vivo &rarr;</button>
+            </div>
+          </form>
+        </search>
+
+        <!-- REPRODUCTOR DE VIDEO EXPLICATIVO -->
         <div class="vsl-card">
           <div class="vsl-header">
-            <strong>🎬 Mira cómo funciona en menos de 90 segundos</strong>
+            <strong>🎬 Mira por qué todo negocio necesita atención en segundos</strong>
             <span class="vsl-duration">⏱️ 1 min 24 seg · El mensaje de las 11:00 PM</span>
           </div>
           <video id="vsl-player" controls playsinline preload="metadata" poster="/static/video/vsl_sitioweb_poster.jpg?v=1">
@@ -867,47 +1425,48 @@
             <button type="button" class="chapter-btn active" data-seek="0">00:00 Las 11 PM</button>
             <button type="button" class="chapter-btn" data-seek="18">00:18 Cuánto pierdes</button>
             <button type="button" class="chapter-btn" data-seek="35">00:35 Asistente 24/7</button>
-            <button type="button" class="chapter-btn" data-seek="55">00:55 Llave en mano 50/50</button>
-            <button type="button" class="chapter-btn" data-seek="70">01:10 Agenda 1 a 1</button>
+            <button type="button" class="chapter-btn" data-seek="55">00:55 Cómo empezar</button>
+            <button type="button" class="chapter-btn" data-seek="70">01:10 Tu cita con ejecutivo</button>
           </div>
         </div>
 
-        <!-- MÉTRICAS ORIENTADAS A RESULTADO DEL CLIENTE -->
-        <div class="proof-strip" aria-label="Resultados clave para tu negocio">
+        <!-- MÉTRICAS DE RESULTADO -->
+        <div class="proof-strip" aria-label="Beneficios clave de tu Sitio Web Inicial Gratis">
           <div class="proof-box">
-            <div class="proof-num">&lt; 5 seg</div>
-            <div class="proof-lbl">Tiempo de respuesta 24/7</div>
+            <div class="proof-num">$0 USD</div>
+            <div class="proof-lbl">Costo de diseño inicial</div>
           </div>
           <div class="proof-box em">
-            <div class="proof-num">100%</div>
-            <div class="proof-lbl">Citas agendadas solas</div>
+            <div class="proof-num">15 min</div>
+            <div class="proof-lbl">Toma de datos con ejecutivo</div>
           </div>
           <div class="proof-box gold">
-            <div class="proof-num">7 a 10 días</div>
-            <div class="proof-lbl">Entrega llave en mano</div>
+            <div class="proof-num">&lt; 5 seg</div>
+            <div class="proof-lbl">Respuesta IA opcional 24/7</div>
           </div>
           <div class="proof-box">
             <div class="proof-num">+740</div>
-            <div class="proof-lbl">Negocios activos</div>
+            <div class="proof-lbl">Negocios activos en la red</div>
           </div>
         </div>
       </section>
 
-      <!-- COLUMNA DERECHA: FORMULARIO CALIFICADOR EN 2 PASOS + CALENDARIO -->
+      <!-- COLUMNA DERECHA: FORMULARIO DE REGISTRO 100% ESPAÑOL + RESERVA EN VIVO DE DIAGONAL -->
       <section id="agendar" class="form-card" tabindex="-1" aria-labelledby="form-heading">
 
         <div id="step1-form-wrap">
           <div class="form-header">
-            <h2 id="form-heading">📅 Agenda Tu Demostración 1 a 1</h2>
-            <p>Completa estos datos en 30 segundos y desbloquea el calendario para elegir tu día y hora con un especialista:</p>
+            <h2 id="form-heading">🎁 Reclama Tu Sitio Web Inicial Gratis</h2>
+            <p>Déjanos tus datos en 30 segundos para apartar tu dirección <strong>agenciaprosperia.com/tu-negocio</strong> y agendar tu llamada de 15 minutos con un ejecutivo para la toma de información:</p>
           </div>
 
-          <form id="sitioweb-form" action="/api/sitioweb/qualify" method="POST" aria-labelledby="form-heading">
+          <form id="sitioweb-form" action="/api/sitioweb/qualify" method="POST" novalidate aria-labelledby="form-heading">
             <input type="text" name="website_hp" tabindex="-1" aria-hidden="true" class="visually-hidden" autocomplete="off">
+            <input type="hidden" id="market_region_input" name="market_region" value="latam">
 
             <div class="field">
-              <label for="business_name">Nombre de tu Negocio (o tu Instagram / Web) <span class="req-star" aria-hidden="true">*</span></label>
-              <span id="biz-hint" class="hint">Lo usamos para preparar la demostración adaptada a tu negocio.</span>
+              <label for="business_name">Nombre de tu Negocio o Empresa <span class="req-star" aria-hidden="true">*</span></label>
+              <span id="biz-hint" class="hint">Con este nombre apartamos tu enlace gratuito de muestra.</span>
               <input
                 type="text"
                 id="business_name"
@@ -917,17 +1476,22 @@
                 maxlength="100"
                 autocomplete="organization"
                 enterkeyhint="next"
-                aria-describedby="biz-hint"
+                placeholder="Ej. Clínica Dental Sonrisa"
+                aria-describedby="biz-hint live-slug-box"
                 data-error="biz-error"
               >
-              <div id="biz-error" class="error-msg">
-                <span role="img" aria-label="Error">❌</span> Escribe el nombre de tu negocio, Instagram o sitio web (mínimo 2 caracteres).
+              <div id="live-slug-box" class="slug-preview-pill" aria-live="polite">
+                <span>🔗 Tu enlace reservado gratis:</span>
+                <strong>agenciaprosperia.com/<span id="live-slug-text">tu-negocio</span></strong>
+              </div>
+              <div id="biz-error" class="error-msg" role="alert">
+                <span role="img" aria-label="Error">❌</span> Escribe el nombre de tu negocio (mínimo 2 caracteres).
               </div>
             </div>
 
             <div class="field">
               <label for="niche">¿A qué giro pertenece tu negocio? <span class="req-star" aria-hidden="true">*</span></label>
-              <span id="niche-hint" class="hint">En la llamada te mostramos ejemplos de tu propia industria.</span>
+              <span id="niche-hint" class="hint">Así el ejecutivo prepara las muestras exactas de tu industria.</span>
               <select
                 id="niche"
                 name="niche"
@@ -937,20 +1501,20 @@
               >
                 <option value="" selected disabled>Selecciona el giro de tu negocio...</option>
                 <option value="clinica">Dentista, Clínica Médica, Estética o Salud</option>
-                <option value="hvac">Aire Acondicionado / Climatización</option>
-                <option value="plomeria">Plomería, Destapes y Fugas 24/7</option>
-                <option value="electricista">Electricistas, Paneles e Instalaciones</option>
+                <option value="hvac">Aire Acondicionado y Climatización</option>
+                <option value="plomeria">Plomería, Destapes y Emergencias 24/7</option>
+                <option value="electricista">Electricistas e Instalaciones</option>
                 <option value="roofing">Techos, Construcción y Remodelación</option>
-                <option value="piscinas">Piscinas, Spas y Mantenimiento</option>
+                <option value="piscinas">Piscinas y Mantenimiento</option>
                 <option value="jardineria">Jardinería, Paisajismo y Riego</option>
-                <option value="home_services">Otros Servicios del Hogar / Taller / Limpieza</option>
+                <option value="home_services">Otros Servicios del Hogar, Taller o Limpieza</option>
                 <option value="inmobiliaria">Inmobiliaria o Bienes Raíces</option>
                 <option value="profesionales">Abogado, Notaría, Contador o Consultoría</option>
-                <option value="servicios_locales">Comercio, Tienda Online, Restaurante o Local</option>
+                <option value="servicios_locales">Restaurante, Tienda Online o Comercio Local</option>
                 <option value="academia">Academia, Escuela o Centro de Capacitación</option>
-                <option value="sti2q">Industria, Laboratorio o Empresa B2B</option>
+                <option value="sti2q">Industria, Laboratorio o Empresa de Servicios Corporativos</option>
               </select>
-              <div id="niche-error" class="error-msg">
+              <div id="niche-error" class="error-msg" role="alert">
                 <span role="img" aria-label="Error">❌</span> Selecciona el giro principal de tu negocio.
               </div>
             </div>
@@ -966,16 +1530,17 @@
                 maxlength="100"
                 autocomplete="name"
                 enterkeyhint="next"
+                placeholder="Ej. Carlos Mendoza"
                 data-error="name-error"
               >
-              <div id="name-error" class="error-msg">
+              <div id="name-error" class="error-msg" role="alert">
                 <span role="img" aria-label="Error">❌</span> Ingresa tu nombre y apellido.
               </div>
             </div>
 
             <div class="field">
               <label for="phone">Tu WhatsApp Directo (con código de país) <span class="req-star" aria-hidden="true">*</span></label>
-              <span id="phone-hint" class="hint">Ejemplo: +1 786 555 0199, +52 55 1234 5678 o +54 9 11 2345 6789.</span>
+              <span id="phone-hint" class="hint">Ejemplo: +52 55 1234 5678, +54 9 11 2345 6789, +57 300 123 4567 o +1 786 555 0199.</span>
               <input
                 type="tel"
                 id="phone"
@@ -987,17 +1552,18 @@
                 autocomplete="tel"
                 inputmode="tel"
                 enterkeyhint="next"
+                placeholder="+52 55 1234 5678"
                 aria-describedby="phone-hint"
                 data-error="phone-error"
               >
-              <div id="phone-error" class="error-msg">
+              <div id="phone-error" class="error-msg" role="alert">
                 <span role="img" aria-label="Error">❌</span> Ingresa un número de WhatsApp válido de al menos 8 dígitos con código de país.
               </div>
             </div>
 
             <div class="field">
               <label for="email">Tu Correo Electrónico <span class="req-star" aria-hidden="true">*</span></label>
-              <span id="email-hint" class="hint">Formato: nombre@tuempresa.com</span>
+              <span id="email-hint" class="hint">Ahí enviamos la confirmación de tu cita y tu enlace personalizado.</span>
               <input
                 type="email"
                 id="email"
@@ -1009,76 +1575,103 @@
                 autocapitalize="none"
                 spellcheck="false"
                 enterkeyhint="done"
+                placeholder="nombre@tunegocio.com"
                 aria-describedby="email-hint"
                 data-error="email-error"
               >
-              <div id="email-error" class="error-msg">
-                <span role="img" aria-label="Error">❌</span> Ingresa un correo válido con el formato nombre@dominio.com.
+              <div id="email-error" class="error-msg" role="alert">
+                <span role="img" aria-label="Error">❌</span> Ingresa un correo electrónico válido (ejemplo: nombre@tuempresa.com).
               </div>
             </div>
 
             <fieldset>
-              <legend>¿Qué tan urgente es dejar de perder clientes por WhatsApp? <span class="req-star" aria-hidden="true">*</span></legend>
+              <legend>¿Cuándo te gustaría recibir tu Sitio Web Inicial gratis? <span class="req-star" aria-hidden="true">*</span></legend>
               <div class="radio-stack">
                 <div class="radio-row">
-                  <input type="radio" id="urg_alta" name="urgency" value="urgente" required>
-                  <label for="urg_alta">🔥 Urgente: ya estoy perdiendo mensajes y citas hoy</label>
+                  <input type="radio" id="urg_alta" name="urgency" value="urgente" required checked>
+                  <label for="urg_alta">🔥 Esta misma semana: quiero empezar a recibir clientes cuanto antes</label>
                 </div>
                 <div class="radio-row">
                   <input type="radio" id="urg_media" name="urgency" value="proximas_semanas">
-                  <label for="urg_media">⏱️ Quiero implementarlo en las próximas 2 a 3 semanas</label>
+                  <label for="urg_media">⏱️ En las próximas 2 a 3 semanas</label>
                 </div>
                 <div class="radio-row">
                   <input type="radio" id="urg_baja" name="urgency" value="explorando">
-                  <label for="urg_baja">👀 Solo estoy evaluando opciones por ahora</label>
+                  <label for="urg_baja">👀 Quiero ver primero cómo queda mi muestra gratis</label>
                 </div>
               </div>
             </fieldset>
 
             <fieldset>
-              <legend>Para instalar tu sistema llave en mano se requiere una inversión desde US$497 (con facilidad de iniciar con el 50% hoy y 50% al entregar funcionando). ¿Cuentas con este presupuesto si ves que resuelve lo que buscas? <span class="req-star" aria-hidden="true">*</span></legend>
+              <legend id="pref-legend">¿Qué te gustaría revisar en la toma de información con tu ejecutivo? <span class="req-star" aria-hidden="true">*</span></legend>
               <div class="radio-stack">
                 <div class="radio-row">
-                  <input type="radio" id="budget_si" name="budget_confirm" value="si" required>
-                  <label for="budget_si">✅ Sí, cuento con el presupuesto si el sistema me funciona</label>
+                  <input type="radio" id="pref_ia" name="start_preference" value="sitio_gratis_mas_ia_24_7" required checked>
+                  <label for="pref_ia" id="lbl_pref_ia">🎁 Recibir mi Sitio Web Inicial Gratis y ver cómo el Asistente IA 24/7 contesta WhatsApp y agenda citas</label>
                 </div>
                 <div class="radio-row">
-                  <input type="radio" id="budget_no" name="budget_confirm" value="no">
-                  <label for="budget_no">❌ No cuento con ese presupuesto por ahora</label>
+                  <input type="radio" id="pref_basico" name="start_preference" value="solo_sitio_inicial_gratis">
+                  <label for="pref_basico" id="lbl_pref_basico">🌐 Recibir mi Sitio Web Inicial sin costo y conocer los planes de renta mensual desde US$97/mes</label>
+                </div>
+                <div class="radio-row">
+                  <input type="radio" id="pref_voz" name="start_preference" value="sistema_completo_voz_y_crm">
+                  <label for="pref_voz">🚀 Recibir mi Sitio Web Inicial Gratis y evaluar el paquete con Recepcionista de Voz IA para mi equipo</label>
                 </div>
               </div>
             </fieldset>
 
             <button type="submit" id="submit-sitioweb-btn" class="submit-btn">
-              📅 Desbloquear Calendario 1 a 1 &rarr;
+              🎁 Registrar Mis Datos y Agendar Toma de Información &rarr;
             </button>
 
-            <p class="privacy-note">
-              🔒 Garantía Agencia Prosper IA LLC: Pagas 50% al iniciar y 50% contra entrega funcionando.
+            <p class="privacy-note" id="privacy-note">
+              🔒 Regalo a $0 costo de diseño · Sin tarjeta de crédito · Atención personalizada de 15 minutos con un ejecutivo.
             </p>
           </form>
         </div>
 
-        <!-- PASO 2: CALENDARIO EN VIVO PROTAGONISTA SIN DISTRACTORES -->
+        <!-- PASO 2: DIAGONAL RESERVADA + VISTA PREVIA + CALENDARIO CON EJECUTIVO -->
         <div id="step2-result-wrap" class="result-panel" hidden role="status">
-          <h2 id="step2-heading" tabindex="-1" style="font-size:1.35rem; color:#34d399;">
-            ✅ ¡Calendario Listo para <span id="res-biz-name">Tu Negocio</span>!
+          <h2 id="step2-heading" tabindex="-1" style="font-size:1.32rem; color:#34d399;">
+            ✅ ¡Solicitud Recibida para <span id="res-biz-name">Tu Negocio</span>!
           </h2>
-          <p id="res-subtitle" style="font-size:0.9rem; color:#cbd5e1; margin-block:0.5rem 1rem;">
-            Elige abajo el día y horario de tu demostración privada de 20 minutos para ver el sistema aplicado a tu negocio:
+
+          <div class="vanity-reserved-card">
+            <small>Dirección personalizada pre-reservada a $0 costo de diseño</small>
+            <strong id="res-vanity-url">agenciaprosperia.com/tu-negocio</strong>
+          </div>
+
+          <p id="res-subtitle" style="font-size:0.89rem; color:#cbd5e1; margin-block:0 0.85rem;">
+            Elige abajo tu día y hora con nuestro ejecutivo para tomar la información de tu negocio (15 min) y entregarte tu Sitio Web Inicial funcionando:
           </p>
+
+          <div id="res-fasttrack-box" class="fasttrack-box">
+            <div class="fasttrack-title">⚡ Abre tu muestra ahora mismo mientras el ejecutivo te atiende</div>
+            <p style="margin:0; font-size:0.8rem; color:#cbd5e1;">Ya puedes ver cómo luce tu negocio en pantalla o explorar todo nuestro catálogo de diseños:</p>
+            <div class="fasttrack-actions">
+              <a id="res-demo-link" href="/demo-sitio-web?public=1" target="_blank" rel="noopener" class="fasttrack-btn primary full">
+                👁️ Ver Muestra Personalizada de Mi Negocio Ahora &rarr;
+              </a>
+              <a href="/demo-sitio-web" target="_blank" rel="noopener" class="fasttrack-btn secondary">
+                🌐 Explorar Catálogo Completo
+              </a>
+              <a id="res-wa-link" href="https://wa.me/17865884245" target="_blank" rel="noopener" class="fasttrack-btn outline">
+                💬 Enviar Info por WhatsApp
+              </a>
+            </div>
+          </div>
 
           <div id="res-closer-box" class="closer-badge-box">
             <img id="res-closer-avatar" src="/static/logo_prosper_ia_cropped.jpg" alt="" width="54" height="54" fetchpriority="low">
             <div>
-              <div style="font-size:0.72rem; font-weight:800; color:#34d399; text-transform:uppercase;">Especialista Comercial Asignado</div>
-              <div id="res-closer-name" style="font-size:1rem; font-weight:800; color:#ffffff;">Equipo Comercial ProsperIA</div>
-              <div style="font-size:0.8rem; color:#cbd5e1;">Selecciona tu día y hora disponible en el calendario:</div>
+              <div style="font-size:0.72rem; font-weight:800; color:#34d399; text-transform:uppercase;">Ejecutivo Asignado para Tu Toma de Información</div>
+              <div id="res-closer-name" style="font-size:1rem; font-weight:800; color:#ffffff;">Equipo Agencia Prosper IA</div>
+              <div style="font-size:0.8rem; color:#cbd5e1;">Selecciona abajo el día y hora que prefieras (15 minutos):</div>
             </div>
           </div>
 
           <div id="res-calendar-container">
-            <iframe id="res-calendar-iframe" title="Calendario de agendamiento Agencia Prosper IA" class="calendar-embed" loading="lazy"></iframe>
+            <iframe id="res-calendar-iframe" title="Calendario de toma de información Agencia Prosper IA" class="calendar-embed" loading="lazy"></iframe>
           </div>
         </div>
 
@@ -1086,89 +1679,304 @@
 
     </div>
 
-    <!-- SECCIÓN INFERIOR 1: EL PROBLEMA ("CADA CONSULTA SIN RESPONDER ES DINERO QUE SE VA") -->
-    <section class="below-fold-section" aria-labelledby="problema-heading">
+    <!-- SECCIÓN 1: VITRINA VISUAL IMPACTANTE DE MUESTRAS REALES + ACCESO AL CATÁLOGO -->
+    <section class="below-fold-section" id="vitrina-muestras" aria-labelledby="vitrina-heading">
       <div class="section-box">
-        <div class="pill-kicker" style="background:rgba(244,63,94,0.12); border-color:rgba(244,63,94,0.4); color:#fda4af; margin-block-end:0.65rem;">
-          <span>⚠️ EL PROBLEMA REAL</span>
+        <div class="pill-kicker" style="background:rgba(0,229,255,0.12); border-color:rgba(0,229,255,0.45); color:#67e8f9; margin-block-end:0.65rem;">
+          <span>🎨 VITRINA VISUAL EN VIVO · ASÍ SE VERÁ TU PÁGINA</span>
         </div>
-        <h2 id="problema-heading" style="font-size:clamp(1.45rem, 2.6vw, 2.05rem);">
-          Cada consulta sin responder a tiempo es <span style="color:#fb7185;">dinero que se va a la competencia</span>
+        <h2 id="vitrina-heading" style="font-size:clamp(1.45rem, 2.7vw, 2.15rem);">
+          Mira ejemplos reales de cómo quedará <span style="color:#00e5ff;">agenciaprosperia.com/tu-negocio</span>
         </h2>
+        <p style="color:#cbd5e1; font-size:0.95rem; margin:0.55rem 0 0; max-width:74ch;">
+          Olvídate de enlaces genéricos sin personalidad. Tu Sitio Web Inicial Gratis ya incluye diseño moderno para celular y computadora, presentación clara de tus servicios y botón directo a tu WhatsApp.
+          <strong>¿Quieres ver muestras de nuestros sitios? Haz clic en cualquiera o abre el catálogo completo abajo.</strong>
+        </p>
 
-        <div class="grid-2-equal">
-          <div class="pain-stack">
-            <article class="pain-card">
-              <h3>1. Mensajes de noche y fin de semana que nadie contesta</h3>
-              <p>Alguien ve tu negocio a las 11 PM o un domingo, te escribe para pedir precio o turno y, como no hay respuesta inmediata, termina reservando en otro lado antes de que abras.</p>
-            </article>
-            <article class="pain-card">
-              <h3>2. Demoras durante el día mientras estás trabajando</h3>
-              <p>Estás atendiendo clientes o en operación. Respondes dos horas después, y la persona que ya estaba lista para agendar se enfrió o dejó de contestar.</p>
-            </article>
-            <article class="pain-card">
-              <h3>3. Esfuerzo en redes y publicidad que se desperdicia</h3>
-              <p>No te falta conseguir más gente interesada: el agujero está en dejar esperando los mensajes que ya llegan hoy a tu WhatsApp, Instagram o página web.</p>
-            </article>
+        <div class="showcase-grid">
+          <!-- Muestra 1 -->
+          <article class="showcase-card">
+            <div>
+              <div class="browser-bar">
+                <div class="browser-dots"><span></span><span></span><span></span></div>
+                <div class="browser-url">agenciaprosperia.com/clinica-sonrisa</div>
+              </div>
+              <div class="showcase-img-wrap">
+                <img src="/static/clinica_odontologia_estetica.jpg" alt="Muestra de sitio web para clínica dental, estética o consultorio médico" loading="lazy">
+                <span class="showcase-gift-tag">🎁 Regalo $0 Diseño</span>
+              </div>
+            </div>
+            <div class="showcase-body">
+              <h3>Clínicas Dentales, Médicas y Estética</h3>
+              <p>Presenta tus tratamientos con autoridad, galería visual limpia, horarios de atención y botón directo para agendar valoración por WhatsApp.</p>
+              <a href="/demo-sitio-web?public=1&amp;template=clinica_dental_estetica&amp;business=Cl%C3%ADnica%20Dental%20Sonrisa" target="_blank" rel="noopener" class="showcase-live-btn">
+                👁️ Ver Esta Muestra en Vivo &rarr;
+              </a>
+            </div>
+          </article>
+
+          <!-- Muestra 2 -->
+          <article class="showcase-card">
+            <div>
+              <div class="browser-bar">
+                <div class="browser-dots"><span></span><span></span><span></span></div>
+                <div class="browser-url">agenciaprosperia.com/clima-express</div>
+              </div>
+              <div class="showcase-img-wrap">
+                <img src="https://images.unsplash.com/photo-1621905252472-943afaa20e20?auto=format&fit=crop&w=1000&q=85" onerror="this.onerror=null;this.src='/static/soluciones_por_industria.jpg';" alt="Muestra de sitio web para climatización, plomería, electricidad y techos" loading="lazy">
+                <span class="showcase-gift-tag">🎁 Regalo $0 Diseño</span>
+              </div>
+            </div>
+            <div class="showcase-body">
+              <h3>Aire Acondicionado, Plomería y Techos</h3>
+              <p>Ideal para servicios técnicos y del hogar: muestra cobertura por zona, servicios urgentes 24 horas y botón rápido para pedir cotización.</p>
+              <a href="/demo-sitio-web?public=1&amp;template=hvac_miami&amp;business=Clima%20Express%2024%2F7" target="_blank" rel="noopener" class="showcase-live-btn">
+                👁️ Ver Esta Muestra en Vivo &rarr;
+              </a>
+            </div>
+          </article>
+
+          <!-- Muestra 3 -->
+          <article class="showcase-card">
+            <div>
+              <div class="browser-bar">
+                <div class="browser-dots"><span></span><span></span><span></span></div>
+                <div class="browser-url">agenciaprosperia.com/grupo-inmobiliario</div>
+              </div>
+              <div class="showcase-img-wrap">
+                <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1000&q=85" onerror="this.onerror=null;this.src='/static/soluciones_por_industria.jpg';" alt="Muestra de sitio web para inmobiliaria y asesores de bienes raíces" loading="lazy">
+                <span class="showcase-gift-tag">🎁 Regalo $0 Diseño</span>
+              </div>
+            </div>
+            <div class="showcase-body">
+              <h3>Inmobiliarias y Bienes Raíces</h3>
+              <p>Vitrina de propiedades destacadas, proyectos de inversión, filtro rápido para compradores y contacto directo a tu teléfono o WhatsApp.</p>
+              <a href="/demo-sitio-web?public=1&amp;template=inmobiliaria_bienes_raices&amp;business=Grupo%20Inmobiliario%20Premier" target="_blank" rel="noopener" class="showcase-live-btn">
+                👁️ Ver Esta Muestra en Vivo &rarr;
+              </a>
+            </div>
+          </article>
+
+          <!-- Muestra 4 -->
+          <article class="showcase-card">
+            <div>
+              <div class="browser-bar">
+                <div class="browser-dots"><span></span><span></span><span></span></div>
+                <div class="browser-url">agenciaprosperia.com/firma-legal</div>
+              </div>
+              <div class="showcase-img-wrap">
+                <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1000&q=85" onerror="this.onerror=null;this.src='/static/soluciones_por_industria.jpg';" alt="Muestra de sitio web para despachos de abogados, contadores y consultoría" loading="lazy">
+                <span class="showcase-gift-tag">🎁 Regalo $0 Diseño</span>
+              </div>
+            </div>
+            <div class="showcase-body">
+              <h3>Abogados, Contadores y Consultores</h3>
+              <p>Proyecta confianza desde el primer segundo: presenta áreas de especialidad, trayectoria del despacho y solicitud de consulta en línea.</p>
+              <a href="/demo-sitio-web?public=1&amp;template=profesionales_consultoria_legal&amp;business=Firma%20Legal%20y%20Asociados" target="_blank" rel="noopener" class="showcase-live-btn">
+                👁️ Ver Esta Muestra en Vivo &rarr;
+              </a>
+            </div>
+          </article>
+
+          <!-- Muestra 5 -->
+          <article class="showcase-card">
+            <div>
+              <div class="browser-bar">
+                <div class="browser-dots"><span></span><span></span><span></span></div>
+                <div class="browser-url">agenciaprosperia.com/auto-center</div>
+              </div>
+              <div class="showcase-img-wrap">
+                <img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&w=1000&q=85" onerror="this.onerror=null;this.src='/static/soluciones_por_industria.jpg';" alt="Muestra de sitio web para talleres, comercios y negocios locales" loading="lazy">
+                <span class="showcase-gift-tag">🎁 Regalo $0 Diseño</span>
+              </div>
+            </div>
+            <div class="showcase-body">
+              <h3>Talleres, Restaurantes y Negocios Locales</h3>
+              <p>Mapa de ubicación, servicios o menú principal, horarios claros y enlace directo para apartar turno, mesa o pedir domicilio.</p>
+              <a href="/demo-sitio-web?public=1&amp;template=servicios_locales_taller&amp;business=Auto%20Center%20Pro" target="_blank" rel="noopener" class="showcase-live-btn">
+                👁️ Ver Esta Muestra en Vivo &rarr;
+              </a>
+            </div>
+          </article>
+
+          <!-- Muestra 6 -->
+          <article class="showcase-card">
+            <div>
+              <div class="browser-bar">
+                <div class="browser-dots"><span></span><span></span><span></span></div>
+                <div class="browser-url">agenciaprosperia.com/academia-lider</div>
+              </div>
+              <div class="showcase-img-wrap">
+                <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1000&q=85" onerror="this.onerror=null;this.src='/static/soluciones_por_industria.jpg';" alt="Muestra de sitio web para academias, cursos y empresas B2B" loading="lazy">
+                <span class="showcase-gift-tag">🎁 Regalo $0 Diseño</span>
+              </div>
+            </div>
+            <div class="showcase-body">
+              <h3>Academias, Educación y Empresas de Servicios</h3>
+              <p>Estructura enfocada en explicar programas, certificaciones o soluciones corporativas con registro directo de prospectos.</p>
+              <a href="/demo-sitio-web?public=1&amp;template=academia_educacion_cursos&amp;business=Academia%20L%C3%ADder" target="_blank" rel="noopener" class="showcase-live-btn">
+                👁️ Ver Esta Muestra en Vivo &rarr;
+              </a>
+            </div>
+          </article>
+        </div>
+
+        <!-- BANNER VISUAL DE CATÁLOGO COMPLETO CON CAPTURAS REALES -->
+        <div class="catalog-visual-strip">
+          <div>
+            <div class="pill-kicker" style="background:rgba(16,185,129,0.16); border-color:rgba(52,211,153,0.48); color:#6ee7b7; margin-block-end:0.55rem;">
+              <span>📂 +60 PLANTILLAS + PORTAFOLIO REAL EN VIVO</span>
+            </div>
+            <h3 style="font-size:1.32rem; color:#ffffff; margin-block-end:0.45rem;">
+              ¿Quieres ver más muestras de nuestros sitios por industria?
+            </h3>
+            <p style="font-size:0.89rem; color:#cbd5e1; margin:0 0 0.95rem;">
+              Pícale al botón para entrar a nuestro <strong>Catálogo Interactivo de Sitios Web</strong> donde puedes cambiar de giro, escribir el nombre de tu empresa y probar el sitio funcionando en vivo antes de tu llamada.
+            </p>
+            <div class="catalog-banner-btns">
+              <a href="/demo-sitio-web" target="_blank" rel="noopener" class="btn-catalog-main" style="min-height:48px; padding:0.65rem 1.15rem; font-size:0.88rem;">
+                🌐 Abrir Todo Nuestro Catálogo de Sitios Web &rarr;
+              </a>
+              <a href="/paginas-web#vitrina-real" target="_blank" rel="noopener" class="btn-catalog-sec" style="min-height:48px; padding:0.65rem 1.1rem;">
+                🏆 Ver Portafolio de Clientes Reales &rarr;
+              </a>
+            </div>
           </div>
 
-          <div class="missed-inbox" aria-label="Ejemplo de consultas sin responder durante la noche">
-            <div class="missed-hdr">
-              <strong>📱 Bandeja de WhatsApp al Despertar</strong>
-              <span class="missed-badge">3 mensajes sin leer</span>
+          <div class="catalog-screens-grid">
+            <div class="catalog-screen-box">
+              <img src="/static/soluciones_por_industria.jpg" alt="Soluciones web y sistemas de automatización por industria" loading="lazy">
+              <div class="catalog-screen-cap">Industrias: Salud, Bienes Raíces, Hogar y Empresas</div>
             </div>
-            <div class="missed-list">
-              <div class="missed-row">
-                <div>
-                  <strong>María G.</strong>
-                  <span>“Hola, ¿tienen disponibilidad para mañana?”</span>
-                </div>
-                <div class="missed-time">
-                  <b>23:42</b>
-                  <small>sin leer</small>
-                </div>
-              </div>
-              <div class="missed-row">
-                <div>
-                  <strong>Carlos M.</strong>
-                  <span>“Vi tu perfil, ¿me pasas precios por favor?”</span>
-                </div>
-                <div class="missed-time">
-                  <b>02:15</b>
-                  <small>sin leer</small>
-                </div>
-              </div>
-              <div class="missed-row">
-                <div>
-                  <strong>Laura P.</strong>
-                  <span>“¿Atienden hoy temprano? Urge turno”</span>
-                </div>
-                <div class="missed-time">
-                  <b>07:03</b>
-                  <small>sin leer</small>
-                </div>
-              </div>
-            </div>
-            <div class="missed-footer">
-              ❌ A las 08:30 AM, cuando contestas tarde, 2 de cada 3 ya compraron en otro lado.
+            <div class="catalog-screen-box">
+              <img src="/static/img/crm_biblioteca_plantillas.jpg" alt="Biblioteca visual de plantillas web de Agencia Prosper IA" loading="lazy">
+              <div class="catalog-screen-cap">Biblioteca Real con +60 Plantillas Listas</div>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- SECCIÓN INFERIOR 2: LA SOLUCIÓN EN VIVO (SIMULADOR DE CHAT 23:47 + 3 BENEFICIOS) -->
+    <!-- SECCIÓN 2: QUÉ INCLUYE TU REGALO ($0) + LOS 3 PAQUETES DE RENTA MENSUAL -->
+    <section class="below-fold-section" id="paquetes-renta" aria-labelledby="paquetes-heading">
+      <div class="section-box">
+        <div class="pill-kicker" style="background:rgba(251,191,36,0.14); border-color:rgba(251,191,36,0.45); color:#fde68a; margin-block-end:0.65rem;">
+          <span>💎 TRANSPARENCIA TOTAL · REGALO INICIAL ($0) Y RENTA MENSUAL</span>
+        </div>
+        <h2 id="paquetes-heading" style="font-size:clamp(1.45rem, 2.7vw, 2.1rem);">
+          ¿Qué te regalamos hoy a <span style="color:#34d399;">$0 costo</span> y cómo escalas por <span style="color:#00e5ff;">renta mensual</span>?
+        </h2>
+
+        <!-- CAJA DE ALCANCE EXACTO DEL REGALO $0 -->
+        <div class="gift-scope-card">
+          <div>
+            <span class="plan-badge green">🎁 INCLUIDO GRATIS HOY ($0 COSTO DE DISEÑO · SIN TARJETA)</span>
+            <h3 style="font-size:1.35rem; color:#ffffff;">Tu Sitio Web Inicial en <span style="color:#34d399;">agenciaprosperia.com/tu-negocio</span></h3>
+            <ul class="gift-list">
+              <li><strong>Tu dirección personalizada lista para compartir</strong> en Instagram, Facebook, estados de WhatsApp y Google (ej. <em>agenciaprosperia.com/tu-negocio</em>).</li>
+              <li><strong>Landing Page profesional de 5 bloques estratégicos:</strong> portada de impacto con tu marca, beneficios de tu giro, tus 3 a 5 servicios principales, ubicación/horarios y botón directo a tu WhatsApp.</li>
+              <li><strong>Sesión 1 a 1 de 15 minutos con un Ejecutivo:</strong> tomamos tus datos, armamos la muestra personalizada y te la entregamos sin ningún pago inicial.</li>
+            </ul>
+          </div>
+          <div class="gift-boundary-note">
+            <strong style="display:block; color:#ffffff; margin-bottom:0.35rem;">📌 Alcance claro y sin letras chiquitas:</strong>
+            Tu Sitio Web Inicial bajo nuestra diagonal es <strong>100% gratis ($0)</strong>. Cuando quieras conectar tu <strong>propio dominio `.com`</strong>, usar la bandeja centralizada en tu celular o encender el <strong>Asistente IA que contesta y agenda 24/7 por ti</strong>, simplemente eliges uno de nuestros 3 paquetes de renta mensual abajo — sin contratos anuales forzosos y sin pagar desarrollo.
+          </div>
+        </div>
+
+        <!-- 3 PAQUETES DE RENTA MENSUAL -->
+        <h3 style="font-size:1.18rem; color:#ffffff; margin-block:0.5rem 0.25rem;">
+          Paquetes de Renta Mensual (Opcionales para automatizar y escalar tu negocio · $0 Instalación):
+        </h3>
+
+        <div class="plans-grid">
+          <!-- PAQUETE 1: BÁSICO $97/MES -->
+          <article class="plan-card">
+            <div>
+              <span class="plan-badge green">PAQUETE 1 · RENTA MENSUAL</span>
+              <h3 style="font-size:1.22rem; color:#ffffff;">Paquete Básico Presencia y Mensajes</h3>
+              <div class="plan-price">US$97 <small>/ mes</small></div>
+              <div class="plan-setup-tag">✓ $0 costo de diseño ni instalación · Sin plazo forzoso</div>
+              <ul class="plan-features">
+                <li><strong>Tu propio dominio `.com` conectado</strong> + alojamiento rápido seguro y soporte técnico continuo.</li>
+                <li><strong>Bandeja Unificada en tu Celular y PC (`ProsperIA CRM`):</strong> contesta WhatsApp, Instagram, Facebook, Web y correo en un solo lugar.</li>
+                <li><strong>Calendario de Citas en Línea</strong> con enlace directo para que el cliente aparte su turno.</li>
+                <li><strong>Recordatorios Automáticos</strong> de cita y solicitud automática de reseñas 5 estrellas en Google.</li>
+              </ul>
+            </div>
+            <button type="button" class="plan-cta" data-scroll-target="agendar">
+              🎁 Empezar con Mi Sitio Web Gratis &uarr;
+            </button>
+          </article>
+
+          <!-- PAQUETE 2: CRECIMIENTO IA 24/7 $297/MES -->
+          <article class="plan-card featured">
+            <div>
+              <span class="plan-badge cyan">⭐ PAQUETE 2 · EL MÁS ELEGIDO</span>
+              <h3 style="font-size:1.25rem; color:#ffffff;">Paquete Crecimiento IA 24/7</h3>
+              <div class="plan-price" style="color:#00e5ff;">US$297 <small>/ mes</small></div>
+              <div class="plan-setup-tag">✓ Incluye todo lo del Paquete Básico ($97/mes)</div>
+              <ul class="plan-features">
+                <li><strong>Recepcionista y Vendedor IA 24/7:</strong> atiende WhatsApp, Instagram, Facebook y Sitio Web en menos de 5 segundos con tus precios y servicios.</li>
+                <li><strong>Rescate Automático de Llamadas Perdidas:</strong> si estás ocupado y no contestas el teléfono, el sistema le escribe al instante al cliente para no perder la venta.</li>
+                <li><strong>Calificación y Agendamiento Automático</strong> directo en tu calendario mientras trabajas o duermes.</li>
+                <li><strong>Campañas de Seguimiento y Reactivación</strong> para volver a vender a clientes antiguos sin esfuerzo manual.</li>
+              </ul>
+            </div>
+            <button type="button" class="plan-cta" data-scroll-target="agendar">
+              🚀 Reclamar Web Gratis + Ver Demo IA 24/7 &uarr;
+            </button>
+          </article>
+
+          <!-- PAQUETE 3: EMPRESARIAL VOZ IA $497/MES -->
+          <article class="plan-card">
+            <div>
+              <span class="plan-badge gold">PAQUETE 3 · EMPRESARIAL</span>
+              <h3 style="font-size:1.22rem; color:#ffffff;">Paquete Empresarial Voz IA + Equipo</h3>
+              <div class="plan-price" style="color:#fbbf24;">US$497 <small>/ mes</small></div>
+              <div class="plan-setup-tag">✓ Incluye todo lo del Paquete Crecimiento IA ($297/mes)</div>
+              <ul class="plan-features">
+                <li><strong>Recepcionista Telefónica de Voz con IA 24/7 (Español e Inglés):</strong> contesta llamadas reales con voz natural, resuelve dudas y agenda citas por teléfono.</li>
+                <li><strong>Reparto Automático entre Múltiples Vendedores o Sedes</strong> con embudos completos de seguimiento.</li>
+                <li><strong>Acceso incluido a `PassportAI.app` (+58 modelos líderes de IA)</strong> como OpenAI, Google Gemini, Anthropic Claude, Runway y ElevenLabs para contenido y campañas.</li>
+                <li><strong>Acompañamiento prioritario</strong> para clínicas multi-sede, inmobiliarias y equipos comerciales.</li>
+              </ul>
+            </div>
+            <button type="button" class="plan-cta" data-scroll-target="agendar">
+              💎 Reclamar Web Gratis + Evaluar Voz IA &uarr;
+            </button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 3: EL PROBLEMA + SOLUCIÓN EN VIVO (SIMULADOR DE CHAT 23:47) -->
     <section class="below-fold-section" aria-labelledby="solucion-heading">
       <div class="section-box">
         <div class="pill-kicker" style="background:rgba(16,185,129,0.12); border-color:rgba(52,211,153,0.45); color:#6ee7b7; margin-block-end:0.65rem;">
-          <span>✅ TU SOLUCIÓN 24/7 EN VIVO</span>
+          <span>✅ DEL SITIO WEB GRATIS AL SISTEMA AUTOMÁTICO 24/7</span>
         </div>
         <h2 id="solucion-heading" style="font-size:clamp(1.45rem, 2.6vw, 2.05rem);">
-          Un asistente que atiende y agenda <span style="color:#34d399;">como tu mejor vendedor, a cualquier hora</span>
+          ¿Por qué un buen sitio web <span style="color:#34d399;">multiplicado por atención instantánea</span> vende todos los días?
         </h2>
 
         <div class="grid-2-equal">
-          <div class="phone-sim" aria-label="Simulador de conversación en vivo a las 23:47">
+          <div class="pain-stack">
+            <article class="pain-card">
+              <h3>Sin presencia web clara ni respuesta rápida:</h3>
+              <p>Un cliente te busca en internet o llega desde redes a las 11 PM, no ve una página que genere confianza o escribe y nadie responde en horas. Termina agendando con tu competencia antes de que amanezca.</p>
+            </article>
+            <article class="benefit-card">
+              <h3>1. Primero lanzas tu Sitio Web Inicial a $0 costo</h3>
+              <p>Tienes tu enlace profesional <strong>agenciaprosperia.com/tu-negocio</strong> con tus servicios y contacto directo en menos de lo que imaginas, guiado 1 a 1 por un ejecutivo.</p>
+            </article>
+            <article class="benefit-card">
+              <h3>2. Después, si lo deseas, enciendes tu Asistente 24/7 por mes</h3>
+              <p>Cada persona que entra a tu sitio o te escribe por WhatsApp recibe respuesta en 4 segundos, aclara precios, responde horarios y queda agendada sola en tu calendario.</p>
+            </article>
+          </div>
+
+          <div class="phone-sim" aria-label="Simulador de conversación automática a las 23:47">
             <div class="sim-hdr">
               <div class="sim-id">
                 <div class="sim-avatar">IA</div>
@@ -1181,7 +1989,7 @@
             </div>
             <div id="sim-thread" class="sim-thread">
               <div class="sim-msg in" data-sim-step="1">
-                Hola 👋 vi su página. ¿Tienen turno disponible para mañana por la tarde?
+                Hola 👋 vi su página web. ¿Tienen turno disponible para mañana por la tarde?
                 <time>23:47</time>
               </div>
               <div class="sim-msg out" data-sim-step="2">
@@ -1205,79 +2013,146 @@
               <span id="sim-status-txt" style="font-size:0.76rem; color:#94a3b8;">Conversación completa visible</span>
             </div>
           </div>
-
-          <div>
-            <div class="benefit-stack">
-              <article class="benefit-card">
-                <h3>1. Contesta mensajes al instante (de día y madrugada)</h3>
-                <p>Responde en menos de 5 segundos por WhatsApp, Instagram y tu Página Web con tus precios, horarios y respuestas reales. Ningún interesado vuelve a quedar en visto.</p>
-              </article>
-              <article class="benefit-card">
-                <h3>2. Agenda citas directo en tu celular y filtra curiosos</h3>
-                <p>Hace las preguntas clave antes de apartar horario para que solo lleguen personas realmente interesadas, enviándoles recordatorios automáticos para que no falten.</p>
-              </article>
-              <article class="benefit-card">
-                <h3>3. Tu Página Web Moderna lista para dar confianza inmediata</h3>
-                <p>Si alguien te busca en Google o redes sociales, encuentra un sitio web profesional a la medida de tu giro conectado directo con tu asistente y calendario.</p>
-              </article>
-            </div>
-            <button type="button" class="cta-inline-btn" data-scroll-target="agendar">
-              📅 Agendar Mi Demostración Gratuita &uarr;
-            </button>
-          </div>
         </div>
       </div>
     </section>
 
-    <!-- SECCIÓN INFERIOR 3: CÓMO EMPEZAMOS EN 3 PASOS SIMPLES (SIN CAJAS DE PRECIOS EN FRÍO) -->
+    <!-- SECCIÓN 4: CÓMO FUNCIONA EN 3 PASOS -->
     <section class="below-fold-section" aria-labelledby="clarity-heading">
       <div class="section-box">
         <h2 id="clarity-heading" style="font-size:clamp(1.38rem, 2.5vw, 1.95rem);">
-          ¿Cómo lo instalamos en tu negocio en <span style="color:#34d399;">7 a 10 días sin que toques nada</span>?
+          ¿Cómo recibes tu Sitio Web Inicial Gratis en <span style="color:#34d399;">3 pasos muy simples</span>?
         </h2>
 
         <div class="clarity-grid">
           <div class="clarity-card">
-            <div style="font-size:1.55rem;" aria-hidden="true">🛠️</div>
-            <h3>1. Nosotros hacemos el 100%</h3>
-            <p>No tienes que programar ni aprender herramientas técnicas. Nuestro equipo diseña tu Página Web, entrena a tu Asistente 24/7 y conecta tu agenda.</p>
+            <div style="font-size:1.55rem;" aria-hidden="true">📝</div>
+            <h3>1. Llenas el registro en 30 segundos</h3>
+            <p>Anotas el nombre de tu negocio, tu giro y tu WhatsApp para pre-reservar tu dirección <strong>agenciaprosperia.com/tu-negocio</strong> a $0 costo.</p>
           </div>
           <div class="clarity-card">
-            <div style="font-size:1.55rem;" aria-hidden="true">📲</div>
-            <h3>2. Solo nos envías 5 datos por WhatsApp</h3>
-            <p>Al comenzar solo nos compartes el nombre/logo de tu negocio, tu WhatsApp de citas, tus servicios principales, algunas fotos del celular y tus horarios.</p>
+            <div style="font-size:1.55rem;" aria-hidden="true">📞</div>
+            <h3>2. Llamada de 15 min para toma de información</h3>
+            <p>Un ejecutivo de Agencia Prosper IA te contacta en tu horario elegido para pedirte tus servicios, horarios y datos clave y entregarte tu Sitio Web Inicial.</p>
           </div>
           <div class="clarity-card highlight">
-            <div style="font-size:1.55rem;" aria-hidden="true">🛡️</div>
-            <h3>3. Garantía 50% al iniciar y 50% al entregar</h3>
-            <p>Cero riesgo: inicias con la mitad y liquidas el saldo únicamente cuando ves tu Página Web y tu Asistente 24/7 agendando citas en vivo en tu celular.</p>
+            <div style="font-size:1.55rem;" aria-hidden="true">🚀</div>
+            <h3>3. Tú decides si escalas por renta mensual</h3>
+            <p>Cuando quieras conectar tu dominio `.com`, usar el sistema de mensajes o encender el Asistente IA 24/7, eliges tu paquete mensual desde US$97/mes.</p>
           </div>
         </div>
 
         <button type="button" class="cta-inline-btn" data-scroll-target="agendar" style="margin-block-start:1.5rem;">
-          🚀 Quiero Verlo Funcionando en Mi Negocio · Agendar Ahora &uarr;
+          🎁 Quiero Mi Sitio Web Inicial Gratis · Registrarme Ahora &uarr;
         </button>
       </div>
     </section>
   </main>
 
   <footer class="footer-clean">
-    Agencia Prosper IA LLC · Estados Unidos &amp; Latinoamérica · Demostraciones privadas 1 a 1 con garantía 50% / 50%.
+    Agencia Prosper IA LLC · Estados Unidos y Latinoamérica · Sitio Web Inicial Gratis (`agenciaprosperia.com/tu-negocio`) y Sistemas Inteligentes de Ventas por Renta Mensual.
   </footer>
 
   <script>
     (() => {
       const form = document.getElementById('sitioweb-form');
+      const previewForm = document.getElementById('instant-preview-form');
       const submitBtn = document.getElementById('submit-sitioweb-btn');
       const step1Wrap = document.getElementById('step1-form-wrap');
       const step2Wrap = document.getElementById('step2-result-wrap');
 
-      // 0. Scroll-completion utility (aguarda fin de scroll suave antes de enfocar)
+      // 0. Helper para generar diagonal limpia en vivo: agenciaprosperia.com/<tu-negocio>
+      const slugifyBusiness = (raw) => {
+        const clean = (raw || '')
+          .toString()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-+|-+$/g, '')
+          .slice(0, 64);
+        return clean || 'tu-negocio';
+      };
+
+      const mainBiz = document.getElementById('business_name');
+      const mainNiche = document.getElementById('niche');
+      const previewBiz = document.getElementById('preview_business');
+      const previewTpl = document.getElementById('preview_template');
+      const liveSlugText = document.getElementById('live-slug-text');
+
+      const refreshLiveSlug = () => {
+        if (!liveSlugText) return;
+        liveSlugText.textContent = slugifyBusiness(mainBiz?.value || previewBiz?.value || '');
+      };
+
+      // 1. Selector de Región (100% Español en ambas opciones)
+      const marketInput = document.getElementById('market_region_input');
+      const btnLatam = document.getElementById('btn-market-latam');
+      const btnUsa = document.getElementById('btn-market-usa');
+      const badgeLive = document.getElementById('topbar-guarantee-badge');
+      const phoneHint = document.getElementById('phone-hint');
+
+      const applyMarketRegion = (region) => {
+        const isUsa = region === 'es_us' || region === 'miami_us';
+        if (marketInput) marketInput.value = isUsa ? 'es_us' : 'latam';
+        if (btnUsa) btnUsa.setAttribute('aria-pressed', isUsa ? 'true' : 'false');
+        if (btnLatam) btnLatam.setAttribute('aria-pressed', isUsa ? 'false' : 'true');
+        if (isUsa) {
+          if (badgeLive) badgeLive.textContent = '🎁 Estados Unidos · Sitio Web Inicial a $0 Costo de Diseño';
+          if (phoneHint) phoneHint.textContent = 'Ejemplo Estados Unidos: +1 305 555 0199 o +1 786 555 0140.';
+        } else {
+          if (badgeLive) badgeLive.textContent = '🎁 Sitio Web Inicial a $0 Costo de Diseño';
+          if (phoneHint) phoneHint.textContent = 'Ejemplo: +52 55 1234 5678, +54 9 11 2345 6789, +57 300 123 4567 o +1 786 555 0199.';
+        }
+      };
+
+      btnUsa?.addEventListener('click', () => applyMarketRegion('es_us'));
+      btnLatam?.addEventListener('click', () => applyMarketRegion('latam'));
+
+      // Sincronización bidireccional Vista Previa <-> Formulario
+      const TPL_TO_NICHE = {
+        clinica_dental_estetica: 'clinica',
+        hvac_miami: 'hvac',
+        plomeria_pro: 'plomeria',
+        electricista_pro: 'electricista',
+        roofing_remodel: 'roofing',
+        piscinas_spas: 'piscinas',
+        jardineria_paisajismo: 'jardineria',
+        servicios_locales_taller: 'servicios_locales',
+        inmobiliaria_bienes_raices: 'inmobiliaria',
+        profesionales_consultoria_legal: 'profesionales',
+        academia_educacion_cursos: 'academia',
+        sti2q_industrial: 'sti2q',
+      };
+      const NICHE_TO_TPL = Object.fromEntries(Object.entries(TPL_TO_NICHE).map(([k, v]) => [v, k]));
+      NICHE_TO_TPL.home_services = 'servicios_locales_taller';
+
+      previewBiz?.addEventListener('input', () => {
+        if (mainBiz && !mainBiz.matches(':focus')) mainBiz.value = previewBiz.value;
+        refreshLiveSlug();
+      });
+      previewTpl?.addEventListener('change', () => {
+        const mapped = TPL_TO_NICHE[previewTpl.value];
+        if (mainNiche && mapped) mainNiche.value = mapped;
+      });
+      mainBiz?.addEventListener('input', () => {
+        if (previewBiz && !previewBiz.matches(':focus')) previewBiz.value = mainBiz.value;
+        refreshLiveSlug();
+      });
+      mainNiche?.addEventListener('change', () => {
+        const mapped = NICHE_TO_TPL[mainNiche.value];
+        if (previewTpl && mapped) previewTpl.value = mapped;
+      });
+
+      const urlRegion = new URLSearchParams(window.location.search).get('region');
+      if (urlRegion === 'miami' || urlRegion === 'miami_us' || urlRegion === 'usa' || urlRegion === 'es_us') {
+        applyMarketRegion('es_us');
+      }
+
+      // 2. Scroll suave hacia #agendar con enfoque accesible
       function scrollIntoViewAsync(element, options, scroller = window) {
         const result = element.scrollIntoView(options);
-        if (result instanceof Promise) {
-          return result;
-        }
+        if (result instanceof Promise) return result;
         return new Promise((resolve) => {
           let timeoutId;
           const finish = () => {
@@ -1311,7 +2186,7 @@
         });
       });
 
-      // 1. Capítulos clicables del VSL 90s
+      // 3. Capítulos del video explicativo
       const vslPlayer = document.getElementById('vsl-player');
       const chapterBtns = Array.from(document.querySelectorAll('.chapter-btn'));
       chapterBtns.forEach((btn) => {
@@ -1326,7 +2201,7 @@
         });
       });
 
-      // 2. Reproductor paso a paso del Simulador de Chat 23:47
+      // 4. Simulador de chat nocturno
       const simBtn = document.getElementById('sim-replay-btn');
       const simStatus = document.getElementById('sim-status-txt');
       const simItems = Array.from(document.querySelectorAll('[data-sim-step]'));
@@ -1377,137 +2252,106 @@
         });
       }
 
-      // 3. Validación moderna posterior a interacción (:user-invalid + ARIA live region)
+      // 5. Validación accesible después de interacción (100% en español, sin burbujas nativas en inglés)
+      const announcer = document.createElement('div');
+      announcer.setAttribute('aria-live', 'polite');
+      announcer.classList.add('visually-hidden');
+      document.body.append(announcer);
+      let announceTimer;
+
       const linkError = (el, shown) => {
         const errorId = el.dataset?.error;
         if (!errorId) return;
+        const errorNode = document.getElementById(errorId);
+        if (errorNode) errorNode.classList.toggle('is-visible', shown);
         const ids = (el.getAttribute('aria-describedby') || '').split(/\s+/).filter((id) => id && id !== errorId);
         if (shown) ids.push(errorId);
         if (ids.length) el.setAttribute('aria-describedby', ids.join(' '));
         else el.removeAttribute('aria-describedby');
       };
 
-      const announcer = document.createElement('div');
-      announcer.setAttribute('aria-live', 'polite');
-      announcer.classList.add('visually-hidden');
-      document.body.append(announcer);
-      let announceTimer;
-      let announcedField;
-
-      const spokenText = (node) => {
-        const copy = node.cloneNode(true);
-        copy.querySelectorAll('[aria-hidden="true"]').forEach((n) => n.remove());
-        copy.querySelectorAll('[role="img"][aria-label]').forEach((n) => n.replaceWith(`${n.getAttribute('aria-label')}: `));
-        return copy.textContent.replace(/\s+/g, ' ').trim();
+      const validateField = (input, forceShow = false) => {
+        if (!input || !input.checkValidity) return true;
+        if (!forceShow && input.dataset.touched !== 'true') return input.validity.valid;
+        const isValid = input.validity.valid;
+        input.classList.toggle('user-invalid-fallback', !isValid);
+        input.classList.toggle('user-valid-fallback', isValid);
+        input.setAttribute('aria-invalid', isValid ? 'false' : 'true');
+        linkError(input, !isValid);
+        return isValid;
       };
 
-      const announceError = (el) => {
-        const error = document.getElementById(el.dataset?.error || '');
-        if (!error) return;
-        const label = el.labels?.[0] ? `${spokenText(el.labels[0])}: ` : '';
-        clearTimeout(announceTimer);
-        announcer.textContent = '';
-        announcedField = el;
-        announceTimer = setTimeout(() => { announcer.textContent = label + spokenText(error); }, 500);
-      };
+      [form, previewForm].filter(Boolean).forEach((rootForm) => {
+        const controls = rootForm.querySelectorAll('input:not([type="hidden"]):not([type="radio"]), select');
+        controls.forEach((el) => {
+          el.setAttribute('aria-invalid', 'false');
+          el.addEventListener('blur', () => {
+            if (el.value.trim() !== '' || el.dataset.touched === 'true') {
+              el.dataset.touched = 'true';
+              validateField(el, true);
+            }
+          });
+          el.addEventListener('input', () => {
+            if (el.dataset.touched === 'true' || el.classList.contains('user-invalid-fallback')) {
+              validateField(el, true);
+            }
+          });
+          el.addEventListener('change', () => {
+            el.dataset.touched = 'true';
+            validateField(el, true);
+          });
+        });
+      });
 
-      const UserInvalidFallback = (() => {
-        const dirtyState = new WeakMap();
-        const updateState = (input) => {
-          const isValid = input.validity.valid;
-          input.classList.toggle('user-invalid-fallback', !isValid);
-          input.classList.toggle('user-valid-fallback', isValid);
-          input.setAttribute('aria-invalid', isValid ? 'false' : 'true');
-          linkError(input, !isValid);
-        };
-        const handleEvent = (event) => {
-          const input = event.target;
-          if (!input?.checkValidity) return;
-          if (event.type === 'invalid') {
-            dirtyState.set(input, { hasInteracted: true, hasBlurred: true });
-            updateState(input);
+      if (previewForm) {
+        previewForm.addEventListener('submit', (e) => {
+          const isValid = validateField(previewBiz, true);
+          if (!isValid) {
+            e.preventDefault();
+            previewBiz?.focus();
+            clearTimeout(announceTimer);
+            announcer.textContent = 'Escribe el nombre de tu negocio para abrir tu muestra en vivo.';
             return;
           }
-          if (event.type === 'input' || event.type === 'change') {
-            const state = dirtyState.get(input) || { hasInteracted: false, hasBlurred: false };
-            state.hasInteracted = true;
-            dirtyState.set(input, state);
-            if (state.hasBlurred) updateState(input);
-          } else if (event.type === 'blur') {
-            const state = dirtyState.get(input) || { hasInteracted: false, hasBlurred: false };
-            state.hasBlurred = true;
-            dirtyState.set(input, state);
-            if (state.hasInteracted) updateState(input);
+          if (mainBiz && previewBiz?.value.trim()) {
+            mainBiz.value = previewBiz.value.trim();
+            refreshLiveSlug();
           }
-        };
-        const init = (root) => {
-          if (CSS.supports('selector(:user-invalid)')) return;
-          root.querySelectorAll('input, select, textarea').forEach((el) => {
-            if (!el.hasAttribute('aria-invalid')) el.setAttribute('aria-invalid', 'false');
-          });
-          root.addEventListener('blur', handleEvent, true);
-          root.addEventListener('input', handleEvent);
-          root.addEventListener('change', handleEvent);
-          root.addEventListener('invalid', handleEvent, true);
-        };
-        return { init };
-      })();
-
-      UserInvalidFallback.init(form);
-
-      if (CSS.supports('selector(:user-invalid)')) {
-        const flagged = new WeakSet();
-        const announced = new WeakSet();
-        const syncAria = (el, announce = false) => {
-          if (!el.matches?.('input, select, textarea')) return;
-          const invalid = el.matches(':user-invalid');
-          if (invalid) {
-            if (announce && !announced.has(el)) {
-              announceError(el);
-              announced.add(el);
-            }
-            el.setAttribute('aria-invalid', 'true');
-            linkError(el, true);
-            flagged.add(el);
-          } else if (flagged.has(el) || el.getAttribute('aria-invalid') !== 'true') {
-            el.setAttribute('aria-invalid', 'false');
-            linkError(el, false);
-            flagged.delete(el);
-            announced.delete(el);
-            if (announcedField === el) {
-              clearTimeout(announceTimer);
-              announcer.textContent = '';
-            }
-          }
-        };
-        form.querySelectorAll('input, select, textarea').forEach((el) => syncAria(el));
-        form.addEventListener('blur', (e) => syncAria(e.target, true), true);
-        form.addEventListener('input', (e) => {
-          if (e.target.hasAttribute('aria-invalid')) syncAria(e.target);
+          const mapped = TPL_TO_NICHE[previewTpl?.value || ''];
+          if (mainNiche && mapped) mainNiche.value = mapped;
         });
-        form.addEventListener('change', (e) => syncAria(e.target, true), true);
-        form.addEventListener('invalid', (e) => {
-          announced.add(e.target);
-          syncAria(e.target);
-        }, true);
       }
 
-      // 4. Envío AJAX a /api/sitioweb/qualify con desbloqueo de Calendario Round-Robin
-      form.addEventListener('submit', async (e) => {
-        if (!form.checkValidity()) {
+      // 6. Envío AJAX a /api/sitioweb/qualify
+      form?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const controls = Array.from(form.querySelectorAll('input:not([type="hidden"]):not([type="radio"]), select'));
+        let firstInvalid = null;
+        controls.forEach((el) => {
+          el.dataset.touched = 'true';
+          const ok = validateField(el, true);
+          if (!ok && !firstInvalid) firstInvalid = el;
+        });
+
+        if (firstInvalid || !form.checkValidity()) {
+          if (firstInvalid) firstInvalid.focus();
+          clearTimeout(announceTimer);
+          announceTimer = setTimeout(() => {
+            announcer.textContent = 'Por favor revisa los campos marcados antes de enviar tu registro.';
+          }, 150);
           return;
         }
-        e.preventDefault();
+
         submitBtn.disabled = true;
         const origText = submitBtn.textContent;
-        submitBtn.textContent = '⏳ Verificando disponibilidad y abriendo calendario...';
+        submitBtn.textContent = '⏳ Reservando tu sitio y abriendo calendario...';
 
         try {
           const fd = new FormData(form);
           const payload = Object.fromEntries(fd.entries());
           const urlParams = new URLSearchParams(window.location.search);
-          payload.utm_source = urlParams.get('utm_source') || 'sitioweb_vsl';
-          payload.utm_campaign = urlParams.get('utm_campaign') || 'embudo_sitioweb';
+          payload.utm_source = urlParams.get('utm_source') || 'sitioweb_regalo';
+          payload.utm_campaign = urlParams.get('utm_campaign') || 'caballo_de_troya_web';
 
           const res = await fetch('/api/sitioweb/qualify', {
             method: 'POST',
@@ -1519,12 +2363,31 @@
             throw new Error(data.detail || 'No se pudo procesar tu solicitud.');
           }
 
-          document.getElementById('res-biz-name').textContent = data.business_name || 'Tu Negocio';
+          const bizLabel = data.business_name || 'Tu Negocio';
+          const vanityUrl = data.vanity_url_display || `agenciaprosperia.com/${slugifyBusiness(bizLabel)}`;
+
+          document.getElementById('res-biz-name').textContent = bizLabel;
+          const vanityEl = document.getElementById('res-vanity-url');
+          if (vanityEl) vanityEl.textContent = vanityUrl;
+
+          const demoLink = document.getElementById('res-demo-link');
+          if (demoLink && data.demo_url) {
+            demoLink.href = data.demo_url;
+            demoLink.textContent = `👁️ Ver Muestra Personalizada de ${bizLabel} →`;
+          }
+
+          const waLink = document.getElementById('res-wa-link');
+          if (waLink) {
+            const waText = encodeURIComponent(
+              `Hola Agencia Prosper IA, acabo de registrar mi negocio "${bizLabel}" para recibir mi Sitio Web Inicial Gratis (${vanityUrl}) y quiero compartir mi información.`
+            );
+            waLink.href = `https://wa.me/17865884245?text=${waText}`;
+          }
 
           if (data.qualified) {
             document.getElementById('res-closer-box').hidden = false;
             document.getElementById('res-calendar-container').hidden = false;
-            document.getElementById('res-closer-name').textContent = data.closer_name || 'Especialista ProsperIA';
+            document.getElementById('res-closer-name').textContent = data.closer_name || 'Ejecutivo Agencia Prosper IA';
             if (data.closer_avatar) {
               document.getElementById('res-closer-avatar').src = data.closer_avatar;
             }
@@ -1535,9 +2398,6 @@
           } else {
             document.getElementById('res-closer-box').hidden = true;
             document.getElementById('res-calendar-container').hidden = true;
-            document.getElementById('step2-heading').textContent = '✅ ¡Datos Registrados!';
-            document.getElementById('res-subtitle').textContent =
-              'Gracias por compartir tus datos. Nuestros sistemas llave en mano requieren una inversión mínima desde US$497 (con facilidad 50% al iniciar y 50% al entregar). Guardamos tu contacto para enviarte materiales cuando tu negocio esté listo para implementar.';
           }
 
           step1Wrap.hidden = true;
