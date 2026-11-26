@@ -7563,46 +7563,57 @@ function getLeadCallRouting(leadOrPhone, waScriptText = '') {
   const cleanPhone = String(raw || '').replace(/[^0-9+]/g, '');
   const digits = cleanPhone.replace(/[^0-9]/g, '');
   const country = typeof leadOrPhone === 'object' && leadOrPhone ? String(leadOrPhone.country || '').toLowerCase() : '';
-  const latamHint = /(argent|mex|méx|colomb|chile|per|espa|latam|urug|ecuad)/.test(country);
+  const mxHint = /(mex|méx|cdmx|guadalajara|monterrey)/.test(country);
+  const otherLatamHint = /(argent|colomb|chile|per|espa|latam|urug|ecuad|costa rica|panam|guat|salvador|hondur|nicarag|dominic|venez|boliv|parag|bras)/.test(country);
   const waUrl = digits
     ? `https://wa.me/${digits}?text=${encodeURIComponent(waScriptText || 'Hola, te comparto la demostración de Agencia Prosper IA.')}`
     : '';
 
-  if (cleanPhone.startsWith('+54') || country.includes('argent')) {
-    return {
-      mode: 'AR_LOCAL',
-      badge: '🇦🇷 Local AR ($0)',
-      btnLabel: '🇦🇷 Local ($0)',
-      modalBtnLabel: '🇦🇷 Llamar Local ($0)',
-      dialHref: cleanPhone ? `tel:${cleanPhone}` : '',
-      allowMiamiSms: false,
-      cleanPhone,
-      digits,
-      waUrl
-    };
-  }
-  const isUsPlusOne = ((cleanPhone.startsWith('+1') && digits.length === 11) || (digits.length === 10 && !latamHint && cleanPhone === digits));
-  if (isUsPlusOne && !latamHint) {
+  const isUsPlusOne = (cleanPhone.startsWith('+1') && digits.length === 11)
+    || (!cleanPhone.startsWith('+') && digits.length === 10 && !mxHint && !otherLatamHint);
+  if (isUsPlusOne) {
     const e164Us = cleanPhone.startsWith('+1') ? cleanPhone : `+1${digits}`;
     return {
       mode: 'US_LINE',
-      badge: '🇺🇸 Línea EE. UU. (+1)',
+      badge: '🇺🇸🇨🇦 Línea EE. UU./CA (+1)',
       btnLabel: '🇺🇸 Llamar (+1)',
-      modalBtnLabel: '📞 Llamar (+1)',
+      modalBtnLabel: '📞 Llamar EE. UU./CA (+1)',
       dialHref: `tel:${e164Us}`,
       allowMiamiSms: true,
+      telBlocked: false,
       cleanPhone: e164Us,
       digits: e164Us.replace(/[^0-9]/g, ''),
       waUrl
     };
   }
+
+  const isMxPlus52 = (cleanPhone.startsWith('+52') && digits.length >= 12 && digits.length <= 13)
+    || (!cleanPhone.startsWith('+') && mxHint && (digits.length === 10 || (digits.startsWith('52') && digits.length >= 12 && digits.length <= 13)));
+  if (isMxPlus52) {
+    const mxDigits = digits.startsWith('52') ? digits : `52${digits}`;
+    const e164Mx = `+${mxDigits}`;
+    return {
+      mode: 'MX_LINE',
+      badge: '🇲🇽 Línea MX vía Miami (+52)',
+      btnLabel: '🇲🇽 Llamar MX (+52)',
+      modalBtnLabel: '🇲🇽 Llamar México (+52)',
+      dialHref: `tel:${e164Mx}`,
+      allowMiamiSms: false,
+      telBlocked: false,
+      cleanPhone: e164Mx,
+      digits: mxDigits,
+      waUrl
+    };
+  }
+
   return {
     mode: 'LATAM_WA',
-    badge: '🟢 WhatsApp ($0)',
-    btnLabel: '🟢 WA Call ($0)',
-    modalBtnLabel: '🟢 Llamar por WhatsApp ($0)',
-    dialHref: waUrl || (cleanPhone ? `tel:${cleanPhone}` : ''),
+    badge: '🛡️ Bloqueo Tel · Usar WA ($0)',
+    btnLabel: '🟢 WhatsApp ($0)',
+    modalBtnLabel: '🟢 WhatsApp ($0 · Tel Bloqueado)',
+    dialHref: waUrl || '',
     allowMiamiSms: false,
+    telBlocked: true,
     cleanPhone,
     digits,
     waUrl
@@ -7620,11 +7631,17 @@ function initiateCloserCall(rawPhone, leadId, alreadyInModal = false) {
       }
     } catch (e) {}
     if (route.mode === 'LATAM_WA') {
+      if (alreadyInModal) {
+        showSetterQuickFeedback(
+          '🛡️ Candado Anti-Cargos: llamadas telefónicas desde +1 786 están bloqueadas fuera de EE. UU./Canadá (+1) y México (+52). Usa WhatsApp ($0).',
+          true
+        );
+      }
       if (route.waUrl) {
         window.open(route.waUrl, '_blank', 'noopener');
       }
       if (!alreadyInModal && leadId) {
-        openSetterWorkDialog(leadId, 'Llamada');
+        openSetterWorkDialog(leadId, 'WhatsApp');
       }
       return;
     } else if (route.dialHref) {
