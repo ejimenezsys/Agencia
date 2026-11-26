@@ -606,10 +606,13 @@
           <button onclick="openLookGalleryModal()" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-amber-300 border border-amber-400/30 hover:bg-amber-400/10">
             <i class="fas fa-palette mr-1"></i> +12 Paletas de Marca
           </button>
+          <button type="button" id="btn-toggle-cortexia-constructor" onclick="toggleCortexiaConstructor()" class="px-3.5 py-1.5 rounded-lg text-xs font-black inline-flex items-center gap-1.5" style="background:linear-gradient(135deg,#fbbf24,#34d399); color:#03101d; border:none; box-shadow:0 0 18px rgba(52,211,153,0.35); cursor:pointer;">
+            <i class="fas fa-wand-magic-sparkles"></i> ✨ Constructor IA (Pegar Texto Grande)
+          </button>
 
           <!-- CTA Público -->
-          <a href="/#contacto" class="public-only-flex px-3.5 py-1.5 rounded-lg text-xs font-extrabold text-slate-950 no-underline items-center gap-1.5" style="background:linear-gradient(135deg,#34d399,#10b981);">
-            <i class="fas fa-calendar-check"></i> Quiero Esta Web para Mi Negocio →
+          <a href="/sitioweb#agendar" class="public-only-flex px-3.5 py-1.5 rounded-lg text-xs font-extrabold no-underline items-center gap-1.5" style="background:linear-gradient(135deg,#00e5ff,#34d399); color:#03101d;">
+            <i class="fas fa-gift"></i> Reclamar Mi Sitio Gratis →
           </a>
 
           <!-- Herramientas Privadas Closer -->
@@ -687,6 +690,58 @@
         </div>
       </div>
       <div id="crm-save-banner" class="hidden closer-only mt-2 px-3 py-2 rounded-lg text-xs font-semibold bg-emerald-500/15 border border-emerald-500/40 text-emerald-300"></div>
+
+      <!-- ══ MINI-APP CONSTRUCTOR EN VIVO CORTEXIA + PASSPORTAI (TEXTO GRANDE -> SITIO WEB) ══ -->
+      <div id="cortexia-constructor-drawer" style="display:none; margin-top:12px; padding:16px; border-radius:16px; background:linear-gradient(145deg,#081934,#040d1e); border:1.5px solid rgba(52,211,153,0.55); box-shadow:0 20px 50px rgba(0,0,0,0.55);">
+        <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px;">
+          <div>
+            <div style="font-size:11px; font-weight:900; color:#6ee7b7; text-transform:uppercase; letter-spacing:0.05em;">✨ Magia Cortexia &amp; PassportAI · Mini-App Constructor en Vivo</div>
+            <h2 style="font-size:16px; font-weight:900; color:#ffffff; margin:2px 0 0;">Pega el texto completo del negocio y construye al instante <span style="color:#00e5ff;" id="ctx-live-vanity">agenciaprosperia.com/tu-negocio</span></h2>
+          </div>
+          <button type="button" onclick="toggleCortexiaConstructor(false)" class="px-3 py-1 rounded-lg text-xs font-bold text-slate-300 border border-slate-600 hover:border-cyan-400">
+            ✕ Cerrar Panel
+          </button>
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(190px, 1fr)); gap:10px; margin-bottom:10px;">
+          <div>
+            <label for="ctx-biz-name" style="display:block; font-size:11px; font-weight:700; color:#67e8f9; margin-bottom:4px;">Nombre del Negocio</label>
+            <input type="text" id="ctx-biz-name" class="input-mini" placeholder="Ej. Clínica Dental Sonrisa" oninput="updateConstructorVanitySlug()">
+          </div>
+          <div>
+            <label for="ctx-city" style="display:block; font-size:11px; font-weight:700; color:#cbd5e1; margin-bottom:4px;">Ciudad o Zona</label>
+            <input type="text" id="ctx-city" class="input-mini" placeholder="Ej. CDMX / Miami / Bogotá">
+          </div>
+          <div>
+            <label for="ctx-phone" style="display:block; font-size:11px; font-weight:700; color:#cbd5e1; margin-bottom:4px;">WhatsApp de Contacto</label>
+            <input type="text" id="ctx-phone" class="input-mini" placeholder="+52 55 1234 5678">
+          </div>
+          <div>
+            <label for="ctx-offer" style="display:block; font-size:11px; font-weight:700; color:#cbd5e1; margin-bottom:4px;">Gancho / Promoción (sin inventar precios)</label>
+            <input type="text" id="ctx-offer" class="input-mini" placeholder="Ej. Valoración inicial sin costo hoy">
+          </div>
+        </div>
+
+        <div style="margin-bottom:10px;">
+          <label for="cortexia-big-text" style="display:block; font-size:11.5px; font-weight:800; color:#fde68a; margin-bottom:5px;">
+            📝 Pega aquí toda la información del negocio (qué hace, sus servicios, historia, beneficios o notas de la llamada):
+          </label>
+          <textarea id="cortexia-big-text" rows="5" style="width:100%; border-radius:12px; padding:12px 14px; font-size:13.5px; line-height:1.45; background:#030816; color:#f8fafc; border:1.5px solid rgba(0,229,255,0.45); resize:vertical;" placeholder="Ejemplo: Somos Clínica Dental Aurora en Guadalajara. Especialistas en diseño de sonrisa, ortodoncia invisible, implantes dentales y blanqueamiento láser. Más de 12 años cuidando familias. Teléfono +52 33 4455 6677. Agendamos valoración inicial hoy."></textarea>
+        </div>
+
+        <div style="display:flex; flex-wrap:wrap; align-items:center; gap:10px;">
+          <button type="button" id="ctx-build-btn" onclick="runCortexiaLiveConstructor()" style="padding:11px 18px; border-radius:11px; border:none; font-size:13px; font-weight:900; color:#03101d; background:linear-gradient(135deg,#00e5ff,#34d399); cursor:pointer; display:inline-flex; align-items:center; gap:7px;">
+            <i class="fas fa-bolt"></i> ✨ Construir Sitio Web en Vivo Ahora
+          </button>
+          <a id="ctx-open-clean-btn" href="/demo-sitio-web?public=1" target="_blank" rel="noopener" style="display:none; padding:10px 16px; border-radius:11px; font-size:12.5px; font-weight:800; color:#03101d; background:linear-gradient(135deg,#fbbf24,#34d399); text-decoration:none;">
+            ↗️ Abrir como Cliente en Nueva Pestaña
+          </a>
+          <button type="button" id="ctx-copy-url-btn" onclick="copyConstructedSiteUrl()" style="display:none; padding:10px 14px; border-radius:11px; font-size:12.5px; font-weight:800; color:#67e8f9; background:rgba(0,229,255,0.12); border:1px solid rgba(0,229,255,0.45); cursor:pointer;">
+            🔗 Copiar Enlace Personalizado
+          </button>
+          <span id="ctx-build-status" style="font-size:12px; font-weight:700; color:#6ee7b7;"></span>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -1356,6 +1411,152 @@
       if (params.get("phone")) document.getElementById("ctrl-phone").value = params.get("phone");
       syncLivePreview();
       renderLooksGrid();
+
+      // Prellenar constructor con datos del URL
+      const ctxBiz = document.getElementById("ctx-biz-name");
+      if (ctxBiz && params.get("business")) ctxBiz.value = params.get("business");
+      updateConstructorVanitySlug();
+
+      const customSlug = params.get("slug");
+      if (customSlug) {
+        try {
+          const csRes = await fetch(`/api/sitioweb/custom-site/${encodeURIComponent(customSlug)}`);
+          if (csRes.ok) {
+            const csData = await csRes.json();
+            if (csData?.ok && csData.custom_site) {
+              applyConstructedSiteData(csData.custom_site, csData.vanity_url_display, csData.slug);
+            }
+          }
+        } catch (e) {}
+      }
+
+      if (params.get("raw_text")) {
+        const bigTxt = document.getElementById("cortexia-big-text");
+        if (bigTxt) bigTxt.value = params.get("raw_text");
+        await runCortexiaLiveConstructor();
+      } else if (params.get("constructor") === "1" || window.location.pathname.includes("constructor-sitio-web")) {
+        toggleCortexiaConstructor(true);
+      }
+    }
+
+    function slugifyDemoBiz(raw) {
+      const clean = (raw || "")
+        .toString()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "")
+        .slice(0, 64);
+      return clean || "tu-negocio";
+    }
+
+    let LAST_CONSTRUCTED_URL = "";
+
+    function updateConstructorVanitySlug() {
+      const bizVal = document.getElementById("ctx-biz-name")?.value || document.getElementById("ctrl-business")?.value || "";
+      const vanityEl = document.getElementById("ctx-live-vanity");
+      if (vanityEl) vanityEl.textContent = `agenciaprosperia.com/${slugifyDemoBiz(bizVal)}`;
+    }
+
+    function toggleCortexiaConstructor(forceState) {
+      const drawer = document.getElementById("cortexia-constructor-drawer");
+      if (!drawer) return;
+      const shouldOpen = typeof forceState === "boolean" ? forceState : (drawer.style.display === "none" || !drawer.style.display);
+      drawer.style.display = shouldOpen ? "block" : "none";
+      if (shouldOpen) {
+        const ctxBiz = document.getElementById("ctx-biz-name");
+        const ctrlBiz = document.getElementById("ctrl-business");
+        if (ctxBiz && !ctxBiz.value && ctrlBiz?.value) ctxBiz.value = ctrlBiz.value;
+        updateConstructorVanitySlug();
+        setTimeout(() => document.getElementById("cortexia-big-text")?.focus(), 80);
+      }
+    }
+
+    function applyConstructedSiteData(site, vanityDisplay, slug) {
+      if (!site) return;
+      const tplKey = site.template_key || document.getElementById("ctrl-template").value || "clinica_dental_estetica";
+      if (TEMPLATES[tplKey]) {
+        document.getElementById("ctrl-template").value = tplKey;
+        const base = TEMPLATES[tplKey];
+        base.badge = site.badge || base.badge;
+        base.hero_title = site.hero_title || base.hero_title;
+        base.hero_subtitle = site.hero_subtitle || base.hero_subtitle;
+        base.about_title = site.about_title || base.about_title;
+        base.about_story = site.about_story || base.about_story;
+        base.about_mission = site.about_mission || base.about_mission;
+        if (Array.isArray(site.about_pillars) && site.about_pillars.length) {
+          base.about_pillars = site.about_pillars;
+        }
+        if (Array.isArray(site.services) && site.services.length) {
+          base.services = site.services;
+        }
+      }
+      if (site.business_name) document.getElementById("ctrl-business").value = site.business_name;
+      if (site.city) document.getElementById("ctrl-city").value = site.city;
+      if (site.offer) document.getElementById("ctrl-offer").value = site.offer;
+      if (site.phone) document.getElementById("ctrl-phone").value = site.phone;
+
+      applyTemplateChange(false);
+      syncLivePreview();
+
+      const ctxVanity = document.getElementById("ctx-live-vanity");
+      if (ctxVanity && vanityDisplay) ctxVanity.textContent = vanityDisplay;
+
+      const cleanUrl = `${window.location.origin}/mi-sitio/${encodeURIComponent(slug || slugifyDemoBiz(site.business_name))}`;
+      LAST_CONSTRUCTED_URL = cleanUrl;
+      const openBtn = document.getElementById("ctx-open-clean-btn");
+      const copyBtn = document.getElementById("ctx-copy-url-btn");
+      if (openBtn) {
+        openBtn.href = `/demo-sitio-web?public=1&slug=${encodeURIComponent(slug || slugifyDemoBiz(site.business_name))}&template=${encodeURIComponent(tplKey)}`;
+        openBtn.style.display = "inline-flex";
+      }
+      if (copyBtn) copyBtn.style.display = "inline-flex";
+    }
+
+    async function runCortexiaLiveConstructor() {
+      const btn = document.getElementById("ctx-build-btn");
+      const statusEl = document.getElementById("ctx-build-status");
+      const rawText = (document.getElementById("cortexia-big-text")?.value || "").trim();
+      const bizName = (document.getElementById("ctx-biz-name")?.value || document.getElementById("ctrl-business")?.value || "").trim();
+      const city = (document.getElementById("ctx-city")?.value || document.getElementById("ctrl-city")?.value || "").trim();
+      const phone = (document.getElementById("ctx-phone")?.value || document.getElementById("ctrl-phone")?.value || "").trim();
+      const offer = (document.getElementById("ctx-offer")?.value || document.getElementById("ctrl-offer")?.value || "").trim();
+      const template = document.getElementById("ctrl-template")?.value || "clinica_dental_estetica";
+
+      if (rawText.length < 8 && bizName.length < 2) {
+        if (statusEl) statusEl.textContent = "⚠️ Escribe el nombre o pega la descripción del negocio primero.";
+        document.getElementById("cortexia-big-text")?.focus();
+        return;
+      }
+
+      if (btn) btn.disabled = true;
+      if (statusEl) statusEl.textContent = "⏳ Construyendo sitio web personalizado con Cortexia...";
+      try {
+        const res = await fetch("/api/sitioweb/construct-live", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ raw_text: rawText, business_name: bizName, template, city, phone, offer }),
+        });
+        const data = await res.json();
+        if (!res.ok || !data.ok) throw new Error(data.detail || "No se pudo construir");
+        applyConstructedSiteData(data.custom_site, data.vanity_url_display, data.slug);
+        if (statusEl) {
+          statusEl.textContent = `✅ Sitio construido en vivo (${data.vanity_url_display}). Desplázate abajo para verlo o ábrelo en pestaña limpia.`;
+        }
+      } catch (err) {
+        if (statusEl) statusEl.textContent = "❌ Error al construir. Revisa tu texto e intenta de nuevo.";
+      } finally {
+        if (btn) btn.disabled = false;
+      }
+    }
+
+    function copyConstructedSiteUrl() {
+      const target = LAST_CONSTRUCTED_URL || window.location.href;
+      navigator.clipboard?.writeText(target).then(() => {
+        const st = document.getElementById("ctx-build-status");
+        if (st) st.textContent = `✅ Enlace copiado: ${target}`;
+      }).catch(() => {});
     }
 
     function cyclePageLayout() {

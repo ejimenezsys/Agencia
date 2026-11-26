@@ -2025,10 +2025,260 @@ async def sitioweb_funnel_page(request: Request):
     return templates.TemplateResponse(request=request, name="sitioweb.html", context={"request": request})
 
 
+@app.get("/constructor-sitio-web", response_class=HTMLResponse)
+@app.get("/constructor-sitio-web/", response_class=HTMLResponse)
+async def constructor_sitio_web_page(request: Request, lead_id: Optional[int] = None):
+    return templates.TemplateResponse(
+        request=request,
+        name="demo_sitio_web.html",
+        context={
+            "templates_json": json.dumps(WEBSITE_TEMPLATES_SHOWCASE, ensure_ascii=False),
+            "lead_id_json": json.dumps(lead_id),
+        },
+    )
+
+
+CUSTOM_CONSTRUCTED_SITES: Dict[str, Dict[str, Any]] = {}
+
+
+def _save_constructed_site(db: Session, slug: str, site_data: Dict[str, Any]) -> None:
+    CUSTOM_CONSTRUCTED_SITES[slug] = site_data
+    try:
+        key = f"custom_site:{slug}"
+        raw = json.dumps(site_data, ensure_ascii=False)
+        row = db.query(IntegrationSetting).filter(IntegrationSetting.key == key).first()
+        if row:
+            row.value = raw
+        else:
+            db.add(IntegrationSetting(key=key, value=raw))
+        db.commit()
+    except Exception:
+        try:
+            db.rollback()
+        except Exception:
+            pass
+
+
+def _load_constructed_site(db: Session, slug: str) -> Optional[Dict[str, Any]]:
+    clean = _slugify_business_name(slug)
+    if clean in CUSTOM_CONSTRUCTED_SITES:
+        return CUSTOM_CONSTRUCTED_SITES[clean]
+    try:
+        row = db.query(IntegrationSetting).filter(IntegrationSetting.key == f"custom_site:{clean}").first()
+        if row and row.value:
+            data = json.loads(row.value)
+            CUSTOM_CONSTRUCTED_SITES[clean] = data
+            return data
+    except Exception:
+        pass
+    return None
+
+
+def _construct_site_from_big_text(
+    raw_text: str,
+    business_name: str,
+    template_key: str,
+    city: str,
+    phone: str,
+    offer: str,
+) -> Dict[str, Any]:
+    """Construye la estructura completa de un Sitio Web Inteligente a partir de texto libre."""
+    tpl_k = template_key if template_key in WEBSITE_TEMPLATES_SHOWCASE else "clinica_dental_estetica"
+    base = WEBSITE_TEMPLATES_SHOWCASE[tpl_k]
+    text_clean = re.sub(r"\r\n?", "\n", (raw_text or "").strip())
+
+    # Extracción determinista rápida (respaldo inmediato <5ms)
+    lines = [re.sub(r"^[\-\*•\d\.\)\s]+", "", ln).strip() for ln in text_clean.split("\n") if ln.strip()]
+    sentences = [s.strip() for s in re.split(r"(?<=[\.\!\?])\s+|\n+", text_clean) if len(s.strip()) > 12]
+
+    inferred_biz = business_name.strip()
+    if not inferred_biz and lines:
+        cand = lines[0][:68]
+        inferred_biz = cand if len(cand) >= 3 else base.get("default_business", "Tu Negocio Inteligente")
+    if not inferred_biz:
+        inferred_biz = base.get("default_business", "Tu Negocio Inteligente")
+
+    inferred_phone = phone.strip()
+    if not inferred_phone:
+        m_phone = re.search(r"(\+?\d[\d\s\-\(\)]{7,16}\d)", text_clean)
+        inferred_phone = m_phone.group(1).strip() if m_phone else "+1 786 557 3119"
+
+    inferred_city = city.strip()
+    if not inferred_city:
+        m_city = re.search(r"(?:en|ubicad[oa]s?\s+en|ciudad|sede)\s+([A-ZÁÉÍÓÚÑ][A-Za-zÁÉÍÓÚÑáéíóúñ\s,]{2,40})", text_clean)
+        inferred_city = m_city.group(1).strip(" .,;:") if m_city else base.get("default_city", "Tu Ciudad y Cobertura Digital")
+
+    inferred_offer = offer.strip()
+    if not inferred_offer:
+        promo_match = next((s for s in sentences if re.search(r"(gratis|descuento|%|promo|diagn[oó]stico|valoraci[oó]n|sin costo|hoy)", s, re.I)), "")
+        inferred_offer = promo_match[:90] if promo_match else base.get("default_offer", "Atención Prioritaria e Información en Minutos")
+
+    base_services = list(base.get("services") or [])
+    bullet_lines = [
+        re.sub(r"^[\-\*•\d\.\)\s]+", "", ln).strip()
+        for ln in text_clean.split("\n")
+        if re.match(r"^\s*([\-\*•]|\d+[\.\)])\s+", ln) and len(ln.strip()) > 6
+    ]
+    if len(bullet_lines) < 3 and "," in text_clean:
+        parts = [p.strip() for p in re.split(r"[,\n;]+", text_clean) if 6 <= len(p.strip()) <= 75]
+        for p in parts:
+            if p not in bullet_lines:
+                bullet_lines.append(p)
+
+    icons_pool = [s.get("icon", "fa-check-circle") for s in base_services] or ["fa-star", "fa-bolt", "fa-shield-alt", "fa-calendar-check", "fa-comments", "fa-award"]
+    built_services = []
+    for idx in range(6):
+        fallback_srv = base_services[idx] if idx < len(base_services) else {"icon": "fa-star", "tag": "Destacado", "title": f"Servicio Especializado {idx+1}", "desc": f"Atención profesional de {inferred_biz} adaptada a tus objetivos."}
+        if idx < len(bullet_lines):
+            raw_item = bullet_lines[idx]
+            if ":" in raw_item:
+                t_part, d_part = raw_item.split(":", 1)
+                srv_title = t_part.strip()[:60]
+                srv_desc = d_part.strip()[:160] or fallback_srv["desc"]
+            elif " - " in raw_item:
+                t_part, d_part = raw_item.split(" - ", 1)
+                srv_title = t_part.strip()[:60]
+                srv_desc = d_part.strip()[:160] or fallback_srv["desc"]
+            else:
+                srv_title = raw_item[:54]
+                srv_desc = f"Servicio profesional ofrecido por {inferred_biz} con atención rápida por WhatsApp y seguimiento personalizado."
+            built_services.append({
+                "icon": icons_pool[idx % len(icons_pool)],
+                "tag": "Personalizado" if idx < 2 else fallback_srv.get("tag", "Disponible"),
+                "title": srv_title,
+                "desc": srv_desc,
+            })
+        else:
+            built_services.append(fallback_srv)
+
+    summary_story = " ".join(sentences[:3])[:420] if sentences else (text_clean[:380] or base.get("about_story", ""))
+    hero_sub = (sentences[0][:210] if sentences else f"Soluciones profesionales de {inferred_biz} con atención inmediata y agenda directa en línea.")
+
+    result: Dict[str, Any] = {
+        "template_key": tpl_k,
+        "business_name": inferred_biz,
+        "badge": base.get("badge", "Sitio Web Inteligente Personalizado"),
+        "hero_title": f"{inferred_biz}: Atención Profesional y Citas en Línea",
+        "hero_subtitle": hero_sub,
+        "city": inferred_city,
+        "offer": inferred_offer,
+        "phone": inferred_phone,
+        "about_title": f"Por qué elegir a {inferred_biz}",
+        "about_story": summary_story,
+        "about_mission": f"Brindar resultados reales y atención en segundos para cada cliente de {inferred_biz} en {inferred_city}.",
+        "about_pillars": [
+            f"Atención directa de {inferred_biz} en {inferred_city}",
+            f"Cotización rápida y orientación por WhatsApp ({inferred_phone})",
+            "Agenda disponible las 24 horas sin tiempos de espera",
+        ],
+        "services": built_services,
+        "raw_text": text_clean[:2500],
+        "constructed_with": "cortexia_engine",
+    }
+
+    # Enriquecimiento con IA generativa si hay GEMINI_API_KEY activa (timeout corto 3.5s)
+    gemini_key = _resolve_env_secret("GEMINI_API_KEY", "")
+    if gemini_key and len(text_clean) >= 20:
+        try:
+            prompt = (
+                "Eres el Constructor Maestro de Sitios Web de Cortexia y PassportAI. "
+                "A partir de este texto libre sobre un negocio, genera un JSON válido en español limpio "
+                "(NO incluyas precios en dólares inventados) con estas llaves exactas:\n"
+                '{"business_name":"...","badge":"...","hero_title":"máximo 11 palabras impactantes",'
+                '"hero_subtitle":"1 oración clara de valor","city":"...","offer":"gancho breve sin inventar precios",'
+                '"about_title":"...","about_story":"2 a 3 oraciones claras basadas en el texto",'
+                '"about_mission":"1 oración","about_pillars":["pilar 1","pilar 2","pilar 3"],'
+                '"services":[{"tag":"...","title":"...","desc":"1 oración"} (exactamente 6 servicios extraídos o afines al texto)]}\n\n'
+                f"NOMBRE SUGERIDO: {inferred_biz}\nCIUDAD: {inferred_city}\nTEXTO DEL CLIENTE:\n{text_clean[:2200]}"
+            )
+            api_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={urllib.parse.quote(gemini_key)}"
+            req_body = json.dumps({
+                "contents": [{"parts": [{"text": prompt}]}],
+                "generationConfig": {"temperature": 0.4, "responseMimeType": "application/json"},
+            }).encode("utf-8")
+            req_obj = urllib.request.Request(api_url, data=req_body, headers={"Content-Type": "application/json"}, method="POST")
+            with urllib.request.urlopen(req_obj, timeout=3.5) as resp:
+                raw_resp = json.loads(resp.read().decode("utf-8"))
+                txt_out = raw_resp["candidates"][0]["content"]["parts"][0]["text"]
+                parsed = json.loads(txt_out)
+                if isinstance(parsed, dict) and parsed.get("hero_title"):
+                    for k in ("business_name", "badge", "hero_title", "hero_subtitle", "city", "offer", "about_title", "about_story", "about_mission"):
+                        if isinstance(parsed.get(k), str) and parsed[k].strip():
+                            result[k] = parsed[k].strip()
+                    if isinstance(parsed.get("about_pillars"), list) and len(parsed["about_pillars"]) >= 2:
+                        result["about_pillars"] = [str(x).strip() for x in parsed["about_pillars"][:4] if str(x).strip()]
+                    if isinstance(parsed.get("services"), list) and len(parsed["services"]) >= 3:
+                        merged_srvs = []
+                        for idx, srv in enumerate(parsed["services"][:6]):
+                            if isinstance(srv, dict) and srv.get("title"):
+                                merged_srvs.append({
+                                    "icon": icons_pool[idx % len(icons_pool)],
+                                    "tag": str(srv.get("tag") or "Destacado")[:24],
+                                    "title": str(srv.get("title"))[:64],
+                                    "desc": str(srv.get("desc") or "")[:180],
+                                })
+                        if merged_srvs:
+                            result["services"] = merged_srvs
+                    result["constructed_with"] = "cortexia_gemini"
+        except Exception:
+            pass
+
+    return result
+
+
+@app.post("/api/sitioweb/construct-live")
+async def api_sitioweb_construct_live(request: Request, db: Session = Depends(get_db)):
+    try:
+        body = await request.json()
+    except Exception:
+        raise HTTPException(status_code=400, detail="Payload JSON inválido.")
+
+    raw_text = (body.get("raw_text") or "").strip()
+    business_name = (body.get("business_name") or "").strip()[:100]
+    template_key = (body.get("template") or "clinica_dental_estetica").strip()
+    city = (body.get("city") or "").strip()[:80]
+    phone = (body.get("phone") or "").strip()[:30]
+    offer = (body.get("offer") or "").strip()[:100]
+
+    if len(raw_text) < 8 and len(business_name) < 2:
+        raise HTTPException(status_code=422, detail="Escribe el nombre del negocio o pega una descripción para construir tu sitio web.")
+
+    site_data = _construct_site_from_big_text(raw_text, business_name, template_key, city, phone, offer)
+    slug = _slugify_business_name(site_data["business_name"])
+    _save_constructed_site(db, slug, site_data)
+
+    return JSONResponse({
+        "ok": True,
+        "slug": slug,
+        "vanity_url_display": f"agenciaprosperia.com/{slug}",
+        "share_url": f"/mi-sitio/{slug}",
+        "clean_tab_url": f"/demo-sitio-web?public=1&slug={urllib.parse.quote(slug)}&template={urllib.parse.quote(site_data['template_key'])}",
+        "custom_site": site_data,
+    })
+
+
+@app.get("/api/sitioweb/custom-site/{slug}")
+async def api_sitioweb_get_custom_site(slug: str, db: Session = Depends(get_db)):
+    clean = _slugify_business_name(slug)
+    site_data = _load_constructed_site(db, clean)
+    if not site_data:
+        raise HTTPException(status_code=404, detail="Sitio personalizado no encontrado.")
+    return JSONResponse({"ok": True, "slug": clean, "vanity_url_display": f"agenciaprosperia.com/{clean}", "custom_site": site_data})
+
+
 @app.get("/mi-sitio/{business_slug}")
 @app.get("/negocio/{business_slug}")
 async def vanity_business_preview_redirect(business_slug: str, request: Request, db: Session = Depends(get_db)):
     clean_slug = _slugify_business_name(business_slug)
+    custom_site = _load_constructed_site(db, clean_slug)
+    if custom_site:
+        params = {
+            "public": "1",
+            "slug": clean_slug,
+            "template": custom_site.get("template_key") or "clinica_dental_estetica",
+            "business": custom_site.get("business_name") or "Tu Negocio",
+        }
+        return RedirectResponse(url=f"/demo-sitio-web?{urllib.parse.urlencode(params)}", status_code=307)
     tpl = (request.query_params.get("template") or "").strip() or "clinica_dental_estetica"
     biz_display = " ".join(w.capitalize() for w in clean_slug.split("-")) if clean_slug != "tu-negocio" else "Tu Negocio"
     phone_q = (request.query_params.get("phone") or "").strip()
