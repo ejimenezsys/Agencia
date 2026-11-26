@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Playbook Oficial Closers — 3 Estrategias &amp; Paquetes Unificados · Agencia Prosper IA</title>
+<style>
+  @page {
+    size: letter portrait;
+    margin: 0.28in 0.36in;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #ffffff;
+    color: #0f172a;
+    line-height: 1.32;
+    font-size: 8.6pt;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .page {
+    page-break-after: always;
+  }
+  .page:last-child {
+    page-break-after: auto;
+  }
+  .hero-banner {
+    background: linear-gradient(135deg, #070d1f 0%, #0f1c3d 55%, #064e3b 100%);
+    color: #ffffff;
+    border-radius: 10px;
+    padding: 10px 15px;
+    margin-bottom: 7px;
+    border-bottom: 3px solid #fbbf24;
+  }
+  .kicker {
+    display: inline-block;
+    background: rgba(52, 211, 153, 0.2);
+    border: 1px solid #34d399;
+    color: #6ee7b7;
+    font-size: 7.4pt;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 1.5px 8px;
+    border-radius: 999px;
+    margin-bottom: 4px;
+  }
+  h1 {
+    font-size: 15pt;
+    font-weight: 900;
+    line-height: 1.12;
+    margin-bottom: 4px;
+    color: #ffffff;
+  }
+  .hero-sub {
+    font-size: 8.6pt;
+    color: #cbd5e1;
+    margin-bottom: 5px;
+  }
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 7.8pt;
+    color: #fde68a;
+    font-weight: 700;
+  }
+  h2 {
+    font-size: 10.6pt;
+    font-weight: 900;
+    color: #0f172a;
+    border-left: 4px solid #0284c7;
+    padding-left: 7px;
+    margin: 7px 0 4.5px;
+  }
+  h3 {
+    font-size: 9.2pt;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 2.5px;
+  }
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 7px;
+    margin-bottom: 6px;
+  }
+  .grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 7px;
+    margin-bottom: 6px;
+  }
+  .card {
+    background: #f8fafc;
+    border: 1.2px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 7.5px 9px;
+    break-inside: avoid;
+  }
+  .card.emerald {
+    background: #ecfdf5;
+    border-color: #10b981;
+  }
+  .card.cyan {
+    background: #ecfeff;
+    border-color: #06b6d4;
+  }
+  .card.amber {
+    background: #fffbeb;
+    border-color: #f59e0b;
+  }
+  .card.dark {
+    background: #0f172a;
+    border-color: #334155;
+    color: #f8fafc;
+  }
+  .pill {
+    display: inline-block;
+    font-size: 7pt;
+    font-weight: 900;
+    padding: 1.5px 6px;
+    border-radius: 999px;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+  .pill.green { background: #10b981; color: #052e16; }
+  .pill.cyan { background: #06b6d4; color: #083344; }
+  .pill.gold { background: #f59e0b; color: #451a03; }
+  ul.clean {
+    list-style: none;
+    padding-left: 0;
+    font-size: 8.1pt;
+  }
+  ul.clean li {
+    margin-bottom: 2.5px;
+    padding-left: 11px;
+    position: relative;
+  }
+  ul.clean li::before {
+    content: "✓";
+    color: #059669;
+    font-weight: 900;
+    position: absolute;
+    left: 0;
+  }
+  .dark ul.clean li::before { color: #34d399; }
+  .script-box {
+    background: #f1f5f9;
+    border: 1px dashed #64748b;
+    border-radius: 6px;
+    padding: 5.5px 8px;
+    font-size: 8pt;
+    color: #0f172a;
+    margin: 3.5px 0;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 7.45pt;
+    line-height: 1.24;
+    margin: 3px 0 5px;
+  }
+  thead th {
+    background: #0f172a;
+    color: #ffffff;
+    text-align: left;
+    padding: 4px 5px;
+    font-size: 7.4pt;
+    border: 1px solid #334155;
+  }
+  tbody td {
+    padding: 3.5px 5px;
+    border: 1px solid #cbd5e1;
+    vertical-align: top;
+  }
+  tbody tr { break-inside: avoid; }
+  tbody tr:nth-child(even) { background: #f8fafc; }
+  .step-num {
+    display: inline-flex;
+    width: 16px;
+    height: 16px;
+    border-radius: 999px;
+    background: #0f172a;
+    color: #fbbf24;
+    font-weight: 900;
+    font-size: 7.5pt;
+    align-items: center;
+    justify-content: center;
+    margin-right: 4px;
+  }
+  .footer-note {
+    margin-top: 4px;
+    padding: 5.5px 9px;
+    border-radius: 7px;
+    background: #fef3c7;
+    border-left: 4px solid #d97706;
+    font-size: 7.9pt;
+    color: #78350f;
+  }
+</style>
+</head>
+<body>
+
+  <!-- PÁGINA 1: MAPA MAESTRO DE LAS 3 ESTRATEGIAS -->
+  <div class="page">
+    <div class="hero-banner">
+      <div class="kicker">PLAYBOOK OFICIAL DE VENTAS · AGENCIA PROSPER IA LLC</div>
+      <h1>Las 3 Estrategias de Ataque Comercial &amp; Paquetes Unificados</h1>
+      <p class="hero-sub">Guía táctica paso a paso para Closers y Setters: cómo regalar el Sitio Web Inicial a $0 costo como Caballo de Troya, operar el CRM Dashboard, activar el "Flash de Autoridad" con PassportAI.app y cerrar rentas mensuales o pagos anuales sin fricción.</p>
+      <div class="meta-row">
+        <span>🌐 Embudo Público: agenciaprosperia.com/sitioweb</span>
+        <span>⚡ Constructor IA en Vivo: /constructor-sitio-web</span>
+        <span>🎬 Video Tutorial Closers: /static/video/tutorial_3_estrategias_closers.mp4</span>
+      </div>
+    </div>
+
+    <h2>1. Mapa General: Las 3 Estrategias que Llenan tu Pipeline Todo el Mes</h2>
+    <div class="grid-3">
+      <div class="card emerald">
+        <span class="pill green">ESTRATEGIA 1 · RUTA PROACTIVA</span>
+        <h3>El Caballo de Troya ($0 Inicial)</h3>
+        <p style="font-size:9.5pt; color:#1e293b; margin-bottom:6px;">Sales a buscar prospectos desde el <strong>Dashboard CRM (Bolsa de 500 leads)</strong> y les regalas su <strong>Sitio Web Inicial en <code>agenciaprosperia.com/tu-negocio</code></strong> sin pago previo.</p>
+        <ul class="clean">
+          <li><strong>Cero objeción de testimonios:</strong> «Estamos construyendo 1,000 casos de éxito; te regalamos tu web inicial a cambio de tu testimonio real».</li>
+          <li><strong>Cero fricción técnica:</strong> nosotros compramos dominio/servidor y alojamos su enlace en vivo en la llamada de 15 minutos.</li>
+        </ul>
+      </div>
+      <div class="card cyan">
+        <span class="pill cyan">ESTRATEGIA 2 · RUTA PASIVA INBOUND</span>
+        <h3>Fábrica de 16 Contenidos/Mes</h3>
+        <p style="font-size:9.5pt; color:#1e293b; margin-bottom:6px;">Mientras tú prospectas proactivamente, <strong>Edward, David y Angélica</strong> publican Reels y Carruseles diarios (16 piezas mensuales) demostrando el Constructor IA en vivo.</p>
+        <ul class="clean">
+          <li><strong>Tráfico caliente directo:</strong> los dueños interesados entran a <code>/sitioweb</code> en 3 pasos y agendan su llamada directo en tu calendario.</li>
+          <li><strong>Mismo guion de cierre:</strong> llegan pidiendo su web gratuita y escalan a nuestros paquetes mensuales o anuales.</li>
+        </ul>
+      </div>
+      <div class="card amber">
+        <span class="pill gold">ESTRATEGIA 3 · LANZAMIENTO EXMA</span>
+        <h3>Evento 10 de Diciembre (100–200 Leads)</h3>
+        <p style="font-size:9.5pt; color:#1e293b; margin-bottom:6px;">Al finalizar la conferencia presencial de Edward en <strong>EXMA Miami (4–5 de diciembre)</strong>, ejecutamos un lanzamiento en vivo el <strong>10 de diciembre</strong> con 100 a 200 empresarios.</p>
+        <ul class="clean">
+          <li><strong>Evidencia de escenario:</strong> fotos y clips de EXMA validando nuestra autoridad frente a dueños de clínicas, realtors y PYMEs.</li>
+          <li><strong>Cierre asignado al equipo:</strong> todos los prospectos del evento bajan directo a los Closers activos para cierre inmediato.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>2. Estrategia 1 a Fondo: La Llamada de 15 Minutos + El «Flash de Autoridad»</h2>
+    <div class="grid-2">
+      <div class="card">
+        <h3><span class="step-num">1</span> El Regalo que Rompe el Hielo (Minutos 0 a 5)</h3>
+        <div class="script-box">
+          <strong>Guion Word-for-Word (Llamada o WhatsApp):</strong><br>
+          «[Nombre], revisé tu negocio y vi que hoy la gente te busca y depende de responder mensajes a mano. Mira, armar una web normal implica comprar dominio, hosting, contratar servidor, diseñador y editor. Nosotros te quitamos todo eso: <strong>estamos construyendo 1,000 casos de éxito y te vamos a regalar tu Sitio Web Inicial a $0 en <code>agenciaprosperia.com/tu-negocio</code></strong>. Solo necesito 15 minutos contigo en Zoom para tomar tus datos, generarlo en vivo y que nos regales tu testimonio cuando lo veas funcionando. ¿Te queda mejor hoy a las [Hora A] o mañana a las [Hora B]?»
+        </div>
+        <ul class="clean">
+          <li>El enlace entregado bajo <code>agenciaprosperia.com/tu-negocio</code> lleva únicamente la marca del cliente y un botón directo a su WhatsApp. ¡Cero fricción!</li>
+          <li>Recuerda: <strong>el embudo público <code>/sitioweb</code> NO muestra precios</strong> para maximizar agendamientos.</li>
+        </ul>
+      </div>
+      <div class="card dark">
+        <h3 style="color:#fbbf24;"><span class="step-num" style="background:#fbbf24;color:#0f172a;">2</span> Constructor en Vivo + Flash PassportAI (Minutos 5 a 15)</h3>
+        <ul class="clean" style="color:#e2e8f0;">
+          <li><strong>Paso A — Magia en Vivo (<code>/constructor-sitio-web</code>):</strong> Comparte pantalla, pega la descripción del negocio del cliente en el Constructor IA y en 5 segundos muéstrale su página web con fotografías reales de su industria. ¡Ahí ya lo deslumbraste!</li>
+          <li><strong>Paso B — El «Flash de Autoridad» con <code>PassportAI.app</code>:</strong> Enséñale 20 segundos nuestra plataforma con <strong>+797 usuarios activos</strong> y <strong>+58 modelos líderes de IA</strong> (OpenAI, Google Gemini, Anthropic Claude, Runway, ElevenLabs). Dile:<br><em>«Somos ingenieros creando plataformas de IA robustas. Hacerte un sitio web inteligente es lo más básico para nosotros; por eso te lo regalamos. Donde realmente te hacemos ganar dinero es conectándote tu dominio, tu bandeja unificada, tus Reels mensuales y tu Recepcionista IA 24/7».</em></li>
+          <li><strong>Paso C — Pregunta de Transición:</strong> «Tu web inicial ya es tuya a $0. Ahora dime, ¿qué prefieres activar hoy mismo: pagar una renta mensual liviana o asegurar todo el año ahorrando 2 meses?».</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>3. Reglas Críticas del Embudo (Prohibido Confundir al Prospecto)</h2>
+    <div class="footer-note">
+      <strong>⚠️ NUNCA vendemos precios sueltos en el primer toque ni mostramos los 100 botones de golpe:</strong> Primer objetivo = Agendar la sesión de 15 min para regalar su Sitio Web Inicial en <code>agenciaprosperia.com/tu-negocio</code>. En la llamada, muestras 1 sola demostración en vivo + 20 segundos de PassportAI.app y cierras uno de los <strong>3 Paquetes Unificados</strong> de la página 2.
+    </div>
+  </div>
+
+  <!-- PÁGINA 2: TUTORIAL DASHBOARD CRM + PAQUETES UNIFICADOS -->
+  <div class="page">
+    <h2>4. Manual Práctico: Cómo Trabajar la Ruta Proactiva en el Dashboard CRM</h2>
+    <div class="grid-2">
+      <div class="card">
+        <h3>Paso a Paso en <code>agenciaprosperia.com/dashboard</code></h3>
+        <ol style="padding-left:18px; font-size:9.5pt; color:#1e293b;">
+          <li style="margin-bottom:5px;"><strong>Filtra la Bolsa de 500 Leads:</strong> Entra con tu usuario en <strong>Gorra Setter / Prospección</strong>, filtra por país o ciudad (México, Colombia, Chile, Argentina, EE. UU.) y revisa el giro del comercio.</li>
+          <li style="margin-bottom:5px;"><strong>Investiga en 15 segundos con los Botones Integrados:</strong> Haz clic en el botón de búsqueda rápida <strong>Google / Instagram / Facebook</strong> para confirmar que el negocio está activo y ver qué necesita mejorar.</li>
+          <li style="margin-bottom:5px;"><strong>Reclama al Prospecto a tu Nombre:</strong> Elige tu nombre en <strong>«Asignar a Closer»</strong>, escribe una nota corta (ej. <em>«Investigado en IG, buen perfil para Web Gratis»</em>) y presiona <strong>Guardar Nota y Toque (+1)</strong>. <em>El lead desaparece de la bolsa general y pasa en exclusiva a tu cuenta.</em></li>
+          <li><strong>Pasa a Sombrero de Closer:</strong> Contacta por WhatsApp / Llamada desde tu pipeline personal, agenda la cita de 15 min para entregar su Web Gratis y avanza la oportunidad hasta el cobro.</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h3>Regla Anti-Bloqueo en WhatsApp &amp; Mensajería</h3>
+        <ul class="clean">
+          <li><strong>No dispares mensajes idénticos en ráfaga</strong> desde tu número personal sin personalizar el nombre del negocio y su ciudad.</li>
+          <li>Usa las variantes del Speech en la ficha del lead dentro del CRM y registra cada toque en la bitácora.</li>
+          <li><strong>El argumento financiero ganador en la llamada:</strong><br>«Si contratas por fuera dominio, hosting, diseñador web, editor de videos y alguien que gestione tu IA, son 4 personas distintas. Con Agencia Prosper IA alojamos tu propio dominio <code>.com</code> en nuestros servidores, unificamos tus redes en una sola bandeja y te damos tus guiones + Reels editados listos cada mes».</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>5. Catálogo Oficial Unificado (Empate Mensual vs. Pago Único Anual)</h2>
+    <p style="font-size:9.5pt; color:#334155; margin-bottom:6px;">
+      <strong>Lógica Única Unificada</strong> across Web, CRM Prosper IA y <code>passportai.app</code> (en el pago anual de un solo golpe el cliente <strong>ahorra 2 meses completos</strong> frente a pagar la mensualidad todo el año):
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:19%;">Paquete Oficial</th>
+          <th style="width:14%;">Renta Mensual</th>
+          <th style="width:15%;">Pago Único Anual (2 Meses Gratis)</th>
+          <th style="width:17%;">Contenido Mensual Incluido</th>
+          <th style="width:35%;">Infraestructura &amp; Automatización IA Incluida</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong style="color:#059669;">1. Plan Arranque Rápido</strong><br><span style="font-size:8pt; color:#475569;">Entrada PyME / Profesional</span></td>
+          <td><strong>US$49 / mes</strong><br><span style="font-size:8pt; color:#475569;">$0 instalación</span></td>
+          <td><strong>US$497</strong><br><span style="font-size:8pt; color:#475569;">(o 50/50: $250 hoy + $247 entrega)</span></td>
+          <td>• <strong>15 Guiones Ganadores</strong> de su giro<br>• <strong>5 Ediciones de Videos Reels</strong> al mes</td>
+          <td>• Sitio Web Inteligente de alta conversión.<br>• <strong>Tu propio dominio <code>.com</code> conectado y alojado en los servidores de Agencia Prosper IA</strong>.<br>• <strong>Bandeja Unificada CRM</strong> (WA, IG, FB, Web y correo) + Calendario de citas + Reseñas Google 5★.</td>
+        </tr>
+        <tr style="background:#ecfeff;">
+          <td><strong style="color:#0369a1;">⭐ 2. Pack Estrella</strong><br><span style="font-size:8pt; color:#0369a1;">EL MÁS VENDIDO · Empatado con PassportAI.app</span></td>
+          <td><strong>US$99 / mes</strong><br><span style="font-size:8pt; color:#0369a1;">Igual que PassportAI</span></td>
+          <td><strong>US$990</strong><br><span style="font-size:8pt; color:#0369a1;">(o 50/50: $495 hoy + $495 entrega)</span></td>
+          <td>• <strong>30 Guiones Ganadores</strong> de su giro<br>• <strong>15 Ediciones de Videos Reels</strong> para todo el mes</td>
+          <td>• <strong>Todo lo de Arranque Rápido</strong> (Dominio en Agencia + Bandeja Unificada).<br>• <strong>Recepcionista y Vendedor IA 24/7 en Texto:</strong> contesta WA/IG/FB/Web en &lt; 5s, rescata llamadas perdidas y agenda citas solo.<br>• Acceso completo a <strong>PassportAI.app</strong> + Reactivación inicial.</td>
+        </tr>
+        <tr style="background:#fffbeb;">
+          <td><strong style="color:#b45309;">🔥 3. Máquina Completa Empresarial</strong><br><span style="font-size:8pt; color:#b45309;">Voz IA + Multi-Sede</span></td>
+          <td><strong>US$149 / mes</strong><br><span style="font-size:8pt; color:#b45309;">Llave en mano</span></td>
+          <td><strong>US$1,497</strong><br><span style="font-size:8pt; color:#b45309;">(o 2 cuotas 50/50 · Ahorra $291/año)</span></td>
+          <td>• <strong>30 Guiones Ganadores</strong><br>• <strong>30 Videos Editados para Reels y Carruseles</strong> al mes</td>
+          <td>• <strong>Todo lo del Pack Estrella</strong> (Dominio Agencia + Bandeja + Chat IA 24/7).<br>• <strong>Recepcionista Telefónica de Voz con IA 24/7 (Español e Inglés):</strong> contesta llamadas reales con voz natural, resuelve dudas y agenda citas.<br>• <strong>Reparto Automático entre Múltiples Vendedores o Sedes</strong> con embudos completos + <strong>PassportAI.app (+58 modelos IA)</strong>.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="grid-2">
+      <div class="card emerald">
+        <h3>Guion de Empate Mensual vs. Anual (Para Cerrar Hoy)</h3>
+        <div class="script-box">
+          «El <strong>Pack Estrella</strong> tiene exactamente el mismo valor mensual de nuestra plataforma PassportAI.app: <strong>US$99 al mes</strong> con tu dominio alojado en nuestros servidores, bandeja unificada, Recepcionista IA 24/7, 30 guiones ganadores y 15 Reels editados cada mes. Si prefieres olvidarte de mensualidades todo el año, el pago anual único queda en <strong>US$990</strong> (te ahorras 2 meses gratis y puedes apartarlo hoy con el 50%). ¿Con cuál prefieres arrancar?»
+        </div>
+      </div>
+      <div class="card amber">
+        <h3>Comisiones Oficiales &amp; Video Tutorial de Refuerzo</h3>
+        <ul class="clean">
+          <li><strong>Esquema 15% Total en Pagos Únicos / Anuales:</strong> <strong>$74.55</strong> en Arranque Rápido ($497) · <strong>$148.50</strong> en Pack Estrella ($990) · <strong>$224.55</strong> en Máquina Completa Empresarial ($1,497).</li>
+          <li><strong>Orden de Anclaje:</strong> Cotiza primero <strong>Máquina Completa ($149/mes o $1,497)</strong>, baja a <strong>Pack Estrella ($99/mes o $990)</strong> y usa <strong>Arranque Rápido ($49/mes o $497)</strong> como entrada liviana.</li>
+          <li><strong>Video de Entrenamiento Editado (15 min):</strong> disponible en <code>agenciaprosperia.com/static/video/tutorial_3_estrategias_closers.mp4</code> con la explicación directa de Edward sobre el Constructor, CRM y las 3 Estrategias.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -417,11 +417,12 @@ def _select_pool_candidates(
 OFFER_CATALOG = {
     "EXPRESS_497": {
         "code": "EXPRESS_497",
-        "name": "Caja 1 · Plan Impulso / Rescate Web + Chatbot IA (Oferta Principal)",
+        "name": "1. Plan Arranque Rápido (US$497 Anual o US$49/mes)",
         "price": 497.0,
+        "monthly_price": 49.0,
         "initial_payment": 250.0,
         "delivery_payment": 247.0,
-        "payment_terms": "US$250 hoy (reserva 50%) + US$247 contra entrega en 7-10 días (Total: US$497 USD). Incluye 3 MESES GRATIS (90 días) de Hosting + Chatbot IA + CRM ligado a PassportAI; desde el mes 4 US$97/mes.",
+        "payment_terms": "Pago Único Anual US$497 (o US$250 hoy + US$247 entrega) · O Renta Mensual US$49/mes. Incluye dominio .com alojado en Agencia Prosper IA + Bandeja Unificada + 15 Guiones + 5 Reels.",
         "delivery_cost_estimate": 100.0,
         "requires_director_approval": False,
         "link_reserva_50": "https://api.agenciaprosperia.com/payment-link/6af2287303c375ed645fe629",
@@ -430,15 +431,28 @@ OFFER_CATALOG = {
         "whop_reserva_50": "https://whop.com/checkout/ch_xQflGEnePudxbjw/",
         "whop_liquidacion_50": "https://whop.com/checkout/ch_92aSdDc7D7MlELy/",
         "whop_unico_100": "https://whop.com/checkout/ch_JNFzIX0aWE7jNZN/",
-        "scope": "1 Sitio Web Inteligente de hasta 6 secciones (1 revisión de lanzamiento) + Módulo 1 Chatbot Recepcionista IA 24/7 en Web + Formulario Calificador conectado a Bandeja CRM + 3 Meses Gratis de CRM y PassportAI."
+        "scope": "Sitio Web Inteligente + Tu propio dominio .com conectado y alojado en servidores de Agencia Prosper IA + Bandeja Unificada Multicanal (ProsperIA CRM) + Calendario y Reseñas Google + 15 Guiones Ganadores + 5 Ediciones de Videos de Reels."
+    },
+    "MENSUAL_49": {
+        "code": "MENSUAL_49",
+        "name": "1. Plan Arranque Rápido — Renta Mensual (US$49/mes)",
+        "price": 49.0,
+        "monthly_price": 49.0,
+        "initial_payment": 49.0,
+        "delivery_payment": 0.0,
+        "payment_terms": "Renta Mensual US$49 USD/mes (o Pago Anual con ahorro US$497).",
+        "delivery_cost_estimate": 15.0,
+        "requires_director_approval": False,
+        "scope": "Sitio Web Inteligente + Dominio .com alojado en servidores de Agencia Prosper IA + Bandeja Unificada Multicanal + 15 Guiones Ganadores + 5 Ediciones de Reels al mes."
     },
     "ANUAL_990": {
         "code": "ANUAL_990",
-        "name": "Caja 2 · Pack Estrella Anual (0% Mensualidades 1 Año)",
+        "name": "2. Pack Estrella Anual (US$990 Anual o US$99/mes · El Más Elegido)",
         "price": 990.0,
+        "monthly_price": 99.0,
         "initial_payment": 495.0,
         "delivery_payment": 495.0,
-        "payment_terms": "US$495 hoy (50%) + US$495 contra entrega en 7-10 días (Total: US$990 USD/año). Incluye 12 meses completos de CRM y PassportAI + 2 Reels + Reactivación inicial.",
+        "payment_terms": "Pago Único Anual US$990 (o US$495 hoy + US$495 entrega) · O Renta Mensual US$99/mes (igual que PassportAI.app). Ahorras 2 meses al pagar el año.",
         "delivery_cost_estimate": 150.0,
         "requires_director_approval": False,
         "link_reserva_50": "https://api.agenciaprosperia.com/payment-link/6af227a4d4cfb789aef22986",
@@ -447,15 +461,28 @@ OFFER_CATALOG = {
         "whop_reserva_50": "https://whop.com/checkout/ch_q4TXGYQSzBGkQSY/",
         "whop_liquidacion_50": "https://whop.com/checkout/ch_rkUci9bt0JLBW1S/",
         "whop_unico_100": "https://whop.com/checkout/ch_4vhuNtpWoJFUYkH/",
-        "scope": "Sitio Web Inteligente + Formulario + Chatbot Recepcionista IA 24/7 + 12 meses de Licencia CRM y PassportAI Business + 2 Reels editados + Campaña inicial de reactivación (hasta 2 ajustes puntuales en el año)."
+        "scope": "Todo lo de Arranque Rápido (Dominio .com alojado en Agencia Prosper IA + Bandeja Unificada CRM) + Recepcionista y Vendedor IA 24/7 en Texto (WhatsApp/IG/FB/Web) + 30 Guiones Ganadores + 15 Ediciones de Videos de Reels para todo el mes + PassportAI Business."
+    },
+    "MENSUAL_99": {
+        "code": "MENSUAL_99",
+        "name": "2. Pack Estrella — Renta Mensual (US$99/mes)",
+        "price": 99.0,
+        "monthly_price": 99.0,
+        "initial_payment": 99.0,
+        "delivery_payment": 0.0,
+        "payment_terms": "Renta Mensual US$99 USD/mes (empatado con PassportAI.app; o Pago Anual US$990 con 2 meses gratis).",
+        "delivery_cost_estimate": 25.0,
+        "requires_director_approval": False,
+        "scope": "Dominio .com alojado en Agencia Prosper IA + Bandeja Unificada + Recepcionista IA 24/7 en Texto + 30 Guiones Ganadores + 15 Ediciones de Videos de Reels al mes + PassportAI."
     },
     "MAQUINA_1490": {
         "code": "MAQUINA_1490",
-        "name": "Caja 3 · Máquina Completa 360° (Escalamiento Tráfico + Videos)",
-        "price": 1490.0,
-        "initial_payment": 745.0,
-        "delivery_payment": 745.0,
-        "payment_terms": "US$745 hoy (50%) + US$745 contra entrega en el día 15 (Total: US$1,490 USD). No incluye presupuesto de pauta en Meta.",
+        "name": "3. Máquina Completa Empresarial (US$1,497 Anual o US$149/mes)",
+        "price": 1497.0,
+        "monthly_price": 149.0,
+        "initial_payment": 749.0,
+        "delivery_payment": 748.0,
+        "payment_terms": "Pago Único Anual US$1,497 (o 50/50 en 2 cuotas) · O Renta Mensual US$149/mes. Incluye Voz IA 24/7 Bilingüe + Multi-Vendedor + 30 Guiones y 30 Videos Reels/Carruseles.",
         "delivery_cost_estimate": 300.0,
         "requires_director_approval": True,
         "link_reserva_50": "https://api.agenciaprosperia.com/payment-link/6af22915d4cfb789aef2299b",
@@ -464,7 +491,19 @@ OFFER_CATALOG = {
         "whop_reserva_50": "https://whop.com/checkout/ch_U26FriHORRYQczG/",
         "whop_liquidacion_50": "https://whop.com/checkout/ch_aiwdfkuGAcREozG/",
         "whop_unico_100": "https://whop.com/checkout/ch_fBPqhdK2KhpHPkb/",
-        "scope": "Sitio Web Inteligente + Chatbot IA 24/7 + Agentes Redes (WA/IG/FB) + 10 Reels Editados + 1 Mes de Gestión Meta Ads + 12 meses de CRM y PassportAI (pauta pagada por el cliente)."
+        "scope": "Todo lo del Pack Estrella (Dominio .com alojado en Agencia Prosper IA + Bandeja Unificada + Chat IA 24/7) + Recepcionista Telefónica de Voz con IA 24/7 (Español e Inglés) + Reparto Automático entre Múltiples Vendedores o Sedes + 30 Guiones Ganadores + 30 Videos Editados para Reels y Carruseles + PassportAI (+58 modelos IA)."
+    },
+    "MENSUAL_149": {
+        "code": "MENSUAL_149",
+        "name": "3. Máquina Completa Empresarial — Renta Mensual (US$149/mes)",
+        "price": 149.0,
+        "monthly_price": 149.0,
+        "initial_payment": 149.0,
+        "delivery_payment": 0.0,
+        "payment_terms": "Renta Mensual US$149 USD/mes (o Pago Único Anual US$1,497).",
+        "delivery_cost_estimate": 45.0,
+        "requires_director_approval": False,
+        "scope": "Dominio .com alojado en Agencia Prosper IA + Bandeja Unificada + Recepcionista Telefónica de Voz con IA 24/7 (ES/EN) + Reparto Automático Multi-Vendedor/Multi-Sede + 30 Guiones + 30 Videos Editados para Reels y Carruseles + PassportAI (+58 modelos)."
     },
     "RESCATE_197": {
         "code": "RESCATE_197",

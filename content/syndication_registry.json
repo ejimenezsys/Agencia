@@ -101,7 +101,9 @@
     "ai-sdr-vs-ai-setter-ventas": "https://telegra.ph/AI-SDR-vs-AI-Setter-Cómo-estructurar-el-equipo-de-ventas-digital-perfecto-sin-inflar-tu-nómina-11-22",
     "factor-humano-sops-retorno-inversion-ia": "https://telegra.ph/El-factor-humano-en-la-era-de-los-agentes-autónomos-Por-qué-tus-SOPs-son-tu-activo-más-valioso-11-22",
     "speed-to-lead-velocidad-ventas-latam": "https://telegra.ph/De-4-horas-a-45-segundos-Cómo-la-velocidad-de-respuesta-Speed-to-Lead-define-quién-gana-los-clientes-B2B-en-Latinoamérica-en-202-11-22",
-    "openai-descubre-948-fallas-en-linux-10-noticias-de-ia": "https://telegra.ph/OpenAI-descubre-948-fallas-en-Linux--10-noticias-de-IA-11-23"
+    "openai-descubre-948-fallas-en-linux-10-noticias-de-ia": "https://telegra.ph/OpenAI-descubre-948-fallas-en-Linux--10-noticias-de-IA-11-23",
+    "chatbot-para-whatsapp-business-por-que-no-te-trae-clientes": "https://telegra.ph/Chatbot-para-WhatsApp-Business-por-qué-NO-te-trae-clientes-11-25-2",
+    "gobernanza-infraestructura-critica-lecciones-bancarias-edward--2026-11-26": "https://telegra.ph/Gobernanza-y-resiliencia-en-infraestructura-crítica-Lecciones-de-25-años-desde-la-migración-nocturna-de-Banco-Azteca-bajo-la-CNB-11-26"
   },
   "devto": {
     "7-tareas-agente-ia-empresa-24-7-mexico-latinoamerica": "https://dev.to/edwardjimenezia/7-tareas-que-un-agente-de-ia-puede-hacer-por-tu-empresa-247-en-mexico-y-latinoamerica-pme",
@@ -115,25 +117,25 @@
   },
   "hashnode": {},
   "indexnow_last": {
-    "timestamp": "2026-11-23T04:30:38.982132+00:00",
+    "timestamp": "2026-11-26T22:54:21.520161+00:00",
     "http_status": 200,
-    "url_count": 122
+    "url_count": 124
   },
   "worker_last_cycle": {
-    "timestamp": "2026-11-23T04:30:38.990410+00:00",
-    "timestamp_miami": "2026-11-22 23:30:38 EST",
+    "timestamp": "2026-11-26T22:54:21.523965+00:00",
+    "timestamp_miami": "2026-11-26 17:54:21 EST",
     "schedule": "Cada 12h (Mañana y Noche · Lunes a Domingo 24/7 · publish_linkedin=False)",
     "publish_linkedin": false,
     "daily_ai_generated": false,
     "created_youtube_articles": 0,
-    "published_articles": 102,
-    "telegraph_count": 102,
+    "published_articles": 104,
+    "telegraph_count": 104,
     "devto_count": 8,
     "hashnode_count": 0,
     "indexnow": {
-      "timestamp": "2026-11-23T04:30:38.982132+00:00",
+      "timestamp": "2026-11-26T22:54:21.520161+00:00",
       "http_status": 200,
-      "url_count": 122
+      "url_count": 124
     }
   },
   "articles": {
@@ -748,6 +750,18 @@
       "url": "https://agenciaprosperia.com/blog/openai-descubre-948-fallas-en-linux-10-noticias-de-ia",
       "youtube_video_id": "FQepMo5AKwQ",
       "published_at": "2026-11-23T03:00:08+00:00"
+    },
+    "chatbot-para-whatsapp-business-por-que-no-te-trae-clientes": {
+      "title": "Chatbot para WhatsApp Business: por qué NO te trae clientes",
+      "url": "https://agenciaprosperia.com/blog/chatbot-para-whatsapp-business-por-que-no-te-trae-clientes",
+      "youtube_video_id": "LwBGN7MnY-0",
+      "published_at": "2026-11-25T02:57:15+00:00"
+    },
+    "gobernanza-infraestructura-critica-lecciones-bancarias-edward--2026-11-26": {
+      "title": "Gobernanza y resiliencia en infraestructura crítica: Lecciones de 25 años desde la migración nocturna de Banco Azteca bajo la CNBV hasta los agentes modernos",
+      "url": "https://agenciaprosperia.com/blog/gobernanza-infraestructura-critica-lecciones-bancarias-edward--2026-11-26",
+      "youtube_video_id": "",
+      "published_at": "2026-11-26T22:54:03.530077+00:00"
     }
   }
 }

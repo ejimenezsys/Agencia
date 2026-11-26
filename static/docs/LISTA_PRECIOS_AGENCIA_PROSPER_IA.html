@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Lista de Precios Agencia Prosper IA LLC</title>
+<style>
+  @page {
+    size: 17in 11.7in;
+    margin: 0.24in 0.3in;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #ffffff;
+    color: #0f172a;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .header {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 65%, #312e81 100%);
+    color: #fff;
+    border-radius: 10px;
+    padding: 11px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    border-bottom: 3px solid #f59e0b;
+  }
+  .header h1 {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #fbbf24;
+  }
+  .header p {
+    font-size: 10.5px;
+    color: #e2e8f0;
+    margin-top: 2px;
+  }
+  .header-right {
+    text-align: right;
+    font-size: 10px;
+    color: #cbd5e1;
+    line-height: 1.4;
+  }
+  .header-right strong { color: #34d399; }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .card {
+    border: 1.5px solid #cbd5e1;
+    border-radius: 9px;
+    padding: 8px 11px;
+    background: #f8fafc;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .card.star {
+    border: 2px solid #f59e0b;
+    background: linear-gradient(180deg, #fffbeb 0%, #ffffff 100%);
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.14);
+  }
+  .card.machine {
+    border: 2px solid #4f46e5;
+    background: linear-gradient(180deg, #eef2ff 0%, #ffffff 100%);
+  }
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+  }
+  .tag {
+    font-size: 9px;
+    font-weight: 800;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 99px;
+    background: #e2e8f0;
+    color: #1e293b;
+  }
+  .star .tag { background: #f59e0b; color: #0f172a; }
+  .machine .tag { background: #4f46e5; color: #ffffff; }
+  .card h2 {
+    font-size: 13px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 3px;
+  }
+  .card-price {
+    font-size: 21px;
+    font-weight: 900;
+    color: #0f172a;
+    line-height: 1.1;
+  }
+  .card-price span {
+    font-size: 10px;
+    font-weight: 600;
+    color: #475569;
+  }
+  .split {
+    font-size: 9.8px;
+    font-weight: 700;
+    color: #0369a1;
+    background: #e0f2fe;
+    padding: 3px 6px;
+    border-radius: 5px;
+    margin: 5px 0;
+  }
+  .card ul {
+    list-style: none;
+    font-size: 9.4px;
+    color: #334155;
+    line-height: 1.35;
+    margin-bottom: 6px;
+  }
+  .card ul li::before { content: "✓ "; color: #16a34a; font-weight: 800; }
+  .card-foot {
+    border-top: 1px dashed #cbd5e1;
+    padding-top: 4px;
+    font-size: 9px;
+    color: #065f46;
+    font-weight: 700;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .section-title {
+    font-size: 12px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .section-title span {
+    font-size: 10px;
+    font-weight: 600;
+    color: #475569;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9.1px;
+  }
+  thead th {
+    background: #0f172a;
+    color: #ffffff;
+    font-weight: 700;
+    padding: 6px 6px;
+    text-align: left;
+    border: 1px solid #334155;
+    font-size: 9px;
+    white-space: nowrap;
+  }
+  thead th.num, thead th.ctr { text-align: center; }
+  tbody tr:nth-child(even) { background: #f8fafc; }
+  tbody td {
+    padding: 3.6px 6px;
+    border: 1px solid #e2e8f0;
+    vertical-align: middle;
+    line-height: 1.22;
+  }
+  td.sku {
+    font-weight: 800;
+    color: #1e3a8a;
+    white-space: nowrap;
+    font-size: 9px;
+  }
+  .badge {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 5px;
+    font-size: 8px;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+  td.pkg { font-weight: 700; color: #0f172a; width: 17%; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  td.ctr { text-align: center; white-space: nowrap; }
+  td.price { font-weight: 900; font-size: 10.5px; color: #0f172a; background: #fefce8; }
+  td.com { font-weight: 800; color: #065f46; background: #ecfdf5; }
+  .sub { font-size: 7.8px; font-weight: 500; color: #64748b; margin-top: 1px; }
+  td.desc { color: #1e293b; width: 25%; }
+  td.comp { color: #475569; font-style: italic; width: 17%; }
+
+  .footer {
+    margin-top: 8px;
+    padding: 7px 12px;
+    background: #f1f5f9;
+    border-radius: 8px;
+    border-left: 4px solid #f59e0b;
+    display: flex;
+    justify-content: space-between;
+    font-size: 9.2px;
+    color: #334155;
+  }
+  .footer strong { color: #0f172a; }
+</style>
+</head>
+<body>
+  <div class="header">
+    <div>
+      <h1>AGENCIA PROSPER IA LLC — TARIFARIO MAESTRO Y PLAN DE COMISIONES</h1>
+      <p>Vista Ejecutiva "En un Golpe" · Ecosistema Comercial vs. Mercado (Avanecta &amp; Nexum AI) · Todos los menús A la Carta + Cajas de Cierre</p>
+    </div>
+    <div class="header-right">
+      <div>Facilidad Estándar: <strong>50% Anticipo Hoy / 50% Contra Entrega (7-10 días)</strong></div>
+      <div>Esquema Comercial: <strong>15% Comisión Total (5% Setter + 10% Closer)</strong> · Moneda: USD</div>
+    </div>
+  </div>
+
+  <div class="cards-grid">
+    <div class="card">
+      <div>
+        <div class="card-top"><span class="tag">OPCIÓN 0 · RESCATE</span><span style="font-size:9px;font-weight:700;color:#64748b;">5 días</span></div>
+        <h2>Plan Rescate Micro-PYME</h2>
+        <div class="card-price">$197 <span>USD · + $49/mes desde mes 2</span></div>
+        <div class="split">Facilidad: $100 Hoy + $97 al Entregar</div>
+        <ul>
+          <li>Landing Page Express de alta conversión</li>
+          <li>Formulario calificador directo por giro</li>
+          <li>Botón / Asistente básico captura a WhatsApp</li>
+        </ul>
+      </div>
+      <div class="card-foot"><span>Comisión 15%: $29.55</span><span>$9.85 Set · $19.70 Clo</span></div>
+    </div>
+
+    <div class="card">
+      <div>
+        <div class="card-top"><span class="tag">PAQUETE 1 · RENTA O ANUAL</span><span style="font-size:9px;font-weight:700;color:#64748b;">$49/mes vs $497</span></div>
+        <h2>1. Plan Arranque Rápido</h2>
+        <div class="card-price">$49 <span>/ mes &nbsp;o&nbsp; $497 Anual</span></div>
+        <div class="split">Anual 50/50: $250 Hoy + $247 Entrega (Ahorras 2 meses)</div>
+        <ul>
+          <li>Sitio Web Inteligente + Tu propio dominio .com alojado en Agencia Prosper IA</li>
+          <li>Bandeja Unificada CRM (WA/IG/FB/Web) + Calendario y Reseñas 5★</li>
+          <li><strong>15 Guiones Ganadores</strong> + <strong>5 Ediciones de Videos de Reels</strong> al mes</li>
+        </ul>
+      </div>
+      <div class="card-foot"><span>Comisión 15% ($497): $74.55</span><span>$24.85 Set · $49.70 Clo</span></div>
+    </div>
+
+    <div class="card star">
+      <div>
+        <div class="card-top"><span class="tag">★ PAQUETE 2 · EL MÁS ELEGIDO</span><span style="font-size:9px;font-weight:700;color:#92400e;">$99/mes vs $990</span></div>
+        <h2>2. Pack Estrella</h2>
+        <div class="card-price">$99 <span>/ mes &nbsp;o&nbsp; $990 Anual</span></div>
+        <div class="split" style="background:#fef3c7;color:#92400e;">Empatado con PassportAI.app · Anual: $495 Hoy + $495 Entrega</div>
+        <ul>
+          <li>Todo Arranque Rápido (Dominio en Agencia + Bandeja Unificada) + Recepcionista IA 24/7 Texto</li>
+          <li><strong>30 Guiones Ganadores</strong> + <strong>15 Ediciones de Videos de Reels</strong> para todo el mes</li>
+          <li>Acceso completo a <strong>PassportAI.app</strong> + Reactivación inicial de clientes</li>
+        </ul>
+      </div>
+      <div class="card-foot"><span>Comisión 15% ($990): $148.50</span><span>$49.50 Set · $99.00 Clo</span></div>
+    </div>
+
+    <div class="card machine">
+      <div>
+        <div class="card-top"><span class="tag">🔥 PAQUETE 3 · EMPRESARIAL</span><span style="font-size:9px;font-weight:700;color:#3730a3;">$149/mes vs $1,497</span></div>
+        <h2>3. Máquina Completa Empresarial</h2>
+        <div class="card-price">$149 <span>/ mes &nbsp;o&nbsp; $1,497 Anual</span></div>
+        <div class="split" style="background:#e0e7ff;color:#3730a3;">Anual 2 cuotas: $749 Hoy + $748 Entrega (Ahorras $291/año)</div>
+        <ul>
+          <li>Todo Pack Estrella + <strong>Recepcionista Telefónica de Voz con IA 24/7 (ES/EN)</strong></li>
+          <li><strong>Reparto Automático entre Múltiples Vendedores o Sedes</strong> con embudos completos</li>
+          <li><strong>30 Guiones Ganadores</strong> + <strong>30 Videos Editados Reels/Carruseles</strong> + PassportAI (+58 IA)</li>
+        </ul>
+      </div>
+      <div class="card-foot"><span>Comisión 15% ($1,497): $224.55</span><span>$74.85 Set · $149.70 Clo</span></div>
+    </div>
+  </div>
+
+  <div class="section-title">
+    <div>CATÁLOGO MAESTRO COMPLETO POR MENÚ Y SERVICIO INDIVIDUAL (22 SKUs)</div>
+    <span>Nota Ads: En servicios de tráfico, el presupuesto publicitario se paga directo en la tarjeta del cliente a Meta/Google.</span>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>SKU</th>
+        <th>Menú</th>
+        <th>Paquete o Servicio</th>
+        <th class="num">Precio USD</th>
+        <th class="num">50% / 50%</th>
+        <th class="num">Renov. / Mes</th>
+        <th class="ctr">Entrega</th>
+        <th class="num">Comisión 15% (S/C)</th>
+        <th>Entregables Clave</th>
+        <th>Benchmark Competencia</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+            <tr>
+              <td class="sku">PROS-00</td>
+              <td><span class="badge" style="background:#fef3c7;color:#92400e;">CAJAS CLOSERS</span></td>
+              <td class="pkg">Plan Rescate Micro-PYME</td>
+              <td class="num price">$197</td>
+              <td class="num">$100 / $97</td>
+              <td class="num">$49<div class="sub">Mensual desde mes 2</div></td>
+              <td class="ctr">5 días</td>
+              <td class="num com">$29.55<div class="sub">$9.85 S · $19.70 C</div></td>
+              <td class="desc">Landing Express alta conversión + Formulario calificador + Botón/Asistente captura WhatsApp</td>
+              <td class="comp">Compite vs Web Presencia Avanecta ($150) con embudo calificador</td>
+            </tr>
+            
+            <tr>
+              <td class="sku">PROS-01</td>
+              <td><span class="badge" style="background:#fef3c7;color:#92400e;">PAQUETE UNIFICADO 1</span></td>
+              <td class="pkg">1. Plan Arranque Rápido</td>
+              <td class="num price">$497<div class="sub">o $49/mes</div></td>
+              <td class="num">$250 / $247</td>
+              <td class="num">$49<div class="sub">Renta mensual (Ahorras 2 meses en anual)</div></td>
+              <td class="ctr">7-10 días</td>
+              <td class="num com">$74.55<div class="sub">$24.85 S · $49.70 C</div></td>
+              <td class="desc">Sitio Web Inteligente + Dominio .com conectado y alojado en Agencia Prosper IA + Bandeja Unificada CRM + Calendario/Reseñas 5★ + 15 Guiones Ganadores + 5 Reels editados/mes</td>
+              <td class="comp">Agencias cobran $1,200-$2,000 sin CRM ni Reels</td>
+            </tr>
+            
+            <tr>
+              <td class="sku">PROS-02</td>
+              <td><span class="badge" style="background:#fef3c7;color:#92400e;">PAQUETE UNIFICADO 2</span></td>
+              <td class="pkg">2. Pack Estrella (Más Vendido · Empatado PassportAI)</td>
+              <td class="num price">$990<div class="sub">o $99/mes</div></td>
+              <td class="num">$495 / $495</td>
+              <td class="num">$99<div class="sub">Misma tarifa mensual de PassportAI.app</div></td>
+              <td class="ctr">7-10 días</td>
+              <td class="num com">$148.50<div class="sub">$49.50 S · $99.00 C</div></td>
+              <td class="desc">Todo Arranque (Dominio en Agencia + Bandeja Unificada) + Recepcionista IA 24/7 Texto + 30 Guiones Ganadores + 15 Reels editados/mes + PassportAI Business</td>
+              <td class="comp">Ahorras 2 meses en anual + Empate perfecto con PassportAI ($99/mes)</td>
+            </tr>
+            
+            <tr>
+              <td class="sku">PROS-03</td>
+              <td><span class="badge" style="background:#fef3c7;color:#92400e;">PAQUETE UNIFICADO 3</span></td>
+              <td class="pkg">3. Máquina Completa Empresarial (Voz IA + Equipo)</td>
+              <td class="num price">$1,497<div class="sub">o $149/mes</div></td>
+              <td class="num">$749 / $748</td>
+              <td class="num">$149<div class="sub">Renta mensual empresarial (Ahorras $291 anual)</div></td>
+              <td class="ctr">10-15 días</td>
+              <td class="num com">$224.55<div class="sub">$74.85 S · $149.70 C</div></td>
+              <td class="desc">Todo Pack Estrella + Recepcionista Telefónica de Voz con IA 24/7 (ES/EN) + Reparto Automático Multi-Vendedor/Sedes + 30 Guiones + 30 Videos Reels y Carruseles + PassportAI (+58 IA)</td>
+              <td class="comp">Valor real por separado: +$3,800 USD/mes en nómina y agencias</td>
+            </tr>
+            
+            <tr>
+              <td class="sku">WEB-01</td>
+              <td><span class="badge" style="background:#e0f2fe;color:#075985;">PÁGINAS WEB</span></td>
+              <td class="pkg">Landing Page Express Individual</td>
+              <td class="num price">$197</td>
+              <td class="num">$100 / $97</td>
+              <td class="num">$49<div class="sub">Anual desde año 2 (solo hosting/dominio)</div></td>
+              <td class="ctr">5 días</td>
+              <td class="num com">$29.55<div class="sub">$9.85 S · $19.70 C</div></td>
+              <td class="desc">1 página hasta 5 secciones + Dominio .com + Hosting 1er año + Botón directo WhatsApp</td>
+              <td class="comp">Avanecta cobra $150 + $36/año desde año 2</td>
+            </tr>
+            
+            <tr>
+              <td class="sku">WEB-02</td>
+              <td><span class="badge" style="background:#e0f2fe;color:#075985;">PÁGINAS WEB</span></td>
+              <td class="pkg">Web Catálogo / E-Commerce Estándar (30 prod.)</td>
+              <td class="num price">$790</td>
+              <td class="num">$395 / $395</td>
+              <td class="num">$99<div class="sub">Mensual con CRM/IA o $149/año solo hosting</div></td>
+              <td class="ctr">10 días</td>
+              <td class="num com">$118.50<div class="sub">$39.50 S · $79.00 C</div></td>
+              <td class="desc">Hasta 6 páginas + Catálogo 30 productos + Carrito Stripe/PayPal/WhatsApp + SDR IA ventas</td>
+              <td class="comp">Avanecta lo cotiza abierto sin agentes IA</td>
+            </tr>
+            
+            <tr>
+              <td class="sku">WEB-03</td>
+              <td><span class="badge" style="background:#e0f2fe;color:#075985;">PÁGINAS WEB</span></td>
+              <td class="pkg">Web Catálogo / E-Commerce Pro (100 prod.)</td>
+              <td class="num price">$1,290</td>
+              <td class="num">$645 / $645</td>
+              <td class="num">$99<div class="sub">Mensual con CRM/IA o $197/año solo hosting</div></td>
+              <td class="ctr">14 días</td>
+              <td class="num com">$193.50<div class="sub">$64.50 S · $129.00 C</div></td>
+              <td class="desc">Tienda Online hasta 100 productos + Pasarela pagos + Recuperación carritos con Closer IA</td>
+              <td class="comp">Mercado cobra $2,000-$3,500 por Shopify/Woo</td>
+            </tr>
+            
+            <tr>
+              <td class="sku">WEB-04</td>
+              <td><span class="badge" style="background:#e0f2fe;color:#075985;">PÁGINAS WEB</span></td>
+              <td class="pkg">Portal Corporativo / Industrial B2B (Tipo STI²Q)</td>
+              <td class="num price">$1,490</td>
+              <td class="num">$745 / $745</td>
+              <td class="num">$99<div class="sub">Mensual con CRM/IA o $297/año servidor</div></td>
+              <td class="ctr">14 días</td>
+              <td class="num com">$223.50<div class="sub">$74.50 S · $149.00 C</div></td>
+              <td class="desc">Sitio corporativo/industrial a medida + Catálogo técnico + Cotizador B2B + Empleados Digitales</td>
+              <td class="comp">Agencias B2B cobran $3,000-$6,000 USD</td>
+            </tr>
+            
+            <tr>
+              <td class="sku">IA-01</td>
+              <td><span class="badge" style="background:#ede9fe;color:#5b21b6;">EMPLEADOS IA</span></td>
+              <td class="pkg">Dúo Captura y Citas (SDR IA + Setter IA Chat)</td>
+              <td class="num price">$397</td>
+              <td class="num">$200 / $197</td>
+              <td class="num">$99<div class="sub">Mensual (IA omnicanal 24/7)</div></td>
+              <td class="ctr">5-7 días</td>
+              <td class="num com">$59.55<div class="sub">$19.85 S · $39.70 C</div></td>
+              <td class="desc">Instalación en WhatsApp, IG, FB y Web + Calificación 24/7 + Agendamiento directo en calendario</td>
+              <td class="comp">Nexum AI y agencias IA cobran +$1,200 setup</td>
+            </tr>
+            
+            <tr>
+              <td class="sku">IA-02</td>
+              <td><span class="badge" style="background:#ede9fe;color:#5b21b6;">EMPLEADOS IA</span></td>
+              <td class="pkg">Escuadrón Completo 4 Empleados Digitales (Chat)</td>
+              <td class="num price">$590</td>
+              <td class="num">$295 / $295</td>
+              <td class="num">$129<div class="sub">Mensual (incluido gratis año 1 en Caja 2)</div></td>
+              <td class="ctr">7-10 días</td>
+              <td class="num com">$88.50<div class="sub">$29.50 S · $59.00 C</div></td>
+              <td class="desc">SDR IA + Setter IA + Closer IA + Soporte IA 24/7 entrenados con la base de conocimiento del negocio</td>
+              <td class="comp">Reemplaza nómina operativa de +$2,500 USD/mes</td>
+            </tr>
+            
+            <tr>
+              <td class="sku">IA-03</td>
+              <td><span class="badge" style="background:#ede9fe;color:#5b21b6;">EMPLEADOS IA</span></td>
+              <td class="pkg">Empleado Digital de Voz Telefónica 24/7</td>
+              <td class="num price">$590</td>
+              <td class="num">$295 / $295</td>
+              <td class="num">$149<div class="sub">Mensual (+ consumo de minutos al costo)</div></td>
+              <td class="ctr">7-10 días</td>
+              <td class="num com">$88.50<div class="sub">$29.50 S · $59.00 C</div></td>
+              <td class="desc">Agente telefónico IA con voz natural: contesta/llama, califica prospectos y agenda citas en el CRM</td>
+              <td class="comp">Competencia cobra $1,500-$3,000 por agente voz</td>
+            </tr>
+            
+            <tr>
+              <td class="sku">CRM-01</td>
+              <td><span class="badge" style="background:#dcfce7;color:#166534;">CRM + APPS</span></td>
+              <td class="pkg">Activación CRM + 23 Micro-Apps (Mensual)</td>
+              <td class="num price">$197</td>
+              <td class="num">$197 / $0</td>
+              <td class="num">$99<div class="sub">Mensual recurrente</div></td>
+              <td class="ctr">3-5 días</td>
+              <td class="num com">$29.55<div class="sub">$9.85 S · $19.70 C</div></td>
+              <td class="desc">Tablero visual de ventas + Calendario Round-Robin + 23 Micro-Apps IA + 1,000 plantillas</td>
+              <td class="comp">HubSpot/Salesforce cuestan +$300-$800/mes</td>
+            </tr>
+            
+            <tr>
+              <td class="sku">CRM-02</td>
+              <td><span class="badge" style="background:#dcfce7;color:#166534;">CRM + APPS</span></td>
+              <td class="pkg">Licencia Anual CRM Llave en Mano (Sin Mens.)</td>
+              <td class="num price">$590</td>
+              <td class="num">$295 / $295</td>
+              <td class="num"><strong>$0</strong><div class="sub">$0/mes Año 1 (Año 2: $297/año)</div></td>
+              <td class="ctr">5 días</td>
+              <td class="num com">$88.50<div class="sub">$29.50 S · $59.00 C</div></td>
+              <td class="desc">12 meses CRM + Calendario + 23 Micro-Apps IA + Configuración completa de embudo comercial</td>
+              <td class="comp">Supera a OptiCRM Avanecta ($199 sin Micro-Apps IA)</td>
+            </tr>
+            
+            <tr>
+              <td class="sku">MKT-01</td>
+              <td><span class="badge" style="background:#ffe4e6;color:#9f1239;">MARKETING</span></td>
+              <td class="pkg">Fábrica de 10 Reels Virales Editados / Mes</td>
+              <td class="num price">$497</td>
+              <td class="num">$497 / $0</td>
+              <td class="num">$497<div class="sub">Mensual recurrente</div></td>
+              <td class="ctr">7-10 días</td>
+              <td class="num com">$74.55<div class="sub">$24.85 S · $49.70 C</div></td>
+              <td class="desc">10 videos cortos verticales al mes: gancho 3 seg, edición viral, subtítulos dinámicos y CTA</td>
+              <td class="comp">Agencias video cobran $800-$1,500 por 10 piezas</td>
+            </tr>
+            
+            <tr>
+              <td class="sku">MKT-02</td>
+              <td><span class="badge" style="background:#ffe4e6;color:#9f1239;">MARKETING</span></td>
+              <td class="pkg">Gestión de Tráfico Pagado (Meta / Google Ads)</td>
+              <td class="num price">$497</td>
+              <td class="num">$497 / $0</td>
+              <td class="num">$497<div class="sub">Mensual recurrente (+ pauta a Meta/Google)</div></td>
+              <td class="ctr">5-7 días</td>
+              <td class="num com">$74.55<div class="sub">$24.85 S · $49.70 C</div></td>
+              <td class="desc">Estructura campañas, segmentación local, Click-to-WhatsApp y optimización semanal</td>
+              <td class="comp">Agencias cobran $800-$1,500/mes de iguala</td>
+            </tr>
+            
+            <tr>
+              <td class="sku">MKT-03</td>
+              <td><span class="badge" style="background:#ffe4e6;color:#9f1239;">MARKETING</span></td>
+              <td class="pkg">Combo Crecimiento: 10 Reels + Gestión Ads</td>
+              <td class="num price">$790</td>
+              <td class="num">$395 / $395</td>
+              <td class="num">$790<div class="sub">Mensual recurrente (ahorra $204/mes)</div></td>
+              <td class="ctr">7-10 días</td>
+              <td class="num com">$118.50<div class="sub">$39.50 S · $79.00 C</div></td>
+              <td class="desc">10 Reels Virales editados + Gestión mensual completa Meta, Instagram y WhatsApp Ads</td>
+              <td class="comp">Ideal mensual para clientes que ya tienen web</td>
+            </tr>
+            
+            <tr>
+              <td class="sku">TOOL-01</td>
+              <td><span class="badge" style="background:#f1f5f9;color:#334155;">TARJETA QR</span></td>
+              <td class="pkg">Tarjeta Digital Interactiva + QR Reseñas 5★</td>
+              <td class="num price">$97</td>
+              <td class="num">$97 / $0</td>
+              <td class="num"><strong>$0</strong><div class="sub">Pago único (GRATIS como bono Caja 1, 2 o 3)</div></td>
+              <td class="ctr">24-48 hrs</td>
+              <td class="num com">$14.55<div class="sub">$4.85 S · $9.70 C</div></td>
+              <td class="desc">Tarjeta instalable en móvil (1 clic WA/contacto) + Código QR directo a Google Reviews 5★</td>
+              <td class="comp">Producto entrada / bono rompe-objeciones en vivo</td>
+            </tr>
+            
+            <tr>
+              <td class="sku">TOOL-02</td>
+              <td><span class="badge" style="background:#f1f5f9;color:#334155;">TARJETA QR</span></td>
+              <td class="pkg">Pack Equipo: 5 Tarjetas Digitales + QR 5★</td>
+              <td class="num price">$197</td>
+              <td class="num">$197 / $0</td>
+              <td class="num"><strong>$0</strong><div class="sub">Pago único hasta 5 vendedores/sucursales</div></td>
+              <td class="ctr">48 hrs</td>
+              <td class="num com">$29.55<div class="sub">$9.85 S · $19.70 C</div></td>
+              <td class="desc">5 tarjetas digitales para vendedores + Placa digital QR de reseñas para el negocio</td>
+              <td class="comp">Ideal inmobiliarias, clínicas y cuadrillas técnicas</td>
+            </tr>
+            
+            <tr>
+              <td class="sku">SAAS-01</td>
+              <td><span class="badge" style="background:#e0e7ff;color:#3730a3;">PASSPORTAI</span></td>
+              <td class="pkg">Membresía Anual PassportAI Business</td>
+              <td class="num price">$390</td>
+              <td class="num">$390 / $0</td>
+              <td class="num">$390<div class="sub">Anual (Incluida GRATIS en Caja 2 y Caja 3)</div></td>
+              <td class="ctr">Inmediato</td>
+              <td class="num com">$58.50<div class="sub">$19.50 S · $39.00 C</div></td>
+              <td class="desc">Acceso anual plataforma PassportAI Business para automatización de atención y herramientas IA</td>
+              <td class="comp">Exclusivo del ecosistema Prosper IA</td>
+            </tr>
+            
+            <tr>
+              <td class="sku">ENT-01</td>
+              <td><span class="badge" style="background:#ffedd5;color:#9a3412;">ENTERPRISE</span></td>
+              <td class="pkg">Diagnóstico y Mapa de Arquitectura IA</td>
+              <td class="num price">$490</td>
+              <td class="num">$490 / $0</td>
+              <td class="num"><strong>$0</strong><div class="sub">100% abonable al contratar SVE-90 Enterprise</div></td>
+              <td class="ctr">5 días</td>
+              <td class="num com">$73.50<div class="sub">$24.50 S · $49.00 C</div></td>
+              <td class="desc">Auditoría comercial/operativa + Mapa técnico de automatización IA y proyección de ROI a 90 días</td>
+              <td class="comp">Puerta de entrada mediana y gran empresa</td>
+            </tr>
+            
+            <tr>
+              <td class="sku">ENT-02</td>
+              <td><span class="badge" style="background:#ffedd5;color:#9a3412;">ENTERPRISE</span></td>
+              <td class="pkg">Implementación SVE-90 Enterprise (Base)</td>
+              <td class="num price">$3,500</td>
+              <td class="num">$1,750 / $1,750</td>
+              <td class="num">$297<div class="sub">Póliza soporte corporativo dedicado (opcional)</div></td>
+              <td class="ctr">30-90 días</td>
+              <td class="num com">$525.00<div class="sub">$175.00 S · $350.00 C</div></td>
+              <td class="desc">Arquitectura completa IA para clínicas multi-sede, constructoras o empresas medianas</td>
+              <td class="comp">Consultoras corporativas cobran +$10,000 USD</td>
+            </tr>
+            
+            <tr>
+              <td class="sku">ENT-03</td>
+              <td><span class="badge" style="background:#ffedd5;color:#9a3412;">ENTERPRISE</span></td>
+              <td class="pkg">Implementación SVE-90 Enterprise (Full)</td>
+              <td class="num price">$10,000</td>
+              <td class="num">$5,000 / $5,000</td>
+              <td class="num">$497<div class="sub">Póliza mensual corporativa dedicada</div></td>
+              <td class="ctr">60-90 días</td>
+              <td class="num com">$1,500.00<div class="sub">$500.00 S · $1,000.00 C</div></td>
+              <td class="desc">Agentes voz/texto dedicados + Integración ERP/CRM a medida + Capacitación equipo directivo</td>
+              <td class="comp">Nivel Enterprise B2B de alto ticket</td>
+            </tr>
+            
+    </tbody>
+  </table>
+
+  <div class="footer">
+    <div><strong>Regla 1 (Anclaje Unificado):</strong> Cotizar primero <strong>3. Máquina Completa Empresarial</strong> ($1,497 anual o $149/mes) y <strong>2. Pack Estrella</strong> ($990 anual o $99/mes). Si prefiere arrancar liviano, presentar <strong>1. Plan Arranque Rápido</strong> ($497 anual o $49/mes).</div>
+    <div><strong>Regla 2 (Bono de Cierre Hoy):</strong> Todos incluyen Sitio Web Inicial Gratis a $0 + Dominio .com alojado en Agencia Prosper IA + Bandeja Unificada CRM.</div>
+  </div>
+</body>
+</html>
