@@ -2074,6 +2074,69 @@ def _load_constructed_site(db: Session, slug: str) -> Optional[Dict[str, Any]]:
     return None
 
 
+_GEMINI_VISUAL_SCENE_CATALOG: Dict[str, str] = {
+    # Bienes Raíces / Inmobiliaria / Miami / Lujo
+    "miami_luxury_villa_pool": "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=85",
+    "modern_mansion_architecture": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85",
+    "brickell_skyline_condos": "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=85",
+    "luxury_living_room_interior": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=85",
+    "waterfront_home_exterior": "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=85",
+    "coral_gables_family_residence": "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1200&q=85",
+    "real_estate_advisor_keys": "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1000&q=85",
+    # Belleza / Estética / MedSpa
+    "aesthetic_facial_treatment": "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=1200&q=85",
+    "laser_skin_cabin": "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&w=1200&q=85",
+    "facial_harmony_skincare": "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=1200&q=85",
+    "aesthetic_specialist_doctor": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=1000&q=85",
+    # Salón / Peluquería / Spa / Barbería
+    "hair_salon_styling": "https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1200&q=85",
+    "relaxing_massage_spa": "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=85",
+    "manicure_nail_beauty": "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1200&q=85",
+    "beauty_stylist_portrait": "https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?auto=format&fit=crop&w=1000&q=85",
+    "barbershop_haircut_beard": "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1200&q=85",
+    # Dental / Clínica Médica / Veterinaria
+    "dental_3d_modern_clinic": "https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1200&q=85",
+    "dental_smile_patient": "https://images.unsplash.com/photo-1606811841689-23dfddce3e95?auto=format&fit=crop&w=1200&q=85",
+    "medical_consultation_office": "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=1200&q=85",
+    "modern_hospital_technology": "https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?auto=format&fit=crop&w=1200&q=85",
+    "medical_reception_clinic": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1200&q=85",
+    "veterinary_dog_care": "https://images.unsplash.com/photo-1628009368231-7bb7cfcb0def?auto=format&fit=crop&w=1200&q=85",
+    "happy_pets_clinic": "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=1200&q=85",
+    "pet_grooming_spa": "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=1200&q=85",
+    # Gastronomía / Restaurantes / Cafeterías
+    "fine_dining_restaurant_table": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=85",
+    "gourmet_dish_plating": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1200&q=85",
+    "chef_grill_kitchen": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1200&q=85",
+    "restaurant_ambiance_bar": "https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1000&q=85",
+    "sushi_seafood_platter": "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=1200&q=85",
+    "coffee_bakery_pastries": "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1200&q=85",
+    # Fitness / Gimnasio / Bienestar
+    "fitness_gym_weights": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1200&q=85",
+    "personal_trainer_workout": "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=1200&q=85",
+    "pilates_yoga_studio": "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=1200&q=85",
+    "athletic_club_facility": "https://images.unsplash.com/photo-1540497077202-7c8a3999166f?auto=format&fit=crop&w=1000&q=85",
+    # Servicios del Hogar / Construcción / Piscinas / Jardinería
+    "hvac_air_conditioning_service": "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=1200&q=85",
+    "plumbing_modern_bathroom": "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&w=1200&q=85",
+    "roofing_home_renovation": "https://images.unsplash.com/photo-1632759145351-1d592919f522?auto=format&fit=crop&w=1200&q=85",
+    "electrician_solar_panel": "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1200&q=85",
+    "luxury_swimming_pool_spa": "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=1200&q=85",
+    "landscaping_luxury_garden": "https://images.unsplash.com/photo-1558904541-efa843a96f01?auto=format&fit=crop&w=1200&q=85",
+    # Automotriz / Taller / Concesionario
+    "auto_diagnostic_workshop": "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=1200&q=85",
+    "auto_brake_engine_service": "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=1200&q=85",
+    "luxury_car_showroom": "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=85",
+    # Legal / Consultoría / Educación / Industria / Yates
+    "corporate_law_boardroom": "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=85",
+    "financial_executive_meeting": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=85",
+    "business_keynote_coaching": "https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=1200&q=85",
+    "tech_agency_ai_office": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=85",
+    "university_education_campus": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=85",
+    "industrial_engineering_plant": "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=85",
+    "miami_yacht_charter_marina": "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?auto=format&fit=crop&w=1200&q=85",
+}
+
+
 _PROMPT_INDUSTRY_PACKS: List[Dict[str, Any]] = [
     {
         "key": "belleza_estetica",
@@ -2198,7 +2261,7 @@ _PROMPT_INDUSTRY_PACKS: List[Dict[str, Any]] = [
     {
         "key": "automotriz_taller",
         "template_key": "servicios_locales_taller",
-        "keywords": ["taller", "mecanico", "mecánico", "automotriz", "auto", "carro", "coche", "frenos", "llantas", "detailing", "car wash", "pintura", "hojalateria", "transmision"],
+        "keywords": ["taller automotriz", "taller mecanico", "mecanico", "mecánico", "automotriz", "autos", "automovil", "carro", "coche", "frenos", "llantas", "detailing", "car wash", "pintura automotriz", "hojalateria", "transmision"],
         "badge": "SERVICIO AUTOMOTRIZ, DIAGNÓSTICO & GARANTÍA ESCRITA",
         "accent": "#ef4444",
         "secondary": "#f59e0b",
@@ -2247,52 +2310,75 @@ _PROMPT_INDUSTRY_PACKS: List[Dict[str, Any]] = [
     {"key": "capilar", "template_key": "clinica_capilar_pro", "keywords": ["capilar", "tricolog", "calvicie", "alopecia", "injerto", "barberia", "barbería", "barber"]},
     {"key": "hvac", "template_key": "hvac_miami", "keywords": ["aire acondicionado", "hvac", "climatiz", "refrigeracion", "minisplit", "ductos"]},
     {"key": "plomeria", "template_key": "plomeria_pro", "keywords": ["plomer", "fontaner", "fuga", "destape", "drenaje", "tuberia", "boiler", "calentador"]},
-    {"key": "roofing", "template_key": "roofing_remodel", "keywords": ["techo", "roof", "remodel", "construc", "arquitect", "impermeabiliz", "cocina", "bano", "albanil"]},
+    {"key": "roofing", "template_key": "roofing_remodel", "keywords": ["techo", "roof", "remodel", "construc", "arquitect", "impermeabiliz", "cocina", "albanil"]},
     {"key": "electricista", "template_key": "electricista_pro", "keywords": ["electric", "tablero", "cargador ev", "solar", "corto circuito", "iluminacion"]},
     {"key": "piscinas", "template_key": "piscinas_spas", "keywords": ["piscina", "alberca", "jacuzzi"]},
     {"key": "jardineria", "template_key": "jardineria_paisajismo", "keywords": ["jardin", "paisaj", "poda", "cesped", "pasto", "riego"]},
-    {"key": "inmobiliaria", "template_key": "inmobiliaria_bienes_raices", "keywords": ["inmobili", "bienes raices", "propiedad", "casa", "departamento", "realtor", "hipoteca", "alquiler", "preventa"]},
+    {"key": "inmobiliaria", "template_key": "inmobiliaria_bienes_raices", "keywords": ["inmobili", "bienes raices", "real estate", "real state", "realtor", "propiedad", "propiedades", "casa", "casas", "venta de casa", "venta de casas", "comprar casa", "departamento", "penthouse", "condominio", "hipoteca", "alquiler", "preventa", "brickell", "coral gables", "kendall", "doral"]},
     {"key": "legal_contable", "template_key": "profesionales_consultoria_legal", "keywords": ["abogad", "legal", "juridic", "notari", "contad", "contable", "fiscal", "impuestos", "inmigracion", "seguros", "despacho"]},
     {"key": "academia", "template_key": "academia_educacion_cursos", "keywords": ["academi", "curso", "escuela", "instituto", "taller educativo", "diplomado", "clases", "idioma", "formacion"]},
-    {"key": "coaching", "template_key": "coaching_consultoria_pro", "keywords": ["coach", "mentor", "consultor", "marketing", "agencia", "software", "saas", "ia ", "inteligencia artificial"]},
+    {"key": "coaching", "template_key": "coaching_consultoria_pro", "keywords": ["coach", "mentor", "consultor", "marketing", "agencia", "software", "saas", "inteligencia artificial", "agencia ia"]},
     {"key": "industria", "template_key": "sti2q_industrial", "keywords": ["quimic", "laboratorio", "industrial", "fabrica", "manufactur", "aduana", "logistica", "comercio exterior"]},
 ]
 
 
+def _kw_matches(text_norm: str, kw: str) -> bool:
+    k = unicodedata.normalize("NFD", (kw or "").strip().lower())
+    k = "".join(c for c in k if unicodedata.category(c) != "Mn")
+    if not k:
+        return False
+    pattern = r"\b" + re.escape(k) + (r"\b" if len(k) <= 5 and " " not in k else r"")
+    return bool(re.search(pattern, text_norm))
+
+
+def _build_matched_pack_dict(pack: Dict[str, Any], explicit_tpl: str = "") -> Dict[str, Any]:
+    tpl_k = pack["template_key"] if pack["template_key"] in WEBSITE_TEMPLATES_SHOWCASE else (
+        explicit_tpl if explicit_tpl in WEBSITE_TEMPLATES_SHOWCASE else "clinica_dental_estetica"
+    )
+    base = dict(WEBSITE_TEMPLATES_SHOWCASE[tpl_k])
+    return {
+        "industry_key": pack.get("key", ""),
+        "template_key": tpl_k,
+        "base": base,
+        "badge": pack.get("badge") or base.get("badge", ""),
+        "accent": pack.get("accent") or base.get("accent", "#00e5ff"),
+        "secondary": pack.get("secondary") or base.get("secondary", "#0ea5e9"),
+        "gallery_images": [dict(g) for g in (pack.get("gallery_images") or base.get("gallery_images") or [])],
+        "about_image": pack.get("about_image") or base.get("about_image", ""),
+        "default_business": pack.get("default_business") or base.get("default_business", "Tu Negocio Inteligente"),
+        "default_offer": pack.get("default_offer") or base.get("default_offer", "Atención Prioritaria e Información en Minutos"),
+        "services": [dict(s) for s in (pack.get("services") or base.get("services") or [])],
+        "industry_matched": True,
+    }
+
+
 def _match_prompt_industry(combined_text: str, explicit_tpl: str) -> Dict[str, Any]:
-    """Detecta automáticamente el giro, paleta de marca, fotos HD y servicios base desde el prompt del cliente."""
+    """Detecta automáticamente el giro con coincidencias de palabra completa y mayor puntaje en el prompt."""
     norm = unicodedata.normalize("NFD", (combined_text or "").lower())
     norm = "".join(c for c in norm if unicodedata.category(c) != "Mn")
+    best_pack: Optional[Dict[str, Any]] = None
+    best_score = 0
     for pack in _PROMPT_INDUSTRY_PACKS:
-        if any(kw in norm for kw in pack["keywords"]):
-            tpl_k = pack["template_key"] if pack["template_key"] in WEBSITE_TEMPLATES_SHOWCASE else "clinica_dental_estetica"
-            base = dict(WEBSITE_TEMPLATES_SHOWCASE[tpl_k])
-            return {
-                "template_key": tpl_k,
-                "base": base,
-                "badge": pack.get("badge") or base.get("badge", ""),
-                "accent": pack.get("accent") or base.get("accent", "#00e5ff"),
-                "secondary": pack.get("secondary") or base.get("secondary", "#0ea5e9"),
-                "gallery_images": pack.get("gallery_images") or base.get("gallery_images") or [],
-                "about_image": pack.get("about_image") or base.get("about_image", ""),
-                "default_business": pack.get("default_business") or base.get("default_business", "Tu Negocio Inteligente"),
-                "default_offer": pack.get("default_offer") or base.get("default_offer", "Atención Prioritaria e Información en Minutos"),
-                "services": pack.get("services") or base.get("services") or [],
-                "industry_matched": True,
-            }
+        score = sum(1 for kw in pack["keywords"] if _kw_matches(norm, kw))
+        if score > best_score:
+            best_score = score
+            best_pack = pack
+    if best_pack is not None and best_score > 0:
+        return _build_matched_pack_dict(best_pack, explicit_tpl)
     tpl_k = explicit_tpl if explicit_tpl in WEBSITE_TEMPLATES_SHOWCASE else "clinica_dental_estetica"
     base = dict(WEBSITE_TEMPLATES_SHOWCASE[tpl_k])
     return {
+        "industry_key": "",
         "template_key": tpl_k,
         "base": base,
         "badge": base.get("badge", "Sitio Web Inteligente Personalizado"),
         "accent": base.get("accent", "#00e5ff"),
         "secondary": base.get("secondary", "#0ea5e9"),
-        "gallery_images": base.get("gallery_images") or [],
+        "gallery_images": [dict(g) for g in (base.get("gallery_images") or [])],
         "about_image": base.get("about_image", ""),
         "default_business": base.get("default_business", "Tu Negocio Inteligente"),
         "default_offer": base.get("default_offer", "Atención Prioritaria e Información en Minutos"),
-        "services": base.get("services") or [],
+        "services": [dict(s) for s in (base.get("services") or [])],
         "industry_matched": False,
     }
 
@@ -2336,9 +2422,20 @@ def _construct_site_from_big_text(
         m_city = re.search(r"(?:en|ubicad[oa]s?\s+en|ciudad|sede)\s+([A-ZÁÉÍÓÚÑ][A-Za-zÁÉÍÓÚÑáéíóúñ\s,]{2,40})", text_clean)
         inferred_city = m_city.group(1).strip(" .,;:") if m_city else base.get("default_city", "Tu Ciudad y Cobertura Digital")
 
-    inferred_offer = offer.strip()
+    user_offer_raw = offer.strip()
+    user_offer_is_numeric = bool(re.fullmatch(r"[\d\s\.,\$\-]+", user_offer_raw))
+    user_offer_meaningful = user_offer_raw if (user_offer_raw and not user_offer_is_numeric) else ""
+    inferred_offer = user_offer_meaningful
     if not inferred_offer:
-        promo_match = next((s for s in sentences if re.search(r"(gratis|descuento|%|promo|diagn[oó]stico|valoraci[oó]n|sin costo|hoy)", s, re.I)), "")
+        promo_match = next(
+            (
+                s for s in sentences
+                if re.search(r"(gratis|descuento|%|promo|diagn[oó]stico|valoraci[oó]n|sin costo|hoy)", s, re.I)
+                and not re.match(r"^(crea|dise[ñn]a|el sitio|la p[aá]gina|quiero una p[aá]gina)", s, re.I)
+                and len(s) <= 110
+            ),
+            "",
+        )
         inferred_offer = promo_match[:90] if promo_match else matched["default_offer"]
 
     base_services = list(matched.get("services") or [])
@@ -2426,51 +2523,147 @@ def _construct_site_from_big_text(
         "constructed_with": "cortexia_engine",
     }
 
-    # Enriquecimiento con IA generativa si hay GEMINI_API_KEY activa (timeout 9s para prompts cortos o completos)
+    # Enriquecimiento con IA generativa si hay GEMINI_API_KEY activa (textos + escenas visuales por prompt)
     gemini_key = _resolve_env_secret("GEMINI_API_KEY", "")
     prompt_input = text_clean or business_name
     if gemini_key and len(prompt_input) >= 3:
         try:
+            allowed_industries = ", ".join(p["key"] for p in _PROMPT_INDUSTRY_PACKS)
+            allowed_scenes = ", ".join(_GEMINI_VISUAL_SCENE_CATALOG.keys())
             prompt = (
-                "Eres el Constructor Maestro de Sitios Web de Agencia Prosper IA & PassportAI. "
-                "A partir de la instrucción o texto libre del cliente sobre su negocio (puede ser solo el giro como 'Clínica de belleza' o una descripción larga), "
-                "genera un JSON válido en ESPAÑOL limpio (NUNCA menciones ni inventes precios en dólares ni uses terminología dental si el negocio es de belleza/otro giro) con estas llaves exactas:\n"
-                '{"business_name":"nombre comercial atractivo si no dio uno exacto",'
+                "Eres el Director Creativo y Visual de Agencia Prosper IA & PassportAI. "
+                "A partir de la instrucción o texto libre del cliente sobre su negocio (puede ser un prompt detallado o una frase corta), "
+                "selecciona las 4 escenas fotográficas EXACTAS que mejor representan ese negocio y genera un JSON válido en ESPAÑOL limpio "
+                "(NUNCA inventes precios ni mezcles contenido de otro giro como taller mecánico o dentista si no corresponde) con estas llaves exactas:\n"
+                '{"industry_key":"una clave exacta de INDUSTRIAS_PERMITIDAS",'
+                '"business_name":"nombre comercial atractivo si no dio uno exacto",'
                 '"badge":"etiqueta corta en mayúsculas del giro real",'
                 '"hero_title":"titular principal de alto impacto (máximo 11 palabras) específico del giro",'
-                '"hero_subtitle":"1 oración clara de propuesta de valor específica del giro",'
-                '"city":"ciudad mencionada o cobertura",'
-                '"offer":"gancho o valoración especial sin inventar precios",'
-                '"about_title":"titular de Quiénes Somos específico de este giro",'
-                '"about_story":"2 a 3 oraciones claras basadas en este giro/texto",'
+                '"hero_subtitle":"1 oración clara de propuesta de valor específica del giro y zonas/ciudad",'
+                '"city":"ciudad o zonas mencionadas",'
+                '"offer":"gancho o valoración/asesoría especial sin inventar precios en dólares",'
+                '"gallery_scene_keys":["clave_escena_1","clave_escena_2","clave_escena_3"],'
+                '"about_scene_key":"clave_escena_para_quienes_somos",'
+                '"image_labels":["título corto foto 1 (máx 38 chars)","título corto foto 2 (máx 38 chars)","título corto foto 3 (máx 38 chars)"],'
+                '"about_title":"titular de Quiénes Somos específico de este negocio y ciudad",'
+                '"about_story":"2 a 3 oraciones claras basadas en este negocio y ciudad",'
                 '"about_mission":"1 oración de misión",'
-                '"about_pillars":["pilar 1 específico","pilar 2","pilar 3"],'
-                '"image_labels":["descripción foto 1 del giro","descripción foto 2 del giro","descripción foto 3 del giro"],'
-                '"services":[{"tag":"etiqueta corta","title":"nombre real del servicio de este giro","desc":"1 oración"} (exactamente 6 servicios distintos y reales para este negocio/giro)]}\n\n'
-                f"NOMBRE SUGERIDO: {inferred_biz}\nCIUDAD: {inferred_city}\nPROMPT / TEXTO DEL CLIENTE:\n{prompt_input[:2200]}"
+                '"about_pillars":["pilar 1 específico","pilar 2 específico","pilar 3 específico"],'
+                '"about_stats":[{"value":"cifra corta ej. +350","label":"métrica real del giro"},{"value":"cifra 2","label":"métrica 2"},{"value":"cifra 3","label":"métrica 3"}],'
+                '"form_questions":["pregunta 1 del formulario para calificar clientes de este giro","pregunta 2 de horario o requerimiento de este giro"],'
+                '"testimonials":[{"author":"Nombre Apellido","role":"Perfil del cliente en la ciudad/giro","text":"Reseña realista de 1-2 oraciones"},{"author":"Nombre 2","role":"Perfil 2","text":"Reseña 2"},{"author":"Nombre 3","role":"Perfil 3","text":"Reseña 3"}],'
+                '"chatbot_greeting":"saludo corto de recepcionista IA 24/7 específico para este negocio",'
+                '"services":[{"tag":"etiqueta corta","title":"nombre real del servicio de este giro","desc":"1 oración"} (exactamente 6 servicios distintos y reales para este negocio)]}\n\n'
+                f"INDUSTRIAS_PERMITIDAS: {allowed_industries}\n"
+                f"ESCENAS_VISUALES_PERMITIDAS (elige EXACTAMENTE claves de esta lista en gallery_scene_keys y about_scene_key): {allowed_scenes}\n\n"
+                f"NOMBRE SUGERIDO: {inferred_biz}\nCIUDAD: {inferred_city}\nPROMPT / TEXTO DEL CLIENTE:\n{prompt_input[:2400]}"
             )
             api_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={urllib.parse.quote(gemini_key)}"
             req_body = json.dumps({
                 "contents": [{"parts": [{"text": prompt}]}],
-                "generationConfig": {"temperature": 0.45, "responseMimeType": "application/json"},
+                "generationConfig": {
+                    "temperature": 0.4,
+                    "responseMimeType": "application/json",
+                    "thinkingConfig": {"thinkingBudget": 0},
+                },
             }).encode("utf-8")
             req_obj = urllib.request.Request(api_url, data=req_body, headers={"Content-Type": "application/json"}, method="POST")
-            with urllib.request.urlopen(req_obj, timeout=9.0) as resp:
+            with urllib.request.urlopen(req_obj, timeout=16.0) as resp:
                 raw_resp = json.loads(resp.read().decode("utf-8"))
                 txt_out = raw_resp["candidates"][0]["content"]["parts"][0]["text"]
                 parsed = json.loads(txt_out)
                 if isinstance(parsed, dict) and parsed.get("hero_title"):
+                    # 1. Si Gemini detectó un giro distinto con certeza, sincronizar base, paleta y estadísticas primero
+                    gem_ind = str(parsed.get("industry_key") or "").strip().lower()
+                    if gem_ind and gem_ind != matched.get("industry_key"):
+                        ov_pack = next((p for p in _PROMPT_INDUSTRY_PACKS if p["key"] == gem_ind), None)
+                        if ov_pack:
+                            ov = _build_matched_pack_dict(ov_pack, template_key)
+                            ov_base = ov["base"]
+                            result["template_key"] = ov["template_key"]
+                            result["accent"] = ov["accent"]
+                            result["secondary"] = ov["secondary"]
+                            if ov["gallery_images"]:
+                                result["gallery_images"] = [dict(g) for g in ov["gallery_images"]]
+                            if ov["about_image"]:
+                                result["about_image"] = ov["about_image"]
+                            if ov_base.get("about_stats"):
+                                result["about_stats"] = list(ov_base["about_stats"])
+                            if ov_base.get("testimonials"):
+                                result["testimonials"] = list(ov_base["testimonials"])
+                            if ov_base.get("form_questions"):
+                                result["form_questions"] = list(ov_base["form_questions"])
+                            if ov_base.get("chatbot_greeting"):
+                                result["chatbot_greeting"] = ov_base["chatbot_greeting"]
+                            if ov["services"]:
+                                result["services"] = [dict(s) for s in ov["services"]]
+                                icons_pool = [s.get("icon", "fa-check-circle") for s in result["services"]] or icons_pool
+
+                    # 2. Aplicar textos generados respetando nombre/ciudad/gancho no numérico del usuario
                     for k in ("badge", "hero_title", "hero_subtitle", "city", "offer", "about_title", "about_story", "about_mission"):
+                        if k == "city" and city.strip():
+                            continue
+                        if k == "offer" and user_offer_meaningful:
+                            continue
                         if isinstance(parsed.get(k), str) and parsed[k].strip():
                             result[k] = parsed[k].strip()
                     if not business_name.strip() and isinstance(parsed.get("business_name"), str) and parsed["business_name"].strip():
                         result["business_name"] = parsed["business_name"].strip()[:80]
                     if isinstance(parsed.get("about_pillars"), list) and len(parsed["about_pillars"]) >= 2:
                         result["about_pillars"] = [str(x).strip() for x in parsed["about_pillars"][:4] if str(x).strip()]
-                    if isinstance(parsed.get("image_labels"), list):
-                        for idx, lbl in enumerate(parsed["image_labels"][:len(result["gallery_images"])]):
+
+                    # 3. Aplicar escenas fotográficas elegidas por Gemini desde _GEMINI_VISUAL_SCENE_CATALOG
+                    scene_keys = parsed.get("gallery_scene_keys")
+                    img_labels = parsed.get("image_labels") if isinstance(parsed.get("image_labels"), list) else []
+                    if isinstance(scene_keys, list):
+                        valid_scenes = [str(sk).strip() for sk in scene_keys if str(sk).strip() in _GEMINI_VISUAL_SCENE_CATALOG]
+                        if valid_scenes:
+                            new_gallery = []
+                            for idx, sk in enumerate(valid_scenes[:3]):
+                                lbl = str(img_labels[idx]).strip()[:38] if idx < len(img_labels) and str(img_labels[idx]).strip() else f"Escena Destacada {idx + 1}"
+                                new_gallery.append({"label": lbl, "url": _GEMINI_VISUAL_SCENE_CATALOG[sk]})
+                            if new_gallery:
+                                result["gallery_images"] = new_gallery
+                    if isinstance(img_labels, list):
+                        for idx, lbl in enumerate(img_labels[:len(result["gallery_images"])]):
                             if isinstance(lbl, str) and lbl.strip():
-                                result["gallery_images"][idx]["label"] = lbl.strip()[:60]
+                                result["gallery_images"][idx]["label"] = lbl.strip()[:38]
+
+                    about_sk = str(parsed.get("about_scene_key") or "").strip()
+                    if about_sk in _GEMINI_VISUAL_SCENE_CATALOG:
+                        result["about_image"] = _GEMINI_VISUAL_SCENE_CATALOG[about_sk]
+
+                    # 4. Aplicar estadísticas, preguntas, reseñas y chatbot a medida del prompt
+                    if isinstance(parsed.get("about_stats"), list):
+                        clean_stats = [
+                            {"value": str(st.get("value") or "").strip()[:18], "label": str(st.get("label") or "").strip()[:70]}
+                            for st in parsed["about_stats"][:3]
+                            if isinstance(st, dict) and str(st.get("value") or "").strip() and str(st.get("label") or "").strip()
+                        ]
+                        if len(clean_stats) == 3:
+                            result["about_stats"] = clean_stats
+
+                    if isinstance(parsed.get("form_questions"), list):
+                        clean_qs = [str(q).strip()[:120] for q in parsed["form_questions"][:2] if str(q).strip()]
+                        if len(clean_qs) == 2:
+                            result["form_questions"] = clean_qs
+
+                    if isinstance(parsed.get("testimonials"), list):
+                        clean_revs = [
+                            {
+                                "author": str(rv.get("author") or "").strip()[:48],
+                                "role": str(rv.get("role") or "").strip()[:60],
+                                "text": str(rv.get("text") or "").strip()[:240],
+                            }
+                            for rv in parsed["testimonials"][:3]
+                            if isinstance(rv, dict) and str(rv.get("author") or "").strip() and str(rv.get("text") or "").strip()
+                        ]
+                        if len(clean_revs) >= 2:
+                            result["testimonials"] = clean_revs
+
+                    if isinstance(parsed.get("chatbot_greeting"), str) and parsed["chatbot_greeting"].strip():
+                        result["chatbot_greeting"] = parsed["chatbot_greeting"].strip()[:220]
+
                     if isinstance(parsed.get("services"), list) and len(parsed["services"]) >= 3:
                         merged_srvs = []
                         for idx, srv in enumerate(parsed["services"][:6]):
