@@ -616,7 +616,7 @@ async function handleLeadSubmit(event, formType = 'modal') {
     ? 'Hola Edward, leí tu portada en The Doral Fashion Gazette de Idol José y completé mi solicitud en agenciaprosperia.com/ia.'
     : 'Hola Edward / ProsperIA, completé mi solicitud de Diagnóstico Ejecutivo de IA desde el canal de YouTube.';
   const waMsg = encodeURIComponent(`${waIntro}\n\nNombre: ${name} (${role || 'Director'})\nEmpresa: ${company || 'Mi Empresa'}\nInterés: ${interestLabel}\nObjetivo: ${bottleneck}`);
-  const waLink = `https://wa.me/17865573119?text=${waMsg}`;
+  const waLink = `https://wa.me/17869828707?text=${waMsg}`;
   
   if (successBox) {
     successBox.innerHTML = `

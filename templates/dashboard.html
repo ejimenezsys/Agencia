@@ -4707,14 +4707,13 @@
         <select id="setter-work-assign-closer" name="assign_to_closer" class="input-dark text-xs py-2" aria-describedby="setter-work-assign-help">
           <option value="">👤 Mantener en mi cuenta (o reclamar para mí si está libre)</option>
           <option value="claudiniosan@yahoo.com.ar">Claudio A. Sánchez (Closer / Vendedor)</option>
-          <option value="diegoarriondo03@gmail.com">Diego Rubén Arriondo (Closer / Vendedor)</option>
-          <option value="digitalblups@gmail.com">Agustín Sánchez (Closer / Vendedor)</option>
-          <option value="wendyleiva59@gmail.com">Wendy Leiva (Closer / Vendedor)</option>
-          <option value="tanyah.unity@gmail.com">Tanya Hernández (Seteo / Closer)</option>
+          <option value="diegoarriondo03@gmail.com">Diego Arriondo (Closer / Vendedor)</option>
+          <option value="digitalblups@gmail.com">Jhonatan Rivero (Closer / Vendedor)</option>
+          <option value="tanyah.unity@gmail.com">Tanya Headley Mullings (Closer / Vendedor)</option>
           <option value="cinthyapenida0@gmail.com">Cinthya Penida (Closer / Vendedor)</option>
-          <option value="bruno.hernan.espinosa1694@gmail.com">Bruno Hernán Espinosa (Closer / Vendedor)</option>
+          <option value="bruno.hernan.espinosa1694@gmail.com">Bruno Espinoza (Closer / Vendedor)</option>
           <option value="loremrodriguezafb@gmail.com">Lorena Rodríguez (Closer / Vendedor)</option>
-          <option value="laverdaderafuerza02@gmail.com">Jhonatan Alexis Reyes (Closer / Vendedor)</option>
+          <option value="laverdaderafuerza02@gmail.com">Agustín García (Closer / Vendedor)</option>
         </select>
         <div id="setter-work-assign-help" class="text-[10px] text-slate-400 mt-1">
           Si estás haciendo Seteo, elige aquí al Closer que recibirá el lead en su Pipeline manteniendo tu crédito en bitácora.
@@ -5203,37 +5202,29 @@ let integrationSettings = {};
 let currentIntType = '';
 
 
-// ─── MAPA OFICIAL DE FOTOS Y CALENDARIOS DE LOS CLOSERS (PUNTOS 3 Y 5) ───────
+// ─── MAPA OFICIAL DE FOTOS Y CALENDARIOS DE LOS CLOSERS (EQUIPO ACTIVO) ────────
 const CLOSER_AVATAR_MAP = {
-  'sheille.perez@gmail.com': '/static/img/closers/sheilla.jpg',
   'cinthyapenida0@gmail.com': '/static/img/closers/cintya.jpg',
   'claudiniosan@yahoo.com.ar': '/static/img/closers/claudio.png',
   'loremrodriguezafb@gmail.com': '/static/img/closers/lorena.jpg',
-  'sergiotorales608@gmail.com': '/static/img/closers/sergio.jpg',
   'diegoarriondo03@gmail.com': '/static/img/closers/diego.jpg',
   'laverdaderafuerza02@gmail.com': '/static/img/closers/agustin.jpg',
-  'wendyleiva59@gmail.com': '/static/img/closers/wendy.jpg',
   'digitalblups@gmail.com': '/static/img/closers/jhonatan.jpg',
   'bruno.hernan.espinosa1694@gmail.com': '/static/img/closers/bruno.jpg',
   'tanyah.unity@gmail.com': '/static/img/closers/tanya.jpg?v=2',
   'cintya.medina@agenciaprosperia.com': '/static/img/closers/cintya.jpg',
   'claudio.bautista@agenciaprosperia.com': '/static/img/closers/claudio.png',
-  'sheilla.perez@agenciaprosperia.com': '/static/img/closers/sheilla.jpg',
-  'sergio.miranda@agenciaprosperia.com': '/static/img/closers/sergio.jpg',
   'lorena.sanchez@agenciaprosperia.com': '/static/img/closers/lorena.jpg',
   'edward@agenciaprosperia.com': '/static/img/edward_ceo_avatar.jpg',
   'admin@prosperia.com': '/static/img/edward_ceo_avatar.jpg',
 };
 
 const CLOSER_CALENDAR_MAP = {
-  'sheille.perez@gmail.com': 'https://api.agenciaprosperia.com/widget/booking/GrvltSCThpWp2cEptiTF',
   'diegoarriondo03@gmail.com': 'https://api.agenciaprosperia.com/widget/booking/qIeHTDISu0BGHx7cVhbh',
   'cinthyapenida0@gmail.com': 'https://api.agenciaprosperia.com/widget/booking/H2N6v95axx9rqkG7Sibw',
   'claudiniosan@yahoo.com.ar': 'https://api.agenciaprosperia.com/widget/booking/ax6fOmetoC3abxRMlCwu',
   'loremrodriguezafb@gmail.com': 'https://api.agenciaprosperia.com/widget/booking/nxAwixR3T3PILNZxv1S4',
-  'sergiotorales608@gmail.com': 'https://api.agenciaprosperia.com/widget/booking/w2KriVI4LqhisSjIPiMV',
   'laverdaderafuerza02@gmail.com': 'https://api.agenciaprosperia.com/widget/booking/bagwspAtTp3yUCFG5Tew',
-  'wendyleiva59@gmail.com': 'https://api.agenciaprosperia.com/widget/booking/ldXXTonwojfnAOorWDoX',
   'digitalblups@gmail.com': 'https://api.agenciaprosperia.com/widget/booking/I4X8M0MTxCFBRZ1y5cfZ',
   'bruno.hernan.espinosa1694@gmail.com': 'https://api.agenciaprosperia.com/widget/booking/6Sfg6oz7rX29XazBifWc',
   'tanyah.unity@gmail.com': 'https://api.agenciaprosperia.com/widget/booking/oB0o3wbRwlsoItbE4adZ',
@@ -5251,10 +5242,7 @@ function getCloserAvatarUrl(u) {
   if (nm.includes('agustin') || nm.includes('agustín')) return '/static/img/closers/agustin.jpg';
   if (nm.includes('cintya') || nm.includes('cinthya')) return '/static/img/closers/cintya.jpg';
   if (nm.includes('claudio')) return '/static/img/closers/claudio.png';
-  if (nm.includes('sheilla') || nm.includes('sheila') || nm.includes('sheille')) return '/static/img/closers/sheilla.jpg';
-  if (nm.includes('sergio')) return '/static/img/closers/sergio.jpg';
   if (nm.includes('lorena')) return '/static/img/closers/lorena.jpg';
-  if (nm.includes('wendy')) return '/static/img/closers/wendy.jpg';
   if (nm.includes('jhonatan') || nm.includes('jonathan')) return '/static/img/closers/jhonatan.jpg';
   if (nm.includes('bruno')) return '/static/img/closers/bruno.jpg';
   if (nm.includes('tanya') || nm.includes('tanyah')) return '/static/img/closers/tanya.jpg?v=2';

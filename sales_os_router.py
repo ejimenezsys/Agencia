@@ -3369,7 +3369,7 @@ async def api_website_demo_chat(req: WebsiteDemoChatRequest, request: Request = 
     tpl = WEBSITE_TEMPLATES_SHOWCASE.get(tpl_key) or WEBSITE_TEMPLATES_SHOWCASE["clinica_dental_estetica"]
     bname = ((req.business_name or "").strip() or tpl.get("default_business", "Clínica & Centro Especializado"))[:80]
     city = ((req.city or "").strip() or tpl.get("default_city", "Miami / CDMX / Bogotá"))[:80]
-    phone_disp = ((req.phone_display or "").strip() or "+1 (786) 557-3119")[:40]
+    phone_disp = ((req.phone_display or "").strip() or "+1 (786) 982-8707")[:40]
     offer_hook = ((req.offer_hook or "").strip() or tpl.get("default_offer", "Valoración prioritaria con beneficio especial"))[:120]
     niche_label = tpl.get("badge") or tpl.get("name") or "Negocio Certificado"
     services_list = ", ".join([s.get("title", "") for s in tpl.get("services", [])[:3] if s.get("title")])
@@ -3423,12 +3423,12 @@ async def api_website_demo_chat(req: WebsiteDemoChatRequest, request: Request = 
 
 @router.post("/api/sales-os/reset-test-data")
 async def api_reset_seller_test_data(
-    seller_email: Optional[str] = "sheille.perez@gmail.com",
+    seller_email: Optional[str] = "diegoarriondo03@gmail.com",
     current_user: dict = Depends(get_current_sales_user),
     db: Session = Depends(get_db),
 ):
     """Limpia los datos de prueba tocados durante ensayos para dejar la cuenta lista para producción."""
-    target_email = (seller_email or "sheille.perez@gmail.com").strip().lower()
+    target_email = (seller_email or "diegoarriondo03@gmail.com").strip().lower()
     if target_email == "claudiniosan@yahoo.com.ar":
         raise HTTPException(status_code=403, detail="La cuenta de Claudio A. Sánchez está protegida y no puede reiniciarse por esta ruta.")
     is_admin = current_user.get("role") == "admin"
@@ -3939,7 +3939,7 @@ def _build_setter_ia_mass_email_payload(
         f"con entrega en 7 días. Puedes ver cómo funciona aquí:\n"
         f"{demo_url}\n\n"
         f"Si prefieres que la revisemos juntos en una llamada breve, puedes responder este mismo correo "
-        f"o escribirnos a nuestra línea de WhatsApp en Miami: +1 (786) 557-3119.\n\n"
+        f"o escribirnos a nuestra línea de WhatsApp en Miami: +1 (786) 982-8707.\n\n"
         f"Un saludo,\n{closer_name}\nAgencia Prosper IA LLC · Miami, FL\nseller@agenciaprosperia.com"
     )
     html_content = f"""
@@ -3963,7 +3963,7 @@ def _build_setter_ia_mass_email_payload(
             </a>
           </p>
           <p style="margin: 0 0 18px;">
-            Si te interesa que te la expliquemos en 10 minutos, responde a este mismo correo o escríbenos por WhatsApp en Miami: <strong>+1 (786) 557-3119</strong>.
+            Si te interesa que te la expliquemos en 10 minutos, responde a este mismo correo o escríbenos por WhatsApp en Miami: <strong>+1 (786) 982-8707</strong>.
           </p>
           <p style="margin: 0; color: #475569; font-size: 13px;">
             Un saludo,<br/>
@@ -4002,7 +4002,7 @@ def _dispatch_institutional_email_sync(
         f"&business={urllib.parse.quote(biz_name)}&phone={urllib.parse.quote(phone_val)}"
     )
     wa_official = (
-        "https://wa.me/17865573119?text="
+        "https://wa.me/17869828707?text="
         + urllib.parse.quote(f"Hola Agencia Prosper IA, vi la muestra digital para {biz_name} y quiero agendar mi demostración.")
     )
 
@@ -4041,7 +4041,7 @@ def _dispatch_institutional_email_sync(
               </div>
               <div style="text-align: center; margin-top: 8px;">
                 <a href="{wa_official}" style="color: #34d399; font-weight: 700; font-size: 12px; text-decoration: underline;">
-                  💬 También puedes responder directo por WhatsApp (+1 786 557-3119)
+                  💬 También puedes responder directo por WhatsApp (+1 786 982-8707)
                 </a>
               </div>
             </td>
@@ -4055,7 +4055,7 @@ def _dispatch_institutional_email_sync(
       </body>
     </html>
     """
-    plain_full = f"{body_text}\n\nVer Demo en Vivo: {demo_url}\nAgendar 15 min: {clean_cal}\nWhatsApp: +1 786 557-3119"
+    plain_full = f"{body_text}\n\nVer Demo en Vivo: {demo_url}\nAgendar 15 min: {clean_cal}\nWhatsApp: +1 786 982-8707"
     _send_smtp_mime_email(alias_addr, to_email, closer_name, closer_email, final_subject, plain_full, html_content)
     return {"alias": alias_addr, "subject": final_subject, "demo_url": demo_url}
 
@@ -6079,7 +6079,7 @@ def _build_lead_web_warm_email_payload(first_name: str, company_name: str = "") 
         f"   Prefieres unirte a nuestra comunidad donde cada 2 dias compartimos los recursos y herramientas gratuitas "
         f"que publicamos a diario en nuestros Reels.\n\n"
         f"Solo responde a este correo con el numero 1, 2, 3 o 4 segun lo que necesites hoy "
-        f"(o escribenos directo a nuestra linea en Miami: +1 (786) 557-3119) y te enviamos el acceso o siguiente paso indicado.\n\n"
+        f"(o escribenos directo a nuestra linea oficial en Miami: +1 (786) 982-8707) y te enviamos el acceso o siguiente paso indicado.\n\n"
         f"Un saludo,\nEdward Jimenez\nAgencia Prosper IA LLC · Miami, FL\ninfo@agenciaprosperia.com"
     )
     html_content = f"""
@@ -6107,7 +6107,7 @@ def _build_lead_web_warm_email_payload(first_name: str, company_name: str = "") 
             <strong>Opcion 4 (Comunidad y recursos cada 2 dias):</strong> Unirte a nuestra comunidad donde cada 2 dias compartimos los recursos y herramientas gratuitas que publicamos a diario en nuestros Reels.
           </p>
           <p style="margin: 0 0 18px;">
-            Solo responde a este mismo correo con el numero <strong>1, 2, 3 o 4</strong> segun lo que prefieras (o escribenos a nuestra linea oficial en Miami por WhatsApp: <strong>+1 (786) 557-3119</strong>) y te enviamos el siguiente paso.
+            Solo responde a este mismo correo con el numero <strong>1, 2, 3 o 4</strong> segun lo que prefieras (o escribenos a nuestra linea oficial en Miami por WhatsApp: <strong>+1 (786) 982-8707</strong>) y te enviamos el siguiente paso.
           </p>
           <p style="margin: 0; color: #475569; font-size: 13px;">
             Un saludo,<br/>
@@ -6224,7 +6224,7 @@ def _build_passportai_21_email_payload(first_name: str, segment: str, plan_actua
     """Construye el correo de lanzamiento PassportAI 2.1 + 30 dias gratis del CRM IA firmado por Edward Jimenez (CEO)."""
     greeting, safe_greeting = _normalize_passportai_greeting(first_name)
     wa_link = (
-        "https://wa.me/17865573119?"
+        "https://wa.me/17869828707?"
         "text=Hola%20Edward%2C%20quiero%20activar%20mi%20acceso%20a%20PassportAI%202.1%20y%20el%20mes%20gratis%20del%20CRM"
     )
 
@@ -6278,10 +6278,10 @@ def _build_passportai_21_email_payload(first_name: str, segment: str, plan_actua
         f"Por ser parte de la familia PassportAI, tienes incluido un regalo de 30 dias (1 mes completo gratuito) en nuestro nuevo "
         f"CRM Todo-en-Uno con IA: WhatsApp, Instagram, embudos, calendario de citas y Empleados Digitales IA 24/7 trabajando juntos.\n\n"
         f"Quiero atenderte personalmente en este lanzamiento. Para activar tu acceso a PassportAI 2.1 y tu mes sin costo del CRM:\n"
-        f"- Escribeme directo a mi WhatsApp personal: +1 (786) 557-3119\n"
+        f"- Escribenos al WhatsApp oficial de Agencia Prosper IA: +1 (786) 982-8707\n"
         f"  Enlace directo: {wa_link}\n"
         f"- O responde a este correo / escribeme a: edward@passportai.app indicandome el correo de tu cuenta.\n\n"
-        f"Un abrazo,\nEdward Jimenez\nCEO & Fundador - PassportAI / Agencia Prosper IA LLC\nedward@passportai.app | WhatsApp: +1 (786) 557-3119"
+        f"Un abrazo,\nEdward Jimenez\nCEO & Fundador - PassportAI / Agencia Prosper IA LLC\nedward@passportai.app | WhatsApp: +1 (786) 982-8707"
     )
 
     html_content = f"""
@@ -6317,8 +6317,8 @@ def _build_passportai_21_email_payload(first_name: str, segment: str, plan_actua
             Quiero acompanarte personalmente en esta actualizacion. Para activar tu acceso a <strong>PassportAI 2.1</strong> y tu mes gratuito del CRM, escribeme directo por cualquiera de estas dos vias:
           </p>
           <p style="margin: 0 0 10px;">
-            <strong>WhatsApp personal de Edward:</strong> +1 (786) 557-3119 &mdash;
-            <a href="{wa_link}" style="color: #0284c7; font-weight: bold; text-decoration: underline;">Haz clic aqui para escribirme por WhatsApp</a>
+            <strong>WhatsApp oficial Agencia Prosper IA:</strong> +1 (786) 982-8707 &mdash;
+            <a href="{wa_link}" style="color: #0284c7; font-weight: bold; text-decoration: underline;">Haz clic aqui para escribirnos por WhatsApp</a>
           </p>
           <p style="margin: 0 0 18px;">
             <strong>Correo directo de CEO:</strong> responde a este mismo correo o escribeme a <strong>edward@passportai.app</strong> indicandome tu correo de acceso.
@@ -6327,7 +6327,7 @@ def _build_passportai_21_email_payload(first_name: str, segment: str, plan_actua
             Un abrazo,<br/>
             <strong>Edward Jimenez</strong><br/>
             CEO &amp; Fundador &middot; PassportAI / Agencia Prosper IA LLC<br/>
-            edward@passportai.app &middot; WhatsApp: +1 (786) 557-3119
+            edward@passportai.app &middot; WhatsApp: +1 (786) 982-8707
           </p>
         </div>
       </body>
@@ -6340,7 +6340,7 @@ def _build_passportai_21_seq2_email_payload(first_name: str, segment: str, plan_
     """Construye el seguimiento #2 de PassportAI 2.1 conectando Diagnostico WhatsApp + Video Sitio Web + 30 dias gratis del CRM IA."""
     greeting, safe_greeting = _normalize_passportai_greeting(first_name)
     wa_link = (
-        "https://wa.me/17865573119?"
+        "https://wa.me/17869828707?"
         "text=Hola%20Edward%2C%20vi%20tu%20segundo%20correo%20de%20PassportAI%202.1%20y%20quiero%20activar%20mi%20mes%20gratis%20del%20CRM%20IA"
     )
     diag_url = "https://agenciaprosperia.com/diagnostico-whatsapp"
@@ -6391,11 +6391,11 @@ def _build_passportai_21_seq2_email_payload(first_name: str, segment: str, plan_
         f"Recuerda que por ser usuario de PassportAI tienes incluidos 30 dias sin costo (1 mes gratis) de nuestro "
         f"nuevo CRM Todo-en-Uno con IA para unificar WhatsApp, Instagram, agenda y seguimiento automatico.\n\n"
         f"Para activarlo o resolver cualquier duda directo conmigo:\n"
-        f"- Escribeme directo por WhatsApp: +1 (786) 557-3119\n"
+        f"- Escribenos al WhatsApp oficial de Agencia Prosper IA: +1 (786) 982-8707\n"
         f"  Enlace directo: {wa_link}\n"
         f"- O responde a este mismo correo con la palabra ACTIVAR (o escribeme a edward@passportai.app).\n\n"
         f"Un abrazo,\nEdward Jimenez\nCEO & Fundador - PassportAI / Agencia Prosper IA LLC\n"
-        f"edward@passportai.app | WhatsApp: +1 (786) 557-3119"
+        f"edward@passportai.app | WhatsApp: +1 (786) 982-8707"
     )
 
     html_content = f"""
@@ -6422,7 +6422,7 @@ def _build_passportai_21_seq2_email_payload(first_name: str, segment: str, plan_
             Recuerda que por formar parte de <strong>PassportAI</strong> tienes disponibles <strong>30 dias sin costo (1 mes gratis) de nuestro nuevo CRM Todo-en-Uno con IA</strong> para unificar WhatsApp, Instagram, calendario de citas y seguimiento 24/7.
           </p>
           <p style="margin: 0 0 10px;">
-            <strong>WhatsApp personal de Edward:</strong> +1 (786) 557-3119 &mdash;
+            <strong>WhatsApp oficial Agencia Prosper IA:</strong> +1 (786) 982-8707 &mdash;
             <a href="{wa_link}" style="color: #0284c7; font-weight: bold; text-decoration: underline;">Activar mi mes gratis por WhatsApp</a>
           </p>
           <p style="margin: 0 0 18px;">
@@ -6432,7 +6432,7 @@ def _build_passportai_21_seq2_email_payload(first_name: str, segment: str, plan_
             Un abrazo,<br/>
             <strong>Edward Jimenez</strong><br/>
             CEO &amp; Fundador &middot; PassportAI / Agencia Prosper IA LLC<br/>
-            edward@passportai.app &middot; WhatsApp: +1 (786) 557-3119
+            edward@passportai.app &middot; WhatsApp: +1 (786) 982-8707
           </p>
         </div>
       </body>
@@ -6983,7 +6983,7 @@ async def api_send_pairs_briefing_emails(
                 f"• 🔥 {len(hot_rows)} Prospectos CALIENTES asignados para ataque hoy mismo\n"
                 f"• 🟡 {warm_count} Prospectos TIBIOS (en seguimiento o ya recibieron Demo Web por correo)\n"
                 f"• Nueva Meta Diaria: 30 llamadas de alta calidad por integrante + WhatsApp 1a1 controlado + DM IG/FB\n"
-                f"• Liderazgos de apoyo: Sheille Pérez (Líder Closers) · Lorena Rodríguez (Líder Seteo) · Diego Arriondo (Líder Técnico + Ventas)\n\n"
+                f"• Liderazgos de apoyo: Lorena Rodríguez (Líder Seteo) · Diego Arriondo (Líder Técnico + Ventas)\n\n"
                 f"DESCARGAS OFICIALES:\n"
                 f"• Protocolo en Word (.docx): {word_url}\n"
                 f"• Excel 5 Parejas (.xlsx): {excel_url}\n"
@@ -7003,7 +7003,7 @@ async def api_send_pairs_briefing_emails(
                     <div>• <strong>Tu Pareja:</strong> {html_lib.escape(pair['label'])} — <em>{html_lib.escape(pair['role_note'])}</em></div>
                     <div>• <strong>Base Asignada Hoy:</strong> <strong style="color:#fb7185;">{len(hot_rows)} 🔥 CALIENTES</strong> + <strong style="color:#fbbf24;">{warm_count} 🟡 TIBIOS</strong></div>
                     <div>• <strong>Nueva Meta:</strong> 30 llamadas de alta calidad al día + botón <strong>💬 WA 1a1</strong> (controlado, bloques de 10-15) + DM en Instagram/Facebook.</div>
-                    <div>• <strong>Líderes de Apoyo:</strong> Sheille (Closers) · Lorena (Seteo) · Diego (Técnico + Ventas).</div>
+                    <div>• <strong>Líderes de Apoyo:</strong> Lorena (Seteo) · Diego (Técnico + Ventas).</div>
                   </div>
                   <div style="text-align: center; margin: 18px 0 22px;">
                     <a href="{dash_url}" style="display:inline-block;background:#00e5ff;color:#020710;text-decoration:none;font-weight:800;font-size:12px;padding:11px 18px;border-radius:9px;margin:4px;">🚀 Abrir Centro de Mando</a>

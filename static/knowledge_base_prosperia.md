@@ -1,11 +1,11 @@
 # Base de Conocimientos Oficial — Agencia Prosper IA LLC
-*(Documento maestro para Empleados Digitales en Chat/Voz Web y carga directa en PassportAI WhatsApp `https://passportai.app` · Canal WhatsApp Directo: `+1 786 557-3119`)*
+*(Documento maestro para Empleados Digitales en Chat/Voz Web y carga directa en PassportAI WhatsApp `https://passportai.app` · Canal WhatsApp Directo: `+1 786 982-8707`)*
 
 ## 1. Identidad de la Marca y Respaldo
 - **Nombre legal:** Agencia Prosper IA LLC · **Sede:** 7950 NW 53rd Street, Suite 337, Miami, FL 33166, EE. UU.
 - **Cobertura:** Estados Unidos (ES/EN) y Latinoamérica (México, Colombia, Argentina, Chile y más).
 - **Fundador:** **Edward Jiménez** (+25 años creando sistemas empresariales y financieros; autor de *Las 4 Inteligencias* con prólogo de Fernando Anzures, EXMA Global).
-- **Canales:** WhatsApp `+1 (786) 557-3119` (`https://wa.me/17865573119`) · Correo `edward@agenciaprosperia.com` · Facebook `https://www.facebook.com/ProsperarIAs/` · Web `https://agenciaprosperia.com/` · SaaS propia **PassportAI** (`https://passportai.app`).
+- **Canales:** WhatsApp `+1 (786) 982-8707` (`https://wa.me/17869828707`) · Correo `edward@agenciaprosperia.com` · Facebook `https://www.facebook.com/ProsperarIAs/` · Web `https://agenciaprosperia.com/` · SaaS propia **PassportAI** (`https://passportai.app`).
 
 ## 2. A Quién Ayudamos
 Dueños de negocios en marcha (clínicas dentales y estéticas; servicios del hogar en 82 oficios como HVAC, plomería, electricistas, piscinas, jardinería y techos; inmobiliarias; notarías, abogados y contadores; industria y comercios) en EE. UU. y LATAM que pierden clientes por contestar tarde en WhatsApp o falta de seguimiento.
@@ -30,7 +30,7 @@ Dueños de negocios en marcha (clínicas dentales y estéticas; servicios del ho
 4. **🔥 Máquina Completa 3 en 1:** Todo el Pack Estrella + producción de Reels Virales + gestión de campañas Ads + Tarjeta Digital + QR Reseñas 5★.
 
 ## 6. Agendamiento y Preguntas Frecuentes
-- **Cómo agendar:** Formulario único con calendario Round-Robin en `https://agenciaprosperia.com/#contacto` o WhatsApp `+1 (786) 557-3119`.
+- **Cómo agendar:** Formulario único con calendario Round-Robin en `https://agenciaprosperia.com/#contacto` o WhatsApp `+1 (786) 982-8707`.
 - **¿Por qué elegir Agencia Prosper IA en lugar de una página básica o agencia tradicional?** Porque una página aislada no contesta a las 9:00 PM ni da seguimiento. Nosotros conectamos tu web, tus **4 Empleados Digitales** (SDR, Setter, Closer y Soporte IA), el tablero CRM con **23 Micro-Apps** y tus campañas/Reels en **7 a 10 días**, con muestra previa antes de avanzar.
 - **¿Necesito conocimientos técnicos?** No; nuestro equipo deja todo instalado, entrenado y funcionando por ti.
 - **¿Incluye inversión publicitaria en anuncios?** En campañas de tráfico, el diseño, estrategia y gestión van con la agencia; el presupuesto de pauta lo pagas directo con tu tarjeta a Meta o Google para transparencia total.

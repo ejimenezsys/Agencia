@@ -32,7 +32,6 @@
     'PassportAI.app',
     'PassportAI',
     'ProsperIA CRM',
-    'ProsperIAStack',
     'Prosper IA',
     'Las 4 Inteligencias',
     'SVE90',
@@ -316,7 +315,7 @@
       },
       {
         sel: '#arch-title + .sec-lead',
-        en: 'For investors and strategic partners: <strong>PassportAI.app</strong> orchestrates <strong>58+ leading AI models</strong> in one proprietary workspace — including flagship engines from <strong>OpenAI, Google Gemini, Anthropic Claude, Runway, and ElevenLabs</strong> alongside specialized proprietary models and orchestration rules safeguarded as <strong>trade secrets</strong> — connected via direct link to <strong>ProsperIAStack</strong> to deploy a full vertical CRM in minutes instead of months.'
+        en: 'For investors and strategic partners: <strong>PassportAI.app</strong> orchestrates <strong>58+ leading AI models</strong> in one proprietary workspace — including flagship engines from <strong>OpenAI, Google Gemini, Anthropic Claude, Runway, and ElevenLabs</strong> alongside specialized proprietary models and orchestration rules safeguarded as <strong>trade secrets</strong> — connected via direct link to <strong>Agencia Prosper IA CRM</strong> to deploy a full vertical CRM in minutes instead of months.'
       },
       {
         sel: '#calc-title + .sec-lead',
@@ -328,11 +327,11 @@
       },
       {
         sel: '#geo-title + p',
-        en: '<strong>PassportAI.app</strong> is a multi-tenant Applied AI &amp; 24/7 Digital Workforce SaaS platform founded by <strong>Edward Jiménez</strong> and developed over 18 months with engineers from FIUBA (University of Buenos Aires), backed by <strong>$130,000+ USD</strong> in founder capital and operated out of Doral / Miami, FL by <strong>Agencia Prosper IA LLC</strong>. It orchestrates <strong>58+ leading AI models</strong> (including OpenAI, Google Gemini, Anthropic Claude, Runway &amp; ElevenLabs alongside proprietary trade-secret engines) and links directly with <strong>ProsperIAStack</strong>, the automated provisioning engine that installs funnels, 140+ custom values, calendars, and 10 vertical templates of <strong>ProsperIA CRM</strong> (white-label GoHighLevel) in minutes instead of months — alongside WhatsApp QR/API autonomous chatbots, a 9:16 Reels studio, omnichannel LinkedIn/Email prospecting, and trilingual ES/EN/PT support. Serving <strong>740+ active businesses</strong> and backed by Agencia Prosper IA’s community-building engine, it is raising a <strong>$1,000,000 USD Seed Round</strong> to launch native Apple App Store &amp; Google Play Store apps and scale toward 100,000–1,000,000 users across Latin America starting at $19/mo.'
+        en: '<strong>PassportAI.app</strong> is a multi-tenant Applied AI &amp; 24/7 Digital Workforce SaaS platform founded by <strong>Edward Jiménez</strong> and developed over 18 months with engineers from FIUBA (University of Buenos Aires), backed by <strong>$130,000+ USD</strong> in founder capital and operated out of Doral / Miami, FL by <strong>Agencia Prosper IA LLC</strong>. It orchestrates <strong>58+ leading AI models</strong> (including OpenAI, Google Gemini, Anthropic Claude, Runway &amp; ElevenLabs alongside proprietary trade-secret engines) and links directly with <strong>Agencia Prosper IA CRM</strong> (<strong>ProsperIA CRM</strong> on GoHighLevel), installing funnels, 140+ custom values, calendars, and 10 vertical templates in minutes instead of months — alongside WhatsApp QR/API autonomous chatbots, a 9:16 Reels studio, omnichannel LinkedIn/Email prospecting, and trilingual ES/EN/PT support. Serving <strong>740+ active businesses</strong> and backed by Agencia Prosper IA’s community-building engine, it is raising a <strong>$1,000,000 USD Seed Round</strong> to launch native Apple App Store &amp; Google Play Store apps and scale toward 100,000–1,000,000 users across Latin America starting at $19/mo.'
       },
       {
         sel: '#inversionistas .grid-2 .feature-box:first-child p',
-        en: 'Unlike deck-only startups, we combine 18 months of core R&amp;D built with <strong>FIUBA (Buenos Aires)</strong> engineering talent — where <strong>PassportAI.app</strong> shows its highest weekly usage — with our proven capability to build and mobilize business communities across the U.S. and Latin America through <strong>Agencia Prosper IA’s</strong> growth strategies and instant <strong>ProsperIAStack</strong> CRM onboarding.'
+        en: 'Unlike deck-only startups, we combine 18 months of core R&amp;D built with <strong>FIUBA (Buenos Aires)</strong> engineering talent — where <strong>PassportAI.app</strong> shows its highest weekly usage — with our proven capability to build and mobilize business communities across the U.S. and Latin America through <strong>Agencia Prosper IA’s</strong> growth strategies and instant <strong>ProsperIA CRM</strong> onboarding.'
       },
       {
         sel: '#inversionistas .grid-2 .feature-box:last-child p',
@@ -340,7 +339,7 @@
       },
       {
         sel: 'section[aria-labelledby="powered-passport-title"] p',
-        en: '<strong>In Summary — About Agencia Prosper IA LLC &amp; PassportAI.app:</strong> Headquartered in Doral / Miami, Florida and founded by <strong>Edward Jiménez</strong> (25+ years in mission-critical banking &amp; telecom infrastructure; author of <em>Las 4 Inteligencias</em>, LCCN 2026970390), our firm deploys 24/7 Autonomous AI Agents (WhatsApp QR/API, Voice, Web), Smart Websites, Private RAG Brains, and SVE90 Transformation powered by <strong>PassportAI.app</strong> ($130,000+ USD founder R&amp;D over 18 months with FIUBA engineering and 740+ active businesses) connected to <strong>ProsperIAStack</strong> to deploy <strong>ProsperIA CRM</strong> across 10 industry verticals in minutes.'
+        en: '<strong>In Summary — About Agencia Prosper IA LLC &amp; PassportAI.app:</strong> Headquartered in Doral / Miami, Florida and founded by <strong>Edward Jiménez</strong> (25+ years in mission-critical banking &amp; telecom infrastructure; author of <em>Las 4 Inteligencias</em>, LCCN 2026970390), our firm deploys 24/7 Autonomous AI Agents (WhatsApp QR/API, Voice, Web), Smart Websites, Private RAG Brains, and SVE90 Transformation powered by <strong>PassportAI.app</strong> ($130,000+ USD founder R&amp;D over 18 months with FIUBA engineering and 740+ active businesses) connected to <strong>Agencia Prosper IA CRM</strong> across 10 industry verticals in minutes.'
       },
       {
         sel: '.hero-box h1',
@@ -364,7 +363,7 @@
       },
       {
         sel: '.kb-agency-bridge > div > p',
-        en: 'Instead of relying on fragmented external consultants or slow manual setups, <strong style="color:#fff;">CRM-SaaS (/crm-saas)</strong> + <strong style="color:#34d399;">ProsperIAStack</strong> + <strong style="color:#67e8f9;">PassportAI.app</strong> deliver automatically: your preconfigured GoHighLevel subaccount starting at US$97/mo, your 16-template Smart Website, your 5-minute WhatsApp AI Receptionist, and your monthly factory of 9:16 Reels and SEO articles.'
+        en: 'Instead of relying on fragmented external consultants or slow manual setups, <strong style="color:#fff;">CRM-SaaS (/crm-saas)</strong> + <strong style="color:#34d399;">Agencia Prosper IA CRM</strong> + <strong style="color:#67e8f9;">PassportAI.app</strong> deliver automatically: your preconfigured GoHighLevel subaccount starting at US$97/mo, your 16-template Smart Website, your 5-minute WhatsApp AI Receptionist, and your monthly factory of 9:16 Reels and SEO articles.'
       },
       {
         sel: 'body.hm-page .hm-hero h1',
@@ -372,11 +371,11 @@
       },
       {
         sel: 'body.hm-page .hm-hero .hm-lead',
-        en: 'We empower clinics, local professionals, and agencies with <strong>High-Converting Smart Websites</strong>, <strong>4 Digital Employees on WhatsApp &amp; Voice</strong>, and <strong>PassportAI.app™ (+58 leading AI models)</strong> connected to <strong>ProsperIAStack™</strong> — with <strong>740+ active businesses</strong> operating without being glued to their phone.'
+        en: 'We empower clinics, local professionals, and agencies with <strong>High-Converting Smart Websites</strong>, <strong>4 Digital Employees on WhatsApp &amp; Voice</strong>, and <strong>PassportAI.app™ (+58 leading AI models)</strong> connected to <strong>Agencia Prosper IA CRM</strong> — with <strong>740+ active businesses</strong> operating without being glued to their phone.'
       },
       {
         sel: '#ecosistema-3-verticales .hm-verticals-grid > article:nth-child(1) p',
-        en: '24/7 AI WhatsApp Receptionist, anti-no-show medical scheduling, and a <strong>5-minute</strong> setup by uploading your clinic PDF brochure into <strong>ProsperIAStack™</strong> (141 variables + 9 workflows).'
+        en: '24/7 AI WhatsApp Receptionist, anti-no-show medical scheduling, and a <strong>5-minute</strong> setup by uploading your clinic PDF brochure into <strong>Agencia Prosper IA CRM</strong> (141 variables + 9 workflows).'
       },
       {
         sel: '#ecosistema-3-verticales .hm-verticals-grid > article:nth-child(2) p',

@@ -2074,6 +2074,229 @@ def _load_constructed_site(db: Session, slug: str) -> Optional[Dict[str, Any]]:
     return None
 
 
+_PROMPT_INDUSTRY_PACKS: List[Dict[str, Any]] = [
+    {
+        "key": "belleza_estetica",
+        "template_key": "clinica_estetica_avanzada",
+        "keywords": ["belleza", "estetica", "cinica de belleza", "clinica de belleza", "facial", "botox", "rejuvenec", "armoni", "acido hialuronico", "depilacion", "laser", "medspa", "cuidado de la piel", "skincare", "derma", "cosmet", "hydra", "peeling"],
+        "badge": "CLÍNICA DE BELLEZA, MEDICINA ESTÉTICA & REJUVENECIMIENTO",
+        "accent": "#ec4899",
+        "secondary": "#db2777",
+        "gallery_images": [
+            {"label": "Tratamientos Faciales & Luminosidad", "url": "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=1200&q=85"},
+            {"label": "Cabinas Estéticas & Tecnología Láser", "url": "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&w=1200&q=85"},
+            {"label": "Armonización & Bioestimulación Facial", "url": "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=1200&q=85"},
+        ],
+        "about_image": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=1000&q=85",
+        "default_business": "Lumina Clínica de Belleza & Estética",
+        "default_offer": "Evaluación Facial Personalizada + Diagnóstico de Piel de Bienvenida",
+        "services": [
+            {"icon": "fa-wand-magic-sparkles", "title": "Limpieza Facial Profunda & Hidrafacial", "desc": "Renovación celular, extracción suave e hidratación intensa para una piel luminosa desde la primera cita.", "tag": "Más solicitado"},
+            {"icon": "fa-syringe", "title": "Armonización Facial & Bioestimuladores", "desc": "Realza tus rasgos con resultados sutiles y naturales realizados por especialistas certificados.", "tag": "Resultados naturales"},
+            {"icon": "fa-sun", "title": "Rejuvenecimiento Láser & Control de Manchas", "desc": "Unifica el tono, atenúa poros y mejora la textura de tu rostro sin tiempo de reposo.", "tag": "Tecnología avanzada"},
+            {"icon": "fa-spa", "title": "Contorno Corporal & Radiofrecuencia", "desc": "Protocolos no invasivos de reafirmación, drenaje linfático y modelado corporal personalizado.", "tag": "Sin cirugía"},
+            {"icon": "fa-droplet", "title": "Depilación Láser Médica Definitiva", "desc": "Sesiones rápidas, cómodas y seguras para todo tipo de piel durante todo el año.", "tag": "Piel suave"},
+            {"icon": "fa-calendar-check", "title": "Diagnóstico Estético Integral 1 a 1", "desc": "Evaluamos tus objetivos y diseñamos un plan a tu medida con agenda prioritaria por WhatsApp.", "tag": "Agenda 24/7"},
+        ],
+    },
+    {
+        "key": "salon_peluqueria_spa",
+        "template_key": "beauty_growth_salon_spa",
+        "keywords": ["salon", "salón", "peluquer", "estilista", "colorimetria", "balayage", "unas", "uñas", "manicure", "pedicure", "pestanas", "pestañas", "cejas", "maquillaje", "spa", "masaje", "cosmetologia"],
+        "badge": "SALÓN DE BELLEZA, COLORIMETRÍA, UÑAS & SPA",
+        "accent": "#8b5cf6",
+        "secondary": "#ec4899",
+        "gallery_images": [
+            {"label": "Colorimetría, Alaciados & Estilismo", "url": "https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1200&q=85"},
+            {"label": "Cabinas de Spa & Relajación", "url": "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=85"},
+            {"label": "Uñas, Maquillaje & Cuidado Personal", "url": "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1200&q=85"},
+        ],
+        "about_image": "https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?auto=format&fit=crop&w=1000&q=85",
+        "default_business": "Studio Belleza & Spa Boutique",
+        "default_offer": "Diagnóstico Capilar + Hidratación de Cortesía al Agendar Hoy",
+        "services": [
+            {"icon": "fa-scissors", "title": "Diseño de Color, Balayage & Corte", "desc": "Técnicas personalizadas que cuidan la fibra capilar con tonos vibrantes y acabado de pasarela.", "tag": "Estilistas senior"},
+            {"icon": "fa-sparkles", "title": "Alaciados Orgánicos & Hidratación Profunda", "desc": "Devuelve brillo, suavidad y control del frizz con fórmulas libres de formol.", "tag": "Brillo inmediato"},
+            {"icon": "fa-hand-sparkles", "title": "Manicure Ruso, Gelish & Pedicure Spa", "desc": "Higiene clínica, diseños elegantes y cuidado profundo de manos y pies.", "tag": "Agenda hoy"},
+            {"icon": "fa-eye", "title": "Diseño de Cejas, Laminado & Pestañas", "desc": "Enmarca tu mirada según las proporciones de tu rostro con resultados duraderos.", "tag": "Mirada definida"},
+            {"icon": "fa-spa", "title": "Masajes Relajantes & Rituales Spa", "desc": "Desconexión total con aromaterapia, piedras calientes y cabina privada.", "tag": "Experiencia VIP"},
+            {"icon": "fa-wand-magic-sparkles", "title": "Maquillaje & Peinado para Eventos", "desc": "Paquetes para novias, graduaciones y sesiones fotográficas con prueba previa.", "tag": "Reserva fácil"},
+        ],
+    },
+    {
+        "key": "restaurante_gastronomia",
+        "template_key": "servicios_locales_taller",
+        "keywords": ["restaurante", "comida", "pizzeria", "taco", "taqueria", "sushi", "cafe", "cafeteria", "bar", "bistro", "cocina", "menu", "menú", "hamburguesa", "pasteleria", "panaderia", "catering", "gastronomia"],
+        "badge": "GASTRONOMÍA, RESERVAS ONLINE & PEDIDOS POR WHATSAPP",
+        "accent": "#f97316",
+        "secondary": "#fbbf24",
+        "gallery_images": [
+            {"label": "Ambiente, Barra & Experiencia en Mesa", "url": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=85"},
+            {"label": "Platillos de Autor & Ingredientes Frescos", "url": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1200&q=85"},
+            {"label": "Cocina Artesanal & Pedidos Express", "url": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1200&q=85"},
+        ],
+        "about_image": "https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1000&q=85",
+        "default_business": "Sazón & Mesa Restaurante",
+        "default_offer": "Mesa Preferencial + Bebida o Postre de Bienvenida al Reservar en Línea",
+        "services": [
+            {"icon": "fa-utensils", "title": "Especialidades de la Casa a la Carta", "desc": "Recetas preparadas al momento con ingredientes seleccionados de primera calidad.", "tag": "Favoritos del chef"},
+            {"icon": "fa-chair", "title": "Reservación de Mesas Sin Esperas", "desc": "Aparta tu mesa para comidas de negocio, aniversarios o reuniones familiares en 20 segundos.", "tag": "Confirmación rápida"},
+            {"icon": "fa-bag-shopping", "title": "Pedidos para Llevar & Domicilio Directo", "desc": "Ordena por WhatsApp en un clic y recibe caliente en la puerta de tu casa u oficina.", "tag": "Envío ágil"},
+            {"icon": "fa-champagne-glasses", "title": "Eventos Privados, Cenas & Grupos", "desc": "Menús cerrados para cumpleaños, posadas y comidas corporativas con atención exclusiva.", "tag": "Cotización hoy"},
+            {"icon": "fa-mug-hot", "title": "Desayunos, Brunch & Barra de Café", "desc": "Opciones frescas desde primera hora para arrancar tu mañana o trabajar cómodo.", "tag": "Todos los días"},
+            {"icon": "fa-truck-fast", "title": "Servicio de Catering Empresarial", "desc": "Charolas, coffee break y banquetes puntuales para juntas y celebraciones.", "tag": "Para empresas"},
+        ],
+    },
+    {
+        "key": "fitness_gym",
+        "template_key": "academia_educacion_cursos",
+        "keywords": ["gimnasio", "gym", "fitness", "crossfit", "pilates", "yoga", "entrenamiento", "personal trainer", "deporte", "funcional", "boxeo", "nutricion"],
+        "badge": "FITNESS, ENTRENAMIENTO & BIENESTAR INTEGRAL",
+        "accent": "#10b981",
+        "secondary": "#06b6d4",
+        "gallery_images": [
+            {"label": "Área de Pesas & Entrenamiento Funcional", "url": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1200&q=85"},
+            {"label": "Coaching Personalizado & Clases Grupales", "url": "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=1200&q=85"},
+            {"label": "Estudio Pilates, Movilidad & Energía", "url": "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=1200&q=85"},
+        ],
+        "about_image": "https://images.unsplash.com/photo-1540497077202-7c8a3999166f?auto=format&fit=crop&w=1000&q=85",
+        "default_business": "Club Atlético & Fitness Studio",
+        "default_offer": "Clase de Prueba Gratis + Evaluación Física Inicial esta Semana",
+        "services": [
+            {"icon": "fa-dumbbell", "title": "Entrenamiento Funcional & Fuerza", "desc": "Rutinas guiadas para ganar fuerza, energía y composición corporal real sin lesiones.", "tag": "Todos los niveles"},
+            {"icon": "fa-user-check", "title": "Entrenador Personal 1 a 1", "desc": "Seguimiento técnico y progresión personalizada adaptada a tu horario y condición.", "tag": "Plan a medida"},
+            {"icon": "fa-users", "title": "Clases Grupales de Alta Energía", "desc": "Horarios de mañana y tarde con coaches certificados en ambiente motivador.", "tag": "Cupos activos"},
+            {"icon": "fa-heart-pulse", "title": "Pilates, Movilidad & Yoga", "desc": "Fortalece tu zona media, corrige postura y reduce el estrés diario.", "tag": "Bienestar total"},
+            {"icon": "fa-apple-whole", "title": "Evaluación Física & Plan Nutricional", "desc": "Medición de progreso quincenal acompañada de guía práctica de alimentación.", "tag": "Resultados medibles"},
+            {"icon": "fa-calendar-check", "title": "Pase de Visita & Membresía Sin Plazos", "desc": "Reserva tu clase muestra por WhatsApp hoy y conoce nuestras instalaciones.", "tag": "Agenda 24/7"},
+        ],
+    },
+    {
+        "key": "veterinaria_mascotas",
+        "template_key": "clinica_dental_estetica",
+        "keywords": ["veterinaria", "veterinario", "mascota", "perro", "gato", "pet", "estetica canina", "cachorro", "clinica veterinaria"],
+        "badge": "CLÍNICA VETERINARIA, VACUNAS & ESTÉTICA DE MASCOTAS",
+        "accent": "#14b8a6",
+        "secondary": "#38bdf8",
+        "gallery_images": [
+            {"label": "Consulta Médica Veterinaria Cariñosa", "url": "https://images.unsplash.com/photo-1628009368231-7bb7cfcb0def?auto=format&fit=crop&w=1200&q=85"},
+            {"label": "Cuidado, Vacunación & Bienestar Animal", "url": "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=1200&q=85"},
+            {"label": "Baño, Estética & Mimados de Casa", "url": "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=1200&q=85"},
+        ],
+        "about_image": "https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=1000&q=85",
+        "default_business": "Hospital Veterinario Patitas Felices",
+        "default_offer": "Revisión Preventiva de Bienvenida + Agenda Prioritaria por WhatsApp",
+        "services": [
+            {"icon": "fa-stethoscope", "title": "Consulta General & Urgencias Veterinarias", "desc": "Revisión clínica integral con trato amoroso para perros y gatos en cada etapa.", "tag": "Atención cálida"},
+            {"icon": "fa-syringe", "title": "Vacunación & Desparasitación", "desc": "Esquemas completos con recordatorios automáticos en tu celular para no olvidar refuerzos.", "tag": "Recordatorio IA"},
+            {"icon": "fa-scissors", "title": "Baño & Estética Canina Sin Estrés", "desc": "Corte higiénico o de raza, limpieza de oídos, uñas y secado cuidadoso.", "tag": "Turno en el día"},
+            {"icon": "fa-microscope", "title": "Laboratorio, Ultrasonido & Rayos X", "desc": "Diagnóstico clínico rápido en sitio para resolver molestias a tiempo.", "tag": "Resultados rápidos"},
+            {"icon": "fa-shield-heart", "title": "Cirugía Segura & Hospitalización", "desc": "Monitoreo constante con anestesia inhalada y comunicación continua con su familia.", "tag": "Equipo experto"},
+            {"icon": "fa-bone", "title": "Alimento Terapéutico & Farmacia", "desc": "Dietas prescritas y medicamentos listos para recoger al salir de consulta.", "tag": "Todo en un lugar"},
+        ],
+    },
+    {
+        "key": "automotriz_taller",
+        "template_key": "servicios_locales_taller",
+        "keywords": ["taller", "mecanico", "mecánico", "automotriz", "auto", "carro", "coche", "frenos", "llantas", "detailing", "car wash", "pintura", "hojalateria", "transmision"],
+        "badge": "SERVICIO AUTOMOTRIZ, DIAGNÓSTICO & GARANTÍA ESCRITA",
+        "accent": "#ef4444",
+        "secondary": "#f59e0b",
+        "gallery_images": [
+            {"label": "Diagnóstico Computarizado & Escáner", "url": "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=1200&q=85"},
+            {"label": "Afinación, Frenos & Suspensión", "url": "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=1200&q=85"},
+            {"label": "Estética Automotriz & Entrega Puntual", "url": "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=85"},
+        ],
+        "about_image": "https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=1000&q=85",
+        "default_business": "AutoTech Taller & Diagnóstico",
+        "default_offer": "Escaneo Computarizado + Inspección de Seguridad 25 Puntos Hoy",
+        "services": [
+            {"icon": "fa-car-battery", "title": "Escaneo Electrónico & Diagnóstico", "desc": "Detectamos códigos de falla de motor, sensores y electricidad con equipo profesional.", "tag": "Informe digital"},
+            {"icon": "fa-gears", "title": "Afinación Mayor & Cambio de Aceite", "desc": "Insumos certificados para cuidar el rendimiento de combustible y la vida del motor.", "tag": "Entrega el mismo día"},
+            {"icon": "fa-circle-stop", "title": "Frenos, Balatas & Suspensión", "desc": "Revisión completa de seguridad con refacciones originales y presupuesto previo.", "tag": "Garantía escrita"},
+            {"icon": "fa-snowflake", "title": "Aire Acondicionado Automotriz", "desc": "Detección de fugas, carga de gas refrigerante y reparación de compresores.", "tag": "Clima frío hoy"},
+            {"icon": "fa-spray-can-sparkles", "title": "Detailing, Pulido & Cerámico", "desc": "Lavado profundo de interiores, corrección de pintura y protección UV.", "tag": "Acabado de agencia"},
+            {"icon": "fa-building-shield", "title": "Mantenimiento para Flotillas", "desc": "Atención prioritaria y control de bitácora para vehículos de empresa.", "tag": "Facturación B2B"},
+        ],
+    },
+    {
+        "key": "medica_salud",
+        "template_key": "clinica_dental_estetica",
+        "keywords": ["clinica medica", "clínica médica", "medico", "médico", "doctor", "pediatra", "ginecolog", "fisioterapia", "quiropract", "psicolog", "cardiolog", "oftalmolog", "salud", "consultorio"],
+        "badge": "CLÍNICA MÉDICA ESPECIALIZADA & AGENDA DIGITAL 24/7",
+        "accent": "#0ea5e9",
+        "secondary": "#38bdf8",
+        "gallery_images": [
+            {"label": "Atención Médica Especializada", "url": "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=1200&q=85"},
+            {"label": "Consultorios Modernos & Tecnología", "url": "https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?auto=format&fit=crop&w=1200&q=85"},
+            {"label": "Recepción Cálida & Citas Puntuales", "url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1200&q=85"},
+        ],
+        "about_image": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=1000&q=85",
+        "default_business": "Centro Médico Integral",
+        "default_offer": "Consulta de Primera Vez con Horario Prioritario por WhatsApp",
+        "services": [
+            {"icon": "fa-stethoscope", "title": "Consulta Médica de Especialidad", "desc": "Valoración clínica detallada con expediente digital y seguimiento personalizado.", "tag": "Agenda hoy"},
+            {"icon": "fa-heart-pulse", "title": "Medicina Preventiva & Check-Ups", "desc": "Estudios generales, monitoreo preventivo y control oportuno para toda la familia.", "tag": "Resultados rápidos"},
+            {"icon": "fa-user-doctor", "title": "Segunda Opinión & Diagnóstico Integral", "desc": "Revisión profesional de estudios previos para definir la ruta clínica más segura.", "tag": "Atención cálida"},
+            {"icon": "fa-syringe", "title": "Procedimientos Ambulatorios en Consultorio", "desc": "Tratamientos seguros sin hospitalización bajo protocolos médicos certificados.", "tag": "Mínima invasión"},
+            {"icon": "fa-video", "title": "Telemedicina & Seguimiento por WhatsApp", "desc": "Resuelve dudas post-consulta y revisa resultados desde la comodidad de tu casa.", "tag": "Online 24/7"},
+            {"icon": "fa-calendar-check", "title": "Citas Prioritarias Sin Tiempo de Espera", "desc": "Confirmación automática y recordatorios directos en tu celular.", "tag": "Recepción IA 24/7"},
+        ],
+    },
+    {"key": "dental", "template_key": "clinica_dental_estetica", "keywords": ["dental", "dentista", "odonto", "ortodoncia", "sonrisa", "implante", "carilla", "brackets"]},
+    {"key": "capilar", "template_key": "clinica_capilar_pro", "keywords": ["capilar", "tricolog", "calvicie", "alopecia", "injerto", "barberia", "barbería", "barber"]},
+    {"key": "hvac", "template_key": "hvac_miami", "keywords": ["aire acondicionado", "hvac", "climatiz", "refrigeracion", "minisplit", "ductos"]},
+    {"key": "plomeria", "template_key": "plomeria_pro", "keywords": ["plomer", "fontaner", "fuga", "destape", "drenaje", "tuberia", "boiler", "calentador"]},
+    {"key": "roofing", "template_key": "roofing_remodel", "keywords": ["techo", "roof", "remodel", "construc", "arquitect", "impermeabiliz", "cocina", "bano", "albanil"]},
+    {"key": "electricista", "template_key": "electricista_pro", "keywords": ["electric", "tablero", "cargador ev", "solar", "corto circuito", "iluminacion"]},
+    {"key": "piscinas", "template_key": "piscinas_spas", "keywords": ["piscina", "alberca", "jacuzzi"]},
+    {"key": "jardineria", "template_key": "jardineria_paisajismo", "keywords": ["jardin", "paisaj", "poda", "cesped", "pasto", "riego"]},
+    {"key": "inmobiliaria", "template_key": "inmobiliaria_bienes_raices", "keywords": ["inmobili", "bienes raices", "propiedad", "casa", "departamento", "realtor", "hipoteca", "alquiler", "preventa"]},
+    {"key": "legal_contable", "template_key": "profesionales_consultoria_legal", "keywords": ["abogad", "legal", "juridic", "notari", "contad", "contable", "fiscal", "impuestos", "inmigracion", "seguros", "despacho"]},
+    {"key": "academia", "template_key": "academia_educacion_cursos", "keywords": ["academi", "curso", "escuela", "instituto", "taller educativo", "diplomado", "clases", "idioma", "formacion"]},
+    {"key": "coaching", "template_key": "coaching_consultoria_pro", "keywords": ["coach", "mentor", "consultor", "marketing", "agencia", "software", "saas", "ia ", "inteligencia artificial"]},
+    {"key": "industria", "template_key": "sti2q_industrial", "keywords": ["quimic", "laboratorio", "industrial", "fabrica", "manufactur", "aduana", "logistica", "comercio exterior"]},
+]
+
+
+def _match_prompt_industry(combined_text: str, explicit_tpl: str) -> Dict[str, Any]:
+    """Detecta automáticamente el giro, paleta de marca, fotos HD y servicios base desde el prompt del cliente."""
+    norm = unicodedata.normalize("NFD", (combined_text or "").lower())
+    norm = "".join(c for c in norm if unicodedata.category(c) != "Mn")
+    for pack in _PROMPT_INDUSTRY_PACKS:
+        if any(kw in norm for kw in pack["keywords"]):
+            tpl_k = pack["template_key"] if pack["template_key"] in WEBSITE_TEMPLATES_SHOWCASE else "clinica_dental_estetica"
+            base = dict(WEBSITE_TEMPLATES_SHOWCASE[tpl_k])
+            return {
+                "template_key": tpl_k,
+                "base": base,
+                "badge": pack.get("badge") or base.get("badge", ""),
+                "accent": pack.get("accent") or base.get("accent", "#00e5ff"),
+                "secondary": pack.get("secondary") or base.get("secondary", "#0ea5e9"),
+                "gallery_images": pack.get("gallery_images") or base.get("gallery_images") or [],
+                "about_image": pack.get("about_image") or base.get("about_image", ""),
+                "default_business": pack.get("default_business") or base.get("default_business", "Tu Negocio Inteligente"),
+                "default_offer": pack.get("default_offer") or base.get("default_offer", "Atención Prioritaria e Información en Minutos"),
+                "services": pack.get("services") or base.get("services") or [],
+                "industry_matched": True,
+            }
+    tpl_k = explicit_tpl if explicit_tpl in WEBSITE_TEMPLATES_SHOWCASE else "clinica_dental_estetica"
+    base = dict(WEBSITE_TEMPLATES_SHOWCASE[tpl_k])
+    return {
+        "template_key": tpl_k,
+        "base": base,
+        "badge": base.get("badge", "Sitio Web Inteligente Personalizado"),
+        "accent": base.get("accent", "#00e5ff"),
+        "secondary": base.get("secondary", "#0ea5e9"),
+        "gallery_images": base.get("gallery_images") or [],
+        "about_image": base.get("about_image", ""),
+        "default_business": base.get("default_business", "Tu Negocio Inteligente"),
+        "default_offer": base.get("default_offer", "Atención Prioritaria e Información en Minutos"),
+        "services": base.get("services") or [],
+        "industry_matched": False,
+    }
+
+
 def _construct_site_from_big_text(
     raw_text: str,
     business_name: str,
@@ -2082,10 +2305,12 @@ def _construct_site_from_big_text(
     phone: str,
     offer: str,
 ) -> Dict[str, Any]:
-    """Construye la estructura completa de un Sitio Web Inteligente a partir de texto libre."""
-    tpl_k = template_key if template_key in WEBSITE_TEMPLATES_SHOWCASE else "clinica_dental_estetica"
-    base = WEBSITE_TEMPLATES_SHOWCASE[tpl_k]
+    """Construye la estructura completa de un Sitio Web Inteligente (textos + fotos acordes) a partir de un prompt libre."""
     text_clean = re.sub(r"\r\n?", "\n", (raw_text or "").strip())
+    combined_for_match = f"{business_name} {text_clean}".strip()
+    matched = _match_prompt_industry(combined_for_match, template_key)
+    tpl_k = matched["template_key"]
+    base = matched["base"]
 
     # Extracción determinista rápida (respaldo inmediato <5ms)
     lines = [re.sub(r"^[\-\*•\d\.\)\s]+", "", ln).strip() for ln in text_clean.split("\n") if ln.strip()]
@@ -2094,14 +2319,17 @@ def _construct_site_from_big_text(
     inferred_biz = business_name.strip()
     if not inferred_biz and lines:
         cand = lines[0][:68]
-        inferred_biz = cand if len(cand) >= 3 else base.get("default_business", "Tu Negocio Inteligente")
+        if len(cand) >= 3 and len(cand.split()) <= 8 and not re.match(r"^(somos|quiero|necesito|tengo|una|un)\b", cand, re.I):
+            inferred_biz = cand.title() if cand.islower() else cand
+        else:
+            inferred_biz = matched["default_business"]
     if not inferred_biz:
-        inferred_biz = base.get("default_business", "Tu Negocio Inteligente")
+        inferred_biz = matched["default_business"]
 
     inferred_phone = phone.strip()
     if not inferred_phone:
         m_phone = re.search(r"(\+?\d[\d\s\-\(\)]{7,16}\d)", text_clean)
-        inferred_phone = m_phone.group(1).strip() if m_phone else "+1 786 557 3119"
+        inferred_phone = m_phone.group(1).strip() if m_phone else "+1 (786) 982-8707"
 
     inferred_city = city.strip()
     if not inferred_city:
@@ -2111,16 +2339,16 @@ def _construct_site_from_big_text(
     inferred_offer = offer.strip()
     if not inferred_offer:
         promo_match = next((s for s in sentences if re.search(r"(gratis|descuento|%|promo|diagn[oó]stico|valoraci[oó]n|sin costo|hoy)", s, re.I)), "")
-        inferred_offer = promo_match[:90] if promo_match else base.get("default_offer", "Atención Prioritaria e Información en Minutos")
+        inferred_offer = promo_match[:90] if promo_match else matched["default_offer"]
 
-    base_services = list(base.get("services") or [])
+    base_services = list(matched.get("services") or [])
     bullet_lines = [
         re.sub(r"^[\-\*•\d\.\)\s]+", "", ln).strip()
         for ln in text_clean.split("\n")
         if re.match(r"^\s*([\-\*•]|\d+[\.\)])\s+", ln) and len(ln.strip()) > 6
     ]
     if len(bullet_lines) < 3 and "," in text_clean:
-        parts = [p.strip() for p in re.split(r"[,\n;]+", text_clean) if 6 <= len(p.strip()) <= 75]
+        parts = [p.strip() for p in re.split(r"[,\n;]+", text_clean) if 6 <= len(p.strip()) <= 75 and len(p.strip().split()) <= 10]
         for p in parts:
             if p not in bullet_lines:
                 bullet_lines.append(p)
@@ -2144,69 +2372,105 @@ def _construct_site_from_big_text(
                 srv_desc = f"Servicio profesional ofrecido por {inferred_biz} con atención rápida por WhatsApp y seguimiento personalizado."
             built_services.append({
                 "icon": icons_pool[idx % len(icons_pool)],
-                "tag": "Personalizado" if idx < 2 else fallback_srv.get("tag", "Disponible"),
+                "tag": "Incluido" if idx < 2 else fallback_srv.get("tag", "Disponible"),
                 "title": srv_title,
                 "desc": srv_desc,
             })
         else:
             built_services.append(fallback_srv)
 
-    summary_story = " ".join(sentences[:3])[:420] if sentences else (text_clean[:380] or base.get("about_story", ""))
-    hero_sub = (sentences[0][:210] if sentences else f"Soluciones profesionales de {inferred_biz} con atención inmediata y agenda directa en línea.")
+    if len(sentences) >= 2:
+        summary_story = " ".join(sentences[:3])[:420]
+    elif matched["industry_matched"]:
+        summary_story = base.get("about_story") or f"En {inferred_biz} combinamos especialistas certificados, atención cálida y seguimiento digital 24/7 para brindarte una experiencia profesional desde tu primer mensaje."
+    else:
+        summary_story = text_clean[:380] or base.get("about_story", "")
+
+    if sentences and len(sentences[0]) > 25:
+        hero_sub = sentences[0][:210]
+    elif matched["industry_matched"]:
+        hero_sub = base.get("hero_subtitle") or f"Atención profesional de {inferred_biz} con agenda prioritaria y respuesta en segundos por WhatsApp."
+    else:
+        hero_sub = f"Soluciones profesionales de {inferred_biz} con atención inmediata y agenda directa en línea."
+
+    gallery_imgs = [dict(g) for g in (matched.get("gallery_images") or [])]
 
     result: Dict[str, Any] = {
         "template_key": tpl_k,
         "business_name": inferred_biz,
-        "badge": base.get("badge", "Sitio Web Inteligente Personalizado"),
-        "hero_title": f"{inferred_biz}: Atención Profesional y Citas en Línea",
+        "badge": matched["badge"],
+        "accent": matched["accent"],
+        "secondary": matched["secondary"],
+        "hero_title": base.get("hero_title") if (matched["industry_matched"] and len(text_clean) < 25) else f"{inferred_biz}: Atención Profesional y Citas en Línea",
         "hero_subtitle": hero_sub,
         "city": inferred_city,
         "offer": inferred_offer,
         "phone": inferred_phone,
-        "about_title": f"Por qué elegir a {inferred_biz}",
+        "gallery_images": gallery_imgs,
+        "about_image": matched.get("about_image") or base.get("about_image", ""),
+        "about_title": base.get("about_title") if (matched["industry_matched"] and len(text_clean) < 25) else f"Por qué elegir a {inferred_biz}",
         "about_story": summary_story,
         "about_mission": f"Brindar resultados reales y atención en segundos para cada cliente de {inferred_biz} en {inferred_city}.",
-        "about_pillars": [
+        "about_pillars": list(base.get("about_pillars") or [
             f"Atención directa de {inferred_biz} en {inferred_city}",
             f"Cotización rápida y orientación por WhatsApp ({inferred_phone})",
             "Agenda disponible las 24 horas sin tiempos de espera",
-        ],
+        ]),
+        "about_stats": list(base.get("about_stats") or []),
+        "testimonials": list(base.get("testimonials") or []),
+        "chatbot_greeting": base.get("chatbot_greeting") or f"¡Hola! 👋 ¿En qué te ayudamos hoy en {inferred_biz}?",
+        "form_questions": list(base.get("form_questions") or ["¿Qué servicio te interesa cotizar primero?", "¿Para cuándo te gustaría agendar?"]),
+        "contact_hours": base.get("contact_hours") or "Lunes a Sábados · Recepción IA 24/7",
         "services": built_services,
         "raw_text": text_clean[:2500],
         "constructed_with": "cortexia_engine",
     }
 
-    # Enriquecimiento con IA generativa si hay GEMINI_API_KEY activa (timeout corto 3.5s)
+    # Enriquecimiento con IA generativa si hay GEMINI_API_KEY activa (timeout 9s para prompts cortos o completos)
     gemini_key = _resolve_env_secret("GEMINI_API_KEY", "")
-    if gemini_key and len(text_clean) >= 20:
+    prompt_input = text_clean or business_name
+    if gemini_key and len(prompt_input) >= 3:
         try:
             prompt = (
-                "Eres el Constructor Maestro de Sitios Web de Cortexia y PassportAI. "
-                "A partir de este texto libre sobre un negocio, genera un JSON válido en español limpio "
-                "(NO incluyas precios en dólares inventados) con estas llaves exactas:\n"
-                '{"business_name":"...","badge":"...","hero_title":"máximo 11 palabras impactantes",'
-                '"hero_subtitle":"1 oración clara de valor","city":"...","offer":"gancho breve sin inventar precios",'
-                '"about_title":"...","about_story":"2 a 3 oraciones claras basadas en el texto",'
-                '"about_mission":"1 oración","about_pillars":["pilar 1","pilar 2","pilar 3"],'
-                '"services":[{"tag":"...","title":"...","desc":"1 oración"} (exactamente 6 servicios extraídos o afines al texto)]}\n\n'
-                f"NOMBRE SUGERIDO: {inferred_biz}\nCIUDAD: {inferred_city}\nTEXTO DEL CLIENTE:\n{text_clean[:2200]}"
+                "Eres el Constructor Maestro de Sitios Web de Agencia Prosper IA & PassportAI. "
+                "A partir de la instrucción o texto libre del cliente sobre su negocio (puede ser solo el giro como 'Clínica de belleza' o una descripción larga), "
+                "genera un JSON válido en ESPAÑOL limpio (NUNCA menciones ni inventes precios en dólares ni uses terminología dental si el negocio es de belleza/otro giro) con estas llaves exactas:\n"
+                '{"business_name":"nombre comercial atractivo si no dio uno exacto",'
+                '"badge":"etiqueta corta en mayúsculas del giro real",'
+                '"hero_title":"titular principal de alto impacto (máximo 11 palabras) específico del giro",'
+                '"hero_subtitle":"1 oración clara de propuesta de valor específica del giro",'
+                '"city":"ciudad mencionada o cobertura",'
+                '"offer":"gancho o valoración especial sin inventar precios",'
+                '"about_title":"titular de Quiénes Somos específico de este giro",'
+                '"about_story":"2 a 3 oraciones claras basadas en este giro/texto",'
+                '"about_mission":"1 oración de misión",'
+                '"about_pillars":["pilar 1 específico","pilar 2","pilar 3"],'
+                '"image_labels":["descripción foto 1 del giro","descripción foto 2 del giro","descripción foto 3 del giro"],'
+                '"services":[{"tag":"etiqueta corta","title":"nombre real del servicio de este giro","desc":"1 oración"} (exactamente 6 servicios distintos y reales para este negocio/giro)]}\n\n'
+                f"NOMBRE SUGERIDO: {inferred_biz}\nCIUDAD: {inferred_city}\nPROMPT / TEXTO DEL CLIENTE:\n{prompt_input[:2200]}"
             )
             api_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={urllib.parse.quote(gemini_key)}"
             req_body = json.dumps({
                 "contents": [{"parts": [{"text": prompt}]}],
-                "generationConfig": {"temperature": 0.4, "responseMimeType": "application/json"},
+                "generationConfig": {"temperature": 0.45, "responseMimeType": "application/json"},
             }).encode("utf-8")
             req_obj = urllib.request.Request(api_url, data=req_body, headers={"Content-Type": "application/json"}, method="POST")
-            with urllib.request.urlopen(req_obj, timeout=3.5) as resp:
+            with urllib.request.urlopen(req_obj, timeout=9.0) as resp:
                 raw_resp = json.loads(resp.read().decode("utf-8"))
                 txt_out = raw_resp["candidates"][0]["content"]["parts"][0]["text"]
                 parsed = json.loads(txt_out)
                 if isinstance(parsed, dict) and parsed.get("hero_title"):
-                    for k in ("business_name", "badge", "hero_title", "hero_subtitle", "city", "offer", "about_title", "about_story", "about_mission"):
+                    for k in ("badge", "hero_title", "hero_subtitle", "city", "offer", "about_title", "about_story", "about_mission"):
                         if isinstance(parsed.get(k), str) and parsed[k].strip():
                             result[k] = parsed[k].strip()
+                    if not business_name.strip() and isinstance(parsed.get("business_name"), str) and parsed["business_name"].strip():
+                        result["business_name"] = parsed["business_name"].strip()[:80]
                     if isinstance(parsed.get("about_pillars"), list) and len(parsed["about_pillars"]) >= 2:
                         result["about_pillars"] = [str(x).strip() for x in parsed["about_pillars"][:4] if str(x).strip()]
+                    if isinstance(parsed.get("image_labels"), list):
+                        for idx, lbl in enumerate(parsed["image_labels"][:len(result["gallery_images"])]):
+                            if isinstance(lbl, str) and lbl.strip():
+                                result["gallery_images"][idx]["label"] = lbl.strip()[:60]
                     if isinstance(parsed.get("services"), list) and len(parsed["services"]) >= 3:
                         merged_srvs = []
                         for idx, srv in enumerate(parsed["services"][:6]):
@@ -2240,8 +2504,8 @@ async def api_sitioweb_construct_live(request: Request, db: Session = Depends(ge
     phone = (body.get("phone") or "").strip()[:30]
     offer = (body.get("offer") or "").strip()[:100]
 
-    if len(raw_text) < 8 and len(business_name) < 2:
-        raise HTTPException(status_code=422, detail="Escribe el nombre del negocio o pega una descripción para construir tu sitio web.")
+    if len(raw_text) < 3 and len(business_name) < 2:
+        raise HTTPException(status_code=422, detail="Escribe tu prompt o descripción del negocio para construir tu sitio web.")
 
     site_data = _construct_site_from_big_text(raw_text, business_name, template_key, city, phone, offer)
     slug = _slugify_business_name(site_data["business_name"])
@@ -2843,17 +3107,17 @@ async def get_llms_txt():
         "# Agencia ProsperIA\n\n"
         "> Agencia ProsperIA LLC es una firma de consultoría en inteligencia artificial, software SaaS y automatización comercial con sede en Miami, Florida (EE. UU.), "
         "fundada y dirigida por Edward Jiménez. Opera en 3 verticales principales: (1) Clínicas de Salud, Estética, Dental, Capilar & Beauty Growth (SVE90), "
-        "(2) Profesionales Independientes, Despachos, Inmobiliarias & 82 Oficios Locales, y (3) Agencias CRM-SaaS, Implementadores GHL & Creadores Faceless con PassportAI.app y ProsperIAStack.\n\n"
+        "(2) Profesionales Independientes, Despachos, Inmobiliarias & 82 Oficios Locales, y (3) Agencias CRM-SaaS, Implementadores GHL & Creadores Faceless con PassportAI.app y CRM de Agencia Prosper IA.\n\n"
         "## Verticales, Servicios y Oferta Comercial\n"
         "- [Inicio: Ecosistema IA, 3 Verticales, Casos y Planes Directos](https://agenciaprosperia.com/): visión ejecutiva, marcas registradas, vitrina real e inicio inmediato con Stripe/CRM.\n"
         "- [Knowledge Base, Planes y Directorio B2B IA](https://agenciaprosperia.com/knowledge-base) (también `/directorio-ia` y `/centro-de-conocimiento`): guías por vertical, matriz comparativa FREE / CORE / PRO y registro gratuito en el directorio.\n"
-        "- [Vertical Agencias CRM-SaaS & Marca Blanca GHL](https://agenciaprosperia.com/crm-saas): infraestructura CRM + +58 modelos líderes de IA (OpenAI, Google Gemini, Anthropic Claude, Runway, ElevenLabs), ProsperIAStack y licencias SaaS.\n"
+        "- [Vertical Agencias CRM-SaaS & Marca Blanca GHL](https://agenciaprosperia.com/crm-saas): infraestructura CRM + +58 modelos líderes de IA (OpenAI, Google Gemini, Anthropic Claude, Runway, ElevenLabs), ProsperIA CRM y licencias SaaS.\n"
         "- [Consultoría en Inteligencia Artificial](https://agenciaprosperia.com/ia) (también https://agenciaprosperia.com/corporativos y https://agenciaprosperia.com/consultoriadeinteligenciaartificial): diagnóstico de madurez, business case, RAG privado, agentes de IA, integración ERP/CRM, metodología SVE90 de 90 días y Fractional CAIO.\n"
         "- [Sitios Web Inteligentes](https://agenciaprosperia.com/paginas-web) y [Embudo Mi Web](https://agenciaprosperia.com/sitioweb): arquitectura web de alta conversión conectada a WhatsApp y agenda 24/7.\n"
         "- [CRM & Verticales Sectoriales](https://agenciaprosperia.com/crm), [Agentes de IA](https://agenciaprosperia.com/agentes-ia) y [Beauty Growth](https://agenciaprosperia.com/beautygrowth).\n"
         "- [Equipo y Consultores Certificados 1 a 1](https://agenciaprosperia.com/nosotros): dirección ejecutiva, ingeniería FIUBA, estudio creativo viral (+744K vistas) y consultores por industria.\n"
         "- [Caso de Estudio: IDOL JOSE GROUP CORP & DFW](https://agenciaprosperia.com/casos-de-exito/idol-jose-group): arquitectura comercial y automatización verificable.\n"
-        "- [PassportAI.app, Caso de Éxito Tri-País & Tesis de Inversión Seed US$1M](https://agenciaprosperia.com/passportai) (también `/inversionistas`): plataforma SaaS +58 modelos de IA con ingeniería en EE. UU., México y Argentina (FIUBA) y conexión directa con ProsperIAStack.\n"
+        "- [PassportAI.app, Caso de Éxito Tri-País & Tesis de Inversión Seed US$1M](https://agenciaprosperia.com/passportai) (también `/inversionistas`): plataforma SaaS +58 modelos de IA con ingeniería en EE. UU., México y Argentina (FIUBA) y conexión directa con el CRM de Agencia Prosper IA.\n"
         "- [Manual Maestro Oficial PassportAI.app v4.0 (22 Secciones)](https://agenciaprosperia.com/manual_passportai): documentación interactiva y PDF descargable de NotebookLM RAG, Chatbots 24/7, 6 Constructores PDF, Creative Studio y ProsperIA CRM.\n"
         "- [Diagnóstico comercial](https://agenciaprosperia.com/diagnostico) y [Test de madurez en IA (10 preguntas)](https://agenciaprosperia.com/test-ia).\n"
         "- [Libro Oficial: Las 4 Inteligencias por Edward Jiménez](https://agenciaprosperia.com/libro): ISBN 979-8-9824777-0-5, Library of Congress LCCN 2026970390, Copyright #1-15304798691, prólogo de Fernando Anzures. Amazon Oficial (ASIN B0HS33VP6C): https://www.amazon.com/dp/B0HS33VP6C?th=1\n\n"
@@ -3431,8 +3695,8 @@ def send_email_notification(
                   <td style="padding: 10px 0; font-size: 14px; color: #00e5ff; font-weight: 600;"><a href="https://wa.me/{phone_clean}" style="color: #00e5ff; text-decoration: none;">{phone} (Abrir Chat)</a></td>
                 </tr>
                 <tr>
-                  <td style="padding: 10px 0; font-weight: bold; font-size: 13px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px;">Edward WhatsApp Directo:</td>
-                  <td style="padding: 10px 0; font-size: 14px; color: #10b981; font-weight: 600;"><a href="https://wa.me/17865573119" style="color: #10b981; text-decoration: none;">+1 (786) 557-3119</a></td>
+                  <td style="padding: 10px 0; font-weight: bold; font-size: 13px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px;">WhatsApp Oficial Agencia:</td>
+                  <td style="padding: 10px 0; font-size: 14px; color: #10b981; font-weight: 600;"><a href="https://wa.me/17869828707" style="color: #10b981; text-decoration: none;">+1 (786) 982-8707</a></td>
                 </tr>
               </table>
               
@@ -3497,7 +3761,7 @@ def send_web_lead_welcome_smtp_email(name: str, email: str, source_label: str = 
         src_disp = (source_label or "Agencia Prosper IA").strip()
         safe_first = html_lib.escape(first_name)
         safe_src = html_lib.escape(src_disp)
-        wa_link = "https://wa.me/17865573119?text=Hola%20Agencia%20Prosper%20IA%2C%20acabo%20de%20registrarme"
+        wa_link = "https://wa.me/17869828707?text=Hola%20Agencia%20Prosper%20IA%2C%20acabo%20de%20registrarme"
         site_link = "https://agenciaprosperia.com"
 
         subject = f"Hola {first_name}, recibimos tu registro en Agencia Prosper IA"
@@ -3506,7 +3770,7 @@ def send_web_lead_welcome_smtp_email(name: str, email: str, source_label: str = 
             f"Gracias por ponerte en contacto con Agencia Prosper IA ({src_disp}). "
             f"Recibimos correctamente tus datos y nuestro equipo ya los tiene registrados.\n\n"
             f"Si deseas atención inmediata o resolver alguna duda en vivo, puedes:\n"
-            f"• Escribirnos directo por WhatsApp en Miami: {wa_link} (+1 786-557-3119)\n"
+            f"• Escribirnos directo por WhatsApp en Miami: {wa_link} (+1 786-982-8707)\n"
             f"• Conocer más sobre nuestras soluciones e implementación: {site_link}\n\n"
             f"Un saludo,\nEquipo Agencia Prosper IA · Miami, FL\ninfo@agenciaprosperia.com"
         )
@@ -3524,7 +3788,7 @@ def send_web_lead_welcome_smtp_email(name: str, email: str, source_label: str = 
               </p>
               <div style="text-align: center; margin: 22px 0;">
                 <a href="{wa_link}" style="display: inline-block; background: #10b981; color: #020710; text-decoration: none; font-weight: 800; font-size: 13px; padding: 12px 22px; border-radius: 10px; margin: 5px;">
-                  💬 Escribir por WhatsApp (+1 786-557-3119)
+                  💬 Escribir por WhatsApp (+1 786-982-8707)
                 </a>
                 <a href="{site_link}" style="display: inline-block; background: #00e5ff; color: #020710; text-decoration: none; font-weight: 800; font-size: 13px; padding: 12px 22px; border-radius: 10px; margin: 5px;">
                   🌐 Visitar AgenciaProsperIA.com
@@ -4399,7 +4663,7 @@ def _send_emprende_welcome_email_bg(
             f"Cuando tengas listo tu plan y quieras llevar {biz_disp} a ventas reales en 7 días "
             f"(Sitio Web Inteligente + 4 Empleados Digitales IA 24/7 + CRM), explora cómo lo implementamos aquí:\n"
             f"https://agenciaprosperia.com/sitioweb\n\n"
-            f"O escríbenos directo por WhatsApp en Miami: +1 (786) 557-3119 (https://wa.me/17865573119)\n\n"
+            f"O escríbenos directo por WhatsApp en Miami: +1 (786) 982-8707 (https://wa.me/17869828707)\n\n"
             f"Un saludo,\n{closer_name}\nAgencia Prosper IA LLC · Miami, FL\ninfo@agenciaprosperia.com"
         )
         safe_first = html_lib.escape(first_n)
@@ -4422,8 +4686,8 @@ def _send_emprende_welcome_email_bg(
                 <a href="https://agenciaprosperia.com/sitioweb" style="display: inline-block; background: #00e5ff; color: #020710; text-decoration: none; font-weight: 800; font-size: 13px; padding: 12px 22px; border-radius: 10px; margin: 5px;">
                   🚀 Ver Implementación Sitio Web + IA 24/7
                 </a>
-                <a href="https://wa.me/17865573119?text=Hola%20Agencia%20ProsperIA,%20acabo%20de%20registrarme%20en%20EmprendeProsperIA.com" style="display: inline-block; background: #10b981; color: #020710; text-decoration: none; font-weight: 800; font-size: 13px; padding: 12px 22px; border-radius: 10px; margin: 5px;">
-                  💬 Hablar por WhatsApp (+1 786 557-3119)
+                <a href="https://wa.me/17869828707?text=Hola%20Agencia%20ProsperIA,%20acabo%20de%20registrarme%20en%20EmprendeProsperIA.com" style="display: inline-block; background: #10b981; color: #020710; text-decoration: none; font-weight: 800; font-size: 13px; padding: 12px 22px; border-radius: 10px; margin: 5px;">
+                  💬 Hablar por WhatsApp (+1 786 982-8707)
                 </a>
               </div>
               <p style="font-size: 12px; color: #94a3b8; border-top: 1px solid rgba(148,163,184,0.2); padding-top: 14px; margin: 18px 0 0;">
@@ -4607,7 +4871,7 @@ async def api_emprende_funnel_capture(
             "lead_id": lead_id,
             "stored_in_crm": True,
             "next_step_url": "https://agenciaprosperia.com/sitioweb",
-            "whatsapp_url": "https://wa.me/17865573119",
+            "whatsapp_url": "https://wa.me/17869828707",
         },
         headers=_EMPRENDE_CORS_HEADERS,
     )
@@ -4888,7 +5152,7 @@ async def api_emprende_generate_demo(request: Request, db: Session = Depends(get
     "summary": "Recomendación personalizada explicando cómo el Sitio Web Inteligente + 4 Empleados IA 24/7 + CRM de Agencia ProsperIA automatizan exactamente este negocio.",
     "recommended_employees": ["Recepcionista / Setter IA 24/7", "Calificador High-Ticket en CRM", "Motor de Contenido & Ads", "Seguimiento Multicanal Email + SMS"],
     "cta_url": "https://agenciaprosperia.com/sitioweb",
-    "whatsapp_url": "https://wa.me/17865573119"
+    "whatsapp_url": "https://wa.me/17869828707"
   }
 }"""
 
@@ -5010,7 +5274,7 @@ async def api_emprende_generate_demo(request: Request, db: Session = Depends(get
             "Reactivador Multicanal Email + SMS",
         ],
         "cta_url": "https://agenciaprosperia.com/sitioweb",
-        "whatsapp_url": "https://wa.me/17865573119",
+        "whatsapp_url": "https://wa.me/17869828707",
     }
 
     return JSONResponse(
@@ -5089,7 +5353,7 @@ async def api_emprende_execute_tool(request: Request):
   "deliverables": [
     {"title": "Bloque 1 del Entregable", "content": "Desarrollo detallado, copy, análisis técnico o hallazgos citados...", "bullets": ["Punto accionable 1", "Punto accionable 2", "Punto accionable 3"]},
     {"title": "Bloque 2 del Entregable", "content": "...", "bullets": ["...", "...", "..."]},
-    {"title": "Bloque 3 · Plan de Implementación con Agencia ProsperIA", "content": "Cómo automatizar esta capacidad dentro de tu operación comercial con Sitio Web Inteligente + 4 Empleados IA 24/7.", "bullets": ["Implementación guiada en https://agenciaprosperia.com/sitioweb", "WhatsApp Directo: +1 (786) 557-3119"]}
+    {"title": "Bloque 3 · Plan de Implementación con Agencia ProsperIA", "content": "Cómo automatizar esta capacidad dentro de tu operación comercial con Sitio Web Inteligente + 4 Empleados IA 24/7.", "bullets": ["Implementación guiada en https://agenciaprosperia.com/sitioweb", "WhatsApp Directo: +1 (786) 982-8707"]}
   ],
   "action_table": {
     "headers": ["Elemento / Canal", "Recomendación Técnica o Copy", "Impacto Esperado"],
@@ -5135,7 +5399,7 @@ async def api_emprende_execute_tool(request: Request):
                 },
                 {
                     "title": "Siguiente Nivel con Agencia ProsperIA",
-                    "content": "Esta ejecución corresponde al modo introductorio gratuito. Para desplegar agentes autónomos 24/7, CRM y pauta conectada, agenda con nuestro equipo en https://agenciaprosperia.com/sitioweb o WhatsApp +1 (786) 557-3119.",
+                    "content": "Esta ejecución corresponde al modo introductorio gratuito. Para desplegar agentes autónomos 24/7, CRM y pauta conectada, agenda con nuestro equipo en https://agenciaprosperia.com/sitioweb o WhatsApp +1 (786) 982-8707.",
                     "bullets": [
                         "Sitio Web Inteligente + 4 Empleados Digitales IA en 7 días",
                         "Integración total con CRM GoHighLevel y WhatsApp",
@@ -5752,17 +6016,20 @@ class ProsperiaAssistantRequest(BaseModel):
     history: Optional[List[Dict[str, str]]] = None
 
 
-EMERGENCY_WA_PHONE_E164 = "+17865573119"
-EMERGENCY_WA_DISPLAY = "+1 (786) 557-3119"
-EMERGENCY_WA_URL = "https://wa.me/17865573119"
+EMERGENCY_WA_PHONE_E164 = "+17869828707"
+EMERGENCY_WA_DISPLAY = "+1 (786) 982-8707"
+EMERGENCY_WA_URL = "https://wa.me/17869828707"
 
 
 def _normalize_emergency_whatsapp_text(text: str) -> str:
-    """Redirige cualquier referencia al número WABA en revisión hacia la línea directa de emergencia +1 (786) 557-3119."""
+    """Redirige referencias de WhatsApp anteriores al número oficial autorizado en Meta +1 (786) 982-8707."""
     import re
     out = str(text or "")
-    out = re.sub(r"17868336964", "17865573119", out)
-    out = re.sub(r"(\+?1[\s\-\.]*\(?786\)?[\s\-\.]*)833[\s\-\.]*6964", r"\g<1>557-3119", out)
+    out = re.sub(r"17865573119", "17869828707", out)
+    out = re.sub(r"(\+?1[\s\-\.]*\(?786\)?[\s\-\.]*)557[\s\-\.]*3119", r"\g<1>982-8707", out)
+    out = re.sub(r"17865884245", "17869828707", out)
+    out = re.sub(r"17868336964", "17869828707", out)
+    out = re.sub(r"(\+?1[\s\-\.]*\(?786\)?[\s\-\.]*)833[\s\-\.]*6964", r"\g<1>982-8707", out)
     return out
 
 
@@ -5783,7 +6050,7 @@ def _capture_chatbot_lead_sync(raw_msg: str, sid: str) -> None:
     ph_match = re.search(r"(?:\+?\d[\d\s\-\(\)]{6,}\d)", raw_msg)
     found_email = normalize_email(em_match.group(0)) if em_match else ""
     found_digits = re.sub(r"\D", "", ph_match.group(0)) if ph_match else ""
-    if found_digits in ("17865573119", "7865573119", "17868336964", "7868336964"):
+    if found_digits in ("17869828707", "7869828707", "17865573119", "7865573119", "17868336964", "7868336964"):
         found_digits = ""
     found_phone = normalize_phone_e164(ph_match.group(0)) if len(found_digits) >= 8 else ""
     if not found_email and not found_phone:
@@ -5932,7 +6199,7 @@ async def api_prosperia_assistant(req: ProsperiaAssistantRequest, request: Reque
             f"REGLAS OBLIGATORIAS:\n1. {voice_rule}\n"
             "2. CERO jerga técnica innecesaria (nunca digas RAG, LLM, tokens, webhooks o pipelines).\n"
             "3. Presenta cuando corresponda nuestros 4 Empleados Digitales: SDR IA, Setter IA, Closer IA y Soporte IA.\n"
-            "4. PROHIBIDO DAR PRECIOS O CIFRAS EN DÓLARES EN EL CHAT: NUNCA menciones montos ni números de paquetes (cero 497, 990, 1490 o USD) aunque insistan. Explica que cada proyecto se cotiza a la medida tras mostrarle su demo en vivo (50% al iniciar y 50% contra entrega en 7 a 10 días), invita a ver https://agenciaprosperia.com/sitioweb y pide Nombre, Giro de negocio y WhatsApp (o escribir al +1 786 557-3119).\n"
+            "4. PROHIBIDO DAR PRECIOS O CIFRAS EN DÓLARES EN EL CHAT: NUNCA menciones montos ni números de paquetes (cero 497, 990, 1490 o USD) aunque insistan. Explica que cada proyecto se cotiza a la medida tras mostrarle su demo en vivo (50% al iniciar y 50% contra entrega en 7 a 10 días), invita a ver https://agenciaprosperia.com/sitioweb y pide Nombre, Giro de negocio y WhatsApp (o escribir al +1 786 982-8707).\n"
             f"\nBASE DE CONOCIMIENTOS OFICIAL:\n{kb_text}\n{hist_block}"
         )
 
@@ -6798,7 +7065,7 @@ def translate_dynamic_batch(req: TranslateBatchRequest):
                     "parts": [{
                         "text": (
                             "Translate each JSON item from Spanish to crisp executive American English. "
-                            "Preserve brand names (Agencia Prosper IA, PassportAI.app, ProsperIAStack, ProsperIA CRM, "
+                            "Preserve brand names (Agencia Prosper IA, PassportAI.app, ProsperIA CRM, "
                             "Las 4 Inteligencias, SVE90, GoHighLevel, FIUBA, Edward Jiménez). "
                             "Return JSON array with exact keys 'id' and 'en'."
                         )
@@ -6870,7 +7137,7 @@ _DIRECTORY_VERTICAL_MAP = {
     "agencias_crm": {
         "template": "profesionales_consultoria_legal",
         "niche": "agencias",
-        "industry": "Agencias CRM-SaaS & ProsperIAStack",
+        "industry": "Agencias CRM-SaaS & ProsperIA CRM",
         "offer": "ANUAL_990",
     },
     "faceless_ai": {

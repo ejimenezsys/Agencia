@@ -284,6 +284,61 @@
       max-width: 64ch;
     }
 
+    /* ── PASOS EN 3 CLICS ARRIBA EN EL HERO ── */
+    .hero-steps-box {
+      background: linear-gradient(145deg, rgba(10, 27, 56, 0.96), rgba(5, 14, 30, 0.98));
+      border: 1.5px solid rgba(52, 211, 153, 0.48);
+      border-radius: 18px;
+      padding: 1rem 1.15rem;
+      margin-block-end: 1.25rem;
+      box-shadow: 0 16px 38px rgba(16, 185, 129, 0.12);
+    }
+    .hero-steps-title {
+      font-size: 1.04rem;
+      font-weight: 900;
+      color: #ffffff;
+      margin: 0 0 0.75rem;
+    }
+    .hero-steps-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.65rem;
+    }
+    @media (min-width: 640px) {
+      .hero-steps-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    .hero-step-card {
+      background: rgba(15, 23, 42, 0.92);
+      border: 1px solid rgba(56, 189, 248, 0.28);
+      border-radius: 13px;
+      padding: 0.8rem 0.85rem;
+    }
+    .hero-step-card.is-highlight {
+      border-color: rgba(52, 211, 153, 0.52);
+      background: linear-gradient(165deg, rgba(16, 185, 129, 0.14), rgba(15, 23, 42, 0.95));
+    }
+    .hero-step-num {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #6ee7b7;
+      margin-block-end: 0.28rem;
+    }
+    .hero-step-card h3 {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin: 0 0 0.25rem;
+      line-height: 1.25;
+    }
+    .hero-step-card p {
+      margin: 0;
+      font-size: 0.77rem;
+      color: #cbd5e1;
+      line-height: 1.4;
+    }
     /* ── BANNER PROTAGONISTA DE CATÁLOGO ARRIBA DEL PLIEGUE ── */
     .catalog-hero-banner {
       background: linear-gradient(145deg, rgba(10, 27, 56, 0.96), rgba(5, 14, 30, 0.98));
@@ -1388,29 +1443,29 @@
           Lanza o renueva la imagen profesional de tu negocio a <strong>$0 costo de diseño</strong>. Lo único que tienes que hacer es registrarte en el formulario para que un ejecutivo te contacte en una breve llamada de <strong>15 minutos</strong>, haga la toma de información de tu negocio y te entregue tu Sitio Web Inicial personalizado.
         </p>
 
-        <!-- ENLACE PROTAGONISTA A TODO NUESTRO CATÁLOGO VISUAL (DISEÑO LIMPIO Y DESPEJADO) -->
-        <div class="catalog-hero-banner" aria-label="Acceso directo al catálogo completo de muestras">
-          <div class="catalog-banner-copy">
-            <h2>🌐 ¿Quieres ver muestras reales de nuestros sitios antes de registrarte?</h2>
-            <p>Explora más de 60 diseños limpios por giro listos para lanzar tu negocio:</p>
-            <div class="sector-pill-grid">
-              <span class="sector-chip">🦷 Clínicas y Salud</span>
-              <span class="sector-chip">❄️ Climatización y Hogar</span>
-              <span class="sector-chip">🏢 Inmobiliarias</span>
-              <span class="sector-chip">⚖️ Abogados y Despachos</span>
-              <span class="sector-chip">🔧 Talleres y Comercios</span>
-              <span class="sector-chip">🎓 Academias y Empresas</span>
+        <!-- 3 PASOS MUY SIMPLES SUBIDOS HASTA ARRIBA PARA QUE EL VISITANTE SEPA EXACTAMENTE QUÉ HACER -->
+        <section class="hero-steps-box" aria-labelledby="clarity-heading">
+          <h2 id="clarity-heading" class="hero-steps-title">
+            ¿Cómo recibes tu Sitio Web Inicial Gratis en <span style="color:#34d399;">3 pasos muy simples</span>?
+          </h2>
+          <div class="hero-steps-grid">
+            <div class="hero-step-card">
+              <span class="hero-step-num">Paso 1 · 30 seg</span>
+              <h3>📝 1. Llenas el registro en 30 segundos</h3>
+              <p>Anotas el nombre de tu negocio, tu giro y tu WhatsApp para apartar tu enlace <strong>agenciaprosperia.com/tu-negocio</strong> a $0 costo.</p>
             </div>
-            <div class="catalog-banner-btns">
-              <a href="/demo-sitio-web" target="_blank" rel="noopener" class="btn-catalog-main">
-                🌐 Pícale Aquí: Ver Todo el Catálogo en Vivo &rarr;
-              </a>
-              <a href="/paginas-web" target="_blank" rel="noopener" class="btn-catalog-sec">
-                🏆 Ver Casos de Clientes Reales &rarr;
-              </a>
+            <div class="hero-step-card">
+              <span class="hero-step-num">Paso 2 · 15 min</span>
+              <h3>📞 2. Llamada de 15 min para toma de información</h3>
+              <p>Un ejecutivo de Agencia Prosper IA te contacta en tu horario elegido para tomar tus servicios y datos y entregarte tu sitio inicial.</p>
+            </div>
+            <div class="hero-step-card is-highlight">
+              <span class="hero-step-num">Paso 3 · Opcional</span>
+              <h3>🚀 3. Tú decides si escalas por renta mensual</h3>
+              <p>Cuando quieras conectar tu dominio <code>.com</code>, mensajes unificados o el Asistente IA 24/7, eliges en tu llamada el plan mensual ideal.</p>
             </div>
           </div>
-        </div>
+        </section>
 
         <!-- TARJETA GRANDE: CONSTRUCTOR EN VIVO CORTEXIA & PASSPORTAI EN NUEVA PESTAÑA -->
         <search class="instant-preview-card">
@@ -1682,7 +1737,7 @@
               <a href="/demo-sitio-web" target="_blank" rel="noopener" class="fasttrack-btn secondary">
                 🌐 Explorar Catálogo Completo
               </a>
-              <a id="res-wa-link" href="https://wa.me/17865884245" target="_blank" rel="noopener" class="fasttrack-btn outline">
+              <a id="res-wa-link" href="https://wa.me/17869828707" target="_blank" rel="noopener" class="fasttrack-btn outline">
                 💬 Enviar Info por WhatsApp
               </a>
             </div>
@@ -1717,7 +1772,7 @@
         </h2>
         <p style="color:#cbd5e1; font-size:0.95rem; margin:0.55rem 0 0; max-width:74ch;">
           Olvídate de enlaces genéricos sin personalidad. Tu Sitio Web Inicial Gratis ya incluye diseño moderno para celular y computadora, presentación clara de tus servicios y botón directo a tu WhatsApp.
-          <strong>¿Quieres ver muestras de nuestros sitios? Haz clic en cualquiera o abre el catálogo completo abajo.</strong>
+          <strong>Haz clic en cualquiera de las muestras para verla funcionando en vivo.</strong>
         </p>
 
         <div class="showcase-grid">
@@ -1847,36 +1902,6 @@
             </div>
           </article>
         </div>
-
-        <!-- BANNER VISUAL DE CATÁLOGO COMPLETO CON CAPTURAS REALES -->
-        <div class="catalog-visual-strip">
-          <div>
-            <div class="pill-kicker" style="background:rgba(16,185,129,0.16); border-color:rgba(52,211,153,0.48); color:#6ee7b7; margin-block-end:0.55rem;">
-              <span>📂 +60 PLANTILLAS + PORTAFOLIO REAL EN VIVO</span>
-            </div>
-            <h3 style="font-size:1.32rem; color:#ffffff; margin-block-end:0.45rem;">
-              ¿Quieres ver más muestras de nuestros sitios por industria?
-            </h3>
-            <p style="font-size:0.89rem; color:#cbd5e1; margin:0 0 0.95rem;">
-              Pícale al botón para entrar a nuestro <strong>Catálogo Interactivo de Sitios Web</strong> donde puedes cambiar de giro, escribir el nombre de tu empresa y probar el sitio funcionando en vivo antes de tu llamada.
-            </p>
-            <div class="catalog-banner-btns">
-              <a href="/demo-sitio-web" target="_blank" rel="noopener" class="btn-catalog-main" style="min-height:48px; padding:0.65rem 1.15rem; font-size:0.88rem;">
-                🌐 Abrir Todo Nuestro Catálogo de Sitios Web &rarr;
-              </a>
-              <a href="/paginas-web#vitrina-real" target="_blank" rel="noopener" class="btn-catalog-sec" style="min-height:48px; padding:0.65rem 1.1rem;">
-                🏆 Ver Portafolio de Clientes Reales &rarr;
-              </a>
-            </div>
-          </div>
-
-          <div class="catalog-screens-grid" style="grid-template-columns: minmax(0, 1fr);">
-            <div class="catalog-screen-box">
-              <img src="/static/img/crm_biblioteca_plantillas.jpg" alt="Biblioteca visual de plantillas web de Agencia Prosper IA" loading="lazy">
-              <div class="catalog-screen-cap">Biblioteca Real con +60 Plantillas Limpias por Giro</div>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
 
@@ -1903,7 +1928,7 @@
           </div>
           <div class="gift-boundary-note">
             <strong style="display:block; color:#ffffff; margin-bottom:0.35rem;">📌 Alcance claro y sin letras chiquitas:</strong>
-            Tu Sitio Web Inicial bajo nuestra diagonal es <strong>100% gratis ($0)</strong>. Cuando quieras conectar tu <strong>propio dominio `.com`</strong>, usar la bandeja centralizada en tu celular o encender el <strong>Asistente IA que contesta y agenda 24/7 por ti</strong>, simplemente eliges uno de nuestros 3 paquetes de renta mensual abajo — sin contratos anuales forzosos y sin pagar desarrollo.
+            Tu Sitio Web Inicial bajo nuestra diagonal es <strong>100% gratis ($0)</strong>. Cuando quieras conectar tu <strong>propio dominio <code>.com</code></strong>, usar la bandeja centralizada en tu celular o encender el <strong>Asistente IA que contesta y agenda 24/7 por ti</strong>, simplemente eliges uno de nuestros 3 paquetes de renta mensual abajo — sin contratos anuales forzosos y sin pagar desarrollo.
           </div>
         </div>
 
@@ -1921,8 +1946,8 @@
               <div class="plan-price" style="font-size:1.28rem; color:#34d399;">Plan Mensual Inicial</div>
               <div class="plan-setup-tag">✓ $0 costo de diseño ni instalación · Inversión a la medida en tu llamada</div>
               <ul class="plan-features">
-                <li><strong>Tu propio dominio `.com` conectado</strong> + alojamiento rápido seguro y soporte técnico continuo.</li>
-                <li><strong>Bandeja Unificada en tu Celular y PC (`ProsperIA CRM`):</strong> contesta WhatsApp, Instagram, Facebook, Web y correo en un solo lugar.</li>
+                <li><strong>Tu propio dominio <code>.com</code> conectado</strong> + alojamiento rápido seguro y soporte técnico continuo.</li>
+                <li><strong>Bandeja Unificada en tu Celular y PC (<strong>ProsperIA CRM</strong>):</strong> contesta WhatsApp, Instagram, Facebook, Web y correo en un solo lugar.</li>
                 <li><strong>Calendario de Citas en Línea</strong> con enlace directo para que el cliente aparte su turno.</li>
                 <li><strong>Recordatorios Automáticos</strong> de cita y solicitud automática de reseñas 5 estrellas en Google.</li>
               </ul>
@@ -1961,7 +1986,7 @@
               <ul class="plan-features">
                 <li><strong>Recepcionista Telefónica de Voz con IA 24/7 (Español e Inglés):</strong> contesta llamadas reales con voz natural, resuelve dudas y agenda citas por teléfono.</li>
                 <li><strong>Reparto Automático entre Múltiples Vendedores o Sedes</strong> con embudos completos de seguimiento.</li>
-                <li><strong>Acceso incluido a `PassportAI.app` (+58 modelos líderes de IA)</strong> como OpenAI, Google Gemini, Anthropic Claude, Runway y ElevenLabs para contenido y campañas.</li>
+                <li><strong>Acceso incluido a <strong>PassportAI.app</strong> (+58 modelos líderes de IA)</strong> como OpenAI, Google Gemini, Anthropic Claude, Runway y ElevenLabs para contenido y campañas.</li>
                 <li><strong>Acompañamiento prioritario</strong> para clínicas multi-sede, inmobiliarias y equipos comerciales.</li>
               </ul>
             </div>
@@ -2037,33 +2062,6 @@
             </div>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- SECCIÓN 4: CÓMO FUNCIONA EN 3 PASOS -->
-    <section class="below-fold-section" aria-labelledby="clarity-heading">
-      <div class="section-box">
-        <h2 id="clarity-heading" style="font-size:clamp(1.38rem, 2.5vw, 1.95rem);">
-          ¿Cómo recibes tu Sitio Web Inicial Gratis en <span style="color:#34d399;">3 pasos muy simples</span>?
-        </h2>
-
-        <div class="clarity-grid">
-          <div class="clarity-card">
-            <div style="font-size:1.55rem;" aria-hidden="true">📝</div>
-            <h3>1. Llenas el registro en 30 segundos</h3>
-            <p>Anotas el nombre de tu negocio, tu giro y tu WhatsApp para pre-reservar tu dirección <strong>agenciaprosperia.com/tu-negocio</strong> a $0 costo.</p>
-          </div>
-          <div class="clarity-card">
-            <div style="font-size:1.55rem;" aria-hidden="true">📞</div>
-            <h3>2. Llamada de 15 min para toma de información</h3>
-            <p>Un ejecutivo de Agencia Prosper IA te contacta en tu horario elegido para pedirte tus servicios, horarios y datos clave y entregarte tu Sitio Web Inicial.</p>
-          </div>
-          <div class="clarity-card highlight">
-            <div style="font-size:1.55rem;" aria-hidden="true">🚀</div>
-            <h3>3. Tú decides si escalas por renta mensual</h3>
-            <p>Cuando quieras conectar tu dominio `.com`, usar el sistema de mensajes o encender el Asistente IA 24/7, eliges en tu llamada el paquete mensual que mejor se adapte a tu negocio.</p>
-          </div>
-        </div>
 
         <button type="button" class="cta-inline-btn" data-scroll-target="agendar" style="margin-block-start:1.5rem;">
           🎁 Quiero Mi Sitio Web Inicial Gratis · Registrarme Ahora &uarr;
@@ -2073,7 +2071,7 @@
   </main>
 
   <footer class="footer-clean">
-    Agencia Prosper IA LLC · Estados Unidos y Latinoamérica · Sitio Web Inicial Gratis (`agenciaprosperia.com/tu-negocio`) y Sistemas Inteligentes de Ventas por Renta Mensual.
+    Agencia Prosper IA LLC · Estados Unidos y Latinoamérica · Sitio Web Inicial Gratis (<code>agenciaprosperia.com/tu-negocio</code>) y Sistemas Inteligentes de Ventas por Renta Mensual.
   </footer>
 
   <script>
@@ -2418,7 +2416,7 @@
             const waText = encodeURIComponent(
               `Hola Agencia Prosper IA, acabo de registrar mi negocio "${bizLabel}" para recibir mi Sitio Web Inicial Gratis (${vanityUrl}) y quiero compartir mi información.`
             );
-            waLink.href = `https://wa.me/17865884245?text=${waText}`;
+            waLink.href = `https://wa.me/17869828707?text=${waText}`;
           }
 
           if (data.qualified) {

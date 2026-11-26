@@ -12,7 +12,7 @@
   const BOT_SLUG = 'asesor-comercial-prosper-ia-25-1';
   const SESSION_KEY = 'passport_bot_' + BOT_SLUG + '_session';
   const HISTORY_KEY = 'pbot_fusion_history_' + BOT_SLUG;
-  const WA_URL = 'https://wa.me/17865573119?text=Hola%20Agencia%20Prosper%20IA,%20vengo%20del%20asistente%20en%20l%C3%ADnea%20y%20quiero%20agendar%20mi%20demostraci%C3%B3n';
+  const WA_URL = 'https://wa.me/17869828707?text=Hola%20Agencia%20Prosper%20IA,%20vengo%20del%20asistente%20en%20l%C3%ADnea%20y%20quiero%20agendar%20mi%20demostraci%C3%B3n';
   const AVATAR_URL = '/static/empleados_digitales/setter_ia_pixar.png';
 
   const DEFAULT_GREETING =
@@ -406,7 +406,7 @@
       return { reply, replySpeech, ctas, datosCompletos: Boolean(data && data.datos_completos) };
     } catch (e) {
       clearTimeout(timer);
-      const fallback = 'Te recomiendo agendar tu demostración en /sitioweb o escribirnos directo por WhatsApp al +1 786 557 3119 para mostrarte ejemplos de tu rubro.';
+      const fallback = 'Te recomiendo agendar tu demostración en /sitioweb o escribirnos directo por WhatsApp al +1 786 982 8707 para mostrarte ejemplos de tu rubro.';
       return { reply: fallback, replySpeech: fallback, ctas: {}, datosCompletos: false };
     }
   }

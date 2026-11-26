@@ -169,7 +169,7 @@ _CLOSER_TEST_NAMES = {
     "agencia prosperia",
     "prueba pixel",
 }
-_CLOSER_TEST_PHONE_TAILS = ("1135992614", "3885862967", "7865573119", "1155554444")
+_CLOSER_TEST_PHONE_TAILS = ("1135992614", "3885862967", "7865573119", "7869828707", "1155554444")
 _WA_AUTO_NOTE_TOKENS = (
     "WhatsApp Agencia +1 786",
     "🤖 Setter IA Demo Enviada",
@@ -956,19 +956,6 @@ INITIAL_SALES_TEAM = [
         "default_pass": "Closer2026!"
     },
     {
-        "email": "wendyleiva59@gmail.com",
-        "name": "Wendy Leiva",
-        "role": "seller",
-        "dupla": "Dupla B — Servicios Locales & Agenda",
-        "phone": "+5491158275847",
-        "plan": "SVE-90 Enterprise",
-        "ghl_user_id": "v4Ur0IqZbJVg8CG6bOLr",
-        "is_active": 1,
-        "calendar_url": "https://api.agenciaprosperia.com/widget/booking/ldXXTonwojfnAOorWDoX",
-        "avatar_url": "/static/img/closers/wendy.jpg",
-        "default_pass": "Closer2026!"
-    },
-    {
         "email": "digitalblups@gmail.com",
         "name": "Jhonatan Rivero",
         "role": "seller",
@@ -1026,46 +1013,39 @@ OBSOLETE_TEST_EMAILS = [
     "dbecerra@agenciaprosperia.com",
     "sergiotorales608@gmail.com",
     "sheille.perez@gmail.com",
+    "wendyleiva59@gmail.com",
 ]
 
 
 CLOSER_PAIRS_CONFIG = [
     {
         "num": 1,
-        "label": "Pareja 1 — Wendy Leiva",
-        "dupla": "Pareja 1 — Wendy Leiva",
-        "role_note": "Closer Titular (Propuestas, demos y cobros)",
-        "emails": ["wendyleiva59@gmail.com"],
-        "excluded_from_auto": False,
-    },
-    {
-        "num": 2,
-        "label": "Pareja 2 — Diego & Jhonatan",
-        "dupla": "Pareja 2 — Diego & Jhonatan (Líder Técnico)",
+        "label": "Pareja 1 — Diego & Jhonatan",
+        "dupla": "Pareja 1 — Diego & Jhonatan (Líder Técnico)",
         "role_note": "Líder Técnico + Ventas: Diego Arriondo (Dudas técnicas Web/IA/CRM)",
         "emails": ["diegoarriondo03@gmail.com", "digitalblups@gmail.com"],
         "excluded_from_auto": False,
     },
     {
-        "num": 3,
-        "label": "Pareja 3 — Bruno & Claudio",
-        "dupla": "Pareja 3 — Bruno & Claudio",
+        "num": 2,
+        "label": "Pareja 2 — Bruno & Claudio",
+        "dupla": "Pareja 2 — Bruno & Claudio",
         "role_note": "Célula Comercial de Ataque Directo y Demos Web",
         "emails": ["bruno.hernan.espinosa1694@gmail.com", "claudiniosan@yahoo.com.ar"],
         "excluded_from_auto": False,
     },
     {
-        "num": 4,
-        "label": "Pareja 4 — Lorena & Agustín",
-        "dupla": "Pareja 4 — Lorena & Agustín (Líder Seteo)",
+        "num": 3,
+        "label": "Pareja 3 — Lorena & Agustín",
+        "dupla": "Pareja 3 — Lorena & Agustín (Líder Seteo)",
         "role_note": "Líder de Seteo (Setter): Lorena Rodríguez (Apertura, calificación y bitácora)",
         "emails": ["loremrodriguezafb@gmail.com", "laverdaderafuerza02@gmail.com"],
         "excluded_from_auto": False,
     },
     {
-        "num": 5,
-        "label": "Pareja 5 — Tanya & Cinthya",
-        "dupla": "Pareja 5 — Tanya & Cinthya",
+        "num": 4,
+        "label": "Pareja 4 — Tanya & Cinthya",
+        "dupla": "Pareja 4 — Tanya & Cinthya",
         "role_note": "Célula Comercial EE. UU. / LATAM (Turnos Cruzados Mañana / Tarde)",
         "emails": ["tanyah.unity@gmail.com", "cinthyapenida0@gmail.com"],
         "excluded_from_auto": False,
@@ -1151,7 +1131,7 @@ def init_db():
                     name="Edward Jiménez (CEO & Admin)",
                     password=admin_pass_hash,
                     company="Agencia Prosper IA LLC",
-                    phone="+17865573119",
+                    phone="+17869828707",
                     plan="SVE-90 Enterprise",
                     api_key=os.environ.get("ADMIN_API_KEY", "sve90_live_master_key_777_prosperia"),
                     role="admin",
@@ -2163,6 +2143,40 @@ def init_db():
                 f"✅ [COMEX OP1 + BOLSA 500 APIFY] Archivados={comex_archived} | Conservados={comex_kept} | BotEmailsLimp={bot_email_stripped} | Promovidos={promoted_cnt} | BolsaLibre={final_free_cnt}",
                 flush=True,
             )
+
+        # 12. Migración idempotente: Baja definitiva de Wendy Leiva, Sheille Pérez y Sergio Torales (y confirmar Cris Bolívar fuera de closers)
+        exit_team_key = "exit_sheille_wendy_sergio_nov26_v1"
+        if not db.query(IntegrationSetting).filter(IntegrationSetting.key == exit_team_key).first():
+            departed_emails = (
+                "sheille.perez@gmail.com",
+                "wendyleiva59@gmail.com",
+                "sergiotorales608@gmail.com",
+                "ucumaryvisual@gmail.com",
+            )
+            active_pool = [em for p in CLOSER_PAIRS_CONFIG for em in p.get("emails", [])]
+            reassigned_exit = 0
+            for dep_em in departed_emails:
+                db.query(SessionModel).filter(func.lower(SessionModel.email) == dep_em).delete(synchronize_session=False)
+                dep_u = db.query(User).filter(func.lower(User.email) == dep_em).first()
+                if dep_u:
+                    db.delete(dep_u)
+                dep_leads = db.query(Lead).filter(func.lower(Lead.owner_id) == dep_em).all()
+                for idx, ld in enumerate(dep_leads):
+                    if active_pool:
+                        dst_em = active_pool[(idx + reassigned_exit) % len(active_pool)]
+                        ld.owner_id = dst_em
+                        ld.setter_id = dst_em
+                        reassigned_exit += 1
+            for p_cfg in CLOSER_PAIRS_CONFIG:
+                for p_em in p_cfg.get("emails", []):
+                    u_row = db.query(User).filter(func.lower(User.email) == p_em).first()
+                    if u_row:
+                        u_row.dupla = p_cfg["dupla"]
+            db.add(IntegrationSetting(
+                key=exit_team_key,
+                value=f"reassigned={reassigned_exit}",
+            ))
+            print(f"✅ [BAJA CLOSERS] Wendy/Sheille/Sergio/Cris removidos del panel y {reassigned_exit} leads reasignados.", flush=True)
 
         db.commit()
     except Exception as e:
