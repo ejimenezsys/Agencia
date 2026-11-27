@@ -2,238 +2,510 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Investigación #2 — Consultoría de IA Corporativa &amp; Ventas B2B LinkedIn 2026 · Agencia Prosper IA</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Investigación #2 — Consultoría IA Corporativa, Precios y LinkedIn 2026 · Agencia Prosper IA</title>
 <style>
-  @page { size: letter portrait; margin: 0.34in 0.38in; }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  @page { size: letter portrait; margin: 0.30in 0.36in; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     background: #ffffff;
     color: #0f172a;
-    line-height: 1.35;
-    font-size: 8.7pt;
+    line-height: 1.32;
+    font-size: 8.4pt;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
+  .doc-shell {
+    max-inline-size: 980px;
+    margin-inline: auto;
+  }
   .hero {
-    background: linear-gradient(135deg, #060b19 0%, #1e293b 55%, #0f172a 100%);
+    background: linear-gradient(135deg, #090d1f 0%, #1e1b4b 52%, #064e3b 100%);
     color: #ffffff;
-    border-radius: 11px;
-    padding: 13px 17px;
-    margin-bottom: 9px;
-    border-bottom: 3px solid #38bdf8;
+    border-radius: 10px;
+    padding: 11px 16px;
+    margin-block-end: 8px;
+    border-block-end: 3px solid #10b981;
   }
   .badge {
     display: inline-block;
-    background: rgba(56, 189, 248, 0.2);
-    border: 1px solid #38bdf8;
-    color: #bae6fd;
-    font-size: 7.4pt;
+    background: rgba(16, 185, 129, 0.22);
+    border: 1px solid #34d399;
+    color: #a7f3d0;
+    font-size: 7.1pt;
     font-weight: 800;
     padding: 2px 8px;
     border-radius: 999px;
     text-transform: uppercase;
-    margin-bottom: 4px;
+    letter-spacing: 0.03em;
+    margin-block-end: 4px;
   }
-  h1 { font-size: 15pt; font-weight: 900; line-height: 1.14; margin-bottom: 4px; }
-  .hero p { font-size: 8.7pt; color: #cbd5e1; }
+  h1 {
+    font-size: 14.4pt;
+    font-weight: 900;
+    line-height: 1.14;
+    margin-block-end: 3px;
+  }
+  .hero p {
+    font-size: 8.4pt;
+    color: #e2e8f0;
+  }
   h2 {
-    font-size: 10.6pt;
+    font-size: 10.2pt;
     font-weight: 900;
     color: #0f172a;
-    border-left: 4px solid #0284c7;
-    padding-left: 8px;
-    margin: 8px 0 4.5px;
+    border-inline-start: 4px solid #059669;
+    padding-inline-start: 8px;
+    margin-block: 7px 4px;
     page-break-after: avoid;
+    break-after: avoid;
   }
-  h3 { font-size: 9.2pt; font-weight: 800; color: #0f172a; margin-bottom: 2.5px; }
-  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 7px; }
-  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; margin-bottom: 7px; }
+  h3 {
+    font-size: 8.9pt;
+    font-weight: 800;
+    color: #0f172a;
+    margin-block-end: 3px;
+  }
+  p.lead-note {
+    font-size: 8.1pt;
+    color: #334155;
+    margin-block-end: 5px;
+  }
+  code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 7.7pt;
+    background: rgba(15, 23, 42, 0.07);
+    padding: 0 3px;
+    border-radius: 3px;
+    font-weight: 700;
+  }
+  .card.dark code {
+    background: rgba(255, 255, 255, 0.14);
+    color: #fde68a;
+  }
+  .grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 7px;
+    margin-block-end: 6px;
+  }
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 7px;
+    margin-block-end: 6px;
+  }
+  .grid-2 > *, .grid-3 > * {
+    min-inline-size: 0;
+  }
   .card {
     background: #f8fafc;
     border: 1.2px solid #cbd5e1;
     border-radius: 8px;
-    padding: 7.5px 9.5px;
+    padding: 7px 9px;
     break-inside: avoid;
   }
-  .card.blue { background: #eff6ff; border-color: #3b82f6; }
-  .card.amber { background: #fffbeb; border-color: #f59e0b; }
   .card.emerald { background: #ecfdf5; border-color: #10b981; }
-  .card.dark { background: #0f172a; border-color: #334155; color: #f8fafc; }
+  .card.indigo  { background: #eef2ff; border-color: #6366f1; }
+  .card.amber   { background: #fffbeb; border-color: #f59e0b; }
+  .card.rose    { background: #fff1f2; border-color: #fb7185; }
+  .card.cyan    { background: #ecfeff; border-color: #06b6d4; }
+  .card.dark    { background: #0f172a; border-color: #334155; color: #f8fafc; }
+  .card.dark h3 { color: #34d399; }
+  .card p { font-size: 7.9pt; color: #1e293b; margin-block-end: 2px; }
+  .card.dark p { color: #e2e8f0; }
+  .h-indigo { color: #3730a3; }
+  .h-emerald { color: #065f46; }
+  .h-amber { color: #b45309; }
+  .h-rose { color: #be123c; }
+  .h-cyan { color: #0369a1; }
+  .h-gold { color: #fbbf24; }
+  .price-tag {
+    font-size: 11.4pt;
+    font-weight: 900;
+    color: #0f172a;
+    margin-block: 2px;
+  }
+  .price-sub {
+    font-size: 7.5pt;
+    font-weight: 700;
+    margin-block-end: 4px;
+  }
+  ul.clean {
+    list-style: none;
+    padding-inline-start: 0;
+    font-size: 7.9pt;
+  }
+  ul.clean li {
+    margin-block-end: 2px;
+    padding-inline-start: 10px;
+    position: relative;
+  }
+  ul.clean li::before {
+    content: "▸";
+    color: #059669;
+    font-weight: 900;
+    position: absolute;
+    inset-inline-start: 0;
+  }
+  .card.dark ul.clean li::before { color: #34d399; }
+  .card.rose ul.clean li::before { color: #e11d48; }
+  .card.amber ul.clean li::before { color: #d97706; }
+
+  .sr-only {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .table-wrapper {
+    overflow: auto;
+    max-inline-size: 100%;
+    container-type: inline-size;
+    margin-block: 3px 6px;
+  }
   table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 7.7pt;
-    line-height: 1.24;
-    margin: 4px 0 7px;
+    inline-size: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 7.45pt;
+    line-height: 1.22;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+  }
+  .col-cat { inline-size: 24%; }
+  .col-what { inline-size: 26%; }
+  .col-setup { inline-size: 25%; }
+  .col-mrr { inline-size: 25%; }
+  thead {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: 1;
   }
   thead th {
     background: #0f172a;
     color: #ffffff;
-    text-align: left;
-    padding: 4.5px 5.5px;
-    border: 1px solid #334155;
-    font-size: 7.6pt;
-  }
-  tbody td {
+    text-align: start;
     padding: 4px 5.5px;
-    border: 1px solid #cbd5e1;
-    vertical-align: top;
+    border-inline-end: 1px solid #334155;
+    border-block-end: 1px solid #334155;
+    font-size: 7.4pt;
+    font-weight: 800;
   }
+  thead th:last-child { border-inline-end: 0; }
   tbody tr { break-inside: avoid; }
-  tbody tr:nth-child(even) { background: #f8fafc; }
-  ul.clean, ol.clean { padding-left: 13px; font-size: 8.1pt; }
-  ul.clean { list-style: none; padding-left: 0; }
-  ul.clean li { margin-bottom: 2.5px; padding-left: 11px; position: relative; }
-  ul.clean li::before { content: "✓"; color: #0284c7; font-weight: 900; position: absolute; left: 0; }
-  .dark ul.clean li::before { color: #38bdf8; }
-  .dm-card {
-    background: #f8fafc;
-    border: 1.2px solid #94a3b8;
-    border-left: 4px solid #0284c7;
+  tbody th, tbody td {
+    padding: 3.6px 5.5px;
+    border-inline-end: 1px solid #cbd5e1;
+    border-block-end: 1px solid #cbd5e1;
+    vertical-align: top;
+    text-align: start;
+    font-weight: 400;
+    background: #ffffff;
+  }
+  tbody th { font-weight: 700; color: #0f172a; }
+  tbody tr:nth-child(even) th,
+  tbody tr:nth-child(even) td { background: #f8fafc; }
+  tbody tr:last-child th,
+  tbody tr:last-child td { border-block-end: 0; }
+  tbody td:last-child { border-inline-end: 0; }
+
+  .script-card {
+    background: #f1f5f9;
+    border: 1px solid #94a3b8;
+    border-inline-start: 3.5px solid #059669;
     border-radius: 7px;
     padding: 6.5px 9px;
-    margin-bottom: 6px;
     break-inside: avoid;
-    font-size: 7.95pt;
   }
-  .dm-head { font-size: 8.5pt; font-weight: 900; color: #0369a1; margin-bottom: 2.5px; }
-  .page-break { page-break-before: always; }
+  .script-card h3 {
+    font-size: 8.5pt;
+    color: #065f46;
+    margin-block-end: 3px;
+  }
+  .script-card p {
+    font-size: 7.9pt;
+    color: #0f172a;
+    font-style: italic;
+    line-height: 1.3;
+  }
+  .script-card p.double-space {
+    margin-block-start: 3px;
+  }
+  .script-card.spaced {
+    margin-block-end: 7px;
+  }
+  ol.socratic {
+    padding-inline-start: 16px;
+    font-size: 8pt;
+    color: #0f172a;
+  }
+  ol.socratic li {
+    margin-block-end: 3px;
+  }
+  .doc-footer {
+    margin-block-start: 7px;
+    padding-block-start: 5px;
+    border-block-start: 1px solid #cbd5e1;
+    font-size: 7.4pt;
+    color: #475569;
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .page-break {
+    page-break-before: always;
+    break-before: page;
+  }
+
+  @media screen and (width < 700px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  }
+  @container (width < 580px) {
+    table, thead, tbody, tr, th, td { display: block; border: 0; }
+    thead { display: none; }
+    tbody tr { margin-block-end: 8px; border: 1px solid #cbd5e1; border-radius: 6px; padding: 4px; }
+    tbody th, tbody td { padding: 3px 5px; }
+    td:nth-child(2)::before { content: "Qué venden: "; font-weight: 800; }
+    td:nth-child(3)::before { content: "Setup / Proyecto: "; font-weight: 800; }
+    td:nth-child(4)::before { content: "Mensualidad / Retainer: "; font-weight: 800; }
+  }
+  @media print {
+    .table-wrapper { overflow: visible; container-type: normal; }
+  }
 </style>
 </head>
 <body>
+<main class="doc-shell">
 
-  <div class="hero">
-    <div class="badge">INVESTIGACIÓN DE MERCADO #2 · CONSULTORÍA B2B DE IA &amp; LINKEDIN OUTBOUND 2026–2027</div>
-    <h1>Cómo Vender Consultoría de IA a Corporativos por Dolor y Diagnóstico en LinkedIn</h1>
-    <p>Estrategia profunda basada en dolores empresariales reales de finales de 2026 (<em>Shadow AI</em>, Cementerio de Pilotos sin ROI, Nómina Senior en PDFs y Presupuesto 2027) para que CEOs, COOs y CFOs soliciten tu <strong>Diagnóstico SVE90</strong>.</p>
-  </div>
+  <section aria-label="Variantes del mercado y precios de la competencia">
+    <header class="hero">
+      <div class="badge">Investigación de Mercado #2 (Edición Ampliada) · Consultoría IA Corporativa B2B 2026–2027</div>
+      <h1>Cómo Vender Consultoría IA, Agentes y Automatización a Corporativos en LinkedIn</h1>
+      <p>Las 4 variantes reales con las que compite el mercado, benchmark verificado de tarifas en Miami/EE. UU. y LATAM, los 5 dolores financieros que disparan diagnósticos C-Level y los 5 guiones listos para prospección.</p>
+    </header>
 
-  <h2>1. Por Qué Ignoran el Pitch Genérico y Qué Compra Realmente un Corporativo en 2026</h2>
-  <div class="grid-2">
-    <div class="card amber">
-      <h3>El Error Fatal de los Consultores Tradicionales</h3>
-      <ul class="clean">
-        <li>Un CEO o COO recibe 15 DMs semanales diciendo «implementamos agentes IA y RAG». Los borra en 2 segundos porque suenan a moda técnica o ventas de humo.</li>
-        <li><strong>Fatiga de Pilotos («Pilot Purgatory»):</strong> En 2025–2026 el 70% de las empresas compró licencias de ChatGPT/Copilot que nadie adopta ni mueven un dólar en el EBITDA.</li>
-        <li><strong>Nadie firma $5,000–$15,000 en frío por DM:</strong> En LinkedIn no se vende la obra completa; se vende la <strong>cuña del Diagnóstico</strong> (encontrar fugas y riesgo real).</li>
-      </ul>
+    <h2>1. Cómo Empaqueta el Mercado la «Consultoría de IA» en 2026 (Las 4 Variantes Reales)</h2>
+    <p class="lead-note">En empresas Mid-Market (<code>US$1M–$50M USD</code>), casi nadie compra consultoría teórica en PowerPoint. Las agencias y consultoras rentables venden exactamente el mismo cerebro bajo <strong>4 variantes comerciales tangibles</strong>:</p>
+
+    <div class="grid-2">
+      <article class="card indigo">
+        <h3 class="h-indigo">Variante A · «Te vendo Agentes de IA / Empleados Digitales 24/7»</h3>
+        <ul class="clean">
+          <li><strong>Promesa:</strong> No vendes horas; vendes un <em>SDR Digital</em>, <em>Asesor WhatsApp</em> o <em>Recepcionista de Voz</em> sin rotación ni aguinaldo.</li>
+          <li><strong>Modelo de cobro:</strong> Licencia SaaS mensual por volumen/asiento + setup único de entrenamiento.</li>
+          <li><strong>Debilidad común:</strong> Suelen entregar el bot suelto sin arreglar el CRM, el pipeline ni las políticas internas.</li>
+        </ul>
+      </article>
+      <article class="card emerald">
+        <h3 class="h-emerald">Variante B · Automatización de Procesos con IA (AAA / Workflows)</h3>
+        <ul class="clean">
+          <li><strong>Promesa:</strong> «Eliminamos 20 a 60 horas semanales de captura manual conectando CRM, ERP, WhatsApp, facturación y PDFs».</li>
+          <li><strong>Modelo de cobro:</strong> Diagnóstico inicial + proyecto llave en mano por flujos + póliza mensual de mantenimiento.</li>
+          <li><strong>Debilidad común:</strong> Operadores técnicos <em>no-code</em> jóvenes sin criterio financiero C-Level ni experiencia en regulación.</li>
+        </ul>
+      </article>
+      <article class="card amber">
+        <h3 class="h-amber">Variante C · Diagnóstico de Madurez IA + Fractional CAIO</h3>
+        <ul class="clean">
+          <li><strong>Promesa:</strong> «Antes de quemar presupuesto en licencias, auditamos tu operación en 5 días, frenamos el <em>Shadow AI</em> y dirigimos la hoja de ruta a 90 días».</li>
+          <li><strong>Modelo de cobro:</strong> Tarifa por hora ejecutiva, <em>Discovery Sprint</em> de precio fijo o <em>retainer</em> mensual de dirección parcial.</li>
+          <li><strong>Debilidad común:</strong> Cobran por diagnosticar y dejan al cliente buscando otro proveedor que programe la solución.</li>
+        </ul>
+      </article>
+      <article class="card cyan">
+        <h3 class="h-cyan">Variante D · Cerebros Corporativos (RAG Privado) y Desarrollo a Medida</h3>
+        <ul class="clean">
+          <li><strong>Promesa:</strong> Entorno privado conectado a contratos, manuales, cotizadores e inventarios con cero fuga de datos (<em>Zero-Data Retention</em>).</li>
+          <li><strong>Modelo de cobro:</strong> Proyectos custom de <code>5</code> a <code>6</code> cifras USD más póliza de infraestructura y cumplimiento.</li>
+          <li><strong>Debilidad común:</strong> Tardan 4 a 6 meses en implementar antes de mostrar un solo resultado comercial.</li>
+        </ul>
+      </article>
     </div>
+
+    <h2>2. Benchmark Verificado de Precios de la Competencia (Miami / EE. UU. y LATAM 2026)</h2>
+    <div tabindex="0" role="region" aria-labelledby="cap-competencia" class="table-wrapper">
+      <table>
+        <caption id="cap-competencia" class="sr-only">Comparativa de tarifas de competidores de consultoría IA, agentes digitales y automatización</caption>
+        <thead>
+          <tr>
+            <th scope="col" class="col-cat">Categoría y Competidores Referentes</th>
+            <th scope="col" class="col-what">Qué Venden Exactamente</th>
+            <th scope="col" class="col-setup">Setup / Diagnóstico / Proyecto</th>
+            <th scope="col" class="col-mrr">Mensualidad / Retainer</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Empleados Digitales SaaS EE. UU.<br><em>11x.ai (Alice/Julian), Artisan AI (Ava), Relevance AI</em></th>
+            <td>SDRs digitales autónomos y constructores multi-agente <em>self-service</em> sin consultoría humana.</td>
+            <td>Contrato anual en <code>11x.ai</code> (~<code>US$45,000/año</code>) y <code>Artisan</code>; créditos extra <code>Relevance AI</code> (~<code>US$80</code> / <code>1,000</code> créd.).</td>
+            <td><code>US$29</code> (Solo) a <code>US$234–$349+</code> (Relevance Team) · <code>US$600–$1,500+</code> (Artisan) · <strong><code>US$3,750/mes</code></strong> (<code>11x.ai</code>)</td>
+          </tr>
+          <tr>
+            <th scope="row">Agencias IA Conversacional LATAM<br><em>Vambe AI, Darwin AI, Biky AI / Keybe + Partners</em></th>
+            <td>Asesores IA en WhatsApp, IG y Web integrados a CRM para calificar y agendar citas.</td>
+            <td><strong><code>US$800 – US$2,500 USD</code></strong> setup estándar · <code>US$3,000 – $15,000+ USD</code> si exige APIs/ERP a medida.</td>
+            <td><strong><code>US$50 – US$300/mes</code></strong> (PYME) hasta <code>US$1,000 – $3,000+/mes</code> (Enterprise) + <code>US$500–$2,000/mes</code> agencia.</td>
+          </tr>
+          <tr>
+            <th scope="row">Agencias AAA Miami / EE. UU. — Starter<br><em>AlliedStack, Kingdom Business, BinaryFlow, CloudMotiv</em></th>
+            <td>Auditoría puntual + <code>1</code> flujo de automatización (ej. <em>lead-to-CRM</em> o bot de agenda).</td>
+            <td><strong><code>US$1,500 – US$7,500 USD</code></strong> (rango típico SMB en Miami: <code>US$3,000 – $10,000 USD</code>).</td>
+            <td><strong><code>US$500 – US$1,500/mes</code></strong> (soporte, monitoreo y consumo básico).</td>
+          </tr>
+          <tr>
+            <th scope="row">Agencias AAA Miami / Mid-Market — Growth<br><em>ITP360, Work-Smart.ai, Aeonix Tech, Mercadeo Web Miami</em></th>
+            <td><code>2</code> a <code>10</code> flujos críticos inter-área + integración CRM/ERP + automatización documental.</td>
+            <td><strong><code>US$7,500 – US$35,000 USD</code></strong> por alcance e integraciones legado.</td>
+            <td><strong><code>US$1,500 – US$5,000/mes</code></strong> (evolución continua, soporte y nuevos flujos).</td>
+          </tr>
+          <tr>
+            <th scope="row">Consultoría Diagnóstico &amp; Fractional CAIO<br><em>JEH Consulting y boutiques B2B Miami / EE. UU.</em></th>
+            <td>Auditoría de madurez IA, gobierno de datos, selección de stack y dirección ejecutiva parcial.</td>
+            <td><strong><code>US$150 – $350/hora</code></strong> o <em>Discovery Sprint</em> fijo de <strong><code>US$1,500 – US$5,000 USD</code></strong>.</td>
+            <td><strong><code>US$1,500 – US$5,000/mes</code></strong> (Fractional Chief AI Officer &amp; PMO Mid-Market).</td>
+          </tr>
+          <tr>
+            <th scope="row">Enterprise / Big 4 &amp; RAG Privado<br><em>Perceptive Analytics y firmas corporativas</em></th>
+            <td>Cerebros corporativos RAG privados, arquitectura multi-agente y cumplimiento SOC2/HIPAA.</td>
+            <td><strong><code>US$15,000 – US$50,000+ USD</code></strong> (Miami Mid-Market) hasta <code>US$50,000 – $250,000+</code> (Enterprise; <code>$350–$1,000+/h</code>).</td>
+            <td><strong><code>US$5,000 – US$15,000+/mes</code></strong> (operación, cumplimiento y gobierno dedicado).</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
     <div class="card dark">
-      <h3 style="color:#38bdf8;">Tu Ventaja Irrefutable Como Arquitecto (Edward Jiménez)</h3>
-      <ul class="clean" style="color:#e2e8f0;">
-        <li><strong>Trayectoria Bancaria Auditada:</strong> +25 años en sistemas críticos + migración nocturna de <strong>+1,500 sucursales de Banco Azteca / Grupo Elektra bajo supervisión CNBV</strong>.</li>
-        <li><strong>Plataforma Real en Vivo:</strong> Fundador de <strong>PassportAI.app</strong> (+58 modelos líderes de IA y +740 usuarios activos) y autor del libro <em>Las 4 Inteligencias</em>.</li>
-        <li><strong>Regla de Confianza C-Level:</strong> «Un freelancer te vende prompts; quien migró 1,500 sucursales bancarias te audita riesgos, gobernanza y ROI antes de programar».</li>
+      <h3>Ventaja Híbrida Ganadora de Agencia Prosper IA (Consultor C-Level + Constructor + Plataforma Propia)</h3>
+      <p>Entramos sin fricción por <strong>Variante C</strong> (Diagnóstico Ejecutivo <code>SVE90</code> de 25 min sin costo → Auditoría de 5 Días <code>SKU ENT-01</code> en <strong><code>US$490 – $990 USD</code> 100% abonables</strong>) y ejecutamos <strong>Variantes A + B + D juntas</strong> (<code>SVE90</code> en <strong><code>US$3,500 – $10,000+ USD</code></strong> + póliza <code>US$297 – $497/mes</code> + acceso vía <strong><code>PassportAI.app</code></strong> a <strong>+58 modelos líderes de IA</strong> como OpenAI, Google Gemini, Anthropic Claude, Runway y ElevenLabs): <strong>~70% más rápido y accesible</strong> que el desarrollo custom de Miami (<code>$15K–$50K</code>).</p>
+    </div>
+  </section>
+
+  <section class="page-break" aria-label="Dolores corporativos 2026 y Escalera SVE90">
+    <h2>3. Los 5 Dolores Corporativos que SÍ Disparan Llamadas a Finales de 2026</h2>
+    <p class="lead-note">A finales de 2026 el CEO y el CFO ya superaron el efecto novedad y sufren <strong>fatiga de pilotos sin retorno</strong>. Estas son las 5 hemorragias financieras que sí autorizan presupuesto inmediato:</p>
+
+    <div class="grid-3">
+      <article class="card rose">
+        <h3 class="h-rose">Dolor #1 · Hemorragia <em>Shadow AI</em></h3>
+        <p>Colaboradores pegando contratos, nóminas, balances y listas de clientes en cuentas gratuitas personales de IA. No es productividad: es fuga de propiedad intelectual y riesgo legal directo.</p>
+      </article>
+      <article class="card amber">
+        <h3 class="h-amber">Dolor #2 · Cementerio de Licencias</h3>
+        <p>Empresas pagando suscripciones sueltas por empleado más bots aislados que nadie usa, incapaces de demostrar ni <code>1</code> punto porcentual de mejora en margen EBITDA al consejo.</p>
+      </article>
+      <article class="card indigo">
+        <h3 class="h-indigo">Dolor #3 · Nómina Sénior en Copiar/Pegar</h3>
+        <p>Gerentes y analistas caros actuando como «pegamento humano» (<code>20–40 hrs/sem</code>) pasando datos entre PDFs, Excel, correos, ERP y CRM en lugar de negociar o cerrar ventas.</p>
+      </article>
+    </div>
+    <div class="grid-2">
+      <article class="card cyan">
+        <h3 class="h-cyan">Dolor #4 · Ceguera de Embudo y Velocidad Comercial</h3>
+        <p>Pauta de marketing cara cuyos leads caen en el WhatsApp personal de un vendedor sin trazabilidad, con respuestas fuera de horario que llegan 6 a 24 horas tarde cuando el cliente ya compró con otro.</p>
+      </article>
+      <article class="card emerald">
+        <h3 class="h-emerald">Dolor #5 · Presión de Presupuesto 2027</h3>
+        <p>El Director General debe presentar ante socios o consejo el plan de eficiencia operativa 2027 antes del cierre fiscal, con métricas auditables de ahorro de horas y protección de margen.</p>
+      </article>
+    </div>
+
+    <h2>4. Escalera Corporativa SVE90 y Respaldo Ejecutivo de Edward Jiménez</h2>
+    <div class="grid-3">
+      <article class="card emerald">
+        <h3 class="h-emerald">1. Puerta de Entrada · Diagnóstico</h3>
+        <div class="price-tag"><code>US$0</code> · <code>$490–$990</code></div>
+        <div class="price-sub h-emerald">Filtro 25 min · Auditoría 5 Días SKU ENT-01</div>
+        <ul class="clean">
+          <li>Mapeo de fugas <em>Shadow AI</em> y brechas de datos por área.</li>
+          <li>Cálculo real de horas/nómina atrapadas en tareas repetitivas.</li>
+          <li>Mapa priorizado de ROI a 30-60-90 días <strong>100% abonable</strong> si implementan.</li>
+        </ul>
+      </article>
+      <article class="card indigo">
+        <h3 class="h-indigo">2. Implementación Core · SVE90</h3>
+        <div class="price-tag"><code>US$3,500 – $10,000+</code></div>
+        <div class="price-sub h-indigo">Activación 10 días · Transformación 30-60-90d</div>
+        <ul class="clean">
+          <li><strong>Ruta 1 (10 días):</strong> Activación Vertical Comercial 24/7 en WhatsApp, Voz y CRM.</li>
+          <li><strong>Ruta 2 (30-60-90d):</strong> Transformación <code>SVE90</code> &amp; Cerebro Corporativo <code>RAG Privado</code>.</li>
+          <li>Arquitectura <em>Zero-Data Retention</em> sin cambiar el ERP actual de la empresa.</li>
+        </ul>
+      </article>
+      <article class="card amber">
+        <h3 class="h-amber">3. Fractional CAIO &amp; Plataforma</h3>
+        <div class="price-tag"><code>US$297 – $497/mes</code></div>
+        <div class="price-sub h-amber">PYME/Mid · Hasta $1,500–$5,000/m Corporativo</div>
+        <ul class="clean">
+          <li>Gobierno multi-modelo centralizado en <strong><code>PassportAI.app</code></strong> (+58 modelos líderes de IA).</li>
+          <li>Control de consumo por usuario, permisos y bitácora corporativa.</li>
+          <li>Dirección Fractional CAIO y evolución mensual de nuevos flujos con ROI.</li>
+        </ul>
+      </article>
+    </div>
+
+    <div class="card dark">
+      <h3 class="h-gold">Por Qué Edward Jiménez Gana el Contrato Frente a Agencias Jóvenes de LinkedIn</h3>
+      <ul class="clean">
+        <li><strong>+25 años de liderazgo tecnológico real en entornos críticos:</strong> Dirección comprobada en despliegues masivos de <strong>+1,500 sucursales de Grupo Elektra y Banco Azteca bajo estricto cumplimiento regulatorio de la CNBV</strong> — argumento imbatible ante CFOs, Legal y Consejos de Administración.</li>
+        <li><strong>Inversión propia y ecosistema probado:</strong> Más de <strong><code>+US$130,000 USD</code> de inversión propia en I+D</strong> (ecosistema FIUBA) dando vida a <strong><code>PassportAI.app</code></strong> y a la operación de Agencia Prosper IA con <strong><code>+740</code> negocios activos</strong>.</li>
+        <li><strong>Cero dependencia de un solo proveedor de IA:</strong> Acceso corporativo unificado a <strong>+58 modelos líderes de IA</strong> (OpenAI, Google Gemini, Anthropic Claude, Runway, ElevenLabs) bajo gobierno único y cero exposición en chats gratuitos.</li>
       </ul>
     </div>
-  </div>
+  </section>
 
-  <h2>2. Los 5 Dolores Sangrantes de los Corporativos (Para Provocar Pedidos de Diagnóstico)</h2>
-  <table>
-    <thead>
-      <tr>
-        <th style="width:20%;">Dolor Sangrante (2026)</th>
-        <th style="width:14%;">Decisor Clave</th>
-        <th style="width:33%;">Lo Que Hoy Les Quita el Sueño</th>
-        <th style="width:33%;">Ángulo del Diagnóstico que Vende la Llamada</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><strong>1. «Shadow AI» &amp; Fuga Confidencial</strong></td>
-        <td>CEO · CIO · CISO · Legal</td>
-        <td>El 50%–78% de empleados pega contratos, precios, balances o historiales en cuentas personales gratuitas sin control.</td>
-        <td><strong>Auditoría Shadow AI:</strong> medir dónde se fugan datos hoy y migrarlos a RAG privado con Zero-Data Retention / <code>PassportAI.app</code>.</td>
-      </tr>
-      <tr>
-        <td><strong>2. Cementerio de Licencias sin EBITDA</strong></td>
-        <td>CEO · CFO · Finanzas</td>
-        <td>Pagan Copilot, CRM y add-ons aislados todo el año pero el OPEX no baja; el Consejo exige ROI comprobable para 2027.</td>
-        <td><strong>Scorecard ROI &amp; Presupuesto 2027:</strong> identificar qué herramientas sobran y qué 2–3 procesos devuelven el gasto en 90 días.</td>
-      </tr>
-      <tr>
-        <td><strong>3. Nómina Senior en Excel y PDFs</strong></td>
-        <td>COO · Operaciones · Industria</td>
-        <td>Ingenieros, abogados o gerentes pierden 15h/semana leyendo licitaciones, armando cotizaciones en 48h o conciliando datos.</td>
-        <td><strong>Mapa de Cuellos de Botella:</strong> cuantificar cuánto dinero de nómina se libera bajando cotizaciones de 48h a 3 minutos.</td>
-      </tr>
-      <tr>
-        <td><strong>4. Ceguera y Fuga Comercial</strong></td>
-        <td>CRO · Director Comercial · Real Estate</td>
-        <td>Equipos de 5 a 50 vendedores tardan horas en responder WhatsApp/correo; dirección no sabe cuántos leads se enfrían.</td>
-        <td><strong>Auditoría de Embudo + Velocidad:</strong> rescate automático &lt;15s, reparto multi-vendedor y seguimiento trazable en CRM.</td>
-      </tr>
-      <tr>
-        <td><strong>5. Presión Junta Directiva Q1 2027</strong></td>
-        <td>CEO · Socios · Board</td>
-        <td>Nov/Dic: los socios piden «el plan real de IA 2027» pero el equipo interno de TI está colapsado operando el ERP actual.</td>
-        <td><strong>Blueprint Ejecutivo 30-60-90 Días (SVE90):</strong> hoja de ruta lista para Junta Directiva sin contratar ejecutivos de $250K/año.</td>
-      </tr>
-    </tbody>
-  </table>
+  <section class="page-break" aria-label="Guiones LinkedIn y 7 Preguntas Socráticas">
+    <h2>5. Los 5 Guiones de Prospección por Dolor en LinkedIn (Finales 2026)</h2>
+    <p class="lead-note"><strong>Regla de oro en LinkedIn:</strong> Primer mensaje de <code>50–80</code> palabras, cero enlaces fríos, cero tono de venta agresiva y <strong>una sola pregunta abierta</strong> que active el dolor financiero del directivo.</p>
 
-  <h2>3. Escalera Corporativa Oficial: De LinkedIn al Diagnóstico Pago y Proyecto SVE90</h2>
-  <div class="grid-3">
-    <div class="card blue">
-      <h3>Paso 1 · En LinkedIn ($0 · 25 min)</h3>
-      <p><strong>Sesión Ejecutiva &amp; Scorecard ROI</strong> usando la calculadora y test de madurez de <code>agenciaprosperia.com/ia</code> para que el directivo calcule sus fugas en dólares.</p>
+    <div class="grid-2">
+      <article class="script-card">
+        <h3>Guion 1 · Enfoque Shadow AI y Blindaje (CEOs / CFOs / Legal)</h3>
+        <p>«Hola [Nombre], veo que lideras la operación en [Empresa]. En las últimas auditorías que hemos hecho este trimestre en compañías de [Industria/tamaño], encontramos casi siempre el mismo punto ciego: el equipo ya usa herramientas gratuitas de IA con cotizaciones y contratos reales de la empresa sin entorno privado. No te escribo para venderte software; desarrollamos un diagnóstico ejecutivo de 25 min para blindar ese flujo y detectar 3 procesos con retorno rápido antes de 2027. ¿Te haría sentido revisarlo la próxima semana?»</p>
+      </article>
+      <article class="script-card">
+        <h3>Guion 2 · Enfoque Presupuesto 2027 y Cementerio de Licencias (CEO / Finanzas)</h3>
+        <p>«[Nombre], pregunta directa rumbo al cierre de año: ¿cuántas licencias de IA paga hoy [Empresa] que todavía no se reflejan en margen operativo ni en menos horas administrativas? Venimos ayudando a direcciones en México y Florida a auditar qué automatizaciones sí ahorran dinero en 30-60-90 días —con experiencia previa escalando tecnología en +1,500 sucursales financieras reguladas—. Si están armando eficiencia para 2027, ¿conversamos 20 minutos esta semana?»</p>
+      </article>
+      <article class="script-card">
+        <h3>Guion 3 · Enfoque Workflow Automation / Nómina Atrapada (COO / Operaciones)</h3>
+        <p>«Hola [Nombre], sé que en operaciones de [Industria] gran parte de la nómina más valiosa termina moviendo datos manualmente entre PDFs, correos, Excel y CRM. En 5 días levantamos un mapa real de dónde se están fugando esas 25-40 horas semanales y cuánto cuesta automatizarlo en entorno privado sin cambiar todo tu ERP. ¿Prefieres que te comparta el formato de diagnóstico por aquí para ver si aplica a [Empresa]?»</p>
+      </article>
+      <article class="script-card">
+        <h3>Guion 4 · Enfoque Agentes Comerciales 24/7 y Pipeline (VP / Dir. Comercial)</h3>
+        <p>«[Nombre], ¿qué porcentaje de los leads que pagan hoy en marketing terminan en el WhatsApp personal de un vendedor sin trazabilidad cuando responden fuera de horario? Conectamos agentes entrenados en el catálogo y reglas reales de [Empresa] directo al CRM para responder y calificar en segundos. Sin cambiar tu equipo comercial actual, ¿te gustaría ver un flujo en vivo de 15 min aplicado a tu giro?»</p>
+      </article>
     </div>
+
+    <article class="script-card spaced">
+      <h3>Guion 5 · Seguimiento Ejecutivo No-Push (Día +4 y Día +10)</h3>
+      <p><strong>Toque Día +4:</strong> «[Nombre], retomo rápido para no saturarte: si el reto hoy no es infraestructura sino saber por dónde empezar con seguridad sin quemar presupuesto, podemos partir solo con la matriz de diagnóstico de 25 min sin compromiso. ¿Lo vemos martes o jueves?»</p>
+      <p class="double-space"><strong>Toque Día +10 (Cierre elegante):</strong> «[Nombre], cierro este hilo para no ser invasivo. Te dejo solo la pregunta con la que suelen llamarnos cuando ya es urgente: si mañana se va tu gerente clave o se filtra una base comercial en una IA gratuita, ¿ya tienen respaldo corporativo propio? Aquí quedo a un mensaje cuando lo pongan en agenda 2027.»</p>
+    </article>
+
+    <h2>6. Las 7 Preguntas Socráticas de Edward en la Llamada de Diagnóstico (25 Minutos)</h2>
     <div class="card emerald">
-      <h3>Paso 2 · Cuña Paga ($490–$990 USD)</h3>
-      <p><strong>Auditoría y Mapa de Arquitectura IA en 5 Días</strong> (100% abonable al proyecto): entrega mapa de riesgo <em>Shadow AI</em> + Top 3 procesos ROI en 90 días.</p>
+      <ol class="socratic">
+        <li>«Si hoy revisamos qué herramientas de IA están usando tus áreas por su cuenta en el día a día, <strong>¿dónde crees que está entrando información confidencial de clientes o precios sin control?</strong>»</li>
+        <li>«De las iniciativas o licencias de IA que ya probaron este año, <strong>¿cuáles sí movieron ventas o margen</strong> y cuáles se quedaron en experimento bonito?»</li>
+        <li>«<strong>¿Cuál es hoy el proceso</strong> donde sientes que gente muy capaz de tu equipo pierde más horas copiando datos de un sistema a otro?»</li>
+        <li>«Cuando un prospecto de alto valor escribe un viernes a las 8:00 p.m., <strong>¿en cuántos minutos recibe respuesta con contexto real y queda registrado en el CRM?</strong>»</li>
+        <li>«Si pudiéramos liberar <strong>15 horas semanales</strong> de tu equipo comercial o administrativo en los próximos 30 días, ¿qué impacto tendría en facturación o en costo operativo anual?»</li>
+        <li>«Para que el Consejo o Dirección Financiera apruebe inversión en tecnología rumbo a 2027, <strong>¿en cuántos días exigen ver retorno medible</strong> y qué requisito de privacidad exigen?»</li>
+        <li>«¿Prefieren comprar horas sueltas para experimentar o <strong>arrancar con un diagnóstico acotado de 5 días</strong> donde les entreguemos el mapa exacto de ROI, riesgos y arquitectura lista para ejecutar?»</li>
+      </ol>
     </div>
-    <div class="card amber">
-      <h3>Paso 3 · SVE90 ($3,500–$10,000+)</h3>
-      <p><strong>Implementación Corporativa 30–60–90 días</strong> + RAG privado + ERP/CRM APIs + <code>PassportAI Business</code> + Póliza mensual ($297–$497/mes).</p>
-    </div>
-  </div>
 
-  <div class="page-break"></div>
+    <footer class="doc-footer">
+      <span><strong>Agencia Prosper IA LLC · PassportAI.app</strong> · Playbook de Mercado Corporativo B2B (Miami / EE. UU. y LATAM)</span>
+      <span>Actualizado Noviembre 2026 · Uso Interno Ejecutivo y Closers Corporativos</span>
+    </footer>
+  </section>
 
-  <h2>4. Playbook de Mensajes Basados en Dolor para LinkedIn (Copiar, Personalizar y Enviar)</h2>
-
-  <div class="dm-card">
-    <div class="dm-head">Guion 1 · Dolor «Shadow AI» &amp; Fuga de Datos (Para CEOs, CFOs, Legal, Banca y Clínicas)</div>
-    <strong>Asunto:</strong> Pregunta rápida sobre gobernanza de IA en {Empresa}<br>
-    «Hola {Nombre}, veo lo que lideran en {Empresa}. Te escribo directo: en nuestros diagnósticos de cierre de año vemos el mismo punto ciego — más del 60% del personal ya usa cuentas personales de ChatGPT o Claude para redactar o resumir información interna, exponiendo contratos, tarifas o datos de clientes sin control de la empresa. Tras +25 años en arquitectura bancaria crítica (+1,500 sucursales en Banco Azteca / Elektra bajo CNBV), hoy ayudamos a direcciones a auditar ese riesgo y centralizar su IA con retorno medible en 90 días (SVE90). ¿Ya tienen mapeado su riesgo de Shadow AI o te sirve ver un Diagnóstico Rápido de 1 Página antes de cerrar 2027? — Edward Jiménez · https://agenciaprosperia.com/ia»
-  </div>
-
-  <div class="dm-card">
-    <div class="dm-head">Guion 2 · Dolor Presupuesto 2027 &amp; Pilotos sin Retorno en EBITDA (CEOs, CFOs, Socios)</div>
-    <strong>Asunto:</strong> Presupuesto IA 2027 en {Empresa} (ROI real vs. pilotos aislados)<br>
-    «Hola {Nombre}, un gusto saludarte. Hoy casi todas las empresas pagan licencias sueltas de IA, pero casi todos los directores con los que converso coinciden en algo: el gasto mensual sube y no se refleja en el EBITDA. En Agencia Prosper IA corremos un Diagnóstico de Madurez y ROI en 5 días antes de que cierren Q1 2027 para separar las herramientas que sobran de los 2 o 3 cuellos de botella que devuelven su inversión en 90 días. ¿Te envío una muestra anónima de nuestro informe ejecutivo? — Edward Jiménez · Miami, FL · https://agenciaprosperia.com/ia»
-  </div>
-
-  <div class="dm-card">
-    <div class="dm-head">Guion 3 · Dolor Nómina Senior Atrapada en Cotizaciones &amp; PDFs (COOs, Constructoras, Industria)</div>
-    <strong>Asunto:</strong> Cuello de botella operativo y cotizaciones en {Empresa}<br>
-    «Hola {Nombre}, admiro tu liderazgo operativo en {Empresa}. En empresas de ingeniería, construcción, logística o servicios B2B vemos al talento mejor pagado perdiendo 10 a 15 horas semanales leyendo PDFs técnicos, cotizando en 48h o conciliando planillas a mano. Implementamos sistemas privados sin alucinaciones que bajan cotizaciones de 48h a minutos, partiendo siempre de un Diagnóstico de Fugas Operativas para medir exactamente cuánto dinero se libera. ¿Conversamos 15 min esta semana? — Edward Jiménez · https://agenciaprosperia.com/ia»
-  </div>
-
-  <div class="dm-card">
-    <div class="dm-head">Guion 4 · Dolor Seguimiento Comercial en Equipos de 5+ Vendedores (CROs, Inmobiliarias, Desarrollos)</div>
-    <strong>Asunto:</strong> Trazabilidad comercial y leads en {Empresa}<br>
-    «Hola {Nombre}, sigo el crecimiento de {Empresa}. Cuando una empresa ya genera buen flujo comercial, el mayor ladrón silencioso de utilidades es el tiempo muerto entre que llega el cliente y el vendedor responde, cotiza y da seguimiento. Auditamos tu embudo para activar asistentes IA 24/7 (voz y WhatsApp bilingüe) conectados al CRM con reparto automático entre vendedores. Si te sirve, hacemos un Diagnóstico Express de 15 min sobre dónde se enfría hoy tu pipeline. — Edward · https://agenciaprosperia.com/ia»
-  </div>
-
-  <div class="dm-card" style="border-left-color:#f59e0b; background:#fffbeb;">
-    <div class="dm-head" style="color:#b45309;">Guion 5 · Seguimiento Día 4 («Scorecard 1, 2 o 3» — Reactivación Sin Fricción)</div>
-    «{Nombre}, para ir al grano y no robarte tiempo: si me respondes solo con el número del <strong>1 al 3</strong> cuál es hoy la prioridad de {Empresa} para arrancar 2027, te mando sin compromiso nuestro checklist aplicado a ese punto: <strong>1)</strong> Blindar fugas de datos en IA (<em>Shadow AI</em>), <strong>2)</strong> Acelerar cotizaciones/PDFs y bajar horas mecánicas, o <strong>3)</strong> Recuperar leads que se enfrían en ventas. ¿1, 2 o 3?»
-  </div>
-
-  <h2>5. Las 7 Preguntas Socráticas en la Llamada de Diagnóstico (Para Que Ellos Pidan la Propuesta)</h2>
-  <div class="card">
-    <ol class="clean">
-      <li><em>«De cara a 2027, ¿en qué proceso operativo o comercial sientes hoy que se queman más horas hombre o dinero?»</em></li>
-      <li><em>«¿Cuántas personas participan en ese flujo y cuál es el salario promedio mensual de ese equipo?»</em></li>
-      <li><em>«¿Qué tanto está usando tu personal ChatGPT o Gemini hoy por su cuenta sin control centralizado (<strong>Shadow AI</strong>)?»</em></li>
-      <li><em>«Si ya probaron IA antes, ¿qué trabó el proyecto: datos dispersos, rechazo del equipo o falta de integración al CRM/ERP?»</em></li>
-      <li><em>«Si bajáramos un 40% ese cuello de botella o rescatáramos 20% de cotizaciones perdidas, ¿cuánto dinero representaría al mes?»</em></li>
-      <li><em>«¿Cuentan con un arquitecto dedicado con experiencia bancaria/crítica o el área de TI está saturada operando el día a día?»</em></li>
-      <li><strong>Cierre del Diagnóstico:</strong> <em>«Por los números que calculamos, están perdiendo $[X]/mes. Arrancamos con el Diagnóstico de Arquitectura de 5 días ($490–$990 abonables 100% al proyecto) o directo Fase 1 del SVE90 (30 días). ¿Cuál prefieres?»</em></li>
-    </ol>
-  </div>
-
+</main>
 </body>
 </html>
