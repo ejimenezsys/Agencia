@@ -505,6 +505,44 @@ OFFER_CATALOG = {
         "requires_director_approval": False,
         "scope": "Dominio .com alojado en Agencia Prosper IA + Bandeja Unificada + Recepcionista Telefónica de Voz con IA 24/7 (ES/EN) + Reparto Automático Multi-Vendedor/Multi-Sede + 30 Guiones + 30 Videos Editados para Reels y Carruseles + PassportAI (+58 modelos)."
     },
+    "AGENCIA_VIRAL_1": {
+        "code": "AGENCIA_VIRAL_1",
+        "name": "Agencia Viral 1 · Viral Remoto + Trafficker (US$797 LATAM / US$997 USA al mes)",
+        "price": 797.0,
+        "monthly_price": 797.0,
+        "usa_monthly_price": 997.0,
+        "initial_payment": 797.0,
+        "delivery_payment": 0.0,
+        "payment_terms": "Renta Mensual US$797/mes (LATAM) · US$997/mes (USA) | Programa 2 Meses: US$1,497 (LATAM) / US$1,890 (USA). Pauta de Meta Ads aparte.",
+        "delivery_cost_estimate": 240.0,
+        "requires_director_approval": False,
+        "scope": "Exclusivo para clientes que YA tienen Web, Chatbot y CRM: 20 Guiones Virales (Hook 3s + 7 Beats) + 1 Sesión Mensual de Dirección por Zoom + 16 Reels Editados Pro (4/semana) + 8 Carruseles + Publicación IG/FB/TikTok + Trafficker Meta Ads todo el mes."
+    },
+    "AGENCIA_VIRAL_2": {
+        "code": "AGENCIA_VIRAL_2",
+        "name": "Agencia Viral 2 · Agencia Viral 360° (US$1,497/mes · 30 Piezas + Trafficker Pro)",
+        "price": 1497.0,
+        "monthly_price": 1497.0,
+        "initial_payment": 1497.0,
+        "delivery_payment": 0.0,
+        "payment_terms": "Renta Mensual US$1,497/mes (Miami & LATAM) | Programa 2 Meses: US$2,690 (Ahorra US$304). Pauta publicitaria aparte.",
+        "delivery_cost_estimate": 420.0,
+        "requires_director_approval": False,
+        "scope": "Exclusivo para clientes que YA tienen Web, Chatbot y CRM: 30 Guiones Virales Ganadores (1 diario) + 30 Piezas Editadas Profesionales/mes (20 Reels dinámicos + 10 Carruseles/Creativos Ads) + Gestión y Publicación Diaria Completa (IG, FB, TikTok, Shorts) + Trafficker Pro Meta & IG Ads (pruebas A/B 4 ganchos/sem + escalamiento + ROAS quincenal)."
+    },
+    "AGENCIA_VIRAL_3": {
+        "code": "AGENCIA_VIRAL_3",
+        "name": "Agencia Viral 3 · VIP Filmmaker Presencial + Trafficker (US$2,497 Miami / US$1,897 LATAM al mes)",
+        "price": 2497.0,
+        "monthly_price": 2497.0,
+        "latam_monthly_price": 1897.0,
+        "initial_payment": 2497.0,
+        "delivery_payment": 0.0,
+        "payment_terms": "Renta Mensual US$2,497/mes (Miami) · US$1,897/mes (LATAM) | Programa 2 Meses: US$4,490 (Miami) / US$3,490 (LATAM). Pauta aparte.",
+        "delivery_cost_estimate": 750.0,
+        "requires_director_approval": True,
+        "scope": "Exclusivo para clientes que YA tienen Web, Chatbot y CRM: Filmmaker Profesional Presencial en Oficina o Clínica (1 Shoot Day 4h/mes con cámara 4K, iluminación y audio) + Director Escénico en Sitio (graba 20–30 videos en 1 sola mañana) + Edición de 30 Piezas (Reels + Carruseles) por el equipo de +744K vistas + Publicación Total + Trafficker Avanzado (Meta + TikTok Spark Ads)."
+    },
     "RESCATE_197": {
         "code": "RESCATE_197",
         "name": "Plan Rescate Micro-PYME (Último Recurso Autorizado)",

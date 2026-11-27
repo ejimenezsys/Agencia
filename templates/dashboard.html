@@ -4719,6 +4719,9 @@
             <option value="MENSUAL_99">⭐ 2. Pack Estrella (Mensual) — US$99/mes (IA 24/7 + PassportAI + 30 Guiones + 15 Reels)</option>
             <option value="MAQUINA_1490">🔥 3. Máquina Completa Empresarial (Anual) — US$1,497 (Voz IA + Multi-Vendedor + 30 Guiones + 30 Videos)</option>
             <option value="MENSUAL_149">🔥 3. Máquina Completa Empresarial (Mensual) — US$149/mes (Voz IA 24/7 + Multi-Sede + 30 Videos)</option>
+            <option value="AGENCIA_VIRAL_1">🎬 Agencia Viral 1 · Viral Remoto + Trafficker — US$797 LATAM / US$997 USA/mes (20 Guiones + 16 Reels + 8 Carruseles + Meta Ads)</option>
+            <option value="AGENCIA_VIRAL_2">⭐ Agencia Viral 2 · Agencia Viral 360° — US$1,497/mes (30 Guiones + 30 Piezas + Trafficker Pro)</option>
+            <option value="AGENCIA_VIRAL_3">🔥 Agencia Viral 3 · VIP Filmmaker Presencial + Trafficker — US$2,497 Miami / US$1,897 LATAM/mes (Shoot Day 4K + 30 Piezas)</option>
             <option value="RESCATE_197">🛟 Plan Rescate Micro-PYME — US$197 ($100 hoy + $97 entrega)</option>
           </select>
         </div>
@@ -4830,6 +4833,9 @@
             <option value="MENSUAL_99">⭐ 2. Pack Estrella (Mensual) — US$99/mes (30 Guiones + 15 Reels)</option>
             <option value="MAQUINA_1490">🔥 3. Máquina Completa Empresarial (Anual) — US$1,497 (Voz IA + 30 Videos)</option>
             <option value="MENSUAL_149">🔥 3. Máquina Completa Empresarial (Mensual) — US$149/mes (Voz IA + Multi-Vendedor)</option>
+            <option value="AGENCIA_VIRAL_1">🎬 Agencia Viral 1 · Viral Remoto + Trafficker — US$797 LATAM / US$997 USA/mes</option>
+            <option value="AGENCIA_VIRAL_2">⭐ Agencia Viral 2 · Agencia Viral 360° (30 Piezas) — US$1,497/mes</option>
+            <option value="AGENCIA_VIRAL_3">🔥 Agencia Viral 3 · VIP Filmmaker Presencial — US$2,497 Miami / US$1,897 LATAM/mes</option>
             <option value="RESCATE_197">🛟 Plan Rescate Micro-PYME — US$197 ($100 hoy + $97 entrega)</option>
           </select>
         </div>
@@ -4926,6 +4932,9 @@
             <option value="MENSUAL_99">⭐ 2. Pack Estrella Mensual (US$99/mes)</option>
             <option value="MAQUINA_1490">🔥 3. Máquina Completa Empresarial Anual (US$1,497)</option>
             <option value="MENSUAL_149">🔥 3. Máquina Completa Empresarial Mensual (US$149/mes)</option>
+            <option value="AGENCIA_VIRAL_1">🎬 Agencia Viral 1 · Viral Remoto + Trafficker (US$797 LATAM / US$997 USA/m)</option>
+            <option value="AGENCIA_VIRAL_2">⭐ Agencia Viral 2 · Agencia Viral 360° (US$1,497/mes)</option>
+            <option value="AGENCIA_VIRAL_3">🔥 Agencia Viral 3 · VIP Filmmaker Presencial (US$2,497 Miami / US$1,897 LATAM/m)</option>
             <option value="RESCATE_197">🛟 Plan Rescate Micro-PYME (Total US$197)</option>
           </select>
         </div>
@@ -6095,15 +6104,37 @@ const OFFER_QUICK_PAYMENT_LINKS = {
   MENSUAL_149: [
     { key: 'unico_100', label: '💳 Anual Máquina Completa ($1,497)', url: 'https://api.agenciaprosperia.com/payment-link/6af2297ad4cfb789aef229a0', whopLabel: '🟣 Whop 50% Hoy', whopUrl: 'https://whop.com/checkout/ch_U26FriHORRYQczG/', cls: 'bg-amber-400 text-slate-950 hover:bg-amber-300' }
   ],
+  AGENCIA_VIRAL_1: [],
+  AGENCIA_VIRAL_2: [],
+  AGENCIA_VIRAL_3: [],
   RESCATE_197: [
     { key: 'unico_100', label: '💳 Copiar Link Rescate ($197)', url: 'https://api.agenciaprosperia.com/payment-link/6af1f575d4cfb789aef22853', cls: 'bg-rose-500 text-white hover:bg-rose-400' }
   ]
 };
 
+const OFFER_DEFAULT_PRICE_MAP = {
+  EXPRESS_497: 497,
+  MENSUAL_49: 49,
+  ANUAL_990: 990,
+  MENSUAL_99: 99,
+  MAQUINA_1490: 1497,
+  MENSUAL_149: 149,
+  AGENCIA_VIRAL_1: 797,
+  AGENCIA_VIRAL_2: 1497,
+  AGENCIA_VIRAL_3: 2497,
+  RESCATE_197: 197,
+  SVE90_CORP: 5000
+};
+const VALID_CLOSER_OFFERS = ['EXPRESS_497', 'MENSUAL_49', 'ANUAL_990', 'MENSUAL_99', 'MAQUINA_1490', 'MENSUAL_149', 'AGENCIA_VIRAL_1', 'AGENCIA_VIRAL_2', 'AGENCIA_VIRAL_3', 'RESCATE_197'];
+
 function renderQuickOfferLinks(offerCode, containerId) {
   const el = document.getElementById(containerId);
   if (!el) return;
-  const items = OFFER_QUICK_PAYMENT_LINKS[offerCode] || OFFER_QUICK_PAYMENT_LINKS.EXPRESS_497;
+  const items = Array.isArray(OFFER_QUICK_PAYMENT_LINKS[offerCode]) ? OFFER_QUICK_PAYMENT_LINKS[offerCode] : OFFER_QUICK_PAYMENT_LINKS.EXPRESS_497;
+  if (!items.length) {
+    el.innerHTML = `<div class="w-full text-[11px] font-bold text-pink-200 bg-pink-500/15 border border-pink-400/35 rounded-lg px-2.5 py-1.5">🎬 Paquete <strong>Agencia Viral</strong> seleccionado (ya tienen Web/CRM): genera el link Stripe o factura por el monto exacto (LATAM o USA / programa 2 meses).</div>`;
+    return;
+  }
   const stripeRow = `<div class="w-full flex flex-wrap items-center gap-1.5"><span class="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mr-1">💳 Copiar Link Stripe:</span>`
     + items.map(it => `<button type="button" onclick="copyPaymentLinkUrl('${it.url}', this)" class="px-2.5 py-1.5 rounded-lg text-[11px] font-black transition ${it.cls}">${esc(it.label)}</button>`).join('')
     + `</div>`;
@@ -6682,7 +6713,6 @@ async function advanceLeadStageOneClick(leadId) {
 async function markPaymentPendingInCrm() {
   const leadId = document.getElementById('pay-lead-id').value;
   const offerCode = document.getElementById('pay-offer-version').value || 'EXPRESS_497';
-  const mapPrice = { EXPRESS_497: 497, ANUAL_990: 990, MAQUINA_1490: 1490, RESCATE_197: 197 };
   try {
     const res = await fetch(`/api/sales-os/leads/${leadId}/stage`, {
       method: 'PUT',
@@ -6690,7 +6720,7 @@ async function markPaymentPendingInCrm() {
       body: JSON.stringify({
         pipeline_stage: 'Pago pendiente',
         offer_version: offerCode,
-        quoted_amount: mapPrice[offerCode] || 497,
+        quoted_amount: OFFER_DEFAULT_PRICE_MAP[offerCode] || 497,
         next_action_at: new Date(Date.now() + 3600000 * 4).toISOString().slice(0, 16),
         next_action_note: 'Link de pago enviado — Esperando confirmación Stripe/Hotmart en CRM ProsperIA'
       })
@@ -6717,7 +6747,7 @@ function openStageDialog(leadId) {
   const stCur = lead.pipeline_stage || 'Calificado';
   stSel.value = ['Primer contacto', 'Contacto', 'Calificado', 'No interesado'].includes(stCur) ? stCur : 'Calificado';
   const offSel = document.getElementById('stage-offer-val');
-  offSel.value = ['EXPRESS_497', 'MENSUAL_49', 'ANUAL_990', 'MENSUAL_99', 'MAQUINA_1490', 'MENSUAL_149', 'RESCATE_197'].includes(lead.offer_version) ? lead.offer_version : 'EXPRESS_497';
+  offSel.value = VALID_CLOSER_OFFERS.includes(lead.offer_version) ? lead.offer_version : 'EXPRESS_497';
   document.getElementById('stage-quoted-val').value = lead.quoted_amount && lead.quoted_amount > 0 ? lead.quoted_amount : 497;
   const tplSel = document.getElementById('stage-template-val');
   tplSel.value = lead.selected_template || 'clinica_dental_estetica';
@@ -6729,9 +6759,8 @@ function openStageDialog(leadId) {
 }
 
 function syncOfferDefaultPrice() {
-  const map = { EXPRESS_497: 497, MENSUAL_49: 49, ANUAL_990: 990, MENSUAL_99: 99, MAQUINA_1490: 1497, MENSUAL_149: 149, RESCATE_197: 197, SVE90_CORP: 5000 };
   const code = document.getElementById('stage-offer-val').value;
-  if (map[code]) document.getElementById('stage-quoted-val').value = map[code];
+  if (OFFER_DEFAULT_PRICE_MAP[code]) document.getElementById('stage-quoted-val').value = OFFER_DEFAULT_PRICE_MAP[code];
   renderQuickOfferLinks(code, 'stage-offer-quick-links');
 }
 
@@ -6780,7 +6809,7 @@ function openPaymentDialog(leadId) {
   document.getElementById('pay-dialog-lead-label').textContent = `Cliente: ${lead.business_name || lead.company || lead.name} · Vendedor: ${lead.owner_id || currentUser?.email}`;
   document.getElementById('pay-invoice-id').value = lead.invoice_id || '';
   document.getElementById('pay-offer-version').value = lead.offer_version || 'EXPRESS_497';
-  const collectMap = { EXPRESS_497: 250, MENSUAL_49: 49, ANUAL_990: 495, MENSUAL_99: 99, MAQUINA_1490: 749, MENSUAL_149: 149, RESCATE_197: 100 };
+  const collectMap = { EXPRESS_497: 250, MENSUAL_49: 49, ANUAL_990: 495, MENSUAL_99: 99, MAQUINA_1490: 749, MENSUAL_149: 149, AGENCIA_VIRAL_1: 797, AGENCIA_VIRAL_2: 1497, AGENCIA_VIRAL_3: 2497, RESCATE_197: 100 };
   const defaultCollect = collectMap[lead.offer_version] || 250;
   document.getElementById('pay-amount-collected').value = lead.amount_collected > 0 ? lead.amount_collected : defaultCollect;
   previewCommissionMath();
@@ -8494,10 +8523,9 @@ function openSetterWorkDialog(leadId, defaultChannel = 'Llamada', preserveFeedba
 
   const offerSel = document.getElementById('setter-work-offer');
   const quotedInput = document.getElementById('setter-work-quoted');
-  const offerCode = ['EXPRESS_497', 'MENSUAL_49', 'ANUAL_990', 'MENSUAL_99', 'MAQUINA_1490', 'MENSUAL_149', 'RESCATE_197'].includes(lead.offer_version) ? lead.offer_version : 'EXPRESS_497';
-  const defaultOfferMap = { EXPRESS_497: 497, MENSUAL_49: 49, ANUAL_990: 990, MENSUAL_99: 99, MAQUINA_1490: 1497, MENSUAL_149: 149, RESCATE_197: 197 };
+  const offerCode = VALID_CLOSER_OFFERS.includes(lead.offer_version) ? lead.offer_version : 'EXPRESS_497';
   if (offerSel) offerSel.value = offerCode;
-  if (quotedInput) quotedInput.value = Number(lead.quoted_amount || 0) > 0 ? Number(lead.quoted_amount) : (defaultOfferMap[offerCode] || 497);
+  if (quotedInput) quotedInput.value = Number(lead.quoted_amount || 0) > 0 ? Number(lead.quoted_amount) : (OFFER_DEFAULT_PRICE_MAP[offerCode] || 497);
   renderQuickOfferLinks(offerCode, 'setter-work-quick-links');
 
   const isAlreadyCloserLead = (
@@ -8619,10 +8647,9 @@ function openSetterWorkDialog(leadId, defaultChannel = 'Llamada', preserveFeedba
 }
 
 function syncSetterWorkOfferPrice() {
-  const map = { EXPRESS_497: 497, MENSUAL_49: 49, ANUAL_990: 990, MENSUAL_99: 99, MAQUINA_1490: 1497, MENSUAL_149: 149, RESCATE_197: 197 };
   const code = document.getElementById('setter-work-offer')?.value;
   const qEl = document.getElementById('setter-work-quoted');
-  if (qEl && map[code]) qEl.value = map[code];
+  if (qEl && OFFER_DEFAULT_PRICE_MAP[code]) qEl.value = OFFER_DEFAULT_PRICE_MAP[code];
   renderQuickOfferLinks(code || 'EXPRESS_497', 'setter-work-quick-links');
 }
 
