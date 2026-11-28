@@ -6162,33 +6162,8 @@ class AgentChatRequest(BaseModel):
     agent: str
 
 def _enforce_no_price_chatbot_policy(reply: str, user_msg: str = "") -> str:
-    """Política estricta: ningún chatbot público entrega precios en cifras; redirige a /sitioweb o agenda diagnóstico."""
-    import re
-    txt = str(reply or "").strip()
-    msg_l = (user_msg or "").lower()
-    asks_price = any(
-        w in msg_l
-        for w in (
-            "precio", "precios", "costo", "costos", "cuanto cuesta", "cuánto cuesta",
-            "cuanto vale", "cuánto vale", "tarifa", "tarifas", "presupuesto", "cotiz",
-            "mensualidad", "mensualidades", "cuanto cobran", "cuánto cobran",
-            "cuanto sale", "cuánto sale", "valor", "inversion", "inversión", "paquete", "paquetes"
-        )
-    )
-    has_currency_leak = bool(
-        re.search(
-            r"(us\s*\$|\$\s*\d[\d,\.]*|\b\d{2,5}\s*(usd|dólares|dolares|dlls)\b|/mes|/año|\b(197|247|250|495|497|745|990|1490|1,490|2499|2,499)\b)",
-            txt,
-            re.IGNORECASE,
-        )
-    )
-    if asks_price or has_currency_leak:
-        return (
-            "En Agencia Prosper IA no manejamos precios fijos en el chat porque adaptamos cada proyecto a tu giro y metas. "
-            "Incluimos muestra previa en vivo de tu Sitio Web Inteligente y facilidad 50% al iniciar y 50% al entregar operando en 7 a 10 días. "
-            "Puedes ver cómo funciona tu proyecto en https://agenciaprosperia.com/sitioweb o compartirnos tu Nombre y WhatsApp para agendar tu diagnóstico de 15 min sin costo."
-        )
-    return txt
+    """Devuelve la respuesta del asistente comercial normalizada, permitiendo precios oficiales de paquetes."""
+    return str(reply or "").strip()
 
 
 @app.post("/api/agents/chat")
@@ -6486,7 +6461,7 @@ async def api_prosperia_assistant(req: ProsperiaAssistantRequest, request: Reque
                 "datos_completos": False,
                 "session_id": sid,
                 "engine": "prosperia-passportai-fusion",
-                "calendar_anchor": "/sitioweb",
+                "calendar_anchor": "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8",
                 "whatsapp_url": EMERGENCY_WA_URL,
             },
             headers=_EMPRENDE_CORS_HEADERS,
@@ -6537,7 +6512,11 @@ async def api_prosperia_assistant(req: ProsperiaAssistantRequest, request: Reque
             f"REGLAS OBLIGATORIAS:\n1. {voice_rule}\n"
             "2. CERO jerga técnica innecesaria (nunca digas RAG, LLM, tokens, webhooks o pipelines).\n"
             "3. Presenta cuando corresponda nuestros 4 Empleados Digitales: SDR IA, Setter IA, Closer IA y Soporte IA.\n"
-            "4. PROHIBIDO DAR PRECIOS O CIFRAS EN DÓLARES EN EL CHAT: NUNCA menciones montos ni números de paquetes (cero 497, 990, 1490 o USD) aunque insistan. Explica que cada proyecto se cotiza a la medida tras mostrarle su demo en vivo (50% al iniciar y 50% contra entrega en 7 a 10 días), invita a ver https://agenciaprosperia.com/sitioweb y pide Nombre, Giro de negocio y WhatsApp (o escribir al +1 786 982-8707).\n"
+            "4. PRECIOS Y AGENDA OFICIALES: cuando pregunten precios, paquetes o horarios, comparte con claridad nuestras opciones reales: "
+            "Sitio Web Inicial Gratis ($0 costo de diseño en https://agenciaprosperia.com/sitioweb), "
+            "Plan Arranque Rápido (US$49/mes o US$497 anual), Pack Estrella Más Elegido (US$99/mes o US$990 anual con IA 24/7 y PassportAI) "
+            "y Máquina Completa Empresarial (US$149/mes o US$1,497 anual). "
+            "Horarios disponibles: Lunes a Viernes de 9:00 AM a 6:00 PM hora Miami (EST). Invita a confirmar su cita en https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8 y pide Nombre, Giro de negocio y WhatsApp (o escribir al +1 786 982-8707).\n"
             f"\nBASE DE CONOCIMIENTOS OFICIAL:\n{kb_text}\n{hist_block}"
         )
 
@@ -6547,11 +6526,11 @@ async def api_prosperia_assistant(req: ProsperiaAssistantRequest, request: Reque
     if not reply:
         engine = "prosperia-kb-fallback"
         m = raw_msg.lower()
-        if any(w in m for w in ["precio", "costo", "cuanto", "cuesta", "valor", "presupuesto", "vale", "tarifa"]):
+        if any(w in m for w in ["precio", "costo", "cuanto", "cuesta", "valor", "presupuesto", "vale", "tarifa", "paquete"]):
             reply = (
-                "Cada negocio recibe una propuesta a medida según su rubro y alcance, sin precios fijos en chat. "
-                "Preparamos una muestra en vivo sin costo en https://agenciaprosperia.com/sitioweb con facilidad 50% al iniciar y 50% al entregar en 7 a 10 días. "
-                "¿Me compartes tu Nombre, giro de negocio y WhatsApp para enviarte el informe y agendar tu diagnóstico de 15 minutos?"
+                "Nuestros planes oficiales son: Sitio Web Inicial Gratis ($0 en https://agenciaprosperia.com/sitioweb), "
+                "Plan Arranque Rápido (US$49/mes o US$497 anual), Pack Estrella (US$99/mes o US$990 anual con IA 24/7 + PassportAI) "
+                "y Máquina Completa (US$149/mes o US$1,497 anual). Puedes agendar tu demo en https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8."
             )
         elif any(w in m for w in ["empleado", "sdr", "setter", "closer", "soporte", "whatsapp", "atender", "voz"]):
             reply = (
@@ -6567,18 +6546,20 @@ async def api_prosperia_assistant(req: ProsperiaAssistantRequest, request: Reque
             reply = (
                 "Unimos campañas en Facebook, Instagram y Google directo a WhatsApp atendidas al instante por tu SDR IA y Setter IA, más edición profesional de hasta 10 Reels al mes y acceso a PassportAI."
             )
-        elif any(w in m for w in ["crm", "agenda", "calendario", "cita", "orden", "seguimiento"]):
+        elif any(w in m for w in ["crm", "agenda", "calendario", "cita", "orden", "seguimiento", "horario"]):
             reply = (
-                "Tu Tablero CRM y tu Closer IA dan seguimiento puntual a cada oportunidad abierta y asignan citas automáticamente en calendario Round-Robin. ¿Qué día y hora prefieres para tu cita diagnóstica?"
+                "Atendemos citas de Lunes a Viernes de 9:00 AM a 6:00 PM hora Miami con recordatorios automáticos 24 h y 2 h antes. "
+                "Elige tu horario en vivo aquí: https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8"
             )
         else:
             reply = (
-                "En Agencia Prosper IA te instalamos en 7 a 10 días tu página web inteligente y tus 4 Empleados Digitales 24/7, pagando 50% al iniciar y 50% al entregar. "
-                "¿A qué se dedica tu negocio y cuál es tu WhatsApp para prepararte la demostración en https://agenciaprosperia.com/sitioweb?"
+                "En Agencia Prosper IA te instalamos en 7 a 10 días tu página web inteligente y tus 4 Empleados Digitales 24/7 (planes desde US$49/mes y Sitio Web Inicial Gratis). "
+                "¿A qué se dedica tu negocio y cuál es tu WhatsApp para enviarte tu muestra en https://agenciaprosperia.com/sitioweb?"
             )
 
     reply = _normalize_emergency_whatsapp_text(reply)
-    reply = _enforce_no_price_chatbot_policy(reply, raw_msg)
+    if engine != "passportai-live":
+        reply = _enforce_no_price_chatbot_policy(reply, raw_msg)
     reply_speech = _clean_reply_for_speech(reply)
 
     return JSONResponse(
@@ -6590,7 +6571,7 @@ async def api_prosperia_assistant(req: ProsperiaAssistantRequest, request: Reque
             "datos_completos": datos_completos,
             "session_id": sid,
             "engine": engine,
-            "calendar_anchor": "/#contacto",
+            "calendar_anchor": "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8",
             "whatsapp_url": EMERGENCY_WA_URL,
         },
         headers=_EMPRENDE_CORS_HEADERS,

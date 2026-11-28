@@ -5101,9 +5101,403 @@ def _handle_inbound_reply_for_lead(
     return {"processed": True, "lead_id": lead.id, "biz_name": biz_name, "demo_sent": demo_sent}
 
 
+_WA_AUTOREPLY_LOCK = threading.Lock()
+_PROCESSED_WA_INBOUND_UIDS: set = set()
+
+_GHL_VENTAS_PIPELINE_ID = "SJ4xiMasQ0GZcUNYFgpa"
+_GHL_STAGE_CONTACTADO_ID = "da2cda3e-8c0b-4c11-b6aa-03f9549b4824"
+_GHL_STAGE_LLAMADA_AGENDADA_ID = "32169283-eb6a-446a-9092-67a39af8efdf"
+_DEFAULT_GHL_BOOKING_URL = "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8"
+_PASSPORTAI_BOT_CHAT_URL = "https://passportai.app/api/v1/chatbots/asesor-comercial-prosper-ia-25-1/chat"
+
+
+def _post_passportai_whatsapp_turn(session_id: str, message: str) -> dict:
+    """Consulta en vivo al bot asesor-comercial-prosper-ia-25-1 de PassportAI.app."""
+    try:
+        body = json.dumps({"session_id": session_id, "message": message}).encode("utf-8")
+        req = urllib.request.Request(
+            _PASSPORTAI_BOT_CHAT_URL,
+            data=body,
+            method="POST",
+            headers={
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "User-Agent": "prosperia-whatsapp-router/2.0",
+            },
+        )
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            data = json.loads(resp.read().decode("utf-8") or "{}")
+            if isinstance(data, dict) and data.get("ok") and str(data.get("respuesta") or "").strip():
+                return data
+    except Exception as exc:
+        print(f"⚠️ [PASSPORTAI WA FALLBACK] {exc}", flush=True)
+    return {}
+
+
+def _format_whatsapp_markdown(text: str) -> str:
+    """Convierte negritas **texto** al formato nativo *texto* de WhatsApp."""
+    clean = str(text or "").strip()
+    clean = re.sub(r"\*\*(.*?)\*\*", r"*\1*", clean)
+    return clean
+
+
+def _build_prefilled_booking_url(
+    first_name: str = "",
+    full_name: str = "",
+    email: str = "",
+    phone: str = "",
+) -> str:
+    cal_params = {}
+    if first_name and first_name.lower() not in ("hola", "prospecto", "cliente"):
+        cal_params["first_name"] = first_name
+    if full_name and full_name.lower() not in ("prospecto whatsapp", "prospecto"):
+        cal_params["name"] = full_name
+    if email and _is_valid_real_email(email):
+        cal_params["email"] = email
+    if phone:
+        cal_params["phone"] = phone
+    return (
+        _DEFAULT_GHL_BOOKING_URL + ("?" + urllib.parse.urlencode(cal_params))
+        if cal_params
+        else _DEFAULT_GHL_BOOKING_URL
+    )
+
+
+def _handle_passportai_whatsapp_autoreply_sync(
+    db: Session,
+    payload: dict,
+    contact_id: str = "",
+    phone: str = "",
+    email: str = "",
+    inbound_text: str = "",
+    channel: str = "WhatsApp",
+    event_uid: str = "",
+) -> dict:
+    """Responde mensajes entrantes de WhatsApp (+1 786-982-8707) vía PassportAI, mueve el CRM y alerta al vendedor."""
+    token = _cfg_db("GHL_PRIVATE_TOKEN") or _cfg_db("GHL_ACCESS_TOKEN")
+    loc_id = (
+        str(
+            payload.get("locationId")
+            or payload.get("location_id")
+            or (payload.get("location") or {}).get("id")
+            or _cfg_db("GHL_LOCATION_ID", DEFAULT_LOCATION_ID)
+        ).strip()
+        or DEFAULT_LOCATION_ID
+    )
+    cid = (contact_id or "").strip()
+    raw_phone = (phone or "").strip()
+    raw_email = (email or "").strip()
+    first_name = str(payload.get("first_name") or payload.get("firstName") or (payload.get("contact") or {}).get("firstName") or "").strip()
+    last_name = str(payload.get("last_name") or payload.get("lastName") or (payload.get("contact") or {}).get("lastName") or "").strip()
+    full_name = str(payload.get("full_name") or payload.get("fullName") or payload.get("name") or (payload.get("contact") or {}).get("name") or "").strip()
+    company_name = str(payload.get("company") or payload.get("companyName") or (payload.get("contact") or {}).get("companyName") or "").strip()
+
+    if cid and token and (not raw_phone or not full_name or not raw_email):
+        c_st, c_res = _ghl_request("GET", f"/contacts/{cid}", token)
+        if c_st == 200 and isinstance(c_res, dict):
+            c_obj = c_res.get("contact") if isinstance(c_res.get("contact"), dict) else c_res
+            raw_phone = raw_phone or str(c_obj.get("phone") or "").strip()
+            raw_email = raw_email or str(c_obj.get("email") or "").strip()
+            first_name = first_name or str(c_obj.get("firstName") or "").strip()
+            last_name = last_name or str(c_obj.get("lastName") or "").strip()
+            full_name = full_name or str(c_obj.get("name") or c_obj.get("contactName") or f"{first_name} {last_name}".strip()).strip()
+            company_name = company_name or str(c_obj.get("companyName") or "").strip()
+
+    clean_msg = (inbound_text or "").strip()
+    uid = (event_uid or "").strip()
+
+    if cid and (not clean_msg or not uid):
+        comms = get_ghl_contact_comms_status(cid, raw_phone)
+        msgs = comms.get("messages") or []
+        inbound_msgs = [m for m in msgs if str(m.get("direction") or "").lower() == "inbound" and str(m.get("body") or "").strip()]
+        if inbound_msgs:
+            latest = inbound_msgs[0]
+            clean_msg = clean_msg or str(latest.get("body") or "").strip()
+            uid = uid or str(latest.get("id") or "").strip()
+
+    if not clean_msg:
+        return {"processed": False, "reason": "empty_inbound_body"}
+
+    dedup_key = f"{cid}:{uid}" if uid else f"{cid}:{' '.join(clean_msg.lower().split())[:64]}"
+    with _WA_AUTOREPLY_LOCK:
+        if dedup_key in _PROCESSED_WA_INBOUND_UIDS:
+            return {"processed": False, "reason": "duplicate_event_uid", "event_uid": uid}
+        if len(_PROCESSED_WA_INBOUND_UIDS) > 5000:
+            _PROCESSED_WA_INBOUND_UIDS.clear()
+        _PROCESSED_WA_INBOUND_UIDS.add(dedup_key)
+
+    inbound_kind = _classify_automated_inbound(clean_msg, channel)
+    if inbound_kind in ("auto_reject", "auto_bot"):
+        return {"processed": False, "reason": inbound_kind, "contact_id": cid}
+
+    # Extraer también correo o nombre mencionados dentro del propio mensaje de WhatsApp
+    em_in_msg = re.search(r"[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}", clean_msg)
+    if em_in_msg and not _is_valid_real_email(raw_email):
+        raw_email = em_in_msg.group(0).strip().lower()
+
+    clean_phone = normalize_phone_e164(raw_phone) if raw_phone else ""
+    clean_email = normalize_email(raw_email) if raw_email else ""
+    full_name = full_name or f"{first_name} {last_name}".strip() or "Prospecto WhatsApp"
+    first_name = first_name or (full_name.split()[0] if full_name else "") or "hola"
+    biz_name = company_name or full_name or "Prospecto WhatsApp"
+    cal_url = _build_prefilled_booking_url(first_name=first_name, full_name=full_name, email=clean_email, phone=clean_phone)
+
+    msg_low = clean_msg.lower()
+    wants_appointment = bool(
+        re.search(
+            r"\b(cita|agenda|agendar|agendamos|horario|horarios|disponib\w*|demostraci[oó]n|demo|reuni[oó]n|llamada|ma[nñ]ana|hoy|10\s*am|11\s*am|\d{1,2}\s*(am|pm|hs))\b",
+            msg_low,
+        )
+    )
+
+    wa_sid = f"wa_{cid or re.sub(r'[^0-9]', '', clean_phone) or 'anon'}"
+    pp_res = _post_passportai_whatsapp_turn(wa_sid, clean_msg)
+    ai_reply = str(pp_res.get("respuesta") or "").strip()
+    datos_completos = bool(pp_res.get("datos_completos"))
+    engine_used = "passportai-live"
+
+    if not ai_reply:
+        engine_used = "gemini-fallback"
+        sys_prompt = (
+            "Eres el Asesor Comercial Digital de Agencia Prosper IA LLC y PassportAI.app atendiendo por WhatsApp (+1 786-982-8707).\n"
+            f"Datos del contacto actual: Nombre={first_name}, Empresa={biz_name}.\n"
+            "OFERTA OFICIAL Y PRECIOS REALES:\n"
+            "- Sitio Web Inicial gratis a $0 costo de diseño en https://agenciaprosperia.com/sitioweb.\n"
+            "- Plan Arranque Rápido: US$49/mes (o US$497 anual) con Web + Bandeja Unificada + Reels.\n"
+            "- Pack Estrella (Más Elegido): US$99/mes (o US$990 anual) con Sitio Web Inteligente + Empleado Digital WhatsApp 24/7 + PassportAI.\n"
+            "- Máquina Completa Empresarial: US$149/mes (o US$1,497 anual) con Voz IA 24/7 + Multi-Vendedor + CRM.\n"
+            "- Horarios de atención para citas/demostraciones en vivo: Lunes a Viernes de 9:00 AM a 6:00 PM hora Miami (EST).\n"
+            f"- Enlace directo de agenda con recordatorios automáticos 24 h y 2 h antes: {cal_url}\n"
+            "Responde en máximo 3 oraciones claras y naturales para WhatsApp. Si piden cita, demo u horarios, confirma disponibilidad e invita a confirmar en el enlace de calendario."
+        )
+        ai_reply = invoke_gemini_assistant(sys_prompt, clean_msg, client_ip="whatsapp_webhook", max_tokens=280)
+
+    if not ai_reply:
+        engine_used = "deterministic-fallback"
+        ai_reply = (
+            f"¡Hola {first_name}! Soy tu asistente de Agencia Prosper IA & PassportAI. "
+            "Tenemos planes desde US$49/mes (Arranque Rápido), US$99/mes (Pack Estrella con IA WhatsApp 24/7) y Sitio Web Inicial gratis en agenciaprosperia.com/sitioweb. "
+            f"Con gusto agendamos tu demostración (Lun–Vie 9:00 AM a 6:00 PM hora Miami) aquí: {cal_url}"
+        )
+
+    if (wants_appointment or datos_completos) and "widget/booking" not in ai_reply:
+        ai_reply += (
+            f"\n\n📅 Disponibilidad Lun–Vie 9:00 AM–6:00 PM (Miami). Confirma tu cita aquí (incluye recordatorios automáticos 24 h y 2 h antes):\n{cal_url}"
+        )
+
+    ai_reply = _format_whatsapp_markdown(ai_reply)
+
+    # 1. Enviar respuesta en tiempo real por WhatsApp vía GHL API v2 (+1 786-982-8707)
+    wa_sent = False
+    ghl_msg_id = ""
+    if cid and token:
+        m_st, m_res = _ghl_request(
+            "POST",
+            "/conversations/messages",
+            token,
+            {"type": "WhatsApp", "contactId": cid, "message": ai_reply},
+        )
+        if m_st in (200, 201) and isinstance(m_res, dict):
+            wa_sent = True
+            ghl_msg_id = str(m_res.get("messageId") or "")
+
+    if not wa_sent and clean_phone:
+        disp = dispatch_ghl_agency_whatsapp(
+            contact_id=cid,
+            phone=clean_phone,
+            email=clean_email,
+            full_name=full_name,
+            company=biz_name,
+            mode="free_text",
+            custom_message=ai_reply,
+            owner_email="edward@agenciaprosperia.com",
+        )
+        wa_sent = bool(disp.get("ok"))
+        cid = cid or str(disp.get("contact_id") or "")
+
+    # 2. Actualizar etiquetas aditivas y mover/crear Oportunidad en Ventas Agencia ProsperIA
+    target_stage_id = _GHL_STAGE_LLAMADA_AGENDADA_ID if (wants_appointment or datos_completos) else _GHL_STAGE_CONTACTADO_ID
+    target_stage_name = "Llamada agendada" if (wants_appointment or datos_completos) else "Contactado"
+    ghl_tags = ["passportai_whatsapp_24_7", "atendido_ia_5s"]
+    if wants_appointment or datos_completos:
+        ghl_tags.extend(["cita_agendada", "recordatorio_24h_programado", "recordatorio_2h_programado"])
+
+    opp_id = ""
+    if cid and token:
+        add_ghl_contact_tags(cid, ghl_tags)
+        if clean_email and _is_valid_real_email(clean_email):
+            _ghl_request("PUT", f"/contacts/{cid}", token, {"email": clean_email})
+
+        s_st, s_res = _ghl_request(
+            "GET",
+            f"/opportunities/search?location_id={loc_id}&contact_id={cid}&pipeline_id={_GHL_VENTAS_PIPELINE_ID}&limit=1",
+            token,
+        )
+        if s_st == 200 and isinstance(s_res, dict) and s_res.get("opportunities"):
+            opp_id = str(s_res["opportunities"][0].get("id") or "")
+            if opp_id:
+                _ghl_request(
+                    "PUT",
+                    f"/opportunities/{opp_id}",
+                    token,
+                    {
+                        "pipelineId": _GHL_VENTAS_PIPELINE_ID,
+                        "pipelineStageId": target_stage_id,
+                        "status": "open",
+                    },
+                )
+        else:
+            o_st, o_res = _ghl_request(
+                "POST",
+                "/opportunities/",
+                token,
+                {
+                    "locationId": loc_id,
+                    "pipelineId": _GHL_VENTAS_PIPELINE_ID,
+                    "pipelineStageId": target_stage_id,
+                    "contactId": cid,
+                    "name": f"{biz_name} – WhatsApp IA",
+                    "status": "open",
+                    "source": "WhatsApp PassportAI 24/7",
+                },
+            )
+            if o_st in (200, 201) and isinstance(o_res, dict):
+                opp_id = str((o_res.get("opportunity") or {}).get("id") or "")
+
+        rem_line = "\n• Recordatorios automáticos: 24 h y 2 h antes ACTIVOS" if (wants_appointment or datos_completos) else ""
+        note_body = (
+            f"🤖 [PASSPORTAI WHATSAPP 24/7 · Motor: {engine_used}]\n"
+            f"• Mensaje cliente: {clean_msg}\n"
+            f"• Respuesta enviada: {ai_reply}\n"
+            f"• Etapa CRM Ventas Agencia ProsperIA: {target_stage_name}{rem_line}"
+        )
+        _ghl_request("POST", f"/contacts/{cid}/notes", token, {"body": note_body})
+
+    # 3. Sincronizar / crear en DbLead local y alertar al Closer por correo
+    now_iso = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+    stamp = f"{now_iso[:10]} {now_iso[11:16]}"
+    lead = _find_lead_for_inbound(db, contact_id=cid, phone=clean_phone, email=clean_email)
+    local_stage = "Diagnóstico agendado" if (wants_appointment or datos_completos) else "Contacto"
+    note_line = (
+        f"[{stamp} · 🔥 RESPONDIÓ A SETTER IA (WhatsApp)]\n"
+        f"💬 Cliente: \"{clean_msg[:180]}\"\n"
+        f"🤖 PassportAI ({engine_used}, sent={wa_sent}): \"{ai_reply[:200]}\""
+        + (f" [ref:{uid}]" if uid else "")
+    )
+
+    if lead:
+        old_stage = getattr(lead, "pipeline_stage", "") or "Primer contacto"
+        if cid and not getattr(lead, "contact_id", ""):
+            lead.contact_id = cid
+        if opp_id and not getattr(lead, "ghl_opportunity_id", ""):
+            lead.ghl_opportunity_id = opp_id
+        lead.pipeline_stage = local_stage
+        lead.status = "contacted"
+        lead.last_touch = now_iso
+        lead.notes = ((getattr(lead, "notes", "") or "") + "\n" + note_line).strip()
+        owner_email = (getattr(lead, "owner_id", "") or "edward@agenciaprosperia.com").strip().lower()
+    else:
+        rr = get_next_round_robin_closer(db)
+        owner_email = (rr.get("email") if rr else "edward@agenciaprosperia.com").strip().lower()
+        digits_tail = re.sub(r"\D", "", clean_phone or cid)[-4:] or "wa"
+        lead = DbLead(
+            name=full_name,
+            full_name=full_name,
+            email=clean_email or f"wa_{digits_tail}@sin-correo.local",
+            company=biz_name,
+            business_name=biz_name,
+            phone=clean_phone or raw_phone,
+            phone_e164=clean_phone or raw_phone,
+            contact_id=cid,
+            ghl_opportunity_id=opp_id,
+            status="contacted",
+            source="WhatsApp +1 786-982-8707 · PassportAI",
+            source_channel="WhatsApp",
+            source_campaign="WhatsApp Meta Official 24/7",
+            interest_primary="Sitio Web Inteligente + IA 24/7",
+            score=95 if (wants_appointment or datos_completos) else 85,
+            notes=note_line,
+            created_at=now_iso,
+            last_touch=now_iso,
+            owner_id=owner_email,
+            setter_id=owner_email,
+            niche="general",
+            country="EE. UU. / LATAM",
+            contact_permission="WhatsApp Inbound Opt-in",
+            contact_status="contactable",
+            pipeline_stage=local_stage,
+            offer_version="STAR_990",
+            quoted_amount=990.0,
+        )
+        old_stage = "Nuevo Contacto"
+        db.add(lead)
+        db.flush()
+
+    owner_u = db.query(User).filter(func.lower(User.email) == owner_email).first()
+    closer_name = (owner_u.name if owner_u else "Equipo Agencia Prosper IA").strip()
+
+    record_audit(
+        db,
+        actor_email="passportai_wa@agenciaprosperia.com",
+        actor_role="system",
+        lead_id=lead.id,
+        action="passportai_whatsapp_autoreply",
+        field_changed="pipeline_stage",
+        old_value=old_stage,
+        new_value=local_stage,
+        notes=f"WhatsApp IA ({engine_used}, wa_sent={wa_sent}) -> GHL {target_stage_name}.",
+    )
+    db.commit()
+
+    from types import SimpleNamespace
+    lead_snap = SimpleNamespace(
+        id=lead.id,
+        owner_id=owner_email,
+        business_name=biz_name,
+        company=biz_name,
+        name=full_name,
+        full_name=full_name,
+        phone_e164=clean_phone or raw_phone,
+        phone=clean_phone or raw_phone,
+        email=clean_email or getattr(lead, "email", "") or "",
+    )
+    closer_snap = SimpleNamespace(email=owner_email, name=closer_name)
+    threading.Thread(
+        target=_notify_closer_of_inbound_reply_email_sync,
+        kwargs={
+            "lead": lead_snap,
+            "closer_user": closer_snap,
+            "inbound_text": f"{clean_msg}\n\n[Respuesta PassportAI ({target_stage_name}): {ai_reply[:240]}]",
+            "channel": "WhatsApp",
+            "sender_email": clean_email,
+            "sender_name": full_name,
+        },
+        daemon=True,
+    ).start()
+
+    return {
+        "processed": True,
+        "matched": True,
+        "lead_id": lead.id,
+        "contact_id": cid,
+        "opportunity_id": opp_id,
+        "ghl_pipeline_id": _GHL_VENTAS_PIPELINE_ID,
+        "ghl_stage_name": target_stage_name,
+        "ghl_stage_id": target_stage_id,
+        "wa_sent": wa_sent,
+        "ghl_message_id": ghl_msg_id,
+        "engine": engine_used,
+        "wants_appointment": wants_appointment or datos_completos,
+        "booking_url": cal_url,
+        "biz_name": biz_name,
+        "demo_sent": wa_sent,
+        "ai_reply": ai_reply,
+    }
+
+
 @router.post("/api/sales-os/webhooks/ghl-inbound-reply")
 async def api_ghl_inbound_reply_webhook(request: Request, db: Session = Depends(get_db)):
-    """Webhook receptor de GoHighLevel ('Customer Replied') para activar Setter IA y alertar al Closer."""
+    """Webhook receptor de GoHighLevel ('Customer Replied') para activar PassportAI 24/7 en WhatsApp, actualizar CRM y alertar al Closer."""
     try:
         payload = await request.json()
         if not isinstance(payload, dict):
@@ -5115,15 +5509,47 @@ async def api_ghl_inbound_reply_webhook(request: Request, db: Session = Depends(
     phone = str(payload.get("phone") or (payload.get("contact") or {}).get("phone") or "").strip()
     email = str(payload.get("email") or (payload.get("contact") or {}).get("email") or "").strip()
     msg_obj = payload.get("message") if isinstance(payload.get("message"), dict) else {}
+    from_me = bool(payload.get("fromMe") or payload.get("from_me") or msg_obj.get("fromMe"))
+    direction = str(payload.get("direction") or msg_obj.get("direction") or "").strip().lower()
+    if from_me or direction in ("outbound", "outgoing", "out"):
+        return {"success": True, "ignored": True, "reason": "outbound_ignored"}
+
     inbound_text = str(
         msg_obj.get("body")
+        or msg_obj.get("text")
         or payload.get("body")
         or payload.get("message")
         or payload.get("last_message")
+        or payload.get("lastMessageBody")
         or ""
     ).strip()
-    channel = str(payload.get("type") or msg_obj.get("type") or "WhatsApp").replace("TYPE_", "").title()
-    event_uid = str(msg_obj.get("id") or payload.get("messageId") or "").strip()
+    channel = str(payload.get("type") or payload.get("messageType") or msg_obj.get("type") or msg_obj.get("messageType") or "WhatsApp").replace("TYPE_", "").title()
+    event_uid = str(msg_obj.get("id") or payload.get("messageId") or payload.get("message_id") or payload.get("id") or "").strip()
+
+    if "whatsapp" in channel.lower():
+        out = await asyncio.to_thread(
+            _handle_passportai_whatsapp_autoreply_sync,
+            db,
+            payload,
+            contact_id,
+            phone,
+            email,
+            inbound_text,
+            channel,
+            event_uid,
+        )
+        if out.get("processed"):
+            with _SETTER_IA_LOCK:
+                st = _load_setter_ia_state(db)
+                st["replies_detected"] = int(st.get("replies_detected", 0) or 0) + 1
+                if out.get("wa_sent"):
+                    st["demos_auto_sent"] = int(st.get("demos_auto_sent", 0) or 0) + 1
+                _append_setter_ia_log(
+                    st,
+                    f"💬 {out.get('biz_name', 'WhatsApp')} respondió -> PassportAI ({out.get('engine')}, sent={out.get('wa_sent')}) -> {out.get('ghl_stage_name')}",
+                )
+                _save_setter_ia_state(db, st)
+        return {"success": True, **out}
 
     lead = _find_lead_for_inbound(db, contact_id=contact_id, phone=phone, email=email)
     if not lead:
@@ -5554,8 +5980,9 @@ def _notify_closer_of_inbound_reply_email_sync(
         )
         wa_plain = f"\nWhatsApp directo: {wa_url}"
 
+    ch_upper = (channel or "CORREO").strip().upper()
     dash_url = "https://agenciaprosperia.com/dashboard"
-    subject = f"🚨 [RESPONDIÓ POR CORREO] {biz_name} pide información — ¡Atácalo YA ({closer_name})!"
+    subject = f"🚨 [RESPONDIÓ POR {ch_upper}] {biz_name} pide información — ¡Atácalo YA ({closer_name})!"
     cc_line = f"\nCopia / CC detectada: {extra_cc_info}" if extra_cc_info else ""
     cc_html = f"<p style='margin:6px 0;'><strong>Copia / CC:</strong> {html_lib.escape(extra_cc_info)}</p>" if extra_cc_info else ""
 

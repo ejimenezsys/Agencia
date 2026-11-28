@@ -12,13 +12,106 @@
   const BOT_SLUG = 'asesor-comercial-prosper-ia-25-1';
   const SESSION_KEY = 'passport_bot_' + BOT_SLUG + '_session';
   const HISTORY_KEY = 'pbot_fusion_history_' + BOT_SLUG;
-  const WA_URL = 'https://wa.me/17869828707?text=Hola%20Agencia%20Prosper%20IA,%20vengo%20del%20asistente%20en%20l%C3%ADnea%20y%20quiero%20agendar%20mi%20demostraci%C3%B3n';
+  const LEAD_DRAFT_KEY = 'pbot_fusion_lead_' + BOT_SLUG;
+  const CAL_DIAGNOSTICO_URL = 'https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8';
+  const CAL_EDWARD_URL = 'https://api.agenciaprosperia.com/widget/booking/aT3eXMuYSOnWwjnC063t';
+  const WA_BASE_URL = 'https://wa.me/17869828707';
+  const WA_URL = WA_BASE_URL + '?text=' + encodeURIComponent('Hola Agencia Prosper IA, vengo del asistente en línea y quiero agendar mi demostración');
   const AVATAR_URL = '/static/empleados_digitales/setter_ia_pixar.png';
 
   const DEFAULT_GREETING =
     '¡Hola! Bienvenido a Agencia Prosper IA 🚀. Soy tu Asesor Digital y estoy aquí para ayudarte a que tu negocio venda y agende citas 24/7 con tu Sitio Web Inteligente, Empleados Digitales, CRM y Reels. Cuéntame, ¿a qué se dedica tu negocio?';
 
   const historyStore = [];
+  const leadDraft = (() => {
+    try {
+      const raw = sessionStorage.getItem(LEAD_DRAFT_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed && typeof parsed === 'object') {
+          return {
+            name: String(parsed.name || ''),
+            email: String(parsed.email || ''),
+            phone: String(parsed.phone || ''),
+            company: String(parsed.company || ''),
+            lastMsg: String(parsed.lastMsg || '')
+          };
+        }
+      }
+    } catch (e) {}
+    return { name: '', email: '', phone: '', company: '', lastMsg: '' };
+  })();
+
+  function saveLeadDraft() {
+    try {
+      sessionStorage.setItem(LEAD_DRAFT_KEY, JSON.stringify(leadDraft));
+    } catch (e) {}
+  }
+
+  function syncDirectWaUrl() {
+    const waEl = document.getElementById('pia-cp-wa-link');
+    if (!waEl) return;
+    const parts = ['Hola Agencia Prosper IA, vengo del asistente en línea'];
+    if (leadDraft.name) parts.push('(soy ' + leadDraft.name + ')');
+    if (leadDraft.company) parts.push('de ' + leadDraft.company);
+    if (leadDraft.lastMsg) parts.push('sobre: "' + leadDraft.lastMsg.slice(0, 90) + '"');
+    parts.push('y quiero agendar mi demostración.');
+    waEl.href = WA_BASE_URL + '?text=' + encodeURIComponent(parts.join(' '));
+  }
+
+  function captureLeadContext(txt) {
+    const raw = String(txt || '').trim();
+    if (!raw) return;
+    leadDraft.lastMsg = raw;
+
+    const emMatch = raw.match(/[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}/);
+    if (emMatch) leadDraft.email = emMatch[0].trim();
+
+    const phMatch = raw.match(/(?:\+?\d[\d\s\-\(\)]{7,}\d)/);
+    if (phMatch) {
+      const digits = phMatch[0].replace(/\D/g, '');
+      if (digits.length >= 8 && digits !== '17869828707' && digits !== '7869828707') {
+        leadDraft.phone = phMatch[0].trim();
+      }
+    }
+
+    const nameMatch = raw.match(/(?:me llamo|mi nombre es|soy)\s+([A-ZÁÉÍÓÚÑa-záéíóúñ][A-ZÁÉÍÓÚÑa-záéíóúñ\s]{1,36}?)(?:[,.!;\n]|$|\s+(?:mi|de|y|en|tengo|para)\b)/i);
+    if (nameMatch && nameMatch[1]) {
+      const cand = nameMatch[1].trim();
+      if (cand.length >= 2 && cand.split(/\s+/).length <= 4) {
+        leadDraft.name = cand;
+      }
+    }
+
+    const bizMatch = raw.match(/(?:mi negocio es|tengo una?|empresa es|se dedica a)\s+([A-ZÁÉÍÓÚÑa-záéíóúñ0-9&\-\s]{2,45}?)(?:[,.!;\n]|$)/i);
+    if (bizMatch && bizMatch[1]) {
+      leadDraft.company = bizMatch[1].trim();
+    }
+
+    saveLeadDraft();
+    syncDirectWaUrl();
+  }
+
+  function buildCalendarBookingUrl(baseUrl) {
+    const target = (baseUrl && /^https?:\/\//i.test(baseUrl)) ? baseUrl : CAL_DIAGNOSTICO_URL;
+    try {
+      const urlObj = new URL(target);
+      if (leadDraft.name) {
+        const firstName = leadDraft.name.split(/\s+/)[0] || leadDraft.name;
+        if (!urlObj.searchParams.has('first_name')) urlObj.searchParams.set('first_name', firstName);
+        if (!urlObj.searchParams.has('name')) urlObj.searchParams.set('name', leadDraft.name);
+      }
+      if (leadDraft.email && !urlObj.searchParams.has('email')) {
+        urlObj.searchParams.set('email', leadDraft.email);
+      }
+      if (leadDraft.phone && !urlObj.searchParams.has('phone')) {
+        urlObj.searchParams.set('phone', leadDraft.phone);
+      }
+      return urlObj.toString();
+    } catch (e) {
+      return target;
+    }
+  }
 
   function createSessionId() {
     return 'sess_' + Math.random().toString(36).substring(2, 11) + '_' + Date.now().toString(36);
@@ -300,6 +393,65 @@
         .aura-stage-box.is-speaking .aura-wave-bars span,
         .aura-stage-box.is-listening .aura-wave-bars span { animation: none !important; height: 14px; }
       }
+      #pia-calendar-dialog {
+        margin: auto;
+        padding: 0;
+        width: min(880px, calc(100vw - 24px));
+        max-height: min(90vh, 840px);
+        border: 1px solid rgba(251, 191, 36, 0.52);
+        border-radius: 20px;
+        background: #070d1a;
+        color: #f8fafc;
+        box-shadow: 0 30px 70px rgba(0, 0, 0, 0.85);
+        font-family: 'Inter', system-ui, sans-serif;
+      }
+      #pia-calendar-dialog[open] {
+        display: flex;
+        flex-direction: column;
+      }
+      #pia-calendar-dialog:modal {
+        overscroll-behavior: contain;
+      }
+      #pia-calendar-dialog::backdrop {
+        overflow: hidden;
+        overscroll-behavior: contain;
+        background-color: rgba(2, 6, 23, 0.78);
+        backdrop-filter: blur(4px);
+      }
+      .pia-cal-head {
+        padding: 14px 18px;
+        background: linear-gradient(135deg, #0f172a 0%, #064e3b 100%);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .pia-cal-tabs {
+        padding: 10px 18px;
+        background: #0b1325;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+      }
+      .pia-cal-tab {
+        border: 1px solid rgba(251, 191, 36, 0.4);
+        background: rgba(245, 158, 11, 0.12);
+        color: #fde68a;
+        padding: 6px 12px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        text-decoration: none;
+      }
+      .pia-cal-tab.is-active {
+        background: #f59e0b;
+        color: #090d16;
+        border-color: #fbbf24;
+      }
     `;
     document.head.appendChild(st);
   }
@@ -333,6 +485,90 @@
     return safe;
   }
 
+  function ensureCalendarDialog() {
+    let dlg = document.getElementById('pia-calendar-dialog');
+    if (dlg) return dlg;
+
+    dlg = document.createElement('dialog');
+    dlg.id = 'pia-calendar-dialog';
+    dlg.setAttribute('closedby', 'any');
+    dlg.setAttribute('aria-labelledby', 'pia-cal-modal-title');
+    dlg.innerHTML = `
+      <div class="pia-cal-head">
+        <div>
+          <h2 id="pia-cal-modal-title" style="margin:0; font-size:16px; font-weight:800; color:#ffffff;">
+            📅 Agendar Demostración en Vivo · Agencia Prosper IA
+          </h2>
+          <div style="font-size:12px; color:#6ee7b7; margin-top:2px;">
+            Disponibilidad Lunes a Viernes · Recordatorios automáticos 24 h y 2 h antes
+          </div>
+        </div>
+        <button type="button" id="pia-cal-close-btn" autofocus class="pia-cp-iconbtn" aria-label="Cerrar calendario">✕</button>
+      </div>
+      <div class="pia-cal-tabs">
+        <button type="button" class="pia-cal-tab is-active" data-cal-url="${CAL_DIAGNOSTICO_URL}">Diagnóstico Round-Robin (15 min)</button>
+        <button type="button" class="pia-cal-tab" data-cal-url="${CAL_EDWARD_URL}">Agenda Directa · Edward Jiménez</button>
+        <a href="/sitioweb#agendar" class="pia-cal-tab" style="margin-left:auto; border-color:rgba(56,189,248,0.45); color:#bae6fd; background:rgba(56,189,248,0.12);">Sitio Web Inicial Gratis →</a>
+      </div>
+      <div style="flex:1 1 auto; min-height:480px; background:#ffffff; overflow:auto;">
+        <iframe
+          id="pia-cal-iframe"
+          title="Calendario de Citas Agencia Prosper IA"
+          style="width:100%; height:min(68vh, 660px); border:0; display:block; background:#ffffff;"
+          allow="camera; microphone; autoplay">
+        </iframe>
+      </div>
+    `;
+    document.body.appendChild(dlg);
+
+    const closeBtn = document.getElementById('pia-cal-close-btn');
+    const frameEl = document.getElementById('pia-cal-iframe');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => dlg.close());
+    }
+    dlg.addEventListener('close', () => {
+      dlg.returnValue = '';
+    });
+
+    dlg.querySelectorAll('button[data-cal-url]').forEach((tabBtn) => {
+      tabBtn.addEventListener('click', () => {
+        dlg.querySelectorAll('button[data-cal-url]').forEach((b) => b.classList.remove('is-active'));
+        tabBtn.classList.add('is-active');
+        if (frameEl) {
+          frameEl.src = buildCalendarBookingUrl(tabBtn.getAttribute('data-cal-url') || CAL_DIAGNOSTICO_URL);
+        }
+      });
+    });
+
+    if (!('closedBy' in HTMLDialogElement.prototype)) {
+      const outside = (e) => {
+        const r = dlg.getBoundingClientRect();
+        return e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom;
+      };
+      let pressedOutside = false;
+      dlg.addEventListener('pointerdown', (e) => { pressedOutside = outside(e); });
+      dlg.addEventListener('pointerup', (e) => { if (pressedOutside && outside(e)) dlg.close(); });
+    }
+
+    return dlg;
+  }
+
+  function openInlineCalendarModal(presetUrl) {
+    const dlg = ensureCalendarDialog();
+    const frameEl = document.getElementById('pia-cal-iframe');
+    const resolvedBase = (presetUrl && presetUrl.indexOf('widget/booking') !== -1) ? presetUrl : CAL_DIAGNOSTICO_URL;
+    if (frameEl) {
+      frameEl.src = buildCalendarBookingUrl(resolvedBase);
+    }
+    dlg.querySelectorAll('button[data-cal-url]').forEach((b) => {
+      const isMatch = b.getAttribute('data-cal-url') === resolvedBase;
+      b.classList.toggle('is-active', isMatch);
+    });
+    if (typeof dlg.showModal === 'function' && !dlg.open) {
+      dlg.showModal();
+    }
+  }
+
   function buildCtasHtml(ctas) {
     if (!ctas || typeof ctas !== 'object') return '';
     const sourceObj = (ctas.temas && typeof ctas.temas === 'object') ? ctas.temas : ctas;
@@ -344,15 +580,31 @@
       if (typeof val === 'string' && (val.startsWith('http://') || val.startsWith('https://') || val.startsWith('/'))) {
         if (key !== 'default' && key !== 'temas' && !seen.has(val)) {
           seen.add(val);
-          const label = key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' ');
-          const targetAttr = isInternalProsperiaUrl(val) ? '' : ' target="_blank" rel="noopener"';
-          links.push(`<a class="pia-cta-pill" href="${val}"${targetAttr}><span>${label}</span><span>→</span></a>`);
+          let label = key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' ').trim();
+          if (label.length > 48 || /caja\s*1:/i.test(label)) {
+            label = '📅 Agendar Demostración en Vivo';
+          }
+          const isBookingModal = val.indexOf('widget/booking') !== -1 || val.indexOf('/#contacto') !== -1;
+          const modalCls = isBookingModal ? ' pia-cta-booking' : '';
+          const targetAttr = (!isBookingModal && !isInternalProsperiaUrl(val)) ? ' target="_blank" rel="noopener"' : '';
+          links.push(`<a class="pia-cta-pill${modalCls}" href="${val}"${targetAttr}><span>${label}</span><span>→</span></a>`);
         }
       }
     });
 
     if (!links.length) return '';
     return `<div class="pia-ctas-wrap">${links.join('')}</div>`;
+  }
+
+  function bindBookingCtaHandlers(containerEl, onBeforeOpen) {
+    if (!containerEl) return;
+    containerEl.querySelectorAll('.pia-cta-booking').forEach((aEl) => {
+      aEl.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        if (typeof onBeforeOpen === 'function') onBeforeOpen();
+        openInlineCalendarModal(aEl.getAttribute('href') || '');
+      });
+    });
   }
 
   function saveFusionHistory(role, text, ctas) {
@@ -496,6 +748,7 @@
 
     async function runVoiceQuery(questionText) {
       if (!questionText) return;
+      captureLeadContext(questionText);
       card.classList.remove('is-listening');
       statusTxt.textContent = 'Consultando al Asesor Comercial conectado al CRM...';
       transcript.innerHTML = `<div style="color:#93c5fd; margin-bottom:4px;"><strong>Tú:</strong> ${formatRichHtml(questionText)}</div><div><em>Escribiendo respuesta...</em></div>`;
@@ -505,6 +758,7 @@
         `<div style="color:#93c5fd; margin-bottom:4px;"><strong>Tú:</strong> ${formatRichHtml(questionText)}</div>` +
         `<div style="color:#ecfdf5;"><strong>Asistente IA:</strong> ${formatRichHtml(res.reply)}</div>` +
         buildCtasHtml(res.ctas);
+      bindBookingCtaHandlers(transcript);
       statusTxt.textContent = 'Respondiendo en vivo...';
       stopBtn.hidden = false;
       card.classList.add('is-speaking');
@@ -619,13 +873,14 @@
         <button type="submit" aria-label="Enviar mensaje" style="background:#f59e0b; color:#090d16; border:0; border-radius:10px; padding:9px 13px; font-weight:800; cursor:pointer; flex-shrink:0;">Enviar</button>
       </form>
       <div class="pia-cp-actions">
-        <a href="/sitiosweb" id="pia-cp-cal-link" style="background:rgba(245,158,11,0.16); border:1px solid rgba(251,191,36,0.45); color:#fde68a;">📅 Agendar Cita</a>
-        <a href="${WA_URL}" target="_blank" rel="noopener" style="background:rgba(16,185,129,0.18); border:1px solid rgba(52,211,153,0.45); color:#d1fae5;">💬 WhatsApp Directo</a>
+        <a href="${CAL_DIAGNOSTICO_URL}" id="pia-cp-cal-link" style="background:rgba(245,158,11,0.16); border:1px solid rgba(251,191,36,0.45); color:#fde68a;">📅 Agendar Cita</a>
+        <a href="${WA_URL}" id="pia-cp-wa-link" target="_blank" rel="noopener" style="background:rgba(16,185,129,0.18); border:1px solid rgba(52,211,153,0.45); color:#d1fae5;">💬 WhatsApp Directo</a>
       </div>
     `;
 
     document.body.appendChild(btn);
     document.body.appendChild(panel);
+    syncDirectWaUrl();
 
     const msgsBox = document.getElementById('pia-cp-messages');
     const closeBtn = document.getElementById('pia-cp-close');
@@ -639,6 +894,7 @@
       const div = document.createElement('div');
       div.className = role === 'user' ? 'pia-msg-user' : 'pia-msg-bot';
       div.innerHTML = formatRichHtml(text) + (role === 'bot' ? buildCtasHtml(ctas) : '');
+      bindBookingCtaHandlers(div, () => setOpen(false));
       msgsBox.appendChild(div);
       msgsBox.scrollTop = msgsBox.scrollHeight;
       return div;
@@ -671,13 +927,24 @@
       if (e.key === 'Escape' && panel.classList.contains('is-open')) setOpen(false);
     });
     if (calLink) {
-      calLink.addEventListener('click', () => setOpen(false));
+      calLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        setOpen(false);
+        openInlineCalendarModal(CAL_DIAGNOSTICO_URL);
+      });
     }
 
     resetBtn.addEventListener('click', () => {
       try {
         if ('speechSynthesis' in window) window.speechSynthesis.cancel();
         sessionStorage.removeItem(HISTORY_KEY);
+        sessionStorage.removeItem(LEAD_DRAFT_KEY);
+        leadDraft.name = '';
+        leadDraft.email = '';
+        leadDraft.phone = '';
+        leadDraft.company = '';
+        leadDraft.lastMsg = '';
+        syncDirectWaUrl();
         sessionId = createSessionId();
         sessionStorage.setItem(SESSION_KEY, sessionId);
       } catch (e) {}
@@ -687,12 +954,14 @@
 
     async function sendChatMsg(txt, speakReply = false) {
       if (!txt) return;
+      captureLeadContext(txt);
       appendBubble('user', txt);
       saveFusionHistory('user', txt);
 
       const bDiv = appendBubble('bot', 'Escribiendo...');
       const res = await askAssistant(txt, speakReply ? 'voice' : 'chat');
       bDiv.innerHTML = formatRichHtml(res.reply) + buildCtasHtml(res.ctas);
+      bindBookingCtaHandlers(bDiv, () => setOpen(false));
       msgsBox.scrollTop = msgsBox.scrollHeight;
       saveFusionHistory('bot', res.reply, res.ctas);
 
