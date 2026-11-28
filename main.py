@@ -5311,20 +5311,25 @@ async def api_dfw_event_vip_register(
             )
 
         meta = _extract_dfw_meta(target_lead.notes or "")
+        prev_followed_meta = meta.get("followed_handles") if isinstance(meta.get("followed_handles"), list) else []
+        was_complete = len(prev_followed_meta) >= len(_DFW_VIP_ACCOUNTS)
+
         merged_followed = list(cleaned_followed)
-        if not merged_followed and isinstance(meta.get("followed_handles"), list):
-            merged_followed = [str(x) for x in meta.get("followed_handles")]
+        if not merged_followed and prev_followed_meta:
+            merged_followed = [str(x) for x in prev_followed_meta]
         vip_code = str(meta.get("vip_code") or target_lead.contact_permission or code_in).strip()
         lead_ig = str(meta.get("instagram") or ig_clean or "").strip()
         lead_name = target_lead.full_name or target_lead.name or "Invitado VIP"
+        lead_email = target_lead.email or email_clean
+        lead_phone = target_lead.phone_e164 or target_lead.phone or phone_raw
 
-        target_lead.interest_primary = f"VIP Ed. {edition} · IG {len(merged_followed)}/6"
-        target_lead.pipeline_stage = "IG Completo + VIP" if len(merged_followed) >= 6 else "Registro VIP Ed. 15"
-        target_lead.score = 90 + min(len(merged_followed), 6) * 2
+        target_lead.interest_primary = f"VIP Ed. {edition} · IG {len(merged_followed)}/{len(_DFW_VIP_ACCOUNTS)}"
+        target_lead.pipeline_stage = "IG Completo + VIP" if len(merged_followed) >= len(_DFW_VIP_ACCOUNTS) else "Registro VIP Ed. 15"
+        target_lead.score = 90 + min(len(merged_followed), len(_DFW_VIP_ACCOUNTS)) * 2
         target_lead.notes = _format_dfw_event_note(
             full_name=lead_name,
-            email=target_lead.email or email_clean,
-            phone=target_lead.phone_e164 or target_lead.phone or phone_raw,
+            email=lead_email,
+            phone=lead_phone,
             ig_handle=lead_ig,
             vip_code=vip_code,
             edition=edition,
@@ -5332,6 +5337,71 @@ async def api_dfw_event_vip_register(
             created_at=target_lead.created_at or created_at,
         )
         db.commit()
+
+        should_send_pass = (
+            len(merged_followed) >= len(_DFW_VIP_ACCOUNTS) and (not was_complete or bool(payload.get("send_email")))
+        ) or (payload.get("send_email") is True)
+        if should_send_pass and lead_email and vip_code:
+            background_tasks.add_task(
+                send_dfw_vip_pass_email,
+                name=lead_name,
+                email=lead_email,
+                vip_code=vip_code,
+                ig_handle=lead_ig,
+                phone=lead_phone,
+            )
+
+        wa_url = _build_dfw_whatsapp_url(lead_name, vip_code, lead_ig, lead_email or "")
+        return JSONResponse(
+            {
+                "ok": True,
+                "success": True,
+                "code": vip_code,
+                "lead_id": target_lead.id,
+                "followed_handles": merged_followed,
+                "followed_count": len(merged_followed),
+                "total_accounts": len(_DFW_VIP_ACCOUNTS),
+                "unlocked": len(merged_followed) >= len(_DFW_VIP_ACCOUNTS),
+                "whatsapp_url": wa_url,
+            },
+            headers=_DFW_CORS_HEADERS,
+        )
+
+    if not full_name:
+        return JSONResponse(
+            status_code=400,
+            content={"ok": False, "success": False, "error": "Ingresa tu nombre completo para generar tu Pase VIP."},
+            headers=_DFW_CORS_HEADERS,
+        )
+    if not email_clean or "@" not in email_clean:
+        return JSONResponse(
+            status_code=400,
+            content={"ok": False, "success": False, "error": "Ingresa un correo electrónico válido para enviarte tu Pase VIP."},
+            headers=_DFW_CORS_HEADERS,
+        )
+    if not phone_e164 and not phone_raw:
+        return JSONResponse(
+            status_code=400,
+            content={"ok": False, "success": False, "error": "Ingresa tu número de WhatsApp para confirmar tu invitación."},
+            headers=_DFW_CORS_HEADERS,
+        )
+
+    existing = (
+        db.query(DbLead)
+        .filter(DbLead.niche == "doralfashionweek", func.lower(DbLead.email) == email_clean)
+        .order_by(DbLead.id.desc())
+        .first()
+    )
+    if not existing and phone_e164:
+        existing = (
+            db.query(DbLead)
+            .filter(DbLead.niche == "doralfashionweek", DbLead.phone_e164 == phone_e164)
+            .order_by(DbLead.id.desc())
+            .first()
+        )
+
+    prev_meta = _extract_dfw_meta(existing.notes or "") if existing else {}
+    vip_code = str(prev_meta.get("vip_code") or "").strip()
     if not vip_code and existing and str(existing.contact_permission or "").startswith("DFW-"):
         vip_code = str(existing.contact_permission).strip()
     if not vip_code:
