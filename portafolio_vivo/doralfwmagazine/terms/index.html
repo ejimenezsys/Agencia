@@ -1,0 +1,131 @@
+<!DOCTYPE html><html lang="es"><head>
+<script id="dfw-static-shim">
+(function () {
+  var INTERNAL_ROUTES = {
+    "/": true,
+    "/event": true,
+    "/apply/designer": true,
+    "/apply/makeup": true,
+    "/apply/model": true,
+    "/apply/photographer": true,
+    "/apply/staff": true,
+    "/privacy": true,
+    "/terms": true,
+    "/magazine": true,
+    "/magazine/1": true,
+    "/magazine/2": true,
+    "/magazine/3": true,
+    "/magazine/4": true,
+    "/magazine/5": true,
+    "/magazine/6": true,
+    "/magazine/7": true,
+    "/magazine/8": true,
+    "/magazine/9": true,
+    "/magazine/10": true,
+    "/purchase/physical": true,
+    "/login": true,
+    "/register": true
+  };
+  var p = window.location.pathname || "/";
+  var isPortfolio = p.indexOf("/portafolio-vivo/doralfwmagazine") === 0;
+  var basePrefix = isPortfolio ? "/portafolio-vivo/doralfwmagazine" : "";
+  var normalized = isPortfolio ? (p.slice(basePrefix.length) || "/") : p;
+  if (normalized.length > 1 && normalized.charAt(normalized.length - 1) === "/") {
+    normalized = normalized.slice(0, -1);
+  }
+  if (normalized !== p && INTERNAL_ROUTES[normalized]) {
+    try {
+      window.history.replaceState(null, "", normalized + window.location.search + window.location.hash);
+    } catch (e) {}
+  }
+
+  document.addEventListener("click", function (ev) {
+    var a = ev.target && ev.target.closest ? ev.target.closest("a[href]") : null;
+    if (!a) return;
+    var rawHref = a.getAttribute("href") || "";
+    if (!rawHref.startsWith("/") || rawHref.startsWith("/#")) return;
+    var parts = rawHref.split("#");
+    var pathAndQuery = parts[0];
+    var hash = parts[1] ? "#" + parts[1] : "";
+    var pqParts = pathAndQuery.split("?");
+    var cleanPath = pqParts[0];
+    var query = pqParts[1] ? "?" + pqParts[1] : "";
+    if (cleanPath.length > 1 && cleanPath.endsWith("/")) cleanPath = cleanPath.slice(0, -1);
+    if (INTERNAL_ROUTES[cleanPath]) {
+      ev.preventDefault();
+      ev.stopPropagation();
+      var target = basePrefix + (cleanPath === "/" ? "/" : cleanPath + "/") + query + hash;
+      window.location.href = target;
+    }
+  }, true);
+
+  var origFetch = window.fetch;
+  if (typeof origFetch === "function") {
+    window.fetch = function (input, init) {
+      var url = typeof input === "string" ? input : (input && input.url ? input.url : "");
+      if (url && (url === "/api/forms/submit" || url.endsWith("/api/forms/submit"))) {
+        return origFetch.call(this, "https://agenciaprosperia.com/api/doralfashionweek/forms/submit", init);
+      }
+      return origFetch.apply(this, arguments);
+    };
+  }
+})();
+</script><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" href="/logo/logo doral FW.png" as="image"/><link rel="stylesheet" href="/_next/static/chunks/0hrpj5~38coev.css" data-precedence="next"/><link rel="preload" as="script" fetchPriority="low" href="/_next/static/chunks/0u9avk-n552m2.js"/><script src="/_next/static/chunks/08~mdtbzo3wns.js" async=""></script><script src="/_next/static/chunks/0ykblk.o3k9.4.js" async=""></script><script src="/_next/static/chunks/163kczp_1fhrg.js" async=""></script><script src="/_next/static/chunks/turbopack-0fadbk_nffzl7.js" async=""></script><script src="/_next/static/chunks/01xlw8hd842-c.js" async=""></script><script src="/_next/static/chunks/0eewamb49pw7k.js" async=""></script><script src="/_next/static/chunks/05j62z02hzh1t.js" async=""></script><title>Terms &amp; Conditions | Doral Fashion Week</title><meta name="description" content="Official terms and conditions governing participation, admissions, and digital platforms of Doral Fashion Week."/><link rel="icon" href="/logo/logo doral FW.png"/><script src="/_next/static/chunks/03~yq9q893hmn.js" noModule=""></script><meta property="og:type" content="website"/>
+<meta property="og:site_name" content="Doral Fashion Week"/>
+<meta property="og:title" content="Doral Fashion Week | Luxury Runway, Designers &amp; VIP Hospitality"/>
+<meta property="og:description" content="Official platform for Doral Fashion Week in Miami/Doral, FL. Corporate Sponsorships, International Designers Runway, Talent Casting &amp; DFW Magazine."/>
+<meta property="og:url" content="https://www.doralfwmagazine.com/"/>
+<meta property="og:image" content="https://www.doralfwmagazine.com/logo/logo%20doral%20FW.png"/>
+<link rel="stylesheet" href="/dfw-power-upgrade.css?v=20261119"/>
+<script defer src="/dfw-power-upgrade.js?v=20261119"></script>
+<script type="application/ld+json" id="dfw-schema-ld">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "name": "Doral Fashion Week",
+      "url": "https://www.doralfwmagazine.com/",
+      "logo": "https://www.doralfwmagazine.com/logo/logo%20doral%20FW.png",
+      "email": "info@doralfashionweek.com",
+      "telephone": "+1-786-647-5982",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "4805 NW 79th Ave #3",
+        "addressLocality": "Doral",
+        "addressRegion": "FL",
+        "postalCode": "33166",
+        "addressCountry": "US"
+      },
+      "sameAs": [
+        "/magazine",
+        "https://idoljoseofficial.com",
+        "https://idoljosegroupcorp.com",
+        "https://doralbusinesscity.com"
+      ]
+    },
+    {
+      "@type": "Event",
+      "name": "Doral Fashion Week",
+      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "location": {
+        "@type": "Place",
+        "name": "Doral Business Center",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "4805 NW 79th Ave #3",
+          "addressLocality": "Doral",
+          "addressRegion": "FL",
+          "postalCode": "33166",
+          "addressCountry": "US"
+        }
+      },
+      "organizer": {
+        "@type": "Organization",
+        "name": "Idol Jose Group Corp",
+        "url": "https://idoljosegroupcorp.com/"
+      }
+    }
+  ]
+}
+</script></head><body class="relative min-h-screen bg-[#020202] text-white overflow-x-hidden"><div hidden=""><!--$--><!--/$--></div><div class="absolute top-[-5%] right-[-10%] w-[350px] md:w-[600px] h-[350px] md:h-[600px] bg-[var(--accent)]/15 rounded-full blur-[100px] md:blur-[140px] pointer-events-none z-0"></div><div class="absolute top-[25%] left-[-15%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-[var(--accent)]/10 rounded-full blur-[100px] md:blur-[130px] pointer-events-none z-0"></div><div class="absolute top-[50%] right-[-5%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-white/[0.025] rounded-full blur-[100px] md:blur-[130px] pointer-events-none z-0"></div><div class="absolute bottom-[10%] left-[-10%] w-[350px] md:w-[600px] h-[350px] md:h-[600px] bg-[var(--accent)]/12 rounded-full blur-[100px] md:blur-[140px] pointer-events-none z-0"></div><div class="relative z-10 w-full min-h-screen"><main class="bg-black min-h-screen relative pb-24 text-white"><nav><div class="nav-col-left"><a href="/#home">Home</a><a href="/#applications">Applications</a></div><div class="logo"><a href="/"><img src="/logo/logo doral FW.png" alt="Doral Fashion Week Logo"/></a></div><div class="nav-col-right"><a href="/#about">About</a><a href="/#editions">Editions</a><a href="/#magazine">MAGAZINE</a></div></nav><section class="relative w-full h-[40vh] flex items-center justify-center overflow-hidden border-b border-white/10"><div class="absolute inset-0 bg-gradient-to-b from-neutral-900/50 to-black z-0"></div><div class="relative z-10 text-center px-4 mt-20"><span class="text-[10px] tracking-[0.4em] font-mono text-accent uppercase block mb-4">Legal Framework</span><h1 class="text-3xl md:text-5xl lg:text-6xl font-heading text-white tracking-wide uppercase leading-none">Terms &amp; Conditions</h1><div class="w-12 h-[1px] bg-accent mx-auto mt-6"></div></div></section><section class="container max-w-3xl px-6 md:px-8 mt-16 relative z-10"><div class="prose prose-invert max-w-none font-body text-sm md:text-base leading-relaxed text-white/70 space-y-8 text-justify"><div><h2 class="font-heading text-xl md:text-2xl text-accent uppercase tracking-wider mb-4">1. Scope and Acceptance</h2><p>By accessing, browsing, or using the platforms, websites, or registering for any Doral Fashion Week event, you agree to comply with and be bound by these Terms and Conditions. These terms apply to all visitors, applicants, designers, models, staff, and partners. If you disagree with any part of these terms, you must cease all usage of our digital assets and event portals immediately.</p></div><div><h2 class="font-heading text-xl md:text-2xl text-accent uppercase tracking-wider mb-4">2. Application and Intake Protocol</h2><p>Submitting an application through our portals does not guarantee admission or selection for Doral Fashion Week. All entries are subject to review by the Executive Committee. Candidates are required to provide accurate, current, and complete details. Providing false information (including fake measurements, credentials, or documentation) will result in immediate disqualification and termination of any associated agreements.</p></div><div><h2 class="font-heading text-xl md:text-2xl text-accent uppercase tracking-wider mb-4">3. Fees and Financial Disclosures</h2><p>Certain application tiers or event credentials may require processing fees or reservation deposits. Unless explicitly stated otherwise in a separate signed contract, all fees, ticket purchases, registration deposits, and payments are strictly <strong>non-refundable</strong>. LA COMPAÑÍA does not issue refunds, credits, or transfers under any circumstances, including event rescheduling, cancellation due to force majeure, or candidate withdrawals.</p></div><div><h2 class="font-heading text-xl md:text-2xl text-accent uppercase tracking-wider mb-4">4. Intellectual Property &amp; Image Rights</h2><p>By attending or participating in Doral Fashion Week, models, designers, volunteers, and staff grant DFW and its parent organizations an irrevocable, worldwide, perpetual, royalty-free license to use, reproduce, broadcast, edit, and distribute their likeness, voice, photos, and video recordings in any medium for marketing, commercial, and promotional activities. All materials captured by our media crews are considered &quot;Work-for-Hire&quot; and remain the exclusive property of DFW.</p></div><div><h2 class="font-heading text-xl md:text-2xl text-accent uppercase tracking-wider mb-4">5. Code of Conduct and NDA</h2><p>Participants must conduct themselves with professionalism at all times. Any form of harassment, discrimination, or behavior that tarnishes the brand reputation of Doral Fashion Week will lead to immediate expulsion from the runway and venues. Furthermore, participants agree to sign and abide by Non-Disclosure Agreements (NDA) regarding logistical details, stage layouts, designer schedules, and backstage protocols. Breach of confidentiality will subject the offending party to legal damages.</p></div><div><h2 class="font-heading text-xl md:text-2xl text-accent uppercase tracking-wider mb-4">6. Limitation of Liability</h2><p>Under no circumstances shall Doral Fashion Week, its organizers, directors, employees, sponsors, or affiliates be liable for any direct, indirect, incidental, or consequential damages resulting from participation in the event, equipment damage (including professional camera gear), personal injury, or travel delays. All participants take part in the event at their own risk and are encouraged to secure independent liability and health coverage.</p></div><div><h2 class="font-heading text-xl md:text-2xl text-accent uppercase tracking-wider mb-4">7. Governing Law</h2><p>These Terms and Conditions are governed by and construed in accordance with the laws of the State of Florida, United States, without regard to its conflict of law principles. Any legal disputes or claims arising out of these terms or event participation shall be resolved exclusively in the state or federal courts located in Miami-Dade County, Florida.</p></div><div class="pt-8 border-t border-white/10 text-xs font-mono opacity-50 text-center">Last Updated: July 2026 // Doral Fashion Week Legal Dept.</div></div></section></main><!--$--><!--/$--></div><script src="/_next/static/chunks/0u9avk-n552m2.js" id="_R_" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:\"$Sreact.fragment\"\n2:I[39756,[\"/_next/static/chunks/01xlw8hd842-c.js\",\"/_next/static/chunks/0eewamb49pw7k.js\"],\"default\"]\n3:I[37457,[\"/_next/static/chunks/01xlw8hd842-c.js\",\"/_next/static/chunks/0eewamb49pw7k.js\"],\"default\"]\n4:I[22016,[\"/_next/static/chunks/01xlw8hd842-c.js\",\"/_next/static/chunks/0eewamb49pw7k.js\",\"/_next/static/chunks/05j62z02hzh1t.js\"],\"\"]\nb:I[68027,[\"/_next/static/chunks/01xlw8hd842-c.js\",\"/_next/static/chunks/0eewamb49pw7k.js\"],\"default\",1]\n:HL[\"/_next/static/chunks/0hrpj5~38coev.css\",\"style\"]\n:HL[\"/logo/logo doral FW.png\",\"image\"]\n"])</script><script>self.__next_f.push([1,"0:{\"P\":null,\"c\":[\"\",\"terms\"],\"q\":\"\",\"i\":false,\"f\":[[[\"\",{\"children\":[\"terms\",{\"children\":[\"__PAGE__\",{}]}]},\"$undefined\",\"$undefined\",16],[[\"$\",\"$1\",\"c\",{\"children\":[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/chunks/0hrpj5~38coev.css\",\"precedence\":\"next\",\"crossOrigin\":\"$undefined\",\"nonce\":\"$undefined\"}],[\"$\",\"script\",\"script-0\",{\"src\":\"/_next/static/chunks/01xlw8hd842-c.js\",\"async\":true,\"nonce\":\"$undefined\"}],[\"$\",\"script\",\"script-1\",{\"src\":\"/_next/static/chunks/0eewamb49pw7k.js\",\"async\":true,\"nonce\":\"$undefined\"}]],[\"$\",\"html\",null,{\"lang\":\"es\",\"children\":[\"$\",\"body\",null,{\"className\":\"relative min-h-screen bg-[#020202] text-white overflow-x-hidden\",\"children\":[[\"$\",\"div\",null,{\"className\":\"absolute top-[-5%] right-[-10%] w-[350px] md:w-[600px] h-[350px] md:h-[600px] bg-[var(--accent)]/15 rounded-full blur-[100px] md:blur-[140px] pointer-events-none z-0\"}],[\"$\",\"div\",null,{\"className\":\"absolute top-[25%] left-[-15%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-[var(--accent)]/10 rounded-full blur-[100px] md:blur-[130px] pointer-events-none z-0\"}],[\"$\",\"div\",null,{\"className\":\"absolute top-[50%] right-[-5%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-white/[0.025] rounded-full blur-[100px] md:blur-[130px] pointer-events-none z-0\"}],[\"$\",\"div\",null,{\"className\":\"absolute bottom-[10%] left-[-10%] w-[350px] md:w-[600px] h-[350px] md:h-[600px] bg-[var(--accent)]/12 rounded-full blur-[100px] md:blur-[140px] pointer-events-none z-0\"}],[\"$\",\"div\",null,{\"className\":\"relative z-10 w-full min-h-screen\",\"children\":[\"$\",\"$L2\",null,{\"parallelRouterKey\":\"children\",\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L3\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":[[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":404}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],[]],\"forbidden\":\"$undefined\",\"unauthorized\":\"$undefined\"}]}]]}]}]]}],{\"children\":[[\"$\",\"$1\",\"c\",{\"children\":[null,[\"$\",\"$L2\",null,{\"parallelRouterKey\":\"children\",\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L3\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":\"$undefined\",\"forbidden\":\"$undefined\",\"unauthorized\":\"$undefined\"}]]}],{\"children\":[[\"$\",\"$1\",\"c\",{\"children\":[[\"$\",\"main\",null,{\"className\":\"bg-black min-h-screen relative pb-24 text-white\",\"children\":[[\"$\",\"nav\",null,{\"children\":[[\"$\",\"div\",null,{\"className\":\"nav-col-left\",\"children\":[[\"$\",\"$L4\",null,{\"href\":\"/#home\",\"children\":\"Home\"}],[\"$\",\"$L4\",null,{\"href\":\"/#applications\",\"children\":\"Applications\"}]]}],[\"$\",\"div\",null,{\"className\":\"logo\",\"children\":[\"$\",\"$L4\",null,{\"href\":\"/\",\"children\":[\"$\",\"img\",null,{\"src\":\"/logo/logo doral FW.png\",\"alt\":\"Doral Fashion Week Logo\"}]}]}],[\"$\",\"div\",null,{\"className\":\"nav-col-right\",\"children\":[[\"$\",\"$L4\",null,{\"href\":\"/#about\",\"children\":\"About\"}],[\"$\",\"$L4\",null,{\"href\":\"/#editions\",\"children\":\"Editions\"}],[\"$\",\"$L4\",null,{\"href\":\"/#magazine\",\"children\":\"MAGAZINE\"}]]}]]}],[\"$\",\"section\",null,{\"className\":\"relative w-full h-[40vh] flex items-center justify-center overflow-hidden border-b border-white/10\",\"children\":[[\"$\",\"div\",null,{\"className\":\"absolute inset-0 bg-gradient-to-b from-neutral-900/50 to-black z-0\"}],[\"$\",\"div\",null,{\"className\":\"relative z-10 text-center px-4 mt-20\",\"children\":[[\"$\",\"span\",null,{\"className\":\"text-[10px] tracking-[0.4em] font-mono text-accent uppercase block mb-4\",\"children\":\"Legal Framework\"}],[\"$\",\"h1\",null,{\"className\":\"text-3xl md:text-5xl lg:text-6xl font-heading text-white tracking-wide uppercase leading-none\",\"children\":\"Terms \u0026 Conditions\"}],\"$L5\"]}]]}],\"$L6\"]}],[\"$L7\"],\"$L8\"]}],{},null,false,null]},null,false,\"$@9\"]},null,false,null],\"$La\",false]],\"m\":\"$undefined\",\"G\":[\"$b\",[\"$Lc\"]],\"S\":true,\"h\":null,\"s\":\"$undefined\",\"l\":\"$undefined\",\"p\":\"$undefined\",\"d\":\"$undefined\",\"b\":\"8nVzi5jLewFKTWX_eZB5c\"}\n"])</script><script>self.__next_f.push([1,"10:I[97367,[\"/_next/static/chunks/01xlw8hd842-c.js\",\"/_next/static/chunks/0eewamb49pw7k.js\"],\"OutletBoundary\"]\n11:\"$Sreact.suspense\"\n14:I[97367,[\"/_next/static/chunks/01xlw8hd842-c.js\",\"/_next/static/chunks/0eewamb49pw7k.js\"],\"ViewportBoundary\"]\n16:I[97367,[\"/_next/static/chunks/01xlw8hd842-c.js\",\"/_next/static/chunks/0eewamb49pw7k.js\"],\"MetadataBoundary\"]\n5:[\"$\",\"div\",null,{\"className\":\"w-12 h-[1px] bg-accent mx-auto mt-6\"}]\n"])</script><script>self.__next_f.push([1,"6:[\"$\",\"section\",null,{\"className\":\"container max-w-3xl px-6 md:px-8 mt-16 relative z-10\",\"children\":[\"$\",\"div\",null,{\"className\":\"prose prose-invert max-w-none font-body text-sm md:text-base leading-relaxed text-white/70 space-y-8 text-justify\",\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h2\",null,{\"className\":\"font-heading text-xl md:text-2xl text-accent uppercase tracking-wider mb-4\",\"children\":\"1. Scope and Acceptance\"}],[\"$\",\"p\",null,{\"children\":\"By accessing, browsing, or using the platforms, websites, or registering for any Doral Fashion Week event, you agree to comply with and be bound by these Terms and Conditions. These terms apply to all visitors, applicants, designers, models, staff, and partners. If you disagree with any part of these terms, you must cease all usage of our digital assets and event portals immediately.\"}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h2\",null,{\"className\":\"font-heading text-xl md:text-2xl text-accent uppercase tracking-wider mb-4\",\"children\":\"2. Application and Intake Protocol\"}],[\"$\",\"p\",null,{\"children\":\"Submitting an application through our portals does not guarantee admission or selection for Doral Fashion Week. All entries are subject to review by the Executive Committee. Candidates are required to provide accurate, current, and complete details. Providing false information (including fake measurements, credentials, or documentation) will result in immediate disqualification and termination of any associated agreements.\"}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h2\",null,{\"className\":\"font-heading text-xl md:text-2xl text-accent uppercase tracking-wider mb-4\",\"children\":\"3. Fees and Financial Disclosures\"}],[\"$\",\"p\",null,{\"children\":[\"Certain application tiers or event credentials may require processing fees or reservation deposits. Unless explicitly stated otherwise in a separate signed contract, all fees, ticket purchases, registration deposits, and payments are strictly \",[\"$\",\"strong\",null,{\"children\":\"non-refundable\"}],\". LA COMPAÑÍA does not issue refunds, credits, or transfers under any circumstances, including event rescheduling, cancellation due to force majeure, or candidate withdrawals.\"]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h2\",null,{\"className\":\"font-heading text-xl md:text-2xl text-accent uppercase tracking-wider mb-4\",\"children\":\"4. Intellectual Property \u0026 Image Rights\"}],[\"$\",\"p\",null,{\"children\":\"By attending or participating in Doral Fashion Week, models, designers, volunteers, and staff grant DFW and its parent organizations an irrevocable, worldwide, perpetual, royalty-free license to use, reproduce, broadcast, edit, and distribute their likeness, voice, photos, and video recordings in any medium for marketing, commercial, and promotional activities. All materials captured by our media crews are considered \\\"Work-for-Hire\\\" and remain the exclusive property of DFW.\"}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h2\",null,{\"className\":\"font-heading text-xl md:text-2xl text-accent uppercase tracking-wider mb-4\",\"children\":\"5. Code of Conduct and NDA\"}],[\"$\",\"p\",null,{\"children\":\"Participants must conduct themselves with professionalism at all times. Any form of harassment, discrimination, or behavior that tarnishes the brand reputation of Doral Fashion Week will lead to immediate expulsion from the runway and venues. Furthermore, participants agree to sign and abide by Non-Disclosure Agreements (NDA) regarding logistical details, stage layouts, designer schedules, and backstage protocols. Breach of confidentiality will subject the offending party to legal damages.\"}]]}],\"$Ld\",\"$Le\",\"$Lf\"]}]}]\n"])</script><script>self.__next_f.push([1,"7:[\"$\",\"script\",\"script-0\",{\"src\":\"/_next/static/chunks/05j62z02hzh1t.js\",\"async\":true,\"nonce\":\"$undefined\"}]\n8:[\"$\",\"$L10\",null,{\"children\":[\"$\",\"$11\",null,{\"name\":\"Next.MetadataOutlet\",\"children\":\"$@12\"}]}]\n13:[]\n9:\"$W13\"\na:[\"$\",\"$1\",\"h\",{\"children\":[null,[\"$\",\"$L14\",null,{\"children\":\"$L15\"}],[\"$\",\"div\",null,{\"hidden\":true,\"children\":[\"$\",\"$L16\",null,{\"children\":[\"$\",\"$11\",null,{\"name\":\"Next.Metadata\",\"children\":\"$L17\"}]}]}],null]}]\nc:[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/chunks/0hrpj5~38coev.css\",\"precedence\":\"next\",\"crossOrigin\":\"$undefined\",\"nonce\":\"$undefined\"}]\n"])</script><script>self.__next_f.push([1,"d:[\"$\",\"div\",null,{\"children\":[[\"$\",\"h2\",null,{\"className\":\"font-heading text-xl md:text-2xl text-accent uppercase tracking-wider mb-4\",\"children\":\"6. Limitation of Liability\"}],[\"$\",\"p\",null,{\"children\":\"Under no circumstances shall Doral Fashion Week, its organizers, directors, employees, sponsors, or affiliates be liable for any direct, indirect, incidental, or consequential damages resulting from participation in the event, equipment damage (including professional camera gear), personal injury, or travel delays. All participants take part in the event at their own risk and are encouraged to secure independent liability and health coverage.\"}]]}]\ne:[\"$\",\"div\",null,{\"children\":[[\"$\",\"h2\",null,{\"className\":\"font-heading text-xl md:text-2xl text-accent uppercase tracking-wider mb-4\",\"children\":\"7. Governing Law\"}],[\"$\",\"p\",null,{\"children\":\"These Terms and Conditions are governed by and construed in accordance with the laws of the State of Florida, United States, without regard to its conflict of law principles. Any legal disputes or claims arising out of these terms or event participation shall be resolved exclusively in the state or federal courts located in Miami-Dade County, Florida.\"}]]}]\nf:[\"$\",\"div\",null,{\"className\":\"pt-8 border-t border-white/10 text-xs font-mono opacity-50 text-center\",\"children\":\"Last Updated: July 2026 // Doral Fashion Week Legal Dept.\"}]\n"])</script><script>self.__next_f.push([1,"15:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"meta\",\"1\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}]]\n"])</script><script>self.__next_f.push([1,"18:I[27201,[\"/_next/static/chunks/01xlw8hd842-c.js\",\"/_next/static/chunks/0eewamb49pw7k.js\"],\"IconMark\"]\n12:null\n17:[[\"$\",\"title\",\"0\",{\"children\":\"Terms \u0026 Conditions | Doral Fashion Week\"}],[\"$\",\"meta\",\"1\",{\"name\":\"description\",\"content\":\"Official terms and conditions governing participation, admissions, and digital platforms of Doral Fashion Week.\"}],[\"$\",\"link\",\"2\",{\"rel\":\"icon\",\"href\":\"/logo/logo doral FW.png\"}],[\"$\",\"$L18\",\"3\",{}]]\n"])</script></body></html>

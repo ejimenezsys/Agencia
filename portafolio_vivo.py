@@ -62,6 +62,10 @@ STATIC_PORTFOLIO_MAP: Dict[str, Dict[str, Optional[str]]] = {
         "dir": _resolve_site_dir("doralfashionweek"),
         "fallback_url": "https://www.doralfashionweek.com/",
     },
+    "doralfwmagazine": {
+        "dir": _resolve_site_dir("doralfwmagazine"),
+        "fallback_url": "https://www.doralfwmagazine.com/",
+    },
 }
 
 BLANCOS_DIST_DIR = _resolve_site_dir("blancosgirasol", "proyecto-blancos-girasol", "dist")
@@ -99,7 +103,12 @@ def _inject_prosperia_return_bar(html_text: str) -> str:
     return html_text + bar_html
 
 
-def _serve_static_site_file(base_dir: str, prefix: str, subpath: str = ""):
+def _serve_static_site_file(
+    base_dir: str,
+    prefix: str,
+    subpath: str = "",
+    inject_portfolio_chrome: bool = True,
+):
     """Sirve index.html o un archivo estático seguro dentro de base_dir."""
     clean_sub = (subpath or "").lstrip("/")
     if not clean_sub:
@@ -110,13 +119,17 @@ def _serve_static_site_file(base_dir: str, prefix: str, subpath: str = ""):
         raise HTTPException(status_code=403, detail="Ruta no permitida.")
     if os.path.isdir(safe_target):
         safe_target = os.path.join(safe_target, "index.html")
+    elif not os.path.exists(safe_target) and os.path.exists(safe_target + ".html"):
+        safe_target = safe_target + ".html"
     if not os.path.exists(safe_target):
         raise HTTPException(status_code=404, detail="Archivo no encontrado en portafolio.")
     if safe_target.endswith(".html"):
         rel_dir = os.path.relpath(os.path.dirname(safe_target), base_abs).replace(os.sep, "/")
         dir_prefix = prefix if rel_dir in ("", ".") else f"{prefix}{rel_dir.strip('/')}/"
         with open(safe_target, "r", encoding="utf-8", errors="replace") as f:
-            content = _inject_base_href(f.read(), dir_prefix)
+            content = f.read()
+        if inject_portfolio_chrome:
+            content = _inject_base_href(content, dir_prefix)
             content = _inject_prosperia_return_bar(content)
         return HTMLResponse(content=content)
     return FileResponse(safe_target)

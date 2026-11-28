@@ -31,7 +31,7 @@ from beauty_growth_os import (
     _verify_bg_password,
     _serialize_bg_user,
 )
-from portafolio_vivo import setup_portafolio_vivo
+from portafolio_vivo import setup_portafolio_vivo, STATIC_PORTFOLIO_MAP, _serve_static_site_file
 import json
 import re
 import unicodedata
@@ -47,21 +47,60 @@ def feature_enabled(name: str) -> bool:
     return os.environ.get(name, "false").strip().lower() in {"1", "true", "yes", "on"}
 
 _I18N_SKIP_PREFIXES = ("/api/", "/static/", "/dashboard", "/login", "/closers", "/portafolio-vivo/", "/beautygrowth", "/crm-idol", "/doralfashionweek", "/event")
+_DFW_CUSTOM_HOSTS = {"doralfwmagazine.com", "www.doralfwmagazine.com"}
 
 
-# Cabeceras de seguridad HTTP + inyección universal del selector bilingüe ES/EN en páginas HTML públicas
-@app.middleware("http")
-async def add_security_headers(request: Request, call_next):
-    response = await call_next(request)
+def _apply_security_response_headers(response: Response) -> None:
     if "X-Frame-Options" in response.headers:
         del response.headers["X-Frame-Options"]
     response.headers["Content-Security-Policy"] = "frame-ancestors *"
     response.headers["X-Content-Type-Options"] = "nosniff"
     response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
 
+
+async def _serve_doralfwmagazine_host(request: Request, path: str) -> Optional[Response]:
+    """Despacha doralfwmagazine.com y www.doralfwmagazine.com cuando apuntan por DNS hacia Agencia."""
+    if request.method not in ("GET", "HEAD") or path.startswith(("/api/", "/crm-idol", "/static/")):
+        return None
+    if path in ("/event", "/event/"):
+        resp = await doralfashionweek_event_page(request)
+        _apply_security_response_headers(resp)
+        return resp
+    dfwm_dir = (STATIC_PORTFOLIO_MAP.get("doralfwmagazine") or {}).get("dir")
+    if not dfwm_dir or not os.path.isdir(dfwm_dir):
+        return None
+    if path == "/_next/image":
+        raw_img = urllib.parse.unquote(str(request.query_params.get("url") or "")).lstrip("/")
+        if raw_img:
+            try:
+                resp = _serve_static_site_file(dfwm_dir, "/", raw_img, inject_portfolio_chrome=False)
+                _apply_security_response_headers(resp)
+                return resp
+            except HTTPException:
+                return JSONResponse(status_code=404, content={"detail": "Image not found"})
+    try:
+        resp = _serve_static_site_file(dfwm_dir, "/", path, inject_portfolio_chrome=False)
+        _apply_security_response_headers(resp)
+        return resp
+    except HTTPException as exc:
+        return JSONResponse(status_code=exc.status_code, content={"detail": exc.detail})
+
+
+# Cabeceras de seguridad HTTP + inyección universal del selector bilingüe ES/EN en páginas HTML públicas
+@app.middleware("http")
+async def add_security_headers(request: Request, call_next):
+    host = (request.headers.get("host") or "").split(":")[0].strip().lower()
+    path = request.url.path or ""
+    if host in _DFW_CUSTOM_HOSTS:
+        custom_resp = await _serve_doralfwmagazine_host(request, path)
+        if custom_resp is not None:
+            return custom_resp
+
+    response = await call_next(request)
+    _apply_security_response_headers(response)
+
     ctype = (response.headers.get("content-type") or "").lower()
     cenc = (response.headers.get("content-encoding") or "").lower()
-    path = request.url.path or ""
     if (
         response.status_code == 200
         and request.method == "GET"
