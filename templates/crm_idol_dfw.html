@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRM Subcuenta IDOL JOSE · Doral FW Magazine 15.ª Edición</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #080709;
+      --surface: #131015;
+      --surface-soft: #1b161e;
+      --ivory: #f8f2eb;
+      --beige: #e4d6c7;
+      --muted: #a69990;
+      --blush: #f0b8c9;
+      --gold: #d4a373;
+      --cyan: #22d3ee;
+      --emerald: #10b981;
+      --amber: #f59e0b;
+      --danger: #fca5a5;
+      --border: rgba(255, 255, 255, 0.11);
+      --border-blush: rgba(240, 184, 201, 0.25);
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      background:
+        radial-gradient(circle at 10% 8%, rgba(240, 184, 201, 0.12), transparent 35%),
+        radial-gradient(circle at 88% 12%, rgba(212, 163, 115, 0.12), transparent 38%),
+        var(--bg);
+      color: var(--ivory);
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--blush);
+      outline-offset: 2px;
+    }
+
+    .hidden { display: none !important; }
+
+    .container {
+      max-width: 1260px;
+      margin: 0 auto;
+      padding: 24px 20px 60px;
+    }
+
+    /* LOGIN SCREEN */
+    .auth-wrap {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px 16px;
+    }
+
+    .auth-card {
+      width: 100%;
+      max-width: 440px;
+      background: linear-gradient(165deg, rgba(25, 19, 27, 0.98), rgba(13, 10, 15, 0.98));
+      border: 1px solid var(--border-blush);
+      border-radius: 22px;
+      padding: 28px 24px;
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.6);
+    }
+
+    .brand-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .brand-row img {
+      height: 36px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .badge-sub {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(240, 184, 201, 0.12);
+      border: 1px solid var(--border-blush);
+      color: var(--blush);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-family: var(--serif);
+      font-size: 2rem;
+      line-height: 1.1;
+      margin: 8px 0 6px;
+      color: #ffffff;
+    }
+
+    .sub {
+      font-size: 13.5px;
+      color: var(--muted);
+      margin: 0 0 20px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+
+    .field label {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--beige);
+    }
+
+    .field input {
+      font: inherit;
+      font-size: max(1rem, 1em);
+      min-height: 48px;
+      padding: 11px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(8, 7, 9, 0.85);
+      color: #ffffff;
+      width: 100%;
+    }
+
+    .pw-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .pw-wrap input { padding-right: 84px; }
+
+    .pw-toggle {
+      position: absolute;
+      right: 8px;
+      min-height: 34px;
+      padding: 0 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--ivory);
+      font: inherit;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 48px;
+      padding: 11px 18px;
+      border: 0;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #f3c4d3 0%, #d4a373 100%);
+      color: #160c10;
+      font: inherit;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 44px;
+      padding: 9px 14px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--ivory);
+      font: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .btn-wa {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 36px;
+      padding: 6px 11px;
+      border-radius: 9px;
+      background: rgba(16, 185, 129, 0.18);
+      border: 1px solid rgba(16, 185, 129, 0.45);
+      color: #6ee7b7;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .btn-mail {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 36px;
+      padding: 6px 11px;
+      border-radius: 9px;
+      background: rgba(212, 163, 115, 0.16);
+      border: 1px solid rgba(212, 163, 115, 0.4);
+      color: #fde68a;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .status-banner {
+      margin-top: 12px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      display: none;
+    }
+
+    .status-banner.is-error {
+      display: block;
+      background: rgba(239, 68, 68, 0.14);
+      border: 1px solid rgba(248, 113, 113, 0.45);
+      color: #fecaca;
+    }
+
+    .status-banner.is-ok {
+      display: block;
+      background: rgba(16, 185, 129, 0.14);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #a7f3d0;
+    }
+
+    /* CRM HEADER & KPIS */
+    .crm-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 22px;
+    }
+
+    .crm-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    @media (max-width: 900px) {
+      .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 520px) {
+      .kpi-grid { grid-template-columns: 1fr; }
+    }
+
+    .kpi-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px 18px;
+    }
+
+    .kpi-label {
+      font-size: 11.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .kpi-value {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-top: 6px;
+      color: #ffffff;
+    }
+
+    .kpi-value.accent { color: var(--blush); }
+    .kpi-value.emerald { color: #6ee7b7; }
+    .kpi-value.gold { color: var(--gold); }
+
+    /* QUICK SHARE STRIP */
+    .share-strip {
+      background: var(--surface-soft);
+      border: 1px solid var(--border-blush);
+      border-radius: 16px;
+      padding: 16px 18px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .copy {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .copy-button {
+      min-inline-size: 36px;
+      min-block-size: 36px;
+      padding: 6px 11px;
+      border-radius: 9px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--ivory);
+      font: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .copy-button[data-copied] {
+      border-color: var(--emerald);
+      background: rgba(16, 185, 129, 0.2);
+      color: #a7f3d0;
+    }
+
+    .tip {
+      font-size: 12px;
+      color: #a7f3d0;
+      opacity: 0;
+      transition: opacity 0.18s ease;
+    }
+
+    .copy-button[data-copied] + .tip,
+    .copy-button[data-failed] + .tip {
+      opacity: 1;
+    }
+
+    /* TOOLBAR / SEARCH */
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    search {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      flex: 1;
+    }
+
+    .search-input {
+      font: inherit;
+      min-height: 44px;
+      padding: 9px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: #ffffff;
+      min-width: 260px;
+      flex: 1;
+    }
+
+    .filter-pills {
+      display: inline-flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .pill-btn {
+      min-height: 40px;
+      padding: 7px 13px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--beige);
+      font: inherit;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .pill-btn.is-active {
+      background: var(--blush);
+      color: #160c10;
+      border-color: var(--blush);
+      font-weight: 800;
+    }
+
+    /* RESPONSIVE DATA TABLE (modern-web-guidance) */
+    .table-wrapper {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: auto;
+      max-inline-size: 100%;
+      max-block-size: min(640px, 78vh);
+      container-type: inline-size;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      --label-1: "Invitado";
+      --label-2: "Código VIP";
+      --label-3: "Correo";
+      --label-4: "WhatsApp";
+      --label-5: "Instagram";
+      --label-6: "IG Seguidas";
+      --label-7: "Acciones";
+    }
+
+    thead {
+      position: sticky;
+      inset-block-start: 0;
+      z-index: 2;
+      background: #1b161e;
+    }
+
+    th, td {
+      padding: 13px 14px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      font-size: 13.5px;
+      vertical-align: middle;
+    }
+
+    thead th {
+      font-size: 11.5px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    tbody tr:hover {
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .code-badge {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-weight: 700;
+      font-size: 12.5px;
+      padding: 4px 9px;
+      border-radius: 8px;
+      background: rgba(240, 184, 201, 0.12);
+      border: 1px solid rgba(240, 184, 201, 0.25);
+      color: var(--blush);
+      white-space: nowrap;
+    }
+
+    .ig-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .ig-badge.complete {
+      background: rgba(16, 185, 129, 0.16);
+      color: #6ee7b7;
+      border: 1px solid rgba(16, 185, 129, 0.35);
+    }
+
+    .ig-badge.partial {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fde68a;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    .row-actions {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    @container (width < 760px) {
+      table, thead, tbody, tr, th, td { display: block; }
+      thead { display: none; }
+      tr {
+        margin: 12px;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.02);
+        overflow: hidden;
+      }
+      td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        text-align: right;
+      }
+      td:nth-child(1)::before { content: var(--label-1) ": "; color: var(--muted); font-weight: 600; font-size: 12px; text-align: left; }
+      td:nth-child(2)::before { content: var(--label-2) ": "; color: var(--muted); font-weight: 600; font-size: 12px; }
+      td:nth-child(3)::before { content: var(--label-3) ": "; color: var(--muted); font-weight: 600; font-size: 12px; }
+      td:nth-child(4)::before { content: var(--label-4) ": "; color: var(--muted); font-weight: 600; font-size: 12px; }
+      td:nth-child(5)::before { content: var(--label-5) ": "; color: var(--muted); font-weight: 600; font-size: 12px; }
+      td:nth-child(6)::before { content: var(--label-6) ": "; color: var(--muted); font-weight: 600; font-size: 12px; }
+      td:nth-child(7)::before { content: var(--label-7) ": "; color: var(--muted); font-weight: 600; font-size: 12px; }
+    }
+
+    dialog {
+      border: 1px solid var(--border-blush);
+      border-radius: 20px;
+      background: #141016;
+      color: var(--ivory);
+      padding: 24px;
+      max-width: 480px;
+      width: calc(100% - 32px);
+      box-shadow: 0 28px 80px rgba(0, 0, 0, 0.75);
+    }
+
+    dialog::backdrop {
+      background: rgba(5, 4, 6, 0.78);
+      backdrop-filter: blur(4px);
+    }
+
+    .toast-bar {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 60;
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: #132a20;
+      border: 1px solid rgba(16, 185, 129, 0.45);
+      color: #a7f3d0;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+    }
+  </style>
+</head>
+<body>
+  <!-- PANTALLA DE LOGIN SUBCUENTA IDOL / ADMIN -->
+  <section id="auth-section" class="auth-wrap">
+    <div class="auth-card">
+      <div class="brand-row">
+        <img
+          src="/static/img/doralfashionweekmagazinelogo.png"
+          onerror="this.style.display='none'"
+          alt="Doral FW Magazine"
+        >
+        <span class="badge-sub">Subcuenta VIP · Agencia Prosper IA</span>
+      </div>
+      <h1>CRM IDOL JOSE · Edición 15</h1>
+      <p class="sub">
+        Inicia sesión con tu cuenta de IDOL JOSE (`idoljose@agenciaprosperia.com`) o con la cuenta
+        administradora de Agencia Prosper IA (`edward@agenciaprosperia.com`).
+      </p>
+
+      <form id="idol-login-form" method="POST" action="/api/auth/login" novalidate>
+        <div class="field">
+          <label for="login-email">Correo electrónico</label>
+          <input
+            id="login-email"
+            name="email"
+            type="email"
+            autocomplete="username"
+            autocorrect="off"
+            autocapitalize="none"
+            spellcheck="false"
+            placeholder="idoljose@agenciaprosperia.com"
+            required
+          >
+        </div>
+
+        <div class="field">
+          <label for="login-password">Contraseña</label>
+          <div class="pw-wrap">
+            <input
+              id="login-password"
+              name="password"
+              type="password"
+              autocomplete="current-password"
+              required
+            >
+            <button
+              id="toggle-pw-btn"
+              type="button"
+              class="pw-toggle"
+              aria-pressed="false"
+              aria-label="Mostrar contraseña"
+            >Ver</button>
+          </div>
+        </div>
+
+        <button id="login-submit-btn" type="submit" class="btn-primary" style="width:100%;">
+          Ingresar al CRM de IDOL →
+        </button>
+
+        <div id="login-status" class="status-banner" role="status" aria-live="polite"></div>
+      </form>
+    </div>
+  </section>
+
+  <!-- PANEL CRM PRINCIPAL -->
+  <main id="crm-section" class="container hidden">
+    <header class="crm-topbar">
+      <div>
+        <span class="badge-sub">Subcuenta VIP · Doral FW Magazine × Agencia Prosper IA</span>
+        <h1 style="margin-top:8px;">Lista VIP 15.ª Edición · Panel IDOL JOSE</h1>
+        <p id="crm-user-subtitle" class="sub" style="margin:0;">
+          4 de Diciembre · 8:00 PM · 8025 NW 107th Ave, Doral · Dress Code Blanco &amp; Beige
+        </p>
+      </div>
+      <div class="crm-actions">
+        <button id="open-manual-btn" type="button" class="btn-primary">+ Registrar Invitado</button>
+        <a id="csv-export-link" href="/api/doralfashionweek/event/registrations.csv" class="btn-secondary">⬇ Exportar CSV</a>
+        <a href="/doralfashionweek/event?edicion=15" target="_blank" rel="noopener noreferrer" class="btn-secondary">Ver Landing VIP ↗</a>
+        <button id="refresh-btn" type="button" class="btn-secondary">Actualizar</button>
+        <button id="logout-btn" type="button" class="btn-secondary">Salir</button>
+      </div>
+    </header>
+
+    <section class="kpi-grid" aria-label="Resumen de registros">
+      <div class="kpi-card">
+        <div class="kpi-label">Total Invitados VIP</div>
+        <div id="kpi-total" class="kpi-value accent">0</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">IG Completo (6/6)</div>
+        <div id="kpi-ig-complete" class="kpi-value emerald">0</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Pase VIP (IG Pendiente)</div>
+        <div id="kpi-pending" class="kpi-value gold">0</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Registrados Hoy (UTC)</div>
+        <div id="kpi-today" class="kpi-value">0</div>
+      </div>
+    </section>
+
+    <section class="share-strip" aria-label="Enlaces oficiales y remarketing">
+      <div>
+        <div class="kpi-label" style="margin-bottom:4px;">Enlace Oficial del Formulario Cero Fricción</div>
+        <code id="share-url-display" style="font-size:13px;color:var(--ivory);">https://www.doralfashionweek.com/event?edicion=15</code>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+        <span class="copy">
+          <button type="button" class="copy-button" command="--copy" commandfor="share-url-display" aria-label="Copiar enlace de registro">Copiar link</button>
+          <span class="tip" role="status"></span>
+        </span>
+        <span class="copy">
+          <button type="button" id="copy-emails-btn" class="copy-button" aria-label="Copiar todos los correos">Copiar correos</button>
+          <span class="tip" role="status"></span>
+        </span>
+        <span id="emails-buffer" class="hidden" aria-hidden="true"></span>
+      </div>
+    </section>
+
+    <div class="toolbar">
+      <search>
+        <label for="guest-search" class="hidden">Buscar invitado</label>
+        <input
+          id="guest-search"
+          type="search"
+          class="search-input"
+          placeholder="Buscar por nombre, correo, WhatsApp, @instagram o código DFW-15..."
+          autocorrect="off"
+          autocapitalize="none"
+          spellcheck="false"
+        >
+        <div class="filter-pills" role="group" aria-label="Filtrar por estado de Instagram">
+          <button type="button" class="pill-btn is-active" data-filter="all">Todos</button>
+          <button type="button" class="pill-btn" data-filter="complete">IG Completo (6/6)</button>
+          <button type="button" class="pill-btn" data-filter="pending">IG Pendiente</button>
+        </div>
+      </search>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Invitado</th>
+            <th scope="col">Código VIP</th>
+            <th scope="col">Correo</th>
+            <th scope="col">WhatsApp</th>
+            <th scope="col">Instagram</th>
+            <th scope="col">Cuentas IG</th>
+            <th scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="crm-table-body">
+          <tr><td colspan="7" style="text-align:center;color:var(--muted);padding:32px;">Cargando invitados VIP...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- MODAL NATIVO PARA REGISTRO MANUAL -->
+  <dialog id="manual-guest-dialog" aria-labelledby="manual-dialog-title">
+    <h2 id="manual-dialog-title" style="font-family:var(--serif);margin:0 0 6px;">Registrar Invitado VIP Manual</h2>
+    <p class="sub" style="margin-bottom:16px;">Se generará su código `DFW-15-...` y se sincronizará con el CRM.</p>
+    <form id="manual-guest-form" method="dialog" novalidate>
+      <div class="field">
+        <label for="m-name">Nombre completo *</label>
+        <input id="m-name" name="name" type="text" required>
+      </div>
+      <div class="field">
+        <label for="m-email">Correo electrónico *</label>
+        <input id="m-email" name="email" type="email" autocorrect="off" autocapitalize="none" required>
+      </div>
+      <div class="field">
+        <label for="m-phone">WhatsApp *</label>
+        <input id="m-phone" name="whatsapp" type="tel" inputmode="tel" required>
+      </div>
+      <div class="field">
+        <label for="m-ig">Instagram (@usuario)</label>
+        <input id="m-ig" name="instagram" type="text" autocorrect="off" autocapitalize="none">
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:18px;">
+        <button id="close-manual-btn" type="button" class="btn-secondary">Cancelar</button>
+        <button id="save-manual-btn" type="submit" class="btn-primary">Guardar Invitado</button>
+      </div>
+      <div id="manual-status" class="status-banner" role="status" aria-live="polite"></div>
+    </form>
+  </dialog>
+
+  <div id="toast-bar" class="toast-bar hidden" role="status" aria-live="polite"></div>
+
+  <script>
+    (() => {
+      let currentToken = localStorage.getItem('auth_token') || '';
+      let allRows = [];
+      let currentFilter = 'all';
+
+      const authSection = document.getElementById('auth-section');
+      const crmSection = document.getElementById('crm-section');
+      const loginForm = document.getElementById('idol-login-form');
+      const loginStatus = document.getElementById('login-status');
+      const pwInput = document.getElementById('login-password');
+      const pwToggle = document.getElementById('toggle-pw-btn');
+      const tableBody = document.getElementById('crm-table-body');
+      const searchInput = document.getElementById('guest-search');
+      const csvLink = document.getElementById('csv-export-link');
+      const manualDialog = document.getElementById('manual-guest-dialog');
+      const manualForm = document.getElementById('manual-guest-form');
+      const manualStatus = document.getElementById('manual-status');
+      const toastBar = document.getElementById('toast-bar');
+
+      let toastTimer = null;
+      function showToast(msg) {
+        toastBar.textContent = msg;
+        toastBar.classList.remove('hidden');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toastBar.classList.add('hidden'), 3200);
+      }
+
+      pwToggle.addEventListener('click', () => {
+        const showing = pwInput.type === 'text';
+        pwInput.type = showing ? 'password' : 'text';
+        pwToggle.setAttribute('aria-pressed', String(!showing));
+        pwToggle.textContent = showing ? 'Ver' : 'Ocultar';
+      });
+
+      function authHeaders(extra = {}) {
+        const h = { ...extra };
+        if (currentToken) h.Authorization = `Bearer ${currentToken}`;
+        return h;
+      }
+
+      function legacyCopy(text) {
+        const prev = document.activeElement;
+        const ta = Object.assign(document.createElement('textarea'), { value: text });
+        ta.setAttribute('readonly', '');
+        ta.style.cssText = 'position:fixed;inset-block-start:0;opacity:0';
+        document.body.append(ta);
+        ta.select();
+        try {
+          return document.execCommand('copy');
+        } finally {
+          ta.remove();
+          prev?.focus({ preventScroll: true });
+        }
+      }
+
+      const copyTimers = new WeakMap();
+      function reportCopy(button, ok) {
+        const tip = button.nextElementSibling;
+        clearTimeout(copyTimers.get(button));
+        button.removeAttribute('data-copied');
+        button.removeAttribute('data-failed');
+        button.setAttribute(ok ? 'data-copied' : 'data-failed', '');
+        if (tip) tip.textContent = ok ? 'Copiado' : 'Error';
+        copyTimers.set(button, setTimeout(() => {
+          button.removeAttribute('data-copied');
+          button.removeAttribute('data-failed');
+          if (tip) tip.textContent = '';
+        }, 1800));
+      }
+
+      async function performCopyText(button, text) {
+        if (!text) return;
+        try {
+          await navigator.clipboard.writeText(text);
+          reportCopy(button, true);
+        } catch {
+          reportCopy(button, legacyCopy(text));
+        }
+      }
+
+      document.addEventListener('command', (event) => {
+        if (event.command === '--copy' && event.target) {
+          performCopyText(event.source, event.target.innerText.trim());
+        }
+      }, true);
+
+      if (!('CommandEvent' in window)) {
+        document.addEventListener('click', (event) => {
+          if (event.defaultPrevented) return;
+          const btn = event.target.closest('button[command="--copy"]');
+          if (!btn) return;
+          const target = document.getElementById(btn.getAttribute('commandfor'));
+          if (target) performCopyText(btn, target.innerText.trim());
+        });
+      }
+
+      document.getElementById('copy-emails-btn').addEventListener('click', (e) => {
+        const emails = [...new Set(allRows.map((r) => r.email).filter(Boolean))].join(', ');
+        if (!emails) {
+          showToast('Todavía no hay correos registrados.');
+          return;
+        }
+        performCopyText(e.currentTarget, emails);
+      });
+
+      function renderRows() {
+        const q = searchInput.value.trim().toLowerCase();
+        const filtered = allRows.filter((row) => {
+          if (currentFilter === 'complete' && row.followed_count < 6) return false;
+          if (currentFilter === 'pending' && row.followed_count >= 6) return false;
+          if (!q) return true;
+          const blob = `${row.name} ${row.email} ${row.phone} ${row.instagram} ${row.vip_code}`.toLowerCase();
+          return blob.includes(q);
+        });
+
+        tableBody.textContent = '';
+        if (!filtered.length) {
+          const tr = document.createElement('tr');
+          const td = document.createElement('td');
+          td.colSpan = 7;
+          td.style.textAlign = 'center';
+          td.style.padding = '32px';
+          td.style.color = 'var(--muted)';
+          td.textContent = 'No se encontraron invitados con ese criterio.';
+          tr.appendChild(td);
+          tableBody.appendChild(tr);
+          return;
+        }
+
+        filtered.forEach((row) => {
+          const tr = document.createElement('tr');
+
+          const tdName = document.createElement('td');
+          const strong = document.createElement('strong');
+          strong.textContent = row.name || 'Sin nombre';
+          tdName.appendChild(strong);
+          tr.appendChild(tdName);
+
+          const tdCode = document.createElement('td');
+          const codeSpan = document.createElement('span');
+          codeSpan.className = 'code-badge';
+          codeSpan.textContent = row.vip_code;
+          tdCode.appendChild(codeSpan);
+          tr.appendChild(tdCode);
+
+          const tdEmail = document.createElement('td');
+          tdEmail.textContent = row.email || '—';
+          tr.appendChild(tdEmail);
+
+          const tdPhone = document.createElement('td');
+          tdPhone.textContent = row.phone || '—';
+          tr.appendChild(tdPhone);
+
+          const tdIg = document.createElement('td');
+          tdIg.textContent = row.instagram || '—';
+          tr.appendChild(tdIg);
+
+          const tdCount = document.createElement('td');
+          const igBadge = document.createElement('span');
+          igBadge.className = `ig-badge ${row.followed_count >= 6 ? 'complete' : 'partial'}`;
+          igBadge.textContent = `${row.followed_count}/${row.total_accounts} ${row.followed_count >= 6 ? '✓' : ''}`;
+          tdCount.appendChild(igBadge);
+          tr.appendChild(tdCount);
+
+          const tdActions = document.createElement('td');
+          const wrap = document.createElement('div');
+          wrap.className = 'row-actions';
+
+          if (row.direct_whatsapp_url) {
+            const waBtn = document.createElement('a');
+            waBtn.href = row.direct_whatsapp_url;
+            waBtn.target = '_blank';
+            waBtn.rel = 'noopener noreferrer';
+            waBtn.className = 'btn-wa';
+            waBtn.textContent = '💬 WhatsApp';
+            wrap.appendChild(waBtn);
+          }
+
+          const mailBtn = document.createElement('button');
+          mailBtn.type = 'button';
+          mailBtn.className = 'btn-mail';
+          mailBtn.textContent = '✉️ Reenviar Pase';
+          mailBtn.addEventListener('click', async () => {
+            mailBtn.disabled = true;
+            mailBtn.textContent = 'Enviando...';
+            try {
+              const res = await fetch('/api/doralfashionweek/event/resend-email', {
+                method: 'POST',
+                headers: authHeaders({ 'Content-Type': 'application/json' }),
+                body: JSON.stringify({ lead_id: row.id })
+              });
+              const data = await res.json();
+              if (!res.ok || !data.success) throw new Error(data.error || 'Error');
+              showToast(data.message || 'Pase VIP reenviado por correo.');
+            } catch {
+              showToast('No se pudo reenviar el correo.');
+            } finally {
+              mailBtn.disabled = false;
+              mailBtn.textContent = '✉️ Reenviar Pase';
+            }
+          });
+          wrap.appendChild(mailBtn);
+
+          tdActions.appendChild(wrap);
+          tr.appendChild(tdActions);
+          tableBody.appendChild(tr);
+        });
+      }
+
+      async function loadRegistrations() {
+        try {
+          const res = await fetch('/api/doralfashionweek/event/registrations', {
+            headers: authHeaders()
+          });
+          if (res.status === 401 || res.status === 403) {
+            authSection.classList.remove('hidden');
+            crmSection.classList.add('hidden');
+            return false;
+          }
+          const data = await res.json();
+          if (!res.ok || !data.success) throw new Error(data.error || 'Error cargando invitados');
+
+          authSection.classList.add('hidden');
+          crmSection.classList.remove('hidden');
+
+          document.getElementById('kpi-total').textContent = String(data.stats?.total ?? 0);
+          document.getElementById('kpi-ig-complete').textContent = String(data.stats?.ig_complete ?? 0);
+          document.getElementById('kpi-pending').textContent = String(data.stats?.pending_ig ?? 0);
+          document.getElementById('kpi-today').textContent = String(data.stats?.today_count ?? 0);
+
+          if (data.user) {
+            document.getElementById('crm-user-subtitle').textContent =
+              `Conectado como: ${data.user.name} (${data.user.email}) · 4 de Diciembre · 8:00 PM`;
+          }
+          if (currentToken) {
+            csvLink.href = `/api/doralfashionweek/event/registrations.csv?token=${encodeURIComponent(currentToken)}`;
+          }
+          allRows = Array.isArray(data.registrations) ? data.registrations : [];
+          renderRows();
+          return true;
+        } catch (err) {
+          showToast(err.message || 'Error conectando con el CRM.');
+          return false;
+        }
+      }
+
+      loginForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        loginStatus.className = 'status-banner';
+        loginStatus.textContent = '';
+
+        const email = document.getElementById('login-email').value.trim();
+        const password = pwInput.value;
+        const btn = document.getElementById('login-submit-btn');
+        btn.disabled = true;
+
+        try {
+          const res = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+          });
+          const data = await res.json();
+          if (!res.ok || !data.success || !data.data?.token) {
+            throw new Error(data.error || 'Credenciales incorrectas.');
+          }
+          currentToken = data.data.token;
+          localStorage.setItem('auth_token', currentToken);
+          localStorage.setItem('user', JSON.stringify(data.data.user || {}));
+          const sameSiteAttr = window.location.protocol === 'https:' ? 'SameSite=None; Secure' : 'SameSite=Lax';
+          document.cookie = `auth_token=${currentToken}; path=/; max-age=604800; ${sameSiteAttr}`;
+          await loadRegistrations();
+        } catch (err) {
+          loginStatus.className = 'status-banner is-error';
+          loginStatus.textContent = err.message || 'Error de autenticación.';
+        } finally {
+          btn.disabled = false;
+        }
+      });
+
+      document.getElementById('logout-btn').addEventListener('click', async () => {
+        try {
+          await fetch('/api/auth/logout', { method: 'POST', headers: authHeaders() });
+        } catch {}
+        localStorage.removeItem('auth_token');
+        document.cookie = 'auth_token=; path=/; max-age=0';
+        currentToken = '';
+        allRows = [];
+        authSection.classList.remove('hidden');
+        crmSection.classList.add('hidden');
+      });
+
+      document.getElementById('refresh-btn').addEventListener('click', () => {
+        loadRegistrations();
+        showToast('Lista VIP actualizada.');
+      });
+
+      searchInput.addEventListener('input', renderRows);
+      document.querySelectorAll('.pill-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.pill-btn').forEach((b) => b.classList.remove('is-active'));
+          btn.classList.add('is-active');
+          currentFilter = btn.dataset.filter || 'all';
+          renderRows();
+        });
+      });
+
+      document.getElementById('open-manual-btn').addEventListener('click', () => {
+        manualStatus.className = 'status-banner';
+        manualStatus.textContent = '';
+        manualForm.reset();
+        manualDialog.showModal();
+      });
+
+      document.getElementById('close-manual-btn').addEventListener('click', () => manualDialog.close());
+
+      manualForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        manualStatus.className = 'status-banner';
+        manualStatus.textContent = '';
+        const name = document.getElementById('m-name').value.trim();
+        const email = document.getElementById('m-email').value.trim();
+        const whatsapp = document.getElementById('m-phone').value.trim();
+        const rawIg = document.getElementById('m-ig').value.trim().replace(/^@+/, '');
+        const instagram = rawIg ? `@${rawIg}` : '';
+
+        try {
+          const res = await fetch('/api/doralfashionweek/event/vip-register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'register', edition: '15', name, email, whatsapp, instagram })
+          });
+          const data = await res.json();
+          if (!res.ok || !data.ok) throw new Error(data.error || 'Error guardando invitado.');
+          manualDialog.close();
+          showToast(`Invitado registrado con código ${data.code}`);
+          await loadRegistrations();
+        } catch (err) {
+          manualStatus.className = 'status-banner is-error';
+          manualStatus.textContent = err.message || 'No se pudo registrar el invitado.';
+        }
+      });
+
+      loadRegistrations();
+    })();
+  </script>
+</body>
+</html>

@@ -300,7 +300,8 @@
         document.cookie = 'auth_token=' + data.data.token + '; path=/; max-age=604800; ' + sameSiteAttr;
         alertBox.style.cssText = 'background:rgba(0,229,255,0.06); border:1px solid rgba(0,229,255,0.25); color:#00e5ff; display:block; padding:16px; border-radius:12px; font-size:14px; margin-bottom:24px;';
         alertBox.innerHTML = '<i class="fas fa-check-circle mr-2"></i>Acceso concedido. Redirigiendo...';
-        setTimeout(() => window.location.href = '/dashboard?token=' + encodeURIComponent(data.data.token), 400);
+        const targetUrl = data.data.redirect_url || ('/dashboard?token=' + encodeURIComponent(data.data.token));
+        setTimeout(() => window.location.href = targetUrl, 400);
       } else {
         alertBox.style.cssText = 'background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.25); color:#f87171; display:block; padding:16px; border-radius:12px; font-size:14px; margin-bottom:24px;';
         alertBox.innerHTML = '<i class="fas fa-exclamation-circle mr-2"></i>' + (data.error || 'Credenciales incorrectas');

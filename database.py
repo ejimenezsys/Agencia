@@ -1231,6 +1231,41 @@ def init_db():
                 if not getattr(adm_u, "api_key", ""):
                     adm_u.api_key = "sve90_live_master_key_777_prosperia"
 
+        # 2b. Subcuenta VIP para IDOL JOSE (Doral FW Magazine — 15ª Edición y campañas futuras)
+        idol_email = "idoljose@agenciaprosperia.com"
+        idol_pass_raw = os.environ.get("IDOL_CRM_PASSWORD", "IdolDFW2026!").strip() or "IdolDFW2026!"
+        idol_pass_hash = hash_password(idol_pass_raw)
+        idol_u = db.query(User).filter(User.email == idol_email).first()
+        if not idol_u:
+            db.add(User(
+                email=idol_email,
+                name="IDOL JOSE (Director · Doral FW Magazine)",
+                password=idol_pass_hash,
+                company="IDOL JOSE Group Corp · Doral FW Magazine",
+                phone="+17866475982",
+                plan="Subcuenta VIP · Agencia Prosper IA",
+                api_key=f"sve90_sub_idol_{secrets.token_hex(8)}",
+                role="subaccount",
+                dupla="Subcuenta VIP — IDOL JOSE & DFW Magazine",
+                is_active=1,
+                commission_rate=0.0,
+                created_at=now_iso,
+                calendar_url="https://wa.me/17866475982",
+                avatar_url="/static/img/doralfashionweekmagazinelogo.png",
+            ))
+        else:
+            idol_u.name = "IDOL JOSE (Director · Doral FW Magazine)"
+            idol_u.company = "IDOL JOSE Group Corp · Doral FW Magazine"
+            idol_u.phone = "+17866475982"
+            idol_u.plan = "Subcuenta VIP · Agencia Prosper IA"
+            idol_u.role = "subaccount"
+            idol_u.dupla = "Subcuenta VIP — IDOL JOSE & DFW Magazine"
+            idol_u.is_active = 1
+            if not getattr(idol_u, "password", ""):
+                idol_u.password = idol_pass_hash
+            if not getattr(idol_u, "avatar_url", ""):
+                idol_u.avatar_url = "/static/img/doralfashionweekmagazinelogo.png"
+
         # 3. Sembrar o actualizar los Closers reales de GHL con su etiqueta oficial de Pareja
         for member in INITIAL_SALES_TEAM:
             pair_dupla = (get_pair_info(member["email"]) or {}).get("dupla") or member["dupla"]

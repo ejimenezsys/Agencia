@@ -1,11 +1,14 @@
 import os
+import io
+import csv
+import html as html_lib
 import uuid
 import hmac
 from datetime import datetime
 from typing import Optional, List, Dict, Any
 import urllib.parse
 from fastapi import FastAPI, Request, Response, Depends, status, HTTPException, BackgroundTasks, Query
-from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
+from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse, StreamingResponse
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -43,7 +46,7 @@ def feature_enabled(name: str) -> bool:
     """Las integraciones salientes son opt-in; ausencia equivale a desactivado."""
     return os.environ.get(name, "false").strip().lower() in {"1", "true", "yes", "on"}
 
-_I18N_SKIP_PREFIXES = ("/api/", "/static/", "/dashboard", "/login", "/closers", "/portafolio-vivo/", "/beautygrowth")
+_I18N_SKIP_PREFIXES = ("/api/", "/static/", "/dashboard", "/login", "/closers", "/portafolio-vivo/", "/beautygrowth", "/crm-idol", "/doralfashionweek", "/event")
 
 
 # Cabeceras de seguridad HTTP + inyección universal del selector bilingüe ES/EN en páginas HTML públicas
@@ -1299,6 +1302,9 @@ async def read_dashboard(request: Request, token_q: Optional[str] = Query(defaul
         }
     finally:
         db.close()
+
+    if current_user.get("role") == "subaccount" or current_user.get("email") == "idoljose@agenciaprosperia.com":
+        return RedirectResponse(url="/crm-idol", status_code=303)
 
     return templates.TemplateResponse(
         request=request,
@@ -3937,12 +3943,16 @@ async def api_login(req: LoginRequest, request: Request, response: Response, db:
         secure=is_secure
     )
     
+    login_data: Dict[str, Any] = {
+        "token": token,
+        "user": user_payload,
+    }
+    if user_payload.get("role") == "subaccount" or normalize_email(user.email) == "idoljose@agenciaprosperia.com":
+        login_data["redirect_url"] = "/crm-idol"
+
     return {
         "success": True,
-        "data": {
-            "token": token,
-            "user": user_payload
-        }
+        "data": login_data,
     }
 
 @app.post("/api/auth/logout")
@@ -4834,8 +4844,8 @@ async def api_exmaboletos_order(
 
 _DFW_CORS_HEADERS = {
     "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "POST, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization",
 }
 
 
@@ -4955,6 +4965,689 @@ async def api_doralfashionweek_forms_submit(
     return JSONResponse(
         {"ok": True, "success": True, "contractId": contract_id, "lead_id": lead_id},
         headers=_DFW_CORS_HEADERS,
+    )
+
+
+_DFW_EVENT_15_INFO = {
+    "title": "Presentación 15.ª Edición Doral FW Magazine",
+    "subtitle": "Una noche exclusiva de glamour, moda, arte y networking en Doral",
+    "presenters": "Presentando a Luiseth Materán · Participación especial de Nath Espina",
+    "date_display": "Viernes, 4 de diciembre · 8:00 PM",
+    "venue": "8025 NW 107th Ave, Doral, FL 33178, EE. UU.",
+    "maps_url": "https://maps.google.com/?q=8025+NW+107th+Ave,+Doral,+FL+33178",
+    "dress_code": "Blanco & Beige (Chic / Avant-Garde / Glam)",
+    "access_note": "Estrictamente exclusivo, solo por invitación",
+    "whatsapp_number": "17866475982",
+    "whatsapp_display": "+1 786-647-5982",
+    "edition": "15",
+}
+
+_DFW_VIP_ACCOUNTS = [
+    {"handle": "@Doralfashionweekoficial", "label": "Doral Fashion Week", "url": "https://www.instagram.com/Doralfashionweekoficial/"},
+    {"handle": "@idol_jose", "label": "Idol Jose", "url": "https://www.instagram.com/idol_jose/"},
+    {"handle": "@drjuanfcocabellocarreno", "label": "Dr. Juan Fco. Cabello", "url": "https://www.instagram.com/drjuanfcocabellocarreno/"},
+    {"handle": "@doralfwmagazine", "label": "Doral FW Magazine", "url": "https://www.instagram.com/doralfwmagazine/"},
+    {"handle": "@edwardjimenezia", "label": "Edward Jiménez · Prosper IA", "url": "https://www.instagram.com/edwardjimenezia/"},
+    {"handle": "@midtowndoral", "label": "Midtown Doral", "url": "https://www.instagram.com/midtowndoral/"},
+]
+
+_DFW_META_START = "<!--DFW_META:"
+_DFW_META_END = "-->"
+
+
+def _normalize_ig_handle(raw: str) -> str:
+    """Normaliza un usuario de Instagram al formato @usuario."""
+    clean = str(raw or "").strip().lstrip("@").split("?")[0].strip("/")
+    return f"@{clean}" if clean else ""
+
+
+def _build_dfw_whatsapp_url(name: str, vip_code: str, ig_handle: str, email: str) -> str:
+    """Genera el enlace directo al WhatsApp de IDOL (+1 786-647-5982) con los datos del pase VIP."""
+    msg = (
+        "¡Hola IDOL JOSE! Acabo de confirmar mi registro VIP para la 15.ª Edición "
+        "de Doral FW Magazine (4 de Diciembre · 8:00 PM).\n\n"
+        f"🎟️ Código VIP: {vip_code}\n"
+        f"👤 Nombre: {name}\n"
+        f"📱 Instagram: {ig_handle or 'Sin especificar'}\n"
+        f"📧 Correo: {email}\n\n"
+        "Confirmo mi asistencia y dress code Blanco & Beige."
+    )
+    return f"https://wa.me/{_DFW_EVENT_15_INFO['whatsapp_number']}?text={urllib.parse.quote(msg)}"
+
+
+def _extract_dfw_meta(notes_text: str) -> Dict[str, Any]:
+    """Extrae metadatos estructurados embebidos en Lead.notes sin alterar texto visible."""
+    raw = str(notes_text or "")
+    start_idx = raw.rfind(_DFW_META_START)
+    if start_idx == -1:
+        return {}
+    end_idx = raw.find(_DFW_META_END, start_idx + len(_DFW_META_START))
+    if end_idx == -1:
+        return {}
+    try:
+        parsed = json.loads(raw[start_idx + len(_DFW_META_START):end_idx])
+        return parsed if isinstance(parsed, dict) else {}
+    except Exception:
+        return {}
+
+
+def _format_dfw_event_note(
+    full_name: str,
+    email: str,
+    phone: str,
+    ig_handle: str,
+    vip_code: str,
+    edition: str,
+    followed_handles: List[str],
+    created_at: str,
+    extra_note: str = "",
+) -> str:
+    """Compone la nota legible para GHL/CRM con bloque JSON estructurado al final."""
+    meta = {
+        "edition": edition,
+        "vip_code": vip_code,
+        "instagram": ig_handle,
+        "followed_handles": followed_handles,
+        "followed_count": len(followed_handles),
+        "updated_at": created_at,
+    }
+    lines = [
+        f"✨ REGISTRO VIP — DORAL FW MAGAZINE {edition}.ª EDICIÓN (4 DIC · 8:00 PM)",
+        f"🎟️ Código VIP: {vip_code}",
+        f"👤 Invitado: {full_name}",
+        f"📧 Correo: {email}",
+        f"📲 WhatsApp: {phone or 'No especificado'}",
+        f"📸 Instagram: {ig_handle or 'No especificado'}",
+        f"✅ Cuentas seguidas ({len(followed_handles)}/6): {', '.join(followed_handles) if followed_handles else 'Pendiente'}",
+        f"📅 Registrado UTC: {created_at}",
+    ]
+    if extra_note:
+        lines.append(f"📝 Nota: {extra_note}")
+    lines.append(f"{_DFW_META_START}{json.dumps(meta, ensure_ascii=False)}{_DFW_META_END}")
+    return "\n".join(lines)
+
+
+def send_dfw_vip_pass_email(
+    name: str,
+    email: str,
+    vip_code: str,
+    ig_handle: str = "",
+    phone: str = "",
+) -> None:
+    """Envía al invitado su Pase VIP digital de la 15.ª Edición Doral FW Magazine vía SMTP ($0)."""
+    try:
+        from sales_os_router import _is_valid_real_email, _send_smtp_mime_email
+
+        clean_em = normalize_email(email or "")
+        if not _is_valid_real_email(clean_em):
+            return
+
+        clean_name = (name or "Invitado VIP").strip()
+        first_name = clean_name.split()[0] if clean_name else "Invitado"
+        safe_first = html_lib.escape(first_name)
+        safe_name = html_lib.escape(clean_name)
+        safe_code = html_lib.escape(vip_code)
+        safe_ig = html_lib.escape(ig_handle or "Sin especificar")
+        wa_link = _build_dfw_whatsapp_url(clean_name, vip_code, ig_handle, clean_em)
+        maps_link = _DFW_EVENT_15_INFO["maps_url"]
+
+        accounts_html = "".join(
+            f'<li style="margin:6px 0;"><a href="{acc["url"]}" style="color:#e9b9c8;text-decoration:none;font-weight:600;">{html_lib.escape(acc["label"])} ({html_lib.escape(acc["handle"])})</a></li>'
+            for acc in _DFW_VIP_ACCOUNTS
+        )
+
+        subject = f"✨ Tu Pase VIP {vip_code} · 15.ª Edición Doral FW Magazine (4 Dic · 8:00 PM)"
+        plain_text = (
+            f"Hola {first_name},\n\n"
+            f"Tu registro VIP para la Presentación de la 15.ª Edición Doral FW Magazine está confirmado.\n\n"
+            f"Código VIP: {vip_code}\n"
+            f"Invitado: {clean_name} ({ig_handle or 'Sin @IG'})\n"
+            f"Fecha y Hora: Viernes, 4 de diciembre · 8:00 PM\n"
+            f"Lugar: 8025 NW 107th Ave, Doral, FL 33178 ({maps_link})\n"
+            f"Dress Code Obligatorio: Blanco & Beige (Chic / Avant-Garde / Glam)\n"
+            f"Presentando a Luiseth Materán · Participación especial de Nath Espina\n\n"
+            f"Paso final recomendado: sigue nuestras 6 cuentas oficiales en Instagram y confirma tu asistencia por WhatsApp con IDOL:\n"
+            f"{wa_link}\n"
+        )
+        html_content = f"""
+        <html>
+          <body style="font-family:'Helvetica Neue',Arial,sans-serif;background-color:#0b090a;color:#f7f1ea;margin:0;padding:24px;">
+            <div style="max-width:600px;margin:0 auto;background:#141013;border:1px solid #d4a373;border-radius:16px;overflow:hidden;">
+              <div style="background:linear-gradient(135deg,#1d1519 0%,#0b090a 100%);padding:28px 24px;text-align:center;border-bottom:1px solid rgba(212,163,115,0.28);">
+                <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#e9b9c8;font-weight:700;">DORAL FW MAGAZINE · INVITACIÓN EXCLUSIVA</div>
+                <h1 style="margin:8px 0 4px;font-size:26px;color:#fff7ef;letter-spacing:1px;">15.ª EDICIÓN VIP PASS</h1>
+                <p style="margin:0;font-size:13px;color:#d6c8bc;">Presentando a Luiseth Materán · Participación especial de Nath Espina</p>
+              </div>
+              <div style="padding:28px 24px;">
+                <p style="font-size:15px;color:#f7f1ea;margin:0 0 14px;">Hola <strong>{safe_first}</strong>,</p>
+                <p style="font-size:14px;color:#d6c8bc;line-height:1.6;margin:0 0 18px;">
+                  Tu lugar está pre-registrado para nuestra noche de gala, arte y moda en Doral. Presenta este código en el acceso VIP:
+                </p>
+                <div style="background:#0b090a;border:1px dashed #e9b9c8;border-radius:12px;padding:18px;text-align:center;margin:18px 0;">
+                  <div style="font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:#d4a373;margin-bottom:6px;">CÓDIGO ÚNICO DE ACCESO VIP</div>
+                  <div style="font-size:28px;font-weight:800;letter-spacing:3px;color:#ffffff;">{safe_code}</div>
+                  <div style="font-size:12px;color:#c4b5a9;margin-top:6px;">{safe_name} · {safe_ig}</div>
+                </div>
+                <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:16px;font-size:13px;line-height:1.7;color:#ede4da;">
+                  <strong>🗓️ Fecha y Hora:</strong> Viernes, 4 de diciembre · 8:00 PM<br>
+                  <strong>🕊️ Dress Code (Obligatorio):</strong> Blanco &amp; Beige (Chic / Avant-Garde / Glam)<br>
+                  <strong>📍 Dirección:</strong> 8025 NW 107th Ave, Doral, FL 33178 (<a href="{maps_link}" style="color:#e9b9c8;">Ver en Google Maps</a>)<br>
+                  <strong>⚠️ Acceso:</strong> Estrictamente exclusivo, solo por invitación
+                </div>
+                <p style="font-size:13px;color:#d6c8bc;margin:18px 0 8px;"><strong>Sigue nuestras 6 cuentas oficiales:</strong></p>
+                <ul style="padding-left:18px;margin:0 0 22px;font-size:13px;">{accounts_html}</ul>
+                <div style="text-align:center;margin:22px 0 10px;">
+                  <a href="{wa_link}" style="display:inline-block;background:#10b981;color:#052e16;text-decoration:none;font-weight:800;font-size:14px;padding:14px 24px;border-radius:999px;">
+                    💬 Confirmar Asistencia por WhatsApp con IDOL
+                  </a>
+                </div>
+              </div>
+              <div style="background:#090708;padding:16px 24px;text-align:center;font-size:11px;color:#8c7d72;border-top:1px solid rgba(255,255,255,0.08);">
+                Doral FW Magazine &amp; IDOL JOSE Group Corp · Plataforma CRM por Agencia Prosper IA LLC
+              </div>
+            </div>
+          </body>
+        </html>
+        """
+        _send_smtp_mime_email(
+            alias_addr="seller@agenciaprosperia.com",
+            to_email=clean_em,
+            closer_name="Doral FW Magazine · IDOL JOSE",
+            closer_email="edward@agenciaprosperia.com",
+            final_subject=subject,
+            plain_text=plain_text,
+            html_content=html_content,
+            reply_to_override="edward@agenciaprosperia.com",
+            sender_label_override="Doral FW Magazine · Pase VIP",
+        )
+        print(f"🎟️ [DFW VIP SMTP $0] Pase {vip_code} enviado a {clean_em}", flush=True)
+    except Exception as exc:
+        print(f"⚠️ [DFW VIP SMTP] No se pudo enviar pase {vip_code} a {email}: {exc}", flush=True)
+
+
+def _serialize_dfw_registration(lead: DbLead) -> Dict[str, Any]:
+    """Serializa una fila de Lead para el subcuenta CRM de IDOL JOSE."""
+    meta = _extract_dfw_meta(lead.notes or "")
+    vip_code = str(meta.get("vip_code") or lead.contact_permission or "").strip()
+    if not vip_code.startswith("DFW-"):
+        vip_code = f"DFW-15-{lead.id:04d}"
+    followed = meta.get("followed_handles") if isinstance(meta.get("followed_handles"), list) else []
+    ig_handle = str(meta.get("instagram") or lead.business_name or "").strip()
+    if ig_handle.startswith("Doral Fashion"):
+        ig_handle = ""
+    followed_count = len(followed)
+    wa_url = _build_dfw_whatsapp_url(
+        lead.full_name or lead.name or "Invitado",
+        vip_code,
+        ig_handle,
+        lead.email or "",
+    )
+    direct_wa = ""
+    digits = re.sub(r"\D", "", str(lead.phone_e164 or lead.phone or ""))
+    if digits:
+        direct_wa = (
+            f"https://wa.me/{digits}?text="
+            + urllib.parse.quote(
+                f"Hola {(lead.full_name or lead.name or '').split()[0]}, te escribimos de Doral FW Magazine "
+                f"(IDOL JOSE) sobre tu Pase VIP {vip_code} para la 15.ª Edición este 4 de diciembre a las 8:00 PM "
+                f"(Dress Code: Blanco & Beige · 8025 NW 107th Ave, Doral). ¿Nos confirmas tu asistencia?"
+            )
+        )
+    return {
+        "id": lead.id,
+        "name": lead.full_name or lead.name or "",
+        "email": lead.email or "",
+        "phone": lead.phone_e164 or lead.phone or "",
+        "instagram": ig_handle,
+        "vip_code": vip_code,
+        "edition": str(meta.get("edition") or "15"),
+        "followed_handles": followed,
+        "followed_count": followed_count,
+        "total_accounts": len(_DFW_VIP_ACCOUNTS),
+        "status": "IG Completo" if followed_count >= len(_DFW_VIP_ACCOUNTS) else "Pase VIP Emitido",
+        "pipeline_stage": lead.pipeline_stage or "Registro VIP Ed. 15",
+        "created_at": lead.created_at or "",
+        "updated_at": meta.get("updated_at") or lead.created_at or "",
+        "direct_whatsapp_url": direct_wa,
+        "idol_whatsapp_url": wa_url,
+    }
+
+
+def _resolve_dfw_crm_user(request: Request, db: Session) -> Dict[str, Any]:
+    """Valida sesión de administrador Prosper IA o subcuenta IDOL JOSE (header, cookie o ?token=)."""
+    auth_header = request.headers.get("Authorization")
+    token = None
+    if auth_header and auth_header.startswith("Bearer "):
+        token = auth_header.split(" ", 1)[1].strip()
+    if not token:
+        token = (request.query_params.get("token") or "").strip() or request.cookies.get("auth_token")
+    if not token:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Inicia sesión para ver el CRM de IDOL.")
+
+    session_row = db.query(SessionModel).filter(SessionModel.token == token).first()
+    if not session_row:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Sesión expirada o inválida.")
+
+    user_row = db.query(User).filter(func.lower(User.email) == normalize_email(session_row.email)).first()
+    if not user_row:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Usuario no encontrado.")
+
+    email_norm = normalize_email(user_row.email)
+    role_norm = (getattr(user_row, "role", "") or "").lower()
+    allowed_emails = {"edward@agenciaprosperia.com", "admin@prosperia.com", "idoljose@agenciaprosperia.com"}
+    if role_norm != "admin" and email_norm not in allowed_emails:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Sin permisos para la subcuenta IDOL.")
+
+    return {
+        "email": user_row.email,
+        "name": user_row.name,
+        "role": role_norm or "subaccount",
+        "company": user_row.company,
+    }
+
+
+@app.options("/api/doralfashionweek/event/vip-register")
+async def api_dfw_event_vip_options():
+    return JSONResponse({"ok": True}, headers=_DFW_CORS_HEADERS)
+
+
+@app.post("/api/doralfashionweek/event/vip-register")
+async def api_dfw_event_vip_register(
+    request: Request,
+    background_tasks: BackgroundTasks,
+    db: Session = Depends(get_db),
+):
+    """Captura cero fricción para la 15.ª Edición de Doral FW Magazine + actualización del checklist IG."""
+    try:
+        payload = await request.json()
+        if not isinstance(payload, dict):
+            payload = {}
+    except Exception:
+        payload = {}
+
+    action = str(payload.get("action") or "register").strip().lower()
+    edition = str(payload.get("edition") or "15").strip() or "15"
+    created_at = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+
+    raw_followed = payload.get("followed_handles") or []
+    allowed_set = {acc["handle"].lower(): acc["handle"] for acc in _DFW_VIP_ACCOUNTS}
+    cleaned_followed: List[str] = []
+    if isinstance(raw_followed, list):
+        for h in raw_followed:
+            norm_h = _normalize_ig_handle(str(h))
+            canonical = allowed_set.get(norm_h.lower())
+            if canonical and canonical not in cleaned_followed:
+                cleaned_followed.append(canonical)
+
+    code_in = str(payload.get("code") or payload.get("vip_code") or "").strip().upper()
+    email_raw = str(payload.get("email") or "").strip()
+    email_clean = normalize_email(email_raw)
+    phone_raw = str(payload.get("whatsapp") or payload.get("phone") or "").strip()
+    phone_e164 = normalize_phone_e164(phone_raw)
+    full_name = str(payload.get("name") or payload.get("fullName") or payload.get("full_name") or "").strip()
+    ig_clean = _normalize_ig_handle(str(payload.get("instagram") or payload.get("ig") or ""))
+
+    if action == "update_ig":
+        target_lead = None
+        if code_in:
+            target_lead = (
+                db.query(DbLead)
+                .filter(DbLead.niche == "doralfashionweek", DbLead.contact_permission == code_in)
+                .order_by(DbLead.id.desc())
+                .first()
+            )
+        if not target_lead and email_clean:
+            target_lead = (
+                db.query(DbLead)
+                .filter(DbLead.niche == "doralfashionweek", func.lower(DbLead.email) == email_clean)
+                .order_by(DbLead.id.desc())
+                .first()
+            )
+        if not target_lead:
+            return JSONResponse(
+                status_code=404,
+                content={"ok": False, "success": False, "error": "Pase VIP no encontrado."},
+                headers=_DFW_CORS_HEADERS,
+            )
+
+        meta = _extract_dfw_meta(target_lead.notes or "")
+        merged_followed = list(cleaned_followed)
+        if not merged_followed and isinstance(meta.get("followed_handles"), list):
+            merged_followed = [str(x) for x in meta.get("followed_handles")]
+        vip_code = str(meta.get("vip_code") or target_lead.contact_permission or code_in).strip()
+        lead_ig = str(meta.get("instagram") or ig_clean or "").strip()
+        lead_name = target_lead.full_name or target_lead.name or "Invitado VIP"
+
+        target_lead.interest_primary = f"VIP Ed. {edition} · IG {len(merged_followed)}/6"
+        target_lead.pipeline_stage = "IG Completo + VIP" if len(merged_followed) >= 6 else "Registro VIP Ed. 15"
+        target_lead.score = 90 + min(len(merged_followed), 6) * 2
+        target_lead.notes = _format_dfw_event_note(
+            full_name=lead_name,
+            email=target_lead.email or email_clean,
+            phone=target_lead.phone_e164 or target_lead.phone or phone_raw,
+            ig_handle=lead_ig,
+            vip_code=vip_code,
+            edition=edition,
+            followed_handles=merged_followed,
+            created_at=target_lead.created_at or created_at,
+        )
+        db.commit()
+        wa_url = _build_dfw_whatsapp_url(lead_name, vip_code, lead_ig, target_lead.email or "")
+        return JSONResponse(
+            {
+                "ok": True,
+                "success": True,
+                "code": vip_code,
+                "lead_id": target_lead.id,
+                "followed_handles": merged_followed,
+                "followed_count": len(merged_followed),
+                "total_accounts": len(_DFW_VIP_ACCOUNTS),
+                "whatsapp_url": wa_url,
+            },
+            headers=_DFW_CORS_HEADERS,
+        )
+
+    if not full_name:
+        return JSONResponse(
+            status_code=400,
+            content={"ok": False, "success": False, "error": "Ingresa tu nombre completo para generar tu Pase VIP."},
+            headers=_DFW_CORS_HEADERS,
+        )
+    if not email_clean or "@" not in email_clean:
+        return JSONResponse(
+            status_code=400,
+            content={"ok": False, "success": False, "error": "Ingresa un correo electrónico válido para enviarte tu Pase VIP."},
+            headers=_DFW_CORS_HEADERS,
+        )
+    if not phone_e164 and not phone_raw:
+        return JSONResponse(
+            status_code=400,
+            content={"ok": False, "success": False, "error": "Ingresa tu número de WhatsApp para confirmar tu invitación."},
+            headers=_DFW_CORS_HEADERS,
+        )
+
+    existing = (
+        db.query(DbLead)
+        .filter(DbLead.niche == "doralfashionweek", func.lower(DbLead.email) == email_clean)
+        .order_by(DbLead.id.desc())
+        .first()
+    )
+    if not existing and phone_e164:
+        existing = (
+            db.query(DbLead)
+            .filter(DbLead.niche == "doralfashionweek", DbLead.phone_e164 == phone_e164)
+            .order_by(DbLead.id.desc())
+            .first()
+        )
+
+    prev_meta = _extract_dfw_meta(existing.notes or "") if existing else {}
+    vip_code = str(prev_meta.get("vip_code") or "").strip()
+    if not vip_code and existing and str(existing.contact_permission or "").startswith("DFW-"):
+        vip_code = str(existing.contact_permission).strip()
+    if not vip_code:
+        vip_code = f"DFW-{edition}-{uuid.uuid4().hex[:6].upper()}"
+
+    prev_followed = prev_meta.get("followed_handles") if isinstance(prev_meta.get("followed_handles"), list) else []
+    for fh in prev_followed:
+        if fh in allowed_set.values() and fh not in cleaned_followed:
+            cleaned_followed.append(fh)
+
+    final_ig = ig_clean or str(prev_meta.get("instagram") or "").strip()
+    extra_note = str(payload.get("notes") or "").strip()
+    event_note = _format_dfw_event_note(
+        full_name=full_name,
+        email=email_clean,
+        phone=phone_e164 or phone_raw,
+        ig_handle=final_ig,
+        vip_code=vip_code,
+        edition=edition,
+        followed_handles=cleaned_followed,
+        created_at=existing.created_at if existing and existing.created_at else created_at,
+        extra_note=extra_note,
+    )
+
+    lead_id = None
+    try:
+        if existing:
+            existing.name = full_name
+            existing.full_name = full_name
+            existing.email = email_clean
+            existing.phone = phone_raw or existing.phone
+            existing.phone_e164 = phone_e164 or existing.phone_e164
+            existing.company = "Doral FW Magazine · 15ª Edición"
+            existing.business_name = final_ig or existing.business_name or "Invitado VIP 15ª Edición"
+            existing.source = "dfw_magazine_ed15"
+            existing.source_channel = "doralfashionweek_event_15"
+            existing.source_campaign = _DFW_EVENT_15_INFO["title"]
+            existing.interest_primary = f"VIP Ed. {edition} · IG {len(cleaned_followed)}/6"
+            existing.contact_permission = vip_code
+            existing.setter_id = "idoljose@agenciaprosperia.com"
+            existing.selected_template = "doralfashionweek_ed15"
+            existing.pipeline_stage = "IG Completo + VIP" if len(cleaned_followed) >= 6 else "Registro VIP Ed. 15"
+            existing.score = max(int(existing.score or 0), 90 + min(len(cleaned_followed), 6) * 2)
+            existing.notes = event_note
+            db.commit()
+            lead_id = existing.id
+        else:
+            new_lead = DbLead(
+                name=full_name,
+                full_name=full_name,
+                email=email_clean,
+                company="Doral FW Magazine · 15ª Edición",
+                business_name=final_ig or "Invitado VIP 15ª Edición",
+                phone=phone_raw,
+                phone_e164=phone_e164,
+                status="qualified",
+                source="dfw_magazine_ed15",
+                source_channel="doralfashionweek_event_15",
+                source_campaign=_DFW_EVENT_15_INFO["title"],
+                interest_primary=f"VIP Ed. {edition} · IG {len(cleaned_followed)}/6",
+                score=90 + min(len(cleaned_followed), 6) * 2,
+                notes=event_note,
+                created_at=created_at,
+                owner_id="edward@agenciaprosperia.com",
+                setter_id="idoljose@agenciaprosperia.com",
+                niche="doralfashionweek",
+                selected_template="doralfashionweek_ed15",
+                contact_permission=vip_code,
+                contact_status="contactable",
+                pipeline_stage="IG Completo + VIP" if len(cleaned_followed) >= 6 else "Registro VIP Ed. 15",
+            )
+            db.add(new_lead)
+            db.commit()
+            db.refresh(new_lead)
+            lead_id = new_lead.id
+    except Exception as db_err:
+        print(f"⚠️ [DFW EVENT 15 DB] Error guardando registro VIP: {db_err}", flush=True)
+        db.rollback()
+
+    name_parts = full_name.split(None, 1)
+    first_name = name_parts[0] if name_parts else full_name
+    last_name = name_parts[1] if len(name_parts) > 1 else ""
+    sync_lead_to_ghl_async(
+        first_name=first_name,
+        last_name=last_name,
+        email=email_clean,
+        phone=phone_e164 or phone_raw,
+        company="Doral FW Magazine · 15ª Edición",
+        source="doralfashionweek_event_15",
+        industry="Moda, Eventos & Editorial VIP",
+        notes=event_note,
+        sms_consent=True,
+        extra_tags=["doral-fw-ed15", "idol-jose", "vip-pass"],
+        owner_email="edward@agenciaprosperia.com",
+        lead_db_id=lead_id,
+    )
+
+    send_pass = bool(payload.get("send_email", True))
+    if send_pass:
+        background_tasks.add_task(
+            send_dfw_vip_pass_email,
+            name=full_name,
+            email=email_clean,
+            vip_code=vip_code,
+            ig_handle=final_ig,
+            phone=phone_e164 or phone_raw,
+        )
+
+    background_tasks.add_task(
+        send_email_notification,
+        name=full_name,
+        email=email_clean,
+        company=f"Doral FW Ed. {edition} · {vip_code}",
+        phone=phone_e164 or phone_raw,
+        message=event_note,
+        custom_subject=f"✨ Nuevo Pase VIP {vip_code} · {full_name} (Doral FW 15.ª Ed.)",
+        custom_subtitle="SUBCUENTA IDOL JOSE · REGISTRO VIP 15.ª EDICIÓN",
+    )
+
+    wa_url = _build_dfw_whatsapp_url(full_name, vip_code, final_ig, email_clean)
+    return JSONResponse(
+        {
+            "ok": True,
+            "success": True,
+            "code": vip_code,
+            "lead_id": lead_id,
+            "followed_handles": cleaned_followed,
+            "followed_count": len(cleaned_followed),
+            "total_accounts": len(_DFW_VIP_ACCOUNTS),
+            "whatsapp_url": wa_url,
+            "event": _DFW_EVENT_15_INFO,
+        },
+        headers=_DFW_CORS_HEADERS,
+    )
+
+
+def _query_dfw_event_leads(db: Session, scope: str = "ed15") -> List[DbLead]:
+    """Consulta leads de la subcuenta Doral FW ordenados del más reciente al más antiguo."""
+    q = db.query(DbLead).filter(DbLead.niche == "doralfashionweek")
+    if scope != "all":
+        q = q.filter(DbLead.source == "dfw_magazine_ed15")
+    return q.order_by(DbLead.id.desc()).all()
+
+
+@app.get("/api/doralfashionweek/event/registrations")
+async def api_dfw_event_registrations(
+    request: Request,
+    scope: str = Query(default="ed15"),
+    db: Session = Depends(get_db),
+):
+    """Lista autenticada de invitados VIP para el CRM de IDOL JOSE y Edward Jiménez."""
+    crm_user = _resolve_dfw_crm_user(request, db)
+    rows = _query_dfw_event_leads(db, scope=scope)
+    serialized = [_serialize_dfw_registration(r) for r in rows]
+    today_prefix = datetime.utcnow().strftime("%Y-%m-%d")
+    stats = {
+        "total": len(serialized),
+        "ig_complete": sum(1 for item in serialized if item["followed_count"] >= len(_DFW_VIP_ACCOUNTS)),
+        "pending_ig": sum(1 for item in serialized if item["followed_count"] < len(_DFW_VIP_ACCOUNTS)),
+        "today_count": sum(1 for item in serialized if str(item["created_at"]).startswith(today_prefix)),
+    }
+    return {
+        "success": True,
+        "user": crm_user,
+        "event": _DFW_EVENT_15_INFO,
+        "accounts": _DFW_VIP_ACCOUNTS,
+        "stats": stats,
+        "registrations": serialized,
+    }
+
+
+@app.get("/api/doralfashionweek/event/registrations.csv")
+async def api_dfw_event_registrations_csv(
+    request: Request,
+    scope: str = Query(default="ed15"),
+    db: Session = Depends(get_db),
+):
+    """Exportación CSV lista para Excel/Google Sheets o envío masivo de WhatsApp/Email."""
+    _resolve_dfw_crm_user(request, db)
+    rows = _query_dfw_event_leads(db, scope=scope)
+    buf = io.StringIO()
+    buf.write("\ufeff")
+    writer = csv.writer(buf)
+    writer.writerow(["ID", "Codigo VIP", "Nombre", "Correo", "WhatsApp", "Instagram", "Cuentas Seguidas", "Estado", "Fecha UTC"])
+    for r in rows:
+        item = _serialize_dfw_registration(r)
+        writer.writerow([
+            item["id"],
+            item["vip_code"],
+            item["name"],
+            item["email"],
+            item["phone"],
+            item["instagram"],
+            f"{item['followed_count']}/{item['total_accounts']}",
+            item["status"],
+            item["created_at"],
+        ])
+    buf.seek(0)
+    filename = f"doral_fw_ed15_invitados_{datetime.utcnow().strftime('%Y%m%d')}.csv"
+    return StreamingResponse(
+        iter([buf.getvalue()]),
+        media_type="text/csv; charset=utf-8",
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'},
+    )
+
+
+@app.post("/api/doralfashionweek/event/resend-email")
+async def api_dfw_event_resend_email(
+    request: Request,
+    background_tasks: BackgroundTasks,
+    db: Session = Depends(get_db),
+):
+    """Reenvía el Pase VIP digital por correo a un invitado seleccionado desde /crm-idol."""
+    _resolve_dfw_crm_user(request, db)
+    try:
+        payload = await request.json()
+    except Exception:
+        payload = {}
+    lead_id = payload.get("lead_id")
+    if not lead_id:
+        raise HTTPException(status_code=400, detail="lead_id requerido.")
+    lead = db.query(DbLead).filter(DbLead.id == int(lead_id), DbLead.niche == "doralfashionweek").first()
+    if not lead:
+        raise HTTPException(status_code=404, detail="Invitado no encontrado.")
+
+    item = _serialize_dfw_registration(lead)
+    background_tasks.add_task(
+        send_dfw_vip_pass_email,
+        name=item["name"],
+        email=item["email"],
+        vip_code=item["vip_code"],
+        ig_handle=item["instagram"],
+        phone=item["phone"],
+    )
+    return {"success": True, "message": f"Pase VIP {item['vip_code']} reenviado a {item['email']}."}
+
+
+@app.get("/doralfashionweek/event", response_class=HTMLResponse)
+@app.get("/doralfashionweek/event/", response_class=HTMLResponse)
+@app.get("/event", response_class=HTMLResponse)
+@app.get("/event/", response_class=HTMLResponse)
+async def doralfashionweek_event_page(request: Request):
+    """Landing oficial de registro VIP cero fricción para la 15.ª Edición Doral FW Magazine."""
+    return templates.TemplateResponse(
+        request=request,
+        name="dfw_event_15.html",
+        context={
+            "request": request,
+            "event": _DFW_EVENT_15_INFO,
+            "accounts": _DFW_VIP_ACCOUNTS,
+        },
+    )
+
+
+@app.get("/crm-idol", response_class=HTMLResponse)
+@app.get("/crm-idol/", response_class=HTMLResponse)
+async def crm_idol_subaccount_page(request: Request):
+    """Panel CRM Subcuenta VIP para IDOL JOSE y Agencia Prosper IA."""
+    return templates.TemplateResponse(
+        request=request,
+        name="crm_idol_dfw.html",
+        context={
+            "request": request,
+            "event": _DFW_EVENT_15_INFO,
+            "accounts": _DFW_VIP_ACCOUNTS,
+        },
     )
 
 
