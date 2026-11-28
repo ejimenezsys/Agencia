@@ -31,7 +31,7 @@ from beauty_growth_os import (
     _verify_bg_password,
     _serialize_bg_user,
 )
-from portafolio_vivo import setup_portafolio_vivo, STATIC_PORTFOLIO_MAP, _serve_static_site_file
+from portafolio_vivo import setup_portafolio_vivo
 import json
 import re
 import unicodedata
@@ -46,61 +46,22 @@ def feature_enabled(name: str) -> bool:
     """Las integraciones salientes son opt-in; ausencia equivale a desactivado."""
     return os.environ.get(name, "false").strip().lower() in {"1", "true", "yes", "on"}
 
-_I18N_SKIP_PREFIXES = ("/api/", "/static/", "/dashboard", "/login", "/closers", "/portafolio-vivo/", "/beautygrowth", "/crm-idol", "/doralfashionweek", "/event")
-_DFW_CUSTOM_HOSTS = {"doralfwmagazine.com", "www.doralfwmagazine.com"}
+_I18N_SKIP_PREFIXES = ("/api/", "/static/", "/dashboard", "/login", "/closers", "/portafolio-vivo/", "/beautygrowth", "/crm-idol")
 
 
-def _apply_security_response_headers(response: Response) -> None:
+# Cabeceras de seguridad HTTP + inyección universal del selector bilingüe ES/EN en páginas HTML públicas
+@app.middleware("http")
+async def add_security_headers(request: Request, call_next):
+    response = await call_next(request)
     if "X-Frame-Options" in response.headers:
         del response.headers["X-Frame-Options"]
     response.headers["Content-Security-Policy"] = "frame-ancestors *"
     response.headers["X-Content-Type-Options"] = "nosniff"
     response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
 
-
-async def _serve_doralfwmagazine_host(request: Request, path: str) -> Optional[Response]:
-    """Despacha doralfwmagazine.com y www.doralfwmagazine.com cuando apuntan por DNS hacia Agencia."""
-    if request.method not in ("GET", "HEAD") or path.startswith(("/api/", "/crm-idol", "/static/")):
-        return None
-    if path in ("/event", "/event/"):
-        resp = await doralfashionweek_event_page(request)
-        _apply_security_response_headers(resp)
-        return resp
-    dfwm_dir = (STATIC_PORTFOLIO_MAP.get("doralfwmagazine") or {}).get("dir")
-    if not dfwm_dir or not os.path.isdir(dfwm_dir):
-        return None
-    if path == "/_next/image":
-        raw_img = urllib.parse.unquote(str(request.query_params.get("url") or "")).lstrip("/")
-        if raw_img:
-            try:
-                resp = _serve_static_site_file(dfwm_dir, "/", raw_img, inject_portfolio_chrome=False)
-                _apply_security_response_headers(resp)
-                return resp
-            except HTTPException:
-                return JSONResponse(status_code=404, content={"detail": "Image not found"})
-    try:
-        resp = _serve_static_site_file(dfwm_dir, "/", path, inject_portfolio_chrome=False)
-        _apply_security_response_headers(resp)
-        return resp
-    except HTTPException as exc:
-        return JSONResponse(status_code=exc.status_code, content={"detail": exc.detail})
-
-
-# Cabeceras de seguridad HTTP + inyección universal del selector bilingüe ES/EN en páginas HTML públicas
-@app.middleware("http")
-async def add_security_headers(request: Request, call_next):
-    host = (request.headers.get("host") or "").split(":")[0].strip().lower()
-    path = request.url.path or ""
-    if host in _DFW_CUSTOM_HOSTS:
-        custom_resp = await _serve_doralfwmagazine_host(request, path)
-        if custom_resp is not None:
-            return custom_resp
-
-    response = await call_next(request)
-    _apply_security_response_headers(response)
-
     ctype = (response.headers.get("content-type") or "").lower()
     cenc = (response.headers.get("content-encoding") or "").lower()
+    path = request.url.path or ""
     if (
         response.status_code == 200
         and request.method == "GET"
@@ -5371,56 +5332,6 @@ async def api_dfw_event_vip_register(
             created_at=target_lead.created_at or created_at,
         )
         db.commit()
-        wa_url = _build_dfw_whatsapp_url(lead_name, vip_code, lead_ig, target_lead.email or "")
-        return JSONResponse(
-            {
-                "ok": True,
-                "success": True,
-                "code": vip_code,
-                "lead_id": target_lead.id,
-                "followed_handles": merged_followed,
-                "followed_count": len(merged_followed),
-                "total_accounts": len(_DFW_VIP_ACCOUNTS),
-                "whatsapp_url": wa_url,
-            },
-            headers=_DFW_CORS_HEADERS,
-        )
-
-    if not full_name:
-        return JSONResponse(
-            status_code=400,
-            content={"ok": False, "success": False, "error": "Ingresa tu nombre completo para generar tu Pase VIP."},
-            headers=_DFW_CORS_HEADERS,
-        )
-    if not email_clean or "@" not in email_clean:
-        return JSONResponse(
-            status_code=400,
-            content={"ok": False, "success": False, "error": "Ingresa un correo electrónico válido para enviarte tu Pase VIP."},
-            headers=_DFW_CORS_HEADERS,
-        )
-    if not phone_e164 and not phone_raw:
-        return JSONResponse(
-            status_code=400,
-            content={"ok": False, "success": False, "error": "Ingresa tu número de WhatsApp para confirmar tu invitación."},
-            headers=_DFW_CORS_HEADERS,
-        )
-
-    existing = (
-        db.query(DbLead)
-        .filter(DbLead.niche == "doralfashionweek", func.lower(DbLead.email) == email_clean)
-        .order_by(DbLead.id.desc())
-        .first()
-    )
-    if not existing and phone_e164:
-        existing = (
-            db.query(DbLead)
-            .filter(DbLead.niche == "doralfashionweek", DbLead.phone_e164 == phone_e164)
-            .order_by(DbLead.id.desc())
-            .first()
-        )
-
-    prev_meta = _extract_dfw_meta(existing.notes or "") if existing else {}
-    vip_code = str(prev_meta.get("vip_code") or "").strip()
     if not vip_code and existing and str(existing.contact_permission or "").startswith("DFW-"):
         vip_code = str(existing.contact_permission).strip()
     if not vip_code:
@@ -5663,16 +5574,9 @@ async def api_dfw_event_resend_email(
 @app.get("/event", response_class=HTMLResponse)
 @app.get("/event/", response_class=HTMLResponse)
 async def doralfashionweek_event_page(request: Request):
-    """Landing oficial de registro VIP cero fricción para la 15.ª Edición Doral FW Magazine."""
-    return templates.TemplateResponse(
-        request=request,
-        name="dfw_event_15.html",
-        context={
-            "request": request,
-            "event": _DFW_EVENT_15_INFO,
-            "accounts": _DFW_VIP_ACCOUNTS,
-        },
-    )
+    """Redirige al dominio oficial independiente www.doralfwmagazine.com/event."""
+    qs = f"?{request.url.query}" if request.url.query else "?edicion=15"
+    return RedirectResponse(url=f"https://www.doralfwmagazine.com/event{qs}", status_code=302)
 
 
 @app.get("/crm-idol", response_class=HTMLResponse)

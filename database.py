@@ -1251,7 +1251,7 @@ def init_db():
                 commission_rate=0.0,
                 created_at=now_iso,
                 calendar_url="https://wa.me/17866475982",
-                avatar_url="/static/img/doralfashionweekmagazinelogo.png",
+                avatar_url="https://www.doralfwmagazine.com/logo/doralfashionweekmagazinelogo.png",
             ))
         else:
             idol_u.name = "IDOL JOSE (Director · Doral FW Magazine)"
@@ -1263,8 +1263,8 @@ def init_db():
             idol_u.is_active = 1
             if not getattr(idol_u, "password", ""):
                 idol_u.password = idol_pass_hash
-            if not getattr(idol_u, "avatar_url", ""):
-                idol_u.avatar_url = "/static/img/doralfashionweekmagazinelogo.png"
+            if not getattr(idol_u, "avatar_url", "") or "static/img/doralfashionweek" in str(idol_u.avatar_url):
+                idol_u.avatar_url = "https://www.doralfwmagazine.com/logo/doralfashionweekmagazinelogo.png"
 
         # 3. Sembrar o actualizar los Closers reales de GHL con su etiqueta oficial de Pareja
         for member in INITIAL_SALES_TEAM:
