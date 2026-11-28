@@ -7445,18 +7445,18 @@ except Exception:
 
 
 def _resolve_gemini_api_key() -> str:
-    val = os.environ.get("GEMINI_API_KEY", "").strip()
-    if val:
-        return val
-    env_path = os.path.join(os.path.dirname(__file__), ".env")
-    if os.path.exists(env_path):
-        try:
-            with open(env_path, "r", encoding="utf-8") as ef:
-                for line in ef:
-                    if line.startswith("GEMINI_API_KEY="):
-                        return line.split("=", 1)[1].strip().strip('"').strip("'")
-        except Exception:
-            pass
+    """Resuelve la API Key de Gemini unificada con sales_os_router, GOOGLE_API_KEY e IntegrationSetting DB."""
+    try:
+        from sales_os_router import _resolve_gemini_api_key as _resolve_sales_gemini_key
+        key = (_resolve_sales_gemini_key() or "").strip()
+        if key:
+            return key
+    except Exception:
+        pass
+    for var_name in ("GEMINI_API_KEY", "GOOGLE_API_KEY"):
+        val = (_resolve_env_secret(var_name, "") or "").strip()
+        if val:
+            return val
     return ""
 
 
