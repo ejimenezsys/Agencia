@@ -6244,7 +6244,7 @@ def _load_prosperia_kb_text() -> str:
     kb_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static", "knowledge_base_prosperia.md")
     try:
         with open(kb_path, "r", encoding="utf-8") as f:
-            return f.read()[:5000]
+            return f.read()[:12000]
     except Exception:
         return (
             "Agencia Prosper IA LLC (Miami, FL) instala Página Web, tus 4 Empleados Digitales (SDR IA, Setter IA, Closer IA y Soporte IA), "
@@ -6514,8 +6514,9 @@ async def api_prosperia_assistant(req: ProsperiaAssistantRequest, request: Reque
             "3. Presenta cuando corresponda nuestros 4 Empleados Digitales: SDR IA, Setter IA, Closer IA y Soporte IA.\n"
             "4. PRECIOS Y AGENDA OFICIALES: cuando pregunten precios, paquetes o horarios, comparte con claridad nuestras opciones reales: "
             "Sitio Web Inicial Gratis ($0 costo de diseño en https://agenciaprosperia.com/sitioweb), "
-            "Plan Arranque Rápido (US$49/mes o US$497 anual), Pack Estrella Más Elegido (US$99/mes o US$990 anual con IA 24/7 y PassportAI) "
-            "y Máquina Completa Empresarial (US$149/mes o US$1,497 anual). "
+            "Plan Rescate Micro-PYME (US$197 pago único en 5 días), "
+            "Plan Arranque Rápido (US$49/mes o US$497 anual), Pack Estrella Más Elegido (US$99/mes o US$990 anual con IA 24/7 y PassportAI), "
+            "Máquina Completa Empresarial (US$149/mes o US$1,497 anual con Voz IA 24/7) y Planes Agencia Viral (US$797 a US$2,497/mes). "
             "Horarios disponibles: Lunes a Viernes de 9:00 AM a 6:00 PM hora Miami (EST). Invita a confirmar su cita en https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8 y pide Nombre, Giro de negocio y WhatsApp (o escribir al +1 786 982-8707).\n"
             f"\nBASE DE CONOCIMIENTOS OFICIAL:\n{kb_text}\n{hist_block}"
         )
@@ -6574,6 +6575,115 @@ async def api_prosperia_assistant(req: ProsperiaAssistantRequest, request: Reque
             "calendar_anchor": "https://api.agenciaprosperia.com/widget/booking/gqoqyrr112bvjTJYqOi8",
             "whatsapp_url": EMERGENCY_WA_URL,
         },
+        headers=_EMPRENDE_CORS_HEADERS,
+    )
+
+
+class ProsperiaVoiceTranscribeRequest(BaseModel):
+    audio_base64: str
+    mime_type: Optional[str] = "audio/webm"
+    lang: Optional[str] = "es"
+
+
+@app.options("/api/prosperia/voice-transcribe", include_in_schema=False)
+async def api_prosperia_voice_transcribe_options():
+    return JSONResponse({"ok": True}, headers=_EMPRENDE_CORS_HEADERS)
+
+
+@app.post("/api/prosperia/voice-transcribe")
+async def api_prosperia_voice_transcribe(req: ProsperiaVoiceTranscribeRequest):
+    """Transcribe audio del micrófono web/móvil mediante Gemini Multimodal (respaldo universal)."""
+    import asyncio
+    import ssl
+    import urllib.request
+
+    raw_b64 = str(req.audio_base64 or "").strip()
+    if "," in raw_b64 and raw_b64.startswith("data:"):
+        raw_b64 = raw_b64.split(",", 1)[1].strip()
+    if not raw_b64 or len(raw_b64) < 64:
+        return JSONResponse(
+            {"success": False, "transcript": "", "error": "Audio demasiado corto o vacío."},
+            status_code=400,
+            headers=_EMPRENDE_CORS_HEADERS,
+        )
+    if len(raw_b64) > 3_500_000:
+        return JSONResponse(
+            {"success": False, "transcript": "", "error": "Audio excede el tamaño máximo permitido (2.5 MB)."},
+            status_code=413,
+            headers=_EMPRENDE_CORS_HEADERS,
+        )
+
+    raw_mime = str(req.mime_type or "audio/webm").split(";")[0].strip().lower()
+    mime_aliases = {
+        "audio/x-m4a": "audio/mp4",
+        "audio/m4a": "audio/mp4",
+        "audio/x-wav": "audio/wav",
+        "audio/wave": "audio/wav",
+        "audio/mp3": "audio/mpeg",
+        "video/webm": "audio/webm",
+    }
+    clean_mime = mime_aliases.get(raw_mime, raw_mime)
+    allowed_mimes = {"audio/webm", "audio/mp4", "audio/ogg", "audio/wav", "audio/mpeg", "audio/aac", "audio/flac"}
+    if clean_mime not in allowed_mimes:
+        clean_mime = "audio/webm"
+
+    api_key = _resolve_gemini_api_key()
+    if not api_key:
+        return JSONResponse(
+            {"success": False, "transcript": "", "error": "Servicio de transcripción no configurado."},
+            status_code=503,
+            headers=_EMPRENDE_CORS_HEADERS,
+        )
+
+    lang_hint = "en inglés o español" if str(req.lang or "").lower().startswith("en") else "en español o inglés"
+    prompt_text = (
+        f"Transcribe exactamente lo que dice la persona en este audio ({lang_hint}). "
+        "Devuelve ÚNICAMENTE el texto transcrito limpio, sin comillas, sin prefijos, sin explicaciones "
+        "y sin etiquetas como 'Usuario:'. Si solo hay silencio o ruido sin palabras claras, devuelve exactamente vacío."
+    )
+
+    def _call_gemini_audio() -> str:
+        ctx = ssl._create_unverified_context()
+        for model_name in ("gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"):
+            gen_cfg: Dict[str, Any] = {"temperature": 0.0, "maxOutputTokens": 220}
+            if "2.5" in model_name:
+                gen_cfg["thinkingConfig"] = {"thinkingBudget": 0}
+            payload = {
+                "contents": [
+                    {
+                        "parts": [
+                            {"text": prompt_text},
+                            {"inline_data": {"mime_type": clean_mime, "data": raw_b64}},
+                        ]
+                    }
+                ],
+                "generationConfig": gen_cfg,
+            }
+            try:
+                url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={api_key}"
+                http_req = urllib.request.Request(
+                    url,
+                    data=json.dumps(payload).encode("utf-8"),
+                    headers={"Content-Type": "application/json"},
+                )
+                with urllib.request.urlopen(http_req, context=ctx, timeout=14) as resp:
+                    data = json.loads(resp.read().decode("utf-8") or "{}")
+                    candidates = data.get("candidates") or []
+                    if not candidates:
+                        continue
+                    parts = candidates[0].get("content", {}).get("parts") or []
+                    text_out = " ".join(str(p.get("text") or "") for p in parts).strip()
+                    text_out = text_out.strip().strip('"').strip("'")
+                    if text_out.lower() in {"vacío", "vacio", "[silencio]", "(silencio)", "none", "n/a"}:
+                        return ""
+                    return text_out
+            except Exception as exc:
+                print(f"[Voice Transcribe Warning] {model_name}: {exc}", flush=True)
+        return ""
+
+    transcript = await asyncio.to_thread(_call_gemini_audio)
+    return JSONResponse(
+        {"success": True, "transcript": transcript, "mime_type": clean_mime},
         headers=_EMPRENDE_CORS_HEADERS,
     )
 

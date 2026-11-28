@@ -331,15 +331,80 @@
         color: #34d399;
         border: 1px solid rgba(52, 211, 153, 0.45);
         border-radius: 10px;
+        min-width: 40px;
+        min-height: 40px;
         padding: 9px 11px;
         font-weight: 800;
         cursor: pointer;
         flex-shrink: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
       }
-      #pia-cp-mic.is-listening {
-        background: #f43f5e;
-        color: #fff;
-        border-color: #fda4af;
+      #pia-cp-mic.is-listening,
+      #aura-mic-btn.is-listening {
+        background: #e11d48 !important;
+        color: #ffffff !important;
+        border-color: #fda4af !important;
+        box-shadow: 0 0 18px rgba(244, 63, 94, 0.45);
+      }
+      .pia-cp-status {
+        display: none;
+        padding: 6px 12px;
+        font-size: 11.5px;
+        line-height: 1.35;
+        font-weight: 600;
+        color: #a7f3d0;
+        background: rgba(6, 78, 59, 0.45);
+        border-top: 1px solid rgba(52, 211, 153, 0.28);
+      }
+      .pia-cp-status.is-visible { display: block; }
+      .pia-cp-status.is-error {
+        color: #fecdd3;
+        background: rgba(136, 19, 55, 0.55);
+        border-top-color: rgba(251, 113, 133, 0.35);
+      }
+      .pia-msg-bot-tools {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        margin-top: 6px;
+        gap: 6px;
+      }
+      .pia-speak-btn {
+        background: rgba(56, 189, 248, 0.12);
+        border: 1px solid rgba(56, 189, 248, 0.32);
+        color: #7dd3fc;
+        border-radius: 999px;
+        padding: 3px 9px;
+        font-size: 11px;
+        font-weight: 700;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .pia-speak-btn:hover { background: rgba(56, 189, 248, 0.25); color: #ffffff; }
+      .pia-cp-iconbtn.is-active {
+        background: rgba(16, 185, 129, 0.32);
+        border: 1px solid rgba(52, 211, 153, 0.55);
+        color: #6ee7b7;
+      }
+      .pia-visually-hidden:where(:not(:focus-within, :active)) {
+        position: absolute !important;
+        clip-path: inset(50%) !important;
+        overflow: hidden !important;
+        width: 1px !important;
+        height: 1px !important;
+        margin: -1px !important;
+        padding: 0 !important;
+        border: 0 !important;
+        white-space: nowrap !important;
+      }
+      :where(#pia-chat-launcher, #pia-chat-panel button, #pia-chat-panel a, #aura-voice-stage button, #aura-voice-stage input):focus-visible {
+        outline: 2px solid #fbbf24;
+        outline-offset: 2px;
       }
       .pia-cp-actions {
         padding: 8px 12px;
@@ -663,13 +728,40 @@
     }
   }
 
+  const TRANSCRIBE_URL = '/api/prosperia/voice-transcribe';
+  let preferRecorderFallback = false;
+  let speechKeepAliveTimer = null;
+
+  function unlockSpeechSynthesis() {
+    try {
+      if (!('speechSynthesis' in window)) return;
+      if (typeof window.speechSynthesis.resume === 'function') {
+        window.speechSynthesis.resume();
+      }
+      const warm = new SpeechSynthesisUtterance(' ');
+      warm.volume = 0;
+      warm.rate = 10;
+      window.speechSynthesis.speak(warm);
+    } catch (e) {}
+  }
+
+  function stopSpeaking() {
+    try {
+      if (speechKeepAliveTimer) {
+        clearInterval(speechKeepAliveTimer);
+        speechKeepAliveTimer = null;
+      }
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+    } catch (e) {}
+  }
+
   function speakText(text, onStart, onEnd) {
     try {
-      if (!('speechSynthesis' in window)) {
+      if (!('speechSynthesis' in window) || !text) {
         if (onEnd) onEnd();
         return;
       }
-      window.speechSynthesis.cancel();
+      stopSpeaking();
       const utter = new SpeechSynthesisUtterance(text);
       utter.lang = 'es-MX';
       utter.rate = 1.02;
@@ -678,10 +770,36 @@
       const esVoice = voices.find(v => /es[-_](mx|us|419|es)/i.test(v.lang) && /paulina|monica|sabina|google|helena|dalia/i.test(v.name))
         || voices.find(v => /^es/i.test(v.lang));
       if (esVoice) utter.voice = esVoice;
-      if (onStart) utter.onstart = onStart;
-      if (onEnd) {
-        utter.onend = onEnd;
-        utter.onerror = onEnd;
+
+      let finished = false;
+      const finishOnce = () => {
+        if (finished) return;
+        finished = true;
+        if (speechKeepAliveTimer) {
+          clearInterval(speechKeepAliveTimer);
+          speechKeepAliveTimer = null;
+        }
+        if (onEnd) onEnd();
+      };
+
+      utter.onstart = () => {
+        if (onStart) onStart();
+        speechKeepAliveTimer = setInterval(() => {
+          try {
+            if (window.speechSynthesis.speaking && !window.speechSynthesis.paused) {
+              window.speechSynthesis.resume();
+            } else if (!window.speechSynthesis.speaking) {
+              clearInterval(speechKeepAliveTimer);
+              speechKeepAliveTimer = null;
+            }
+          } catch (e) {}
+        }, 4500);
+      };
+      utter.onend = finishOnce;
+      utter.onerror = finishOnce;
+
+      if (typeof window.speechSynthesis.resume === 'function') {
+        window.speechSynthesis.resume();
       }
       window.speechSynthesis.speak(utter);
     } catch (e) {
@@ -689,11 +807,367 @@
     }
   }
 
+  function supportsVoiceCapture() {
+    const hasSpeechRec = Boolean(window.SpeechRecognition || window.webkitSpeechRecognition);
+    const hasMediaRec = Boolean(
+      navigator.mediaDevices &&
+      typeof navigator.mediaDevices.getUserMedia === 'function' &&
+      typeof MediaRecorder !== 'undefined'
+    );
+    return hasSpeechRec || hasMediaRec;
+  }
+
+  function pickRecorderMimeType() {
+    if (typeof MediaRecorder === 'undefined') return '';
+    if (typeof MediaRecorder.isTypeSupported !== 'function') return '';
+    const candidates = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4', 'audio/ogg;codecs=opus', 'audio/ogg'];
+    for (const c of candidates) {
+      if (MediaRecorder.isTypeSupported(c)) return c;
+    }
+    return '';
+  }
+
+  function blobToBase64(blob) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const res = String(reader.result || '');
+        const commaIdx = res.indexOf(',');
+        resolve(commaIdx !== -1 ? res.slice(commaIdx + 1) : res);
+      };
+      reader.onerror = () => reject(new Error('Error leyendo audio'));
+      reader.readAsDataURL(blob);
+    });
+  }
+
+  function formatMicErrorMessage(code) {
+    if (code === 'permission-denied') {
+      return '🔒 Micrófono bloqueado en el navegador: toca el ícono de ajustes/candado junto a agenciaprosperia.com → Micrófono → Permitir (o revisa Ajustes del Sistema de tu equipo).';
+    }
+    if (code === 'no-device') {
+      return '🎙️ No se encontró un micrófono activo en este dispositivo; puedes usar una pregunta rápida o escribir abajo.';
+    }
+    if (code === 'mic-busy') {
+      return '🎙️ Otra aplicación (Zoom, Meet u otra pestaña) está usando el micrófono en este momento.';
+    }
+    if (code === 'insecure') {
+      return '🔒 El micrófono requiere conexión segura HTTPS.';
+    }
+    if (code === 'no-speech') {
+      return '🎙️ No escuché palabras claras. Toca el micrófono de nuevo y habla cerca, o escribe abajo.';
+    }
+    return '🎙️ No se pudo completar la captura de voz; toca el micrófono de nuevo o escribe tu consulta abajo.';
+  }
+
+  function createSmartVoiceSession(callbacks) {
+    const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const hasMediaRec = Boolean(
+      navigator.mediaDevices &&
+      typeof navigator.mediaDevices.getUserMedia === 'function' &&
+      typeof MediaRecorder !== 'undefined'
+    );
+    let activeRec = null;
+    let activeMediaRecorder = null;
+    let activeStream = null;
+    let activeAudioCtx = null;
+    let silenceTimer = null;
+    let maxDurationTimer = null;
+    let cancelled = false;
+    let settled = false;
+
+    function cleanupMedia() {
+      if (silenceTimer) { clearInterval(silenceTimer); silenceTimer = null; }
+      if (maxDurationTimer) { clearTimeout(maxDurationTimer); maxDurationTimer = null; }
+      if (activeStream) {
+        try { activeStream.getTracks().forEach(t => t.stop()); } catch (e) {}
+        activeStream = null;
+      }
+      if (activeAudioCtx) {
+        try { activeAudioCtx.close(); } catch (e) {}
+        activeAudioCtx = null;
+      }
+    }
+
+    function finishError(code) {
+      if (settled) return;
+      settled = true;
+      cleanupMedia();
+      if (callbacks.onError) callbacks.onError(code, formatMicErrorMessage(code));
+    }
+
+    function finishSuccess(text) {
+      if (settled) return;
+      settled = true;
+      cleanupMedia();
+      const clean = String(text || '').trim();
+      if (!clean) {
+        if (callbacks.onError) callbacks.onError('no-speech', formatMicErrorMessage('no-speech'));
+        return;
+      }
+      if (callbacks.onResult) callbacks.onResult(clean);
+    }
+
+    async function startMediaRecorderFlow() {
+      if (!hasMediaRec) {
+        finishError('no-device');
+        return;
+      }
+      if (!window.isSecureContext) {
+        finishError('insecure');
+        return;
+      }
+      try {
+        if (callbacks.onStatus) callbacks.onStatus('🎙️ Solicitando permiso de micrófono...');
+        activeStream = await navigator.mediaDevices.getUserMedia({
+          audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true }
+        });
+      } catch (err) {
+        const name = (err && err.name) || '';
+        if (name === 'NotAllowedError' || name === 'PermissionDeniedError' || name === 'SecurityError') {
+          finishError('permission-denied');
+        } else if (name === 'NotFoundError' || name === 'DevicesNotFoundError') {
+          finishError('no-device');
+        } else if (name === 'NotReadableError' || name === 'TrackStartError') {
+          finishError('mic-busy');
+        } else {
+          finishError('unavailable');
+        }
+        return;
+      }
+
+      if (cancelled || settled) {
+        cleanupMedia();
+        return;
+      }
+
+      const chunks = [];
+      const chosenMime = pickRecorderMimeType();
+      try {
+        activeMediaRecorder = chosenMime
+          ? new MediaRecorder(activeStream, { mimeType: chosenMime })
+          : new MediaRecorder(activeStream);
+      } catch (e) {
+        cleanupMedia();
+        finishError('unavailable');
+        return;
+      }
+
+      const recMime = activeMediaRecorder.mimeType || chosenMime || 'audio/webm';
+      activeMediaRecorder.ondataavailable = (ev) => {
+        if (ev.data && ev.data.size > 0) chunks.push(ev.data);
+      };
+
+      activeMediaRecorder.onstop = async () => {
+        cleanupMedia();
+        if (cancelled || settled) return;
+        const blob = new Blob(chunks, { type: recMime });
+        if (!blob || blob.size < 600) {
+          finishError('no-speech');
+          return;
+        }
+        if (callbacks.onTranscribing) callbacks.onTranscribing();
+        if (callbacks.onStatus) callbacks.onStatus('⏳ Procesando tu voz...');
+        try {
+          const b64 = await blobToBase64(blob);
+          const signal = (typeof AbortSignal !== 'undefined' && typeof AbortSignal.timeout === 'function')
+            ? AbortSignal.timeout(15000)
+            : undefined;
+          const resp = await fetch(TRANSCRIBE_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            signal,
+            body: JSON.stringify({
+              audio_base64: b64,
+              mime_type: recMime,
+              lang: document.documentElement.lang || 'es'
+            })
+          });
+          const data = await resp.json();
+          const spoken = data && data.transcript ? String(data.transcript).trim() : '';
+          finishSuccess(spoken);
+        } catch (err) {
+          finishError('unavailable');
+        }
+      };
+
+      if (callbacks.onListeningStart) callbacks.onListeningStart('recorder');
+      if (callbacks.onStatus) callbacks.onStatus('🎙️ Grabando tu voz... habla ahora (toca otra vez para enviar)');
+      activeMediaRecorder.start(250);
+
+      // Detección de silencio tras hablar para enviar automáticamente sin exigir otro clic
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (AudioCtx) {
+          activeAudioCtx = new AudioCtx();
+          const src = activeAudioCtx.createMediaStreamSource(activeStream);
+          const analyser = activeAudioCtx.createAnalyser();
+          analyser.fftSize = 1024;
+          src.connect(analyser);
+          const buf = new Uint8Array(analyser.fftSize);
+          let heardVoice = false;
+          let silentSince = 0;
+          const startedAt = Date.now();
+          silenceTimer = setInterval(() => {
+            if (!activeMediaRecorder || activeMediaRecorder.state !== 'recording') return;
+            analyser.getByteTimeDomainData(buf);
+            let sum = 0;
+            for (let i = 0; i < buf.length; i++) {
+              const v = (buf[i] - 128) / 128;
+              sum += v * v;
+            }
+            const rms = Math.sqrt(sum / buf.length);
+            const now = Date.now();
+            if (rms > 0.022) {
+              heardVoice = true;
+              silentSince = 0;
+            } else if (heardVoice && now - startedAt > 1200) {
+              if (!silentSince) silentSince = now;
+              if (now - silentSince >= 1500) {
+                try { activeMediaRecorder.stop(); } catch (e) {}
+              }
+            }
+          }, 150);
+        }
+      } catch (e) {}
+
+      maxDurationTimer = setTimeout(() => {
+        try {
+          if (activeMediaRecorder && activeMediaRecorder.state === 'recording') {
+            activeMediaRecorder.stop();
+          }
+        } catch (e) {}
+      }, 8500);
+    }
+
+    function start() {
+      if (!window.isSecureContext) {
+        finishError('insecure');
+        return;
+      }
+      if (!SpeechRec || preferRecorderFallback) {
+        startMediaRecorderFlow();
+        return;
+      }
+
+      let latestTranscript = '';
+      let fallbackTriggered = false;
+      try {
+        activeRec = new SpeechRec();
+        activeRec.lang = 'es-MX';
+        activeRec.interimResults = true;
+        activeRec.continuous = false;
+        activeRec.maxAlternatives = 1;
+
+        if (callbacks.onListeningStart) callbacks.onListeningStart('speech');
+        if (callbacks.onStatus) callbacks.onStatus('🎙️ Escuchando tu voz... habla ahora');
+
+        activeRec.onresult = (ev) => {
+          if (cancelled || settled) return;
+          let combined = '';
+          let hasFinal = false;
+          for (let i = 0; i < ev.results.length; i++) {
+            const res = ev.results[i];
+            if (res && res[0] && res[0].transcript) {
+              combined += res[0].transcript;
+              if (res.isFinal) hasFinal = true;
+            }
+          }
+          combined = combined.trim();
+          if (combined) {
+            latestTranscript = combined;
+            if (callbacks.onInterim) callbacks.onInterim(combined);
+          }
+          if (hasFinal && combined) {
+            try { activeRec.stop(); } catch (e) {}
+            finishSuccess(combined);
+          }
+        };
+
+        activeRec.onerror = (ev) => {
+          if (cancelled || settled) return;
+          const errCode = (ev && ev.error) || '';
+          if (latestTranscript) {
+            finishSuccess(latestTranscript);
+            return;
+          }
+          if (
+            hasMediaRec &&
+            (errCode === 'network' || errCode === 'service-not-allowed' || errCode === 'audio-capture' || errCode === 'not-allowed' || errCode === 'aborted' || !errCode)
+          ) {
+            preferRecorderFallback = true;
+            fallbackTriggered = true;
+            try { activeRec.abort(); } catch (e) {}
+            startMediaRecorderFlow();
+            return;
+          }
+          if (errCode === 'not-allowed' || errCode === 'service-not-allowed') {
+            finishError('permission-denied');
+          } else if (errCode === 'audio-capture') {
+            finishError('no-device');
+          } else if (errCode === 'no-speech') {
+            finishError('no-speech');
+          } else {
+            finishError('unavailable');
+          }
+        };
+
+        activeRec.onend = () => {
+          if (cancelled || settled || fallbackTriggered) return;
+          if (latestTranscript) {
+            finishSuccess(latestTranscript);
+          } else if (hasMediaRec && !preferRecorderFallback) {
+            // Algunas versiones de Chrome desktop cierran SpeechRecognition al instante sin evento onerror útil
+            preferRecorderFallback = true;
+            startMediaRecorderFlow();
+          } else {
+            finishError('no-speech');
+          }
+        };
+
+        activeRec.start();
+      } catch (e) {
+        if (hasMediaRec) {
+          preferRecorderFallback = true;
+          startMediaRecorderFlow();
+        } else {
+          finishError('unavailable');
+        }
+      }
+    }
+
+    function stopAndSubmit() {
+      if (activeMediaRecorder && activeMediaRecorder.state === 'recording') {
+        try { activeMediaRecorder.stop(); } catch (e) {}
+        return;
+      }
+      if (activeRec) {
+        try { activeRec.stop(); } catch (e) {}
+        return;
+      }
+      cancelled = true;
+      finishError('no-speech');
+    }
+
+    function cancel() {
+      cancelled = true;
+      settled = true;
+      if (activeRec) {
+        try { activeRec.abort(); } catch (e) {}
+      }
+      if (activeMediaRecorder && activeMediaRecorder.state === 'recording') {
+        try { activeMediaRecorder.stop(); } catch (e) {}
+      }
+      cleanupMedia();
+    }
+
+    return { start, stopAndSubmit, cancel };
+  }
+
   function mountVoiceStage() {
     const stageEl = document.getElementById('aura-voice-stage');
     if (!stageEl) return;
 
-    const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const voiceSupported = supportsVoiceCapture();
     stageEl.innerHTML = `
       <div class="aura-stage-box" id="aura-stage-card">
         <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:0.75rem; margin-bottom:0.85rem;">
@@ -701,13 +1175,13 @@
             <div class="aura-wave-bars" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
             <div>
               <div style="font-size:0.88rem; font-weight:800; color:#ffffff;">Setter IA · Asistente de Voz en Vivo</div>
-              <div id="aura-stage-status" style="font-size:0.76rem; color:#34d399;">Conectado al CRM · Listo para escucharte</div>
+              <div id="aura-stage-status" role="status" aria-live="polite" style="font-size:0.78rem; color:#34d399;">Conectado al CRM · Listo para escucharte</div>
             </div>
           </div>
           <div style="display:flex; gap:0.5rem;">
-            <button type="button" id="aura-mic-btn" class="hm-btn-emerald pia-btn-emerald" style="padding:0.65rem 1.1rem; font-size:0.86rem; border-radius:12px;">
+            <button type="button" id="aura-mic-btn" class="hm-btn-emerald pia-btn-emerald" aria-pressed="false" style="padding:0.65rem 1.1rem; font-size:0.86rem; border-radius:12px;">
               <i class="fas fa-microphone" aria-hidden="true"></i>
-              <span>${SpeechRec ? 'Hablar por Voz Ahora' : 'Escuchar Saludo en Vivo'}</span>
+              <span id="aura-mic-label">${voiceSupported ? 'Hablar por Voz Ahora' : 'Escuchar Saludo en Vivo'}</span>
             </button>
             <button type="button" id="aura-stop-btn" class="hm-btn-outline pia-btn-ghost" style="padding:0.65rem 0.9rem; font-size:0.82rem; border-radius:12px;" hidden>
               <i class="fas fa-stop" aria-hidden="true"></i>
@@ -722,7 +1196,7 @@
 
         <div style="display:flex; flex-wrap:wrap; gap:0.45rem; margin-bottom:0.85rem;">
           <button type="button" class="pia-qbtn aura-voice-pill" data-q="¿Qué hacen los 4 Empleados Digitales (SDR IA, Setter IA, Closer IA y Soporte IA)?">Los 4 Empleados Digitales</button>
-          <button type="button" class="pia-qbtn aura-voice-pill" data-q="¿Cuáles son los paquetes o cajas que ofrecen para mi negocio?">Ver Opciones</button>
+          <button type="button" class="pia-qbtn aura-voice-pill" data-q="¿Cuáles son los paquetes, precios y horarios que manejan?">Ver Opciones</button>
           <button type="button" class="pia-qbtn aura-voice-pill" data-q="¿En cuántos días me entregan todo funcionando?">Tiempo de entrega</button>
           <button type="button" class="pia-qbtn aura-voice-pill" data-q="Quiero agendar una demostración en vivo">Agendar Demo</button>
         </div>
@@ -741,24 +1215,51 @@
     const statusTxt = document.getElementById('aura-stage-status');
     const transcript = document.getElementById('aura-stage-transcript');
     const micBtn = document.getElementById('aura-mic-btn');
+    const micLabel = document.getElementById('aura-mic-label');
     const stopBtn = document.getElementById('aura-stop-btn');
     const textForm = document.getElementById('aura-voice-text-form');
     const textIn = document.getElementById('aura-voice-text-in');
-    let recInstance = null;
+    let voiceSession = null;
+
+    function resetMicUi() {
+      card.classList.remove('is-listening');
+      micBtn.classList.remove('is-listening');
+      micBtn.setAttribute('aria-pressed', 'false');
+      if (micLabel) micLabel.textContent = voiceSupported ? 'Hablar por Voz Ahora' : 'Escuchar Saludo en Vivo';
+    }
 
     async function runVoiceQuery(questionText) {
       if (!questionText) return;
       captureLeadContext(questionText);
-      card.classList.remove('is-listening');
+      resetMicUi();
+      statusTxt.style.color = '#34d399';
       statusTxt.textContent = 'Consultando al Asesor Comercial conectado al CRM...';
-      transcript.innerHTML = `<div style="color:#93c5fd; margin-bottom:4px;"><strong>Tú:</strong> ${formatRichHtml(questionText)}</div><div><em>Escribiendo respuesta...</em></div>`;
+      transcript.innerHTML = `<div style="color:#93c5fd; margin-bottom:4px;"><strong>Tú:</strong> ${formatRichHtml(questionText)}</div><div><em>Escribiendo y preparando respuesta por voz...</em></div>`;
 
       const res = await askAssistant(questionText, 'voice');
       transcript.innerHTML =
         `<div style="color:#93c5fd; margin-bottom:4px;"><strong>Tú:</strong> ${formatRichHtml(questionText)}</div>` +
         `<div style="color:#ecfdf5;"><strong>Asistente IA:</strong> ${formatRichHtml(res.reply)}</div>` +
+        `<div style="margin-top:8px; display:flex; align-items:center; justify-content:flex-start; gap:8px;">` +
+        `<button type="button" class="pia-speak-btn aura-replay-btn"><i class="fas fa-volume-high" aria-hidden="true"></i> <span>Escuchar Respuesta</span></button>` +
+        `</div>` +
         buildCtasHtml(res.ctas);
       bindBookingCtaHandlers(transcript);
+      const replayBtn = transcript.querySelector('.aura-replay-btn');
+      if (replayBtn) {
+        replayBtn.addEventListener('click', () => {
+          unlockSpeechSynthesis();
+          stopBtn.hidden = false;
+          card.classList.add('is-speaking');
+          statusTxt.textContent = 'Reproduciendo respuesta en vivo...';
+          speakText(res.replySpeech, () => card.classList.add('is-speaking'), () => {
+            card.classList.remove('is-speaking');
+            statusTxt.textContent = 'Listo para tu siguiente pregunta';
+            stopBtn.hidden = true;
+          });
+        });
+      }
+
       statusTxt.textContent = 'Respondiendo en vivo...';
       stopBtn.hidden = false;
       card.classList.add('is-speaking');
@@ -773,55 +1274,77 @@
     }
 
     stopBtn.addEventListener('click', () => {
-      try { if (recInstance) recInstance.stop(); } catch (e) {}
-      try { if ('speechSynthesis' in window) window.speechSynthesis.cancel(); } catch (e) {}
-      card.classList.remove('is-speaking', 'is-listening');
+      if (voiceSession) {
+        voiceSession.cancel();
+        voiceSession = null;
+      }
+      stopSpeaking();
+      resetMicUi();
+      card.classList.remove('is-speaking');
+      statusTxt.style.color = '#34d399';
       statusTxt.textContent = 'Audio detenido';
       stopBtn.hidden = true;
     });
 
     micBtn.addEventListener('click', () => {
-      if (!SpeechRec) {
+      unlockSpeechSynthesis();
+      if (!voiceSupported) {
         runVoiceQuery('Hola, explícame brevemente cómo ayudan a un dueño de negocio con web, WhatsApp 24/7 y calendario.');
         return;
       }
-      try {
-        if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-        recInstance = new SpeechRec();
-        recInstance.lang = 'es-MX';
-        recInstance.interimResults = false;
-        recInstance.maxAlternatives = 1;
-
-        card.classList.add('is-listening');
-        stopBtn.hidden = false;
-        statusTxt.textContent = 'Escuchando tu voz... habla ahora';
-
-        recInstance.onresult = (ev) => {
-          const spoken = ev.results && ev.results[0] && ev.results[0][0] ? ev.results[0][0].transcript : '';
-          card.classList.remove('is-listening');
-          if (spoken) runVoiceQuery(spoken);
-        };
-        recInstance.onerror = () => {
-          card.classList.remove('is-listening');
-          stopBtn.hidden = true;
-          statusTxt.textContent = 'No se detectó micrófono; puedes tocar una pregunta rápida o escribir abajo.';
-        };
-        recInstance.onend = () => {
-          card.classList.remove('is-listening');
-        };
-        recInstance.start();
-      } catch (e) {
-        statusTxt.textContent = 'Usa el campo de texto o los botones de abajo para escuchar al asistente.';
+      if (micBtn.classList.contains('is-listening') && voiceSession) {
+        statusTxt.textContent = '⏳ Enviando tu audio...';
+        voiceSession.stopAndSubmit();
+        return;
       }
+      stopSpeaking();
+      voiceSession = createSmartVoiceSession({
+        onListeningStart: () => {
+          card.classList.add('is-listening');
+          micBtn.classList.add('is-listening');
+          micBtn.setAttribute('aria-pressed', 'true');
+          if (micLabel) micLabel.textContent = 'Enviar Voz Ahora';
+          stopBtn.hidden = false;
+          statusTxt.style.color = '#fbbf24';
+        },
+        onStatus: (msg) => {
+          statusTxt.textContent = msg;
+        },
+        onInterim: (partial) => {
+          if (textIn) textIn.value = partial;
+          transcript.innerHTML = `<div style="color:#93c5fd;"><strong>Escuchando:</strong> ${formatRichHtml(partial)}</div>`;
+        },
+        onTranscribing: () => {
+          resetMicUi();
+          statusTxt.style.color = '#38bdf8';
+        },
+        onResult: (spoken) => {
+          voiceSession = null;
+          if (textIn) textIn.value = '';
+          runVoiceQuery(spoken);
+        },
+        onError: (_code, userMsg) => {
+          voiceSession = null;
+          resetMicUi();
+          stopBtn.hidden = true;
+          statusTxt.style.color = '#fda4af';
+          statusTxt.textContent = userMsg;
+        }
+      });
+      voiceSession.start();
     });
 
     document.querySelectorAll('.aura-voice-pill').forEach(btn => {
-      btn.addEventListener('click', () => runVoiceQuery(btn.getAttribute('data-q') || ''));
+      btn.addEventListener('click', () => {
+        unlockSpeechSynthesis();
+        runVoiceQuery(btn.getAttribute('data-q') || '');
+      });
     });
 
     if (textForm && textIn) {
       textForm.addEventListener('submit', (e) => {
         e.preventDefault();
+        unlockSpeechSynthesis();
         const q = textIn.value.trim();
         if (!q) return;
         textIn.value = '';
@@ -834,7 +1357,7 @@
     if (document.getElementById('pia-chat-launcher')) return;
     await loadBotConfig();
 
-    const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const voiceSupported = supportsVoiceCapture();
 
     const btn = document.createElement('button');
     btn.id = 'pia-chat-launcher';
@@ -857,6 +1380,7 @@
           </div>
         </div>
         <div style="display:flex; align-items:center; gap:5px; flex-shrink:0;">
+          <button type="button" id="pia-cp-tts-toggle" class="pia-cp-iconbtn is-active" aria-pressed="true" title="Leer respuestas en voz alta" aria-label="Leer respuestas en voz alta"><i class="fas fa-volume-high" aria-hidden="true"></i></button>
           <button type="button" id="pia-cp-reset" class="pia-cp-iconbtn" title="Reiniciar conversación" aria-label="Reiniciar conversación"><i class="fas fa-rotate-left" aria-hidden="true"></i></button>
           <button type="button" id="pia-cp-close" class="pia-cp-iconbtn" title="Cerrar asistente" aria-label="Cerrar asistente">✕</button>
         </div>
@@ -865,11 +1389,13 @@
       <div class="pia-cp-quick">
         <button type="button" class="pia-qbtn pia-cp-q" data-q="Quiero información de páginas web y 4 Empleados Digitales">Web + IA 24/7</button>
         <button type="button" class="pia-qbtn pia-cp-q" data-q="Quiero ver el embudo de Reels y agendar demo">Reels &amp; Agenda</button>
-        <button type="button" class="pia-qbtn pia-cp-q" data-q="¿Qué paquetes manejan para mi negocio?">Ver Opciones</button>
+        <button type="button" class="pia-qbtn pia-cp-q" data-q="¿Qué paquetes, precios y horarios manejan para mi negocio?">Ver Opciones</button>
       </div>
+      <div id="pia-cp-status" class="pia-cp-status" role="status" aria-live="polite"></div>
       <form class="pia-cp-inputrow" id="pia-cp-form">
+        <label for="pia-cp-input" class="pia-visually-hidden">Escribe o dicta tu consulta para el Asesor Comercial</label>
         <input type="text" id="pia-cp-input" placeholder="Escribe o habla por micrófono..." autocomplete="off">
-        ${SpeechRec ? '<button type="button" id="pia-cp-mic" title="Hablar por Voz" aria-label="Hablar por voz"><i class="fas fa-microphone" aria-hidden="true"></i></button>' : ''}
+        ${voiceSupported ? '<button type="button" id="pia-cp-mic" aria-pressed="false" title="Hablar por Voz" aria-label="Hablar por voz"><i class="fas fa-microphone" aria-hidden="true"></i></button>' : ''}
         <button type="submit" aria-label="Enviar mensaje" style="background:#f59e0b; color:#090d16; border:0; border-radius:10px; padding:9px 13px; font-weight:800; cursor:pointer; flex-shrink:0;">Enviar</button>
       </form>
       <div class="pia-cp-actions">
@@ -885,15 +1411,58 @@
     const msgsBox = document.getElementById('pia-cp-messages');
     const closeBtn = document.getElementById('pia-cp-close');
     const resetBtn = document.getElementById('pia-cp-reset');
+    const ttsToggleBtn = document.getElementById('pia-cp-tts-toggle');
+    const cpStatus = document.getElementById('pia-cp-status');
     const cpForm = document.getElementById('pia-cp-form');
     const cpInput = document.getElementById('pia-cp-input');
     const cpMic = document.getElementById('pia-cp-mic');
     const calLink = document.getElementById('pia-cp-cal-link');
 
+    let autoSpeakVoiceReplies = true;
+    let usedKeyboardDictation = false;
+    let wasPasted = false;
+    let lastInputLength = 0;
+    let chatVoiceSession = null;
+
+    function setChatStatus(msg, isError) {
+      if (!cpStatus) return;
+      if (!msg) {
+        cpStatus.textContent = '';
+        cpStatus.classList.remove('is-visible', 'is-error');
+        return;
+      }
+      cpStatus.textContent = msg;
+      cpStatus.classList.add('is-visible');
+      cpStatus.classList.toggle('is-error', Boolean(isError));
+    }
+
+    function attachSpeakButton(botBubbleDiv, plainSpeech) {
+      if (!botBubbleDiv || !plainSpeech) return;
+      const tools = document.createElement('div');
+      tools.className = 'pia-msg-bot-tools';
+      const spBtn = document.createElement('button');
+      spBtn.type = 'button';
+      spBtn.className = 'pia-speak-btn';
+      spBtn.innerHTML = '<i class="fas fa-volume-high" aria-hidden="true"></i><span>Escuchar</span>';
+      spBtn.addEventListener('click', () => {
+        unlockSpeechSynthesis();
+        speakText(plainSpeech, () => {
+          spBtn.innerHTML = '<i class="fas fa-stop" aria-hidden="true"></i><span>Reproduciendo...</span>';
+        }, () => {
+          spBtn.innerHTML = '<i class="fas fa-volume-high" aria-hidden="true"></i><span>Escuchar</span>';
+        });
+      });
+      tools.appendChild(spBtn);
+      botBubbleDiv.appendChild(tools);
+    }
+
     function appendBubble(role, text, ctas) {
       const div = document.createElement('div');
       div.className = role === 'user' ? 'pia-msg-user' : 'pia-msg-bot';
       div.innerHTML = formatRichHtml(text) + (role === 'bot' ? buildCtasHtml(ctas) : '');
+      if (role === 'bot' && text && text !== 'Escribiendo...') {
+        attachSpeakButton(div, text.replace(/https?:\/\/\S+/g, '').replace(/\*\*/g, '').trim());
+      }
       bindBookingCtaHandlers(div, () => setOpen(false));
       msgsBox.appendChild(div);
       msgsBox.scrollTop = msgsBox.scrollHeight;
@@ -922,7 +1491,17 @@
     }
 
     btn.addEventListener('click', () => setOpen(!panel.classList.contains('is-open')));
-    closeBtn.addEventListener('click', () => setOpen(false));
+    closeBtn.addEventListener('click', () => {
+      if (chatVoiceSession) {
+        chatVoiceSession.cancel();
+        chatVoiceSession = null;
+      }
+      if (cpMic) {
+        cpMic.classList.remove('is-listening');
+        cpMic.setAttribute('aria-pressed', 'false');
+      }
+      setOpen(false);
+    });
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && panel.classList.contains('is-open')) setOpen(false);
     });
@@ -934,9 +1513,33 @@
       });
     }
 
+    if (ttsToggleBtn) {
+      ttsToggleBtn.addEventListener('click', () => {
+        autoSpeakVoiceReplies = !autoSpeakVoiceReplies;
+        ttsToggleBtn.classList.toggle('is-active', autoSpeakVoiceReplies);
+        ttsToggleBtn.setAttribute('aria-pressed', String(autoSpeakVoiceReplies));
+        const icon = ttsToggleBtn.querySelector('i');
+        if (icon) icon.className = autoSpeakVoiceReplies ? 'fas fa-volume-high' : 'fas fa-volume-xmark';
+        if (!autoSpeakVoiceReplies) {
+          stopSpeaking();
+          setChatStatus('🔇 Respuesta hablada silenciada (solo texto).', false);
+          setTimeout(() => setChatStatus('', false), 2200);
+        } else {
+          unlockSpeechSynthesis();
+          setChatStatus('🔊 Voz activada: leeré en voz alta tus respuestas por micrófono.', false);
+          setTimeout(() => setChatStatus('', false), 2400);
+        }
+      });
+    }
+
     resetBtn.addEventListener('click', () => {
       try {
-        if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+        stopSpeaking();
+        if (chatVoiceSession) {
+          chatVoiceSession.cancel();
+          chatVoiceSession = null;
+        }
+        setChatStatus('', false);
         sessionStorage.removeItem(HISTORY_KEY);
         sessionStorage.removeItem(LEAD_DRAFT_KEY);
         leadDraft.name = '';
@@ -961,54 +1564,105 @@
       const bDiv = appendBubble('bot', 'Escribiendo...');
       const res = await askAssistant(txt, speakReply ? 'voice' : 'chat');
       bDiv.innerHTML = formatRichHtml(res.reply) + buildCtasHtml(res.ctas);
+      attachSpeakButton(bDiv, res.replySpeech);
       bindBookingCtaHandlers(bDiv, () => setOpen(false));
       msgsBox.scrollTop = msgsBox.scrollHeight;
       saveFusionHistory('bot', res.reply, res.ctas);
 
-      if (speakReply) {
+      if (speakReply && autoSpeakVoiceReplies) {
         speakText(res.replySpeech);
       }
     }
 
+    if (cpInput) {
+      cpInput.addEventListener('paste', () => {
+        wasPasted = true;
+      });
+      // Detecta dictado del teclado nativo de iOS/Android sin confundirlo con Ctrl+V/pegar
+      cpInput.addEventListener('input', (ev) => {
+        const curLen = cpInput.value.length;
+        const inputType = ev && ev.inputType ? ev.inputType : '';
+        if (wasPasted) {
+          wasPasted = false;
+        } else if (inputType === 'insertFromDictation' || (curLen - lastInputLength > 4)) {
+          usedKeyboardDictation = true;
+        } else if (curLen === 0) {
+          usedKeyboardDictation = false;
+        }
+        lastInputLength = curLen;
+      });
+    }
+
     cpForm.addEventListener('submit', (e) => {
       e.preventDefault();
+      unlockSpeechSynthesis();
       const val = cpInput.value.trim();
       if (!val) return;
+      const shouldSpeak = usedKeyboardDictation && autoSpeakVoiceReplies;
       cpInput.value = '';
-      sendChatMsg(val, false);
+      lastInputLength = 0;
+      usedKeyboardDictation = false;
+      setChatStatus('', false);
+      sendChatMsg(val, shouldSpeak);
     });
 
-    if (cpMic && SpeechRec) {
-      let chatRec = null;
+    if (cpMic && voiceSupported) {
       cpMic.addEventListener('click', () => {
-        if (cpMic.classList.contains('is-listening')) {
-          try { if (chatRec) chatRec.stop(); } catch (e) {}
-          cpMic.classList.remove('is-listening');
+        unlockSpeechSynthesis();
+        if (cpMic.classList.contains('is-listening') && chatVoiceSession) {
+          setChatStatus('⏳ Enviando tu audio...', false);
+          chatVoiceSession.stopAndSubmit();
           return;
         }
-        try {
-          if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-          chatRec = new SpeechRec();
-          chatRec.lang = 'es-MX';
-          chatRec.interimResults = false;
-          chatRec.maxAlternatives = 1;
-          cpMic.classList.add('is-listening');
-          chatRec.onresult = (ev) => {
+        stopSpeaking();
+        chatVoiceSession = createSmartVoiceSession({
+          onListeningStart: () => {
+            cpMic.classList.add('is-listening');
+            cpMic.setAttribute('aria-pressed', 'true');
+            const ic = cpMic.querySelector('i');
+            if (ic) ic.className = 'fas fa-stop';
+          },
+          onStatus: (msg) => setChatStatus(msg, false),
+          onInterim: (partial) => {
+            if (cpInput) cpInput.value = partial;
+          },
+          onTranscribing: () => {
             cpMic.classList.remove('is-listening');
-            const spoken = ev.results && ev.results[0] && ev.results[0][0] ? ev.results[0][0].transcript : '';
-            if (spoken) sendChatMsg(spoken, true);
-          };
-          chatRec.onerror = () => cpMic.classList.remove('is-listening');
-          chatRec.onend = () => cpMic.classList.remove('is-listening');
-          chatRec.start();
-        } catch (e) {
-          cpMic.classList.remove('is-listening');
-        }
+            cpMic.setAttribute('aria-pressed', 'false');
+            const ic = cpMic.querySelector('i');
+            if (ic) ic.className = 'fas fa-microphone';
+          },
+          onResult: (spoken) => {
+            chatVoiceSession = null;
+            cpMic.classList.remove('is-listening');
+            cpMic.setAttribute('aria-pressed', 'false');
+            const ic = cpMic.querySelector('i');
+            if (ic) ic.className = 'fas fa-microphone';
+            if (cpInput) cpInput.value = '';
+            lastInputLength = 0;
+            usedKeyboardDictation = false;
+            setChatStatus('', false);
+            sendChatMsg(spoken, true);
+          },
+          onError: (_code, userMsg) => {
+            chatVoiceSession = null;
+            cpMic.classList.remove('is-listening');
+            cpMic.setAttribute('aria-pressed', 'false');
+            const ic = cpMic.querySelector('i');
+            if (ic) ic.className = 'fas fa-microphone';
+            setChatStatus(userMsg, true);
+          }
+        });
+        chatVoiceSession.start();
       });
     }
 
     panel.querySelectorAll('.pia-cp-q').forEach(qb => {
-      qb.addEventListener('click', () => sendChatMsg(qb.getAttribute('data-q') || '', false));
+      qb.addEventListener('click', () => {
+        unlockSpeechSynthesis();
+        setChatStatus('', false);
+        sendChatMsg(qb.getAttribute('data-q') || '', false);
+      });
     });
 
     window.openProsperChat = function (e) {
