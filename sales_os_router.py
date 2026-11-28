@@ -5206,17 +5206,25 @@ def _handle_passportai_whatsapp_autoreply_sync(
     clean_msg = (inbound_text or "").strip()
     uid = (event_uid or "").strip()
 
-    if cid and (not clean_msg or not uid):
+    if cid and (not clean_msg or not uid or str(payload.get("type") or "").strip().lower() in ("", "19", "customer replied", "customerreplied")):
         comms = get_ghl_contact_comms_status(cid, raw_phone)
         msgs = comms.get("messages") or []
         inbound_msgs = [m for m in msgs if str(m.get("direction") or "").lower() == "inbound" and str(m.get("body") or "").strip()]
         if inbound_msgs:
             latest = inbound_msgs[0]
+            latest_ch = str(latest.get("channel") or "").strip().lower()
+            if latest_ch and ("email" in latest_ch or "sms" in latest_ch or "call" in latest_ch) and "whatsapp" not in latest_ch:
+                return {"processed": False, "reason": f"non_whatsapp_channel:{latest_ch}", "contact_id": cid}
             clean_msg = clean_msg or str(latest.get("body") or "").strip()
             uid = uid or str(latest.get("id") or "").strip()
 
     if not clean_msg:
         return {"processed": False, "reason": "empty_inbound_body"}
+
+    if uid:
+        existing_db_lead = _find_lead_for_inbound(db, contact_id=cid, phone=raw_phone, email=raw_email)
+        if existing_db_lead and f"[ref:{uid}]" in (getattr(existing_db_lead, "notes", "") or ""):
+            return {"processed": False, "reason": "duplicate_event_uid_db", "event_uid": uid}
 
     dedup_key = f"{cid}:{uid}" if uid else f"{cid}:{' '.join(clean_msg.lower().split())[:64]}"
     with _WA_AUTOREPLY_LOCK:
@@ -5505,26 +5513,47 @@ async def api_ghl_inbound_reply_webhook(request: Request, db: Session = Depends(
     except Exception:
         payload = {}
 
-    contact_id = str(payload.get("contact_id") or payload.get("contactId") or (payload.get("contact") or {}).get("id") or "").strip()
-    phone = str(payload.get("phone") or (payload.get("contact") or {}).get("phone") or "").strip()
-    email = str(payload.get("email") or (payload.get("contact") or {}).get("email") or "").strip()
+    trigger_obj = payload.get("triggerData") if isinstance(payload.get("triggerData"), dict) else {}
+    contact_id = str(payload.get("contact_id") or payload.get("contactId") or trigger_obj.get("contactId") or (payload.get("contact") or {}).get("id") or "").strip()
+    phone = str(payload.get("phone") or trigger_obj.get("phone") or (payload.get("contact") or {}).get("phone") or "").strip()
+    email = str(payload.get("email") or trigger_obj.get("email") or (payload.get("contact") or {}).get("email") or "").strip()
     msg_obj = payload.get("message") if isinstance(payload.get("message"), dict) else {}
     from_me = bool(payload.get("fromMe") or payload.get("from_me") or msg_obj.get("fromMe"))
-    direction = str(payload.get("direction") or msg_obj.get("direction") or "").strip().lower()
+    direction = str(payload.get("direction") or msg_obj.get("direction") or trigger_obj.get("direction") or "").strip().lower()
     if from_me or direction in ("outbound", "outgoing", "out"):
         return {"success": True, "ignored": True, "reason": "outbound_ignored"}
 
     inbound_text = str(
         msg_obj.get("body")
         or msg_obj.get("text")
+        or trigger_obj.get("body")
+        or trigger_obj.get("message")
         or payload.get("body")
         or payload.get("message")
         or payload.get("last_message")
         or payload.get("lastMessageBody")
         or ""
     ).strip()
-    channel = str(payload.get("type") or payload.get("messageType") or msg_obj.get("type") or msg_obj.get("messageType") or "WhatsApp").replace("TYPE_", "").title()
-    event_uid = str(msg_obj.get("id") or payload.get("messageId") or payload.get("message_id") or payload.get("id") or "").strip()
+    raw_ch = (
+        msg_obj.get("type")
+        or payload.get("messageType")
+        or msg_obj.get("messageType")
+        or payload.get("channel")
+        or trigger_obj.get("channel")
+        or trigger_obj.get("type")
+        or payload.get("type")
+        or ""
+    )
+    raw_ch_s = str(raw_ch).strip()
+    raw_ch_low = raw_ch_s.replace("TYPE_", "").lower()
+    is_explicit_non_wa = raw_ch_low in ("1", "2", "3", "call", "sms", "email", "correo", "fb", "facebook", "ig", "instagram", "live_chat")
+    is_whatsapp_candidate = (
+        raw_ch_low in ("19", "20", "whatsapp", "whatsapp_message", "")
+        or "whatsapp" in raw_ch_low
+        or (not is_explicit_non_wa and raw_ch_low in ("customer replied", "customerreplied", "inboundmessage", "customermessage"))
+    )
+    channel = "WhatsApp" if is_whatsapp_candidate else raw_ch_s.replace("TYPE_", "").title()
+    event_uid = str(msg_obj.get("id") or trigger_obj.get("messageId") or payload.get("messageId") or payload.get("message_id") or payload.get("id") or "").strip()
 
     if "whatsapp" in channel.lower():
         out = await asyncio.to_thread(
