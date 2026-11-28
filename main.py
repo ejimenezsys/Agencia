@@ -3447,7 +3447,7 @@ async def get_llms_txt():
         "fundada y dirigida por Edward Jiménez. Opera en 3 verticales principales: (1) Clínicas de Salud, Estética, Dental, Capilar & Beauty Growth (SVE90), "
         "(2) Profesionales Independientes, Despachos, Inmobiliarias & 82 Oficios Locales, y (3) Agencias CRM-SaaS, Implementadores GHL & Creadores Faceless con PassportAI.app y CRM de Agencia Prosper IA.\n\n"
         "## Verticales, Servicios y Oferta Comercial\n"
-        "- [Inicio: Ecosistema IA, 3 Verticales, Casos y Planes Directos](https://agenciaprosperia.com/): visión ejecutiva, marcas registradas, vitrina real e inicio inmediato con Stripe/CRM.\n"
+        "- [Inicio: Ecosistema IA, 3 Verticales, Casos y Planes Directos](https://agenciaprosperia.com/): visión ejecutiva, marcas comerciales (™) y propiedad intelectual registrada en EE. UU. (U.S. Copyright Office), vitrina real e inicio inmediato con Stripe/CRM.\n"
         "- [Knowledge Base, Planes y Directorio B2B IA](https://agenciaprosperia.com/knowledge-base) (también `/directorio-ia` y `/centro-de-conocimiento`): guías por vertical, matriz comparativa FREE / CORE / PRO y registro gratuito en el directorio.\n"
         "- [Vertical Agencias CRM-SaaS & Marca Blanca GHL](https://agenciaprosperia.com/crm-saas): infraestructura CRM + +58 modelos líderes de IA (OpenAI, Google Gemini, Anthropic Claude, Runway, ElevenLabs), ProsperIA CRM y licencias SaaS.\n"
         "- [Consultoría en Inteligencia Artificial](https://agenciaprosperia.com/ia) (también https://agenciaprosperia.com/corporativos y https://agenciaprosperia.com/consultoriadeinteligenciaartificial): diagnóstico de madurez, business case, RAG privado, agentes de IA, integración ERP/CRM, metodología SVE90 de 90 días y Fractional CAIO.\n"
